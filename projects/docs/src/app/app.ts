@@ -34,6 +34,7 @@ import {
 } from './pages/guides/guide-navigation';
 import { AerisLogoMarkComponent } from './shared/branding/aeris-logo-mark.component';
 import { DOC_ICONS } from './shared/documentation/doc-icons';
+import { DocsSeoService } from './shared/seo/docs-seo.service';
 
 type DocsDensityId = 'compact' | 'medium' | 'comfortable';
 type DocsRadiusId = 'soft' | 'rounded' | 'pill';
@@ -130,6 +131,7 @@ export class App {
   protected readonly icons = DOC_ICONS;
   private readonly document = inject(DOCUMENT);
   private readonly router = inject(Router);
+  private readonly seo = inject(DocsSeoService);
   protected readonly themeService = inject(AerisThemeService);
 
   protected readonly sidebarOpen = signal(false);
@@ -184,6 +186,10 @@ export class App {
     return path === '' || path === '/';
   });
   private lastScrolledPath = '';
+
+  constructor() {
+    this.seo.initialize();
+  }
 
   protected readonly searchResults = computed(() => {
     const query = this.query().trim().toLowerCase();

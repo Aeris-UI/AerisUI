@@ -2,19 +2,85 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Aeris UI Alpha — Angular Component Library</title>
+    <title>Aeris UI - Accessible Angular 22 Component Library</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f8f7f4" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f7f4" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#090b0f" />
     <meta
       name="description"
-      content="Aeris UI is an accessible, responsive, themeable Angular component library currently in alpha and not production ready."
+      content="Aeris UI is an accessible, responsive, themeable Angular 22 component library currently in alpha."
     />
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-    <link rel="manifest" href="site.webmanifest" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="author" content="Aeris UI" />
+    <meta property="og:site_name" content="Aeris UI" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Aeris UI - Accessible Angular 22 Component Library" />
+    <meta
+      property="og:description"
+      content="Aeris UI is an accessible, responsive, themeable Angular 22 component library currently in alpha."
+    />
+    <meta property="og:url" content="https://aeris-ui.dev/" />
+    <meta property="og:image" content="https://aeris-ui.dev/android-chrome-512x512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="Aeris UI logo" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Aeris UI - Accessible Angular 22 Component Library" />
+    <meta
+      name="twitter:description"
+      content="Aeris UI is an accessible, responsive, themeable Angular 22 component library currently in alpha."
+    />
+    <meta name="twitter:image" content="https://aeris-ui.dev/android-chrome-512x512.png" />
+    <meta name="twitter:image:alt" content="Aeris UI logo" />
+    <link rel="canonical" href="https://aeris-ui.dev/" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <script id="aeris-structured-data" type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://aeris-ui.dev/#organization",
+            "name": "Aeris UI",
+            "url": "https://aeris-ui.dev/",
+            "logo": "https://aeris-ui.dev/android-chrome-512x512.png",
+            "sameAs": ["https://github.com/Aeris-UI/AerisUI"]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://aeris-ui.dev/#website",
+            "name": "Aeris UI Documentation",
+            "url": "https://aeris-ui.dev/",
+            "description": "Aeris UI is an accessible, responsive, themeable Angular 22 component library currently in alpha.",
+            "publisher": { "@id": "https://aeris-ui.dev/#organization" },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://aeris-ui.dev/#software",
+            "name": "Aeris UI",
+            "description": "Aeris UI is an accessible, responsive, themeable Angular 22 component library currently in alpha.",
+            "codeRepository": "https://github.com/Aeris-UI/AerisUI",
+            "license": "https://opensource.org/license/mit",
+            "programmingLanguage": ["TypeScript", "HTML", "SCSS"],
+            "runtimePlatform": "Angular 22",
+            "softwareVersion": "22.0.0-alpha.0",
+            "isAccessibleForFree": true,
+            "author": { "@id": "https://aeris-ui.dev/#organization" }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <app-root></app-root>

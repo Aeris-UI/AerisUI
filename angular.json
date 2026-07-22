@@ -92,6 +92,12 @@
             }
           },
           "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/docs/tsconfig.spec.json"
+          }
         }
       }
     },
