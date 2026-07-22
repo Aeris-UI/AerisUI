@@ -43,6 +43,7 @@ pnpm-debug.log*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
+!.vscode/mcp.json
 !.vscode/extensions.json
 .history/*
 
