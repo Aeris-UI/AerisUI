@@ -9,6 +9,8 @@ evolve together.
 > current `22.0.0-alpha.0` version may introduce breaking API, styling, and behavior changes before
 > the first stable release. Pin prerelease versions exactly and review the changelog when updating.
 
+Explore the components, guides, and Design Lab at [aeris-ui.dev](https://www.aeris-ui.dev/).
+
 ## Principles
 
 - Angular-first standalone and signal-based APIs
@@ -30,10 +32,20 @@ current Angular peer range is `>=22.0.6 <23.0.0`.
 - [Branching and integration](BRANCHING.md)
 - Run `npm run check:versions` to verify package and documentation metadata.
 
+## Published packages
+
+- [`@aeris-ui/core`](https://www.npmjs.com/package/@aeris-ui/core) — the Angular component
+  library, theming system, and setup tooling
+- [`@aeris-ui/mcp`](https://www.npmjs.com/package/@aeris-ui/mcp) — the local, read-only
+  documentation server for MCP-compatible AI tools
+
+Both packages are currently published under the `next` prerelease tag. During alpha, pin matching
+exact versions when reproducibility matters.
+
 ## Workspace
 
 - `projects/aeris-mcp` — local read-only `@aeris-ui/mcp` documentation server
-- `projects/aeris-ui` — publishable `@aeris-ui/core` package and secondary entry points
+- `projects/aeris-ui` — published `@aeris-ui/core` package and secondary entry points
 - `projects/aeris-ui/src/lib/testing` — complete library test suite
 - `projects/docs` — documentation application, live examples, landing page, and design lab
 - `tools` — development and repository validation scripts
@@ -88,7 +100,7 @@ The public deployment serves discovery files from `/llms.txt` and `/llms-full.tx
 component Markdown and JSON under `/ai/22/`. The Angular-major directory versions the content; the
 independent `schemaVersion` versions the JSON shape. Generated files must not be edited manually.
 
-### Local MCP server
+### Local documentation MCP server
 
 The separately published `@aeris-ui/mcp` package lets compatible AI clients search and retrieve
 focused, version-matched Aeris documentation over local `stdio`. It does not run in Angular

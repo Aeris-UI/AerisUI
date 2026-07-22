@@ -5,6 +5,9 @@ tokens, and accessibility guidance.
 
 > Aeris UI and this MCP package are alpha software and are not production ready.
 
+The package is available on npm as [`@aeris-ui/mcp`](https://www.npmjs.com/package/@aeris-ui/mcp).
+Use the same exact version as `@aeris-ui/core` during alpha.
+
 The package runs locally over `stdio`. It does not start an HTTP server, inspect application files,
 modify a workspace, collect telemetry, or require network access at runtime. The matching canonical
 Aeris documentation corpus is bundled with each release.

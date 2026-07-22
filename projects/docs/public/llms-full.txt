@@ -60,7 +60,7 @@ Use the Angular initializer for the recommended guided installation. It selects 
 
 The initializer detects Tailwind CSS and Bootstrap, keeps their styles before Aeris, and never installs an icon library. Ordinary package installation remains silent for teams that prefer the manual steps below.
 
-Install the exact alpha version shown below. Repository contributors can use the local tarball workflow to verify unpublished changes in a disposable Angular 22 application.
+Aeris is available from the public npm registry. Pin the exact alpha version shown below for reproducible installs, or use the next tag when intentionally evaluating the newest prerelease. Repository contributors can still use a local tarball to verify workspace changes.
 
 Schemes decide which light and dark token sets are available. Mode decides which available scheme is active when the application starts.
 
@@ -76,13 +76,19 @@ Schemes decide which light and dark token sets are available. Mode decides which
 | Strategy | Runtime or generated build-time CSS | Runtime unless the design is fixed and never changes in the browser |
 | Direction | LTR or RTL | LTR unless the primary language reads right to left |
 
-##### Published package
+##### Pinned alpha (recommended)
 
 ```bash
 ng add @aeris-ui/core@22.0.0-alpha.0
 ```
 
-##### Local alpha tarball
+##### Newest alpha
+
+```bash
+ng add @aeris-ui/core@next
+```
+
+##### Repository tarball
 
 ```bash
 # Run from the Aeris repository
@@ -91,6 +97,8 @@ npm run pack:lib
 # Run from the Angular application
 ng add "../path-to-aeris/dist/packages/aeris-ui-core-22.0.0-alpha.0.tgz"
 ```
+
+- [@aeris-ui/core on npm](https://www.npmjs.com/package/@aeris-ui/core)
 
 #### Understand what the initializer changes
 
@@ -158,7 +166,7 @@ The setup file controls installation. Build-time projects also receive aeris.the
 ##### Terminal
 
 ```bash
-ng add @aeris-ui/core --config=aeris.setup.json
+ng add @aeris-ui/core@22.0.0-alpha.0 --config=aeris.setup.json
 ```
 
 #### Provide palette seeds
@@ -170,7 +178,7 @@ Select Custom in the wizard to enter surface, primary, secondary, accent, and co
 ##### Terminal
 
 ```bash
-ng add @aeris-ui/core --project=web --surface="#dfe8ee" --primary="#7196b4" --secondary="#6d9992" --accent="#d8ad70" --contrast="#31536a" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
+ng add @aeris-ui/core@22.0.0-alpha.0 --project=web --surface="#dfe8ee" --primary="#7196b4" --secondary="#6d9992" --accent="#d8ad70" --contrast="#31536a" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
 ```
 
 ##### aeris.setup.json
@@ -1514,7 +1522,7 @@ The server bundles the canonical documentation generated for its exact Aeris ver
 
 #### Configure the package
 
-Add an Aeris server entry to the MCP configuration used by the chosen client. The configuration file location and outer property name differ between clients, but the command and arguments remain the same.
+The published @aeris-ui/mcp package is available from the public npm registry. Add an Aeris server entry to the MCP configuration used by the chosen client. The configuration file location and outer property name differ between clients, but the command and arguments remain the same.
 
 Pin the exact version during alpha so the MCP documentation cannot move independently from the Aeris package being evaluated.
 
@@ -1532,6 +1540,8 @@ Pin the exact version during alpha so the MCP documentation cannot move independ
   }
 }
 ```
+
+- [@aeris-ui/mcp on npm](https://www.npmjs.com/package/@aeris-ui/mcp)
 
 #### Use the repository build
 
@@ -1986,14 +1996,11 @@ Human-readable documentation: [https://aeris-ui.dev/guides/changelog](https://ae
 
 Next release · In development
 
-- Add structured development-time theme validation with actionable runtime diagnostics.
-- Define a versioned stability contract for deterministic derived color tokens.
-- Add version-matched AI documentation and a local read-only MCP package.
-- Verify production package exports, dependencies, and tarball contents in CI.
+- No consumer-visible changes have been recorded since the initial alpha release.
 
 #### Aeris 22.0.0-alpha.0
 
-Current alpha package version · Alpha development prerelease
+Published alpha · 22 July 2026
 
 - Mark Aeris clearly as alpha software that is not ready for production adoption.
 - Align the Aeris major version with the supported Angular major version.
@@ -2001,6 +2008,8 @@ Current alpha package version · Alpha development prerelease
 - Establish the Angular 22 component library and its standalone secondary entry points.
 - Provide semantic theming with palettes, light and dark modes, density, corner styles, and RTL.
 - Document component APIs, accessibility behavior, design tokens, and responsive examples.
+- Publish version-matched AI documentation and the local read-only @aeris-ui/mcp package.
+- Verify package exports, dependencies, preserved CSS, and tarball contents in CI.
 
 #### Planning an update
 

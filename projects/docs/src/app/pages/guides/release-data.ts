@@ -27,17 +27,12 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
     version: 'Unreleased',
     date: 'In development',
     status: 'Next release',
-    changes: [
-      'Add structured development-time theme validation with actionable runtime diagnostics.',
-      'Define a versioned stability contract for deterministic derived color tokens.',
-      'Add version-matched AI documentation and a local read-only MCP package.',
-      'Verify production package exports, dependencies, and tarball contents in CI.',
-    ],
+    changes: ['No consumer-visible changes have been recorded since the initial alpha release.'],
   },
   {
     version: '22.0.0-alpha.0',
-    date: 'Alpha development prerelease',
-    status: 'Current alpha package version',
+    date: '22 July 2026',
+    status: 'Published alpha',
     changes: [
       'Mark Aeris clearly as alpha software that is not ready for production adoption.',
       'Align the Aeris major version with the supported Angular major version.',
@@ -45,6 +40,8 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
       'Establish the Angular 22 component library and its standalone secondary entry points.',
       'Provide semantic theming with palettes, light and dark modes, density, corner styles, and RTL.',
       'Document component APIs, accessibility behavior, design tokens, and responsive examples.',
+      'Publish version-matched AI documentation and the local read-only @aeris-ui/mcp package.',
+      'Verify package exports, dependencies, preserved CSS, and tarball contents in CI.',
     ],
   },
 ];

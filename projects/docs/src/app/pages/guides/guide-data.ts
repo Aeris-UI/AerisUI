@@ -92,13 +92,18 @@ export const GUIDE_ARTICLES: readonly GuideArticle[] = [
         paragraphs: [
           'Use the Angular initializer for the recommended guided installation. It selects the target application in a multi-project workspace and configures the package, global styles, theme, density, corners, color schemes, persistence, and initial direction.',
           'The initializer detects Tailwind CSS and Bootstrap, keeps their styles before Aeris, and never installs an icon library. Ordinary package installation remains silent for teams that prefer the manual steps below.',
-          'Install the exact alpha version shown below. Repository contributors can use the local tarball workflow to verify unpublished changes in a disposable Angular 22 application.',
+          'Aeris is available from the public npm registry. Pin the exact alpha version shown below for reproducible installs, or use the next tag when intentionally evaluating the newest prerelease. Repository contributors can still use a local tarball to verify workspace changes.',
           'Schemes decide which light and dark token sets are available. Mode decides which available scheme is active when the application starts.',
         ],
         code: [
-          source('Published package', 'Shell', `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION}`),
           source(
-            'Local alpha tarball',
+            'Pinned alpha (recommended)',
+            'Shell',
+            `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION}`,
+          ),
+          source('Newest alpha', 'Shell', 'ng add @aeris-ui/core@next'),
+          source(
+            'Repository tarball',
             'Shell',
             `# Run from the Aeris repository
 npm run pack:lib
@@ -125,6 +130,13 @@ ng add "../path-to-aeris/dist/packages/aeris-ui-core-${AERIS_CURRENT_VERSION}.tg
           ],
         },
         note: 'Pill applies only where fully rounded geometry is appropriate. Structural surfaces such as tables, editors, textareas, and large panels retain suitable corners.',
+        links: [
+          {
+            label: '@aeris-ui/core on npm',
+            href: 'https://www.npmjs.com/package/@aeris-ui/core',
+            external: true,
+          },
+        ],
       },
       {
         id: 'initializer-output',
@@ -192,7 +204,11 @@ export class App {}`,
   "direction": "ltr"
 }`,
           ),
-          source('Terminal', 'Shell', `ng add @aeris-ui/core --config=aeris.setup.json`),
+          source(
+            'Terminal',
+            'Shell',
+            `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION} --config=aeris.setup.json`,
+          ),
         ],
       },
       {
@@ -206,7 +222,7 @@ export class App {}`,
           source(
             'Terminal',
             'Shell',
-            `ng add @aeris-ui/core --project=web --surface="#dfe8ee" --primary="#7196b4" --secondary="#6d9992" --accent="#d8ad70" --contrast="#31536a" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts`,
+            `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION} --project=web --surface="#dfe8ee" --primary="#7196b4" --secondary="#6d9992" --accent="#d8ad70" --contrast="#31536a" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts`,
           ),
           source(
             'aeris.setup.json',
@@ -1891,7 +1907,7 @@ export class ProjectDetails {
         id: 'published-setup',
         title: 'Configure the package',
         paragraphs: [
-          'Add an Aeris server entry to the MCP configuration used by the chosen client. The configuration file location and outer property name differ between clients, but the command and arguments remain the same.',
+          'The published @aeris-ui/mcp package is available from the public npm registry. Add an Aeris server entry to the MCP configuration used by the chosen client. The configuration file location and outer property name differ between clients, but the command and arguments remain the same.',
           'Pin the exact version during alpha so the MCP documentation cannot move independently from the Aeris package being evaluated.',
         ],
         code: [
@@ -1909,6 +1925,13 @@ export class ProjectDetails {
           ),
         ],
         note: 'Do not add @aeris-ui/mcp to the Angular application dependencies. It belongs in the AI client configuration, not application source or runtime code.',
+        links: [
+          {
+            label: '@aeris-ui/mcp on npm',
+            href: 'https://www.npmjs.com/package/@aeris-ui/mcp',
+            external: true,
+          },
+        ],
       },
       {
         id: 'local-setup',
