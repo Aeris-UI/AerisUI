@@ -2,16 +2,17 @@
 
 ## Pexels
 
-The raster images used by the Aeris UI documentation were downloaded from
+The photographic assets used by the Aeris UI documentation were downloaded from
 [Pexels](https://www.pexels.com/) and are used under the
 [Pexels License](https://www.pexels.com/license/). Pexels permits free use and modification without
 required attribution, subject to restrictions including those on unaltered resale, stock-platform
 redistribution, trademarks, and implied endorsement.
 
 The complete asset inventory is recorded in
-[`projects/docs/public/ASSET_LICENSES.md`](projects/docs/public/ASSET_LICENSES.md). These images are
-not part of the published `@aeris-ui/core` package and are not relicensed under the repository's MIT
-License.
+[`projects/docs/public/ASSET_LICENSES.md`](projects/docs/public/ASSET_LICENSES.md). These
+photographs are not part of the published `@aeris-ui/core` package and are not relicensed under the
+repository's MIT License. Original Aeris UI logo and favicon files are identified separately in
+that inventory and are not Pexels content.
 
 ## Lucide
 
