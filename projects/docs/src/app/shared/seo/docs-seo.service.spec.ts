@@ -1,4 +1,8 @@
-import { resolveDocsSeo } from './docs-seo.service';
+import { DOCUMENT } from '@angular/common';
+import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+
+import { DocsSeoService, resolveDocsSeo } from './docs-seo.service';
 
 describe('docs SEO metadata', () => {
   it('describes the landing page as an indexable Angular library page', () => {
@@ -33,5 +37,14 @@ describe('docs SEO metadata', () => {
   it('prevents unknown component and application routes from being indexed', () => {
     expect(resolveDocsSeo('/components/unknown').noIndex).toBe(true);
     expect(resolveDocsSeo('/unknown').noIndex).toBe(true);
+  });
+
+  it('updates colon-delimited Twitter metadata without invalid selectors', () => {
+    TestBed.configureTestingModule({ providers: [provideRouter([])] });
+    TestBed.inject(DocsSeoService).initialize();
+
+    const document = TestBed.inject(DOCUMENT);
+    const card = document.querySelector(`meta[name='twitter:card']`);
+    expect(card?.getAttribute('content')).toBe('summary');
   });
 });

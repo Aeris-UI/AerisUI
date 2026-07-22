@@ -173,11 +173,11 @@ export class DocsSeoService {
   }
 
   private updateNamedMeta(name: string, content: string): void {
-    this.meta.updateTag({ name, content }, `name=${name}`);
+    this.meta.updateTag({ name, content });
   }
 
   private updatePropertyMeta(property: string, content: string): void {
-    this.meta.updateTag({ property, content }, `property=${property}`);
+    this.meta.updateTag({ property, content });
   }
 
   private updateCanonical(url: string): void {
