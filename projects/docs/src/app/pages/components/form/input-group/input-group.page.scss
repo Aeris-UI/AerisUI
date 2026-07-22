@@ -1,0 +1,33 @@
+@use '../shared/form-docs';
+
+.field {
+  width: min(100%, 36rem);
+}
+
+.size-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.size-grid label {
+  min-width: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.size-grid label > span {
+  color: var(--text-2);
+  font-size: 0.75rem;
+}
+
+.state-message {
+  min-height: 1.25rem;
+}
+
+@media (max-width: 42rem) {
+  .size-grid {
+    grid-template-columns: 1fr;
+  }
+}

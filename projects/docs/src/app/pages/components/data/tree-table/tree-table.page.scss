@@ -1,0 +1,51 @@
+@use '../../form/shared/form-docs';
+
+.tree-table-demo {
+  width: 100%;
+}
+
+.tree-table-demo--stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.tree-table-demo small {
+  color: var(--text-2);
+  font-weight: 600;
+}
+
+.tree-table-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.tree-table-layouts,
+.tree-table-states {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.tree-table-layouts section,
+.tree-table-states section {
+  min-width: 0;
+}
+
+.tree-table-layouts h3,
+.tree-table-states h3 {
+  margin: 0 0 0.625rem;
+  font-size: 0.8125rem;
+}
+
+.column-heading[data-sorted] {
+  color: var(--primary-text);
+}
+
+@media (max-width: 72rem) {
+  .tree-table-layouts,
+  .tree-table-states {
+    grid-template-columns: 1fr;
+  }
+}

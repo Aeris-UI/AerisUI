@@ -1,0 +1,91 @@
+name: Bug report
+description: Report a reproducible Aeris UI defect or accessibility regression.
+title: '[Bug]: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve Aeris UI. Do not include credentials, personal data, or
+        undisclosed security details. Use the private security reporting link for vulnerabilities.
+
+  - type: input
+    id: component
+    attributes:
+      label: Component or feature
+      description: Name the affected Aeris component, directive, service, theme feature, or guide.
+      placeholder: Dialog, Table, theming, documentation navigation...
+    validations:
+      required: true
+
+  - type: input
+    id: aeris-version
+    attributes:
+      label: Aeris version
+      placeholder: 22.0.0-rc.0
+    validations:
+      required: true
+
+  - type: input
+    id: angular-version
+    attributes:
+      label: Angular version
+      placeholder: 22.0.6
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include browser and version, operating system, viewport, input method, and assistive technology when relevant.
+      placeholder: Chrome 140, Windows 11, 390px viewport, keyboard only...
+    validations:
+      required: true
+
+  - type: input
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Link to a small repository or reproduction when possible.
+      placeholder: https://github.com/...
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Render...
+        2. Activate...
+        3. Observe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add screenshots, recordings, console output, or accessibility impact without sensitive data.
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I searched existing issues and did not find this problem.
+          required: true
+        - label: This report does not disclose a security vulnerability or sensitive data.
+          required: true

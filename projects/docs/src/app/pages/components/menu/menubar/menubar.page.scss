@@ -1,0 +1,93 @@
+@use '../../form/shared/form-docs';
+
+.menubar-docs {
+  aeris-menubar {
+    width: 100%;
+  }
+
+  .menubar-actions,
+  .menubar-controlled {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .menubar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .menubar-doc-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+    align-items: center;
+    gap: 0.625rem;
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .menubar-doc-item svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .menubar-doc-item__label {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .menubar-doc-item__badge {
+    max-inline-size: min(7rem, 36vw);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .menubar-doc-item kbd {
+    color: var(--text-2);
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 750;
+  }
+
+  .menubar-doc-item__chevron {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+
+  .menubar-doc-item__chevron[data-root='true'][data-open='true'] {
+    transform: rotate(180deg);
+  }
+
+  .menubar-brand,
+  .menubar-user {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 850;
+  }
+
+  .menubar-brand svg,
+  .menubar-user svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .menubar-user,
+  small[aria-live] {
+    color: var(--text-2);
+    font-size: 0.8125rem;
+  }
+
+  small[aria-live] {
+    display: block;
+    margin-top: 0.75rem;
+    font-weight: 700;
+  }
+}

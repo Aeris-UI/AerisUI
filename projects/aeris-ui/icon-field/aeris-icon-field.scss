@@ -1,0 +1,207 @@
+.aeris-icon-field {
+  --aeris-icon-field-icon-size: 1rem;
+  --aeris-icon-field-icon-offset: 0.875rem;
+  --aeris-icon-field-padding: 2.45rem;
+
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  color: var(--aeris-text);
+  vertical-align: middle;
+}
+
+.aeris-icon-field[data-fluid] {
+  display: block;
+  width: 100%;
+}
+
+.aeris-icon-field--xs {
+  --aeris-icon-field-icon-size: 0.875rem;
+  --aeris-icon-field-icon-offset: 0.625rem;
+  --aeris-icon-field-padding: 2rem;
+}
+
+.aeris-icon-field--sm {
+  --aeris-icon-field-icon-size: 0.9375rem;
+  --aeris-icon-field-icon-offset: 0.75rem;
+  --aeris-icon-field-padding: 2.2rem;
+}
+
+.aeris-icon-field--lg {
+  --aeris-icon-field-icon-size: 1.125rem;
+  --aeris-icon-field-icon-offset: 1rem;
+  --aeris-icon-field-padding: 2.75rem;
+}
+
+.aeris-icon-field__content {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.aeris-icon-field__icon {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--aeris-icon-field-icon-size) !important;
+  height: var(--aeris-icon-field-icon-size) !important;
+  color: var(--aeris-text-muted, var(--aeris-text-2));
+  font-size: var(--aeris-icon-field-icon-size);
+  line-height: 1;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.aeris-icon-field__icon:not(.aeris-icon-field__icon--start):not(.aeris-icon-field__icon--end),
+.aeris-icon-field__icon--start {
+  inset-inline-start: var(--aeris-icon-field-icon-offset);
+}
+
+.aeris-icon-field--right .aeris-icon-field__icon:not(.aeris-icon-field__icon--start):not(.aeris-icon-field__icon--end),
+.aeris-icon-field__icon--end {
+  inset-inline: auto var(--aeris-icon-field-icon-offset);
+}
+
+.aeris-icon-field__icon svg,
+.aeris-icon-field__icon > svg,
+svg.aeris-icon-field__icon,
+svg.aeris-icon-field__icon > svg {
+  display: block;
+  width: var(--aeris-icon-field-icon-size) !important;
+  height: var(--aeris-icon-field-icon-size) !important;
+  max-width: var(--aeris-icon-field-icon-size);
+  max-height: var(--aeris-icon-field-icon-size);
+}
+
+.aeris-icon-field input,
+.aeris-icon-field textarea,
+.aeris-icon-field select {
+  width: 100%;
+}
+
+.aeris-icon-field input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
+.aeris-icon-field select,
+.aeris-icon-field textarea:not(.aeris-textarea) {
+  border: 1px solid var(--aeris-border-strong, #c7c9c0);
+  border-radius: var(--aeris-radius-sm, 0.4375rem);
+  background: var(--aeris-surface, #fff);
+  color: var(--aeris-text, #222222);
+  font: inherit;
+  font-size: 0.875rem;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.aeris-icon-field input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
+.aeris-icon-field select {
+  min-height: var(--aeris-control-height, 2.625rem);
+  padding-block: 0;
+  padding-inline: 0.75rem;
+}
+
+.aeris-icon-field textarea:not(.aeris-textarea) {
+  min-height: 5.5rem;
+  padding: 0.625rem 0.75rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.aeris-icon-field--filled input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
+.aeris-icon-field--filled textarea:not(.aeris-textarea),
+.aeris-icon-field--filled select,
+.aeris-icon-field--filled .aeris-input-text,
+.aeris-icon-field--filled .aeris-textarea {
+  border-color: transparent;
+  background: var(--aeris-surface-2, #f2f0ec);
+}
+
+.aeris-icon-field--invalid input:not([type='checkbox']):not([type='radio']),
+.aeris-icon-field--invalid textarea,
+.aeris-icon-field--invalid select {
+  border-color: var(--aeris-danger, #c81e2a);
+}
+
+.aeris-icon-field input:focus,
+.aeris-icon-field textarea:focus,
+.aeris-icon-field select:focus {
+  border-color: var(--aeris-focus, #536437);
+  outline: 0;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
+}
+
+.aeris-icon-field input::placeholder,
+.aeris-icon-field textarea::placeholder {
+  color: var(--aeris-text-muted, var(--aeris-text-2));
+  opacity: 0.72;
+}
+
+.aeris-icon-field:not(.aeris-icon-field--right) input:not([type='checkbox']):not([type='radio']),
+.aeris-icon-field:not(.aeris-icon-field--right) select,
+.aeris-icon-field:not(.aeris-icon-field--right) textarea {
+  padding-inline-start: var(--aeris-icon-field-padding);
+}
+
+.aeris-icon-field--right input:not([type='checkbox']):not([type='radio']),
+.aeris-icon-field--right select,
+.aeris-icon-field--right textarea {
+  padding-inline-end: var(--aeris-icon-field-padding);
+}
+
+.aeris-icon-field:has(.aeris-icon-field__icon--start) input:not([type='checkbox']):not([type='radio']),
+.aeris-icon-field:has(.aeris-icon-field__icon--start) select,
+.aeris-icon-field:has(.aeris-icon-field__icon--start) textarea {
+  padding-inline-start: var(--aeris-icon-field-padding);
+}
+
+.aeris-icon-field:has(.aeris-icon-field__icon--end) input:not([type='checkbox']):not([type='radio']),
+.aeris-icon-field:has(.aeris-icon-field__icon--end) select,
+.aeris-icon-field:has(.aeris-icon-field__icon--end) textarea {
+  padding-inline-end: var(--aeris-icon-field-padding);
+}
+
+.aeris-icon-field--xs input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
+.aeris-icon-field--xs select {
+  min-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
+  font-size: 0.75rem;
+}
+
+.aeris-icon-field--sm input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
+.aeris-icon-field--sm select {
+  min-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
+  font-size: 0.8125rem;
+}
+
+.aeris-icon-field--lg input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
+.aeris-icon-field--lg select {
+  min-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
+  font-size: 0.9375rem;
+}
+
+.aeris-icon-field--compact {
+  --aeris-icon-field-icon-offset: 0.625rem;
+  --aeris-icon-field-padding: 2rem;
+}
+
+.aeris-icon-field--disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.aeris-icon-field--disabled input,
+.aeris-icon-field--disabled textarea,
+.aeris-icon-field--disabled select {
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-icon-field input,
+  .aeris-icon-field textarea,
+  .aeris-icon-field select {
+    transition: none;
+  }
+}

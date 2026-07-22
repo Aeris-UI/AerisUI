@@ -1,0 +1,841 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Form"
+    title="MultiSelect"
+    description="Selects multiple values from an accessible list with filtering, groups, chips, limits, templates, virtualization, and Angular Forms integration."
+  />
+
+  <section class="import-section" aria-labelledby="multi-select-import-title">
+    <div>
+      <h2 id="multi-select-import-title">Import</h2>
+      <p>One import provides the component and all of its optional template directives.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="MultiSelect documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>Every example uses the published MultiSelect API documented in the API tab.</p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="multi-select-basic"
+              title="Basic"
+              description="Bind an array of option values and associate the combobox with a visible label."
+              [tsCode]="optionsCode"
+            >
+              <div preview class="field">
+                <label for="skills-basic">Project skills</label>
+                <aeris-multi-select
+                  inputId="skills-basic"
+                  [options]="skillOptions"
+                  [(value)]="skills"
+                  clearable
+                  fluid
+                  (changed)="recordChange($event)"
+                />
+                <small aria-live="polite"
+                  >{{ lastChange() }}. Values: {{ skills().join(', ') || 'None' }}</small
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="skills-basic"&gt;Project skills&lt;/label&gt;
+  &lt;aeris-multi-select
+    inputId="skills-basic"
+    [options]="skillOptions"
+    [(value)]="skills"
+    clearable
+    fluid
+    (changed)="recordChange($event)"
+  /&gt;
+  &lt;small aria-live="polite"
+    &gt;&#123;&#123; lastChange() &#125;&#125;. Values: &#123;&#123; skills().join(', ') || 'None' &#125;&#125;&lt;/small
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="multi-select-chips"
+              title="Removable chips"
+              description="Chip display keeps selected values visible. Each remove action is a labeled native button."
+            >
+              <div preview class="field">
+                <label for="skills-chips">Review skills</label>
+                <aeris-multi-select
+                  inputId="skills-chips"
+                  [options]="skillOptions"
+                  [(value)]="chipSkills"
+                  display="chips"
+                  [maxSelectedLabels]="4"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="skills-chips"&gt;Review skills&lt;/label&gt;
+  &lt;aeris-multi-select
+    inputId="skills-chips"
+    [options]="skillOptions"
+    [(value)]="chipSkills"
+    display="chips"
+    [maxSelectedLabels]="4"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="multi-select-filter"
+              title="Filtering"
+              description="Search labels while retaining every selected value. Select all applies to the current filtered result."
+            >
+              <div preview class="field">
+                <label for="skills-filter">Skills</label>
+                <aeris-multi-select
+                  inputId="skills-filter"
+                  [options]="skillOptions"
+                  [(value)]="skills"
+                  filter
+                  clearable
+                  filterPlaceholder="Search skills"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="skills-filter"&gt;Skills&lt;/label&gt;
+  &lt;aeris-multi-select
+    inputId="skills-filter"
+    [options]="skillOptions"
+    [(value)]="skills"
+    filter
+    clearable
+    filterPlaceholder="Search skills"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="multi-select-groups"
+              title="Grouped options"
+              description="Group metadata creates labeled sections while preserving source order."
+              [tsCode]="groupCode"
+            >
+              <div preview class="field">
+                <label for="countries-grouped">Deployment countries</label>
+                <aeris-multi-select
+                  inputId="countries-grouped"
+                  [options]="countryOptions"
+                  [(value)]="countries"
+                  filter
+                  display="chips"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="countries-grouped"&gt;Deployment countries&lt;/label&gt;
+  &lt;aeris-multi-select
+    inputId="countries-grouped"
+    [options]="countryOptions"
+    [(value)]="countries"
+    filter
+    display="chips"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="multi-select-descriptions"
+              title="Option descriptions"
+              description="Descriptions are shown only when that optional metadata is present."
+              [tsCode]="richCode"
+            >
+              <div preview class="field">
+                <label for="teams-rich">Teams</label>
+                <aeris-multi-select
+                  inputId="teams-rich"
+                  [options]="richOptions"
+                  [(value)]="teams"
+                  filter
+                  [filterFields]="['label', 'description']"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="teams-rich"&gt;Teams&lt;/label&gt;
+  &lt;aeris-multi-select
+    inputId="teams-rich"
+    [options]="richOptions"
+    [(value)]="teams"
+    filter
+    [filterFields]="['label', 'description']"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="multi-select-templates"
+              title="Option and chip templates"
+              description="Customize consumer content without replacing Aeris selection and listbox behavior."
+              [tsCode]="richCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview class="field">
+                <label for="teams-template">Assigned teams</label>
+                <aeris-multi-select
+                  inputId="teams-template"
+                  [options]="richOptions"
+                  [(value)]="teams"
+                  display="chips"
+                  fluid
+                >
+                  <ng-template aerisMultiSelectOption let-option>
+                    <span class="team-option"
+                      ><strong>{{ option.label }}</strong
+                      ><small>{{ option.description }}</small></span
+                    >
+                  </ng-template>
+                  <ng-template aerisMultiSelectChip let-option>{{ option.label }}</ng-template>
+                  <ng-template aerisMultiSelectHeader
+                    ><strong>Product organization</strong></ng-template
+                  >
+                  <ng-template aerisMultiSelectFooter
+                    ><small>Choose every team that should be notified.</small></ng-template
+                  >
+                </aeris-multi-select>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="teams-template"&gt;Assigned teams&lt;/label&gt;
+  &lt;aeris-multi-select
+    inputId="teams-template"
+    [options]="richOptions"
+    [(value)]="teams"
+    display="chips"
+    fluid
+  &gt;
+    &lt;ng-template aerisMultiSelectOption let-option&gt;
+      &lt;span class="team-option"
+        &gt;&lt;strong&gt;&#123;&#123; option.label &#125;&#125;&lt;/strong
+        &gt;&lt;small&gt;&#123;&#123; option.description &#125;&#125;&lt;/small&gt;&lt;/span
+      &gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisMultiSelectChip let-option&gt;&#123;&#123; option.label &#125;&#125;&lt;/ng-template&gt;
+    &lt;ng-template aerisMultiSelectHeader
+      &gt;&lt;strong&gt;Product organization&lt;/strong&gt;&lt;/ng-template
+    &gt;
+    &lt;ng-template aerisMultiSelectFooter
+      &gt;&lt;small&gt;Choose every team that should be notified.&lt;/small&gt;&lt;/ng-template
+    &gt;
+  &lt;/aeris-multi-select&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="multi-select-select-all"
+              title="Select all"
+              description="The panel action selects or clears enabled options, including only matching options when filtered."
+            >
+              <div preview class="field">
+                <label for="skills-all">Team capabilities</label>
+                <aeris-multi-select
+                  inputId="skills-all"
+                  [options]="skillOptions"
+                  [(value)]="skills"
+                  filter
+                  showSelectAll
+                  selectAllLabel="Select visible skills"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="skills-all"&gt;Team capabilities&lt;/label&gt;
+  &lt;aeris-multi-select
+    inputId="skills-all"
+    [options]="skillOptions"
+    [(value)]="skills"
+    filter
+    showSelectAll
+    selectAllLabel="Select visible skills"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="multi-select-limit"
+              title="Selection limit"
+              description="Prevent additional selections after a configurable maximum while keeping selected options removable."
+            >
+              <div preview class="field">
+                <label for="skills-limit">Primary skills</label>
+                <aeris-multi-select
+                  inputId="skills-limit"
+                  [options]="skillOptions"
+                  [(value)]="limitedSkills"
+                  [selectionLimit]="3"
+                  selectionLimitMessage="Choose up to three skills"
+                  display="chips"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="skills-limit"&gt;Primary skills&lt;/label&gt;
+  &lt;aeris-multi-select
+    inputId="skills-limit"
+    [options]="skillOptions"
+    [(value)]="limitedSkills"
+    [selectionLimit]="3"
+    selectionLimitMessage="Choose up to three skills"
+    display="chips"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="multi-select-virtual"
+              title="Virtual scrolling and lazy ranges"
+              description="Large flat lists render a buffered viewport and can report each requested range."
+              [tsCode]="virtualCode"
+            >
+              <div preview class="field">
+                <label for="workspaces-virtual">Workspaces</label>
+                <aeris-multi-select
+                  inputId="workspaces-virtual"
+                  [options]="largeOptions"
+                  [(value)]="virtualValues"
+                  filter
+                  virtualScroll
+                  [virtualItemSize]="40"
+                  [virtualBuffer]="5"
+                  lazy
+                  (lazyLoad)="recordLazyRange($event)"
+                  fluid
+                />
+                <small aria-live="polite">{{ virtualRange() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="workspaces-virtual"&gt;Workspaces&lt;/label&gt;
+  &lt;aeris-multi-select
+    inputId="workspaces-virtual"
+    [options]="largeOptions"
+    [(value)]="virtualValues"
+    filter
+    virtualScroll
+    [virtualItemSize]="40"
+    [virtualBuffer]="5"
+    lazy
+    (lazyLoad)="recordLazyRange($event)"
+    fluid
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; virtualRange() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="multi-select-sizes"
+              title="Sizes"
+              description="Four sizes align MultiSelect with the Aeris control density scale."
+            >
+              <div preview class="multi-select-size-grid">
+                <label
+                  ><span>Extra small</span
+                  ><aeris-multi-select
+                    ariaLabel="Extra small skills"
+                    [options]="skillOptions"
+                    [value]="['angular']"
+                    size="xs"
+                /></label>
+                <label
+                  ><span>Small</span
+                  ><aeris-multi-select
+                    ariaLabel="Small skills"
+                    [options]="skillOptions"
+                    [value]="['angular']"
+                    size="sm"
+                /></label>
+                <label
+                  ><span>Medium</span
+                  ><aeris-multi-select
+                    ariaLabel="Medium skills"
+                    [options]="skillOptions"
+                    [value]="['angular']"
+                /></label>
+                <label
+                  ><span>Large</span
+                  ><aeris-multi-select
+                    ariaLabel="Large skills"
+                    [options]="skillOptions"
+                    [value]="['angular']"
+                    size="lg"
+                /></label>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="multi-select-size-grid"&gt;
+  &lt;label
+    &gt;&lt;span&gt;Extra small&lt;/span
+    &gt;&lt;aeris-multi-select
+      ariaLabel="Extra small skills"
+      [options]="skillOptions"
+      [value]="['angular']"
+      size="xs"
+  /&gt;&lt;/label&gt;
+  &lt;label
+    &gt;&lt;span&gt;Small&lt;/span
+    &gt;&lt;aeris-multi-select
+      ariaLabel="Small skills"
+      [options]="skillOptions"
+      [value]="['angular']"
+      size="sm"
+  /&gt;&lt;/label&gt;
+  &lt;label
+    &gt;&lt;span&gt;Medium&lt;/span
+    &gt;&lt;aeris-multi-select
+      ariaLabel="Medium skills"
+      [options]="skillOptions"
+      [value]="['angular']"
+  /&gt;&lt;/label&gt;
+  &lt;label
+    &gt;&lt;span&gt;Large&lt;/span
+    &gt;&lt;aeris-multi-select
+      ariaLabel="Large skills"
+      [options]="skillOptions"
+      [value]="['angular']"
+      size="lg"
+  /&gt;&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="multi-select-states"
+              title="Appearances and states"
+              description="Outlined, filled, required, invalid, disabled, loading, and empty states preserve semantics and layout."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <span>Filled</span
+                  ><aeris-multi-select
+                    ariaLabel="Filled skills"
+                    [options]="skillOptions"
+                    [value]="['angular']"
+                    appearance="filled"
+                    fluid
+                  /><small class="state-message" aria-hidden="true">&nbsp;</small>
+                </div>
+                <div class="field">
+                  <label for="skills-invalid">Required</label
+                  ><aeris-multi-select
+                    inputId="skills-invalid"
+                    [options]="skillOptions"
+                    [(value)]="invalidValues"
+                    required
+                    [invalid]="invalidValues().length === 0"
+                    ariaDescribedby="skills-error"
+                    fluid
+                  />
+                  @if (invalidValues().length === 0) {
+                    <small id="skills-error" class="error state-message"
+                      >Choose at least one skill.</small
+                    >
+                  } @else {
+                    <small class="state-message" aria-hidden="true">&nbsp;</small>
+                  }
+                </div>
+                <div class="field">
+                  <span>Disabled</span
+                  ><aeris-multi-select
+                    ariaLabel="Disabled skills"
+                    [options]="skillOptions"
+                    [value]="['angular']"
+                    disabled
+                    fluid
+                  /><small class="state-message" aria-hidden="true">&nbsp;</small>
+                </div>
+                <div class="field">
+                  <span>Loading</span
+                  ><aeris-multi-select
+                    ariaLabel="Loading skills"
+                    [options]="skillOptions"
+                    loading
+                    fluid
+                  /><small class="state-message" aria-hidden="true">&nbsp;</small>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Filled&lt;/span
+    &gt;&lt;aeris-multi-select
+      ariaLabel="Filled skills"
+      [options]="skillOptions"
+      [value]="['angular']"
+      appearance="filled"
+      fluid
+    /&gt;&lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="skills-invalid"&gt;Required&lt;/label
+    &gt;&lt;aeris-multi-select
+      inputId="skills-invalid"
+      [options]="skillOptions"
+      [(value)]="invalidValues"
+      required
+      [invalid]="invalidValues().length === 0"
+      ariaDescribedby="skills-error"
+      fluid
+    /&gt;
+    &#64;if (invalidValues().length === 0) &#123;
+      &lt;small id="skills-error" class="error state-message"
+        &gt;Choose at least one skill.&lt;/small
+      &gt;
+    &#125; &#64;else &#123;
+      &lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
+    &#125;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Disabled&lt;/span
+    &gt;&lt;aeris-multi-select
+      ariaLabel="Disabled skills"
+      [options]="skillOptions"
+      [value]="['angular']"
+      disabled
+      fluid
+    /&gt;&lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Loading&lt;/span
+    &gt;&lt;aeris-multi-select
+      ariaLabel="Loading skills"
+      [options]="skillOptions"
+      loading
+      fluid
+    /&gt;&lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="multi-select-forms"
+              title="Reactive and template-driven forms"
+              description="MultiSelect implements ControlValueAccessor while retaining its signal model API."
+              [tsCode]="formsCode"
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="skills-reactive">Reactive Forms</label>
+                  <aeris-multi-select
+                    inputId="skills-reactive"
+                    [options]="skillOptions"
+                    [formControl]="reactiveSkills"
+                    fluid
+                  />
+                  <small>Values: {{ reactiveSkills.value?.join(', ') || 'None' }}</small>
+                </div>
+                <div class="field">
+                  <label for="skills-template">Template-driven forms</label>
+                  <aeris-multi-select
+                    inputId="skills-template"
+                    name="templateSkills"
+                    [options]="skillOptions"
+                    [(ngModel)]="templateSkills"
+                    fluid
+                  />
+                  <small>Values: {{ templateSkills.join(', ') || 'None' }}</small>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="skills-reactive"&gt;Reactive Forms&lt;/label&gt;
+    &lt;aeris-multi-select
+      inputId="skills-reactive"
+      [options]="skillOptions"
+      [formControl]="reactiveSkills"
+      fluid
+    /&gt;
+    &lt;small&gt;Values: &#123;&#123; reactiveSkills.value?.join(', ') || 'None' &#125;&#125;&lt;/small&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="skills-template"&gt;Template-driven forms&lt;/label&gt;
+    &lt;aeris-multi-select
+      inputId="skills-template"
+      name="templateSkills"
+      [options]="skillOptions"
+      [(ngModel)]="templateSkills"
+      fluid
+    /&gt;
+    &lt;small&gt;Values: &#123;&#123; templateSkills.join(', ') || 'None' &#125;&#125;&lt;/small&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="MultiSelect features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="multi-select-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="MultiSelect inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="multi-select-api-outputs" tabindex="-1">Outputs</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="MultiSelect outputs"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">valueChange / valueInput</code
+                ><span role="cell">readonly string[]</span
+                ><span role="cell">Model and explicit value-change notifications.</span>
+              </div>
+              <div role="row">
+                <code role="cell">changed</code><span role="cell">AerisMultiSelectChangeEvent</span
+                ><span role="cell">Option metadata and whether it was selected or removed.</span>
+              </div>
+              <div role="row">
+                <code role="cell">filterChanged</code
+                ><span role="cell">AerisMultiSelectFilterEvent</span
+                ><span role="cell">Current filter query and native event.</span>
+              </div>
+              <div role="row">
+                <code role="cell">lazyLoad</code
+                ><span role="cell">AerisMultiSelectLazyLoadEvent</span
+                ><span role="cell">Requested virtual range and query.</span>
+              </div>
+              <div role="row">
+                <code role="cell">opened / closed / cleared / touch</code
+                ><span role="cell">void</span
+                ><span role="cell">Panel, clear, and touched lifecycle notifications.</span>
+              </div>
+              <div role="row">
+                <code role="cell">focused / blurred</code><span role="cell">FocusEvent</span
+                ><span role="cell">Combobox focus lifecycle events.</span>
+              </div>
+            </div>
+
+            <h3 id="multi-select-api-templates" tabindex="-1">Templates</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="MultiSelect templates"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Directive</b><b role="columnheader">Context</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">aerisMultiSelectOption</code
+                ><span role="cell">option, selected, active</span
+                ><span role="cell">Custom option content.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisMultiSelectChip</code><span role="cell">option, remove</span
+                ><span role="cell">Custom selected chip content.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisMultiSelectHeader / Footer</code><span role="cell">none</span
+                ><span role="cell">Custom panel content around the list.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisMultiSelectEmpty</code><span role="cell">none</span
+                ><span role="cell">Custom empty-state content.</span>
+              </div>
+            </div>
+
+            <h3 id="multi-select-api-methods" tabindex="-1">Methods</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="MultiSelect methods"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Signature</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">focus</code
+                ><span role="cell">(options?: FocusOptions) =&gt; void</span
+                ><span role="cell">Moves focus to the combobox.</span>
+              </div>
+              <div role="row">
+                <code role="cell">openPanel / toggle</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Opens or toggles the enabled component.</span>
+              </div>
+              <div role="row">
+                <code role="cell">closePanel</code
+                ><span role="cell">(restoreFocus?: boolean) =&gt; void</span
+                ><span role="cell">Closes the panel and optionally restores focus.</span>
+              </div>
+              <div role="row">
+                <code role="cell">clear / reset</code><span role="cell">() =&gt; void</span
+                ><span role="cell"
+                  >Clears values, with reset also clearing filter and panel state.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">selectAll</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Selects enabled options in the current filtered result.</span>
+              </div>
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="MultiSelect API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="MultiSelect design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-multi-select-panel-max-height</code
+            ><span role="cell">Scrollable option-list height.</span><code role="cell">18rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface</code
+            ><span role="cell">Control, chip checkbox, and panel surfaces.</span
+            ><code role="cell">#fff</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface-2</code
+            ><span role="cell">Filled and interactive backgrounds.</span
+            ><code role="cell">#f2f0ec</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-border / --aeris-border-strong</code
+            ><span role="cell">Panel and control borders.</span><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-primary / --aeris-text</code
+            ><span role="cell">Selection controls and selected option text.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-focus</code
+            ><span role="cell">Visible focus border and ring.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-danger</code><span role="cell">Invalid border.</span
+            ><code role="cell">#c81e2a</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            The focusable trigger follows the ARIA combobox pattern and controls a separate
+            multi-select listbox.
+          </li>
+          <li>
+            Options expose <code>aria-selected</code>; disabled options expose
+            <code>aria-disabled</code> and are skipped during navigation.
+          </li>
+          <li>
+            Use <code>inputId</code> with a visible label, or provide <code>ariaLabel</code> when no
+            visible label exists.
+          </li>
+          <li>
+            Connect help and validation text with <code>ariaDescribedby</code>. Required and invalid
+            state are synchronized with ARIA.
+          </li>
+          <li>
+            Chip remove and clear actions are native buttons with configurable accessible names.
+          </li>
+          <li>
+            Filtering uses a labeled search field. Loading, empty, and selection-limit messages use
+            status semantics.
+          </li>
+          <li>
+            ControlValueAccessor synchronizes value, touched, and disabled state with Reactive Forms
+            and template-driven forms.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="MultiSelect keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell">Opens the panel or toggles the active option.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow Down</kbd> / <kbd>Arrow Up</kbd></span
+            ><span role="cell">Opens the panel or moves between enabled options.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd></span
+            ><span role="cell">Moves to the first or last enabled option while open.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Backspace</kbd> / <kbd>Delete</kbd></span
+            ><span role="cell">Removes the last value when chip display is active.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Escape</kbd
+            ><span role="cell">Closes the panel without changing selection.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell">Closes the panel and continues normal document navigation.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

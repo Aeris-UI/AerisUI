@@ -1,0 +1,803 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Form"
+    title="InputMask"
+    description="Guides structured text entry with a compact mask grammar, Unicode-aware validation, clear feedback, and signal-first value binding."
+  />
+
+  <section class="import-section" aria-labelledby="input-mask-import-title">
+    <div>
+      <h2 id="input-mask-import-title">Import</h2>
+      <p>Import the standalone component from the InputMask entry point.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="InputMask documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>Each example uses the same published component API described in the API tab.</p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="mask-basic"
+              title="Basic"
+              description="A phone mask accepts only characters allowed by each slot and inserts literals automatically."
+            >
+              <div preview class="field">
+                <label for="mask-phone">Phone number</label>
+                <aeris-input-mask
+                  inputId="mask-phone"
+                  mask="+9 (999) 999-9999"
+                  inputMode="tel"
+                  [(value)]="phone"
+                  fluid
+                />
+                <small class="mask-result" aria-live="polite"
+                  >Value: {{ phone() || 'Empty' }}</small
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="mask-phone"&gt;Phone number&lt;/label&gt;
+  &lt;aeris-input-mask
+    inputId="mask-phone"
+    mask="+9 (999) 999-9999"
+    inputMode="tel"
+    [(value)]="phone"
+    fluid
+  /&gt;
+  &lt;small class="mask-result" aria-live="polite"
+    &gt;Value: &#123;&#123; phone() || 'Empty' &#125;&#125;&lt;/small
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mask-patterns"
+              title="Mask tokens"
+              description="Combine digit, letter, alphanumeric, and escaped literal tokens into original application-specific patterns."
+            >
+              <div preview class="field-stack">
+                <div class="mask-token-list" aria-label="InputMask token reference">
+                  <div><code>9</code><span>Unicode digit</span></div>
+                  <div><code>a</code><span>Unicode letter</span></div>
+                  <div><code>*</code><span>Letter or digit</span></div>
+                  <div><code>\</code><span>Escape next token</span></div>
+                </div>
+                <div class="field-grid">
+                  <div class="field">
+                    <label for="mask-date">Date</label
+                    ><aeris-input-mask
+                      inputId="mask-date"
+                      mask="99/99/9999"
+                      inputMode="numeric"
+                      fluid
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="mask-license">License code</label
+                    ><aeris-input-mask inputId="mask-license" mask="aaa-999-**" fluid />
+                  </div>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-stack"&gt;
+  &lt;div class="mask-token-list" aria-label="InputMask token reference"&gt;
+    &lt;div&gt;&lt;code&gt;9&lt;/code&gt;&lt;span&gt;Unicode digit&lt;/span&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;code&gt;a&lt;/code&gt;&lt;span&gt;Unicode letter&lt;/span&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;code&gt;*&lt;/code&gt;&lt;span&gt;Letter or digit&lt;/span&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;code&gt;\&lt;/code&gt;&lt;span&gt;Escape next token&lt;/span&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="field-grid"&gt;
+    &lt;div class="field"&gt;
+      &lt;label for="mask-date"&gt;Date&lt;/label
+      &gt;&lt;aeris-input-mask
+        inputId="mask-date"
+        mask="99/99/9999"
+        inputMode="numeric"
+        fluid
+      /&gt;
+    &lt;/div&gt;
+    &lt;div class="field"&gt;
+      &lt;label for="mask-license"&gt;License code&lt;/label
+      &gt;&lt;aeris-input-mask inputId="mask-license" mask="aaa-999-**" fluid /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mask-placeholder"
+              title="Placeholder and slots"
+              description="Use a normal placeholder, or display the complete mask with a custom empty-slot character."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="mask-placeholder-custom">Postal code</label
+                  ><aeris-input-mask
+                    inputId="mask-placeholder-custom"
+                    mask="99999"
+                    placeholder="Enter postal code"
+                    fluid
+                  />
+                </div>
+                <div class="field">
+                  <label for="mask-placeholder-slots">Account code</label
+                  ><aeris-input-mask
+                    inputId="mask-placeholder-slots"
+                    mask="aa-9999"
+                    showMask
+                    slotChar="·"
+                    fluid
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="mask-placeholder-custom"&gt;Postal code&lt;/label
+    &gt;&lt;aeris-input-mask
+      inputId="mask-placeholder-custom"
+      mask="99999"
+      placeholder="Enter postal code"
+      fluid
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="mask-placeholder-slots"&gt;Account code&lt;/label
+    &gt;&lt;aeris-input-mask
+      inputId="mask-placeholder-slots"
+      mask="aa-9999"
+      showMask
+      slotChar="·"
+      fluid
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mask-unmasked"
+              title="Unmasked value"
+              description="Set unmask when the model should contain only accepted slot characters while the field remains formatted."
+            >
+              <div preview class="field">
+                <label for="mask-raw-phone">Phone number</label>
+                <aeris-input-mask
+                  inputId="mask-raw-phone"
+                  mask="(999) 999-9999"
+                  inputMode="tel"
+                  unmask
+                  [(value)]="rawPhone"
+                  fluid
+                />
+                <small class="mask-result" aria-live="polite"
+                  >Raw value: {{ rawPhone() || 'Empty' }}</small
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="mask-raw-phone"&gt;Phone number&lt;/label&gt;
+  &lt;aeris-input-mask
+    inputId="mask-raw-phone"
+    mask="(999) 999-9999"
+    inputMode="tel"
+    unmask
+    [(value)]="rawPhone"
+    fluid
+  /&gt;
+  &lt;small class="mask-result" aria-live="polite"
+    &gt;Raw value: &#123;&#123; rawPhone() || 'Empty' &#125;&#125;&lt;/small
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mask-complete"
+              title="Completion"
+              description="The completed output fires once when the final required slot is filled."
+              [tsCode]="completeCode"
+            >
+              <div preview class="field">
+                <label for="mask-complete-code">Access code</label>
+                <aeris-input-mask
+                  inputId="mask-complete-code"
+                  mask="999-999"
+                  (completed)="completedValue.set($event)"
+                  fluid
+                />
+                <small class="mask-result" aria-live="polite"
+                  >Completed: {{ completedValue() }}</small
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="mask-complete-code"&gt;Access code&lt;/label&gt;
+  &lt;aeris-input-mask
+    inputId="mask-complete-code"
+    mask="999-999"
+    (completed)="completedValue.set($event)"
+    fluid
+  /&gt;
+  &lt;small class="mask-result" aria-live="polite"
+    &gt;Completed: &#123;&#123; completedValue() &#125;&#125;&lt;/small
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mask-auto-clear"
+              title="Auto clear"
+              description="Incomplete values can be cleared on blur when partial structured data is not useful."
+            >
+              <div preview class="field">
+                <label for="mask-auto-clear-field">Verification code</label>
+                <aeris-input-mask
+                  inputId="mask-auto-clear-field"
+                  mask="999-999"
+                  autoClear
+                  ariaDescribedby="mask-auto-clear-help"
+                  fluid
+                />
+                <small id="mask-auto-clear-help"
+                  >Enter all six digits before leaving the field.</small
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="mask-auto-clear-field"&gt;Verification code&lt;/label&gt;
+  &lt;aeris-input-mask
+    inputId="mask-auto-clear-field"
+    mask="999-999"
+    autoClear
+    ariaDescribedby="mask-auto-clear-help"
+    fluid
+  /&gt;
+  &lt;small id="mask-auto-clear-help"
+    &gt;Enter all six digits before leaving the field.&lt;/small
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mask-clearable"
+              title="Clear button"
+              description="An optional suffix button clears the value and restores focus to the field."
+            >
+              <div preview class="field">
+                <label for="mask-clearable-field">Serial number</label>
+                <aeris-input-mask
+                  inputId="mask-clearable-field"
+                  mask="aa99aa"
+                  clearable
+                  [(value)]="serial"
+                  fluid
+                />
+                <small class="mask-result" aria-live="polite"
+                  >Value: {{ serial() || 'Empty' }}</small
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="mask-clearable-field"&gt;Serial number&lt;/label&gt;
+  &lt;aeris-input-mask
+    inputId="mask-clearable-field"
+    mask="aa99aa"
+    clearable
+    [(value)]="serial"
+    fluid
+  /&gt;
+  &lt;small class="mask-result" aria-live="polite"
+    &gt;Value: &#123;&#123; serial() || 'Empty' &#125;&#125;&lt;/small
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mask-sizes"
+              title="Sizes"
+              description="Four sizes align InputMask with the Aeris density scale."
+            >
+              <div preview class="field-row">
+                <label class="size-sample"
+                  ><span>Extra small</span
+                  ><aeris-input-mask
+                    ariaLabel="Extra small code"
+                    mask="999-999"
+                    size="xs"
+                    [value]="'123456'"
+                /></label>
+                <label class="size-sample"
+                  ><span>Small</span
+                  ><aeris-input-mask
+                    ariaLabel="Small code"
+                    mask="999-999"
+                    size="sm"
+                    [value]="'123456'"
+                /></label>
+                <label class="size-sample"
+                  ><span>Medium</span
+                  ><aeris-input-mask ariaLabel="Medium code" mask="999-999" [value]="'123456'"
+                /></label>
+                <label class="size-sample"
+                  ><span>Large</span
+                  ><aeris-input-mask
+                    ariaLabel="Large code"
+                    mask="999-999"
+                    size="lg"
+                    [value]="'123456'"
+                /></label>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-row"&gt;
+  &lt;label class="size-sample"
+    &gt;&lt;span&gt;Extra small&lt;/span
+    &gt;&lt;aeris-input-mask
+      ariaLabel="Extra small code"
+      mask="999-999"
+      size="xs"
+      [value]="'123456'"
+  /&gt;&lt;/label&gt;
+  &lt;label class="size-sample"
+    &gt;&lt;span&gt;Small&lt;/span
+    &gt;&lt;aeris-input-mask
+      ariaLabel="Small code"
+      mask="999-999"
+      size="sm"
+      [value]="'123456'"
+  /&gt;&lt;/label&gt;
+  &lt;label class="size-sample"
+    &gt;&lt;span&gt;Medium&lt;/span
+    &gt;&lt;aeris-input-mask ariaLabel="Medium code" mask="999-999" [value]="'123456'"
+  /&gt;&lt;/label&gt;
+  &lt;label class="size-sample"
+    &gt;&lt;span&gt;Large&lt;/span
+    &gt;&lt;aeris-input-mask
+      ariaLabel="Large code"
+      mask="999-999"
+      size="lg"
+      [value]="'123456'"
+  /&gt;&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mask-states"
+              title="Appearances and states"
+              description="Filled, invalid, read-only, and disabled states preserve clear semantics and contrast."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="mask-filled">Filled</label
+                  ><aeris-input-mask
+                    inputId="mask-filled"
+                    mask="999-999"
+                    appearance="filled"
+                    [value]="'123456'"
+                    fluid
+                  />
+                </div>
+                <div class="field">
+                  <label for="mask-invalid">Invalid</label
+                  ><aeris-input-mask
+                    inputId="mask-invalid"
+                    mask="999-999"
+                    [value]="'123'"
+                    invalid
+                    ariaDescribedby="mask-error"
+                    fluid
+                  /><small id="mask-error" class="error">Enter the complete code.</small>
+                </div>
+                <div class="field">
+                  <label for="mask-readonly">Read-only</label
+                  ><aeris-input-mask
+                    inputId="mask-readonly"
+                    mask="aa-999"
+                    [value]="'AB123'"
+                    readonly
+                    fluid
+                  />
+                </div>
+                <div class="field">
+                  <label for="mask-disabled">Disabled</label
+                  ><aeris-input-mask
+                    inputId="mask-disabled"
+                    mask="aa-999"
+                    [value]="'AB123'"
+                    disabled
+                    fluid
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="mask-filled"&gt;Filled&lt;/label
+    &gt;&lt;aeris-input-mask
+      inputId="mask-filled"
+      mask="999-999"
+      appearance="filled"
+      [value]="'123456'"
+      fluid
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="mask-invalid"&gt;Invalid&lt;/label
+    &gt;&lt;aeris-input-mask
+      inputId="mask-invalid"
+      mask="999-999"
+      [value]="'123'"
+      invalid
+      ariaDescribedby="mask-error"
+      fluid
+    /&gt;&lt;small id="mask-error" class="error"&gt;Enter the complete code.&lt;/small&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="mask-readonly"&gt;Read-only&lt;/label
+    &gt;&lt;aeris-input-mask
+      inputId="mask-readonly"
+      mask="aa-999"
+      [value]="'AB123'"
+      readonly
+      fluid
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="mask-disabled"&gt;Disabled&lt;/label
+    &gt;&lt;aeris-input-mask
+      inputId="mask-disabled"
+      mask="aa-999"
+      [value]="'AB123'"
+      disabled
+      fluid
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mask-fluid"
+              title="Fluid layout"
+              description="Fluid fields fill their parent and adapt to narrow screens."
+            >
+              <div preview class="field">
+                <label for="mask-fluid-field">International phone</label>
+                <aeris-input-mask
+                  inputId="mask-fluid-field"
+                  mask="+999 99 999 9999"
+                  inputMode="tel"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="mask-fluid-field"&gt;International phone&lt;/label&gt;
+  &lt;aeris-input-mask
+    inputId="mask-fluid-field"
+    mask="+999 99 999 9999"
+    inputMode="tel"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mask-signals"
+              title="Signal Forms contract"
+              description="The value model supports direct signal binding and structurally satisfies Angular 22 FormValueControl."
+              [tsCode]="signalCode"
+            >
+              <div preview class="field">
+                <label for="mask-signal-field">Phone</label>
+                <aeris-input-mask
+                  inputId="mask-signal-field"
+                  mask="+9 (999) 999-9999"
+                  [(value)]="phone"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="mask-signal-field"&gt;Phone&lt;/label&gt;
+  &lt;aeris-input-mask
+    inputId="mask-signal-field"
+    mask="+9 (999) 999-9999"
+    [(value)]="phone"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mask-angular-forms"
+              title="Reactive and template-driven forms"
+              description="InputMask implements ControlValueAccessor while preserving formatted or unmasked model behavior."
+              [tsCode]="formsCode"
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="reactive-mask">Reactive Forms</label>
+                  <aeris-input-mask
+                    inputId="reactive-mask"
+                    mask="999-999"
+                    [formControl]="reactiveMask"
+                    fluid
+                  />
+                  <small>Value: {{ reactiveMask.value || 'Empty' }}</small>
+                </div>
+                <div class="field">
+                  <label for="template-mask">Template-driven forms</label>
+                  <aeris-input-mask
+                    inputId="template-mask"
+                    name="templateMask"
+                    mask="999-999"
+                    [(ngModel)]="templateMask"
+                    fluid
+                  />
+                  <small>Value: {{ templateMask || 'Empty' }}</small>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="reactive-mask"&gt;Reactive Forms&lt;/label&gt;
+    &lt;aeris-input-mask
+      inputId="reactive-mask"
+      mask="999-999"
+      [formControl]="reactiveMask"
+      fluid
+    /&gt;
+    &lt;small&gt;Value: &#123;&#123; reactiveMask.value || 'Empty' &#125;&#125;&lt;/small&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="template-mask"&gt;Template-driven forms&lt;/label&gt;
+    &lt;aeris-input-mask
+      inputId="template-mask"
+      name="templateMask"
+      mask="999-999"
+      [(ngModel)]="templateMask"
+      fluid
+    /&gt;
+    &lt;small&gt;Value: &#123;&#123; templateMask || 'Empty' &#125;&#125;&lt;/small&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="InputMask features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="mask-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="InputMask inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="mask-api-outputs" tabindex="-1">Outputs</h3>
+            <div class="api-table compact" role="table" aria-label="InputMask outputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">valueChange</code><span role="cell">string</span
+                ><span role="cell">Emitted automatically by the value model.</span>
+              </div>
+              <div role="row">
+                <code role="cell">valueInput</code><span role="cell">string</span
+                ><span role="cell">Emitted when user interaction changes the value.</span>
+              </div>
+              <div role="row">
+                <code role="cell">completed</code><span role="cell">string</span
+                ><span role="cell">Emitted when every required mask slot becomes populated.</span>
+              </div>
+              <div role="row">
+                <code role="cell">focused</code><span role="cell">FocusEvent</span
+                ><span role="cell">Emitted when the internal input receives focus.</span>
+              </div>
+              <div role="row">
+                <code role="cell">blurred</code><span role="cell">FocusEvent</span
+                ><span role="cell">Emitted after optional auto-clear processing.</span>
+              </div>
+              <div role="row">
+                <code role="cell">touch</code><span role="cell">void</span
+                ><span role="cell">Emitted on blur for Signal Forms integration.</span>
+              </div>
+            </div>
+
+            <h3 id="mask-api-methods" tabindex="-1">Methods</h3>
+            <div class="api-table compact" role="table" aria-label="InputMask methods" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Signature</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">focus</code
+                ><span role="cell">(options?: FocusOptions) =&gt; void</span
+                ><span role="cell">Moves focus to the internal input.</span>
+              </div>
+              <div role="row">
+                <code role="cell">reset</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Clears the value model.</span>
+              </div>
+              <div role="row">
+                <code role="cell">clear</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Clears an editable value and restores focus.</span>
+              </div>
+            </div>
+
+            <h3 id="mask-api-grammar" tabindex="-1">Mask grammar</h3>
+            <div class="api-table compact" role="table" aria-label="InputMask grammar" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Token</b><b role="columnheader">Accepts</b
+                ><b role="columnheader">Example</b>
+              </div>
+              <div role="row">
+                <code role="cell">9</code><span role="cell">Any Unicode decimal digit.</span
+                ><code role="cell">999-999</code>
+              </div>
+              <div role="row">
+                <code role="cell">a</code><span role="cell">Any Unicode letter.</span
+                ><code role="cell">aaa-999</code>
+              </div>
+              <div role="row">
+                <code role="cell">*</code><span role="cell">Any Unicode letter or digit.</span
+                ><code role="cell">**-999</code>
+              </div>
+              <div role="row">
+                <code role="cell">\</code
+                ><span role="cell">Treats the next token character as a literal.</span
+                ><code role="cell">\9-99</code>
+              </div>
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="InputMask API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="InputMask design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-control-height</code
+            ><span role="cell">Medium field height.</span><code role="cell">2.625rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radius-sm</code
+            ><span role="cell">Field and clear-button radius.</span
+            ><code role="cell">0.4375rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface</code
+            ><span role="cell">Outlined field background.</span><code role="cell">#ffffff</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface-2</code
+            ><span role="cell">Filled and read-only background.</span
+            ><code role="cell">#f2f0ec</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-border-strong</code
+            ><span role="cell">Default field border.</span><code role="cell">#c7c9c0</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-focus</code><span role="cell">Focus border and ring.</span
+            ><code role="cell">#536437</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-danger</code
+            ><span role="cell">Invalid border and focus ring.</span><code role="cell">#c81e2a</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            InputMask preserves native text-input semantics, keyboard editing, selection, paste, and
+            autofill behavior.
+          </li>
+          <li>
+            Associate a visible label through <code>inputId</code>, or provide
+            <code>ariaLabel</code> when no visible label exists.
+          </li>
+          <li>
+            Describe the expected format in visible help text connected through
+            <code>ariaDescribedby</code>; do not rely on the mask alone.
+          </li>
+          <li>
+            The <code>invalid</code> input synchronizes visual state with <code>aria-invalid</code>.
+          </li>
+          <li>
+            Choose an appropriate <code>inputMode</code> to provide a useful mobile keyboard without
+            restricting assistive input.
+          </li>
+          <li>
+            The clear button has a configurable accessible name, appears only when usable, and
+            restores focus after clearing.
+          </li>
+          <li>
+            ControlValueAccessor support synchronizes values, touched state, and disabled state with
+            Reactive Forms and template-driven forms.
+          </li>
+          <li>
+            Slot characters are visual guidance rather than validation messages. Completion and
+            errors should be communicated separately.
+          </li>
+          <li>
+            Focus indicators meet the WCAG 2.2 target and transitions respect reduced-motion
+            preferences.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="InputMask keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell">Moves focus to or away from the masked input and clear action.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span
+            ><span role="cell">Moves the caret through editable and literal mask positions.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd></span
+            ><span role="cell">Moves to the start or end of the masked value.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Backspace</kbd> / <kbd>Delete</kbd></span
+            ><span role="cell">Removes editable characters while preserving mask literals.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>V</kbd></span
+            ><span role="cell"
+              >Pastes compatible content into the mask using native input behavior.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell">Activates the clear button when that button is focused.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

@@ -1,0 +1,126 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.inplace-docs app-form-demo {
+  --docs-code-block-max-height: min(42rem, 72vh);
+}
+
+.inplace-summary {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.inplace-summary strong {
+  font-size: 0.9375rem;
+}
+
+.inplace-summary span,
+.inplace-details dt {
+  color: var(--aeris-text-2);
+}
+
+.inplace-details {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.625rem 1rem;
+  margin: 0;
+}
+
+.inplace-details dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.inplace-controlled,
+.inplace-editor,
+.inplace-activity {
+  display: grid;
+  gap: 1rem;
+}
+
+.inplace-actions,
+.inplace-editor__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.inplace-note,
+.inplace-status,
+.inplace-activity p {
+  margin: 0;
+  color: var(--aeris-text-2);
+}
+
+.inplace-editor {
+  gap: 0.875rem;
+}
+
+.inplace-status {
+  margin-top: 0.75rem;
+}
+
+.inplace-photo-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.inplace-photo-trigger img {
+  width: 3.375rem;
+  height: 2.25rem;
+  border-radius: var(--aeris-radius-md);
+  object-fit: cover;
+}
+
+.inplace-photo {
+  display: grid;
+  grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+}
+
+.inplace-photo img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--aeris-radius-lg);
+}
+
+.inplace-photo h4,
+.inplace-photo p {
+  margin: 0;
+}
+
+.inplace-photo p {
+  margin-top: 0.375rem;
+  color: var(--aeris-text-2);
+  line-height: 1.6;
+}
+
+.inplace-activity {
+  gap: 0.75rem;
+}
+
+.inplace-activity ul {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-inline-start: 1.25rem;
+}
+
+.custom-inplace {
+  --aeris-inplace-radius: 1rem;
+  --aeris-inplace-display-hover: color-mix(in srgb, var(--aeris-primary) 14%, var(--aeris-surface));
+  --aeris-inplace-content-border: color-mix(in srgb, var(--aeris-primary) 48%, var(--aeris-border));
+  --aeris-inplace-content-padding: 1.5rem;
+  --aeris-inplace-content-shadow: 0 1rem 2.5rem
+    color-mix(in srgb, var(--aeris-primary) 18%, transparent);
+}
+
+@media (max-width: 36rem) {
+  .inplace-details,
+  .inplace-photo {
+    grid-template-columns: 1fr;
+  }
+}

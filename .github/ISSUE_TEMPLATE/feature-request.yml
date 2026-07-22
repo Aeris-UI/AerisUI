@@ -1,0 +1,40 @@
+name: Feature request
+description: Propose an original, accessible Aeris UI capability.
+title: '[Feature]: '
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: Explain the developer or user need without prescribing another library's API or design.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Aeris behavior
+      description: Describe the desired outcome, interaction, and customization points.
+    validations:
+      required: true
+
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: Accessibility and responsive considerations
+      description: Describe semantics, keyboard behavior, focus, announcements, motion, RTL, and narrow layouts when relevant.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+
+  - type: checkboxes
+    id: originality
+    attributes:
+      label: Confirmation
+      options:
+        - label: This request describes a general need and does not ask Aeris to copy another project's source, API, documentation, assets, or distinctive design.
+          required: true

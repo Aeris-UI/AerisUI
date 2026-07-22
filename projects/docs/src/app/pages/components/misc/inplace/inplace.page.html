@@ -1,0 +1,482 @@
+<article class="button-docs inplace-docs">
+  <app-component-page-header
+    category="Misc"
+    title="Inplace"
+    description="Switch between a compact display and lazily rendered interactive content with controlled state and accessible focus management."
+  />
+
+  <section id="inplace-import" class="import-section" aria-labelledby="inplace-import-title">
+    <div>
+      <h2 id="inplace-import-title">Import</h2>
+      <p>One import provides Inplace and both template helpers.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="Inplace documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="inplace-basic"
+              title="Basic"
+              description="Use display and content templates for a compact summary that reveals details in place."
+              [cssCode]="basicCssCode"
+            >
+              <div preview>
+                <aeris-inplace closable closeAriaLabel="Close profile details">
+                  <ng-template aerisInplaceDisplay>
+                    <span class="inplace-summary">
+                      <strong>Profile</strong>
+                      <span>View account details</span>
+                    </span>
+                  </ng-template>
+                  <ng-template aerisInplaceContent>
+                    <dl class="inplace-details">
+                      <dt>Name</dt>
+                      <dd>Maya Chen</dd>
+                      <dt>Email</dt>
+                      <dd>maya&#64;example.com</dd>
+                      <dt>Role</dt>
+                      <dd>Product designer</dd>
+                    </dl>
+                  </ng-template>
+                </aeris-inplace>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-inplace closable closeAriaLabel="Close profile details"&gt;
+    &lt;ng-template aerisInplaceDisplay&gt;
+      &lt;span class="inplace-summary"&gt;
+        &lt;strong&gt;Profile&lt;/strong&gt;
+        &lt;span&gt;View account details&lt;/span&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisInplaceContent&gt;
+      &lt;dl class="inplace-details"&gt;
+        &lt;dt&gt;Name&lt;/dt&gt;
+        &lt;dd&gt;Maya Chen&lt;/dd&gt;
+        &lt;dt&gt;Email&lt;/dt&gt;
+        &lt;dd&gt;maya&amp;#64;example.com&lt;/dd&gt;
+        &lt;dt&gt;Role&lt;/dt&gt;
+        &lt;dd&gt;Product designer&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-inplace&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="inplace-controlled"
+              title="Controlled"
+              description="Bind active to application state and update it from controls outside Inplace."
+              [tsCode]="controlledTsCode"
+              [cssCode]="controlledCssCode"
+            >
+              <div preview>
+                <div class="inplace-controlled">
+                  <div class="inplace-actions">
+                    <button aerisButton type="button" (click)="activateControlled()">
+                      Activate
+                    </button>
+                    <button
+                      aerisButton
+                      variant="secondary"
+                      type="button"
+                      (click)="deactivateControlled()"
+                    >
+                      Deactivate
+                    </button>
+                    <button
+                      aerisButton
+                      variant="outline"
+                      type="button"
+                      (click)="toggleControlled()"
+                    >
+                      Toggle
+                    </button>
+                  </div>
+                  <aeris-inplace label="Show release notes" [(active)]="controlledActive">
+                    <p class="inplace-note">
+                      Version 1.0 adds accessible components, responsive layouts, and theme
+                      controls.
+                    </p>
+                  </aeris-inplace>
+                  <p class="inplace-note" aria-live="polite">
+                    Inplace is {{ controlledActive() ? 'active' : 'inactive' }}.
+                  </p>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="inplace-controlled"&gt;
+    &lt;div class="inplace-actions"&gt;
+      &lt;button aerisButton type="button" (click)="activateControlled()"&gt;
+        Activate
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        variant="secondary"
+        type="button"
+        (click)="deactivateControlled()"
+      &gt;
+        Deactivate
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        variant="outline"
+        type="button"
+        (click)="toggleControlled()"
+      &gt;
+        Toggle
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;aeris-inplace label="Show release notes" [(active)]="controlledActive"&gt;
+      &lt;p class="inplace-note"&gt;
+        Version 1.0 adds accessible components, responsive layouts, and theme
+        controls.
+      &lt;/p&gt;
+    &lt;/aeris-inplace&gt;
+    &lt;p class="inplace-note" aria-live="polite"&gt;
+      Inplace is &#123;&#123; controlledActive() ? 'active' : 'inactive' &#125;&#125;.
+    &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="inplace-input"
+              title="Inline editing"
+              description="Use the content template close callback for save and cancel actions without querying the component."
+              [tsCode]="inputTsCode"
+              [cssCode]="inputCssCode"
+            >
+              <div preview>
+                <aeris-inplace ariaLabel="Edit profile name">
+                  <ng-template aerisInplaceDisplay>
+                    <span
+                      >Name: <strong>{{ savedName() }}</strong></span
+                    >
+                  </ng-template>
+                  <ng-template aerisInplaceContent let-close="close">
+                    <div class="inplace-editor">
+                      <label for="inplace-name">Profile name</label>
+                      <input
+                        id="inplace-name"
+                        aerisInputText
+                        [value]="draftName()"
+                        (input)="updateDraft($event)"
+                      />
+                      <div class="inplace-editor__actions">
+                        <button aerisButton type="button" (click)="saveName(close)">Save</button>
+                        <button
+                          aerisButton
+                          variant="secondary"
+                          type="button"
+                          (click)="cancelName(close)"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </ng-template>
+                </aeris-inplace>
+                <p class="inplace-status" aria-live="polite">{{ editStatus() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-inplace ariaLabel="Edit profile name"&gt;
+    &lt;ng-template aerisInplaceDisplay&gt;
+      &lt;span
+        &gt;Name: &lt;strong&gt;&#123;&#123; savedName() &#125;&#125;&lt;/strong&gt;&lt;/span
+      &gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisInplaceContent let-close="close"&gt;
+      &lt;div class="inplace-editor"&gt;
+        &lt;label for="inplace-name"&gt;Profile name&lt;/label&gt;
+        &lt;input
+          id="inplace-name"
+          aerisInputText
+          [value]="draftName()"
+          (input)="updateDraft($event)"
+        /&gt;
+        &lt;div class="inplace-editor__actions"&gt;
+          &lt;button aerisButton type="button" (click)="saveName(close)"&gt;Save&lt;/button&gt;
+          &lt;button
+            aerisButton
+            variant="secondary"
+            type="button"
+            (click)="cancelName(close)"
+          &gt;
+            Cancel
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-inplace&gt;
+  &lt;p class="inplace-status" aria-live="polite"&gt;&#123;&#123; editStatus() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="inplace-media"
+              title="Arbitrary content"
+              description="Display and content templates can contain responsive media and structured content."
+              [cssCode]="mediaCssCode"
+            >
+              <div preview>
+                <aeris-inplace ariaLabel="View Milo's profile" closable>
+                  <ng-template aerisInplaceDisplay>
+                    <span class="inplace-photo-trigger">
+                      <img ngSrc="/puppies/puppy1.jpg" width="120" height="80" alt="" />
+                      <strong>Meet Milo</strong>
+                    </span>
+                  </ng-template>
+                  <ng-template aerisInplaceContent>
+                    <div class="inplace-photo">
+                      <img
+                        ngSrc="/puppies/puppy1.jpg"
+                        width="1280"
+                        height="853"
+                        alt="Milo, a playful puppy"
+                      />
+                      <div>
+                        <h4>Milo</h4>
+                        <p>
+                          Curious, energetic, and always ready to turn a quiet afternoon into an
+                          adventure.
+                        </p>
+                      </div>
+                    </div>
+                  </ng-template>
+                </aeris-inplace>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-inplace ariaLabel="View Milo's profile" closable&gt;
+    &lt;ng-template aerisInplaceDisplay&gt;
+      &lt;span class="inplace-photo-trigger"&gt;
+        &lt;img ngSrc="/puppies/puppy1.jpg" width="120" height="80" alt="" /&gt;
+        &lt;strong&gt;Meet Milo&lt;/strong&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisInplaceContent&gt;
+      &lt;div class="inplace-photo"&gt;
+        &lt;img
+          ngSrc="/puppies/puppy1.jpg"
+          width="1280"
+          height="853"
+          alt="Milo, a playful puppy"
+        /&gt;
+        &lt;div&gt;
+          &lt;h4&gt;Milo&lt;/h4&gt;
+          &lt;p&gt;
+            Curious, energetic, and always ready to turn a quiet afternoon into an
+            adventure.
+          &lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-inplace&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="inplace-lazy"
+              title="Lazy content"
+              description="Content is instantiated only while active, and activated can start loading on first reveal."
+              [tsCode]="lazyTsCode"
+              [cssCode]="lazyCssCode"
+            >
+              <div preview>
+                <aeris-inplace
+                  label="View recent activity"
+                  closable
+                  (activated)="loadActivity($event)"
+                >
+                  <ng-template aerisInplaceContent>
+                    <div class="inplace-activity">
+                      @if (lazyLoaded()) {
+                        <ul>
+                          <li>Theme settings updated</li>
+                          <li>Documentation build completed</li>
+                          <li>Accessibility review passed</li>
+                        </ul>
+                        <p>Opened {{ lazyActivations() }} time(s).</p>
+                      }
+                    </div>
+                  </ng-template>
+                </aeris-inplace>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-inplace
+    label="View recent activity"
+    closable
+    (activated)="loadActivity($event)"
+  &gt;
+    &lt;ng-template aerisInplaceContent&gt;
+      &lt;div class="inplace-activity"&gt;
+        &#64;if (lazyLoaded()) &#123;
+          &lt;ul&gt;
+            &lt;li&gt;Theme settings updated&lt;/li&gt;
+            &lt;li&gt;Documentation build completed&lt;/li&gt;
+            &lt;li&gt;Accessibility review passed&lt;/li&gt;
+          &lt;/ul&gt;
+          &lt;p&gt;Opened &#123;&#123; lazyActivations() &#125;&#125; time(s).&lt;/p&gt;
+        &#125;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-inplace&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="inplace-tokens"
+              title="Token customization"
+              description="Scope visual tokens without changing activation, keyboard, or focus behavior."
+              [cssCode]="tokenCssCode"
+            >
+              <div preview>
+                <aeris-inplace class="custom-inplace" label="Open customized content" closable>
+                  <p class="inplace-note">
+                    Tokens customize the surface while Aeris preserves interaction behavior.
+                  </p>
+                </aeris-inplace>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-inplace class="custom-inplace" label="Open customized content" closable&gt;
+    &lt;p class="inplace-note"&gt;
+      Tokens customize the surface while Aeris preserves interaction behavior.
+    &lt;/p&gt;
+  &lt;/aeris-inplace&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Inplace features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            @for (section of apiSections; track section.id) {
+              <section [id]="section.id" class="api-section">
+                <h3>{{ section.title }}</h3>
+                <div class="api-table" role="table" [attr.aria-label]="section.label" tabindex="0">
+                  <div class="api-head" role="row">
+                    <b role="columnheader">Name</b><b role="columnheader">Type</b
+                    ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                  </div>
+                  @for (row of section.rows; track row.name) {
+                    <div role="row">
+                      <code role="cell">{{ row.name }}</code
+                      ><span role="cell">{{ row.type }}</span
+                      ><code role="cell">{{ row.defaultValue }}</code
+                      ><span role="cell">{{ row.description }}</span>
+                    </div>
+                  }
+                </div>
+              </section>
+            }
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Inplace API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>Typed state events identify activation state, source events, and change reasons.</p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table token-table"
+          role="table"
+          aria-label="Inplace design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          @for (token of tokens; track token.name) {
+            <div role="row">
+              <code role="cell">{{ token.name }}</code
+              ><span role="cell">{{ token.purpose }}</span
+              ><code role="cell">{{ token.fallback }}</code>
+            </div>
+          }
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>The display state is a native button associated with the lazy content ID.</li>
+          <li>
+            Activation moves focus to the first enabled interactive element, or the content surface
+            when none exists.
+          </li>
+          <li>
+            Closing through the owned button, template callback, Escape, or public API restores
+            focus to the display button.
+          </li>
+          <li>
+            The active content is a polite live region by default; use <code>ariaLive</code> when
+            another announcement strategy is appropriate.
+          </li>
+          <li>
+            Consumer labels, form validation, and content semantics remain intact inside the active
+            surface.
+          </li>
+          <li>Motion is removed when the operating system requests reduced motion.</li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Inplace keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Context</b
+            ><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Tab / Shift + Tab</span><span role="cell">All states</span
+            ><span role="cell"
+              >Moves through the display button or active interactive content in document
+              order.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Enter / Space</span><span role="cell">Display button</span
+            ><span role="cell">Activates and reveals content using native button behavior.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Escape</span><span role="cell">Active content</span
+            ><span role="cell"
+              >Returns to display mode when <code>closeOnEscape</code> is enabled.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Enter / Space</span><span role="cell">Owned close button</span
+            ><span role="cell">Returns to display mode using native button behavior.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

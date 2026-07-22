@@ -1,0 +1,75 @@
+@use '../../form/shared/form-docs';
+
+.galleria-docs {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+
+  app-form-demo,
+  app-code-block,
+  aeris-galleria {
+    display: block;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  .galleria-demo-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.625rem;
+    margin-bottom: 1rem;
+  }
+
+  .galleria-demo-status {
+    color: var(--text-2);
+    font-size: 0.875rem;
+  }
+
+  .galleria-toolbar-status {
+    display: block;
+    margin-top: 0.75rem;
+    color: var(--text-2);
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  .galleria-custom-item {
+    position: relative;
+    inline-size: 100%;
+    block-size: 100%;
+    margin: 0;
+  }
+
+  .galleria-custom-item img,
+  .galleria-custom-thumbnail img {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .galleria-custom-thumbnail {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .galleria-custom-caption {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .galleria-custom-caption span {
+    color: rgb(255 255 255 / 76%);
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 47.5rem) {
+  .galleria-docs .import-section {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

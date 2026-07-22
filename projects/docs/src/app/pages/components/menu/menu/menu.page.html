@@ -1,0 +1,764 @@
+<article class="button-docs menu-docs">
+  <app-component-page-header
+    category="Menu"
+    title="Menu"
+    description="Vertical command and navigation menu with grouped items, popup mode, controlled expansion, templates, commands, links, and keyboard support."
+  />
+
+  <section id="menu-import" class="import-section" aria-labelledby="menu-import-title">
+    <div>
+      <h2 id="menu-import-title">Import</h2>
+      <p>One import provides Menu and its item, header, start, and end template directives.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Menu documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="menu-basic"
+              title="Basic"
+              description="Use groups, separators, badges, shortcuts, and nested toggleable sections in one static menu."
+              [tsCode]="basicCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview>
+                <aeris-menu [model]="basicItems" ariaLabel="Account and workspace actions">
+                  <ng-template aerisMenuHeader let-item>
+                    <span class="menu-icon-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="menu-icon-item__label">{{ item.label }}</span>
+                    </span>
+                  </ng-template>
+                  <ng-template
+                    aerisMenuItem
+                    let-item
+                    let-expanded="expanded"
+                    let-hasChildren="hasChildren"
+                  >
+                    <span class="menu-icon-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="menu-icon-item__label">{{ item.label }}</span>
+                      @if (item.badge !== undefined && item.badge !== null) {
+                        <aeris-badge
+                          class="menu-icon-item__badge"
+                          [value]="item.badge"
+                          size="sm"
+                          variant="soft"
+                        />
+                      }
+                      @if (item.shortcut) {
+                        <kbd>{{ item.shortcut }}</kbd>
+                      }
+                      @if (hasChildren) {
+                        <svg
+                          class="menu-icon-item__chevron"
+                          [attr.data-expanded]="expanded || null"
+                          viewBox="0 0 20 20"
+                          aria-hidden="true"
+                        >
+                          <path d="m6 8 4 4 4-4" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-menu>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-menu [model]="basicItems" ariaLabel="Account and workspace actions"&gt;
+    &lt;ng-template aerisMenuHeader let-item&gt;
+      &lt;span class="menu-icon-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="menu-icon-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template
+      aerisMenuItem
+      let-item
+      let-expanded="expanded"
+      let-hasChildren="hasChildren"
+    &gt;
+      &lt;span class="menu-icon-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="menu-icon-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (item.badge !== undefined &amp;&amp; item.badge !== null) &#123;
+          &lt;aeris-badge
+            class="menu-icon-item__badge"
+            [value]="item.badge"
+            size="sm"
+            variant="soft"
+          /&gt;
+        &#125;
+        &#64;if (item.shortcut) &#123;
+          &lt;kbd&gt;&#123;&#123; item.shortcut &#125;&#125;&lt;/kbd&gt;
+        &#125;
+        &#64;if (hasChildren) &#123;
+          &lt;svg
+            class="menu-icon-item__chevron"
+            [attr.data-expanded]="expanded || null"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          &gt;
+            &lt;path d="m6 8 4 4 4-4" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-menu&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="menu-popup"
+              title="Popup"
+              description="Popup mode anchors the menu to the triggering element and restores focus when closed."
+              [tsCode]="popupCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview class="menu-actions">
+                <button aerisButton type="button" (click)="popupMenu.toggle($event)">
+                  Open menu
+                </button>
+                <aeris-menu #popupMenu popup [model]="popupItems" ariaLabel="Popup actions">
+                  <ng-template
+                    aerisMenuItem
+                    let-item
+                    let-expanded="expanded"
+                    let-hasChildren="hasChildren"
+                  >
+                    <span class="menu-icon-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="menu-icon-item__label">{{ item.label }}</span>
+                      @if (item.badge !== undefined && item.badge !== null) {
+                        <aeris-badge
+                          class="menu-icon-item__badge"
+                          [value]="item.badge"
+                          size="sm"
+                          variant="soft"
+                        />
+                      }
+                      @if (item.shortcut) {
+                        <kbd>{{ item.shortcut }}</kbd>
+                      }
+                      @if (hasChildren) {
+                        <svg
+                          class="menu-icon-item__chevron"
+                          [attr.data-expanded]="expanded || null"
+                          viewBox="0 0 20 20"
+                          aria-hidden="true"
+                        >
+                          <path d="m6 8 4 4 4-4" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-menu>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="menu-actions"&gt;
+  &lt;button aerisButton type="button" (click)="popupMenu.toggle($event)"&gt;
+    Open menu
+  &lt;/button&gt;
+  &lt;aeris-menu #popupMenu popup [model]="popupItems" ariaLabel="Popup actions"&gt;
+    &lt;ng-template
+      aerisMenuItem
+      let-item
+      let-expanded="expanded"
+      let-hasChildren="hasChildren"
+    &gt;
+      &lt;span class="menu-icon-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="menu-icon-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (item.badge !== undefined &amp;&amp; item.badge !== null) &#123;
+          &lt;aeris-badge
+            class="menu-icon-item__badge"
+            [value]="item.badge"
+            size="sm"
+            variant="soft"
+          /&gt;
+        &#125;
+        &#64;if (item.shortcut) &#123;
+          &lt;kbd&gt;&#123;&#123; item.shortcut &#125;&#125;&lt;/kbd&gt;
+        &#125;
+        &#64;if (hasChildren) &#123;
+          &lt;svg
+            class="menu-icon-item__chevron"
+            [attr.data-expanded]="expanded || null"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          &gt;
+            &lt;path d="m6 8 4 4 4-4" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-menu&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="menu-controlled"
+              title="Controlled"
+              description="Bind expandedKeys when application state owns which groups are open."
+              [tsCode]="controlledCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview class="menu-controlled">
+                <div class="menu-actions">
+                  <button
+                    aerisButton
+                    type="button"
+                    variant="secondary"
+                    (click)="expandControlled()"
+                  >
+                    Expand all
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    variant="secondary"
+                    (click)="collapseControlled()"
+                  >
+                    Collapse all
+                  </button>
+                </div>
+                <aeris-menu
+                  [model]="controlledItems"
+                  [(expandedKeys)]="controlledKeys"
+                  ariaLabel="Controlled workspace menu"
+                >
+                  <ng-template
+                    aerisMenuItem
+                    let-item
+                    let-expanded="expanded"
+                    let-hasChildren="hasChildren"
+                  >
+                    <span class="menu-icon-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="menu-icon-item__label">{{ item.label }}</span>
+                      @if (item.badge !== undefined && item.badge !== null) {
+                        <aeris-badge
+                          class="menu-icon-item__badge"
+                          [value]="item.badge"
+                          size="sm"
+                          variant="soft"
+                        />
+                      }
+                      @if (item.shortcut) {
+                        <kbd>{{ item.shortcut }}</kbd>
+                      }
+                      @if (hasChildren) {
+                        <svg
+                          class="menu-icon-item__chevron"
+                          [attr.data-expanded]="expanded || null"
+                          viewBox="0 0 20 20"
+                          aria-hidden="true"
+                        >
+                          <path d="m6 8 4 4 4-4" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-menu>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="menu-controlled"&gt;
+  &lt;div class="menu-actions"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      variant="secondary"
+      (click)="expandControlled()"
+    &gt;
+      Expand all
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      variant="secondary"
+      (click)="collapseControlled()"
+    &gt;
+      Collapse all
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-menu
+    [model]="controlledItems"
+    [(expandedKeys)]="controlledKeys"
+    ariaLabel="Controlled workspace menu"
+  &gt;
+    &lt;ng-template
+      aerisMenuItem
+      let-item
+      let-expanded="expanded"
+      let-hasChildren="hasChildren"
+    &gt;
+      &lt;span class="menu-icon-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="menu-icon-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (item.badge !== undefined &amp;&amp; item.badge !== null) &#123;
+          &lt;aeris-badge
+            class="menu-icon-item__badge"
+            [value]="item.badge"
+            size="sm"
+            variant="soft"
+          /&gt;
+        &#125;
+        &#64;if (item.shortcut) &#123;
+          &lt;kbd&gt;&#123;&#123; item.shortcut &#125;&#125;&lt;/kbd&gt;
+        &#125;
+        &#64;if (hasChildren) &#123;
+          &lt;svg
+            class="menu-icon-item__chevron"
+            [attr.data-expanded]="expanded || null"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          &gt;
+            &lt;path d="m6 8 4 4 4-4" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-menu&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="menu-template"
+              title="Template"
+              description="Customize item rows, group headers, and content before or after the menu without changing menu semantics."
+              [tsCode]="templateCode"
+              [cssCode]="templateCss"
+            >
+              <div preview>
+                <aeris-menu [model]="templateItems" ariaLabel="Template menu">
+                  <ng-template aerisMenuStart>
+                    <span class="menu-template-brand">
+                      <strong>Aeris Workspace</strong>
+                      <small>Signed in as Admin</small>
+                    </span>
+                  </ng-template>
+                  <ng-template aerisMenuHeader let-item>
+                    <span class="menu-icon-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="menu-icon-item__label">{{ item.label }}</span>
+                    </span>
+                  </ng-template>
+                  <ng-template aerisMenuItem let-item>
+                    <span class="menu-icon-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <strong class="menu-icon-item__label">{{ item.label }}</strong>
+                      @if (item.badge !== undefined && item.badge !== null) {
+                        <aeris-badge
+                          class="menu-icon-item__badge"
+                          [value]="item.badge"
+                          size="sm"
+                          variant="soft"
+                        />
+                      }
+                      @if (item.shortcut) {
+                        <kbd>{{ item.shortcut }}</kbd>
+                      }
+                    </span>
+                  </ng-template>
+                  <ng-template aerisMenuEnd>
+                    <span class="menu-template-user">Storage synced just now.</span>
+                  </ng-template>
+                </aeris-menu>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-menu [model]="templateItems" ariaLabel="Template menu"&gt;
+    &lt;ng-template aerisMenuStart&gt;
+      &lt;span class="menu-template-brand"&gt;
+        &lt;strong&gt;Aeris Workspace&lt;/strong&gt;
+        &lt;small&gt;Signed in as Admin&lt;/small&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisMenuHeader let-item&gt;
+      &lt;span class="menu-icon-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="menu-icon-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisMenuItem let-item&gt;
+      &lt;span class="menu-icon-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;strong class="menu-icon-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/strong&gt;
+        &#64;if (item.badge !== undefined &amp;&amp; item.badge !== null) &#123;
+          &lt;aeris-badge
+            class="menu-icon-item__badge"
+            [value]="item.badge"
+            size="sm"
+            variant="soft"
+          /&gt;
+        &#125;
+        &#64;if (item.shortcut) &#123;
+          &lt;kbd&gt;&#123;&#123; item.shortcut &#125;&#125;&lt;/kbd&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisMenuEnd&gt;
+      &lt;span class="menu-template-user"&gt;Storage synced just now.&lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-menu&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="menu-command"
+              title="Command and links"
+              description="Items can run commands, use routerLink with an app-owned navigation handler, or use native external URLs."
+              [tsCode]="commandCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview>
+                <aeris-menu
+                  [model]="commandItems"
+                  ariaLabel="Command menu"
+                  (itemSelected)="recordAction($event)"
+                >
+                  <ng-template
+                    aerisMenuItem
+                    let-item
+                    let-expanded="expanded"
+                    let-hasChildren="hasChildren"
+                  >
+                    <span class="menu-icon-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="menu-icon-item__label">{{ item.label }}</span>
+                      @if (item.badge !== undefined && item.badge !== null) {
+                        <aeris-badge
+                          class="menu-icon-item__badge"
+                          [value]="item.badge"
+                          size="sm"
+                          variant="soft"
+                        />
+                      }
+                      @if (item.shortcut) {
+                        <kbd>{{ item.shortcut }}</kbd>
+                      }
+                      @if (hasChildren) {
+                        <svg
+                          class="menu-icon-item__chevron"
+                          [attr.data-expanded]="expanded || null"
+                          viewBox="0 0 20 20"
+                          aria-hidden="true"
+                        >
+                          <path d="m6 8 4 4 4-4" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-menu>
+                <small aria-live="polite">{{ commandMessage() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-menu
+    [model]="commandItems"
+    ariaLabel="Command menu"
+    (itemSelected)="recordAction($event)"
+  &gt;
+    &lt;ng-template
+      aerisMenuItem
+      let-item
+      let-expanded="expanded"
+      let-hasChildren="hasChildren"
+    &gt;
+      &lt;span class="menu-icon-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="menu-icon-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (item.badge !== undefined &amp;&amp; item.badge !== null) &#123;
+          &lt;aeris-badge
+            class="menu-icon-item__badge"
+            [value]="item.badge"
+            size="sm"
+            variant="soft"
+          /&gt;
+        &#125;
+        &#64;if (item.shortcut) &#123;
+          &lt;kbd&gt;&#123;&#123; item.shortcut &#125;&#125;&lt;/kbd&gt;
+        &#125;
+        &#64;if (hasChildren) &#123;
+          &lt;svg
+            class="menu-icon-item__chevron"
+            [attr.data-expanded]="expanded || null"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          &gt;
+            &lt;path d="m6 8 4 4 4-4" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-menu&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; commandMessage() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Menu features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="menu-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Menu inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="menu-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Menu outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="menu-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="Menu templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="menu-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Menu methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Signature</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API links" ariaLabel="Menu API links" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="menu-interfaces-code" class="api-section">
+              <h3>Types</h3>
+              <app-code-block [code]="interfacesCode" language="TypeScript" />
+            </section>
+          </div>
+          <app-page-toc
+            title="Interface links"
+            ariaLabel="Menu interface links"
+            [links]="interfaceLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="menu-token-table" class="api-section">
+              <h3>Menu tokens</h3>
+              <div class="api-table" role="table" aria-label="Menu design tokens">
+                <div role="row">
+                  <span role="columnheader">Token</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of tokens; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="Token links" ariaLabel="Menu token links" [links]="tokenLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="menu-a11y-semantics" class="api-section">
+              <h3>Semantics</h3>
+              <ul>
+                <li>
+                  The root list uses <code>role="menu"</code>. Enabled rows use
+                  <code>role="menuitem"</code>.
+                </li>
+                <li>
+                  Separators use <code>role="separator"</code>. Non-toggleable group labels are
+                  plain headers before grouped menuitems.
+                </li>
+                <li>
+                  Toggleable items expose <code>aria-haspopup</code>, <code>aria-expanded</code>,
+                  and <code>aria-controls</code>.
+                </li>
+                <li>
+                  Disabled buttons use native disabled behavior. Disabled links use
+                  <code>aria-disabled</code> and remove <code>href</code>.
+                </li>
+                <li>
+                  Use <code>ariaLabel</code> or <code>ariaLabelledBy</code> to provide a clear menu
+                  name.
+                </li>
+              </ul>
+            </section>
+
+            <section id="menu-a11y-keyboard" class="api-section">
+              <h3>Keyboard support</h3>
+              <div class="api-table" role="table" aria-label="Menu keyboard support">
+                <div role="row">
+                  <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Tab</kbd
+                  ><span role="cell"
+                    >Moves focus into or out of the menu using native page tab order.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Down</kbd
+                  ><span role="cell">Moves focus to the next visible enabled menuitem.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Up</kbd
+                  ><span role="cell">Moves focus to the previous visible enabled menuitem.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Home</kbd
+                  ><span role="cell">Moves focus to the first visible enabled menuitem.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">End</kbd
+                  ><span role="cell">Moves focus to the last visible enabled menuitem.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Right</kbd
+                  ><span role="cell">Expands a focused collapsed toggleable group.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Left</kbd
+                  ><span role="cell"
+                    >Collapses a focused expanded toggleable group or moves focus to its
+                    parent.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Enter</kbd
+                  ><span role="cell">Activates the focused item or toggles a focused group.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Space</kbd
+                  ><span role="cell">Activates the focused item or toggles a focused group.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Escape</kbd
+                  ><span role="cell"
+                    >Closes a popup menu and restores trigger focus when enabled.</span
+                  >
+                </div>
+              </div>
+            </section>
+          </div>
+          <app-page-toc
+            title="Accessibility links"
+            ariaLabel="Menu accessibility links"
+            [links]="accessibilityLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

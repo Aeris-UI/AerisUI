@@ -1,0 +1,193 @@
+:host {
+  display: inline-block;
+  max-width: 100%;
+  color: var(--aeris-toggle-switch-label-color, var(--aeris-text-2, #555555));
+  font: inherit;
+  vertical-align: middle;
+}
+
+.aeris-toggle-switch {
+  --_track-width: 40px;
+  --_track-height: 22px;
+  --_thumb-size: 16px;
+  --_track-padding: 2px;
+  --_gap: 0.625rem;
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_gap);
+  max-width: 100%;
+  min-height: 2rem;
+  color: inherit;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.aeris-toggle-switch[data-label-position='start'] {
+  flex-direction: row-reverse;
+}
+
+.aeris-toggle-switch__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.aeris-toggle-switch__control {
+  position: relative;
+  box-sizing: border-box;
+  width: var(--_track-width);
+  height: var(--_track-height);
+  flex: 0 0 auto;
+  border: 1px solid
+    var(--aeris-toggle-switch-border, var(--aeris-text-3, #686b63));
+  border-radius: 999px;
+  background: var(
+    --aeris-toggle-switch-background,
+    var(--aeris-surface-3, #deddd7)
+  );
+  box-shadow: var(--aeris-toggle-switch-shadow, none);
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.aeris-toggle-switch__thumb {
+  position: absolute;
+  top: var(--_track-padding);
+  left: var(--_track-padding);
+  box-sizing: border-box;
+  width: var(--_thumb-size);
+  height: var(--_thumb-size);
+  border: 1px solid
+    var(--aeris-toggle-switch-thumb-border, var(--aeris-text-3, #686b63));
+  border-radius: 50%;
+  background: var(--aeris-toggle-switch-thumb, var(--aeris-surface, #fff));
+  box-shadow: 0 1px 3px rgb(24 29 22 / 28%);
+  transform: translateX(0);
+  transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.aeris-toggle-switch:hover:not([data-disabled])
+  .aeris-toggle-switch__control {
+  border-color: var(
+    --aeris-toggle-switch-hover-border,
+    var(--aeris-primary, #768653)
+  );
+}
+
+.aeris-toggle-switch__input:checked + .aeris-toggle-switch__control {
+  border-color: var(
+    --aeris-toggle-switch-checked-background,
+    var(--aeris-primary, #768653)
+  );
+  background: var(
+    --aeris-toggle-switch-checked-background,
+    var(--aeris-primary, #768653)
+  );
+}
+
+.aeris-toggle-switch__input:checked
+  + .aeris-toggle-switch__control
+  .aeris-toggle-switch__thumb {
+  border-color: color-mix(
+    in srgb,
+    var(--aeris-toggle-switch-checked-background, var(--aeris-primary, #768653)) 56%,
+    var(--aeris-toggle-switch-thumb, var(--aeris-surface, #fff))
+  );
+  transform: translateX(
+    calc(
+      var(--_track-width) - var(--_thumb-size) - (var(--_track-padding) * 2) -
+        2px
+    )
+  );
+}
+
+.aeris-toggle-switch__input:focus-visible + .aeris-toggle-switch__control {
+  outline: 3px solid
+    var(
+      --aeris-toggle-switch-focus-ring,
+      color-mix(
+        in srgb,
+        var(--aeris-focus, var(--aeris-primary, #536437)) 44%,
+        transparent
+      )
+    );
+  outline-offset: 2px;
+}
+
+.aeris-toggle-switch[data-invalid] .aeris-toggle-switch__control {
+  border-color: var(--aeris-danger, #c81e2a);
+}
+
+.aeris-toggle-switch[data-invalid]
+  .aeris-toggle-switch__input:focus-visible
+  + .aeris-toggle-switch__control {
+  outline-color: color-mix(
+    in srgb,
+    var(--aeris-danger, #c81e2a) 42%,
+    transparent
+  );
+}
+
+.aeris-toggle-switch[data-disabled] {
+  cursor: not-allowed;
+  opacity: var(--aeris-disabled-opacity, 0.5);
+}
+
+.aeris-toggle-switch__label {
+  min-width: 0;
+}
+
+.aeris-toggle-switch[data-size='xs'] {
+  --_track-width: 30px;
+  --_track-height: 18px;
+  --_thumb-size: 12px;
+  --_track-padding: 2px;
+  --_gap: 0.4375rem;
+
+  min-height: 1.5rem;
+  font-size: 0.75rem;
+}
+
+.aeris-toggle-switch[data-size='sm'] {
+  --_track-width: 34px;
+  --_track-height: 20px;
+  --_thumb-size: 14px;
+  --_track-padding: 2px;
+  --_gap: 0.5rem;
+
+  min-height: 1.75rem;
+  font-size: 0.8125rem;
+}
+
+.aeris-toggle-switch[data-size='lg'] {
+  --_track-width: 46px;
+  --_track-height: 26px;
+  --_thumb-size: 20px;
+  --_track-padding: 2px;
+  --_gap: 0.6875rem;
+
+  min-height: 2.25rem;
+  font-size: 0.9375rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-toggle-switch__control,
+  .aeris-toggle-switch__thumb {
+    transition: none;
+  }
+}

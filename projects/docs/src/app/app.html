@@ -1,0 +1,475 @@
+<a class="docs-skip-link" href="#docs-content">Skip to content</a>
+
+<aeris-toolbar class="docs-header" variant="plain" size="sm" [wrap]="false" [role]="null">
+  <div aerisToolbarStart class="docs-header__start">
+    @if (!isLandingPage()) {
+      <button
+        aerisButton
+        data-docs-menu
+        type="button"
+        variant="ghost"
+        size="sm"
+        iconOnly
+        aria-label="Open documentation navigation"
+        [attr.aria-expanded]="sidebarOpen()"
+        (click)="sidebarOpen.update((open) => !open)"
+      >
+        <svg [lucideIcon]="icons.Menu"></svg>
+      </button>
+    }
+    <a class="docs-brand" routerLink="/" aria-label="Aeris UI documentation home">
+      <span class="docs-brand__mark" aria-hidden="true">
+        <aeris-logo-mark />
+      </span>
+      <span>Aeris <strong>UI</strong></span>
+      <span class="docs-version">v{{ currentVersion }}</span>
+    </a>
+    <span class="docs-alpha-status" aria-label="Alpha software. Not production ready">
+      <strong>Alpha</strong>
+      <span>Not production ready</span>
+    </span>
+  </div>
+
+  <div aerisToolbarCenter>
+    <button
+      aerisButton
+      data-docs-search
+      type="button"
+      variant="secondary"
+      size="sm"
+      (click)="searchOpen.set(true)"
+    >
+      <span class="docs-search-content">
+        <svg [lucideIcon]="icons.Search"></svg>
+        <span class="docs-search-label">Search documentation</span>
+        <kbd>Ctrl K</kbd>
+      </span>
+    </button>
+  </div>
+
+  <nav aerisToolbarEnd class="docs-header__nav" aria-label="Header navigation">
+    <a routerLink="/guides" routerLinkActive="active">Guides</a>
+    <a routerLink="/components" routerLinkActive="active">Components</a>
+    <a routerLink="/design-lab" routerLinkActive="active">Design Lab</a>
+    <div class="docs-appearance-picker" (click)="$event.stopPropagation()">
+      <button
+        #appearanceTrigger
+        aerisButton
+        data-docs-icon-button
+        type="button"
+        variant="ghost"
+        size="sm"
+        iconOnly
+        [attr.aria-label]="
+          'Customize appearance. Palette: ' +
+          activePalette().name +
+          ', density: ' +
+          activeDensity().name +
+          ', corners: ' +
+          activeRadius().name +
+          ', direction: ' +
+          activeDirection().name
+        "
+        aria-controls="docs-appearance-menu"
+        [attr.aria-expanded]="appearanceOpen()"
+        (click)="toggleAppearanceMenu()"
+      >
+        <svg [lucideIcon]="icons.Pipette"></svg>
+      </button>
+
+      @if (appearanceOpen()) {
+        <div
+          id="docs-appearance-menu"
+          class="docs-appearance-menu"
+          role="region"
+          aria-labelledby="docs-appearance-title"
+        >
+          <aeris-card padding="sm">
+            <header aerisCardHeader>
+              <div>
+                <h2 id="docs-appearance-title">Appearance</h2>
+                <p>Saved for this browser.</p>
+              </div>
+            </header>
+
+            <div class="docs-appearance-section">
+              <div class="docs-appearance-section__header">
+                <span>Palette</span>
+                <small>{{ activePalette().name }}</small>
+              </div>
+              <div
+                class="docs-palette-options"
+                role="group"
+                aria-label="Documentation color palettes"
+              >
+                @for (palette of palettes; track palette.id) {
+                  <button
+                    type="button"
+                    [class.active]="activePaletteId() === palette.id"
+                    [attr.aria-pressed]="activePaletteId() === palette.id"
+                    (click)="selectPalette(palette.id)"
+                  >
+                    <span class="docs-palette-swatches" aria-hidden="true">
+                      @for (color of palette.swatches; track color) {
+                        <i [style.background]="color"></i>
+                      }
+                    </span>
+                    <span class="docs-palette-copy">
+                      <strong>{{ palette.name }}</strong>
+                      <small>{{ palette.description }}</small>
+                    </span>
+                    @if (activePaletteId() === palette.id) {
+                      <svg [lucideIcon]="icons.Check"></svg>
+                    }
+                  </button>
+                }
+              </div>
+            </div>
+
+            <div class="docs-appearance-section">
+              <div class="docs-appearance-section__header">
+                <span>Density</span>
+                <small>{{ activeDensity().name }}</small>
+              </div>
+              <div class="docs-choice-grid" role="group" aria-label="Documentation density">
+                @for (density of densities; track density.id) {
+                  <button
+                    type="button"
+                    [class.active]="activeDensityId() === density.id"
+                    [attr.aria-pressed]="activeDensityId() === density.id"
+                    (click)="selectDensity(density.id)"
+                  >
+                    <span
+                      class="docs-density-preview"
+                      [attr.data-density]="density.id"
+                      aria-hidden="true"
+                    >
+                      <i></i><i></i><i></i>
+                    </span>
+                    <strong>{{ density.name }}</strong>
+                    <small>{{ density.description }}</small>
+                    @if (activeDensityId() === density.id) {
+                      <svg [lucideIcon]="icons.Check"></svg>
+                    }
+                  </button>
+                }
+              </div>
+            </div>
+
+            <div class="docs-appearance-section">
+              <div class="docs-appearance-section__header">
+                <span>Corners</span>
+                <small>{{ activeRadius().name }}</small>
+              </div>
+              <div class="docs-choice-grid" role="group" aria-label="Documentation corner style">
+                @for (radius of radii; track radius.id) {
+                  <button
+                    type="button"
+                    [class.active]="activeRadiusId() === radius.id"
+                    [attr.aria-pressed]="activeRadiusId() === radius.id"
+                    (click)="selectRadius(radius.id)"
+                  >
+                    <span
+                      class="docs-radius-preview"
+                      [attr.data-radius]="radius.id"
+                      aria-hidden="true"
+                    ></span>
+                    <strong>{{ radius.name }}</strong>
+                    <small>{{ radius.description }}</small>
+                    @if (activeRadiusId() === radius.id) {
+                      <svg [lucideIcon]="icons.Check"></svg>
+                    }
+                  </button>
+                }
+              </div>
+            </div>
+
+            <div class="docs-appearance-section">
+              <div class="docs-appearance-section__header">
+                <span>Direction</span>
+                <small>{{ activeDirection().name }}</small>
+              </div>
+              <div
+                class="docs-choice-grid"
+                style="grid-template-columns: repeat(2, minmax(0, 1fr))"
+                role="group"
+                aria-label="Documentation text direction"
+              >
+                @for (direction of directions; track direction.id) {
+                  <button
+                    type="button"
+                    [class.active]="activeDirectionId() === direction.id"
+                    [attr.aria-pressed]="activeDirectionId() === direction.id"
+                    (click)="selectDirection(direction.id)"
+                  >
+                    <span
+                      class="docs-density-preview docs-direction-preview"
+                      [attr.data-direction]="direction.id"
+                      aria-hidden="true"
+                    >
+                      <i></i><i></i><i></i>
+                    </span>
+                    <strong>{{ direction.name }}</strong>
+                    <small>{{ direction.description }}</small>
+                    @if (activeDirectionId() === direction.id) {
+                      <svg [lucideIcon]="icons.Check"></svg>
+                    }
+                  </button>
+                }
+              </div>
+            </div>
+
+            <footer class="docs-appearance-summary">
+              <span>{{ activePalette().name }}</span>
+              <span>{{ activeDensity().name }}</span>
+              <span>{{ activeRadius().name }}</span>
+              <span>{{ activeDirection().name }}</span>
+            </footer>
+          </aeris-card>
+        </div>
+      }
+    </div>
+    <button
+      aerisButton
+      data-docs-icon-button
+      type="button"
+      variant="ghost"
+      size="sm"
+      iconOnly
+      [attr.aria-label]="
+        themeService.resolvedMode() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+      "
+      (click)="cycleTheme()"
+    >
+      @if (themeService.resolvedMode() === 'dark') {
+        <svg [lucideIcon]="icons.Moon"></svg>
+      } @else {
+        <svg [lucideIcon]="icons.Sun"></svg>
+      }
+    </button>
+  </nav>
+</aeris-toolbar>
+
+<ng-template #docsNavigation let-idSuffix="idSuffix">
+  <div class="docs-navigation">
+    <nav>
+      <section>
+        <h2>Overview</h2>
+        <a
+          routerLink="/"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="closeNavigation()"
+          >Home</a
+        >
+        <a
+          routerLink="/guides"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="closeNavigation()"
+          >Guides</a
+        >
+      </section>
+      <section>
+        <h2>Guides</h2>
+        <div class="docs-guide-groups">
+          @for (group of guideGroups; track group.title) {
+            <section class="docs-guide-group">
+              <h3>
+                <button
+                  type="button"
+                  [attr.aria-expanded]="expandedGuideGroups().has(group.title)"
+                  [attr.aria-controls]="guideGroupId(group.title) + '-' + idSuffix"
+                  (click)="toggleGuideGroup(group.title)"
+                >
+                  <span>{{ group.title }}</span>
+                  <small>{{ group.guideIds.length }}</small>
+                  <svg [lucideIcon]="icons.ChevronRight"></svg>
+                </button>
+              </h3>
+              @if (expandedGuideGroups().has(group.title)) {
+                <div
+                  [id]="guideGroupId(group.title) + '-' + idSuffix"
+                  class="docs-guide-group__items"
+                >
+                  @for (guideId of group.guideIds; track guideId) {
+                    @if (guideArticleById.get(guideId); as guide) {
+                      <a
+                        [routerLink]="guide.path"
+                        routerLinkActive="active"
+                        (click)="closeNavigation()"
+                      >
+                        {{ guide.title }}
+                      </a>
+                    }
+                  }
+                </div>
+              }
+            </section>
+          }
+        </div>
+      </section>
+      <section>
+        <h2>Library</h2>
+        <a
+          routerLink="/components"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="closeNavigation()"
+          >All components <span>{{ componentCount }}</span></a
+        >
+        <div class="docs-component-groups">
+          @for (group of componentGroups; track group.category) {
+            <section class="docs-component-group">
+              <h3>
+                <button
+                  type="button"
+                  [attr.aria-expanded]="expandedGroups().has(group.category)"
+                  [attr.aria-controls]="componentGroupId(group.category) + '-' + idSuffix"
+                  (click)="toggleComponentGroup(group.category)"
+                >
+                  <span>{{ group.category }}</span>
+                  <small>{{ group.items.length }}</small>
+                  <svg [lucideIcon]="icons.ChevronRight"></svg>
+                </button>
+              </h3>
+              @if (expandedGroups().has(group.category)) {
+                <div
+                  [id]="componentGroupId(group.category) + '-' + idSuffix"
+                  class="docs-component-group__items"
+                >
+                  @for (item of group.items; track item.slug) {
+                    <a
+                      [routerLink]="['/components', item.slug]"
+                      routerLinkActive="active"
+                      (click)="closeNavigation()"
+                    >
+                      {{ item.name }}
+                    </a>
+                  }
+                </div>
+              }
+            </section>
+          }
+        </div>
+      </section>
+      <section>
+        <h2>Resources</h2>
+        <a routerLink="/design-lab" routerLinkActive="active" (click)="closeNavigation()"
+          >Design Lab</a
+        >
+        <a href="https://angular.dev" target="_blank" rel="noreferrer">Angular 22 <span>↗</span></a>
+      </section>
+    </nav>
+    <div class="docs-sidebar__footer">
+      <span>Aeris {{ currentVersion }} · Angular 22</span>
+      <small class="docs-sidebar__alpha">Alpha software · Not production ready</small>
+      <small>WCAG 2.2 AA target</small>
+      <small>Responsive by default. Compatible with Tailwind CSS 4 and Bootstrap 5.3.</small>
+      <small>
+        Aeris does not ship or depend on an icon library. Documentation examples use Lucide; any
+        icon component, SVG, or icon font can be used.
+      </small>
+      <nav class="docs-sidebar__footer-links" aria-label="Documentation resources">
+        <a routerLink="/guides/version-compatibility" (click)="closeNavigation()">Compatibility</a>
+        <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a>
+        <a routerLink="/third-party-notices" (click)="closeNavigation()">Third-party notices</a>
+      </nav>
+    </div>
+  </div>
+</ng-template>
+
+<div class="docs-layout">
+  @if (!isLandingPage()) {
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <ng-container
+        [ngTemplateOutlet]="docsNavigation"
+        [ngTemplateOutletContext]="{ idSuffix: 'desktop' }"
+      />
+    </aside>
+
+    <aeris-drawer
+      class="docs-mobile-navigation"
+      header="Documentation"
+      [(visible)]="sidebarOpen"
+      [position]="activeDirectionId() === 'rtl' ? 'right' : 'left'"
+      width="17.5rem"
+      mobileWidth="min(19rem, calc(100vw - 2rem))"
+      [dismissibleMask]="true"
+      closeAriaLabel="Close documentation navigation"
+    >
+      <ng-container
+        [ngTemplateOutlet]="docsNavigation"
+        [ngTemplateOutletContext]="{ idSuffix: 'mobile' }"
+      />
+    </aeris-drawer>
+  }
+
+  <main id="docs-content" [class.docs-content]="!isLandingPage()">
+    <router-outlet />
+  </main>
+</div>
+
+@if (!isLandingPage()) {
+  <aeris-scroll-top
+    ariaLabel="Scroll documentation to top"
+    [position]="activeDirectionId() === 'rtl' ? 'bottom-left' : 'bottom-right'"
+    [threshold]="520"
+  />
+}
+
+<aeris-dialog
+  class="docs-command-dialog"
+  [(visible)]="searchOpen"
+  position="top"
+  width="min(38.75rem, calc(100vw - 2.25rem))"
+  maxHeight="min(36rem, calc(100dvh - 2.25rem))"
+  initialFocus="input[type=search]"
+  ariaLabel="Search documentation"
+  [closable]="false"
+  [dismissibleMask]="true"
+>
+  <ng-template aerisDialogHeadless>
+    <div class="docs-command">
+      <div class="docs-command__input">
+        <aeris-icon-field size="lg" fluid>
+          <svg aerisIconStart [lucideIcon]="icons.Search"></svg>
+          <input
+            aerisInputText
+            size="lg"
+            fluid
+            type="search"
+            placeholder="Search guides and components..."
+            aria-label="Search guides and components"
+            [value]="query()"
+            (input)="query.set($any($event.target).value)"
+          />
+        </aeris-icon-field>
+        <button
+          aerisButton
+          type="button"
+          variant="ghost"
+          size="xs"
+          aria-label="Close search"
+          (click)="searchOpen.set(false)"
+        >
+          Esc
+        </button>
+      </div>
+      <div class="docs-command__results">
+        <span class="docs-command__label">Guides and components</span>
+        @for (item of searchResults(); track item.path) {
+          <a [routerLink]="item.path" (click)="searchOpen.set(false)">
+            <span class="docs-command__icon">{{ item.name.slice(0, 1) }}</span>
+            <span
+              ><strong>{{ item.name }}</strong
+              ><small>{{ item.category }}</small></span
+            >
+          </a>
+        } @empty {
+          <p>No documentation matches “{{ query() }}”.</p>
+        }
+      </div>
+    </div>
+  </ng-template>
+</aeris-dialog>

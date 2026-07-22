@@ -1,0 +1,169 @@
+.aeris-input-text,
+.aeris-textarea {
+  border: 1px solid var(--aeris-border-strong, #c7c9c0);
+  background: var(--aeris-surface, #fff);
+  color: var(--aeris-text, #222222);
+  font: inherit;
+  font-size: 0.875rem;
+  transition:
+    border-color 150ms,
+    background-color 150ms,
+    box-shadow 150ms;
+}
+
+.aeris-input-text {
+  width: auto;
+  max-width: 100%;
+  min-height: var(--aeris-control-height, 2.625rem);
+  padding: 0 var(--aeris-control-padding-x, 0.75rem);
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
+}
+
+.aeris-input-text::placeholder,
+.aeris-textarea::placeholder {
+  color: var(--aeris-text-2, #555555);
+  opacity: 0.72;
+}
+
+.aeris-input-text--xs {
+  min-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
+  padding-inline: calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
+  font-size: 0.75rem;
+}
+
+.aeris-input-text--sm {
+  min-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
+  padding-inline: calc(var(--aeris-control-padding-x, 0.75rem) * 0.85);
+  font-size: 0.8125rem;
+}
+
+.aeris-input-text--lg {
+  min-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
+  padding-inline: calc(var(--aeris-control-padding-x, 0.75rem) * 1.15);
+  font-size: 0.9375rem;
+}
+
+.aeris-input-text--fluid {
+  width: 100%;
+}
+
+.aeris-input-text--filled,
+.aeris-textarea--filled {
+  border-color: transparent;
+  background: var(--aeris-surface-2, #f2f0ec);
+}
+
+.aeris-input-text:hover:not(:disabled):not([readonly]),
+.aeris-textarea:hover:not(:disabled):not([readonly]) {
+  border-color: var(--aeris-primary, #879566);
+}
+
+.aeris-input-text:focus,
+.aeris-textarea:focus {
+  border-color: var(--aeris-focus, #536437);
+  outline: 0;
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
+}
+
+.aeris-input-text--filled:focus,
+.aeris-textarea--filled:focus {
+  background: var(--aeris-surface, #fff);
+}
+
+.aeris-input-text--invalid,
+.aeris-input-text--invalid:hover,
+.aeris-textarea--invalid,
+.aeris-textarea--invalid:hover {
+  border-color: var(--aeris-danger, #c81e2a);
+}
+
+.aeris-input-text--invalid:focus,
+.aeris-textarea--invalid:focus {
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--aeris-danger, #c81e2a) 18%, transparent);
+}
+
+.aeris-input-text:read-only,
+.aeris-textarea:read-only {
+  background: var(--aeris-surface-2, #f2f0ec);
+  color: var(--aeris-text-2, #555555);
+  cursor: default;
+}
+
+.aeris-input-text:disabled,
+.aeris-textarea:disabled {
+  opacity: 0.52;
+  cursor: not-allowed;
+}
+
+.aeris-textarea {
+  --aeris-textarea-row-height: 21px;
+  --aeris-textarea-vertical-padding: 20px;
+
+  width: auto;
+  max-width: 100%;
+  min-height: 5.5rem;
+  padding: calc(var(--aeris-item-padding-y, 0.5rem) + 0.125rem)
+    var(--aeris-control-padding-x, 0.75rem);
+  border-radius: var(--aeris-radius-md, 0.6875rem);
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.aeris-textarea--xs {
+  --aeris-textarea-row-height: 17px;
+  --aeris-textarea-vertical-padding: 16px;
+
+  min-height: 4rem;
+  padding: var(--aeris-item-padding-y, 0.5rem)
+    calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
+  font-size: 0.75rem;
+}
+
+.aeris-textarea--sm {
+  --aeris-textarea-row-height: 19px;
+  --aeris-textarea-vertical-padding: 18px;
+
+  min-height: 4.75rem;
+  padding: calc(var(--aeris-item-padding-y, 0.5rem) + 0.0625rem)
+    calc(var(--aeris-control-padding-x, 0.75rem) * 0.85);
+  font-size: 0.8125rem;
+}
+
+.aeris-textarea--lg {
+  --aeris-textarea-row-height: 23px;
+  --aeris-textarea-vertical-padding: 24px;
+
+  min-height: 6.5rem;
+  padding: calc(var(--aeris-item-padding-y, 0.5rem) + 0.25rem)
+    calc(var(--aeris-control-padding-x, 0.75rem) * 1.15);
+  font-size: 0.9375rem;
+}
+
+.aeris-textarea--fluid {
+  width: 100%;
+}
+
+.aeris-textarea[data-resize='none'] {
+  resize: none;
+}
+
+.aeris-textarea[data-resize='horizontal'] {
+  resize: horizontal;
+}
+
+.aeris-textarea[data-resize='both'] {
+  resize: both;
+}
+
+.aeris-textarea[data-resize='vertical'] {
+  resize: vertical;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-input-text,
+  .aeris-textarea {
+    transition: none;
+  }
+}

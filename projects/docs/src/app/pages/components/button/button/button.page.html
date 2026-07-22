@@ -1,0 +1,502 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Button"
+    title="Button"
+    description="Triggers an action or event with clear hierarchy, loading feedback, icons, badges, and semantic color."
+  />
+
+  <section class="import-section" aria-labelledby="button-import-title">
+    <div>
+      <h2 id="button-import-title">Import</h2>
+      <p>Import the native directive or declarative wrapper from the Button entry point.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Button documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section id="features" class="doc-section">
+        <h2>Features showcase</h2>
+        <p>Every example below renders the published package API shown in its code panel.</p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-button-demo
+              id="feature-basic"
+              title="Basic"
+              description="Use aerisButton on native buttons and anchors."
+            >
+              <div preview>
+                <button aerisButton>Save changes</button
+                ><button aerisButton variant="secondary">Cancel</button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
+  &lt;button aerisButton&gt;Save changes&lt;/button
+  &gt;&lt;button aerisButton variant="secondary"&gt;Cancel&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="feature-wrapper"
+              title="Wrapper component"
+              description="Use the wrapper when inputs and emitted events are more convenient than projected native content."
+              [tsCode]="wrapperTsCode"
+            >
+              <div preview>
+                <aeris-button label="Create project" (clicked)="createProject($event)" /><span
+                  class="result"
+                  >Clicked {{ clickCount() }} times</span
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
+  &lt;aeris-button label="Create project" (clicked)="createProject($event)" /&gt;&lt;span
+    class="result"
+    &gt;Clicked &#123;&#123; clickCount() &#125;&#125; times&lt;/span
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="feature-variants"
+              title="Variants"
+              description="Choose the visual treatment independently from semantic severity."
+            >
+              <div preview class="wrap">
+                <button aerisButton>Primary</button
+                ><button aerisButton variant="secondary">Secondary</button
+                ><button aerisButton variant="outline">Outline</button
+                ><button aerisButton variant="ghost">Ghost</button
+                ><button aerisButton variant="danger">Danger</button
+                ><button aerisButton variant="link">Link</button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="wrap aeris-example-row"&gt;
+  &lt;button aerisButton&gt;Primary&lt;/button
+  &gt;&lt;button aerisButton variant="secondary"&gt;Secondary&lt;/button
+  &gt;&lt;button aerisButton variant="outline"&gt;Outline&lt;/button
+  &gt;&lt;button aerisButton variant="ghost"&gt;Ghost&lt;/button
+  &gt;&lt;button aerisButton variant="danger"&gt;Danger&lt;/button
+  &gt;&lt;button aerisButton variant="link"&gt;Link&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="feature-severity"
+              title="Severity"
+              description="Each semantic tone supplies its own base, hover, active, and accessible foreground colors across filled, outline, and ghost variants."
+            >
+              <div preview class="wrap">
+                @for (severity of severities; track severity) {
+                  <button aerisButton [severity]="severity">{{ severity }}</button>
+                }
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="wrap aeris-example-row"&gt;
+  &#64;for (severity of severities; track severity) &#123;
+    &lt;button aerisButton [severity]="severity"&gt;&#123;&#123; severity &#125;&#125;&lt;/button&gt;
+  &#125;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="feature-sizes"
+              title="Sizes"
+              description="Four sizes share the active density scale."
+            >
+              <div preview class="wrap align">
+                <button aerisButton size="xs">Extra small</button
+                ><button aerisButton size="sm">Small</button><button aerisButton>Medium</button
+                ><button aerisButton size="lg">Large</button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="wrap align aeris-example-row"&gt;
+  &lt;button aerisButton size="xs"&gt;Extra small&lt;/button
+  &gt;&lt;button aerisButton size="sm"&gt;Small&lt;/button&gt;&lt;button aerisButton&gt;Medium&lt;/button
+  &gt;&lt;button aerisButton size="lg"&gt;Large&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="feature-icons"
+              title="Icons and positions"
+              description="Project icons as normal button content and control whether the icon appears before, after, or without visible text."
+            >
+              <div preview class="wrap align">
+                <button aerisButton><svg [lucideIcon]="icons.Plus"></svg>Add item</button>
+                <button aerisButton iconPosition="right">
+                  Continue<svg [lucideIcon]="icons.ChevronRight"></svg>
+                </button>
+                <button aerisButton iconOnly aria-label="Add item">
+                  <svg [lucideIcon]="icons.Plus"></svg>
+                </button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="wrap align aeris-example-row"&gt;
+  &lt;button aerisButton&gt;&lt;svg [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;Add item&lt;/button&gt;
+  &lt;button aerisButton iconPosition="right"&gt;
+    Continue&lt;svg [lucideIcon]="icons.ChevronRight"&gt;&lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;button aerisButton iconOnly aria-label="Add item"&gt;
+    &lt;svg [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="feature-loading"
+              title="Loading"
+              description="Loading exposes aria-busy and the wrapper prevents repeated activation."
+              [tsCode]="loadingTsCode"
+            >
+              <div preview class="wrap">
+                <button
+                  aerisButton
+                  variant="secondary"
+                  [loading]="loading()"
+                  [disabled]="loading()"
+                  (click)="toggleLoading()"
+                >
+                  Save asynchronously</button
+                ><aeris-button label="Processing" loading />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="wrap aeris-example-row"&gt;
+  &lt;button
+    aerisButton
+    variant="secondary"
+    [loading]="loading()"
+    [disabled]="loading()"
+    (click)="toggleLoading()"
+  &gt;
+    Save asynchronously&lt;/button
+  &gt;&lt;aeris-button label="Processing" loading /&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="feature-shape"
+              title="Raised, rounded, and fluid"
+              description="Shape and layout modifiers compose with variants and severity."
+            >
+              <div preview class="stack">
+                <div class="wrap">
+                  <button aerisButton raised>Raised</button
+                  ><button aerisButton rounded>Rounded</button
+                  ><button aerisButton rounded iconOnly aria-label="Favorite">★</button>
+                </div>
+                <button aerisButton fluid>Full width</button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="stack aeris-example-row"&gt;
+  &lt;div class="wrap"&gt;
+    &lt;button aerisButton raised&gt;Raised&lt;/button
+    &gt;&lt;button aerisButton rounded&gt;Rounded&lt;/button
+    &gt;&lt;button aerisButton rounded iconOnly aria-label="Favorite"&gt;★&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;button aerisButton fluid&gt;Full width&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="feature-badge"
+              title="Badge"
+              description="The wrapper supports compact status and count badges."
+            >
+              <div preview class="wrap">
+                <aeris-button label="Messages" badge="8" /><aeris-button
+                  label="Tasks"
+                  badge="3"
+                  badgeSeverity="success"
+                  variant="secondary"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="wrap aeris-example-row"&gt;
+  &lt;aeris-button label="Messages" badge="8" /&gt;&lt;aeris-button
+    label="Tasks"
+    badge="3"
+    badgeSeverity="success"
+    variant="secondary"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="feature-templates"
+              title="Custom templates"
+              description="Typed TemplateRef inputs customize content, idle icons, and loading indicators."
+            >
+              <div preview>
+                <ng-template #rocket let-loading="loading"
+                  ><span aria-hidden="true">{{ loading ? '…' : '↑' }}</span></ng-template
+                >
+                <aeris-button label="Deploy" [iconTemplate]="rocket" iconPosition="right" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
+  &lt;ng-template #rocket let-loading="loading"
+    &gt;&lt;span aria-hidden="true"&gt;&#123;&#123; loading ? '…' : '↑' &#125;&#125;&lt;/span&gt;&lt;/ng-template
+  &gt;
+  &lt;aeris-button label="Deploy" [iconTemplate]="rocket" iconPosition="right" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="feature-links"
+              title="Native links"
+              description="The directive also styles anchors while preserving native navigation semantics."
+            >
+              <div preview>
+                <a
+                  aerisButton
+                  variant="outline"
+                  href="https://github.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Open GitHub</a
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
+  &lt;a
+    aerisButton
+    variant="outline"
+    href="https://github.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    &gt;Open GitHub&lt;/a
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="Button features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section id="api" class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="api-directive-inputs" tabindex="-1">AerisButton inputs</h3>
+            <p>
+              Applied to <code>button[aerisButton]</code> and <code>a[aerisButton]</code>. Native
+              properties and events remain available directly.
+            </p>
+            <div
+              class="api-table"
+              role="table"
+              aria-label="AerisButton directive inputs"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of directiveInputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="api-component-inputs" tabindex="-1">AerisButtonComponent inputs</h3>
+            <div
+              class="api-table"
+              role="table"
+              aria-label="AerisButtonComponent inputs"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of componentInputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="api-emitters" tabindex="-1">Emitters</h3>
+            <div class="api-table compact" role="table" aria-label="Button emitters" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">clicked</code><span role="cell">MouseEvent</span
+                ><span role="cell">Emits when the wrapper's native button is activated.</span>
+              </div>
+              <div role="row">
+                <code role="cell">focused</code><span role="cell">FocusEvent</span
+                ><span role="cell">Emits when the internal button receives focus.</span>
+              </div>
+              <div role="row">
+                <code role="cell">blurred</code><span role="cell">FocusEvent</span
+                ><span role="cell">Emits when the internal button loses focus.</span>
+              </div>
+            </div>
+
+            <h3 id="api-templates" tabindex="-1">Templates</h3>
+            <div class="api-table compact" role="table" aria-label="Button templates" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Context</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">contentTemplate</code
+                ><span role="cell">AerisButtonContentTemplateContext</span
+                ><span role="cell">Replaces label, icon, badge, and projected content.</span>
+              </div>
+              <div role="row">
+                <code role="cell">iconTemplate</code
+                ><span role="cell">AerisButtonIconTemplateContext</span
+                ><span role="cell">Renders the idle icon.</span>
+              </div>
+              <div role="row">
+                <code role="cell">loadingIconTemplate</code
+                ><span role="cell">AerisButtonIconTemplateContext</span
+                ><span role="cell">Replaces the default loading spinner.</span>
+              </div>
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="Button API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section id="interfaces" class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section id="tokens" class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table compact" role="table" aria-label="Button design tokens" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-primary</code
+            ><span role="cell">Primary button background.</span><code role="cell">#879566</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-primary-boundary</code
+            ><span role="cell"
+              >Solid and outline button boundary, independently configurable for inverse
+              treatments.</span
+            ><code role="cell">--aeris-primary</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-primary-hover</code
+            ><span role="cell">Primary hover background, derived from the primary base.</span
+            ><code role="cell">derived</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-primary-active</code
+            ><span role="cell">Primary pressed background.</span><code role="cell">derived</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-on-primary</code
+            ><span role="cell">Contrasting foreground on the primary base.</span
+            ><code role="cell">calculated</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-on-primary-hover</code
+            ><span role="cell">Contrasting foreground on the primary hover background.</span
+            ><code role="cell">calculated</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-primary-text</code
+            ><span role="cell"
+              >Readable primary-colored text for outline, ghost, and link variants.</span
+            ><code role="cell">calculated</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-primary-soft</code
+            ><span role="cell">Low-emphasis primary background used by ghost hover states.</span
+            ><code role="cell">derived</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-on-primary-soft</code
+            ><span role="cell">Readable foreground on the primary soft background.</span
+            ><code role="cell">calculated</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-success-* / --aeris-info-* / ...</code
+            ><span role="cell"
+              >The same state roles are available for secondary, success, info, warning, danger, and
+              contrast.</span
+            ><code role="cell">derived</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-control-height</code
+            ><span role="cell">Medium control height and density anchor.</span
+            ><code role="cell">2.625rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radius-sm</code><span role="cell">Default button radius.</span
+            ><code role="cell">0.4375rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-focus</code><span role="cell">Visible focus indicator.</span
+            ><code role="cell">#536437</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section id="accessibility" class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Native buttons activate with <kbd>Enter</kbd> and <kbd>Space</kbd>; anchors preserve
+            link keyboard behavior.
+          </li>
+          <li>Icon-only buttons require <code>aria-label</code> or equivalent visible text.</li>
+          <li>
+            Loading sets <code>aria-busy="true"</code>. The wrapper disables repeated activation
+            while loading.
+          </li>
+          <li>
+            Focus indicators meet WCAG 2.2 focus appearance expectations and remain visible in dark
+            mode.
+          </li>
+          <li>Use <code>type="button"</code> for non-submit actions inside forms.</li>
+          <li>Do not communicate meaning through severity color alone.</li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Button keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell">Moves focus to the next or previous enabled button or link.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Enter</kbd><span role="cell">Activates a focused button or link.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Space</kbd
+            ><span role="cell"
+              >Activates a focused native button. Links retain native link behavior.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

@@ -1,0 +1,484 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Data"
+    title="PickList"
+    description="Transfers and reorders items across two controlled collections with filtering, drag-and-drop, templates, responsive layout, and complete keyboard alternatives."
+  />
+
+  <section class="import-section" aria-labelledby="pick-list-import-title">
+    <div>
+      <h2 id="pick-list-import-title">Import</h2>
+      <p>One import provides PickList and both optional templates.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="PickList documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="pick-list-basic"
+              title="Basic transfer and reordering"
+              description="Select one or more items, transfer them between controlled collections, or reorder either pane with the adjacent controls."
+              [tsCode]="basicTsCode"
+            >
+              <div preview class="pick-list-demo">
+                <aeris-pick-list
+                  sourceHeader="Available products"
+                  targetHeader="Workspace"
+                  sourceAriaLabel="Available products"
+                  targetAriaLabel="Workspace products"
+                  [(source)]="basicSource"
+                  [(target)]="basicTarget"
+                  [(sourceSelectedKeys)]="basicSourceSelection"
+                  [(targetSelectedKeys)]="basicTargetSelection"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="pick-list-demo"&gt;
+  &lt;aeris-pick-list
+    sourceHeader="Available products"
+    targetHeader="Workspace"
+    sourceAriaLabel="Available products"
+    targetAriaLabel="Workspace products"
+    [(source)]="basicSource"
+    [(target)]="basicTarget"
+    [(sourceSelectedKeys)]="basicSourceSelection"
+    [(targetSelectedKeys)]="basicTargetSelection"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="pick-list-filtering"
+              title="Filtering"
+              description="Each pane can filter across one or more item properties with independently controlled values and placeholders."
+              [tsCode]="filterTsCode"
+            >
+              <div preview class="pick-list-demo">
+                <aeris-pick-list
+                  showFilter
+                  filterBy="label,category,status"
+                  sourceFilterPlaceholder="Find available products"
+                  targetFilterPlaceholder="Find workspace products"
+                  [(source)]="filterSource"
+                  [(target)]="filterTarget"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="pick-list-demo"&gt;
+  &lt;aeris-pick-list
+    showFilter
+    filterBy="label,category,status"
+    sourceFilterPlaceholder="Find available products"
+    targetFilterPlaceholder="Find workspace products"
+    [(source)]="filterSource"
+    [(target)]="filterTarget"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="pick-list-drag-drop"
+              title="Drag and drop"
+              description="Drag one selected item or an existing selection between panes. Drop within the same pane to reorder. Buttons and keyboard shortcuts provide equivalent behavior."
+              [tsCode]="dragTsCode"
+            >
+              <div preview class="pick-list-demo">
+                <aeris-pick-list
+                  dragDrop
+                  transferOnDoubleClick
+                  sourceHeader="Backlog"
+                  targetHeader="Current workspace"
+                  [(source)]="dragSource"
+                  [(target)]="dragTarget"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="pick-list-demo"&gt;
+  &lt;aeris-pick-list
+    dragDrop
+    transferOnDoubleClick
+    sourceHeader="Backlog"
+    targetHeader="Current workspace"
+    [(source)]="dragSource"
+    [(target)]="dragTarget"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="pick-list-template"
+              title="Item template"
+              description="One typed template renders both panes and receives the current side, selected state, and original item."
+              [htmlCode]="templateHtmlCode"
+              [tsCode]="templateTsCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview class="pick-list-demo">
+                <aeris-pick-list
+                  showFilter
+                  filterBy="label,category"
+                  [(source)]="templateSource"
+                  [(target)]="templateTarget"
+                >
+                  <ng-template aerisPickListItem let-product let-side="side">
+                    <span class="product-row">
+                      <span class="product-row__marker" [attr.data-side]="side"></span>
+                      <span
+                        ><strong>{{ $any(product).label }}</strong
+                        ><small
+                          >{{ $any(product).category }} - {{ $any(product).status }}</small
+                        ></span
+                      >
+                    </span>
+                  </ng-template>
+                </aeris-pick-list>
+              </div>
+            </app-form-demo>
+
+            <app-form-demo
+              id="pick-list-limit"
+              title="Target limit"
+              description="Limit target capacity while keeping source transfer controls and drag-and-drop behavior synchronized."
+              [tsCode]="limitedTsCode"
+            >
+              <div preview class="pick-list-demo">
+                <aeris-pick-list
+                  [targetLimit]="4"
+                  sourceHeader="Inventory"
+                  targetHeader="Bundle (maximum 4)"
+                  [(source)]="limitedSource"
+                  [(target)]="limitedTarget"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="pick-list-demo"&gt;
+  &lt;aeris-pick-list
+    [targetLimit]="4"
+    sourceHeader="Inventory"
+    targetHeader="Bundle (maximum 4)"
+    [(source)]="limitedSource"
+    [(target)]="limitedTarget"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="pick-list-scrolling"
+              title="Scrolling"
+              description="Long collections scroll inside each pane while headers, filters, and controls remain visible."
+              [tsCode]="scrollingTsCode"
+            >
+              <div preview class="pick-list-demo">
+                <aeris-pick-list
+                  class="compact-pick-list"
+                  showFilter
+                  sourceHeader="Full inventory"
+                  targetHeader="Selected inventory"
+                  [(source)]="manySource"
+                  [(target)]="manyTarget"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="pick-list-demo"&gt;
+  &lt;aeris-pick-list
+    class="compact-pick-list"
+    showFilter
+    sourceHeader="Full inventory"
+    targetHeader="Selected inventory"
+    [(source)]="manySource"
+    [(target)]="manyTarget"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="pick-list-states"
+              title="States"
+              description="Disabled and empty states preserve listbox naming and clear status messages."
+              [tsCode]="basicTsCode"
+            >
+              <div preview class="pick-list-states">
+                <aeris-pick-list
+                  disabled
+                  sourceHeader="Disabled"
+                  targetHeader="Unavailable"
+                  [source]="basicSource()"
+                  [target]="basicTarget()"
+                />
+                <aeris-pick-list
+                  sourceHeader="Empty source"
+                  targetHeader="Empty target"
+                  [source]="[]"
+                  [target]="[]"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="pick-list-states"&gt;
+  &lt;aeris-pick-list
+    disabled
+    sourceHeader="Disabled"
+    targetHeader="Unavailable"
+    [source]="basicSource()"
+    [target]="basicTarget()"
+  /&gt;
+  &lt;aeris-pick-list
+    sourceHeader="Empty source"
+    targetHeader="Empty target"
+    [source]="[]"
+    [target]="[]"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="pick-list-events"
+              title="Events"
+              description="Typed outputs cover selection, filtering, transfer, reordering, and drag lifecycle changes."
+              [tsCode]="eventsTsCode"
+            >
+              <div preview class="pick-list-demo pick-list-demo--stack">
+                <aeris-pick-list
+                  showFilter
+                  [(source)]="eventSource"
+                  [(target)]="eventTarget"
+                  (selectionChanged)="handleSelection($event)"
+                  (transferred)="handleTransfer($event)"
+                  (reordered)="handleReorder($event)"
+                  (filterChanged)="handleFilter($event)"
+                />
+                <small aria-live="polite">{{ eventText() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="pick-list-demo pick-list-demo--stack"&gt;
+  &lt;aeris-pick-list
+    showFilter
+    [(source)]="eventSource"
+    [(target)]="eventTarget"
+    (selectionChanged)="handleSelection($event)"
+    (transferred)="handleTransfer($event)"
+    (reordered)="handleReorder($event)"
+    (filterChanged)="handleFilter($event)"
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; eventText() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="PickList features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="pick-list-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="PickList inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="pick-list-api-models" tabindex="-1">Models</h3>
+            <div class="api-table" role="table" aria-label="PickList models" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of models; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="pick-list-api-outputs" tabindex="-1">Outputs</h3>
+            <div class="api-table" role="table" aria-label="PickList outputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Payload</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of outputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="pick-list-api-templates" tabindex="-1">Templates</h3>
+            <div class="api-table" role="table" aria-label="PickList templates" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Context</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of templates; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="pick-list-api-methods" tabindex="-1">Methods</h3>
+            <div class="api-table" role="table" aria-label="PickList methods" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Returns</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of methods; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="PickList API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces"
+      ><section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" /></section
+    ></aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens"
+      ><section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="PickList design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-pick-list-gap</code
+            ><span role="cell">Space between panes and transfer controls.</span
+            ><code role="cell">0.875rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-pick-list-border</code
+            ><span role="cell">Pane border color.</span><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-pick-list-radius</code
+            ><span role="cell">Pane corner radius.</span><code role="cell">--aeris-radius-lg</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-pick-list-min-height</code
+            ><span role="cell">Minimum listbox viewport height.</span><code role="cell">16rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-pick-list-max-height</code
+            ><span role="cell">Maximum scrollable viewport height.</span
+            ><code role="cell">22rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-pick-list-item-padding</code
+            ><span role="cell">Item content padding.</span><code role="cell">0.625rem 0.75rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-pick-list-filter-height</code
+            ><span role="cell">Filter field height.</span><code role="cell">2.375rem</code>
+          </div>
+        </div>
+      </section></aeris-tab-panel
+    >
+
+    <aeris-tab-panel value="accessibility" label="Accessibility"
+      ><section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Each pane is a named multi-select listbox using active-descendant focus management.
+          </li>
+          <li>
+            Transfer and reorder controls are native buttons with descriptive accessible names.
+          </li>
+          <li>
+            Drag-and-drop is supplementary: every transfer and reorder action has a keyboard and
+            button equivalent.
+          </li>
+          <li>Transfer and reorder results are announced through a polite live region.</li>
+          <li>
+            Disabled state removes listboxes from the tab order and disables filters, buttons, and
+            dragging.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="PickList keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell"
+              >Moves through filters, reorder buttons, listboxes, and transfer buttons.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd></span
+            ><span role="cell">Moves the active option within the focused listbox.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd></span
+            ><span role="cell">Moves the active option to the first or last filtered item.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell">Toggles selection of the active option.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>A</kbd></span
+            ><span role="cell">Selects all currently filtered options.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Alt</kbd> + <kbd>ArrowRight</kbd></span
+            ><span role="cell">Transfers selected source items to the target.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Alt</kbd> + <kbd>ArrowLeft</kbd></span
+            ><span role="cell">Transfers selected target items to the source.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Alt</kbd> + <kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd></span
+            ><span role="cell">Reorders selected items by one position.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Alt</kbd> + <kbd>Home</kbd> / <kbd>End</kbd></span
+            ><span role="cell">Moves selected items to the beginning or end of their pane.</span>
+          </div>
+        </div>
+      </section></aeris-tab-panel
+    >
+  </aeris-tabs>
+</article>

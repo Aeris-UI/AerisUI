@@ -1,0 +1,91 @@
+:host {
+  display: contents;
+}
+
+.aeris-scroll-top {
+  --_size: 2.75rem;
+
+  position: fixed;
+  z-index: var(--aeris-scroll-top-z-index, 70);
+  display: grid;
+  place-items: center;
+  width: var(--_size);
+  height: var(--_size);
+  padding: 0;
+  border: 1px solid var(--aeris-scroll-top-border, var(--aeris-border, #deddd7));
+  border-radius: var(--aeris-scroll-top-radius, 999px);
+  background: var(--aeris-scroll-top-background, var(--aeris-surface, #fff));
+  color: var(--aeris-scroll-top-color, var(--aeris-text, #222222));
+  box-shadow: var(--aeris-scroll-top-shadow, 0 0.75rem 1.75rem rgb(31 35 27 / 16%));
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.aeris-scroll-top[data-strategy='absolute'] {
+  position: absolute;
+}
+
+.aeris-scroll-top[data-size='sm'] {
+  --_size: 2.25rem;
+}
+
+.aeris-scroll-top[data-size='lg'] {
+  --_size: 3.25rem;
+}
+
+.aeris-scroll-top[data-position='bottom-right'] {
+  right: var(--aeris-scroll-top-offset-inline, 1.25rem);
+  bottom: var(--aeris-scroll-top-offset-block, 1.25rem);
+}
+
+.aeris-scroll-top[data-position='bottom-left'] {
+  bottom: var(--aeris-scroll-top-offset-block, 1.25rem);
+  left: var(--aeris-scroll-top-offset-inline, 1.25rem);
+}
+
+.aeris-scroll-top[data-position='top-right'] {
+  top: var(--aeris-scroll-top-offset-block, 1.25rem);
+  right: var(--aeris-scroll-top-offset-inline, 1.25rem);
+}
+
+.aeris-scroll-top[data-position='top-left'] {
+  top: var(--aeris-scroll-top-offset-block, 1.25rem);
+  left: var(--aeris-scroll-top-offset-inline, 1.25rem);
+}
+
+.aeris-scroll-top:hover {
+  border-color: var(--aeris-scroll-top-hover-border, var(--aeris-focus, #536437));
+  background: var(--aeris-scroll-top-hover-background, var(--aeris-surface-2, #f2f0ec));
+  color: var(--aeris-scroll-top-hover-color, var(--aeris-text, #222222));
+  transform: translateY(-0.125rem);
+}
+
+.aeris-scroll-top:focus-visible {
+  outline: 0;
+  border-color: var(--aeris-scroll-top-focus, var(--aeris-focus, #536437));
+  box-shadow:
+    var(--aeris-scroll-top-shadow, 0 0.75rem 1.75rem rgb(31 35 27 / 16%)),
+    0 0 0 3px color-mix(in srgb, var(--aeris-scroll-top-focus, var(--aeris-focus, #536437)) 22%, transparent);
+}
+
+.aeris-scroll-top svg {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-scroll-top {
+    transition: none;
+  }
+}

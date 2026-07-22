@@ -1,0 +1,13 @@
+$aeris-default-palette: (
+  'surface': #e8dfe0,
+  'primary': #879566,
+  'secondary': #80939b,
+  'accent': #dab692,
+  'contrast': #8f5b34,
+);
+
+@mixin aeris-palette($palette) {
+  @each $name, $value in $palette {
+    --aeris-palette-#{$name}: #{$value};
+  }
+}

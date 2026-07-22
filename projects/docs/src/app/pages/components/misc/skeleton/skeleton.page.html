@@ -1,0 +1,438 @@
+<article class="button-docs skeleton-docs">
+  <app-component-page-header
+    category="Misc"
+    title="Skeleton"
+    description="Compose responsive loading placeholders that mirror content layout without exposing decorative shapes to assistive technology."
+  />
+
+  <section id="skeleton-import" class="import-section" aria-labelledby="skeleton-import-title">
+    <div>
+      <h2 id="skeleton-import-title">Import</h2>
+      <p>One import provides the standalone Skeleton primitive.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="Skeleton documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="skeleton-basic"
+              title="Basic"
+              description="Combine decorative placeholders and put loading semantics on their shared content container."
+              [cssCode]="basicCssCode"
+            >
+              <div preview>
+                <section
+                  class="skeleton-profile"
+                  aria-busy="true"
+                  aria-labelledby="profile-loading"
+                >
+                  <span id="profile-loading" class="skeleton-status" role="status">
+                    Loading profile
+                  </span>
+                  <aeris-skeleton shape="circle" width="3rem" />
+                  <div class="skeleton-profile__lines">
+                    <aeris-skeleton width="65%" />
+                    <aeris-skeleton width="42%" height="0.625rem" />
+                  </div>
+                </section>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;section
+    class="skeleton-profile"
+    aria-busy="true"
+    aria-labelledby="profile-loading"
+  &gt;
+    &lt;span id="profile-loading" class="skeleton-status" role="status"&gt;
+      Loading profile
+    &lt;/span&gt;
+    &lt;aeris-skeleton shape="circle" width="3rem" /&gt;
+    &lt;div class="skeleton-profile__lines"&gt;
+      &lt;aeris-skeleton width="65%" /&gt;
+      &lt;aeris-skeleton width="42%" height="0.625rem" /&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="skeleton-shapes"
+              title="Shapes"
+              description="Use text, rectangle, and circle geometry with CSS-compatible dimensions."
+              [cssCode]="shapesCssCode"
+            >
+              <div preview>
+                <div class="skeleton-shapes">
+                  <div class="skeleton-shape">
+                    <span>Text</span>
+                    <aeris-skeleton width="10rem" />
+                  </div>
+                  <div class="skeleton-shape">
+                    <span>Rectangle</span>
+                    <aeris-skeleton shape="rectangle" width="8rem" height="5rem" />
+                  </div>
+                  <div class="skeleton-shape">
+                    <span>Circle</span>
+                    <aeris-skeleton shape="circle" width="4rem" />
+                  </div>
+                  <div class="skeleton-shape">
+                    <span>Custom radius</span>
+                    <aeris-skeleton shape="rectangle" width="8rem" height="5rem" radius="1.5rem" />
+                  </div>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="skeleton-shapes"&gt;
+    &lt;div class="skeleton-shape"&gt;
+      &lt;span&gt;Text&lt;/span&gt;
+      &lt;aeris-skeleton width="10rem" /&gt;
+    &lt;/div&gt;
+    &lt;div class="skeleton-shape"&gt;
+      &lt;span&gt;Rectangle&lt;/span&gt;
+      &lt;aeris-skeleton shape="rectangle" width="8rem" height="5rem" /&gt;
+    &lt;/div&gt;
+    &lt;div class="skeleton-shape"&gt;
+      &lt;span&gt;Circle&lt;/span&gt;
+      &lt;aeris-skeleton shape="circle" width="4rem" /&gt;
+    &lt;/div&gt;
+    &lt;div class="skeleton-shape"&gt;
+      &lt;span&gt;Custom radius&lt;/span&gt;
+      &lt;aeris-skeleton shape="rectangle" width="8rem" height="5rem" radius="1.5rem" /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="skeleton-animation"
+              title="Animation"
+              description="Choose a directional wave, subtle pulse, or static placeholder."
+              [cssCode]="animationCssCode"
+            >
+              <div preview>
+                <div class="skeleton-animation-grid">
+                  <div>
+                    <span>Wave</span>
+                    <aeris-skeleton animation="wave" />
+                  </div>
+                  <div>
+                    <span>Pulse</span>
+                    <aeris-skeleton animation="pulse" />
+                  </div>
+                  <div>
+                    <span>None</span>
+                    <aeris-skeleton animation="none" />
+                  </div>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="skeleton-animation-grid"&gt;
+    &lt;div&gt;
+      &lt;span&gt;Wave&lt;/span&gt;
+      &lt;aeris-skeleton animation="wave" /&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;span&gt;Pulse&lt;/span&gt;
+      &lt;aeris-skeleton animation="pulse" /&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;span&gt;None&lt;/span&gt;
+      &lt;aeris-skeleton animation="none" /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="skeleton-card"
+              title="Card"
+              description="Mirror the final card hierarchy to minimize layout movement when content arrives."
+              [cssCode]="cardCssCode"
+            >
+              <div preview>
+                <article class="skeleton-card" aria-busy="true" aria-label="Loading article card">
+                  <aeris-skeleton shape="rectangle" height="10rem" />
+                  <div class="skeleton-card__header">
+                    <aeris-skeleton shape="circle" width="2.5rem" />
+                    <div class="skeleton-card__lines">
+                      <aeris-skeleton width="55%" />
+                      <aeris-skeleton width="35%" height="0.625rem" />
+                    </div>
+                  </div>
+                  <div class="skeleton-card__body">
+                    <aeris-skeleton />
+                    <aeris-skeleton width="92%" />
+                    <aeris-skeleton width="68%" />
+                  </div>
+                </article>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;article class="skeleton-card" aria-busy="true" aria-label="Loading article card"&gt;
+    &lt;aeris-skeleton shape="rectangle" height="10rem" /&gt;
+    &lt;div class="skeleton-card__header"&gt;
+      &lt;aeris-skeleton shape="circle" width="2.5rem" /&gt;
+      &lt;div class="skeleton-card__lines"&gt;
+        &lt;aeris-skeleton width="55%" /&gt;
+        &lt;aeris-skeleton width="35%" height="0.625rem" /&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="skeleton-card__body"&gt;
+      &lt;aeris-skeleton /&gt;
+      &lt;aeris-skeleton width="92%" /&gt;
+      &lt;aeris-skeleton width="68%" /&gt;
+    &lt;/div&gt;
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="skeleton-grid"
+              title="Grid"
+              description="Responsive grid cells retain their intended dimensions at narrow widths."
+              [cssCode]="gridCssCode"
+            >
+              <div preview>
+                <div class="skeleton-grid" aria-busy="true" aria-label="Loading project grid">
+                  @for (item of [1, 2, 3]; track item) {
+                    <div class="skeleton-grid__card">
+                      <aeris-skeleton shape="rectangle" height="7rem" />
+                      <aeris-skeleton width="72%" />
+                      <aeris-skeleton width="48%" height="0.625rem" />
+                    </div>
+                  }
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="skeleton-grid" aria-busy="true" aria-label="Loading project grid"&gt;
+    &#64;for (item of [1, 2, 3]; track item) &#123;
+      &lt;div class="skeleton-grid__card"&gt;
+        &lt;aeris-skeleton shape="rectangle" height="7rem" /&gt;
+        &lt;aeris-skeleton width="72%" /&gt;
+        &lt;aeris-skeleton width="48%" height="0.625rem" /&gt;
+      &lt;/div&gt;
+    &#125;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="skeleton-list"
+              title="List"
+              description="Repeat compact rows while keeping each placeholder contained."
+              [cssCode]="listCssCode"
+            >
+              <div preview>
+                <ul class="skeleton-list" aria-busy="true" aria-label="Loading conversations">
+                  @for (item of [1, 2, 3, 4]; track item) {
+                    <li>
+                      <aeris-skeleton shape="circle" width="2.75rem" />
+                      <div class="skeleton-list__lines">
+                        <aeris-skeleton width="45%" />
+                        <aeris-skeleton width="72%" height="0.625rem" />
+                      </div>
+                      <aeris-skeleton width="2.5rem" height="0.625rem" />
+                    </li>
+                  }
+                </ul>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;ul class="skeleton-list" aria-busy="true" aria-label="Loading conversations"&gt;
+    &#64;for (item of [1, 2, 3, 4]; track item) &#123;
+      &lt;li&gt;
+        &lt;aeris-skeleton shape="circle" width="2.75rem" /&gt;
+        &lt;div class="skeleton-list__lines"&gt;
+          &lt;aeris-skeleton width="45%" /&gt;
+          &lt;aeris-skeleton width="72%" height="0.625rem" /&gt;
+        &lt;/div&gt;
+        &lt;aeris-skeleton width="2.5rem" height="0.625rem" /&gt;
+      &lt;/li&gt;
+    &#125;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="skeleton-table"
+              title="Table"
+              description="Preserve real table semantics and contain dense layouts on mobile."
+              [cssCode]="tableCssCode"
+            >
+              <div preview>
+                <div class="skeleton-table-wrap">
+                  <table class="skeleton-table" aria-busy="true">
+                    <caption class="skeleton-status">
+                      Loading product inventory
+                    </caption>
+                    <thead>
+                      <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (item of [1, 2, 3]; track item) {
+                        <tr>
+                          <td><aeris-skeleton width="5rem" /></td>
+                          <td><aeris-skeleton width="9rem" /></td>
+                          <td><aeris-skeleton width="7rem" /></td>
+                          <td><aeris-skeleton width="3rem" /></td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="skeleton-table-wrap"&gt;
+    &lt;table class="skeleton-table" aria-busy="true"&gt;
+      &lt;caption class="skeleton-status"&gt;
+        Loading product inventory
+      &lt;/caption&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Code&lt;/th&gt;
+          &lt;th&gt;Name&lt;/th&gt;
+          &lt;th&gt;Category&lt;/th&gt;
+          &lt;th&gt;Quantity&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &#64;for (item of [1, 2, 3]; track item) &#123;
+          &lt;tr&gt;
+            &lt;td&gt;&lt;aeris-skeleton width="5rem" /&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;aeris-skeleton width="9rem" /&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;aeris-skeleton width="7rem" /&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;aeris-skeleton width="3rem" /&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+        &#125;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="skeleton-tokens"
+              title="Token customization"
+              description="Create a clearly branded loading treatment with scoped color, radius, and timing tokens."
+              [cssCode]="tokenCssCode"
+            >
+              <div preview>
+                <aeris-skeleton class="custom-skeleton" shape="rectangle" height="7rem" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-skeleton class="custom-skeleton" shape="rectangle" height="7rem" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc title="On this page" ariaLabel="Skeleton features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="skeleton-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Skeleton inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API sections" ariaLabel="Skeleton API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>Skeleton exposes narrow unions for shape and animation choices.</p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table token-table" role="table" aria-label="Skeleton tokens" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          @for (token of tokens; track token.name) {
+            <div role="row">
+              <code role="cell">{{ token.name }}</code
+              ><span role="cell">{{ token.purpose }}</span
+              ><code role="cell">{{ token.fallback }}</code>
+            </div>
+          }
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Every Skeleton is permanently hidden from assistive technology because its shape is
+            decorative.
+          </li>
+          <li>
+            Set <code>aria-busy="true"</code> on the content container being loaded, not on each
+            placeholder.
+          </li>
+          <li>
+            Provide concise loading status text when users need an announcement, then replace or
+            remove it when loading finishes.
+          </li>
+          <li>
+            Mirror the final content dimensions to reduce layout shifts without implying unavailable
+            controls are interactive.
+          </li>
+          <li>Wave and pulse animations stop when reduced motion is requested.</li>
+          <li>Width is constrained to the parent, preventing page overflow on narrow screens.</li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Skeleton keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Any key</span
+            ><span role="cell"
+              >Skeleton handles no keyboard input and never enters the tab order.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

@@ -1,0 +1,60 @@
+:host {
+  display: contents;
+}
+
+.aeris-tooltip__panel {
+  position: fixed;
+  z-index: var(--aeris-tooltip-z-index, 1060);
+  max-width: var(--aeris-tooltip-max-width, 18rem);
+  padding: var(--aeris-tooltip-padding, 0.45rem 0.625rem);
+  border-radius: var(--aeris-tooltip-radius, var(--aeris-radius-sm, 0.4375rem));
+  background: var(--aeris-tooltip-background, var(--aeris-text, #222222));
+  color: var(--aeris-tooltip-color, var(--aeris-surface, #fff));
+  box-shadow: var(
+    --aeris-tooltip-shadow,
+    0 12px 32px color-mix(in srgb, var(--aeris-text, #222222) 20%, transparent)
+  );
+  font-size: var(--aeris-tooltip-font-size, 0.75rem);
+  font-weight: 650;
+  line-height: 1.4;
+  pointer-events: none;
+  white-space: normal;
+}
+
+.aeris-tooltip__panel[data-interactive='true'] {
+  pointer-events: auto;
+}
+
+.aeris-tooltip__arrow {
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: inherit;
+  transform: rotate(45deg);
+}
+
+.aeris-tooltip__panel[data-position='top'] .aeris-tooltip__arrow {
+  bottom: -0.25rem;
+  left: calc(50% - 0.25rem);
+}
+
+.aeris-tooltip__panel[data-position='bottom'] .aeris-tooltip__arrow {
+  top: -0.25rem;
+  left: calc(50% - 0.25rem);
+}
+
+.aeris-tooltip__panel[data-position='left'] .aeris-tooltip__arrow {
+  top: calc(50% - 0.25rem);
+  right: -0.25rem;
+}
+
+.aeris-tooltip__panel[data-position='right'] .aeris-tooltip__arrow {
+  top: calc(50% - 0.25rem);
+  left: -0.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-tooltip__panel {
+    transition: none;
+  }
+}

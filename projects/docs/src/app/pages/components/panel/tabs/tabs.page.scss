@@ -1,0 +1,40 @@
+@use '../../form/shared/form-docs';
+
+.tabs-demo-panel {
+  min-height: 6rem;
+  padding: 1.25rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+.vertical-demo {
+  min-height: 12rem;
+}
+
+.tab-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.tab-count {
+  min-width: 1.25rem;
+  min-height: 1.25rem;
+  display: inline-grid;
+  place-items: center;
+  padding-inline: 0.3rem;
+  border-radius: 99px;
+  background: var(--primary-soft);
+  color: var(--primary-text);
+  font-size: 0.6875rem;
+}
+
+.variant-stack {
+  width: 100%;
+  display: grid;
+  gap: 2rem;
+}
+
+.scroll-demo {
+  width: min(100%, 25rem);
+}

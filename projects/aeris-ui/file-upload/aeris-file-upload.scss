@@ -1,0 +1,392 @@
+:host {
+  display: block;
+  color: var(--aeris-file-upload-text, var(--aeris-text, #222222));
+}
+
+.aeris-file-upload__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.aeris-file-upload__surface,
+.aeris-file-upload__basic {
+  border: 1px solid var(--aeris-file-upload-border, var(--aeris-border, #d9ddcf));
+  border-radius: var(--aeris-file-upload-radius, var(--aeris-radius-lg, 0.875rem));
+  background: var(--aeris-file-upload-background, var(--aeris-surface, #fff));
+  box-shadow: var(--aeris-file-upload-shadow, 0 1px 2px rgb(20 24 18 / 5%));
+}
+
+.aeris-file-upload__basic {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+  padding: var(--aeris-file-upload-basic-padding, 0.75rem);
+}
+
+.aeris-file-upload__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: var(--aeris-file-upload-toolbar-padding, 0.875rem);
+  border-bottom: 1px solid var(--aeris-file-upload-border, var(--aeris-border, #d9ddcf));
+}
+
+.aeris-file-upload__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.aeris-file-upload__button {
+  min-height: var(--aeris-file-upload-button-height, 2.375rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid var(--aeris-file-upload-button-border, var(--aeris-border, #d9ddcf));
+  border-radius: var(--aeris-file-upload-button-radius, var(--aeris-radius-md, 0.625rem));
+  background: var(--aeris-file-upload-button-background, var(--aeris-surface, #fff));
+  color: var(--aeris-file-upload-button-text, var(--aeris-text, #222222));
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.aeris-file-upload__button--primary {
+  border-color: transparent;
+  background: var(--aeris-file-upload-primary-background, var(--aeris-primary, #6f8f3d));
+  color: var(--aeris-file-upload-primary-text, var(--aeris-primary-contrast, #fff));
+}
+
+.aeris-file-upload__button:hover:not(:disabled) {
+  border-color: var(--aeris-file-upload-button-hover-border, var(--aeris-primary, #6f8f3d));
+  background: var(--aeris-file-upload-button-hover-background, var(--aeris-surface-2, #f6f7f2));
+}
+
+.aeris-file-upload__button--primary:hover:not(:disabled) {
+  background: var(--aeris-file-upload-primary-hover-background, var(--aeris-primary-strong, var(--aeris-primary, #6f8f3d)));
+  color: var(--aeris-file-upload-primary-text, var(--aeris-primary-contrast, #fff));
+}
+
+.aeris-file-upload__button:focus-visible,
+.aeris-file-upload__dropzone:focus-visible,
+.aeris-file-upload__remove:focus-visible {
+  outline: 2px solid var(--aeris-file-upload-focus, var(--aeris-focus, #7ca64f));
+  outline-offset: 2px;
+}
+
+.aeris-file-upload__button:disabled,
+.aeris-file-upload__dropzone:disabled,
+.aeris-file-upload__remove:disabled {
+  opacity: 0.56;
+  cursor: not-allowed;
+}
+
+.aeris-file-upload__button-icon {
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.aeris-file-upload__summary {
+  color: var(--aeris-file-upload-muted-text, var(--aeris-text-3, #6f7667));
+  font-size: 0.8125rem;
+  font-weight: 650;
+}
+
+.aeris-file-upload__dropzone {
+  width: calc(100% - 1.75rem);
+  min-height: var(--aeris-file-upload-dropzone-min-height, 10rem);
+  display: grid;
+  place-items: center;
+  gap: 0.45rem;
+  margin: 0.875rem;
+  padding: 1.5rem;
+  border: 1px dashed var(--aeris-file-upload-dropzone-border, var(--aeris-border-strong, var(--aeris-border, #d9ddcf)));
+  border-radius: var(--aeris-file-upload-dropzone-radius, var(--aeris-radius-lg, 0.875rem));
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--aeris-primary, #6f8f3d) 6%, transparent),
+      transparent
+    ),
+    var(--aeris-file-upload-dropzone-background, var(--aeris-surface-2, #f6f7f2));
+  color: inherit;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.aeris-file-upload__dropzone[data-active='true'] {
+  border-color: var(--aeris-file-upload-dropzone-active-border, var(--aeris-primary, #6f8f3d));
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--aeris-primary, #6f8f3d) 14%, transparent),
+      transparent
+    ),
+    var(--aeris-file-upload-dropzone-active-background, var(--aeris-surface, #fff));
+  transform: translateY(-1px);
+}
+
+.aeris-file-upload__dropzone[data-reject='true'] {
+  border-color: var(--aeris-danger, #c81e2a);
+}
+
+.aeris-file-upload__drop-title {
+  font-size: 0.975rem;
+  font-weight: 800;
+}
+
+.aeris-file-upload__drop-help,
+.aeris-file-upload__empty,
+.aeris-file-upload__file-size {
+  color: var(--aeris-file-upload-muted-text, var(--aeris-text-3, #6f7667));
+  font-size: 0.8125rem;
+}
+
+.aeris-file-upload__list {
+  display: grid;
+  gap: 0.625rem;
+  padding: 0 0.875rem 0.875rem;
+}
+
+.aeris-file-upload__file {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0.75rem;
+  border: 1px solid var(--aeris-file-upload-file-border, var(--aeris-border, #d9ddcf));
+  border-radius: var(--aeris-file-upload-file-radius, var(--aeris-radius-md, 0.625rem));
+  background: var(--aeris-file-upload-file-background, var(--aeris-surface, #fff));
+}
+
+.aeris-file-upload__file[data-status='uploaded'] {
+  border-color: color-mix(in srgb, var(--aeris-success, #4f8f54) 34%, var(--aeris-border, #d9ddcf));
+}
+
+.aeris-file-upload__file[data-status='error'] {
+  border-color: color-mix(in srgb, var(--aeris-danger, #c81e2a) 42%, var(--aeris-border, #d9ddcf));
+}
+
+.aeris-file-upload__preview,
+.aeris-file-upload__file-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--aeris-radius-md, 0.625rem);
+}
+
+.aeris-file-upload__preview {
+  display: block;
+  object-fit: cover;
+  background: var(--aeris-surface-2, #f6f7f2);
+}
+
+.aeris-file-upload__file-icon {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--aeris-file-upload-border, var(--aeris-border, #d9ddcf));
+  background: var(--aeris-surface-2, #f6f7f2);
+}
+
+.aeris-file-upload__file-icon::before {
+  width: 1.2rem;
+  height: 1.45rem;
+  border: 2px solid currentColor;
+  border-radius: 0.18rem;
+  color: var(--aeris-text-3, #6f7667);
+  content: '';
+}
+
+.aeris-file-upload__file-body {
+  min-width: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.aeris-file-upload__file-heading {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem 0.75rem;
+}
+
+.aeris-file-upload__file-name {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--aeris-file-upload-text, var(--aeris-text, #222222));
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aeris-file-upload__file-error {
+  margin: 0;
+  color: var(--aeris-danger-text, #a31722);
+  font-size: 0.8125rem;
+}
+
+.aeris-file-upload__progress {
+  height: 0.45rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--aeris-primary, #6f8f3d) 14%, transparent);
+}
+
+.aeris-file-upload__progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--aeris-file-upload-progress-background, var(--aeris-primary, #6f8f3d));
+  transition: width 180ms ease;
+}
+
+.aeris-file-upload__remove {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--aeris-text-3, #6f7667);
+  cursor: pointer;
+}
+
+.aeris-file-upload__remove:hover:not(:disabled) {
+  border-color: var(--aeris-file-upload-border, var(--aeris-border, #d9ddcf));
+  background: var(--aeris-surface-2, #f6f7f2);
+  color: var(--aeris-danger-text, #a31722);
+}
+
+.aeris-file-upload__remove span {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  display: block;
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
+}
+
+.aeris-file-upload__errors {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0 0.875rem 0.875rem;
+  padding: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--aeris-danger, #c81e2a) 36%, transparent);
+  border-radius: var(--aeris-radius-md, 0.625rem);
+  background: color-mix(in srgb, var(--aeris-danger, #c81e2a) 8%, transparent);
+  color: var(--aeris-danger-text, #a31722);
+  font-size: 0.8125rem;
+}
+
+.aeris-file-upload__errors p {
+  margin: 0;
+}
+
+.aeris-file-upload__empty {
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.aeris-file-upload__icon,
+.aeris-file-upload__drop-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  background: currentColor;
+  color: currentColor;
+}
+
+.aeris-file-upload__icon--choose,
+.aeris-file-upload__icon--upload {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+}
+
+.aeris-file-upload__icon--choose {
+  -webkit-mask: var(--aeris-icon-plus) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-plus) center / 100% 100% no-repeat;
+}
+
+.aeris-file-upload__icon--upload {
+  -webkit-mask: var(--aeris-icon-upload) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-upload) center / 100% 100% no-repeat;
+}
+
+.aeris-file-upload__icon--clear {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  -webkit-mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
+}
+
+.aeris-file-upload__drop-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--aeris-primary, #6f8f3d);
+  -webkit-mask: var(--aeris-icon-upload) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-upload) center / 100% 100% no-repeat;
+}
+
+@media (max-width: 40rem) {
+  .aeris-file-upload__toolbar,
+  .aeris-file-upload__actions,
+  .aeris-file-upload__basic {
+    align-items: stretch;
+  }
+
+  .aeris-file-upload__toolbar,
+  .aeris-file-upload__actions {
+    flex-direction: column;
+  }
+
+  .aeris-file-upload__button,
+  .aeris-file-upload__summary {
+    width: 100%;
+  }
+
+  .aeris-file-upload__file {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .aeris-file-upload__preview,
+  .aeris-file-upload__file-icon {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-file-upload__button,
+  .aeris-file-upload__dropzone,
+  .aeris-file-upload__progress span {
+    transition: none;
+  }
+}

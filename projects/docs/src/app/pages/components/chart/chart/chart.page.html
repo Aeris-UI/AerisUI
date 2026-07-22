@@ -1,0 +1,435 @@
+<article class="button-docs chart-docs">
+  <app-component-page-header
+    category="Chart"
+    title="Chart"
+    description="Responsive Chart.js visualizations with Aeris theme defaults, declarative data updates, plugins, and accessible summaries."
+  />
+
+  <section id="chart-import" class="import-section" aria-labelledby="chart-import-title">
+    <div>
+      <h2 id="chart-import-title">Import</h2>
+      <p>
+        Chart uses Chart.js as a required peer dependency. Install it alongside the Aeris Chart
+        module.
+      </p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Chart documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="chart-basic"
+              title="Bar chart"
+              description="Compare related values with a responsive bar chart and an accessible description."
+              [tsCode]="basicCode"
+            >
+              <div preview>
+                <aeris-chart
+                  type="bar"
+                  [data]="salesData"
+                  [options]="chartOptions"
+                  height="22rem"
+                  ariaLabel="Monthly revenue and target"
+                  ariaDescription="Revenue exceeds the monthly target from April through June."
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-chart
+    type="bar"
+    [data]="salesData"
+    [options]="chartOptions"
+    height="22rem"
+    ariaLabel="Monthly revenue and target"
+    ariaDescription="Revenue exceeds the monthly target from April through June."
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="chart-line"
+              title="Line chart"
+              description="Use a line chart to show change across an ordered sequence."
+              [tsCode]="lineCode"
+            >
+              <div preview>
+                <aeris-chart
+                  type="line"
+                  [data]="trendData"
+                  [options]="chartOptions"
+                  height="20rem"
+                  ariaLabel="Active projects over seven days"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-chart
+    type="line"
+    [data]="trendData"
+    [options]="chartOptions"
+    height="20rem"
+    ariaLabel="Active projects over seven days"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="chart-circular"
+              title="Circular charts"
+              description="Pie and doughnut variants present proportional parts of a whole."
+              [tsCode]="circularCode"
+              [cssCode]="'.chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; } @media (max-width: 44rem) { .chart-grid { grid-template-columns: 1fr; } }'"
+            >
+              <div preview class="chart-grid">
+                <aeris-chart
+                  type="pie"
+                  [data]="shareData"
+                  [options]="radialOptions"
+                  height="18rem"
+                  ariaLabel="Team allocation as pie chart"
+                />
+                <aeris-chart
+                  type="doughnut"
+                  [data]="shareData"
+                  [options]="radialOptions"
+                  height="18rem"
+                  ariaLabel="Team allocation as doughnut chart"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="chart-grid"&gt;
+  &lt;aeris-chart
+    type="pie"
+    [data]="shareData"
+    [options]="radialOptions"
+    height="18rem"
+    ariaLabel="Team allocation as pie chart"
+  /&gt;
+  &lt;aeris-chart
+    type="doughnut"
+    [data]="shareData"
+    [options]="radialOptions"
+    height="18rem"
+    ariaLabel="Team allocation as doughnut chart"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="chart-types"
+              title="More chart types"
+              description="Radar, scatter, bubble, and polar area data use the same declarative component API."
+              [tsCode]="typesCode"
+              [cssCode]="'.chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; } @media (max-width: 44rem) { .chart-grid { grid-template-columns: 1fr; } }'"
+            >
+              <div preview class="chart-grid">
+                <aeris-chart
+                  type="radar"
+                  [data]="radarData"
+                  [options]="radialOptions"
+                  height="18rem"
+                  ariaLabel="Quality metrics radar chart"
+                />
+                <aeris-chart
+                  type="polarArea"
+                  [data]="shareData"
+                  [options]="radialOptions"
+                  height="18rem"
+                  ariaLabel="Team allocation polar area chart"
+                />
+                <aeris-chart
+                  type="scatter"
+                  [data]="scatterData"
+                  [options]="scatterOptions"
+                  height="18rem"
+                  ariaLabel="Experiment reach and value scatter chart"
+                />
+                <aeris-chart
+                  type="bubble"
+                  [data]="bubbleData"
+                  [options]="scatterOptions"
+                  height="18rem"
+                  ariaLabel="Opportunity bubble chart"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="chart-grid"&gt;
+  &lt;aeris-chart
+    type="radar"
+    [data]="radarData"
+    [options]="radialOptions"
+    height="18rem"
+    ariaLabel="Quality metrics radar chart"
+  /&gt;
+  &lt;aeris-chart
+    type="polarArea"
+    [data]="shareData"
+    [options]="radialOptions"
+    height="18rem"
+    ariaLabel="Team allocation polar area chart"
+  /&gt;
+  &lt;aeris-chart
+    type="scatter"
+    [data]="scatterData"
+    [options]="scatterOptions"
+    height="18rem"
+    ariaLabel="Experiment reach and value scatter chart"
+  /&gt;
+  &lt;aeris-chart
+    type="bubble"
+    [data]="bubbleData"
+    [options]="scatterOptions"
+    height="18rem"
+    ariaLabel="Opportunity bubble chart"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="chart-dynamic"
+              title="Dynamic data"
+              description="Replace chart data immutably to update the existing renderer."
+              [tsCode]="dynamicCode"
+              [cssCode]="'.chart-actions { display: flex; gap: 0.5rem; margin-top: 0.875rem; } .chart-actions button { min-height: 2.25rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border); border-radius: var(--aeris-radius-control); background: var(--surface); color: var(--text); font: inherit; font-weight: 700; cursor: pointer; } .chart-actions button:hover { background: var(--surface-2); } .chart-actions button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }'"
+            >
+              <div preview>
+                <aeris-chart
+                  type="bar"
+                  [data]="dynamicData()"
+                  [options]="chartOptions"
+                  height="20rem"
+                  ariaLabel="Completed tasks by week"
+                />
+                <div class="chart-actions">
+                  <button aerisButton type="button" (click)="addWeek()">Add week</button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-chart
+    type="bar"
+    [data]="dynamicData()"
+    [options]="chartOptions"
+    height="20rem"
+    ariaLabel="Completed tasks by week"
+  /&gt;
+  &lt;div class="chart-actions"&gt;
+    &lt;button aerisButton type="button" (click)="addWeek()"&gt;Add week&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="chart-plugin"
+              title="Plugin"
+              description="Pass Chart.js plugins through the plugins input for chart-specific drawing behavior."
+              [tsCode]="pluginCode"
+            >
+              <div preview>
+                <aeris-chart
+                  type="doughnut"
+                  [data]="shareData"
+                  [options]="radialOptions"
+                  [plugins]="[centerLabelPlugin]"
+                  height="20rem"
+                  ariaLabel="Team allocation with total in the center"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-chart
+    type="doughnut"
+    [data]="shareData"
+    [options]="radialOptions"
+    [plugins]="[centerLabelPlugin]"
+    height="20rem"
+    ariaLabel="Team allocation with total in the center"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="chart-empty"
+              title="Empty state"
+              description="When no datasets are available, Chart shows a named status message instead of a blank canvas."
+            >
+              <div preview>
+                <aeris-chart
+                  [data]="null"
+                  height="14rem"
+                  emptyMessage="Reports will appear here when data is available."
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-chart
+    [data]="null"
+    height="14rem"
+    emptyMessage="Reports will appear here when data is available."
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc title="On this page" ariaLabel="Chart features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="chart-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Chart inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="chart-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Chart outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="chart-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Chart methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API links" ariaLabel="Chart API links" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces"
+      ><section class="doc-section">
+        <h2>Interfaces</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="chart-interfaces" class="api-section">
+              <app-code-block [code]="interfacesCode" language="TypeScript" />
+            </section>
+          </div>
+          <app-page-toc
+            title="Interface links"
+            ariaLabel="Chart interface links"
+            [links]="interfaceLinks"
+          />
+        </div></section
+    ></aeris-tab-panel>
+    <aeris-tab-panel value="tokens" label="Tokens"
+      ><section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="chart-tokens" class="api-section">
+              <div class="api-table" role="table" aria-label="Chart tokens">
+                <div role="row">
+                  <span role="columnheader">Token</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of tokens; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="Token links" ariaLabel="Chart token links" [links]="tokenLinks" />
+        </div></section
+    ></aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility"
+      ><section class="doc-section">
+        <h2>Accessibility</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="chart-a11y-semantics" class="api-section">
+              <h3>Semantics</h3>
+              <ul>
+                <li>
+                  Each rendered canvas exposes <code>role="img"</code> and uses
+                  <code>ariaLabel</code> as its accessible name.
+                </li>
+                <li>
+                  <code>ariaDescription</code> provides additional context through an associated
+                  hidden description.
+                </li>
+                <li>
+                  A concise text summary of labels and dataset values is kept available to assistive
+                  technologies.
+                </li>
+                <li>Empty charts replace the canvas with a named status message.</li>
+                <li>
+                  Charts are visualizations, not input controls. Provide equivalent controls outside
+                  the chart for any action or filtering workflow.
+                </li>
+              </ul>
+            </section>
+            <section id="chart-a11y-keyboard" class="api-section">
+              <h3>Keyboard support</h3>
+              <div class="api-table" role="table" aria-label="Chart keyboard support">
+                <div role="row">
+                  <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Tab</kbd
+                  ><span role="cell"
+                    >Moves to the next native interactive element; charts do not add a keyboard
+                    stop.</span
+                  >
+                </div>
+              </div>
+            </section>
+          </div>
+          <app-page-toc
+            title="Accessibility links"
+            ariaLabel="Chart accessibility links"
+            [links]="accessibilityLinks"
+          />
+        </div></section
+    ></aeris-tab-panel>
+  </aeris-tabs>
+</article>

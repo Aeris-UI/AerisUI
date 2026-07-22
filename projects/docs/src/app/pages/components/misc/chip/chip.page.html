@@ -1,0 +1,445 @@
+<article class="button-docs chip-docs">
+  <app-component-page-header
+    category="Misc"
+    title="Chip"
+    description="Represent compact entities with labels, images, consumer-provided icons, custom content, and accessible removal."
+  />
+
+  <section id="chip-import" class="import-section" aria-labelledby="chip-import-title">
+    <div>
+      <h2 id="chip-import-title">Import</h2>
+      <p>One import provides Chip and its projection helpers.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="Chip documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="chip-basic"
+              title="Basic"
+              description="Use short labels to represent categories, filters, or compact entities."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="chip-row">
+                  <aeris-chip label="Angular" />
+                  <aeris-chip label="Design systems" />
+                  <aeris-chip label="Accessibility" />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="chip-row"&gt;
+    &lt;aeris-chip label="Angular" /&gt;
+    &lt;aeris-chip label="Design systems" /&gt;
+    &lt;aeris-chip label="Accessibility" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="chip-icons"
+              title="Icons"
+              description="Project icons from any consumer-selected icon library and mark them with aerisChipLeading."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="chip-row">
+                  <aeris-chip label="Development" tone="primary">
+                    <svg aerisChipLeading [lucideIcon]="icons.Code2"></svg>
+                  </aeris-chip>
+                  <aeris-chip label="Design" tone="info">
+                    <svg aerisChipLeading [lucideIcon]="icons.Palette"></svg>
+                  </aeris-chip>
+                  <aeris-chip label="Photography" tone="success" removable>
+                    <svg aerisChipLeading [lucideIcon]="icons.Camera"></svg>
+                  </aeris-chip>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="chip-row"&gt;
+    &lt;aeris-chip label="Development" tone="primary"&gt;
+      &lt;svg aerisChipLeading [lucideIcon]="icons.Code2"&gt;&lt;/svg&gt;
+    &lt;/aeris-chip&gt;
+    &lt;aeris-chip label="Design" tone="info"&gt;
+      &lt;svg aerisChipLeading [lucideIcon]="icons.Palette"&gt;&lt;/svg&gt;
+    &lt;/aeris-chip&gt;
+    &lt;aeris-chip label="Photography" tone="success" removable&gt;
+      &lt;svg aerisChipLeading [lucideIcon]="icons.Camera"&gt;&lt;/svg&gt;
+    &lt;/aeris-chip&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="chip-images"
+              title="Images"
+              description="Add a leading image without consumer sizing or cropping styles."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="chip-row">
+                  <aeris-chip label="Milo" imageSrc="/puppies/puppy1.jpg" imageAlt="Milo" />
+                  <aeris-chip label="Luna" imageSrc="/puppies/puppy2.jpg" imageAlt="Luna" />
+                  <aeris-chip
+                    label="Archie"
+                    imageSrc="/puppies/puppy3.jpg"
+                    imageAlt="Archie"
+                    removable
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="chip-row"&gt;
+    &lt;aeris-chip label="Milo" imageSrc="/puppies/puppy1.jpg" imageAlt="Milo" /&gt;
+    &lt;aeris-chip label="Luna" imageSrc="/puppies/puppy2.jpg" imageAlt="Luna" /&gt;
+    &lt;aeris-chip
+      label="Archie"
+      imageSrc="/puppies/puppy3.jpg"
+      imageAlt="Archie"
+      removable
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="chip-styles"
+              title="Sizes and styles"
+              description="Match nearby density and emphasis with three sizes, two variants, semantic tones, and rounded or pill shapes."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="chip-row">
+                  <aeris-chip label="Small" size="sm" />
+                  <aeris-chip label="Medium" tone="primary" />
+                  <aeris-chip label="Large" size="lg" tone="success" />
+                  <aeris-chip label="Outline" variant="outline" tone="info" />
+                  <aeris-chip label="Rounded" shape="rounded" tone="warning" />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="chip-row"&gt;
+    &lt;aeris-chip label="Small" size="sm" /&gt;
+    &lt;aeris-chip label="Medium" tone="primary" /&gt;
+    &lt;aeris-chip label="Large" size="lg" tone="success" /&gt;
+    &lt;aeris-chip label="Outline" variant="outline" tone="info" /&gt;
+    &lt;aeris-chip label="Rounded" shape="rounded" tone="warning" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="chip-removable"
+              title="Removable"
+              description="The native remove button updates visible, emits removed, and supports Enter, Space, Delete, and Backspace."
+              [tsCode]="removableTsCode"
+              [cssCode]="removableCssCode"
+            >
+              <div preview>
+                <div class="chip-removable-demo">
+                  <aeris-chip
+                    label="Photography"
+                    removable
+                    [(visible)]="removableVisible"
+                    (removed)="recordRemoval($event)"
+                  />
+                  <button aerisButton variant="secondary" type="button" (click)="restoreChip()">
+                    Restore chip
+                  </button>
+                  <p aria-live="polite">{{ removalStatus() }}</p>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="chip-removable-demo"&gt;
+    &lt;aeris-chip
+      label="Photography"
+      removable
+      [(visible)]="removableVisible"
+      (removed)="recordRemoval($event)"
+    /&gt;
+    &lt;button aerisButton variant="secondary" type="button" (click)="restoreChip()"&gt;
+      Restore chip
+    &lt;/button&gt;
+    &lt;p aria-live="polite"&gt;&#123;&#123; removalStatus() &#125;&#125;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="chip-content"
+              title="Custom content"
+              description="Project richer content and replace the remove icon while keeping the native remove button."
+              [cssCode]="contentCssCode"
+            >
+              <div preview>
+                <aeris-chip
+                  ariaLabel="Enterprise plan"
+                  removable
+                  removeAriaLabel="Remove Enterprise plan"
+                >
+                  <span class="chip-plan">
+                    <span>
+                      <strong>Enterprise</strong>
+                      <small>Unlimited projects</small>
+                    </span>
+                  </span>
+                  <ng-template aerisChipRemoveIcon>
+                    <svg [lucideIcon]="icons.XCircle" width="14" height="14"></svg>
+                  </ng-template>
+                </aeris-chip>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-chip
+    ariaLabel="Enterprise plan"
+    removable
+    removeAriaLabel="Remove Enterprise plan"
+  &gt;
+    &lt;span class="chip-plan"&gt;
+      &lt;span&gt;
+        &lt;strong&gt;Enterprise&lt;/strong&gt;
+        &lt;small&gt;Unlimited projects&lt;/small&gt;
+      &lt;/span&gt;
+    &lt;/span&gt;
+    &lt;ng-template aerisChipRemoveIcon&gt;
+      &lt;svg [lucideIcon]="icons.XCircle" width="14" height="14"&gt;&lt;/svg&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-chip&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="chip-custom"
+              title="Token customization"
+              description="Scope tokens to one chip while preserving palette, density, focus, and removal behavior."
+              [cssCode]="customCssCode"
+            >
+              <div preview>
+                <aeris-chip
+                  class="brand-chip"
+                  label="Aeris Pro"
+                  tone="primary"
+                  variant="outline"
+                  removable
+                >
+                  <svg aerisChipLeading [lucideIcon]="icons.Palette"></svg>
+                </aeris-chip>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-chip
+    class="brand-chip"
+    label="Aeris Pro"
+    tone="primary"
+    variant="outline"
+    removable
+  &gt;
+    &lt;svg aerisChipLeading [lucideIcon]="icons.Palette"&gt;&lt;/svg&gt;
+  &lt;/aeris-chip&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Chip features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="chip-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="Chip models" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="chip-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Chip inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="chip-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Chip outputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="chip-api-content" class="api-section">
+              <h3>Content and templates</h3>
+              <div class="api-table" role="table" aria-label="Chip content" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of content; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="chip-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Chip methods" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Chip API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          Chip exposes narrow unions for visual choices and typed removal and template contexts.
+        </p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table token-table"
+          role="table"
+          aria-label="Chip design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          @for (token of tokens; track token.name) {
+            <div role="row">
+              <code role="cell">{{ token.name }}</code
+              ><span role="cell">{{ token.purpose }}</span
+              ><code role="cell">{{ token.fallback }}</code>
+            </div>
+          }
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Static chips expose their visible label and projected content without entering the tab
+            order.
+          </li>
+          <li>
+            Removable chips use a semantic native button with an accessible name derived from the
+            label or <code>removeAriaLabel</code>.
+          </li>
+          <li>
+            Consumer-provided leading icons marked with <code>aerisChipLeading</code> are
+            decorative. Meaningful custom content can use <code>ariaLabel</code> or
+            <code>ariaLabelledBy</code>.
+          </li>
+          <li>
+            Images become decorative when a label or explicit accessible name already identifies the
+            chip, preventing duplicate announcements.
+          </li>
+          <li>
+            Disabled chips expose <code>aria-disabled</code> and disable their native remove button.
+          </li>
+          <li>
+            Long labels are contained with an ellipsis and never create page-level horizontal
+            overflow.
+          </li>
+          <li>Chip includes no required animation and respects reduced-motion preferences.</li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Chip keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Tab / Shift + Tab</span
+            ><span role="cell"
+              >Moves focus to or away from the native remove button. Static chips are skipped.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Enter / Space</span
+            ><span role="cell">Activates the focused native remove button.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Delete / Backspace</span
+            ><span role="cell">Removes the chip while its remove button is focused.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

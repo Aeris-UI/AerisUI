@@ -1,0 +1,213 @@
+<div class="home-page">
+  <main>
+    <section class="home-hero" aria-labelledby="home-title">
+      <div class="home-hero__copy">
+        <div class="home-brand" aria-label="Aeris UI">
+          <span class="home-brand__mark" aria-hidden="true">
+            <aeris-logo-mark />
+          </span>
+          <span class="home-brand__name">Aeris <strong>UI</strong></span>
+        </div>
+        <p class="home-kicker">Angular 22 component library</p>
+        <h1 id="home-title">Build interfaces that stay coherent.</h1>
+        <p class="home-hero__lead">
+          Aeris UI gives Angular teams accessible behavior, thoughtful defaults, and a theme system
+          that can grow with a product without getting in its way.
+        </p>
+        <aeris-message
+          class="home-alpha-notice"
+          style="display: grid; max-width: 36rem; margin-top: 1.25rem"
+          severity="warning"
+          variant="outlined"
+          role="note"
+          ariaLive="off"
+        >
+          <strong>Alpha software.</strong> Aeris is under active development and is not production
+          ready. APIs, styles, and behavior may change before the first stable release.
+        </aeris-message>
+        <div class="home-actions">
+          <a aerisButton size="lg" routerLink="/guides/installation">
+            Try the alpha
+            <svg [lucideIcon]="icons.ChevronRight" aria-hidden="true"></svg>
+          </a>
+          <a aerisButton size="lg" variant="secondary" routerLink="/components">
+            Explore components
+          </a>
+        </div>
+        <div class="home-install" aria-label="Installation command">
+          <span>Install alpha</span>
+          <code>npm install &#64;aeris-ui/core&#64;{{ currentVersion }}</code>
+          <small>Angular 22+</small>
+        </div>
+      </div>
+
+      <div class="home-hero__preview">
+        <div class="home-preview-note" aria-hidden="true">
+          <span></span>
+          Live Aeris components
+        </div>
+        <aeris-card class="home-workspace-card" padding="none">
+          <header class="home-workspace-card__header">
+            <div>
+              <span class="home-workspace-icon" aria-hidden="true">
+                <svg [lucideIcon]="icons.Layers"></svg>
+              </span>
+              <span>
+                <strong>Create a workspace</strong>
+                <small>Set up the essentials for your team.</small>
+              </span>
+            </div>
+            <aeris-badge value="Preview" severity="success" variant="soft" />
+          </header>
+
+          <form class="home-workspace-form" (submit)="saveWorkspace($event)">
+            <label>
+              <span>Workspace name</span>
+              <input aerisInputText fluid value="Northstar" autocomplete="organization" />
+            </label>
+            <label>
+              <span>Workspace type</span>
+              <aeris-select
+                fluid
+                ariaLabel="Workspace type"
+                [options]="workspaceTypes"
+                [(value)]="workspaceType"
+              />
+            </label>
+            <div class="home-workspace-form__toggle">
+              <span>
+                <strong>Weekly summary</strong>
+                <small>A short digest of project activity.</small>
+              </span>
+              <aeris-toggle-switch
+                size="sm"
+                ariaLabel="Receive weekly project summaries"
+                [(checked)]="updatesEnabled"
+              />
+            </div>
+            <aeris-message
+              size="sm"
+              severity="success"
+              text="Workspace settings saved."
+              [(visible)]="saveVisible"
+            />
+            <footer>
+              <aeris-avatar label="AM" ariaLabel="Workspace owner, Alex Mason" size="sm" />
+              <span>Alex Mason will be the owner</span>
+              <button aerisButton type="submit" size="sm">
+                <svg [lucideIcon]="icons.Check" aria-hidden="true"></svg>
+                Create workspace
+              </button>
+            </footer>
+          </form>
+        </aeris-card>
+      </div>
+    </section>
+
+    <section class="home-proof" aria-label="Aeris UI characteristics">
+      <aeris-chip [label]="componentCount + ' components'" tone="primary" />
+      <aeris-chip label="WCAG 2.2 AA" tone="success" />
+      <aeris-chip label="Signal-first APIs" tone="info" />
+      <aeris-chip label="Light and dark themes" />
+      <aeris-chip label="RTL ready" />
+      <aeris-chip label="Tree-shakable entry points" />
+    </section>
+
+    <section class="home-section home-live-showcase" aria-labelledby="components-title">
+      <header class="home-section__heading">
+        <div>
+          <p class="home-kicker">A real interface, not a mockup</p>
+          <h2 id="components-title">See Aeris working as one coherent system.</h2>
+        </div>
+        <p>
+          Explore navigation, forms, data, feedback, progress, and overlays built with published
+          Aeris APIs. The same dashboard powers the Design Lab.
+        </p>
+      </header>
+
+      <app-aeris-application-showcase [compact]="true" />
+    </section>
+
+    <section class="home-section home-principles" aria-labelledby="principles-title">
+      <header class="home-section__heading">
+        <div>
+          <p class="home-kicker">Designed for real products</p>
+          <h2 id="principles-title">The details teams should not have to rebuild.</h2>
+        </div>
+      </header>
+      <div class="home-principles__grid">
+        <aeris-card padding="lg">
+          <span class="home-card-icon"><svg [lucideIcon]="icons.CheckCircle"></svg></span>
+          <h3>Accessibility is behavior</h3>
+          <p>
+            Semantic foundations, complete keyboard models, clear focus, and practical guidance.
+          </p>
+          <a routerLink="/guides/accessibility">Read the accessibility guide</a>
+        </aeris-card>
+        <aeris-card padding="lg">
+          <span class="home-card-icon"><svg [lucideIcon]="icons.Code"></svg></span>
+          <h3>Angular-native APIs</h3>
+          <p>
+            Standalone imports, signals, strict types, templates, and focused secondary entry
+            points.
+          </p>
+          <a routerLink="/guides/configuration">See how Aeris is configured</a>
+        </aeris-card>
+        <aeris-card padding="lg">
+          <span class="home-card-icon"><svg [lucideIcon]="icons.Pipette"></svg></span>
+          <h3>A theme that belongs to you</h3>
+          <p>Start with a palette, then tune density, corners, direction, and tokens as needed.</p>
+          <a routerLink="/guides/theming">Explore the theme system</a>
+        </aeris-card>
+        <aeris-card padding="lg">
+          <span class="home-card-icon"><svg [lucideIcon]="icons.Zap"></svg></span>
+          <h3>Responsive without surprises</h3>
+          <p>
+            Mobile layouts, flexible containers, modern browsers, RTL, and framework coexistence.
+          </p>
+          <a routerLink="/guides/framework-compatibility">Review compatibility</a>
+        </aeris-card>
+      </div>
+    </section>
+
+    <section class="home-section home-paths" aria-labelledby="paths-title">
+      <header>
+        <p class="home-kicker">Choose a path</p>
+        <h2 id="paths-title">Start with the information you need.</h2>
+        <p>
+          Follow the setup from the beginning or go directly to the component API you are using.
+        </p>
+      </header>
+      <div>
+        <aeris-card class="home-path-card" padding="lg" hoverable>
+          <span class="home-path-card__number">01</span>
+          <span class="home-card-icon"><svg [lucideIcon]="icons.Rocket"></svg></span>
+          <h3>Read the guides</h3>
+          <p>Installation, configuration, theming, accessibility, security, RTL, and more.</p>
+          <a aerisButton routerLink="/guides">Open guides</a>
+        </aeris-card>
+        <aeris-card class="home-path-card" padding="lg" hoverable>
+          <span class="home-path-card__number">02</span>
+          <span class="home-card-icon"><svg [lucideIcon]="icons.Layers"></svg></span>
+          <h3>Explore the library</h3>
+          <p>
+            See complete examples, public APIs, interfaces, design tokens, and keyboard support.
+          </p>
+          <a aerisButton routerLink="/components">Open component catalog</a>
+        </aeris-card>
+      </div>
+    </section>
+
+    <section class="home-final" aria-labelledby="home-final-title">
+      <div>
+        <aeris-badge value="Angular 22 alpha" severity="warning" variant="soft" />
+        <h2 id="home-final-title">Evaluate Aeris in a test project.</h2>
+        <p>Explore the components and theme system before the first production-ready release.</p>
+      </div>
+      <div class="home-actions">
+        <a aerisButton size="lg" routerLink="/guides/installation">Read alpha guidance</a>
+        <a aerisButton size="lg" variant="secondary" routerLink="/guides/theming">Theme Aeris</a>
+      </div>
+    </section>
+  </main>
+</div>

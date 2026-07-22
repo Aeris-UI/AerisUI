@@ -1,0 +1,574 @@
+<article class="button-docs tiered-menu-docs">
+  <app-component-page-header
+    category="Menu"
+    title="TieredMenu"
+    description="Vertical command menu with cascading submenu overlays, popup mode, templates, commands, links, and keyboard support."
+  />
+
+  <section
+    id="tiered-menu-import"
+    class="import-section"
+    aria-labelledby="tiered-menu-import-title"
+  >
+    <div>
+      <h2 id="tiered-menu-import-title">Import</h2>
+      <p>One import provides TieredMenu and its item template directive.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="TieredMenu documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="tiered-menu-basic"
+              title="Basic"
+              description="Use nested item models to show cascading submenu panels from a static menu."
+              [tsCode]="basicCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview class="tiered-menu-basic-preview">
+                <aeris-tiered-menu [model]="basicItems" ariaLabel="Workspace actions">
+                  <ng-template aerisTieredMenuItem let-item let-hasSubmenu="hasSubmenu">
+                    <span class="tiered-menu-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="tiered-menu-item__label">{{ item.label }}</span>
+                      @if (item.badge !== undefined && item.badge !== null) {
+                        <aeris-badge
+                          class="tiered-menu-item__badge"
+                          [value]="item.badge"
+                          size="sm"
+                          variant="soft"
+                        />
+                      }
+                      @if (item.shortcut) {
+                        <kbd>{{ item.shortcut }}</kbd>
+                      }
+                      @if (hasSubmenu) {
+                        <svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true">
+                          <path d="m7.5 4.5 5 5.5-5 5.5" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-tiered-menu>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tiered-menu-basic-preview"&gt;
+  &lt;aeris-tiered-menu [model]="basicItems" ariaLabel="Workspace actions"&gt;
+    &lt;ng-template aerisTieredMenuItem let-item let-hasSubmenu="hasSubmenu"&gt;
+      &lt;span class="tiered-menu-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="tiered-menu-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (item.badge !== undefined &amp;&amp; item.badge !== null) &#123;
+          &lt;aeris-badge
+            class="tiered-menu-item__badge"
+            [value]="item.badge"
+            size="sm"
+            variant="soft"
+          /&gt;
+        &#125;
+        &#64;if (item.shortcut) &#123;
+          &lt;kbd&gt;&#123;&#123; item.shortcut &#125;&#125;&lt;/kbd&gt;
+        &#125;
+        &#64;if (hasSubmenu) &#123;
+          &lt;svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true"&gt;
+            &lt;path d="m7.5 4.5 5 5.5-5 5.5" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-tiered-menu&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tiered-menu-popup"
+              title="Popup"
+              description="Popup mode anchors the root tier to a trigger and restores focus when the popup closes."
+              [tsCode]="popupCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview class="tiered-menu-actions">
+                <button aerisButton type="button" (click)="popupMenu.toggle($event)">
+                  Open actions
+                </button>
+                <aeris-tiered-menu #popupMenu popup [model]="popupItems" ariaLabel="Popup actions">
+                  <ng-template aerisTieredMenuItem let-item let-hasSubmenu="hasSubmenu">
+                    <span class="tiered-menu-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="tiered-menu-item__label">{{ item.label }}</span>
+                      @if (hasSubmenu) {
+                        <svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true">
+                          <path d="m7.5 4.5 5 5.5-5 5.5" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-tiered-menu>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tiered-menu-actions"&gt;
+  &lt;button aerisButton type="button" (click)="popupMenu.toggle($event)"&gt;
+    Open actions
+  &lt;/button&gt;
+  &lt;aeris-tiered-menu #popupMenu popup [model]="popupItems" ariaLabel="Popup actions"&gt;
+    &lt;ng-template aerisTieredMenuItem let-item let-hasSubmenu="hasSubmenu"&gt;
+      &lt;span class="tiered-menu-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="tiered-menu-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (hasSubmenu) &#123;
+          &lt;svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true"&gt;
+            &lt;path d="m7.5 4.5 5 5.5-5 5.5" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-tiered-menu&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tiered-menu-template"
+              title="Template"
+              description="Customize row content while TieredMenu keeps the menuitem semantics and submenu state."
+              [tsCode]="templateCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview class="tiered-menu-template-preview">
+                <aeris-tiered-menu [model]="templateItems" ariaLabel="Template tiered menu">
+                  <ng-template
+                    aerisTieredMenuItem
+                    let-item
+                    let-hasSubmenu="hasSubmenu"
+                    let-open="open"
+                  >
+                    <span class="tiered-menu-item" [attr.data-open]="open || null">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <strong class="tiered-menu-item__label">{{ item.label }}</strong>
+                      @if (item.badge !== undefined && item.badge !== null) {
+                        <aeris-badge
+                          class="tiered-menu-item__badge"
+                          [value]="item.badge"
+                          size="sm"
+                          variant="soft"
+                        />
+                      }
+                      @if (hasSubmenu) {
+                        <svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true">
+                          <path d="m7.5 4.5 5 5.5-5 5.5" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-tiered-menu>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tiered-menu-template-preview"&gt;
+  &lt;aeris-tiered-menu [model]="templateItems" ariaLabel="Template tiered menu"&gt;
+    &lt;ng-template
+      aerisTieredMenuItem
+      let-item
+      let-hasSubmenu="hasSubmenu"
+      let-open="open"
+    &gt;
+      &lt;span class="tiered-menu-item" [attr.data-open]="open || null"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;strong class="tiered-menu-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/strong&gt;
+        &#64;if (item.badge !== undefined &amp;&amp; item.badge !== null) &#123;
+          &lt;aeris-badge
+            class="tiered-menu-item__badge"
+            [value]="item.badge"
+            size="sm"
+            variant="soft"
+          /&gt;
+        &#125;
+        &#64;if (hasSubmenu) &#123;
+          &lt;svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true"&gt;
+            &lt;path d="m7.5 4.5 5 5.5-5 5.5" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-tiered-menu&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tiered-menu-command"
+              title="Command"
+              description="Leaf items can run commands and emit itemSelected with the item and path."
+              [tsCode]="commandCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview>
+                <aeris-tiered-menu
+                  [model]="commandItems"
+                  ariaLabel="Command tiered menu"
+                  (itemSelected)="recordAction($event)"
+                >
+                  <ng-template aerisTieredMenuItem let-item let-hasSubmenu="hasSubmenu">
+                    <span class="tiered-menu-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="tiered-menu-item__label">{{ item.label }}</span>
+                      @if (hasSubmenu) {
+                        <svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true">
+                          <path d="m7.5 4.5 5 5.5-5 5.5" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-tiered-menu>
+                <small class="tiered-menu-status" aria-live="polite">{{ commandMessage() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-tiered-menu
+    [model]="commandItems"
+    ariaLabel="Command tiered menu"
+    (itemSelected)="recordAction($event)"
+  &gt;
+    &lt;ng-template aerisTieredMenuItem let-item let-hasSubmenu="hasSubmenu"&gt;
+      &lt;span class="tiered-menu-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="tiered-menu-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (hasSubmenu) &#123;
+          &lt;svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true"&gt;
+            &lt;path d="m7.5 4.5 5 5.5-5 5.5" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-tiered-menu&gt;
+  &lt;small class="tiered-menu-status" aria-live="polite"&gt;&#123;&#123; commandMessage() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tiered-menu-router"
+              title="Router and URL"
+              description="Use routerLink with an application-owned navigation handler, or native external URLs."
+              [tsCode]="routerCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview>
+                <aeris-tiered-menu
+                  [model]="routerItems"
+                  [navigationHandler]="navigate"
+                  ariaLabel="Navigation tiered menu"
+                >
+                  <ng-template aerisTieredMenuItem let-item let-hasSubmenu="hasSubmenu">
+                    <span class="tiered-menu-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="tiered-menu-item__label">{{ item.label }}</span>
+                      @if (hasSubmenu) {
+                        <svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true">
+                          <path d="m7.5 4.5 5 5.5-5 5.5" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-tiered-menu>
+                <small class="tiered-menu-status" aria-live="polite">{{
+                  navigationMessage()
+                }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-tiered-menu
+    [model]="routerItems"
+    [navigationHandler]="navigate"
+    ariaLabel="Navigation tiered menu"
+  &gt;
+    &lt;ng-template aerisTieredMenuItem let-item let-hasSubmenu="hasSubmenu"&gt;
+      &lt;span class="tiered-menu-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="tiered-menu-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (hasSubmenu) &#123;
+          &lt;svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true"&gt;
+            &lt;path d="m7.5 4.5 5 5.5-5 5.5" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-tiered-menu&gt;
+  &lt;small class="tiered-menu-status" aria-live="polite"&gt;&#123;&#123;
+    navigationMessage()
+  &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc
+            title="On this page"
+            ariaLabel="TieredMenu features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="tiered-menu-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="TieredMenu inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="tiered-menu-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="TieredMenu outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">-</code><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="tiered-menu-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="TieredMenu templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="tiered-menu-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="TieredMenu methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Signature</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">-</code><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API links" ariaLabel="TieredMenu API links" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="tiered-menu-interfaces-code" class="api-section">
+              <h3>Types</h3>
+              <app-code-block [code]="interfacesCode" language="TypeScript" />
+            </section>
+          </div>
+          <app-page-toc
+            title="Interface links"
+            ariaLabel="TieredMenu interface links"
+            [links]="interfaceLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="tiered-menu-token-table" class="api-section">
+              <h3>TieredMenu tokens</h3>
+              <div class="api-table" role="table" aria-label="TieredMenu design tokens">
+                <div role="row">
+                  <span role="columnheader">Token</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of tokens; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc
+            title="Token links"
+            ariaLabel="TieredMenu token links"
+            [links]="tokenLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="tiered-menu-a11y-semantics" class="api-section">
+              <h3>Semantics</h3>
+              <ul>
+                <li>
+                  The root list uses <code>role="menubar"</code> with vertical orientation. Submenu
+                  lists use <code>role="menu"</code>.
+                </li>
+                <li>
+                  Enabled rows use <code>role="menuitem"</code>. Separators use
+                  <code>role="separator"</code>.
+                </li>
+                <li>
+                  Items with children expose <code>aria-haspopup</code>, <code>aria-expanded</code>,
+                  and <code>aria-controls</code>.
+                </li>
+                <li>
+                  Disabled buttons use native disabled behavior. Disabled links use
+                  <code>aria-disabled</code> and remove <code>href</code>.
+                </li>
+                <li>
+                  Use <code>ariaLabel</code> or <code>ariaLabelledBy</code> to provide a clear menu
+                  name.
+                </li>
+              </ul>
+            </section>
+
+            <section id="tiered-menu-a11y-keyboard" class="api-section">
+              <h3>Keyboard support</h3>
+              <div class="api-table" role="table" aria-label="TieredMenu keyboard support">
+                <div role="row">
+                  <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Tab</kbd
+                  ><span role="cell"
+                    >Moves focus into or out of the menu using native page tab order.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Down</kbd
+                  ><span role="cell"
+                    >Moves focus to the next enabled item in the current tier.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Up</kbd
+                  ><span role="cell"
+                    >Moves focus to the previous enabled item in the current tier.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Home</kbd
+                  ><span role="cell"
+                    >Moves focus to the first enabled item in the current tier.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">End</kbd
+                  ><span role="cell"
+                    >Moves focus to the last enabled item in the current tier.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Right</kbd
+                  ><span role="cell"
+                    >In LTR, opens a submenu and moves focus to its first item. In RTL, closes the
+                    current submenu.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Left</kbd
+                  ><span role="cell"
+                    >In LTR, closes the current submenu. In RTL, opens a submenu and moves focus to
+                    its first item.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Enter</kbd
+                  ><span role="cell">Activates the focused item or opens its submenu.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Space</kbd
+                  ><span role="cell">Activates the focused item or opens its submenu.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Escape</kbd
+                  ><span role="cell"
+                    >Closes the current submenu, or closes the popup menu when focus is on the root
+                    tier.</span
+                  >
+                </div>
+              </div>
+            </section>
+          </div>
+          <app-page-toc
+            title="Accessibility links"
+            ariaLabel="TieredMenu accessibility links"
+            [links]="accessibilityLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

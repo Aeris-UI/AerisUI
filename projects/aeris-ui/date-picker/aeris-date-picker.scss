@@ -1,0 +1,647 @@
+:host {
+  --_aeris-chevron-mask: var(
+    --aeris-icon-chevron,
+    url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E")
+  );
+
+  display: inline-block;
+  min-width: 13rem;
+  max-width: 100%;
+  color: var(--aeris-date-picker-text, var(--aeris-text, #222222));
+  font: inherit;
+}
+
+:host([data-fluid]),
+:host([data-inline]) {
+  width: 100%;
+}
+
+.aeris-date-picker {
+  --aeris-date-picker-height: var(--aeris-control-height, 2.625rem);
+  --aeris-date-picker-font-size: 0.875rem;
+  --aeris-date-picker-padding: 0.75rem;
+
+  position: relative;
+  width: 100%;
+}
+
+.aeris-date-picker[data-size='xs'] {
+  --aeris-date-picker-height: 1.875rem;
+  --aeris-date-picker-font-size: 0.75rem;
+  --aeris-date-picker-padding: 0.5625rem;
+}
+
+.aeris-date-picker[data-size='sm'] {
+  --aeris-date-picker-height: 2.25rem;
+  --aeris-date-picker-font-size: 0.8125rem;
+  --aeris-date-picker-padding: 0.6875rem;
+}
+
+.aeris-date-picker[data-size='lg'] {
+  --aeris-date-picker-height: 3rem;
+  --aeris-date-picker-font-size: 0.9375rem;
+  --aeris-date-picker-padding: 0.875rem;
+}
+
+.aeris-date-picker__control {
+  position: relative;
+}
+
+.aeris-date-picker__trigger {
+  width: 100%;
+  min-height: var(--aeris-date-picker-height);
+  display: flex;
+  align-items: center;
+  padding: 0 3rem 0 var(--aeris-date-picker-padding);
+  border: 1px solid
+    var(--aeris-date-picker-border, var(--aeris-border-strong, #c7c9c0));
+  border-radius: var(
+    --aeris-date-picker-radius,
+    var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem))
+  );
+  background: var(--aeris-date-picker-background, var(--aeris-surface, #fff));
+  color: inherit;
+  font: inherit;
+  font-size: var(--aeris-date-picker-font-size);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.aeris-date-picker__control:has(.aeris-date-picker__clear)
+  .aeris-date-picker__trigger {
+  padding-right: 4.625rem;
+}
+
+.aeris-date-picker[data-appearance='filled'] .aeris-date-picker__trigger {
+  border-color: transparent;
+  background: var(
+    --aeris-date-picker-filled-background,
+    var(--aeris-surface-2, #f2f0ec)
+  );
+}
+
+.aeris-date-picker__trigger:hover,
+.aeris-date-picker[data-open] .aeris-date-picker__trigger {
+  border-color: var(--aeris-date-picker-focus, var(--aeris-focus, #536437));
+}
+
+.aeris-date-picker__trigger:focus-visible {
+  outline: 0;
+  border-color: var(--aeris-date-picker-focus, var(--aeris-focus, #536437));
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--aeris-focus, #536437) 22%, transparent);
+}
+
+.aeris-date-picker[data-invalid] .aeris-date-picker__trigger {
+  border-color: var(--aeris-danger, #c81e2a);
+}
+
+.aeris-date-picker[data-disabled] .aeris-date-picker__trigger {
+  opacity: var(--aeris-disabled-opacity, 0.5);
+  cursor: not-allowed;
+}
+
+.aeris-date-picker__value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aeris-date-picker__placeholder {
+  color: var(--aeris-date-picker-placeholder, var(--aeris-text-2, #555555));
+}
+
+.aeris-date-picker__clear {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: 2.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--aeris-text-2, #555555);
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.aeris-date-picker__clear:hover,
+.aeris-date-picker__clear:focus-visible {
+  background: var(--aeris-surface-2, #f2f0ec);
+  color: var(--aeris-text, #222222);
+}
+
+.aeris-date-picker__clear:focus-visible {
+  outline: 2px solid var(--aeris-focus, #536437);
+  outline-offset: 1px;
+}
+
+.aeris-date-picker__clear span {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
+}
+
+.aeris-date-picker__calendar-icon {
+  position: absolute;
+  top: 50%;
+  right: var(--aeris-date-picker-padding);
+  width: 1rem;
+  height: 1rem;
+  border: 1.5px solid currentColor;
+  border-radius: 0.1875rem;
+  color: var(--aeris-text-2, #555555);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.aeris-date-picker__calendar-icon::before {
+  position: absolute;
+  inset: 0.1875rem -0.09375rem auto;
+  height: 1.5px;
+  background: currentColor;
+  content: '';
+}
+
+.aeris-date-picker__calendar-icon::after {
+  position: absolute;
+  top: -0.25rem;
+  left: 0.1875rem;
+  width: 0.5rem;
+  height: 0.25rem;
+  border-right: 1.5px solid currentColor;
+  border-left: 1.5px solid currentColor;
+  content: '';
+}
+
+.aeris-date-picker__calendar-icon span {
+  position: absolute;
+  right: 0.1875rem;
+  bottom: 0.1875rem;
+  width: 0.1875rem;
+  height: 0.1875rem;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: -0.3125rem 0 currentColor;
+}
+
+.aeris-date-picker__chevron {
+  position: absolute;
+  top: 50%;
+  right: var(--aeris-date-picker-padding);
+  width: 1rem;
+  height: 1rem;
+  color: var(--aeris-text-2, #555555);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.aeris-date-picker__chevron::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1rem;
+  height: 1rem;
+  background: currentColor;
+  content: '';
+  transform: translate(-50%, -50%);
+  -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
+  mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
+}
+
+.aeris-date-picker__dismiss {
+  position: fixed;
+  z-index: 89;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: default;
+}
+
+.aeris-date-picker__panel {
+  position: absolute;
+  z-index: 90;
+  top: calc(100% + 0.4375rem);
+  left: 0;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+  padding: 0.75rem;
+  border: 1px solid
+    var(--aeris-date-picker-panel-border, var(--aeris-border, #deddd7));
+  border-radius: var(
+    --aeris-date-picker-panel-radius,
+    var(--aeris-radius-md, 0.6875rem)
+  );
+  background: var(
+    --aeris-date-picker-panel-background,
+    var(--aeris-surface, #fff)
+  );
+  box-shadow: var(
+    --aeris-date-picker-panel-shadow,
+    0 1rem 2.5rem rgb(31 35 27 / 16%)
+  );
+  scrollbar-color: var(--aeris-border-strong, #c7c9c0) transparent;
+  scrollbar-width: thin;
+}
+
+.aeris-date-picker__panel::-webkit-scrollbar {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.aeris-date-picker__panel::-webkit-scrollbar-track,
+.aeris-date-picker__panel::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.aeris-date-picker__panel::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: var(--aeris-radius-pill, 999px);
+  background: var(--aeris-border-strong, #c7c9c0);
+  background-clip: content-box;
+}
+
+.aeris-date-picker[data-inline] .aeris-date-picker__panel {
+  position: relative;
+  z-index: auto;
+  top: auto;
+  width: 100%;
+  box-shadow: none;
+}
+
+.aeris-date-picker__header {
+  min-height: 2.25rem;
+  display: grid;
+  grid-template-columns: 2.25rem 1fr 2.25rem;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 0.625rem;
+}
+
+.aeris-date-picker__heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  color: var(--aeris-text, #222222);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.aeris-date-picker__heading button,
+.aeris-date-picker__nav,
+.aeris-date-picker__footer button,
+.aeris-date-picker__choice-grid button {
+  border: 0;
+  border-radius: 0.4375rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.aeris-date-picker__heading button {
+  padding: 0.35rem 0.4rem;
+  font-weight: 700;
+}
+
+.aeris-date-picker__heading button:hover,
+.aeris-date-picker__nav:hover:not(:disabled),
+.aeris-date-picker__footer button:hover:not(:disabled),
+.aeris-date-picker__choice-grid button:hover:not(:disabled) {
+  background: var(
+    --aeris-date-picker-hover,
+    color-mix(in srgb, var(--aeris-primary, #879566) 12%, transparent)
+  );
+}
+
+.aeris-date-picker__heading button:focus-visible,
+.aeris-date-picker__nav:focus-visible,
+.aeris-date-picker__footer button:focus-visible,
+.aeris-date-picker__choice-grid button:focus-visible {
+  outline: 2px solid var(--aeris-focus, #536437);
+  outline-offset: 1px;
+}
+
+.aeris-date-picker__nav {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.aeris-date-picker__nav:disabled,
+.aeris-date-picker__footer button:disabled,
+.aeris-date-picker__choice-grid button:disabled {
+  opacity: var(--aeris-disabled-opacity, 0.5);
+  cursor: not-allowed;
+}
+
+.aeris-date-picker__nav span {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+}
+
+.aeris-date-picker__nav span::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1rem;
+  height: 1rem;
+  background: currentColor;
+  content: '';
+  transform: translate(-50%, -50%) rotate(90deg);
+  -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
+  mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
+}
+
+.aeris-date-picker__nav--next span::before {
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+.aeris-date-picker__months {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--aeris-date-picker-month-count),
+    minmax(15rem, 1fr)
+  );
+  gap: 1rem;
+}
+
+.aeris-date-picker__month {
+  min-width: 0;
+}
+
+.aeris-date-picker__month h3 {
+  margin: 0 0 0.5rem;
+  color: var(--aeris-text, #222222);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+.aeris-date-picker__weekdays,
+.aeris-date-picker__week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(1.75rem, 1fr));
+  gap: 0.125rem;
+}
+
+.aeris-date-picker__weekdays:has(.aeris-date-picker__week-label),
+.aeris-date-picker__week:has(.aeris-date-picker__week-number) {
+  grid-template-columns: 1.5rem repeat(7, minmax(1.75rem, 1fr));
+}
+
+.aeris-date-picker__weekdays span,
+.aeris-date-picker__week-number {
+  min-height: 1.75rem;
+  display: grid;
+  place-items: center;
+  color: var(--aeris-text-2, #555555);
+  font-size: 0.6875rem;
+  font-weight: 650;
+}
+
+.aeris-date-picker__day {
+  position: relative;
+  min-width: 2rem;
+  min-height: 2rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 0.4375rem;
+  background: transparent;
+  color: var(--aeris-text, #222222);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.aeris-date-picker__day:hover:not(:disabled),
+.aeris-date-picker__day:focus-visible {
+  background: var(
+    --aeris-date-picker-hover,
+    color-mix(in srgb, var(--aeris-primary, #879566) 12%, transparent)
+  );
+}
+
+.aeris-date-picker__day:focus-visible {
+  z-index: 1;
+  outline: 2px solid var(--aeris-focus, #536437);
+  outline-offset: 0;
+}
+
+.aeris-date-picker__day[data-other-month] {
+  color: var(--aeris-text-2, #555555);
+  opacity: 0.58;
+}
+
+.aeris-date-picker__day[data-in-range] {
+  border-radius: 0;
+  background: color-mix(
+    in srgb,
+    var(--aeris-date-picker-selected-background, var(--aeris-primary, #879566))
+      16%,
+    transparent
+  );
+}
+
+.aeris-date-picker__day[data-selected],
+.aeris-date-picker__day[data-range-start],
+.aeris-date-picker__day[data-range-end] {
+  border-radius: 0.4375rem;
+  background: var(
+    --aeris-date-picker-selected-background,
+    var(--aeris-primary, #879566)
+  );
+  color: var(
+    --aeris-date-picker-selected-text,
+    var(--aeris-on-primary, #ffffff)
+  );
+  font-weight: 700;
+}
+
+.aeris-date-picker__day[data-selected]:hover:not(:disabled),
+.aeris-date-picker__day[data-selected]:focus-visible,
+.aeris-date-picker__day[data-range-start]:hover:not(:disabled),
+.aeris-date-picker__day[data-range-start]:focus-visible,
+.aeris-date-picker__day[data-range-end]:hover:not(:disabled),
+.aeris-date-picker__day[data-range-end]:focus-visible {
+  background: var(
+    --aeris-date-picker-selected-hover-background,
+    var(--aeris-primary-hover, var(--aeris-primary, #879566))
+  );
+  color: var(
+    --aeris-date-picker-selected-hover-text,
+    var(--aeris-on-primary-hover, var(--aeris-on-primary, #ffffff))
+  );
+}
+
+.aeris-date-picker__day[data-today]:not([data-selected])::after {
+  position: absolute;
+  bottom: 0.1875rem;
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 50%;
+  background: var(--aeris-primary, #879566);
+  content: '';
+}
+
+.aeris-date-picker__day:disabled {
+  opacity: var(--aeris-disabled-opacity, 0.38);
+  cursor: not-allowed;
+}
+
+.aeris-date-picker__choice-grid {
+  min-width: 15rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(4rem, 1fr));
+  gap: 0.25rem;
+}
+
+.aeris-date-picker__choice-grid button {
+  min-height: 2.75rem;
+  padding: 0.5rem;
+  font-size: 0.8125rem;
+}
+
+.aeris-date-picker__choice-grid button[data-selected] {
+  background: var(
+    --aeris-date-picker-selected-background,
+    var(--aeris-primary, #879566)
+  );
+  color: var(
+    --aeris-date-picker-selected-text,
+    var(--aeris-on-primary, #ffffff)
+  );
+  font-weight: 700;
+}
+
+.aeris-date-picker__choice-grid button[data-selected]:hover:not(:disabled),
+.aeris-date-picker__choice-grid button[data-selected]:focus-visible {
+  background: var(
+    --aeris-date-picker-selected-hover-background,
+    var(--aeris-primary-hover, var(--aeris-primary, #879566))
+  );
+  color: var(
+    --aeris-date-picker-selected-hover-text,
+    var(--aeris-on-primary-hover, var(--aeris-on-primary, #ffffff))
+  );
+}
+
+.aeris-date-picker__time {
+  min-width: 15rem;
+  display: flex;
+  align-items: end;
+  gap: 0.375rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--aeris-border, #deddd7);
+}
+
+.aeris-date-picker__time[data-time-only] {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.aeris-date-picker__time-field {
+  min-width: 0;
+  flex: 1 1 0;
+  display: grid;
+  gap: 0.3125rem;
+  color: var(--aeris-text-2, #555555);
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+.aeris-date-picker__time-field--period {
+  flex-basis: 4.25rem;
+}
+
+.aeris-date-picker__time-field input,
+.aeris-date-picker__time-field select {
+  width: 100%;
+  min-height: 2.25rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--aeris-date-picker-border, var(--aeris-border-strong, #c7c9c0));
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
+  background: var(--aeris-date-picker-background, var(--aeris-surface, #fff));
+  color: var(--aeris-text, #222222);
+  font: inherit;
+  font-size: 0.8125rem;
+}
+
+.aeris-date-picker__time-field input {
+  text-align: center;
+}
+
+.aeris-date-picker__time-field input:focus-visible,
+.aeris-date-picker__time-field select:focus-visible {
+  outline: 2px solid var(--aeris-focus, #536437);
+  outline-offset: 1px;
+  border-color: var(--aeris-date-picker-focus, var(--aeris-focus, #536437));
+}
+
+.aeris-date-picker__time-field input:disabled,
+.aeris-date-picker__time-field select:disabled {
+  opacity: var(--aeris-disabled-opacity, 0.5);
+  cursor: not-allowed;
+}
+
+.aeris-date-picker__time-separator {
+  min-height: 2.25rem;
+  display: grid;
+  place-items: center;
+  color: var(--aeris-text-2, #555555);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.aeris-date-picker__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.625rem;
+  padding-top: 0.625rem;
+  border-top: 1px solid var(--aeris-border, #deddd7);
+}
+
+.aeris-date-picker__footer button {
+  min-height: 2rem;
+  padding: 0.375rem 0.625rem;
+  color: var(--aeris-primary-text, #566137);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+@media (max-width: 50rem) {
+  .aeris-date-picker__panel {
+    width: min(100%, calc(100vw - 2rem));
+    overflow-x: auto;
+  }
+
+  .aeris-date-picker__months {
+    grid-template-columns: minmax(14rem, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-date-picker__trigger {
+    transition: none;
+  }
+}

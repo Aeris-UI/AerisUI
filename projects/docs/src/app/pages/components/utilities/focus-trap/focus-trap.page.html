@@ -1,0 +1,390 @@
+<article class="button-docs focus-trap-docs">
+  <app-component-page-header
+    category="Utilities"
+    title="FocusTrap"
+    description="Keep keyboard focus within an interactive region while preserving native focus order and control semantics."
+  />
+
+  <section id="focus-trap-import" class="import-section" aria-labelledby="focus-trap-import-title">
+    <div>
+      <h2 id="focus-trap-import-title">Import</h2>
+      <p>One import provides the standalone FocusTrap directive.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="FocusTrap documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="focus-trap-basic"
+              title="Basic"
+              description="Tab through the form to see forward and backward focus wrap at its boundaries."
+              [cssCode]="basicCssCode"
+            >
+              <div preview>
+                <div class="focus-trap-flow">
+                  <button aerisButton type="button" variant="outline">Before trapped region</button>
+                  <section class="focus-trap-card" aerisFocusTrap aria-label="Profile preferences">
+                    <label for="focus-trap-name"
+                      >Display name<input id="focus-trap-name" aerisInputText autocomplete="name"
+                    /></label>
+                    <aeris-checkbox>Send product updates</aeris-checkbox>
+                    <button aerisButton type="button">Save preferences</button>
+                  </section>
+                  <button aerisButton type="button" variant="outline">After trapped region</button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="focus-trap-flow"&gt;
+    &lt;button aerisButton type="button" variant="outline"&gt;Before trapped region&lt;/button&gt;
+    &lt;section class="focus-trap-card" aerisFocusTrap aria-label="Profile preferences"&gt;
+      &lt;label for="focus-trap-name"
+        &gt;Display name&lt;input id="focus-trap-name" aerisInputText autocomplete="name"
+      /&gt;&lt;/label&gt;
+      &lt;aeris-checkbox&gt;Send product updates&lt;/aeris-checkbox&gt;
+      &lt;button aerisButton type="button"&gt;Save preferences&lt;/button&gt;
+    &lt;/section&gt;
+    &lt;button aerisButton type="button" variant="outline"&gt;After trapped region&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="focus-trap-controlled"
+              title="Controlled"
+              description="Disable the boundary when a workflow no longer needs to contain keyboard focus."
+              [tsCode]="controlledTsCode"
+              [cssCode]="controlledCssCode"
+            >
+              <div preview>
+                <div class="controlled-trap-demo">
+                  <button aerisButton type="button" variant="secondary" (click)="toggleTrap()">
+                    {{ trapEnabled() ? 'Disable focus trap' : 'Enable focus trap' }}
+                  </button>
+                  <section
+                    class="focus-trap-card"
+                    [aerisFocusTrap]="trapEnabled()"
+                    aria-label="Controlled sign-in region"
+                  >
+                    <label for="controlled-trap-email"
+                      >Email address<input
+                        id="controlled-trap-email"
+                        aerisInputText
+                        type="email"
+                        autocomplete="email"
+                    /></label>
+                    <button aerisButton type="button">Continue</button>
+                  </section>
+                  <p class="controlled-trap-status" aria-live="polite">
+                    Focus containment is {{ trapEnabled() ? 'enabled' : 'disabled' }}.
+                  </p>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="controlled-trap-demo"&gt;
+    &lt;button aerisButton type="button" variant="secondary" (click)="toggleTrap()"&gt;
+      &#123;&#123; trapEnabled() ? 'Disable focus trap' : 'Enable focus trap' &#125;&#125;
+    &lt;/button&gt;
+    &lt;section
+      class="focus-trap-card"
+      [aerisFocusTrap]="trapEnabled()"
+      aria-label="Controlled sign-in region"
+    &gt;
+      &lt;label for="controlled-trap-email"
+        &gt;Email address&lt;input
+          id="controlled-trap-email"
+          aerisInputText
+          type="email"
+          autocomplete="email"
+      /&gt;&lt;/label&gt;
+      &lt;button aerisButton type="button"&gt;Continue&lt;/button&gt;
+    &lt;/section&gt;
+    &lt;p class="controlled-trap-status" aria-live="polite"&gt;
+      Focus containment is &#123;&#123; trapEnabled() ? 'enabled' : 'disabled' &#125;&#125;.
+    &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="focus-trap-dynamic"
+              title="Dynamic content"
+              description="Focusable descendants are discovered as content is added, removed, disabled, or hidden."
+              [tsCode]="dynamicTsCode"
+              [cssCode]="dynamicCssCode"
+            >
+              <div preview>
+                <section class="focus-trap-card" aerisFocusTrap aria-label="Team member form">
+                  <label for="dynamic-trap-name"
+                    >Name<input id="dynamic-trap-name" aerisInputText autocomplete="name"
+                  /></label>
+                  @if (secondaryFieldVisible()) {
+                    <label for="dynamic-trap-role"
+                      >Role<input
+                        id="dynamic-trap-role"
+                        aerisInputText
+                        autocomplete="organization-title"
+                    /></label>
+                  }
+                  <div class="dynamic-trap-actions">
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="secondary"
+                      (click)="toggleSecondaryField()"
+                    >
+                      {{ secondaryFieldVisible() ? 'Remove role field' : 'Add role field' }}
+                    </button>
+                    <button aerisButton type="button">Save member</button>
+                  </div>
+                </section>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;section class="focus-trap-card" aerisFocusTrap aria-label="Team member form"&gt;
+    &lt;label for="dynamic-trap-name"
+      &gt;Name&lt;input id="dynamic-trap-name" aerisInputText autocomplete="name"
+    /&gt;&lt;/label&gt;
+    &#64;if (secondaryFieldVisible()) &#123;
+      &lt;label for="dynamic-trap-role"
+        &gt;Role&lt;input
+          id="dynamic-trap-role"
+          aerisInputText
+          autocomplete="organization-title"
+      /&gt;&lt;/label&gt;
+    &#125;
+    &lt;div class="dynamic-trap-actions"&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="secondary"
+        (click)="toggleSecondaryField()"
+      &gt;
+        &#123;&#123; secondaryFieldVisible() ? 'Remove role field' : 'Add role field' &#125;&#125;
+      &lt;/button&gt;
+      &lt;button aerisButton type="button"&gt;Save member&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="focus-trap-methods"
+              title="Focus methods"
+              description="Export the directive to focus either keyboard boundary from application controls."
+              [cssCode]="methodsCssCode"
+            >
+              <div preview>
+                <div class="focus-method-demo">
+                  <div class="focus-method-actions">
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="outline"
+                      (click)="methodTrap.focusFirst()"
+                    >
+                      Focus first field
+                    </button>
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="outline"
+                      (click)="methodTrap.focusLast()"
+                    >
+                      Focus last action
+                    </button>
+                  </div>
+                  <section
+                    #methodTrap="aerisFocusTrap"
+                    class="focus-trap-card"
+                    aerisFocusTrap
+                    aria-label="Method demonstration"
+                  >
+                    <label for="method-trap-project"
+                      >Project name<input id="method-trap-project" aerisInputText
+                    /></label>
+                    <button aerisButton type="button">Create project</button>
+                  </section>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="focus-method-demo"&gt;
+    &lt;div class="focus-method-actions"&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="outline"
+        (click)="methodTrap.focusFirst()"
+      &gt;
+        Focus first field
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="outline"
+        (click)="methodTrap.focusLast()"
+      &gt;
+        Focus last action
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;section
+      #methodTrap="aerisFocusTrap"
+      class="focus-trap-card"
+      aerisFocusTrap
+      aria-label="Method demonstration"
+    &gt;
+      &lt;label for="method-trap-project"
+        &gt;Project name&lt;input id="method-trap-project" aerisInputText
+      /&gt;&lt;/label&gt;
+      &lt;button aerisButton type="button"&gt;Create project&lt;/button&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="On this page"
+            ariaLabel="FocusTrap features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="focus-trap-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="FocusTrap inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="focus-trap-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="FocusTrap methods" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API sections" ariaLabel="FocusTrap API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          FocusTrap introduces no custom interfaces. Its methods accept the browser's standard
+          <code>FocusOptions</code> object.
+        </p>
+        <app-code-block
+          code="focusFirst(options?: FocusOptions): boolean;&#10;focusLast(options?: FocusOptions): boolean;"
+          language="TypeScript"
+        />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <p>
+          FocusTrap has no visual surface and defines no design tokens. Focus indicators belong to
+          the focused native or Aeris control.
+        </p>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Use a focus trap only while users must complete or dismiss a contained interaction.
+          </li>
+          <li>Provide a visible, clearly named way to close or deactivate modal workflows.</li>
+          <li>
+            The directive preserves native DOM tab order and ignores disabled, hidden, inert, and
+            negative-tabindex descendants.
+          </li>
+          <li>
+            Focusable descendants are recalculated on each boundary check, so dynamically rendered
+            controls participate immediately.
+          </li>
+          <li>Nested traps are supported; the closest enabled trap owns the keyboard event.</li>
+          <li>
+            Focus is not moved when the directive becomes enabled. Use AutoFocus or
+            <code>focusFirst()</code> when activation requires initial focus placement.
+          </li>
+          <li>
+            The directive adds no role, accessible name, inert background, dismissal behavior, or
+            focus restoration. The owning interaction must provide those semantics.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="FocusTrap keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Tab</span
+            ><span role="cell"
+              >Moves through native tab order and wraps from the last eligible descendant to the
+              first.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Shift + Tab</span
+            ><span role="cell"
+              >Moves backward and wraps from the first eligible descendant to the last.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Escape</span
+            ><span role="cell"
+              >Not handled. The owning dialog, drawer, or workflow decides whether Escape dismisses
+              it.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Other keys</span
+            ><span role="cell">Retain the focused control's native behavior.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

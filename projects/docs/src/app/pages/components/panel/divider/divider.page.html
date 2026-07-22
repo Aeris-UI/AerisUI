@@ -1,0 +1,360 @@
+<article class="button-docs divider-docs">
+  <app-component-page-header
+    category="Panel"
+    title="Divider"
+    description="Separates related content with semantic horizontal and vertical rules, optional labels, alignment, line styles, and token-based customization."
+  />
+
+  <section id="divider-import" class="import-section" aria-labelledby="divider-import-title">
+    <div>
+      <h2 id="divider-import-title">Import</h2>
+      <p>One import provides the Divider component.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Divider documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="divider-basic"
+              title="Basic"
+              description="Use Divider as a semantic separator between related sections."
+            >
+              <div preview>
+                <p>Account details</p>
+                <aeris-divider ariaLabel="Account and notification sections" />
+                <p>Notification preferences</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;p&gt;Account details&lt;/p&gt;
+  &lt;aeris-divider ariaLabel="Account and notification sections" /&gt;
+  &lt;p&gt;Notification preferences&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="divider-content"
+              title="Content"
+              description="Project a short label when the divider communicates a transition or alternative."
+            >
+              <div preview>
+                <p>Sign in with email</p>
+                <aeris-divider ariaLabel="Alternative sign in option">or</aeris-divider>
+                <p>Use single sign-on</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;p&gt;Sign in with email&lt;/p&gt;
+  &lt;aeris-divider ariaLabel="Alternative sign in option"&gt;or&lt;/aeris-divider&gt;
+  &lt;p&gt;Use single sign-on&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="divider-alignment"
+              title="Alignment"
+              description="Place labelled content near the start, center, or end while retaining the same separator semantics."
+            >
+              <div preview>
+                <aeris-divider align="start" ariaLabel="Start aligned metadata"
+                  >Metadata</aeris-divider
+                >
+                <aeris-divider align="center" ariaLabel="Centered metadata">Metadata</aeris-divider>
+                <aeris-divider align="end" ariaLabel="End aligned metadata">Metadata</aeris-divider>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-divider align="start" ariaLabel="Start aligned metadata"
+    &gt;Metadata&lt;/aeris-divider
+  &gt;
+  &lt;aeris-divider align="center" ariaLabel="Centered metadata"&gt;Metadata&lt;/aeris-divider&gt;
+  &lt;aeris-divider align="end" ariaLabel="End aligned metadata"&gt;Metadata&lt;/aeris-divider&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="divider-vertical"
+              title="Vertical"
+              description="Use vertical orientation inside horizontal layouts where two regions need a visible boundary."
+              [cssCode]="verticalCssCode"
+            >
+              <div preview>
+                <div class="vertical-layout">
+                  <section class="vertical-panel" aria-label="Draft">
+                    <p>Draft</p>
+                  </section>
+                  <aeris-divider orientation="vertical" ariaLabel="Draft and published boundary"
+                    >to</aeris-divider
+                  >
+                  <section class="vertical-panel" aria-label="Published">
+                    <p>Published</p>
+                  </section>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="vertical-layout"&gt;
+    &lt;section class="vertical-panel" aria-label="Draft"&gt;
+      &lt;p&gt;Draft&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;aeris-divider orientation="vertical" ariaLabel="Draft and published boundary"
+      &gt;to&lt;/aeris-divider
+    &gt;
+    &lt;section class="vertical-panel" aria-label="Published"&gt;
+      &lt;p&gt;Published&lt;/p&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="divider-line-style"
+              title="Line style"
+              description="Choose solid, dashed, or dotted line styles without changing layout."
+              [cssCode]="lineStyleCssCode"
+            >
+              <div preview>
+                <div class="line-style-stack">
+                  <aeris-divider lineStyle="solid" ariaLabel="Solid separator">Solid</aeris-divider>
+                  <aeris-divider lineStyle="dashed" ariaLabel="Dashed separator"
+                    >Dashed</aeris-divider
+                  >
+                  <aeris-divider lineStyle="dotted" ariaLabel="Dotted separator"
+                    >Dotted</aeris-divider
+                  >
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="line-style-stack"&gt;
+    &lt;aeris-divider lineStyle="solid" ariaLabel="Solid separator"&gt;Solid&lt;/aeris-divider&gt;
+    &lt;aeris-divider lineStyle="dashed" ariaLabel="Dashed separator"
+      &gt;Dashed&lt;/aeris-divider
+    &gt;
+    &lt;aeris-divider lineStyle="dotted" ariaLabel="Dotted separator"
+      &gt;Dotted&lt;/aeris-divider
+    &gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="divider-decorative"
+              title="Decorative"
+              description="Hide purely visual dividers from assistive technology when surrounding structure already communicates the grouping."
+              [cssCode]="decorativeCssCode"
+            >
+              <div preview>
+                <section class="decorative-section" aria-labelledby="decorative-section-title">
+                  <h3 id="decorative-section-title">Profile</h3>
+                  <aeris-divider decorative />
+                  <p>Decorative dividers should not be announced as separators.</p>
+                </section>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;section class="decorative-section" aria-labelledby="decorative-section-title"&gt;
+    &lt;h3 id="decorative-section-title"&gt;Profile&lt;/h3&gt;
+    &lt;aeris-divider decorative /&gt;
+    &lt;p&gt;Decorative dividers should not be announced as separators.&lt;/p&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="divider-custom"
+              title="Token customization"
+              description="Customize line color, thickness, label color, and spacing with scoped design tokens."
+              [cssCode]="customCssCode"
+            >
+              <div preview>
+                <aeris-divider
+                  class="brand-divider"
+                  lineStyle="dashed"
+                  ariaLabel="Branded separator"
+                  >Release gate</aeris-divider
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-divider
+    class="brand-divider"
+    lineStyle="dashed"
+    ariaLabel="Branded separator"
+    &gt;Release gate&lt;/aeris-divider
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Divider features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="divider-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Divider inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="divider-api-content" class="api-section">
+              <h3>Content</h3>
+              <div class="api-table" role="table" aria-label="Divider content" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of content; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Divider API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          Divider exposes narrow string unions for orientation, alignment, line style, and spacing.
+        </p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table token-table"
+          role="table"
+          aria-label="Divider design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-divider-border</code
+            ><span role="cell">Separator line color.</span><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-divider-color</code
+            ><span role="cell">Base content color.</span><code role="cell">--aeris-text-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-divider-content-color</code
+            ><span role="cell">Projected content color.</span><code role="cell">currentColor</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-divider-content-font-size</code
+            ><span role="cell">Projected content font size.</span><code role="cell">0.8125rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-divider-content-font-weight</code
+            ><span role="cell">Projected content font weight.</span><code role="cell">700</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-divider-content-gap</code
+            ><span role="cell">Space between content and lines.</span
+            ><code role="cell">0.75rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-divider-content-inline-gap</code
+            ><span role="cell">Space inside projected inline content.</span
+            ><code role="cell">0.375rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-divider-line-size</code
+            ><span role="cell">Separator line thickness.</span><code role="cell">1px</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-divider-spacing</code
+            ><span role="cell">Outer spacing set by the spacing input.</span
+            ><code role="cell">1rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-divider-mobile-spacing</code
+            ><span role="cell">Horizontal spacing on narrow viewports.</span
+            ><code role="cell">spacing value</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-divider-min-block-size</code
+            ><span role="cell">Minimum vertical divider height.</span
+            ><code role="cell">2.5rem</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Divider renders <code>role="separator"</code> by default and sets
+            <code>aria-orientation</code> from the orientation input.
+          </li>
+          <li>
+            Use <code>ariaLabel</code> or <code>ariaLabelledBy</code> when the separator
+            communicates a meaningful boundary.
+          </li>
+          <li>
+            Set <code>decorative</code> for purely visual separators so they are hidden from
+            assistive technology.
+          </li>
+          <li>
+            Projected divider content should be brief and non-interactive. Use native buttons or
+            links outside the divider for actions.
+          </li>
+          <li>Divider does not animate and does not add focusable elements.</li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Divider keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Any key</span
+            ><span role="cell"
+              >Divider is non-interactive and is not included in the tab order. Keyboard behavior
+              belongs to native interactive elements around it.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

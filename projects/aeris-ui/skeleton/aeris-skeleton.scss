@@ -1,0 +1,72 @@
+:host,
+.aeris-skeleton,
+.aeris-skeleton::before {
+  box-sizing: border-box;
+}
+
+:host(.aeris-skeleton) {
+  position: relative;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--aeris-skeleton-radius, var(--aeris-radius-pill, 999px));
+  background: var(--aeris-skeleton-background, var(--aeris-surface-2, #f2f0ec));
+  color: transparent;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+:host([data-shape='rectangle']) {
+  border-radius: var(--aeris-skeleton-rectangle-radius, var(--aeris-radius-md, 0.6875rem));
+}
+
+:host([data-shape='circle']) {
+  flex: 0 0 auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+:host([data-animation='wave'])::before {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 12%,
+    var(--aeris-skeleton-highlight, color-mix(in srgb, var(--aeris-surface, #fff) 72%, transparent))
+      48%,
+    transparent 84%
+  );
+  content: '';
+  transform: translateX(-110%);
+  animation: aeris-skeleton-wave var(--aeris-skeleton-duration, 1.45s) ease-in-out infinite;
+}
+
+:host([data-animation='pulse']) {
+  animation: aeris-skeleton-pulse var(--aeris-skeleton-duration, 1.45s) ease-in-out infinite;
+}
+
+@keyframes aeris-skeleton-wave {
+  to {
+    transform: translateX(110%);
+  }
+}
+
+@keyframes aeris-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: var(--aeris-skeleton-pulse-opacity, 0.48);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host(.aeris-skeleton),
+  :host(.aeris-skeleton)::before {
+    animation: none;
+  }
+}

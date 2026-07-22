@@ -1,0 +1,78 @@
+:host {
+  display: inline-block;
+  max-width: 100%;
+  font: inherit;
+}
+
+:host([data-fluid]) {
+  width: 100%;
+}
+
+.aeris-textarea-component {
+  display: inline-grid;
+  max-width: 100%;
+  gap: 0.375rem;
+}
+
+.aeris-textarea-component[data-fluid] {
+  width: 100%;
+}
+
+.aeris-textarea-component__field {
+  position: relative;
+  display: block;
+}
+
+.aeris-textarea-component__field textarea {
+  display: block;
+}
+
+.aeris-textarea-component__field:has(.aeris-textarea-component__clear)
+  textarea {
+  padding-right: 2.75rem;
+}
+
+.aeris-textarea-component__clear {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--aeris-text-2, #555555);
+  cursor: pointer;
+}
+
+.aeris-textarea-component__clear:hover {
+  background: var(--aeris-surface-2, #f2f0ec);
+  color: var(--aeris-text, #222222);
+}
+
+.aeris-textarea-component__clear:focus-visible {
+  outline: 2px solid var(--aeris-focus, #536437);
+  outline-offset: 1px;
+}
+
+.aeris-textarea-component__clear span {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
+}
+
+.aeris-textarea-component__count {
+  justify-self: end;
+  color: var(--aeris-text-2, #555555);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.aeris-textarea-component[data-disabled] {
+  cursor: not-allowed;
+}

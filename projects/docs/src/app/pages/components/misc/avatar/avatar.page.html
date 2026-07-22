@@ -1,0 +1,506 @@
+<article class="button-docs avatar-docs">
+  <app-component-page-header
+    category="Misc"
+    title="Avatar"
+    description="Represent people and entities with images, initials, consumer-provided icons, resilient fallbacks, theme-aware tones, and responsive groups."
+  />
+
+  <section id="avatar-import" class="import-section" aria-labelledby="avatar-import-title">
+    <div>
+      <h2 id="avatar-import-title">Import</h2>
+      <p>One import provides Avatar and AvatarGroup.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="Avatar documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="avatar-basic"
+              title="Basic"
+              description="Render concise labels or project an icon from any consumer-selected icon library."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="avatar-row">
+                  <aeris-avatar label="AR" ariaLabel="Avery Reed" />
+                  <aeris-avatar label="UI" ariaLabel="Aeris UI" shape="rounded" tone="info" />
+                  <aeris-avatar ariaLabel="User account" tone="neutral">
+                    <svg [lucideIcon]="icons.UserRound"></svg>
+                  </aeris-avatar>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="avatar-row"&gt;
+    &lt;aeris-avatar label="AR" ariaLabel="Avery Reed" /&gt;
+    &lt;aeris-avatar label="UI" ariaLabel="Aeris UI" shape="rounded" tone="info" /&gt;
+    &lt;aeris-avatar ariaLabel="User account" tone="neutral"&gt;
+      &lt;svg [lucideIcon]="icons.UserRound"&gt;&lt;/svg&gt;
+    &lt;/aeris-avatar&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="avatar-images"
+              title="Images"
+              description="Use native image loading and alternative text without writing image sizing or cropping CSS."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="avatar-row">
+                  <aeris-avatar
+                    imageSrc="/puppies/puppy1.jpg"
+                    imageAlt="Golden puppy sitting outdoors"
+                    size="lg"
+                  />
+                  <aeris-avatar
+                    imageSrc="/puppies/puppy2.jpg"
+                    imageAlt="Small puppy looking toward the camera"
+                    size="lg"
+                    shape="rounded"
+                  />
+                  <aeris-avatar
+                    imageSrc="/puppies/puppy3.jpg"
+                    imageAlt="Playful puppy portrait"
+                    size="lg"
+                    shape="square"
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="avatar-row"&gt;
+    &lt;aeris-avatar
+      imageSrc="/puppies/puppy1.jpg"
+      imageAlt="Golden puppy sitting outdoors"
+      size="lg"
+    /&gt;
+    &lt;aeris-avatar
+      imageSrc="/puppies/puppy2.jpg"
+      imageAlt="Small puppy looking toward the camera"
+      size="lg"
+      shape="rounded"
+    /&gt;
+    &lt;aeris-avatar
+      imageSrc="/puppies/puppy3.jpg"
+      imageAlt="Playful puppy portrait"
+      size="lg"
+      shape="square"
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="avatar-sizes"
+              title="Sizes and shapes"
+              description="Choose a density-aware size and a circle, rounded, or square silhouette."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="avatar-row">
+                  <aeris-avatar label="SM" ariaLabel="Small avatar" size="sm" />
+                  <aeris-avatar label="MD" ariaLabel="Medium avatar" />
+                  <aeris-avatar
+                    label="LG"
+                    ariaLabel="Large rounded avatar"
+                    size="lg"
+                    shape="rounded"
+                  />
+                  <aeris-avatar
+                    label="XL"
+                    ariaLabel="Extra-large square avatar"
+                    size="xl"
+                    shape="square"
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="avatar-row"&gt;
+    &lt;aeris-avatar label="SM" ariaLabel="Small avatar" size="sm" /&gt;
+    &lt;aeris-avatar label="MD" ariaLabel="Medium avatar" /&gt;
+    &lt;aeris-avatar
+      label="LG"
+      ariaLabel="Large rounded avatar"
+      size="lg"
+      shape="rounded"
+    /&gt;
+    &lt;aeris-avatar
+      label="XL"
+      ariaLabel="Extra-large square avatar"
+      size="xl"
+      shape="square"
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="avatar-tones"
+              title="Tones"
+              description="Apply semantic, palette-aware fallback colors while images remain unchanged."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="avatar-row">
+                  <aeris-avatar label="PR" ariaLabel="Primary" />
+                  <aeris-avatar label="NE" ariaLabel="Neutral" tone="neutral" />
+                  <aeris-avatar label="SU" ariaLabel="Success" tone="success" />
+                  <aeris-avatar label="IN" ariaLabel="Information" tone="info" />
+                  <aeris-avatar label="WA" ariaLabel="Warning" tone="warning" />
+                  <aeris-avatar label="DA" ariaLabel="Danger" tone="danger" />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="avatar-row"&gt;
+    &lt;aeris-avatar label="PR" ariaLabel="Primary" /&gt;
+    &lt;aeris-avatar label="NE" ariaLabel="Neutral" tone="neutral" /&gt;
+    &lt;aeris-avatar label="SU" ariaLabel="Success" tone="success" /&gt;
+    &lt;aeris-avatar label="IN" ariaLabel="Information" tone="info" /&gt;
+    &lt;aeris-avatar label="WA" ariaLabel="Warning" tone="warning" /&gt;
+    &lt;aeris-avatar label="DA" ariaLabel="Danger" tone="danger" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="avatar-badge"
+              title="Badge"
+              description="Compose Avatar with BadgeOverlay for presence and counts while keeping the accessible state in the avatar label."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="avatar-row">
+                  <aeris-badge-overlay dot severity="success" position="bottom-right">
+                    <aeris-avatar label="AR" ariaLabel="Avery Reed, online" />
+                  </aeris-badge-overlay>
+                  <aeris-badge-overlay value="4" severity="info">
+                    <aeris-avatar
+                      imageSrc="/puppies/puppy4.jpg"
+                      ariaLabel="Four new photos from puppy club"
+                      size="lg"
+                    />
+                  </aeris-badge-overlay>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="avatar-row"&gt;
+    &lt;aeris-badge-overlay dot severity="success" position="bottom-right"&gt;
+      &lt;aeris-avatar label="AR" ariaLabel="Avery Reed, online" /&gt;
+    &lt;/aeris-badge-overlay&gt;
+    &lt;aeris-badge-overlay value="4" severity="info"&gt;
+      &lt;aeris-avatar
+        imageSrc="/puppies/puppy4.jpg"
+        ariaLabel="Four new photos from puppy club"
+        size="lg"
+      /&gt;
+    &lt;/aeris-badge-overlay&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="avatar-group"
+              title="Group"
+              description="AvatarGroup is included in the Avatar import and contains long teams within narrow layouts."
+            >
+              <div preview>
+                <aeris-avatar-group ariaLabel="Design team" overlap="default">
+                  <aeris-avatar imageSrc="/puppies/puppy5.jpg" imageAlt="Milo" />
+                  <aeris-avatar imageSrc="/puppies/puppy6.jpg" imageAlt="Luna" />
+                  <aeris-avatar imageSrc="/puppies/puppy7.jpg" imageAlt="Archie" />
+                  <aeris-avatar imageSrc="/puppies/puppy8.jpg" imageAlt="Daisy" />
+                  <aeris-avatar
+                    label="+4"
+                    ariaLabel="Four more design team members"
+                    tone="neutral"
+                  />
+                </aeris-avatar-group>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-avatar-group ariaLabel="Design team" overlap="default"&gt;
+    &lt;aeris-avatar imageSrc="/puppies/puppy5.jpg" imageAlt="Milo" /&gt;
+    &lt;aeris-avatar imageSrc="/puppies/puppy6.jpg" imageAlt="Luna" /&gt;
+    &lt;aeris-avatar imageSrc="/puppies/puppy7.jpg" imageAlt="Archie" /&gt;
+    &lt;aeris-avatar imageSrc="/puppies/puppy8.jpg" imageAlt="Daisy" /&gt;
+    &lt;aeris-avatar
+      label="+4"
+      ariaLabel="Four more design team members"
+      tone="neutral"
+    /&gt;
+  &lt;/aeris-avatar-group&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="avatar-fallback"
+              title="Image fallback"
+              description="A failed source emits imageError and immediately reveals the configured label."
+              [tsCode]="fallbackTsCode"
+              [cssCode]="fallbackCssCode"
+            >
+              <div preview>
+                <div class="avatar-fallback-demo">
+                  <aeris-avatar
+                    label="AR"
+                    imageSrc="/missing-profile-photo.jpg"
+                    imageAlt="Avery Reed"
+                    size="lg"
+                    (imageError)="imageStatus.set('The label fallback is now visible.')"
+                  />
+                  <p aria-live="polite">{{ imageStatus() }}</p>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="avatar-fallback-demo"&gt;
+    &lt;aeris-avatar
+      label="AR"
+      imageSrc="/missing-profile-photo.jpg"
+      imageAlt="Avery Reed"
+      size="lg"
+      (imageError)="imageStatus.set('The label fallback is now visible.')"
+    /&gt;
+    &lt;p aria-live="polite"&gt;&#123;&#123; imageStatus() &#125;&#125;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="avatar-custom"
+              title="Token customization"
+              description="Scope Avatar tokens to create a distinct identity without replacing component structure."
+              [cssCode]="customCssCode"
+            >
+              <div preview>
+                <aeris-avatar
+                  class="brand-avatar"
+                  label="AU"
+                  ariaLabel="Aeris UI"
+                  shape="rounded"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-avatar
+    class="brand-avatar"
+    label="AU"
+    ariaLabel="Aeris UI"
+    shape="rounded"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Avatar features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="avatar-api-inputs" class="api-section">
+              <h3>Avatar inputs</h3>
+              <div class="api-table" role="table" aria-label="Avatar inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="avatar-api-outputs" class="api-section">
+              <h3>Avatar outputs</h3>
+              <div class="api-table" role="table" aria-label="Avatar outputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="avatar-api-content" class="api-section">
+              <h3>Content</h3>
+              <div
+                class="api-table"
+                role="table"
+                aria-label="Avatar projected content"
+                tabindex="0"
+              >
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of content; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="avatar-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Avatar methods" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="avatar-api-group" class="api-section">
+              <h3>AvatarGroup inputs</h3>
+              <div class="api-table" role="table" aria-label="Avatar group inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of groupInputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Avatar API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          Avatar uses narrow unions for dimensions, shape, palette-aware tone, image behavior, and
+          group overlap.
+        </p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table token-table"
+          role="table"
+          aria-label="Avatar design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          @for (token of tokens; track token.name) {
+            <div role="row">
+              <code role="cell">{{ token.name }}</code
+              ><span role="cell">{{ token.purpose }}</span
+              ><code role="cell">{{ token.fallback }}</code>
+            </div>
+          }
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>Avatar is non-interactive and is not added to the tab order.</li>
+          <li>
+            A meaningful image uses its native <code>alt</code>. Initials and projected content use
+            an image role only when an accessible name is available.
+          </li>
+          <li>
+            Set <code>decorative</code> when adjacent visible text already identifies the person or
+            entity. The host and image are then hidden from assistive technology.
+          </li>
+          <li>
+            When <code>ariaLabel</code> or <code>ariaLabelledBy</code> names an image avatar, the
+            nested image uses an empty alt to prevent duplicate announcements.
+          </li>
+          <li>
+            AvatarGroup uses a group role and accepts an accessible name. Its horizontal overflow
+            remains contained at narrow widths.
+          </li>
+          <li>
+            Badge overlays are visual. Include meaningful presence or count information in the
+            avatar or surrounding control label.
+          </li>
+          <li>Avatar includes no required animation and respects reduced-motion preferences.</li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Avatar keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Tab / Shift + Tab</span
+            ><span role="cell"
+              >Avatar and AvatarGroup are skipped because they are non-interactive. Focus continues
+              to nearby native controls.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Enter / Space</span
+            ><span role="cell"
+              >No built-in behavior. If an avatar represents an action, place it inside a semantic
+              button or link.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Arrow keys</span
+            ><span role="cell"
+              >No built-in behavior. Group members are informational rather than a composite
+              widget.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

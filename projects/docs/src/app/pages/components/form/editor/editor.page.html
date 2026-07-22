@@ -1,0 +1,726 @@
+<article class="button-docs">
+  <app-component-page-header category="Form" title="Editor">
+    <span componentPageDescription>
+      Rich text editing with an Aeris wrapper around
+      <a
+        class="editor-description-link"
+        href="https://lexical.dev/"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Lexical</a
+      >, HTML value binding, accessible toolbar controls, Angular Forms integration, and an
+      extension API for framework-neutral Lexical packages and custom nodes.
+    </span>
+  </app-component-page-header>
+
+  <section class="import-section" aria-labelledby="editor-import-title">
+    <div>
+      <h2 id="editor-import-title">Import</h2>
+      <p>
+        Editor is a separate entry point.
+        <a href="https://lexical.dev/" target="_blank" rel="noopener noreferrer">Lexical</a> is an
+        optional peer dependency for Aeris UI and is only required when your app imports
+        <code>&#64;aeris-ui/core/editor</code>. Aeris includes common rich-text behavior and lets
+        applications register additional Lexical nodes and feature packages through
+        <code>extensions</code>. Install only the additional Lexical packages your editor uses;
+        links, tables, code blocks, Markdown, mentions, media, and collaboration remain opt-in
+        rather than increasing every Aeris application bundle. Package-specific interfaces can use
+        the <code>ready</code> output or <code>getLexicalEditor()</code> to dispatch commands and
+        build application-specific controls.
+      </p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Editor documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>
+          The editor stores HTML. Validate, sanitize, and authorize rich text on the server before
+          showing user-generated content in trusted application surfaces.
+        </p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="editor-basic"
+              title="Basic"
+              description="Bind the HTML value with a signal model and connect the editor to a visible label."
+              [tsCode]="modelCode"
+            >
+              <div preview class="field editor-field">
+                <label for="product-notes">Product notes</label>
+                <aeris-editor
+                  inputId="product-notes"
+                  [(value)]="content"
+                  placeholder="Write product notes..."
+                  fluid
+                />
+                <small>HTML length: {{ content().length }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field editor-field"&gt;
+  &lt;label for="product-notes"&gt;Product notes&lt;/label&gt;
+  &lt;aeris-editor
+    inputId="product-notes"
+    [(value)]="content"
+    placeholder="Write product notes..."
+    fluid
+  /&gt;
+  &lt;small&gt;HTML length: &#123;&#123; content().length &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="editor-toolbar"
+              title="Toolbar formats"
+              description="The default toolbar includes undo, redo, inline formatting, headings, quotes, and list actions."
+            >
+              <div preview class="field editor-field">
+                <label for="release-notes">Release notes</label>
+                <aeris-editor
+                  inputId="release-notes"
+                  value="&lt;h2&gt;Version notes&lt;/h2&gt;&lt;p&gt;Use the toolbar to format text.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Fast setup&lt;/li&gt;&lt;li&gt;Accessible controls&lt;/li&gt;&lt;/ul&gt;"
+                  minHeight="14rem"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field editor-field"&gt;
+  &lt;label for="release-notes"&gt;Release notes&lt;/label&gt;
+  &lt;aeris-editor
+    inputId="release-notes"
+    value="&amp;lt;h2&amp;gt;Version notes&amp;lt;/h2&amp;gt;&amp;lt;p&amp;gt;Use the toolbar to format text.&amp;lt;/p&amp;gt;&amp;lt;ul&amp;gt;&amp;lt;li&amp;gt;Fast setup&amp;lt;/li&amp;gt;&amp;lt;li&amp;gt;Accessible controls&amp;lt;/li&amp;gt;&amp;lt;/ul&amp;gt;"
+    minHeight="14rem"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="editor-comprehensive"
+              title="Complete toolbar"
+              description="Enable every built-in Aeris editor action, including text transforms, six heading levels, checklists, logical and physical alignment, indentation, and clear formatting."
+              [tsCode]="comprehensiveCode"
+            >
+              <div preview class="field editor-field editor-comprehensive">
+                <label for="comprehensive-editor">Product brief</label>
+                <aeris-editor
+                  inputId="comprehensive-editor"
+                  [(value)]="comprehensiveContent"
+                  [formats]="allFormats"
+                  minHeight="20rem"
+                  fluid
+                />
+              </div>
+              <pre
+                code
+              ><code ngNonBindable>&lt;div class="field editor-field editor-comprehensive"&gt;
+  &lt;label for="comprehensive-editor"&gt;Product brief&lt;/label&gt;
+  &lt;aeris-editor
+    inputId="comprehensive-editor"
+    [(value)]="comprehensiveContent"
+    [formats]="allFormats"
+    minHeight="20rem"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <section
+              id="editor-actions"
+              class="editor-actions"
+              aria-labelledby="editor-actions-title"
+              tabindex="-1"
+            >
+              <h3 id="editor-actions-title">Available toolbar actions</h3>
+              <p>
+                Pass any combination of these identifiers to <code>formats</code>. The exported
+                <code>AERIS_EDITOR_ALL_FORMATS</code> constant contains every row except the legacy
+                <code>heading</code> alias, which remains available for backward compatibility.
+              </p>
+              <div
+                class="api-table compact editor-actions__table"
+                role="table"
+                aria-label="Available editor toolbar actions"
+                tabindex="0"
+              >
+                <div class="api-head" role="row">
+                  <b role="columnheader">Group</b>
+                  <b role="columnheader">Format</b>
+                  <b role="columnheader">Toolbar action</b>
+                </div>
+                @for (item of toolbarActions; track item.format) {
+                  <div role="row">
+                    <span role="cell">{{ item.group }}</span>
+                    <code role="cell">{{ item.format }}</code>
+                    <span role="cell">{{ item.action }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <app-form-demo
+              id="editor-extensions"
+              title="Lexical extensions"
+              description="Register custom nodes and Lexical behavior during editor creation. This example listens to immutable editor-state updates and derives a live word count."
+              [tsCode]="extensionCode"
+            >
+              <div preview class="field editor-field">
+                <label for="extension-editor">Article draft</label>
+                <aeris-editor
+                  inputId="extension-editor"
+                  [(value)]="extensionContent"
+                  [extensions]="wordCountExtension"
+                  fluid
+                />
+                <small aria-live="polite">{{ extensionWordCount() }} words</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field editor-field"&gt;
+  &lt;label for="extension-editor"&gt;Article draft&lt;/label&gt;
+  &lt;aeris-editor
+    inputId="extension-editor"
+    [(value)]="extensionContent"
+    [extensions]="wordCountExtension"
+    fluid
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; extensionWordCount() &#125;&#125; words&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="editor-custom-toolbar"
+              title="Custom toolbar"
+              description="Limit the toolbar to the actions that make sense for a specific field."
+              [tsCode]="toolbarCode"
+            >
+              <div preview class="field editor-field">
+                <label for="short-summary">Short summary</label>
+                <aeris-editor
+                  inputId="short-summary"
+                  [(value)]="compactContent"
+                  [formats]="inlineFormats"
+                  minHeight="8rem"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field editor-field"&gt;
+  &lt;label for="short-summary"&gt;Short summary&lt;/label&gt;
+  &lt;aeris-editor
+    inputId="short-summary"
+    [(value)]="compactContent"
+    [formats]="inlineFormats"
+    minHeight="8rem"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="editor-states"
+              title="Appearances and states"
+              description="Filled, disabled, read-only, and toolbar-free states keep the same value and accessibility model."
+            >
+              <div preview class="field-grid editor-state-grid">
+                <div class="field">
+                  <span>Filled</span>
+                  <aeris-editor
+                    ariaLabel="Filled editor"
+                    value="&lt;p&gt;Filled editor surface.&lt;/p&gt;"
+                    appearance="filled"
+                    minHeight="7rem"
+                    fluid
+                  />
+                </div>
+                <div class="field">
+                  <span>Read-only</span>
+                  <aeris-editor
+                    ariaLabel="Read-only editor"
+                    value="&lt;p&gt;Read-only rich text.&lt;/p&gt;"
+                    readonly
+                    minHeight="7rem"
+                    fluid
+                  />
+                </div>
+                <div class="field">
+                  <span>Disabled</span>
+                  <aeris-editor
+                    ariaLabel="Disabled editor"
+                    value="&lt;p&gt;Disabled content.&lt;/p&gt;"
+                    disabled
+                    minHeight="7rem"
+                    fluid
+                  />
+                </div>
+                <div class="field">
+                  <span>Without toolbar</span>
+                  <aeris-editor
+                    ariaLabel="Plain rich text editor"
+                    value="&lt;p&gt;Toolbar hidden.&lt;/p&gt;"
+                    [showToolbar]="false"
+                    minHeight="7rem"
+                    fluid
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid editor-state-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Filled&lt;/span&gt;
+    &lt;aeris-editor
+      ariaLabel="Filled editor"
+      value="&amp;lt;p&amp;gt;Filled editor surface.&amp;lt;/p&amp;gt;"
+      appearance="filled"
+      minHeight="7rem"
+      fluid
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Read-only&lt;/span&gt;
+    &lt;aeris-editor
+      ariaLabel="Read-only editor"
+      value="&amp;lt;p&amp;gt;Read-only rich text.&amp;lt;/p&amp;gt;"
+      readonly
+      minHeight="7rem"
+      fluid
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Disabled&lt;/span&gt;
+    &lt;aeris-editor
+      ariaLabel="Disabled editor"
+      value="&amp;lt;p&amp;gt;Disabled content.&amp;lt;/p&amp;gt;"
+      disabled
+      minHeight="7rem"
+      fluid
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Without toolbar&lt;/span&gt;
+    &lt;aeris-editor
+      ariaLabel="Plain rich text editor"
+      value="&amp;lt;p&amp;gt;Toolbar hidden.&amp;lt;/p&amp;gt;"
+      [showToolbar]="false"
+      minHeight="7rem"
+      fluid
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="editor-validation"
+              title="Validation"
+              description="Application validation controls invalid state and help text; the editor synchronizes required and aria-invalid semantics."
+              [tsCode]="validationCode"
+            >
+              <div preview class="field editor-field">
+                <label for="validated-editor">Article body</label>
+                <aeris-editor
+                  inputId="validated-editor"
+                  [(value)]="validationContent"
+                  required
+                  [invalid]="validationInvalid()"
+                  ariaDescribedby="validated-editor-message"
+                  (blurred)="validationTouched.set(true)"
+                  fluid
+                />
+                @if (validationInvalid()) {
+                  <small id="validated-editor-message" class="error state-message"
+                    >Article body is required.</small
+                  >
+                } @else {
+                  <small id="validated-editor-message" class="state-message"
+                    >Use clear headings and concise paragraphs.</small
+                  >
+                }
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field editor-field"&gt;
+  &lt;label for="validated-editor"&gt;Article body&lt;/label&gt;
+  &lt;aeris-editor
+    inputId="validated-editor"
+    [(value)]="validationContent"
+    required
+    [invalid]="validationInvalid()"
+    ariaDescribedby="validated-editor-message"
+    (blurred)="validationTouched.set(true)"
+    fluid
+  /&gt;
+  &#64;if (validationInvalid()) &#123;
+    &lt;small id="validated-editor-message" class="error state-message"
+      &gt;Article body is required.&lt;/small
+    &gt;
+  &#125; &#64;else &#123;
+    &lt;small id="validated-editor-message" class="state-message"
+      &gt;Use clear headings and concise paragraphs.&lt;/small
+    &gt;
+  &#125;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="editor-forms"
+              title="Reactive and template-driven forms"
+              description="Editor implements ControlValueAccessor and synchronizes HTML value, disabled state, and touched state."
+              [tsCode]="formsCode"
+            >
+              <div preview class="field-grid editor-state-grid">
+                <div class="field">
+                  <label for="reactive-editor">Reactive Forms</label>
+                  <aeris-editor
+                    inputId="reactive-editor"
+                    [formControl]="reactiveContent"
+                    minHeight="8rem"
+                    fluid
+                  />
+                </div>
+                <div class="field">
+                  <label for="template-editor">Template-driven forms</label>
+                  <aeris-editor
+                    inputId="template-editor"
+                    name="templateEditor"
+                    [(ngModel)]="templateContent"
+                    minHeight="8rem"
+                    fluid
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid editor-state-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="reactive-editor"&gt;Reactive Forms&lt;/label&gt;
+    &lt;aeris-editor
+      inputId="reactive-editor"
+      [formControl]="reactiveContent"
+      minHeight="8rem"
+      fluid
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="template-editor"&gt;Template-driven forms&lt;/label&gt;
+    &lt;aeris-editor
+      inputId="template-editor"
+      name="templateEditor"
+      [(ngModel)]="templateContent"
+      minHeight="8rem"
+      fluid
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="Editor features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="editor-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="Editor inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="editor-api-outputs" tabindex="-1">Outputs</h3>
+            <div class="api-table compact" role="table" aria-label="Editor outputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">valueChange</code><span role="cell">string</span
+                ><span role="cell">Model output emitted by two-way binding.</span>
+              </div>
+              <div role="row">
+                <code role="cell">valueInput</code><span role="cell">string</span
+                ><span role="cell">Emits the current HTML value after editor updates.</span>
+              </div>
+              <div role="row">
+                <code role="cell">changed</code><span role="cell">AerisEditorChangeEvent</span
+                ><span role="cell">Emits HTML and plain text content after editor updates.</span>
+              </div>
+              <div role="row">
+                <code role="cell">focused</code><span role="cell">FocusEvent</span
+                ><span role="cell">Emits when the editable textbox receives focus.</span>
+              </div>
+              <div role="row">
+                <code role="cell">blurred</code><span role="cell">FocusEvent</span
+                ><span role="cell">Emits when the editable textbox loses focus.</span>
+              </div>
+              <div role="row">
+                <code role="cell">touch</code><span role="cell">void</span
+                ><span role="cell">Emits when focus leaves the complete editor component.</span>
+              </div>
+              <div role="row">
+                <code role="cell">ready</code><span role="cell">LexicalEditor</span
+                ><span role="cell"
+                  >Emits the created Lexical editor after built-in and consumer extensions are
+                  registered.</span
+                >
+              </div>
+            </div>
+
+            <h3 id="editor-api-methods" tabindex="-1">Methods</h3>
+            <div class="api-table compact" role="table" aria-label="Editor methods" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Signature</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">focus</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Moves focus to the editable textbox.</span>
+              </div>
+              <div role="row">
+                <code role="cell">clear</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Clears editable content and restores focus.</span>
+              </div>
+              <div role="row">
+                <code role="cell">reset</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Alias for clearing editable content.</span>
+              </div>
+              <div role="row">
+                <code role="cell">format</code><span role="cell">(format) =&gt; void</span
+                ><span role="cell"
+                  >Toggles any supported Lexical text format on the current selection.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">setBlock</code><span role="cell">(block) =&gt; void</span
+                ><span role="cell">Changes the current block to paragraph, heading, or quote.</span>
+              </div>
+              <div role="row">
+                <code role="cell">toggleBulletList</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Applies a bulleted list to the current selection.</span>
+              </div>
+              <div role="row">
+                <code role="cell">toggleNumberedList</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Applies a numbered list to the current selection.</span>
+              </div>
+              <div role="row">
+                <code role="cell">toggleCheckList</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Applies an interactive checklist to the current selection.</span>
+              </div>
+              <div role="row">
+                <code role="cell">removeList</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Removes list formatting from the current selection.</span>
+              </div>
+              <div role="row">
+                <code role="cell">undo</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Runs editor undo.</span>
+              </div>
+              <div role="row">
+                <code role="cell">redo</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Runs editor redo.</span>
+              </div>
+              <div role="row">
+                <code role="cell">align</code><span role="cell">(alignment) =&gt; void</span
+                ><span role="cell"
+                  >Aligns selected blocks using physical or RTL-aware logical alignment.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">indent</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Increases indentation for the current block or list item.</span>
+              </div>
+              <div role="row">
+                <code role="cell">outdent</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Decreases indentation for the current block or list item.</span>
+              </div>
+              <div role="row">
+                <code role="cell">clearFormatting</code><span role="cell">() =&gt; void</span
+                ><span role="cell"
+                  >Removes inline formats and inline styles from the current selection.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">getLexicalEditor</code
+                ><span role="cell">() =&gt; LexicalEditor | null</span
+                ><span role="cell"
+                  >Returns the underlying editor for advanced command dispatch and state
+                  access.</span
+                >
+              </div>
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="Editor API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table compact" role="table" aria-label="Editor design tokens" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface / --aeris-surface-2</code
+            ><span role="cell">Editor surface, toolbar, and filled appearance.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-border</code
+            ><span role="cell">Editor and toolbar borders.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-primary / --aeris-primary-soft</code
+            ><span role="cell">Quote accent and active toolbar background.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-warning</code><span role="cell">Text highlight color.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-text / --aeris-text-muted</code
+            ><span role="cell">Editable content, placeholder, and quote text.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-focus</code><span role="cell">Focus border and ring.</span
+            ><code role="cell">#536437</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radius-sm / --aeris-radius-md</code
+            ><span role="cell">Toolbar buttons and editor radius.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            The editable area uses <code>role="textbox"</code> with
+            <code>aria-multiline="true"</code>.
+          </li>
+          <li>
+            Associate a visible label through <code>inputId</code>, or provide
+            <code>ariaLabel</code> only when no visible label exists.
+          </li>
+          <li>
+            The toolbar uses native buttons inside a labeled <code>role="toolbar"</code>; active
+            inline formats expose <code>aria-pressed</code>.
+          </li>
+          <li>
+            Checklist items expose Lexical's checkbox semantics and can be operated with a pointer
+            or keyboard while editing.
+          </li>
+          <li>
+            Consumer extensions are responsible for the semantics, keyboard behavior, focus
+            management, and announcements of any custom nodes or controls they register.
+          </li>
+          <li>
+            Use <code>ariaDescribedby</code> for help and validation messages. Required and invalid
+            state are reflected with ARIA attributes.
+          </li>
+          <li>
+            Disabled and read-only states prevent editing and keep the content understandable to
+            assistive technology.
+          </li>
+          <li>
+            Incoming HTML passes through Angular's HTML sanitizer before it is imported. Treat
+            emitted HTML as untrusted again when it crosses a server or storage boundary.
+          </li>
+          <li>
+            Visible focus states meet WCAG 2.2 AA expectations and transitions respect
+            reduced-motion preferences.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Editor keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell"
+              >Moves between toolbar buttons, the editable area, and surrounding controls.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow</kbd> keys</span
+            ><span role="cell"
+              >Moves the caret through editable content using native rich-text behavior.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd></span
+            ><span role="cell">Creates a new paragraph or list item in the editable area.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow Up</kbd> / <kbd>Arrow Down</kbd></span
+            ><span role="cell"
+              >Moves between checklist items when a checklist marker is active.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Space</kbd></span
+            ><span role="cell">Toggles the active checklist item.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Backspace</kbd> / <kbd>Delete</kbd></span
+            ><span role="cell">Removes selected content or adjacent characters.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>B</kbd></span
+            ><span role="cell">Toggles bold through Lexical rich-text shortcuts.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>I</kbd></span
+            ><span role="cell">Toggles italic through Lexical rich-text shortcuts.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>U</kbd></span
+            ><span role="cell">Toggles underline through Lexical rich-text shortcuts.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>Z</kbd></span
+            ><span role="cell">Undo.</span>
+          </div>
+          <div role="row">
+            <span role="cell"
+              ><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></span
+            ><span role="cell">Redo.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell">Activates the focused toolbar button.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

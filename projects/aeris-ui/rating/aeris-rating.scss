@@ -1,0 +1,127 @@
+:host {
+  display: inline-block;
+  color: var(--aeris-rating-text, var(--aeris-text, #222222));
+  font: inherit;
+}
+
+.aeris-rating {
+  --_star-size: 1.5rem;
+  --_gap: 0.25rem;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.aeris-rating[data-size='xs'] {
+  --_star-size: 1rem;
+  --_gap: 0.125rem;
+}
+
+.aeris-rating[data-size='sm'] {
+  --_star-size: 1.25rem;
+  --_gap: 0.1875rem;
+}
+
+.aeris-rating[data-size='lg'] {
+  --_star-size: 1.875rem;
+  --_gap: 0.3125rem;
+}
+
+.aeris-rating__control {
+  position: relative;
+  display: block;
+  width: calc(var(--aeris-rating-max) * var(--_star-size) + (var(--aeris-rating-max) - 1) * var(--_gap));
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.aeris-rating__control:focus {
+  outline: 0;
+}
+
+.aeris-rating__control:focus-visible {
+  outline: 0;
+  box-shadow: none;
+}
+
+.aeris-rating__control:focus-visible .aeris-rating__stars {
+  filter: drop-shadow(
+    0 0 0.18rem var(--aeris-rating-focus, var(--aeris-focus, #536437))
+  );
+}
+
+.aeris-rating__stars {
+  position: relative;
+  display: block;
+  color: var(--aeris-rating-empty, var(--aeris-surface-3, #e5e5df));
+}
+
+.aeris-rating__layer,
+.aeris-rating__layer-inner {
+  display: flex;
+  gap: var(--_gap);
+}
+
+.aeris-rating__layer--empty {
+  clip-path: inset(0 0 0 var(--aeris-rating-progress));
+}
+
+.aeris-rating__layer--active {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 1;
+  width: var(--aeris-rating-progress);
+  color: var(--aeris-rating-active, var(--aeris-primary, #879566));
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aeris-rating__layer-inner {
+  width: calc(var(--aeris-rating-max) * var(--_star-size) + (var(--aeris-rating-max) - 1) * var(--_gap));
+}
+
+.aeris-rating__star {
+  width: var(--_star-size);
+  height: var(--_star-size);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  font-size: var(--_star-size);
+  line-height: 1;
+}
+
+.aeris-rating__star svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  fill: currentColor;
+}
+
+.aeris-rating__value {
+  color: var(--aeris-rating-value-text, var(--aeris-text-2, #555555));
+  font-size: 0.8125rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.aeris-rating[data-disabled] {
+  opacity: var(--aeris-disabled-opacity, 0.52);
+}
+
+.aeris-rating[data-disabled] .aeris-rating__control,
+.aeris-rating__control:disabled {
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-rating__control {
+    transition: none;
+  }
+}

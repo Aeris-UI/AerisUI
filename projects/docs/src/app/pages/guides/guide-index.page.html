@@ -1,0 +1,135 @@
+<article class="guide-index">
+  <header class="guide-index__hero">
+    <div>
+      <span class="guide-kicker">Aeris handbook</span>
+      <h1>Build with confidence.</h1>
+      <p>
+        Everything needed to install, configure, theme, integrate, and evaluate accessible Aeris
+        applications—from the first import to release-readiness validation.
+      </p>
+      <div class="guide-index__actions">
+        <a aerisButton routerLink="/guides/installation">Start installing</a>
+        <a aerisButton routerLink="/components" variant="outline">Browse components</a>
+      </div>
+    </div>
+    <div class="guide-index__map" aria-label="Guide journey">
+      <span>01</span><strong>Install</strong> <span>02</span><strong>Configure</strong>
+      <span>03</span><strong>Shape the system</strong> <span>04</span
+      ><strong>Validate and learn</strong>
+    </div>
+  </header>
+
+  <aeris-message
+    class="guide-index__alpha"
+    severity="warning"
+    variant="outlined"
+    role="note"
+    ariaLive="off"
+  >
+    <strong>Aeris is currently alpha software and is not production ready.</strong> Expect APIs,
+    styling contracts, and behavior to change while the library is validated before its first stable
+    release.
+  </aeris-message>
+
+  <section class="guide-index__featured" aria-labelledby="featured-guides-title">
+    <div class="guide-index__section-heading">
+      <span class="guide-kicker">Start here</span>
+      <h2 id="featured-guides-title">A clear path to your first screen</h2>
+    </div>
+    <div class="guide-featured-grid">
+      @for (item of featured; track item.id; let index = $index) {
+        <a [routerLink]="item.path">
+          <aeris-card hoverable padding="lg">
+            <span class="guide-card__number">0{{ index + 1 }}</span>
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.description }}</p>
+            <small>Read guide <span aria-hidden="true">→</span></small>
+          </aeris-card>
+        </a>
+      }
+    </div>
+  </section>
+
+  <section class="guide-index__library" aria-labelledby="all-guides-title">
+    <div class="guide-index__section-heading">
+      <span class="guide-kicker">Reference path</span>
+      <h2 id="all-guides-title">All guides</h2>
+      <p>Focused articles that link the public Aeris APIs into one coherent developer workflow.</p>
+    </div>
+
+    <div class="guide-groups">
+      @for (group of groups; track group.title) {
+        <section class="guide-group">
+          <header>
+            <h3>{{ group.title }}</h3>
+            <p>{{ group.description }}</p>
+          </header>
+          <div>
+            @for (guideId of group.guideIds; track guideId) {
+              @if (articleById.get(guideId); as item) {
+                <a [routerLink]="item.path">
+                  <span>
+                    <strong>{{ item.title }}</strong>
+                    <small>{{ item.description }}</small>
+                  </span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              }
+            }
+          </div>
+        </section>
+      }
+    </div>
+  </section>
+
+  <section class="guide-index__resources" aria-labelledby="developer-resources-title">
+    <div class="guide-index__section-heading">
+      <span class="guide-kicker">Useful destinations</span>
+      <h2 id="developer-resources-title">Developer resources</h2>
+    </div>
+    <div>
+      <a routerLink="/components">
+        <strong>Component catalog</strong>
+        <span>Examples, APIs, interfaces, tokens, and accessibility contracts.</span>
+      </a>
+      <a routerLink="/design-lab">
+        <strong>Design Lab</strong>
+        <span
+          >Build a custom theme, test it across real components, and copy the generated code.</span
+        >
+      </a>
+      <a routerLink="/guides/version-compatibility">
+        <strong>Version compatibility</strong>
+        <span>Match Aeris releases with supported Angular versions before installing.</span>
+      </a>
+      <a routerLink="/guides/changelog">
+        <strong>Changelog</strong>
+        <span>Review release history, current development work, and migration links.</span>
+      </a>
+      <a href="https://github.com/Aeris-UI/AerisUI" target="_blank" rel="noopener noreferrer">
+        <strong>GitHub repository <span aria-hidden="true">↗</span></strong>
+        <span>Source, issue tracking, and project development.</span>
+      </a>
+      <a
+        href="https://github.com/Aeris-UI/AerisUI/security/advisories/new"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <strong>Security reporting <span aria-hidden="true">↗</span></strong>
+        <span>Privately report a suspected vulnerability.</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="guide-index__footer">
+    <div>
+      <span class="guide-kicker">Explore visually</span>
+      <h2>See the system working together.</h2>
+      <p>
+        Choose custom colors, mode, density, and corner style, then inspect the result in a complete
+        application dashboard and copy the generated theme configuration.
+      </p>
+    </div>
+    <a aerisButton routerLink="/design-lab" variant="secondary">Open Design Lab</a>
+  </section>
+</article>

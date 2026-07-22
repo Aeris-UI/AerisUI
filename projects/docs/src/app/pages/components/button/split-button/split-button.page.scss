@@ -1,0 +1,45 @@
+@use '../shared/button-docs';
+
+.split-stage {
+  width: 100%;
+  min-height: 13rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.split-stage--fluid {
+  display: block;
+  justify-content: initial;
+}
+
+.split-stage--status {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.split-result {
+  color: var(--text-2);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+.split-template-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 40rem) {
+  .split-stage {
+    min-height: 14rem;
+    flex-wrap: wrap;
+  }
+}

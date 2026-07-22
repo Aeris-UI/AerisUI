@@ -1,0 +1,21 @@
+@use '../../form/shared/form-docs';
+
+.chart-docs {
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .chart-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.875rem;
+  }
+
+  @media (max-width: 44rem) {
+    .chart-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

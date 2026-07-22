@@ -1,0 +1,53 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.file-upload-docs {
+  app-form-demo {
+    --docs-code-block-max-height: min(38rem, 72vh);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .demo-status {
+    margin: 0.875rem 0 0;
+    color: var(--text-3);
+    font-size: 0.8125rem;
+  }
+
+  .upload-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .upload-file {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--aeris-radius-md);
+    background: var(--surface);
+  }
+
+  .upload-file strong {
+    display: block;
+    color: var(--text);
+  }
+
+  .upload-file span {
+    color: var(--text-3);
+    font-size: 0.8125rem;
+  }
+
+}
+
+@media (max-width: 42rem) {
+  .file-upload-docs .upload-file {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

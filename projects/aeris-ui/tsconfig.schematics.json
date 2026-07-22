@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
+    "isolatedModules": false,
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "outDir": "../../dist/aeris-ui/schematics/runtime",
+    "rootDir": ".",
+    "sourceMap": true,
+    "types": ["node"]
+  },
+  "include": ["schematics/**/*.ts", "theme-builder/**/*.ts"],
+  "exclude": ["**/*.spec.ts"]
+}

@@ -1,0 +1,13 @@
+@use '../../form/shared/form-docs';
+
+.pick-list-demo { width: 100%; }
+.pick-list-demo--stack { display: grid; gap: 0.75rem; }
+.pick-list-demo small { color: var(--text-2); font-weight: 600; }
+.pick-list-states { width: 100%; display: grid; gap: 1rem; }
+.compact-pick-list { --aeris-pick-list-max-height: 17rem; }
+
+.product-row { display: flex; align-items: center; gap: 0.75rem; }
+.product-row > span:last-child { min-width: 0; display: grid; gap: 0.125rem; }
+.product-row small { color: var(--text-3); font-size: 0.75rem; }
+.product-row__marker { width: 0.625rem; height: 0.625rem; flex: 0 0 auto; border-radius: 50%; background: var(--aeris-secondary); }
+.product-row__marker[data-side='target'] { background: var(--aeris-primary); }

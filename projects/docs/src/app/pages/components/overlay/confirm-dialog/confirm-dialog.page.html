@@ -1,0 +1,628 @@
+<article class="button-docs confirm-dialog-docs">
+  <app-component-page-header
+    category="Overlay"
+    title="ConfirmDialog"
+    description="Accessible confirmation dialogs with service-driven prompts, declarative state, templates, and safe focus defaults."
+  />
+
+  <section
+    id="confirm-dialog-import"
+    class="import-section"
+    aria-labelledby="confirm-dialog-import-title"
+  >
+    <div>
+      <h2 id="confirm-dialog-import-title">Import</h2>
+      <p>
+        One import provides the service, reference, optional declarative component, event types, and
+        template directives.
+      </p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="ConfirmDialog documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="confirm-dialog-basic"
+              title="Basic"
+              description="Open a confirmation through the service. No host element is required for standard confirmations."
+              [tsCode]="basicTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <div class="demo-actions">
+                  <button aerisButton severity="danger" type="button" (click)="confirmDelete()">
+                    Delete project
+                  </button>
+                </div>
+                <p class="demo-status" aria-live="polite">{{ lastResult() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="demo-actions"&gt;
+    &lt;button aerisButton severity="danger" type="button" (click)="confirmDelete()"&gt;
+      Delete project
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;p class="demo-status" aria-live="polite"&gt;&#123;&#123; lastResult() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="confirm-dialog-severity"
+              title="Severity"
+              description="Use severity to communicate intent while keeping the same keyboard and focus behavior."
+              [tsCode]="severityTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <div class="demo-actions">
+                  <button
+                    aerisButton
+                    severity="info"
+                    type="button"
+                    (click)="confirmSeverity('info')"
+                  >
+                    Info
+                  </button>
+                  <button
+                    aerisButton
+                    severity="success"
+                    type="button"
+                    (click)="confirmSeverity('success')"
+                  >
+                    Success
+                  </button>
+                  <button
+                    aerisButton
+                    severity="warning"
+                    type="button"
+                    (click)="confirmSeverity('warning')"
+                  >
+                    Warning
+                  </button>
+                  <button
+                    aerisButton
+                    severity="danger"
+                    type="button"
+                    (click)="confirmSeverity('danger')"
+                  >
+                    Danger
+                  </button>
+                </div>
+                <p class="demo-status" aria-live="polite">{{ lastResult() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="demo-actions"&gt;
+    &lt;button
+      aerisButton
+      severity="info"
+      type="button"
+      (click)="confirmSeverity('info')"
+    &gt;
+      Info
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      severity="success"
+      type="button"
+      (click)="confirmSeverity('success')"
+    &gt;
+      Success
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      severity="warning"
+      type="button"
+      (click)="confirmSeverity('warning')"
+    &gt;
+      Warning
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      severity="danger"
+      type="button"
+      (click)="confirmSeverity('danger')"
+    &gt;
+      Danger
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;p class="demo-status" aria-live="polite"&gt;&#123;&#123; lastResult() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="confirm-dialog-positions"
+              title="Positions"
+              description="Open confirmations in every supported viewport position."
+              [tsCode]="positionsTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <div class="position-grid">
+                  <button aerisButton type="button" (click)="confirmAt('top-left')">
+                    Top left
+                  </button>
+                  <button aerisButton type="button" (click)="confirmAt('top')">Top</button>
+                  <button aerisButton type="button" (click)="confirmAt('top-right')">
+                    Top right
+                  </button>
+                  <button aerisButton type="button" (click)="confirmAt('left')">Left</button>
+                  <button aerisButton type="button" (click)="confirmAt('center')">Center</button>
+                  <button aerisButton type="button" (click)="confirmAt('right')">Right</button>
+                  <button aerisButton type="button" (click)="confirmAt('bottom-left')">
+                    Bottom left
+                  </button>
+                  <button aerisButton type="button" (click)="confirmAt('bottom')">Bottom</button>
+                  <button aerisButton type="button" (click)="confirmAt('bottom-right')">
+                    Bottom right
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="position-grid"&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt('top-left')"&gt;
+      Top left
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt('top')"&gt;Top&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt('top-right')"&gt;
+      Top right
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt('left')"&gt;Left&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt('center')"&gt;Center&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt('right')"&gt;Right&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt('bottom-left')"&gt;
+      Bottom left
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt('bottom')"&gt;Bottom&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt('bottom-right')"&gt;
+      Bottom right
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="confirm-dialog-controlled"
+              title="Controlled"
+              description="Use the visible model directly when confirmation state belongs to the current component."
+              [tsCode]="controlledTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="controlledOpen.set(true)">
+                  Open controlled confirmation
+                </button>
+                <aeris-confirm-dialog
+                  header="Leave workflow?"
+                  message="Unsaved work will be discarded."
+                  acceptLabel="Leave"
+                  rejectLabel="Stay"
+                  severity="warning"
+                  defaultFocus="reject"
+                  [(visible)]="controlledOpen"
+                  (closed)="recordControlled($event)"
+                />
+                <p class="demo-status" aria-live="polite">{{ controlledResult() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="controlledOpen.set(true)"&gt;
+    Open controlled confirmation
+  &lt;/button&gt;
+  &lt;aeris-confirm-dialog
+    header="Leave workflow?"
+    message="Unsaved work will be discarded."
+    acceptLabel="Leave"
+    rejectLabel="Stay"
+    severity="warning"
+    defaultFocus="reject"
+    [(visible)]="controlledOpen"
+    (closed)="recordControlled($event)"
+  /&gt;
+  &lt;p class="demo-status" aria-live="polite"&gt;&#123;&#123; controlledResult() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="confirm-dialog-templates"
+              title="Templates"
+              description="Use a keyed template host only when projected templates are needed; the trigger still opens through the service."
+              [tsCode]="templateTsCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="confirmRelease()">
+                  Open templated confirmation
+                </button>
+                <aeris-confirm-dialog key="release-template">
+                  <ng-template aerisConfirmDialogIcon>
+                    <span class="custom-confirm-icon" aria-hidden="true"></span>
+                  </ng-template>
+                  <ng-template aerisConfirmDialogMessage let-data="data">
+                    <span class="confirm-message">
+                      <strong>{{ data }}</strong>
+                      <span
+                        >Confirm that release notes, accessibility checks, and package metadata are
+                        ready.</span
+                      >
+                    </span>
+                  </ng-template>
+                  <ng-template aerisConfirmDialogFooter let-accept="accept" let-reject="reject">
+                    <div class="confirm-footer">
+                      <button
+                        aerisButton
+                        variant="secondary"
+                        type="button"
+                        (click)="reject($event)"
+                      >
+                        Review again
+                      </button>
+                      <button aerisButton severity="warning" type="button" (click)="accept($event)">
+                        Release
+                      </button>
+                    </div>
+                  </ng-template>
+                </aeris-confirm-dialog>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="confirmRelease()"&gt;
+    Open templated confirmation
+  &lt;/button&gt;
+  &lt;aeris-confirm-dialog key="release-template"&gt;
+    &lt;ng-template aerisConfirmDialogIcon&gt;
+      &lt;span class="custom-confirm-icon" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisConfirmDialogMessage let-data="data"&gt;
+      &lt;span class="confirm-message"&gt;
+        &lt;strong&gt;&#123;&#123; data &#125;&#125;&lt;/strong&gt;
+        &lt;span
+          &gt;Confirm that release notes, accessibility checks, and package metadata are
+          ready.&lt;/span
+        &gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisConfirmDialogFooter let-accept="accept" let-reject="reject"&gt;
+      &lt;div class="confirm-footer"&gt;
+        &lt;button
+          aerisButton
+          variant="secondary"
+          type="button"
+          (click)="reject($event)"
+        &gt;
+          Review again
+        &lt;/button&gt;
+        &lt;button aerisButton severity="warning" type="button" (click)="accept($event)"&gt;
+          Release
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-confirm-dialog&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="confirm-dialog-options"
+              title="Options"
+              description="Use Dialog positioning and modal options. Backdropless modal confirmations still block page scrolling, and dismissible masks close from an outside click."
+              [tsCode]="optionsTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <div class="demo-actions">
+                  <button aerisButton type="button" (click)="confirmWithoutBackdrop()">
+                    Open without backdrop
+                  </button>
+                  <button aerisButton type="button" (click)="confirmDismissibleMask()">
+                    Dismissible mask
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="demo-actions"&gt;
+    &lt;button aerisButton type="button" (click)="confirmWithoutBackdrop()"&gt;
+      Open without backdrop
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmDismissibleMask()"&gt;
+      Dismissible mask
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc
+            title="On this page"
+            ariaLabel="ConfirmDialog features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="confirm-dialog-api-service" class="api-section">
+              <h3>Service</h3>
+              <div class="api-table" role="table" aria-label="ConfirmDialog service">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of serviceRows; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-dialog-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="ConfirmDialog inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-dialog-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="ConfirmDialog models">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-dialog-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="ConfirmDialog outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-dialog-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="ConfirmDialog templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-dialog-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="ConfirmDialog methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-dialog-api-config" class="api-section">
+              <h3>Service config</h3>
+              <div class="api-table" role="table" aria-label="ConfirmDialog config">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of configRows; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-dialog-api-ref" class="api-section">
+              <h3>Reference</h3>
+              <div class="api-table" role="table" aria-label="ConfirmDialog reference">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of refRows; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="ConfirmDialog API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table token-table" role="table" aria-label="ConfirmDialog design tokens">
+          <div role="row">
+            <span role="columnheader">Token</span><span role="columnheader">Purpose</span
+            ><span role="columnheader">Fallback</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-dialog-icon-size</code
+            ><span role="cell">Default icon container size.</span><code role="cell">2.5rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-dialog-icon-background</code
+            ><span role="cell">Icon container background.</span
+            ><code role="cell">color-mix(...)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-dialog-icon-color</code
+            ><span role="cell">Icon color.</span><code role="cell">--aeris-primary-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-dialog-message-color</code
+            ><span role="cell">Message text color.</span><code role="cell">--aeris-text-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-dialog-focus</code
+            ><span role="cell">Action focus ring.</span><code role="cell">--aeris-focus</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-backdrop-blur</code
+            ><span role="cell">Backdrop blur radius.</span
+            ><code role="cell">--aeris-backdrop-blur</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-backdrop-blur</code
+            ><span role="cell">Shared backdrop blur radius.</span><code role="cell">0.25rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-*</code
+            ><span role="cell">Dialog shell layout, mask, radius, shadow, and spacing.</span
+            ><code role="cell">Dialog tokens</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            ConfirmDialog renders an <code>alertdialog</code> role with modal state by default.
+          </li>
+          <li>
+            The visible header labels the dialog unless <code>ariaLabel</code> or
+            <code>ariaLabelledBy</code> is provided.
+          </li>
+          <li>
+            The message is connected as the dialog description unless
+            <code>ariaDescribedBy</code> is provided.
+          </li>
+          <li>
+            Focus moves to the configured <code>defaultFocus</code>. Use <code>reject</code> for
+            destructive actions when the safest action should be first.
+          </li>
+          <li>
+            Tab navigation is trapped while <code>focusTrap</code> is enabled, and focus returns to
+            the launcher after close when <code>restoreFocus</code> is enabled.
+          </li>
+          <li>
+            Escape dismissal is enabled by default. Mask dismissal is opt-in through
+            <code>dismissibleMask</code>.
+          </li>
+          <li>Use clear button labels that describe the consequence of accepting or rejecting.</li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="ConfirmDialog keyboard support"
+        >
+          <div role="row">
+            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd></span
+            ><span role="cell"
+              >Moves to the next focusable element inside the confirmation and wraps while focusTrap
+              is enabled.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell"
+              >Moves to the previous focusable element and wraps while focusTrap is enabled.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Escape</kbd></span
+            ><span role="cell">Dismisses the confirmation when closeOnEscape is enabled.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell"
+              >Activates the focused native button, including accept and reject actions.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

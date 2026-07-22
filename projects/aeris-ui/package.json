@@ -1,0 +1,90 @@
+{
+  "name": "@aeris-ui/core",
+  "version": "22.0.0-alpha.0",
+  "description": "Accessible, themeable Angular UI components with signal-based APIs.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aeris-UI/AerisUI.git",
+    "directory": "projects/aeris-ui"
+  },
+  "homepage": "https://aeris-ui.dev",
+  "bugs": {
+    "url": "https://github.com/Aeris-UI/AerisUI/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "keywords": [
+    "angular",
+    "components",
+    "design-system",
+    "accessibility",
+    "wcag",
+    "theming",
+    "ui"
+  ],
+  "peerDependencies": {
+    "@angular/common": ">=22.0.6 <23.0.0",
+    "@angular/core": ">=22.0.6 <23.0.0",
+    "@angular/forms": ">=22.0.6 <23.0.0",
+    "@angular/platform-browser": ">=22.0.6 <23.0.0",
+    "rxjs": ">=7.8.0 <8.0.0",
+    "chart.js": "^4.5.1",
+    "@lexical/history": "^0.47.0",
+    "@lexical/html": "^0.47.0",
+    "@lexical/list": "^0.47.0",
+    "@lexical/rich-text": "^0.47.0",
+    "@lexical/selection": "^0.47.0",
+    "lexical": "^0.47.0"
+  },
+  "peerDependenciesMeta": {
+    "chart.js": {
+      "optional": true
+    },
+    "@lexical/history": {
+      "optional": true
+    },
+    "@lexical/html": {
+      "optional": true
+    },
+    "@lexical/list": {
+      "optional": true
+    },
+    "@lexical/rich-text": {
+      "optional": true
+    },
+    "@lexical/selection": {
+      "optional": true
+    },
+    "lexical": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "bin": {
+    "aeris-theme": "./tools/aeris-theme.mjs"
+  },
+  "schematics": "./schematics/collection.json",
+  "exports": {
+    "./styles/aeris.css": {
+      "style": "./styles/aeris.css",
+      "default": "./styles/aeris.css"
+    },
+    "./styles/controls.css": {
+      "style": "./styles/controls.css",
+      "default": "./styles/controls.css"
+    },
+    "./theming.scss": {
+      "sass": "./styles/_index.scss"
+    },
+    "./theme-config.schema.json": "./tools/aeris-theme.schema.json",
+    "./setup-config.schema.json": "./schematics/aeris-setup.schema.json"
+  },
+  "sideEffects": [
+    "./styles/*.css"
+  ]
+}

@@ -1,0 +1,5 @@
+# Require maintainer review for repository-wide and security-sensitive changes.
+* @lilbuda
+/.github/ @lilbuda
+/projects/aeris-ui/ @lilbuda
+/tools/ @lilbuda

@@ -1,0 +1,29 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.dynamic-dialog-docs app-form-demo {
+  --docs-code-block-max-height: min(36rem, 70vh);
+}
+
+.dynamic-dialog-docs p {
+  margin: 0;
+}
+
+.dynamic-dialog-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dynamic-dialog-status {
+  margin-top: 0.875rem;
+  color: var(--text-3);
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 42rem) {
+  .dynamic-dialog-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,22 @@
+@use '../shared/form-docs';
+
+.wide-calendar-demo,
+.inline-calendar-demo {
+  width: 100%;
+}
+
+.wide-calendar-demo aeris-date-picker,
+.inline-calendar-demo aeris-date-picker {
+  max-width: 100%;
+}
+
+.validation-message {
+  min-height: 1.25rem;
+}
+
+@media (max-width: 42rem) {
+  .field-row aeris-date-picker {
+    width: 100%;
+  }
+}
+

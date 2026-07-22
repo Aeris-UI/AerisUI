@@ -1,0 +1,709 @@
+<article class="button-docs accordion-docs">
+  <app-component-page-header
+    category="Panel"
+    title="Accordion"
+    description="Stacks related sections with controlled expansion, single or multiple open panels, custom headers, and accessible disclosure semantics."
+  />
+
+  <section id="accordion-import" class="import-section" aria-labelledby="accordion-import-title">
+    <div>
+      <h2 id="accordion-import-title">Import</h2>
+      <p>
+        One import provides Accordion, AccordionPanel, and the optional header and toggle-icon
+        template directives.
+      </p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Accordion documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="accordion-basic"
+              title="Basic"
+              description="Use one panel per related section. The value model controls which section is open."
+            >
+              <div preview>
+                <aeris-accordion ariaLabel="Project sections" value="overview">
+                  <aeris-accordion-panel value="overview" header="Overview">
+                    <p>Project status, ownership, and current milestone.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="activity" header="Activity">
+                    <p>Recent changes and review notes.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="members" header="Members">
+                    <p>People with access to this workspace.</p>
+                  </aeris-accordion-panel>
+                </aeris-accordion>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-accordion ariaLabel="Project sections" value="overview"&gt;
+    &lt;aeris-accordion-panel value="overview" header="Overview"&gt;
+      &lt;p&gt;Project status, ownership, and current milestone.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="activity" header="Activity"&gt;
+      &lt;p&gt;Recent changes and review notes.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="members" header="Members"&gt;
+      &lt;p&gt;People with access to this workspace.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+  &lt;/aeris-accordion&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="accordion-controlled"
+              title="Controlled state and events"
+              description="Bind value when application state needs to drive expansion or react to user changes."
+              [tsCode]="controlledTsCode"
+              [cssCode]="controlsCssCode"
+            >
+              <div preview>
+                <div class="accordion-controls" aria-label="Accordion controls">
+                  <button aerisButton type="button" (click)="expandAllSections()">
+                    Expand all
+                  </button>
+                  <button aerisButton type="button" (click)="closeAllSections()">Close all</button>
+                  <button aerisButton type="button" (click)="toggleControlledSection('profile')">
+                    Profile
+                  </button>
+                  <button aerisButton type="button" (click)="toggleControlledSection('security')">
+                    Security
+                  </button>
+                  <button aerisButton type="button" (click)="toggleControlledSection('billing')">
+                    Billing
+                  </button>
+                </div>
+                <aeris-accordion
+                  ariaLabel="Account sections"
+                  multiple
+                  [(value)]="activeSections"
+                  (changed)="recordChange($event)"
+                >
+                  <aeris-accordion-panel value="profile" header="Profile">
+                    <p>Public profile, display name, and contact preferences.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="security" header="Security">
+                    <p>Password, multi-factor authentication, and sessions.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="billing" header="Billing">
+                    <p>Plan, invoices, and payment details.</p>
+                  </aeris-accordion-panel>
+                </aeris-accordion>
+                <p class="status-line" aria-live="polite">{{ lastChange() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="accordion-controls" aria-label="Accordion controls"&gt;
+    &lt;button aerisButton type="button" (click)="expandAllSections()"&gt;
+      Expand all
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="closeAllSections()"&gt;Close all&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="toggleControlledSection('profile')"&gt;
+      Profile
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="toggleControlledSection('security')"&gt;
+      Security
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="toggleControlledSection('billing')"&gt;
+      Billing
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-accordion
+    ariaLabel="Account sections"
+    multiple
+    [(value)]="activeSections"
+    (changed)="recordChange($event)"
+  &gt;
+    &lt;aeris-accordion-panel value="profile" header="Profile"&gt;
+      &lt;p&gt;Public profile, display name, and contact preferences.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="security" header="Security"&gt;
+      &lt;p&gt;Password, multi-factor authentication, and sessions.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="billing" header="Billing"&gt;
+      &lt;p&gt;Plan, invoices, and payment details.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+  &lt;/aeris-accordion&gt;
+  &lt;p class="status-line" aria-live="polite"&gt;&#123;&#123; lastChange() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="accordion-multiple"
+              title="Multiple panels"
+              description="Enable multiple mode when sections should remain independently open."
+              [tsCode]="multipleTsCode"
+            >
+              <div preview>
+                <aeris-accordion ariaLabel="Settings sections" multiple [(value)]="multiSections">
+                  <aeris-accordion-panel value="profile" header="Profile">
+                    <p>Display name, avatar, and profile visibility.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="security" header="Security">
+                    <p>Active sessions and authentication methods.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="billing" header="Billing">
+                    <p>Plan, invoices, and payment details.</p>
+                  </aeris-accordion-panel>
+                </aeris-accordion>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-accordion ariaLabel="Settings sections" multiple [(value)]="multiSections"&gt;
+    &lt;aeris-accordion-panel value="profile" header="Profile"&gt;
+      &lt;p&gt;Display name, avatar, and profile visibility.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="security" header="Security"&gt;
+      &lt;p&gt;Active sessions and authentication methods.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="billing" header="Billing"&gt;
+      &lt;p&gt;Plan, invoices, and payment details.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+  &lt;/aeris-accordion&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="accordion-disabled"
+              title="Disabled panel"
+              description="Disabled panels use native disabled button semantics and are skipped by arrow-key header navigation."
+            >
+              <div preview>
+                <aeris-accordion ariaLabel="Release checklist" value="draft">
+                  <aeris-accordion-panel value="draft" header="Draft">
+                    <p>Initial release notes are ready.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="approval" header="Approval" disabled>
+                    <p>Approval opens after review is complete.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="publish" header="Publish">
+                    <p>Final publication tasks.</p>
+                  </aeris-accordion-panel>
+                </aeris-accordion>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-accordion ariaLabel="Release checklist" value="draft"&gt;
+    &lt;aeris-accordion-panel value="draft" header="Draft"&gt;
+      &lt;p&gt;Initial release notes are ready.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="approval" header="Approval" disabled&gt;
+      &lt;p&gt;Approval opens after review is complete.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="publish" header="Publish"&gt;
+      &lt;p&gt;Final publication tasks.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+  &lt;/aeris-accordion&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="accordion-non-collapsible"
+              title="Non-collapsible"
+              description="Set collapsible to false when one open panel must remain visible after a user opens it."
+            >
+              <div preview>
+                <aeris-accordion ariaLabel="Required details" value="summary" [collapsible]="false">
+                  <aeris-accordion-panel value="summary" header="Summary">
+                    <p>This section cannot be closed while it is the only open panel.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="details" header="Details">
+                    <p>Opening this panel moves the single active section.</p>
+                  </aeris-accordion-panel>
+                </aeris-accordion>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-accordion ariaLabel="Required details" value="summary" [collapsible]="false"&gt;
+    &lt;aeris-accordion-panel value="summary" header="Summary"&gt;
+      &lt;p&gt;This section cannot be closed while it is the only open panel.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="details" header="Details"&gt;
+      &lt;p&gt;Opening this panel moves the single active section.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+  &lt;/aeris-accordion&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="accordion-headers"
+              title="Header templates"
+              description="Customize header content while Accordion keeps the native button and ARIA state."
+              [cssCode]="headerCssCode"
+            >
+              <div preview>
+                <aeris-accordion ariaLabel="Billing details" value="payment">
+                  <aeris-accordion-panel value="payment" header="Payment">
+                    <ng-template aerisAccordionHeader>
+                      <span class="accordion-meta-header">
+                        <span>Payment</span>
+                        <small>2 cards</small>
+                      </span>
+                    </ng-template>
+                    <p>Default card and invoice email.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="invoices" header="Invoices">
+                    <p>Invoice history and tax details.</p>
+                  </aeris-accordion-panel>
+                </aeris-accordion>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-accordion ariaLabel="Billing details" value="payment"&gt;
+    &lt;aeris-accordion-panel value="payment" header="Payment"&gt;
+      &lt;ng-template aerisAccordionHeader&gt;
+        &lt;span class="accordion-meta-header"&gt;
+          &lt;span&gt;Payment&lt;/span&gt;
+          &lt;small&gt;2 cards&lt;/small&gt;
+        &lt;/span&gt;
+      &lt;/ng-template&gt;
+      &lt;p&gt;Default card and invoice email.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="invoices" header="Invoices"&gt;
+      &lt;p&gt;Invoice history and tax details.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+  &lt;/aeris-accordion&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="accordion-icons"
+              title="Custom toggle icon"
+              description="Provide a decorative toggle icon template for every panel or override it for one panel."
+              [cssCode]="iconCssCode"
+            >
+              <div preview>
+                <aeris-accordion ariaLabel="Custom icon sections" value="details">
+                  <ng-template aerisAccordionToggleIcon let-expanded>
+                    <span class="custom-toggle-icon">{{ expanded ? '−' : '+' }}</span>
+                  </ng-template>
+                  <aeris-accordion-panel value="details" header="Details">
+                    <p>The same icon template is used by each panel in this accordion.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="history" header="History">
+                    <p>Consumers can render any decorative icon markup.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="access" header="Access">
+                    <p>The button keeps its accessible expanded state.</p>
+                  </aeris-accordion-panel>
+                </aeris-accordion>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-accordion ariaLabel="Custom icon sections" value="details"&gt;
+    &lt;ng-template aerisAccordionToggleIcon let-expanded&gt;
+      &lt;span class="custom-toggle-icon"&gt;&#123;&#123; expanded ? '−' : '+' &#125;&#125;&lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;aeris-accordion-panel value="details" header="Details"&gt;
+      &lt;p&gt;The same icon template is used by each panel in this accordion.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="history" header="History"&gt;
+      &lt;p&gt;Consumers can render any decorative icon markup.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="access" header="Access"&gt;
+      &lt;p&gt;The button keeps its accessible expanded state.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+  &lt;/aeris-accordion&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="accordion-dynamic"
+              title="Dynamic panels"
+              description="Generate panels from application data while preserving stable values and labels."
+              [tsCode]="dynamicTsCode"
+            >
+              <div preview>
+                <aeris-accordion ariaLabel="Release phases" value="planning">
+                  @for (panel of dynamicPanels; track panel.value) {
+                    <aeris-accordion-panel [value]="panel.value" [header]="panel.header">
+                      <p>{{ panel.body }}</p>
+                    </aeris-accordion-panel>
+                  }
+                </aeris-accordion>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-accordion ariaLabel="Release phases" value="planning"&gt;
+    &#64;for (panel of dynamicPanels; track panel.value) &#123;
+      &lt;aeris-accordion-panel [value]="panel.value" [header]="panel.header"&gt;
+        &lt;p&gt;&#123;&#123; panel.body &#125;&#125;&lt;/p&gt;
+      &lt;/aeris-accordion-panel&gt;
+    &#125;
+  &lt;/aeris-accordion&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="accordion-variants"
+              title="Variants"
+              description="Use outlined for structured surfaces, filled for subtle grouping, and separated for independent cards."
+            >
+              <div preview class="accordion-stack">
+                <aeris-accordion ariaLabel="Outlined accordion" value="one">
+                  <aeris-accordion-panel value="one" header="Outlined">
+                    <p>Default bordered surface.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="two" header="Second panel">
+                    <p>Connected by shared borders.</p>
+                  </aeris-accordion-panel>
+                </aeris-accordion>
+                <aeris-accordion ariaLabel="Filled accordion" variant="filled" value="one">
+                  <aeris-accordion-panel value="one" header="Filled">
+                    <p>Soft background treatment.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="two" header="Second panel">
+                    <p>Grouped on a quiet surface.</p>
+                  </aeris-accordion-panel>
+                </aeris-accordion>
+                <aeris-accordion ariaLabel="Separated accordion" variant="separated" value="one">
+                  <aeris-accordion-panel value="one" header="Separated">
+                    <p>Each section has its own border radius.</p>
+                  </aeris-accordion-panel>
+                  <aeris-accordion-panel value="two" header="Second panel">
+                    <p>Useful for card-like sections.</p>
+                  </aeris-accordion-panel>
+                </aeris-accordion>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="accordion-stack"&gt;
+  &lt;aeris-accordion ariaLabel="Outlined accordion" value="one"&gt;
+    &lt;aeris-accordion-panel value="one" header="Outlined"&gt;
+      &lt;p&gt;Default bordered surface.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="two" header="Second panel"&gt;
+      &lt;p&gt;Connected by shared borders.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+  &lt;/aeris-accordion&gt;
+  &lt;aeris-accordion ariaLabel="Filled accordion" variant="filled" value="one"&gt;
+    &lt;aeris-accordion-panel value="one" header="Filled"&gt;
+      &lt;p&gt;Soft background treatment.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="two" header="Second panel"&gt;
+      &lt;p&gt;Grouped on a quiet surface.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+  &lt;/aeris-accordion&gt;
+  &lt;aeris-accordion ariaLabel="Separated accordion" variant="separated" value="one"&gt;
+    &lt;aeris-accordion-panel value="one" header="Separated"&gt;
+      &lt;p&gt;Each section has its own border radius.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+    &lt;aeris-accordion-panel value="two" header="Second panel"&gt;
+      &lt;p&gt;Useful for card-like sections.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+  &lt;/aeris-accordion&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="accordion-sizes"
+              title="Sizes and icon position"
+              description="Size controls header density. The disclosure icon can sit before or after header content."
+            >
+              <div preview class="accordion-stack">
+                <aeris-accordion
+                  ariaLabel="Small accordion"
+                  size="sm"
+                  iconPosition="start"
+                  value="small"
+                >
+                  <aeris-accordion-panel value="small" header="Small start icon">
+                    <p>Compact spacing for dense layouts.</p>
+                  </aeris-accordion-panel>
+                </aeris-accordion>
+                <aeris-accordion ariaLabel="Large accordion" size="lg" value="large">
+                  <aeris-accordion-panel value="large" header="Large end icon">
+                    <p>Roomier spacing for prominent content.</p>
+                  </aeris-accordion-panel>
+                </aeris-accordion>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="accordion-stack"&gt;
+  &lt;aeris-accordion
+    ariaLabel="Small accordion"
+    size="sm"
+    iconPosition="start"
+    value="small"
+  &gt;
+    &lt;aeris-accordion-panel value="small" header="Small start icon"&gt;
+      &lt;p&gt;Compact spacing for dense layouts.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+  &lt;/aeris-accordion&gt;
+  &lt;aeris-accordion ariaLabel="Large accordion" size="lg" value="large"&gt;
+    &lt;aeris-accordion-panel value="large" header="Large end icon"&gt;
+      &lt;p&gt;Roomier spacing for prominent content.&lt;/p&gt;
+    &lt;/aeris-accordion-panel&gt;
+  &lt;/aeris-accordion&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Quick links"
+            ariaLabel="Accordion features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="accordion-api-inputs" tabindex="-1">Accordion inputs</h3>
+            <div class="api-table" role="table" aria-label="Accordion inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of accordionInputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="accordion-api-models" tabindex="-1">Models</h3>
+            <div class="api-table compact" role="table" aria-label="Accordion models" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of models; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="accordion-api-panel" tabindex="-1">AccordionPanel inputs</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="Accordion panel inputs"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of panelInputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="accordion-api-outputs" tabindex="-1">Outputs</h3>
+            <div class="api-table compact" role="table" aria-label="Accordion outputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Description</b>
+              </div>
+              @for (property of outputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="accordion-api-templates" tabindex="-1">Templates</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="Accordion templates"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Context</b
+                ><b role="columnheader">Description</b>
+              </div>
+              @for (property of templates; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="accordion-api-methods" tabindex="-1">Methods</h3>
+            <div class="api-table compact" role="table" aria-label="Accordion methods" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Signature</b
+                ><b role="columnheader">Description</b>
+              </div>
+              @for (property of methods; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="Accordion API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="Accordion design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-accordion-background</code
+            ><span role="cell">Panel item background.</span><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-accordion-filled-background</code
+            ><span role="cell">Filled variant surface.</span
+            ><code role="cell">--aeris-surface-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-accordion-border</code
+            ><span role="cell">Container and panel borders.</span
+            ><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-accordion-radius</code
+            ><span role="cell">Container and separated item radius.</span
+            ><code role="cell">--aeris-radius-lg</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-accordion-trigger-color</code
+            ><span role="cell">Header button text.</span><code role="cell">--aeris-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-accordion-hover-background</code
+            ><span role="cell">Header hover background.</span><code role="cell">8% primary</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-accordion-hover-color</code
+            ><span role="cell">Header hover text.</span
+            ><code role="cell">--aeris-primary-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-accordion-icon-color</code
+            ><span role="cell">Collapsed disclosure icon.</span
+            ><code role="cell">--aeris-text-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-accordion-active-icon-color</code
+            ><span role="cell">Expanded disclosure icon.</span
+            ><code role="cell">--aeris-primary-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-accordion-panel-color</code
+            ><span role="cell">Expanded panel body text.</span
+            ><code role="cell">--aeris-text-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-accordion-focus</code
+            ><span role="cell">Header and panel focus ring.</span
+            ><code role="cell">--aeris-focus</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-accordion-separated-gap</code
+            ><span role="cell">Separated variant item gap.</span><code role="cell">0.625rem</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Each header is a native button with <code>aria-expanded</code> and
+            <code>aria-controls</code>.
+          </li>
+          <li>Expanded content uses a region labelled by the matching header button.</li>
+          <li>
+            Header wrappers expose the configured ARIA heading level for screen-reader navigation.
+          </li>
+          <li>
+            Disabled panels use native disabled buttons and are skipped by optional arrow-key
+            navigation.
+          </li>
+          <li>
+            Header templates render inside the button; do not place links, buttons, inputs, or other
+            interactive controls inside custom headers.
+          </li>
+          <li>The disclosure icon is decorative and hidden from assistive technology.</li>
+          <li>
+            Motion is limited to icon rotation and is disabled when reduced motion is requested.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Accordion keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell"
+              >Toggles the focused panel header through native button behavior.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Arrow Down</kbd
+            ><span role="cell"
+              >Moves focus to the next enabled panel header and wraps at the end.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Arrow Up</kbd
+            ><span role="cell"
+              >Moves focus to the previous enabled panel header and wraps at the beginning.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Home</kbd
+            ><span role="cell">Moves focus to the first enabled panel header.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">End</kbd
+            ><span role="cell">Moves focus to the last enabled panel header.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell"
+              >Moves through every enabled header and any focusable content in expanded panels using
+              normal page order.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

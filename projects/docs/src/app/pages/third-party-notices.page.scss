@@ -1,0 +1,148 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.notices-page {
+  width: min(100%, 68rem);
+  margin: 0 auto;
+  padding: 4rem 3rem 7rem;
+}
+
+.notices-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2.75rem;
+  color: var(--text-3);
+  font-size: 0.75rem;
+}
+
+.notices-breadcrumb a,
+.notices-plain-link,
+.notices-links a {
+  color: var(--primary-text);
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+}
+
+.notices-breadcrumb a:hover,
+.notices-plain-link:hover,
+.notices-links a:hover {
+  color: var(--text);
+}
+
+.notices-header {
+  max-width: 48rem;
+  padding-bottom: 3rem;
+}
+
+.notices-kicker,
+.notices-content section > header span {
+  color: var(--primary-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.notices-header h1 {
+  margin: 0.625rem 0 0;
+  color: var(--text);
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+}
+
+.notices-header p {
+  margin: 1.25rem 0 0;
+  color: var(--text-2);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.notices-plain-link {
+  display: inline-block;
+  margin-top: 1.25rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.notices-content {
+  border-top: 1px solid var(--border);
+}
+
+.notices-content section {
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.notices-content section > header {
+  margin-bottom: 1.25rem;
+}
+
+.notices-content h2 {
+  margin: 0.375rem 0 0;
+  color: var(--text);
+  font-size: 1.5rem;
+  letter-spacing: -0.035em;
+}
+
+.notices-content section > p,
+.license-text p {
+  max-width: 52rem;
+  margin: 0.75rem 0 0;
+  color: var(--text-2);
+  font-size: 0.875rem;
+  line-height: 1.75;
+}
+
+.notices-content code {
+  color: var(--text);
+  font-size: 0.85em;
+}
+
+.notices-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-top: 1.25rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.license-text {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--aeris-radius-md);
+  background: var(--surface);
+}
+
+.license-text h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.9375rem;
+}
+
+.license-text p:last-child {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 47.5rem) {
+  .notices-page {
+    padding: 2.5rem 1.25rem 5rem;
+  }
+
+  .notices-breadcrumb {
+    margin-bottom: 2rem;
+  }
+
+  .notices-header {
+    padding-bottom: 2.5rem;
+  }
+
+  .notices-content section {
+    padding: 2.5rem 0;
+  }
+}

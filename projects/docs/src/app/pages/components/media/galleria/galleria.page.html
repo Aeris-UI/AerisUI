@@ -1,0 +1,665 @@
+<article class="button-docs galleria-docs">
+  <app-component-page-header
+    category="Media"
+    title="Galleria"
+    description="Immersive responsive media gallery with image tools, grid and single modes, compact thumbnails, fullscreen viewing, touch gestures, and flexible templates."
+  />
+
+  <section id="galleria-import" class="import-section" aria-labelledby="galleria-import-title">
+    <div>
+      <h2 id="galleria-import-title">Import</h2>
+      <p>
+        One import provides Galleria and every item, thumbnail, caption, empty, and icon template.
+      </p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable>
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="galleria-basic"
+              title="Basic"
+              description="Pass image metadata for a complete gallery with responsive media, captions, thumbnails, gestures, and navigation without consumer CSS."
+              [tsCode]="photosCode"
+            >
+              <div preview>
+                <aeris-galleria [value]="photos" ariaLabel="Puppy portraits" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-galleria [value]="photos" ariaLabel="Puppy portraits" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="galleria-positions"
+              title="Thumbnail positions"
+              description="Place the thumbnail rail on any logical edge. Side rails automatically move below the stage in narrow containers."
+              [tsCode]="positionsCode"
+              [cssCode]="demoControlsCss"
+            >
+              <div preview>
+                <div class="galleria-demo-controls" aria-label="Thumbnail position">
+                  <button
+                    aerisButton
+                    type="button"
+                    [variant]="thumbnailPosition() === 'top' ? 'primary' : 'secondary'"
+                    [attr.aria-pressed]="thumbnailPosition() === 'top'"
+                    (click)="setThumbnailPosition('top')"
+                  >
+                    Top
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    [variant]="thumbnailPosition() === 'bottom' ? 'primary' : 'secondary'"
+                    [attr.aria-pressed]="thumbnailPosition() === 'bottom'"
+                    (click)="setThumbnailPosition('bottom')"
+                  >
+                    Bottom
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    [variant]="thumbnailPosition() === 'start' ? 'primary' : 'secondary'"
+                    [attr.aria-pressed]="thumbnailPosition() === 'start'"
+                    (click)="setThumbnailPosition('start')"
+                  >
+                    Start
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    [variant]="thumbnailPosition() === 'end' ? 'primary' : 'secondary'"
+                    [attr.aria-pressed]="thumbnailPosition() === 'end'"
+                    (click)="setThumbnailPosition('end')"
+                  >
+                    End
+                  </button>
+                </div>
+                <aeris-galleria
+                  [value]="photos"
+                  [thumbnailPosition]="thumbnailPosition()"
+                  ariaLabel="Positioned thumbnail gallery"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="galleria-demo-controls" aria-label="Thumbnail position"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      [variant]="thumbnailPosition() === 'top' ? 'primary' : 'secondary'"
+      [attr.aria-pressed]="thumbnailPosition() === 'top'"
+      (click)="setThumbnailPosition('top')"
+    &gt;
+      Top
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      [variant]="thumbnailPosition() === 'bottom' ? 'primary' : 'secondary'"
+      [attr.aria-pressed]="thumbnailPosition() === 'bottom'"
+      (click)="setThumbnailPosition('bottom')"
+    &gt;
+      Bottom
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      [variant]="thumbnailPosition() === 'start' ? 'primary' : 'secondary'"
+      [attr.aria-pressed]="thumbnailPosition() === 'start'"
+      (click)="setThumbnailPosition('start')"
+    &gt;
+      Start
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      [variant]="thumbnailPosition() === 'end' ? 'primary' : 'secondary'"
+      [attr.aria-pressed]="thumbnailPosition() === 'end'"
+      (click)="setThumbnailPosition('end')"
+    &gt;
+      End
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-galleria
+    [value]="photos"
+    [thumbnailPosition]="thumbnailPosition()"
+    ariaLabel="Positioned thumbnail gallery"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="galleria-responsive"
+              title="Responsive"
+              description="Container-based options move side thumbnails below the stage and hide them in especially narrow layouts."
+              [tsCode]="responsiveCode"
+            >
+              <div preview>
+                <aeris-galleria
+                  [value]="photos"
+                  [responsiveOptions]="responsiveOptions"
+                  thumbnailPosition="end"
+                  ariaLabel="Responsive puppy gallery"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-galleria
+    [value]="photos"
+    [responsiveOptions]="responsiveOptions"
+    thumbnailPosition="end"
+    ariaLabel="Responsive puppy gallery"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="galleria-toolbar"
+              title="Image toolbar"
+              description="Enable built-in controls for rotation, horizontal and vertical flipping, zoom, reset, secure download, and fullscreen viewing."
+              [tsCode]="toolbarCode"
+              [cssCode]="toolbarStatusCss"
+            >
+              <div preview>
+                <aeris-galleria
+                  [value]="photos"
+                  showToolbar
+                  allowFullscreen
+                  objectFit="contain"
+                  (transformChanged)="handleTransform($event)"
+                  (downloadRequested)="handleDownload($event)"
+                  ariaLabel="Puppy gallery with image tools"
+                />
+                <span class="galleria-toolbar-status" aria-live="polite">{{
+                  toolbarStatus()
+                }}</span>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-galleria
+    [value]="photos"
+    showToolbar
+    allowFullscreen
+    objectFit="contain"
+    (transformChanged)="handleTransform($event)"
+    (downloadRequested)="handleDownload($event)"
+    ariaLabel="Puppy gallery with image tools"
+  /&gt;
+  &lt;span class="galleria-toolbar-status" aria-live="polite"&gt;&#123;&#123;
+    toolbarStatus()
+  &#125;&#125;&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="galleria-grid"
+              title="Grid"
+              description="Present a larger 30-item collection as a responsive image grid. Selecting a tile opens that item in the fullscreen viewer by default."
+              [tsCode]="photosCode"
+            >
+              <div preview>
+                <aeris-galleria
+                  mode="grid"
+                  [value]="photos"
+                  gridMinItemWidth="9rem"
+                  showToolbar
+                  allowFullscreen
+                  ariaLabel="Puppy portrait grid"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-galleria
+    mode="grid"
+    [value]="photos"
+    gridMinItemWidth="9rem"
+    showToolbar
+    allowFullscreen
+    ariaLabel="Puppy portrait grid"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="galleria-single"
+              title="Single"
+              description="Use the focused single-item viewer without thumbnails, indicators, or collection navigation chrome."
+              [tsCode]="singleCode"
+            >
+              <div preview>
+                <aeris-galleria
+                  mode="single"
+                  [value]="singlePhoto"
+                  showToolbar
+                  allowFullscreen
+                  objectFit="contain"
+                  ariaLabel="Milo image viewer"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-galleria
+    mode="single"
+    [value]="singlePhoto"
+    showToolbar
+    allowFullscreen
+    objectFit="contain"
+    ariaLabel="Milo image viewer"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="galleria-indicators"
+              title="Indicators and hover navigation"
+              description="Replace thumbnails with compact overlay indicators and reveal navigators on hover or keyboard focus. Touch devices keep controls visible."
+              [tsCode]="photosCode"
+            >
+              <div preview>
+                <aeris-galleria
+                  [value]="photos"
+                  [showThumbnails]="false"
+                  showIndicators
+                  indicatorsOverlay
+                  navigatorsOnHover
+                  circular
+                  ariaLabel="Gallery with item indicators"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-galleria
+    [value]="photos"
+    [showThumbnails]="false"
+    showIndicators
+    indicatorsOverlay
+    navigatorsOnHover
+    circular
+    ariaLabel="Gallery with item indicators"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="galleria-controlled"
+              title="Controlled"
+              description="Bind the active index, call public navigation methods, and react to detailed change reasons."
+              [tsCode]="controlledCode"
+              [cssCode]="demoControlsCss"
+            >
+              <div preview>
+                <div class="galleria-demo-controls">
+                  <button aerisButton type="button" (click)="showPrevious()">Previous</button>
+                  <button aerisButton type="button" (click)="controlledGallery.goTo(0)">
+                    First item
+                  </button>
+                  <button aerisButton type="button" (click)="showNext()">Next</button>
+                  <span class="galleria-demo-status" aria-live="polite">{{
+                    controlledStatus()
+                  }}</span>
+                </div>
+                <aeris-galleria
+                  #controlledGallery
+                  [value]="photos"
+                  [(activeIndex)]="controlledIndex"
+                  (indexChanged)="handleIndexChange($event)"
+                  ariaLabel="Controlled puppy gallery"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="galleria-demo-controls"&gt;
+    &lt;button aerisButton type="button" (click)="showPrevious()"&gt;Previous&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="controlledGallery.goTo(0)"&gt;
+      First item
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="showNext()"&gt;Next&lt;/button&gt;
+    &lt;span class="galleria-demo-status" aria-live="polite"&gt;&#123;&#123;
+      controlledStatus()
+    &#125;&#125;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;aeris-galleria
+    #controlledGallery
+    [value]="photos"
+    [(activeIndex)]="controlledIndex"
+    (indexChanged)="handleIndexChange($event)"
+    ariaLabel="Controlled puppy gallery"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="galleria-autoplay"
+              title="Circular autoplay"
+              description="Advance continuously while pausing for hover, focus, or reduced-motion preferences."
+              [tsCode]="photosCode"
+            >
+              <div preview>
+                <aeris-galleria
+                  [value]="photos"
+                  circular
+                  [autoplayInterval]="1800"
+                  ariaLabel="Autoplay puppy gallery"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-galleria
+    [value]="photos"
+    circular
+    [autoplayInterval]="1800"
+    ariaLabel="Autoplay puppy gallery"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="galleria-templates"
+              title="Custom media templates"
+              description="Render arbitrary stage, thumbnail, and caption content while retaining Galleria navigation and accessibility behavior."
+              [tsCode]="photosCode"
+              [cssCode]="customTemplateCss"
+            >
+              <div preview>
+                <aeris-galleria [value]="photos" ariaLabel="Templated puppy gallery">
+                  <ng-template aerisGalleriaItem let-photo>
+                    <figure class="galleria-custom-item">
+                      <img [src]="$any(photo).src" [alt]="$any(photo).alt" />
+                    </figure>
+                  </ng-template>
+                  <ng-template aerisGalleriaThumbnail let-photo>
+                    <span class="galleria-custom-thumbnail"
+                      ><img [src]="$any(photo).thumbnailSrc" [alt]="$any(photo).alt"
+                    /></span>
+                  </ng-template>
+                  <ng-template aerisGalleriaCaption let-photo let-index="index">
+                    <div class="galleria-custom-caption">
+                      <strong>{{ $any(photo).title }}</strong
+                      ><span>{{ index + 1 }} / {{ photos.length }}</span>
+                    </div>
+                  </ng-template>
+                </aeris-galleria>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-galleria [value]="photos" ariaLabel="Templated puppy gallery"&gt;
+    &lt;ng-template aerisGalleriaItem let-photo&gt;
+      &lt;figure class="galleria-custom-item"&gt;
+        &lt;img [src]="$any(photo).src" [alt]="$any(photo).alt" /&gt;
+      &lt;/figure&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisGalleriaThumbnail let-photo&gt;
+      &lt;span class="galleria-custom-thumbnail"
+        &gt;&lt;img [src]="$any(photo).thumbnailSrc" [alt]="$any(photo).alt"
+      /&gt;&lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisGalleriaCaption let-photo let-index="index"&gt;
+      &lt;div class="galleria-custom-caption"&gt;
+        &lt;strong&gt;&#123;&#123; $any(photo).title &#125;&#125;&lt;/strong
+        &gt;&lt;span&gt;&#123;&#123; index + 1 &#125;&#125; / &#123;&#123; photos.length &#125;&#125;&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-galleria&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="On this page"
+            ariaLabel="Galleria feature links"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="galleria-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Galleria inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="galleria-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="Galleria models">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="galleria-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Galleria outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="galleria-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="Galleria templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="galleria-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Galleria methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Returns</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API links" ariaLabel="Galleria API links" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="galleria-interfaces" class="api-section">
+              <app-code-block [code]="interfacesCode" language="TypeScript" />
+            </section>
+          </div>
+          <app-page-toc
+            title="Interface links"
+            ariaLabel="Galleria interface links"
+            [links]="interfaceLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="galleria-tokens" class="api-section">
+              <div class="api-table" role="table" aria-label="Galleria design tokens">
+                <div role="row">
+                  <span role="columnheader">Token</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of tokens; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="Token links" ariaLabel="Galleria token links" [links]="tokenLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="galleria-semantics" class="api-section">
+              <h3>Semantics and behavior</h3>
+              <ul>
+                <li>
+                  Inline Galleria is a named gallery region. Fullscreen presentation becomes a modal
+                  dialog, traps focus, locks background scrolling without shifting page content, and
+                  restores focus when closed.
+                </li>
+                <li>
+                  Thumbnails and indicators are labelled groups of native buttons. The selected
+                  image exposes current state and each selector references the gallery stage.
+                </li>
+                <li>
+                  Thumbnail windows are paged with labelled previous and next buttons that remain
+                  usable with touch, keyboard, and assistive technology.
+                </li>
+                <li>
+                  The image tools use a labelled toolbar with native buttons, pressed states for
+                  flips and fullscreen, disabled zoom boundaries, and a readable zoom output.
+                </li>
+                <li>
+                  Grid mode exposes a named list of image buttons. Single mode removes collection
+                  thumbnails and indicators while preserving native toolbar and fullscreen controls.
+                </li>
+                <li>
+                  Built-in images require meaningful <code>alt</code> text. Use an empty alt only
+                  when an image is genuinely decorative and its caption conveys no unique
+                  information.
+                </li>
+                <li>
+                  Autoplay pauses for hover and focus, is disabled when reduced motion is requested,
+                  and keeps live announcements off while running.
+                </li>
+                <li>
+                  Hover-only navigators remain visible on touch devices and whenever keyboard focus
+                  is inside the stage.
+                </li>
+                <li>
+                  Custom templates must preserve accessible names and semantics for any interactive
+                  content they introduce.
+                </li>
+                <li>
+                  Download accepts relative, HTTP, HTTPS, Blob, and allowlisted image data URLs.
+                  Other schemes are rejected and the download action is not rendered.
+                </li>
+              </ul>
+            </section>
+            <section id="galleria-keyboard" class="api-section">
+              <h3>Keyboard support</h3>
+              <div
+                class="api-table keyboard-table"
+                role="table"
+                aria-label="Galleria keyboard support"
+              >
+                <div role="row">
+                  <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Tab</kbd
+                  ><span role="cell"
+                    >Moves through stage controls, thumbnails, indicators, and projected native
+                    interactive elements. Focus is contained while fullscreen is open.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Right / Arrow Left</kbd
+                  ><span role="cell"
+                    >Moves to the next or previous item from the focused stage. Direction follows
+                    RTL.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Home / End</kbd
+                  ><span role="cell">Moves to the first or last item from the focused stage.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Enter / Space</kbd
+                  ><span role="cell"
+                    >Activates focused native navigator, toolbar, grid, thumbnail, indicator, or
+                    fullscreen buttons.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Escape</kbd
+                  ><span role="cell"
+                    >Closes fullscreen presentation when closeOnEscape is enabled.</span
+                  >
+                </div>
+              </div>
+            </section>
+          </div>
+          <app-page-toc
+            title="Accessibility links"
+            ariaLabel="Galleria accessibility links"
+            [links]="accessibilityLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

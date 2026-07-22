@@ -1,0 +1,33 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.progress-bar-docs {
+  app-form-demo {
+    --docs-code-block-max-height: min(36rem, 70vh);
+  }
+
+  .progress-stack,
+  .progress-template-stack {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .progress-caption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.35rem;
+    color: var(--text-2);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  .progress-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.875rem;
+  }
+
+}

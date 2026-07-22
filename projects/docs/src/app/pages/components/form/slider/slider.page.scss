@@ -1,0 +1,26 @@
+@use '../shared/form-docs';
+
+.slider-size-stack {
+  width: 100%;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.vertical-sliders {
+  width: 100%;
+  min-height: 18rem;
+  display: flex;
+  justify-content: center;
+  gap: 5rem;
+}
+
+.vertical-sliders .field {
+  justify-items: center;
+}
+
+@media (max-width: 36rem) {
+  .vertical-sliders {
+    gap: 2.5rem;
+  }
+}
+

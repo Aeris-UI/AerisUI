@@ -1,0 +1,937 @@
+<article class="button-docs dialog-docs">
+  <app-component-page-header
+    category="Overlay"
+    title="Dialog"
+    description="Displays modal or non-modal content with focus management, dismissal controls, templates, and responsive sizing."
+  />
+
+  <section id="dialog-import" class="import-section" aria-labelledby="dialog-import-title">
+    <div>
+      <h2 id="dialog-import-title">Import</h2>
+      <p>
+        One import provides Dialog and its header, footer, close-icon, and headless template
+        directives.
+      </p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Dialog documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="dialog-basic"
+              title="Basic"
+              description="Open a modal dialog from application state. Dialog focuses the first available control and restores focus when closed."
+              [tsCode]="basicTsCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="basicOpen.set(true)">Open dialog</button>
+                <aeris-dialog header="Project details" [(visible)]="basicOpen">
+                  <p>Review project ownership, milestone status, and pending approvals.</p>
+                </aeris-dialog>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="basicOpen.set(true)"&gt;Open dialog&lt;/button&gt;
+  &lt;aeris-dialog header="Project details" [(visible)]="basicOpen"&gt;
+    &lt;p&gt;Review project ownership, milestone status, and pending approvals.&lt;/p&gt;
+  &lt;/aeris-dialog&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dialog-controlled"
+              title="Controlled state"
+              description="Use the visible model and events when the application owns dialog state and needs close reasons."
+              [tsCode]="controlledTsCode"
+              [cssCode]="formCssCode + '\n\n' + controlsCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="controlledOpen.set(true)">
+                  Edit workspace
+                </button>
+                <aeris-dialog
+                  header="Edit workspace"
+                  [(visible)]="controlledOpen"
+                  (visibilityChanged)="recordDialogEvent($event)"
+                >
+                  <form class="dialog-form">
+                    <label>
+                      Workspace name
+                      <input aerisInputText type="text" value="Design System" />
+                    </label>
+                    <label>
+                      Notes
+                      <textarea aerisTextarea>
+Shared component planning and release notes.</textarea>
+                    </label>
+                  </form>
+                  <ng-template aerisDialogFooter let-close="close">
+                    <div class="dialog-actions">
+                      <button aerisButton type="button" (click)="close($event)">Cancel</button>
+                      <button aerisButton type="button" (click)="close($event)">Save</button>
+                    </div>
+                  </ng-template>
+                </aeris-dialog>
+                <p class="dialog-status" aria-live="polite">{{ lastEvent() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+                &lt;button aerisButton type="button" (click)="controlledOpen.set(true)"&gt;
+                  Edit workspace
+                &lt;/button&gt;
+                &lt;aeris-dialog
+                  header="Edit workspace"
+                  [(visible)]="controlledOpen"
+                  (visibilityChanged)="recordDialogEvent($event)"
+                &gt;
+                  &lt;form class="dialog-form"&gt;
+                    &lt;label&gt;
+                      Workspace name
+                      &lt;input aerisInputText type="text" value="Design System" /&gt;
+                    &lt;/label&gt;
+                    &lt;label&gt;
+                      Notes
+                      &lt;textarea aerisTextarea&gt;
+Shared component planning and release notes.&lt;/textarea&gt;
+                    &lt;/label&gt;
+                  &lt;/form&gt;
+                  &lt;ng-template aerisDialogFooter let-close="close"&gt;
+                    &lt;div class="dialog-actions"&gt;
+                      &lt;button aerisButton type="button" (click)="close($event)"&gt;Cancel&lt;/button&gt;
+                      &lt;button aerisButton type="button" (click)="close($event)"&gt;Save&lt;/button&gt;
+                    &lt;/div&gt;
+                  &lt;/ng-template&gt;
+                &lt;/aeris-dialog&gt;
+                &lt;p class="dialog-status" aria-live="polite"&gt;&#123;&#123; lastEvent() &#125;&#125;&lt;/p&gt;
+              &lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dialog-dismissal"
+              title="Dismissal and backdrop"
+              description="Backdrops are frosted by default. Set the blur strength per dialog, keep the backdrop without blur, or hide it while retaining modal behavior."
+              [tsCode]="dismissalTsCode"
+              [cssCode]="controlsCssCode"
+            >
+              <div preview>
+                <div class="dialog-controls">
+                  <button aerisButton type="button" (click)="dismissalOpen.set(true)">
+                    Open strong blur
+                  </button>
+                  <button aerisButton type="button" (click)="noBackdropBlurOpen.set(true)">
+                    Open without blur
+                  </button>
+                  <button aerisButton type="button" (click)="noBackdropOpen.set(true)">
+                    Open without backdrop
+                  </button>
+                </div>
+                <aeris-dialog
+                  header="Dismissible dialog"
+                  dismissibleMask
+                  backdropBlurAmount="1rem"
+                  [(visible)]="dismissalOpen"
+                >
+                  <p>This mask uses a 1rem blur. Press it outside the panel to dismiss.</p>
+                </aeris-dialog>
+                <aeris-dialog
+                  header="Backdrop without blur"
+                  [backdropBlur]="false"
+                  [(visible)]="noBackdropBlurOpen"
+                >
+                  <p>The backdrop still dims the page without applying the frosted blur.</p>
+                </aeris-dialog>
+                <aeris-dialog header="No backdrop" [backdrop]="false" [(visible)]="noBackdropOpen">
+                  <p>This dialog remains modal, but the visual backdrop is not rendered.</p>
+                </aeris-dialog>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="dialog-controls"&gt;
+    &lt;button aerisButton type="button" (click)="dismissalOpen.set(true)"&gt;
+      Open strong blur
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="noBackdropBlurOpen.set(true)"&gt;
+      Open without blur
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="noBackdropOpen.set(true)"&gt;
+      Open without backdrop
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-dialog
+    header="Dismissible dialog"
+    dismissibleMask
+    backdropBlurAmount="1rem"
+    [(visible)]="dismissalOpen"
+  &gt;
+    &lt;p&gt;This mask uses a 1rem blur. Press it outside the panel to dismiss.&lt;/p&gt;
+  &lt;/aeris-dialog&gt;
+  &lt;aeris-dialog
+    header="Backdrop without blur"
+    [backdropBlur]="false"
+    [(visible)]="noBackdropBlurOpen"
+  &gt;
+    &lt;p&gt;The backdrop still dims the page without applying the frosted blur.&lt;/p&gt;
+  &lt;/aeris-dialog&gt;
+  &lt;aeris-dialog header="No backdrop" [backdrop]="false" [(visible)]="noBackdropOpen"&gt;
+    &lt;p&gt;This dialog remains modal, but the visual backdrop is not rendered.&lt;/p&gt;
+  &lt;/aeris-dialog&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dialog-templates"
+              title="Templates"
+              description="Replace the header, footer, and close icon while Dialog keeps the dialog role and close button semantics."
+              [tsCode]="templateTsCode"
+              [cssCode]="templateCssCode + '\n\n' + controlsCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="templateOpen.set(true)">
+                  Open templated dialog
+                </button>
+                <aeris-dialog ariaLabel="Release dialog" [(visible)]="templateOpen">
+                  <ng-template aerisDialogHeader>
+                    <span class="dialog-title-stack">
+                      <span>Release checklist</span>
+                      <small>3 required tasks</small>
+                    </span>
+                  </ng-template>
+                  <ng-template aerisDialogCloseIcon>
+                    <span class="dialog-close-icon"></span>
+                  </ng-template>
+                  <p>Confirm changelog, owner approval, and rollout timing before publishing.</p>
+                  <ng-template aerisDialogFooter let-close="close">
+                    <div class="dialog-actions">
+                      <button aerisButton type="button" (click)="close($event)">Close</button>
+                    </div>
+                  </ng-template>
+                </aeris-dialog>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="templateOpen.set(true)"&gt;
+    Open templated dialog
+  &lt;/button&gt;
+  &lt;aeris-dialog ariaLabel="Release dialog" [(visible)]="templateOpen"&gt;
+    &lt;ng-template aerisDialogHeader&gt;
+      &lt;span class="dialog-title-stack"&gt;
+        &lt;span&gt;Release checklist&lt;/span&gt;
+        &lt;small&gt;3 required tasks&lt;/small&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisDialogCloseIcon&gt;
+      &lt;span class="dialog-close-icon"&gt;&lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;p&gt;Confirm changelog, owner approval, and rollout timing before publishing.&lt;/p&gt;
+    &lt;ng-template aerisDialogFooter let-close="close"&gt;
+      &lt;div class="dialog-actions"&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Close&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-dialog&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dialog-positions"
+              title="Positions"
+              description="Position the same dialog near viewport edges for contextual workflows."
+              [tsCode]="positionsTsCode"
+              [cssCode]="controlsCssCode"
+            >
+              <div preview>
+                <div class="dialog-controls">
+                  <button aerisButton type="button" (click)="openAt('center')">Center</button>
+                  <button aerisButton type="button" (click)="openAt('top-right')">Top right</button>
+                  <button aerisButton type="button" (click)="openAt('bottom')">Bottom</button>
+                </div>
+                <aeris-dialog
+                  header="Positioned dialog"
+                  [position]="currentPosition()"
+                  [(visible)]="positionOpen"
+                >
+                  <p>This dialog opens at {{ currentPosition() }}.</p>
+                </aeris-dialog>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="dialog-controls"&gt;
+    &lt;button aerisButton type="button" (click)="openAt('center')"&gt;Center&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="openAt('top-right')"&gt;Top right&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="openAt('bottom')"&gt;Bottom&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-dialog
+    header="Positioned dialog"
+    [position]="currentPosition()"
+    [(visible)]="positionOpen"
+  &gt;
+    &lt;p&gt;This dialog opens at &#123;&#123; currentPosition() &#125;&#125;.&lt;/p&gt;
+  &lt;/aeris-dialog&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dialog-sizing"
+              title="Custom width"
+              description="Set an exact panel width while preserving viewport-safe maximums."
+              [tsCode]="sizingTsCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="sizingOpen.set(true)">
+                  Open custom-width dialog
+                </button>
+                <aeris-dialog
+                  header="Custom width"
+                  width="42rem"
+                  maxWidth="calc(100vw - 2rem)"
+                  [(visible)]="sizingOpen"
+                >
+                  <p>
+                    The width input accepts any valid CSS length and still respects the viewport
+                    maximum.
+                  </p>
+                </aeris-dialog>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="sizingOpen.set(true)"&gt;
+    Open custom-width dialog
+  &lt;/button&gt;
+  &lt;aeris-dialog
+    header="Custom width"
+    width="42rem"
+    maxWidth="calc(100vw - 2rem)"
+    [(visible)]="sizingOpen"
+  &gt;
+    &lt;p&gt;
+      The width input accepts any valid CSS length and still respects the viewport
+      maximum.
+    &lt;/p&gt;
+  &lt;/aeris-dialog&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dialog-responsive"
+              title="Responsive width"
+              description="Use a desktop width with a narrow-viewport width for mobile layouts."
+              [tsCode]="responsiveTsCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="responsiveOpen.set(true)">
+                  Open responsive dialog
+                </button>
+                <aeris-dialog
+                  header="Responsive dialog"
+                  width="44rem"
+                  maxWidth="calc(100vw - 2rem)"
+                  mobileWidth="calc(100vw - 1rem)"
+                  [(visible)]="responsiveOpen"
+                >
+                  <p>
+                    The dialog uses the custom desktop width until the built-in narrow viewport
+                    query applies the mobile width.
+                  </p>
+                </aeris-dialog>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="responsiveOpen.set(true)"&gt;
+    Open responsive dialog
+  &lt;/button&gt;
+  &lt;aeris-dialog
+    header="Responsive dialog"
+    width="44rem"
+    maxWidth="calc(100vw - 2rem)"
+    mobileWidth="calc(100vw - 1rem)"
+    [(visible)]="responsiveOpen"
+  &gt;
+    &lt;p&gt;
+      The dialog uses the custom desktop width until the built-in narrow viewport
+      query applies the mobile width.
+    &lt;/p&gt;
+  &lt;/aeris-dialog&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dialog-long-content"
+              title="Long content"
+              description="Constrain dialog height so lengthy body content scrolls while the header and footer remain available."
+              [tsCode]="longContentTsCode"
+              [cssCode]="controlsCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="longContentOpen.set(true)">
+                  Open long content dialog
+                </button>
+                <aeris-dialog
+                  header="Release notes"
+                  width="38rem"
+                  maxHeight="26rem"
+                  [(visible)]="longContentOpen"
+                >
+                  <p>
+                    Version 4.2 includes updates across component behavior, design tokens,
+                    documentation, and test coverage.
+                  </p>
+                  <p>
+                    Button, table, tree, and dialog examples now use complete Angular component code
+                    so copied examples can run without hidden context.
+                  </p>
+                  <p>
+                    Dialog keeps the header and footer visible while body content scrolls inside the
+                    constrained panel.
+                  </p>
+                  <p>
+                    Keyboard checks cover Escape dismissal, focus trapping, close-button semantics,
+                    and focus restoration after the dialog closes.
+                  </p>
+                  <p>
+                    Accessibility updates clarify when visible labels are generated automatically
+                    and when ariaLabel or ariaLabelledBy should be provided.
+                  </p>
+                  <p>
+                    Theme updates keep overlay, surface, border, focus, and text colors aligned
+                    across every palette in light and dark mode.
+                  </p>
+                  <p>
+                    Responsive behavior uses viewport-safe maximums by default and supports a
+                    dedicated mobileWidth value for narrow layouts.
+                  </p>
+                  <p>
+                    Consumers can opt out of the visual backdrop while retaining modal semantics,
+                    focus management, and scroll blocking.
+                  </p>
+                  <p>
+                    Headless composition is available for custom surfaces that still need the
+                    built-in dialog role and focus behavior.
+                  </p>
+                  <p>
+                    Long release notes, review checklists, and legal notices should set maxHeight so
+                    important actions remain reachable.
+                  </p>
+                  <p>
+                    The scrollable region is the dialog body. Footer actions remain fixed at the
+                    bottom of the dialog panel.
+                  </p>
+                  <p>
+                    This final paragraph confirms the body is long enough to require scrolling in
+                    the live example.
+                  </p>
+                  <ng-template aerisDialogFooter let-close="close">
+                    <div class="dialog-actions">
+                      <button aerisButton type="button" (click)="close($event)">Close</button>
+                    </div>
+                  </ng-template>
+                </aeris-dialog>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="longContentOpen.set(true)"&gt;
+    Open long content dialog
+  &lt;/button&gt;
+  &lt;aeris-dialog
+    header="Release notes"
+    width="38rem"
+    maxHeight="26rem"
+    [(visible)]="longContentOpen"
+  &gt;
+    &lt;p&gt;
+      Version 4.2 includes updates across component behavior, design tokens,
+      documentation, and test coverage.
+    &lt;/p&gt;
+    &lt;p&gt;
+      Button, table, tree, and dialog examples now use complete Angular component code
+      so copied examples can run without hidden context.
+    &lt;/p&gt;
+    &lt;p&gt;
+      Dialog keeps the header and footer visible while body content scrolls inside the
+      constrained panel.
+    &lt;/p&gt;
+    &lt;p&gt;
+      Keyboard checks cover Escape dismissal, focus trapping, close-button semantics,
+      and focus restoration after the dialog closes.
+    &lt;/p&gt;
+    &lt;p&gt;
+      Accessibility updates clarify when visible labels are generated automatically
+      and when ariaLabel or ariaLabelledBy should be provided.
+    &lt;/p&gt;
+    &lt;p&gt;
+      Theme updates keep overlay, surface, border, focus, and text colors aligned
+      across every palette in light and dark mode.
+    &lt;/p&gt;
+    &lt;p&gt;
+      Responsive behavior uses viewport-safe maximums by default and supports a
+      dedicated mobileWidth value for narrow layouts.
+    &lt;/p&gt;
+    &lt;p&gt;
+      Consumers can opt out of the visual backdrop while retaining modal semantics,
+      focus management, and scroll blocking.
+    &lt;/p&gt;
+    &lt;p&gt;
+      Headless composition is available for custom surfaces that still need the
+      built-in dialog role and focus behavior.
+    &lt;/p&gt;
+    &lt;p&gt;
+      Long release notes, review checklists, and legal notices should set maxHeight so
+      important actions remain reachable.
+    &lt;/p&gt;
+    &lt;p&gt;
+      The scrollable region is the dialog body. Footer actions remain fixed at the
+      bottom of the dialog panel.
+    &lt;/p&gt;
+    &lt;p&gt;
+      This final paragraph confirms the body is long enough to require scrolling in
+      the live example.
+    &lt;/p&gt;
+    &lt;ng-template aerisDialogFooter let-close="close"&gt;
+      &lt;div class="dialog-actions"&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Close&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-dialog&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dialog-confirmation"
+              title="Confirmation"
+              description="Compose a focused confirmation flow by disabling incidental close affordances and providing explicit actions."
+              [tsCode]="confirmTsCode"
+              [cssCode]="controlsCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="confirmOpen.set(true)">
+                  Open confirmation
+                </button>
+                <aeris-dialog
+                  header="Archive workspace?"
+                  [closable]="false"
+                  [closeOnEscape]="false"
+                  initialFocus="#archive-cancel"
+                  [(visible)]="confirmOpen"
+                >
+                  <p>
+                    This action moves the workspace out of active navigation. You can restore it
+                    later from settings.
+                  </p>
+                  <ng-template aerisDialogFooter let-close="close">
+                    <div class="dialog-actions">
+                      <button aerisButton id="archive-cancel" type="button" (click)="close($event)">
+                        Cancel
+                      </button>
+                      <button aerisButton type="button" (click)="close($event)">Archive</button>
+                    </div>
+                  </ng-template>
+                </aeris-dialog>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="confirmOpen.set(true)"&gt;
+    Open confirmation
+  &lt;/button&gt;
+  &lt;aeris-dialog
+    header="Archive workspace?"
+    [closable]="false"
+    [closeOnEscape]="false"
+    initialFocus="#archive-cancel"
+    [(visible)]="confirmOpen"
+  &gt;
+    &lt;p&gt;
+      This action moves the workspace out of active navigation. You can restore it
+      later from settings.
+    &lt;/p&gt;
+    &lt;ng-template aerisDialogFooter let-close="close"&gt;
+      &lt;div class="dialog-actions"&gt;
+        &lt;button aerisButton id="archive-cancel" type="button" (click)="close($event)"&gt;
+          Cancel
+        &lt;/button&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Archive&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-dialog&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dialog-headless"
+              title="Headless"
+              description="Replace the built-in layout when a workflow needs a fully custom surface while Dialog keeps focus and dialog semantics."
+              [tsCode]="headlessTsCode"
+              [cssCode]="headlessCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="headlessOpen.set(true)">
+                  Open headless dialog
+                </button>
+                <aeris-dialog
+                  ariaLabel="Custom notification"
+                  width="24rem"
+                  [(visible)]="headlessOpen"
+                >
+                  <ng-template aerisDialogHeadless let-close="close">
+                    <div class="headless-dialog">
+                      <h3>Custom notification</h3>
+                      <p>
+                        Use headless mode when the default header, body, and footer layout should be
+                        replaced.
+                      </p>
+                      <button aerisButton type="button" (click)="close($event)">Close</button>
+                    </div>
+                  </ng-template>
+                </aeris-dialog>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="headlessOpen.set(true)"&gt;
+    Open headless dialog
+  &lt;/button&gt;
+  &lt;aeris-dialog
+    ariaLabel="Custom notification"
+    width="24rem"
+    [(visible)]="headlessOpen"
+  &gt;
+    &lt;ng-template aerisDialogHeadless let-close="close"&gt;
+      &lt;div class="headless-dialog"&gt;
+        &lt;h3&gt;Custom notification&lt;/h3&gt;
+        &lt;p&gt;
+          Use headless mode when the default header, body, and footer layout should be
+          replaced.
+        &lt;/p&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Close&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-dialog&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dialog-utilities"
+              title="Maximize, drag, and resize"
+              description="Enable optional layout utilities for advanced editing surfaces."
+              [tsCode]="utilityTsCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="utilityOpen.set(true)">
+                  Open utility dialog
+                </button>
+                <aeris-dialog
+                  header="Utility dialog"
+                  maximizable
+                  draggable
+                  resizable
+                  [(visible)]="utilityOpen"
+                  [(maximized)]="maximized"
+                >
+                  <p>
+                    Drag from the header, resize from the panel edge, or maximize from the header
+                    action.
+                  </p>
+                </aeris-dialog>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="utilityOpen.set(true)"&gt;
+    Open utility dialog
+  &lt;/button&gt;
+  &lt;aeris-dialog
+    header="Utility dialog"
+    maximizable
+    draggable
+    resizable
+    [(visible)]="utilityOpen"
+    [(maximized)]="maximized"
+  &gt;
+    &lt;p&gt;
+      Drag from the header, resize from the panel edge, or maximize from the header
+      action.
+    &lt;/p&gt;
+  &lt;/aeris-dialog&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Dialog features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="dialog-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Dialog inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="dialog-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="Dialog models">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="dialog-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Dialog outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="dialog-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="Dialog templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="dialog-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Dialog methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Dialog API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          Dialog exposes typed close reasons, positions, sizes, visibility events, and template
+          contexts.
+        </p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table token-table" role="table" aria-label="Dialog design tokens">
+          <div role="row">
+            <span role="columnheader">Token</span><span role="columnheader">Purpose</span
+            ><span role="columnheader">Fallback</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-z-index</code
+            ><span role="cell">Overlay stacking context.</span><code role="cell">1000</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-mask-background</code
+            ><span role="cell">Modal mask color.</span><code role="cell">color-mix(...)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-backdrop-blur</code
+            ><span role="cell">Dialog backdrop blur radius.</span
+            ><code role="cell">--aeris-backdrop-blur</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-backdrop-blur</code
+            ><span role="cell">Shared backdrop blur radius.</span><code role="cell">0.25rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-width</code><span role="cell">Custom panel width.</span
+            ><code role="cell">32rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-min-width</code
+            ><span role="cell">Minimum panel width.</span><code role="cell">0px</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-max-width</code
+            ><span role="cell">Maximum viewport width.</span
+            ><code role="cell">calc(100vw - 2.5rem)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-height</code
+            ><span role="cell">Custom panel height.</span><code role="cell">auto</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-max-height</code
+            ><span role="cell">Maximum viewport height.</span
+            ><code role="cell">calc(100vh - 2.5rem)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-mobile-width</code
+            ><span role="cell">Narrow viewport panel width.</span
+            ><code role="cell">calc(100vw - 1.5rem)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-viewport-padding</code
+            ><span role="cell">Overlay padding around the panel.</span
+            ><code role="cell">1.25rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-mobile-viewport-padding</code
+            ><span role="cell">Overlay padding on narrow viewports.</span
+            ><code role="cell">0.75rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-background</code><span role="cell">Panel surface.</span
+            ><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-color</code><span role="cell">Base text color.</span
+            ><code role="cell">--aeris-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-body-color</code
+            ><span role="cell">Body text color.</span><code role="cell">--aeris-text-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-border</code
+            ><span role="cell">Panel and section borders.</span
+            ><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-radius</code><span role="cell">Panel radius.</span
+            ><code role="cell">--aeris-radius-lg</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-shadow</code><span role="cell">Panel shadow.</span
+            ><code role="cell">0 1.25rem 3.25rem ...</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-focus</code><span role="cell">Focus ring color.</span
+            ><code role="cell">--aeris-focus</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-header-padding</code
+            ><span role="cell">Header and footer padding.</span
+            ><code role="cell">1rem 1.125rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-body-padding</code
+            ><span role="cell">Body padding.</span><code role="cell">1.125rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-icon-color</code
+            ><span role="cell">Header action icon color.</span
+            ><code role="cell">--aeris-text-2</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <div class="accessibility-notes">
+          <p>
+            Dialog renders <code>role="dialog"</code> and sets <code>aria-modal</code> from the
+            modal input. A visible header labels the dialog automatically unless
+            <code>ariaLabel</code> or <code>ariaLabelledBy</code> is provided.
+          </p>
+          <p>
+            When opened, focus moves to <code>initialFocus</code>, the first focusable control, or
+            the dialog panel. Tab navigation is trapped while <code>focusTrap</code> is enabled, and
+            focus is restored after close when <code>restoreFocus</code> is enabled.
+          </p>
+          <p>
+            The <code>backdrop</code> input controls only the visible mask. The
+            <code>modal</code> input controls modal semantics, scroll blocking, and focus behavior.
+          </p>
+          <p>
+            Mask dismissal is opt-in. Escape dismissal is enabled by default and can be disabled
+            with <code>closeOnEscape</code>.
+          </p>
+        </div>
+
+        <h3>Keyboard support</h3>
+        <div class="api-table keyboard-table" role="table" aria-label="Dialog keyboard support">
+          <div role="row">
+            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd></span
+            ><span role="cell"
+              >Moves to the next focusable item inside the dialog; wraps to the first item from the
+              last item.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell"
+              >Moves to the previous focusable item inside the dialog; wraps to the last item from
+              the first item.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Escape</kbd></span
+            ><span role="cell">Closes the dialog when <code>closeOnEscape</code> is enabled.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell"
+              >Activates focused buttons, including the close and maximize controls.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

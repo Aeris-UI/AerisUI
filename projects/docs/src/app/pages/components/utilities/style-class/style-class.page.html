@@ -1,0 +1,550 @@
+<article class="button-docs style-class-docs">
+  <app-component-page-header
+    category="Utilities"
+    title="StyleClass"
+    description="Toggle application classes or coordinate enter and leave transitions on related elements declaratively."
+  />
+
+  <section
+    id="style-class-import"
+    class="import-section"
+    aria-labelledby="style-class-import-title"
+  >
+    <div>
+      <h2 id="style-class-import-title">Import</h2>
+      <p>One import provides the standalone StyleClass directive.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="StyleClass documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="style-class-toggle"
+              title="Toggle classes"
+              description="Add or remove one or more application classes on a related target."
+              [cssCode]="toggleCssCode"
+            >
+              <div preview>
+                <div class="style-toggle-demo">
+                  <button
+                    aerisButton
+                    type="button"
+                    aerisStyleClass="@next"
+                    aerisStyleClassToggle="style-toggle-card--active"
+                  >
+                    Toggle emphasis
+                  </button>
+                  <article class="style-toggle-card">
+                    This card is styled by a class on the next sibling target.
+                  </article>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="style-toggle-demo"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      aerisStyleClass="&#64;next"
+      aerisStyleClassToggle="style-toggle-card--active"
+    &gt;
+      Toggle emphasis
+    &lt;/button&gt;
+    &lt;article class="style-toggle-card"&gt;
+      This card is styled by a class on the next sibling target.
+    &lt;/article&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="style-class-animation"
+              title="Animation"
+              description="Apply enter and leave phases, dismiss outside or with Escape, and honor reduced-motion preferences."
+              [cssCode]="animationCssCode"
+            >
+              <div preview>
+                <div class="style-animation-demo">
+                  <button
+                    #animationController="aerisStyleClass"
+                    aerisButton
+                    type="button"
+                    aerisStyleClass="@next"
+                    aerisStyleClassEnterFrom="style-enter-from"
+                    aerisStyleClassEnterActive="style-enter-active"
+                    aerisStyleClassEnterTo="style-enter-to"
+                    aerisStyleClassLeaveFrom="style-leave-from"
+                    aerisStyleClassLeaveActive="style-leave-active"
+                    aerisStyleClassLeaveTo="style-leave-to"
+                    aerisStyleClassDismissOnOutside
+                    aerisStyleClassDismissOnEscape
+                    aria-controls="style-animation-panel"
+                    [attr.aria-expanded]="animationController.visible()"
+                  >
+                    Toggle release notes
+                  </button>
+                  <section
+                    id="style-animation-panel"
+                    class="style-animation-panel"
+                    [attr.aria-hidden]="!animationController.visible()"
+                  >
+                    The transition classes are temporary. The directive uses the native hidden state
+                    after the leave phase completes.
+                  </section>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="style-animation-demo"&gt;
+    &lt;button
+      #animationController="aerisStyleClass"
+      aerisButton
+      type="button"
+      aerisStyleClass="&#64;next"
+      aerisStyleClassEnterFrom="style-enter-from"
+      aerisStyleClassEnterActive="style-enter-active"
+      aerisStyleClassEnterTo="style-enter-to"
+      aerisStyleClassLeaveFrom="style-leave-from"
+      aerisStyleClassLeaveActive="style-leave-active"
+      aerisStyleClassLeaveTo="style-leave-to"
+      aerisStyleClassDismissOnOutside
+      aerisStyleClassDismissOnEscape
+      aria-controls="style-animation-panel"
+      [attr.aria-expanded]="animationController.visible()"
+    &gt;
+      Toggle release notes
+    &lt;/button&gt;
+    &lt;section
+      id="style-animation-panel"
+      class="style-animation-panel"
+      [attr.aria-hidden]="!animationController.visible()"
+    &gt;
+      The transition classes are temporary. The directive uses the native hidden state
+      after the leave phase completes.
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="style-class-selectors"
+              title="Target selectors"
+              description="Resolve next and previous siblings, ancestors, or remote targets through CSS selectors."
+              [cssCode]="selectorsCssCode"
+            >
+              <div preview>
+                <div class="style-selector-grid">
+                  <div class="style-selector-case">
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="secondary"
+                      aerisStyleClass="@next"
+                      aerisStyleClassToggle="style-selector-target--selected"
+                    >
+                      Next sibling
+                    </button>
+                    <div class="style-selector-target">Next target</div>
+                  </div>
+                  <div class="style-selector-case">
+                    <div class="style-selector-target">Previous target</div>
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="secondary"
+                      aerisStyleClass="@previous"
+                      aerisStyleClassToggle="style-selector-target--selected"
+                    >
+                      Previous sibling
+                    </button>
+                  </div>
+                  <div class="style-selector-target">
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="secondary"
+                      aerisStyleClass="@parent"
+                      aerisStyleClassToggle="style-selector-target--selected"
+                    >
+                      Parent target
+                    </button>
+                  </div>
+                  <div class="style-selector-case">
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="secondary"
+                      aerisStyleClass="#style-remote-target"
+                      aerisStyleClassToggle="style-selector-target--selected"
+                    >
+                      CSS selector
+                    </button>
+                    <div id="style-remote-target" class="style-selector-target">Remote target</div>
+                  </div>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="style-selector-grid"&gt;
+    &lt;div class="style-selector-case"&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="secondary"
+        aerisStyleClass="&#64;next"
+        aerisStyleClassToggle="style-selector-target--selected"
+      &gt;
+        Next sibling
+      &lt;/button&gt;
+      &lt;div class="style-selector-target"&gt;Next target&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="style-selector-case"&gt;
+      &lt;div class="style-selector-target"&gt;Previous target&lt;/div&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="secondary"
+        aerisStyleClass="&#64;previous"
+        aerisStyleClassToggle="style-selector-target--selected"
+      &gt;
+        Previous sibling
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="style-selector-target"&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="secondary"
+        aerisStyleClass="&#64;parent"
+        aerisStyleClassToggle="style-selector-target--selected"
+      &gt;
+        Parent target
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="style-selector-case"&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="secondary"
+        aerisStyleClass="#style-remote-target"
+        aerisStyleClassToggle="style-selector-target--selected"
+      &gt;
+        CSS selector
+      &lt;/button&gt;
+      &lt;div id="style-remote-target" class="style-selector-target"&gt;Remote target&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="style-class-resize"
+              title="Resize dismissal"
+              description="Automatically hide responsive content when the browser or an observed element changes size."
+              [cssCode]="resizeCssCode"
+            >
+              <div preview>
+                <div class="style-resize-demo">
+                  <button
+                    #resizeController="aerisStyleClass"
+                    aerisButton
+                    type="button"
+                    aerisStyleClass="@next"
+                    aerisStyleClassToggle="style-resize-panel--visible"
+                    aerisStyleClassDismissOnResize
+                    aria-controls="style-resize-panel"
+                    [attr.aria-expanded]="resizeController.visible()"
+                  >
+                    Show responsive details
+                  </button>
+                  <section
+                    id="style-resize-panel"
+                    class="style-resize-panel"
+                    [attr.aria-hidden]="!resizeController.visible()"
+                  >
+                    Resize the browser window while this panel is open to dismiss it.
+                  </section>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="style-resize-demo"&gt;
+    &lt;button
+      #resizeController="aerisStyleClass"
+      aerisButton
+      type="button"
+      aerisStyleClass="&#64;next"
+      aerisStyleClassToggle="style-resize-panel--visible"
+      aerisStyleClassDismissOnResize
+      aria-controls="style-resize-panel"
+      [attr.aria-expanded]="resizeController.visible()"
+    &gt;
+      Show responsive details
+    &lt;/button&gt;
+    &lt;section
+      id="style-resize-panel"
+      class="style-resize-panel"
+      [attr.aria-hidden]="!resizeController.visible()"
+    &gt;
+      Resize the browser window while this panel is open to dismiss it.
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="style-class-methods"
+              title="Methods and events"
+              description="Export the directive for imperative control and respond to completed state changes."
+              [tsCode]="methodsTsCode"
+              [cssCode]="methodsCssCode"
+            >
+              <div preview>
+                <div class="style-method-demo">
+                  <div class="style-method-actions">
+                    <button
+                      #methodController="aerisStyleClass"
+                      aerisButton
+                      type="button"
+                      aerisStyleClass="#style-method-notice"
+                      aerisStyleClassToggle="style-method-notice--visible"
+                      aria-controls="style-method-notice"
+                      [attr.aria-expanded]="methodController.visible()"
+                      (shown)="recordMethodShown($event)"
+                      (hidden)="recordMethodHidden($event)"
+                    >
+                      Toggle notice</button
+                    ><button
+                      aerisButton
+                      type="button"
+                      variant="secondary"
+                      (click)="methodController.show()"
+                    >
+                      Show</button
+                    ><button
+                      aerisButton
+                      type="button"
+                      variant="secondary"
+                      (click)="methodController.hide()"
+                    >
+                      Hide
+                    </button>
+                  </div>
+                  <aside
+                    id="style-method-notice"
+                    class="style-method-notice"
+                    [attr.aria-hidden]="!methodController.visible()"
+                  >
+                    Deployment checks completed successfully.
+                  </aside>
+                  <p class="style-method-status" aria-live="polite">{{ methodStatus() }}</p>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="style-method-demo"&gt;
+    &lt;div class="style-method-actions"&gt;
+      &lt;button
+        #methodController="aerisStyleClass"
+        aerisButton
+        type="button"
+        aerisStyleClass="#style-method-notice"
+        aerisStyleClassToggle="style-method-notice--visible"
+        aria-controls="style-method-notice"
+        [attr.aria-expanded]="methodController.visible()"
+        (shown)="recordMethodShown($event)"
+        (hidden)="recordMethodHidden($event)"
+      &gt;
+        Toggle notice&lt;/button
+      &gt;&lt;button
+        aerisButton
+        type="button"
+        variant="secondary"
+        (click)="methodController.show()"
+      &gt;
+        Show&lt;/button
+      &gt;&lt;button
+        aerisButton
+        type="button"
+        variant="secondary"
+        (click)="methodController.hide()"
+      &gt;
+        Hide
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;aside
+      id="style-method-notice"
+      class="style-method-notice"
+      [attr.aria-hidden]="!methodController.visible()"
+    &gt;
+      Deployment checks completed successfully.
+    &lt;/aside&gt;
+    &lt;p class="style-method-status" aria-live="polite"&gt;&#123;&#123; methodStatus() &#125;&#125;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="On this page"
+            ariaLabel="StyleClass features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API"
+      ><section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="style-class-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="StyleClass inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="style-class-api-properties" class="api-section">
+              <h3>Properties</h3>
+              <div class="api-table" role="table" aria-label="StyleClass properties" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Initial</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of properties; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="style-class-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="StyleClass outputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Payload</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="style-class-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="StyleClass methods" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API sections" ariaLabel="StyleClass API" [links]="apiLinks" />
+        </div></section
+    ></aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces"
+      ><section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" /></section
+    ></aeris-tab-panel>
+    <aeris-tab-panel value="tokens" label="Tokens"
+      ><section class="doc-section">
+        <h2>Design tokens</h2>
+        <p>
+          StyleClass has no visual surface and defines no tokens. All managed class names and their
+          styles belong to the consuming application.
+        </p>
+      </section></aeris-tab-panel
+    >
+    <aeris-tab-panel value="accessibility" label="Accessibility"
+      ><section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Use a native button as the trigger so Enter and Space activation work without additional
+            scripting.
+          </li>
+          <li>
+            StyleClass changes presentation only. Bind matching semantics such as
+            <code>aria-expanded</code>, <code>aria-controls</code>, <code>aria-hidden</code>,
+            live-region text, or native disabled state.
+          </li>
+          <li>
+            Transition mode synchronizes the target's native <code>hidden</code> state after leave
+            completes. Toggle-class mode leaves visibility and accessibility semantics to the
+            application.
+          </li>
+          <li>
+            Outside and Escape dismissal do not move or restore focus. Use the appropriate Aeris
+            overlay component when full overlay focus management is required.
+          </li>
+          <li>Transition mode finishes immediately when reduced motion is requested.</li>
+          <li>Invalid or unresolved selectors are ignored safely.</li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="StyleClass keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Enter / Space</span
+            ><span role="cell"
+              >Activates a native button trigger through its normal click behavior.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Escape</span
+            ><span role="cell"
+              >Hides a shown target when <code>aerisStyleClassDismissOnEscape</code> is
+              enabled.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Tab / Shift + Tab</span
+            ><span role="cell"
+              >Retains native document focus order; StyleClass does not trap or move focus.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Other keys</span
+            ><span role="cell">Not handled by the directive.</span>
+          </div>
+        </div>
+      </section></aeris-tab-panel
+    >
+  </aeris-tabs>
+</article>

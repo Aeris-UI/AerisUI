@@ -1,0 +1,706 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Form"
+    title="IconField"
+    description="A lightweight field shell for placing decorative or meaningful icons beside native controls or Aeris form controls."
+  />
+
+  <section class="import-section" aria-labelledby="icon-field-import-title">
+    <div>
+      <h2 id="icon-field-import-title">Import</h2>
+      <p>
+        One import provides the field component and the icon slot directives. IconField does not
+        ship or require an icon library.
+      </p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="IconField documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>
+          IconField is intentionally composable. The projected control owns value, validation, and
+          form behavior; IconField owns the shared visual shell.
+        </p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="icon-field-basic"
+              title="Basic"
+              description="Project an icon and a native input into the field shell. Decorative icons are hidden from assistive technology by default."
+              [tsCode]="searchCode"
+            >
+              <div preview class="field">
+                <label for="site-search">Search</label>
+                <aeris-icon-field fluid>
+                  <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+                  <input
+                    aerisInputText
+                    id="site-search"
+                    type="search"
+                    placeholder="Search documentation"
+                    [(ngModel)]="search"
+                    fluid
+                  />
+                </aeris-icon-field>
+                <small>Value: {{ search() || 'Empty' }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="site-search"&gt;Search&lt;/label&gt;
+  &lt;aeris-icon-field fluid&gt;
+    &lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg&gt;
+    &lt;input
+      aerisInputText
+      id="site-search"
+      type="search"
+      placeholder="Search documentation"
+      [(ngModel)]="search"
+      fluid
+    /&gt;
+  &lt;/aeris-icon-field&gt;
+  &lt;small&gt;Value: &#123;&#123; search() || 'Empty' &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="icon-field-position"
+              title="Icon position"
+              description="Use iconPosition for the common single-icon case. The projected control keeps native keyboard behavior."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="left-icon">Left icon</label>
+                  <aeris-icon-field iconPosition="left" fluid>
+                    <svg aerisIcon [lucideIcon]="icons.Mail"></svg>
+                    <input
+                      aerisInputText
+                      id="left-icon"
+                      type="email"
+                      placeholder="alex@example.com"
+                      fluid
+                    />
+                  </aeris-icon-field>
+                </div>
+                <div class="field">
+                  <label for="right-icon">Right icon</label>
+                  <aeris-icon-field iconPosition="right" fluid>
+                    <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+                    <input
+                      aerisInputText
+                      id="right-icon"
+                      type="search"
+                      placeholder="Search"
+                      fluid
+                    />
+                  </aeris-icon-field>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="left-icon"&gt;Left icon&lt;/label&gt;
+    &lt;aeris-icon-field iconPosition="left" fluid&gt;
+      &lt;svg aerisIcon [lucideIcon]="icons.Mail"&gt;&lt;/svg&gt;
+      &lt;input
+        aerisInputText
+        id="left-icon"
+        type="email"
+        placeholder="alex&#64;example.com"
+        fluid
+      /&gt;
+    &lt;/aeris-icon-field&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="right-icon"&gt;Right icon&lt;/label&gt;
+    &lt;aeris-icon-field iconPosition="right" fluid&gt;
+      &lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg&gt;
+      &lt;input
+        aerisInputText
+        id="right-icon"
+        type="search"
+        placeholder="Search"
+        fluid
+      /&gt;
+    &lt;/aeris-icon-field&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="icon-field-multiple"
+              title="Multiple icons"
+              description="Use aerisIconStart and aerisIconEnd when the field needs icons on both sides."
+            >
+              <div preview class="field">
+                <label for="package-filter">Package filter</label>
+                <aeris-icon-field fluid>
+                  <svg aerisIconStart [lucideIcon]="icons.Package"></svg>
+                  <input
+                    aerisInputText
+                    id="package-filter"
+                    type="search"
+                    placeholder="Filter packages"
+                    fluid
+                  />
+                  <svg aerisIconEnd [lucideIcon]="icons.Search"></svg>
+                </aeris-icon-field>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="package-filter"&gt;Package filter&lt;/label&gt;
+  &lt;aeris-icon-field fluid&gt;
+    &lt;svg aerisIconStart [lucideIcon]="icons.Package"&gt;&lt;/svg&gt;
+    &lt;input
+      aerisInputText
+      id="package-filter"
+      type="search"
+      placeholder="Filter packages"
+      fluid
+    /&gt;
+    &lt;svg aerisIconEnd [lucideIcon]="icons.Search"&gt;&lt;/svg&gt;
+  &lt;/aeris-icon-field&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="icon-field-aeris-input"
+              title="Aeris input"
+              description="IconField can wrap Aeris form controls when you want one visual field with projected icons."
+            >
+              <div preview class="field">
+                <label for="aeris-search">Component search</label>
+                <aeris-icon-field fluid>
+                  <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+                  <input
+                    aerisInputText
+                    id="aeris-search"
+                    type="search"
+                    placeholder="Search components"
+                  />
+                </aeris-icon-field>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="aeris-search"&gt;Component search&lt;/label&gt;
+  &lt;aeris-icon-field fluid&gt;
+    &lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg&gt;
+    &lt;input
+      aerisInputText
+      id="aeris-search"
+      type="search"
+      placeholder="Search components"
+    /&gt;
+  &lt;/aeris-icon-field&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="icon-field-sizes"
+              title="Sizes"
+              description="Use the same size scale as Aeris form controls."
+            >
+              <div preview class="size-grid">
+                <label
+                  ><span>Extra small</span
+                  ><aeris-icon-field size="xs"
+                    ><svg aerisIcon [lucideIcon]="icons.Search"></svg
+                    ><input
+                      aerisInputText
+                      size="xs"
+                      aria-label="Extra small search"
+                      placeholder="Search" /></aeris-icon-field
+                ></label>
+                <label
+                  ><span>Small</span
+                  ><aeris-icon-field size="sm"
+                    ><svg aerisIcon [lucideIcon]="icons.Search"></svg
+                    ><input
+                      aerisInputText
+                      size="sm"
+                      aria-label="Small search"
+                      placeholder="Search" /></aeris-icon-field
+                ></label>
+                <label
+                  ><span>Medium</span
+                  ><aeris-icon-field
+                    ><svg aerisIcon [lucideIcon]="icons.Search"></svg
+                    ><input
+                      aerisInputText
+                      aria-label="Medium search"
+                      placeholder="Search" /></aeris-icon-field
+                ></label>
+                <label
+                  ><span>Large</span
+                  ><aeris-icon-field size="lg"
+                    ><svg aerisIcon [lucideIcon]="icons.Search"></svg
+                    ><input
+                      aerisInputText
+                      size="lg"
+                      aria-label="Large search"
+                      placeholder="Search" /></aeris-icon-field
+                ></label>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="size-grid"&gt;
+  &lt;label
+    &gt;&lt;span&gt;Extra small&lt;/span
+    &gt;&lt;aeris-icon-field size="xs"
+      &gt;&lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg
+      &gt;&lt;input
+        aerisInputText
+        size="xs"
+        aria-label="Extra small search"
+        placeholder="Search" /&gt;&lt;/aeris-icon-field
+  &gt;&lt;/label&gt;
+  &lt;label
+    &gt;&lt;span&gt;Small&lt;/span
+    &gt;&lt;aeris-icon-field size="sm"
+      &gt;&lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg
+      &gt;&lt;input
+        aerisInputText
+        size="sm"
+        aria-label="Small search"
+        placeholder="Search" /&gt;&lt;/aeris-icon-field
+  &gt;&lt;/label&gt;
+  &lt;label
+    &gt;&lt;span&gt;Medium&lt;/span
+    &gt;&lt;aeris-icon-field
+      &gt;&lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg
+      &gt;&lt;input
+        aerisInputText
+        aria-label="Medium search"
+        placeholder="Search" /&gt;&lt;/aeris-icon-field
+  &gt;&lt;/label&gt;
+  &lt;label
+    &gt;&lt;span&gt;Large&lt;/span
+    &gt;&lt;aeris-icon-field size="lg"
+      &gt;&lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg
+      &gt;&lt;input
+        aerisInputText
+        size="lg"
+        aria-label="Large search"
+        placeholder="Search" /&gt;&lt;/aeris-icon-field
+  &gt;&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="icon-field-states"
+              title="Appearances and states"
+              description="Filled, compact, disabled, and invalid states should mirror the projected control state."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <span>Filled</span>
+                  <aeris-icon-field appearance="filled" fluid
+                    ><svg aerisIcon [lucideIcon]="icons.Mail"></svg
+                    ><input aerisInputText aria-label="Filled email" placeholder="Email" fluid
+                  /></aeris-icon-field>
+                </div>
+                <div class="field">
+                  <span>Compact</span>
+                  <aeris-icon-field density="compact" fluid
+                    ><svg aerisIcon [lucideIcon]="icons.Search"></svg
+                    ><input aerisInputText aria-label="Compact search" placeholder="Search" fluid
+                  /></aeris-icon-field>
+                </div>
+                <div class="field">
+                  <span>Disabled</span>
+                  <aeris-icon-field disabled fluid
+                    ><svg aerisIcon [lucideIcon]="icons.Search"></svg
+                    ><input
+                      aerisInputText
+                      aria-label="Disabled search"
+                      placeholder="Search"
+                      disabled
+                      fluid
+                  /></aeris-icon-field>
+                </div>
+                <div class="field">
+                  <span>Invalid</span>
+                  <aeris-icon-field invalid fluid
+                    ><svg aerisIcon [lucideIcon]="icons.AlertTriangle"></svg
+                    ><input
+                      aerisInputText
+                      aria-label="Invalid email"
+                      value="alex@"
+                      aria-invalid="true"
+                      fluid
+                  /></aeris-icon-field>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Filled&lt;/span&gt;
+    &lt;aeris-icon-field appearance="filled" fluid
+      &gt;&lt;svg aerisIcon [lucideIcon]="icons.Mail"&gt;&lt;/svg
+      &gt;&lt;input aerisInputText aria-label="Filled email" placeholder="Email" fluid
+    /&gt;&lt;/aeris-icon-field&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Compact&lt;/span&gt;
+    &lt;aeris-icon-field density="compact" fluid
+      &gt;&lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg
+      &gt;&lt;input aerisInputText aria-label="Compact search" placeholder="Search" fluid
+    /&gt;&lt;/aeris-icon-field&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Disabled&lt;/span&gt;
+    &lt;aeris-icon-field disabled fluid
+      &gt;&lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg
+      &gt;&lt;input
+        aerisInputText
+        aria-label="Disabled search"
+        placeholder="Search"
+        disabled
+        fluid
+    /&gt;&lt;/aeris-icon-field&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Invalid&lt;/span&gt;
+    &lt;aeris-icon-field invalid fluid
+      &gt;&lt;svg aerisIcon [lucideIcon]="icons.AlertTriangle"&gt;&lt;/svg
+      &gt;&lt;input
+        aerisInputText
+        aria-label="Invalid email"
+        value="alex&#64;"
+        aria-invalid="true"
+        fluid
+    /&gt;&lt;/aeris-icon-field&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="icon-field-textarea"
+              title="Textarea"
+              description="The shell also supports textarea content for comments, notes, and search prompts with longer input."
+            >
+              <div preview class="field">
+                <label for="comment-field">Comment</label>
+                <aeris-icon-field fluid>
+                  <svg aerisIconStart [lucideIcon]="icons.Edit"></svg>
+                  <textarea
+                    aerisTextarea
+                    id="comment-field"
+                    rows="3"
+                    placeholder="Write a comment"
+                  ></textarea>
+                </aeris-icon-field>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="comment-field"&gt;Comment&lt;/label&gt;
+  &lt;aeris-icon-field fluid&gt;
+    &lt;svg aerisIconStart [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+    &lt;textarea
+      aerisTextarea
+      id="comment-field"
+      rows="3"
+      placeholder="Write a comment"
+    &gt;&lt;/textarea&gt;
+  &lt;/aeris-icon-field&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="icon-field-validation"
+              title="Validation"
+              description="Keep labels and validation messages connected to the projected control; mirror invalid state on IconField for styling."
+              [tsCode]="validationCode"
+            >
+              <div preview class="field">
+                <label for="icon-email">Email</label>
+                <aeris-icon-field [invalid]="emailInvalid()" fluid>
+                  <svg aerisIcon [lucideIcon]="icons.Mail"></svg>
+                  <input
+                    aerisInputText
+                    id="icon-email"
+                    type="email"
+                    [value]="email()"
+                    [attr.aria-invalid]="emailInvalid() || null"
+                    aria-describedby="icon-email-message"
+                    fluid
+                    (input)="email.set($any($event.target).value)"
+                    (blur)="emailTouched.set(true)"
+                  />
+                </aeris-icon-field>
+                @if (emailInvalid()) {
+                  <small id="icon-email-message" class="error state-message"
+                    >Enter a valid email address.</small
+                  >
+                } @else {
+                  <small id="icon-email-message" class="state-message">Use your work email.</small>
+                }
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="icon-email"&gt;Email&lt;/label&gt;
+  &lt;aeris-icon-field [invalid]="emailInvalid()" fluid&gt;
+    &lt;svg aerisIcon [lucideIcon]="icons.Mail"&gt;&lt;/svg&gt;
+    &lt;input
+      aerisInputText
+      id="icon-email"
+      type="email"
+      [value]="email()"
+      [attr.aria-invalid]="emailInvalid() || null"
+      aria-describedby="icon-email-message"
+      fluid
+      (input)="email.set($any($event.target).value)"
+      (blur)="emailTouched.set(true)"
+    /&gt;
+  &lt;/aeris-icon-field&gt;
+  &#64;if (emailInvalid()) &#123;
+    &lt;small id="icon-email-message" class="error state-message"
+      &gt;Enter a valid email address.&lt;/small
+    &gt;
+  &#125; &#64;else &#123;
+    &lt;small id="icon-email-message" class="state-message"&gt;Use your work email.&lt;/small&gt;
+  &#125;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="icon-field-forms"
+              title="Reactive and template-driven forms"
+              description="Forms integration belongs to the projected control, so IconField works with native controls and Aeris controls."
+              [tsCode]="formsCode"
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="reactive-icon-search">Reactive Forms</label>
+                  <aeris-icon-field fluid>
+                    <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+                    <input
+                      aerisInputText
+                      id="reactive-icon-search"
+                      type="search"
+                      [formControl]="reactiveSearch"
+                      fluid
+                    />
+                  </aeris-icon-field>
+                </div>
+                <div class="field">
+                  <label for="template-icon-search">Template-driven forms</label>
+                  <aeris-icon-field fluid>
+                    <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+                    <input
+                      aerisInputText
+                      id="template-icon-search"
+                      name="templateIconSearch"
+                      type="search"
+                      [(ngModel)]="templateSearch"
+                      fluid
+                    />
+                  </aeris-icon-field>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="reactive-icon-search"&gt;Reactive Forms&lt;/label&gt;
+    &lt;aeris-icon-field fluid&gt;
+      &lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg&gt;
+      &lt;input
+        aerisInputText
+        id="reactive-icon-search"
+        type="search"
+        [formControl]="reactiveSearch"
+        fluid
+      /&gt;
+    &lt;/aeris-icon-field&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="template-icon-search"&gt;Template-driven forms&lt;/label&gt;
+    &lt;aeris-icon-field fluid&gt;
+      &lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg&gt;
+      &lt;input
+        aerisInputText
+        id="template-icon-search"
+        name="templateIconSearch"
+        type="search"
+        [(ngModel)]="templateSearch"
+        fluid
+      /&gt;
+    &lt;/aeris-icon-field&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="IconField features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="icon-field-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="IconField inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="icon-field-api-directives" tabindex="-1">Directives</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="IconField directives"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Input</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">aerisIcon</code
+                ><span role="cell"><code>decorative</code>: boolean, default true</span
+                ><span role="cell">Single icon positioned by <code>iconPosition</code>.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisIconStart</code
+                ><span role="cell"><code>decorative</code>: boolean, default true</span
+                ><span role="cell">Icon slot before the projected control.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisIconEnd</code
+                ><span role="cell"><code>decorative</code>: boolean, default true</span
+                ><span role="cell">Icon slot after the projected control.</span>
+              </div>
+            </div>
+
+            <h3 id="icon-field-api-outputs" tabindex="-1">Outputs</h3>
+            <p>
+              IconField has no outputs. Listen to the projected control for value, focus, blur, and
+              validation events.
+            </p>
+          </div>
+          <app-page-toc title="API" ariaLabel="IconField API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="IconField design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-control-height</code
+            ><span role="cell">Medium field height.</span><code role="cell">2.625rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-control-height-xs/sm/lg</code
+            ><span role="cell">Field heights for alternate sizes.</span
+            ><code role="cell">Aeris controls</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface / --aeris-surface-2</code
+            ><span role="cell">Outlined and filled field surfaces.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-border-strong</code><span role="cell">Field border.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-focus</code><span role="cell">Focus border and ring.</span
+            ><code role="cell">#536437</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-text / --aeris-text-muted</code
+            ><span role="cell">Control text, placeholder, and icon color.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-danger</code><span role="cell">Invalid border color.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            IconField is a visual shell. The projected input, textarea, select, or Aeris control
+            keeps native semantics and form behavior.
+          </li>
+          <li>
+            Associate labels, descriptions, required state, and validation messages with the
+            projected control.
+          </li>
+          <li>
+            Icon directives default to <code>aria-hidden="true"</code> for decorative icons. Set
+            <code>[decorative]="false"</code> and provide an accessible name when an icon
+            communicates meaning not present in text.
+          </li>
+          <li>
+            Mirror <code>disabled</code>, <code>readonly</code>, and <code>invalid</code> on
+            IconField and the projected control so visual and semantic state stay aligned.
+          </li>
+          <li>Visible focus follows the projected control and meets WCAG 2.2 AA expectations.</li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="IconField keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell"
+              >Moves focus to and from the projected control using native browser focus order.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow</kbd> keys</span
+            ><span role="cell"
+              >Use the projected control behavior, such as caret movement in text inputs.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd></span
+            ><span role="cell">Use the projected control behavior.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Backspace</kbd> / <kbd>Delete</kbd></span
+            ><span role="cell">Use the projected control behavior.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

@@ -1,0 +1,41 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.avatar-docs app-form-demo {
+  --docs-code-block-max-height: min(36rem, 70vh);
+}
+
+.avatar-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar-fallback-demo {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.avatar-fallback-demo p {
+  margin: 0;
+  color: var(--text-2);
+}
+
+.brand-avatar {
+  --aeris-avatar-size: 4.5rem;
+  --aeris-avatar-background: linear-gradient(135deg, #17200f, #7f9564);
+  --aeris-avatar-color: #f8faef;
+  --aeris-avatar-border: color-mix(in srgb, #b9d897 58%, transparent);
+  --aeris-avatar-border-width: 2px;
+  --aeris-avatar-font-size: 1.25rem;
+  --aeris-avatar-shadow: 0 0.75rem 2rem rgb(40 58 28 / 22%);
+}
+
+@media (max-width: 30rem) {
+  .avatar-fallback-demo {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

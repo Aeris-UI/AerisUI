@@ -1,0 +1,74 @@
+@use '../shared/form-docs';
+
+.checkbox-stack {
+  width: 100%;
+  display: grid;
+  gap: 0.875rem;
+}
+
+.checkbox-group {
+  width: min(100%, 36rem);
+  display: grid;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.checkbox-group legend {
+  margin-bottom: 0.75rem;
+  color: var(--text);
+  font-size: 0.9375rem;
+  font-weight: 650;
+}
+
+.checkbox-option {
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  background: var(--surface);
+}
+
+.checkbox-option:has(aeris-checkbox[data-checked]),
+.checkbox-option:has(aeris-checkbox[data-indeterminate]) {
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+  background: color-mix(in srgb, var(--primary) 7%, var(--surface));
+}
+
+.checkbox-option__content {
+  display: inline-grid;
+  gap: 0.125rem;
+}
+
+.checkbox-option__content strong {
+  color: var(--text);
+  font-size: 0.875rem;
+}
+
+.checkbox-option__content small {
+  color: var(--text-2);
+  font-size: 0.75rem;
+}
+
+.checkbox-result {
+  color: var(--text-2);
+  font-size: 0.8125rem;
+}
+
+.checkbox-rich-label {
+  display: inline-grid;
+  gap: 0.15rem;
+}
+
+.checkbox-label-position {
+  align-items: center;
+}
+
+.checkbox-rich-label strong {
+  color: var(--text);
+}
+
+.checkbox-rich-label small {
+  color: var(--text-2);
+  font-size: 0.75rem;
+}

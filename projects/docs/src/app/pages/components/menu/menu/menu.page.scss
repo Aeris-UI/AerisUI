@@ -1,0 +1,90 @@
+@use '../../form/shared/form-docs';
+
+.menu-docs {
+  aeris-menu {
+    width: min(100%, 20rem);
+  }
+
+  .menu-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .menu-controlled {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .menu-icon-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+    align-items: center;
+    gap: 0.625rem;
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .menu-icon-item svg {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 auto;
+  }
+
+  .menu-icon-item__label {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .menu-icon-item__badge {
+    max-inline-size: min(7rem, 36vw);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .menu-icon-item kbd {
+    color: var(--text-2);
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 750;
+  }
+
+  .menu-icon-item__chevron {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+    transition: transform 160ms ease;
+  }
+
+  .menu-icon-item__chevron[data-expanded='true'] {
+    transform: rotate(180deg);
+  }
+
+  .menu-template-brand {
+    display: grid;
+    gap: 0.125rem;
+  }
+
+  .menu-template-brand strong {
+    font-weight: 850;
+  }
+
+  .menu-template-brand small,
+  .menu-template-user,
+  small[aria-live] {
+    color: var(--text-2);
+    font-size: 0.8125rem;
+  }
+
+  small[aria-live] {
+    display: block;
+    margin-top: 0.75rem;
+    font-weight: 700;
+  }
+}

@@ -1,0 +1,367 @@
+<article class="button-docs mega-menu-docs">
+  <app-component-page-header
+    category="Menu"
+    title="MegaMenu"
+    description="Large navigation menu with grouped panels, horizontal or vertical orientation, templates, commands, links, and keyboard support."
+  />
+
+  <section id="mega-menu-import" class="import-section" aria-labelledby="mega-menu-import-title">
+    <div>
+      <h2 id="mega-menu-import-title">Import</h2>
+      <p>One import provides MegaMenu and its item template directive.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="MegaMenu documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="mega-menu-basic"
+              title="Basic"
+              description="Use grouped items to organize wide navigation surfaces."
+              [tsCode]="menuCode"
+            >
+              <div preview>
+                <aeris-mega-menu [model]="productMenu" ariaLabel="Product navigation" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-mega-menu [model]="productMenu" ariaLabel="Product navigation" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mega-menu-vertical"
+              title="Vertical"
+              description="Switch orientation when the menu belongs in a sidebar or narrow navigation region."
+              [tsCode]="menuCode"
+            >
+              <div preview>
+                <aeris-mega-menu
+                  orientation="vertical"
+                  [model]="productMenu"
+                  ariaLabel="Vertical product navigation"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-mega-menu
+    orientation="vertical"
+    [model]="productMenu"
+    ariaLabel="Vertical product navigation"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mega-menu-template"
+              title="Template"
+              description="Use the item template to customize root triggers and panel items without changing menu semantics."
+              [tsCode]="menuCode"
+              [cssCode]="templateCss"
+            >
+              <div preview>
+                <aeris-mega-menu [model]="productMenu" ariaLabel="Templated product navigation">
+                  <ng-template aerisMegaMenuItem let-item let-root="root" let-hasPanel="hasPanel">
+                    <span class="mega-menu-template-item">
+                      <strong>{{ item.label }}{{ hasPanel ? ' +' : '' }}</strong>
+                      @if (!root && item.description) {
+                        <small>{{ item.description }}</small>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-mega-menu>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-mega-menu [model]="productMenu" ariaLabel="Templated product navigation"&gt;
+    &lt;ng-template aerisMegaMenuItem let-item let-root="root" let-hasPanel="hasPanel"&gt;
+      &lt;span class="mega-menu-template-item"&gt;
+        &lt;strong&gt;&#123;&#123; item.label &#125;&#125;&#123;&#123; hasPanel ? ' +' : '' &#125;&#125;&lt;/strong&gt;
+        &#64;if (!root &amp;&amp; item.description) &#123;
+          &lt;small&gt;&#123;&#123; item.description &#125;&#125;&lt;/small&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-mega-menu&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="mega-menu-command"
+              title="Command and links"
+              description="Items can run commands, use routerLink, or link to external URLs. Use navigationHandler for app-owned routing."
+              [tsCode]="commandCode"
+            >
+              <div preview>
+                <aeris-mega-menu
+                  [model]="commandMenu"
+                  ariaLabel="Workspace navigation"
+                  (itemSelected)="recordAction($event)"
+                />
+                <small aria-live="polite">{{ lastAction() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-mega-menu
+    [model]="commandMenu"
+    ariaLabel="Workspace navigation"
+    (itemSelected)="recordAction($event)"
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; lastAction() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="MegaMenu features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="mega-menu-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="MegaMenu inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="mega-menu-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="MegaMenu outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="mega-menu-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="MegaMenu templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                <div role="row">
+                  <code role="cell">aerisMegaMenuItem</code
+                  ><span role="cell">AerisMegaMenuItemTemplateContext</span
+                  ><code role="cell">default item content</code
+                  ><span role="cell">Customizes root triggers and panel items.</span>
+                </div>
+              </div>
+            </section>
+
+            <section id="mega-menu-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="MegaMenu methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Signature</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                <div role="row">
+                  <code role="cell">open(index, event?)</code
+                  ><span role="cell">number, Event | null => void</span><code role="cell">-</code
+                  ><span role="cell">Opens a root panel by index.</span>
+                </div>
+                <div role="row">
+                  <code role="cell">close(event?, reason?)</code
+                  ><span role="cell">Event | null, reason => void</span><code role="cell">-</code
+                  ><span role="cell">Closes the open panel.</span>
+                </div>
+                <div role="row">
+                  <code role="cell">toggle(index, event?)</code
+                  ><span role="cell">number, Event | null => void</span><code role="cell">-</code
+                  ><span role="cell">Toggles a root panel by index.</span>
+                </div>
+                <div role="row">
+                  <code role="cell">focus()</code><span role="cell">() => void</span
+                  ><code role="cell">-</code
+                  ><span role="cell">Moves focus to the active or first root item.</span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API links" ariaLabel="MegaMenu API links" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="mega-menu-interfaces-code" class="api-section">
+              <h3>Types</h3>
+              <app-code-block [code]="interfacesCode" language="TypeScript" />
+            </section>
+          </div>
+
+          <app-page-toc
+            title="Interface links"
+            ariaLabel="MegaMenu interface links"
+            [links]="interfaceLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="mega-menu-token-table" class="api-section">
+              <h3>MegaMenu tokens</h3>
+              <div class="api-table" role="table" aria-label="MegaMenu design tokens">
+                <div role="row">
+                  <span role="columnheader">Token</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of tokens; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="Token links" ariaLabel="MegaMenu token links" [links]="tokenLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="mega-menu-a11y-semantics" class="api-section">
+              <h3>Semantics</h3>
+              <ul>
+                <li>
+                  The root list uses <code>role="menubar"</code> and exposes
+                  <code>aria-orientation</code>.
+                </li>
+                <li>Root items and panel items use <code>role="menuitem"</code>.</li>
+                <li>
+                  Root triggers with panels expose <code>aria-haspopup</code>,
+                  <code>aria-expanded</code>, and <code>aria-controls</code>.
+                </li>
+                <li>
+                  Panels use <code>role="menu"</code>. Disabled items use native disabled buttons or
+                  <code>aria-disabled</code> links.
+                </li>
+                <li>
+                  Use <code>ariaLabel</code> or <code>ariaLabelledBy</code> to provide a clear
+                  navigation name.
+                </li>
+              </ul>
+            </section>
+
+            <section id="mega-menu-a11y-keyboard" class="api-section">
+              <h3>Keyboard support</h3>
+              <div class="api-table" role="table" aria-label="MegaMenu keyboard support">
+                <div role="row">
+                  <span role="columnheader">Key</span><span role="columnheader">Target</span
+                  ><span role="columnheader">Behavior</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Tab</kbd><span role="cell">Menu</span
+                  ><span role="cell"
+                    >Moves through focusable page elements using native tab order.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Right</kbd><span role="cell">Horizontal root</span
+                  ><span role="cell">Moves to the next root item.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Left</kbd><span role="cell">Horizontal root</span
+                  ><span role="cell">Moves to the previous root item.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Down</kbd><span role="cell">Root item with panel</span
+                  ><span role="cell"
+                    >Opens the panel and moves focus to the first enabled panel item.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Up</kbd
+                  ><span role="cell">Horizontal root item with panel</span
+                  ><span role="cell"
+                    >Opens the panel and moves focus to the last enabled panel item.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow keys</kbd><span role="cell">Panel item</span
+                  ><span role="cell">Moves through enabled panel items.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Home</kbd><span role="cell">Root or panel</span
+                  ><span role="cell">Moves to the first enabled item in the current area.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">End</kbd><span role="cell">Root or panel</span
+                  ><span role="cell">Moves to the last enabled item in the current area.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Enter</kbd><span role="cell">Menu item</span
+                  ><span role="cell">Opens a panel or activates the item.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Space</kbd><span role="cell">Menu item</span
+                  ><span role="cell">Opens a panel or activates the item.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Escape</kbd><span role="cell">Open panel</span
+                  ><span role="cell">Closes the panel and returns focus to the root trigger.</span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc
+            title="Accessibility links"
+            ariaLabel="MegaMenu accessibility links"
+            [links]="accessibilityLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

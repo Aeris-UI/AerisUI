@@ -1,0 +1,38 @@
+@use '../shared/form-docs';
+
+.field {
+  width: min(100%, 34rem);
+}
+
+.otp-size-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.otp-size-grid > div {
+  min-width: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.otp-size-grid span {
+  color: var(--text-2);
+  font-size: 0.75rem;
+}
+
+.otp-separator {
+  color: var(--text-2);
+  font-weight: 700;
+}
+
+.state-message {
+  min-height: 1.25rem;
+}
+
+@media (max-width: 42rem) {
+  .otp-size-grid {
+    grid-template-columns: 1fr;
+  }
+}

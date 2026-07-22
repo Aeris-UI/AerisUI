@@ -1,0 +1,425 @@
+.aeris-input-group {
+  --aeris-input-group-height: var(--aeris-control-height, 2.625rem);
+  --aeris-input-group-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
+  --aeris-input-group-font-size: 0.875rem;
+  --aeris-input-group-addon-padding: 0.75rem;
+  --aeris-input-group-embedded-padding: 2.625rem;
+  --aeris-input-group-icon-size: 1rem;
+  --aeris-input-group-icon-addon-size: 2.625rem;
+
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 100%;
+  color: var(--aeris-text);
+  isolation: isolate;
+  vertical-align: middle;
+}
+
+.aeris-input-group[data-fluid] {
+  display: flex;
+  width: 100%;
+}
+
+.aeris-input-group--xs {
+  --aeris-input-group-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
+  --aeris-input-group-font-size: 0.75rem;
+  --aeris-input-group-addon-padding: 0.5625rem;
+  --aeris-input-group-embedded-padding: 2.125rem;
+  --aeris-input-group-icon-size: 0.875rem;
+  --aeris-input-group-icon-addon-size: 2rem;
+}
+
+.aeris-input-group--sm {
+  --aeris-input-group-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
+  --aeris-input-group-font-size: 0.8125rem;
+  --aeris-input-group-addon-padding: 0.625rem;
+  --aeris-input-group-embedded-padding: 2.3125rem;
+  --aeris-input-group-icon-size: 0.9375rem;
+  --aeris-input-group-icon-addon-size: 2.25rem;
+}
+
+.aeris-input-group--lg {
+  --aeris-input-group-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
+  --aeris-input-group-font-size: 0.9375rem;
+  --aeris-input-group-addon-padding: 0.875rem;
+  --aeris-input-group-embedded-padding: 2.875rem;
+  --aeris-input-group-icon-size: 1.125rem;
+  --aeris-input-group-icon-addon-size: 3rem;
+}
+
+.aeris-input-group > *,
+.aeris-input-group__stack > * {
+  position: relative;
+  min-width: 0;
+}
+
+.aeris-input-group > * + *,
+.aeris-input-group__stack > * + * {
+  margin-inline-start: -1px;
+}
+
+.aeris-input-group__addon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-height: var(--aeris-input-group-height);
+  padding-inline: var(--aeris-input-group-addon-padding);
+  border: 1px solid var(--aeris-border-strong, #c7c9c0);
+  background: var(--aeris-surface, #fff);
+  color: var(--aeris-text-muted, var(--aeris-text-2));
+  font-size: var(--aeris-input-group-font-size);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+svg.aeris-input-group__addon,
+.aeris-input-group__addon:has(> svg:only-child),
+.aeris-input-group__addon:has(> .aeris-checkbox:only-child),
+.aeris-input-group__addon:has(> aeris-checkbox:only-child),
+.aeris-input-group__addon:has(> .aeris-radio:only-child),
+.aeris-input-group__addon:has(> aeris-radio-button:only-child) {
+  display: grid;
+  place-items: center;
+  width: var(--aeris-input-group-icon-addon-size);
+  padding-inline: 0;
+}
+
+.aeris-input-group__addon > .aeris-checkbox,
+.aeris-input-group__addon > .aeris-radio,
+.aeris-input-group__addon > aeris-checkbox,
+.aeris-input-group__addon > aeris-radio-button {
+  display: grid !important;
+  place-items: center;
+  width: 100%;
+  min-width: 100%;
+  height: var(--aeris-input-group-height);
+  margin: 0;
+  line-height: 1;
+}
+
+.aeris-input-group__addon .aeris-checkbox,
+.aeris-input-group__addon .aeris-radio {
+  display: grid !important;
+  place-items: center;
+  gap: 0 !important;
+  column-gap: 0 !important;
+  row-gap: 0 !important;
+  width: 100%;
+  max-width: 100%;
+  min-height: 0;
+  height: auto;
+  margin: 0;
+  line-height: 1;
+}
+
+.aeris-input-group__addon .aeris-checkbox__label,
+.aeris-input-group__addon .aeris-radio__label {
+  display: none;
+}
+
+.aeris-input-group__addon .aeris-checkbox__control,
+.aeris-input-group__addon .aeris-radio__control {
+  justify-self: center;
+  align-self: center;
+  margin: 0;
+  margin-top: 0;
+}
+
+.aeris-input-group__addon > svg {
+  display: block;
+  width: var(--aeris-input-group-icon-size) !important;
+  height: var(--aeris-input-group-icon-size) !important;
+  max-width: var(--aeris-input-group-icon-size);
+  max-height: var(--aeris-input-group-icon-size);
+  flex: 0 0 auto;
+  stroke: currentColor;
+}
+
+svg.aeris-input-group__addon {
+  box-sizing: border-box;
+  width: var(--aeris-input-group-icon-addon-size) !important;
+  height: var(--aeris-input-group-height) !important;
+  max-width: none;
+  max-height: none;
+  padding-block: calc((var(--aeris-input-group-height) - var(--aeris-input-group-icon-size)) / 2);
+  padding-inline: calc(
+    (var(--aeris-input-group-icon-addon-size) - var(--aeris-input-group-icon-size)) / 2
+  );
+}
+
+.aeris-input-group > input:not([type='checkbox']):not([type='radio']),
+.aeris-input-group > select,
+.aeris-input-group > textarea {
+  min-height: var(--aeris-input-group-height);
+  border-radius: 0;
+  font-size: var(--aeris-input-group-font-size);
+}
+
+.aeris-input-group > input:not([type='checkbox']):not([type='radio']),
+.aeris-input-group > select {
+  height: auto;
+}
+
+.aeris-input-group > input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
+.aeris-input-group > select,
+.aeris-input-group > textarea:not(.aeris-textarea) {
+  border: 1px solid var(--aeris-border-strong, #c7c9c0);
+  background: var(--aeris-surface, #fff);
+  color: var(--aeris-text, #222222);
+  font: inherit;
+  font-size: var(--aeris-input-group-font-size);
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.aeris-input-group > input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
+.aeris-input-group > select {
+  padding-inline: 0.75rem;
+}
+
+.aeris-input-group > textarea:not(.aeris-textarea) {
+  min-height: 5.5rem;
+  padding: 0.625rem 0.75rem;
+  line-height: 1.5;
+}
+
+.aeris-input-group > .aeris-input-text,
+.aeris-input-group > .aeris-textarea,
+.aeris-input-group > input:not([type='checkbox']):not([type='radio']),
+.aeris-input-group > select,
+.aeris-input-group > textarea {
+  z-index: 1;
+  flex: 1 1 auto;
+}
+
+.aeris-input-group > .aeris-button,
+.aeris-input-group__stack > .aeris-button,
+.aeris-input-group > button,
+.aeris-input-group__stack > button,
+.aeris-input-group > a {
+  z-index: 2;
+  flex: 0 0 auto;
+  border-color: var(--aeris-border-strong, #c7c9c0);
+  border-radius: 0;
+}
+
+.aeris-input-group > .aeris-button.aeris-button--secondary,
+.aeris-input-group__stack > .aeris-button.aeris-button--secondary,
+.aeris-input-group > button.aeris-button--secondary,
+.aeris-input-group__stack > button.aeris-button--secondary {
+  border-color: var(--aeris-border-strong, #c7c9c0);
+}
+
+.aeris-input-group .aeris-button:hover:not(:disabled),
+.aeris-input-group button:hover:not(:disabled) {
+  transform: none;
+}
+
+.aeris-input-group > .aeris-checkbox,
+.aeris-input-group > .aeris-radio-button,
+.aeris-input-group__addon > .aeris-checkbox,
+.aeris-input-group__addon > .aeris-radio,
+.aeris-input-group__addon > input[type='checkbox'],
+.aeris-input-group__addon > input[type='radio'] {
+  flex: 0 0 auto;
+}
+
+.aeris-input-group > :focus,
+.aeris-input-group > :focus-within {
+  z-index: 3;
+}
+
+.aeris-input-group > input:focus,
+.aeris-input-group > textarea:focus,
+.aeris-input-group > select:focus {
+  border-color: var(--aeris-focus, #536437);
+  outline: 0;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
+}
+
+.aeris-input-group--filled > input:not([type='checkbox']):not([type='radio']),
+.aeris-input-group--filled > textarea,
+.aeris-input-group--filled > select,
+.aeris-input-group--filled > .aeris-input-text,
+.aeris-input-group--filled > .aeris-textarea,
+.aeris-input-group--filled > .aeris-input-group__addon,
+.aeris-input-group--filled > .aeris-button,
+.aeris-input-group--filled > button,
+.aeris-input-group--filled > .aeris-input-group__stack > .aeris-input-group__addon,
+.aeris-input-group--filled > .aeris-input-group__stack > .aeris-button,
+.aeris-input-group--filled > .aeris-input-group__stack > button {
+  border-color: transparent;
+  background: var(--aeris-surface-2, #f2f0ec);
+  box-shadow: none;
+}
+
+.aeris-input-group--filled > .aeris-button:hover:not(:disabled),
+.aeris-input-group--filled > button:hover:not(:disabled),
+.aeris-input-group--filled > .aeris-input-group__stack > .aeris-button:hover:not(:disabled),
+.aeris-input-group--filled > .aeris-input-group__stack > button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--aeris-surface-2, #f2f0ec) 82%, var(--aeris-text, #222222));
+}
+
+.aeris-input-group--invalid > input:not([type='checkbox']):not([type='radio']),
+.aeris-input-group--invalid > textarea,
+.aeris-input-group--invalid > select,
+.aeris-input-group--invalid > .aeris-input-group__addon {
+  border-color: var(--aeris-danger, #c81e2a);
+}
+
+.aeris-input-group--disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.aeris-input-group--disabled > * {
+  cursor: not-allowed;
+}
+
+.aeris-input-group__stack {
+  display: inline-flex;
+  align-items: stretch;
+  flex: 0 0 auto;
+}
+
+.aeris-input-group__stack + *,
+.aeris-input-group > * + .aeris-input-group__stack {
+  margin-inline-start: -1px;
+}
+
+.aeris-input-group:not(.aeris-input-group--vertical) > :first-child,
+.aeris-input-group:not(.aeris-input-group--vertical) > .aeris-input-group__stack:first-child > :first-child {
+  border-start-start-radius: var(--aeris-input-group-radius) !important;
+  border-end-start-radius: var(--aeris-input-group-radius) !important;
+}
+
+.aeris-input-group:not(.aeris-input-group--vertical) > :last-child,
+.aeris-input-group:not(.aeris-input-group--vertical) > .aeris-input-group__stack:last-child > :last-child {
+  border-start-end-radius: var(--aeris-input-group-radius) !important;
+  border-end-end-radius: var(--aeris-input-group-radius) !important;
+}
+
+.aeris-input-group--vertical {
+  --aeris-input-group-radius: var(--aeris-radius-md, 0.6875rem);
+
+  flex-direction: column;
+}
+
+.aeris-input-group--vertical > * + * {
+  margin-block-start: -1px;
+  margin-inline-start: 0;
+}
+
+.aeris-input-group--vertical > :first-child {
+  border-start-start-radius: var(--aeris-input-group-radius) !important;
+  border-start-end-radius: var(--aeris-input-group-radius) !important;
+}
+
+.aeris-input-group--vertical > :last-child {
+  border-end-start-radius: var(--aeris-input-group-radius) !important;
+  border-end-end-radius: var(--aeris-input-group-radius) !important;
+}
+
+.aeris-input-group--embedded {
+  position: relative;
+  display: inline-block;
+}
+
+.aeris-input-group--embedded[data-fluid] {
+  display: block;
+}
+
+.aeris-input-group--embedded > * + * {
+  margin-inline-start: 0;
+}
+
+.aeris-input-group--embedded > .aeris-input-group__addon {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  width: var(--aeris-input-group-icon-size);
+  height: var(--aeris-input-group-icon-size);
+  min-width: var(--aeris-input-group-icon-size);
+  min-height: var(--aeris-input-group-icon-size);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--aeris-text-muted, var(--aeris-text-2));
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.aeris-input-group--embedded > svg.aeris-input-group__addon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--aeris-input-group-icon-size) !important;
+  height: var(--aeris-input-group-icon-size) !important;
+  max-width: var(--aeris-input-group-icon-size);
+  max-height: var(--aeris-input-group-icon-size);
+  padding: 0;
+}
+
+.aeris-input-group--embedded > .aeris-input-group__addon:first-child {
+  inset-inline-start: 0.875rem;
+}
+
+.aeris-input-group--embedded > .aeris-input-group__addon:last-child {
+  inset-inline-end: 0.875rem;
+}
+
+.aeris-input-group--embedded.aeris-input-group--xs > .aeris-input-group__addon:first-child,
+.aeris-input-group--embedded.aeris-input-group--xs > .aeris-input-group__addon:last-child {
+  inset-inline-start: 0.625rem;
+}
+
+.aeris-input-group--embedded.aeris-input-group--xs > .aeris-input-group__addon:last-child {
+  inset-inline-start: auto;
+  inset-inline-end: 0.625rem;
+}
+
+.aeris-input-group--embedded.aeris-input-group--sm > .aeris-input-group__addon:first-child {
+  inset-inline-start: 0.75rem;
+}
+
+.aeris-input-group--embedded.aeris-input-group--sm > .aeris-input-group__addon:last-child {
+  inset-inline-end: 0.75rem;
+}
+
+.aeris-input-group--embedded.aeris-input-group--lg > .aeris-input-group__addon:first-child {
+  inset-inline-start: 1rem;
+}
+
+.aeris-input-group--embedded.aeris-input-group--lg > .aeris-input-group__addon:last-child {
+  inset-inline-end: 1rem;
+}
+
+.aeris-input-group--embedded > input:not([type='checkbox']):not([type='radio']),
+.aeris-input-group--embedded > select,
+.aeris-input-group--embedded > textarea {
+  width: 100%;
+  border-radius: var(--aeris-input-group-radius) !important;
+}
+
+.aeris-input-group--embedded > .aeris-input-group__addon:first-child + input:not([type='checkbox']):not([type='radio']),
+.aeris-input-group--embedded > .aeris-input-group__addon:first-child + select,
+.aeris-input-group--embedded > .aeris-input-group__addon:first-child + textarea {
+  padding-inline-start: var(--aeris-input-group-embedded-padding);
+}
+
+.aeris-input-group--embedded > input:not([type='checkbox']):not([type='radio']):has(+ .aeris-input-group__addon),
+.aeris-input-group--embedded > select:has(+ .aeris-input-group__addon),
+.aeris-input-group--embedded > textarea:has(+ .aeris-input-group__addon) {
+  padding-inline-end: var(--aeris-input-group-embedded-padding);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-input-group > input,
+  .aeris-input-group > textarea,
+  .aeris-input-group > select {
+    transition: none;
+  }
+}

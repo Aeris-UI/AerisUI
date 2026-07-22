@@ -1,0 +1,1036 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Form"
+    title="Select"
+    description="Selects one value from a keyboard-accessible list with filtering, groups, rich templates, validation states, and Angular Forms integration."
+  />
+
+  <section class="import-section" aria-labelledby="select-import-title">
+    <div>
+      <h2 id="select-import-title">Import</h2>
+      <p>
+        Import the standalone component and only the template directives used by your application.
+      </p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Select documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>Every live example uses the published Select API documented in the API tab.</p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="select-basic"
+              title="Basic"
+              description="Associate a visible label through inputId and provide a placeholder for the empty state."
+              [tsCode]="modelCode"
+            >
+              <div preview class="field">
+                <label for="basic-role">Project role</label>
+                <aeris-select
+                  inputId="basic-role"
+                  [options]="roles"
+                  placeholder="Choose a role"
+                  [(value)]="role"
+                  fluid
+                />
+                <small aria-live="polite">Value: {{ role() ?? 'None' }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="basic-role"&gt;Project role&lt;/label&gt;
+  &lt;aeris-select
+    inputId="basic-role"
+    [options]="roles"
+    placeholder="Choose a role"
+    [(value)]="role"
+    fluid
+  /&gt;
+  &lt;small aria-live="polite"&gt;Value: &#123;&#123; role() ?? 'None' &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-model"
+              title="Signal model and events"
+              description="Use the value model for local state and the typed changed output when option metadata is needed."
+            >
+              <div preview class="field">
+                <label for="event-role">Assigned role</label>
+                <aeris-select
+                  inputId="event-role"
+                  [options]="roles"
+                  [(value)]="role"
+                  (changed)="recordChange($event)"
+                  fluid
+                />
+                <small aria-live="polite">{{ lastChange() }}.</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="event-role"&gt;Assigned role&lt;/label&gt;
+  &lt;aeris-select
+    inputId="event-role"
+    [options]="roles"
+    [(value)]="role"
+    (changed)="recordChange($event)"
+    fluid
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; lastChange() &#125;&#125;.&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-checkmark"
+              title="Selection mark"
+              description="Show or hide the selected-option mark independently from selection styling."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <span>With mark</span
+                  ><aeris-select
+                    ariaLabel="Role with selection mark"
+                    [options]="roles"
+                    value="engineer"
+                    fluid
+                  />
+                </div>
+                <div class="field">
+                  <span>Without mark</span
+                  ><aeris-select
+                    ariaLabel="Role without selection mark"
+                    [options]="roles"
+                    value="engineer"
+                    [checkmark]="false"
+                    fluid
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;With mark&lt;/span
+    &gt;&lt;aeris-select
+      ariaLabel="Role with selection mark"
+      [options]="roles"
+      value="engineer"
+      fluid
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Without mark&lt;/span
+    &gt;&lt;aeris-select
+      ariaLabel="Role without selection mark"
+      [options]="roles"
+      value="engineer"
+      [checkmark]="false"
+      fluid
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-editable"
+              title="Editable value"
+              description="Accept a listed option or a free-form value through a native editable combobox."
+            >
+              <div preview class="field">
+                <label for="editable-role">Specialty</label>
+                <aeris-select
+                  inputId="editable-role"
+                  [options]="roles"
+                  [(value)]="editableRole"
+                  editable
+                  clearable
+                  fluid
+                />
+                <small aria-live="polite">Value: {{ editableRole() ?? 'None' }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="editable-role"&gt;Specialty&lt;/label&gt;
+  &lt;aeris-select
+    inputId="editable-role"
+    [options]="roles"
+    [(value)]="editableRole"
+    editable
+    clearable
+    fluid
+  /&gt;
+  &lt;small aria-live="polite"&gt;Value: &#123;&#123; editableRole() ?? 'None' &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-filter"
+              title="Filtering"
+              description="The optional search field filters option labels without changing the selected value."
+            >
+              <div preview class="field">
+                <label for="role-filter">Role</label>
+                <aeris-select
+                  inputId="role-filter"
+                  [options]="roles"
+                  [(value)]="role"
+                  filter
+                  placeholder="Choose a role"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="role-filter"&gt;Role&lt;/label&gt;
+  &lt;aeris-select
+    inputId="role-filter"
+    [options]="roles"
+    [(value)]="role"
+    filter
+    placeholder="Choose a role"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-filter-options"
+              title="Filter options"
+              description="Control the query, matching strategy, searched fields, clear action, locale, autofocus, and reset behavior."
+            >
+              <div preview class="field">
+                <label for="advanced-filter">Role</label>
+                <aeris-select
+                  inputId="advanced-filter"
+                  [options]="roles"
+                  filter
+                  showFilterClear
+                  filterMatchMode="startsWith"
+                  [filterFields]="['label']"
+                  [resetFilterOnClose]="false"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="advanced-filter"&gt;Role&lt;/label&gt;
+  &lt;aeris-select
+    inputId="advanced-filter"
+    [options]="roles"
+    filter
+    showFilterClear
+    filterMatchMode="startsWith"
+    [filterFields]="['label']"
+    [resetFilterOnClose]="false"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-groups"
+              title="Grouped options"
+              description="Assign a group label to options. Groups keep their source order."
+              [tsCode]="groupedCode"
+            >
+              <div preview class="field">
+                <label for="grouped-country">Deployment region</label>
+                <aeris-select
+                  inputId="grouped-country"
+                  [options]="countries"
+                  [(value)]="country"
+                  placeholder="Choose a country"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="grouped-country"&gt;Deployment region&lt;/label&gt;
+  &lt;aeris-select
+    inputId="grouped-country"
+    [options]="countries"
+    [(value)]="country"
+    placeholder="Choose a country"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-descriptions"
+              title="Rich option descriptions"
+              description="Descriptions are opt-in option metadata and appear only when provided."
+              [tsCode]="richOptionsCode"
+            >
+              <div preview class="field">
+                <label for="described-role">Role and responsibility</label>
+                <aeris-select
+                  inputId="described-role"
+                  [options]="richRoles"
+                  filter
+                  [filterFields]="['label', 'description']"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="described-role"&gt;Role and responsibility&lt;/label&gt;
+  &lt;aeris-select
+    inputId="described-role"
+    [options]="richRoles"
+    filter
+    [filterFields]="['label', 'description']"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-templates"
+              title="Option and selected-value templates"
+              description="Projected Angular templates customize consumer content while Aeris retains interaction and accessibility semantics."
+              [tsCode]="templateCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview class="field">
+                <label for="team-template">Team</label>
+                <aeris-select inputId="team-template" [options]="teams" [(value)]="team" fluid>
+                  <ng-template aerisSelectSelected let-option>
+                    <span class="selected-team">
+                      <span class="team-mark" [attr.data-team]="option.value"></span>
+                      {{ option.label }}
+                    </span>
+                  </ng-template>
+                  <ng-template aerisSelectOption let-option>
+                    <span class="team-option">
+                      <span class="team-mark" [attr.data-team]="option.value"></span>
+                      <strong>{{ option.label }}</strong>
+                    </span>
+                  </ng-template>
+                </aeris-select>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="team-template"&gt;Team&lt;/label&gt;
+  &lt;aeris-select inputId="team-template" [options]="teams" [(value)]="team" fluid&gt;
+    &lt;ng-template aerisSelectSelected let-option&gt;
+      &lt;span class="selected-team"&gt;
+        &lt;span class="team-mark" [attr.data-team]="option.value"&gt;&lt;/span&gt;
+        &#123;&#123; option.label &#125;&#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisSelectOption let-option&gt;
+      &lt;span class="team-option"&gt;
+        &lt;span class="team-mark" [attr.data-team]="option.value"&gt;&lt;/span&gt;
+        &lt;strong&gt;&#123;&#123; option.label &#125;&#125;&lt;/strong&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-select&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-panel-content"
+              title="Panel content and state templates"
+              description="Customize group headings, panel header and footer, and empty states without replacing listbox semantics."
+            >
+              <div preview class="field">
+                <label for="panel-content">Country</label>
+                <aeris-select inputId="panel-content" [options]="countries" filter fluid>
+                  <ng-template aerisSelectHeader><strong>Available regions</strong></ng-template>
+                  <ng-template aerisSelectGroup let-group
+                    ><span>{{ group }}</span></ng-template
+                  >
+                  <ng-template aerisSelectFooter
+                    ><small>Use search to narrow the list.</small></ng-template
+                  >
+                  <ng-template aerisSelectEmpty>No countries are configured.</ng-template>
+                  <ng-template aerisSelectEmptyFilter>No countries match this search.</ng-template>
+                </aeris-select>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="panel-content"&gt;Country&lt;/label&gt;
+  &lt;aeris-select inputId="panel-content" [options]="countries" filter fluid&gt;
+    &lt;ng-template aerisSelectHeader&gt;&lt;strong&gt;Available regions&lt;/strong&gt;&lt;/ng-template&gt;
+    &lt;ng-template aerisSelectGroup let-group
+      &gt;&lt;span&gt;&#123;&#123; group &#125;&#125;&lt;/span&gt;&lt;/ng-template
+    &gt;
+    &lt;ng-template aerisSelectFooter
+      &gt;&lt;small&gt;Use search to narrow the list.&lt;/small&gt;&lt;/ng-template
+    &gt;
+    &lt;ng-template aerisSelectEmpty&gt;No countries are configured.&lt;/ng-template&gt;
+    &lt;ng-template aerisSelectEmptyFilter&gt;No countries match this search.&lt;/ng-template&gt;
+  &lt;/aeris-select&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-virtual-scroll"
+              title="Virtual scrolling and lazy ranges"
+              description="Large flat lists render only the visible range. Lazy mode reports each requested viewport range."
+              [tsCode]="virtualCode"
+            >
+              <div preview class="field">
+                <label for="virtual-workspace">Workspace</label>
+                <aeris-select
+                  inputId="virtual-workspace"
+                  [options]="largeOptions"
+                  [(value)]="virtualRole"
+                  filter
+                  virtualScroll
+                  [virtualItemSize]="40"
+                  [virtualBuffer]="5"
+                  lazy
+                  (lazyLoad)="recordLazyRange($event)"
+                  fluid
+                />
+                <small aria-live="polite">{{ virtualRange() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="virtual-workspace"&gt;Workspace&lt;/label&gt;
+  &lt;aeris-select
+    inputId="virtual-workspace"
+    [options]="largeOptions"
+    [(value)]="virtualRole"
+    filter
+    virtualScroll
+    [virtualItemSize]="40"
+    [virtualBuffer]="5"
+    lazy
+    (lazyLoad)="recordLazyRange($event)"
+    fluid
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; virtualRange() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-clearable"
+              title="Clear button"
+              description="A separate accessible suffix button clears the model and restores focus to the combobox."
+            >
+              <div preview class="field">
+                <label for="clearable-role">Role</label>
+                <aeris-select
+                  inputId="clearable-role"
+                  [options]="roles"
+                  [(value)]="clearableRole"
+                  clearable
+                  fluid
+                />
+                <small aria-live="polite">Value: {{ clearableRole() ?? 'None' }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="clearable-role"&gt;Role&lt;/label&gt;
+  &lt;aeris-select
+    inputId="clearable-role"
+    [options]="roles"
+    [(value)]="clearableRole"
+    clearable
+    fluid
+  /&gt;
+  &lt;small aria-live="polite"&gt;Value: &#123;&#123; clearableRole() ?? 'None' &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-sizes"
+              title="Sizes"
+              description="Four sizes align Select with the Aeris control density scale."
+            >
+              <div preview class="select-size-grid">
+                <label
+                  ><span>Extra small</span
+                  ><aeris-select
+                    ariaLabel="Extra small role"
+                    [options]="roles"
+                    value="designer"
+                    size="xs"
+                /></label>
+                <label
+                  ><span>Small</span
+                  ><aeris-select
+                    ariaLabel="Small role"
+                    [options]="roles"
+                    value="designer"
+                    size="sm"
+                /></label>
+                <label
+                  ><span>Medium</span
+                  ><aeris-select ariaLabel="Medium role" [options]="roles" value="designer"
+                /></label>
+                <label
+                  ><span>Large</span
+                  ><aeris-select
+                    ariaLabel="Large role"
+                    [options]="roles"
+                    value="designer"
+                    size="lg"
+                /></label>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="select-size-grid"&gt;
+  &lt;label
+    &gt;&lt;span&gt;Extra small&lt;/span
+    &gt;&lt;aeris-select
+      ariaLabel="Extra small role"
+      [options]="roles"
+      value="designer"
+      size="xs"
+  /&gt;&lt;/label&gt;
+  &lt;label
+    &gt;&lt;span&gt;Small&lt;/span
+    &gt;&lt;aeris-select
+      ariaLabel="Small role"
+      [options]="roles"
+      value="designer"
+      size="sm"
+  /&gt;&lt;/label&gt;
+  &lt;label
+    &gt;&lt;span&gt;Medium&lt;/span
+    &gt;&lt;aeris-select ariaLabel="Medium role" [options]="roles" value="designer"
+  /&gt;&lt;/label&gt;
+  &lt;label
+    &gt;&lt;span&gt;Large&lt;/span
+    &gt;&lt;aeris-select
+      ariaLabel="Large role"
+      [options]="roles"
+      value="designer"
+      size="lg"
+  /&gt;&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-states"
+              title="Appearances and states"
+              description="Outlined, filled, invalid, required, and disabled states preserve clear contrast and semantics."
+              [tsCode]="stateCode"
+            >
+              <div preview class="field-grid select-state-grid">
+                <div class="field">
+                  <label for="select-outline">Outlined</label
+                  ><aeris-select
+                    inputId="select-outline"
+                    [options]="roles"
+                    value="designer"
+                    fluid
+                  /><small class="state-message" aria-hidden="true">&nbsp;</small>
+                </div>
+                <div class="field">
+                  <label for="select-filled">Filled</label
+                  ><aeris-select
+                    inputId="select-filled"
+                    [options]="roles"
+                    value="engineer"
+                    appearance="filled"
+                    fluid
+                  /><small class="state-message" aria-hidden="true">&nbsp;</small>
+                </div>
+                <div class="field">
+                  <label for="select-invalid">Required</label
+                  ><aeris-select
+                    inputId="select-invalid"
+                    [options]="roles"
+                    [(value)]="invalidRole"
+                    required
+                    [invalid]="roleInvalid()"
+                    ariaDescribedby="select-error"
+                    fluid
+                  />
+                  @if (roleInvalid()) {
+                    <small id="select-error" class="error state-message">Choose a role.</small>
+                  } @else {
+                    <small class="state-message" aria-hidden="true">&nbsp;</small>
+                  }
+                </div>
+                <div class="field">
+                  <label for="select-disabled">Disabled</label
+                  ><aeris-select
+                    inputId="select-disabled"
+                    [options]="roles"
+                    value="manager"
+                    disabled
+                    fluid
+                  /><small class="state-message" aria-hidden="true">&nbsp;</small>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid select-state-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="select-outline"&gt;Outlined&lt;/label
+    &gt;&lt;aeris-select
+      inputId="select-outline"
+      [options]="roles"
+      value="designer"
+      fluid
+    /&gt;&lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="select-filled"&gt;Filled&lt;/label
+    &gt;&lt;aeris-select
+      inputId="select-filled"
+      [options]="roles"
+      value="engineer"
+      appearance="filled"
+      fluid
+    /&gt;&lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="select-invalid"&gt;Required&lt;/label
+    &gt;&lt;aeris-select
+      inputId="select-invalid"
+      [options]="roles"
+      [(value)]="invalidRole"
+      required
+      [invalid]="roleInvalid()"
+      ariaDescribedby="select-error"
+      fluid
+    /&gt;
+    &#64;if (roleInvalid()) &#123;
+      &lt;small id="select-error" class="error state-message"&gt;Choose a role.&lt;/small&gt;
+    &#125; &#64;else &#123;
+      &lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
+    &#125;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="select-disabled"&gt;Disabled&lt;/label
+    &gt;&lt;aeris-select
+      inputId="select-disabled"
+      [options]="roles"
+      value="manager"
+      disabled
+      fluid
+    /&gt;&lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-feedback"
+              title="Loading and empty states"
+              description="Busy and empty messages are announced as status updates inside the options panel."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <span>Loading</span
+                  ><aeris-select ariaLabel="Loading roles" [options]="roles" loading fluid />
+                </div>
+                <div class="field">
+                  <span>Empty</span
+                  ><aeris-select
+                    ariaLabel="Empty role list"
+                    [options]="[]"
+                    emptyMessage="No roles have been created"
+                    fluid
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Loading&lt;/span
+    &gt;&lt;aeris-select ariaLabel="Loading roles" [options]="roles" loading fluid /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Empty&lt;/span
+    &gt;&lt;aeris-select
+      ariaLabel="Empty role list"
+      [options]="[]"
+      emptyMessage="No roles have been created"
+      fluid
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-native-form"
+              title="HTML form submission"
+              description="For a browser-submitted HTML form, name mirrors the selected value into FormData. Angular applications can use the Forms integration shown next instead."
+            >
+              <div preview class="field">
+                <label for="native-role">Role</label>
+                <aeris-select
+                  inputId="native-role"
+                  name="role"
+                  [options]="roles"
+                  value="engineer"
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="native-role"&gt;Role&lt;/label&gt;
+  &lt;aeris-select
+    inputId="native-role"
+    name="role"
+    [options]="roles"
+    value="engineer"
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="select-angular-forms"
+              title="Reactive and template-driven forms"
+              description="Select implements ControlValueAccessor while retaining its signal model API."
+              [tsCode]="formsCode"
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="reactive-role">Reactive Forms</label>
+                  <aeris-select
+                    inputId="reactive-role"
+                    [options]="roles"
+                    [formControl]="reactiveRole"
+                    fluid
+                  />
+                  <small>Value: {{ reactiveRole.value ?? 'None' }}</small>
+                </div>
+                <div class="field">
+                  <label for="template-role">Template-driven forms</label>
+                  <aeris-select
+                    inputId="template-role"
+                    name="templateRole"
+                    [options]="roles"
+                    [(ngModel)]="templateRole"
+                    fluid
+                  />
+                  <small>Value: {{ templateRole ?? 'None' }}</small>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="reactive-role"&gt;Reactive Forms&lt;/label&gt;
+    &lt;aeris-select
+      inputId="reactive-role"
+      [options]="roles"
+      [formControl]="reactiveRole"
+      fluid
+    /&gt;
+    &lt;small&gt;Value: &#123;&#123; reactiveRole.value ?? 'None' &#125;&#125;&lt;/small&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="template-role"&gt;Template-driven forms&lt;/label&gt;
+    &lt;aeris-select
+      inputId="template-role"
+      name="templateRole"
+      [options]="roles"
+      [(ngModel)]="templateRole"
+      fluid
+    /&gt;
+    &lt;small&gt;Value: &#123;&#123; templateRole ?? 'None' &#125;&#125;&lt;/small&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="Select features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="select-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="Select inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="select-api-outputs" tabindex="-1">Outputs</h3>
+            <div class="api-table compact" role="table" aria-label="Select outputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">valueChange</code><span role="cell">string | null</span
+                ><span role="cell">Emitted automatically by the value model.</span>
+              </div>
+              <div role="row">
+                <code role="cell">valueInput</code><span role="cell">string | null</span
+                ><span role="cell"
+                  >Emitted when selection, clear, or public methods change the value.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">changed</code><span role="cell">AerisSelectChangeEvent</span
+                ><span role="cell">Native event, selected value, and option metadata.</span>
+              </div>
+              <div role="row">
+                <code role="cell">filterChanged</code><span role="cell">AerisSelectFilterEvent</span
+                ><span role="cell">Emitted whenever the filter query changes.</span>
+              </div>
+              <div role="row">
+                <code role="cell">lazyLoad</code><span role="cell">AerisSelectLazyLoadEvent</span
+                ><span role="cell">Requested virtual viewport range and active query.</span>
+              </div>
+              <div role="row">
+                <code role="cell">opened / closed</code><span role="cell">void</span
+                ><span role="cell">Emitted when the options panel changes visibility.</span>
+              </div>
+              <div role="row">
+                <code role="cell">cleared</code><span role="cell">void</span
+                ><span role="cell">Emitted after the clear action succeeds.</span>
+              </div>
+              <div role="row">
+                <code role="cell">focused / blurred</code><span role="cell">FocusEvent</span
+                ><span role="cell">Combobox focus lifecycle events.</span>
+              </div>
+              <div role="row">
+                <code role="cell">touch</code><span role="cell">void</span
+                ><span role="cell">Emitted when focus leaves the component.</span>
+              </div>
+            </div>
+
+            <h3 id="select-api-templates" tabindex="-1">Templates</h3>
+            <div class="api-table compact" role="table" aria-label="Select templates" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Directive</b><b role="columnheader">Context</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">aerisSelectOption</code
+                ><span role="cell">option, selected, active</span
+                ><span role="cell">Custom content for each listbox option.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisSelectSelected</code><span role="cell">option</span
+                ><span role="cell">Custom content for the selected trigger value.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisSelectGroup</code><span role="cell">group</span
+                ><span role="cell">Custom group heading content.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisSelectHeader / aerisSelectFooter</code
+                ><span role="cell">none</span
+                ><span role="cell">Custom content around the listbox.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisSelectEmpty / aerisSelectEmptyFilter</code
+                ><span role="cell">none</span><span role="cell">Custom empty-state content.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisSelectDropdownIcon / aerisSelectClearIcon</code
+                ><span role="cell">none</span><span role="cell">Custom trigger action icons.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisSelectFilterIcon / aerisSelectLoadingIcon</code
+                ><span role="cell">none</span
+                ><span role="cell">Custom filter and loading indicators.</span>
+              </div>
+            </div>
+
+            <h3 id="select-api-methods" tabindex="-1">Methods</h3>
+            <div class="api-table compact" role="table" aria-label="Select methods" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Signature</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">focus</code
+                ><span role="cell">(options?: FocusOptions) =&gt; void</span
+                ><span role="cell">Moves focus to the combobox trigger.</span>
+              </div>
+              <div role="row">
+                <code role="cell">openPanel</code><span role="cell">() =&gt; void</span
+                ><span role="cell"
+                  >Opens an enabled Select and initializes active option state.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">closePanel</code
+                ><span role="cell">(restoreFocus?: boolean) =&gt; void</span
+                ><span role="cell">Closes the panel and optionally restores trigger focus.</span>
+              </div>
+              <div role="row">
+                <code role="cell">toggle</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Toggles panel visibility.</span>
+              </div>
+              <div role="row">
+                <code role="cell">clear</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Clears a clearable enabled selection and restores focus.</span>
+              </div>
+              <div role="row">
+                <code role="cell">reset</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Clears value, query, and panel state.</span>
+              </div>
+              <div role="row">
+                <code role="cell">clearFilter</code><span role="cell">() =&gt; void</span
+                ><span role="cell"
+                  >Clears the controlled filter query and restores filter focus.</span
+                >
+              </div>
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="Select API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table compact" role="table" aria-label="Select design tokens" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-select-text</code><span role="cell">Selected value text.</span
+            ><code role="cell">--aeris-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-select-border</code
+            ><span role="cell">Outlined trigger border.</span
+            ><code role="cell">--aeris-border-strong</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-select-background</code
+            ><span role="cell">Trigger and filter background.</span
+            ><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-select-filled-background</code
+            ><span role="cell">Filled appearance background.</span
+            ><code role="cell">--aeris-surface-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-select-focus</code
+            ><span role="cell">Focus border and ring.</span><code role="cell">--aeris-focus</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-select-panel-background</code
+            ><span role="cell">Options panel surface.</span><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-select-panel-border</code
+            ><span role="cell">Options panel border.</span><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-select-panel-shadow</code
+            ><span role="cell">Floating panel elevation.</span><code role="cell">Aeris shadow</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-select-option-hover</code
+            ><span role="cell">Active and hovered option background.</span
+            ><code role="cell">12% primary</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-select-selected-text</code
+            ><span role="cell">Selected option text.</span><code role="cell">--aeris-text</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            The trigger follows the ARIA combobox pattern and controls a separate listbox with
+            active-descendant focus management.
+          </li>
+          <li>
+            <kbd>Enter</kbd> or <kbd>Space</kbd> opens and selects. Arrow keys navigate enabled
+            options. <kbd>Home</kbd> and <kbd>End</kbd> move to boundaries.
+          </li>
+          <li>
+            <kbd>Escape</kbd> closes without changing selection. <kbd>Tab</kbd> closes and continues
+            normal document navigation.
+          </li>
+          <li>
+            Without filtering, printable characters provide typeahead selection. With filtering,
+            focus moves to a labeled search field.
+          </li>
+          <li>
+            Disabled options expose <code>aria-disabled</code> and are skipped by keyboard
+            navigation.
+          </li>
+          <li>
+            Associate visible labels through <code>inputId</code>, or use
+            <code>ariaLabel</code> only when no visible label exists.
+          </li>
+          <li>
+            Connect help and error messages through <code>ariaDescribedby</code>. Required and
+            invalid state are synchronized with ARIA.
+          </li>
+          <li>
+            The clear action is a separate native button with a configurable accessible name and
+            focus restoration.
+          </li>
+          <li>
+            ControlValueAccessor synchronizes value, touched, and disabled state with Reactive Forms
+            and template-driven forms.
+          </li>
+          <li>
+            Loading and empty messages use status semantics, focus remains predictable, and motion
+            respects reduced-motion preferences.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Select keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell">Opens the closed panel or selects the active option.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Arrow Down</kbd
+            ><span role="cell">Opens the panel or moves to the next enabled option.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Arrow Up</kbd
+            ><span role="cell">Opens the panel or moves to the previous enabled option.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Home</kbd
+            ><span role="cell">Moves to the first enabled option while the panel is open.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">End</kbd
+            ><span role="cell">Moves to the last enabled option while the panel is open.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Escape</kbd
+            ><span role="cell">Closes the panel without changing the current selection.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell">Closes the panel and continues normal document navigation.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Printable characters</span
+            ><span role="cell"
+              >Searches options by typeahead when filtering and editable mode are disabled.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

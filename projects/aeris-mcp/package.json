@@ -1,0 +1,54 @@
+{
+  "name": "@aeris-ui/mcp",
+  "version": "22.0.0-alpha.0",
+  "description": "Local read-only MCP server for Aeris UI documentation and examples.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "bin": {
+    "aeris-mcp": "./cli.js"
+  },
+  "files": [
+    "*.js",
+    "*.js.map",
+    "*.d.ts",
+    "docs/aeris-docs.json",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aeris-UI/AerisUI.git",
+    "directory": "projects/aeris-mcp"
+  },
+  "homepage": "https://aeris-ui.dev/guides/mcp",
+  "bugs": {
+    "url": "https://github.com/Aeris-UI/AerisUI/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "keywords": [
+    "aeris-ui",
+    "angular",
+    "documentation",
+    "mcp",
+    "model-context-protocol"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.4.3"
+  },
+  "sideEffects": false
+}

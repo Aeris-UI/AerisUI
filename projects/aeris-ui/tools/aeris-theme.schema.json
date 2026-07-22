@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aeris-ui.dev/schemas/theme-config.json",
+  "title": "Aeris UI theme generator configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "generatedBy": { "type": "string" },
+    "derivationVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Expected Aeris color derivation contract version. Generation stops when it does not match the installed package."
+    },
+    "preset": {
+      "enum": ["earth", "coastal", "orchid", "monochrome"]
+    },
+    "output": { "type": "string", "minLength": 1 },
+    "css": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "selector": { "type": "string", "minLength": 1 },
+        "schemes": { "enum": ["both", "light", "dark"] },
+        "defaultMode": { "enum": ["system", "light", "dark"] },
+        "includeSystemMode": { "type": "boolean" },
+        "validateContrast": { "type": "boolean" },
+        "minify": { "type": "boolean" },
+        "banner": { "type": "boolean" }
+      }
+    },
+    "theme": {
+      "type": "object",
+      "description": "An AerisThemeOverride merged over the selected preset.",
+      "properties": {
+        "palette": { "$ref": "#/$defs/palette" },
+        "light": { "$ref": "#/$defs/scheme" },
+        "dark": { "$ref": "#/$defs/scheme" },
+        "density": { "type": "string", "minLength": 1 },
+        "densities": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/density" }
+        },
+        "radius": { "type": "string", "minLength": 1 },
+        "radii": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/radius" }
+        },
+        "direction": { "enum": ["ltr", "rtl"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "cssValue": { "type": "string", "minLength": 1 },
+    "palette": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "surface": { "$ref": "#/$defs/cssValue" },
+        "primary": { "$ref": "#/$defs/cssValue" },
+        "secondary": { "$ref": "#/$defs/cssValue" },
+        "accent": { "$ref": "#/$defs/cssValue" },
+        "contrast": { "$ref": "#/$defs/cssValue" }
+      }
+    },
+    "tone": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "base": { "$ref": "#/$defs/cssValue" },
+        "boundary": { "$ref": "#/$defs/cssValue" },
+        "hover": { "$ref": "#/$defs/cssValue" },
+        "active": { "$ref": "#/$defs/cssValue" },
+        "onBase": { "$ref": "#/$defs/cssValue" },
+        "onHover": { "$ref": "#/$defs/cssValue" },
+        "onActive": { "$ref": "#/$defs/cssValue" },
+        "text": { "$ref": "#/$defs/cssValue" },
+        "soft": { "$ref": "#/$defs/cssValue" },
+        "onSoft": { "$ref": "#/$defs/cssValue" }
+      }
+    },
+    "tones": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "primary": { "$ref": "#/$defs/tone" },
+        "secondary": { "$ref": "#/$defs/tone" },
+        "success": { "$ref": "#/$defs/tone" },
+        "info": { "$ref": "#/$defs/tone" },
+        "warning": { "$ref": "#/$defs/tone" },
+        "danger": { "$ref": "#/$defs/tone" },
+        "contrast": { "$ref": "#/$defs/tone" }
+      }
+    },
+    "scheme": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tones": { "$ref": "#/$defs/tones" },
+        "accent": { "$ref": "#/$defs/cssValue" },
+        "page": { "$ref": "#/$defs/cssValue" },
+        "surface": { "$ref": "#/$defs/cssValue" },
+        "surface2": { "$ref": "#/$defs/cssValue" },
+        "surface3": { "$ref": "#/$defs/cssValue" },
+        "interactiveHover": { "$ref": "#/$defs/cssValue" },
+        "text": { "$ref": "#/$defs/cssValue" },
+        "text2": { "$ref": "#/$defs/cssValue" },
+        "text3": { "$ref": "#/$defs/cssValue" },
+        "border": { "$ref": "#/$defs/cssValue" },
+        "borderStrong": { "$ref": "#/$defs/cssValue" },
+        "focus": { "$ref": "#/$defs/cssValue" },
+        "shadowXs": { "$ref": "#/$defs/cssValue" },
+        "shadowSm": { "$ref": "#/$defs/cssValue" }
+      }
+    },
+    "density": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "controlHeight": { "$ref": "#/$defs/cssValue" },
+        "controlPaddingX": { "$ref": "#/$defs/cssValue" },
+        "itemHeight": { "$ref": "#/$defs/cssValue" },
+        "itemPaddingY": { "$ref": "#/$defs/cssValue" },
+        "itemPaddingX": { "$ref": "#/$defs/cssValue" },
+        "gap": { "$ref": "#/$defs/cssValue" },
+        "iconSize": { "$ref": "#/$defs/cssValue" }
+      }
+    },
+    "radius": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sm": { "$ref": "#/$defs/cssValue" },
+        "md": { "$ref": "#/$defs/cssValue" },
+        "lg": { "$ref": "#/$defs/cssValue" },
+        "xl": { "$ref": "#/$defs/cssValue" },
+        "control": { "$ref": "#/$defs/cssValue" },
+        "pill": { "$ref": "#/$defs/cssValue" }
+      }
+    }
+  }
+}

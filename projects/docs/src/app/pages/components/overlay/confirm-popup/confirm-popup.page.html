@@ -1,0 +1,676 @@
+<article class="button-docs confirm-popup-docs">
+  <app-component-page-header
+    category="Overlay"
+    title="ConfirmPopup"
+    description="Accessible target-relative confirmation popups with service prompts, templates, focus management, and explicit outcomes."
+  />
+
+  <section
+    id="confirm-popup-import"
+    class="import-section"
+    aria-labelledby="confirm-popup-import-title"
+  >
+    <div>
+      <h2 id="confirm-popup-import-title">Import</h2>
+      <p>
+        One import provides the service, reference, optional keyed host, event types, and template
+        directives.
+      </p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="ConfirmPopup documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="confirm-popup-basic"
+              title="Basic"
+              description="Open a target-relative confirmation through the service. Standard popups do not need a host element."
+              [tsCode]="basicTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <div class="demo-actions">
+                  <button
+                    aerisButton
+                    severity="danger"
+                    type="button"
+                    (click)="confirmDelete($event)"
+                  >
+                    Delete project
+                  </button>
+                </div>
+                <p class="demo-status" aria-live="polite">{{ lastResult() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="demo-actions"&gt;
+    &lt;button
+      aerisButton
+      severity="danger"
+      type="button"
+      (click)="confirmDelete($event)"
+    &gt;
+      Delete project
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;p class="demo-status" aria-live="polite"&gt;&#123;&#123; lastResult() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="confirm-popup-severity"
+              title="Severity"
+              description="Use severity to communicate intent while keeping the same focus and keyboard behavior."
+              [tsCode]="severityTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <div class="demo-actions">
+                  <button
+                    aerisButton
+                    severity="info"
+                    type="button"
+                    (click)="confirmSeverity($event, 'info')"
+                  >
+                    Info
+                  </button>
+                  <button
+                    aerisButton
+                    severity="success"
+                    type="button"
+                    (click)="confirmSeverity($event, 'success')"
+                  >
+                    Success
+                  </button>
+                  <button
+                    aerisButton
+                    severity="warning"
+                    type="button"
+                    (click)="confirmSeverity($event, 'warning')"
+                  >
+                    Warning
+                  </button>
+                  <button
+                    aerisButton
+                    severity="danger"
+                    type="button"
+                    (click)="confirmSeverity($event, 'danger')"
+                  >
+                    Danger
+                  </button>
+                </div>
+                <p class="demo-status" aria-live="polite">{{ lastResult() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="demo-actions"&gt;
+    &lt;button
+      aerisButton
+      severity="info"
+      type="button"
+      (click)="confirmSeverity($event, 'info')"
+    &gt;
+      Info
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      severity="success"
+      type="button"
+      (click)="confirmSeverity($event, 'success')"
+    &gt;
+      Success
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      severity="warning"
+      type="button"
+      (click)="confirmSeverity($event, 'warning')"
+    &gt;
+      Warning
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      severity="danger"
+      type="button"
+      (click)="confirmSeverity($event, 'danger')"
+    &gt;
+      Danger
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;p class="demo-status" aria-live="polite"&gt;&#123;&#123; lastResult() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="confirm-popup-placement"
+              title="Placement"
+              description="Choose a preferred edge or allow auto placement to fit the viewport."
+              [tsCode]="placementTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <div class="placement-grid">
+                  <button aerisButton type="button" (click)="confirmAt($event, 'auto')">
+                    Auto
+                  </button>
+                  <button aerisButton type="button" (click)="confirmAt($event, 'top')">Top</button>
+                  <button aerisButton type="button" (click)="confirmAt($event, 'right')">
+                    Right
+                  </button>
+                  <button aerisButton type="button" (click)="confirmAt($event, 'bottom')">
+                    Bottom
+                  </button>
+                  <button aerisButton type="button" (click)="confirmAt($event, 'left')">
+                    Left
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="placement-grid"&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt($event, 'auto')"&gt;
+      Auto
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt($event, 'top')"&gt;Top&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt($event, 'right')"&gt;
+      Right
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt($event, 'bottom')"&gt;
+      Bottom
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="confirmAt($event, 'left')"&gt;
+      Left
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="confirm-popup-controlled"
+              title="Controlled"
+              description="Use the visible model directly when popup state belongs to the current component."
+              [tsCode]="controlledTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="openControlled($event)">
+                  Open controlled popup
+                </button>
+                <aeris-confirm-popup
+                  [target]="controlledTarget()"
+                  header="Leave workflow?"
+                  message="Unsaved work will be discarded."
+                  acceptLabel="Leave"
+                  rejectLabel="Stay"
+                  severity="warning"
+                  defaultFocus="reject"
+                  [(visible)]="controlledOpen"
+                  (closed)="recordControlled($event)"
+                />
+                <p class="demo-status" aria-live="polite">{{ controlledResult() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="openControlled($event)"&gt;
+    Open controlled popup
+  &lt;/button&gt;
+  &lt;aeris-confirm-popup
+    [target]="controlledTarget()"
+    header="Leave workflow?"
+    message="Unsaved work will be discarded."
+    acceptLabel="Leave"
+    rejectLabel="Stay"
+    severity="warning"
+    defaultFocus="reject"
+    [(visible)]="controlledOpen"
+    (closed)="recordControlled($event)"
+  /&gt;
+  &lt;p class="demo-status" aria-live="polite"&gt;&#123;&#123; controlledResult() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="confirm-popup-templates"
+              title="Templates"
+              description="Use a keyed host only when projected templates are needed; the trigger still opens through the service."
+              [tsCode]="templateTsCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="confirmRelease($event)">
+                  Open templated popup
+                </button>
+                <aeris-confirm-popup key="release-popup">
+                  <ng-template aerisConfirmPopupIcon>
+                    <span class="custom-popup-icon" aria-hidden="true"></span>
+                  </ng-template>
+                  <ng-template aerisConfirmPopupMessage let-data="data">
+                    <span class="confirm-popup-message">
+                      <strong>{{ data }}</strong>
+                      <span
+                        >Confirm that release notes, accessibility checks, and package metadata are
+                        ready.</span
+                      >
+                    </span>
+                  </ng-template>
+                  <ng-template aerisConfirmPopupFooter let-accept="accept" let-reject="reject">
+                    <div class="confirm-popup-footer">
+                      <button
+                        aerisButton
+                        variant="secondary"
+                        type="button"
+                        (click)="reject($event)"
+                      >
+                        Review again
+                      </button>
+                      <button aerisButton severity="warning" type="button" (click)="accept($event)">
+                        Release
+                      </button>
+                    </div>
+                  </ng-template>
+                </aeris-confirm-popup>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="confirmRelease($event)"&gt;
+    Open templated popup
+  &lt;/button&gt;
+  &lt;aeris-confirm-popup key="release-popup"&gt;
+    &lt;ng-template aerisConfirmPopupIcon&gt;
+      &lt;span class="custom-popup-icon" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisConfirmPopupMessage let-data="data"&gt;
+      &lt;span class="confirm-popup-message"&gt;
+        &lt;strong&gt;&#123;&#123; data &#125;&#125;&lt;/strong&gt;
+        &lt;span
+          &gt;Confirm that release notes, accessibility checks, and package metadata are
+          ready.&lt;/span
+        &gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisConfirmPopupFooter let-accept="accept" let-reject="reject"&gt;
+      &lt;div class="confirm-popup-footer"&gt;
+        &lt;button
+          aerisButton
+          variant="secondary"
+          type="button"
+          (click)="reject($event)"
+        &gt;
+          Review again
+        &lt;/button&gt;
+        &lt;button aerisButton severity="warning" type="button" (click)="accept($event)"&gt;
+          Release
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-confirm-popup&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="confirm-popup-headless"
+              title="Headless"
+              description="Replace the built-in popup body while keeping target positioning, focus management, and service outcomes."
+              [tsCode]="headlessTsCode"
+              [cssCode]="headlessCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="confirmHeadless($event)">
+                  Open headless popup
+                </button>
+                <aeris-confirm-popup key="headless-popup">
+                  <ng-template aerisConfirmPopupHeadless let-accept="accept" let-close="close">
+                    <div class="headless-popup">
+                      <strong>Deploy build?</strong>
+                      <p>Run the final release workflow for the selected environment.</p>
+                      <div class="headless-popup-actions">
+                        <button
+                          aerisButton
+                          variant="secondary"
+                          type="button"
+                          (click)="close($event)"
+                        >
+                          Cancel
+                        </button>
+                        <button aerisButton type="button" (click)="accept($event)">Deploy</button>
+                      </div>
+                    </div>
+                  </ng-template>
+                </aeris-confirm-popup>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="confirmHeadless($event)"&gt;
+    Open headless popup
+  &lt;/button&gt;
+  &lt;aeris-confirm-popup key="headless-popup"&gt;
+    &lt;ng-template aerisConfirmPopupHeadless let-accept="accept" let-close="close"&gt;
+      &lt;div class="headless-popup"&gt;
+        &lt;strong&gt;Deploy build?&lt;/strong&gt;
+        &lt;p&gt;Run the final release workflow for the selected environment.&lt;/p&gt;
+        &lt;div class="headless-popup-actions"&gt;
+          &lt;button
+            aerisButton
+            variant="secondary"
+            type="button"
+            (click)="close($event)"
+          &gt;
+            Cancel
+          &lt;/button&gt;
+          &lt;button aerisButton type="button" (click)="accept($event)"&gt;Deploy&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-confirm-popup&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="confirm-popup-options"
+              title="Options"
+              description="Tune dismissal, arrow rendering, and width per confirmation."
+              [tsCode]="optionsTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="confirmSticky($event)">
+                  Open sticky popup
+                </button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="confirmSticky($event)"&gt;
+    Open sticky popup
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc
+            title="On this page"
+            ariaLabel="ConfirmPopup features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="confirm-popup-api-service" class="api-section">
+              <h3>Service</h3>
+              <div class="api-table" role="table" aria-label="ConfirmPopup service">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of serviceRows; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-popup-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="ConfirmPopup inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-popup-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="ConfirmPopup models">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-popup-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="ConfirmPopup outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-popup-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="ConfirmPopup templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-popup-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="ConfirmPopup methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-popup-api-config" class="api-section">
+              <h3>Service config</h3>
+              <div class="api-table" role="table" aria-label="ConfirmPopup config">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of configRows; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="confirm-popup-api-ref" class="api-section">
+              <h3>Reference</h3>
+              <div class="api-table" role="table" aria-label="ConfirmPopup reference">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of refRows; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="ConfirmPopup API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table token-table" role="table" aria-label="ConfirmPopup design tokens">
+          <div role="row">
+            <span role="columnheader">Token</span><span role="columnheader">Purpose</span
+            ><span role="columnheader">Default</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-popup-z-index</code
+            ><span role="cell">Overlay stacking context.</span><code role="cell">1040</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-popup-width</code><span role="cell">Popup width.</span
+            ><code role="cell">min(22rem, calc(100vw - 1rem))</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-popup-max-width</code
+            ><span role="cell">Maximum popup width.</span
+            ><code role="cell">calc(100vw - 1rem)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-popup-padding</code
+            ><span role="cell">Internal spacing.</span><code role="cell">1rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-popup-background</code
+            ><span role="cell">Popup surface.</span><code role="cell">var(--aeris-surface)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-popup-border</code
+            ><span role="cell">Popup border.</span><code role="cell">var(--aeris-border)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-popup-radius</code
+            ><span role="cell">Popup radius.</span><code role="cell">var(--aeris-radius-lg)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-popup-shadow</code
+            ><span role="cell">Popup elevation.</span><code role="cell">component shadow</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-popup-focus</code
+            ><span role="cell">Focus ring color.</span><code role="cell">var(--aeris-focus)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-confirm-popup-icon-size</code
+            ><span role="cell">Built-in icon container size.</span><code role="cell">2rem</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul class="accessibility-list">
+          <li>
+            The popup uses <code>role="alertdialog"</code> because it asks for an explicit
+            confirmation.
+          </li>
+          <li>
+            The trigger receives <code>aria-haspopup="dialog"</code>, <code>aria-expanded</code>,
+            and <code>aria-controls</code> while the popup is open, then its previous values are
+            restored.
+          </li>
+          <li>
+            Focus moves into the popup by default, remains trapped while open, and returns to the
+            trigger when closed.
+          </li>
+          <li>
+            Outside dismissal is enabled by default through <code>dismissible</code>. Escape
+            dismissal is enabled by default through <code>closeOnEscape</code>.
+          </li>
+          <li>Use a native button or another keyboard-focusable element as the target.</li>
+        </ul>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="ConfirmPopup keyboard support"
+        >
+          <div role="row">
+            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell">Moves to the next focusable control inside the popup.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Shift + Tab</kbd
+            ><span role="cell">Moves to the previous focusable control inside the popup.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Escape</kbd
+            ><span role="cell"
+              >Dismisses the popup when closeOnEscape is enabled and restores trigger focus.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Enter</kbd
+            ><span role="cell">Activates the focused button and closes with that action.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Space</kbd
+            ><span role="cell">Activates the focused button and closes with that action.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

@@ -1,0 +1,471 @@
+<article class="button-docs progress-bar-docs">
+  <app-component-page-header
+    category="Misc"
+    title="ProgressBar"
+    description="Accessible process status indicator with determinate, indeterminate, formatted, severity, and stepped progress states."
+  />
+
+  <section
+    id="progress-bar-import"
+    class="import-section"
+    aria-labelledby="progress-bar-import-title"
+  >
+    <div>
+      <h2 id="progress-bar-import-title">Import</h2>
+      <p>One import provides ProgressBar and its templates.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="ProgressBar documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="progress-bar-basic"
+              title="Basic"
+              description="Reflect a known completion percentage for an ongoing process."
+            >
+              <div preview>
+                <aeris-progress-bar [value]="50" ariaLabel="Upload progress" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-progress-bar [value]="50" ariaLabel="Upload progress" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-bar-dynamic"
+              title="Dynamic"
+              description="Bind value to reactive state so updates change visual and accessible progress together."
+              [tsCode]="dynamicTsCode"
+              [cssCode]="actionsCssCode"
+            >
+              <div preview>
+                <aeris-progress-bar
+                  [value]="uploadValue()"
+                  [ariaValueText]="uploadStatus()"
+                  ariaLabel="Dynamic upload progress"
+                />
+                <div class="progress-actions">
+                  <button aerisButton type="button" (click)="increaseUpload()">Increase</button>
+                  <button aerisButton type="button" (click)="resetUpload()">Reset</button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-progress-bar
+    [value]="uploadValue()"
+    [ariaValueText]="uploadStatus()"
+    ariaLabel="Dynamic upload progress"
+  /&gt;
+  &lt;div class="progress-actions"&gt;
+    &lt;button aerisButton type="button" (click)="increaseUpload()"&gt;Increase&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="resetUpload()"&gt;Reset&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-bar-severity"
+              title="Severity"
+              description="Use severity colors to communicate process intent or state."
+              [cssCode]="stackCssCode"
+            >
+              <div preview>
+                <div class="progress-stack">
+                  <aeris-progress-bar
+                    [value]="25"
+                    severity="primary"
+                    ariaLabel="Primary progress"
+                  />
+                  <aeris-progress-bar [value]="35" severity="info" ariaLabel="Info progress" />
+                  <aeris-progress-bar
+                    [value]="50"
+                    severity="success"
+                    ariaLabel="Success progress"
+                  />
+                  <aeris-progress-bar
+                    [value]="65"
+                    severity="warning"
+                    ariaLabel="Warning progress"
+                  />
+                  <aeris-progress-bar [value]="80" severity="danger" ariaLabel="Danger progress" />
+                  <aeris-progress-bar
+                    [value]="95"
+                    severity="contrast"
+                    ariaLabel="Contrast progress"
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="progress-stack"&gt;
+    &lt;aeris-progress-bar
+      [value]="25"
+      severity="primary"
+      ariaLabel="Primary progress"
+    /&gt;
+    &lt;aeris-progress-bar [value]="35" severity="info" ariaLabel="Info progress" /&gt;
+    &lt;aeris-progress-bar
+      [value]="50"
+      severity="success"
+      ariaLabel="Success progress"
+    /&gt;
+    &lt;aeris-progress-bar
+      [value]="65"
+      severity="warning"
+      ariaLabel="Warning progress"
+    /&gt;
+    &lt;aeris-progress-bar [value]="80" severity="danger" ariaLabel="Danger progress" /&gt;
+    &lt;aeris-progress-bar
+      [value]="95"
+      severity="contrast"
+      ariaLabel="Contrast progress"
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-bar-template"
+              title="Template"
+              description="Format visible value content with a template or formatter."
+              [tsCode]="templateTsCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview>
+                <div class="progress-template-stack">
+                  <div>
+                    <div class="progress-caption">
+                      <span>File size</span>
+                      <span>Formatter</span>
+                    </div>
+                    <aeris-progress-bar
+                      [value]="64"
+                      [valueFormatter]="fileSizeFormatter"
+                      ariaLabel="File size progress"
+                    />
+                  </div>
+                  <div>
+                    <div class="progress-caption">
+                      <span>Review</span>
+                      <span>Template</span>
+                    </div>
+                    <aeris-progress-bar [value]="72" ariaLabel="Review progress">
+                      <ng-template aerisProgressBarValue let-percent="percent">
+                        {{ percent }}% approved
+                      </ng-template>
+                    </aeris-progress-bar>
+                  </div>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="progress-template-stack"&gt;
+    &lt;div&gt;
+      &lt;div class="progress-caption"&gt;
+        &lt;span&gt;File size&lt;/span&gt;
+        &lt;span&gt;Formatter&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;aeris-progress-bar
+        [value]="64"
+        [valueFormatter]="fileSizeFormatter"
+        ariaLabel="File size progress"
+      /&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;div class="progress-caption"&gt;
+        &lt;span&gt;Review&lt;/span&gt;
+        &lt;span&gt;Template&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;aeris-progress-bar [value]="72" ariaLabel="Review progress"&gt;
+        &lt;ng-template aerisProgressBarValue let-percent="percent"&gt;
+          &#123;&#123; percent &#125;&#125;% approved
+        &lt;/ng-template&gt;
+      &lt;/aeris-progress-bar&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-bar-indeterminate"
+              title="Indeterminate"
+              description="Use indeterminate mode when work is active but progress cannot be measured."
+            >
+              <div preview>
+                <aeris-progress-bar mode="indeterminate" ariaLabel="Loading reports" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-progress-bar mode="indeterminate" ariaLabel="Loading reports" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-bar-steps"
+              title="Steps"
+              description="Show non-interactive step markers for a process that has known milestones."
+              [tsCode]="stepsTsCode"
+              [cssCode]="actionsCssCode"
+            >
+              <div preview>
+                <aeris-progress-bar
+                  [value]="orderProgress()"
+                  [steps]="steps"
+                  [activeStep]="orderStep()"
+                  ariaLabel="Order progress"
+                />
+                <div class="progress-actions">
+                  <button aerisButton type="button" (click)="previousStep()">Previous</button>
+                  <button aerisButton type="button" (click)="nextStep()">Next</button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-progress-bar
+    [value]="orderProgress()"
+    [steps]="steps"
+    [activeStep]="orderStep()"
+    ariaLabel="Order progress"
+  /&gt;
+  &lt;div class="progress-actions"&gt;
+    &lt;button aerisButton type="button" (click)="previousStep()"&gt;Previous&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="nextStep()"&gt;Next&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-bar-options"
+              title="Options"
+              description="Adjust size, corners, striped fill, and visible values with inputs."
+              [cssCode]="stackCssCode"
+            >
+              <div preview>
+                <div class="progress-stack">
+                  <aeris-progress-bar
+                    [value]="40"
+                    size="sm"
+                    [showValue]="false"
+                    ariaLabel="Small progress"
+                  />
+                  <aeris-progress-bar [value]="55" striped animated ariaLabel="Striped progress" />
+                  <aeris-progress-bar
+                    [value]="70"
+                    size="lg"
+                    [rounded]="false"
+                    ariaLabel="Large square progress"
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="progress-stack"&gt;
+    &lt;aeris-progress-bar
+      [value]="40"
+      size="sm"
+      [showValue]="false"
+      ariaLabel="Small progress"
+    /&gt;
+    &lt;aeris-progress-bar [value]="55" striped animated ariaLabel="Striped progress" /&gt;
+    &lt;aeris-progress-bar
+      [value]="70"
+      size="lg"
+      [rounded]="false"
+      ariaLabel="Large square progress"
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc
+            title="On this page"
+            ariaLabel="ProgressBar features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="progress-bar-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="ProgressBar inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="progress-bar-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="ProgressBar templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="progress-bar-api-content" class="api-section">
+              <h3>Content</h3>
+              <div class="api-table" role="table" aria-label="ProgressBar content">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of content; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="ProgressBar API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table token-table" role="table" aria-label="ProgressBar design tokens">
+          <div role="row">
+            <span role="columnheader">Token</span><span role="columnheader">Purpose</span
+            ><span role="columnheader">Default</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-progress-bar-height</code
+            ><span role="cell">Default track height.</span><code role="cell">0.875rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-progress-bar-sm-height</code
+            ><span role="cell">Small track height.</span><code role="cell">0.5rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-progress-bar-lg-height</code
+            ><span role="cell">Large track height.</span><code role="cell">1.25rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-progress-bar-track</code
+            ><span role="cell">Track background.</span><code role="cell">accent surface mix</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-progress-bar-fill</code
+            ><span role="cell">Filled progress color.</span><code role="cell">severity accent</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-progress-bar-radius</code
+            ><span role="cell">Rounded track radius.</span><code role="cell">999px</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-progress-bar-value-text</code
+            ><span role="cell">Visible value text color.</span
+            ><code role="cell">severity contrast</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-progress-bar-value-font-size</code
+            ><span role="cell">Visible value text size.</span><code role="cell">0.75rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-progress-bar-step-marker-size</code
+            ><span role="cell">Step marker size.</span><code role="cell">0.75rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-progress-bar-step-text</code
+            ><span role="cell">Incomplete step text.</span
+            ><code role="cell">var(--aeris-text-3)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-progress-bar-step-complete-text</code
+            ><span role="cell">Completed step text.</span><code role="cell">var(--aeris-text)</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul class="accessibility-list">
+          <li>The host uses <code>role="progressbar"</code>.</li>
+          <li>
+            Determinate progress exposes <code>aria-valuemin</code>, <code>aria-valuemax</code>,
+            <code>aria-valuenow</code>, and value text.
+          </li>
+          <li>
+            Indeterminate progress omits numeric value attributes because no exact value is known.
+          </li>
+          <li>
+            Use <code>ariaLabel</code> or <code>ariaLabelledBy</code> so assistive technology can
+            identify what process the bar describes.
+          </li>
+          <li>
+            Step markers are visual only and hidden from assistive technology; include the current
+            process status in nearby text or <code>ariaValueText</code> when needed.
+          </li>
+          <li>Indeterminate and striped animations respect reduced-motion preferences.</li>
+        </ul>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="ProgressBar keyboard support"
+        >
+          <div role="row">
+            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell"
+              >ProgressBar is non-interactive and is skipped in the tab order.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Enter</kbd><span role="cell">No built-in behavior.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Space</kbd><span role="cell">No built-in behavior.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Escape</kbd><span role="cell">No built-in behavior.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

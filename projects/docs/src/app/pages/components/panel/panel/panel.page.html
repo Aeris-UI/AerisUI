@@ -1,0 +1,580 @@
+<article class="button-docs panel-docs">
+  <app-component-page-header
+    category="Panel"
+    title="Panel"
+    description="Composable content container with optional collapse behavior, templates, actions, and accessible disclosure semantics."
+  />
+
+  <section id="panel-import" class="import-section" aria-labelledby="panel-import-title">
+    <div>
+      <h2 id="panel-import-title">Import</h2>
+      <p>One import provides Panel and its templates and slot directives.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Panel documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="panel-basic"
+              title="Basic"
+              description="Use Panel as a titled content surface without adding interaction."
+              [cssCode]="summaryCssCode"
+            >
+              <div preview>
+                <aeris-panel header="Order summary" role="region">
+                  <dl class="summary-list">
+                    <div class="summary-row">
+                      <dt>Wireless headphones</dt>
+                      <dd>$79.00</dd>
+                    </div>
+                    <div class="summary-row">
+                      <dt>Phone case</dt>
+                      <dd>$15.00</dd>
+                    </div>
+                    <div class="summary-row">
+                      <dt>Shipping</dt>
+                      <dd>$5.99</dd>
+                    </div>
+                    <div class="summary-row summary-total">
+                      <dt>Total</dt>
+                      <dd>$99.99</dd>
+                    </div>
+                  </dl>
+                </aeris-panel>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-panel header="Order summary" role="region"&gt;
+    &lt;dl class="summary-list"&gt;
+      &lt;div class="summary-row"&gt;
+        &lt;dt&gt;Wireless headphones&lt;/dt&gt;
+        &lt;dd&gt;$79.00&lt;/dd&gt;
+      &lt;/div&gt;
+      &lt;div class="summary-row"&gt;
+        &lt;dt&gt;Phone case&lt;/dt&gt;
+        &lt;dd&gt;$15.00&lt;/dd&gt;
+      &lt;/div&gt;
+      &lt;div class="summary-row"&gt;
+        &lt;dt&gt;Shipping&lt;/dt&gt;
+        &lt;dd&gt;$5.99&lt;/dd&gt;
+      &lt;/div&gt;
+      &lt;div class="summary-row summary-total"&gt;
+        &lt;dt&gt;Total&lt;/dt&gt;
+        &lt;dd&gt;$99.99&lt;/dd&gt;
+      &lt;/div&gt;
+    &lt;/dl&gt;
+  &lt;/aeris-panel&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="panel-toggleable"
+              title="Toggleable"
+              description="Add a native disclosure button when the content should collapse."
+              [cssCode]="summaryCssCode"
+            >
+              <div preview>
+                <aeris-panel header="Order summary" toggleable>
+                  <dl class="summary-list">
+                    <div class="summary-row">
+                      <dt>Wireless headphones</dt>
+                      <dd>$79.00</dd>
+                    </div>
+                    <div class="summary-row">
+                      <dt>Phone case</dt>
+                      <dd>$15.00</dd>
+                    </div>
+                    <div class="summary-row summary-total">
+                      <dt>Total</dt>
+                      <dd>$94.00</dd>
+                    </div>
+                  </dl>
+                </aeris-panel>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-panel header="Order summary" toggleable&gt;
+    &lt;dl class="summary-list"&gt;
+      &lt;div class="summary-row"&gt;
+        &lt;dt&gt;Wireless headphones&lt;/dt&gt;
+        &lt;dd&gt;$79.00&lt;/dd&gt;
+      &lt;/div&gt;
+      &lt;div class="summary-row"&gt;
+        &lt;dt&gt;Phone case&lt;/dt&gt;
+        &lt;dd&gt;$15.00&lt;/dd&gt;
+      &lt;/div&gt;
+      &lt;div class="summary-row summary-total"&gt;
+        &lt;dt&gt;Total&lt;/dt&gt;
+        &lt;dd&gt;$94.00&lt;/dd&gt;
+      &lt;/div&gt;
+    &lt;/dl&gt;
+  &lt;/aeris-panel&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="panel-controlled"
+              title="Controlled"
+              description="Bind the collapsed model and update it from external controls."
+              [tsCode]="controlledTsCode"
+              [cssCode]="actionsCssCode"
+            >
+              <div preview>
+                <div class="panel-actions">
+                  <button aerisButton type="button" size="sm" (click)="openPanel()">Open</button>
+                  <button
+                    aerisButton
+                    type="button"
+                    size="sm"
+                    variant="secondary"
+                    (click)="closePanel()"
+                  >
+                    Close
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    (click)="togglePanel()"
+                  >
+                    Toggle
+                  </button>
+                </div>
+                <aeris-panel
+                  header="Release checklist"
+                  toggleable
+                  [(collapsed)]="controlledCollapsed"
+                  (toggled)="recordToggle($event)"
+                >
+                  <p>
+                    Review accessibility notes, run the test suite, and publish migration guidance.
+                  </p>
+                </aeris-panel>
+                <p class="panel-event-log">
+                  State: {{ controlledCollapsed ? 'Closed' : 'Open' }} · Last event:
+                  {{ toggleEvents[0] || 'None' }}
+                </p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="panel-actions"&gt;
+    &lt;button aerisButton type="button" size="sm" (click)="openPanel()"&gt;Open&lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      size="sm"
+      variant="secondary"
+      (click)="closePanel()"
+    &gt;
+      Close
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      size="sm"
+      variant="ghost"
+      (click)="togglePanel()"
+    &gt;
+      Toggle
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-panel
+    header="Release checklist"
+    toggleable
+    [(collapsed)]="controlledCollapsed"
+    (toggled)="recordToggle($event)"
+  &gt;
+    &lt;p&gt;
+      Review accessibility notes, run the test suite, and publish migration guidance.
+    &lt;/p&gt;
+  &lt;/aeris-panel&gt;
+  &lt;p class="panel-event-log"&gt;
+    State: &#123;&#123; controlledCollapsed ? 'Closed' : 'Open' &#125;&#125; · Last event:
+    &#123;&#123; toggleEvents[0] || 'None' &#125;&#125;
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="panel-actions"
+              title="Header actions"
+              description="Project native controls into the header action area without making the whole header interactive."
+            >
+              <div preview>
+                <aeris-panel header="Team activity">
+                  <div aerisPanelHeaderActions>
+                    <button aerisButton type="button" size="sm" variant="secondary">Refresh</button>
+                  </div>
+                  <p>Seven updates were added since the last review.</p>
+                </aeris-panel>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-panel header="Team activity"&gt;
+    &lt;div aerisPanelHeaderActions&gt;
+      &lt;button aerisButton type="button" size="sm" variant="secondary"&gt;Refresh&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;p&gt;Seven updates were added since the last review.&lt;/p&gt;
+  &lt;/aeris-panel&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="panel-indicator"
+              title="Indicator"
+              description="Customize the toggle indicator with a template that receives collapse state."
+              [cssCode]="indicatorCssCode"
+            >
+              <div preview>
+                <aeris-panel header="Advanced settings" toggleable>
+                  <ng-template aerisPanelToggleIcon let-collapsed="collapsed">
+                    <span class="panel-plus-icon" [attr.data-collapsed]="collapsed"></span>
+                  </ng-template>
+                  <p>Manage diagnostics, audit logging, and release flags.</p>
+                </aeris-panel>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-panel header="Advanced settings" toggleable&gt;
+    &lt;ng-template aerisPanelToggleIcon let-collapsed="collapsed"&gt;
+      &lt;span class="panel-plus-icon" [attr.data-collapsed]="collapsed"&gt;&lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;p&gt;Manage diagnostics, audit logging, and release flags.&lt;/p&gt;
+  &lt;/aeris-panel&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="panel-template"
+              title="Template"
+              description="Replace the header content and add a footer while keeping Panel semantics."
+              [cssCode]="templateCssCode"
+            >
+              <div preview>
+                <aeris-panel toggleable>
+                  <ng-template aerisPanelHeader>
+                    <span class="profile-panel-header">
+                      <span class="profile-avatar" aria-hidden="true">AE</span>
+                      <span class="profile-meta">
+                        <strong>Amy Evans</strong>
+                        <span>Product design lead</span>
+                      </span>
+                    </span>
+                  </ng-template>
+                  <p>
+                    Amy is reviewing accessibility findings and preparing handoff notes for the
+                    release.
+                  </p>
+                  <div aerisPanelFooter>
+                    <button aerisButton type="button" size="sm">View profile</button>
+                    <button aerisButton type="button" size="sm" variant="secondary">Message</button>
+                  </div>
+                </aeris-panel>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-panel toggleable&gt;
+    &lt;ng-template aerisPanelHeader&gt;
+      &lt;span class="profile-panel-header"&gt;
+        &lt;span class="profile-avatar" aria-hidden="true"&gt;AE&lt;/span&gt;
+        &lt;span class="profile-meta"&gt;
+          &lt;strong&gt;Amy Evans&lt;/strong&gt;
+          &lt;span&gt;Product design lead&lt;/span&gt;
+        &lt;/span&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;p&gt;
+      Amy is reviewing accessibility findings and preparing handoff notes for the
+      release.
+    &lt;/p&gt;
+    &lt;div aerisPanelFooter&gt;
+      &lt;button aerisButton type="button" size="sm"&gt;View profile&lt;/button&gt;
+      &lt;button aerisButton type="button" size="sm" variant="secondary"&gt;Message&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/aeris-panel&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="panel-variants"
+              title="Variants"
+              description="Use variants and sizes to match the surrounding layout density."
+              [cssCode]="gridCssCode"
+            >
+              <div preview>
+                <div class="panel-grid">
+                  <aeris-panel header="Outlined" variant="outlined" size="sm"
+                    ><p>Quiet bordered surface.</p></aeris-panel
+                  >
+                  <aeris-panel header="Elevated" variant="elevated"
+                    ><p>Raised container for prominence.</p></aeris-panel
+                  >
+                  <aeris-panel header="Filled" variant="filled"
+                    ><p>Soft background grouping.</p></aeris-panel
+                  >
+                  <aeris-panel header="Plain" variant="plain" size="lg"
+                    ><p>Header and content without an outer card.</p></aeris-panel
+                  >
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="panel-grid"&gt;
+    &lt;aeris-panel header="Outlined" variant="outlined" size="sm"
+      &gt;&lt;p&gt;Quiet bordered surface.&lt;/p&gt;&lt;/aeris-panel
+    &gt;
+    &lt;aeris-panel header="Elevated" variant="elevated"
+      &gt;&lt;p&gt;Raised container for prominence.&lt;/p&gt;&lt;/aeris-panel
+    &gt;
+    &lt;aeris-panel header="Filled" variant="filled"
+      &gt;&lt;p&gt;Soft background grouping.&lt;/p&gt;&lt;/aeris-panel
+    &gt;
+    &lt;aeris-panel header="Plain" variant="plain" size="lg"
+      &gt;&lt;p&gt;Header and content without an outer card.&lt;/p&gt;&lt;/aeris-panel
+    &gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Panel features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="panel-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Panel inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="panel-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="Panel models">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="panel-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Panel outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Payload</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="panel-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="Panel templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="panel-api-slots" class="api-section">
+              <h3>Slots</h3>
+              <div class="api-table" role="table" aria-label="Panel slots">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of slots; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="panel-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Panel methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Signature</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Panel API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table token-table" role="table" aria-label="Panel design tokens">
+          <div role="row">
+            <span role="columnheader">Token</span><span role="columnheader">Purpose</span
+            ><span role="columnheader">Default</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-panel-background</code><span role="cell">Panel surface.</span
+            ><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-panel-border</code><span role="cell">Outer border.</span
+            ><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-panel-radius</code
+            ><span role="cell">Outer corner radius.</span><code role="cell">--aeris-radius-lg</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-panel-shadow</code><span role="cell">Default elevation.</span
+            ><code role="cell">none</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-panel-header-background</code
+            ><span role="cell">Header surface.</span><code role="cell">surface mix</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-panel-header-border</code
+            ><span role="cell">Header separator.</span><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-panel-title-color</code
+            ><span role="cell">Header title color.</span><code role="cell">--aeris-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-panel-content-color</code
+            ><span role="cell">Body text color.</span><code role="cell">--aeris-text-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-panel-icon-size</code
+            ><span role="cell">Default toggle icon box.</span><code role="cell">1.25rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-panel-footer-gap</code
+            ><span role="cell">Footer action spacing.</span><code role="cell">0.625rem</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul class="accessibility-list">
+          <li>
+            Panel is semantic-neutral by default; use <code>role</code> when the panel is a
+            meaningful region, group, or article.
+          </li>
+          <li>
+            Toggleable panels use a native button with <code>aria-expanded</code> and
+            <code>aria-controls</code>.
+          </li>
+          <li>
+            The content region references the header with <code>aria-labelledby</code> when the
+            panel is toggleable.
+          </li>
+          <li>
+            Collapsed content is marked with <code>aria-hidden</code> and <code>inert</code> so
+            projected controls are not reachable while hidden.
+          </li>
+          <li>
+            The header uses a configurable ARIA heading level. Choose a level that matches the
+            surrounding document hierarchy.
+          </li>
+          <li>Animations respect reduced-motion preferences.</li>
+        </ul>
+        <div class="api-table keyboard-table" role="table" aria-label="Panel keyboard support">
+          <div role="row">
+            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell"
+              >Moves focus to the toggle button and projected interactive elements that are
+              currently visible.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Enter</kbd
+            ><span role="cell">Toggles content when focus is on the toggle button.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Space</kbd
+            ><span role="cell">Toggles content when focus is on the toggle button.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Escape</kbd><span role="cell">No built-in behavior.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

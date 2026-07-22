@@ -1,0 +1,81 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.message-docs app-form-demo {
+  --docs-code-block-max-height: min(34rem, 70vh);
+}
+
+.message-stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.message-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.message-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.message-life-demo {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.message-custom-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: inline-grid;
+  place-items: center;
+}
+
+.message-custom-icon svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.message-status {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 0.875rem;
+}
+
+.message-form {
+  width: min(100%, 34rem);
+  display: grid;
+  gap: 0.9rem;
+}
+
+.message-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--text-2);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.message-form input {
+  min-height: 2.5rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--aeris-radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+.message-form input:focus {
+  border-color: var(--focus);
+  outline: 3px solid color-mix(in srgb, var(--focus) 24%, transparent);
+}

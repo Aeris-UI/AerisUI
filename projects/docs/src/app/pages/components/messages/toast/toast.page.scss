@@ -1,0 +1,21 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.toast-docs app-form-demo {
+  --docs-code-block-max-height: min(34rem, 70vh);
+}
+
+.toast-example-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.toast-example-content {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.toast-example-content p {
+  margin: 0;
+}

@@ -1,0 +1,140 @@
+:host,
+.aeris-progress-spinner,
+.aeris-progress-spinner * {
+  box-sizing: border-box;
+}
+
+:host(.aeris-progress-spinner) {
+  --_aeris-progress-spinner-size: var(--aeris-progress-spinner-size, 3rem);
+  --_aeris-progress-spinner-color: var(--aeris-primary, #879566);
+
+  position: relative;
+  inline-size: var(--_aeris-progress-spinner-size);
+  block-size: var(--_aeris-progress-spinner-size);
+  max-inline-size: 100%;
+  display: inline-grid;
+  place-items: center;
+  color: var(--aeris-progress-spinner-value-color, var(--aeris-text, #222222));
+  font: inherit;
+  vertical-align: middle;
+}
+
+:host([data-size='sm']) {
+  --_aeris-progress-spinner-size: var(--aeris-progress-spinner-sm-size, 1.75rem);
+}
+
+:host([data-size='lg']) {
+  --_aeris-progress-spinner-size: var(--aeris-progress-spinner-lg-size, 4.5rem);
+}
+
+:host([data-tone='secondary']) {
+  --_aeris-progress-spinner-color: var(--aeris-surface-3, var(--aeris-border-strong, #c7c9c0));
+}
+
+:host([data-tone='success']) {
+  --_aeris-progress-spinner-color: var(--aeris-success, #6f8a68);
+}
+
+:host([data-tone='info']) {
+  --_aeris-progress-spinner-color: var(--aeris-info, #6b8793);
+}
+
+:host([data-tone='warning']) {
+  --_aeris-progress-spinner-color: var(--aeris-warning, #c38600);
+}
+
+:host([data-tone='danger']) {
+  --_aeris-progress-spinner-color: var(--aeris-danger, #c81e2a);
+}
+
+:host([data-tone='neutral']) {
+  --_aeris-progress-spinner-color: var(--aeris-text-3, #6f7667);
+}
+
+:host([data-tone='contrast']) {
+  --_aeris-progress-spinner-color: var(--aeris-text, #222222);
+}
+
+.aeris-progress-spinner__graphic {
+  inline-size: 100%;
+  block-size: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.aeris-progress-spinner__track {
+  stroke: var(
+    --aeris-progress-spinner-track,
+    color-mix(in srgb, var(--_aeris-progress-spinner-color) 16%, transparent)
+  );
+}
+
+.aeris-progress-spinner__indicator {
+  stroke: var(--aeris-progress-spinner-indicator, var(--_aeris-progress-spinner-color));
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dashoffset 180ms ease;
+}
+
+:host([data-mode='indeterminate']) .aeris-progress-spinner__graphic {
+  animation: aeris-progress-spinner-rotate var(--aeris-progress-spinner-duration, 1.1s) linear
+    infinite;
+}
+
+:host([data-mode='indeterminate']) .aeris-progress-spinner__indicator {
+  stroke-dasharray: 32 94;
+  animation: aeris-progress-spinner-dash var(--aeris-progress-spinner-duration, 1.1s) ease-in-out
+    infinite;
+}
+
+.aeris-progress-spinner__value {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0.25rem;
+  overflow: hidden;
+  font-size: var(--aeris-progress-spinner-value-font-size, 0.6875rem);
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+}
+
+:host([data-size='sm']) .aeris-progress-spinner__value {
+  display: none;
+}
+
+:host([data-size='lg']) .aeris-progress-spinner__value {
+  font-size: var(--aeris-progress-spinner-lg-value-font-size, 0.875rem);
+}
+
+@keyframes aeris-progress-spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes aeris-progress-spinner-dash {
+  0% {
+    stroke-dasharray: 12 114;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 76 50;
+    stroke-dashoffset: -26;
+  }
+
+  100% {
+    stroke-dasharray: 12 114;
+    stroke-dashoffset: -112;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-progress-spinner__graphic,
+  .aeris-progress-spinner__indicator {
+    animation: none !important;
+    transition: none;
+  }
+}

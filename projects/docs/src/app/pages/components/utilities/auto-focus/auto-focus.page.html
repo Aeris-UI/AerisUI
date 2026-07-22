@@ -1,0 +1,325 @@
+<article class="button-docs auto-focus-docs">
+  <app-component-page-header
+    category="Utilities"
+    title="AutoFocus"
+    description="Move focus to a newly rendered native control with controlled activation and scroll-safe defaults."
+  />
+
+  <section id="auto-focus-import" class="import-section" aria-labelledby="auto-focus-import-title">
+    <div>
+      <h2 id="auto-focus-import-title">Import</h2>
+      <p>One import provides the standalone AutoFocus directive.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="AutoFocus documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="auto-focus-basic"
+              title="Basic"
+              description="Apply the directive to a focusable control to focus it automatically when the page renders."
+              [cssCode]="basicCssCode"
+            >
+              <div preview>
+                <label class="auto-focus-field" for="auto-focus-name">
+                  Display name
+                  <input id="auto-focus-name" aerisInputText aerisAutoFocus autocomplete="name" />
+                </label>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;label class="auto-focus-field" for="auto-focus-name"&gt;
+    Display name
+    &lt;input id="auto-focus-name" aerisInputText aerisAutoFocus autocomplete="name" /&gt;
+  &lt;/label&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="auto-focus-conditional"
+              title="Conditional content"
+              description="Focus the first meaningful field when a form or workflow step is added to the DOM."
+              [tsCode]="conditionalTsCode"
+              [cssCode]="conditionalCssCode"
+            >
+              <div preview>
+                <div class="conditional-demo">
+                  <button aerisButton type="button" variant="secondary" (click)="toggleForm()">
+                    {{ formVisible() ? 'Remove account form' : 'Add account form' }}
+                  </button>
+                  @if (formVisible()) {
+                    <form class="conditional-form" (submit)="$event.preventDefault()">
+                      <label for="auto-focus-email"
+                        >Email address<input
+                          id="auto-focus-email"
+                          aerisInputText
+                          aerisAutoFocus
+                          type="email"
+                          autocomplete="email"
+                      /></label>
+                      <label for="auto-focus-note"
+                        >Account note<textarea
+                          id="auto-focus-note"
+                          aerisTextarea
+                          rows="3"
+                        ></textarea>
+                      </label>
+                      <button aerisButton type="submit">Continue</button>
+                    </form>
+                  }
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="conditional-demo"&gt;
+    &lt;button aerisButton type="button" variant="secondary" (click)="toggleForm()"&gt;
+      &#123;&#123; formVisible() ? 'Remove account form' : 'Add account form' &#125;&#125;
+    &lt;/button&gt;
+    &#64;if (formVisible()) &#123;
+      &lt;form class="conditional-form" (submit)="$event.preventDefault()"&gt;
+        &lt;label for="auto-focus-email"
+          &gt;Email address&lt;input
+            id="auto-focus-email"
+            aerisInputText
+            aerisAutoFocus
+            type="email"
+            autocomplete="email"
+        /&gt;&lt;/label&gt;
+        &lt;label for="auto-focus-note"
+          &gt;Account note&lt;textarea
+            id="auto-focus-note"
+            aerisTextarea
+            rows="3"
+          &gt;&lt;/textarea&gt;
+        &lt;/label&gt;
+        &lt;button aerisButton type="submit"&gt;Continue&lt;/button&gt;
+      &lt;/form&gt;
+    &#125;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="auto-focus-controlled"
+              title="Controlled"
+              description="Bind the directive to application state and re-enable it only when focus should move."
+              [tsCode]="controlledTsCode"
+              [cssCode]="controlledCssCode"
+            >
+              <div preview>
+                <div class="controlled-demo">
+                  <div class="auto-focus-actions">
+                    <button aerisButton type="button" (click)="focusSearch()">Focus search</button>
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="secondary"
+                      (click)="disableControlledFocus()"
+                    >
+                      Disable automatic focus
+                    </button>
+                  </div>
+                  <label class="auto-focus-field" for="controlled-search"
+                    >Search documentation<input
+                      id="controlled-search"
+                      aerisInputText
+                      [aerisAutoFocus]="controlledFocus()"
+                      (focus)="recordControlledFocus()"
+                  /></label>
+                  <p class="auto-focus-status" aria-live="polite">{{ controlledStatus() }}</p>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="controlled-demo"&gt;
+    &lt;div class="auto-focus-actions"&gt;
+      &lt;button aerisButton type="button" (click)="focusSearch()"&gt;Focus search&lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="secondary"
+        (click)="disableControlledFocus()"
+      &gt;
+        Disable automatic focus
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;label class="auto-focus-field" for="controlled-search"
+      &gt;Search documentation&lt;input
+        id="controlled-search"
+        aerisInputText
+        [aerisAutoFocus]="controlledFocus()"
+        (focus)="recordControlledFocus()"
+    /&gt;&lt;/label&gt;
+    &lt;p class="auto-focus-status" aria-live="polite"&gt;&#123;&#123; controlledStatus() &#125;&#125;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="auto-focus-method"
+              title="Focus method"
+              description="Export the directive to focus its host manually with native FocusOptions."
+              [cssCode]="methodCssCode"
+            >
+              <div preview>
+                <div class="method-demo">
+                  <button aerisButton type="button" variant="outline" (click)="notesFocus.focus()">
+                    Focus notes without scrolling
+                  </button>
+                  <textarea
+                    #notesFocus="aerisAutoFocus"
+                    aerisTextarea
+                    [aerisAutoFocus]="false"
+                    aria-label="Project notes"
+                    rows="4"
+                    placeholder="Project notes"
+                  ></textarea>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="method-demo"&gt;
+    &lt;button aerisButton type="button" variant="outline" (click)="notesFocus.focus()"&gt;
+      Focus notes without scrolling
+    &lt;/button&gt;
+    &lt;textarea
+      #notesFocus="aerisAutoFocus"
+      aerisTextarea
+      [aerisAutoFocus]="false"
+      aria-label="Project notes"
+      rows="4"
+      placeholder="Project notes"
+    &gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="On this page"
+            ariaLabel="AutoFocus features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="auto-focus-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="AutoFocus inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="auto-focus-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="AutoFocus methods" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API sections" ariaLabel="AutoFocus API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces"
+      ><section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          AutoFocus introduces no custom interfaces. Its public method accepts the browser's
+          standard <code>FocusOptions</code> object.
+        </p>
+        <app-code-block
+          code="focus(options?: FocusOptions): boolean;"
+          language="TypeScript"
+        /></section
+    ></aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens"
+      ><section class="doc-section">
+        <h2>Design tokens</h2>
+        <p>
+          AutoFocus has no visual surface and defines no design tokens. Focus indicators come from
+          the focused native or Aeris control.
+        </p>
+      </section></aeris-tab-panel
+    >
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>Apply the directive only to elements that are already natively focusable.</li>
+          <li>
+            Use automatic focus when new content requires immediate interaction, not merely to draw
+            attention.
+          </li>
+          <li>
+            Avoid moving focus on initial page navigation because it can bypass headings and
+            disorient screen-reader users.
+          </li>
+          <li>
+            Disabled, hidden, inert, disconnected, and <code>aria-hidden="true"</code> hosts are not
+            focused.
+          </li>
+          <li>Scroll is preserved by default to avoid unexpected viewport movement.</li>
+          <li>
+            The directive adds no roles, labels, or keyboard behavior; the host retains its native
+            semantics.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="AutoFocus keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Tab / Shift + Tab</span
+            ><span role="cell"
+              >Continues from the focused host through the document's native tab order.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Other keys</span
+            ><span role="cell"
+              >Handled by the focused native or Aeris control; AutoFocus intercepts no keyboard
+              input.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

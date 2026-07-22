@@ -1,0 +1,90 @@
+:host {
+  --_aeris-confirm-dialog-icon-size: 2.5rem;
+
+  display: contents;
+}
+
+.aeris-confirm-dialog__content {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.875rem;
+  align-items: start;
+}
+
+.aeris-confirm-dialog__content:not(:has(.aeris-confirm-dialog__icon)) {
+  grid-template-columns: 1fr;
+}
+
+.aeris-confirm-dialog__icon {
+  width: var(--aeris-confirm-dialog-icon-size, var(--_aeris-confirm-dialog-icon-size));
+  height: var(--aeris-confirm-dialog-icon-size, var(--_aeris-confirm-dialog-icon-size));
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--aeris-confirm-dialog-icon-radius, 999px);
+  background: var(
+    --aeris-confirm-dialog-icon-background,
+    color-mix(in srgb, var(--aeris-primary, #6f7f49) 14%, transparent)
+  );
+  color: var(--aeris-confirm-dialog-icon-color, var(--aeris-primary-text, #4c5f27));
+  flex: 0 0 auto;
+}
+
+.aeris-confirm-dialog__icon svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.aeris-confirm-dialog__content[data-severity='success'] .aeris-confirm-dialog__icon {
+  background: color-mix(in srgb, var(--aeris-success, #5d7d3f) 16%, transparent);
+  color: var(--aeris-success-text, #3e6124);
+}
+
+.aeris-confirm-dialog__content[data-severity='info'] .aeris-confirm-dialog__icon {
+  background: color-mix(in srgb, var(--aeris-info, #58789d) 16%, transparent);
+  color: var(--aeris-info-text, #2f5c87);
+}
+
+.aeris-confirm-dialog__content[data-severity='warning'] .aeris-confirm-dialog__icon {
+  background: color-mix(in srgb, var(--aeris-warning, #c38600) 18%, transparent);
+  color: var(--aeris-warning-text, #8a6100);
+}
+
+.aeris-confirm-dialog__content[data-severity='danger'] .aeris-confirm-dialog__icon {
+  background: color-mix(in srgb, var(--aeris-danger, #c81e2a) 16%, transparent);
+  color: var(--aeris-danger-text, #a31722);
+}
+
+.aeris-confirm-dialog__message {
+  min-width: 0;
+  color: var(--aeris-confirm-dialog-message-color, var(--aeris-text-2, #555555));
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.aeris-confirm-dialog__message:empty {
+  display: none;
+}
+
+.aeris-confirm-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+@media (max-width: 34rem) {
+  .aeris-confirm-dialog__content {
+    grid-template-columns: 1fr;
+  }
+
+  .aeris-confirm-dialog__actions,
+  .aeris-confirm-dialog__actions .aeris-button {
+    width: 100%;
+  }
+}

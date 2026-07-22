@@ -1,0 +1,99 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.glass-docs app-form-demo {
+  --docs-code-block-max-height: min(42rem, 72vh);
+}
+
+.glass-stage {
+  position: relative;
+  overflow: hidden;
+  min-height: 16rem;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  border-radius: var(--aeris-radius-xl);
+  background: url('/abstract.jpg') center / cover no-repeat;
+}
+
+.glass-surface {
+  width: min(100%, 30rem);
+  padding: 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--aeris-border) 70%, transparent);
+  border-radius: var(--aeris-radius-lg);
+  box-shadow: var(--aeris-shadow-sm);
+}
+
+.glass-surface h4,
+.glass-surface p {
+  margin: 0;
+}
+
+.glass-surface p {
+  margin-top: 0.5rem;
+  color: var(--aeris-text-2);
+}
+
+.glass-strength-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: var(--aeris-radius-xl);
+  background: url('/abstract.jpg') center / cover no-repeat;
+}
+
+.glass-strength-grid section {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--aeris-border) 70%, transparent);
+  border-radius: var(--aeris-radius-lg);
+}
+
+.glass-strength-grid h4,
+.glass-strength-grid p {
+  margin: 0;
+}
+
+.glass-strength-grid p {
+  margin-top: 0.375rem;
+  color: var(--aeris-text-2);
+}
+
+.glass-component-stage {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: var(--aeris-radius-xl);
+  background: url('/abstract.jpg') center / cover no-repeat;
+}
+
+.glass-component-stage aeris-accordion,
+.glass-component-stage aeris-menu {
+  align-self: start;
+}
+
+.glass-controlled-stage {
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: var(--aeris-radius-xl);
+  background: url('/abstract.jpg') center / cover no-repeat;
+}
+
+.glass-controlled-stage aeris-card {
+  width: min(100%, 32rem);
+}
+
+@media (max-width: 44rem) {
+  .glass-strength-grid,
+  .glass-component-stage {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .glass-stage {
+    padding: 1rem;
+  }
+}

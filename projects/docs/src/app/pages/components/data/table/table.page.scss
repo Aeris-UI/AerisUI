@@ -1,0 +1,51 @@
+@use '../../form/shared/form-docs';
+
+aeris-table {
+  width: 100%;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 4.5rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  background: var(--surface-2);
+  color: var(--text-2);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.status-pill[data-status='Active'] {
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+  color: var(--success);
+}
+
+.status-pill[data-status='Invited'] {
+  background: color-mix(in srgb, var(--warning) 16%, transparent);
+  color: var(--warning);
+}
+
+.table-state-grid {
+  width: 100%;
+  display: grid;
+  gap: 1rem;
+}
+
+.table-state-grid > .aeris-button {
+  justify-self: start;
+}
+
+.csv-preview {
+  max-width: 100%;
+  overflow: auto;
+  margin: 0;
+  padding: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}

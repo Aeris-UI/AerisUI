@@ -1,0 +1,627 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Form"
+    title="Slider"
+    description="Select single values or bounded ranges with precise pointer input, responsive orientations, Angular Forms support, and complete keyboard semantics."
+  />
+
+  <section class="import-section" aria-labelledby="slider-import-title">
+    <div>
+      <h2 id="slider-import-title">Import</h2>
+      <p>One standalone import provides single and range Slider behavior.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Slider documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>
+          Every example uses the published Slider API and includes its exact HTML and TypeScript
+          where required.
+        </p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="slider-basic"
+              title="Basic"
+              description="Bind a numeric signal and associate a visible label through ariaLabelledby."
+              [tsCode]="basicCode"
+            >
+              <div preview class="field">
+                <span id="volume-label">Volume</span>
+                <aeris-slider ariaLabelledby="volume-label" [(value)]="volume" showValue fluid />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="volume-label"&gt;Volume&lt;/span&gt;
+  &lt;aeris-slider ariaLabelledby="volume-label" [(value)]="volume" showValue fluid /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="slider-range"
+              title="Range"
+              description="Two independently labelled thumbs select an ordered interval and can enforce a minimum distance."
+              [tsCode]="rangeCode"
+            >
+              <div preview class="field">
+                <span>Price range</span>
+                <aeris-slider
+                  range
+                  [min]="0"
+                  [max]="100"
+                  [step]="5"
+                  [minRange]="10"
+                  lowerAriaLabel="Minimum price"
+                  upperAriaLabel="Maximum price"
+                  [(value)]="priceRange"
+                  showValue
+                  showTooltip
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span&gt;Price range&lt;/span&gt;
+  &lt;aeris-slider
+    range
+    [min]="0"
+    [max]="100"
+    [step]="5"
+    [minRange]="10"
+    lowerAriaLabel="Minimum price"
+    upperAriaLabel="Maximum price"
+    [(value)]="priceRange"
+    showValue
+    showTooltip
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="slider-step"
+              title="Step and ticks"
+              description="Pointer and keyboard values align to the configured step. Tick rendering is automatically capped by maxTicks."
+            >
+              <div preview class="field">
+                <span id="rating-label">Rating</span>
+                <aeris-slider
+                  ariaLabelledby="rating-label"
+                  [value]="6"
+                  [min]="0"
+                  [max]="10"
+                  [step]="1"
+                  showTicks
+                  showMinMax
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="rating-label"&gt;Rating&lt;/span&gt;
+  &lt;aeris-slider
+    ariaLabelledby="rating-label"
+    [value]="6"
+    [min]="0"
+    [max]="10"
+    [step]="1"
+    showTicks
+    showMinMax
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="slider-values"
+              title="Formatted values and tooltips"
+              description="One formatter controls visible labels, tooltip text, and aria-valuetext so assistive output stays synchronized."
+              [tsCode]="formatterCode"
+            >
+              <div preview class="field">
+                <span id="budget-label">Monthly budget</span>
+                <aeris-slider
+                  ariaLabelledby="budget-label"
+                  [value]="65"
+                  [min]="0"
+                  [max]="100"
+                  [step]="5"
+                  [valueText]="formatCurrency"
+                  showValue
+                  showTooltip
+                  showMinMax
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="budget-label"&gt;Monthly budget&lt;/span&gt;
+  &lt;aeris-slider
+    ariaLabelledby="budget-label"
+    [value]="65"
+    [min]="0"
+    [max]="100"
+    [step]="5"
+    [valueText]="formatCurrency"
+    showValue
+    showTooltip
+    showMinMax
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="slider-orientation"
+              title="Orientation"
+              description="Vertical sliders retain the same pointer, keyboard, value, and range API."
+            >
+              <div preview class="vertical-sliders">
+                <div class="field">
+                  <span id="temperature-label">Temperature</span>
+                  <aeris-slider
+                    orientation="vertical"
+                    ariaLabelledby="temperature-label"
+                    [min]="0"
+                    [max]="40"
+                    [(value)]="temperature"
+                    showValue
+                    showMinMax
+                  />
+                </div>
+                <div class="field">
+                  <span>Vertical range</span>
+                  <aeris-slider
+                    orientation="vertical"
+                    range
+                    [value]="[20, 70]"
+                    lowerAriaLabel="Lower vertical value"
+                    upperAriaLabel="Upper vertical value"
+                    showTooltip
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="vertical-sliders"&gt;
+  &lt;div class="field"&gt;
+    &lt;span id="temperature-label"&gt;Temperature&lt;/span&gt;
+    &lt;aeris-slider
+      orientation="vertical"
+      ariaLabelledby="temperature-label"
+      [min]="0"
+      [max]="40"
+      [(value)]="temperature"
+      showValue
+      showMinMax
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Vertical range&lt;/span&gt;
+    &lt;aeris-slider
+      orientation="vertical"
+      range
+      [value]="[20, 70]"
+      lowerAriaLabel="Lower vertical value"
+      upperAriaLabel="Upper vertical value"
+      showTooltip
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="slider-reversed"
+              title="Reversed direction"
+              description="Reverse visual and keyboard direction for descending scales while preserving min and max semantics."
+            >
+              <div preview class="field">
+                <span id="priority-label">Descending priority</span>
+                <aeris-slider
+                  ariaLabelledby="priority-label"
+                  [value]="30"
+                  reversed
+                  showValue
+                  showMinMax
+                  fluid
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="priority-label"&gt;Descending priority&lt;/span&gt;
+  &lt;aeris-slider
+    ariaLabelledby="priority-label"
+    [value]="30"
+    reversed
+    showValue
+    showMinMax
+    fluid
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="slider-sizes"
+              title="Sizes"
+              description="Four sizes adjust thumb and track dimensions while preserving a comfortable interactive hit area."
+            >
+              <div preview class="slider-size-stack">
+                <aeris-slider ariaLabel="Extra small slider" size="xs" [value]="20" fluid />
+                <aeris-slider ariaLabel="Small slider" size="sm" [value]="40" fluid />
+                <aeris-slider ariaLabel="Medium slider" size="md" [value]="60" fluid />
+                <aeris-slider ariaLabel="Large slider" size="lg" [value]="80" fluid />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="slider-size-stack"&gt;
+  &lt;aeris-slider ariaLabel="Extra small slider" size="xs" [value]="20" fluid /&gt;
+  &lt;aeris-slider ariaLabel="Small slider" size="sm" [value]="40" fluid /&gt;
+  &lt;aeris-slider ariaLabel="Medium slider" size="md" [value]="60" fluid /&gt;
+  &lt;aeris-slider ariaLabel="Large slider" size="lg" [value]="80" fluid /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="slider-states"
+              title="States"
+              description="Read-only sliders remain focusable, disabled sliders leave the tab order, and invalid state synchronizes visual and ARIA feedback."
+            >
+              <div preview class="field-stack">
+                <div class="field">
+                  <span id="readonly-slider-label">Read-only</span>
+                  <aeris-slider
+                    ariaLabelledby="readonly-slider-label"
+                    [value]="35"
+                    readonly
+                    fluid
+                  />
+                </div>
+                <div class="field">
+                  <span id="disabled-slider-label">Disabled</span>
+                  <aeris-slider
+                    ariaLabelledby="disabled-slider-label"
+                    [value]="50"
+                    disabled
+                    fluid
+                  />
+                </div>
+                <div class="field">
+                  <span id="invalid-slider-label">Invalid</span>
+                  <aeris-slider
+                    ariaLabelledby="invalid-slider-label"
+                    ariaDescribedby="slider-error"
+                    [value]="90"
+                    invalid
+                    fluid
+                  />
+                  <small id="slider-error" class="error">Choose a value of 80 or less.</small>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-stack"&gt;
+  &lt;div class="field"&gt;
+    &lt;span id="readonly-slider-label"&gt;Read-only&lt;/span&gt;
+    &lt;aeris-slider
+      ariaLabelledby="readonly-slider-label"
+      [value]="35"
+      readonly
+      fluid
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span id="disabled-slider-label"&gt;Disabled&lt;/span&gt;
+    &lt;aeris-slider
+      ariaLabelledby="disabled-slider-label"
+      [value]="50"
+      disabled
+      fluid
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span id="invalid-slider-label"&gt;Invalid&lt;/span&gt;
+    &lt;aeris-slider
+      ariaLabelledby="invalid-slider-label"
+      ariaDescribedby="slider-error"
+      [value]="90"
+      invalid
+      fluid
+    /&gt;
+    &lt;small id="slider-error" class="error"&gt;Choose a value of 80 or less.&lt;/small&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="slider-events"
+              title="Input and committed events"
+              description="sliding reports continuous updates. changed fires for each keyboard update and once when a pointer drag ends."
+              [tsCode]="eventsCode"
+            >
+              <div preview class="field-stack">
+                <aeris-slider
+                  ariaLabel="Event value"
+                  [(value)]="eventValue"
+                  (sliding)="handleSliding($event)"
+                  (changed)="handleChanged($event)"
+                  fluid
+                />
+                <small aria-live="polite">Input: {{ liveEvent() }}</small>
+                <small aria-live="polite">Changed: {{ changeEvent() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-stack"&gt;
+  &lt;aeris-slider
+    ariaLabel="Event value"
+    [(value)]="eventValue"
+    (sliding)="handleSliding($event)"
+    (changed)="handleChanged($event)"
+    fluid
+  /&gt;
+  &lt;small aria-live="polite"&gt;Input: &#123;&#123; liveEvent() &#125;&#125;&lt;/small&gt;
+  &lt;small aria-live="polite"&gt;Changed: &#123;&#123; changeEvent() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="slider-forms"
+              title="Reactive and template-driven forms"
+              description="ControlValueAccessor synchronizes single and range values, touched state, and disabled state with both Angular Forms approaches."
+              [tsCode]="formsCode"
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <span id="reactive-slider-label">Reactive Forms</span>
+                  <aeris-slider
+                    ariaLabelledby="reactive-slider-label"
+                    [formControl]="reactiveValue"
+                    showValue
+                    fluid
+                  />
+                </div>
+                <div class="field">
+                  <span>Template-driven range</span>
+                  <aeris-slider
+                    name="templateRange"
+                    range
+                    lowerAriaLabel="Template minimum"
+                    upperAriaLabel="Template maximum"
+                    [(ngModel)]="templateValue"
+                    showValue
+                    fluid
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;span id="reactive-slider-label"&gt;Reactive Forms&lt;/span&gt;
+    &lt;aeris-slider
+      ariaLabelledby="reactive-slider-label"
+      [formControl]="reactiveValue"
+      showValue
+      fluid
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Template-driven range&lt;/span&gt;
+    &lt;aeris-slider
+      name="templateRange"
+      range
+      lowerAriaLabel="Template minimum"
+      upperAriaLabel="Template maximum"
+      [(ngModel)]="templateValue"
+      showValue
+      fluid
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="Slider features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="slider-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="Slider inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="slider-api-outputs" tabindex="-1">Outputs</h3>
+            <div class="api-table" role="table" aria-label="Slider outputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Payload</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of outputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="slider-api-methods" tabindex="-1">Methods</h3>
+            <div class="api-table" role="table" aria-label="Slider methods" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Returns</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of methods; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="Slider API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table compact" role="table" aria-label="Slider design tokens" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-slider-rail-background</code
+            ><span role="cell">Inactive track surface.</span
+            ><code role="cell">--aeris-surface-3</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-slider-fill-background</code
+            ><span role="cell">Active track surface.</span><code role="cell">--aeris-primary</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-slider-thumb-background</code
+            ><span role="cell">Thumb surface.</span><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-slider-thumb-border</code
+            ><span role="cell">Thumb border.</span><code role="cell">--aeris-primary</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-slider-thumb-hover</code
+            ><span role="cell">Hovered and dragged thumb border.</span
+            ><code role="cell">--aeris-focus</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-slider-focus</code
+            ><span role="cell">Keyboard focus ring.</span><code role="cell">--aeris-focus</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-slider-tick</code><span role="cell">Inactive tick color.</span
+            ><code role="cell">--aeris-border-strong</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-slider-active-tick</code
+            ><span role="cell">Tick color over the active track.</span
+            ><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-slider-tooltip-background</code
+            ><span role="cell">Tooltip surface.</span><code role="cell">--aeris-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-slider-tooltip-text</code
+            ><span role="cell">Tooltip text.</span><code role="cell">--aeris-surface</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Each thumb exposes <code>role="slider"</code>, orientation, current value, bounds, and
+            formatted value text.
+          </li>
+          <li>
+            Range thumbs receive independent accessible names and dynamic bounds that describe the
+            permitted interval.
+          </li>
+          <li>
+            Use <code>ariaLabelledby</code> with a visible label for single sliders. Use the lower
+            and upper label inputs for range sliders.
+          </li>
+          <li>
+            <code>valueText</code> keeps visible formatting and
+            <code>aria-valuetext</code> synchronized for units such as currency or temperature.
+          </li>
+          <li>
+            Pointer dragging uses capture, supports touch input, and aligns every value to the
+            configured step.
+          </li>
+          <li>
+            Read-only thumbs remain focusable and expose their value. Disabled thumbs use native
+            disabled behavior.
+          </li>
+          <li>
+            ControlValueAccessor synchronizes single and range values, touched state, and disabled
+            state with Angular Forms.
+          </li>
+          <li>
+            Focus indicators meet WCAG 2.2 requirements and motion respects reduced-motion
+            preferences.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Slider keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell"
+              >Moves to the slider thumb or between lower and upper range thumbs.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow Right</kbd> / <kbd>Arrow Up</kbd></span
+            ><span role="cell"
+              >Increases the focused thumb by one step. Reversed sliders use the opposite
+              direction.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow Left</kbd> / <kbd>Arrow Down</kbd></span
+            ><span role="cell"
+              >Decreases the focused thumb by one step. Reversed sliders use the opposite
+              direction.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Page Up</kbd
+            ><span role="cell">Increases by pageStep or ten percent of the range.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Page Down</kbd
+            ><span role="cell">Decreases by pageStep or ten percent of the range.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Home</kbd
+            ><span role="cell">Moves to the minimum permitted value for the focused thumb.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">End</kbd
+            ><span role="cell">Moves to the maximum permitted value for the focused thumb.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

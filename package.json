@@ -1,0 +1,80 @@
+{
+  "name": "aeris-ui",
+  "version": "0.0.0",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.15.0 <25 || >=26.0.0 <27"
+  },
+  "scripts": {
+    "ng": "ng",
+    "start": "node tools/start-dev.mjs",
+    "serve:docs": "ng serve docs --configuration development",
+    "build": "npm run check:versions && npm run build:lib && npm run build:mcp && npm run check:package && npm run check:mcp-package && npm run test:theme-cli && npm run test:ng-add && npm run test:mcp && npm run build:docs",
+    "build:lib": "ng build aeris-ui && npm run build:schematics",
+    "build:mcp": "npm run check:ai-docs && node tools/prepare-mcp-package.mjs && tsc -p projects/aeris-mcp/tsconfig.json",
+    "build:schematics": "tsc -p projects/aeris-ui/tsconfig.schematics.json",
+    "build:docs": "npm run check:ai-docs && npm run check:doc-examples && ng build docs",
+    "pack:lib": "npm run build:lib && npm run check:package && node tools/pack-library.mjs",
+    "watch:lib": "ng build aeris-ui --watch --configuration development",
+    "test": "npm run test:lib && npm run test:mcp",
+    "test:lib": "ng test aeris-ui",
+    "test:mcp": "vitest run projects/aeris-mcp/src",
+    "test:theme-cli": "node tools/check-theme-cli.mjs",
+    "test:ng-add": "node tools/check-ng-add.mjs",
+    "check:doc-examples": "node tools/sync-doc-examples.mjs",
+    "sync:doc-examples": "node tools/sync-doc-examples.mjs --write",
+    "check:ai-docs": "node tools/generate-ai-docs.mjs --check",
+    "generate:ai-docs": "node tools/generate-ai-docs.mjs --write",
+    "check:versions": "node tools/check-version.mjs",
+    "check:package": "node tools/check-package.mjs",
+    "check:mcp-package": "node tools/check-mcp-package.mjs && node tools/check-mcp-cli.mjs"
+  },
+  "private": true,
+  "packageManager": "npm@11.6.2",
+  "dependencies": {
+    "@angular/common": "^22.0.6",
+    "@angular/compiler": "^22.0.6",
+    "@angular/core": "^22.0.6",
+    "@angular/forms": "^22.0.6",
+    "@angular/platform-browser": "^22.0.6",
+    "@angular/router": "^22.0.6",
+    "@lexical/history": "^0.47.0",
+    "@lexical/html": "^0.47.0",
+    "@lexical/list": "^0.47.0",
+    "@lexical/rich-text": "^0.47.0",
+    "@lexical/selection": "^0.47.0",
+    "chart.js": "^4.5.1",
+    "lexical": "^0.47.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/core": "^22.0.6",
+    "@angular-devkit/schematics": "^22.0.6",
+    "@angular/build": "^22.0.6",
+    "@angular/cli": "^22.0.6",
+    "@angular/compiler-cli": "^22.0.6",
+    "@lucide/angular": "^1.23.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@schematics/angular": "^22.0.6",
+    "@types/node": "^24.13.3",
+    "jsdom": "^29.1.1",
+    "ng-packagr": "^22.0.1",
+    "prettier": "^3.9.5",
+    "typescript": "~6.0.2",
+    "vitest": "^4.1.10",
+    "zod": "^4.4.3"
+  },
+  "overrides": {
+    "@babel/core": "7.29.7",
+    "@hono/node-server": "2.0.11",
+    "body-parser": "2.3.0",
+    "esbuild": "0.28.1",
+    "fast-uri": "3.1.4",
+    "hono": "4.12.31",
+    "immutable": "5.1.9",
+    "jsdom": {
+      "undici": "7.28.0"
+    }
+  }
+}

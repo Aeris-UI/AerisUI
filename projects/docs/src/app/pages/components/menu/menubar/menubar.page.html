@@ -1,0 +1,683 @@
+<article class="button-docs menubar-docs">
+  <app-component-page-header
+    category="Menu"
+    title="Menubar"
+    description="Horizontal application navigation with cascading submenus, templates, commands, links, responsive collapse, and keyboard support."
+  />
+
+  <section id="menubar-import" class="import-section" aria-labelledby="menubar-import-title">
+    <div>
+      <h2 id="menubar-import-title">Import</h2>
+      <p>One import provides Menubar and its item, start, and end template directives.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Menubar documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="menubar-basic"
+              title="Basic"
+              description="Use nested items, separators, disabled entries, badges, and shortcuts in a horizontal menu."
+              [tsCode]="basicCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview>
+                <aeris-menubar
+                  [model]="basicItems"
+                  ariaLabel="Application actions"
+                  navAriaLabel="Application"
+                >
+                  <ng-template
+                    aerisMenubarItem
+                    let-item
+                    let-root="root"
+                    let-open="open"
+                    let-hasSubmenu="hasSubmenu"
+                  >
+                    <span class="menubar-doc-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="icons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="menubar-doc-item__label">{{ item.label }}</span>
+                      @if (item.badge !== undefined && item.badge !== null) {
+                        <aeris-badge
+                          class="menubar-doc-item__badge"
+                          [value]="item.badge"
+                          size="sm"
+                          variant="soft"
+                        />
+                      }
+                      @if (item.shortcut) {
+                        <kbd>{{ item.shortcut }}</kbd>
+                      }
+                      @if (hasSubmenu) {
+                        <svg
+                          class="menubar-doc-item__chevron"
+                          [attr.data-root]="root || null"
+                          [attr.data-open]="open || null"
+                          viewBox="0 0 20 20"
+                          aria-hidden="true"
+                        >
+                          <path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-menubar>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-menubar
+    [model]="basicItems"
+    ariaLabel="Application actions"
+    navAriaLabel="Application"
+  &gt;
+    &lt;ng-template
+      aerisMenubarItem
+      let-item
+      let-root="root"
+      let-open="open"
+      let-hasSubmenu="hasSubmenu"
+    &gt;
+      &lt;span class="menubar-doc-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="icons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="menubar-doc-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (item.badge !== undefined &amp;&amp; item.badge !== null) &#123;
+          &lt;aeris-badge
+            class="menubar-doc-item__badge"
+            [value]="item.badge"
+            size="sm"
+            variant="soft"
+          /&gt;
+        &#125;
+        &#64;if (item.shortcut) &#123;
+          &lt;kbd&gt;&#123;&#123; item.shortcut &#125;&#125;&lt;/kbd&gt;
+        &#125;
+        &#64;if (hasSubmenu) &#123;
+          &lt;svg
+            class="menubar-doc-item__chevron"
+            [attr.data-root]="root || null"
+            [attr.data-open]="open || null"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          &gt;
+            &lt;path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-menubar&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="menubar-submenus"
+              title="Submenus"
+              description="Nested item arrays create cascading submenu branches for deeper navigation."
+              [tsCode]="nestedCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview>
+                <aeris-menubar [model]="nestedItems" ariaLabel="Workspace navigation">
+                  <ng-template
+                    aerisMenubarItem
+                    let-item
+                    let-root="root"
+                    let-open="open"
+                    let-hasSubmenu="hasSubmenu"
+                  >
+                    <span class="menubar-doc-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="icons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="menubar-doc-item__label">{{ item.label }}</span>
+                      @if (hasSubmenu) {
+                        <svg
+                          class="menubar-doc-item__chevron"
+                          [attr.data-root]="root || null"
+                          [attr.data-open]="open || null"
+                          viewBox="0 0 20 20"
+                          aria-hidden="true"
+                        >
+                          <path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-menubar>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-menubar [model]="nestedItems" ariaLabel="Workspace navigation"&gt;
+    &lt;ng-template
+      aerisMenubarItem
+      let-item
+      let-root="root"
+      let-open="open"
+      let-hasSubmenu="hasSubmenu"
+    &gt;
+      &lt;span class="menubar-doc-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="icons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="menubar-doc-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (hasSubmenu) &#123;
+          &lt;svg
+            class="menubar-doc-item__chevron"
+            [attr.data-root]="root || null"
+            [attr.data-open]="open || null"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          &gt;
+            &lt;path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-menubar&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="menubar-controlled"
+              title="Controlled and responsive"
+              description="Bind openPath and mobileOpen when application state owns submenu and responsive menu visibility."
+              [tsCode]="controlledCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview class="menubar-controlled">
+                <div class="menubar-actions">
+                  <button aerisButton type="button" variant="secondary" (click)="openWorkspace()">
+                    Open Workspace
+                  </button>
+                  <button aerisButton type="button" variant="secondary" (click)="closeMenubar()">
+                    Close all
+                  </button>
+                </div>
+                <aeris-menubar
+                  [model]="nestedItems"
+                  [(openPath)]="openPath"
+                  [(mobileOpen)]="mobileOpen"
+                  ariaLabel="Controlled menubar"
+                >
+                  <ng-template
+                    aerisMenubarItem
+                    let-item
+                    let-root="root"
+                    let-open="open"
+                    let-hasSubmenu="hasSubmenu"
+                  >
+                    <span class="menubar-doc-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="icons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="menubar-doc-item__label">{{ item.label }}</span>
+                      @if (hasSubmenu) {
+                        <svg
+                          class="menubar-doc-item__chevron"
+                          [attr.data-root]="root || null"
+                          [attr.data-open]="open || null"
+                          viewBox="0 0 20 20"
+                          aria-hidden="true"
+                        >
+                          <path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-menubar>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="menubar-controlled"&gt;
+  &lt;div class="menubar-actions"&gt;
+    &lt;button aerisButton type="button" variant="secondary" (click)="openWorkspace()"&gt;
+      Open Workspace
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" variant="secondary" (click)="closeMenubar()"&gt;
+      Close all
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-menubar
+    [model]="nestedItems"
+    [(openPath)]="openPath"
+    [(mobileOpen)]="mobileOpen"
+    ariaLabel="Controlled menubar"
+  &gt;
+    &lt;ng-template
+      aerisMenubarItem
+      let-item
+      let-root="root"
+      let-open="open"
+      let-hasSubmenu="hasSubmenu"
+    &gt;
+      &lt;span class="menubar-doc-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="icons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="menubar-doc-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (hasSubmenu) &#123;
+          &lt;svg
+            class="menubar-doc-item__chevron"
+            [attr.data-root]="root || null"
+            [attr.data-open]="open || null"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          &gt;
+            &lt;path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-menubar&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="menubar-command"
+              title="Command and links"
+              description="Leaf items can emit commands, hand routerLink values to the app, or render native external links."
+              [tsCode]="commandCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview>
+                <aeris-menubar
+                  [model]="commandItems"
+                  ariaLabel="Command menubar"
+                  (itemSelected)="recordAction($event)"
+                >
+                  <ng-template
+                    aerisMenubarItem
+                    let-item
+                    let-root="root"
+                    let-open="open"
+                    let-hasSubmenu="hasSubmenu"
+                  >
+                    <span class="menubar-doc-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="icons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="menubar-doc-item__label">{{ item.label }}</span>
+                      @if (hasSubmenu) {
+                        <svg
+                          class="menubar-doc-item__chevron"
+                          [attr.data-root]="root || null"
+                          [attr.data-open]="open || null"
+                          viewBox="0 0 20 20"
+                          aria-hidden="true"
+                        >
+                          <path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-menubar>
+                <small aria-live="polite">{{ commandMessage() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-menubar
+    [model]="commandItems"
+    ariaLabel="Command menubar"
+    (itemSelected)="recordAction($event)"
+  &gt;
+    &lt;ng-template
+      aerisMenubarItem
+      let-item
+      let-root="root"
+      let-open="open"
+      let-hasSubmenu="hasSubmenu"
+    &gt;
+      &lt;span class="menubar-doc-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="icons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="menubar-doc-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (hasSubmenu) &#123;
+          &lt;svg
+            class="menubar-doc-item__chevron"
+            [attr.data-root]="root || null"
+            [attr.data-open]="open || null"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          &gt;
+            &lt;path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-menubar&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; commandMessage() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="menubar-template"
+              title="Template"
+              description="Project brand and user content around the menubar and customize each item row."
+              [tsCode]="templateCode"
+              [cssCode]="templateCss"
+            >
+              <div preview>
+                <aeris-menubar [model]="templateItems" ariaLabel="Template menubar">
+                  <ng-template aerisMenubarStart>
+                    <span class="menubar-brand"
+                      ><svg [lucideIcon]="icons['Package']" aria-hidden="true"></svg>Aeris</span
+                    >
+                  </ng-template>
+                  <ng-template
+                    aerisMenubarItem
+                    let-item
+                    let-root="root"
+                    let-open="open"
+                    let-hasSubmenu="hasSubmenu"
+                  >
+                    <span class="menubar-doc-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="icons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <strong class="menubar-doc-item__label">{{ item.label }}</strong>
+                      @if (item.badge !== undefined && item.badge !== null) {
+                        <aeris-badge
+                          class="menubar-doc-item__badge"
+                          [value]="item.badge"
+                          size="sm"
+                          variant="soft"
+                        />
+                      }
+                      @if (item.shortcut) {
+                        <kbd>{{ item.shortcut }}</kbd>
+                      }
+                      @if (hasSubmenu) {
+                        <svg
+                          class="menubar-doc-item__chevron"
+                          [attr.data-root]="root || null"
+                          [attr.data-open]="open || null"
+                          viewBox="0 0 20 20"
+                          aria-hidden="true"
+                        >
+                          <path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                  <ng-template aerisMenubarEnd>
+                    <span class="menubar-user"
+                      ><svg [lucideIcon]="icons['User']" aria-hidden="true"></svg>Admin</span
+                    >
+                  </ng-template>
+                </aeris-menubar>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-menubar [model]="templateItems" ariaLabel="Template menubar"&gt;
+    &lt;ng-template aerisMenubarStart&gt;
+      &lt;span class="menubar-brand"
+        &gt;&lt;svg [lucideIcon]="icons['Package']" aria-hidden="true"&gt;&lt;/svg&gt;Aeris&lt;/span
+      &gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template
+      aerisMenubarItem
+      let-item
+      let-root="root"
+      let-open="open"
+      let-hasSubmenu="hasSubmenu"
+    &gt;
+      &lt;span class="menubar-doc-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="icons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;strong class="menubar-doc-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/strong&gt;
+        &#64;if (item.badge !== undefined &amp;&amp; item.badge !== null) &#123;
+          &lt;aeris-badge
+            class="menubar-doc-item__badge"
+            [value]="item.badge"
+            size="sm"
+            variant="soft"
+          /&gt;
+        &#125;
+        &#64;if (item.shortcut) &#123;
+          &lt;kbd&gt;&#123;&#123; item.shortcut &#125;&#125;&lt;/kbd&gt;
+        &#125;
+        &#64;if (hasSubmenu) &#123;
+          &lt;svg
+            class="menubar-doc-item__chevron"
+            [attr.data-root]="root || null"
+            [attr.data-open]="open || null"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          &gt;
+            &lt;path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisMenubarEnd&gt;
+      &lt;span class="menubar-user"
+        &gt;&lt;svg [lucideIcon]="icons['User']" aria-hidden="true"&gt;&lt;/svg&gt;Admin&lt;/span
+      &gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-menubar&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Menubar features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="menubar-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Menubar inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="menubar-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Menubar outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="menubar-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="Menubar templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="menubar-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Menubar methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Signature</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API links" ariaLabel="Menubar API links" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="menubar-interfaces-code" class="api-section">
+              <h3>Types</h3>
+              <app-code-block [code]="interfacesCode" language="TypeScript" />
+            </section>
+          </div>
+          <app-page-toc
+            title="Interface links"
+            ariaLabel="Menubar interface links"
+            [links]="interfaceLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="menubar-token-table" class="api-section">
+              <h3>Menubar tokens</h3>
+              <div class="api-table" role="table" aria-label="Menubar design tokens">
+                <div role="row">
+                  <span role="columnheader">Token</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of tokens; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="Token links" ariaLabel="Menubar token links" [links]="tokenLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="menubar-a11y-semantics" class="api-section">
+              <h3>Semantics</h3>
+              <p>
+                Menubar renders a navigation landmark, a root <code>menubar</code>, nested
+                <code>menu</code> submenus, and <code>menuitem</code> controls. Submenu triggers
+                expose expanded state and controls relationships.
+              </p>
+            </section>
+            <section id="menubar-a11y-keyboard" class="api-section">
+              <h3>Keyboard support</h3>
+              <div class="api-table" role="table" aria-label="Menubar keyboard support">
+                <div role="row">
+                  <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Tab</kbd
+                  ><span role="cell"
+                    >Moves focus through the page tab order and closes open menus when leaving the
+                    menubar.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Enter</kbd
+                  ><span role="cell">Opens submenu items or activates leaf items.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Space</kbd
+                  ><span role="cell">Opens submenu items or activates leaf items.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Escape</kbd
+                  ><span role="cell">Closes open submenus and returns focus to the root item.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Right</kbd
+                  ><span role="cell">Moves across root items or opens a nested submenu.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Left</kbd
+                  ><span role="cell">Moves across root items or closes the current submenu.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Down</kbd
+                  ><span role="cell">Opens a root submenu or moves to the next submenu item.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Up</kbd
+                  ><span role="cell"
+                    >Opens a root submenu at the last item or moves to the previous submenu
+                    item.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Home</kbd
+                  ><span role="cell"
+                    >Moves to the first enabled item in the current menu level.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">End</kbd
+                  ><span role="cell"
+                    >Moves to the last enabled item in the current menu level.</span
+                  >
+                </div>
+              </div>
+            </section>
+          </div>
+          <app-page-toc
+            title="Accessibility links"
+            ariaLabel="Menubar accessibility links"
+            [links]="accessibilityLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

@@ -1,0 +1,22 @@
+@use '../shared/form-docs';
+
+.option-template,
+.selected-note {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.option-copy {
+  min-width: 0;
+  display: grid;
+}
+
+.option-copy strong {
+  font-size: 0.875rem;
+}
+
+.option-copy small {
+  color: var(--text-2);
+  font-size: 0.75rem;
+}

@@ -1,0 +1,77 @@
+@use '../shared/form-docs';
+
+.field {
+  width: min(100%, 32rem);
+}
+
+.select-size-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.select-size-grid label {
+  min-width: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.select-size-grid label > span {
+  color: var(--text-2);
+  font-size: 0.75rem;
+}
+
+.selected-team,
+.team-option {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.team-option > span:last-child {
+  min-width: 0;
+  display: grid;
+  gap: 0.125rem;
+}
+
+.select-state-grid {
+  align-items: start;
+}
+
+.state-message {
+  min-height: 1.25rem;
+}
+
+.team-option strong {
+  color: var(--text);
+  font-size: 0.8125rem;
+}
+
+.team-option small {
+  color: var(--text-2);
+  font-size: 0.75rem;
+}
+
+.team-mark {
+  width: 0.625rem;
+  height: 0.625rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.team-mark[data-team='platform'] {
+  background: #80939b;
+}
+
+.team-mark[data-team='a11y'] {
+  background: #8f5b34;
+}
+
+@media (max-width: 42rem) {
+  .select-size-grid {
+    grid-template-columns: 1fr;
+  }
+}

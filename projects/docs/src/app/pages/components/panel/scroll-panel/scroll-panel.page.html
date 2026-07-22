@@ -1,0 +1,701 @@
+<article class="button-docs scroll-panel-docs">
+  <app-component-page-header
+    category="Panel"
+    title="ScrollPanel"
+    description="Themeable native scroll container with styled scrollbars, overflow modes, fade masks, events, and scroll methods."
+  />
+
+  <section
+    id="scroll-panel-import"
+    class="import-section"
+    aria-labelledby="scroll-panel-import-title"
+  >
+    <div>
+      <h2 id="scroll-panel-import-title">Import</h2>
+      <p>One import provides ScrollPanel.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="ScrollPanel documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="scroll-panel-basic"
+              title="Basic"
+              description="Create a keyboard-focusable vertical scroll region with theme-aware scrollbars."
+              [cssCode]="listCssCode"
+            >
+              <div preview>
+                <aeris-scroll-panel ariaLabel="Automobile inventory">
+                  <ul class="brand-list">
+                    @for (brand of brands; track brand.name) {
+                      <li>
+                        <span>{{ brand.name }}</span
+                        ><strong>{{ brand.count }}</strong>
+                      </li>
+                    }
+                  </ul>
+                </aeris-scroll-panel>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-scroll-panel ariaLabel="Automobile inventory"&gt;
+    &lt;ul class="brand-list"&gt;
+      &#64;for (brand of brands; track brand.name) &#123;
+        &lt;li&gt;
+          &lt;span&gt;&#123;&#123; brand.name &#125;&#125;&lt;/span
+          &gt;&lt;strong&gt;&#123;&#123; brand.count &#125;&#125;&lt;/strong&gt;
+        &lt;/li&gt;
+      &#125;
+    &lt;/ul&gt;
+  &lt;/aeris-scroll-panel&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="scroll-panel-horizontal"
+              title="Horizontal"
+              description="Use horizontal orientation for content that extends beyond the inline viewport."
+              [cssCode]="horizontalCssCode"
+            >
+              <div preview>
+                <aeris-scroll-panel
+                  orientation="horizontal"
+                  height="9rem"
+                  ariaLabel="Project cards"
+                >
+                  <div class="horizontal-cards">
+                    <article class="horizontal-card">
+                      <strong>Design</strong><span>Tokens, states, and spacing.</span>
+                    </article>
+                    <article class="horizontal-card">
+                      <strong>Build</strong><span>Standalone Angular components.</span>
+                    </article>
+                    <article class="horizontal-card">
+                      <strong>Test</strong><span>API and accessibility coverage.</span>
+                    </article>
+                    <article class="horizontal-card">
+                      <strong>Ship</strong><span>Docs, examples, and migration notes.</span>
+                    </article>
+                  </div>
+                </aeris-scroll-panel>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-scroll-panel
+    orientation="horizontal"
+    height="9rem"
+    ariaLabel="Project cards"
+  &gt;
+    &lt;div class="horizontal-cards"&gt;
+      &lt;article class="horizontal-card"&gt;
+        &lt;strong&gt;Design&lt;/strong&gt;&lt;span&gt;Tokens, states, and spacing.&lt;/span&gt;
+      &lt;/article&gt;
+      &lt;article class="horizontal-card"&gt;
+        &lt;strong&gt;Build&lt;/strong&gt;&lt;span&gt;Standalone Angular components.&lt;/span&gt;
+      &lt;/article&gt;
+      &lt;article class="horizontal-card"&gt;
+        &lt;strong&gt;Test&lt;/strong&gt;&lt;span&gt;API and accessibility coverage.&lt;/span&gt;
+      &lt;/article&gt;
+      &lt;article class="horizontal-card"&gt;
+        &lt;strong&gt;Ship&lt;/strong&gt;&lt;span&gt;Docs, examples, and migration notes.&lt;/span&gt;
+      &lt;/article&gt;
+    &lt;/div&gt;
+  &lt;/aeris-scroll-panel&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="scroll-panel-both"
+              title="Both axes"
+              description="Enable both vertical and horizontal scrolling for dense content."
+              [cssCode]="tableCssCode"
+            >
+              <div preview>
+                <aeris-scroll-panel orientation="both" height="13rem" ariaLabel="City statistics">
+                  <table class="city-table">
+                    <thead>
+                      <tr>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Population</th>
+                        <th>Area km²</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (city of cities; track city.city) {
+                        <tr>
+                          <td>{{ city.city }}</td>
+                          <td>{{ city.state }}</td>
+                          <td>{{ city.population }}</td>
+                          <td>{{ city.area }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </aeris-scroll-panel>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-scroll-panel orientation="both" height="13rem" ariaLabel="City statistics"&gt;
+    &lt;table class="city-table"&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;City&lt;/th&gt;
+          &lt;th&gt;State&lt;/th&gt;
+          &lt;th&gt;Population&lt;/th&gt;
+          &lt;th&gt;Area km²&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &#64;for (city of cities; track city.city) &#123;
+          &lt;tr&gt;
+            &lt;td&gt;&#123;&#123; city.city &#125;&#125;&lt;/td&gt;
+            &lt;td&gt;&#123;&#123; city.state &#125;&#125;&lt;/td&gt;
+            &lt;td&gt;&#123;&#123; city.population &#125;&#125;&lt;/td&gt;
+            &lt;td&gt;&#123;&#123; city.area &#125;&#125;&lt;/td&gt;
+          &lt;/tr&gt;
+        &#125;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/aeris-scroll-panel&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="scroll-panel-fade"
+              title="Scroll fade"
+              description="Use fade masks to communicate that additional content continues beyond the visible area."
+              [cssCode]="listCssCode"
+            >
+              <div preview>
+                <aeris-scroll-panel fade height="12rem" ariaLabel="Faded automobile inventory">
+                  <ul class="brand-list">
+                    @for (brand of brands; track brand.name) {
+                      <li>
+                        <span>{{ brand.name }}</span
+                        ><strong>{{ brand.count }}</strong>
+                      </li>
+                    }
+                  </ul>
+                </aeris-scroll-panel>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-scroll-panel fade height="12rem" ariaLabel="Faded automobile inventory"&gt;
+    &lt;ul class="brand-list"&gt;
+      &#64;for (brand of brands; track brand.name) &#123;
+        &lt;li&gt;
+          &lt;span&gt;&#123;&#123; brand.name &#125;&#125;&lt;/span
+          &gt;&lt;strong&gt;&#123;&#123; brand.count &#125;&#125;&lt;/strong&gt;
+        &lt;/li&gt;
+      &#125;
+    &lt;/ul&gt;
+  &lt;/aeris-scroll-panel&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="scroll-panel-variants"
+              title="Variants"
+              description="Choose how visible the styled native scrollbars should be."
+              [cssCode]="variantCssCode + '\n\n' + listCssCode"
+            >
+              <div preview>
+                <div class="scroll-panel-grid">
+                  <section>
+                    <h4>Auto</h4>
+                    <aeris-scroll-panel variant="auto" height="10rem" ariaLabel="Auto scrollbars"
+                      ><ul class="brand-list">
+                        @for (brand of brands; track brand.name) {
+                          <li>
+                            <span>{{ brand.name }}</span
+                            ><strong>{{ brand.count }}</strong>
+                          </li>
+                        }
+                      </ul></aeris-scroll-panel
+                    >
+                  </section>
+                  <section>
+                    <h4>Hover</h4>
+                    <aeris-scroll-panel variant="hover" height="10rem" ariaLabel="Hover scrollbars"
+                      ><ul class="brand-list">
+                        @for (brand of brands; track brand.name) {
+                          <li>
+                            <span>{{ brand.name }}</span
+                            ><strong>{{ brand.count }}</strong>
+                          </li>
+                        }
+                      </ul></aeris-scroll-panel
+                    >
+                  </section>
+                  <section>
+                    <h4>Always</h4>
+                    <aeris-scroll-panel
+                      variant="always"
+                      height="10rem"
+                      ariaLabel="Always scrollbars"
+                      ><ul class="brand-list">
+                        @for (brand of brands; track brand.name) {
+                          <li>
+                            <span>{{ brand.name }}</span
+                            ><strong>{{ brand.count }}</strong>
+                          </li>
+                        }
+                      </ul></aeris-scroll-panel
+                    >
+                  </section>
+                  <section>
+                    <h4>Hidden</h4>
+                    <aeris-scroll-panel
+                      variant="hidden"
+                      height="10rem"
+                      ariaLabel="Hidden scrollbars"
+                      ><ul class="brand-list">
+                        @for (brand of brands; track brand.name) {
+                          <li>
+                            <span>{{ brand.name }}</span
+                            ><strong>{{ brand.count }}</strong>
+                          </li>
+                        }
+                      </ul></aeris-scroll-panel
+                    >
+                  </section>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="scroll-panel-grid"&gt;
+    &lt;section&gt;
+      &lt;h4&gt;Auto&lt;/h4&gt;
+      &lt;aeris-scroll-panel variant="auto" height="10rem" ariaLabel="Auto scrollbars"
+        &gt;&lt;ul class="brand-list"&gt;
+          &#64;for (brand of brands; track brand.name) &#123;
+            &lt;li&gt;
+              &lt;span&gt;&#123;&#123; brand.name &#125;&#125;&lt;/span
+              &gt;&lt;strong&gt;&#123;&#123; brand.count &#125;&#125;&lt;/strong&gt;
+            &lt;/li&gt;
+          &#125;
+        &lt;/ul&gt;&lt;/aeris-scroll-panel
+      &gt;
+    &lt;/section&gt;
+    &lt;section&gt;
+      &lt;h4&gt;Hover&lt;/h4&gt;
+      &lt;aeris-scroll-panel variant="hover" height="10rem" ariaLabel="Hover scrollbars"
+        &gt;&lt;ul class="brand-list"&gt;
+          &#64;for (brand of brands; track brand.name) &#123;
+            &lt;li&gt;
+              &lt;span&gt;&#123;&#123; brand.name &#125;&#125;&lt;/span
+              &gt;&lt;strong&gt;&#123;&#123; brand.count &#125;&#125;&lt;/strong&gt;
+            &lt;/li&gt;
+          &#125;
+        &lt;/ul&gt;&lt;/aeris-scroll-panel
+      &gt;
+    &lt;/section&gt;
+    &lt;section&gt;
+      &lt;h4&gt;Always&lt;/h4&gt;
+      &lt;aeris-scroll-panel
+        variant="always"
+        height="10rem"
+        ariaLabel="Always scrollbars"
+        &gt;&lt;ul class="brand-list"&gt;
+          &#64;for (brand of brands; track brand.name) &#123;
+            &lt;li&gt;
+              &lt;span&gt;&#123;&#123; brand.name &#125;&#125;&lt;/span
+              &gt;&lt;strong&gt;&#123;&#123; brand.count &#125;&#125;&lt;/strong&gt;
+            &lt;/li&gt;
+          &#125;
+        &lt;/ul&gt;&lt;/aeris-scroll-panel
+      &gt;
+    &lt;/section&gt;
+    &lt;section&gt;
+      &lt;h4&gt;Hidden&lt;/h4&gt;
+      &lt;aeris-scroll-panel
+        variant="hidden"
+        height="10rem"
+        ariaLabel="Hidden scrollbars"
+        &gt;&lt;ul class="brand-list"&gt;
+          &#64;for (brand of brands; track brand.name) &#123;
+            &lt;li&gt;
+              &lt;span&gt;&#123;&#123; brand.name &#125;&#125;&lt;/span
+              &gt;&lt;strong&gt;&#123;&#123; brand.count &#125;&#125;&lt;/strong&gt;
+            &lt;/li&gt;
+          &#125;
+        &lt;/ul&gt;&lt;/aeris-scroll-panel
+      &gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="scroll-panel-methods"
+              title="Events and methods"
+              description="Respond to scroll state and call public methods from native controls."
+              [tsCode]="methodsTsCode"
+              [cssCode]="methodsCssCode + '\n\n' + listCssCode"
+            >
+              <div preview>
+                <div class="scroll-actions">
+                  <button
+                    aerisButton
+                    type="button"
+                    size="sm"
+                    (click)="methodPanel.scrollToTop({ behavior: 'smooth' })"
+                  >
+                    Top
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    size="sm"
+                    variant="secondary"
+                    (click)="methodPanel.scrollToBottom({ behavior: 'smooth' })"
+                  >
+                    Bottom
+                  </button>
+                </div>
+                <aeris-scroll-panel
+                  #methodPanel
+                  height="11rem"
+                  ariaLabel="Scrollable method demo"
+                  (scrolled)="handleScroll($event)"
+                  (reachedBottom)="markBottom()"
+                >
+                  <ul class="brand-list">
+                    @for (brand of brands; track brand.name) {
+                      <li>
+                        <span>{{ brand.name }}</span
+                        ><strong>{{ brand.count }}</strong>
+                      </li>
+                    }
+                  </ul>
+                </aeris-scroll-panel>
+                <p class="scroll-status">
+                  Scroll top: {{ lastScrollPosition }} · Reached bottom:
+                  {{ bottomReached ? 'yes' : 'no' }}
+                </p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="scroll-actions"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      size="sm"
+      (click)="methodPanel.scrollToTop(&#123; behavior: 'smooth' &#125;)"
+    &gt;
+      Top
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      size="sm"
+      variant="secondary"
+      (click)="methodPanel.scrollToBottom(&#123; behavior: 'smooth' &#125;)"
+    &gt;
+      Bottom
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-scroll-panel
+    #methodPanel
+    height="11rem"
+    ariaLabel="Scrollable method demo"
+    (scrolled)="handleScroll($event)"
+    (reachedBottom)="markBottom()"
+  &gt;
+    &lt;ul class="brand-list"&gt;
+      &#64;for (brand of brands; track brand.name) &#123;
+        &lt;li&gt;
+          &lt;span&gt;&#123;&#123; brand.name &#125;&#125;&lt;/span
+          &gt;&lt;strong&gt;&#123;&#123; brand.count &#125;&#125;&lt;/strong&gt;
+        &lt;/li&gt;
+      &#125;
+    &lt;/ul&gt;
+  &lt;/aeris-scroll-panel&gt;
+  &lt;p class="scroll-status"&gt;
+    Scroll top: &#123;&#123; lastScrollPosition &#125;&#125; · Reached bottom:
+    &#123;&#123; bottomReached ? 'yes' : 'no' &#125;&#125;
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="scroll-panel-custom"
+              title="Token customization"
+              description="Use component tokens to tune the surface, border, fades, and native scrollbar colors."
+              [cssCode]="customCssCode + '\n\n' + listCssCode"
+            >
+              <div preview>
+                <aeris-scroll-panel
+                  class="brand-scroll-panel"
+                  variant="always"
+                  fade
+                  height="12rem"
+                  ariaLabel="Custom themed inventory"
+                >
+                  <ul class="brand-list">
+                    @for (brand of brands; track brand.name) {
+                      <li>
+                        <span>{{ brand.name }}</span
+                        ><strong>{{ brand.count }}</strong>
+                      </li>
+                    }
+                  </ul>
+                </aeris-scroll-panel>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-scroll-panel
+    class="brand-scroll-panel"
+    variant="always"
+    fade
+    height="12rem"
+    ariaLabel="Custom themed inventory"
+  &gt;
+    &lt;ul class="brand-list"&gt;
+      &#64;for (brand of brands; track brand.name) &#123;
+        &lt;li&gt;
+          &lt;span&gt;&#123;&#123; brand.name &#125;&#125;&lt;/span
+          &gt;&lt;strong&gt;&#123;&#123; brand.count &#125;&#125;&lt;/strong&gt;
+        &lt;/li&gt;
+      &#125;
+    &lt;/ul&gt;
+  &lt;/aeris-scroll-panel&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc
+            title="On this page"
+            ariaLabel="ScrollPanel features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="scroll-panel-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="ScrollPanel inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="scroll-panel-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="ScrollPanel outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Payload</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="scroll-panel-api-content" class="api-section">
+              <h3>Content</h3>
+              <div class="api-table" role="table" aria-label="ScrollPanel content">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of content; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="scroll-panel-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="ScrollPanel methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Signature</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="ScrollPanel API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table token-table" role="table" aria-label="ScrollPanel design tokens">
+          <div role="row">
+            <span role="columnheader">Token</span><span role="columnheader">Purpose</span
+            ><span role="columnheader">Default</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-background</code
+            ><span role="cell">Viewport surface.</span><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-color</code
+            ><span role="cell">Viewport text color inheritance.</span
+            ><code role="cell">--aeris-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-border</code
+            ><span role="cell">Viewport border.</span><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-border-width</code
+            ><span role="cell">Viewport border thickness.</span><code role="cell">1px</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-radius</code
+            ><span role="cell">Viewport corner radius.</span
+            ><code role="cell">--aeris-radius-lg</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-padding</code
+            ><span role="cell">Content padding.</span><code role="cell">1rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-content-color</code
+            ><span role="cell">Projected content text color.</span
+            ><code role="cell">--aeris-text-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-content-size</code
+            ><span role="cell">Projected content font size.</span><code role="cell">0.875rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-scrollbar-size</code
+            ><span role="cell">Styled scrollbar thickness.</span><code role="cell">0.75rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-thumb</code
+            ><span role="cell">Default scrollbar thumb.</span
+            ><code role="cell">text color mix</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-thumb-hover</code
+            ><span role="cell">Scrollbar thumb hover color.</span
+            ><code role="cell">stronger text mix</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-thumb-always</code
+            ><span role="cell">Scrollbar thumb for the always variant.</span
+            ><code role="cell">stronger text mix</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-track</code
+            ><span role="cell">Default scrollbar track.</span><code role="cell">transparent</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-track-always</code
+            ><span role="cell">Scrollbar track for the always variant.</span
+            ><code role="cell">subtle text mix</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-scroll-panel-fade-size</code
+            ><span role="cell">Edge fade size.</span><code role="cell">2rem</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul class="accessibility-list">
+          <li>
+            ScrollPanel uses a native scroll container, preserving browser, pointer, touch, and
+            assistive technology behavior.
+          </li>
+          <li>
+            The viewport is focusable by default so keyboard users can scroll overflow content.
+          </li>
+          <li>
+            The viewport uses <code>role="region"</code> by default and exposes an accessible name
+            with <code>ariaLabel</code> or <code>ariaLabelledBy</code>.
+          </li>
+          <li>
+            The hidden scrollbar variant only hides the scrollbar visuals; scrolling remains
+            available with keyboard, wheel, trackpad, and touch input.
+          </li>
+          <li>Edge fades are visual only and do not change the accessibility tree.</li>
+        </ul>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="ScrollPanel keyboard support"
+        >
+          <div role="row">
+            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell"
+              >Moves focus to the scroll viewport when <code>focusable</code> is true.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Arrow keys</kbd
+            ><span role="cell">Native browser scrolling while the viewport has focus.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Page Up / Page Down</kbd
+            ><span role="cell">Native page-sized scrolling while the viewport has focus.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Home / End</kbd
+            ><span role="cell"
+              >Native movement to the start or end of the focused scroll viewport.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

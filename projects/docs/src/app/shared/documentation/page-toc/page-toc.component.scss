@@ -1,0 +1,102 @@
+:host {
+  position: sticky;
+  top: 8.25rem;
+  display: block;
+  padding-top: 1.4rem;
+}
+
+aside > span {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--text-3);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+nav {
+  display: grid;
+  gap: 0.15rem;
+  padding-inline-start: 0.875rem;
+  border-inline-start: 1px solid var(--border);
+}
+
+a {
+  position: relative;
+  min-height: 2rem;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0;
+  color: var(--text-2);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--primary-text);
+}
+
+a[aria-current='location'] {
+  color: var(--primary-text);
+  font-weight: 750;
+}
+
+a[aria-current='location']::before {
+  content: '';
+  width: 2px;
+  height: 1rem;
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: -0.9375rem;
+  border-radius: 999px;
+  background: var(--primary);
+  transform: translateY(-50%);
+}
+
+a:focus-visible {
+  border-radius: 0.25rem;
+  outline-offset: 3px;
+}
+
+@media (max-width: 72rem) {
+  :host {
+    position: static;
+    padding-top: 0.75rem;
+  }
+
+  aside > span {
+    margin-bottom: 0.5rem;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    padding: 0;
+    border-inline-start: 0;
+  }
+
+  a {
+    min-height: 2.75rem;
+    font-size: 0.8125rem;
+  }
+
+  a[aria-current='location']::before {
+    width: 0.375rem;
+    height: 0.375rem;
+    position: static;
+    flex: 0 0 auto;
+    margin-inline-end: 0.375rem;
+    transform: none;
+  }
+}
+
+@media (max-width: 30rem) {
+  nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1rem;
+  }
+}

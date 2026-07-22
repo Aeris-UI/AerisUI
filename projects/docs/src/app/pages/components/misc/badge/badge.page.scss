@@ -1,0 +1,51 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.badge-docs app-form-demo {
+  --docs-code-block-max-height: min(34rem, 70vh);
+}
+
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.badge-status-grid,
+.badge-dynamic-demo {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.badge-status-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.badge-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.badge-overlay-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+
+.brand-badge {
+  --aeris-badge-size: 1.5rem;
+  --aeris-badge-padding-inline: 0.7rem;
+  --aeris-badge-font-size: 0.6875rem;
+  --aeris-badge-font-weight: 900;
+  --aeris-badge-shadow: 0 6px 16px color-mix(
+    in srgb,
+    var(--aeris-primary) 22%,
+    transparent
+  );
+}

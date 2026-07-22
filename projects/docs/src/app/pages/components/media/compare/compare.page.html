@@ -1,0 +1,592 @@
+<article class="button-docs compare-docs">
+  <app-component-page-header
+    category="Media"
+    title="Compare"
+    description="Reveal differences between images or custom content with controlled, touch, hover, vertical, and keyboard interaction."
+  />
+
+  <section id="compare-import" class="import-section" aria-labelledby="compare-import-title">
+    <div>
+      <h2 id="compare-import-title">Import</h2>
+      <p>One import provides Compare and its before, after, and handle templates.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable>
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="compare-basic"
+              title="Basic"
+              description="Compare two images with a draggable, touch-friendly divider, optional labels, and no consumer CSS."
+              [tsCode]="basicCode"
+            >
+              <div preview>
+                <aeris-compare
+                  beforeSrc="/car-bw.jpg"
+                  afterSrc="/car.jpg"
+                  beforeAlt="Car photographed in black and white"
+                  afterAlt="Car photographed in color"
+                  beforeLabel="Black and white"
+                  afterLabel="Color"
+                  showLabels
+                  ariaLabel="Car color comparison"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-compare
+    beforeSrc="/car-bw.jpg"
+    afterSrc="/car.jpg"
+    beforeAlt="Car photographed in black and white"
+    afterAlt="Car photographed in color"
+    beforeLabel="Black and white"
+    afterLabel="Color"
+    showLabels
+    ariaLabel="Car color comparison"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="compare-controlled"
+              title="Controlled"
+              description="Bind the position, react to committed changes, and move the divider through the public API."
+              [tsCode]="controlledCode"
+              [cssCode]="controlsCss"
+            >
+              <div preview>
+                <div class="compare-demo-controls" aria-label="Comparison presets">
+                  <button aerisButton type="button" (click)="setControlledValue(25)">25%</button>
+                  <button aerisButton type="button" (click)="setControlledValue(50)">50%</button>
+                  <button aerisButton type="button" (click)="setControlledValue(75)">75%</button>
+                </div>
+                <aeris-compare
+                  #controlledCompare
+                  beforeSrc="/car-bw.jpg"
+                  afterSrc="/car.jpg"
+                  beforeAlt="Car photographed in black and white"
+                  afterAlt="Car photographed in color"
+                  [(value)]="controlledValue"
+                  (changed)="recordControlledChange($event)"
+                  ariaLabel="Controlled car comparison"
+                />
+                <p class="compare-demo-status" aria-live="polite">
+                  {{ controlledStatus() }}
+                </p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="compare-demo-controls" aria-label="Comparison presets"&gt;
+    &lt;button aerisButton type="button" (click)="setControlledValue(25)"&gt;25%&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="setControlledValue(50)"&gt;50%&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="setControlledValue(75)"&gt;75%&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-compare
+    #controlledCompare
+    beforeSrc="/car-bw.jpg"
+    afterSrc="/car.jpg"
+    beforeAlt="Car photographed in black and white"
+    afterAlt="Car photographed in color"
+    [(value)]="controlledValue"
+    (changed)="recordControlledChange($event)"
+    ariaLabel="Controlled car comparison"
+  /&gt;
+  &lt;p class="compare-demo-status" aria-live="polite"&gt;
+    &#123;&#123; controlledStatus() &#125;&#125;
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="compare-hover"
+              title="Hover"
+              description="Let mouse and pen users preview positions by hovering while preserving drag, touch, and keyboard interaction."
+              [tsCode]="hoverCode"
+            >
+              <div preview>
+                <aeris-compare
+                  beforeSrc="/car-bw.jpg"
+                  afterSrc="/car.jpg"
+                  beforeAlt="Car photographed in black and white"
+                  afterAlt="Car photographed in color"
+                  slideOnHover
+                  [(value)]="hoverValue"
+                  ariaLabel="Hover-controlled car comparison"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-compare
+    beforeSrc="/car-bw.jpg"
+    afterSrc="/car.jpg"
+    beforeAlt="Car photographed in black and white"
+    afterAlt="Car photographed in color"
+    slideOnHover
+    [(value)]="hoverValue"
+    ariaLabel="Hover-controlled car comparison"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="compare-vertical"
+              title="Vertical"
+              description="Switch the reveal axis for portrait media or stacked comparisons."
+              [tsCode]="verticalCode"
+              [cssCode]="verticalCss"
+            >
+              <div preview>
+                <aeris-compare
+                  class="compare-vertical"
+                  orientation="vertical"
+                  aspectRatio="4 / 5"
+                  beforeSrc="/car-bw.jpg"
+                  afterSrc="/car.jpg"
+                  beforeAlt="Car photographed in black and white"
+                  afterAlt="Car photographed in color"
+                  ariaLabel="Vertical car comparison"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-compare
+    class="compare-vertical"
+    orientation="vertical"
+    aspectRatio="4 / 5"
+    beforeSrc="/car-bw.jpg"
+    afterSrc="/car.jpg"
+    beforeAlt="Car photographed in black and white"
+    afterAlt="Car photographed in color"
+    ariaLabel="Vertical car comparison"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="compare-handle"
+              title="Custom handle"
+              description="Replace the handle content and adjust its Aeris tokens without changing slider behavior."
+              [tsCode]="handleCode"
+              [cssCode]="handleCss"
+            >
+              <div preview>
+                <aeris-compare
+                  class="compare-accent-handle"
+                  beforeSrc="/car-bw.jpg"
+                  afterSrc="/car.jpg"
+                  beforeAlt="Car photographed in black and white"
+                  afterAlt="Car photographed in color"
+                  ariaLabel="Car comparison with custom handle"
+                >
+                  <ng-template aerisCompareHandle>
+                    <svg class="compare-handle-icon" [lucideIcon]="moveHorizontalIcon"></svg>
+                  </ng-template>
+                </aeris-compare>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-compare
+    class="compare-accent-handle"
+    beforeSrc="/car-bw.jpg"
+    afterSrc="/car.jpg"
+    beforeAlt="Car photographed in black and white"
+    afterAlt="Car photographed in color"
+    ariaLabel="Car comparison with custom handle"
+  &gt;
+    &lt;ng-template aerisCompareHandle&gt;
+      &lt;svg class="compare-handle-icon" [lucideIcon]="moveHorizontalIcon"&gt;&lt;/svg&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-compare&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="compare-template"
+              title="Templates"
+              description="Render complete custom before and after layers while keeping the Aeris divider and native range."
+              [tsCode]="templateCode"
+              [cssCode]="templateCss"
+            >
+              <div preview>
+                <aeris-compare ariaLabel="Workflow comparison">
+                  <ng-template aerisCompareBefore>
+                    <div class="compare-template-layer compare-template-layer--manual">
+                      <p>Manual workflow</p>
+                      <strong>46 min</strong>
+                      <span>Average delivery time</span>
+                      <ul>
+                        <li>Seven handoffs</li>
+                        <li>Three review cycles</li>
+                      </ul>
+                    </div>
+                  </ng-template>
+                  <ng-template aerisCompareAfter>
+                    <div class="compare-template-layer compare-template-layer--automated">
+                      <p>Automated workflow</p>
+                      <strong>8 min</strong>
+                      <span>Average delivery time</span>
+                      <ul>
+                        <li>One coordinated handoff</li>
+                        <li>Continuous validation</li>
+                      </ul>
+                    </div>
+                  </ng-template>
+                </aeris-compare>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-compare ariaLabel="Workflow comparison"&gt;
+    &lt;ng-template aerisCompareBefore&gt;
+      &lt;div class="compare-template-layer compare-template-layer--manual"&gt;
+        &lt;p&gt;Manual workflow&lt;/p&gt;
+        &lt;strong&gt;46 min&lt;/strong&gt;
+        &lt;span&gt;Average delivery time&lt;/span&gt;
+        &lt;ul&gt;
+          &lt;li&gt;Seven handoffs&lt;/li&gt;
+          &lt;li&gt;Three review cycles&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisCompareAfter&gt;
+      &lt;div class="compare-template-layer compare-template-layer--automated"&gt;
+        &lt;p&gt;Automated workflow&lt;/p&gt;
+        &lt;strong&gt;8 min&lt;/strong&gt;
+        &lt;span&gt;Average delivery time&lt;/span&gt;
+        &lt;ul&gt;
+          &lt;li&gt;One coordinated handoff&lt;/li&gt;
+          &lt;li&gt;Continuous validation&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-compare&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="compare-states"
+              title="States"
+              description="Disabled comparisons are unavailable; readonly comparisons remain focusable and announced without allowing changes."
+              [tsCode]="statesCode"
+              [cssCode]="statesCss"
+            >
+              <div preview class="compare-state-grid">
+                <section>
+                  <h4>Disabled</h4>
+                  <aeris-compare
+                    beforeSrc="/car-bw.jpg"
+                    afterSrc="/car.jpg"
+                    beforeAlt="Car photographed in black and white"
+                    afterAlt="Car photographed in color"
+                    disabled
+                    ariaLabel="Disabled car comparison"
+                  />
+                </section>
+                <section>
+                  <h4>Readonly</h4>
+                  <aeris-compare
+                    beforeSrc="/car-bw.jpg"
+                    afterSrc="/car.jpg"
+                    beforeAlt="Car photographed in black and white"
+                    afterAlt="Car photographed in color"
+                    readonly
+                    ariaLabel="Readonly car comparison"
+                  />
+                </section>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="compare-state-grid"&gt;
+  &lt;section&gt;
+    &lt;h4&gt;Disabled&lt;/h4&gt;
+    &lt;aeris-compare
+      beforeSrc="/car-bw.jpg"
+      afterSrc="/car.jpg"
+      beforeAlt="Car photographed in black and white"
+      afterAlt="Car photographed in color"
+      disabled
+      ariaLabel="Disabled car comparison"
+    /&gt;
+  &lt;/section&gt;
+  &lt;section&gt;
+    &lt;h4&gt;Readonly&lt;/h4&gt;
+    &lt;aeris-compare
+      beforeSrc="/car-bw.jpg"
+      afterSrc="/car.jpg"
+      beforeAlt="Car photographed in black and white"
+      afterAlt="Car photographed in color"
+      readonly
+      ariaLabel="Readonly car comparison"
+    /&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="compare-forms"
+              title="Forms"
+              description="Use Compare with typed reactive forms; validation, disabled state, and touched state flow through the native control contract."
+              [tsCode]="formsCode"
+              [cssCode]="controlsCss"
+            >
+              <div preview>
+                <aeris-compare
+                  beforeSrc="/car-bw.jpg"
+                  afterSrc="/car.jpg"
+                  beforeAlt="Car photographed in black and white"
+                  afterAlt="Car photographed in color"
+                  [formControl]="formPosition"
+                  ariaLabel="Form-controlled car comparison"
+                />
+                <p class="compare-demo-status">Form value: {{ formPosition.value }}%</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-compare
+    beforeSrc="/car-bw.jpg"
+    afterSrc="/car.jpg"
+    beforeAlt="Car photographed in black and white"
+    afterAlt="Car photographed in color"
+    [formControl]="formPosition"
+    ariaLabel="Form-controlled car comparison"
+  /&gt;
+  &lt;p class="compare-demo-status"&gt;Form value: &#123;&#123; formPosition.value &#125;&#125;%&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="On this page"
+            ariaLabel="Compare feature links"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="compare-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Compare inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="compare-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="Compare models">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="compare-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Compare outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="compare-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="Compare templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="compare-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Compare methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Returns</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API links" ariaLabel="Compare API links" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="compare-interfaces" class="api-section">
+              <app-code-block [code]="interfacesCode" language="TypeScript" />
+            </section>
+          </div>
+          <app-page-toc
+            title="Interface links"
+            ariaLabel="Compare interface links"
+            [links]="interfaceLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="compare-tokens" class="api-section">
+              <div class="api-table" role="table" aria-label="Compare design tokens">
+                <div role="row">
+                  <span role="columnheader">Token</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of tokens; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="Token links" ariaLabel="Compare token links" [links]="tokenLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="compare-semantics" class="api-section">
+              <h3>Semantics and behavior</h3>
+              <ul>
+                <li>
+                  Compare uses a native <code>input[type='range']</code> for pointer, touch, form,
+                  and assistive-technology support. The visible handle follows that control.
+                </li>
+                <li>
+                  Provide <code>ariaLabel</code> or <code>ariaLabelledby</code> and meaningful alt
+                  text for informative built-in images. Use empty alt text only for decorative
+                  images.
+                </li>
+                <li>
+                  <code>aria-valuemin</code>, <code>aria-valuemax</code>, and
+                  <code>aria-valuenow</code> come from the native range. Use
+                  <code>valueText</code> when a percentage does not describe the comparison clearly.
+                </li>
+                <li>
+                  Hover mode is supplementary. Drag, touch, and complete keyboard interaction remain
+                  available, and touch movement never depends on hover.
+                </li>
+                <li>
+                  Readonly comparisons remain focusable and expose <code>aria-readonly</code> while
+                  preventing changes. Disabled comparisons use the native disabled state.
+                </li>
+                <li>
+                  Custom layer templates should remain presentational. Do not place controls inside
+                  them because the range intentionally owns pointer interaction across the surface.
+                </li>
+                <li>
+                  Focus is visibly drawn around the complete surface. Motion is subtle and removed
+                  when reduced motion is requested.
+                </li>
+              </ul>
+            </section>
+            <section id="compare-keyboard" class="api-section">
+              <h3>Keyboard support</h3>
+              <div
+                class="api-table keyboard-table"
+                role="table"
+                aria-label="Compare keyboard support"
+              >
+                <div role="row">
+                  <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Tab</kbd
+                  ><span role="cell">Moves focus to or away from the comparison range.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Right / Arrow Up</kbd
+                  ><span role="cell">Increases the value by one configured step.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Left / Arrow Down</kbd
+                  ><span role="cell">Decreases the value by one configured step.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Page Up / Page Down</kbd
+                  ><span role="cell"
+                    >Increases or decreases the value by ten configured steps.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Home / End</kbd
+                  ><span role="cell">Moves directly to the minimum or maximum value.</span>
+                </div>
+              </div>
+            </section>
+          </div>
+          <app-page-toc
+            title="Accessibility links"
+            ariaLabel="Compare accessibility links"
+            [links]="accessibilityLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

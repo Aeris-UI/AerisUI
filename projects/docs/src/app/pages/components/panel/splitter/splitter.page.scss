@@ -1,0 +1,96 @@
+@use '../../form/shared/form-docs';
+
+.splitter-docs {
+  .splitter-pane {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .splitter-pane strong {
+    color: var(--text);
+  }
+
+  .splitter-pane span {
+    color: var(--text-2);
+    font-size: 0.875rem;
+  }
+
+  .dashboard-pane {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .dashboard-card {
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--aeris-radius-md);
+    background: var(--surface);
+  }
+
+  .dashboard-card strong {
+    display: block;
+    color: var(--text);
+  }
+
+  .splitter-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-block-end: 0.875rem;
+  }
+
+  .splitter-status {
+    margin: 0.75rem 0 0;
+    color: var(--text-2);
+    font-size: 0.8125rem;
+  }
+
+  .mail-pane {
+    display: grid;
+    gap: 0.625rem;
+  }
+
+  .mail-row {
+    padding: 0.625rem;
+    border: 1px solid var(--border);
+    border-radius: var(--aeris-radius-md);
+    background: var(--surface);
+  }
+
+  .mail-row strong {
+    display: block;
+    color: var(--text);
+  }
+
+  .mail-detail-splitter {
+    display: block;
+    block-size: 100%;
+  }
+
+  .splitter-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .brand-splitter {
+    --aeris-splitter-background: color-mix(in srgb, var(--aeris-primary) 9%, var(--surface));
+    --aeris-splitter-border-width: 2px;
+    --aeris-splitter-border: color-mix(in srgb, var(--aeris-primary) 70%, var(--border));
+    --aeris-splitter-radius: 1.5rem;
+    --aeris-splitter-gutter-size: 1rem;
+    --aeris-splitter-gutter-hover-background: color-mix(in srgb, var(--aeris-primary) 22%, transparent);
+    --aeris-splitter-divider-color: color-mix(in srgb, var(--aeris-primary) 46%, transparent);
+    --aeris-splitter-divider-thickness: 2px;
+    --aeris-splitter-handle-color: color-mix(in srgb, var(--aeris-primary) 48%, transparent);
+    --aeris-splitter-handle-hover-color: var(--aeris-primary-text);
+    --aeris-splitter-handle-length: 3rem;
+    --aeris-splitter-panel-padding: 1.25rem;
+  }
+}
+
+@media (max-width: 52rem) {
+  .splitter-docs .splitter-grid {
+    grid-template-columns: 1fr;
+  }
+}

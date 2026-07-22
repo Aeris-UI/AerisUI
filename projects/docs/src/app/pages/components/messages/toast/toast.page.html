@@ -1,0 +1,620 @@
+<article class="button-docs toast-docs">
+  <app-component-page-header
+    category="Messages"
+    title="Toast"
+    description="Displays transient notifications from a service-managed queue with timing, grouping, positions, templates, and accessible live-region semantics."
+  />
+
+  <section id="toast-import" class="import-section" aria-labelledby="toast-import-title">
+    <div>
+      <h2 id="toast-import-title">Import</h2>
+      <p>
+        One import provides Toast, its template directives, and the service used to add messages.
+      </p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Toast documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="toast-basic"
+              title="Basic"
+              description="Add a message through AerisToastService and render it with a Toast region."
+              [tsCode]="basicTsCode"
+            >
+              <div preview>
+                <div>
+                  <button aerisButton type="button" (click)="showBasicToast()">Show toast</button>
+                </div>
+                <aeris-toast group="basic" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div&gt;
+    &lt;button aerisButton type="button" (click)="showBasicToast()"&gt;Show toast&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-toast group="basic" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="toast-severity"
+              title="Severity"
+              description="Use severity to communicate outcome while Toast assigns matching live-region politeness by default."
+              [tsCode]="severityTsCode"
+            >
+              <div preview>
+                <div>
+                  <button aerisButton type="button" (click)="showSeverityToasts()">
+                    Show severities
+                  </button>
+                </div>
+                <aeris-toast group="severity" position="top-left" mode="expanded" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div&gt;
+    &lt;button aerisButton type="button" (click)="showSeverityToasts()"&gt;
+      Show severities
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-toast group="severity" position="top-left" mode="expanded" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="toast-sticky"
+              title="Sticky and clear"
+              description="Sticky messages stay visible until a close button, service removal, or group clear removes them."
+              [tsCode]="stickyTsCode"
+              [cssCode]="actionsCssCode"
+            >
+              <div preview>
+                <div class="toast-example-actions">
+                  <button aerisButton type="button" (click)="showStickyToast()">
+                    Show sticky toast
+                  </button>
+                  <button
+                    aerisButton
+                    variant="secondary"
+                    type="button"
+                    (click)="clearStickyToasts()"
+                  >
+                    Clear sticky group
+                  </button>
+                </div>
+                <aeris-toast
+                  group="sticky"
+                  position="bottom-right"
+                  (closed)="recordClosed($event)"
+                />
+                <p aria-live="polite">{{ lastClosed() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="toast-example-actions"&gt;
+    &lt;button aerisButton type="button" (click)="showStickyToast()"&gt;
+      Show sticky toast
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      variant="secondary"
+      type="button"
+      (click)="clearStickyToasts()"
+    &gt;
+      Clear sticky group
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-toast
+    group="sticky"
+    position="bottom-right"
+    (closed)="recordClosed($event)"
+  /&gt;
+  &lt;p aria-live="polite"&gt;&#123;&#123; lastClosed() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="toast-custom"
+              title="Custom content"
+              description="Replace message content and icons while keeping the close context and notification semantics."
+              [tsCode]="customTsCode"
+              [cssCode]="customActionsCssCode"
+            >
+              <div preview>
+                <div>
+                  <button aerisButton type="button" (click)="showActionToast()">
+                    Show action toast
+                  </button>
+                </div>
+                <aeris-toast group="action" position="top-center" mode="expanded">
+                  <ng-template aerisToastIcon let-message>
+                    <span aria-hidden="true">
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M20 6 9 17l-5-5"></path>
+                      </svg>
+                    </span>
+                  </ng-template>
+                  <ng-template aerisToastContent let-message let-close="close">
+                    <div class="toast-example-content">
+                      <strong>{{ message.summary }}</strong>
+                      <p>{{ message.detail }}</p>
+                      <div class="toast-example-actions">
+                        <button aerisButton size="sm" type="button" (click)="undoArchive(message)">
+                          Undo
+                        </button>
+                        <button
+                          aerisButton
+                          size="sm"
+                          variant="secondary"
+                          type="button"
+                          (click)="close()"
+                        >
+                          Dismiss
+                        </button>
+                      </div>
+                    </div>
+                  </ng-template>
+                </aeris-toast>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div&gt;
+    &lt;button aerisButton type="button" (click)="showActionToast()"&gt;
+      Show action toast
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-toast group="action" position="top-center" mode="expanded"&gt;
+    &lt;ng-template aerisToastIcon let-message&gt;
+      &lt;span aria-hidden="true"&gt;
+        &lt;svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        &gt;
+          &lt;path d="M20 6 9 17l-5-5"&gt;&lt;/path&gt;
+        &lt;/svg&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisToastContent let-message let-close="close"&gt;
+      &lt;div class="toast-example-content"&gt;
+        &lt;strong&gt;&#123;&#123; message.summary &#125;&#125;&lt;/strong&gt;
+        &lt;p&gt;&#123;&#123; message.detail &#125;&#125;&lt;/p&gt;
+        &lt;div class="toast-example-actions"&gt;
+          &lt;button aerisButton size="sm" type="button" (click)="undoArchive(message)"&gt;
+            Undo
+          &lt;/button&gt;
+          &lt;button
+            aerisButton
+            size="sm"
+            variant="secondary"
+            type="button"
+            (click)="close()"
+          &gt;
+            Dismiss
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-toast&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="toast-stacked"
+              title="Stacked preview"
+              description="Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus the stack to expand the visible window."
+              [tsCode]="stackedTsCode"
+            >
+              <div preview>
+                <div>
+                  <button aerisButton type="button" (click)="showStackedToasts()">
+                    Show stacked toasts
+                  </button>
+                </div>
+                <aeris-toast group="stacked" position="top-right" [visibleCount]="4" newestOnTop />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div&gt;
+    &lt;button aerisButton type="button" (click)="showStackedToasts()"&gt;
+      Show stacked toasts
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-toast group="stacked" position="top-right" [visibleCount]="4" newestOnTop /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="toast-positions"
+              title="Positions"
+              description="Bind the position input when a workflow needs notifications near a viewport edge or centered."
+              [tsCode]="positionsTsCode"
+              [cssCode]="actionsCssCode"
+            >
+              <div preview>
+                <div class="toast-example-actions">
+                  <button aerisButton type="button" (click)="showAt('top-left')">Top left</button>
+                  <button aerisButton type="button" (click)="showAt('top-center')">
+                    Top center
+                  </button>
+                  <button aerisButton type="button" (click)="showAt('top-right')">Top right</button>
+                  <button aerisButton type="button" (click)="showAt('bottom-left')">
+                    Bottom left
+                  </button>
+                  <button aerisButton type="button" (click)="showAt('bottom-center')">
+                    Bottom center
+                  </button>
+                  <button aerisButton type="button" (click)="showAt('bottom-right')">
+                    Bottom right
+                  </button>
+                  <button aerisButton type="button" (click)="showAt('center')">Center</button>
+                </div>
+                <aeris-toast group="position" [position]="currentPosition()" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="toast-example-actions"&gt;
+    &lt;button aerisButton type="button" (click)="showAt('top-left')"&gt;Top left&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="showAt('top-center')"&gt;
+      Top center
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="showAt('top-right')"&gt;Top right&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="showAt('bottom-left')"&gt;
+      Bottom left
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="showAt('bottom-center')"&gt;
+      Bottom center
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="showAt('bottom-right')"&gt;
+      Bottom right
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="showAt('center')"&gt;Center&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-toast group="position" [position]="currentPosition()" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="toast-expanded"
+              title="Expanded stack"
+              description="Set mode to expanded when the visible window should remain open without requiring hover or focus."
+              [tsCode]="expandedTsCode"
+            >
+              <div preview>
+                <div>
+                  <button aerisButton type="button" (click)="showExpandedStack()">
+                    Show expanded stack
+                  </button>
+                </div>
+                <aeris-toast
+                  group="expanded"
+                  position="bottom-center"
+                  mode="expanded"
+                  [visibleCount]="4"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div&gt;
+    &lt;button aerisButton type="button" (click)="showExpandedStack()"&gt;
+      Show expanded stack
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-toast
+    group="expanded"
+    position="bottom-center"
+    mode="expanded"
+    [visibleCount]="4"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="toast-loading"
+              title="Loading pattern"
+              description="Use a stable message id for a sticky loading toast, then replace it with the completion result."
+              [tsCode]="loadingTsCode"
+            >
+              <div preview>
+                <div>
+                  <button aerisButton type="button" (click)="startUpload()">Start upload</button>
+                </div>
+                <aeris-toast group="loading" position="top-right" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div&gt;
+    &lt;button aerisButton type="button" (click)="startUpload()"&gt;Start upload&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-toast group="loading" position="top-right" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Toast features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="toast-api-component" class="api-section">
+              <h3>Component inputs</h3>
+              <div class="api-table" role="table" aria-label="Toast component inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of componentInputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="toast-api-service" class="api-section">
+              <h3>Service methods</h3>
+              <div class="api-table" role="table" aria-label="Toast service methods" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of serviceMethods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+
+              <h3>Service properties</h3>
+              <div
+                class="api-table"
+                role="table"
+                aria-label="Toast service properties"
+                tabindex="0"
+              >
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of serviceProperties; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="toast-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="Toast templates" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="toast-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Toast outputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of componentOutputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Toast API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          Toast exposes string unions for placement, severity, live-region behavior, and close
+          reasons, plus message and template context interfaces.
+        </p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table token-table"
+          role="table"
+          aria-label="Toast design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-z-toast</code
+            ><span role="cell">Toast viewport stacking layer.</span><code role="cell">1200</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-toast-width</code
+            ><span role="cell">Maximum notification width.</span><code role="cell">24rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-toast-offset</code
+            ><span role="cell">Distance from viewport edges.</span><code role="cell">1rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-toast-gap</code
+            ><span role="cell">Space between expanded messages.</span
+            ><code role="cell">0.75rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-toast-stack-peek</code
+            ><span role="cell"
+              >Visible sliver height for stacked messages under the primary toast.</span
+            ><code role="cell">0.55rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-toast-stack-card-height</code
+            ><span role="cell">Collapsed stacked-card measurement used to calculate overlap.</span
+            ><code role="cell">2.75rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-toast-expanded-message-max-height</code
+            ><span role="cell">Maximum animated message height when stacked messages expand.</span
+            ><code role="cell">18rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-toast-icon-size</code
+            ><span role="cell">Default icon box size.</span><code role="cell">1.25rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-success</code><span role="cell">Success accent.</span
+            ><code role="cell">#6f8a68</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-info</code><span role="cell">Info accent.</span
+            ><code role="cell">#6b8793</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-warning</code><span role="cell">Warning accent.</span
+            ><code role="cell">#c38600</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-danger</code><span role="cell">Error accent.</span
+            ><code role="cell">#c81e2a</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface</code><span role="cell">Notification surface.</span
+            ><code role="cell">#fff</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-border</code><span role="cell">Notification border.</span
+            ><code role="cell">#deddd7</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Toast renders a named notification region only while matching messages are active.
+          </li>
+          <li>
+            Success, info, neutral, secondary, and contrast messages default to
+            <code>role="status"</code> and <code>aria-live="polite"</code>.
+          </li>
+          <li>
+            Warning and error messages default to <code>role="alert"</code> and
+            <code>aria-live="assertive"</code>.
+          </li>
+          <li>
+            Each message uses <code>aria-atomic="true"</code> so summary and detail are announced
+            together.
+          </li>
+          <li>Close controls are native buttons with configurable accessible labels.</li>
+          <li>
+            Stacked mode renders a limited visible window. Messages outside that window remain
+            queued and appear as visible messages are dismissed.
+          </li>
+          <li>
+            Use <code>newestOnTop</code> to control whether the newest or oldest queued message is
+            the primary visible toast.
+          </li>
+          <li>
+            Auto-dismiss timers pause while the region is hovered or focused when
+            <code>pauseOnHover</code> is enabled.
+          </li>
+          <li>
+            Messages outside the visible window are paused until they become visible so they are not
+            dismissed before users can perceive them.
+          </li>
+          <li>
+            Use sticky messages for critical information that must remain available until dismissed.
+          </li>
+          <li>Toast motion is disabled for users who request reduced motion.</li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Toast keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Tab / Shift + Tab</span
+            ><span role="cell"
+              >Moves focus through close buttons and any projected native interactive
+              elements.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Enter / Space</span
+            ><span role="cell"
+              >Activates the focused native button, including the built-in close button.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Escape</span
+            ><span role="cell"
+              >No built-in global behavior. Provide explicit buttons or service actions for
+              dismissal.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

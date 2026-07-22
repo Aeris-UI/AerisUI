@@ -1,0 +1,56 @@
+.app-showcase__profile-layout {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.65fr) minmax(0, 1.35fr);
+  align-items: start;
+  gap: 0.75rem;
+}
+
+.app-showcase__profile-photo {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.app-showcase__profile-photo > div {
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+}
+
+.app-showcase__profile-photo strong {
+  font-size: 0.8125rem;
+}
+
+.app-showcase__profile-photo span {
+  color: var(--text-3);
+  font-size: 0.6875rem;
+}
+
+.app-showcase__profile-photo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.app-showcase__profile-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.app-showcase__profile-form label {
+  min-width: 0;
+  display: grid;
+  gap: 0.4rem;
+  color: var(--text-2);
+  font-size: 0.6875rem;
+  font-weight: 650;
+}
+
+.app-showcase__profile-form .app-showcase__form-actions {
+  grid-column: 1 / -1;
+}

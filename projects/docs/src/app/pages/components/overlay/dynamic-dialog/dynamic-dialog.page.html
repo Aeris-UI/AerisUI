@@ -1,0 +1,365 @@
+<article class="button-docs dynamic-dialog-docs">
+  <app-component-page-header
+    category="Overlay"
+    title="DynamicDialog"
+    description="Creates modal or non-modal dialogs dynamically with any Angular component as the content."
+  />
+
+  <section
+    id="dynamic-dialog-import"
+    class="import-section"
+    aria-labelledby="dynamic-dialog-import-title"
+  >
+    <div>
+      <h2 id="dynamic-dialog-import-title">Import</h2>
+      <p>One import provides the service, dialog reference, configuration token, and data token.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="DynamicDialog documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="dynamic-dialog-basic"
+              title="Basic"
+              description="Open a dialog by passing a component type to the service."
+              [tsCode]="basicTsCode"
+              [cssCode]="triggerCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="openAuditDialog()">
+                  Open dynamic dialog
+                </button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="openAuditDialog()"&gt;
+    Open dynamic dialog
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dynamic-dialog-data"
+              title="Data and inputs"
+              description="Pass injected data and component input values to the dynamic content."
+              [tsCode]="dataTsCode"
+              [cssCode]="triggerCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="openReleaseDialog()">
+                  Open release dialog
+                </button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="openReleaseDialog()"&gt;
+    Open release dialog
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dynamic-dialog-result"
+              title="Close result"
+              description="Subscribe to the returned reference to receive typed close results and close reasons."
+              [tsCode]="resultTsCode"
+              [cssCode]="triggerCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="openResultDialog()">
+                  Open approval dialog
+                </button>
+                <p class="dynamic-dialog-status" aria-live="polite">{{ lastResult() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="openResultDialog()"&gt;
+    Open approval dialog
+  &lt;/button&gt;
+  &lt;p class="dynamic-dialog-status" aria-live="polite"&gt;&#123;&#123; lastResult() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dynamic-dialog-options"
+              title="Dialog options"
+              description="Use the same sizing, positioning, backdrop, focus, maximize, drag, and resize options as Dialog."
+              [tsCode]="optionsTsCode"
+              [cssCode]="triggerCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="openUtilityDialog()">
+                  Open utility dialog
+                </button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="openUtilityDialog()"&gt;
+    Open utility dialog
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="dynamic-dialog-manage"
+              title="Manage references"
+              description="Open multiple dialogs and let each dynamic content component close itself through its injected reference."
+              [tsCode]="manageTsCode"
+              [cssCode]="triggerCssCode"
+            >
+              <div preview>
+                <div class="dynamic-dialog-controls">
+                  <button aerisButton type="button" (click)="openTwoDialogs()">
+                    Open two dialogs
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="dynamic-dialog-controls"&gt;
+    &lt;button aerisButton type="button" (click)="openTwoDialogs()"&gt;
+      Open two dialogs
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc
+            title="On this page"
+            ariaLabel="DynamicDialog features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="dynamic-dialog-api-service" class="api-section">
+              <h3>Service</h3>
+              <div class="api-table" role="table" aria-label="DynamicDialog service">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of serviceRows; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="dynamic-dialog-api-config" class="api-section">
+              <h3>Config</h3>
+              <div class="api-table" role="table" aria-label="DynamicDialog config">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of configRows; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="dynamic-dialog-api-ref" class="api-section">
+              <h3>Reference</h3>
+              <div class="api-table" role="table" aria-label="DynamicDialog reference">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of refRows; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="dynamic-dialog-api-tokens" class="api-section">
+              <h3>Injection tokens</h3>
+              <div class="api-table" role="table" aria-label="DynamicDialog injection tokens">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of tokenRows; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="DynamicDialog API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <p>
+          DynamicDialog uses the Dialog shell, so the same dialog tokens control the dynamic
+          surface.
+        </p>
+        <div class="api-table token-table" role="table" aria-label="DynamicDialog design tokens">
+          <div role="row">
+            <span role="columnheader">Token</span><span role="columnheader">Purpose</span
+            ><span role="columnheader">Fallback</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-z-index</code
+            ><span role="cell">Overlay stacking context.</span><code role="cell">1000</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-mask-background</code
+            ><span role="cell">Modal mask color.</span><code role="cell">color-mix(...)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-backdrop-blur</code
+            ><span role="cell">Backdrop blur radius.</span
+            ><code role="cell">--aeris-backdrop-blur</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-backdrop-blur</code
+            ><span role="cell">Shared backdrop blur radius.</span><code role="cell">0.25rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-width</code><span role="cell">Custom panel width.</span
+            ><code role="cell">32rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-background</code><span role="cell">Panel surface.</span
+            ><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-color</code><span role="cell">Base text color.</span
+            ><code role="cell">--aeris-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-border</code
+            ><span role="cell">Panel and section borders.</span
+            ><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-radius</code><span role="cell">Panel radius.</span
+            ><code role="cell">--aeris-radius-lg</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-focus</code><span role="cell">Focus ring color.</span
+            ><code role="cell">--aeris-focus</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-header-padding</code
+            ><span role="cell">Header padding.</span><code role="cell">1rem 1.125rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-dialog-body-padding</code
+            ><span role="cell">Body padding around dynamic content.</span
+            ><code role="cell">1.125rem</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            DynamicDialog renders the same accessible dialog shell as Dialog, including
+            <code>role="dialog"</code>, modal state, focus trapping, and focus restoration.
+          </li>
+          <li>
+            Provide <code>header</code>, <code>ariaLabel</code>, or <code>ariaLabelledBy</code> so
+            every dynamic dialog has an accessible name.
+          </li>
+          <li>
+            Use <code>ariaDescribedBy</code> when dynamic content includes explanatory text that
+            should describe the dialog.
+          </li>
+          <li>
+            Use <code>initialFocus</code> to place focus on the safest first action for
+            confirmations and forms.
+          </li>
+          <li>
+            The dynamic content component is responsible for semantic headings, form labels,
+            validation messages, and any custom keyboard behavior it introduces.
+          </li>
+          <li>
+            Escape dismissal is enabled by default. Mask dismissal is opt-in through
+            <code>dismissibleMask</code>.
+          </li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="DynamicDialog keyboard support"
+        >
+          <div role="row">
+            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd></span
+            ><span role="cell"
+              >Moves to the next focusable item inside the dynamic dialog; wraps to the first item
+              from the last item while focusTrap is enabled.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell"
+              >Moves to the previous focusable item inside the dynamic dialog; wraps to the last
+              item from the first item while focusTrap is enabled.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Escape</kbd></span
+            ><span role="cell">Closes the dialog when closeOnEscape is enabled.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell"
+              >Activates focused native controls inside the shell or dynamic content.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

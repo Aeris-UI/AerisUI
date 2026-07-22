@@ -1,0 +1,383 @@
+<article class="button-docs progress-spinner-docs">
+  <app-component-page-header
+    category="Misc"
+    title="ProgressSpinner"
+    description="Communicate determinate or indeterminate process status with lightweight circular progress and accessible value text."
+  />
+
+  <section
+    id="progress-spinner-import"
+    class="import-section"
+    aria-labelledby="progress-spinner-import-title"
+  >
+    <div>
+      <h2 id="progress-spinner-import-title">Import</h2>
+      <p>One import provides ProgressSpinner and its value template.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="ProgressSpinner documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="progress-spinner-indeterminate"
+              title="Indeterminate"
+              description="Omit value when progress cannot be measured yet."
+            >
+              <div preview>
+                <aeris-progress-spinner ariaLabel="Loading dashboard" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-progress-spinner ariaLabel="Loading dashboard" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-spinner-determinate"
+              title="Determinate"
+              description="Provide a numeric value to render progress against the configured range."
+            >
+              <div preview>
+                <aeris-progress-spinner ariaLabel="Upload progress" [value]="75" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-progress-spinner ariaLabel="Upload progress" [value]="75" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-spinner-dynamic"
+              title="Dynamic"
+              description="Bind changing application state; ProgressSpinner clamps updates to the configured range."
+              [tsCode]="dynamicTsCode"
+              [cssCode]="dynamicCssCode"
+            >
+              <div preview>
+                <div class="spinner-dynamic">
+                  <aeris-progress-spinner
+                    ariaLabel="Processing progress"
+                    [value]="progress()"
+                    size="lg"
+                  />
+                  <div class="spinner-actions">
+                    <button
+                      aerisButton
+                      variant="secondary"
+                      type="button"
+                      (click)="decreaseProgress()"
+                    >
+                      Decrease
+                    </button>
+                    <button aerisButton type="button" (click)="increaseProgress()">Increase</button>
+                    <button aerisButton variant="outline" type="button" (click)="resetProgress()">
+                      Reset
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="spinner-dynamic"&gt;
+    &lt;aeris-progress-spinner
+      ariaLabel="Processing progress"
+      [value]="progress()"
+      size="lg"
+    /&gt;
+    &lt;div class="spinner-actions"&gt;
+      &lt;button
+        aerisButton
+        variant="secondary"
+        type="button"
+        (click)="decreaseProgress()"
+      &gt;
+        Decrease
+      &lt;/button&gt;
+      &lt;button aerisButton type="button" (click)="increaseProgress()"&gt;Increase&lt;/button&gt;
+      &lt;button aerisButton variant="outline" type="button" (click)="resetProgress()"&gt;
+        Reset
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-spinner-sizes"
+              title="Sizes"
+              description="Use compact, default, or prominent spinner geometry."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="spinner-row">
+                  <aeris-progress-spinner ariaLabel="Small loading indicator" size="sm" />
+                  <aeris-progress-spinner ariaLabel="Medium loading indicator" />
+                  <aeris-progress-spinner ariaLabel="Large loading indicator" size="lg" />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="spinner-row"&gt;
+    &lt;aeris-progress-spinner ariaLabel="Small loading indicator" size="sm" /&gt;
+    &lt;aeris-progress-spinner ariaLabel="Medium loading indicator" /&gt;
+    &lt;aeris-progress-spinner ariaLabel="Large loading indicator" size="lg" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-spinner-tones"
+              title="Tones"
+              description="Palette-aware tones remain readable across every Aeris theme and mode."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="spinner-row">
+                  <aeris-progress-spinner ariaLabel="Primary loading" tone="primary" />
+                  <aeris-progress-spinner ariaLabel="Information loading" tone="info" />
+                  <aeris-progress-spinner ariaLabel="Successful loading" tone="success" />
+                  <aeris-progress-spinner ariaLabel="Warning loading" tone="warning" />
+                  <aeris-progress-spinner ariaLabel="Danger loading" tone="danger" />
+                  <aeris-progress-spinner ariaLabel="Neutral loading" tone="neutral" />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="spinner-row"&gt;
+    &lt;aeris-progress-spinner ariaLabel="Primary loading" tone="primary" /&gt;
+    &lt;aeris-progress-spinner ariaLabel="Information loading" tone="info" /&gt;
+    &lt;aeris-progress-spinner ariaLabel="Successful loading" tone="success" /&gt;
+    &lt;aeris-progress-spinner ariaLabel="Warning loading" tone="warning" /&gt;
+    &lt;aeris-progress-spinner ariaLabel="Danger loading" tone="danger" /&gt;
+    &lt;aeris-progress-spinner ariaLabel="Neutral loading" tone="neutral" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-spinner-custom"
+              title="Customization"
+              description="Combine inputs for stroke geometry with scoped tokens for diameter, color, and timing."
+              [cssCode]="customCssCode"
+            >
+              <div preview>
+                <aeris-progress-spinner
+                  class="brand-spinner"
+                  ariaLabel="Customized loading state"
+                  [strokeWidth]="7"
+                  [showTrack]="false"
+                  [rounded]="false"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-progress-spinner
+    class="brand-spinner"
+    ariaLabel="Customized loading state"
+    [strokeWidth]="7"
+    [showTrack]="false"
+    [rounded]="false"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-spinner-template"
+              title="Value template"
+              description="Replace centered determinate content while a formatter supplies concise assistive text."
+              [tsCode]="templateTsCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview>
+                <aeris-progress-spinner
+                  ariaLabel="File processing progress"
+                  [value]="42"
+                  size="lg"
+                  [valueFormatter]="fileFormatter"
+                >
+                  <ng-template aerisProgressSpinnerValue let-percent="percent">
+                    <span class="spinner-value-template">
+                      <strong>{{ percent }}%</strong>
+                      <small>Files</small>
+                    </span>
+                  </ng-template>
+                </aeris-progress-spinner>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-progress-spinner
+    ariaLabel="File processing progress"
+    [value]="42"
+    size="lg"
+    [valueFormatter]="fileFormatter"
+  &gt;
+    &lt;ng-template aerisProgressSpinnerValue let-percent="percent"&gt;
+      &lt;span class="spinner-value-template"&gt;
+        &lt;strong&gt;&#123;&#123; percent &#125;&#125;%&lt;/strong&gt;
+        &lt;small&gt;Files&lt;/small&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-progress-spinner&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="progress-spinner-tokens"
+              title="Token customization"
+              description="Scope theme tokens to one instance without changing progress semantics."
+              [cssCode]="tokenCssCode"
+            >
+              <div preview>
+                <aeris-progress-spinner
+                  class="token-spinner"
+                  ariaLabel="Deployment progress"
+                  [value]="68"
+                  [strokeWidth]="5"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-progress-spinner
+    class="token-spinner"
+    ariaLabel="Deployment progress"
+    [value]="68"
+    [strokeWidth]="5"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="On this page"
+            ariaLabel="ProgressSpinner features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="progress-spinner-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="ProgressSpinner inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="progress-spinner-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div
+                class="api-table"
+                role="table"
+                aria-label="ProgressSpinner templates"
+                tabindex="0"
+              >
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API sections" ariaLabel="ProgressSpinner API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>Sizes, tones, formatters, and the value template use strict public types.</p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table token-table"
+          role="table"
+          aria-label="ProgressSpinner tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          @for (token of tokens; track token.name) {
+            <div role="row">
+              <code role="cell">{{ token.name }}</code
+              ><span role="cell">{{ token.purpose }}</span
+              ><code role="cell">{{ token.fallback }}</code>
+            </div>
+          }
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            ProgressSpinner exposes <code>progressbar</code> semantics and an accessible name.
+          </li>
+          <li>
+            Indeterminate mode omits numeric range attributes because the current value is unknown.
+          </li>
+          <li>
+            Determinate mode exposes clamped minimum, maximum, current value, and formatted value
+            text.
+          </li>
+          <li>
+            The decorative SVG and centered duplicate text are hidden from assistive technology.
+          </li>
+          <li>The component is non-interactive and never enters the tab order.</li>
+          <li>
+            Reduced-motion mode stops rotation and retains a static arc so loading remains visually
+            indicated.
+          </li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="ProgressSpinner keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Any key</span
+            ><span role="cell"
+              >ProgressSpinner handles no keyboard input because it is a read-only status
+              indicator.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

@@ -1,0 +1,277 @@
+<article class="button-docs class-names-docs">
+  <app-component-page-header
+    category="Utilities"
+    title="ClassNames"
+    description="Compose whitespace-separated strings, nested arrays, and conditional class maps through one reactive binding."
+  />
+
+  <section
+    id="class-names-import"
+    class="import-section"
+    aria-labelledby="class-names-import-title"
+  >
+    <div>
+      <h2 id="class-names-import-title">Import</h2>
+      <p>One import provides the standalone ClassNames directive.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="ClassNames documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="class-names-string"
+              title="String"
+              description="Split a whitespace-separated string into individual class tokens."
+              [cssCode]="stringCssCode"
+            >
+              <div preview>
+                <article aerisClassNames="string-card string-card--surface string-card--raised">
+                  One string can carry several application classes.
+                </article>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;article aerisClassNames="string-card string-card--surface string-card--raised"&gt;
+    One string can carry several application classes.
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="class-names-array"
+              title="Array"
+              description="Group reusable class strings and individual tokens in one array."
+              [cssCode]="arrayCssCode"
+            >
+              <div preview>
+                <article
+                  [aerisClassNames]="[
+                    'array-card array-card--surface',
+                    'array-card--accent',
+                    'array-card--compact',
+                  ]"
+                >
+                  Arrays make programmatically assembled class groups easy to read.
+                </article>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;article
+    [aerisClassNames]="[
+      'array-card array-card--surface',
+      'array-card--accent',
+      'array-card--compact',
+    ]"
+  &gt;
+    Arrays make programmatically assembled class groups easy to read.
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="class-names-conditional"
+              title="Conditional map"
+              description="Drive individual class groups from signals without constructing class strings manually."
+              [tsCode]="conditionalTsCode"
+              [cssCode]="conditionalCssCode"
+            >
+              <div preview>
+                <div class="class-names-demo">
+                  <div class="class-names-actions">
+                    <button aerisButton type="button" (click)="toggleSelected()">
+                      Toggle selected</button
+                    ><button aerisButton type="button" variant="secondary" (click)="toggleBusy()">
+                      Toggle busy</button
+                    ><button
+                      aerisButton
+                      type="button"
+                      variant="outline"
+                      (click)="toggleEmphasized()"
+                    >
+                      Toggle emphasis
+                    </button>
+                  </div>
+                  <article
+                    class="state-card"
+                    [aerisClassNames]="statusClasses()"
+                    [attr.aria-busy]="busy()"
+                  >
+                    Selected: {{ selected() ? 'yes' : 'no' }} &middot; Busy:
+                    {{ busy() ? 'yes' : 'no' }} &middot; Emphasized:
+                    {{ emphasized() ? 'yes' : 'no' }}
+                  </article>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="class-names-demo"&gt;
+    &lt;div class="class-names-actions"&gt;
+      &lt;button aerisButton type="button" (click)="toggleSelected()"&gt;
+        Toggle selected&lt;/button
+      &gt;&lt;button aerisButton type="button" variant="secondary" (click)="toggleBusy()"&gt;
+        Toggle busy&lt;/button
+      &gt;&lt;button
+        aerisButton
+        type="button"
+        variant="outline"
+        (click)="toggleEmphasized()"
+      &gt;
+        Toggle emphasis
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;article
+      class="state-card"
+      [aerisClassNames]="statusClasses()"
+      [attr.aria-busy]="busy()"
+    &gt;
+      Selected: &#123;&#123; selected() ? 'yes' : 'no' &#125;&#125; &amp;middot; Busy:
+      &#123;&#123; busy() ? 'yes' : 'no' &#125;&#125; &amp;middot; Emphasized:
+      &#123;&#123; emphasized() ? 'yes' : 'no' &#125;&#125;
+    &lt;/article&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="class-names-nested"
+              title="Nested composition"
+              description="Flatten strings, arrays at any depth, and conditional maps into one deduplicated class set."
+              [tsCode]="nestedTsCode"
+              [cssCode]="nestedCssCode"
+            >
+              <div preview>
+                <article [aerisClassNames]="composedClasses">
+                  Nested values stay declarative while duplicate class tokens are applied only once.
+                </article>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;article [aerisClassNames]="composedClasses"&gt;
+    Nested values stay declarative while duplicate class tokens are applied only once.
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="class-names-frameworks"
+              title="CSS framework classes"
+              description="ClassNames only manages tokens on its host, so application utilities from current Tailwind CSS, Bootstrap, CSS Modules, or custom styles remain independent."
+              [cssCode]="frameworksCssCode"
+            >
+              <div preview>
+                <div class="framework-example">
+                  <span [aerisClassNames]="['utility-surface', { 'utility-accent': true }]"
+                    >Application utility classes</span
+                  ><span class="utility-surface">Static classes remain untouched</span>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="framework-example"&gt;
+    &lt;span [aerisClassNames]="['utility-surface', &#123; 'utility-accent': true &#125;]"
+      &gt;Application utility classes&lt;/span
+    &gt;&lt;span class="utility-surface"&gt;Static classes remain untouched&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="On this page"
+            ariaLabel="ClassNames features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API"
+      ><section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="class-names-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="ClassNames inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API sections" ariaLabel="ClassNames API" [links]="apiLinks" />
+        </div></section
+    ></aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces"
+      ><section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          Recursive values allow arrays to contain strings, conditional maps, and further arrays.
+        </p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" /></section
+    ></aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens"
+      ><section class="doc-section">
+        <h2>Design tokens</h2>
+        <p>
+          ClassNames has no visual surface and defines no tokens. Every applied class belongs to the
+          consuming application and may use Aeris tokens, framework utilities, or independent CSS.
+        </p>
+      </section></aeris-tab-panel
+    >
+
+    <aeris-tab-panel value="accessibility" label="Accessibility"
+      ><section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            The directive changes classes only and adds no roles, labels, focusability, or keyboard
+            behavior.
+          </li>
+          <li>
+            Do not rely on visual class changes alone to communicate state; bind matching semantic
+            attributes such as <code>aria-busy</code>, <code>aria-invalid</code>, or native disabled
+            state.
+          </li>
+          <li>
+            Ensure application classes preserve contrast, focus visibility, target size, and
+            reduced-motion preferences.
+          </li>
+          <li>Pre-existing static classes are preserved when reactive values change.</li>
+          <li>
+            Avoid assigning the same class token through multiple reactive bindings because
+            ownership becomes ambiguous.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="ClassNames keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Any key</span
+            ><span role="cell"
+              >ClassNames handles no keyboard input; the host and its descendants retain their
+              native behavior.</span
+            >
+          </div>
+        </div>
+      </section></aeris-tab-panel
+    >
+  </aeris-tabs>
+</article>

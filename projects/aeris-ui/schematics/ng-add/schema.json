@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "AerisNgAddSchema",
+  "title": "Aeris UI installation options",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Angular application project to configure."
+    },
+    "config": {
+      "type": "string",
+      "description": "Path to an aeris.setup.json file."
+    },
+    "preset": {
+      "enum": ["earth", "coastal", "orchid", "monochrome"],
+      "description": "Official Aeris starter theme."
+    },
+    "surface": { "type": "string", "description": "Custom surface palette seed." },
+    "primary": { "type": "string", "description": "Custom primary palette seed." },
+    "secondary": { "type": "string", "description": "Custom secondary palette seed." },
+    "accent": { "type": "string", "description": "Custom accent palette seed." },
+    "contrast": { "type": "string", "description": "Custom contrast palette seed." },
+    "density": {
+      "enum": ["compact", "medium", "comfortable"],
+      "description": "Built-in Aeris density."
+    },
+    "corners": {
+      "enum": ["soft", "rounded", "pill"],
+      "description": "Built-in Aeris corner style."
+    },
+    "schemes": {
+      "enum": ["both", "light", "dark"],
+      "description": "Color schemes included in the installation."
+    },
+    "defaultMode": {
+      "enum": ["system", "light", "dark"],
+      "description": "Initial color mode."
+    },
+    "strategy": {
+      "enum": ["runtime", "build-time"],
+      "description": "Runtime token management or generated theme CSS."
+    },
+    "persistMode": {
+      "type": "boolean",
+      "description": "Persist runtime color-mode changes."
+    },
+    "direction": {
+      "enum": ["ltr", "rtl"],
+      "description": "Initial document direction."
+    },
+    "skipPrompts": {
+      "type": "boolean",
+      "default": false,
+      "description": "Use supplied values and Aeris defaults without interactive questions."
+    },
+    "force": {
+      "type": "boolean",
+      "default": false,
+      "description": "Replace an unmanaged Aeris configuration file."
+    }
+  }
+}

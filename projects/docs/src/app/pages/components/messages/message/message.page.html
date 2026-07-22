@@ -1,0 +1,579 @@
+<article class="button-docs message-docs">
+  <app-component-page-header
+    category="Messages"
+    title="Message"
+    description="Displays inline feedback with severity, variants, icons, closable state, timed visibility, templates, and accessible live-region semantics."
+  />
+
+  <section id="message-import" class="import-section" aria-labelledby="message-import-title">
+    <div>
+      <h2 id="message-import-title">Import</h2>
+      <p>One import provides Message and its icon/content template directives.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Message documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="message-basic"
+              title="Basic"
+              description="Use Message for inline feedback near the content or control it describes."
+            >
+              <div preview>
+                <aeris-message text="Upgrade now and save 5%." />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-message text="Upgrade now and save 5%." /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="message-severity"
+              title="Severity"
+              description="Use severity to communicate the tone of feedback and choose default live-region behavior."
+              [cssCode]="stackCssCode"
+            >
+              <div preview>
+                <div class="message-stack">
+                  <aeris-message severity="success" text="Your account is now ready." />
+                  <aeris-message severity="info" text="Upgrade now and save 5%." />
+                  <aeris-message severity="warning" text="Your subscription is about to expire." />
+                  <aeris-message severity="error" text="Something went wrong." />
+                  <aeris-message severity="neutral" text="Processing may take a few moments." />
+                  <aeris-message severity="contrast" text="You're currently in offline mode." />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="message-stack"&gt;
+    &lt;aeris-message severity="success" text="Your account is now ready." /&gt;
+    &lt;aeris-message severity="info" text="Upgrade now and save 5%." /&gt;
+    &lt;aeris-message severity="warning" text="Your subscription is about to expire." /&gt;
+    &lt;aeris-message severity="error" text="Something went wrong." /&gt;
+    &lt;aeris-message severity="neutral" text="Processing may take a few moments." /&gt;
+    &lt;aeris-message severity="contrast" text="You're currently in offline mode." /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="message-variants"
+              title="Variants"
+              description="Choose filled, outlined, or simple presentation without changing message semantics."
+              [cssCode]="stackCssCode"
+            >
+              <div preview>
+                <div class="message-stack">
+                  <aeris-message severity="success" text="Filled message." />
+                  <aeris-message severity="warning" variant="outlined" text="Outlined message." />
+                  <aeris-message severity="info" variant="simple" text="Simple inline message." />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="message-stack"&gt;
+    &lt;aeris-message severity="success" text="Filled message." /&gt;
+    &lt;aeris-message severity="warning" variant="outlined" text="Outlined message." /&gt;
+    &lt;aeris-message severity="info" variant="simple" text="Simple inline message." /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="message-sizes"
+              title="Sizes"
+              description="Use compact or large sizing when message density needs to match nearby controls."
+              [cssCode]="inlineCssCode"
+            >
+              <div preview>
+                <div class="message-inline">
+                  <aeris-message size="sm" text="Small message." />
+                  <aeris-message text="Default message." />
+                  <aeris-message size="lg" text="Large message." />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="message-inline"&gt;
+    &lt;aeris-message size="sm" text="Small message." /&gt;
+    &lt;aeris-message text="Default message." /&gt;
+    &lt;aeris-message size="lg" text="Large message." /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="message-icons"
+              title="Icons"
+              description="Use the built-in severity icon, hide the icon, or provide a consumer-owned icon template."
+              [cssCode]="stackCssCode + '\n\n' + customIconCssCode"
+            >
+              <div preview>
+                <div class="message-stack">
+                  <aeris-message severity="warning" text="Your subscription is about to expire." />
+                  <aeris-message
+                    severity="neutral"
+                    [showIcon]="false"
+                    text="This message has no icon."
+                  />
+                  <aeris-message severity="success">
+                    <ng-template aerisMessageIcon>
+                      <span class="message-custom-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                          <path d="M20 6 9 17l-5-5" />
+                        </svg>
+                      </span>
+                    </ng-template>
+                    Custom icon template.
+                  </aeris-message>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="message-stack"&gt;
+    &lt;aeris-message severity="warning" text="Your subscription is about to expire." /&gt;
+    &lt;aeris-message
+      severity="neutral"
+      [showIcon]="false"
+      text="This message has no icon."
+    /&gt;
+    &lt;aeris-message severity="success"&gt;
+      &lt;ng-template aerisMessageIcon&gt;
+        &lt;span class="message-custom-icon" aria-hidden="true"&gt;
+          &lt;svg viewBox="0 0 24 24"&gt;
+            &lt;path d="M20 6 9 17l-5-5" /&gt;
+          &lt;/svg&gt;
+        &lt;/span&gt;
+      &lt;/ng-template&gt;
+      Custom icon template.
+    &lt;/aeris-message&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="message-closable"
+              title="Closable"
+              description="Enable a native close button and listen for close reasons when application state needs to react."
+              [tsCode]="closableTsCode"
+              [cssCode]="stackCssCode + '\n\n' + statusCssCode"
+            >
+              <div preview>
+                <div class="message-stack">
+                  <aeris-message
+                    severity="warning"
+                    text="This is a closable message."
+                    closable
+                    (closed)="recordClose($event)"
+                  />
+                  <p class="message-status" aria-live="polite">{{ closeStatus() }}</p>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="message-stack"&gt;
+    &lt;aeris-message
+      severity="warning"
+      text="This is a closable message."
+      closable
+      (closed)="recordClose($event)"
+    /&gt;
+    &lt;p class="message-status" aria-live="polite"&gt;&#123;&#123; closeStatus() &#125;&#125;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="message-life"
+              title="Life"
+              description="Use life when temporary inline feedback should dismiss itself after a defined delay."
+              [tsCode]="lifeTsCode"
+              [cssCode]="lifeCssCode"
+            >
+              <div preview>
+                <div class="message-life-demo">
+                  <div class="message-actions">
+                    <button aerisButton type="button" (click)="showTimedMessage()">
+                      Show timed message
+                    </button>
+                  </div>
+                  <aeris-message
+                    severity="info"
+                    text="This message closes after three seconds."
+                    [life]="3000"
+                    [(visible)]="timedVisible"
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="message-life-demo"&gt;
+    &lt;div class="message-actions"&gt;
+      &lt;button aerisButton type="button" (click)="showTimedMessage()"&gt;
+        Show timed message
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;aeris-message
+      severity="info"
+      text="This message closes after three seconds."
+      [life]="3000"
+      [(visible)]="timedVisible"
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="message-dynamic"
+              title="Dynamic"
+              description="Render multiple messages from application state and remove individual rows with closable messages."
+              [tsCode]="dynamicTsCode"
+              [cssCode]="stackCssCode + '\n\n' + controlsCssCode"
+            >
+              <div preview>
+                <div class="message-stack">
+                  <div class="message-actions">
+                    <button aerisButton type="button" (click)="addMessages()">Add messages</button>
+                    <button aerisButton type="button" (click)="clearMessages()">
+                      Clear messages
+                    </button>
+                  </div>
+                  @for (message of dynamicMessages(); track message.id) {
+                    <aeris-message
+                      [severity]="message.severity"
+                      [text]="message.text"
+                      closable
+                      (closed)="removeMessage(message.id)"
+                    />
+                  }
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="message-stack"&gt;
+    &lt;div class="message-actions"&gt;
+      &lt;button aerisButton type="button" (click)="addMessages()"&gt;Add messages&lt;/button&gt;
+      &lt;button aerisButton type="button" (click)="clearMessages()"&gt;
+        Clear messages
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &#64;for (message of dynamicMessages(); track message.id) &#123;
+      &lt;aeris-message
+        [severity]="message.severity"
+        [text]="message.text"
+        closable
+        (closed)="removeMessage(message.id)"
+      /&gt;
+    &#125;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="message-forms"
+              title="Forms"
+              description="Place error messages near invalid fields and keep the message text specific to the correction needed."
+              [tsCode]="formTsCode"
+              [cssCode]="formCssCode + '\n\n' + stackCssCode"
+            >
+              <div preview>
+                <form class="message-form" (submit)="$event.preventDefault(); submitForm()">
+                  <label>
+                    Username
+                    <input
+                      aerisInputText
+                      type="text"
+                      [value]="username()"
+                      aria-describedby="form-errors"
+                      (input)="username.set($any($event.target).value)"
+                      (blur)="usernameTouched.set(true)"
+                    />
+                  </label>
+                  <label>
+                    Phone number
+                    <input
+                      aerisInputText
+                      type="tel"
+                      [value]="phone()"
+                      aria-describedby="form-errors"
+                      (input)="phone.set($any($event.target).value)"
+                      (blur)="phoneTouched.set(true)"
+                    />
+                  </label>
+                  <button aerisButton type="submit">Validate</button>
+                  <div id="form-errors" class="message-stack" aria-live="polite">
+                    @for (error of formErrors(); track error) {
+                      <aeris-message severity="error" variant="outlined" [text]="error" />
+                    }
+                  </div>
+                </form>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;form class="message-form" (submit)="$event.preventDefault(); submitForm()"&gt;
+    &lt;label&gt;
+      Username
+      &lt;input
+        aerisInputText
+        type="text"
+        [value]="username()"
+        aria-describedby="form-errors"
+        (input)="username.set($any($event.target).value)"
+        (blur)="usernameTouched.set(true)"
+      /&gt;
+    &lt;/label&gt;
+    &lt;label&gt;
+      Phone number
+      &lt;input
+        aerisInputText
+        type="tel"
+        [value]="phone()"
+        aria-describedby="form-errors"
+        (input)="phone.set($any($event.target).value)"
+        (blur)="phoneTouched.set(true)"
+      /&gt;
+    &lt;/label&gt;
+    &lt;button aerisButton type="submit"&gt;Validate&lt;/button&gt;
+    &lt;div id="form-errors" class="message-stack" aria-live="polite"&gt;
+      &#64;for (error of formErrors(); track error) &#123;
+        &lt;aeris-message severity="error" variant="outlined" [text]="error" /&gt;
+      &#125;
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Message features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="message-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Message inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="message-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="Message models" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="message-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Message outputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="message-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="Message templates" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="message-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Message methods" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Message API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          Message exposes narrow unions for severity, variants, size, live-region behavior, close
+          reasons, and template contexts.
+        </p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table token-table"
+          role="table"
+          aria-label="Message design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-message-icon-size</code
+            ><span role="cell">Message icon box size.</span><code role="cell">1.15rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-success</code><span role="cell">Success accent.</span
+            ><code role="cell">#6f8a68</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-info</code><span role="cell">Info accent.</span
+            ><code role="cell">#6b8793</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-warning</code><span role="cell">Warning accent.</span
+            ><code role="cell">#c38600</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-danger</code><span role="cell">Error accent.</span
+            ><code role="cell">#c81e2a</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface</code><span role="cell">Filled message surface.</span
+            ><code role="cell">#fff</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-border</code><span role="cell">Message border fallback.</span
+            ><code role="cell">#deddd7</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-text</code><span role="cell">Primary message text color.</span
+            ><code role="cell">#222222</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-text-2</code><span role="cell">Muted close-button color.</span
+            ><code role="cell">#555555</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-focus</code
+            ><span role="cell">Close-button focus outline.</span><code role="cell">#536437</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Message uses <code>role="status"</code> and <code>aria-live="polite"</code> by default
+            for non-critical feedback.
+          </li>
+          <li>
+            Warning and error severities default to <code>role="alert"</code> and
+            <code>aria-live="assertive"</code>.
+          </li>
+          <li>
+            Every visible message sets <code>aria-atomic="true"</code> so the whole message is
+            announced together.
+          </li>
+          <li>
+            Use <code>role</code> and <code>ariaLive</code> to override announcement behavior when
+            the surrounding page already manages announcements.
+          </li>
+          <li>The close control is a native button with a configurable accessible label.</li>
+          <li>
+            Timed messages should be reserved for low-risk feedback. Use closable persistent
+            messages for important errors.
+          </li>
+          <li>Message motion is disabled for users who request reduced motion.</li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Message keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Tab / Shift + Tab</span
+            ><span role="cell"
+              >Moves focus to the close button and any projected native interactive elements.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Enter / Space</span
+            ><span role="cell"
+              >Activates the focused native button, including the built-in close button.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Escape</span
+            ><span role="cell"
+              >No built-in behavior. Provide an explicit close button or application shortcut when
+              dismissal by keyboard shortcut is required.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

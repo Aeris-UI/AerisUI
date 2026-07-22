@@ -1,0 +1,27 @@
+@use '../shared/form-docs';
+
+.textarea-size-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.textarea-size-grid label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.validation-message {
+  min-height: 1.25rem;
+}
+
+@media (max-width: 42rem) {
+  .textarea-size-grid {
+    grid-template-columns: 1fr;
+  }
+}

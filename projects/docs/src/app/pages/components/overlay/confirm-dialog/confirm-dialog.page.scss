@@ -1,0 +1,70 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.confirm-dialog-docs {
+  app-form-demo {
+    --docs-code-block-max-height: min(36rem, 70vh);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .demo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .position-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    max-width: 28rem;
+  }
+
+  .demo-status {
+    width: 100%;
+    margin: 0.875rem 0 0;
+    color: var(--text-3);
+    font-size: 0.8125rem;
+  }
+
+  .confirm-message {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .confirm-message strong {
+    color: var(--text);
+  }
+
+  .custom-confirm-icon {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--warning) 18%, transparent);
+    color: var(--warning-text);
+    font-weight: 900;
+  }
+
+  .custom-confirm-icon::before {
+    width: 1.05rem;
+    height: 0.55rem;
+    border: solid currentColor;
+    border-width: 0 0 2px 2px;
+    transform: rotate(-45deg) translate(0.08rem, -0.08rem);
+    content: '';
+  }
+
+  .confirm-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+}

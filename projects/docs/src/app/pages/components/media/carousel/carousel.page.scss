@@ -1,0 +1,18 @@
+@use '../../form/shared/form-docs';
+
+.carousel-docs {
+  .carousel-title { display: grid; gap: 0.2rem; }
+  .carousel-title strong { font-size: 1rem; }
+  .carousel-title span, .carousel-footer, .carousel-actions span { color: var(--text-2); font-size: 0.875rem; }
+  .carousel-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-bottom: 0.875rem; }
+  .destination-card { position: relative; display: grid; align-content: end; min-height: 19rem; padding: 1.25rem; border-radius: var(--aeris-radius-lg); background-color: var(--surface-2); background-position: center; background-size: cover; color: #fff; overflow: hidden; }
+  .destination-card::before { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%)); content: ''; }
+  .destination-card strong, .destination-card span { position: relative; display: block; }
+  .destination-card strong { font-size: 1.25rem; }
+  .destination-card span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }
+  .destination-card[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }
+  .destination-card[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }
+  .destination-card[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }
+  .destination-card[data-tone='rose'] { background-image: url('/puppies/puppy4.jpg'); }
+  .destination-card[data-tone='sky'] { background-image: url('/puppies/puppy5.jpg'); }
+}

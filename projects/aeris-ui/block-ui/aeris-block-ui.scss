@@ -1,0 +1,66 @@
+:host,
+.aeris-block-ui,
+.aeris-block-ui__content,
+.aeris-block-ui__overlay {
+  box-sizing: border-box;
+}
+
+.aeris-block-ui__overlay[data-backdrop-blur] {
+  -webkit-backdrop-filter: blur(
+    var(--aeris-block-ui-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem))
+  );
+  backdrop-filter: blur(
+    var(--aeris-block-ui-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem))
+  );
+}
+
+:host(.aeris-block-ui) {
+  position: relative;
+  min-inline-size: 0;
+  display: block;
+}
+
+:host(.aeris-block-ui:not([data-fullscreen='true'])) {
+  isolation: isolate;
+}
+
+.aeris-block-ui__content {
+  min-inline-size: 0;
+}
+
+.aeris-block-ui__overlay {
+  position: absolute;
+  z-index: var(--aeris-block-ui-z-index, 10);
+  inset: 0;
+  border-radius: inherit;
+  background: var(--aeris-block-ui-backdrop, rgb(14 17 12 / 52%));
+  outline: 0;
+  cursor: wait;
+  touch-action: none;
+  animation: aeris-block-ui-enter var(--aeris-block-ui-duration, 140ms) ease-out;
+}
+
+.aeris-block-ui__overlay[data-fullscreen='true'] {
+  position: fixed;
+  z-index: var(--aeris-block-ui-fullscreen-z-index, 1000);
+  inline-size: 100vw;
+  inline-size: 100dvw;
+  block-size: 100vh;
+  block-size: 100dvh;
+  border-radius: 0;
+}
+
+@keyframes aeris-block-ui-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-block-ui__overlay {
+    animation: none;
+  }
+}

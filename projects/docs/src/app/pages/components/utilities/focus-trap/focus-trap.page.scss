@@ -1,0 +1,68 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.focus-trap-docs app-form-demo {
+  --docs-code-block-max-height: min(42rem, 72vh);
+}
+
+.focus-trap-flow,
+.controlled-trap-demo,
+.focus-method-demo {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.controlled-trap-demo,
+.focus-method-demo {
+  gap: 1rem;
+}
+
+.focus-trap-flow > button,
+.controlled-trap-demo > button {
+  justify-self: start;
+}
+
+.focus-trap-card {
+  display: grid;
+  gap: 0.875rem;
+  width: min(100%, 32rem);
+  padding: 1rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-lg);
+  background: var(--aeris-surface-2);
+}
+
+.focus-trap-card:focus-within {
+  border-color: var(--aeris-primary);
+  box-shadow: 0 0 0 1px var(--aeris-primary-soft);
+}
+
+.focus-trap-card label {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.dynamic-trap-actions,
+.focus-method-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.controlled-trap-status {
+  margin: 0;
+  color: var(--aeris-text-2);
+}
+
+@media (max-width: 30rem) {
+  .focus-trap-card {
+    padding: 0.875rem;
+  }
+
+  .focus-trap-flow > button,
+  .controlled-trap-demo > button,
+  .dynamic-trap-actions > button,
+  .focus-method-actions > button {
+    width: 100%;
+  }
+}

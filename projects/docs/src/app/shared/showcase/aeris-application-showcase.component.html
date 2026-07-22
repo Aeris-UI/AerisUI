@@ -1,0 +1,791 @@
+<section class="app-showcase" aria-label="Interactive Aeris application showcase">
+  <aside class="app-showcase__sidebar" aria-label="Workspace navigation">
+    <div class="app-showcase__workspace">
+      <span aria-hidden="true"><svg [lucideIcon]="icons.Layers"></svg></span>
+      <div><strong>Northstar</strong><small>Product workspace</small></div>
+    </div>
+    <nav>
+      <button
+        aerisButton
+        type="button"
+        size="sm"
+        [variant]="activeSection() === 'overview' ? 'secondary' : 'ghost'"
+        aria-label="Open workspace overview"
+        [attr.aria-current]="activeSection() === 'overview' ? 'page' : null"
+        (click)="openSection('overview')"
+      >
+        <svg [lucideIcon]="icons.BarChart3" aria-hidden="true"></svg><span>Overview</span>
+      </button>
+      <button
+        aerisButton
+        type="button"
+        size="sm"
+        [variant]="activeSection() === 'projects' ? 'secondary' : 'ghost'"
+        aria-label="Open projects"
+        [attr.aria-current]="activeSection() === 'projects' ? 'page' : null"
+        (click)="openSection('projects')"
+      >
+        <svg [lucideIcon]="icons.Layers" aria-hidden="true"></svg><span>Projects</span>
+        <aeris-badge [value]="projectCount()" size="sm" variant="soft" />
+      </button>
+      <button
+        aerisButton
+        type="button"
+        size="sm"
+        [variant]="activeSection() === 'team' ? 'secondary' : 'ghost'"
+        aria-label="Open team"
+        [attr.aria-current]="activeSection() === 'team' ? 'page' : null"
+        (click)="openSection('team')"
+      >
+        <svg [lucideIcon]="icons.Monitor" aria-hidden="true"></svg><span>Team</span>
+        <aeris-badge value="8" size="sm" variant="soft" />
+      </button>
+      <button
+        aerisButton
+        type="button"
+        size="sm"
+        [variant]="activeSection() === 'quality' ? 'secondary' : 'ghost'"
+        aria-label="Open quality dashboard"
+        [attr.aria-current]="activeSection() === 'quality' ? 'page' : null"
+        (click)="openSection('quality')"
+      >
+        <svg [lucideIcon]="icons.CheckCircle" aria-hidden="true"></svg><span>Quality</span>
+      </button>
+    </nav>
+    <aeris-divider spacing="sm" />
+    <aeris-message severity="info" variant="simple" size="sm" text="All systems operational" />
+    <button
+      class="app-showcase__account"
+      type="button"
+      aria-label="Open Maya Chen profile"
+      [attr.aria-current]="activeSection() === 'profile' ? 'page' : null"
+      (click)="openSection('profile')"
+    >
+      <aeris-avatar
+        label="MC"
+        [imageSrc]="profileImage()"
+        imageAlt="Maya Chen profile photo"
+        ariaLabel="Maya Chen"
+        size="sm"
+      />
+      <span
+        ><strong>{{ profileName() }}</strong
+        ><small>View profile</small></span
+      >
+    </button>
+  </aside>
+
+  <div class="app-showcase__main">
+    <aeris-toolbar class="app-showcase__toolbar" variant="plain" size="sm" [wrap]="false">
+      <div aerisToolbarStart>
+        <div class="app-showcase__title">
+          <span>Workspace</span>
+          <strong>{{ sectionCopy().title }}</strong>
+        </div>
+      </div>
+      <div aerisToolbarCenter>
+        <aeris-icon-field size="sm" fluid>
+          <svg aerisIconStart [lucideIcon]="icons.Search" aria-hidden="true"></svg>
+          <input
+            aerisInputText
+            size="sm"
+            fluid
+            type="search"
+            placeholder="Search workspace"
+            aria-label="Search workspace"
+            [value]="workspaceSearch()"
+            (input)="searchWorkspace($event)"
+          />
+        </aeris-icon-field>
+      </div>
+      <div aerisToolbarEnd>
+        <button
+          aerisButton
+          type="button"
+          size="sm"
+          variant="ghost"
+          iconOnly
+          aria-label="Toggle workspace information"
+          aerisTooltip="Workspace information"
+          [attr.aria-pressed]="helpVisible()"
+          (click)="toggleHelp()"
+        >
+          <svg [lucideIcon]="icons.Info"></svg>
+        </button>
+        <button aerisButton type="button" size="sm" (click)="dialogOpen.set(true)">
+          <svg [lucideIcon]="icons.Plus" aria-hidden="true"></svg><span>New project</span>
+        </button>
+      </div>
+    </aeris-toolbar>
+
+    <div class="app-showcase__content">
+      <header class="app-showcase__welcome">
+        <div>
+          <p>Tuesday, July 15</p>
+          <h3>{{ sectionCopy().title }}</h3>
+          <span>{{ sectionCopy().description }}</span>
+        </div>
+        <div>
+          <aeris-chip label="Release 2.4" tone="primary" />
+          <aeris-badge value="On track" severity="success" variant="soft" />
+        </div>
+      </header>
+
+      @if (helpVisible()) {
+        <aeris-message
+          class="app-showcase__notice"
+          severity="info"
+          variant="outlined"
+          size="sm"
+          closable
+          text="Use the sidebar to explore each workspace. Every control is interactive and follows the active Aeris theme."
+          (closed)="helpVisible.set(false)"
+        />
+      }
+      @if (feedback(); as notice) {
+        <aeris-message
+          class="app-showcase__notice"
+          [severity]="notice.severity"
+          size="sm"
+          closable
+          [text]="notice.text"
+          (closed)="feedback.set(null)"
+        />
+      }
+      @if (searchSummary()) {
+        <aeris-message
+          class="app-showcase__notice"
+          severity="info"
+          variant="simple"
+          size="sm"
+          [text]="searchSummary()"
+        />
+      }
+
+      @switch (activeSection()) {
+        @case ('overview') {
+          <div class="app-showcase__metrics">
+            <aeris-card padding="md">
+              <span class="app-showcase__metric-label">Active projects</span>
+              <strong>{{ projectCount() }}</strong>
+              <small
+                ><aeris-badge value="+3" size="sm" severity="success" variant="soft" /> this
+                month</small
+              >
+            </aeris-card>
+            <aeris-card padding="md">
+              <span class="app-showcase__metric-label">Release readiness</span>
+              <strong>78%</strong>
+              <aeris-progress-bar
+                [value]="78"
+                [showValue]="false"
+                size="sm"
+                ariaLabel="Release readiness"
+              />
+            </aeris-card>
+            <aeris-card padding="md">
+              <span class="app-showcase__metric-label">Team capacity</span>
+              <strong>{{ capacity() }}%</strong>
+              <aeris-slider size="sm" [(value)]="capacity" fluid ariaLabel="Team capacity" />
+            </aeris-card>
+            <aeris-card padding="md">
+              <span class="app-showcase__metric-label">Experience score</span>
+              <strong>{{ satisfaction() }}.0</strong>
+              <aeris-rating size="sm" [(value)]="satisfaction" ariaLabel="Experience score" />
+            </aeris-card>
+          </div>
+
+          <aeris-tabs
+            class="app-showcase__tabs"
+            [(value)]="activeView"
+            ariaLabel="Dashboard sections"
+          >
+            <aeris-tab-panel value="insights" label="Insights">
+              <div class="app-showcase__overview-grid">
+                <aeris-card class="app-showcase__team-card" padding="none">
+                  <header aerisCardHeader class="app-showcase__card-header">
+                    <div>
+                      <strong>Team activity</strong
+                      ><small>Live workspace membership and workload</small>
+                    </div>
+                    <aeris-chip label="4 online" size="sm" tone="success" />
+                  </header>
+                  <div class="app-showcase__team-body">
+                    <aeris-table
+                      caption="Northstar team activity"
+                      [data]="members"
+                      [columns]="memberColumns"
+                      size="sm"
+                      striped
+                      hoverable
+                      globalFilter
+                      filterPlaceholder="Filter members"
+                      responsiveMode="stack"
+                      selectionMode="multiple"
+                      selectionControl="control"
+                      [(selectedKeys)]="selectedMembers"
+                      [(filterValue)]="memberFilter"
+                    />
+                  </div>
+                </aeris-card>
+
+                <div class="app-showcase__overview-side">
+                  <aeris-card padding="md">
+                    <header aerisCardHeader class="app-showcase__card-header">
+                      <div>
+                        <strong>Work allocation</strong><small>Current sprint distribution</small>
+                      </div>
+                    </header>
+                    <aeris-meter-group
+                      [items]="allocation"
+                      [max]="100"
+                      size="sm"
+                      legendLayout="column"
+                      ariaLabel="Sprint work allocation"
+                    />
+                  </aeris-card>
+                  <aeris-accordion value="review" variant="separated" size="sm">
+                    <aeris-accordion-panel value="review" header="Review queue · 3">
+                      Contrast audit, responsive table QA, and release notes need attention.
+                    </aeris-accordion-panel>
+                    <aeris-accordion-panel value="completed" header="Completed today · 8">
+                      Component tests, API review, and browser checks are complete.
+                    </aeris-accordion-panel>
+                  </aeris-accordion>
+                </div>
+              </div>
+
+              <div class="app-showcase__chart-grid">
+                <aeris-card class="app-showcase__chart-card" padding="md">
+                  <header aerisCardHeader class="app-showcase__card-header">
+                    <div>
+                      <strong>Delivery trend</strong><small>Completed versus planned work</small>
+                    </div>
+                  </header>
+                  <div class="app-showcase__chart-body">
+                    @defer (on viewport) {
+                      <aeris-chart
+                        type="line"
+                        [data]="deliveryData"
+                        [options]="chartOptions"
+                        height="13rem"
+                        ariaLabel="Completed and planned work over six days"
+                      />
+                    } @placeholder {
+                      <aeris-skeleton
+                        width="100%"
+                        height="13rem"
+                        ariaLabel="Loading delivery chart"
+                      />
+                    }
+                  </div>
+                </aeris-card>
+                <aeris-card class="app-showcase__chart-card" padding="md">
+                  <header aerisCardHeader class="app-showcase__card-header">
+                    <div>
+                      <strong>Portfolio stage</strong><small>Active work by delivery stage</small>
+                    </div>
+                  </header>
+                  <div class="app-showcase__chart-body">
+                    @defer (on viewport) {
+                      <aeris-chart
+                        type="doughnut"
+                        [data]="portfolioData"
+                        [options]="radialOptions"
+                        height="13rem"
+                        ariaLabel="Active work by portfolio stage"
+                      />
+                    } @placeholder {
+                      <aeris-skeleton
+                        width="100%"
+                        height="13rem"
+                        ariaLabel="Loading portfolio chart"
+                      />
+                    }
+                  </div>
+                </aeris-card>
+              </div>
+            </aeris-tab-panel>
+
+            <aeris-tab-panel value="activity" label="Plan and activity">
+              <div class="app-showcase__planning-grid">
+                <aeris-card padding="lg">
+                  <header aerisCardHeader class="app-showcase__card-header">
+                    <div>
+                      <strong>Plan the next cycle</strong
+                      ><small>Coordinate scope, ownership, and review.</small>
+                    </div>
+                  </header>
+                  <form class="app-showcase__form" (submit)="scheduleCycle($event)">
+                    <label>
+                      <span>Project name</span>
+                      <input aerisInputText fluid value="Responsive data views" />
+                    </label>
+                    <label>
+                      <span>Owning team</span>
+                      <aeris-select
+                        fluid
+                        ariaLabel="Owning team"
+                        [options]="teamOptions"
+                        [(value)]="selectedTeam"
+                      />
+                    </label>
+                    <label class="app-showcase__form-wide">
+                      <span>Planning notes</span>
+                      <textarea aerisTextarea fluid rows="3">
+Validate the new table behavior at narrow widths and with keyboard navigation.</textarea
+                      >
+                    </label>
+                    <fieldset>
+                      <legend>Visibility</legend>
+                      <aeris-radio-button
+                        name="visibility"
+                        value="private"
+                        [(selected)]="visibility"
+                        >Private</aeris-radio-button
+                      >
+                      <aeris-radio-button name="visibility" value="team" [(selected)]="visibility"
+                        >Team</aeris-radio-button
+                      >
+                    </fieldset>
+                    <div class="app-showcase__choices">
+                      <aeris-checkbox [(checked)]="includeResearch"
+                        >Include research review</aeris-checkbox
+                      >
+                      <aeris-toggle-switch
+                        label="Notifications"
+                        size="sm"
+                        [(checked)]="notifications"
+                      />
+                    </div>
+                    <div class="app-showcase__form-actions">
+                      <button aerisButton type="button" variant="secondary" (click)="saveDraft()">
+                        Save draft
+                      </button>
+                      <button aerisButton type="submit">Schedule cycle</button>
+                    </div>
+                  </form>
+                </aeris-card>
+                <aeris-card padding="lg">
+                  <header aerisCardHeader class="app-showcase__card-header">
+                    <div>
+                      <strong>Recent decisions</strong
+                      ><small>Project activity in chronological order</small>
+                    </div>
+                  </header>
+                  <aeris-timeline
+                    [value]="activity"
+                    [activeIndex]="1"
+                    ariaLabel="Recent project decisions"
+                  />
+                </aeris-card>
+              </div>
+            </aeris-tab-panel>
+
+            <aeris-tab-panel value="settings" label="Settings">
+              @defer (when activeView() === 'settings') {
+                <aeris-card padding="lg">
+                  <header aerisCardHeader class="app-showcase__card-header">
+                    <div>
+                      <strong>Workspace preferences</strong
+                      ><small>Configure planning defaults and team communication.</small>
+                    </div>
+                  </header>
+                  <form class="app-showcase__settings-form" (submit)="savePreferences($event)">
+                    <label>
+                      <span>Workspace name</span>
+                      <input
+                        aerisInputText
+                        fluid
+                        [value]="workspaceName()"
+                        (input)="workspaceName.set($any($event.target).value)"
+                      />
+                    </label>
+                    <label>
+                      <span>Weekly delivery target</span>
+                      <aeris-input-number
+                        fluid
+                        suffix=" tasks"
+                        [min]="1"
+                        [max]="100"
+                        showButtons
+                        [(value)]="weeklyTarget"
+                      />
+                    </label>
+                    <label>
+                      <span>Next portfolio review</span>
+                      <aeris-date-picker
+                        fluid
+                        [(value)]="reviewDate"
+                        ariaLabel="Next portfolio review"
+                      />
+                    </label>
+                    <label>
+                      <span>Default reviewers</span>
+                      <aeris-multi-select
+                        fluid
+                        display="chips"
+                        [options]="reviewerOptions"
+                        [(value)]="reviewers"
+                        ariaLabel="Default reviewers"
+                      />
+                    </label>
+                    <div class="app-showcase__settings-switches">
+                      <aeris-toggle-switch label="Weekly digest" [(checked)]="digestEnabled" />
+                      <aeris-checkbox [(checked)]="approvalsRequired"
+                        >Require approval before release</aeris-checkbox
+                      >
+                    </div>
+                    <div class="app-showcase__form-actions">
+                      <button
+                        aerisButton
+                        type="button"
+                        variant="secondary"
+                        (click)="restorePreferences()"
+                      >
+                        Restore defaults
+                      </button>
+                      <button aerisButton type="submit">Save preferences</button>
+                    </div>
+                  </form>
+                </aeris-card>
+              } @placeholder {
+                <aeris-skeleton width="100%" height="18rem" ariaLabel="Loading settings" />
+              }
+            </aeris-tab-panel>
+          </aeris-tabs>
+        }
+
+        @case ('projects') {
+          <div class="app-showcase__section-toolbar">
+            <div>
+              <strong>Project portfolio</strong>
+              <span>{{ selectedProject() }} is selected</span>
+            </div>
+          </div>
+          <div class="app-showcase__project-grid">
+            @for (project of visibleProjects(); track project.name) {
+              <aeris-card
+                padding="lg"
+                hoverable
+                [variant]="selectedProject() === project.name ? 'outlined' : 'filled'"
+              >
+                <header aerisCardHeader class="app-showcase__card-header">
+                  <div>
+                    <strong>{{ project.name }}</strong
+                    ><small>{{ project.description }}</small>
+                  </div>
+                  <aeris-badge
+                    [value]="project.status"
+                    [severity]="project.severity"
+                    variant="soft"
+                  />
+                </header>
+                <div class="app-showcase__project-progress">
+                  <span
+                    >Progress <strong>{{ project.progress }}%</strong></span
+                  >
+                  <aeris-progress-bar
+                    [value]="project.progress"
+                    [showValue]="false"
+                    size="sm"
+                    [ariaLabel]="project.name + ' progress'"
+                  />
+                </div>
+                <footer>
+                  <div
+                    class="app-showcase__avatar-stack"
+                    [attr.aria-label]="project.team.length + ' team members'"
+                  >
+                    @for (member of project.team; track member) {
+                      <aeris-avatar [label]="member" size="sm" [ariaLabel]="member" />
+                    }
+                  </div>
+                  <button
+                    aerisButton
+                    type="button"
+                    size="sm"
+                    variant="secondary"
+                    (click)="openProject(project.name)"
+                  >
+                    Open project
+                  </button>
+                </footer>
+              </aeris-card>
+            } @empty {
+              <aeris-message
+                class="app-showcase__project-empty"
+                severity="info"
+                variant="outlined"
+                text="No projects match the workspace search."
+              />
+            }
+          </div>
+          <aeris-card class="app-showcase__chart-card" padding="md">
+            <header aerisCardHeader class="app-showcase__card-header">
+              <div>
+                <strong>Work in progress</strong
+                ><small>Items currently moving through each stage</small>
+              </div>
+            </header>
+            <div class="app-showcase__chart-body">
+              @defer (on viewport) {
+                <aeris-chart
+                  type="bar"
+                  [data]="portfolioData"
+                  [options]="chartOptions"
+                  height="14rem"
+                  ariaLabel="Active project work by delivery stage"
+                />
+              } @placeholder {
+                <aeris-skeleton width="100%" height="14rem" ariaLabel="Loading project chart" />
+              }
+            </div>
+          </aeris-card>
+        }
+
+        @case ('team') {
+          <div class="app-showcase__team-layout">
+            <aeris-card class="app-showcase__team-card" padding="none">
+              <header aerisCardHeader class="app-showcase__card-header">
+                <div>
+                  <strong>Team directory</strong
+                  ><small>Select people for a capacity check-in.</small>
+                </div>
+                <button aerisButton type="button" size="sm" (click)="inviteMember()">
+                  Invite member
+                </button>
+              </header>
+              <div class="app-showcase__team-body">
+                <aeris-table
+                  caption="Northstar team directory"
+                  [data]="members"
+                  [columns]="memberColumns"
+                  size="sm"
+                  hoverable
+                  globalFilter
+                  responsiveMode="stack"
+                  selectionMode="multiple"
+                  selectionControl="control"
+                  [(selectedKeys)]="selectedMembers"
+                  [(filterValue)]="memberFilter"
+                />
+              </div>
+            </aeris-card>
+            <aeris-card class="app-showcase__chart-card" padding="lg">
+              <header aerisCardHeader class="app-showcase__card-header">
+                <div>
+                  <strong>Capacity check-in</strong
+                  ><small>Plan work without overloading the team.</small>
+                </div>
+              </header>
+              <div class="app-showcase__capacity-control">
+                <span
+                  >Target allocation <strong>{{ capacity() }}%</strong></span
+                >
+                <aeris-slider fluid [(value)]="capacity" ariaLabel="Target team allocation" />
+              </div>
+              <aeris-meter-group
+                [items]="allocation"
+                [max]="100"
+                size="sm"
+                legendLayout="column"
+                ariaLabel="Team allocation"
+              />
+              <button aerisButton type="button" fluid (click)="sendCheckIn()">Send check-in</button>
+            </aeris-card>
+          </div>
+        }
+
+        @case ('quality') {
+          <div class="app-showcase__quality-grid">
+            <aeris-card padding="md">
+              <header aerisCardHeader class="app-showcase__card-header">
+                <div>
+                  <strong>Release confidence</strong
+                  ><small>Five quality signals compared with their targets.</small>
+                </div>
+                <aeris-badge value="92 / 100" severity="success" variant="soft" />
+              </header>
+              <div class="app-showcase__chart-body">
+                @defer (on viewport) {
+                  <aeris-chart
+                    type="radar"
+                    [data]="qualityData"
+                    [options]="radialOptions"
+                    height="17rem"
+                    ariaLabel="Current and target release quality scores"
+                  />
+                } @placeholder {
+                  <aeris-skeleton width="100%" height="17rem" ariaLabel="Loading quality chart" />
+                }
+              </div>
+            </aeris-card>
+            <div class="app-showcase__quality-side">
+              <aeris-panel header="Release gates" variant="outlined" size="sm" toggleable>
+                <div class="app-showcase__gates">
+                  <span
+                    ><strong>Accessibility</strong
+                    ><aeris-badge value="Passed" severity="success" variant="soft"
+                  /></span>
+                  <span
+                    ><strong>Browser QA</strong
+                    ><aeris-badge value="Review" severity="warning" variant="soft"
+                  /></span>
+                  <span
+                    ><strong>Unit tests</strong
+                    ><aeris-badge value="528 passed" severity="success" variant="soft"
+                  /></span>
+                </div>
+              </aeris-panel>
+              <aeris-accordion value="accessibility" variant="separated" size="sm">
+                <aeris-accordion-panel value="accessibility" header="Accessibility · 96%">
+                  Focus order, contrast, and keyboard behavior passed the release audit.
+                </aeris-accordion-panel>
+                <aeris-accordion-panel value="performance" header="Performance · 86%">
+                  The dashboard charts are deferred until they enter the viewport.
+                </aeris-accordion-panel>
+              </aeris-accordion>
+              <div class="app-showcase__quality-actions">
+                <button aerisButton type="button" (click)="runAudit()">Run audit</button>
+                <button aerisButton type="button" variant="secondary" (click)="exportReport()">
+                  Export report
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+
+        @case ('profile') {
+          @defer (when activeSection() === 'profile') {
+            <div class="app-showcase__profile-layout">
+              <aeris-card padding="lg">
+                <div class="app-showcase__profile-photo">
+                  <aeris-avatar
+                    label="MC"
+                    [imageSrc]="profileImage()"
+                    imageAlt="Maya Chen profile photo"
+                    ariaLabel="Maya Chen profile photo"
+                    size="xl"
+                  />
+                  <div>
+                    <strong>Profile image</strong>
+                    <span>Use a square JPG, PNG, or WebP image under 2 MB.</span>
+                    <div class="app-showcase__profile-photo-actions">
+                      <aeris-file-upload
+                        mode="basic"
+                        accept="image/*"
+                        [maxFileSize]="2097152"
+                        chooseLabel="Upload image"
+                        [showUploadButton]="false"
+                        [showFileList]="false"
+                        (selected)="updateProfileImage($event)"
+                      />
+                      @if (profileImage()) {
+                        <button
+                          aerisButton
+                          type="button"
+                          size="sm"
+                          variant="secondary"
+                          (click)="removeProfileImage()"
+                        >
+                          Remove image
+                        </button>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </aeris-card>
+
+              <aeris-card padding="lg">
+                <header aerisCardHeader class="app-showcase__card-header">
+                  <div>
+                    <strong>Personal details</strong
+                    ><small>These details appear across shared projects and reviews.</small>
+                  </div>
+                </header>
+                <form class="app-showcase__profile-form" (submit)="saveProfile($event)">
+                  <label>
+                    <span>Full name</span>
+                    <input
+                      aerisInputText
+                      fluid
+                      [value]="profileName()"
+                      (input)="profileName.set($any($event.target).value)"
+                    />
+                  </label>
+                  <label>
+                    <span>Email address</span>
+                    <input
+                      aerisInputText
+                      fluid
+                      type="email"
+                      [value]="profileEmail()"
+                      (input)="profileEmail.set($any($event.target).value)"
+                    />
+                  </label>
+                  <label>
+                    <span>Workspace role</span>
+                    <aeris-select
+                      fluid
+                      ariaLabel="Workspace role"
+                      [options]="profileRoleOptions"
+                      [(value)]="profileRole"
+                    />
+                  </label>
+                  <label class="app-showcase__form-wide">
+                    <span>About</span>
+                    <textarea
+                      aerisTextarea
+                      fluid
+                      rows="4"
+                      [value]="profileBio()"
+                      (input)="profileBio.set($any($event.target).value)"
+                    ></textarea>
+                  </label>
+                  <div class="app-showcase__form-actions">
+                    <button aerisButton type="submit">Save profile</button>
+                  </div>
+                </form>
+              </aeris-card>
+            </div>
+          } @placeholder {
+            <aeris-skeleton width="100%" height="24rem" ariaLabel="Loading profile editor" />
+          }
+        }
+      }
+    </div>
+  </div>
+
+  <aeris-dialog
+    header="Create project"
+    width="min(28rem, calc(100% - 2rem))"
+    [blockScroll]="false"
+    [(visible)]="dialogOpen"
+  >
+    <div class="app-showcase__dialog-form">
+      <label>Project name<input aerisInputText fluid value="New initiative" /></label>
+      <label
+        >Team<aeris-select
+          fluid
+          ariaLabel="Project team"
+          [options]="teamOptions"
+          [(value)]="selectedTeam"
+      /></label>
+      <aeris-message
+        severity="info"
+        variant="outlined"
+        size="sm"
+        text="The new project will inherit this workspace's review and notification settings."
+      />
+    </div>
+    <ng-template aerisDialogFooter>
+      <div class="app-showcase__dialog-actions">
+        <button aerisButton type="button" variant="secondary" (click)="dialogOpen.set(false)">
+          Cancel
+        </button>
+        <button aerisButton type="button" (click)="createProject()">Create project</button>
+      </div>
+    </ng-template>
+  </aeris-dialog>
+</section>

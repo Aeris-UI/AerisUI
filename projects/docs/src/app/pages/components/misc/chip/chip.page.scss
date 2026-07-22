@@ -1,0 +1,51 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.chip-docs app-form-demo {
+  --docs-code-block-max-height: min(36rem, 70vh);
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.chip-removable-demo {
+  display: grid;
+  justify-items: start;
+  gap: 0.875rem;
+}
+
+.chip-removable-demo p {
+  margin: 0;
+  color: var(--aeris-text-2);
+}
+
+.chip-plan {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chip-plan strong,
+.chip-plan small {
+  display: block;
+}
+
+.chip-plan small {
+  color: var(--aeris-text-2);
+  font-size: 0.6875rem;
+}
+
+.brand-chip {
+  --aeris-chip-height: 2.75rem;
+  --aeris-chip-padding-inline: 1rem;
+  --aeris-chip-gap: 0.625rem;
+  --aeris-chip-font-size: 0.875rem;
+  --aeris-chip-font-weight: 800;
+  --aeris-chip-icon-size: 1.125rem;
+  --aeris-chip-remove-size: 1.5rem;
+  --aeris-chip-remove-icon-size: 0.875rem;
+}

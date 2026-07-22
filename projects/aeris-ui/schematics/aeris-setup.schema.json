@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aeris-ui.dev/schemas/setup-config.json",
+  "title": "Aeris UI ng add configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "project": { "type": "string", "minLength": 1 },
+    "theme": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["preset"],
+          "properties": {
+            "preset": { "enum": ["earth", "coastal", "orchid", "monochrome"] }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["seeds"],
+          "properties": {
+            "seeds": { "$ref": "#/$defs/seeds" }
+          }
+        }
+      ]
+    },
+    "density": { "enum": ["compact", "medium", "comfortable"] },
+    "corners": { "enum": ["soft", "rounded", "pill"] },
+    "schemes": { "enum": ["both", "light", "dark"] },
+    "defaultMode": { "enum": ["system", "light", "dark"] },
+    "strategy": { "enum": ["runtime", "build-time"] },
+    "persistMode": { "type": "boolean" },
+    "direction": { "enum": ["ltr", "rtl"] }
+  },
+  "$defs": {
+    "seeds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["surface", "primary", "secondary", "accent", "contrast"],
+      "properties": {
+        "surface": { "type": "string", "minLength": 1 },
+        "primary": { "type": "string", "minLength": 1 },
+        "secondary": { "type": "string", "minLength": 1 },
+        "accent": { "type": "string", "minLength": 1 },
+        "contrast": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

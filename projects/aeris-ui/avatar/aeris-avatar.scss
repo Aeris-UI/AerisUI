@@ -1,0 +1,176 @@
+aeris-avatar.aeris-avatar {
+  --_aeris-avatar-size: var(--aeris-avatar-size, var(--aeris-control-height, 2.625rem));
+  --_aeris-avatar-accent: var(--aeris-primary, #879566);
+  --_aeris-avatar-background: color-mix(
+    in srgb,
+    var(--_aeris-avatar-accent) 17%,
+    var(--aeris-surface, #fff)
+  );
+  --_aeris-avatar-color: color-mix(
+    in srgb,
+    var(--_aeris-avatar-accent) 78%,
+    var(--aeris-text, #222222)
+  );
+
+  box-sizing: border-box;
+  position: relative;
+  isolation: isolate;
+  inline-size: var(--_aeris-avatar-size);
+  min-inline-size: var(--_aeris-avatar-size);
+  block-size: var(--_aeris-avatar-size);
+  display: inline-grid;
+  place-items: center;
+  border: var(--aeris-avatar-border-width, 1px) solid
+    var(
+      --aeris-avatar-border,
+      color-mix(in srgb, var(--_aeris-avatar-accent) 25%, var(--aeris-border, #deddd7))
+    );
+  background: var(--aeris-avatar-background, var(--_aeris-avatar-background));
+  color: var(--aeris-avatar-color, var(--_aeris-avatar-color));
+  box-shadow: var(--aeris-avatar-shadow, 0 1px 2px rgb(31 35 27 / 8%));
+  font: inherit;
+  font-size: var(--aeris-avatar-font-size, 0.8125rem);
+  font-weight: var(--aeris-avatar-font-weight, 800);
+  line-height: 1;
+  letter-spacing: 0.015em;
+  text-align: center;
+  text-transform: uppercase;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+aeris-avatar.aeris-avatar[data-size='sm'] {
+  --_aeris-avatar-size: var(
+    --aeris-avatar-sm-size,
+    calc(var(--aeris-control-height, 2.625rem) - 0.625rem)
+  );
+  font-size: var(--aeris-avatar-sm-font-size, 0.6875rem);
+}
+
+aeris-avatar.aeris-avatar[data-size='lg'] {
+  --_aeris-avatar-size: var(
+    --aeris-avatar-lg-size,
+    calc(var(--aeris-control-height, 2.625rem) + 0.75rem)
+  );
+  font-size: var(--aeris-avatar-lg-font-size, 1rem);
+}
+
+aeris-avatar.aeris-avatar[data-size='xl'] {
+  --_aeris-avatar-size: var(
+    --aeris-avatar-xl-size,
+    calc(var(--aeris-control-height, 2.625rem) + 1.75rem)
+  );
+  font-size: var(--aeris-avatar-xl-font-size, 1.25rem);
+}
+
+aeris-avatar.aeris-avatar[data-shape='circle'] {
+  border-radius: 50%;
+}
+
+aeris-avatar.aeris-avatar[data-shape='rounded'] {
+  border-radius: min(
+    var(--aeris-avatar-radius, var(--aeris-radius-lg, 0.875rem)),
+    calc(var(--_aeris-avatar-size) * 0.3)
+  );
+}
+
+aeris-avatar.aeris-avatar[data-shape='square'] {
+  border-radius: var(--aeris-avatar-square-radius, 0.25rem);
+}
+
+aeris-avatar.aeris-avatar[data-tone='neutral'] {
+  --_aeris-avatar-accent: var(--aeris-text-2, #555a50);
+}
+
+aeris-avatar.aeris-avatar[data-tone='success'] {
+  --_aeris-avatar-accent: var(--aeris-success, #6f8a68);
+}
+
+aeris-avatar.aeris-avatar[data-tone='info'] {
+  --_aeris-avatar-accent: var(--aeris-info, #6b8793);
+}
+
+aeris-avatar.aeris-avatar[data-tone='warning'] {
+  --_aeris-avatar-accent: var(--aeris-warning, #c38600);
+}
+
+aeris-avatar.aeris-avatar[data-tone='danger'] {
+  --_aeris-avatar-accent: var(--aeris-danger, #c81e2a);
+}
+
+aeris-avatar.aeris-avatar .aeris-avatar__image,
+aeris-avatar.aeris-avatar .aeris-avatar__label,
+aeris-avatar.aeris-avatar .aeris-avatar__content {
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: 100%;
+  display: grid;
+  place-items: center;
+}
+
+aeris-avatar.aeris-avatar .aeris-avatar__image {
+  max-inline-size: none;
+  max-block-size: none;
+  border: 0;
+  border-radius: inherit;
+  object-fit: var(--aeris-avatar-image-fit, cover);
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+aeris-avatar.aeris-avatar[data-image-fit='contain'] .aeris-avatar__image {
+  object-fit: contain;
+}
+
+aeris-avatar.aeris-avatar .aeris-avatar__label {
+  padding-inline: var(--aeris-avatar-label-padding-inline, 0.2em);
+  white-space: nowrap;
+}
+
+aeris-avatar.aeris-avatar .aeris-avatar__content > svg {
+  inline-size: var(--aeris-avatar-icon-size, 52%);
+  block-size: var(--aeris-avatar-icon-size, 52%);
+  stroke-width: var(--aeris-avatar-icon-stroke-width, 2);
+}
+
+aeris-avatar-group.aeris-avatar-group {
+  --_aeris-avatar-group-overlap: var(--aeris-avatar-group-overlap, 0.65rem);
+
+  box-sizing: border-box;
+  max-inline-size: 100%;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--aeris-avatar-group-ring-size, 2px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  vertical-align: middle;
+}
+
+aeris-avatar-group.aeris-avatar-group[data-overlap='subtle'] {
+  --_aeris-avatar-group-overlap: var(--aeris-avatar-group-subtle-overlap, 0.375rem);
+}
+
+aeris-avatar-group.aeris-avatar-group[data-overlap='strong'] {
+  --_aeris-avatar-group-overlap: var(--aeris-avatar-group-strong-overlap, 0.95rem);
+}
+
+aeris-avatar-group.aeris-avatar-group > aeris-avatar.aeris-avatar + aeris-avatar.aeris-avatar {
+  margin-inline-start: calc(var(--_aeris-avatar-group-overlap) * -1);
+}
+
+aeris-avatar-group.aeris-avatar-group > aeris-avatar.aeris-avatar {
+  flex: 0 0 auto;
+  box-shadow:
+    0 0 0 var(--aeris-avatar-group-ring-size, 2px)
+      var(--aeris-avatar-group-ring-color, var(--aeris-surface, #fff)),
+    var(--aeris-avatar-shadow, 0 1px 2px rgb(31 35 27 / 8%));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  aeris-avatar.aeris-avatar,
+  aeris-avatar-group.aeris-avatar-group > aeris-avatar.aeris-avatar {
+    transition: none;
+  }
+}

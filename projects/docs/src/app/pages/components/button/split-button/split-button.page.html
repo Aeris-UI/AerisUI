@@ -1,0 +1,761 @@
+<article class="button-docs">
+  <ng-template #primaryIcon>
+    <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+  </ng-template>
+
+  <ng-template #itemIcon let-action>
+    @switch (action.icon) {
+      @case ('save') {
+        <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+        <span>{{ action.label }}</span>
+      }
+      @case ('copy') {
+        <svg class="split-template-icon" [lucideIcon]="icons.Copy"></svg>
+        <span>{{ action.label }}</span>
+      }
+      @case ('export') {
+        <svg class="split-template-icon" [lucideIcon]="icons.Download"></svg>
+        <span>{{ action.label }}</span>
+      }
+      @case ('edit') {
+        <svg class="split-template-icon" [lucideIcon]="icons.Edit"></svg>
+        <span>{{ action.label }}</span>
+      }
+      @case ('delete') {
+        <svg class="split-template-icon" [lucideIcon]="icons.Trash2"></svg>
+        <span>{{ action.label }}</span>
+      }
+      @case ('github') {
+        <svg class="split-template-icon" [lucideIcon]="icons.Github"></svg>
+        <span>{{ action.label }}</span>
+      }
+      @default {
+        <span>{{ action.label }}</span>
+      }
+    }
+  </ng-template>
+
+  <app-component-page-header
+    category="Button"
+    title="Split Button"
+    description="Combines a prominent primary action with an accessible popup of related alternatives."
+  />
+
+  <section class="import-section" aria-labelledby="split-button-import-title">
+    <div>
+      <h2 id="split-button-import-title">Import</h2>
+      <p>Import the component and typed item model from the Split Button entry point.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Split Button documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>
+          Every example below uses the same public inputs, outputs, and item model described in the
+          API tab.
+        </p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-button-demo
+              id="split-basic"
+              title="Basic"
+              description="The main segment runs the default action while the toggle exposes alternatives."
+              [tsCode]="modelCode"
+            >
+              <div preview class="split-stage split-stage--status">
+                <aeris-split-button
+                  label="Save"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                  (clicked)="save()"
+                />
+                <span class="split-result" role="status" aria-live="polite"
+                  >Last action: {{ lastAction() }}</span
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="split-stage split-stage--status aeris-example-row"&gt;
+  &lt;aeris-split-button
+    label="Save"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+    (clicked)="save()"
+  /&gt;
+  &lt;span class="split-result" role="status" aria-live="polite"
+    &gt;Last action: &#123;&#123; lastAction() &#125;&#125;&lt;/span
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="split-severity"
+              title="Severity"
+              description="Semantic severities apply consistently to both connected segments."
+            >
+              <div preview class="split-stage wrap">
+                <aeris-split-button
+                  label="Success"
+                  severity="success"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+                <aeris-split-button
+                  label="Info"
+                  severity="info"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+                <aeris-split-button
+                  label="Warning"
+                  severity="warning"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+                <aeris-split-button
+                  label="Danger"
+                  severity="danger"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+                <aeris-split-button
+                  label="Contrast"
+                  severity="contrast"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="split-stage wrap aeris-example-row"&gt;
+  &lt;aeris-split-button
+    label="Success"
+    severity="success"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+  &lt;aeris-split-button
+    label="Info"
+    severity="info"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+  &lt;aeris-split-button
+    label="Warning"
+    severity="warning"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+  &lt;aeris-split-button
+    label="Danger"
+    severity="danger"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+  &lt;aeris-split-button
+    label="Contrast"
+    severity="contrast"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="split-variants"
+              title="Variants"
+              description="Outlined, text, and plain treatments reuse the Button visual contract."
+            >
+              <div preview class="split-stage wrap">
+                <aeris-split-button
+                  label="Default"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+                <aeris-split-button
+                  label="Outlined"
+                  outlined
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+                <aeris-split-button
+                  label="Text"
+                  text
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+                <aeris-split-button
+                  label="Plain"
+                  plain
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="split-stage wrap aeris-example-row"&gt;
+  &lt;aeris-split-button
+    label="Default"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+  &lt;aeris-split-button
+    label="Outlined"
+    outlined
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+  &lt;aeris-split-button
+    label="Text"
+    text
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+  &lt;aeris-split-button
+    label="Plain"
+    plain
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="split-sizes"
+              title="Sizes"
+              description="All Button sizes are available without changing popup interaction."
+            >
+              <div preview class="split-stage wrap">
+                <aeris-split-button
+                  label="Extra small"
+                  size="xs"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+                <aeris-split-button
+                  label="Small"
+                  size="sm"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+                <aeris-split-button
+                  label="Medium"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+                <aeris-split-button
+                  label="Large"
+                  size="lg"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="split-stage wrap aeris-example-row"&gt;
+  &lt;aeris-split-button
+    label="Extra small"
+    size="xs"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+  &lt;aeris-split-button
+    label="Small"
+    size="sm"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+  &lt;aeris-split-button
+    label="Medium"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+  &lt;aeris-split-button
+    label="Large"
+    size="lg"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="split-shape"
+              title="Raised, rounded, and fluid"
+              description="Shape and layout modifiers preserve the connected control geometry."
+            >
+              <div preview class="split-stage split-stage--fluid">
+                <div class="wrap">
+                  <aeris-split-button
+                    label="Raised"
+                    raised
+                    [model]="items"
+                    [iconTemplate]="primaryIcon"
+                    [itemTemplate]="itemIcon"
+                  />
+                  <aeris-split-button
+                    label="Rounded"
+                    rounded
+                    [model]="items"
+                    [iconTemplate]="primaryIcon"
+                    [itemTemplate]="itemIcon"
+                  />
+                </div>
+                <aeris-split-button
+                  label="Full width"
+                  fluid
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="split-stage split-stage--fluid aeris-example-row"&gt;
+  &lt;div class="wrap"&gt;
+    &lt;aeris-split-button
+      label="Raised"
+      raised
+      [model]="items"
+      [iconTemplate]="primaryIcon"
+      [itemTemplate]="itemIcon"
+    /&gt;
+    &lt;aeris-split-button
+      label="Rounded"
+      rounded
+      [model]="items"
+      [iconTemplate]="primaryIcon"
+      [itemTemplate]="itemIcon"
+    /&gt;
+  &lt;/div&gt;
+  &lt;aeris-split-button
+    label="Full width"
+    fluid
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="split-states"
+              title="Loading and disabled"
+              description="Loading disables both segments to prevent duplicate primary or menu actions."
+            >
+              <div preview class="split-stage">
+                <aeris-split-button
+                  label="Save"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                  [loading]="loading()"
+                  (clicked)="simulateLoading()"
+                />
+                <aeris-split-button
+                  label="Unavailable"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                  disabled
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="split-stage aeris-example-row"&gt;
+  &lt;aeris-split-button
+    label="Save"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+    [loading]="loading()"
+    (clicked)="simulateLoading()"
+  /&gt;
+  &lt;aeris-split-button
+    label="Unavailable"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+    disabled
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="split-controlled"
+              title="Controlled popup"
+              description="Use two-way binding when application state owns popup visibility."
+              [tsCode]="controlledCode"
+            >
+              <div preview class="split-stage">
+                <aeris-split-button
+                  label="Controlled"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                  [(open)]="open"
+                />
+                <span class="split-result">Open: {{ open() }}</span>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="split-stage aeris-example-row"&gt;
+  &lt;aeris-split-button
+    label="Controlled"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+    [(open)]="open"
+  /&gt;
+  &lt;span class="split-result"&gt;Open: &#123;&#123; open() &#125;&#125;&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="split-menu-items"
+              title="Menu item states"
+              description="Items support commands, separators, disabled and hidden states, external URLs, and router links."
+              [tsCode]="stateItemsCode"
+            >
+              <div preview class="split-stage">
+                <aeris-split-button
+                  label="Manage"
+                  [model]="stateItems"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="split-stage aeris-example-row"&gt;
+  &lt;aeris-split-button
+    label="Manage"
+    [model]="stateItems"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="split-props"
+              title="Button properties"
+              description="Forward accessible labels, titles, and tabindex values to either segment independently."
+            >
+              <div preview class="split-stage">
+                <aeris-split-button
+                  label="Deploy"
+                  [model]="items"
+                  [iconTemplate]="primaryIcon"
+                  [itemTemplate]="itemIcon"
+                  [buttonProps]="{ title: 'Deploy current build' }"
+                  [menuButtonProps]="{
+                    ariaLabel: 'Choose deployment action',
+                    title: 'More deployment actions',
+                  }"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="split-stage aeris-example-row"&gt;
+  &lt;aeris-split-button
+    label="Deploy"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+    [buttonProps]="&#123; title: 'Deploy current build' &#125;"
+    [menuButtonProps]="&#123;
+      ariaLabel: 'Choose deployment action',
+      title: 'More deployment actions',
+    &#125;"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+
+            <app-button-demo
+              id="split-templates"
+              title="Templates"
+              description="Typed templates customize primary content, icons, loading, dropdown, and menu item content."
+            >
+              <div preview class="split-stage">
+                <ng-template #saveIcon>
+                  <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+                </ng-template>
+                <ng-template #dropdownIcon>
+                  <svg class="split-template-icon" [lucideIcon]="icons.Menu"></svg>
+                </ng-template>
+                <aeris-split-button
+                  label="Save"
+                  [model]="items"
+                  [iconTemplate]="saveIcon"
+                  [dropdownIconTemplate]="dropdownIcon"
+                  [itemTemplate]="itemIcon"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="split-stage aeris-example-row"&gt;
+  &lt;ng-template #saveIcon&gt;
+    &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+  &lt;/ng-template&gt;
+  &lt;ng-template #dropdownIcon&gt;
+    &lt;svg class="split-template-icon" [lucideIcon]="icons.Menu"&gt;&lt;/svg&gt;
+  &lt;/ng-template&gt;
+  &lt;aeris-split-button
+    label="Save"
+    [model]="items"
+    [iconTemplate]="saveIcon"
+    [dropdownIconTemplate]="dropdownIcon"
+    [itemTemplate]="itemIcon"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="Split Button features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="split-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="Split Button inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="split-api-outputs" tabindex="-1">Outputs</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="Split Button outputs"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">openChange</code><span role="cell">boolean</span
+                ><span role="cell">Emitted by the open model whenever popup state changes.</span>
+              </div>
+              <div role="row">
+                <code role="cell">clicked</code><span role="cell">MouseEvent</span
+                ><span role="cell">Emitted by the primary action.</span>
+              </div>
+              <div role="row">
+                <code role="cell">dropdownClicked</code><span role="cell">MouseEvent</span
+                ><span role="cell">Emitted when the popup trigger is activated.</span>
+              </div>
+              <div role="row">
+                <code role="cell">shown</code><span role="cell">Event</span
+                ><span role="cell">Emitted after the popup opens.</span>
+              </div>
+              <div role="row">
+                <code role="cell">hidden</code><span role="cell">Event</span
+                ><span role="cell">Emitted after the popup closes.</span>
+              </div>
+              <div role="row">
+                <code role="cell">itemSelected</code
+                ><span role="cell">AerisSplitButtonCommandEvent</span
+                ><span role="cell">Emitted when an enabled menu item is selected.</span>
+              </div>
+            </div>
+
+            <h3 id="split-api-templates" tabindex="-1">Templates</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="Split Button templates"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Context</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">content</code
+                ><span role="cell">{{ '{' }} loading, disabled {{ '}' }}</span
+                ><span role="cell">Replaces all primary action content.</span>
+              </div>
+              <div role="row">
+                <code role="cell">icon</code><span role="cell">{{ '{' }} loading {{ '}' }}</span
+                ><span role="cell">Replaces the primary icon.</span>
+              </div>
+              <div role="row">
+                <code role="cell">loadingIcon</code
+                ><span role="cell">{{ '{' }} loading {{ '}' }}</span
+                ><span role="cell">Replaces the loading indicator.</span>
+              </div>
+              <div role="row">
+                <code role="cell">dropdownIcon</code
+                ><span role="cell">{{ '{' }} loading {{ '}' }}</span
+                ><span role="cell">Replaces the popup trigger icon.</span>
+              </div>
+              <div role="row">
+                <code role="cell">item</code
+                ><span role="cell">{{ '{' }} $implicit, item, index {{ '}' }}</span
+                ><span role="cell">Replaces popup item content.</span>
+              </div>
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="Split Button API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="Split Button design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radius-sm</code
+            ><span role="cell">Connected segment corner radius.</span
+            ><code role="cell">0.4375rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radius-md</code><span role="cell">Popup menu radius.</span
+            ><code role="cell">0.6875rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-border</code
+            ><span role="cell">Popup border and connected divider.</span
+            ><code role="cell">#deddd7</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-primary</code
+            ><span role="cell">Primary segments and selected menu feedback.</span
+            ><code role="cell">#879566</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-focus</code
+            ><span role="cell">Visible segment and menu focus rings.</span
+            ><code role="cell">#536437</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>The primary segment is an independent native button and does not open the popup.</li>
+          <li>
+            The menu trigger exposes <code>aria-haspopup="menu"</code>, <code>aria-expanded</code>,
+            and <code>aria-controls</code>.
+          </li>
+          <li>
+            <kbd>Arrow Down</kbd> and <kbd>Arrow Up</kbd> open the menu and focus the first or last
+            enabled item.
+          </li>
+          <li>
+            Arrow keys, <kbd>Home</kbd>, and <kbd>End</kbd> navigate enabled items while skipping
+            separators and disabled entries.
+          </li>
+          <li>
+            <kbd>Escape</kbd> closes the popup and restores focus to its trigger.
+            <kbd>Tab</kbd> closes without trapping focus.
+          </li>
+          <li>
+            Menu commands render as native buttons; URL and router entries preserve native link
+            semantics.
+          </li>
+          <li>
+            Use <code>menuButtonProps.ariaLabel</code> when “More actions” does not describe the
+            popup clearly enough.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Split Button keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell"
+              >Activates the focused primary action, menu trigger, or menu item.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Arrow Down</kbd
+            ><span role="cell"
+              >Opens the menu at the first enabled item, or moves to the next enabled item.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Arrow Up</kbd
+            ><span role="cell"
+              >Opens the menu at the last enabled item, or moves to the previous enabled item.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Home</kbd
+            ><span role="cell">Moves focus to the first enabled menu item.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">End</kbd
+            ><span role="cell">Moves focus to the last enabled menu item.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Escape</kbd
+            ><span role="cell">Closes the menu and restores focus to its trigger.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell">Closes the menu and continues normal document navigation.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

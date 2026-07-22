@@ -1,0 +1,48 @@
+@use '../../form/shared/form-docs';
+
+.scroll-top-preview,
+.scroll-top-position-grid > div,
+.scroll-top-size-row > span {
+  position: relative;
+  min-height: 8rem;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.875rem;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.scroll-top-preview aeris-scroll-top,
+.scroll-top-position-grid aeris-scroll-top,
+.scroll-top-size-row aeris-scroll-top {
+  --aeris-scroll-top-z-index: 1;
+  --aeris-scroll-top-offset-block: 0.875rem;
+  --aeris-scroll-top-offset-inline: 0.875rem;
+}
+
+.scroll-top-position-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.scroll-top-size-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.scroll-top-size-row > span {
+  width: min(10rem, 100%);
+}
+
+@media (max-width: 42rem) {
+  .scroll-top-position-grid {
+    grid-template-columns: 1fr;
+  }
+}

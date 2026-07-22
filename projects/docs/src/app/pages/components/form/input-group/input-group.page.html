@@ -1,0 +1,787 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Form"
+    title="InputGroup"
+    description="Group inputs, addons, icons, and actions into one continuous form-control row while preserving native and Aeris control behavior."
+  />
+
+  <section class="import-section" aria-labelledby="input-group-import-title">
+    <div>
+      <h2 id="input-group-import-title">Import</h2>
+      <p>One import provides the group component and addon directive/component.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="InputGroup documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>
+          InputGroup is a layout component. Values, validation, and form state belong to the
+          projected controls.
+        </p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="input-group-basic"
+              title="Basic"
+              description="Use an addon before an Aeris input for common prefixes such as handles or domains."
+              [tsCode]="usernameCode"
+            >
+              <div preview class="field">
+                <label for="username">Username</label>
+                <aeris-input-group fluid>
+                  <span aerisInputGroupAddon>&#64;</span>
+                  <input
+                    aerisInputText
+                    id="username"
+                    placeholder="username"
+                    [(ngModel)]="username"
+                    fluid
+                  />
+                </aeris-input-group>
+                <small>Handle: {{ username() || 'Not set' }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="username"&gt;Username&lt;/label&gt;
+  &lt;aeris-input-group fluid&gt;
+    &lt;span aerisInputGroupAddon&gt;&amp;#64;&lt;/span&gt;
+    &lt;input
+      aerisInputText
+      id="username"
+      placeholder="username"
+      [(ngModel)]="username"
+      fluid
+    /&gt;
+  &lt;/aeris-input-group&gt;
+  &lt;small&gt;Handle: &#123;&#123; username() || 'Not set' &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-group-prefix-suffix"
+              title="Prefix and suffix"
+              description="Addons can appear before and after a control for currencies, units, and fixed text."
+            >
+              <div preview class="field">
+                <label for="price">Price</label>
+                <aeris-input-group fluid>
+                  <span aerisInputGroupAddon>$</span>
+                  <input aerisInputText id="price" inputmode="decimal" [(ngModel)]="price" fluid />
+                  <span aerisInputGroupAddon>.00</span>
+                </aeris-input-group>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="price"&gt;Price&lt;/label&gt;
+  &lt;aeris-input-group fluid&gt;
+    &lt;span aerisInputGroupAddon&gt;$&lt;/span&gt;
+    &lt;input aerisInputText id="price" inputmode="decimal" [(ngModel)]="price" fluid /&gt;
+    &lt;span aerisInputGroupAddon&gt;.00&lt;/span&gt;
+  &lt;/aeris-input-group&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-group-icons"
+              title="Embedded icons"
+              description="Use embedded mode for icon-only groups. The control keeps the normal input shape with the icon positioned inside the field."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="mail-group">Email</label>
+                  <aeris-input-group mode="embedded" fluid>
+                    <svg aerisInputGroupAddon decorative [lucideIcon]="icons.Mail"></svg>
+                    <input
+                      aerisInputText
+                      id="mail-group"
+                      type="email"
+                      placeholder="alex@example.com"
+                      fluid
+                    />
+                  </aeris-input-group>
+                </div>
+                <div class="field">
+                  <label for="package-group">Package</label>
+                  <aeris-input-group mode="embedded" fluid>
+                    <input aerisInputText id="package-group" placeholder="Search packages" fluid />
+                    <svg aerisInputGroupAddon decorative [lucideIcon]="icons.Package"></svg>
+                  </aeris-input-group>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="mail-group"&gt;Email&lt;/label&gt;
+    &lt;aeris-input-group mode="embedded" fluid&gt;
+      &lt;svg aerisInputGroupAddon decorative [lucideIcon]="icons.Mail"&gt;&lt;/svg&gt;
+      &lt;input
+        aerisInputText
+        id="mail-group"
+        type="email"
+        placeholder="alex&#64;example.com"
+        fluid
+      /&gt;
+    &lt;/aeris-input-group&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="package-group"&gt;Package&lt;/label&gt;
+    &lt;aeris-input-group mode="embedded" fluid&gt;
+      &lt;input aerisInputText id="package-group" placeholder="Search packages" fluid /&gt;
+      &lt;svg aerisInputGroupAddon decorative [lucideIcon]="icons.Package"&gt;&lt;/svg&gt;
+    &lt;/aeris-input-group&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-group-button"
+              title="Button action"
+              description="Buttons can share the same row for search, submit, and lookup flows."
+            >
+              <div preview class="field">
+                <label for="docs-search">Documentation search</label>
+                <aeris-input-group fluid>
+                  <input
+                    aerisInputText
+                    id="docs-search"
+                    type="search"
+                    placeholder="Search components"
+                    fluid
+                  />
+                  <button aerisButton type="button" variant="secondary">Search</button>
+                </aeris-input-group>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="docs-search"&gt;Documentation search&lt;/label&gt;
+  &lt;aeris-input-group fluid&gt;
+    &lt;input
+      aerisInputText
+      id="docs-search"
+      type="search"
+      placeholder="Search components"
+      fluid
+    /&gt;
+    &lt;button aerisButton type="button" variant="secondary"&gt;Search&lt;/button&gt;
+  &lt;/aeris-input-group&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-group-selection"
+              title="Selection addons"
+              description="Attached addons can contain buttons, checkboxes, radio buttons, icons, text, or any custom inline content."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <span>Filter</span>
+                  <aeris-input-group fluid>
+                    <aeris-input-group-addon>
+                      <aeris-checkbox ariaLabel="Include archived" [(checked)]="includeArchived" />
+                    </aeris-input-group-addon>
+                    <input aerisInputText placeholder="Search records" fluid />
+                    <button aerisButton type="button" variant="secondary">Apply</button>
+                  </aeris-input-group>
+                </div>
+                <div class="field">
+                  <span>Visibility</span>
+                  <aeris-input-group fluid>
+                    <aeris-input-group-addon>
+                      <aeris-radio-button
+                        ariaLabel="Public"
+                        name="visibility"
+                        value="public"
+                        [(selected)]="selectedVisibility"
+                      />
+                    </aeris-input-group-addon>
+                    <input
+                      aerisInputText
+                      value="Public profile"
+                      aria-label="Visibility label"
+                      fluid
+                    />
+                  </aeris-input-group>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Filter&lt;/span&gt;
+    &lt;aeris-input-group fluid&gt;
+      &lt;aeris-input-group-addon&gt;
+        &lt;aeris-checkbox ariaLabel="Include archived" [(checked)]="includeArchived" /&gt;
+      &lt;/aeris-input-group-addon&gt;
+      &lt;input aerisInputText placeholder="Search records" fluid /&gt;
+      &lt;button aerisButton type="button" variant="secondary"&gt;Apply&lt;/button&gt;
+    &lt;/aeris-input-group&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Visibility&lt;/span&gt;
+    &lt;aeris-input-group fluid&gt;
+      &lt;aeris-input-group-addon&gt;
+        &lt;aeris-radio-button
+          ariaLabel="Public"
+          name="visibility"
+          value="public"
+          [(selected)]="selectedVisibility"
+        /&gt;
+      &lt;/aeris-input-group-addon&gt;
+      &lt;input
+        aerisInputText
+        value="Public profile"
+        aria-label="Visibility label"
+        fluid
+      /&gt;
+    &lt;/aeris-input-group&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-group-stacked"
+              title="Stacked addons"
+              description="Stack multiple addons on either side when the field needs several compact actions or metadata tokens."
+            >
+              <div preview class="field">
+                <label for="stacked-addons">Repository</label>
+                <aeris-input-group fluid>
+                  <aeris-input-group-addon-stack>
+                    <svg aerisInputGroupAddon decorative [lucideIcon]="icons.Package"></svg>
+                    <span aerisInputGroupAddon>repo</span>
+                  </aeris-input-group-addon-stack>
+                  <input aerisInputText id="stacked-addons" placeholder="aeris-ui" fluid />
+                  <aeris-input-group-addon-stack>
+                    <span aerisInputGroupAddon>.dev</span>
+                    <button aerisButton type="button" variant="secondary">Open</button>
+                  </aeris-input-group-addon-stack>
+                </aeris-input-group>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="stacked-addons"&gt;Repository&lt;/label&gt;
+  &lt;aeris-input-group fluid&gt;
+    &lt;aeris-input-group-addon-stack&gt;
+      &lt;svg aerisInputGroupAddon decorative [lucideIcon]="icons.Package"&gt;&lt;/svg&gt;
+      &lt;span aerisInputGroupAddon&gt;repo&lt;/span&gt;
+    &lt;/aeris-input-group-addon-stack&gt;
+    &lt;input aerisInputText id="stacked-addons" placeholder="aeris-ui" fluid /&gt;
+    &lt;aeris-input-group-addon-stack&gt;
+      &lt;span aerisInputGroupAddon&gt;.dev&lt;/span&gt;
+      &lt;button aerisButton type="button" variant="secondary"&gt;Open&lt;/button&gt;
+    &lt;/aeris-input-group-addon-stack&gt;
+  &lt;/aeris-input-group&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-group-multiple"
+              title="Multiple controls"
+              description="Combine multiple fields when the values are part of one compact input phrase."
+            >
+              <div preview class="field">
+                <span>Website</span>
+                <aeris-input-group fluid>
+                  <span aerisInputGroupAddon>https://</span>
+                  <input aerisInputText aria-label="Domain" placeholder="example" fluid />
+                  <span aerisInputGroupAddon>.com</span>
+                </aeris-input-group>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span&gt;Website&lt;/span&gt;
+  &lt;aeris-input-group fluid&gt;
+    &lt;span aerisInputGroupAddon&gt;https://&lt;/span&gt;
+    &lt;input aerisInputText aria-label="Domain" placeholder="example" fluid /&gt;
+    &lt;span aerisInputGroupAddon&gt;.com&lt;/span&gt;
+  &lt;/aeris-input-group&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-group-sizes"
+              title="Sizes"
+              description="InputGroup follows the Aeris form-control size scale. Match the projected control size to the group size."
+            >
+              <div preview class="size-grid">
+                <label
+                  ><span>Extra small</span
+                  ><aeris-input-group size="xs"
+                    ><span aerisInputGroupAddon>$</span
+                    ><input
+                      aerisInputText
+                      size="xs"
+                      aria-label="Extra small amount"
+                      value="12" /></aeris-input-group
+                ></label>
+                <label
+                  ><span>Small</span
+                  ><aeris-input-group size="sm"
+                    ><span aerisInputGroupAddon>$</span
+                    ><input
+                      aerisInputText
+                      size="sm"
+                      aria-label="Small amount"
+                      value="24" /></aeris-input-group
+                ></label>
+                <label
+                  ><span>Medium</span
+                  ><aeris-input-group
+                    ><span aerisInputGroupAddon>$</span
+                    ><input
+                      aerisInputText
+                      aria-label="Medium amount"
+                      value="48" /></aeris-input-group
+                ></label>
+                <label
+                  ><span>Large</span
+                  ><aeris-input-group size="lg"
+                    ><span aerisInputGroupAddon>$</span
+                    ><input
+                      aerisInputText
+                      size="lg"
+                      aria-label="Large amount"
+                      value="96" /></aeris-input-group
+                ></label>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="size-grid"&gt;
+  &lt;label
+    &gt;&lt;span&gt;Extra small&lt;/span
+    &gt;&lt;aeris-input-group size="xs"
+      &gt;&lt;span aerisInputGroupAddon&gt;$&lt;/span
+      &gt;&lt;input
+        aerisInputText
+        size="xs"
+        aria-label="Extra small amount"
+        value="12" /&gt;&lt;/aeris-input-group
+  &gt;&lt;/label&gt;
+  &lt;label
+    &gt;&lt;span&gt;Small&lt;/span
+    &gt;&lt;aeris-input-group size="sm"
+      &gt;&lt;span aerisInputGroupAddon&gt;$&lt;/span
+      &gt;&lt;input
+        aerisInputText
+        size="sm"
+        aria-label="Small amount"
+        value="24" /&gt;&lt;/aeris-input-group
+  &gt;&lt;/label&gt;
+  &lt;label
+    &gt;&lt;span&gt;Medium&lt;/span
+    &gt;&lt;aeris-input-group
+      &gt;&lt;span aerisInputGroupAddon&gt;$&lt;/span
+      &gt;&lt;input
+        aerisInputText
+        aria-label="Medium amount"
+        value="48" /&gt;&lt;/aeris-input-group
+  &gt;&lt;/label&gt;
+  &lt;label
+    &gt;&lt;span&gt;Large&lt;/span
+    &gt;&lt;aeris-input-group size="lg"
+      &gt;&lt;span aerisInputGroupAddon&gt;$&lt;/span
+      &gt;&lt;input
+        aerisInputText
+        size="lg"
+        aria-label="Large amount"
+        value="96" /&gt;&lt;/aeris-input-group
+  &gt;&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-group-states"
+              title="Appearances and states"
+              description="Mirror disabled and invalid state on the projected control so visual and semantic state stay aligned."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <span>Filled</span>
+                  <aeris-input-group appearance="filled" fluid>
+                    <span aerisInputGroupAddon>&#64;</span>
+                    <input
+                      aerisInputText
+                      aria-label="Filled username"
+                      placeholder="username"
+                      fluid
+                    />
+                    <button aerisButton type="button" variant="secondary">Save</button>
+                  </aeris-input-group>
+                </div>
+                <div class="field">
+                  <span>Invalid</span>
+                  <aeris-input-group invalid fluid
+                    ><span aerisInputGroupAddon>!</span
+                    ><input
+                      aerisInputText
+                      aria-label="Invalid value"
+                      value="alex@"
+                      aria-invalid="true"
+                      fluid
+                  /></aeris-input-group>
+                </div>
+                <div class="field">
+                  <span>Disabled</span>
+                  <aeris-input-group disabled fluid
+                    ><span aerisInputGroupAddon>$</span
+                    ><input aerisInputText aria-label="Disabled amount" value="120" disabled fluid
+                  /></aeris-input-group>
+                </div>
+                <div class="field">
+                  <span>Native input</span>
+                  <aeris-input-group fluid
+                    ><span aerisInputGroupAddon>#</span
+                    ><input aria-label="Native issue number" placeholder="Issue number"
+                  /></aeris-input-group>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Filled&lt;/span&gt;
+    &lt;aeris-input-group appearance="filled" fluid&gt;
+      &lt;span aerisInputGroupAddon&gt;&amp;#64;&lt;/span&gt;
+      &lt;input
+        aerisInputText
+        aria-label="Filled username"
+        placeholder="username"
+        fluid
+      /&gt;
+      &lt;button aerisButton type="button" variant="secondary"&gt;Save&lt;/button&gt;
+    &lt;/aeris-input-group&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Invalid&lt;/span&gt;
+    &lt;aeris-input-group invalid fluid
+      &gt;&lt;span aerisInputGroupAddon&gt;!&lt;/span
+      &gt;&lt;input
+        aerisInputText
+        aria-label="Invalid value"
+        value="alex&#64;"
+        aria-invalid="true"
+        fluid
+    /&gt;&lt;/aeris-input-group&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Disabled&lt;/span&gt;
+    &lt;aeris-input-group disabled fluid
+      &gt;&lt;span aerisInputGroupAddon&gt;$&lt;/span
+      &gt;&lt;input aerisInputText aria-label="Disabled amount" value="120" disabled fluid
+    /&gt;&lt;/aeris-input-group&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Native input&lt;/span&gt;
+    &lt;aeris-input-group fluid
+      &gt;&lt;span aerisInputGroupAddon&gt;#&lt;/span
+      &gt;&lt;input aria-label="Native issue number" placeholder="Issue number"
+    /&gt;&lt;/aeris-input-group&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-group-vertical"
+              title="Vertical layout"
+              description="Use vertical orientation for narrow layouts or when the group reads better as a compact stack."
+            >
+              <div preview class="field">
+                <span>Deployment target</span>
+                <aeris-input-group orientation="vertical" fluid>
+                  <span aerisInputGroupAddon>Region</span>
+                  <input aerisInputText aria-label="Region" value="eu-central" fluid />
+                  <button aerisButton type="button" variant="secondary">Validate</button>
+                </aeris-input-group>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span&gt;Deployment target&lt;/span&gt;
+  &lt;aeris-input-group orientation="vertical" fluid&gt;
+    &lt;span aerisInputGroupAddon&gt;Region&lt;/span&gt;
+    &lt;input aerisInputText aria-label="Region" value="eu-central" fluid /&gt;
+    &lt;button aerisButton type="button" variant="secondary"&gt;Validate&lt;/button&gt;
+  &lt;/aeris-input-group&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-group-validation"
+              title="Validation"
+              description="Connect labels and error messages to the projected control; use invalid on InputGroup for shared border styling."
+              [tsCode]="validationCode"
+            >
+              <div preview class="field">
+                <label for="group-email">Email</label>
+                <aeris-input-group mode="embedded" [invalid]="emailInvalid()" fluid>
+                  <svg aerisInputGroupAddon decorative [lucideIcon]="icons.Mail"></svg>
+                  <input
+                    aerisInputText
+                    id="group-email"
+                    type="email"
+                    [value]="email()"
+                    [attr.aria-invalid]="emailInvalid() || null"
+                    aria-describedby="group-email-message"
+                    (input)="email.set($any($event.target).value)"
+                    (blur)="emailTouched.set(true)"
+                    fluid
+                  />
+                </aeris-input-group>
+                @if (emailInvalid()) {
+                  <small id="group-email-message" class="error state-message"
+                    >Enter a valid email address.</small
+                  >
+                } @else {
+                  <small id="group-email-message" class="state-message">Use your work email.</small>
+                }
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="group-email"&gt;Email&lt;/label&gt;
+  &lt;aeris-input-group mode="embedded" [invalid]="emailInvalid()" fluid&gt;
+    &lt;svg aerisInputGroupAddon decorative [lucideIcon]="icons.Mail"&gt;&lt;/svg&gt;
+    &lt;input
+      aerisInputText
+      id="group-email"
+      type="email"
+      [value]="email()"
+      [attr.aria-invalid]="emailInvalid() || null"
+      aria-describedby="group-email-message"
+      (input)="email.set($any($event.target).value)"
+      (blur)="emailTouched.set(true)"
+      fluid
+    /&gt;
+  &lt;/aeris-input-group&gt;
+  &#64;if (emailInvalid()) &#123;
+    &lt;small id="group-email-message" class="error state-message"
+      &gt;Enter a valid email address.&lt;/small
+    &gt;
+  &#125; &#64;else &#123;
+    &lt;small id="group-email-message" class="state-message"&gt;Use your work email.&lt;/small&gt;
+  &#125;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-group-forms"
+              title="Reactive and template-driven forms"
+              description="InputGroup does not implement a form value itself; form integration stays on each projected control."
+              [tsCode]="formsCode"
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="reactive-url">Reactive Forms</label>
+                  <aeris-input-group fluid>
+                    <span aerisInputGroupAddon>https://</span>
+                    <input aerisInputText id="reactive-url" [formControl]="reactiveUrl" fluid />
+                  </aeris-input-group>
+                </div>
+                <div class="field">
+                  <label for="template-amount">Template-driven forms</label>
+                  <aeris-input-group fluid>
+                    <span aerisInputGroupAddon>$</span>
+                    <input
+                      aerisInputText
+                      id="template-amount"
+                      name="templateAmount"
+                      [(ngModel)]="templateAmount"
+                      fluid
+                    />
+                  </aeris-input-group>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="reactive-url"&gt;Reactive Forms&lt;/label&gt;
+    &lt;aeris-input-group fluid&gt;
+      &lt;span aerisInputGroupAddon&gt;https://&lt;/span&gt;
+      &lt;input aerisInputText id="reactive-url" [formControl]="reactiveUrl" fluid /&gt;
+    &lt;/aeris-input-group&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="template-amount"&gt;Template-driven forms&lt;/label&gt;
+    &lt;aeris-input-group fluid&gt;
+      &lt;span aerisInputGroupAddon&gt;$&lt;/span&gt;
+      &lt;input
+        aerisInputText
+        id="template-amount"
+        name="templateAmount"
+        [(ngModel)]="templateAmount"
+        fluid
+      /&gt;
+    &lt;/aeris-input-group&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="InputGroup features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="input-group-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="InputGroup inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="input-group-api-addons" tabindex="-1">Addons</h3>
+            <div class="api-table compact" role="table" aria-label="InputGroup addons" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Input</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">aerisInputGroupAddon</code
+                ><span role="cell"><code>decorative</code>: boolean, default false</span
+                ><span role="cell">Directive for text, icon, or inline addon content.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aeris-input-group-addon</code
+                ><span role="cell"><code>decorative</code>: boolean, default false</span
+                ><span role="cell"
+                  >Component form of the addon for custom content, buttons, checkboxes, radios,
+                  icons, or mixed inline content.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">aerisInputGroupAddonStack</code><span role="cell">none</span
+                ><span role="cell"
+                  >Directive for grouping multiple adjacent addons on one side.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">aeris-input-group-addon-stack</code><span role="cell">none</span
+                ><span role="cell"
+                  >Component form of the addon stack for multiple addons on one side.</span
+                >
+              </div>
+            </div>
+
+            <h3 id="input-group-api-outputs" tabindex="-1">Outputs</h3>
+            <p>
+              InputGroup has no outputs. Listen to projected controls and buttons for value, focus,
+              blur, submit, and click events.
+            </p>
+          </div>
+          <app-page-toc title="API" ariaLabel="InputGroup API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="InputGroup design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-control-height</code
+            ><span role="cell">Medium group height.</span><code role="cell">2.625rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radius-sm</code
+            ><span role="cell">Outer group corner radius.</span><code role="cell">0.4375rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface / --aeris-surface-2</code
+            ><span role="cell">Control and addon surfaces.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-border-strong</code
+            ><span role="cell">Shared group borders.</span><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-focus</code
+            ><span role="cell">Projected control focus ring.</span><code role="cell">#536437</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-danger</code><span role="cell">Invalid group border.</span
+            ><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-text / --aeris-text-muted</code
+            ><span role="cell">Control and addon text.</span><code role="cell">Aeris theme</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            InputGroup is a layout shell. Native inputs, Aeris controls, and buttons keep their own
+            semantics.
+          </li>
+          <li>
+            Associate labels, descriptions, required state, and validation messages with each
+            projected control.
+          </li>
+          <li>
+            Set <code>decorative</code> on icon-only addons when the icon repeats information
+            already available in the label or placeholder.
+          </li>
+          <li>
+            Do not rely on a currency, domain, or unit addon as the only accessible label. Keep a
+            visible label or an explicit accessible name on the control.
+          </li>
+          <li>
+            Mirror disabled and invalid state on the group and projected controls so visual and
+            semantic state stay aligned.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="InputGroup keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell">Moves through projected controls and buttons in DOM order.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow</kbd> keys</span
+            ><span role="cell">Use the focused projected control behavior.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd></span
+            ><span role="cell">Use the focused projected control behavior.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell">Activates a focused projected button.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

@@ -1,0 +1,498 @@
+:host {
+  min-width: 0;
+  display: block;
+}
+
+.app-showcase {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 12.5rem minmax(0, 1fr);
+  border: 1px solid var(--border);
+  border-radius: var(--aeris-radius-xl);
+  background: var(--page);
+  box-shadow: 0 1.75rem 5rem rgb(19 23 16 / 13%);
+  contain: paint;
+  overflow: hidden;
+}
+
+.app-showcase__sidebar {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border-inline-end: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 88%, var(--page));
+}
+
+.app-showcase__workspace,
+.app-showcase__account,
+.app-showcase__card-header,
+.app-showcase__welcome,
+.app-showcase__welcome > div:last-child {
+  display: flex;
+  align-items: center;
+}
+
+.app-showcase__workspace {
+  gap: 0.625rem;
+  padding: 0.375rem;
+}
+
+.app-showcase__workspace > span {
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: var(--aeris-radius-md);
+  background: var(--primary);
+  color: var(--aeris-on-primary);
+}
+
+.app-showcase__workspace svg,
+.app-showcase__sidebar nav svg {
+  width: 0.9375rem;
+  height: 0.9375rem;
+}
+
+.app-showcase__workspace div,
+.app-showcase__account span,
+.app-showcase__title,
+.app-showcase__card-header > div {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.app-showcase__workspace strong,
+.app-showcase__account strong {
+  font-size: 0.75rem;
+}
+
+.app-showcase__workspace small,
+.app-showcase__account small,
+.app-showcase__card-header small {
+  color: var(--text-3);
+  font-size: 0.625rem;
+}
+
+.app-showcase__sidebar nav {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.app-showcase__sidebar nav button {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.app-showcase__sidebar nav aeris-badge {
+  margin-inline-start: auto;
+}
+
+.app-showcase__account {
+  gap: 0.625rem;
+  margin-top: auto;
+  width: 100%;
+  padding: 0.375rem;
+  border: 0;
+  border-radius: var(--aeris-radius-control);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.app-showcase__account:hover,
+.app-showcase__account[aria-current='page'] {
+  background: var(--surface-2);
+}
+
+.app-showcase__account:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.app-showcase__main {
+  min-width: 0;
+}
+
+.app-showcase__toolbar {
+  border-width: 0 0 1px;
+  border-radius: 0;
+  --aeris-toolbar-padding-inline-sm: 1rem;
+}
+
+.app-showcase__toolbar aeris-icon-field {
+  width: min(18rem, 28vw);
+}
+
+.app-showcase__title span {
+  color: var(--text-3);
+  font-size: 0.625rem;
+}
+
+.app-showcase__title strong {
+  font-size: 0.875rem;
+}
+
+.app-showcase__content {
+  min-width: 0;
+  padding: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+.app-showcase__notice {
+  margin-bottom: 1rem;
+}
+
+.app-showcase__welcome {
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.app-showcase__welcome p,
+.app-showcase__welcome h3,
+.app-showcase__welcome span {
+  margin: 0;
+}
+
+.app-showcase__welcome p {
+  color: var(--primary-text);
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+.app-showcase__welcome h3 {
+  margin-block: 0.2rem;
+  font-size: clamp(1.25rem, 2.3vw, 1.75rem);
+  letter-spacing: -0.035em;
+}
+
+.app-showcase__welcome > div:first-child > span {
+  color: var(--text-2);
+  font-size: 0.75rem;
+}
+
+.app-showcase__welcome > div:last-child {
+  flex: 0 0 auto;
+  gap: 0.5rem;
+}
+
+.app-showcase__metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.625rem;
+  margin-bottom: 1rem;
+}
+
+.app-showcase__metrics aeris-card {
+  min-width: 0;
+}
+
+.app-showcase__metrics strong {
+  display: block;
+  margin-block: 0.3rem;
+  font-size: 1.25rem;
+}
+
+.app-showcase__metrics small,
+.app-showcase__metric-label {
+  color: var(--text-3);
+  font-size: 0.625rem;
+}
+
+.app-showcase__metrics small {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.app-showcase__tabs {
+  --aeris-tabs-panel-padding: 1.25rem;
+}
+
+.app-showcase__overview-grid,
+.app-showcase__planning-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(15rem, 0.75fr);
+  gap: 0.75rem;
+}
+
+.app-showcase__team-card {
+  min-width: 0;
+  --aeris-card-gap: 0;
+}
+
+.app-showcase__team-body {
+  min-width: 0;
+  padding: 0 1rem 1rem;
+}
+
+.app-showcase__card-header {
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.app-showcase__card-header strong {
+  font-size: 0.8125rem;
+}
+
+.app-showcase__overview-side {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+}
+
+.app-showcase__chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.app-showcase__chart-grid aeris-card,
+.app-showcase__chart-grid aeris-chart {
+  min-width: 0;
+}
+
+.app-showcase__chart-card .app-showcase__card-header {
+  padding: 0 0 1rem;
+}
+
+.app-showcase__chart-body {
+  min-width: 0;
+}
+
+.app-showcase__overview-side .app-showcase__card-header,
+.app-showcase__planning-grid .app-showcase__card-header {
+  padding: 0 0 1rem;
+}
+
+.app-showcase__planning-grid {
+  grid-template-columns: minmax(0, 1.1fr) minmax(16rem, 0.9fr);
+}
+
+.app-showcase__form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.app-showcase__settings-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.app-showcase__settings-form > label {
+  min-width: 0;
+  display: grid;
+  gap: 0.4rem;
+  color: var(--text-2);
+  font-size: 0.6875rem;
+  font-weight: 650;
+}
+
+.app-showcase__settings-switches {
+  display: grid;
+  align-content: center;
+  gap: 0.75rem;
+}
+
+.app-showcase__settings-form .app-showcase__form-actions {
+  align-items: end;
+}
+
+.app-showcase__form label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--text-2);
+  font-size: 0.6875rem;
+  font-weight: 650;
+}
+
+.app-showcase__form-wide,
+.app-showcase__form-actions {
+  grid-column: 1 / -1;
+}
+
+.app-showcase__form fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.app-showcase__form legend {
+  width: 100%;
+  margin-bottom: 0.4rem;
+  color: var(--text-2);
+  font-size: 0.6875rem;
+  font-weight: 650;
+}
+
+.app-showcase__choices {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+}
+
+.app-showcase__form-actions,
+.app-showcase__dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.app-showcase__dialog-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.app-showcase__dialog-form label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--text-2);
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.app-showcase__section-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.app-showcase__section-toolbar > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-showcase__section-toolbar strong {
+  font-size: 0.875rem;
+}
+
+.app-showcase__section-toolbar span {
+  color: var(--text-3);
+  font-size: 0.6875rem;
+}
+
+.app-showcase__project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.app-showcase__project-grid aeris-card {
+  min-width: 0;
+}
+
+.app-showcase__project-empty {
+  grid-column: 1 / -1;
+}
+
+.app-showcase__project-progress {
+  display: grid;
+  gap: 0.5rem;
+  margin-block: 1.25rem;
+}
+
+.app-showcase__project-progress > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--text-3);
+  font-size: 0.6875rem;
+}
+
+.app-showcase__project-progress strong {
+  color: var(--text);
+}
+
+.app-showcase__project-grid footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.app-showcase__avatar-stack {
+  display: flex;
+  padding-inline-start: 0.35rem;
+}
+
+.app-showcase__avatar-stack aeris-avatar {
+  margin-inline-start: -0.35rem;
+  border: 2px solid var(--surface);
+  border-radius: 50%;
+}
+
+.app-showcase__team-layout,
+.app-showcase__quality-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(15rem, 0.7fr);
+  gap: 0.75rem;
+}
+
+.app-showcase__capacity-control {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.app-showcase__capacity-control > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--text-2);
+  font-size: 0.6875rem;
+}
+
+.app-showcase__team-layout aeris-meter-group {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.app-showcase__quality-grid {
+  grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 0.75fr);
+}
+
+.app-showcase__quality-side {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+}
+
+.app-showcase__gates {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.app-showcase__gates > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.6875rem;
+}
+
+.app-showcase__quality-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}

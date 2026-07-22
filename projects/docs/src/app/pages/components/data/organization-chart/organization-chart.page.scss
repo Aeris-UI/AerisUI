@@ -1,0 +1,69 @@
+@use '../../form/shared/form-docs';
+
+.chart-demo {
+  width: 100%;
+}
+
+.chart-demo--stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.chart-demo small {
+  color: var(--text-2);
+  font-weight: 600;
+}
+
+.people-chart {
+  --aeris-organization-chart-node-min-width: 11.5rem;
+}
+
+.person-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.person-card__avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-text);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.person-card strong,
+.person-card small {
+  display: block;
+}
+
+.person-card small {
+  color: var(--text-3);
+  font-size: 0.75rem;
+}
+
+.person-card[data-tone='blue'] .person-card__avatar {
+  background: color-mix(in srgb, #80939b 22%, transparent);
+  color: #49606b;
+}
+
+.person-card[data-tone='gold'] .person-card__avatar {
+  background: color-mix(in srgb, #dab692 30%, transparent);
+  color: #7b542a;
+}
+
+.person-card[data-tone='rose'] .person-card__avatar {
+  background: color-mix(in srgb, #e8dfe0 55%, transparent);
+  color: #7b5259;
+}
+
+.wide-chart {
+  --aeris-organization-chart-node-min-width: 9rem;
+  --aeris-organization-chart-node-gap: 0.5rem;
+}

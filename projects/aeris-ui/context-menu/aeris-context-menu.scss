@@ -1,0 +1,214 @@
+aeris-context-menu {
+  display: contents;
+}
+
+.aeris-context-menu__layer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--aeris-context-menu-z-index, 1060);
+  pointer-events: none;
+}
+
+.aeris-context-menu__panel {
+  --aeris-context-menu-density-gap: var(--aeris-density-gap, 0.5rem);
+  --aeris-context-menu-item-min-height: var(--aeris-item-height, 2.5rem);
+  --aeris-context-menu-item-padding-block: var(--aeris-item-padding-y, 0.5rem);
+  --aeris-context-menu-item-padding-inline: var(--aeris-item-padding-x, 0.75rem);
+
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  min-inline-size: var(--aeris-context-menu-width, 14rem);
+  max-inline-size: var(--aeris-context-menu-max-width, min(22rem, calc(100vw - 1rem)));
+  padding: var(--aeris-context-menu-padding, 0.375rem);
+  border: var(--aeris-context-menu-border-width, 1px) solid var(--aeris-context-menu-border, var(--aeris-border, #deddd7));
+  border-radius: var(--aeris-context-menu-radius, var(--aeris-radius-lg, 1.125rem));
+  background: var(--aeris-context-menu-background, var(--aeris-surface, #fff));
+  color: var(--aeris-context-menu-color, var(--aeris-text, #222222));
+  box-shadow: var(--aeris-context-menu-shadow, 0 1.25rem 3.5rem rgba(0, 0, 0, 0.18));
+  opacity: 0;
+  pointer-events: auto;
+  transform: translateY(-0.25rem) scale(0.985);
+  transform-origin: top left;
+}
+
+.aeris-context-menu__panel[data-positioned='true'] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity 140ms ease,
+    transform 140ms ease;
+}
+
+.aeris-context-menu__list {
+  display: grid;
+  gap: var(--aeris-context-menu-list-gap, calc(var(--aeris-context-menu-density-gap) * 0.25));
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aeris-context-menu__list[data-level='0'] {
+  max-block-size: var(--aeris-context-menu-max-height, min(26rem, calc(100vh - 1rem)));
+  max-block-size: var(--aeris-context-menu-max-height, min(26rem, calc(100dvh - 1rem)));
+  overflow: visible;
+}
+
+.aeris-context-menu__item-shell {
+  position: relative;
+  min-inline-size: 0;
+}
+
+.aeris-context-menu__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: var(--aeris-context-menu-item-gap, var(--aeris-context-menu-density-gap));
+  inline-size: 100%;
+  min-block-size: var(--aeris-context-menu-item-min-height, 2.25rem);
+  padding: var(--aeris-context-menu-item-padding-block, 0.5rem) var(--aeris-context-menu-item-padding-inline, 0.625rem);
+  border: 0;
+  border-radius: var(--aeris-context-menu-item-radius, var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem)));
+  background: transparent;
+  color: var(--aeris-context-menu-item-color, inherit);
+  font: inherit;
+  font-size: var(--aeris-context-menu-font-size, 0.875rem);
+  font-weight: 650;
+  line-height: 1.3;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.aeris-context-menu__item[data-custom-template='true'] {
+  display: block;
+}
+
+.aeris-context-menu__item:hover,
+.aeris-context-menu__item-shell[data-active='true'] > .aeris-context-menu__item {
+  background: var(
+    --aeris-context-menu-item-hover-background,
+    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
+  );
+  color: var(--aeris-context-menu-item-hover-color, var(--aeris-text, #222222));
+}
+
+.aeris-context-menu__item:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #879566)) 42%, transparent);
+  outline-offset: 1px;
+}
+
+.aeris-context-menu__item:disabled,
+.aeris-context-menu__item[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: var(--aeris-context-menu-disabled-opacity, 0.52);
+}
+
+.aeris-context-menu__icon,
+.aeris-context-menu__submenu-icon {
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--aeris-context-menu-icon-size, 1.125rem);
+  block-size: var(--aeris-context-menu-icon-size, 1.125rem);
+  color: var(--aeris-context-menu-icon-color, currentColor);
+}
+
+.aeris-context-menu__submenu-icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.aeris-context-menu__label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aeris-context-menu__badge {
+  inline-size: max-content;
+  min-inline-size: 1.35rem;
+  max-inline-size: var(--aeris-context-menu-badge-max-width, min(7rem, 36vw));
+  justify-self: end;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--aeris-radius-pill, 999px);
+  background: var(
+    --aeris-context-menu-badge-background,
+    color-mix(in srgb, var(--aeris-primary, #879566) 16%, transparent)
+  );
+  color: var(--aeris-context-menu-badge-color, var(--aeris-primary-text, #566137));
+  font-size: 0.75rem;
+  font-weight: 800;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aeris-context-menu__shortcut {
+  min-inline-size: 0;
+  max-inline-size: var(--aeris-context-menu-shortcut-max-width, min(8rem, 38vw));
+  justify-self: end;
+  color: var(--aeris-context-menu-shortcut-color, var(--aeris-text-2, #555555));
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 750;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aeris-context-menu__separator {
+  block-size: 1px;
+  margin: var(
+    --aeris-context-menu-separator-margin,
+    calc(var(--aeris-context-menu-density-gap) * 0.5)
+      calc(var(--aeris-context-menu-density-gap) * 0.75)
+  );
+  background: var(--aeris-context-menu-separator-color, var(--aeris-border, #deddd7));
+}
+
+.aeris-context-menu__submenu {
+  position: absolute;
+  inset-block-start: calc(-1 * var(--aeris-context-menu-padding, 0.375rem));
+  min-inline-size: var(--aeris-context-menu-submenu-width, 14rem);
+  padding: var(--aeris-context-menu-padding, 0.375rem);
+  border: var(--aeris-context-menu-border-width, 1px) solid var(--aeris-context-menu-border, var(--aeris-border, #deddd7));
+  border-radius: var(--aeris-context-menu-radius, var(--aeris-radius-lg, 1.125rem));
+  background: var(--aeris-context-menu-background, var(--aeris-surface, #fff));
+  box-shadow: var(--aeris-context-menu-shadow, 0 1.25rem 3.5rem rgba(0, 0, 0, 0.18));
+}
+
+.aeris-context-menu__submenu[data-side='end'] {
+  inset-inline-start: calc(100% + var(--aeris-context-menu-submenu-offset, 0.375rem));
+}
+
+.aeris-context-menu__submenu[data-side='start'] {
+  inset-inline-end: calc(100% + var(--aeris-context-menu-submenu-offset, 0.375rem));
+}
+
+.aeris-context-menu__panel[data-size='sm'] {
+  --aeris-context-menu-font-size: 0.8125rem;
+  --aeris-context-menu-item-min-height: calc(var(--aeris-item-height, 2.5rem) - 0.375rem);
+  --aeris-context-menu-item-padding-block: calc(var(--aeris-item-padding-y, 0.5rem) * 0.8);
+  --aeris-context-menu-item-padding-inline: calc(var(--aeris-item-padding-x, 0.75rem) * 0.85);
+  --aeris-context-menu-icon-size: 1rem;
+}
+
+.aeris-context-menu__panel[data-size='lg'] {
+  --aeris-context-menu-font-size: 0.9375rem;
+  --aeris-context-menu-item-min-height: calc(var(--aeris-item-height, 2.5rem) + 0.25rem);
+  --aeris-context-menu-item-padding-block: calc(var(--aeris-item-padding-y, 0.5rem) * 1.15);
+  --aeris-context-menu-item-padding-inline: calc(var(--aeris-item-padding-x, 0.75rem) * 1.15);
+  --aeris-context-menu-icon-size: 1.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-context-menu__panel[data-positioned='true'] {
+    transition: none;
+  }
+}

@@ -1,0 +1,158 @@
+# Aeris UI
+
+> Aeris UI 22.0.0-alpha.0 is an accessible, responsive, themeable Angular 22 component library using standalone and signal-based APIs. It is currently alpha software and is not production ready.
+
+Use component secondary entry points and load both global Aeris styles once. Aeris has no required icon library; the documentation uses Lucide only to demonstrate consumer-provided icons. Components are designed for WCAG 2.2 AA, mobile layouts, light and dark themes, RTL, Tailwind CSS, and Bootstrap coexistence.
+
+Prefer the component Markdown files for focused implementation context, `llms-full.txt` for one self-contained context file, and `aeris-docs.json` for structured retrieval or tooling.
+
+## Essential documentation
+
+- [Installation](https://aeris-ui.dev/guides/installation): Install and configure Aeris, including global styles and the theme provider.
+- [Configuration](https://aeris-ui.dev/guides/configuration): Configure runtime behavior, themes, direction, density, and corners.
+- [Theming](https://aeris-ui.dev/guides/theming): Use built-in themes, custom palettes, runtime theming, and build-time generation.
+- [Accessibility](https://aeris-ui.dev/guides/accessibility): Understand the Aeris accessibility contract and consumer responsibilities.
+- [Canonical JSON](https://aeris-ui.dev/ai/22/aeris-docs.json): Versioned structured documentation for programmatic retrieval.
+- [Full LLM context](https://aeris-ui.dev/llms-full.txt): All Aeris guides and component references in one Markdown document.
+
+## Guides
+
+- [Installation](https://aeris-ui.dev/guides/installation): Install Aeris, load its styles, configure the provider, and render your first component.
+- [Configuration](https://aeris-ui.dev/guides/configuration): Configure Aeris at application startup and update supported settings at runtime.
+- [Forms and validation](https://aeris-ui.dev/guides/forms): Connect Aeris controls to signals or Angular Forms with accessible labels and validation.
+- [Theming](https://aeris-ui.dev/guides/theming): Build a cohesive light and dark theme with semantic tokens, density, and corner scales.
+- [Design system workflow](https://aeris-ui.dev/guides/design-system): Turn brand decisions into a maintainable Aeris theme and verify them across real components.
+- [Icons](https://aeris-ui.dev/guides/icons): Use any Angular icon library, inline SVG, icon component, or icon font with Aeris.
+- [Right-to-left layouts](https://aeris-ui.dev/guides/rtl): Enable RTL globally and keep application styles, overlays, and projected content direction-aware.
+- [Overlay integration](https://aeris-ui.dev/guides/overlays): Choose, position, size, and test dialogs, drawers, menus, popovers, and service-created overlays.
+- [Local MCP server](https://aeris-ui.dev/guides/mcp): Connect AI coding tools to focused, version-matched Aeris documentation through a local read-only server.
+- [Tailwind CSS and Bootstrap](https://aeris-ui.dev/guides/framework-compatibility): Use Aeris alongside current Tailwind CSS or Bootstrap without style collisions.
+- [Accessibility](https://aeris-ui.dev/guides/accessibility): Understand the accessibility contract Aeris provides and the responsibilities that remain in application code.
+- [Security](https://aeris-ui.dev/guides/security): Use Aeris within Angular’s security model and preserve server-side trust boundaries.
+- [Browser support](https://aeris-ui.dev/guides/browser-support): Understand the supported browser families and how Aeris handles modern platform features.
+- [Version compatibility](https://aeris-ui.dev/guides/version-compatibility): Choose an Aeris release line that is verified for the Angular version used by your application.
+- [Updating Aeris](https://aeris-ui.dev/guides/updating): Upgrade Aeris and its Angular or feature-specific peers without losing a clear rollback path.
+- [Changelog](https://aeris-ui.dev/guides/changelog): Review notable additions, changes, fixes, and migration requirements by version.
+
+## Form components
+
+- [AutoComplete](https://aeris-ui.dev/ai/22/components/auto-complete.md): Text input with keyboard-first suggestions, filtering, grouping, and templates.
+- [CascadeSelect](https://aeris-ui.dev/ai/22/components/cascade-select.md): Hierarchical selection with cascading columns, templates, and Forms support.
+- [Checkbox](https://aeris-ui.dev/ai/22/components/checkbox.md): Binary and mixed-state selection with native form semantics.
+- [ColorPicker](https://aeris-ui.dev/ai/22/components/color-picker.md): Lightweight color input with native picker behavior, text entry, presets, and forms support.
+- [DatePicker](https://aeris-ui.dev/ai/22/components/date-picker.md): Locale-aware date, range, month, and year selection with complete keyboard support.
+- [Editor](https://aeris-ui.dev/ai/22/components/editor.md): Rich text editing with optional Lexical peers, accessible toolbar controls, and Forms support.
+- [IconField](https://aeris-ui.dev/ai/22/components/icon-field.md): Composable field shell for placing icons around native and Aeris form controls.
+- [InputGroup](https://aeris-ui.dev/ai/22/components/input-group.md): Continuous grouped inputs with text addons, icon addons, and action buttons.
+- [InputMask](https://aeris-ui.dev/ai/22/components/input-mask.md): Accessible inputmask component for Angular.
+- [InputNumber](https://aeris-ui.dev/ai/22/components/input-number.md): Accessible inputnumber component for Angular.
+- [InputOtp](https://aeris-ui.dev/ai/22/components/input-otp.md): Segmented one-time-code entry with paste, masking, and complete keyboard navigation.
+- [InputText](https://aeris-ui.dev/ai/22/components/input-text.md): Single-line text input with validation, adornments, and Signal Forms support.
+- [KeyFilter](https://aeris-ui.dev/ai/22/components/key-filter.md): Directive for filtering native text input with presets, custom patterns, and paste handling.
+- [MultiSelect](https://aeris-ui.dev/ai/22/components/multi-select.md): Multiple selection with filtering, chips, groups, limits, and virtualization.
+- [Password](https://aeris-ui.dev/ai/22/components/password.md): Password entry with visibility controls, strength feedback, and secure autofill semantics.
+- [RadioButton](https://aeris-ui.dev/ai/22/components/radio-button.md): Single-choice control designed for accessible grouped selection.
+- [Rating](https://aeris-ui.dev/ai/22/components/rating.md): Accessible star rating input with half values, clearing, keyboard support, and forms integration.
+- [Select](https://aeris-ui.dev/ai/22/components/select.md): Keyboard-first selection control with searchable, grouped, and templated options.
+- [Slider](https://aeris-ui.dev/ai/22/components/slider.md): Single and range value selection with pointer, touch, and complete keyboard support.
+- [Textarea](https://aeris-ui.dev/ai/22/components/textarea.md): Accessible textarea component for Angular.
+- [ToggleSwitch](https://aeris-ui.dev/ai/22/components/toggle-switch.md): Accessible toggleswitch component for Angular.
+- [TreeSelect](https://aeris-ui.dev/ai/22/components/tree-select.md): Hierarchical selection with filtering, templates, checkbox mode, and forms integration.
+
+## Button components
+
+- [Button](https://aeris-ui.dev/ai/22/components/button.md): Trigger actions with clear hierarchy, sizes, loading states, and icon support.
+- [ButtonGroup](https://aeris-ui.dev/ai/22/components/button-group.md): Connect related buttons and links with responsive horizontal or vertical layouts.
+- [SpeedDial](https://aeris-ui.dev/ai/22/components/speed-dial.md): Reveal contextual actions in animated linear and radial layouts.
+- [SplitButton](https://aeris-ui.dev/ai/22/components/split-button.md): Pair a primary action with an accessible popup of related commands.
+
+## Data components
+
+- [OrderList](https://aeris-ui.dev/ai/22/components/order-list.md): Reorder a single item collection with accessible selection and templates.
+- [OrganizationChart](https://aeris-ui.dev/ai/22/components/organization-chart.md): Hierarchical team chart with templates, selection, and collapsible branches.
+- [Paginator](https://aeris-ui.dev/ai/22/components/paginator.md): Navigate large record sets with page links, row count selection, and controlled state.
+- [PickList](https://aeris-ui.dev/ai/22/components/pick-list.md): Transfer and reorder items across two collections with filtering and drag-and-drop.
+- [Table](https://aeris-ui.dev/ai/22/components/table.md): High-performance data table with sorting, filtering, editing, and virtualization.
+- [Timeline](https://aeris-ui.dev/ai/22/components/timeline.md): Chronological event display with responsive orientation, progress, alignment, and templates.
+- [Tree](https://aeris-ui.dev/ai/22/components/tree.md): Hierarchical data navigation with controlled expansion, selection, filtering, lazy loading, and drag-drop reordering.
+- [TreeTable](https://aeris-ui.dev/ai/22/components/tree-table.md): Hierarchical tabular data with controlled expansion, sorting, filtering, selection, editing, pagination, and lazy loading.
+
+## Panel components
+
+- [Accordion](https://aeris-ui.dev/ai/22/components/accordion.md): Stack related sections with controlled expansion, multiple mode, header templates, and accessible disclosure semantics.
+- [Card](https://aeris-ui.dev/ai/22/components/card.md): Composable content surface with media, semantic regions, responsive layouts, and theme tokens.
+- [Divider](https://aeris-ui.dev/ai/22/components/divider.md): Semantic separator for grouping content with horizontal, vertical, labelled, and decorative layouts.
+- [Panel](https://aeris-ui.dev/ai/22/components/panel.md): Composable content container with optional collapse behavior, templates, actions, and accessible disclosure semantics.
+- [ScrollPanel](https://aeris-ui.dev/ai/22/components/scroll-panel.md): Themeable native scroll container with styled scrollbars, overflow modes, fade masks, events, and scroll methods.
+- [Splitter](https://aeris-ui.dev/ai/22/components/splitter.md): Resizable panel layout with horizontal and vertical orientation, controlled sizes, constraints, and keyboard support.
+- [Stepper](https://aeris-ui.dev/ai/22/components/stepper.md): Multi-step workflow navigation with controlled state, linear progression, templates, and keyboard support.
+- [Tabs](https://aeris-ui.dev/ai/22/components/tabs.md): Accessible automatic and manual tab navigation with responsive layouts and custom headers.
+- [Toolbar](https://aeris-ui.dev/ai/22/components/toolbar.md): Responsive action surface for grouping controls, status, and navigation with accessible toolbar semantics.
+
+## Overlay components
+
+- [ConfirmDialog](https://aeris-ui.dev/ai/22/components/confirm-dialog.md): Confirmation dialog with service prompts, safe focus defaults, templates, and explicit accept or reject outcomes.
+- [ConfirmPopup](https://aeris-ui.dev/ai/22/components/confirm-popup.md): Target-relative confirmation popup with service prompts, trigger ARIA state, templates, and explicit outcomes.
+- [Dialog](https://aeris-ui.dev/ai/22/components/dialog.md): Modal surface with focus management, dismissal rules, and responsive sizing.
+- [Drawer](https://aeris-ui.dev/ai/22/components/drawer.md): Edge-anchored overlay panel with modal behavior, templates, positions, and responsive sizing.
+- [DynamicDialog](https://aeris-ui.dev/ai/22/components/dynamic-dialog.md): Service-created dialog shell that renders any Angular component as dynamic content.
+- [Popover](https://aeris-ui.dev/ai/22/components/popover.md): Target-anchored overlay content with controlled visibility, templates, focus management, and responsive placement.
+- [Tooltip](https://aeris-ui.dev/ai/22/components/tooltip.md): Advisory target text with hover, focus, delays, templates, and accessible tooltip semantics.
+
+## File components
+
+- [FileUpload](https://aeris-ui.dev/ai/22/components/file-upload.md): Accessible file queue with drag-and-drop, validation, templates, previews, and event-driven upload progress.
+
+## Menu components
+
+- [Breadcrumb](https://aeris-ui.dev/ai/22/components/breadcrumb.md): Hierarchical navigation trail with links, actions, current-page semantics, templates, separators, and ellipsis collapsing.
+- [ContextMenu](https://aeris-ui.dev/ai/22/components/context-menu.md): Right-click action menu with target or global triggers, nested submenus, templates, commands, and keyboard navigation.
+- [MegaMenu](https://aeris-ui.dev/ai/22/components/mega-menu.md): Large navigation menu with grouped panels, horizontal or vertical orientation, templates, commands, and keyboard support.
+- [Menu](https://aeris-ui.dev/ai/22/components/menu.md): Vertical command and navigation menu with grouped items, popup mode, controlled expansion, templates, commands, and links.
+- [Menubar](https://aeris-ui.dev/ai/22/components/menubar.md): Horizontal application menu with cascading submenus, templates, commands, links, and responsive collapse.
+- [TieredMenu](https://aeris-ui.dev/ai/22/components/tiered-menu.md): Vertical command menu with cascading submenu overlays, popup mode, templates, commands, links, and keyboard support.
+
+## Chart components
+
+- [Chart](https://aeris-ui.dev/ai/22/components/chart.md): Chart.js-powered data visualization with responsive rendering, theme-aware defaults, and accessible summaries.
+
+## Messages components
+
+- [Message](https://aeris-ui.dev/ai/22/components/message.md): Inline feedback with severity, variants, templates, closable state, and live-region semantics.
+- [Toast](https://aeris-ui.dev/ai/22/components/toast.md): Service-managed transient notifications with timing, grouping, positions, templates, and live-region semantics.
+
+## Media components
+
+- [Carousel](https://aeris-ui.dev/ai/22/components/carousel.md): Responsive item carousel with controlled paging, templates, autoplay, swipe, and keyboard navigation.
+- [Compare](https://aeris-ui.dev/ai/22/components/compare.md): Reveal differences between images or custom content with controlled, touch, hover, vertical, and keyboard interaction.
+- [Galleria](https://aeris-ui.dev/ai/22/components/galleria.md): Immersive media gallery with image tools, responsive grid and single modes, compact thumbnails, fullscreen viewing, and touch gestures.
+
+## Misc components
+
+- [Avatar](https://aeris-ui.dev/ai/22/components/avatar.md): Represent people and entities with images, initials, icons, fallbacks, theme-aware tones, and responsive groups.
+- [Badge](https://aeris-ui.dev/ai/22/components/badge.md): Compact status, count, and overlay indicator with severity, size, shape, and accessible semantics.
+- [BlockUI](https://aeris-ui.dev/ai/22/components/block-ui.md): Temporarily block a content region or the full viewport with a dark interaction-blocking layer.
+- [Chip](https://aeris-ui.dev/ai/22/components/chip.md): Represent compact entities with labels, images, consumer icons, custom content, and accessible removal.
+- [Fluid](https://aeris-ui.dev/ai/22/components/fluid.md): Make compatible Aeris controls fill the available width through one responsive layout wrapper.
+- [Inplace](https://aeris-ui.dev/ai/22/components/inplace.md): Switch between a compact display and lazily rendered content with controlled state and accessible focus management.
+- [MeterGroup](https://aeris-ui.dev/ai/22/components/meter-group.md): Visualize multiple scalar contributions within a known range using responsive segments, legends, templates, and meter semantics.
+- [ProgressBar](https://aeris-ui.dev/ai/22/components/progress-bar.md): Process indicator with determinate, indeterminate, formatted, severity, and stepped progress states.
+- [ProgressSpinner](https://aeris-ui.dev/ai/22/components/progress-spinner.md): Communicate determinate or indeterminate process status with responsive circular progress and accessible value text.
+- [Skeleton](https://aeris-ui.dev/ai/22/components/skeleton.md): Compose responsive loading placeholders with text, rectangle, and circle shapes plus motion-safe animations.
+
+## Utilities components
+
+- [AnimateOnScroll](https://aeris-ui.dev/ai/22/components/animate-on-scroll.md): Reveal content on viewport entry with motion-safe effects, replay controls, timing, and intersection events.
+- [AutoFocus](https://aeris-ui.dev/ai/22/components/auto-focus.md): Move focus to newly rendered native controls with controlled activation and scroll-safe defaults.
+- [ClassNames](https://aeris-ui.dev/ai/22/components/class-names.md): Compose strings, nested arrays, and conditional maps into one reactive set of application classes.
+- [FilterService](https://aeris-ui.dev/ai/22/components/filter-service.md): Filter values and typed collections with locale-aware built-ins, nested fields, and custom match constraints.
+- [FocusTrap](https://aeris-ui.dev/ai/22/components/focus-trap.md): Contain forward and backward keyboard focus within dynamic interactive regions.
+- [Glass](https://aeris-ui.dev/ai/22/components/glass.md): Apply configurable, theme-aware translucent backgrounds and backdrop blur to compatible surfaces.
+- [ScrollTop](https://aeris-ui.dev/ai/22/components/scroll-top.md): Floating action that returns long pages to the top with accessible controls.
+- [StyleClass](https://aeris-ui.dev/ai/22/components/style-class.md): Toggle application classes and coordinate enter or leave transitions declaratively.
+
+## Optional
+
+- [JSON Schema](https://aeris-ui.dev/ai/schema/aeris-docs.schema.v1.json): Schema version 1 for the canonical JSON corpus.
+- [Repository](https://github.com/Aeris-UI/AerisUI): Aeris source, tests, documentation, and contribution guidance.
+- [Changelog](https://aeris-ui.dev/guides/changelog): Consumer-visible release history and current alpha work.

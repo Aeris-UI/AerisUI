@@ -1,0 +1,47 @@
+@use '../shared/form-docs';
+
+.field {
+  width: min(100%, 44rem);
+}
+
+.editor-field {
+  align-items: stretch;
+}
+
+.editor-description-link {
+  color: var(--primary-text);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.editor-description-link:hover {
+  color: var(--primary);
+}
+
+.editor-state-grid {
+  align-items: start;
+}
+
+.editor-comprehensive {
+  width: min(100%, 56rem);
+}
+
+.editor-actions {
+  margin-top: 1.75rem;
+  scroll-margin-top: 8rem;
+}
+
+.editor-actions > p {
+  max-width: 52rem;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+.editor-actions__table {
+  margin-top: 1rem;
+}
+
+.state-message {
+  min-height: 1.25rem;
+}

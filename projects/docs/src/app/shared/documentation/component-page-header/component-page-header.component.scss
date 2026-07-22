@@ -1,0 +1,64 @@
+:host {
+  display: block;
+}
+
+.component-breadcrumb {
+  --aeris-breadcrumb-padding-block-sm: 0;
+  --aeris-breadcrumb-padding-inline-sm: 0;
+  --aeris-breadcrumb-item-padding-inline: 0.25rem;
+}
+
+.component-breadcrumb__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.component-breadcrumb__link:hover {
+  color: var(--primary-text);
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.5rem 0 2rem;
+}
+
+.kicker {
+  color: var(--primary-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0.45rem 0 0.65rem;
+  font-size: 2.5rem;
+  letter-spacing: -0.055em;
+}
+
+p {
+  max-width: 43rem;
+  margin: 0;
+  color: var(--text-2);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 47.5rem) {
+  .page-header {
+    flex-direction: column;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .page-header {
+    gap: 1rem;
+    padding-block: 2rem 1.5rem;
+  }
+}

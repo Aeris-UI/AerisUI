@@ -1,0 +1,74 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.fluid-docs app-form-demo {
+  --docs-code-block-max-height: min(38rem, 70vh);
+}
+
+.fluid-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.fluid-field {
+  display: grid;
+  gap: 0.375rem;
+}
+
+.fluid-field label,
+.fluid-grid label {
+  font-weight: 650;
+}
+
+.fluid-comparison {
+  display: grid;
+  gap: 1rem;
+}
+
+.fluid-example {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-lg);
+}
+
+.fluid-example h4 {
+  margin: 0;
+}
+
+.fluid-controlled {
+  display: grid;
+  gap: 1rem;
+}
+
+.fluid-controlled__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.fluid-controlled__actions span {
+  color: var(--aeris-text-2);
+}
+
+.fluid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 1rem;
+}
+
+.fluid-grid label {
+  min-width: 0;
+  display: grid;
+  gap: 0.375rem;
+}
+
+.fluid-grid__action {
+  display: flex;
+  align-items: end;
+}

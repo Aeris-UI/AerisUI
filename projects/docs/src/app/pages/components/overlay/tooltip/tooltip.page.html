@@ -1,0 +1,544 @@
+<article class="button-docs tooltip-docs">
+  <app-component-page-header
+    category="Overlay"
+    title="Tooltip"
+    description="Lightweight advisory text for keyboard-focusable or pointer targets, with positioning, delays, templates, and accessible tooltip semantics."
+  />
+
+  <section id="tooltip-import" class="import-section" aria-labelledby="tooltip-import-title">
+    <div>
+      <h2 id="tooltip-import-title">Import</h2>
+      <p>One import provides the tooltip directive and template support.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Tooltip documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="tooltip-basic"
+              title="Basic"
+              description="Attach advisory text to a native interactive element."
+              [tsCode]="basicTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <button
+                  aerisButton
+                  type="button"
+                  aerisTooltip="Saves the current workspace."
+                  (aerisTooltipShown)="recordTooltip($event)"
+                  (aerisTooltipHidden)="recordTooltip($event)"
+                >
+                  Save changes
+                </button>
+                <p class="demo-status" aria-live="polite">{{ lastTooltipEvent() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button
+    aerisButton
+    type="button"
+    aerisTooltip="Saves the current workspace."
+    (aerisTooltipShown)="recordTooltip($event)"
+    (aerisTooltipHidden)="recordTooltip($event)"
+  &gt;
+    Save changes
+  &lt;/button&gt;
+  &lt;p class="demo-status" aria-live="polite"&gt;&#123;&#123; lastTooltipEvent() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tooltip-position"
+              title="Position"
+              description="Choose the preferred edge around the target."
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <div class="position-grid">
+                  <button
+                    aerisButton
+                    type="button"
+                    aerisTooltip="Top tooltip"
+                    aerisTooltipPosition="top"
+                  >
+                    Top
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    aerisTooltip="Right tooltip"
+                    aerisTooltipPosition="right"
+                  >
+                    Right
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    aerisTooltip="Bottom tooltip"
+                    aerisTooltipPosition="bottom"
+                  >
+                    Bottom
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    aerisTooltip="Left tooltip"
+                    aerisTooltipPosition="left"
+                  >
+                    Left
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="position-grid"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      aerisTooltip="Top tooltip"
+      aerisTooltipPosition="top"
+    &gt;
+      Top
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      aerisTooltip="Right tooltip"
+      aerisTooltipPosition="right"
+    &gt;
+      Right
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      aerisTooltip="Bottom tooltip"
+      aerisTooltipPosition="bottom"
+    &gt;
+      Bottom
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      aerisTooltip="Left tooltip"
+      aerisTooltipPosition="left"
+    &gt;
+      Left
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tooltip-delay"
+              title="Delay"
+              description="Delay open and close timing for quieter interactions."
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <div class="demo-actions">
+                  <button
+                    aerisButton
+                    type="button"
+                    aerisTooltip="Opens after 500ms."
+                    [aerisTooltipShowDelay]="500"
+                  >
+                    500ms open
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    aerisTooltip="Closes after 800ms."
+                    [aerisTooltipHideDelay]="800"
+                  >
+                    800ms close
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="demo-actions"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      aerisTooltip="Opens after 500ms."
+      [aerisTooltipShowDelay]="500"
+    &gt;
+      500ms open
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      aerisTooltip="Closes after 800ms."
+      [aerisTooltipHideDelay]="800"
+    &gt;
+      800ms close
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tooltip-events"
+              title="Events"
+              description="Use hover, focus, or both depending on the target interaction."
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <div class="demo-actions">
+                  <button
+                    aerisButton
+                    type="button"
+                    aerisTooltip="Shown on hover only."
+                    aerisTooltipEvent="hover"
+                  >
+                    Hover only
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    aerisTooltip="Shown while focused."
+                    aerisTooltipEvent="focus"
+                  >
+                    Focus only
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    aerisTooltip="Shown on hover or focus."
+                    aerisTooltipEvent="both"
+                  >
+                    Hover or focus
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="demo-actions"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      aerisTooltip="Shown on hover only."
+      aerisTooltipEvent="hover"
+    &gt;
+      Hover only
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      aerisTooltip="Shown while focused."
+      aerisTooltipEvent="focus"
+    &gt;
+      Focus only
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      aerisTooltip="Shown on hover or focus."
+      aerisTooltipEvent="both"
+    &gt;
+      Hover or focus
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tooltip-methods"
+              title="Methods"
+              description="Use the exported directive reference when a tooltip needs explicit controls."
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <div class="demo-actions">
+                  <button
+                    aerisButton
+                    #manualTooltip="aerisTooltip"
+                    type="button"
+                    aerisTooltip="Controlled from the buttons beside the target."
+                  >
+                    Manual target
+                  </button>
+                  <button aerisButton type="button" (click)="manualTooltip.show($event)">
+                    Show
+                  </button>
+                  <button aerisButton type="button" (click)="manualTooltip.hide($event)">
+                    Hide
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="demo-actions"&gt;
+    &lt;button
+      aerisButton
+      #manualTooltip="aerisTooltip"
+      type="button"
+      aerisTooltip="Controlled from the buttons beside the target."
+    &gt;
+      Manual target
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="manualTooltip.show($event)"&gt;
+      Show
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="manualTooltip.hide($event)"&gt;
+      Hide
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tooltip-template"
+              title="Template"
+              description="Provide a template when the advisory content needs stronger structure."
+              [cssCode]="templateDemoCssCode"
+            >
+              <div preview>
+                <button
+                  aerisButton
+                  type="button"
+                  [aerisTooltip]="richTooltip"
+                  [aerisTooltipAutoHide]="false"
+                  aerisTooltipMaxWidth="16rem"
+                >
+                  Deployment status
+                </button>
+                <ng-template #richTooltip>
+                  <span class="tooltip-card">
+                    <strong>Deployment healthy</strong>
+                    <p>Last check completed 2 minutes ago.</p>
+                  </span>
+                </ng-template>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button
+    aerisButton
+    type="button"
+    [aerisTooltip]="richTooltip"
+    [aerisTooltipAutoHide]="false"
+    aerisTooltipMaxWidth="16rem"
+  &gt;
+    Deployment status
+  &lt;/button&gt;
+  &lt;ng-template #richTooltip&gt;
+    &lt;span class="tooltip-card"&gt;
+      &lt;strong&gt;Deployment healthy&lt;/strong&gt;
+      &lt;p&gt;Last check completed 2 minutes ago.&lt;/p&gt;
+    &lt;/span&gt;
+  &lt;/ng-template&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tooltip-options"
+              title="Options"
+              description="Adjust spacing and maximum width with directive inputs."
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <button
+                  aerisButton
+                  type="button"
+                  aerisTooltip="A wider tooltip can explain compact controls without changing the target layout."
+                  aerisTooltipMaxWidth="20rem"
+                  [aerisTooltipOffset]="12"
+                >
+                  Styled tooltip
+                </button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button
+    aerisButton
+    type="button"
+    aerisTooltip="A wider tooltip can explain compact controls without changing the target layout."
+    aerisTooltipMaxWidth="20rem"
+    [aerisTooltipOffset]="12"
+  &gt;
+    Styled tooltip
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Tooltip features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="tooltip-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Tooltip inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="tooltip-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Tooltip outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="tooltip-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Tooltip methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Tooltip API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table token-table" role="table" aria-label="Tooltip design tokens">
+          <div role="row">
+            <span role="columnheader">Token</span><span role="columnheader">Purpose</span
+            ><span role="columnheader">Default</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tooltip-z-index</code
+            ><span role="cell">Overlay stacking context.</span><code role="cell">1060</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tooltip-max-width</code
+            ><span role="cell">Tooltip maximum width.</span><code role="cell">18rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tooltip-padding</code><span role="cell">Panel padding.</span
+            ><code role="cell">0.45rem 0.625rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tooltip-radius</code><span role="cell">Panel radius.</span
+            ><code role="cell">var(--aeris-radius-sm)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tooltip-background</code
+            ><span role="cell">Panel background and arrow color.</span
+            ><code role="cell">var(--aeris-text)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tooltip-color</code
+            ><span role="cell">Tooltip text color.</span
+            ><code role="cell">var(--aeris-surface)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tooltip-shadow</code><span role="cell">Panel elevation.</span
+            ><code role="cell">component shadow</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tooltip-font-size</code
+            ><span role="cell">Tooltip text size.</span><code role="cell">0.75rem</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul class="accessibility-list">
+          <li>The overlay uses <code>role="tooltip"</code> and receives a generated ID.</li>
+          <li>
+            The target receives <code>aria-describedby</code> while the tooltip is visible, then the
+            attribute is removed when it closes.
+          </li>
+          <li>
+            Use tooltips for advisory information only. Required instructions and interactive
+            workflows should be visible in the page or placed in a popover/dialog pattern.
+          </li>
+          <li>
+            Use native focusable triggers such as <code>button</code> or <code>a</code> so keyboard
+            users can discover the tooltip.
+          </li>
+          <li>Motion respects reduced-motion preferences.</li>
+        </ul>
+        <div class="api-table keyboard-table" role="table" aria-label="Tooltip keyboard support">
+          <div role="row">
+            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell"
+              >Moves focus to the target and opens the tooltip when
+              <code>aerisTooltipEvent</code> is <code>focus</code> or <code>both</code>.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Shift + Tab</kbd
+            ><span role="cell"
+              >Moves focus away from the target and closes focus-triggered tooltips.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Escape</kbd
+            ><span role="cell">Closes the visible tooltip when focus is on the target.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Enter</kbd
+            ><span role="cell"
+              >Activates the focused target if it is a native interactive element.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Space</kbd
+            ><span role="cell">Activates the focused target if it is a native button.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

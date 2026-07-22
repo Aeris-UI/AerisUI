@@ -1,0 +1,159 @@
+<article class="guide-article">
+  <nav class="guide-breadcrumb" aria-label="Breadcrumb">
+    <a routerLink="/guides">Guides</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{{ article().title }}</span>
+  </nav>
+
+  <header class="guide-article__header">
+    <span class="guide-kicker">{{ article().kicker }}</span>
+    <h1>{{ article().title }}</h1>
+    <p>{{ article().description }}</p>
+    <div class="guide-summary">{{ article().summary }}</div>
+  </header>
+
+  <div class="guide-article__layout">
+    <div class="guide-article__content">
+      @for (section of sections(); track section.id; let sectionIndex = $index) {
+        @if (sectionIndex === advancedStartIndex()) {
+          <div class="guide-advanced-intro">
+            <span>Advanced reference</span>
+            <p>Continue here when the recommended defaults no longer cover the application.</p>
+          </div>
+        }
+        <section [id]="section.id" class="guide-section" tabindex="-1">
+          @if (section.advanced) {
+            <span class="guide-section__level">Advanced</span>
+          }
+          <h2>{{ section.title }}</h2>
+
+          @for (paragraph of section.paragraphs ?? []; track $index) {
+            <p>{{ paragraph }}</p>
+          }
+
+          @if (section.bullets?.length) {
+            <ul>
+              @for (bullet of section.bullets; track $index) {
+                <li>{{ bullet }}</li>
+              }
+            </ul>
+          }
+
+          @if (section.table; as table) {
+            <div class="guide-table" tabindex="0" role="region" [attr.aria-label]="table.caption">
+              <table>
+                <caption class="visually-hidden">
+                  {{
+                    table.caption
+                  }}
+                </caption>
+                <thead>
+                  <tr>
+                    @for (column of table.columns; track $index) {
+                      <th scope="col">{{ column }}</th>
+                    }
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (row of table.rows; track $index) {
+                    <tr>
+                      @for (cell of row; track $index) {
+                        <td>{{ cell }}</td>
+                      }
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+
+          @if (section.themePresets; as presets) {
+            <div class="guide-theme-presets" aria-label="Aeris starter themes">
+              @for (preset of presets; track preset.id) {
+                <aeris-card padding="md" class="guide-theme-preset">
+                  <div class="guide-theme-preset__swatches" aria-hidden="true">
+                    @for (color of preset.swatches; track color) {
+                      <span [style.background-color]="color"></span>
+                    }
+                  </div>
+                  <div class="guide-theme-preset__copy">
+                    <strong>{{ preset.name }}</strong>
+                    <p>{{ preset.description }}</p>
+                    <code>AERIS_THEME_PRESETS.{{ preset.id }}</code>
+                  </div>
+                </aeris-card>
+              }
+            </div>
+          }
+
+          @if (section.code?.length) {
+            <app-code-block [sources]="section.code" />
+          }
+
+          @if (section.note) {
+            <aside class="guide-note">
+              <strong>Good to know</strong>
+              <span>{{ section.note }}</span>
+            </aside>
+          }
+
+          @if (section.links?.length) {
+            <div class="guide-links">
+              @for (link of section.links; track link.href) {
+                @if (link.external) {
+                  <a [href]="link.href" target="_blank" rel="noopener noreferrer">
+                    {{ link.label }} <span aria-hidden="true">↗</span>
+                  </a>
+                } @else {
+                  <a [routerLink]="link.href">{{ link.label }} <span aria-hidden="true">→</span></a>
+                }
+              }
+            </div>
+          }
+        </section>
+      }
+    </div>
+
+    <app-page-toc
+      title="On this page"
+      ariaLabel="Guide sections"
+      [links]="sectionLinks()"
+      [showTopLink]="false"
+    />
+  </div>
+
+  <section class="guide-related" aria-labelledby="related-guides-title">
+    <div>
+      <span class="guide-kicker">Keep going</span>
+      <h2 id="related-guides-title">Related guides</h2>
+    </div>
+    <div class="guide-related__grid">
+      @for (item of related(); track item.id) {
+        <a [routerLink]="item.path">
+          <aeris-card hoverable padding="md">
+            <span>{{ item.group }}</span>
+            <strong>{{ item.title }}</strong>
+            <small>{{ item.description }}</small>
+          </aeris-card>
+        </a>
+      }
+    </div>
+  </section>
+
+  <nav class="guide-pager" aria-label="Guide pagination">
+    @if (adjacent().previous; as previous) {
+      <a [routerLink]="previous.path">
+        <small>Previous</small>
+        <strong>← {{ previous.title }}</strong>
+      </a>
+    } @else {
+      <span></span>
+    }
+    @if (adjacent().next; as next) {
+      <a [routerLink]="next.path">
+        <small>Next</small>
+        <strong>{{ next.title }} →</strong>
+      </a>
+    }
+  </nav>
+</article>

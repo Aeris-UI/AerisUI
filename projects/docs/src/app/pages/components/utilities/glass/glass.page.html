@@ -1,0 +1,327 @@
+<article class="button-docs glass-docs">
+  <app-component-page-header
+    category="Utilities"
+    title="Glass"
+    description="Apply an opt-in translucent, theme-aware backdrop treatment to Aeris surfaces and semantic containers."
+  />
+
+  <section id="glass-import" class="import-section" aria-labelledby="glass-import-title">
+    <div>
+      <h2 id="glass-import-title">Import</h2>
+      <p>One import provides the Glass directive and all of its inputs.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="Glass documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <p>
+          Glass is a visual utility, not a new component variant. Place it on a supported Aeris
+          surface or semantic container and keep the component's normal API, layout, and
+          accessibility behavior.
+        </p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="glass-basic"
+              title="Basic"
+              description="Apply the default theme-aware glass treatment to a semantic container."
+              [cssCode]="basicCssCode"
+            >
+              <div preview>
+                <div class="glass-stage">
+                  <section aerisGlass class="glass-surface" aria-labelledby="glass-basic-heading">
+                    <h4 id="glass-basic-heading">Release overview</h4>
+                    <p>The content stays crisp while the colors behind the surface are softened.</p>
+                  </section>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="glass-stage"&gt;
+    &lt;section aerisGlass class="glass-surface" aria-labelledby="glass-basic-heading"&gt;
+      &lt;h4 id="glass-basic-heading"&gt;Release overview&lt;/h4&gt;
+      &lt;p&gt;The content stays crisp while the colors behind the surface are softened.&lt;/p&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="glass-strength"
+              title="Blur strength"
+              description="Set a CSS length per surface or change the shared token for an application-wide default."
+              [cssCode]="strengthCssCode"
+            >
+              <div preview>
+                <div class="glass-strength-grid">
+                  <section aerisGlass>
+                    <h4>Default</h4>
+                    <p>0.25rem</p>
+                  </section>
+                  <section aerisGlass aerisGlassBlur="0.75rem">
+                    <h4>Medium</h4>
+                    <p>0.75rem</p>
+                  </section>
+                  <section aerisGlass aerisGlassBlur="1.5rem">
+                    <h4>Strong</h4>
+                    <p>1.5rem</p>
+                  </section>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="glass-strength-grid"&gt;
+    &lt;section aerisGlass&gt;
+      &lt;h4&gt;Default&lt;/h4&gt;
+      &lt;p&gt;0.25rem&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section aerisGlass aerisGlassBlur="0.75rem"&gt;
+      &lt;h4&gt;Medium&lt;/h4&gt;
+      &lt;p&gt;0.75rem&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section aerisGlass aerisGlassBlur="1.5rem"&gt;
+      &lt;h4&gt;Strong&lt;/h4&gt;
+      &lt;p&gt;1.5rem&lt;/p&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="glass-components"
+              title="Aeris surfaces"
+              description="Use the same directive with cards, panels, accordions, menus, and other compatible surfaces."
+              [tsCode]="componentsTsCode"
+              [cssCode]="componentsCssCode"
+            >
+              <div preview>
+                <div class="glass-component-stage">
+                  <aeris-card aerisGlass>
+                    <h4 aerisCardTitle>Workspace health</h4>
+                    <p>All production systems are operating normally.</p>
+                  </aeris-card>
+
+                  <aeris-panel aerisGlass header="Latest activity">
+                    Three component releases were published this week.
+                  </aeris-panel>
+
+                  <aeris-accordion aerisGlass variant="separated">
+                    <aeris-accordion-panel value="delivery" header="Delivery">
+                      Review the release pipeline and deployment checks.
+                    </aeris-accordion-panel>
+                    <aeris-accordion-panel value="quality" header="Quality">
+                      Track accessibility, tests, and performance budgets.
+                    </aeris-accordion-panel>
+                  </aeris-accordion>
+
+                  <aeris-menu aerisGlass [model]="menuItems" ariaLabel="Workspace sections" />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="glass-component-stage"&gt;
+    &lt;aeris-card aerisGlass&gt;
+      &lt;h4 aerisCardTitle&gt;Workspace health&lt;/h4&gt;
+      &lt;p&gt;All production systems are operating normally.&lt;/p&gt;
+    &lt;/aeris-card&gt;
+
+    &lt;aeris-panel aerisGlass header="Latest activity"&gt;
+      Three component releases were published this week.
+    &lt;/aeris-panel&gt;
+
+    &lt;aeris-accordion aerisGlass variant="separated"&gt;
+      &lt;aeris-accordion-panel value="delivery" header="Delivery"&gt;
+        Review the release pipeline and deployment checks.
+      &lt;/aeris-accordion-panel&gt;
+      &lt;aeris-accordion-panel value="quality" header="Quality"&gt;
+        Track accessibility, tests, and performance budgets.
+      &lt;/aeris-accordion-panel&gt;
+    &lt;/aeris-accordion&gt;
+
+    &lt;aeris-menu aerisGlass [model]="menuItems" ariaLabel="Workspace sections" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="glass-controlled"
+              title="Controlled"
+              description="Enable or disable the treatment without recreating the component or its content."
+              [tsCode]="controlledTsCode"
+              [cssCode]="controlledCssCode"
+            >
+              <div preview>
+                <div class="glass-controlled-stage">
+                  <button
+                    aerisButton
+                    type="button"
+                    variant="secondary"
+                    [attr.aria-pressed]="glassEnabled()"
+                    (click)="glassEnabled.update((enabled) => !enabled)"
+                  >
+                    {{ glassEnabled() ? 'Disable glass' : 'Enable glass' }}
+                  </button>
+                  <aeris-card [aerisGlass]="glassEnabled()">
+                    <h4 aerisCardTitle>Controlled surface</h4>
+                    <p aria-live="polite">
+                      Glass is {{ glassEnabled() ? 'enabled' : 'disabled' }}.
+                    </p>
+                  </aeris-card>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="glass-controlled-stage"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      variant="secondary"
+      [attr.aria-pressed]="glassEnabled()"
+      (click)="glassEnabled.update((enabled) =&gt; !enabled)"
+    &gt;
+      &#123;&#123; glassEnabled() ? 'Disable glass' : 'Enable glass' &#125;&#125;
+    &lt;/button&gt;
+    &lt;aeris-card [aerisGlass]="glassEnabled()"&gt;
+      &lt;h4 aerisCardTitle&gt;Controlled surface&lt;/h4&gt;
+      &lt;p aria-live="polite"&gt;
+        Glass is &#123;&#123; glassEnabled() ? 'enabled' : 'disabled' &#125;&#125;.
+      &lt;/p&gt;
+    &lt;/aeris-card&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Glass features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="glass-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Glass inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="glass-api-support" class="api-section">
+              <h3>Supported surfaces</h3>
+              <div
+                class="api-table"
+                role="table"
+                aria-label="Glass supported surfaces"
+                tabindex="0"
+              >
+                <div class="api-head" role="row">
+                  <b role="columnheader">Group</b><b role="columnheader">Surfaces</b
+                  ><b role="columnheader">Status</b><b role="columnheader">Behavior</b>
+                </div>
+                @for (row of supportedSurfaces; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Glass API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          Glass uses CSS values directly and has no supporting interfaces. The module array exports
+          the complete directive API.
+        </p>
+        <app-code-block
+          code="export const AerisGlassModule = [AerisGlass] as const;"
+          language="TypeScript"
+        />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <p>
+          Set these tokens on <code>:root</code>, a theme scope, or an individual surface. Overlay
+          components also expose component-specific backdrop tokens that fall back to
+          <code>--aeris-backdrop-blur</code>.
+        </p>
+        <div class="api-table token-table" role="table" aria-label="Glass tokens" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          @for (token of tokens; track token.name) {
+            <div role="row">
+              <code role="cell">{{ token.name }}</code
+              ><span role="cell">{{ token.purpose }}</span
+              ><code role="cell">{{ token.fallback }}</code>
+            </div>
+          }
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>Glass changes presentation only and adds no role, focus target, or interaction.</li>
+          <li>Text and controls retain their existing semantics and keyboard behavior.</li>
+          <li>
+            Keep the translucent background opaque enough to preserve WCAG 2.2 AA contrast over
+            every color or image that may appear behind it.
+          </li>
+          <li>
+            Avoid placing critical text over rapidly changing content because blur does not
+            guarantee a uniform contrast ratio.
+          </li>
+          <li>Disabling Glass removes both its translucent surface and backdrop filter.</li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Glass keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Any key</span
+            ><span role="cell"
+              >Glass handles no keys. The host component or projected interactive elements retain
+              their documented keyboard behavior.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

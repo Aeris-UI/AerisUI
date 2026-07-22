@@ -1,0 +1,290 @@
+<article class="button-docs block-ui-docs">
+  <app-component-page-header
+    category="Misc"
+    title="BlockUI"
+    description="Cover an element or the full viewport with a dark layer while interaction is temporarily unavailable."
+  />
+
+  <section id="block-ui-import" class="import-section" aria-labelledby="block-ui-import-title">
+    <div>
+      <h2 id="block-ui-import-title">Import</h2>
+      <p>Import BlockUI from its secondary entry point.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="BlockUI documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="block-ui-element"
+              title="Element"
+              description="Project an element into BlockUI and control the dark blocking layer with the blocked model."
+              [tsCode]="elementTsCode"
+              [cssCode]="demoCssCode"
+            >
+              <div preview>
+                <div class="block-ui-actions">
+                  <button aerisButton type="button" (click)="elementBlocked.set(true)">
+                    Block
+                  </button>
+                  <button
+                    aerisButton
+                    variant="secondary"
+                    type="button"
+                    (click)="elementBlocked.set(false)"
+                  >
+                    Unblock
+                  </button>
+                </div>
+                <aeris-block-ui [(blocked)]="elementBlocked">
+                  <section class="block-ui-panel">
+                    <h4>Account overview</h4>
+                    <p>
+                      Profile information and recent activity are unavailable while this element is
+                      blocked.
+                    </p>
+                  </section>
+                </aeris-block-ui>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="block-ui-actions"&gt;
+    &lt;button aerisButton type="button" (click)="elementBlocked.set(true)"&gt;
+      Block
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      variant="secondary"
+      type="button"
+      (click)="elementBlocked.set(false)"
+    &gt;
+      Unblock
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-block-ui [(blocked)]="elementBlocked"&gt;
+    &lt;section class="block-ui-panel"&gt;
+      &lt;h4&gt;Account overview&lt;/h4&gt;
+      &lt;p&gt;
+        Profile information and recent activity are unavailable while this element is
+        blocked.
+      &lt;/p&gt;
+    &lt;/section&gt;
+  &lt;/aeris-block-ui&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="block-ui-screen"
+              title="Full screen"
+              description="Set fullScreen to cover the viewport. This example unblocks automatically after two seconds."
+              [tsCode]="screenTsCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="blockScreen()">Block screen</button>
+                <aeris-block-ui fullScreen [(blocked)]="screenBlocked" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="blockScreen()"&gt;Block screen&lt;/button&gt;
+  &lt;aeris-block-ui fullScreen [(blocked)]="screenBlocked" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="BlockUI features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="block-ui-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="BlockUI models" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="block-ui-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="BlockUI inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="block-ui-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="BlockUI outputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="block-ui-api-content" class="api-section">
+              <h3>Content</h3>
+              <div class="api-table" role="table" aria-label="BlockUI content" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of content; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="BlockUI API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          BlockUI does not require exported configuration interfaces. Its state and mode are
+          represented by boolean values.
+        </p>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table token-table"
+          role="table"
+          aria-label="BlockUI design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-block-ui-backdrop</code
+            ><span role="cell">Dark blocking-layer color.</span
+            ><code role="cell">rgb(14 17 12 / 52%)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-block-ui-backdrop-blur</code
+            ><span role="cell">Blocking-layer blur radius.</span
+            ><code role="cell">--aeris-backdrop-blur</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-backdrop-blur</code
+            ><span role="cell">Shared backdrop blur radius.</span><code role="cell">0.25rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-block-ui-z-index</code
+            ><span role="cell">Element overlay stacking level.</span><code role="cell">10</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-block-ui-fullscreen-z-index</code
+            ><span role="cell">Fullscreen overlay stacking level.</span
+            ><code role="cell">1000</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-block-ui-duration</code
+            ><span role="cell">Blocking-layer entrance duration.</span
+            ><code role="cell">140ms</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>The host and projected content expose <code>aria-busy</code> while blocked.</li>
+          <li>
+            Projected content receives native <code>inert</code>, preventing pointer, keyboard, and
+            assistive-technology interaction.
+          </li>
+          <li>
+            If focus is inside an element when it becomes blocked, it moves to the blocking layer
+            and returns after unblocking.
+          </li>
+          <li>
+            Fullscreen mode contains keyboard focus and locks scrolling with scrollbar compensation.
+          </li>
+          <li>The blocking layer is decorative and hidden from assistive technology.</li>
+          <li>The entrance animation is removed when reduced motion is requested.</li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="BlockUI keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Tab / Shift + Tab</span
+            ><span role="cell"
+              >Blocked content is skipped. Fullscreen blocking keeps focus on the blocking
+              layer.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Enter / Space</span
+            ><span role="cell">No BlockUI action. State is controlled by the application.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Escape</span
+            ><span role="cell"
+              >No built-in action. The application controls when blocking ends.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

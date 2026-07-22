@@ -1,0 +1,537 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Form"
+    title="Rating"
+    description="Capture numeric feedback with an accessible, keyboard-friendly rating control that supports half values, clearing, forms, disabled state, and theming."
+  />
+
+  <section class="import-section" aria-labelledby="rating-import-title">
+    <div>
+      <h2 id="rating-import-title">Import</h2>
+      <p>One standalone import provides the Rating component.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Rating documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>
+          Rating exposes slider semantics for reliable keyboard support, value text, and half-step
+          values.
+        </p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="rating-basic"
+              title="Basic"
+              description="Bind a numeric value and label the control with visible text."
+              [tsCode]="basicCode"
+            >
+              <div preview class="field">
+                <span id="rating-quality-label">Quality</span>
+                <aeris-rating ariaLabelledby="rating-quality-label" [(value)]="quality" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="rating-quality-label"&gt;Quality&lt;/span&gt;
+  &lt;aeris-rating ariaLabelledby="rating-quality-label" [(value)]="quality" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="rating-half"
+              title="Half values"
+              description="Enable half-step ratings for more precise feedback."
+              [tsCode]="halfCode"
+            >
+              <div preview class="field">
+                <span id="rating-half-label">Detailed score</span>
+                <aeris-rating
+                  ariaLabelledby="rating-half-label"
+                  allowHalf
+                  showValue
+                  [(value)]="halfRating"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="rating-half-label"&gt;Detailed score&lt;/span&gt;
+  &lt;aeris-rating
+    ariaLabelledby="rating-half-label"
+    allowHalf
+    showValue
+    [(value)]="halfRating"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="rating-clear"
+              title="Clear behavior"
+              description="Allow clear lets users return to zero. Disable it when one item must always be selected."
+            >
+              <div preview class="rating-grid">
+                <div class="rating-card">
+                  <span>Can clear</span>
+                  <aeris-rating [value]="3" ariaLabel="Clearable rating" />
+                </div>
+                <div class="rating-card">
+                  <span>Required choice</span>
+                  <aeris-rating
+                    [value]="3"
+                    [allowClear]="false"
+                    required
+                    ariaLabel="Required rating"
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="rating-grid"&gt;
+  &lt;div class="rating-card"&gt;
+    &lt;span&gt;Can clear&lt;/span&gt;
+    &lt;aeris-rating [value]="3" ariaLabel="Clearable rating" /&gt;
+  &lt;/div&gt;
+  &lt;div class="rating-card"&gt;
+    &lt;span&gt;Required choice&lt;/span&gt;
+    &lt;aeris-rating
+      [value]="3"
+      [allowClear]="false"
+      required
+      ariaLabel="Required rating"
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="rating-sizes"
+              title="Sizes"
+              description="Four sizes scale the rating without changing interaction behavior."
+            >
+              <div preview class="rating-row">
+                <div class="rating-card">
+                  <span>Extra small</span
+                  ><aeris-rating size="xs" [value]="3" ariaLabel="Extra small rating" />
+                </div>
+                <div class="rating-card">
+                  <span>Small</span><aeris-rating size="sm" [value]="3" ariaLabel="Small rating" />
+                </div>
+                <div class="rating-card">
+                  <span>Medium</span
+                  ><aeris-rating size="md" [value]="3" ariaLabel="Medium rating" />
+                </div>
+                <div class="rating-card">
+                  <span>Large</span><aeris-rating size="lg" [value]="3" ariaLabel="Large rating" />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="rating-row"&gt;
+  &lt;div class="rating-card"&gt;
+    &lt;span&gt;Extra small&lt;/span
+    &gt;&lt;aeris-rating size="xs" [value]="3" ariaLabel="Extra small rating" /&gt;
+  &lt;/div&gt;
+  &lt;div class="rating-card"&gt;
+    &lt;span&gt;Small&lt;/span&gt;&lt;aeris-rating size="sm" [value]="3" ariaLabel="Small rating" /&gt;
+  &lt;/div&gt;
+  &lt;div class="rating-card"&gt;
+    &lt;span&gt;Medium&lt;/span
+    &gt;&lt;aeris-rating size="md" [value]="3" ariaLabel="Medium rating" /&gt;
+  &lt;/div&gt;
+  &lt;div class="rating-card"&gt;
+    &lt;span&gt;Large&lt;/span&gt;&lt;aeris-rating size="lg" [value]="3" ariaLabel="Large rating" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="rating-icons"
+              title="Custom icons"
+              description="Project templates for active and inactive icons. Half values clip the active icon layer, so matching icon shapes give the cleanest result."
+              [tsCode]="iconTemplatesCode"
+              [cssCode]="iconTemplatesCssCode"
+            >
+              <div preview class="rating-grid">
+                <div class="rating-card">
+                  <span id="rating-mood-label">Whole value</span>
+                  <aeris-rating
+                    class="mood-rating"
+                    ariaLabelledby="rating-mood-label"
+                    [value]="3"
+                    [max]="5"
+                  >
+                    <ng-template #inactiveIcon>
+                      <svg
+                        class="rating-template-icon rating-template-icon--inactive"
+                        [lucideIcon]="icons.Heart"
+                      ></svg>
+                    </ng-template>
+                    <ng-template #activeIcon>
+                      <svg
+                        class="rating-template-icon rating-template-icon--active"
+                        data-fill="current"
+                        [lucideIcon]="icons.Heart"
+                      ></svg>
+                    </ng-template>
+                  </aeris-rating>
+                </div>
+                <div class="rating-card">
+                  <span id="rating-half-mood-label">Half value</span>
+                  <aeris-rating
+                    class="mood-rating"
+                    ariaLabelledby="rating-half-mood-label"
+                    [value]="3.5"
+                    [max]="5"
+                    allowHalf
+                  >
+                    <ng-template #inactiveIcon>
+                      <svg
+                        class="rating-template-icon rating-template-icon--inactive"
+                        [lucideIcon]="icons.Heart"
+                      ></svg>
+                    </ng-template>
+                    <ng-template #activeIcon>
+                      <svg
+                        class="rating-template-icon rating-template-icon--active"
+                        data-fill="current"
+                        [lucideIcon]="icons.Heart"
+                      ></svg>
+                    </ng-template>
+                  </aeris-rating>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="rating-grid"&gt;
+  &lt;div class="rating-card"&gt;
+    &lt;span id="rating-mood-label"&gt;Whole value&lt;/span&gt;
+    &lt;aeris-rating
+      class="mood-rating"
+      ariaLabelledby="rating-mood-label"
+      [value]="3"
+      [max]="5"
+    &gt;
+      &lt;ng-template #inactiveIcon&gt;
+        &lt;svg
+          class="rating-template-icon rating-template-icon--inactive"
+          [lucideIcon]="icons.Heart"
+        &gt;&lt;/svg&gt;
+      &lt;/ng-template&gt;
+      &lt;ng-template #activeIcon&gt;
+        &lt;svg
+          class="rating-template-icon rating-template-icon--active"
+          data-fill="current"
+          [lucideIcon]="icons.Heart"
+        &gt;&lt;/svg&gt;
+      &lt;/ng-template&gt;
+    &lt;/aeris-rating&gt;
+  &lt;/div&gt;
+  &lt;div class="rating-card"&gt;
+    &lt;span id="rating-half-mood-label"&gt;Half value&lt;/span&gt;
+    &lt;aeris-rating
+      class="mood-rating"
+      ariaLabelledby="rating-half-mood-label"
+      [value]="3.5"
+      [max]="5"
+      allowHalf
+    &gt;
+      &lt;ng-template #inactiveIcon&gt;
+        &lt;svg
+          class="rating-template-icon rating-template-icon--inactive"
+          [lucideIcon]="icons.Heart"
+        &gt;&lt;/svg&gt;
+      &lt;/ng-template&gt;
+      &lt;ng-template #activeIcon&gt;
+        &lt;svg
+          class="rating-template-icon rating-template-icon--active"
+          data-fill="current"
+          [lucideIcon]="icons.Heart"
+        &gt;&lt;/svg&gt;
+      &lt;/ng-template&gt;
+    &lt;/aeris-rating&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="rating-formatting"
+              title="Formatted value"
+              description="Use valueText to keep visible value text and aria-valuetext synchronized."
+              [tsCode]="formatterCode"
+            >
+              <div preview class="field">
+                <span id="rating-score-label">Score</span>
+                <aeris-rating
+                  ariaLabelledby="rating-score-label"
+                  [value]="4"
+                  [max]="10"
+                  [valueText]="formatScore"
+                  showValue
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="rating-score-label"&gt;Score&lt;/span&gt;
+  &lt;aeris-rating
+    ariaLabelledby="rating-score-label"
+    [value]="4"
+    [max]="10"
+    [valueText]="formatScore"
+    showValue
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="rating-disabled"
+              title="Disabled state"
+              description="Disabled ratings are visible but unavailable for pointer, keyboard, and form interaction."
+            >
+              <div preview class="field">
+                <span id="rating-disabled-label">Locked score</span>
+                <aeris-rating ariaLabelledby="rating-disabled-label" [value]="3" disabled />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="rating-disabled-label"&gt;Locked score&lt;/span&gt;
+  &lt;aeris-rating ariaLabelledby="rating-disabled-label" [value]="3" disabled /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="rating-events"
+              title="Events"
+              description="Use changed when a pointer or keyboard interaction commits a new rating."
+              [tsCode]="eventsCode"
+            >
+              <div preview class="field">
+                <aeris-rating
+                  ariaLabel="Event rating"
+                  [(value)]="eventRating"
+                  (changed)="handleChanged($event)"
+                />
+                <small aria-live="polite">{{ lastEvent() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;aeris-rating
+    ariaLabel="Event rating"
+    [(value)]="eventRating"
+    (changed)="handleChanged($event)"
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; lastEvent() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="rating-forms"
+              title="Reactive and template-driven forms"
+              description="Rating implements Angular Forms value access for reactive and template-driven forms."
+              [tsCode]="formsCode"
+            >
+              <div preview class="rating-grid">
+                <div class="rating-card">
+                  <span id="rating-reactive-label">Reactive Forms</span>
+                  <aeris-rating
+                    ariaLabelledby="rating-reactive-label"
+                    [formControl]="reactiveValue"
+                  />
+                  <small>Value: {{ reactiveValue.value }}</small>
+                </div>
+                <div class="rating-card">
+                  <span id="rating-template-label">Template-driven forms</span>
+                  <aeris-rating
+                    ariaLabelledby="rating-template-label"
+                    name="templateRating"
+                    allowHalf
+                    [(ngModel)]="templateValue"
+                  />
+                  <small>Value: {{ templateValue }}</small>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="rating-grid"&gt;
+  &lt;div class="rating-card"&gt;
+    &lt;span id="rating-reactive-label"&gt;Reactive Forms&lt;/span&gt;
+    &lt;aeris-rating
+      ariaLabelledby="rating-reactive-label"
+      [formControl]="reactiveValue"
+    /&gt;
+    &lt;small&gt;Value: &#123;&#123; reactiveValue.value &#125;&#125;&lt;/small&gt;
+  &lt;/div&gt;
+  &lt;div class="rating-card"&gt;
+    &lt;span id="rating-template-label"&gt;Template-driven forms&lt;/span&gt;
+    &lt;aeris-rating
+      ariaLabelledby="rating-template-label"
+      name="templateRating"
+      allowHalf
+      [(ngModel)]="templateValue"
+    /&gt;
+    &lt;small&gt;Value: &#123;&#123; templateValue &#125;&#125;&lt;/small&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="Rating features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="rating-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="Rating inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="rating-api-outputs" tabindex="-1">Outputs</h3>
+            <div class="api-table" role="table" aria-label="Rating outputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (event of outputs; track event.name) {
+                <div role="row">
+                  <code role="cell">{{ event.name }}</code
+                  ><span role="cell">{{ event.type }}</span
+                  ><code role="cell">{{ event.defaultValue }}</code
+                  ><span role="cell">{{ event.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="rating-api-methods" tabindex="-1">Methods</h3>
+            <div class="api-table" role="table" aria-label="Rating methods" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Returns</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (method of methods; track method.name) {
+                <div role="row">
+                  <code role="cell">{{ method.name }}</code
+                  ><span role="cell">{{ method.type }}</span
+                  ><code role="cell">{{ method.defaultValue }}</code
+                  ><span role="cell">{{ method.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="rating-api-templates" tabindex="-1">Templates</h3>
+            <div class="api-table" role="table" aria-label="Rating templates" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Context</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (template of templates; track template.name) {
+                <div role="row">
+                  <code role="cell">{{ template.name }}</code
+                  ><span role="cell">{{ template.type }}</span
+                  ><code role="cell">{{ template.defaultValue }}</code
+                  ><span role="cell">{{ template.description }}</span>
+                </div>
+              }
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="Rating API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table" role="table" aria-label="Rating design tokens" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Description</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-rating-empty</code
+            ><span role="cell">Unselected star color.</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-rating-active</code
+            ><span role="cell">Selected star color.</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-rating-focus</code><span role="cell">Focus ring color.</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-rating-value-text</code
+            ><span role="cell">Visible value text color.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Rating uses <code>role="slider"</code> with synchronized <code>aria-valuemin</code>,
+            <code>aria-valuemax</code>, <code>aria-valuenow</code>, and <code>aria-valuetext</code>.
+          </li>
+          <li>
+            Provide a visible label with <code>ariaLabelledby</code> or a concise
+            <code>ariaLabel</code>.
+          </li>
+          <li>
+            Use <code>valueText</code> when the default value text is not descriptive enough for the
+            product context.
+          </li>
+          <li>Use <code>ariaDescribedby</code> for help text and validation messages.</li>
+          <li>Disabled ratings are removed from pointer, keyboard, and form interaction.</li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Rating keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>ArrowRight</kbd> / <kbd>ArrowUp</kbd></span
+            ><span role="cell">Increase the rating by one step.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>ArrowLeft</kbd> / <kbd>ArrowDown</kbd></span
+            ><span role="cell">Decrease the rating by one step.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Home</kbd></span
+            ><span role="cell"
+              >Move to zero when clearing is enabled, otherwise to the first step.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>End</kbd></span
+            ><span role="cell">Move to the maximum rating.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Delete</kbd> / <kbd>Backspace</kbd></span
+            ><span role="cell">Clear the rating when allowClear is enabled.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

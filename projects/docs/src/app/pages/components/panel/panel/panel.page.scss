@@ -1,0 +1,108 @@
+@use '../../form/shared/form-docs';
+
+.panel-docs {
+  .summary-list {
+    display: grid;
+    gap: 0.625rem;
+    margin: 0;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .summary-row dt,
+  .summary-row dd {
+    margin: 0;
+  }
+
+  .summary-total {
+    margin-block-start: 0.75rem;
+    padding-block-start: 0.75rem;
+    border-block-start: 1px solid var(--border);
+    font-weight: 800;
+  }
+
+  .panel-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-block: 0 0.875rem;
+  }
+
+  .panel-event-log {
+    margin: 0.75rem 0 0;
+    color: var(--text-2);
+    font-size: 0.8125rem;
+  }
+
+  .panel-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .panel-plus-icon {
+    position: relative;
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .panel-plus-icon::before,
+  .panel-plus-icon::after {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 0.875rem;
+    height: 0.125rem;
+    border-radius: 999px;
+    background: currentColor;
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+
+  .panel-plus-icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+    transition: transform 160ms ease;
+  }
+
+  .panel-plus-icon[data-collapsed="false"]::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .profile-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .profile-avatar {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--aeris-primary) 18%, var(--surface));
+    color: var(--aeris-primary-text);
+    font-weight: 800;
+  }
+
+  .profile-meta {
+    display: grid;
+    gap: 0.125rem;
+  }
+
+  .profile-meta span {
+    color: var(--text-2);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 42rem) {
+  .panel-docs .panel-grid {
+    grid-template-columns: 1fr;
+  }
+}

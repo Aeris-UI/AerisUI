@@ -1,0 +1,627 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Form"
+    title="Radio Button"
+    description="Selects one value from a related set with native group semantics, signal models, Angular Forms support, and accessible keyboard interaction."
+  />
+
+  <section class="import-section" aria-labelledby="radio-import-title">
+    <div>
+      <h2 id="radio-import-title">Import</h2>
+      <p>Import the standalone Radio Button component from its dedicated entry point.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Radio Button documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>
+          Related options share the same name and selected model while each option keeps native
+          radio semantics.
+        </p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="radio-basic"
+              title="Basic group"
+              description="Use a fieldset and legend to give the group an accessible question."
+              [tsCode]="basicCode"
+            >
+              <div preview>
+                <fieldset class="radio-group">
+                  <legend>Workspace visibility</legend>
+                  <aeris-radio-button name="visibility" value="private" [(selected)]="visibility"
+                    >Private</aeris-radio-button
+                  >
+                  <aeris-radio-button name="visibility" value="team" [(selected)]="visibility"
+                    >Team members</aeris-radio-button
+                  >
+                  <aeris-radio-button name="visibility" value="public" [(selected)]="visibility"
+                    >Public</aeris-radio-button
+                  >
+                </fieldset>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;fieldset class="radio-group"&gt;
+    &lt;legend&gt;Workspace visibility&lt;/legend&gt;
+    &lt;aeris-radio-button name="visibility" value="private" [(selected)]="visibility"
+      &gt;Private&lt;/aeris-radio-button
+    &gt;
+    &lt;aeris-radio-button name="visibility" value="team" [(selected)]="visibility"
+      &gt;Team members&lt;/aeris-radio-button
+    &gt;
+    &lt;aeris-radio-button name="visibility" value="public" [(selected)]="visibility"
+      &gt;Public&lt;/aeris-radio-button
+    &gt;
+  &lt;/fieldset&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="radio-model"
+              title="Signal model"
+              description="Bind every option to one writable signal and observe detailed user changes when needed."
+              [tsCode]="modelCode"
+            >
+              <div preview class="radio-stack">
+                <fieldset class="radio-group">
+                  <legend>Notification channel</legend>
+                  <aeris-radio-button
+                    name="channel"
+                    value="email"
+                    [(selected)]="notificationChannel"
+                    (changed)="recordChange($event)"
+                    >Email</aeris-radio-button
+                  >
+                  <aeris-radio-button
+                    name="channel"
+                    value="push"
+                    [(selected)]="notificationChannel"
+                    (changed)="recordChange($event)"
+                    >Push notification</aeris-radio-button
+                  >
+                  <aeris-radio-button
+                    name="channel"
+                    value="none"
+                    [(selected)]="notificationChannel"
+                    (changed)="recordChange($event)"
+                    >None</aeris-radio-button
+                  >
+                </fieldset>
+                <span class="radio-result" aria-live="polite">
+                  Value: {{ notificationChannel() }}. {{ lastChange() }}.
+                </span>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="radio-stack"&gt;
+  &lt;fieldset class="radio-group"&gt;
+    &lt;legend&gt;Notification channel&lt;/legend&gt;
+    &lt;aeris-radio-button
+      name="channel"
+      value="email"
+      [(selected)]="notificationChannel"
+      (changed)="recordChange($event)"
+      &gt;Email&lt;/aeris-radio-button
+    &gt;
+    &lt;aeris-radio-button
+      name="channel"
+      value="push"
+      [(selected)]="notificationChannel"
+      (changed)="recordChange($event)"
+      &gt;Push notification&lt;/aeris-radio-button
+    &gt;
+    &lt;aeris-radio-button
+      name="channel"
+      value="none"
+      [(selected)]="notificationChannel"
+      (changed)="recordChange($event)"
+      &gt;None&lt;/aeris-radio-button
+    &gt;
+  &lt;/fieldset&gt;
+  &lt;span class="radio-result" aria-live="polite"&gt;
+    Value: &#123;&#123; notificationChannel() &#125;&#125;. &#123;&#123; lastChange() &#125;&#125;.
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="radio-rich-options"
+              title="Rich options"
+              description="Projected content supports a title and description while the whole option remains clickable."
+              [tsCode]="richOptionsCode"
+            >
+              <div preview>
+                <fieldset class="radio-card-group">
+                  <legend>Choose a plan</legend>
+                  @for (plan of plans; track plan.value) {
+                    <div
+                      class="radio-card"
+                      [class.radio-card--selected]="selectedPlan() === plan.value"
+                    >
+                      <aeris-radio-button
+                        name="plan"
+                        [value]="plan.value"
+                        [(selected)]="selectedPlan"
+                      >
+                        <span class="radio-option-content">
+                          <strong>{{ plan.label }}</strong>
+                          <small>{{ plan.description }}</small>
+                        </span>
+                      </aeris-radio-button>
+                    </div>
+                  }
+                </fieldset>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;fieldset class="radio-card-group"&gt;
+    &lt;legend&gt;Choose a plan&lt;/legend&gt;
+    &#64;for (plan of plans; track plan.value) &#123;
+      &lt;div
+        class="radio-card"
+        [class.radio-card--selected]="selectedPlan() === plan.value"
+      &gt;
+        &lt;aeris-radio-button
+          name="plan"
+          [value]="plan.value"
+          [(selected)]="selectedPlan"
+        &gt;
+          &lt;span class="radio-option-content"&gt;
+            &lt;strong&gt;&#123;&#123; plan.label &#125;&#125;&lt;/strong&gt;
+            &lt;small&gt;&#123;&#123; plan.description &#125;&#125;&lt;/small&gt;
+          &lt;/span&gt;
+        &lt;/aeris-radio-button&gt;
+      &lt;/div&gt;
+    &#125;
+  &lt;/fieldset&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="radio-sizes"
+              title="Sizes"
+              description="Four sizes align Radio Button with the Aeris control density scale."
+            >
+              <div preview class="field-row">
+                <aeris-radio-button name="size-xs" value="xs" selected="xs" size="xs"
+                  >Extra small</aeris-radio-button
+                >
+                <aeris-radio-button name="size-sm" value="sm" selected="sm" size="sm"
+                  >Small</aeris-radio-button
+                >
+                <aeris-radio-button name="size-md" value="md" selected="md"
+                  >Medium</aeris-radio-button
+                >
+                <aeris-radio-button name="size-lg" value="lg" selected="lg" size="lg"
+                  >Large</aeris-radio-button
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-row"&gt;
+  &lt;aeris-radio-button name="size-xs" value="xs" selected="xs" size="xs"
+    &gt;Extra small&lt;/aeris-radio-button
+  &gt;
+  &lt;aeris-radio-button name="size-sm" value="sm" selected="sm" size="sm"
+    &gt;Small&lt;/aeris-radio-button
+  &gt;
+  &lt;aeris-radio-button name="size-md" value="md" selected="md"
+    &gt;Medium&lt;/aeris-radio-button
+  &gt;
+  &lt;aeris-radio-button name="size-lg" value="lg" selected="lg" size="lg"
+    &gt;Large&lt;/aeris-radio-button
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="radio-label-position"
+              title="Label position"
+              description="Place label content after or before the control without changing its native association."
+            >
+              <div preview class="field-row">
+                <aeris-radio-button name="label-end" value="end" selected="end"
+                  >Label at end</aeris-radio-button
+                >
+                <aeris-radio-button
+                  name="label-start"
+                  value="start"
+                  selected="start"
+                  labelPosition="start"
+                  >Label at start</aeris-radio-button
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-row"&gt;
+  &lt;aeris-radio-button name="label-end" value="end" selected="end"
+    &gt;Label at end&lt;/aeris-radio-button
+  &gt;
+  &lt;aeris-radio-button
+    name="label-start"
+    value="start"
+    selected="start"
+    labelPosition="start"
+    &gt;Label at start&lt;/aeris-radio-button
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="radio-states"
+              title="Required, invalid, and disabled"
+              description="State is synchronized with the internal native input and exposed to assistive technology."
+            >
+              <div preview class="radio-stack">
+                <fieldset class="radio-group" aria-describedby="delivery-error">
+                  <legend>Delivery speed</legend>
+                  <aeris-radio-button
+                    name="delivery"
+                    value="standard"
+                    required
+                    invalid
+                    ariaDescribedby="delivery-error"
+                    >Standard</aeris-radio-button
+                  >
+                  <aeris-radio-button
+                    name="delivery"
+                    value="express"
+                    required
+                    invalid
+                    ariaDescribedby="delivery-error"
+                    >Express</aeris-radio-button
+                  >
+                </fieldset>
+                <small id="delivery-error" class="error">Choose a delivery speed.</small>
+                <aeris-radio-button name="disabled-demo" value="disabled" disabled
+                  >Unavailable option</aeris-radio-button
+                >
+                <aeris-radio-button
+                  name="disabled-selected"
+                  value="selected"
+                  selected="selected"
+                  disabled
+                  >Selected and unavailable</aeris-radio-button
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="radio-stack"&gt;
+  &lt;fieldset class="radio-group" aria-describedby="delivery-error"&gt;
+    &lt;legend&gt;Delivery speed&lt;/legend&gt;
+    &lt;aeris-radio-button
+      name="delivery"
+      value="standard"
+      required
+      invalid
+      ariaDescribedby="delivery-error"
+      &gt;Standard&lt;/aeris-radio-button
+    &gt;
+    &lt;aeris-radio-button
+      name="delivery"
+      value="express"
+      required
+      invalid
+      ariaDescribedby="delivery-error"
+      &gt;Express&lt;/aeris-radio-button
+    &gt;
+  &lt;/fieldset&gt;
+  &lt;small id="delivery-error" class="error"&gt;Choose a delivery speed.&lt;/small&gt;
+  &lt;aeris-radio-button name="disabled-demo" value="disabled" disabled
+    &gt;Unavailable option&lt;/aeris-radio-button
+  &gt;
+  &lt;aeris-radio-button
+    name="disabled-selected"
+    value="selected"
+    selected="selected"
+    disabled
+    &gt;Selected and unavailable&lt;/aeris-radio-button
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="radio-native-form"
+              title="Native form values"
+              description="Name and value are forwarded to native radio inputs for standard browser submission."
+            >
+              <div preview>
+                <form class="radio-group">
+                  <strong>Billing cycle</strong>
+                  <aeris-radio-button name="billing" value="monthly" selected="monthly"
+                    >Monthly</aeris-radio-button
+                  >
+                  <aeris-radio-button name="billing" value="annual" selected="monthly"
+                    >Annual</aeris-radio-button
+                  >
+                </form>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;form class="radio-group"&gt;
+    &lt;strong&gt;Billing cycle&lt;/strong&gt;
+    &lt;aeris-radio-button name="billing" value="monthly" selected="monthly"
+      &gt;Monthly&lt;/aeris-radio-button
+    &gt;
+    &lt;aeris-radio-button name="billing" value="annual" selected="monthly"
+      &gt;Annual&lt;/aeris-radio-button
+    &gt;
+  &lt;/form&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="radio-angular-forms"
+              title="Reactive and template-driven forms"
+              description="Radio Button implements ControlValueAccessor and synchronizes value, touched, and disabled state."
+              [tsCode]="formsCode"
+            >
+              <div preview class="field-grid">
+                <fieldset class="radio-group">
+                  <legend>Reactive Forms</legend>
+                  <aeris-radio-button
+                    name="reactive-plan"
+                    value="starter"
+                    [formControl]="reactivePlan"
+                    >Starter</aeris-radio-button
+                  >
+                  <aeris-radio-button name="reactive-plan" value="team" [formControl]="reactivePlan"
+                    >Team</aeris-radio-button
+                  >
+                  <small>Value: {{ reactivePlan.value }}</small>
+                </fieldset>
+                <fieldset class="radio-group">
+                  <legend>Template-driven forms</legend>
+                  <aeris-radio-button
+                    name="template-plan"
+                    value="starter"
+                    [(ngModel)]="templatePlan"
+                    >Starter</aeris-radio-button
+                  >
+                  <aeris-radio-button name="template-plan" value="team" [(ngModel)]="templatePlan"
+                    >Team</aeris-radio-button
+                  >
+                  <small>Value: {{ templatePlan }}</small>
+                </fieldset>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;fieldset class="radio-group"&gt;
+    &lt;legend&gt;Reactive Forms&lt;/legend&gt;
+    &lt;aeris-radio-button
+      name="reactive-plan"
+      value="starter"
+      [formControl]="reactivePlan"
+      &gt;Starter&lt;/aeris-radio-button
+    &gt;
+    &lt;aeris-radio-button name="reactive-plan" value="team" [formControl]="reactivePlan"
+      &gt;Team&lt;/aeris-radio-button
+    &gt;
+    &lt;small&gt;Value: &#123;&#123; reactivePlan.value &#125;&#125;&lt;/small&gt;
+  &lt;/fieldset&gt;
+  &lt;fieldset class="radio-group"&gt;
+    &lt;legend&gt;Template-driven forms&lt;/legend&gt;
+    &lt;aeris-radio-button
+      name="template-plan"
+      value="starter"
+      [(ngModel)]="templatePlan"
+      &gt;Starter&lt;/aeris-radio-button
+    &gt;
+    &lt;aeris-radio-button name="template-plan" value="team" [(ngModel)]="templatePlan"
+      &gt;Team&lt;/aeris-radio-button
+    &gt;
+    &lt;small&gt;Value: &#123;&#123; templatePlan &#125;&#125;&lt;/small&gt;
+  &lt;/fieldset&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="Radio Button features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="radio-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="Radio Button inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="radio-api-outputs" tabindex="-1">Outputs</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="Radio Button outputs"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">selectedChange</code><span role="cell">string | null</span
+                ><span role="cell">Emitted automatically by the selected model.</span>
+              </div>
+              <div role="row">
+                <code role="cell">selectedInput</code><span role="cell">string</span
+                ><span role="cell"
+                  >Emitted when user or public method interaction selects this option.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">changed</code><span role="cell">AerisRadioButtonChangeEvent</span
+                ><span role="cell">Native change event and the selected value.</span>
+              </div>
+              <div role="row">
+                <code role="cell">focused</code><span role="cell">FocusEvent</span
+                ><span role="cell">Emitted when the native radio receives focus.</span>
+              </div>
+              <div role="row">
+                <code role="cell">blurred</code><span role="cell">FocusEvent</span
+                ><span role="cell">Emitted when the native radio loses focus.</span>
+              </div>
+              <div role="row">
+                <code role="cell">touch</code><span role="cell">void</span
+                ><span role="cell"
+                  >Emitted on blur and synchronized with Angular Forms touched state.</span
+                >
+              </div>
+            </div>
+
+            <h3 id="radio-api-methods" tabindex="-1">Methods</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="Radio Button methods"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Signature</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">focus</code
+                ><span role="cell">(options?: FocusOptions) =&gt; void</span
+                ><span role="cell">Moves focus to the native radio input.</span>
+              </div>
+              <div role="row">
+                <code role="cell">select</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Selects and focuses an enabled option.</span>
+              </div>
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="Radio Button API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="Radio Button design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radio-label-color</code
+            ><span role="cell">Option label color.</span><code role="cell">--aeris-text-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radio-border</code><span role="cell">Unselected border.</span
+            ><code role="cell">--aeris-border-strong</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radio-background</code
+            ><span role="cell">Unselected background.</span><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radio-selected-color</code
+            ><span role="cell">Selected ring color.</span><code role="cell">--aeris-primary</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radio-focus-ring</code
+            ><span role="cell">Visible keyboard focus ring.</span
+            ><code role="cell">--aeris-focus at 42%</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-danger</code><span role="cell">Invalid border.</span
+            ><code role="cell">#c81e2a</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-disabled-opacity</code
+            ><span role="cell">Disabled control opacity.</span><code role="cell">0.5</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Radio Button uses a native <code>input type="radio"</code>, preserving browser,
+            keyboard, form, and assistive-technology behavior.
+          </li>
+          <li>
+            Wrap related options in a <code>fieldset</code> with a <code>legend</code>, and give
+            every option the same <code>name</code>.
+          </li>
+          <li>
+            <kbd>Tab</kbd> enters or leaves a group. Arrow keys move and select within it, and
+            <kbd>Space</kbd> selects the focused option.
+          </li>
+          <li>
+            Projected content and the <code>label</code> input create a native clickable label with
+            a larger pointer target.
+          </li>
+          <li>
+            Use visible option text whenever possible. Use <code>ariaLabel</code> or
+            <code>ariaLabelledby</code> only when native visible labeling is unavailable.
+          </li>
+          <li>
+            Connect instructions and errors with <code>ariaDescribedby</code>. The invalid input
+            synchronizes <code>aria-invalid</code>.
+          </li>
+          <li>
+            ControlValueAccessor support synchronizes value, touched, and disabled state with
+            Reactive Forms and template-driven forms.
+          </li>
+          <li>
+            Focus indicators meet WCAG 2.2 requirements and selection animation respects
+            reduced-motion preferences.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Radio Button keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell">Moves focus into or out of the radio group.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow Right</kbd> / <kbd>Arrow Down</kbd></span
+            ><span role="cell">Moves to and selects the next enabled radio option.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow Left</kbd> / <kbd>Arrow Up</kbd></span
+            ><span role="cell">Moves to and selects the previous enabled radio option.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Space</kbd><span role="cell">Selects the focused radio option.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

@@ -1,0 +1,35 @@
+@use '../shared/form-docs';
+
+.cascade-option {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.cascade-option__mark {
+  width: 1.75rem;
+  height: 1.75rem;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 0.5rem;
+  background: var(--primary-soft);
+  color: var(--primary-text);
+  font-size: 0.6875rem;
+  font-weight: 800;
+}
+
+.cascade-option__copy {
+  min-width: 0;
+  display: grid;
+}
+
+.cascade-option__copy strong {
+  font-size: 0.875rem;
+}
+
+.cascade-option__copy small {
+  color: var(--text-2);
+  font-size: 0.75rem;
+}

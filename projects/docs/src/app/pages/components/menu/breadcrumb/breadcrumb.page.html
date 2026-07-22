@@ -1,0 +1,482 @@
+<article class="button-docs breadcrumb-docs">
+  <app-component-page-header
+    category="Menu"
+    title="Breadcrumb"
+    description="Hierarchical navigation trail with links, actions, current-page semantics, templates, separators, and ellipsis collapsing."
+  />
+
+  <section id="breadcrumb-import" class="import-section" aria-labelledby="breadcrumb-import-title">
+    <div>
+      <h2 id="breadcrumb-import-title">Import</h2>
+      <p>One import provides Breadcrumb and its item, separator, and ellipsis templates.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Breadcrumb documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="breadcrumb-basic"
+              title="Basic"
+              description="Render a simple trail where the last item is marked as the current page."
+              [tsCode]="basicTsCode"
+            >
+              <div preview>
+                <aeris-breadcrumb [items]="productTrail" ariaLabel="Product path" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-breadcrumb [items]="productTrail" ariaLabel="Product path" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="breadcrumb-home"
+              title="Icons"
+              description="Use item icon and label metadata to render icon-only, label-only, or icon-and-label breadcrumbs."
+              [tsCode]="homeTsCode"
+              [cssCode]="iconCssCode"
+            >
+              <div preview>
+                <aeris-breadcrumb
+                  [home]="iconHome"
+                  [items]="iconTrail"
+                  ariaLabel="Product path with icons"
+                >
+                  <ng-template aerisBreadcrumbItem let-item>
+                    <span class="breadcrumb-icon-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="breadcrumbIcons[item.icon]"></svg>
+                      }
+                      @if (item.label) {
+                        <span>{{ item.label }}</span>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-breadcrumb>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-breadcrumb
+    [home]="iconHome"
+    [items]="iconTrail"
+    ariaLabel="Product path with icons"
+  &gt;
+    &lt;ng-template aerisBreadcrumbItem let-item&gt;
+      &lt;span class="breadcrumb-icon-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="breadcrumbIcons[item.icon]"&gt;&lt;/svg&gt;
+        &#125;
+        &#64;if (item.label) &#123;
+          &lt;span&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-breadcrumb&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="breadcrumb-actions"
+              title="Links and actions"
+              description="Items with href render as anchors, items without href render as buttons, and disabled or current items are not interactive."
+              [tsCode]="actionsTsCode"
+              [cssCode]="actionsCssCode"
+            >
+              <div preview>
+                <aeris-breadcrumb
+                  [items]="adminTrail"
+                  ariaLabel="Admin path"
+                  (itemSelected)="recordSelection($event)"
+                />
+                <p class="breadcrumb-status" aria-live="polite">
+                  Last selected: {{ lastSelection }}
+                </p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-breadcrumb
+    [items]="adminTrail"
+    ariaLabel="Admin path"
+    (itemSelected)="recordSelection($event)"
+  /&gt;
+  &lt;p class="breadcrumb-status" aria-live="polite"&gt;
+    Last selected: &#123;&#123; lastSelection &#125;&#125;
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="breadcrumb-separator"
+              title="Separator"
+              description="Use text separators when a page needs a different visual rhythm from the default chevron."
+              [tsCode]="basicTsCode"
+            >
+              <div preview>
+                <aeris-breadcrumb
+                  [items]="productTrail"
+                  separator="/"
+                  ariaLabel="Slash separated product path"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-breadcrumb
+    [items]="productTrail"
+    separator="/"
+    ariaLabel="Slash separated product path"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="breadcrumb-ellipsis"
+              title="Ellipsis"
+              description="Collapse middle items when long paths need to fit compact spaces."
+              [tsCode]="ellipsisTsCode"
+              [cssCode]="actionsCssCode"
+            >
+              <div preview>
+                <aeris-breadcrumb
+                  [items]="longTrail"
+                  [maxItems]="4"
+                  ariaLabel="Collapsed project path"
+                  (ellipsisSelected)="recordHiddenItems($event)"
+                />
+                <p class="breadcrumb-status" aria-live="polite">Hidden: {{ hiddenSummary }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-breadcrumb
+    [items]="longTrail"
+    [maxItems]="4"
+    ariaLabel="Collapsed project path"
+    (ellipsisSelected)="recordHiddenItems($event)"
+  /&gt;
+  &lt;p class="breadcrumb-status" aria-live="polite"&gt;Hidden: &#123;&#123; hiddenSummary &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="breadcrumb-template"
+              title="Item template"
+              description="Customize visible item content while keeping the breadcrumb navigation semantics."
+              [tsCode]="customTsCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview>
+                <aeris-breadcrumb [items]="customTrail" ariaLabel="Catalog path">
+                  <ng-template aerisBreadcrumbItem let-item let-current="current">
+                    <span class="breadcrumb-custom-item" [attr.data-current]="current || null">
+                      <span>{{ item.label }}</span>
+                      @if (customCounts[item.label ?? '']; as count) {
+                        <span class="breadcrumb-count">{{ count }}</span>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-breadcrumb>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-breadcrumb [items]="customTrail" ariaLabel="Catalog path"&gt;
+    &lt;ng-template aerisBreadcrumbItem let-item let-current="current"&gt;
+      &lt;span class="breadcrumb-custom-item" [attr.data-current]="current || null"&gt;
+        &lt;span&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (customCounts[item.label ?? '']; as count) &#123;
+          &lt;span class="breadcrumb-count"&gt;&#123;&#123; count &#125;&#125;&lt;/span&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-breadcrumb&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="breadcrumb-variants"
+              title="Variants and sizes"
+              description="Choose outlined, filled, or plain surfaces and adjust density with size."
+              [tsCode]="basicTsCode"
+              [cssCode]="variantCssCode"
+            >
+              <div preview>
+                <div class="breadcrumb-grid">
+                  <aeris-breadcrumb
+                    [items]="productTrail"
+                    size="sm"
+                    ariaLabel="Small outlined breadcrumb"
+                  />
+                  <aeris-breadcrumb
+                    [items]="productTrail"
+                    variant="filled"
+                    ariaLabel="Filled breadcrumb"
+                  />
+                  <aeris-breadcrumb
+                    [items]="productTrail"
+                    variant="plain"
+                    size="lg"
+                    ariaLabel="Large plain breadcrumb"
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="breadcrumb-grid"&gt;
+    &lt;aeris-breadcrumb
+      [items]="productTrail"
+      size="sm"
+      ariaLabel="Small outlined breadcrumb"
+    /&gt;
+    &lt;aeris-breadcrumb
+      [items]="productTrail"
+      variant="filled"
+      ariaLabel="Filled breadcrumb"
+    /&gt;
+    &lt;aeris-breadcrumb
+      [items]="productTrail"
+      variant="plain"
+      size="lg"
+      ariaLabel="Large plain breadcrumb"
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc
+            title="On this page"
+            ariaLabel="Breadcrumb features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="breadcrumb-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Breadcrumb inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="breadcrumb-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Breadcrumb outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="breadcrumb-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="Breadcrumb templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="breadcrumb-api-content" class="api-section">
+              <h3>Content</h3>
+              <div class="api-table" role="table" aria-label="Breadcrumb content projection">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of contentRows; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API links" ariaLabel="Breadcrumb API links" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="breadcrumb-interfaces-code" class="api-section">
+              <h3>Types</h3>
+              <app-code-block [code]="interfacesCode" language="TypeScript" />
+            </section>
+          </div>
+
+          <app-page-toc
+            title="Interface links"
+            ariaLabel="Breadcrumb interface links"
+            [links]="interfaceLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="breadcrumb-token-table" class="api-section">
+              <h3>Breadcrumb tokens</h3>
+              <div class="api-table" role="table" aria-label="Breadcrumb design tokens">
+                <div role="row">
+                  <span role="columnheader">Token</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of tokens; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc
+            title="Token links"
+            ariaLabel="Breadcrumb token links"
+            [links]="tokenLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="breadcrumb-a11y-semantics" class="api-section">
+              <h3>Semantics</h3>
+              <ul>
+                <li>
+                  Breadcrumb renders an internal <code>nav</code> landmark containing an ordered
+                  list.
+                </li>
+                <li>
+                  Provide <code>ariaLabel</code> or <code>ariaLabelledBy</code> so assistive
+                  technologies can identify the navigation region.
+                </li>
+                <li>
+                  The current item is the last item by default, or the first item with
+                  <code>current: true</code>.
+                </li>
+                <li>
+                  The current item receives <code>aria-current</code> and is rendered as
+                  non-interactive text.
+                </li>
+                <li>
+                  Items with <code>href</code> render as native anchors. Items without
+                  <code>href</code> render as native buttons unless they are disabled or current.
+                </li>
+                <li>Separators are decorative and marked with <code>aria-hidden</code>.</li>
+                <li>
+                  Use the item template for router links or richer labels when the default anchor,
+                  button, or text rendering is not enough.
+                </li>
+              </ul>
+            </section>
+
+            <section id="breadcrumb-a11y-keyboard" class="api-section">
+              <h3>Keyboard support</h3>
+              <div class="api-table" role="table" aria-label="Breadcrumb keyboard support">
+                <div role="row">
+                  <span role="columnheader">Key</span><span role="columnheader">Target</span
+                  ><span role="columnheader">Behavior</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Tab</kbd
+                  ><span role="cell">Links, action items, and ellipsis</span
+                  ><span role="cell"
+                    >Moves focus forward through interactive breadcrumb controls in the page tab
+                    order.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Shift + Tab</kbd
+                  ><span role="cell">Links, action items, and ellipsis</span
+                  ><span role="cell"
+                    >Moves focus backward through interactive breadcrumb controls in the page tab
+                    order.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Enter</kbd
+                  ><span role="cell">Focused link, action item, or ellipsis</span
+                  ><span role="cell">Activates the focused native control.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Space</kbd><span role="cell">Focused button or ellipsis</span
+                  ><span role="cell"
+                    >Activates native buttons. Links keep browser-default link keyboard
+                    behavior.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow keys</kbd><span role="cell">Breadcrumb</span
+                  ><span role="cell"
+                    >No special behavior. Breadcrumb does not intercept arrow keys.</span
+                  >
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc
+            title="Accessibility links"
+            ariaLabel="Breadcrumb accessibility links"
+            [links]="accessibilityLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

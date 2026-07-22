@@ -1,0 +1,157 @@
+aeris-card {
+  display: block;
+  min-width: 0;
+}
+
+.aeris-card {
+  --_aeris-card-radius: var(--aeris-card-radius, var(--aeris-radius-lg, 1.125rem));
+
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  overflow: visible;
+  border: 1px solid var(--aeris-card-border, var(--aeris-border, #deddd7));
+  border-radius: var(--_aeris-card-radius);
+  background: var(--aeris-card-background, var(--aeris-surface, #fff));
+  color: var(--aeris-card-color, var(--aeris-text, #222222));
+  box-shadow: var(--aeris-card-shadow, none);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+.aeris-card[data-variant='elevated'] {
+  border-color: var(--aeris-card-elevated-border, transparent);
+  box-shadow: var(
+    --aeris-card-elevated-shadow,
+    0 0.75rem 2rem color-mix(in srgb, var(--aeris-text, #222222) 10%, transparent)
+  );
+}
+
+.aeris-card[data-variant='filled'] {
+  border-color: var(--aeris-card-filled-border, transparent);
+  background: var(--aeris-card-filled-background, var(--aeris-surface-2, #f2f0ec));
+}
+
+.aeris-card[data-hoverable='true']:hover {
+  border-color: var(--aeris-card-hover-border, var(--aeris-border-strong, #c7c9c0));
+  box-shadow: var(
+    --aeris-card-hover-shadow,
+    0 1rem 2.5rem color-mix(in srgb, var(--aeris-text, #222222) 12%, transparent)
+  );
+  transform: translateY(-0.125rem);
+}
+
+.aeris-card__body {
+  min-width: 0;
+  display: grid;
+  gap: var(--aeris-card-gap, 1rem);
+  padding: var(--aeris-card-padding, 1.25rem);
+}
+
+.aeris-card[data-padding='none'] > .aeris-card__body {
+  padding: 0;
+}
+
+.aeris-card[data-padding='sm'] > .aeris-card__body {
+  padding: var(--aeris-card-padding-sm, 0.875rem);
+}
+
+.aeris-card[data-padding='lg'] > .aeris-card__body {
+  padding: var(--aeris-card-padding-lg, 1.75rem);
+}
+
+.aeris-card__header {
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.aeris-card__title {
+  display: block;
+  margin: 0;
+  color: var(--aeris-card-title-color, var(--aeris-text, #222222));
+  font-size: var(--aeris-card-title-size, 1rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.aeris-card__subtitle {
+  display: block;
+  margin: 0.25rem 0 0;
+  color: var(--aeris-card-subtitle-color, var(--aeris-text-2, #555555));
+  font-size: var(--aeris-card-subtitle-size, 0.8125rem);
+  line-height: 1.5;
+}
+
+.aeris-card__content {
+  min-width: 0;
+  color: var(--aeris-card-content-color, var(--aeris-text-2, #555555));
+  font-size: var(--aeris-card-content-size, 0.875rem);
+  line-height: 1.65;
+}
+
+.aeris-card__content:empty {
+  display: none;
+}
+
+.aeris-card__content > :first-child {
+  margin-top: 0;
+}
+
+.aeris-card__content > :last-child {
+  margin-bottom: 0;
+}
+
+.aeris-card__footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--aeris-card-footer-gap, 0.625rem);
+}
+
+.aeris-card__media {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  overflow: hidden;
+  border-start-start-radius: var(--_aeris-card-radius);
+  border-start-end-radius: var(--_aeris-card-radius);
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+  object-fit: cover;
+}
+
+.aeris-card[data-orientation='horizontal'][data-has-media='true'] {
+  display: grid;
+  grid-template-columns: minmax(9rem, var(--aeris-card-media-width, 34%)) minmax(0, 1fr);
+}
+
+.aeris-card[data-orientation='horizontal'][data-has-media='true'] > .aeris-card__media {
+  width: 100%;
+  height: 100%;
+  min-height: var(--aeris-card-horizontal-min-height, 12rem);
+  border-start-end-radius: 0;
+  border-end-start-radius: var(--_aeris-card-radius);
+}
+
+@media (max-width: 40rem) {
+  .aeris-card[data-orientation='horizontal'][data-has-media='true'] {
+    display: block;
+  }
+
+  .aeris-card[data-orientation='horizontal'][data-has-media='true'] > .aeris-card__media {
+    min-height: var(--aeris-card-mobile-media-height, 9rem);
+    border-start-end-radius: var(--_aeris-card-radius);
+    border-end-start-radius: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-card {
+    transition: none;
+  }
+}

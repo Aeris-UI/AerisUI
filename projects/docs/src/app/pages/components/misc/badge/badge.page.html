@@ -1,0 +1,475 @@
+<article class="button-docs badge-docs">
+  <app-component-page-header
+    category="Misc"
+    title="Badge"
+    description="Displays compact counts, labels, status dots, and visual overlays with themeable severity colors, sizes, shapes, and accessible semantics."
+  />
+
+  <section id="badge-import" class="import-section" aria-labelledby="badge-import-title">
+    <div>
+      <h2 id="badge-import-title">Import</h2>
+      <p>One import provides Badge and BadgeOverlay.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Badge documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="badge-basic"
+              title="Basic"
+              description="Use Badge for short labels and numeric counts."
+            >
+              <div preview>
+                <aeris-badge value="New" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-badge value="New" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="badge-severity"
+              title="Severity"
+              description="Choose a severity color that matches the state being communicated."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="badge-row">
+                  <aeris-badge value="Primary" />
+                  <aeris-badge value="Secondary" severity="secondary" />
+                  <aeris-badge value="Success" severity="success" />
+                  <aeris-badge value="Info" severity="info" />
+                  <aeris-badge value="Warning" severity="warning" />
+                  <aeris-badge value="Danger" severity="danger" />
+                  <aeris-badge value="Neutral" severity="neutral" />
+                  <aeris-badge value="Contrast" severity="contrast" />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="badge-row"&gt;
+    &lt;aeris-badge value="Primary" /&gt;
+    &lt;aeris-badge value="Secondary" severity="secondary" /&gt;
+    &lt;aeris-badge value="Success" severity="success" /&gt;
+    &lt;aeris-badge value="Info" severity="info" /&gt;
+    &lt;aeris-badge value="Warning" severity="warning" /&gt;
+    &lt;aeris-badge value="Danger" severity="danger" /&gt;
+    &lt;aeris-badge value="Neutral" severity="neutral" /&gt;
+    &lt;aeris-badge value="Contrast" severity="contrast" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="badge-sizes"
+              title="Sizes and shapes"
+              description="Use sizes and shapes to match nearby typography and control density."
+              [cssCode]="rowCssCode"
+            >
+              <div preview>
+                <div class="badge-row">
+                  <aeris-badge value="Small" size="sm" />
+                  <aeris-badge value="Medium" />
+                  <aeris-badge value="Large" size="lg" />
+                  <aeris-badge value="Rounded" shape="rounded" />
+                  <aeris-badge value="Soft" variant="soft" severity="info" />
+                  <aeris-badge value="Outline" variant="outline" severity="success" />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="badge-row"&gt;
+    &lt;aeris-badge value="Small" size="sm" /&gt;
+    &lt;aeris-badge value="Medium" /&gt;
+    &lt;aeris-badge value="Large" size="lg" /&gt;
+    &lt;aeris-badge value="Rounded" shape="rounded" /&gt;
+    &lt;aeris-badge value="Soft" variant="soft" severity="info" /&gt;
+    &lt;aeris-badge value="Outline" variant="outline" severity="success" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="badge-dot"
+              title="Dot"
+              description="Use dot badges for compact presence and status indicators. Provide an accessible name when the dot carries meaning."
+              [cssCode]="statusCssCode"
+            >
+              <div preview>
+                <div class="badge-status-grid">
+                  <span class="badge-status-item"
+                    ><aeris-badge dot severity="success" role="status" ariaLabel="Online" />
+                    Online</span
+                  >
+                  <span class="badge-status-item"
+                    ><aeris-badge dot severity="warning" role="status" ariaLabel="Away" />
+                    Away</span
+                  >
+                  <span class="badge-status-item"
+                    ><aeris-badge dot severity="danger" role="status" ariaLabel="Offline" />
+                    Offline</span
+                  >
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="badge-status-grid"&gt;
+    &lt;span class="badge-status-item"
+      &gt;&lt;aeris-badge dot severity="success" role="status" ariaLabel="Online" /&gt;
+      Online&lt;/span
+    &gt;
+    &lt;span class="badge-status-item"
+      &gt;&lt;aeris-badge dot severity="warning" role="status" ariaLabel="Away" /&gt;
+      Away&lt;/span
+    &gt;
+    &lt;span class="badge-status-item"
+      &gt;&lt;aeris-badge dot severity="danger" role="status" ariaLabel="Offline" /&gt;
+      Offline&lt;/span
+    &gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="badge-dynamic"
+              title="Dynamic value"
+              description="Bind numeric values, cap large counts, and hide zero when the absence of a badge is clearer."
+              [tsCode]="dynamicTsCode"
+              [cssCode]="dynamicCssCode"
+            >
+              <div preview>
+                <div class="badge-dynamic-demo">
+                  <div class="badge-actions">
+                    <button aerisButton type="button" (click)="addUnread()">Add unread</button>
+                    <button aerisButton variant="secondary" type="button" (click)="clearUnread()">
+                      Clear
+                    </button>
+                  </div>
+                  <aeris-badge
+                    [value]="unreadCount()"
+                    [max]="99"
+                    role="status"
+                    [ariaLabel]="unreadLabel()"
+                  />
+                  <aeris-badge [value]="0" [showZero]="false" decorative />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="badge-dynamic-demo"&gt;
+    &lt;div class="badge-actions"&gt;
+      &lt;button aerisButton type="button" (click)="addUnread()"&gt;Add unread&lt;/button&gt;
+      &lt;button aerisButton variant="secondary" type="button" (click)="clearUnread()"&gt;
+        Clear
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;aeris-badge
+      [value]="unreadCount()"
+      [max]="99"
+      role="status"
+      [ariaLabel]="unreadLabel()"
+    /&gt;
+    &lt;aeris-badge [value]="0" [showZero]="false" decorative /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="badge-overlay"
+              title="Overlay"
+              description="Wrap a button, avatar, or icon with BadgeOverlay when the badge should sit on the content corner."
+              [tsCode]="overlayTsCode"
+              [cssCode]="overlayCssCode"
+            >
+              <div preview>
+                <div class="badge-overlay-row">
+                  <aeris-badge-overlay [value]="unreadCount()" [max]="99">
+                    <button aerisButton type="button" [attr.aria-label]="unreadLabel()">
+                      Inbox
+                    </button>
+                  </aeris-badge-overlay>
+                  <aeris-badge-overlay dot severity="success" position="bottom-right">
+                    <aeris-avatar label="JD" ariaLabel="Jordan is online" />
+                  </aeris-badge-overlay>
+                  <aeris-badge-overlay
+                    value="Beta"
+                    severity="info"
+                    variant="soft"
+                    position="top-left"
+                  >
+                    <button aerisButton variant="secondary" type="button">Preview</button>
+                  </aeris-badge-overlay>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="badge-overlay-row"&gt;
+    &lt;aeris-badge-overlay [value]="unreadCount()" [max]="99"&gt;
+      &lt;button aerisButton type="button" [attr.aria-label]="unreadLabel()"&gt;
+        Inbox
+      &lt;/button&gt;
+    &lt;/aeris-badge-overlay&gt;
+    &lt;aeris-badge-overlay dot severity="success" position="bottom-right"&gt;
+      &lt;aeris-avatar label="JD" ariaLabel="Jordan is online" /&gt;
+    &lt;/aeris-badge-overlay&gt;
+    &lt;aeris-badge-overlay
+      value="Beta"
+      severity="info"
+      variant="soft"
+      position="top-left"
+    &gt;
+      &lt;button aerisButton variant="secondary" type="button"&gt;Preview&lt;/button&gt;
+    &lt;/aeris-badge-overlay&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="badge-custom"
+              title="Token customization"
+              description="Scope token overrides to one badge when a product label needs custom emphasis."
+              [cssCode]="customCssCode"
+            >
+              <div preview>
+                <aeris-badge class="brand-badge" value="Release" severity="primary" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-badge class="brand-badge" value="Release" severity="primary" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Badge features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="badge-api-inputs" class="api-section">
+              <h3>Badge inputs</h3>
+              <div class="api-table" role="table" aria-label="Badge inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="badge-api-overlay-inputs" class="api-section">
+              <h3>BadgeOverlay inputs</h3>
+              <div class="api-table" role="table" aria-label="Badge overlay inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of overlayInputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="badge-api-content" class="api-section">
+              <h3>Content</h3>
+              <div class="api-table" role="table" aria-label="Badge content" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of content; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Badge API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          Badge exposes narrow unions for severity, size, variant, shape, role, and overlay
+          position.
+        </p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table token-table"
+          role="table"
+          aria-label="Badge design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-badge-size</code
+            ><span role="cell">Default badge height and minimum width.</span
+            ><code role="cell">1.375rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-badge-padding-inline</code
+            ><span role="cell">Default horizontal padding.</span><code role="cell">0.5rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-badge-font-size</code
+            ><span role="cell">Default badge font size.</span><code role="cell">0.75rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-badge-font-weight</code
+            ><span role="cell">Badge text weight.</span><code role="cell">800</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-badge-radius</code
+            ><span role="cell">Rounded shape corner radius.</span
+            ><code role="cell">--aeris-radius-sm</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-badge-shadow</code><span role="cell">Solid badge shadow.</span
+            ><code role="cell">0 1px 2px rgb(31 35 27 / 8%)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-badge-dot-size</code
+            ><span role="cell">Default dot badge size.</span><code role="cell">0.625rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-badge-overlay-ring-size</code
+            ><span role="cell">Surface ring around overlay badges.</span
+            ><code role="cell">2px</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-primary</code><span role="cell">Primary badge accent.</span
+            ><code role="cell">#879566</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-success</code><span role="cell">Success badge accent.</span
+            ><code role="cell">#6f8a68</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-info</code><span role="cell">Info badge accent.</span
+            ><code role="cell">#6b8793</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-warning</code><span role="cell">Warning badge accent.</span
+            ><code role="cell">#c38600</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-on-warning</code
+            ><span role="cell">Text on a solid warning badge.</span><code role="cell">#211600</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-danger</code><span role="cell">Danger badge accent.</span
+            ><code role="cell">#c81e2a</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface</code
+            ><span role="cell">Neutral foreground, soft badge mix, and overlay ring surface.</span
+            ><code role="cell">#fff</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-text</code><span role="cell">Contrast badge accent.</span
+            ><code role="cell">#222222</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-text-3</code><span role="cell">Neutral badge accent.</span
+            ><code role="cell">#707070</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>Badge is non-interactive and does not add itself to the tab order.</li>
+          <li>
+            Visible badge text is exposed to assistive technology unless <code>decorative</code> or
+            <code>hidden</code> is set.
+          </li>
+          <li>
+            Use <code>ariaLabel</code>, <code>ariaLabelledBy</code>, and an explicit
+            <code>role</code> when a standalone badge communicates status that is not clear from
+            visible text.
+          </li>
+          <li>
+            Dot badges have no visible text. Mark them decorative when nearby text already
+            communicates the state, or provide an accessible name when the dot itself carries
+            meaning.
+          </li>
+          <li>
+            BadgeOverlay badges are visual only. Include the count or state in the projected control
+            label when it is meaningful.
+          </li>
+          <li>
+            Badge does not animate. Reduced-motion preferences are still respected for overlay style
+            transitions.
+          </li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Badge keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Tab / Shift + Tab</span
+            ><span role="cell"
+              >Badge is skipped. Focus moves to native interactive elements projected inside
+              BadgeOverlay, such as buttons or links.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Enter / Space</span
+            ><span role="cell"
+              >No badge behavior. Activates the focused projected native control when one is
+              present.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Escape</span
+            ><span role="cell"
+              >No built-in behavior because Badge does not open, close, or capture focus.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

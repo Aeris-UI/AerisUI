@@ -1,0 +1,563 @@
+<article class="button-docs popover-docs">
+  <app-component-page-header
+    category="Overlay"
+    title="Popover"
+    description="Target-anchored overlay content with controlled visibility, templates, focus management, and responsive placement."
+  />
+
+  <section id="popover-import" class="import-section" aria-labelledby="popover-import-title">
+    <div>
+      <h2 id="popover-import-title">Import</h2>
+      <p>One import provides the popover component and all template directives.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Popover documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="popover-basic"
+              title="Basic"
+              description="Use a component reference to toggle the popover from a keyboard-focusable trigger."
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="basicPopover.toggle($event)">
+                  Show popover
+                </button>
+                <aeris-popover
+                  #basicPopover
+                  header="Flight details"
+                  initialFocus="#track-flight"
+                  closable
+                >
+                  <div class="popover-card">
+                    <strong>Track Flight</strong>
+                    <p>Gate B12 Â· Boarding starts in 18 minutes.</p>
+                    <button aerisButton id="track-flight" type="button">Track updates</button>
+                  </div>
+                </aeris-popover>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="basicPopover.toggle($event)"&gt;
+    Show popover
+  &lt;/button&gt;
+  &lt;aeris-popover
+    #basicPopover
+    header="Flight details"
+    initialFocus="#track-flight"
+    closable
+  &gt;
+    &lt;div class="popover-card"&gt;
+      &lt;strong&gt;Track Flight&lt;/strong&gt;
+      &lt;p&gt;Gate B12 Â· Boarding starts in 18 minutes.&lt;/p&gt;
+      &lt;button aerisButton id="track-flight" type="button"&gt;Track updates&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/aeris-popover&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="popover-controlled"
+              title="Controlled"
+              description="Bind visible and target when state belongs to the current component."
+              [tsCode]="controlledTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="openControlled($event)">
+                  Open controlled popover
+                </button>
+                <aeris-popover
+                  [target]="controlledTarget()"
+                  header="Controlled popover"
+                  [(visible)]="controlledOpen"
+                  (visibilityChanged)="recordEvent($event)"
+                >
+                  <div class="popover-card">
+                    <strong>External state</strong>
+                    <p>The trigger and visible model are controlled by the host component.</p>
+                  </div>
+                </aeris-popover>
+                <p class="demo-status" aria-live="polite">{{ lastEvent() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="openControlled($event)"&gt;
+    Open controlled popover
+  &lt;/button&gt;
+  &lt;aeris-popover
+    [target]="controlledTarget()"
+    header="Controlled popover"
+    [(visible)]="controlledOpen"
+    (visibilityChanged)="recordEvent($event)"
+  &gt;
+    &lt;div class="popover-card"&gt;
+      &lt;strong&gt;External state&lt;/strong&gt;
+      &lt;p&gt;The trigger and visible model are controlled by the host component.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/aeris-popover&gt;
+  &lt;p class="demo-status" aria-live="polite"&gt;&#123;&#123; lastEvent() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="popover-placement"
+              title="Placement"
+              description="Choose a preferred edge or use auto placement to fit available viewport space."
+              [tsCode]="placementTsCode"
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <div class="placement-grid">
+                  <button
+                    aerisButton
+                    type="button"
+                    (click)="openPlacement(placementPopover, $event, 'auto')"
+                  >
+                    Auto
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    (click)="openPlacement(placementPopover, $event, 'top')"
+                  >
+                    Top
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    (click)="openPlacement(placementPopover, $event, 'right')"
+                  >
+                    Right
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    (click)="openPlacement(placementPopover, $event, 'bottom')"
+                  >
+                    Bottom
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    (click)="openPlacement(placementPopover, $event, 'left')"
+                  >
+                    Left
+                  </button>
+                </div>
+                <aeris-popover #placementPopover [placement]="activePlacement()" header="Placement">
+                  <div class="popover-card">
+                    <strong>Responsive placement</strong>
+                    <p>Use the placement input on each popover instance to prefer an edge.</p>
+                  </div>
+                </aeris-popover>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="placement-grid"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      (click)="openPlacement(placementPopover, $event, 'auto')"
+    &gt;
+      Auto
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      (click)="openPlacement(placementPopover, $event, 'top')"
+    &gt;
+      Top
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      (click)="openPlacement(placementPopover, $event, 'right')"
+    &gt;
+      Right
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      (click)="openPlacement(placementPopover, $event, 'bottom')"
+    &gt;
+      Bottom
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      (click)="openPlacement(placementPopover, $event, 'left')"
+    &gt;
+      Left
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-popover #placementPopover [placement]="activePlacement()" header="Placement"&gt;
+    &lt;div class="popover-card"&gt;
+      &lt;strong&gt;Responsive placement&lt;/strong&gt;
+      &lt;p&gt;Use the placement input on each popover instance to prefer an edge.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/aeris-popover&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="popover-templates"
+              title="Templates"
+              description="Customize header, footer, and close icon while retaining the built-in dialog shell."
+              [tsCode]="templateTsCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="templatePopover.toggle($event)">
+                  Open templated popover
+                </button>
+                <aeris-popover #templatePopover closable>
+                  <ng-template aerisPopoverHeader>
+                    <span class="popover-header"
+                      ><span class="popover-dot" aria-hidden="true"></span
+                      >{{ selectedFlight() }}</span
+                    >
+                  </ng-template>
+                  <ng-template aerisPopoverCloseIcon>
+                    <span aria-hidden="true">Ã—</span>
+                  </ng-template>
+                  <div class="popover-card">
+                    <strong>On time</strong>
+                    <p>Boarding begins after the current security sweep.</p>
+                  </div>
+                  <ng-template aerisPopoverFooter let-close="close">
+                    <div class="popover-footer">
+                      <button aerisButton type="button" (click)="close($event)">Done</button>
+                    </div>
+                  </ng-template>
+                </aeris-popover>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="templatePopover.toggle($event)"&gt;
+    Open templated popover
+  &lt;/button&gt;
+  &lt;aeris-popover #templatePopover closable&gt;
+    &lt;ng-template aerisPopoverHeader&gt;
+      &lt;span class="popover-header"
+        &gt;&lt;span class="popover-dot" aria-hidden="true"&gt;&lt;/span
+        &gt;&#123;&#123; selectedFlight() &#125;&#125;&lt;/span
+      &gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisPopoverCloseIcon&gt;
+      &lt;span aria-hidden="true"&gt;Ã—&lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;div class="popover-card"&gt;
+      &lt;strong&gt;On time&lt;/strong&gt;
+      &lt;p&gt;Boarding begins after the current security sweep.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;ng-template aerisPopoverFooter let-close="close"&gt;
+      &lt;div class="popover-footer"&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Done&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-popover&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="popover-headless"
+              title="Headless"
+              description="Replace all built-in chrome while keeping target positioning, focus management, and dismissal."
+              [cssCode]="headlessCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="headlessPopover.show($event)">
+                  Open headless popover
+                </button>
+                <aeris-popover #headlessPopover>
+                  <ng-template aerisPopoverHeadless let-close="close">
+                    <div class="headless-popover">
+                      <strong>Upgrade available</strong>
+                      <p>Review compatibility notes before switching the active channel.</p>
+                      <button aerisButton type="button" (click)="close($event)">Got it</button>
+                    </div>
+                  </ng-template>
+                </aeris-popover>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="headlessPopover.show($event)"&gt;
+    Open headless popover
+  &lt;/button&gt;
+  &lt;aeris-popover #headlessPopover&gt;
+    &lt;ng-template aerisPopoverHeadless let-close="close"&gt;
+      &lt;div class="headless-popover"&gt;
+        &lt;strong&gt;Upgrade available&lt;/strong&gt;
+        &lt;p&gt;Review compatibility notes before switching the active channel.&lt;/p&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Got it&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-popover&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="popover-options"
+              title="Options"
+              description="Disable outside dismissal, hide the arrow, and set a custom width when a popover needs a stricter interaction."
+              [cssCode]="sharedCssCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="optionsPopover.toggle($event)">
+                  Open fixed popover
+                </button>
+                <aeris-popover
+                  #optionsPopover
+                  header="Pinned details"
+                  width="18rem"
+                  [dismissible]="false"
+                  [showArrow]="false"
+                  closable
+                >
+                  <div class="popover-card">
+                    <strong>Outside click disabled</strong>
+                    <p>Use the close button or Escape to dismiss this popover.</p>
+                  </div>
+                </aeris-popover>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="optionsPopover.toggle($event)"&gt;
+    Open fixed popover
+  &lt;/button&gt;
+  &lt;aeris-popover
+    #optionsPopover
+    header="Pinned details"
+    width="18rem"
+    [dismissible]="false"
+    [showArrow]="false"
+    closable
+  &gt;
+    &lt;div class="popover-card"&gt;
+      &lt;strong&gt;Outside click disabled&lt;/strong&gt;
+      &lt;p&gt;Use the close button or Escape to dismiss this popover.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/aeris-popover&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Popover features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="popover-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Popover inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="popover-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="Popover models">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="popover-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Popover outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="popover-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="Popover templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="popover-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Popover methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Popover API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table token-table" role="table" aria-label="Popover design tokens">
+          <div role="row">
+            <span role="columnheader">Token</span><span role="columnheader">Purpose</span
+            ><span role="columnheader">Default</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-popover-z-index</code
+            ><span role="cell">Overlay stacking context.</span><code role="cell">1030</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-popover-width</code><span role="cell">Popover width.</span
+            ><code role="cell">min(22rem, calc(100vw - 1rem))</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-popover-max-width</code
+            ><span role="cell">Maximum popover width.</span
+            ><code role="cell">calc(100vw - 1rem)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-popover-background</code
+            ><span role="cell">Popover surface.</span><code role="cell">var(--aeris-surface)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-popover-border</code><span role="cell">Popover border.</span
+            ><code role="cell">var(--aeris-border)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-popover-radius</code><span role="cell">Popover radius.</span
+            ><code role="cell">var(--aeris-radius-lg)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-popover-shadow</code
+            ><span role="cell">Popover elevation.</span><code role="cell">component shadow</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-popover-focus</code><span role="cell">Focus ring color.</span
+            ><code role="cell">var(--aeris-focus)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-popover-body-padding</code
+            ><span role="cell">Body padding.</span><code role="cell">1rem</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul class="accessibility-list">
+          <li>
+            The popover uses <code>role="dialog"</code> and receives an accessible name from
+            <code>header</code>, <code>aerisPopoverHeader</code>, <code>ariaLabel</code>, or
+            <code>ariaLabelledBy</code>.
+          </li>
+          <li>
+            The trigger receives <code>aria-haspopup="dialog"</code>, <code>aria-expanded</code>,
+            and <code>aria-controls</code> while the popover is open, then its previous values are
+            restored.
+          </li>
+          <li>
+            Focus moves into the popover by default, remains trapped while open, and returns to the
+            trigger when closed.
+          </li>
+          <li>Use a native button or another keyboard-focusable element as the trigger.</li>
+          <li>Motion respects reduced-motion preferences.</li>
+        </ul>
+        <div class="api-table keyboard-table" role="table" aria-label="Popover keyboard support">
+          <div role="row">
+            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell">Moves to the next focusable control inside the popover.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Shift + Tab</kbd
+            ><span role="cell">Moves to the previous focusable control inside the popover.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Escape</kbd
+            ><span role="cell"
+              >Closes the popover when closeOnEscape is enabled and restores trigger focus.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Enter</kbd
+            ><span role="cell">Activates the focused button or link.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Space</kbd><span role="cell">Activates the focused button.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

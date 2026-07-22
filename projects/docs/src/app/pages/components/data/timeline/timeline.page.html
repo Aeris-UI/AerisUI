@@ -1,0 +1,379 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Data"
+    title="Timeline"
+    description="Presents chronological events with semantic list structure, flexible alignment, progress states, responsive orientation, and complete template control."
+  />
+
+  <section class="import-section" aria-labelledby="timeline-import-title">
+    <div>
+      <h2 id="timeline-import-title">Import</h2>
+      <p>One import provides Timeline and all optional event templates.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Timeline documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="timeline-basic"
+              title="Basic"
+              description="Timeline renders event dates opposite their title and description in a named chronological list."
+              [tsCode]="eventsTsCode"
+            >
+              <div preview class="timeline-demo">
+                <aeris-timeline ariaLabel="Release milestones" [value]="events()" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="timeline-demo"&gt;
+  &lt;aeris-timeline ariaLabel="Release milestones" [value]="events()" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="timeline-alignment"
+              title="Alignment"
+              description="Place content consistently on either side of the axis or alternate it by event."
+              [tsCode]="eventsTsCode"
+            >
+              <div preview class="timeline-alignment-grid">
+                <section>
+                  <h3>Start</h3>
+                  <aeris-timeline
+                    class="timeline-demo--compact"
+                    align="start"
+                    ariaLabel="Start aligned milestones"
+                    [value]="events()"
+                  />
+                </section>
+                <section>
+                  <h3>End</h3>
+                  <aeris-timeline
+                    class="timeline-demo--compact"
+                    align="end"
+                    ariaLabel="End aligned milestones"
+                    [value]="events()"
+                  />
+                </section>
+                <section>
+                  <h3>Alternate</h3>
+                  <aeris-timeline
+                    class="timeline-demo--compact"
+                    align="alternate"
+                    ariaLabel="Alternating milestones"
+                    [value]="events()"
+                  />
+                </section>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="timeline-alignment-grid"&gt;
+  &lt;section&gt;
+    &lt;h3&gt;Start&lt;/h3&gt;
+    &lt;aeris-timeline
+      class="timeline-demo--compact"
+      align="start"
+      ariaLabel="Start aligned milestones"
+      [value]="events()"
+    /&gt;
+  &lt;/section&gt;
+  &lt;section&gt;
+    &lt;h3&gt;End&lt;/h3&gt;
+    &lt;aeris-timeline
+      class="timeline-demo--compact"
+      align="end"
+      ariaLabel="End aligned milestones"
+      [value]="events()"
+    /&gt;
+  &lt;/section&gt;
+  &lt;section&gt;
+    &lt;h3&gt;Alternate&lt;/h3&gt;
+    &lt;aeris-timeline
+      class="timeline-demo--compact"
+      align="alternate"
+      ariaLabel="Alternating milestones"
+      [value]="events()"
+    /&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="timeline-progress"
+              title="Progress and status"
+              description="activeIndex identifies the current step while each event status supplies a semantic marker color."
+              [tsCode]="eventsTsCode"
+            >
+              <div preview class="timeline-demo">
+                <aeris-timeline
+                  align="alternate"
+                  ariaLabel="Release progress"
+                  [activeIndex]="1"
+                  [value]="events()"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="timeline-demo"&gt;
+  &lt;aeris-timeline
+    align="alternate"
+    ariaLabel="Release progress"
+    [activeIndex]="1"
+    [value]="events()"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="timeline-horizontal"
+              title="Horizontal orientation"
+              description="Horizontal timelines preserve event width and scroll within their own region when the viewport is narrow."
+              [tsCode]="eventsTsCode"
+            >
+              <div preview class="timeline-demo">
+                <aeris-timeline
+                  orientation="horizontal"
+                  ariaLabel="Horizontal release milestones"
+                  [activeIndex]="1"
+                  [value]="events()"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="timeline-demo"&gt;
+  &lt;aeris-timeline
+    orientation="horizontal"
+    ariaLabel="Horizontal release milestones"
+    [activeIndex]="1"
+    [value]="events()"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="timeline-reverse"
+              title="Reverse order"
+              description="Reverse the displayed chronology without sorting or mutating the source collection."
+              [tsCode]="eventsTsCode"
+            >
+              <div preview class="timeline-demo">
+                <aeris-timeline
+                  reverse
+                  align="end"
+                  ariaLabel="Newest milestones first"
+                  [value]="events()"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="timeline-demo"&gt;
+  &lt;aeris-timeline
+    reverse
+    align="end"
+    ariaLabel="Newest milestones first"
+    [value]="events()"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="timeline-templates"
+              title="Custom marker icons and colors"
+              description="Use the marker template and markerColor to render custom visual markers for each event."
+              [htmlCode]="templateHtmlCode"
+              [tsCode]="customEventsTsCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview class="timeline-demo">
+                <aeris-timeline align="alternate" [activeIndex]="1" [value]="customEvents">
+                  <ng-template aerisTimelineMarker let-item>
+                    <svg class="timeline-marker-icon" [lucideIcon]="$any(item).data.icon"></svg>
+                  </ng-template>
+                  <ng-template aerisTimelineOpposite let-item>
+                    <span class="release-date">{{ $any(item).date }}</span>
+                  </ng-template>
+                  <ng-template aerisTimelineContent let-item let-state="state">
+                    <article class="release-card">
+                      <span class="release-card__state">{{ state }}</span>
+                      <h3>{{ $any(item).title }}</h3>
+                      <p>{{ $any(item).description }}</p>
+                      <small>{{ $any(item).data.owner }} - {{ $any(item).data.version }}</small>
+                    </article>
+                  </ng-template>
+                </aeris-timeline>
+              </div>
+            </app-form-demo>
+
+            <app-form-demo
+              id="timeline-empty"
+              title="Empty state"
+              description="Empty timelines expose a polite status message that can be replaced with a dedicated template."
+            >
+              <div preview class="timeline-demo">
+                <aeris-timeline [value]="[]" emptyMessage="No release activity yet" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="timeline-demo"&gt;
+  &lt;aeris-timeline [value]="[]" emptyMessage="No release activity yet" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="Timeline features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="timeline-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="Timeline inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="timeline-api-templates" tabindex="-1">Templates</h3>
+            <div class="api-table" role="table" aria-label="Timeline templates" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Context</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of templates; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="Timeline API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="Timeline design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-timeline-marker-size</code
+            ><span role="cell">Marker width and height.</span><code role="cell">1rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-timeline-marker-color</code
+            ><span role="cell">Default marker color; overridden per event by markerColor.</span
+            ><code role="cell">--aeris-border-strong</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-timeline-connector-color</code
+            ><span role="cell">Line connecting adjacent events.</span
+            ><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-timeline-connector-width</code
+            ><span role="cell">Vertical or horizontal connector thickness.</span
+            ><code role="cell">2px</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-timeline-separator-size</code
+            ><span role="cell">Space reserved for marker and connector.</span
+            ><code role="cell">2rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-timeline-item-min-height</code
+            ><span role="cell">Minimum vertical event height.</span><code role="cell">5.5rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-timeline-horizontal-item-width</code
+            ><span role="cell">Width of each horizontal event.</span><code role="cell">14rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-timeline-content-padding</code
+            ><span role="cell">Content and opposite-region spacing.</span
+            ><code role="cell">0.125rem 0.875rem 1.5rem</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Events use native ordered-list semantics, preserving chronological structure for
+            assistive technology.
+          </li>
+          <li><code>ariaLabel</code> gives each timeline a concise accessible name.</li>
+          <li>
+            The active event uses <code>aria-current="step"</code>; status and progress must also
+            remain available in visible event text when they convey essential meaning.
+          </li>
+          <li>
+            Markers and connectors are decorative. Links and controls projected into templates
+            retain their native semantics and focus behavior.
+          </li>
+          <li>
+            Horizontal overflow stays within the component and does not remove or reorder content.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Timeline keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell"
+              >Moves through links, buttons, and other interactive content projected into event
+              templates.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Enter</kbd
+            ><span role="cell"
+              >Activates a focused native link or button inside event content.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Space</kbd
+            ><span role="cell">Activates a focused native button inside event content.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

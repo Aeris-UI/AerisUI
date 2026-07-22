@@ -1,0 +1,59 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+  color: var(--aeris-chart-color, var(--aeris-text, #222222));
+}
+
+.aeris-chart__canvas-wrap {
+  position: relative;
+  box-sizing: border-box;
+  min-block-size: var(--aeris-chart-min-height, 12rem);
+  inline-size: 100%;
+  min-inline-size: 0;
+  padding: var(--aeris-chart-padding, 1rem);
+  overflow: hidden;
+  border: 1px solid var(--aeris-chart-border, var(--aeris-border, #deddd7));
+  border-radius: var(--aeris-chart-radius, var(--aeris-radius-lg, 0.875rem));
+  background: var(--aeris-chart-background, var(--aeris-surface, #fff));
+}
+
+.aeris-chart__canvas {
+  display: block;
+  inline-size: 100% !important;
+  block-size: 100% !important;
+}
+
+.aeris-chart__canvas:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 26%, transparent);
+  outline-offset: -3px;
+}
+
+.aeris-chart__empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  color: var(--aeris-chart-empty-color, var(--aeris-text-muted, #6d7068));
+  font-size: 0.875rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+.aeris-chart__description,
+.aeris-chart__summary {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-chart__canvas {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,50 @@
+@use '../shared/form-docs';
+
+.tree-size-grid,
+.tree-state-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.tree-size-grid label,
+.tree-state-grid .field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+}
+
+.tree-size-grid label > span,
+.tree-state-grid .field > span,
+.tree-state-grid .field > label {
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.tree-state-grid .state-message {
+  min-height: 1.125rem;
+}
+
+.tree-node-template,
+.tree-value-template {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tree-node-dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 999px;
+  background: var(--primary);
+}
+
+@media (max-width: 42rem) {
+  .tree-size-grid,
+  .tree-state-grid {
+    grid-template-columns: 1fr;
+  }
+}

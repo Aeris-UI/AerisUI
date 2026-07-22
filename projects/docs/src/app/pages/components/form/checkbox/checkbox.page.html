@@ -1,0 +1,512 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Form"
+    title="Checkbox"
+    description="Captures binary and mixed selection with native form semantics, signal models, flexible labels, and visible keyboard focus."
+  />
+
+  <section class="import-section" aria-labelledby="checkbox-import-title">
+    <div>
+      <h2 id="checkbox-import-title">Import</h2>
+      <p>Import the standalone Checkbox component from its dedicated entry point.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Checkbox documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>Every example below uses the same published Checkbox API documented in the API tab.</p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="checkbox-basic"
+              title="Basic"
+              description="Projected content creates a native clickable label around the checkbox."
+            >
+              <div preview>
+                <aeris-checkbox>Remember this device</aeris-checkbox>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-checkbox&gt;Remember this device&lt;/aeris-checkbox&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="checkbox-model"
+              title="Signal model"
+              description="Use two-way binding for local state and the typed changed output when event details are needed."
+              [tsCode]="modelCode"
+            >
+              <div preview class="checkbox-stack">
+                <aeris-checkbox
+                  value="notifications"
+                  [(checked)]="notifications"
+                  (changed)="recordChange($event)"
+                >
+                  Product notifications
+                </aeris-checkbox>
+                <span class="checkbox-result" aria-live="polite">
+                  Checked: {{ notifications() }}. Last change: {{ lastChange() }}.
+                </span>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="checkbox-stack"&gt;
+  &lt;aeris-checkbox
+    value="notifications"
+    [(checked)]="notifications"
+    (changed)="recordChange($event)"
+  &gt;
+    Product notifications
+  &lt;/aeris-checkbox&gt;
+  &lt;span class="checkbox-result" aria-live="polite"&gt;
+    Checked: &#123;&#123; notifications() &#125;&#125;. Last change: &#123;&#123; lastChange() &#125;&#125;.
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="checkbox-indeterminate"
+              title="Indeterminate"
+              description="Mixed state represents partial selection. Activating it clears mixed state and selects or clears the set."
+              [tsCode]="indeterminateCode"
+            >
+              <div preview class="checkbox-stack">
+                <aeris-checkbox
+                  [checked]="allSelected()"
+                  [indeterminate]="partiallySelected()"
+                  (checkedChange)="setAll($event)"
+                >
+                  Select all interests
+                </aeris-checkbox>
+                <span class="checkbox-result">
+                  {{ selectedInterests().length }} of {{ interests.length }} selected
+                </span>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="checkbox-stack"&gt;
+  &lt;aeris-checkbox
+    [checked]="allSelected()"
+    [indeterminate]="partiallySelected()"
+    (checkedChange)="setAll($event)"
+  &gt;
+    Select all interests
+  &lt;/aeris-checkbox&gt;
+  &lt;span class="checkbox-result"&gt;
+    &#123;&#123; selectedInterests().length &#125;&#125; of &#123;&#123; interests.length &#125;&#125; selected
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="checkbox-group"
+              title="Selection group"
+              description="Compose independent checkboxes in a semantic fieldset for multiple-choice data."
+              [tsCode]="groupCode"
+            >
+              <div preview>
+                <fieldset class="checkbox-group">
+                  <legend>Topics of interest</legend>
+                  @for (interest of interests; track interest.value) {
+                    <div class="checkbox-option">
+                      <aeris-checkbox
+                        [value]="interest.value"
+                        [checked]="isInterestSelected(interest.value)"
+                        (checkedChange)="setInterest(interest.value, $event)"
+                      >
+                        <span class="checkbox-option__content">
+                          <strong>{{ interest.label }}</strong>
+                          <small>{{ interest.description }}</small>
+                        </span>
+                      </aeris-checkbox>
+                    </div>
+                  }
+                </fieldset>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;fieldset class="checkbox-group"&gt;
+    &lt;legend&gt;Topics of interest&lt;/legend&gt;
+    &#64;for (interest of interests; track interest.value) &#123;
+      &lt;div class="checkbox-option"&gt;
+        &lt;aeris-checkbox
+          [value]="interest.value"
+          [checked]="isInterestSelected(interest.value)"
+          (checkedChange)="setInterest(interest.value, $event)"
+        &gt;
+          &lt;span class="checkbox-option__content"&gt;
+            &lt;strong&gt;&#123;&#123; interest.label &#125;&#125;&lt;/strong&gt;
+            &lt;small&gt;&#123;&#123; interest.description &#125;&#125;&lt;/small&gt;
+          &lt;/span&gt;
+        &lt;/aeris-checkbox&gt;
+      &lt;/div&gt;
+    &#125;
+  &lt;/fieldset&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="checkbox-sizes"
+              title="Sizes"
+              description="Four sizes align Checkbox with the active Aeris density scale."
+            >
+              <div preview class="field-row">
+                <aeris-checkbox size="xs" [checked]="true">Extra small</aeris-checkbox>
+                <aeris-checkbox size="sm" [checked]="true">Small</aeris-checkbox>
+                <aeris-checkbox [checked]="true">Medium</aeris-checkbox>
+                <aeris-checkbox size="lg" [checked]="true">Large</aeris-checkbox>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-row"&gt;
+  &lt;aeris-checkbox size="xs" [checked]="true"&gt;Extra small&lt;/aeris-checkbox&gt;
+  &lt;aeris-checkbox size="sm" [checked]="true"&gt;Small&lt;/aeris-checkbox&gt;
+  &lt;aeris-checkbox [checked]="true"&gt;Medium&lt;/aeris-checkbox&gt;
+  &lt;aeris-checkbox size="lg" [checked]="true"&gt;Large&lt;/aeris-checkbox&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="checkbox-label-position"
+              title="Label position"
+              description="Place label content after or before the control without changing native association."
+            >
+              <div preview class="field-row checkbox-label-position">
+                <aeris-checkbox [checked]="true">Label at end</aeris-checkbox>
+                <aeris-checkbox [checked]="true" labelPosition="start"
+                  >Label at start</aeris-checkbox
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-row checkbox-label-position"&gt;
+  &lt;aeris-checkbox [checked]="true"&gt;Label at end&lt;/aeris-checkbox&gt;
+  &lt;aeris-checkbox [checked]="true" labelPosition="start"
+    &gt;Label at start&lt;/aeris-checkbox
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="checkbox-rich-label"
+              title="Rich label"
+              description="Projected semantic content supports titles, descriptions, and inline links while preserving one native label."
+            >
+              <div preview>
+                <aeris-checkbox [(checked)]="termsAccepted">
+                  <span class="checkbox-rich-label">
+                    <strong>Accept the project terms</strong>
+                    <small>Required before publishing this workspace.</small>
+                  </span>
+                </aeris-checkbox>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-checkbox [(checked)]="termsAccepted"&gt;
+    &lt;span class="checkbox-rich-label"&gt;
+      &lt;strong&gt;Accept the project terms&lt;/strong&gt;
+      &lt;small&gt;Required before publishing this workspace.&lt;/small&gt;
+    &lt;/span&gt;
+  &lt;/aeris-checkbox&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="checkbox-states"
+              title="Required, invalid, and disabled"
+              description="Validation and disabled state are synchronized with the internal native checkbox."
+            >
+              <div preview class="checkbox-stack">
+                <aeris-checkbox
+                  inputId="required-terms"
+                  required
+                  invalid
+                  ariaDescribedby="required-terms-error"
+                >
+                  Accept terms
+                </aeris-checkbox>
+                <small id="required-terms-error" class="error"
+                  >You must accept the terms to continue.</small
+                >
+                <aeris-checkbox disabled>Unavailable option</aeris-checkbox>
+                <aeris-checkbox [checked]="true" disabled>Selected and unavailable</aeris-checkbox>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="checkbox-stack"&gt;
+  &lt;aeris-checkbox
+    inputId="required-terms"
+    required
+    invalid
+    ariaDescribedby="required-terms-error"
+  &gt;
+    Accept terms
+  &lt;/aeris-checkbox&gt;
+  &lt;small id="required-terms-error" class="error"
+    &gt;You must accept the terms to continue.&lt;/small
+  &gt;
+  &lt;aeris-checkbox disabled&gt;Unavailable option&lt;/aeris-checkbox&gt;
+  &lt;aeris-checkbox [checked]="true" disabled&gt;Selected and unavailable&lt;/aeris-checkbox&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="checkbox-native-form"
+              title="Native form values"
+              description="Name and value are forwarded to the native checkbox for standard browser form submission."
+            >
+              <div preview class="checkbox-stack">
+                <aeris-checkbox name="permissions" value="reports" [checked]="true">
+                  View reports
+                </aeris-checkbox>
+                <aeris-checkbox name="permissions" value="exports"> Export data </aeris-checkbox>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="checkbox-stack"&gt;
+  &lt;aeris-checkbox name="permissions" value="reports" [checked]="true"&gt;
+    View reports
+  &lt;/aeris-checkbox&gt;
+  &lt;aeris-checkbox name="permissions" value="exports"&gt; Export data &lt;/aeris-checkbox&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="checkbox-angular-forms"
+              title="Reactive and template-driven forms"
+              description="Checkbox implements the Angular checkbox value-accessor contract while retaining checked signal binding."
+              [tsCode]="formsCode"
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <span>Reactive Forms</span>
+                  <aeris-checkbox [formControl]="reactiveChecked">Enable analytics</aeris-checkbox>
+                  <small>Checked: {{ reactiveChecked.value }}</small>
+                </div>
+                <div class="field">
+                  <span>Template-driven forms</span>
+                  <aeris-checkbox name="templateChecked" [(ngModel)]="templateChecked">
+                    Receive release notes
+                  </aeris-checkbox>
+                  <small>Checked: {{ templateChecked }}</small>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Reactive Forms&lt;/span&gt;
+    &lt;aeris-checkbox [formControl]="reactiveChecked"&gt;Enable analytics&lt;/aeris-checkbox&gt;
+    &lt;small&gt;Checked: &#123;&#123; reactiveChecked.value &#125;&#125;&lt;/small&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;span&gt;Template-driven forms&lt;/span&gt;
+    &lt;aeris-checkbox name="templateChecked" [(ngModel)]="templateChecked"&gt;
+      Receive release notes
+    &lt;/aeris-checkbox&gt;
+    &lt;small&gt;Checked: &#123;&#123; templateChecked &#125;&#125;&lt;/small&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="Checkbox features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="checkbox-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="Checkbox inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="checkbox-api-outputs" tabindex="-1">Outputs</h3>
+            <div class="api-table compact" role="table" aria-label="Checkbox outputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">checkedChange</code><span role="cell">boolean</span
+                ><span role="cell">Emitted automatically by the checked model.</span>
+              </div>
+              <div role="row">
+                <code role="cell">indeterminateChange</code><span role="cell">boolean</span
+                ><span role="cell">Emitted automatically by the indeterminate model.</span>
+              </div>
+              <div role="row">
+                <code role="cell">checkedInput</code><span role="cell">boolean</span
+                ><span role="cell"
+                  >Emitted when user or public method interaction changes checked state.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">changed</code><span role="cell">AerisCheckboxChangeEvent</span
+                ><span role="cell"
+                  >Native event, checked state, mixed state, and submitted value.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">focused</code><span role="cell">FocusEvent</span
+                ><span role="cell">Emitted when the native checkbox receives focus.</span>
+              </div>
+              <div role="row">
+                <code role="cell">blurred</code><span role="cell">FocusEvent</span
+                ><span role="cell">Emitted when the native checkbox loses focus.</span>
+              </div>
+              <div role="row">
+                <code role="cell">touch</code><span role="cell">void</span
+                ><span role="cell">Emitted on blur for Angular Signal Forms.</span>
+              </div>
+            </div>
+
+            <h3 id="checkbox-api-methods" tabindex="-1">Methods</h3>
+            <div class="api-table compact" role="table" aria-label="Checkbox methods" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Signature</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">focus</code
+                ><span role="cell">(options?: FocusOptions) =&gt; void</span
+                ><span role="cell">Moves focus to the native checkbox.</span>
+              </div>
+              <div role="row">
+                <code role="cell">toggle</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Toggles an enabled checkbox and clears mixed state.</span>
+              </div>
+              <div role="row">
+                <code role="cell">reset</code><span role="cell">() =&gt; void</span
+                ><span role="cell">Clears checked and indeterminate state.</span>
+              </div>
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="Checkbox API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="Checkbox design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-primary</code
+            ><span role="cell">Selected and mixed control background.</span
+            ><code role="cell">#879566</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-on-primary</code><span role="cell">Selected icon color.</span
+            ><code role="cell">#17200f</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-border-strong</code><span role="cell">Unchecked border.</span
+            ><code role="cell">#c7c9c0</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface</code><span role="cell">Unchecked background.</span
+            ><code role="cell">#ffffff</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radius-sm</code
+            ><span role="cell">Control corner radius foundation.</span
+            ><code role="cell">0.4375rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-focus</code
+            ><span role="cell">Visible keyboard focus ring.</span><code role="cell">#536437</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-danger</code
+            ><span role="cell">Invalid border and focus ring.</span><code role="cell">#c81e2a</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Checkbox uses a real native <code>input type="checkbox"</code>, preserving browser,
+            keyboard, form, and assistive-technology behavior.
+          </li>
+          <li>
+            Projected content and the <code>label</code> input are wrapped in one native label,
+            expanding the pointer target.
+          </li>
+          <li>
+            <kbd>Space</kbd> toggles the focused checkbox. Native tab order and disabled behavior
+            are preserved.
+          </li>
+          <li>
+            Mixed state is applied through the native <code>indeterminate</code> property and
+            announced as partially checked by supporting screen readers.
+          </li>
+          <li>
+            Use a visible label whenever possible. For icon-only or externally labeled controls, use
+            <code>ariaLabel</code> or <code>ariaLabelledby</code>.
+          </li>
+          <li>
+            Connect help and error text through <code>ariaDescribedby</code>. The invalid input
+            synchronizes <code>aria-invalid</code>.
+          </li>
+          <li>
+            Selection groups should use a <code>fieldset</code> and <code>legend</code> to
+            communicate their shared question.
+          </li>
+          <li>
+            ControlValueAccessor support synchronizes checked, touched, and disabled state with
+            Reactive Forms and template-driven forms.
+          </li>
+          <li>
+            Focus indicators meet the WCAG 2.2 target and animations respect reduced-motion
+            preferences.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Checkbox keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell">Moves focus to or away from the checkbox.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Space</kbd
+            ><span role="cell">Toggles the focused checkbox between checked and unchecked.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

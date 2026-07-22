@@ -1,0 +1,37 @@
+aeris-fluid.aeris-fluid {
+  min-inline-size: var(--aeris-fluid-min-inline-size, 0);
+  inline-size: var(--aeris-fluid-inline-size, 100%);
+  display: block;
+}
+
+aeris-fluid.aeris-fluid[data-enabled='true']
+  :where(
+    aeris-auto-complete,
+    aeris-button,
+    aeris-button-group,
+    aeris-cascade-select,
+    aeris-color-picker,
+    aeris-date-picker,
+    aeris-editor,
+    aeris-icon-field,
+    aeris-input-group,
+    aeris-input-mask,
+    aeris-input-number,
+    aeris-input-otp,
+    aeris-input-text,
+    aeris-multi-select,
+    aeris-password,
+    aeris-select,
+    aeris-slider,
+    aeris-split-button,
+    aeris-textarea,
+    aeris-tree-select,
+    button[aerisButton],
+    a[aerisButton],
+    input[aerisInputText],
+    textarea[aerisTextarea]
+  ) {
+  min-inline-size: var(--aeris-fluid-min-inline-size, 0);
+  max-inline-size: 100%;
+  inline-size: var(--aeris-fluid-inline-size, 100%);
+}

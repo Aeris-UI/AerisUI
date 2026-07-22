@@ -1,0 +1,143 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.style-class-docs app-form-demo {
+  --docs-code-block-max-height: min(42rem, 72vh);
+}
+
+.style-toggle-demo,
+.style-animation-demo,
+.style-resize-demo,
+.style-method-demo {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.style-toggle-demo,
+.style-animation-demo,
+.style-resize-demo {
+  justify-items: start;
+}
+
+.style-toggle-card,
+.style-animation-panel,
+.style-resize-panel,
+.style-method-notice {
+  width: min(100%, 34rem);
+  padding: 1rem;
+  border-radius: var(--aeris-radius-lg);
+}
+
+.style-toggle-card,
+.style-animation-panel,
+.style-resize-panel {
+  border: 1px solid var(--aeris-border);
+  background: var(--aeris-surface-2);
+}
+
+.style-toggle-card {
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.style-toggle-card--active {
+  border-color: var(--aeris-primary);
+  background: var(--aeris-primary-soft);
+  transform: translateY(-0.125rem);
+}
+
+.style-animation-panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.style-enter-from,
+.style-leave-to {
+  opacity: 0;
+  transform: translateY(-0.625rem) scale(0.98);
+}
+
+.style-enter-active,
+.style-leave-active {
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.style-enter-to,
+.style-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.style-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem;
+}
+
+.style-selector-case,
+.style-selector-target {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-lg);
+}
+
+.style-selector-target {
+  background: var(--aeris-surface-2);
+}
+
+.style-selector-target--selected {
+  border-color: var(--aeris-primary);
+  background: var(--aeris-primary-soft);
+}
+
+.style-resize-panel,
+.style-method-notice {
+  display: none;
+}
+
+.style-resize-panel--visible,
+.style-method-notice--visible {
+  display: block;
+}
+
+.style-method-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.style-method-notice {
+  border-inline-start: 0.25rem solid var(--aeris-primary);
+  background: var(--aeris-primary-soft);
+}
+
+.style-method-status {
+  margin: 0;
+  color: var(--aeris-text-2);
+}
+
+@media (max-width: 40rem) {
+  .style-selector-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 30rem) {
+  .style-method-actions > button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .style-toggle-card,
+  .style-enter-active,
+  .style-leave-active {
+    transition: none;
+  }
+}

@@ -1,0 +1,28 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: Europe/Belgrade
+    open-pull-requests-limit: 5
+    groups:
+      angular:
+        patterns:
+          - '@angular/*'
+          - 'ng-packagr'
+      lexical:
+        patterns:
+          - '@lexical/*'
+          - 'lexical'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:30'
+      timezone: Europe/Belgrade
+    open-pull-requests-limit: 3

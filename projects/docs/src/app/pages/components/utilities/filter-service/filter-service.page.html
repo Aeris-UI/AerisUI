@@ -1,0 +1,688 @@
+<article class="button-docs filter-service-docs">
+  <app-component-page-header
+    category="Utilities"
+    title="FilterService"
+    description="Filter individual values and typed collections with locale-aware built-ins, safe field resolution, and application-defined constraints."
+  />
+
+  <section
+    id="filter-service-import"
+    class="import-section"
+    aria-labelledby="filter-service-import-title"
+  >
+    <div>
+      <h2 id="filter-service-import-title">Import</h2>
+      <p>The root-provided service is available through one secondary-entry import.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="FilterService documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="filter-service-basic"
+              title="Collection filtering"
+              description="Search several fields at once while preserving source order and leaving the original collection unchanged. Text matching ignores case and diacritic marks."
+              [tsCode]="basicTsCode"
+              [cssCode]="basicCssCode"
+            >
+              <div preview class="filter-demo">
+                <label for="filter-service-query">Search products</label>
+                <aeris-input-text
+                  inputId="filter-service-query"
+                  type="search"
+                  fluid
+                  [(value)]="query"
+                />
+                <p class="filter-summary" role="status" aria-live="polite">
+                  {{ basicResults().length }} products found
+                </p>
+                <ul class="filter-results">
+                  @for (product of basicResults(); track product.id) {
+                    <li>
+                      <aeris-card padding="sm" variant="filled">
+                        <div class="filter-result-row">
+                          <strong>{{ product.name }}</strong
+                          ><span>{{ product.category }}</span>
+                        </div>
+                      </aeris-card>
+                    </li>
+                  }
+                </ul>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="filter-demo"&gt;
+  &lt;label for="filter-service-query"&gt;Search products&lt;/label&gt;
+  &lt;aeris-input-text
+    inputId="filter-service-query"
+    type="search"
+    fluid
+    [(value)]="query"
+  /&gt;
+  &lt;p class="filter-summary" role="status" aria-live="polite"&gt;
+    &#123;&#123; basicResults().length &#125;&#125; products found
+  &lt;/p&gt;
+  &lt;ul class="filter-results"&gt;
+    &#64;for (product of basicResults(); track product.id) &#123;
+      &lt;li&gt;
+        &lt;aeris-card padding="sm" variant="filled"&gt;
+          &lt;div class="filter-result-row"&gt;
+            &lt;strong&gt;&#123;&#123; product.name &#125;&#125;&lt;/strong
+            &gt;&lt;span&gt;&#123;&#123; product.category &#125;&#125;&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/aeris-card&gt;
+      &lt;/li&gt;
+    &#125;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="filter-service-modes"
+              title="Match modes"
+              description="Choose a built-in mode per operation. Empty text queries intentionally return the full source collection."
+              [tsCode]="modesTsCode"
+              [cssCode]="modesCssCode"
+            >
+              <div preview class="filter-demo">
+                <div class="filter-actions" role="group" aria-label="Text match mode">
+                  <button
+                    aerisButton
+                    type="button"
+                    size="sm"
+                    [variant]="selectedMode() === 'starts-with' ? 'primary' : 'outline'"
+                    (click)="selectedMode.set('starts-with')"
+                  >
+                    Starts with
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    size="sm"
+                    [variant]="selectedMode() === 'contains' ? 'primary' : 'outline'"
+                    (click)="selectedMode.set('contains')"
+                  >
+                    Contains
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    size="sm"
+                    [variant]="selectedMode() === 'ends-with' ? 'primary' : 'outline'"
+                    (click)="selectedMode.set('ends-with')"
+                  >
+                    Ends with
+                  </button>
+                </div>
+                <label for="filter-service-mode-query">Value to match</label>
+                <aeris-input-text
+                  inputId="filter-service-mode-query"
+                  type="search"
+                  fluid
+                  [(value)]="modeQuery"
+                />
+                <p>
+                  Matching <code>{{ modeQuery() }}</code> with <code>{{ selectedMode() }}</code
+                  >:
+                </p>
+                <ul class="filter-results" aria-live="polite">
+                  @for (product of modeResults(); track product.id) {
+                    <li>
+                      <aeris-card padding="sm" variant="filled">
+                        {{ product.name }}
+                      </aeris-card>
+                    </li>
+                  } @empty {
+                    <li><aeris-card padding="sm" variant="filled">No matches</aeris-card></li>
+                  }
+                </ul>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="filter-demo"&gt;
+  &lt;div class="filter-actions" role="group" aria-label="Text match mode"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      size="sm"
+      [variant]="selectedMode() === 'starts-with' ? 'primary' : 'outline'"
+      (click)="selectedMode.set('starts-with')"
+    &gt;
+      Starts with
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      size="sm"
+      [variant]="selectedMode() === 'contains' ? 'primary' : 'outline'"
+      (click)="selectedMode.set('contains')"
+    &gt;
+      Contains
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      size="sm"
+      [variant]="selectedMode() === 'ends-with' ? 'primary' : 'outline'"
+      (click)="selectedMode.set('ends-with')"
+    &gt;
+      Ends with
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;label for="filter-service-mode-query"&gt;Value to match&lt;/label&gt;
+  &lt;aeris-input-text
+    inputId="filter-service-mode-query"
+    type="search"
+    fluid
+    [(value)]="modeQuery"
+  /&gt;
+  &lt;p&gt;
+    Matching &lt;code&gt;&#123;&#123; modeQuery() &#125;&#125;&lt;/code&gt; with &lt;code&gt;&#123;&#123; selectedMode() &#125;&#125;&lt;/code
+    &gt;:
+  &lt;/p&gt;
+  &lt;ul class="filter-results" aria-live="polite"&gt;
+    &#64;for (product of modeResults(); track product.id) &#123;
+      &lt;li&gt;
+        &lt;aeris-card padding="sm" variant="filled"&gt;
+          &#123;&#123; product.name &#125;&#125;
+        &lt;/aeris-card&gt;
+      &lt;/li&gt;
+    &#125; &#64;empty &#123;
+      &lt;li&gt;&lt;aeris-card padding="sm" variant="filled"&gt;No matches&lt;/aeris-card&gt;&lt;/li&gt;
+    &#125;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="filter-service-comparisons"
+              title="Numbers and dates"
+              description="Use selector fields to compare typed values, and before or after for Date instances, timestamps, and date strings."
+              [tsCode]="comparisonTsCode"
+              [cssCode]="comparisonCssCode"
+            >
+              <div preview class="comparison-grid">
+                <aeris-card role="group" ariaLabelledBy="filter-price-title">
+                  <header aerisCardHeader>
+                    <h3 id="filter-price-title" aerisCardTitle>Price threshold</h3>
+                  </header>
+                  <div class="comparison-content">
+                    <label for="filter-service-price">
+                      Minimum price
+                      <aeris-input-number
+                        inputId="filter-service-price"
+                        mode="currency"
+                        currency="EUR"
+                        [min]="0"
+                        [step]="10"
+                        showButtons
+                        fluid
+                        [(value)]="minimumPrice"
+                      />
+                    </label>
+                    <p class="filter-summary" role="status" aria-live="polite">
+                      @if (minimumPrice() === null) {
+                        {{ comparisonResults().length }} products across all prices
+                      } @else {
+                        {{ comparisonResults().length }} products at or above EUR
+                        {{ minimumPrice() }}
+                      }
+                    </p>
+                    <ul>
+                      @for (product of comparisonResults(); track product.id) {
+                        <li>{{ product.name }} — EUR {{ product.price }}</li>
+                      }
+                    </ul>
+                  </div>
+                </aeris-card>
+                <aeris-card role="group" ariaLabelledBy="filter-date-title">
+                  <header aerisCardHeader>
+                    <h3 id="filter-date-title" aerisCardTitle>Date threshold</h3>
+                  </header>
+                  <div class="comparison-content">
+                    <label for="filter-service-date">
+                      Added after
+                      <aeris-date-picker
+                        inputId="filter-service-date"
+                        clearable
+                        fluid
+                        [(value)]="addedAfter"
+                      />
+                    </label>
+                    <p class="filter-summary" role="status" aria-live="polite">
+                      {{ dateResults().length }} products added after {{ addedAfterLabel() }}
+                    </p>
+                    <ul>
+                      @for (product of dateResults(); track product.id) {
+                        <li>{{ product.name }} — {{ product.added }}</li>
+                      }
+                    </ul>
+                  </div>
+                </aeris-card>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="comparison-grid"&gt;
+  &lt;aeris-card role="group" ariaLabelledBy="filter-price-title"&gt;
+    &lt;header aerisCardHeader&gt;
+      &lt;h3 id="filter-price-title" aerisCardTitle&gt;Price threshold&lt;/h3&gt;
+    &lt;/header&gt;
+    &lt;div class="comparison-content"&gt;
+      &lt;label for="filter-service-price"&gt;
+        Minimum price
+        &lt;aeris-input-number
+          inputId="filter-service-price"
+          mode="currency"
+          currency="EUR"
+          [min]="0"
+          [step]="10"
+          showButtons
+          fluid
+          [(value)]="minimumPrice"
+        /&gt;
+      &lt;/label&gt;
+      &lt;p class="filter-summary" role="status" aria-live="polite"&gt;
+        &#64;if (minimumPrice() === null) &#123;
+          &#123;&#123; comparisonResults().length &#125;&#125; products across all prices
+        &#125; &#64;else &#123;
+          &#123;&#123; comparisonResults().length &#125;&#125; products at or above EUR
+          &#123;&#123; minimumPrice() &#125;&#125;
+        &#125;
+      &lt;/p&gt;
+      &lt;ul&gt;
+        &#64;for (product of comparisonResults(); track product.id) &#123;
+          &lt;li&gt;&#123;&#123; product.name &#125;&#125; — EUR &#123;&#123; product.price &#125;&#125;&lt;/li&gt;
+        &#125;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/aeris-card&gt;
+  &lt;aeris-card role="group" ariaLabelledBy="filter-date-title"&gt;
+    &lt;header aerisCardHeader&gt;
+      &lt;h3 id="filter-date-title" aerisCardTitle&gt;Date threshold&lt;/h3&gt;
+    &lt;/header&gt;
+    &lt;div class="comparison-content"&gt;
+      &lt;label for="filter-service-date"&gt;
+        Added after
+        &lt;aeris-date-picker
+          inputId="filter-service-date"
+          clearable
+          fluid
+          [(value)]="addedAfter"
+        /&gt;
+      &lt;/label&gt;
+      &lt;p class="filter-summary" role="status" aria-live="polite"&gt;
+        &#123;&#123; dateResults().length &#125;&#125; products added after &#123;&#123; addedAfterLabel() &#125;&#125;
+      &lt;/p&gt;
+      &lt;ul&gt;
+        &#64;for (product of dateResults(); track product.id) &#123;
+          &lt;li&gt;&#123;&#123; product.name &#125;&#125; — &#123;&#123; product.added &#125;&#125;&lt;/li&gt;
+        &#125;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/aeris-card&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="filter-service-fields"
+              title="Fields and operators"
+              description="Resolve safe own-property paths or typed selector functions. Field matches use OR by default and can require every field with AND."
+              [tsCode]="fieldsTsCode"
+              [cssCode]="fieldsCssCode"
+            >
+              <div preview class="filter-demo">
+                <label for="filter-service-field-query">Value to match</label>
+                <aeris-input-text
+                  inputId="filter-service-field-query"
+                  type="search"
+                  fluid
+                  [(value)]="fieldQuery"
+                />
+                <div class="filter-actions" role="group" aria-label="Field operator">
+                  <button
+                    aerisButton
+                    type="button"
+                    size="sm"
+                    [variant]="fieldOperator() === 'or' ? 'primary' : 'outline'"
+                    (click)="fieldOperator.set('or')"
+                  >
+                    Match any field
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    size="sm"
+                    [variant]="fieldOperator() === 'and' ? 'primary' : 'outline'"
+                    (click)="fieldOperator.set('and')"
+                  >
+                    Match every field
+                  </button>
+                </div>
+                <p class="filter-summary" role="status" aria-live="polite">
+                  {{ fieldResults().length }} products match <code>{{ fieldQuery() }}</code>
+                </p>
+                <ul class="filter-results">
+                  @for (product of fieldResults(); track product.id) {
+                    <li>
+                      <aeris-card padding="sm" variant="filled">
+                        <div class="filter-result-row">
+                          <strong>{{ product.name }}</strong
+                          ><span>{{ product.supplier.country }}</span>
+                        </div>
+                      </aeris-card>
+                    </li>
+                  } @empty {
+                    <li>
+                      <aeris-card padding="sm" variant="filled">
+                        No products match the active fields.
+                      </aeris-card>
+                    </li>
+                  }
+                </ul>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="filter-demo"&gt;
+  &lt;label for="filter-service-field-query"&gt;Value to match&lt;/label&gt;
+  &lt;aeris-input-text
+    inputId="filter-service-field-query"
+    type="search"
+    fluid
+    [(value)]="fieldQuery"
+  /&gt;
+  &lt;div class="filter-actions" role="group" aria-label="Field operator"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      size="sm"
+      [variant]="fieldOperator() === 'or' ? 'primary' : 'outline'"
+      (click)="fieldOperator.set('or')"
+    &gt;
+      Match any field
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      size="sm"
+      [variant]="fieldOperator() === 'and' ? 'primary' : 'outline'"
+      (click)="fieldOperator.set('and')"
+    &gt;
+      Match every field
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;p class="filter-summary" role="status" aria-live="polite"&gt;
+    &#123;&#123; fieldResults().length &#125;&#125; products match &lt;code&gt;&#123;&#123; fieldQuery() &#125;&#125;&lt;/code&gt;
+  &lt;/p&gt;
+  &lt;ul class="filter-results"&gt;
+    &#64;for (product of fieldResults(); track product.id) &#123;
+      &lt;li&gt;
+        &lt;aeris-card padding="sm" variant="filled"&gt;
+          &lt;div class="filter-result-row"&gt;
+            &lt;strong&gt;&#123;&#123; product.name &#125;&#125;&lt;/strong
+            &gt;&lt;span&gt;&#123;&#123; product.supplier.country &#125;&#125;&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/aeris-card&gt;
+      &lt;/li&gt;
+    &#125; &#64;empty &#123;
+      &lt;li&gt;
+        &lt;aeris-card padding="sm" variant="filled"&gt;
+          No products match the active fields.
+        &lt;/aeris-card&gt;
+      &lt;/li&gt;
+    &#125;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="filter-service-custom"
+              title="Custom constraint"
+              description="Register application logic under a normalized name. The returned cleanup function restores an overridden constraint or removes a new one."
+              [tsCode]="customTsCode"
+              [cssCode]="customCssCode"
+            >
+              <div preview class="filter-demo">
+                <label for="filter-service-custom-code">Inventory code</label>
+                <aeris-input-text
+                  inputId="filter-service-custom-code"
+                  type="text"
+                  fluid
+                  [(value)]="customCode"
+                />
+                <div class="filter-actions" role="group" aria-label="Example inventory codes">
+                  @for (code of customCodes; track code) {
+                    <button
+                      aerisButton
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      (click)="customCode.set(code)"
+                    >
+                      {{ code }}
+                    </button>
+                  }
+                </div>
+                <aeris-message
+                  size="sm"
+                  variant="outlined"
+                  [severity]="customMatches() ? 'success' : 'warning'"
+                >
+                  <strong>{{ customCode() || 'Empty code' }}</strong>
+                  {{ customMatches() ? 'has an even numeric suffix.' : 'does not match.' }}
+                </aeris-message>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="filter-demo"&gt;
+  &lt;label for="filter-service-custom-code"&gt;Inventory code&lt;/label&gt;
+  &lt;aeris-input-text
+    inputId="filter-service-custom-code"
+    type="text"
+    fluid
+    [(value)]="customCode"
+  /&gt;
+  &lt;div class="filter-actions" role="group" aria-label="Example inventory codes"&gt;
+    &#64;for (code of customCodes; track code) &#123;
+      &lt;button
+        aerisButton
+        type="button"
+        size="sm"
+        variant="outline"
+        (click)="customCode.set(code)"
+      &gt;
+        &#123;&#123; code &#125;&#125;
+      &lt;/button&gt;
+    &#125;
+  &lt;/div&gt;
+  &lt;aeris-message
+    size="sm"
+    variant="outlined"
+    [severity]="customMatches() ? 'success' : 'warning'"
+  &gt;
+    &lt;strong&gt;&#123;&#123; customCode() || 'Empty code' &#125;&#125;&lt;/strong&gt;
+    &#123;&#123; customMatches() ? 'has an even numeric suffix.' : 'does not match.' &#125;&#125;
+  &lt;/aeris-message&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="filter-service-table"
+              title="Table integration"
+              description="Derive table data with FilterService when an application needs shared custom constraints beyond a component's built-in filter UI."
+              [tsCode]="tableTsCode"
+              [cssCode]="tableCssCode"
+            >
+              <div preview class="filter-demo">
+                <label for="filter-service-table-query">Search the table</label>
+                <aeris-input-text
+                  inputId="filter-service-table-query"
+                  type="search"
+                  fluid
+                  [(value)]="tableQuery"
+                />
+                <aeris-table
+                  caption="Filtered products"
+                  [data]="tableRows()"
+                  [columns]="tableColumns"
+                  responsiveMode="stack"
+                  striped
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="filter-demo"&gt;
+  &lt;label for="filter-service-table-query"&gt;Search the table&lt;/label&gt;
+  &lt;aeris-input-text
+    inputId="filter-service-table-query"
+    type="search"
+    fluid
+    [(value)]="tableQuery"
+  /&gt;
+  &lt;aeris-table
+    caption="Filtered products"
+    [data]="tableRows()"
+    [columns]="tableColumns"
+    responsiveMode="stack"
+    striped
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="On this page"
+            ariaLabel="FilterService features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="filter-service-api-properties" class="api-section">
+              <h3>Properties</h3>
+              <div
+                class="api-table"
+                role="table"
+                aria-label="FilterService properties"
+                tabindex="0"
+              >
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of properties; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="filter-service-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div
+                class="api-table method-table"
+                role="table"
+                aria-label="FilterService methods"
+                tabindex="0"
+              >
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Signature</b
+                  ><b role="columnheader">Description</b>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><code role="cell">{{ row.signature }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="filter-service-api-modes" class="api-section">
+              <h3>Built-in modes</h3>
+              <div
+                class="api-table mode-table"
+                role="table"
+                aria-label="FilterService built-in modes"
+                tabindex="0"
+              >
+                <div class="api-head" role="row">
+                  <b role="columnheader">Mode</b><b role="columnheader">Behavior</b>
+                </div>
+                @for (row of modes; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API sections" ariaLabel="FilterService API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          <code>AerisFilterMode</code> includes all built-in names and accepts registered custom
+          names. <code>AERIS_FILTER_MODES</code> exposes the readonly built-in name list.
+        </p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <p>
+          FilterService has no visual surface and defines no design tokens. Controls and result
+          views remain entirely owned and themeable by the consuming application.
+        </p>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>The service renders no DOM, changes no focus, and adds no keyboard behavior.</li>
+          <li>Give every filter control a persistent accessible label and clear instructions.</li>
+          <li>
+            Announce result-count changes with a polite status region without moving keyboard focus.
+          </li>
+          <li>
+            Keep the query and currently focused control stable while results update, and provide an
+            explicit way to clear active filters.
+          </li>
+          <li>
+            Do not communicate matching state by color alone. Empty-state text should explain
+            whether no items exist or no items match.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="FilterService keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Any key</span
+            ><span role="cell"
+              >FilterService handles no keyboard input. The application's native controls retain
+              their standard keyboard behavior.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

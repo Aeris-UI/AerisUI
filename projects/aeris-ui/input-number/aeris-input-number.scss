@@ -1,0 +1,326 @@
+:host {
+  --_aeris-chevron-mask: var(
+    --aeris-icon-chevron,
+    url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E")
+  );
+
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+:host([data-fluid]) {
+  width: 100%;
+}
+
+.aeris-input-number {
+  --_height: var(--aeris-control-height, 2.625rem);
+  --_button-width: var(--_height);
+  max-width: 100%;
+  display: inline-flex;
+  align-items: stretch;
+  color: var(--aeris-text, #222222);
+  font: inherit;
+}
+
+:host([data-fluid]) .aeris-input-number {
+  width: 100%;
+}
+
+.aeris-input-number__field {
+  min-width: 0;
+  min-height: var(--_height);
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  gap: 0.375rem;
+  padding-inline: 0.75rem;
+  border: 1px solid var(--aeris-border-strong, #c7c9c0);
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
+  background: var(--aeris-surface, #fff);
+  transition: border-color 150ms, background-color 150ms, box-shadow 150ms;
+}
+
+.aeris-input-number__field:hover {
+  border-color: var(--aeris-primary, #879566);
+}
+
+.aeris-input-number__field:focus-within {
+  position: relative;
+  z-index: 2;
+  border-color: var(--aeris-focus, #536437);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
+}
+
+.aeris-input-number[data-appearance='filled'] .aeris-input-number__field {
+  border-color: transparent;
+  background: var(--aeris-surface-2, #f2f0ec);
+}
+
+.aeris-input-number[data-appearance='filled'] .aeris-input-number__field:focus-within {
+  border-color: var(--aeris-focus, #536437);
+  background: var(--aeris-surface, #fff);
+}
+
+.aeris-input-number[data-invalid] .aeris-input-number__field,
+.aeris-input-number[data-invalid] .aeris-input-number__field:hover {
+  border-color: var(--aeris-danger, #c81e2a);
+}
+
+.aeris-input-number[data-invalid] .aeris-input-number__field:focus-within {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-danger, #c81e2a) 18%, transparent);
+}
+
+.aeris-input-number[data-disabled],
+.aeris-input-number[data-readonly] {
+  opacity: 0.54;
+}
+
+.aeris-input-number[data-disabled] .aeris-input-number__field,
+.aeris-input-number[data-readonly] .aeris-input-number__field {
+  background: var(--aeris-surface-2, #f2f0ec);
+}
+
+.aeris-input-number__input {
+  min-width: 0;
+  width: 100%;
+  height: 1.35em;
+  min-height: 0;
+  align-self: center;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  text-align: inherit;
+}
+
+.aeris-input-number__input::placeholder {
+  color: var(--aeris-text-2, #555555);
+  opacity: 0.72;
+}
+
+.aeris-input-number__input:disabled {
+  cursor: not-allowed;
+}
+
+.aeris-input-number__input:read-only {
+  cursor: default;
+}
+
+.aeris-input-number__affix {
+  flex: 0 0 auto;
+  color: var(--aeris-text-2, #555555);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.aeris-input-number__clear {
+  width: 1.75rem;
+  height: 1.75rem;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  margin-inline: -0.375rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--aeris-text-2, #555555);
+  cursor: pointer;
+}
+
+.aeris-input-number__clear:hover {
+  background: var(--aeris-surface-2, #f2f0ec);
+  color: var(--aeris-text, #222222);
+}
+
+.aeris-input-number__clear:focus-visible {
+  outline: 2px solid var(--aeris-focus, #536437);
+  outline-offset: 1px;
+}
+
+.aeris-input-number__clear-mark {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
+}
+
+.aeris-input-number__button {
+  width: var(--_button-width);
+  min-height: var(--_height);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 1px solid var(--aeris-border-strong, #c7c9c0);
+  background: var(--aeris-surface-2, #f2f0ec);
+  color: var(--aeris-text, #222222);
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms, color 150ms;
+}
+
+.aeris-input-number__button:hover:not(:disabled) {
+  border-color: var(--aeris-primary, #879566);
+  background: color-mix(in srgb, var(--aeris-primary, #879566) 12%, var(--aeris-surface, #fff));
+  color: var(--aeris-primary-text, #566137);
+}
+
+.aeris-input-number__button:focus-visible {
+  position: relative;
+  z-index: 3;
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 42%, transparent);
+  outline-offset: 2px;
+}
+
+.aeris-input-number__button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.aeris-input-number__minus-mark,
+.aeris-input-number__plus-mark,
+.aeris-input-number__chevron {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+}
+
+.aeris-input-number__minus-mark::before,
+.aeris-input-number__plus-mark::before,
+.aeris-input-number__plus-mark::after {
+  position: absolute;
+  top: calc(50% - 1px);
+  left: 15%;
+  width: 70%;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  content: '';
+}
+
+.aeris-input-number__plus-mark::after {
+  transform: rotate(90deg);
+}
+
+.aeris-input-number__chevron::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1rem;
+  height: 1rem;
+  background: currentColor;
+  content: '';
+  transform: translate(-50%, -50%);
+  -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
+  mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
+}
+
+.aeris-input-number__chevron--up::before {
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.aeris-input-number[data-button-layout='stacked'] .aeris-input-number__field {
+  border-radius: var(--aeris-radius-sm, 0.4375rem) 0 0 var(--aeris-radius-sm, 0.4375rem);
+}
+
+.aeris-input-number__stack {
+  width: calc(var(--_button-width) * 0.8);
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+.aeris-input-number__stack .aeris-input-number__button {
+  width: 100%;
+  min-height: 0;
+}
+
+.aeris-input-number__stack .aeris-input-number__button:first-child {
+  border-radius: 0 var(--aeris-radius-sm, 0.4375rem) 0 0;
+}
+
+.aeris-input-number__stack .aeris-input-number__button:last-child {
+  margin-top: -1px;
+  border-radius: 0 0 var(--aeris-radius-sm, 0.4375rem) 0;
+}
+
+.aeris-input-number[data-button-layout='horizontal'] .aeris-input-number__button--decrement {
+  border-radius: var(--aeris-radius-sm, 0.4375rem) 0 0 var(--aeris-radius-sm, 0.4375rem);
+}
+
+.aeris-input-number[data-button-layout='horizontal'] .aeris-input-number__field,
+.aeris-input-number[data-button-layout='vertical'] .aeris-input-number__field {
+  margin-left: -1px;
+  border-radius: 0;
+}
+
+.aeris-input-number[data-button-layout='horizontal'] .aeris-input-number__button--increment,
+.aeris-input-number[data-button-layout='vertical'] .aeris-input-number__button--increment {
+  margin-left: -1px;
+  border-radius: 0 var(--aeris-radius-sm, 0.4375rem) var(--aeris-radius-sm, 0.4375rem) 0;
+}
+
+.aeris-input-number[data-button-layout='vertical'] {
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.aeris-input-number[data-button-layout='vertical'] .aeris-input-number__button {
+  width: 100%;
+  min-height: calc(var(--_height) * 0.75);
+}
+
+.aeris-input-number[data-button-layout='vertical'] .aeris-input-number__button--increment {
+  grid-row: 1;
+  margin: 0;
+  border-radius: var(--aeris-radius-sm, 0.4375rem) var(--aeris-radius-sm, 0.4375rem) 0 0;
+}
+
+.aeris-input-number[data-button-layout='vertical'] .aeris-input-number__button--decrement {
+  grid-row: 3;
+  margin-top: -1px;
+  border-radius: 0 0 var(--aeris-radius-sm, 0.4375rem) var(--aeris-radius-sm, 0.4375rem);
+}
+
+.aeris-input-number[data-button-layout='vertical'] .aeris-input-number__field {
+  grid-row: 2;
+  width: 100%;
+  margin: -1px 0 0;
+}
+
+.aeris-input-number[data-size='xs'] {
+  --_height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
+}
+
+.aeris-input-number[data-size='sm'] {
+  --_height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
+}
+
+.aeris-input-number[data-size='lg'] {
+  --_height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
+}
+
+.aeris-input-number[data-size='xs'] .aeris-input-number__input {
+  font-size: 0.75rem;
+}
+
+.aeris-input-number[data-size='sm'] .aeris-input-number__input {
+  font-size: 0.8125rem;
+}
+
+.aeris-input-number[data-size='lg'] .aeris-input-number__input {
+  font-size: 0.9375rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-input-number__field,
+  .aeris-input-number__button {
+    transition: none;
+  }
+}

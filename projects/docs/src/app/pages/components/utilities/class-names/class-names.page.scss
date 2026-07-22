@@ -1,0 +1,106 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.class-names-docs app-form-demo {
+  --docs-code-block-max-height: min(42rem, 72vh);
+}
+.string-card {
+  padding: 1rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-lg);
+}
+.string-card--surface {
+  background: var(--aeris-surface-2);
+}
+.string-card--raised {
+  box-shadow: var(--aeris-shadow-md);
+}
+.array-card {
+  max-width: 30rem;
+  padding: 1.25rem;
+  border-radius: var(--aeris-radius-xl);
+}
+.array-card--surface {
+  background: var(--aeris-primary-soft);
+}
+.array-card--accent {
+  border-inline-start: 0.25rem solid var(--aeris-primary);
+}
+.array-card--compact {
+  line-height: 1.45;
+}
+.class-names-demo {
+  display: grid;
+  gap: 1rem;
+}
+.class-names-actions,
+.framework-example {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+.state-card {
+  padding: 1.25rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-lg);
+  background: var(--aeris-surface);
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    opacity 160ms ease;
+}
+.state-card--selected {
+  border-color: var(--aeris-primary);
+  background: var(--aeris-primary-soft);
+}
+.state-card--busy {
+  opacity: 0.55;
+}
+.state-card--emphasized {
+  box-shadow: inset 0 0 0 1px var(--aeris-border-strong);
+}
+.composed-card {
+  max-width: 32rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-xl);
+}
+.composed-card--surface {
+  background: var(--aeris-surface-2);
+}
+.composed-card--spacious {
+  padding: 1.5rem;
+}
+.composed-card--interactive {
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease;
+}
+.composed-card--interactive:hover {
+  border-color: var(--aeris-primary);
+  transform: translateY(-0.125rem);
+}
+.composed-card--accent {
+  color: var(--aeris-primary-text);
+}
+.framework-example {
+  gap: 0.75rem;
+}
+.utility-surface {
+  padding: 0.75rem 1rem;
+  border-radius: var(--aeris-radius-lg);
+  background: var(--aeris-surface-2);
+}
+.utility-accent {
+  color: var(--aeris-primary-text);
+  border: 1px solid var(--aeris-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .state-card,
+  .composed-card--interactive {
+    transition: none;
+  }
+  .composed-card--interactive:hover {
+    transform: none;
+  }
+}

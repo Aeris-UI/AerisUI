@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - '*.x'
+  pull_request: {}
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.15.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=moderate
+
+      - name: Check version metadata
+        run: npm run check:versions
+
+      - name: Build library
+        run: npm run build:lib
+
+      - name: Verify npm package
+        run: npm run check:package
+
+      - name: Build MCP server
+        run: npm run build:mcp
+
+      - name: Verify MCP package
+        run: npm run check:mcp-package
+
+      - name: Verify theme generator CLI
+        run: npm run test:theme-cli
+
+      - name: Verify ng add initializer
+        run: npm run test:ng-add
+
+      - name: Test library
+        run: npm run test:lib
+
+      - name: Test MCP server
+        run: npm run test:mcp
+
+      - name: Build documentation
+        run: npm run build:docs

@@ -1,0 +1,30 @@
+@use '../shared/form-docs';
+
+.switch-stack {
+  width: 100%;
+  display: grid;
+  gap: 0.875rem;
+}
+
+.switch-result {
+  color: var(--text-2);
+  font-size: 0.8125rem;
+}
+
+.switch-rich-label {
+  display: inline-grid;
+  gap: 0.15rem;
+}
+
+.switch-rich-label strong {
+  color: var(--text);
+}
+
+.switch-rich-label small {
+  color: var(--text-2);
+  font-size: 0.75rem;
+}
+
+.validation-message {
+  min-height: 1.25rem;
+}

@@ -1,0 +1,460 @@
+<article class="button-docs meter-group-docs">
+  <app-component-page-header
+    category="Misc"
+    title="MeterGroup"
+    description="Visualize multiple scalar contributions within a known range using responsive segments, readable legends, and meter semantics."
+  />
+
+  <section
+    id="meter-group-import"
+    class="import-section"
+    aria-labelledby="meter-group-import-title"
+  >
+    <div>
+      <h2 id="meter-group-import-title">Import</h2>
+      <p>One import provides MeterGroup and every template helper.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="MeterGroup documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="meter-group-basic"
+              title="Basic"
+              description="Render one scalar contribution against the default zero-to-one-hundred range."
+              [tsCode]="basicTsCode"
+            >
+              <div preview>
+                <aeris-meter-group ariaLabel="Space used" [items]="basicItems" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-meter-group ariaLabel="Space used" [items]="basicItems" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="meter-group-multiple"
+              title="Multiple"
+              description="Stack contributions in source order while preserving every label and value."
+              [tsCode]="dataTsCode"
+            >
+              <div preview>
+                <aeris-meter-group ariaLabel="Disk usage" [items]="storageItems" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-meter-group ariaLabel="Disk usage" [items]="storageItems" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="meter-group-colors"
+              title="Colors"
+              description="Use palette-aware tones by default or provide valid CSS colors for domain-specific data."
+              [tsCode]="colorTsCode"
+            >
+              <div preview>
+                <aeris-meter-group ariaLabel="Custom color distribution" [items]="colorItems" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-meter-group ariaLabel="Custom color distribution" [items]="colorItems" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="meter-group-icons"
+              title="Icons"
+              description="Use the label template with any consumer icon library; these documentation examples use Lucide."
+              [tsCode]="dataTsCode"
+              [cssCode]="iconCssCode"
+            >
+              <div preview>
+                <aeris-meter-group ariaLabel="Storage categories" [items]="iconItems">
+                  <ng-template aerisMeterGroupLabel let-item>
+                    <span class="meter-icon-label">
+                      @switch (item.label) {
+                        @case ('Applications') {
+                          <svg [lucideIcon]="icons.AppWindow"></svg>
+                        }
+                        @case ('Messages') {
+                          <svg [lucideIcon]="icons.MessageCircle"></svg>
+                        }
+                        @case ('Media') {
+                          <svg [lucideIcon]="icons.Image"></svg>
+                        }
+                        @case ('System') {
+                          <svg [lucideIcon]="icons.Settings"></svg>
+                        }
+                      }
+                      {{ item.label }}
+                    </span>
+                  </ng-template>
+                </aeris-meter-group>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-meter-group ariaLabel="Storage categories" [items]="iconItems"&gt;
+    &lt;ng-template aerisMeterGroupLabel let-item&gt;
+      &lt;span class="meter-icon-label"&gt;
+        &#64;switch (item.label) &#123;
+          &#64;case ('Applications') &#123;
+            &lt;svg [lucideIcon]="icons.AppWindow"&gt;&lt;/svg&gt;
+          &#125;
+          &#64;case ('Messages') &#123;
+            &lt;svg [lucideIcon]="icons.MessageCircle"&gt;&lt;/svg&gt;
+          &#125;
+          &#64;case ('Media') &#123;
+            &lt;svg [lucideIcon]="icons.Image"&gt;&lt;/svg&gt;
+          &#125;
+          &#64;case ('System') &#123;
+            &lt;svg [lucideIcon]="icons.Settings"&gt;&lt;/svg&gt;
+          &#125;
+        &#125;
+        &#123;&#123; item.label &#125;&#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-meter-group&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="meter-group-labels"
+              title="Legend layouts"
+              description="Arrange legend entries in a wrapping row or a compact column and place them before or after the track."
+              [tsCode]="dataTsCode"
+              [cssCode]="stackCssCode"
+            >
+              <div preview>
+                <div class="meter-stack">
+                  <aeris-meter-group
+                    ariaLabel="Row legend after track"
+                    [items]="iconItems"
+                    legendLayout="row"
+                  />
+                  <aeris-meter-group
+                    ariaLabel="Column legend before track"
+                    [items]="iconItems"
+                    legendLayout="column"
+                    legendPosition="before"
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="meter-stack"&gt;
+    &lt;aeris-meter-group
+      ariaLabel="Row legend after track"
+      [items]="iconItems"
+      legendLayout="row"
+    /&gt;
+    &lt;aeris-meter-group
+      ariaLabel="Column legend before track"
+      [items]="iconItems"
+      legendLayout="column"
+      legendPosition="before"
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="meter-group-vertical"
+              title="Vertical"
+              description="Use a vertical track when the surrounding composition is taller than it is wide."
+              [tsCode]="dataTsCode"
+            >
+              <div preview>
+                <aeris-meter-group
+                  ariaLabel="Vertical disk usage"
+                  [items]="iconItems"
+                  orientation="vertical"
+                  legendPosition="after"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-meter-group
+    ariaLabel="Vertical disk usage"
+    [items]="iconItems"
+    orientation="vertical"
+    legendPosition="after"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="meter-group-range"
+              title="Range"
+              description="Set explicit boundaries and a value suffix for measurements that are not percentages."
+              [tsCode]="rangeTsCode"
+            >
+              <div preview>
+                <aeris-meter-group
+                  ariaLabel="Storage allocation"
+                  [items]="rangeItems"
+                  [max]="250"
+                  valueSuffix=" GB"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-meter-group
+    ariaLabel="Storage allocation"
+    [items]="rangeItems"
+    [max]="250"
+    valueSuffix=" GB"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="meter-group-options"
+              title="Sizes and corners"
+              description="Match surrounding density with three track sizes and pill or theme-aware corners."
+              [tsCode]="dataTsCode"
+              [cssCode]="stackCssCode"
+            >
+              <div preview>
+                <div class="meter-stack">
+                  <aeris-meter-group ariaLabel="Small meter" [items]="iconItems" size="sm" />
+                  <aeris-meter-group ariaLabel="Medium meter" [items]="iconItems" />
+                  <aeris-meter-group
+                    ariaLabel="Large square meter"
+                    [items]="iconItems"
+                    size="lg"
+                    [rounded]="false"
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="meter-stack"&gt;
+    &lt;aeris-meter-group ariaLabel="Small meter" [items]="iconItems" size="sm" /&gt;
+    &lt;aeris-meter-group ariaLabel="Medium meter" [items]="iconItems" /&gt;
+    &lt;aeris-meter-group
+      ariaLabel="Large square meter"
+      [items]="iconItems"
+      size="lg"
+      [rounded]="false"
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="meter-group-templates"
+              title="Templates"
+              description="Customize summary content, labels, segment decoration, and footer content with typed contexts."
+              [tsCode]="templateTsCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview>
+                <aeris-meter-group
+                  ariaLabel="Templated storage allocation"
+                  [items]="templateItems"
+                  [valueFormatter]="gigabyteFormatter"
+                  valueSuffix=" GB"
+                >
+                  <ng-template aerisMeterGroupHeader let-total let-percent="percent">
+                    <div class="meter-summary">
+                      <strong>Storage</strong>
+                      <span>{{ total }} GB · {{ percent }}% allocated</span>
+                    </div>
+                  </ng-template>
+                  <ng-template aerisMeterGroupLabel let-item let-formattedValue="formattedValue">
+                    <span class="meter-template-label">
+                      <strong>{{ item.label }}</strong>
+                      <small>{{ formattedValue }}</small>
+                    </span>
+                  </ng-template>
+                  <ng-template aerisMeterGroupSegment>
+                    <span class="meter-segment-pattern"></span>
+                  </ng-template>
+                  <ng-template aerisMeterGroupFooter let-remaining="remaining">
+                    <span class="meter-footer">{{ remaining }} GB available</span>
+                  </ng-template>
+                </aeris-meter-group>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-meter-group
+    ariaLabel="Templated storage allocation"
+    [items]="templateItems"
+    [valueFormatter]="gigabyteFormatter"
+    valueSuffix=" GB"
+  &gt;
+    &lt;ng-template aerisMeterGroupHeader let-total let-percent="percent"&gt;
+      &lt;div class="meter-summary"&gt;
+        &lt;strong&gt;Storage&lt;/strong&gt;
+        &lt;span&gt;&#123;&#123; total &#125;&#125; GB · &#123;&#123; percent &#125;&#125;% allocated&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisMeterGroupLabel let-item let-formattedValue="formattedValue"&gt;
+      &lt;span class="meter-template-label"&gt;
+        &lt;strong&gt;&#123;&#123; item.label &#125;&#125;&lt;/strong&gt;
+        &lt;small&gt;&#123;&#123; formattedValue &#125;&#125;&lt;/small&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisMeterGroupSegment&gt;
+      &lt;span class="meter-segment-pattern"&gt;&lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template aerisMeterGroupFooter let-remaining="remaining"&gt;
+      &lt;span class="meter-footer"&gt;&#123;&#123; remaining &#125;&#125; GB available&lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-meter-group&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="meter-group-tokens"
+              title="Token customization"
+              description="Change track and legend geometry while retaining palette and accessibility behavior."
+              [tsCode]="dataTsCode"
+              [cssCode]="tokenCssCode"
+            >
+              <div preview>
+                <aeris-meter-group
+                  class="custom-meter-group"
+                  ariaLabel="Customized disk usage"
+                  [items]="storageItems"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-meter-group
+    class="custom-meter-group"
+    ariaLabel="Customized disk usage"
+    [items]="storageItems"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc
+            title="On this page"
+            ariaLabel="MeterGroup features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="meter-group-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="MeterGroup inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="meter-group-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="MeterGroup templates" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API sections" ariaLabel="MeterGroup API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>Items, display choices, and every template context are strictly typed.</p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table token-table" role="table" aria-label="MeterGroup tokens" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          @for (token of tokens; track token.name) {
+            <div role="row">
+              <code role="cell">{{ token.name }}</code
+              ><span role="cell">{{ token.purpose }}</span
+              ><code role="cell">{{ token.fallback }}</code>
+            </div>
+          }
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            The visual track exposes native meter semantics with minimum, maximum, combined value,
+            and readable value text.
+          </li>
+          <li>
+            Every legend entry includes label and value text, so color is never the only way
+            measurements are communicated.
+          </li>
+          <li>
+            Custom label icons are decorative; the generated accessible item text remains available
+            to assistive technology.
+          </li>
+          <li>
+            Values that exceed capacity are visually capped without hiding their original legend
+            values.
+          </li>
+          <li>MeterGroup is non-interactive and does not enter the tab order.</li>
+          <li>
+            Logical layout supports RTL, and segment reveal animation is disabled under reduced
+            motion.
+          </li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="MeterGroup keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Any key</span
+            ><span role="cell"
+              >MeterGroup handles no keyboard input because it presents read-only measurements.
+              Projected interactive header or footer content keeps its native behavior.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

@@ -1,0 +1,555 @@
+/*
+ * Aeris integration boundary
+ *
+ * Keep the library resilient to application-level resets such as Tailwind
+ * Preflight and Bootstrap Reboot without resetting consumer content globally.
+ * Every selector is limited to an Aeris host or an Aeris-owned class.
+ */
+:where(
+  aeris-accordion,
+  aeris-accordion-panel,
+  aeris-auto-complete,
+  aeris-badge,
+  aeris-badge-overlay,
+  aeris-breadcrumb,
+  aeris-button,
+  aeris-button-group,
+  aeris-card,
+  aeris-carousel,
+  aeris-cascade-select,
+  aeris-chart,
+  aeris-checkbox,
+  aeris-color-picker,
+  aeris-confirm-dialog,
+  aeris-confirm-popup,
+  aeris-context-menu,
+  aeris-date-picker,
+  aeris-dialog,
+  aeris-divider,
+  aeris-drawer,
+  aeris-dynamic-dialog-host,
+  aeris-editor,
+  aeris-file-upload,
+  aeris-icon-field,
+  aeris-input-group,
+  aeris-input-group-addon,
+  aeris-input-group-addon-stack,
+  aeris-input-mask,
+  aeris-input-number,
+  aeris-input-otp,
+  aeris-input-text,
+  aeris-mega-menu,
+  aeris-menu,
+  aeris-menubar,
+  aeris-message,
+  aeris-multi-select,
+  aeris-order-list,
+  aeris-organization-chart,
+  aeris-paginator,
+  aeris-panel,
+  aeris-password,
+  aeris-pick-list,
+  aeris-popover,
+  aeris-progress-bar,
+  aeris-radio-button,
+  aeris-rating,
+  aeris-scroll-panel,
+  aeris-scroll-top,
+  aeris-select,
+  aeris-slider,
+  aeris-speed-dial,
+  aeris-split-button,
+  aeris-splitter,
+  aeris-splitter-panel,
+  aeris-step,
+  aeris-stepper,
+  aeris-tab-panel,
+  aeris-tabs,
+  aeris-table,
+  aeris-textarea,
+  aeris-tiered-menu,
+  aeris-timeline,
+  aeris-toast,
+  aeris-toggle-switch,
+  aeris-toolbar,
+  aeris-tooltip-overlay,
+  aeris-tree,
+  aeris-tree-select,
+  aeris-tree-table,
+  button[aerisButton],
+  a[aerisButton],
+  input[aerisInputText],
+  textarea[aerisTextarea]
+) {
+  box-sizing: border-box;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+:where([class^='aeris-'], [class*=' aeris-']),
+:where([class^='aeris-'], [class*=' aeris-'])::before,
+:where([class^='aeris-'], [class*=' aeris-'])::after {
+  box-sizing: border-box;
+}
+
+:where(button, input, select, textarea)[class^='aeris-'],
+:where(button, input, select, textarea)[class*=' aeris-'] {
+  margin: 0;
+  font-family: inherit;
+  letter-spacing: inherit;
+}
+
+:where(ol, ul, menu)[class^='aeris-'],
+:where(ol, ul, menu)[class*=' aeris-'] {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+:where(h1, h2, h3, h4, h5, h6, p)[class^='aeris-'],
+:where(h1, h2, h3, h4, h5, h6, p)[class*=' aeris-'] {
+  margin-block: 0;
+}
+
+:where([class^='aeris-'], [class*=' aeris-']) :where(img, video) {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+:root {
+  --aeris-palette-surface: #e8dfe0;
+  --aeris-palette-primary: #879566;
+  --aeris-palette-secondary: #80939b;
+  --aeris-palette-accent: #dab692;
+  --aeris-palette-contrast: #8f5b34;
+  --aeris-palette-mist: var(--aeris-palette-surface);
+  --aeris-palette-sage: var(--aeris-palette-primary);
+  --aeris-palette-cloud: var(--aeris-palette-secondary);
+  --aeris-palette-sand: var(--aeris-palette-accent);
+  --aeris-palette-umber: var(--aeris-palette-contrast);
+
+  --aeris-primary: var(--aeris-palette-primary);
+  --aeris-primary-hover: color-mix(in oklch, var(--aeris-palette-primary) 96%, #111411);
+  --aeris-primary-active: color-mix(in oklch, var(--aeris-palette-primary) 95%, #111411);
+  --aeris-primary-text: color-mix(in srgb, var(--aeris-palette-primary) 55%, #1d2119);
+  --aeris-primary-soft: color-mix(in srgb, var(--aeris-palette-primary) 13%, transparent);
+  --aeris-on-primary: #111411;
+  --aeris-on-primary-hover: var(--aeris-on-primary);
+  --aeris-on-primary-active: var(--aeris-on-primary);
+  --aeris-on-primary-soft: var(--aeris-primary-text);
+  --aeris-primary-contrast: var(--aeris-on-primary);
+  --aeris-secondary: var(--aeris-palette-secondary);
+  --aeris-secondary-hover: color-mix(in oklch, var(--aeris-secondary) 96%, #111411);
+  --aeris-secondary-active: color-mix(in oklch, var(--aeris-secondary) 95%, #111411);
+  --aeris-secondary-text: color-mix(in srgb, var(--aeris-secondary) 55%, #111411);
+  --aeris-secondary-soft: color-mix(in srgb, var(--aeris-secondary) 14%, var(--aeris-surface));
+  --aeris-on-secondary: #111411;
+  --aeris-on-secondary-hover: var(--aeris-on-secondary);
+  --aeris-on-secondary-active: var(--aeris-on-secondary);
+  --aeris-on-secondary-soft: var(--aeris-secondary-text);
+  --aeris-secondary-contrast: var(--aeris-on-secondary);
+  --aeris-accent: var(--aeris-palette-accent);
+  --aeris-contrast: var(--aeris-palette-contrast);
+  --aeris-contrast-hover: color-mix(in oklch, var(--aeris-contrast) 96%, #111411);
+  --aeris-contrast-active: color-mix(in oklch, var(--aeris-contrast) 95%, #111411);
+  --aeris-contrast-text: color-mix(in srgb, var(--aeris-contrast) 76%, #111411);
+  --aeris-contrast-soft: color-mix(in srgb, var(--aeris-contrast) 14%, var(--aeris-surface));
+  --aeris-on-contrast: #ffffff;
+  --aeris-on-contrast-hover: var(--aeris-on-contrast);
+  --aeris-on-contrast-active: var(--aeris-on-contrast);
+  --aeris-on-contrast-soft: var(--aeris-contrast-text);
+  --aeris-contrast-contrast: var(--aeris-on-contrast);
+
+  --aeris-danger: #c81e2a;
+  --aeris-on-danger: #ffffff;
+  --aeris-danger-hover: color-mix(in oklch, var(--aeris-danger) 96%, #111411);
+  --aeris-danger-active: color-mix(in oklch, var(--aeris-danger) 95%, #111411);
+  --aeris-danger-text: var(--aeris-danger);
+  --aeris-danger-soft: color-mix(in srgb, var(--aeris-danger) 14%, var(--aeris-surface));
+  --aeris-on-danger-hover: var(--aeris-on-danger);
+  --aeris-on-danger-active: var(--aeris-on-danger);
+  --aeris-on-danger-soft: var(--aeris-danger-text);
+  --aeris-danger-contrast: var(--aeris-on-danger);
+  --aeris-success: #52744d;
+  --aeris-on-success: #ffffff;
+  --aeris-success-hover: color-mix(in oklch, var(--aeris-success) 96%, #111411);
+  --aeris-success-active: color-mix(in oklch, var(--aeris-success) 95%, #111411);
+  --aeris-success-text: var(--aeris-success);
+  --aeris-success-soft: color-mix(in srgb, var(--aeris-success) 14%, var(--aeris-surface));
+  --aeris-on-success-hover: var(--aeris-on-success);
+  --aeris-on-success-active: var(--aeris-on-success);
+  --aeris-on-success-soft: var(--aeris-success-text);
+  --aeris-success-contrast: var(--aeris-on-success);
+  --aeris-warning: #c38600;
+  --aeris-on-warning: #211600;
+  --aeris-warning-hover: color-mix(in oklch, var(--aeris-warning) 96%, #111411);
+  --aeris-warning-active: color-mix(in oklch, var(--aeris-warning) 95%, #111411);
+  --aeris-warning-text: var(--aeris-warning);
+  --aeris-warning-soft: color-mix(in srgb, var(--aeris-warning) 14%, var(--aeris-surface));
+  --aeris-on-warning-hover: var(--aeris-on-warning);
+  --aeris-on-warning-active: var(--aeris-on-warning);
+  --aeris-on-warning-soft: var(--aeris-warning-text);
+  --aeris-warning-contrast: var(--aeris-on-warning);
+  --aeris-info: #4f7180;
+  --aeris-on-info: #ffffff;
+  --aeris-info-hover: color-mix(in oklch, var(--aeris-info) 96%, #111411);
+  --aeris-info-active: color-mix(in oklch, var(--aeris-info) 95%, #111411);
+  --aeris-info-text: var(--aeris-info);
+  --aeris-info-soft: color-mix(in srgb, var(--aeris-info) 14%, var(--aeris-surface));
+  --aeris-on-info-hover: var(--aeris-on-info);
+  --aeris-on-info-active: var(--aeris-on-info);
+  --aeris-on-info-soft: var(--aeris-info-text);
+  --aeris-info-contrast: var(--aeris-on-info);
+
+  --aeris-page: color-mix(in oklch, #faf9f7 82%, var(--aeris-palette-surface));
+  --aeris-surface: #ffffff;
+  --aeris-surface-2: color-mix(in oklch, #f7f6f2 76%, var(--aeris-palette-surface));
+  --aeris-surface-3: color-mix(in oklch, #f1f0eb 58%, var(--aeris-palette-surface));
+  --aeris-interactive-hover: color-mix(
+    in oklch,
+    var(--aeris-surface-2) 90%,
+    var(--aeris-primary)
+  );
+  --aeris-text: #222222;
+  --aeris-text-2: #555555;
+  --aeris-text-3: #707070;
+  --aeris-text-muted: var(--aeris-text-2);
+  --aeris-border: color-mix(in oklch, #5f625d 58%, var(--aeris-palette-secondary));
+  --aeris-border-strong: color-mix(in oklch, #444842 70%, var(--aeris-palette-secondary));
+  --aeris-backdrop-blur: 0.25rem;
+  --aeris-glass-blur: 0.25rem;
+  --aeris-glass-saturation: 125%;
+  --aeris-glass-background: color-mix(in srgb, var(--aeris-surface) 76%, transparent);
+  --aeris-focus: color-mix(in oklch, #1d2119 50%, var(--aeris-palette-primary));
+  --aeris-shadow-xs: 0 1px 2px rgb(31 35 27 / 5%);
+  --aeris-shadow-sm: 0 1px 2px rgb(31 35 27 / 6%);
+  --aeris-disabled-opacity: 0.52;
+
+  --aeris-radius-sm: 0.4375rem;
+  --aeris-radius-md: 0.6875rem;
+  --aeris-radius-lg: 1.125rem;
+  --aeris-radius-xl: 1.5rem;
+  --aeris-radius-control: var(--aeris-radius-sm);
+  --aeris-radius-pill: 999px;
+  --aeris-checkbox-radius: 0.3125rem;
+  --aeris-control-height: 2.625rem;
+  --aeris-control-padding-x: 0.75rem;
+  --aeris-item-height: 2.5rem;
+  --aeris-item-padding-y: 0.5rem;
+  --aeris-item-padding-x: 0.75rem;
+  --aeris-density-gap: 0.5rem;
+  --aeris-icon-size: 1rem;
+  --aeris-icon-chevron: url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E');
+  --aeris-icon-close: url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M6%206l12%2012M18%206%206%2018%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27/%3E%3C/svg%3E');
+  --aeris-icon-search: url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Ccircle%20cx=%2711%27%20cy=%2711%27%20r=%277.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.2%27/%3E%3Cpath%20d=%27m16.5%2016.5%204%204%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.2%27%20stroke-linecap=%27round%27/%3E%3C/svg%3E');
+  --aeris-icon-plus: url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M12%205v14M5%2012h14%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27/%3E%3C/svg%3E');
+  --aeris-icon-upload: url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M12%2016V4m0%200L7.5%208.5M12%204l4.5%204.5M5%2015v4h14v-4%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.2%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E');
+  --aeris-icon-eyedropper: url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27m13.7%205.2%205.1%205.1M15.6%203.3l5.1%205.1-3%203-1.5-1.5-7.7%207.7-3.5%201%201-3.5%207.7-7.7-1.5-1.5%203-3Z%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E');
+  --aeris-icon-edit: url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M4%2020h4l11-11-4-4L4%2016v4zM13.5%206.5l4%204%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.1%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E');
+  color-scheme: light;
+}
+
+[data-aeris-theme='dark'] {
+  --aeris-primary: color-mix(in srgb, var(--aeris-palette-primary) 78%, #ffffff);
+  --aeris-primary-hover: color-mix(in srgb, var(--aeris-palette-primary) 66%, #ffffff);
+  --aeris-primary-active: color-mix(in srgb, var(--aeris-palette-primary) 58%, #ffffff);
+  --aeris-primary-text: color-mix(in srgb, var(--aeris-palette-primary) 60%, #ffffff);
+  --aeris-primary-soft: color-mix(in srgb, var(--aeris-palette-primary) 16%, transparent);
+  --aeris-on-primary: #17200f;
+  --aeris-primary-contrast: var(--aeris-on-primary);
+  --aeris-secondary: color-mix(in srgb, var(--aeris-palette-secondary) 78%, #ffffff);
+  --aeris-secondary-hover: color-mix(in srgb, var(--aeris-secondary) 86%, #ffffff);
+  --aeris-secondary-active: color-mix(in srgb, var(--aeris-secondary) 78%, #ffffff);
+  --aeris-secondary-text: var(--aeris-secondary);
+  --aeris-secondary-soft: color-mix(in srgb, var(--aeris-secondary) 20%, var(--aeris-surface));
+  --aeris-accent: color-mix(in srgb, var(--aeris-palette-accent) 78%, #ffffff);
+  --aeris-contrast: color-mix(in srgb, var(--aeris-palette-contrast) 72%, #ffffff);
+  --aeris-contrast-hover: color-mix(in srgb, var(--aeris-contrast) 86%, #ffffff);
+  --aeris-contrast-active: color-mix(in srgb, var(--aeris-contrast) 78%, #ffffff);
+  --aeris-contrast-text: var(--aeris-contrast);
+  --aeris-contrast-soft: color-mix(in srgb, var(--aeris-contrast) 20%, var(--aeris-surface));
+  --aeris-on-contrast: #111411;
+  --aeris-on-contrast-hover: var(--aeris-on-contrast);
+  --aeris-on-contrast-active: var(--aeris-on-contrast);
+
+  --aeris-danger: #ff5c68;
+  --aeris-on-danger: #260609;
+  --aeris-danger-hover: color-mix(in srgb, var(--aeris-danger) 86%, #ffffff);
+  --aeris-danger-active: color-mix(in srgb, var(--aeris-danger) 78%, #ffffff);
+  --aeris-danger-text: var(--aeris-danger);
+  --aeris-danger-soft: color-mix(in srgb, var(--aeris-danger) 20%, var(--aeris-surface));
+  --aeris-success: #91b78a;
+  --aeris-on-success: #10220d;
+  --aeris-success-hover: color-mix(in srgb, var(--aeris-success) 86%, #ffffff);
+  --aeris-success-active: color-mix(in srgb, var(--aeris-success) 78%, #ffffff);
+  --aeris-success-text: var(--aeris-success);
+  --aeris-success-soft: color-mix(in srgb, var(--aeris-success) 20%, var(--aeris-surface));
+  --aeris-warning: #facc15;
+  --aeris-on-warning: #211600;
+  --aeris-warning-hover: color-mix(in srgb, var(--aeris-warning) 86%, #ffffff);
+  --aeris-warning-active: color-mix(in srgb, var(--aeris-warning) 78%, #ffffff);
+  --aeris-warning-text: var(--aeris-warning);
+  --aeris-warning-soft: color-mix(in srgb, var(--aeris-warning) 20%, var(--aeris-surface));
+  --aeris-info: #91b7c8;
+  --aeris-on-info: #0d2028;
+  --aeris-info-hover: color-mix(in srgb, var(--aeris-info) 86%, #ffffff);
+  --aeris-info-active: color-mix(in srgb, var(--aeris-info) 78%, #ffffff);
+  --aeris-info-text: var(--aeris-info);
+  --aeris-info-soft: color-mix(in srgb, var(--aeris-info) 20%, var(--aeris-surface));
+
+  --aeris-page: color-mix(in oklch, #090b0f 99.6%, var(--aeris-palette-surface));
+  --aeris-surface: color-mix(in oklch, #101318 99.4%, var(--aeris-palette-surface));
+  --aeris-surface-2: color-mix(in oklch, #171b22 99.2%, var(--aeris-palette-surface));
+  --aeris-surface-3: color-mix(in oklch, #202632 99%, var(--aeris-palette-surface));
+  --aeris-interactive-hover: color-mix(
+    in oklch,
+    var(--aeris-surface-2) 88%,
+    var(--aeris-primary)
+  );
+  --aeris-text: #f4f4f4;
+  --aeris-text-2: #c5c5c5;
+  --aeris-text-3: #9d9d9d;
+  --aeris-text-muted: var(--aeris-text-2);
+  --aeris-border: color-mix(in oklch, #70746d 65%, var(--aeris-palette-secondary));
+  --aeris-border-strong: color-mix(in oklch, #8d9289 70%, var(--aeris-palette-secondary));
+  --aeris-focus: color-mix(in oklch, #ffffff 44%, var(--aeris-palette-primary));
+  --aeris-shadow-xs: 0 1px 2px rgb(0 0 0 / 24%);
+  --aeris-shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);
+  color-scheme: dark;
+}
+
+[data-aeris-density='compact'] {
+  --aeris-control-height: 2.125rem;
+  --aeris-control-padding-x: 0.625rem;
+  --aeris-item-height: 2rem;
+  --aeris-item-padding-y: 0.375rem;
+  --aeris-item-padding-x: 0.625rem;
+  --aeris-density-gap: 0.375rem;
+  --aeris-icon-size: 0.9375rem;
+}
+
+[data-aeris-density='comfortable'] {
+  --aeris-control-height: 3.125rem;
+  --aeris-control-padding-x: 0.875rem;
+  --aeris-item-height: 2.875rem;
+  --aeris-item-padding-y: 0.625rem;
+  --aeris-item-padding-x: 0.875rem;
+  --aeris-density-gap: 0.625rem;
+  --aeris-icon-size: 1.0625rem;
+}
+
+[data-aeris-radius='soft'] {
+  --aeris-radius-sm: 0.25rem;
+  --aeris-radius-md: 0.375rem;
+  --aeris-radius-lg: 0.625rem;
+  --aeris-radius-xl: 0.875rem;
+  --aeris-radius-control: 0.25rem;
+  --aeris-checkbox-radius: 0.25rem;
+}
+
+[data-aeris-radius='pill'] {
+  --aeris-radius-sm: 0.75rem;
+  --aeris-radius-md: 1.125rem;
+  --aeris-radius-lg: 1.875rem;
+  --aeris-radius-xl: 2.25rem;
+  --aeris-radius-control: 999px;
+  --aeris-radius-pill: 999px;
+  --aeris-checkbox-radius: 0.375rem;
+}
+
+.aeris-animate-on-scroll {
+  --aeris-animate-on-scroll-distance: 1.5rem;
+  --aeris-animate-on-scroll-scale: 0.96;
+  opacity: 0;
+  transform: translateY(var(--aeris-animate-on-scroll-distance));
+  transition:
+    opacity var(--aeris-animate-on-scroll-duration, 480ms)
+      var(--aeris-animate-on-scroll-easing, cubic-bezier(0.22, 1, 0.36, 1))
+      var(--aeris-animate-on-scroll-delay, 0ms),
+    transform var(--aeris-animate-on-scroll-duration, 480ms)
+      var(--aeris-animate-on-scroll-easing, cubic-bezier(0.22, 1, 0.36, 1))
+      var(--aeris-animate-on-scroll-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.aeris-animate-on-scroll[data-aeris-effect='fade'] {
+  transform: none;
+}
+
+.aeris-animate-on-scroll[data-aeris-effect='fade-down'] {
+  transform: translateY(calc(var(--aeris-animate-on-scroll-distance) * -1));
+}
+
+.aeris-animate-on-scroll[data-aeris-effect='slide-start'] {
+  transform: translateX(calc(var(--aeris-animate-on-scroll-distance) * -1));
+}
+
+.aeris-animate-on-scroll[data-aeris-effect='slide-end'] {
+  transform: translateX(var(--aeris-animate-on-scroll-distance));
+}
+
+:dir(rtl).aeris-animate-on-scroll[data-aeris-effect='slide-start'] {
+  transform: translateX(var(--aeris-animate-on-scroll-distance));
+}
+
+:dir(rtl).aeris-animate-on-scroll[data-aeris-effect='slide-end'] {
+  transform: translateX(calc(var(--aeris-animate-on-scroll-distance) * -1));
+}
+
+.aeris-animate-on-scroll[data-aeris-effect='scale'] {
+  transform: scale(var(--aeris-animate-on-scroll-scale));
+}
+
+.aeris-animate-on-scroll[data-aeris-state='visible'] {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-animate-on-scroll {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+}
+
+/*
+ * Opt-in glass surfaces. Component variables are assigned only when the
+ * directive is on that component host, preventing the treatment from leaking
+ * into nested Aeris controls.
+ */
+:where(div, section, article, aside, nav, form, header, footer, main).aeris-glass[data-enabled] {
+  background: var(--aeris-glass-background);
+  -webkit-backdrop-filter: saturate(var(--aeris-glass-saturation)) blur(var(--aeris-glass-blur));
+  backdrop-filter: saturate(var(--aeris-glass-saturation)) blur(var(--aeris-glass-blur));
+}
+
+aeris-card.aeris-glass[data-enabled] {
+  --aeris-card-background: var(--aeris-glass-background);
+  --aeris-card-filled-background: var(--aeris-glass-background);
+}
+
+aeris-panel.aeris-glass[data-enabled] {
+  --aeris-panel-background: var(--aeris-glass-background);
+  --aeris-panel-filled-background: var(--aeris-glass-background);
+  --aeris-panel-header-background: color-mix(in srgb, var(--aeris-glass-background) 82%, transparent);
+}
+
+aeris-accordion.aeris-glass[data-enabled] {
+  --aeris-accordion-background: var(--aeris-glass-background);
+  --aeris-accordion-filled-background: var(--aeris-glass-background);
+}
+
+aeris-breadcrumb.aeris-glass[data-enabled] {
+  --aeris-breadcrumb-background: var(--aeris-glass-background);
+  --aeris-breadcrumb-filled-background: var(--aeris-glass-background);
+}
+
+aeris-toolbar.aeris-glass[data-enabled] {
+  --aeris-toolbar-background: var(--aeris-glass-background);
+  --aeris-toolbar-filled-background: var(--aeris-glass-background);
+}
+
+aeris-menu.aeris-glass[data-enabled] {
+  --aeris-menu-background: var(--aeris-glass-background);
+}
+
+aeris-tiered-menu.aeris-glass[data-enabled] {
+  --aeris-tiered-menu-background: var(--aeris-glass-background);
+}
+
+aeris-context-menu.aeris-glass[data-enabled] {
+  --aeris-context-menu-background: var(--aeris-glass-background);
+}
+
+aeris-mega-menu.aeris-glass[data-enabled] {
+  --aeris-mega-menu-background: var(--aeris-glass-background);
+  --aeris-mega-menu-panel-background: var(--aeris-glass-background);
+}
+
+aeris-menubar.aeris-glass[data-enabled] {
+  --aeris-menubar-background: var(--aeris-glass-background);
+  --aeris-menubar-submenu-background: var(--aeris-glass-background);
+}
+
+aeris-popover.aeris-glass[data-enabled] {
+  --aeris-popover-background: var(--aeris-glass-background);
+}
+
+aeris-dialog.aeris-glass[data-enabled] {
+  --aeris-dialog-background: var(--aeris-glass-background);
+  --aeris-dialog-header-background: color-mix(in srgb, var(--aeris-glass-background) 82%, transparent);
+}
+
+aeris-drawer.aeris-glass[data-enabled] {
+  --aeris-drawer-background: var(--aeris-glass-background);
+  --aeris-drawer-header-background: color-mix(in srgb, var(--aeris-glass-background) 82%, transparent);
+}
+
+aeris-confirm-popup.aeris-glass[data-enabled] {
+  --aeris-confirm-popup-background: var(--aeris-glass-background);
+}
+
+aeris-auto-complete.aeris-glass[data-enabled] {
+  --aeris-auto-complete-background: var(--aeris-glass-background);
+  --aeris-auto-complete-filled-background: var(--aeris-glass-background);
+  --aeris-auto-complete-panel-background: var(--aeris-glass-background);
+}
+
+aeris-cascade-select.aeris-glass[data-enabled] {
+  --aeris-cascade-select-background: var(--aeris-glass-background);
+  --aeris-cascade-select-filled-background: var(--aeris-glass-background);
+  --aeris-cascade-select-panel-background: var(--aeris-glass-background);
+}
+
+aeris-select.aeris-glass[data-enabled] {
+  --aeris-select-background: var(--aeris-glass-background);
+  --aeris-select-filled-background: var(--aeris-glass-background);
+  --aeris-select-panel-background: var(--aeris-glass-background);
+}
+
+aeris-tree-select.aeris-glass[data-enabled] {
+  --aeris-tree-select-background: var(--aeris-glass-background);
+  --aeris-tree-select-filled-background: var(--aeris-glass-background);
+  --aeris-tree-select-panel-background: var(--aeris-glass-background);
+}
+
+aeris-date-picker.aeris-glass[data-enabled] {
+  --aeris-date-picker-background: var(--aeris-glass-background);
+}
+
+:where(
+  aeris-card.aeris-glass[data-enabled] .aeris-card,
+  aeris-panel.aeris-glass[data-enabled] .aeris-panel,
+  aeris-accordion.aeris-glass[data-enabled]:not([data-variant='separated']),
+  aeris-accordion.aeris-glass[data-enabled][data-variant='separated'] .aeris-accordion__item,
+  aeris-breadcrumb.aeris-glass[data-enabled] .aeris-breadcrumb,
+  aeris-toolbar.aeris-glass[data-enabled] .aeris-toolbar,
+  aeris-menu.aeris-glass[data-enabled] .aeris-menu__panel,
+  aeris-tiered-menu.aeris-glass[data-enabled] .aeris-tiered-menu__panel,
+  aeris-context-menu.aeris-glass[data-enabled] .aeris-context-menu__panel,
+  aeris-mega-menu.aeris-glass[data-enabled] .aeris-mega-menu__root,
+  aeris-mega-menu.aeris-glass[data-enabled] .aeris-mega-menu__panel,
+  aeris-menubar.aeris-glass[data-enabled] .aeris-menubar__surface,
+  aeris-menubar.aeris-glass[data-enabled] .aeris-menubar__submenu,
+  aeris-popover.aeris-glass[data-enabled] .aeris-popover__panel,
+  aeris-dialog.aeris-glass[data-enabled] .aeris-dialog__panel,
+  aeris-drawer.aeris-glass[data-enabled] .aeris-drawer__panel,
+  aeris-confirm-popup.aeris-glass[data-enabled] .aeris-confirm-popup__panel,
+  aeris-auto-complete.aeris-glass[data-enabled] .aeris-auto-complete__control,
+  aeris-auto-complete.aeris-glass[data-enabled] .aeris-auto-complete__panel,
+  aeris-cascade-select.aeris-glass[data-enabled] .aeris-cascade-select__control,
+  aeris-cascade-select.aeris-glass[data-enabled] .aeris-cascade-select__panel,
+  aeris-select.aeris-glass[data-enabled] .aeris-select__control,
+  aeris-select.aeris-glass[data-enabled] .aeris-select__panel,
+  aeris-tree-select.aeris-glass[data-enabled] .aeris-tree-select__control,
+  aeris-tree-select.aeris-glass[data-enabled] .aeris-tree-select__panel,
+  aeris-date-picker.aeris-glass[data-enabled] .aeris-date-picker__control,
+  aeris-date-picker.aeris-glass[data-enabled] .aeris-date-picker__panel
+) {
+  -webkit-backdrop-filter: saturate(var(--aeris-glass-saturation)) blur(var(--aeris-glass-blur));
+  backdrop-filter: saturate(var(--aeris-glass-saturation)) blur(var(--aeris-glass-blur));
+}

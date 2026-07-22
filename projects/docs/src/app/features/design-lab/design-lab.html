@@ -1,0 +1,490 @@
+<main class="design-lab">
+  <header class="design-lab__intro">
+    <div>
+      <p>Interactive theme builder</p>
+      <h1>Design Lab</h1>
+      <span>
+        Shape an Aeris theme, test it across a working application, and copy the exact configuration
+        into your Angular project.
+      </span>
+    </div>
+    <aeris-badge value="Live preview" severity="success" variant="soft" />
+  </header>
+
+  <section class="design-lab__controls" aria-labelledby="theme-controls-title">
+    <header>
+      <div>
+        <p>Theme controls</p>
+        <h2 id="theme-controls-title">Make the system yours.</h2>
+      </div>
+      <button aerisButton type="button" size="sm" variant="secondary" (click)="resetTheme()">
+        Reset theme
+      </button>
+    </header>
+
+    <div class="design-lab__control-grid">
+      <aeris-card class="design-lab__palette-card" padding="lg">
+        <div class="design-lab__control-heading">
+          <div>
+            <strong>Palette</strong><small>Choose a preset or enter any valid hex color.</small>
+          </div>
+          <span>5 seeds</span>
+        </div>
+        <div class="design-lab__presets" aria-label="Palette presets">
+          @for (preset of presets; track preset.name) {
+            <button type="button" (click)="applyPreset(preset)">
+              <span aria-hidden="true">
+                @for (
+                  color of [
+                    preset.palette.surface,
+                    preset.palette.primary,
+                    preset.palette.secondary,
+                    preset.palette.accent,
+                    preset.palette.contrast,
+                  ];
+                  track color
+                ) {
+                  <i [style.background]="color"></i>
+                }
+              </span>
+              {{ preset.shortName }}
+            </button>
+          }
+        </div>
+        <div class="design-lab__colors">
+          @for (option of paletteOptions; track option.key) {
+            <div class="design-lab__color">
+              <span class="design-lab__color-copy">
+                <strong>{{ option.label }}</strong
+                ><small>{{ option.description }}</small>
+              </span>
+              <aeris-color-picker
+                size="sm"
+                format="hex"
+                [showInput]="false"
+                [showFormat]="false"
+                [ariaLabel]="'Choose ' + option.label"
+                [value]="palette()[option.key]"
+                (valueChange)="updateColor(option.key, $event)"
+              />
+            </div>
+          }
+        </div>
+      </aeris-card>
+
+      <div class="design-lab__choices">
+        <aeris-card padding="lg">
+          <fieldset>
+            <legend>Color mode</legend>
+            <p>Follow the operating system or preview a fixed scheme.</p>
+            <div role="group" aria-label="Color mode">
+              @for (item of modes; track item) {
+                <button
+                  aerisButton
+                  type="button"
+                  size="sm"
+                  [variant]="mode() === item ? 'secondary' : 'ghost'"
+                  [attr.aria-pressed]="mode() === item"
+                  (click)="setMode(item)"
+                >
+                  {{ item }}
+                </button>
+              }
+            </div>
+          </fieldset>
+        </aeris-card>
+
+        <aeris-card padding="lg">
+          <fieldset>
+            <legend>Density</legend>
+            <p>Adjust control height, spacing, icons, and item rhythm together.</p>
+            <div role="group" aria-label="Component density">
+              @for (item of densities; track item) {
+                <button
+                  aerisButton
+                  type="button"
+                  size="sm"
+                  [variant]="density() === item ? 'secondary' : 'ghost'"
+                  [attr.aria-pressed]="density() === item"
+                  (click)="setDensity(item)"
+                >
+                  {{ item }}
+                </button>
+              }
+            </div>
+          </fieldset>
+        </aeris-card>
+
+        <aeris-card padding="lg">
+          <fieldset>
+            <legend>Corner style</legend>
+            <p>Change the shared corner scale while preserving purposeful component shapes.</p>
+            <div role="group" aria-label="Corner style">
+              @for (item of radii; track item) {
+                <button
+                  aerisButton
+                  type="button"
+                  size="sm"
+                  [variant]="radius() === item ? 'secondary' : 'ghost'"
+                  [attr.aria-pressed]="radius() === item"
+                  (click)="setRadius(item)"
+                >
+                  <span
+                    class="design-lab__radius-preview"
+                    [attr.data-radius]="item"
+                    aria-hidden="true"
+                  ></span>
+                  {{ item }}
+                </button>
+              }
+            </div>
+          </fieldset>
+        </aeris-card>
+      </div>
+    </div>
+
+    <aeris-card class="design-lab__tones" padding="lg">
+      <div class="design-lab__tones-heading">
+        <div>
+          <span class="design-lab__tones-title">
+            <strong>Semantic interaction tones</strong>
+            <aeris-badge
+              [value]="resolvedMode() + ' scheme'"
+              severity="info"
+              variant="soft"
+              size="sm"
+            />
+          </span>
+          <p>
+            Preview every severity across filled, outline, and text treatments. Aeris calculates
+            accessible foregrounds automatically; changing a state below creates an explicit
+            override for the currently previewed scheme.
+          </p>
+        </div>
+        <button
+          aerisButton
+          type="button"
+          size="sm"
+          variant="secondary"
+          (click)="resetSemanticTones()"
+        >
+          Use automatic tones
+        </button>
+      </div>
+
+      <div class="design-lab__tone-list">
+        @for (tone of toneRows(); track tone.name) {
+          <article class="design-lab__tone" [attr.data-customized]="tone.customized || null">
+            <header>
+              <span>
+                <strong>{{ tone.label }}</strong>
+                <small>{{ tone.description }}</small>
+              </span>
+              @if (tone.customized) {
+                <button
+                  aerisButton
+                  type="button"
+                  size="xs"
+                  variant="ghost"
+                  (click)="resetTone(tone.name)"
+                >
+                  Auto
+                </button>
+              }
+            </header>
+
+            <div
+              class="design-lab__tone-preview"
+              role="group"
+              [attr.aria-label]="tone.label + ' button previews'"
+            >
+              <button aerisButton type="button" size="sm" [severity]="tone.name">Filled</button>
+              <button aerisButton type="button" size="sm" variant="outline" [severity]="tone.name">
+                Outline
+              </button>
+              <button aerisButton type="button" size="sm" variant="ghost" [severity]="tone.name">
+                Text
+              </button>
+            </div>
+
+            <div class="design-lab__tone-colors">
+              @for (property of toneProperties; track property.key) {
+                <div>
+                  <span>{{ property.label }}</span>
+                  <aeris-color-picker
+                    size="xs"
+                    format="hex"
+                    [showInput]="false"
+                    [showFormat]="false"
+                    [ariaLabel]="'Choose ' + tone.label + ' ' + property.label + ' color'"
+                    [value]="tone.resolved[property.key]"
+                    (valueChange)="updateTone(tone.name, property.key, $event)"
+                  />
+                </div>
+              }
+            </div>
+          </article>
+        }
+      </div>
+
+      <p class="design-lab__tones-note">
+        Switch Color mode above to configure light and dark overrides independently. Leave a tone on
+        Auto to keep it synchronized with its palette seed and Aeris contrast calculations.
+      </p>
+    </aeris-card>
+
+    <section class="design-lab__contrast" aria-labelledby="contrast-report-title">
+      <header class="design-lab__contrast-heading">
+        <div>
+          <p>Accessibility report</p>
+          <h3 id="contrast-report-title">Contrast across the complete theme.</h3>
+          <span>
+            Live WCAG 2.2 AA checks cover text, semantic states, focus indicators, borders, and
+            control boundaries in both color schemes.
+          </span>
+        </div>
+        <div class="design-lab__contrast-actions">
+          <div role="group" aria-label="Contrast report scheme">
+            @for (report of contrastReportOptions(); track report.mode) {
+              <button
+                aerisButton
+                type="button"
+                size="sm"
+                [variant]="contrastMode() === report.mode ? 'secondary' : 'ghost'"
+                [attr.aria-pressed]="contrastMode() === report.mode"
+                (click)="setContrastMode(report.mode)"
+              >
+                {{ report.mode === 'light' ? 'Light' : 'Dark' }}
+                <aeris-badge
+                  [value]="report.issueCount === 0 ? 'Pass' : report.issueCount"
+                  [severity]="
+                    report.failed > 0 ? 'danger' : report.unresolved > 0 ? 'warning' : 'success'
+                  "
+                  variant="soft"
+                  size="sm"
+                />
+              </button>
+            }
+          </div>
+          <button
+            aerisButton
+            type="button"
+            size="sm"
+            variant="outline"
+            [attr.aria-pressed]="showOnlyContrastIssues()"
+            (click)="toggleContrastIssues()"
+          >
+            {{ showOnlyContrastIssues() ? 'Show all checks' : 'Show issues only' }}
+          </button>
+        </div>
+      </header>
+
+      <aeris-card class="design-lab__contrast-report" padding="lg">
+        <div class="design-lab__contrast-summary">
+          <div class="design-lab__contrast-score">
+            <span>
+              <strong>{{ selectedContrastReport().score }}%</strong>
+              <small>resolved checks passing</small>
+            </span>
+            <aeris-progress-bar
+              size="sm"
+              [value]="selectedContrastReport().score"
+              [showValue]="false"
+              [severity]="selectedContrastReport().failed > 0 ? 'warning' : 'success'"
+              [ariaLabel]="selectedContrastReport().mode + ' scheme contrast score'"
+              [ariaValueText]="selectedContrastReport().score + '% of resolved checks pass'"
+            />
+          </div>
+
+          <dl>
+            <div>
+              <dt>Passed</dt>
+              <dd>{{ selectedContrastReport().passed }}</dd>
+            </div>
+            <div>
+              <dt>Failed</dt>
+              <dd>{{ selectedContrastReport().failed }}</dd>
+            </div>
+            <div>
+              <dt>Review</dt>
+              <dd>{{ selectedContrastReport().unresolved }}</dd>
+            </div>
+            <div>
+              <dt>Total</dt>
+              <dd>{{ selectedContrastReport().total }}</dd>
+            </div>
+          </dl>
+        </div>
+
+        <aeris-message
+          size="sm"
+          variant="outlined"
+          [severity]="contrastMessageSeverity()"
+          [text]="contrastMessage()"
+        />
+
+        <div class="design-lab__contrast-details">
+          @for (group of displayedContrastGroups(); track group.category) {
+            <details>
+              <summary>
+                <span>
+                  <strong>{{ group.label }}</strong>
+                  <small>{{ group.checks.length }} checks</small>
+                </span>
+                <span>
+                  @if (group.failed > 0) {
+                    <aeris-badge
+                      [value]="group.failed + ' failed'"
+                      severity="danger"
+                      variant="soft"
+                      size="sm"
+                    />
+                  }
+                  @if (group.unresolved > 0) {
+                    <aeris-badge
+                      [value]="group.unresolved + ' review'"
+                      severity="warning"
+                      variant="soft"
+                      size="sm"
+                    />
+                  }
+                  @if (group.failed === 0 && group.unresolved === 0) {
+                    <aeris-badge value="Pass" severity="success" variant="soft" size="sm" />
+                  }
+                  <span class="design-lab__contrast-chevron" aria-hidden="true"></span>
+                </span>
+              </summary>
+
+              <div class="design-lab__contrast-table-wrap" tabindex="0">
+                <table>
+                  <caption class="visually-hidden">
+                    {{
+                      selectedContrastReport().mode
+                    }}
+                    scheme
+                    {{
+                      group.label
+                    }}
+                    contrast checks
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Check</th>
+                      <th scope="col">Colors</th>
+                      <th scope="col">Ratio</th>
+                      <th scope="col">Required</th>
+                      <th scope="col">Result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (check of group.checks; track check.id) {
+                      <tr [attr.data-status]="check.status">
+                        <th scope="row">
+                          <strong>{{ check.label }}</strong>
+                          <small>{{ check.description }}</small>
+                          @if (check.status !== 'pass') {
+                            <span>{{ check.guidance }}</span>
+                          }
+                        </th>
+                        <td>
+                          <span class="design-lab__contrast-colors">
+                            <i [style.background]="check.background" aria-hidden="true"></i>
+                            <i [style.background]="check.foreground" aria-hidden="true"></i>
+                            <span>
+                              <code>{{ check.foreground }}</code>
+                              <code>{{ check.background }}</code>
+                            </span>
+                          </span>
+                        </td>
+                        <td>
+                          <strong>{{ check.ratioLabel }}</strong>
+                        </td>
+                        <td>
+                          {{ check.requiredLabel }}
+                          <small>WCAG {{ check.criterion }}</small>
+                        </td>
+                        <td>
+                          <aeris-badge
+                            [value]="check.statusLabel"
+                            [severity]="
+                              check.status === 'pass'
+                                ? 'success'
+                                : check.status === 'fail'
+                                  ? 'danger'
+                                  : 'warning'
+                            "
+                            variant="soft"
+                            size="sm"
+                          />
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          }
+        </div>
+
+        @if (displayedContrastGroups().length === 0) {
+          <aeris-message
+            severity="success"
+            variant="simple"
+            size="sm"
+            text="No contrast issues were found in this scheme."
+          />
+        }
+
+        <p class="design-lab__contrast-note">
+          Ratios are calculated from opaque HEX, RGB, and HSL values. CSS variables and other
+          unresolved expressions are marked for review. The score excludes unresolved checks and
+          does not replace testing rendered content with assistive technology.
+        </p>
+      </aeris-card>
+    </section>
+  </section>
+
+  <section class="design-lab__preview" aria-labelledby="preview-title">
+    <header>
+      <div>
+        <p>Application preview</p>
+        <h2 id="preview-title">Test the theme in context.</h2>
+      </div>
+      <span>Every control below is an Aeris component.</span>
+    </header>
+    <app-aeris-application-showcase />
+  </section>
+
+  <section class="design-lab__code" aria-labelledby="generated-code-title">
+    <header>
+      <div>
+        <p>Generated configuration</p>
+        <h2 id="generated-code-title">Use this theme in your project.</h2>
+      </div>
+      <span>The code stays synchronized with the controls above.</span>
+    </header>
+    <div class="design-lab__code-grid">
+      <section class="design-lab__code-item" aria-labelledby="theme-code-title">
+        <div class="design-lab__code-heading">
+          <strong id="theme-code-title">1. Save the generated theme</strong>
+          <code>aeris-theme.ts</code>
+        </div>
+        <app-code-block [code]="themeCode()" language="TypeScript" />
+      </section>
+      <section class="design-lab__code-item" aria-labelledby="provider-code-title">
+        <div class="design-lab__code-heading">
+          <strong id="provider-code-title">2. Register Aeris</strong>
+          <code>app.config.ts</code>
+        </div>
+        <app-code-block [code]="providerCode()" language="TypeScript" />
+      </section>
+      <section class="design-lab__code-item" aria-labelledby="styles-code-title">
+        <div class="design-lab__code-heading">
+          <strong id="styles-code-title">3. Load the shared styles</strong>
+          <code>styles.scss</code>
+        </div>
+        <app-code-block [code]="stylesCode" language="CSS" />
+      </section>
+    </div>
+  </section>
+</main>

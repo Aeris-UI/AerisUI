@@ -1,0 +1,59 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.progress-spinner-docs app-form-demo {
+  --docs-code-block-max-height: min(38rem, 70vh);
+}
+
+.spinner-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.spinner-dynamic {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+}
+
+.spinner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.brand-spinner {
+  --aeris-progress-spinner-size: 6rem;
+  --aeris-progress-spinner-indicator: var(--aeris-info);
+  --aeris-progress-spinner-track: color-mix(in srgb, var(--aeris-info) 18%, transparent);
+  --aeris-progress-spinner-value-color: var(--aeris-info);
+  --aeris-progress-spinner-value-font-size: 0.875rem;
+  --aeris-progress-spinner-duration: 800ms;
+}
+
+.spinner-value-template {
+  display: grid;
+  place-items: center;
+  gap: 0.125rem;
+  line-height: 1;
+}
+
+.spinner-value-template strong {
+  font-size: 0.875rem;
+}
+
+.spinner-value-template small {
+  color: var(--aeris-text-2);
+  font-size: 0.5625rem;
+  text-transform: uppercase;
+}
+
+.token-spinner {
+  --aeris-progress-spinner-size: 5.5rem;
+  --aeris-progress-spinner-indicator: var(--aeris-success);
+  --aeris-progress-spinner-track: color-mix(in srgb, var(--aeris-success) 22%, transparent);
+  --aeris-progress-spinner-value-color: var(--aeris-success);
+  --aeris-progress-spinner-value-font-size: 0.875rem;
+}

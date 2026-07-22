@@ -1,0 +1,909 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Data"
+    title="Table"
+    description="Display structured data with native table semantics, sorting, filtering, pagination, selection, expansion, templates, and responsive layouts."
+  />
+
+  <section class="import-section" aria-labelledby="table-import-title">
+    <div>
+      <h2 id="table-import-title">Import</h2>
+      <p>
+        One import provides the table component, its optional templates, and the row context-menu
+        integration.
+      </p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Table documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>
+          Examples use the published Table API and keep the code snippets aligned with the rendered
+          demos.
+        </p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="table-basic"
+              title="Basic"
+              description="Define columns and pass row data. Table renders native table, thead, tbody, th, td, and caption semantics."
+              [tsCode]="dataCode"
+            >
+              <div preview>
+                <aeris-table caption="Team members" [data]="members" [columns]="compactColumns" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table caption="Team members" [data]="members" [columns]="compactColumns" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-dynamic"
+              title="Dynamic columns"
+              description="Columns are data. Alignment and sorting are defined in the column model; this example right-aligns the Status column and the snippet shows that explicitly."
+              [tsCode]="dataCode"
+            >
+              <div preview>
+                <aeris-table
+                  caption="Dynamic team member columns"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  striped
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table
+    caption="Dynamic team member columns"
+    [data]="members"
+    [columns]="compactColumns"
+    striped
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-sort"
+              title="Sorting"
+              description="Sortable headers cycle through ascending, descending, and cleared state with aria-sort kept in sync."
+            >
+              <div preview>
+                <aeris-table caption="Sortable team members" [data]="members" [columns]="columns" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table caption="Sortable team members" [data]="members" [columns]="columns" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-filter"
+              title="Global filtering"
+              description="Enable a built-in search field and bind filterValue when application state needs to inspect or restore the query."
+              [tsCode]="stateCode"
+            >
+              <div preview>
+                <aeris-table
+                  caption="Filtered team members"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  globalFilter
+                  [(filterValue)]="filter"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table
+    caption="Filtered team members"
+    [data]="members"
+    [columns]="compactColumns"
+    globalFilter
+    [(filterValue)]="filter"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-column-filter"
+              title="Column filtering"
+              description="Column filters are independent text inputs in the header. They combine with the global filter when both are enabled. Enable table gridlines when the entire column should be visually divided, including its filter cell."
+              [tsCode]="columnFilterCode"
+            >
+              <div preview>
+                <aeris-table
+                  caption="Column filtered team members"
+                  [data]="members"
+                  [columns]="columns"
+                  columnFilter
+                  [columnFilterPlaceholder]="columnFilterPlaceholders"
+                  [(columnFilters)]="columnFilters"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table
+    caption="Column filtered team members"
+    [data]="members"
+    [columns]="columns"
+    columnFilter
+    [columnFilterPlaceholder]="columnFilterPlaceholders"
+    [(columnFilters)]="columnFilters"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-pagination"
+              title="Pagination"
+              description="Client-side pagination exposes page metadata and keeps the visible row range announced politely."
+            >
+              <div preview>
+                <aeris-table
+                  caption="Paginated team members"
+                  [data]="manyMembers"
+                  [columns]="compactColumns"
+                  paginator
+                  [rows]="5"
+                  [rowsPerPageOptions]="[5, 10, 20]"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table
+    caption="Paginated team members"
+    [data]="manyMembers"
+    [columns]="compactColumns"
+    paginator
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-selection"
+              title="Selection"
+              description="Use highlighted row selection, checkbox selection, or radio-button selection depending on the interaction model."
+              [tsCode]="stateCode"
+            >
+              <div preview class="table-state-grid">
+                <aeris-table
+                  caption="Row selection team members"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  selectionMode="multiple"
+                  selectionControl="row"
+                  [(selectedKeys)]="rowSelectedMembers"
+                />
+                <aeris-table
+                  caption="Single row selection team members"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  selectionMode="single"
+                  selectionControl="row"
+                  [(selectedKeys)]="singleRowSelectedMember"
+                />
+                <aeris-table
+                  caption="Checkbox selection team members"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  selectionMode="multiple"
+                  selectionControl="control"
+                  [(selectedKeys)]="selectedMembers"
+                />
+                <aeris-table
+                  caption="Radio selection team members"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  selectionMode="single"
+                  selectionControl="control"
+                  [(selectedKeys)]="singleSelectedMember"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="table-state-grid"&gt;
+  &lt;aeris-table
+    caption="Row selection team members"
+    [data]="members"
+    [columns]="compactColumns"
+    selectionMode="multiple"
+    selectionControl="row"
+    [(selectedKeys)]="rowSelectedMembers"
+  /&gt;
+  &lt;aeris-table
+    caption="Single row selection team members"
+    [data]="members"
+    [columns]="compactColumns"
+    selectionMode="single"
+    selectionControl="row"
+    [(selectedKeys)]="singleRowSelectedMember"
+  /&gt;
+  &lt;aeris-table
+    caption="Checkbox selection team members"
+    [data]="members"
+    [columns]="compactColumns"
+    selectionMode="multiple"
+    selectionControl="control"
+    [(selectedKeys)]="selectedMembers"
+  /&gt;
+  &lt;aeris-table
+    caption="Radio selection team members"
+    [data]="members"
+    [columns]="compactColumns"
+    selectionMode="single"
+    selectionControl="control"
+    [(selectedKeys)]="singleSelectedMember"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-context-menu"
+              title="Context menu"
+              description="Bind an Aeris ContextMenu instance to the table. Right-clicking a body row opens the menu and exposes the row through controlled contextMenuRow state."
+              [tsCode]="contextMenuCode"
+            >
+              <div preview>
+                <aeris-table
+                  caption="Context menu team members"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  [contextMenu]="memberMenu"
+                  [(contextMenuRow)]="contextMenuMember"
+                  [(contextMenuRowKey)]="contextMenuMemberKey"
+                  (contextMenuOpened)="handleTableContextMenu($event)"
+                />
+                <aeris-context-menu
+                  #memberMenu
+                  [model]="memberContextMenuItems"
+                  ariaLabel="Member actions"
+                  (itemSelected)="handleMemberMenuAction($event)"
+                />
+                <small aria-live="polite">{{ contextMenuStatus() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table
+    caption="Context menu team members"
+    [data]="members"
+    [columns]="compactColumns"
+    [contextMenu]="memberMenu"
+    [(contextMenuRow)]="contextMenuMember"
+    [(contextMenuRowKey)]="contextMenuMemberKey"
+    (contextMenuOpened)="handleTableContextMenu($event)"
+  /&gt;
+  &lt;aeris-context-menu
+    #memberMenu
+    [model]="memberContextMenuItems"
+    ariaLabel="Member actions"
+    (itemSelected)="handleMemberMenuAction($event)"
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; contextMenuStatus() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-appearance"
+              title="Striped rows, sizes, and gridlines"
+              description="Three density sizes change cell padding. Striped rows and gridlines are independent visual options."
+            >
+              <div preview class="table-state-grid">
+                <aeris-table
+                  caption="Small striped table"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  size="sm"
+                  striped
+                />
+                <aeris-table
+                  caption="Large grid table"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  size="lg"
+                  gridlines
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="table-state-grid"&gt;
+  &lt;aeris-table
+    caption="Small striped table"
+    [data]="members"
+    [columns]="compactColumns"
+    size="sm"
+    striped
+  /&gt;
+  &lt;aeris-table
+    caption="Large grid table"
+    [data]="members"
+    [columns]="compactColumns"
+    size="lg"
+    gridlines
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-resizing"
+              title="Column controls"
+              description="Drag a centered separator or focus it and use the arrow keys to resize without changing the table width. Drag headers or use Alt with the arrow keys to reorder them. Truncated values expose an Aeris Tooltip."
+              [tsCode]="resizingCode"
+            >
+              <div preview>
+                <aeris-table
+                  caption="Resizable team member columns"
+                  [data]="members"
+                  [(columns)]="adjustableColumns"
+                  resizableColumns
+                  reorderableColumns
+                  showOverflowTooltip
+                  gridlines
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table
+    caption="Resizable team member columns"
+    [data]="members"
+    [(columns)]="adjustableColumns"
+    resizableColumns
+    reorderableColumns
+    showOverflowTooltip
+    gridlines
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-expansion"
+              title="Row expansion"
+              description="Expandable rows keep the disclosure button, aria-expanded state, and expanded content synchronized."
+              [tsCode]="stateCode"
+            >
+              <div preview>
+                <aeris-table
+                  caption="Expandable team members"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  expandableRows
+                  [(expandedKeys)]="expandedMembers"
+                >
+                  <ng-template aerisTableExpansion let-row>
+                    <strong>{{ row['name'] }}</strong> - {{ row['notes'] }}
+                  </ng-template>
+                </aeris-table>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table
+    caption="Expandable team members"
+    [data]="members"
+    [columns]="compactColumns"
+    expandableRows
+    [(expandedKeys)]="expandedMembers"
+  &gt;
+    &lt;ng-template aerisTableExpansion let-row&gt;
+      &lt;strong&gt;&#123;&#123; row['name'] &#125;&#125;&lt;/strong&gt; - &#123;&#123; row['notes'] &#125;&#125;
+    &lt;/ng-template&gt;
+  &lt;/aeris-table&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-editing"
+              title="In-cell editing"
+              description="Double-click a cell to edit. Aeris emits the edit event and lets the app decide how to persist the value."
+              [tsCode]="editCode"
+            >
+              <div preview>
+                <aeris-table
+                  caption="Editable team members"
+                  [data]="editableMembers()"
+                  [columns]="compactColumns"
+                  editable
+                  (cellEdited)="handleCellEdit($event)"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table
+    caption="Editable team members"
+    [data]="editableMembers()"
+    [columns]="compactColumns"
+    editable
+    (cellEdited)="handleCellEdit($event)"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-scrolling"
+              title="Scrolling"
+              description="Scrollable tables constrain the body viewport while headers remain sticky. Use horizontal scroll for wide column sets."
+            >
+              <div preview>
+                <aeris-table
+                  caption="Scrollable team members"
+                  [data]="manyMembers"
+                  [columns]="columns"
+                  scrollable
+                  scrollHeight="18rem"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table
+    caption="Scrollable team members"
+    [data]="manyMembers"
+    [columns]="columns"
+    scrollable
+    scrollHeight="18rem"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-templates"
+              title="Cell templates"
+              description="Cell templates receive value, row, column, and rowIndex while Table preserves native table structure."
+            >
+              <div preview>
+                <aeris-table
+                  caption="Templated team members"
+                  [data]="members"
+                  [columns]="compactColumns"
+                >
+                  <ng-template aerisTableCell let-value let-column="column">
+                    @if (column.field === 'status') {
+                      <span class="status-pill" [attr.data-status]="value">{{ value }}</span>
+                    } @else {
+                      {{ value }}
+                    }
+                  </ng-template>
+                </aeris-table>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table
+    caption="Templated team members"
+    [data]="members"
+    [columns]="compactColumns"
+  &gt;
+    &lt;ng-template aerisTableCell let-value let-column="column"&gt;
+      &#64;if (column.field === 'status') &#123;
+        &lt;span class="status-pill" [attr.data-status]="value"&gt;&#123;&#123; value &#125;&#125;&lt;/span&gt;
+      &#125; &#64;else &#123;
+        &#123;&#123; value &#125;&#125;
+      &#125;
+    &lt;/ng-template&gt;
+  &lt;/aeris-table&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-responsive"
+              title="Responsive layouts"
+              description="Default scroll mode keeps wide tables horizontally scrollable. Stack mode turns rows into labelled cards on narrow screens."
+            >
+              <div preview class="table-state-grid">
+                <aeris-table
+                  caption="Horizontally scrollable team members"
+                  [data]="members"
+                  [columns]="columns"
+                  responsiveMode="scroll"
+                />
+                <aeris-table
+                  caption="Responsive team members"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  responsiveMode="stack"
+                  striped
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="table-state-grid"&gt;
+  &lt;aeris-table
+    caption="Horizontally scrollable team members"
+    [data]="members"
+    [columns]="columns"
+    responsiveMode="scroll"
+  /&gt;
+  &lt;aeris-table
+    caption="Responsive team members"
+    [data]="members"
+    [columns]="compactColumns"
+    responsiveMode="stack"
+    striped
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-csv"
+              title="CSV export"
+              description="Call exportCSV from a template reference to download CSV for all, filtered, or current page rows. Fields are quoted and formula-like values are emitted as text to reduce spreadsheet injection risk."
+              [tsCode]="csvCode"
+            >
+              <div preview class="table-state-grid">
+                <aeris-table
+                  #csvTable
+                  caption="CSV team members"
+                  [data]="members"
+                  [columns]="compactColumns"
+                />
+                <button aerisButton type="button" (click)="exportCsv(csvTable)">Export CSV</button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="table-state-grid"&gt;
+  &lt;aeris-table
+    #csvTable
+    caption="CSV team members"
+    [data]="members"
+    [columns]="compactColumns"
+  /&gt;
+  &lt;button aerisButton type="button" (click)="exportCsv(csvTable)"&gt;Export CSV&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-states"
+              title="Loading and empty states"
+              description="Loading and empty content are announced with status semantics and can be replaced with templates."
+            >
+              <div preview class="table-state-grid">
+                <aeris-table
+                  caption="Loading members"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  loading
+                />
+                <aeris-table
+                  caption="Empty members"
+                  [data]="[]"
+                  [columns]="compactColumns"
+                  emptyMessage="No members match the current view."
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="table-state-grid"&gt;
+  &lt;aeris-table
+    caption="Loading members"
+    [data]="members"
+    [columns]="compactColumns"
+    loading
+  /&gt;
+  &lt;aeris-table
+    caption="Empty members"
+    [data]="[]"
+    [columns]="compactColumns"
+    emptyMessage="No members match the current view."
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="table-events"
+              title="Events"
+              description="Sort and selection events provide typed metadata without requiring consumers to parse DOM state."
+              [tsCode]="eventsCode"
+            >
+              <div preview>
+                <aeris-table
+                  caption="Event team members"
+                  [data]="members"
+                  [columns]="compactColumns"
+                  [(sort)]="sortState"
+                  selectionMode="multiple"
+                  [(selectedKeys)]="selectedMembers"
+                  (sorted)="handleSort($event)"
+                  (selectionChanged)="handleSelection($event)"
+                />
+                <small aria-live="polite">{{ eventText() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-table
+    caption="Event team members"
+    [data]="members"
+    [columns]="compactColumns"
+    [(sort)]="sortState"
+    selectionMode="multiple"
+    [(selectedKeys)]="selectedMembers"
+    (sorted)="handleSort($event)"
+    (selectionChanged)="handleSelection($event)"
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; eventText() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="Table features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="table-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="Table inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="table-api-outputs" tabindex="-1">Outputs</h3>
+            <div class="api-table" role="table" aria-label="Table outputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Payload</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of outputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="table-api-templates" tabindex="-1">Templates</h3>
+            <div class="api-table compact" role="table" aria-label="Table templates" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Directive</b><b role="columnheader">Context</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">aerisTableHeader</code><span role="cell">column</span
+                ><span role="cell">Custom header content.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisTableCell</code
+                ><span role="cell">value, row, column, rowIndex</span
+                ><span role="cell">Custom body cells.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisTableExpansion</code><span role="cell">row, rowIndex</span
+                ><span role="cell">Expandable detail row content.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisTableEmpty</code><span role="cell">none</span
+                ><span role="cell">Custom empty state.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisTableLoading</code><span role="cell">none</span
+                ><span role="cell">Custom loading state.</span>
+              </div>
+            </div>
+
+            <h3 id="table-api-methods" tabindex="-1">Methods</h3>
+            <div class="api-table compact" role="table" aria-label="Table methods" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Returns</b
+                ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">reset()</code><span role="cell">void</span
+                ><span role="cell"
+                  >Clears sort, filter, pagination, selection, and expansion state.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">clearSort()</code><span role="cell">void</span
+                ><span role="cell">Clears the current sort state and emits sorted.</span>
+              </div>
+              <div role="row">
+                <code role="cell">clearFilters()</code><span role="cell">void</span
+                ><span role="cell"
+                  >Clears global and column filters, resets to first page, and emits filtered.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">clearSelection()</code><span role="cell">void</span
+                ><span role="cell">Clears selected row keys.</span>
+              </div>
+              <div role="row">
+                <code role="cell">clearContextMenuRow()</code><span role="cell">void</span
+                ><span role="cell">Clears the row associated with the bound context menu.</span>
+              </div>
+              <div role="row">
+                <code role="cell">clearExpandedRows()</code><span role="cell">void</span
+                ><span role="cell">Closes every expanded row.</span>
+              </div>
+              <div role="row">
+                <code role="cell">selectRows(keys)</code><span role="cell">void</span
+                ><span role="cell"
+                  >Selects rows by key when the keys exist in the current data.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">expandRow(rowOrKey)</code><span role="cell">void</span
+                ><span role="cell">Opens a detail row programmatically.</span>
+              </div>
+              <div role="row">
+                <code role="cell">collapseRow(rowOrKey)</code><span role="cell">void</span
+                ><span role="cell">Closes a detail row programmatically.</span>
+              </div>
+              <div role="row">
+                <code role="cell">filter(value)</code><span role="cell">void</span
+                ><span role="cell">Updates the global filter programmatically.</span>
+              </div>
+              <div role="row">
+                <code role="cell">filterColumn(field, value)</code><span role="cell">void</span
+                ><span role="cell">Updates a column filter programmatically.</span>
+              </div>
+              <div role="row">
+                <code role="cell">saveState()</code><span role="cell">AerisTableState</span
+                ><span role="cell">Serializes table state owned by Aeris Table.</span>
+              </div>
+              <div role="row">
+                <code role="cell">restoreState(state)</code><span role="cell">void</span
+                ><span role="cell">Restores table state owned by Aeris Table.</span>
+              </div>
+              <div role="row">
+                <code role="cell">exportCSV(options?)</code><span role="cell">string</span
+                ><span role="cell"
+                  >Creates formula-neutralized, quoted CSV from all, filtered, or visible rows and
+                  optionally starts a download with a sanitized filename.</span
+                >
+              </div>
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="Table API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table compact" role="table" aria-label="Table design tokens" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface</code
+            ><span role="cell">Table and control surface.</span><code role="cell">#fff</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface-2</code
+            ><span role="cell">Header, expansion, and alternating row surface.</span
+            ><code role="cell">#f7f5f1</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-border</code
+            ><span role="cell">Outer, row, and gridline borders.</span
+            ><code role="cell">#deddd7</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-text / --aeris-text-2</code
+            ><span role="cell">Cell and secondary text.</span><code role="cell">Aeris theme</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-primary</code
+            ><span role="cell">Selected and hovered row accents.</span
+            ><code role="cell">#879566</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-focus</code><span role="cell">Visible focus rings.</span
+            ><code role="cell">#536437</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Table uses native <code>table</code>, <code>caption</code>, <code>thead</code>,
+            <code>tbody</code>, <code>th</code>, and <code>td</code> semantics.
+          </li>
+          <li>Sortable headers are native buttons and synchronize <code>aria-sort</code>.</li>
+          <li>
+            Selection uses native checkbox or radio controls, including a visible-row select-all
+            checkbox for multiple mode.
+          </li>
+          <li>
+            When a context menu is bound, the native context menu gesture opens the configured Aeris
+            ContextMenu for enabled body rows and exposes row metadata through table state and
+            events.
+          </li>
+          <li>Expandable rows use native buttons with synchronized <code>aria-expanded</code>.</li>
+          <li>
+            Resizable columns expose named separator controls and keep the combined width of each
+            adjusted column pair stable. Reorderable headers support pointer dragging and keyboard
+            movement.
+          </li>
+          <li>
+            When <code>showOverflowTooltip</code> is enabled, truncated headers and cells use Aeris
+            Tooltip to reveal their complete value.
+          </li>
+          <li>Loading and empty states use status semantics and remain inside the table body.</li>
+          <li>
+            Stack responsive mode preserves cell labels through generated row labels on narrow
+            screens.
+          </li>
+          <li>
+            Use a meaningful <code>caption</code> for every data table, even when the visible
+            description is brief.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Table keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell"
+              >Moves through global filter, sortable headers, selection controls, expansion
+              controls, table viewport, and paginator buttons.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell"
+              >Activates sortable headers, selection controls, expansion controls, and paginator
+              buttons.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Enter</kbd
+            ><span role="cell"
+              >Expands or collapses a focused row when row navigation and expandableRows are
+              enabled.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Space</kbd
+            ><span role="cell"
+              >Selects or deselects a focused row when row navigation and selectionMode are
+              enabled.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Context menu gesture</kbd
+            ><span role="cell"
+              >Opens the configured row context menu when <code>contextMenu</code> is bound and the
+              row is not disabled for context-menu handling.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow</kbd> keys</span
+            ><span role="cell"
+              >Use native browser scrolling inside the table viewport when content overflows.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span
+            ><span role="cell"
+              >Resizes the column beside a focused resize separator in 16-pixel increments.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Alt</kbd> + <kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span
+            ><span role="cell"
+              >Moves a focused reorderable header one position in the requested visual
+              direction.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

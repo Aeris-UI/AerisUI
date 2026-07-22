@@ -1,0 +1,342 @@
+:host {
+  display: inline-block;
+  color: var(--aeris-text);
+}
+
+:host([data-fluid]) {
+  display: block;
+  width: 100%;
+}
+
+.aeris-editor {
+  --aeris-editor-padding: 0.875rem;
+  --aeris-editor-font-size: 0.9375rem;
+  --aeris-editor-line-height: 1.6;
+
+  display: grid;
+  overflow: hidden;
+  width: min(100%, 44rem);
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-md, 0.875rem);
+  background: var(--aeris-surface);
+  box-shadow: var(--aeris-shadow-xs, 0 1px 2px rgb(15 23 42 / 0.05));
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.aeris-editor[data-fluid] {
+  width: 100%;
+}
+
+.aeris-editor[data-size='sm'] {
+  --aeris-editor-padding: 0.75rem;
+  --aeris-editor-font-size: 0.875rem;
+}
+
+.aeris-editor[data-size='lg'] {
+  --aeris-editor-padding: 1rem;
+  --aeris-editor-font-size: 1rem;
+}
+
+.aeris-editor[data-appearance='filled'] {
+  background: var(--aeris-surface-2);
+}
+
+.aeris-editor:focus-within {
+  border-color: var(--aeris-focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus) 18%, transparent);
+}
+
+.aeris-editor[data-invalid] {
+  border-color: var(--aeris-danger);
+}
+
+.aeris-editor[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.aeris-editor__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--aeris-border);
+  background: color-mix(in srgb, var(--aeris-surface-2) 82%, transparent);
+}
+
+.aeris-editor__toolbar button {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: var(--aeris-radius-sm, 0.625rem);
+  background: transparent;
+  color: var(--aeris-text);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 140ms ease,
+    color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.aeris-editor__toolbar button:hover:not(:disabled),
+.aeris-editor__toolbar button[aria-pressed='true'] {
+  background: var(--aeris-primary-soft);
+  color: var(--aeris-text);
+}
+
+.aeris-editor__toolbar button:focus-visible {
+  outline: 2px solid var(--aeris-focus);
+  outline-offset: 2px;
+}
+
+.aeris-editor__toolbar button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.aeris-editor__toolbar svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.9;
+}
+
+:dir(rtl) .aeris-editor__logical-icon {
+  transform: scaleX(-1);
+}
+
+.aeris-editor__separator {
+  width: 1px;
+  height: 1.5rem;
+  margin-inline: 0.125rem;
+  background: var(--aeris-border);
+}
+
+.aeris-editor__underline {
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.aeris-editor__strikethrough {
+  text-decoration: line-through;
+}
+
+.aeris-editor__toolbar sub,
+.aeris-editor__toolbar sup {
+  font-size: 0.65em;
+}
+
+.aeris-editor__content-shell {
+  position: relative;
+  display: grid;
+}
+
+.aeris-editor__content {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding: var(--aeris-editor-padding);
+  color: var(--aeris-text);
+  font-size: var(--aeris-editor-font-size);
+  line-height: var(--aeris-editor-line-height);
+  outline: 0;
+  overflow-wrap: anywhere;
+}
+
+.aeris-editor__content[contenteditable='false'] {
+  cursor: default;
+}
+
+.aeris-editor__placeholder {
+  position: absolute;
+  inset-block-start: var(--aeris-editor-padding);
+  inset-inline-start: var(--aeris-editor-padding);
+  color: var(--aeris-text-muted);
+  font-size: var(--aeris-editor-font-size);
+  line-height: var(--aeris-editor-line-height);
+  pointer-events: none;
+}
+
+.aeris-editor-content__paragraph {
+  margin: 0 0 0.65rem;
+}
+
+.aeris-editor-content__paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.aeris-editor-content__heading {
+  margin: 0 0 0.75rem;
+  color: var(--aeris-text);
+  font-size: 1.3em;
+  line-height: 1.25;
+}
+
+.aeris-editor-content__heading--h1 {
+  font-size: 1.65em;
+}
+
+.aeris-editor-content__heading--h2 {
+  font-size: 1.35em;
+}
+
+.aeris-editor-content__heading--h3 {
+  font-size: 1.15em;
+}
+
+.aeris-editor-content__heading--h4 {
+  font-size: 1.05em;
+}
+
+.aeris-editor-content__heading--h5 {
+  font-size: 0.95em;
+}
+
+.aeris-editor-content__heading--h6 {
+  font-size: 0.85em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.aeris-editor-content__quote {
+  margin: 0 0 0.75rem;
+  padding-inline-start: 0.875rem;
+  border-inline-start: 3px solid var(--aeris-primary);
+  color: var(--aeris-text-muted);
+}
+
+.aeris-editor-content__unordered-list,
+.aeris-editor-content__ordered-list {
+  margin: 0 0 0.75rem;
+  padding-inline-start: 1.35rem;
+}
+
+.aeris-editor-content__nested-list-item {
+  list-style-type: none;
+}
+
+.aeris-editor-content__check-list {
+  margin: 0 0 0.75rem;
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+.aeris-editor-content__list-item--checked,
+.aeris-editor-content__list-item--unchecked {
+  position: relative;
+  padding-inline-start: 1.75rem;
+  list-style: none;
+}
+
+.aeris-editor-content__list-item--checked::before,
+.aeris-editor-content__list-item--unchecked::before {
+  position: absolute;
+  inset-block-start: 0.26em;
+  inset-inline-start: 0;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid var(--aeris-border-strong, var(--aeris-border));
+  border-radius: var(--aeris-radius-xs, 0.25rem);
+  background: var(--aeris-surface);
+  content: '';
+}
+
+.aeris-editor-content__list-item--checked::before {
+  border-color: var(--aeris-primary);
+  background: var(--aeris-primary);
+}
+
+.aeris-editor-content__list-item--checked::after {
+  position: absolute;
+  inset-block-start: 0.43em;
+  inset-inline-start: 0.27rem;
+  width: 0.45rem;
+  height: 0.24rem;
+  border-block-end: 2px solid var(--aeris-primary-contrast, white);
+  border-inline-start: 2px solid var(--aeris-primary-contrast, white);
+  content: '';
+  transform: rotate(-45deg);
+}
+
+.aeris-editor-content__list-item--checked {
+  color: var(--aeris-text-muted);
+  text-decoration: line-through;
+}
+
+.aeris-editor-content__bold {
+  font-weight: 700;
+}
+
+.aeris-editor-content__italic {
+  font-style: italic;
+}
+
+.aeris-editor-content__underline {
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.aeris-editor-content__strikethrough {
+  text-decoration: line-through;
+}
+
+.aeris-editor-content__code {
+  padding: 0.12em 0.32em;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-xs, 0.25rem);
+  background: var(--aeris-surface-2);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+.aeris-editor-content__highlight {
+  border-radius: 0.18em;
+  background: color-mix(in srgb, var(--aeris-warning, #c38600) 28%, transparent);
+}
+
+.aeris-editor-content__lowercase {
+  text-transform: lowercase;
+}
+
+.aeris-editor-content__uppercase {
+  text-transform: uppercase;
+}
+
+.aeris-editor-content__capitalize {
+  text-transform: capitalize;
+}
+
+.aeris-editor-content__subscript,
+.aeris-editor-content__superscript {
+  font-size: 0.75em;
+  line-height: 0;
+}
+
+.aeris-editor-content__subscript {
+  vertical-align: sub;
+}
+
+.aeris-editor-content__superscript {
+  vertical-align: super;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-editor,
+  .aeris-editor__toolbar button {
+    transition: none;
+  }
+}

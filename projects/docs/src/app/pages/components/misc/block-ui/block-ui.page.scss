@@ -1,0 +1,38 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.block-ui-docs app-form-demo {
+  --docs-code-block-max-height: min(36rem, 70vh);
+}
+
+.block-ui-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-bottom: 1rem;
+}
+
+.block-ui-panel {
+  min-height: 12rem;
+  padding: 1.25rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-lg);
+  background: var(--aeris-surface);
+}
+
+.block-ui-panel h4 {
+  margin: 0 0 0.5rem;
+}
+
+.block-ui-panel p {
+  margin: 0;
+  color: var(--aeris-text-2);
+  line-height: 1.65;
+}
+
+@media (max-width: 30rem) {
+  .block-ui-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

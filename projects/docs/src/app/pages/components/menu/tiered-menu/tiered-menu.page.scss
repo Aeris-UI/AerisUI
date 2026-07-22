@@ -1,0 +1,70 @@
+@use '../../form/shared/form-docs';
+
+.tiered-menu-docs {
+  aeris-tiered-menu {
+    width: min(100%, 20rem);
+  }
+
+  .tiered-menu-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .tiered-menu-template-preview,
+  .tiered-menu-basic-preview {
+    min-block-size: 10rem;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .tiered-menu-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+    align-items: center;
+    gap: 0.625rem;
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .tiered-menu-item svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .tiered-menu-item__label {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tiered-menu-item__badge {
+    max-inline-size: min(7rem, 36vw);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tiered-menu-item kbd,
+  .tiered-menu-status {
+    color: var(--text-2);
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 750;
+  }
+
+  .tiered-menu-status {
+    display: block;
+    margin-top: 0.75rem;
+  }
+
+  .tiered-menu-chevron {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+}

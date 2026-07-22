@@ -1,0 +1,15 @@
+@use '../../form/shared/form-docs';
+
+.paginator-demo {
+  width: 100%;
+}
+
+.paginator-demo--stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.paginator-demo small {
+  color: var(--text-2);
+  font-weight: 600;
+}

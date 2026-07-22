@@ -1,0 +1,59 @@
+:host {
+  display: inline-block;
+}
+
+:host([data-fluid='true']) {
+  display: block;
+  width: 100%;
+}
+
+:host([data-fluid='true']) .aeris-button {
+  width: 100%;
+}
+
+.aeris-button-component__label {
+  display: inline-flex;
+}
+
+.aeris-button-component__badge {
+  min-width: 1.2rem;
+  height: 1.2rem;
+  display: inline-grid;
+  place-items: center;
+  padding: 0 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--_badge-color) 28%, transparent);
+  border-radius: 999px;
+  background: var(--aeris-surface, #fff);
+  color: var(--_badge-color);
+  box-shadow: 0 1px 1px rgb(0 0 0 / 8%);
+  font-size: 0.625rem;
+  font-weight: 700;
+}
+
+.aeris-button-component__badge[data-severity='primary'] {
+  --_badge-color: var(--aeris-primary-text, #566137);
+}
+
+.aeris-button-component__badge[data-severity='secondary'] {
+  --_badge-color: var(--aeris-text-2, #555555);
+}
+
+.aeris-button-component__badge[data-severity='success'] {
+  --_badge-color: #52744d;
+}
+
+.aeris-button-component__badge[data-severity='info'] {
+  --_badge-color: #536d78;
+}
+
+.aeris-button-component__badge[data-severity='warning'] {
+  --_badge-color: #805a34;
+}
+
+.aeris-button-component__badge[data-severity='danger'] {
+  --_badge-color: var(--aeris-danger, #c81e2a);
+}
+
+.aeris-button-component__badge[data-severity='contrast'] {
+  --_badge-color: var(--aeris-text, #222222);
+}

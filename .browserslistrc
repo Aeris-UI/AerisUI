@@ -1,0 +1,11 @@
+# Aeris supports the current stable browser families used by Angular 22.
+last 2 Chrome versions
+last 2 Edge major versions
+last 2 Firefox versions
+Firefox ESR
+last 2 Safari major versions
+last 2 iOS major versions
+last 2 ChromeAndroid versions
+last 2 FirefoxAndroid versions
+not dead
+not IE 11

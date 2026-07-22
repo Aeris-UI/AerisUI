@@ -1,0 +1,52 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.tooltip-docs {
+  app-form-demo {
+    --docs-code-block-max-height: min(36rem, 70vh);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .demo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .position-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.5rem;
+    width: min(100%, 34rem);
+  }
+
+  .demo-status {
+    width: 100%;
+    margin: 0.875rem 0 0;
+    color: var(--text-3);
+    font-size: 0.8125rem;
+  }
+
+  .tooltip-card {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .tooltip-card strong {
+    color: var(--aeris-tooltip-color, currentColor);
+  }
+
+  .tooltip-card p {
+    margin: 0;
+  }
+}
+
+@media (max-width: 42rem) {
+  .tooltip-docs .position-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -1,0 +1,515 @@
+<article class="button-docs animate-on-scroll-docs">
+  <app-component-page-header
+    category="Utilities"
+    title="AnimateOnScroll"
+    description="Reveal content as it enters the viewport with lightweight, motion-safe effects and precise intersection controls."
+  />
+
+  <section
+    id="animate-on-scroll-import"
+    class="import-section"
+    aria-labelledby="animate-on-scroll-import-title"
+  >
+    <div>
+      <h2 id="animate-on-scroll-import-title">Import</h2>
+      <p>One import provides the standalone AnimateOnScroll directive.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs value="features" scrollable ariaLabel="AnimateOnScroll documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="animate-on-scroll-basic"
+              title="Scroll showcase"
+              description="Scroll through a complete composition. Every element resets after leaving so the sequence can be replayed in either direction."
+              [cssCode]="basicCssCode"
+            >
+              <div preview>
+                <div class="reveal-story" tabindex="0" aria-label="Scrollable animation showcase">
+                  <header class="story-hero">
+                    <span>Aeris motion</span>
+                    <h3>Interfaces with a sense of arrival.</h3>
+                    <p>
+                      Scroll to see content enter naturally, then return to the top to replay every
+                      reveal.
+                    </p>
+                    <span aria-hidden="true">Scroll down ↓</span>
+                  </header>
+
+                  <section class="story-chapter">
+                    <div
+                      class="story-copy"
+                      aerisAnimateOnScroll="slide-start"
+                      [once]="false"
+                      [threshold]="0.35"
+                    >
+                      <h4>Motion that supports hierarchy</h4>
+                      <p>
+                        Logical directions follow the reading flow and make related content feel
+                        connected.
+                      </p>
+                    </div>
+                    <div
+                      class="story-window"
+                      aerisAnimateOnScroll="slide-end"
+                      [once]="false"
+                      [threshold]="0.35"
+                    >
+                      <div class="story-dashboard">
+                        <div class="story-metric">
+                          <strong>84%</strong><span>Accessibility coverage</span>
+                        </div>
+                        <div class="story-metric"><strong>32</strong><span>Patterns</span></div>
+                        <div class="story-metric"><strong>6</strong><span>Palettes</span></div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section class="story-stat-grid" aria-label="Animation qualities">
+                    <article
+                      class="story-stat"
+                      aerisAnimateOnScroll="scale"
+                      [once]="false"
+                      [delay]="0"
+                    >
+                      <strong>Fast</strong><span>Observer driven</span>
+                    </article>
+                    <article
+                      class="story-stat"
+                      aerisAnimateOnScroll="scale"
+                      [once]="false"
+                      [delay]="100"
+                    >
+                      <strong>Calm</strong><span>Purposeful easing</span>
+                    </article>
+                    <article
+                      class="story-stat"
+                      aerisAnimateOnScroll="scale"
+                      [once]="false"
+                      [delay]="200"
+                    >
+                      <strong>Inclusive</strong><span>Motion aware</span>
+                    </article>
+                  </section>
+
+                  <footer
+                    class="story-finale"
+                    aerisAnimateOnScroll="fade-up"
+                    [once]="false"
+                    [threshold]="0.4"
+                  >
+                    <span>Ready to replay</span>
+                    <h4>Scroll back to the beginning.</h4>
+                    <p>
+                      Each section returns to its initial state after it leaves the visible area.
+                    </p>
+                  </footer>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="reveal-story" tabindex="0" aria-label="Scrollable animation showcase"&gt;
+    &lt;header class="story-hero"&gt;
+      &lt;span&gt;Aeris motion&lt;/span&gt;
+      &lt;h3&gt;Interfaces with a sense of arrival.&lt;/h3&gt;
+      &lt;p&gt;
+        Scroll to see content enter naturally, then return to the top to replay every
+        reveal.
+      &lt;/p&gt;
+      &lt;span aria-hidden="true"&gt;Scroll down ↓&lt;/span&gt;
+    &lt;/header&gt;
+
+    &lt;section class="story-chapter"&gt;
+      &lt;div
+        class="story-copy"
+        aerisAnimateOnScroll="slide-start"
+        [once]="false"
+        [threshold]="0.35"
+      &gt;
+        &lt;h4&gt;Motion that supports hierarchy&lt;/h4&gt;
+        &lt;p&gt;
+          Logical directions follow the reading flow and make related content feel
+          connected.
+        &lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div
+        class="story-window"
+        aerisAnimateOnScroll="slide-end"
+        [once]="false"
+        [threshold]="0.35"
+      &gt;
+        &lt;div class="story-dashboard"&gt;
+          &lt;div class="story-metric"&gt;
+            &lt;strong&gt;84%&lt;/strong&gt;&lt;span&gt;Accessibility coverage&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class="story-metric"&gt;&lt;strong&gt;32&lt;/strong&gt;&lt;span&gt;Patterns&lt;/span&gt;&lt;/div&gt;
+          &lt;div class="story-metric"&gt;&lt;strong&gt;6&lt;/strong&gt;&lt;span&gt;Palettes&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class="story-stat-grid" aria-label="Animation qualities"&gt;
+      &lt;article
+        class="story-stat"
+        aerisAnimateOnScroll="scale"
+        [once]="false"
+        [delay]="0"
+      &gt;
+        &lt;strong&gt;Fast&lt;/strong&gt;&lt;span&gt;Observer driven&lt;/span&gt;
+      &lt;/article&gt;
+      &lt;article
+        class="story-stat"
+        aerisAnimateOnScroll="scale"
+        [once]="false"
+        [delay]="100"
+      &gt;
+        &lt;strong&gt;Calm&lt;/strong&gt;&lt;span&gt;Purposeful easing&lt;/span&gt;
+      &lt;/article&gt;
+      &lt;article
+        class="story-stat"
+        aerisAnimateOnScroll="scale"
+        [once]="false"
+        [delay]="200"
+      &gt;
+        &lt;strong&gt;Inclusive&lt;/strong&gt;&lt;span&gt;Motion aware&lt;/span&gt;
+      &lt;/article&gt;
+    &lt;/section&gt;
+
+    &lt;footer
+      class="story-finale"
+      aerisAnimateOnScroll="fade-up"
+      [once]="false"
+      [threshold]="0.4"
+    &gt;
+      &lt;span&gt;Ready to replay&lt;/span&gt;
+      &lt;h4&gt;Scroll back to the beginning.&lt;/h4&gt;
+      &lt;p&gt;
+        Each section returns to its initial state after it leaves the visible area.
+      &lt;/p&gt;
+    &lt;/footer&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="animate-on-scroll-effects"
+              title="Effects"
+              description="Choose opacity, directional, or scale motion while keeping one consistent interaction model."
+              [cssCode]="effectsCssCode"
+            >
+              <div preview>
+                <div class="effect-grid">
+                  <article class="effect-card" aerisAnimateOnScroll="fade" [once]="false">
+                    Fade
+                  </article>
+                  <article class="effect-card" aerisAnimateOnScroll="fade-down" [once]="false">
+                    Fade down
+                  </article>
+                  <article class="effect-card" aerisAnimateOnScroll="slide-start" [once]="false">
+                    Slide start
+                  </article>
+                  <article class="effect-card" aerisAnimateOnScroll="slide-end" [once]="false">
+                    Slide end
+                  </article>
+                  <article class="effect-card" aerisAnimateOnScroll="scale" [once]="false">
+                    Scale
+                  </article>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="effect-grid"&gt;
+    &lt;article class="effect-card" aerisAnimateOnScroll="fade" [once]="false"&gt;
+      Fade
+    &lt;/article&gt;
+    &lt;article class="effect-card" aerisAnimateOnScroll="fade-down" [once]="false"&gt;
+      Fade down
+    &lt;/article&gt;
+    &lt;article class="effect-card" aerisAnimateOnScroll="slide-start" [once]="false"&gt;
+      Slide start
+    &lt;/article&gt;
+    &lt;article class="effect-card" aerisAnimateOnScroll="slide-end" [once]="false"&gt;
+      Slide end
+    &lt;/article&gt;
+    &lt;article class="effect-card" aerisAnimateOnScroll="scale" [once]="false"&gt;
+      Scale
+    &lt;/article&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="animate-on-scroll-replay"
+              title="Enter and leave"
+              description="Set once to false to replay the effect and respond to both intersection changes."
+              [tsCode]="replayTsCode"
+              [cssCode]="replayCssCode"
+            >
+              <div preview>
+                <div class="replay-demo">
+                  <div
+                    class="replay-viewport"
+                    tabindex="0"
+                    aria-label="Scrollable animation example"
+                  >
+                    <div class="replay-spacer">Scroll down</div>
+                    <article
+                      class="replay-card"
+                      aerisAnimateOnScroll="scale"
+                      [once]="false"
+                      [threshold]="0.6"
+                      (entered)="onEntered($event)"
+                      (left)="onLeft()"
+                    >
+                      Replay-ready card
+                    </article>
+                  </div>
+                  <p class="replay-status" aria-live="polite">{{ replayStatus() }}</p>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="replay-demo"&gt;
+    &lt;div
+      class="replay-viewport"
+      tabindex="0"
+      aria-label="Scrollable animation example"
+    &gt;
+      &lt;div class="replay-spacer"&gt;Scroll down&lt;/div&gt;
+      &lt;article
+        class="replay-card"
+        aerisAnimateOnScroll="scale"
+        [once]="false"
+        [threshold]="0.6"
+        (entered)="onEntered($event)"
+        (left)="onLeft()"
+      &gt;
+        Replay-ready card
+      &lt;/article&gt;
+    &lt;/div&gt;
+    &lt;p class="replay-status" aria-live="polite"&gt;&#123;&#123; replayStatus() &#125;&#125;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="animate-on-scroll-timing"
+              title="Timing"
+              description="Combine duration and delay to create a small, readable stagger without scheduling application work."
+              [cssCode]="timingCssCode"
+            >
+              <div preview>
+                <div class="stagger-grid">
+                  <article aerisAnimateOnScroll [once]="false" [duration]="600">
+                    <strong>Discover</strong><span>0 ms delay</span>
+                  </article>
+                  <article aerisAnimateOnScroll [once]="false" [duration]="600" [delay]="120">
+                    <strong>Compose</strong><span>120 ms delay</span>
+                  </article>
+                  <article aerisAnimateOnScroll [once]="false" [duration]="600" [delay]="240">
+                    <strong>Ship</strong><span>240 ms delay</span>
+                  </article>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="stagger-grid"&gt;
+    &lt;article aerisAnimateOnScroll [once]="false" [duration]="600"&gt;
+      &lt;strong&gt;Discover&lt;/strong&gt;&lt;span&gt;0 ms delay&lt;/span&gt;
+    &lt;/article&gt;
+    &lt;article aerisAnimateOnScroll [once]="false" [duration]="600" [delay]="120"&gt;
+      &lt;strong&gt;Compose&lt;/strong&gt;&lt;span&gt;120 ms delay&lt;/span&gt;
+    &lt;/article&gt;
+    &lt;article aerisAnimateOnScroll [once]="false" [duration]="600" [delay]="240"&gt;
+      &lt;strong&gt;Ship&lt;/strong&gt;&lt;span&gt;240 ms delay&lt;/span&gt;
+    &lt;/article&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="animate-on-scroll-custom"
+              title="Token customization"
+              description="Scope motion distance and scale tokens on an individual host without changing global behavior."
+              [cssCode]="customCssCode"
+            >
+              <div preview>
+                <article
+                  class="custom-reveal"
+                  aerisAnimateOnScroll="scale"
+                  [once]="false"
+                  [duration]="700"
+                >
+                  A deeper scale and a branded surface make this reveal distinct.
+                </article>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;article
+    class="custom-reveal"
+    aerisAnimateOnScroll="scale"
+    [once]="false"
+    [duration]="700"
+  &gt;
+    A deeper scale and a branded surface make this reveal distinct.
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="animate-on-scroll-disabled"
+              title="Disabled"
+              description="Disable observation when content should render immediately, such as in print or application-specific reduced experiences."
+            >
+              <div preview>
+                <div aerisAnimateOnScroll disabled>
+                  This content is visible immediately and is never observed.
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div aerisAnimateOnScroll disabled&gt;
+    This content is visible immediately and is never observed.
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="On this page"
+            ariaLabel="AnimateOnScroll features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="animate-on-scroll-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="AnimateOnScroll inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="animate-on-scroll-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="AnimateOnScroll outputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API sections" ariaLabel="AnimateOnScroll API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces"
+      ><section class="doc-section">
+        <h2>Interfaces</h2>
+        <p>
+          The effect union keeps presets explicit, while lifecycle events expose the host and native
+          observer entry.
+        </p>
+        <app-code-block [code]="interfacesCode" language="TypeScript" /></section
+    ></aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens"
+      ><section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table token-table"
+          role="table"
+          aria-label="AnimateOnScroll tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          @for (token of tokens; track token.name) {
+            <div role="row">
+              <code role="cell">{{ token.name }}</code
+              ><span role="cell">{{ token.purpose }}</span
+              ><code role="cell">{{ token.fallback }}</code>
+            </div>
+          }
+        </div>
+      </section></aeris-tab-panel
+    >
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            The directive adds no role, label, or interaction semantics; the host keeps its native
+            meaning.
+          </li>
+          <li>Content remains in DOM and reading order while visually waiting to enter.</li>
+          <li>
+            When reduced motion is requested, content appears immediately without transition or
+            transform.
+          </li>
+          <li>
+            Do not animate essential error messages or the only route to a task; motion should add
+            emphasis, not gate access.
+          </li>
+          <li>Directional effects follow logical start and end in RTL layouts.</li>
+          <li>
+            Interactive descendants retain their native keyboard behavior and visible Aeris focus
+            treatment.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="AnimateOnScroll keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Tab / Shift + Tab</span
+            ><span role="cell"
+              >Moves through projected interactive elements using their native order; the directive
+              itself is not focusable.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Arrow keys</span
+            ><span role="cell"
+              >Scroll a focused native scroll container, as demonstrated by the replay
+              example.</span
+            >
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

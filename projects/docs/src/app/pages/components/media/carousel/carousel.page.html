@@ -1,0 +1,466 @@
+<article class="button-docs carousel-docs">
+  <app-component-page-header
+    category="Media"
+    title="Carousel"
+    description="Responsive item carousel with templates, controlled paging, autoplay, touch gestures, and keyboard navigation."
+  />
+  <section id="carousel-import" class="import-section" aria-labelledby="carousel-import-title">
+    <div>
+      <h2 id="carousel-import-title">Import</h2>
+      <p>One import provides Carousel and all carousel templates.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+  <aeris-tabs ariaLabel="Carousel documentation">
+    <aeris-tab-panel value="features" label="Features"
+      ><section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="carousel-basic"
+              title="Basic"
+              description="Render a collection with a custom item template and optional header and footer regions."
+              [tsCode]="destinationsCode"
+              [cssCode]="cardCss"
+              ><div preview>
+                <aeris-carousel [value]="destinations" [numVisible]="3" ariaLabel="Meet the puppies"
+                  ><ng-template aerisCarouselHeader
+                    ><div class="carousel-title">
+                      <strong>Meet the puppies</strong
+                      ><span>Five playful friends with big personalities.</span>
+                    </div></ng-template
+                  ><ng-template aerisCarouselItem let-item
+                    ><article class="destination-card" [attr.data-tone]="$any(item).tone">
+                      <strong>{{ $any(item).name }}</strong
+                      ><span>{{ $any(item).detail }}</span>
+                    </article></ng-template
+                  ><ng-template aerisCarouselFooter
+                    ><small class="carousel-footer"
+                      >Curated for unhurried weekends.</small
+                    ></ng-template
+                  ></aeris-carousel
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-carousel [value]="destinations" [numVisible]="3" ariaLabel="Meet the puppies"
+    &gt;&lt;ng-template aerisCarouselHeader
+      &gt;&lt;div class="carousel-title"&gt;
+        &lt;strong&gt;Meet the puppies&lt;/strong
+        &gt;&lt;span&gt;Five playful friends with big personalities.&lt;/span&gt;
+      &lt;/div&gt;&lt;/ng-template
+    &gt;&lt;ng-template aerisCarouselItem let-item
+      &gt;&lt;article class="destination-card" [attr.data-tone]="$any(item).tone"&gt;
+        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong
+        &gt;&lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
+      &lt;/article&gt;&lt;/ng-template
+    &gt;&lt;ng-template aerisCarouselFooter
+      &gt;&lt;small class="carousel-footer"
+        &gt;Curated for unhurried weekends.&lt;/small
+      &gt;&lt;/ng-template
+    &gt;&lt;/aeris-carousel
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="carousel-responsive"
+              title="Responsive"
+              description="Adapt visible and scroll counts to the carousel’s available width."
+              [tsCode]="responsiveCode"
+              [cssCode]="cardCss"
+              ><div preview>
+                <aeris-carousel
+                  [value]="destinations"
+                  [numVisible]="2"
+                  [responsiveOptions]="responsiveOptions"
+                  ariaLabel="Responsive puppies"
+                  ><ng-template aerisCarouselItem let-item
+                    ><article class="destination-card" [attr.data-tone]="$any(item).tone">
+                      <strong>{{ $any(item).name }}</strong
+                      ><span>{{ $any(item).detail }}</span>
+                    </article></ng-template
+                  ></aeris-carousel
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-carousel
+    [value]="destinations"
+    [numVisible]="2"
+    [responsiveOptions]="responsiveOptions"
+    ariaLabel="Responsive puppies"
+    &gt;&lt;ng-template aerisCarouselItem let-item
+      &gt;&lt;article class="destination-card" [attr.data-tone]="$any(item).tone"&gt;
+        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong
+        &gt;&lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
+      &lt;/article&gt;&lt;/ng-template
+    &gt;&lt;/aeris-carousel
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="carousel-controlled"
+              title="Controlled"
+              description="Bind page to application state and react to every page change."
+              [tsCode]="controlledCode"
+              [cssCode]="cardCss"
+              ><div preview>
+                <div class="carousel-actions">
+                  <button aerisButton type="button" (click)="showFirst()">First slide</button
+                  ><span aria-live="polite">{{ pageMessage() }}</span>
+                </div>
+                <aeris-carousel
+                  [value]="destinations"
+                  [numVisible]="1"
+                  [(page)]="controlledPage"
+                  (pageChanged)="handlePage($event)"
+                  ariaLabel="Controlled puppy carousel"
+                  ><ng-template aerisCarouselItem let-item
+                    ><article class="destination-card" [attr.data-tone]="$any(item).tone">
+                      <strong>{{ $any(item).name }}</strong
+                      ><span>{{ $any(item).detail }}</span>
+                    </article></ng-template
+                  ></aeris-carousel
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="carousel-actions"&gt;
+    &lt;button aerisButton type="button" (click)="showFirst()"&gt;First slide&lt;/button
+    &gt;&lt;span aria-live="polite"&gt;&#123;&#123; pageMessage() &#125;&#125;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;aeris-carousel
+    [value]="destinations"
+    [numVisible]="1"
+    [(page)]="controlledPage"
+    (pageChanged)="handlePage($event)"
+    ariaLabel="Controlled puppy carousel"
+    &gt;&lt;ng-template aerisCarouselItem let-item
+      &gt;&lt;article class="destination-card" [attr.data-tone]="$any(item).tone"&gt;
+        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong
+        &gt;&lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
+      &lt;/article&gt;&lt;/ng-template
+    &gt;&lt;/aeris-carousel
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="carousel-circular"
+              title="Circular and autoplay"
+              description="Wrap continuously and advance automatically; hover or focus pauses the timer."
+              [tsCode]="destinationsCode"
+              [cssCode]="cardCss"
+              ><div preview>
+                <aeris-carousel
+                  [value]="destinations"
+                  [numVisible]="2"
+                  circular
+                  [autoplayInterval]="2200"
+                  ariaLabel="Autoplay puppies"
+                  ><ng-template aerisCarouselItem let-item
+                    ><article class="destination-card" [attr.data-tone]="$any(item).tone">
+                      <strong>{{ $any(item).name }}</strong
+                      ><span>{{ $any(item).detail }}</span>
+                    </article></ng-template
+                  ></aeris-carousel
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-carousel
+    [value]="destinations"
+    [numVisible]="2"
+    circular
+    [autoplayInterval]="2200"
+    ariaLabel="Autoplay puppies"
+    &gt;&lt;ng-template aerisCarouselItem let-item
+      &gt;&lt;article class="destination-card" [attr.data-tone]="$any(item).tone"&gt;
+        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong
+        &gt;&lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
+      &lt;/article&gt;&lt;/ng-template
+    &gt;&lt;/aeris-carousel
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="carousel-vertical"
+              title="Vertical"
+              description="Browse one puppy slide at a time with indicators between the slide and down control."
+              [tsCode]="destinationsCode"
+              [cssCode]="cardCss"
+              ><div preview>
+                <aeris-carousel
+                  [value]="destinations"
+                  orientation="vertical"
+                  verticalViewportHeight="19rem"
+                  ariaLabel="Vertical puppy carousel"
+                  ><ng-template aerisCarouselItem let-item
+                    ><article class="destination-card" [attr.data-tone]="$any(item).tone">
+                      <strong>{{ $any(item).name }}</strong
+                      ><span>{{ $any(item).detail }}</span>
+                    </article></ng-template
+                  ></aeris-carousel
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-carousel
+    [value]="destinations"
+    orientation="vertical"
+    verticalViewportHeight="19rem"
+    ariaLabel="Vertical puppy carousel"
+    &gt;&lt;ng-template aerisCarouselItem let-item
+      &gt;&lt;article class="destination-card" [attr.data-tone]="$any(item).tone"&gt;
+        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong
+        &gt;&lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
+      &lt;/article&gt;&lt;/ng-template
+    &gt;&lt;/aeris-carousel
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="carousel-minimal"
+              title="Minimal"
+              description="Hide navigators or indicators when adjacent controls already manage the collection."
+              [tsCode]="destinationsCode"
+              [cssCode]="cardCss"
+              ><div preview>
+                <aeris-carousel
+                  [value]="destinations"
+                  [numVisible]="2"
+                  [showNavigators]="false"
+                  [showIndicators]="false"
+                  ariaLabel="Minimal destinations"
+                  ><ng-template aerisCarouselItem let-item
+                    ><article class="destination-card" [attr.data-tone]="$any(item).tone">
+                      <strong>{{ $any(item).name }}</strong
+                      ><span>{{ $any(item).detail }}</span>
+                    </article></ng-template
+                  ></aeris-carousel
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-carousel
+    [value]="destinations"
+    [numVisible]="2"
+    [showNavigators]="false"
+    [showIndicators]="false"
+    ariaLabel="Minimal destinations"
+    &gt;&lt;ng-template aerisCarouselItem let-item
+      &gt;&lt;article class="destination-card" [attr.data-tone]="$any(item).tone"&gt;
+        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong
+        &gt;&lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
+      &lt;/article&gt;&lt;/ng-template
+    &gt;&lt;/aeris-carousel
+  &gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc title="On this page" ariaLabel="Carousel features" [links]="featureLinks" />
+        </div></section
+    ></aeris-tab-panel>
+    <aeris-tab-panel value="api" label="API"
+      ><section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="carousel-api-inputs" class="api-section">
+              <h3>Inputs</h3>
+              <div class="api-table" role="table" aria-label="Carousel inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="carousel-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="Carousel models">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="carousel-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Carousel outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="carousel-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="Carousel templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+            <section id="carousel-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Carousel methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API links" ariaLabel="Carousel API links" [links]="apiLinks" />
+        </div></section
+    ></aeris-tab-panel>
+    <aeris-tab-panel value="interfaces" label="Interfaces"
+      ><section class="doc-section">
+        <h2>Interfaces</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="carousel-interfaces" class="api-section">
+              <app-code-block [code]="interfacesCode" language="TypeScript" />
+            </section>
+          </div>
+          <app-page-toc
+            title="Interface links"
+            ariaLabel="Carousel interface links"
+            [links]="interfaceLinks"
+          />
+        </div></section
+    ></aeris-tab-panel>
+    <aeris-tab-panel value="tokens" label="Tokens"
+      ><section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="carousel-tokens" class="api-section">
+              <div class="api-table" role="table" aria-label="Carousel tokens">
+                <div role="row">
+                  <span role="columnheader">Token</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of tokens; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="Token links" ariaLabel="Carousel token links" [links]="tokenLinks" />
+        </div></section
+    ></aeris-tab-panel>
+    <aeris-tab-panel value="accessibility" label="Accessibility"
+      ><section class="doc-section">
+        <h2>Accessibility</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="carousel-semantics" class="api-section">
+              <h3>Semantics</h3>
+              <ul>
+                <li>
+                  The component exposes a named carousel region; items outside the active page are
+                  hidden from assistive technologies and removed from sequential focus.
+                </li>
+                <li>
+                  Navigation and indicators are native buttons with clear labels and current-page
+                  state.
+                </li>
+                <li>
+                  Autoplay pauses while the carousel is hovered or contains focus, and live
+                  announcements are disabled while it runs.
+                </li>
+                <li>
+                  Provide descriptive item content; Carousel does not invent labels for projected
+                  content.
+                </li>
+              </ul>
+            </section>
+            <section id="carousel-keyboard" class="api-section">
+              <h3>Keyboard support</h3>
+              <div class="api-table" role="table" aria-label="Carousel keyboard support">
+                <div role="row">
+                  <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Tab</kbd
+                  ><span role="cell"
+                    >Moves through navigators, the viewport, and page indicators.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Right / Arrow Left</kbd
+                  ><span role="cell"
+                    >Moves to the next or previous horizontal page; direction follows RTL.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Down / Arrow Up</kbd
+                  ><span role="cell">Moves to the next or previous vertical page.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Home / End</kbd
+                  ><span role="cell">Moves to the first or last page.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Enter / Space</kbd
+                  ><span role="cell">Activates focused native navigator or indicator buttons.</span>
+                </div>
+              </div>
+            </section>
+          </div>
+          <app-page-toc
+            title="Accessibility links"
+            ariaLabel="Carousel accessibility links"
+            [links]="accessibilityLinks"
+          />
+        </div></section
+    ></aeris-tab-panel>
+  </aeris-tabs>
+</article>

@@ -1,0 +1,308 @@
+:host {
+  --_height: var(--aeris-control-height, 2.625rem);
+  --_aeris-button-fill: var(--aeris-primary, #879566);
+  --_aeris-button-boundary: var(--aeris-primary-boundary, var(--_aeris-button-fill));
+  --_aeris-button-hover-fill: var(--aeris-primary-hover, #758154);
+  --_aeris-button-active-fill: var(--aeris-primary-active, #687249);
+  --_aeris-button-text: var(--aeris-primary-text, #566137);
+  --_aeris-button-on-fill: var(--aeris-on-primary, #17200f);
+  --_aeris-button-on-hover: var(--aeris-on-primary-hover, var(--_aeris-button-on-fill));
+  --_aeris-button-on-active: var(--aeris-on-primary-active, var(--_aeris-button-on-hover));
+  --_aeris-button-soft: var(--aeris-primary-soft, color-mix(in srgb, var(--_aeris-button-fill) 14%, transparent));
+  --_aeris-button-on-soft: var(--aeris-on-primary-soft, var(--_aeris-button-text));
+
+  min-height: var(--_height);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-inline: 1.0625rem;
+  border: 1px solid transparent;
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    color 150ms,
+    box-shadow 150ms,
+    transform 100ms;
+}
+
+:host(:hover:not(:disabled)) {
+  transform: translateY(-1px);
+}
+
+:host(:active:not(:disabled)) {
+  transform: translateY(0);
+}
+
+:host(:focus-visible) {
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 44%, transparent);
+  outline-offset: 2px;
+}
+
+:host(:disabled),
+:host([aria-disabled='true']) {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+:host(.aeris-button--primary) {
+  border-color: var(--_aeris-button-boundary);
+  background: var(--_aeris-button-fill);
+  color: var(--_aeris-button-on-fill);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--_aeris-button-fill) 40%, transparent);
+}
+
+:host(.aeris-button--primary:hover:not(:disabled)) {
+  background: var(--_aeris-button-hover-fill);
+  color: var(--_aeris-button-on-hover);
+}
+
+:host(.aeris-button--primary:active:not(:disabled)) {
+  background: var(--_aeris-button-active-fill);
+  color: var(--_aeris-button-on-active);
+}
+
+:host(.aeris-button--secondary) {
+  border-color: var(--aeris-border, #deddd7);
+  background: var(--aeris-surface, #fff);
+  color: var(--aeris-text, #222222);
+  box-shadow: var(--aeris-shadow-sm, 0 1px 2px rgb(31 35 27 / 6%));
+}
+
+:host(.aeris-button--secondary:hover:not(:disabled)) {
+  border-color: var(--aeris-border-strong, #c7c9c0);
+  background: var(--aeris-surface-2, #f2f0ec);
+}
+
+:host(.aeris-button--outline) {
+  border-color: var(--_aeris-button-boundary);
+  background: transparent;
+  color: var(--_aeris-button-text);
+}
+
+:host(.aeris-button--outline:hover:not(:disabled)) {
+  border-color: var(--_aeris-button-boundary);
+  background: var(--_aeris-button-hover-fill);
+  color: var(--_aeris-button-on-hover);
+}
+
+:host(.aeris-button--outline:active:not(:disabled)) {
+  border-color: var(--_aeris-button-boundary);
+  background: var(--_aeris-button-active-fill);
+  color: var(--_aeris-button-on-active);
+}
+
+:host(.aeris-button--ghost) {
+  background: transparent;
+  color: var(--_aeris-button-text);
+}
+
+:host(.aeris-button--ghost:hover:not(:disabled)) {
+  background: var(--_aeris-button-soft);
+  color: var(--_aeris-button-on-soft);
+}
+
+:host(.aeris-button--ghost:active:not(:disabled)) {
+  background: color-mix(in srgb, var(--_aeris-button-fill) 22%, var(--aeris-surface, #fff));
+  color: var(--_aeris-button-on-soft);
+}
+
+:host(.aeris-button--danger) {
+  background: color-mix(in srgb, var(--aeris-danger, #c81e2a) 12%, transparent);
+  color: var(--aeris-danger, #c81e2a);
+}
+
+:host(.aeris-button--danger:hover:not(:disabled)) {
+  background: color-mix(in srgb, var(--aeris-danger, #c81e2a) 20%, transparent);
+}
+
+:host(.aeris-button--link) {
+  min-height: auto;
+  padding: 0.25rem 0.125rem;
+  background: transparent;
+  color: var(--_aeris-button-text);
+}
+
+:host(.aeris-button--xs) {
+  --_height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
+  padding-inline: 0.625rem;
+  font-size: 0.6875rem;
+}
+
+:host(.aeris-button--sm) {
+  --_height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
+  padding-inline: 0.8125rem;
+  font-size: 0.75rem;
+}
+
+:host(.aeris-button--lg) {
+  --_height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
+  padding-inline: 1.3125rem;
+  font-size: 0.875rem;
+}
+
+:host([data-icon-only='true']) {
+  width: var(--_height);
+  padding: 0;
+}
+
+:host([data-raised='true']) {
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--aeris-text, #222222) 16%, transparent);
+}
+
+:host([data-rounded='true']) {
+  border-radius: 999px;
+}
+
+:host([data-fluid='true']) {
+  width: 100%;
+}
+
+:host(.aeris-button--severity-success) {
+  --_aeris-button-fill: var(--aeris-success, #52744d);
+  --_aeris-button-boundary: var(--aeris-success-boundary, var(--_aeris-button-fill));
+  --_aeris-button-hover-fill: var(--aeris-success-hover, #456241);
+  --_aeris-button-active-fill: var(--aeris-success-active, #3f593b);
+  --_aeris-button-text: var(--aeris-success-text, #476142);
+  --_aeris-button-on-fill: var(--aeris-on-success, #fff);
+  --_aeris-button-on-hover: var(--aeris-on-success-hover, var(--_aeris-button-on-fill));
+  --_aeris-button-on-active: var(--aeris-on-success-active, var(--_aeris-button-on-hover));
+  --_aeris-button-soft: var(--aeris-success-soft, color-mix(in srgb, var(--_aeris-button-fill) 14%, transparent));
+  --_aeris-button-on-soft: var(--aeris-on-success-soft, var(--_aeris-button-text));
+}
+
+:host(.aeris-button--severity-info) {
+  --_aeris-button-fill: var(--aeris-info, #4f7180);
+  --_aeris-button-boundary: var(--aeris-info-boundary, var(--_aeris-button-fill));
+  --_aeris-button-hover-fill: var(--aeris-info-hover, #435f6c);
+  --_aeris-button-active-fill: var(--aeris-info-active, #3e5864);
+  --_aeris-button-text: var(--aeris-info-text, #536d78);
+  --_aeris-button-on-fill: var(--aeris-on-info, #fff);
+  --_aeris-button-on-hover: var(--aeris-on-info-hover, var(--_aeris-button-on-fill));
+  --_aeris-button-on-active: var(--aeris-on-info-active, var(--_aeris-button-on-hover));
+  --_aeris-button-soft: var(--aeris-info-soft, color-mix(in srgb, var(--_aeris-button-fill) 14%, transparent));
+  --_aeris-button-on-soft: var(--aeris-on-info-soft, var(--_aeris-button-text));
+}
+
+:host(.aeris-button--severity-warning) {
+  --_aeris-button-fill: var(--aeris-warning, #c38600);
+  --_aeris-button-boundary: var(--aeris-warning-boundary, var(--_aeris-button-fill));
+  --_aeris-button-hover-fill: var(--aeris-warning-hover, #bd8200);
+  --_aeris-button-active-fill: var(--aeris-warning-active, #b87d00);
+  --_aeris-button-text: var(--aeris-warning-text, #8a6100);
+  --_aeris-button-on-fill: var(--aeris-on-warning, #211600);
+  --_aeris-button-on-hover: var(--aeris-on-warning-hover, var(--_aeris-button-on-fill));
+  --_aeris-button-on-active: var(--aeris-on-warning-active, var(--_aeris-button-on-hover));
+  --_aeris-button-soft: var(--aeris-warning-soft, color-mix(in srgb, var(--_aeris-button-fill) 14%, transparent));
+  --_aeris-button-on-soft: var(--aeris-on-warning-soft, var(--_aeris-button-text));
+}
+
+:host(.aeris-button--severity-danger) {
+  --_aeris-button-fill: var(--aeris-danger, #c81e2a);
+  --_aeris-button-boundary: var(--aeris-danger-boundary, var(--_aeris-button-fill));
+  --_aeris-button-hover-fill: var(--aeris-danger-hover, #b51b26);
+  --_aeris-button-active-fill: var(--aeris-danger-active, #a21822);
+  --_aeris-button-text: var(--aeris-danger-text, #a31722);
+  --_aeris-button-on-fill: var(--aeris-on-danger, #fff);
+  --_aeris-button-on-hover: var(--aeris-on-danger-hover, var(--_aeris-button-on-fill));
+  --_aeris-button-on-active: var(--aeris-on-danger-active, var(--_aeris-button-on-hover));
+  --_aeris-button-soft: var(--aeris-danger-soft, color-mix(in srgb, var(--_aeris-button-fill) 14%, transparent));
+  --_aeris-button-on-soft: var(--aeris-on-danger-soft, var(--_aeris-button-text));
+}
+
+:host(.aeris-button--severity-contrast) {
+  --_aeris-button-fill: var(--aeris-contrast, var(--aeris-text, #222222));
+  --_aeris-button-boundary: var(--aeris-contrast-boundary, var(--_aeris-button-fill));
+  --_aeris-button-hover-fill: var(--aeris-contrast-hover, var(--aeris-text-2, #555555));
+  --_aeris-button-active-fill: var(--aeris-contrast-active, var(--aeris-text, #222222));
+  --_aeris-button-text: var(--aeris-contrast-text, var(--aeris-text, #222222));
+  --_aeris-button-on-fill: var(--aeris-on-contrast, var(--aeris-surface, #fff));
+  --_aeris-button-on-hover: var(--aeris-on-contrast-hover, var(--_aeris-button-on-fill));
+  --_aeris-button-on-active: var(--aeris-on-contrast-active, var(--_aeris-button-on-hover));
+  --_aeris-button-soft: var(--aeris-contrast-soft, color-mix(in srgb, var(--_aeris-button-fill) 14%, transparent));
+  --_aeris-button-on-soft: var(--aeris-on-contrast-soft, var(--_aeris-button-text));
+}
+
+:host(.aeris-button--severity-secondary) {
+  --_aeris-button-fill: var(--aeris-secondary, #80939b);
+  --_aeris-button-boundary: var(--aeris-secondary-boundary, var(--_aeris-button-fill));
+  --_aeris-button-hover-fill: var(--aeris-secondary-hover, #75868e);
+  --_aeris-button-active-fill: var(--aeris-secondary-active, #6b7b82);
+  --_aeris-button-text: var(--aeris-secondary-text, var(--aeris-text-2, #555555));
+  --_aeris-button-on-fill: var(--aeris-on-secondary, var(--aeris-text, #222222));
+  --_aeris-button-on-hover: var(--aeris-on-secondary-hover, var(--_aeris-button-on-fill));
+  --_aeris-button-on-active: var(--aeris-on-secondary-active, var(--_aeris-button-on-hover));
+  --_aeris-button-soft: var(--aeris-secondary-soft, color-mix(in srgb, var(--_aeris-button-fill) 14%, transparent));
+  --_aeris-button-on-soft: var(--aeris-on-secondary-soft, var(--_aeris-button-text));
+}
+
+:host([data-plain='true']) {
+  --_aeris-button-fill: var(--aeris-text-2, #555555);
+  --_aeris-button-boundary: var(--_aeris-button-fill);
+  --_aeris-button-hover-fill: var(--aeris-text, #222222);
+  --_aeris-button-active-fill: var(--aeris-text, #222222);
+  --_aeris-button-text: var(--aeris-text-2, #555555);
+  --_aeris-button-on-fill: var(--aeris-surface, #fff);
+  --_aeris-button-on-hover: var(--aeris-surface, #fff);
+  --_aeris-button-on-active: var(--aeris-surface, #fff);
+  --_aeris-button-soft: var(--aeris-surface-2, #f2f0ec);
+  --_aeris-button-on-soft: var(--aeris-text, #222222);
+}
+
+:host(.aeris-button--icon-right) {
+  flex-direction: row-reverse;
+}
+
+:host(.aeris-button--icon-top) {
+  flex-direction: column;
+}
+
+:host(.aeris-button--icon-bottom) {
+  flex-direction: column-reverse;
+}
+
+:host(.aeris-button--icon-top) .aeris-button__content {
+  flex-direction: column;
+}
+
+:host(.aeris-button--icon-bottom) .aeris-button__content {
+  flex-direction: column-reverse;
+}
+
+.aeris-button__content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.aeris-button__spinner {
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 2px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: aeris-button-spin 700ms linear infinite;
+}
+
+@keyframes aeris-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition-duration: 0.01ms;
+  }
+
+  .aeris-button__spinner {
+    animation-duration: 1.5s;
+  }
+}

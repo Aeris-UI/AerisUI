@@ -1,0 +1,71 @@
+@use '../shared/form-docs';
+
+.radio-stack,
+.radio-group,
+.radio-card-group {
+  width: 100%;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.radio-group,
+.radio-card-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.radio-group legend,
+.radio-card-group legend,
+.radio-group > strong {
+  margin-bottom: 0.125rem;
+  color: var(--text);
+  font-size: 0.9375rem;
+  font-weight: 650;
+}
+
+.radio-card-group {
+  width: min(100%, 38rem);
+}
+
+.radio-card {
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.radio-card--selected {
+  border-color: color-mix(in srgb, var(--primary) 60%, var(--border));
+  background: color-mix(in srgb, var(--primary) 7%, var(--surface));
+}
+
+.radio-option-content {
+  display: inline-grid;
+  gap: 0.125rem;
+}
+
+.radio-option-content strong {
+  color: var(--text);
+  font-size: 0.875rem;
+}
+
+.radio-option-content small,
+.radio-result {
+  color: var(--text-2);
+  font-size: 0.8125rem;
+}
+
+.error {
+  color: var(--danger);
+  font-size: 0.8125rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radio-card {
+    transition: none;
+  }
+}

@@ -1,0 +1,23 @@
+.home-live-showcase {
+  position: relative;
+}
+
+.home-live-showcase::before {
+  position: absolute;
+  z-index: -1;
+  inset: 8rem -10vw auto;
+  height: 28rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--aeris-primary) 11%, transparent);
+  filter: blur(7rem);
+  content: '';
+  pointer-events: none;
+}
+
+.home-live-showcase__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--aeris-space-3);
+  margin-top: var(--aeris-space-6);
+}

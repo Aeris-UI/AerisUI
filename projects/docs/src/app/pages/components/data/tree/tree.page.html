@@ -1,0 +1,649 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Data"
+    title="Tree"
+    description="Navigate hierarchical data with controlled expansion and selection, filtering, lazy loading, drag-drop reordering, typed templates, and complete keyboard interaction."
+  />
+
+  <section class="import-section" aria-labelledby="tree-import-title">
+    <div>
+      <h2 id="tree-import-title">Import</h2>
+      <p>One import provides Tree and all optional templates.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Tree documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="tree-basic"
+              title="Basic"
+              description="Tree renders unique-keyed nodes with controlled expansion and native hierarchical semantics."
+              [tsCode]="basicTsCode"
+            >
+              <div preview class="tree-demo">
+                <aeris-tree
+                  ariaLabel="Project files"
+                  [value]="files"
+                  [(expandedKeys)]="basicExpanded"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tree-demo"&gt;
+  &lt;aeris-tree
+    ariaLabel="Project files"
+    [value]="files"
+    [(expandedKeys)]="basicExpanded"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-controlled"
+              title="Controlled expansion"
+              description="Keep expansion in application state and replace the complete key set to expand or collapse every branch."
+              [tsCode]="controlledTsCode"
+              [cssCode]="controlledCssCode"
+            >
+              <div preview class="tree-demo tree-demo--stack">
+                <div class="tree-controls" aria-label="Tree expansion controls">
+                  <button aerisButton type="button" (click)="expandControlled()">Expand all</button>
+                  <button aerisButton type="button" (click)="collapseControlled()">
+                    Collapse all
+                  </button>
+                </div>
+                <aeris-tree
+                  ariaLabel="Controlled project files"
+                  [value]="files"
+                  [(expandedKeys)]="controlledExpanded"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tree-demo tree-demo--stack"&gt;
+  &lt;div class="tree-controls" aria-label="Tree expansion controls"&gt;
+    &lt;button aerisButton type="button" (click)="expandControlled()"&gt;Expand all&lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="collapseControlled()"&gt;
+      Collapse all
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-tree
+    ariaLabel="Controlled project files"
+    [value]="files"
+    [(expandedKeys)]="controlledExpanded"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-single-selection"
+              title="Single selection"
+              description="Single selection keeps one selected key and emits a typed event for selection and clearing."
+              [tsCode]="selectionTsCode"
+            >
+              <div preview class="tree-demo tree-demo--stack">
+                <aeris-tree
+                  ariaLabel="Single-select project files"
+                  selectionMode="single"
+                  [value]="files"
+                  [expandedKeys]="basicExpanded()"
+                  [(selectionKeys)]="singleSelection"
+                  (selectionChanged)="handleSelection($event)"
+                />
+                <small aria-live="polite">{{ eventText() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tree-demo tree-demo--stack"&gt;
+  &lt;aeris-tree
+    ariaLabel="Single-select project files"
+    selectionMode="single"
+    [value]="files"
+    [expandedKeys]="basicExpanded()"
+    [(selectionKeys)]="singleSelection"
+    (selectionChanged)="handleSelection($event)"
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; eventText() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-multiple-selection"
+              title="Multiple selection"
+              description="Multiple selection toggles independent nodes without changing branch expansion."
+              [tsCode]="multipleSelectionTsCode"
+            >
+              <div preview class="tree-demo">
+                <aeris-tree
+                  ariaLabel="Multiple-select project files"
+                  selectionMode="multiple"
+                  [value]="files"
+                  [expandedKeys]="basicExpanded()"
+                  [(selectionKeys)]="multipleSelection"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tree-demo"&gt;
+  &lt;aeris-tree
+    ariaLabel="Multiple-select project files"
+    selectionMode="multiple"
+    [value]="files"
+    [expandedKeys]="basicExpanded()"
+    [(selectionKeys)]="multipleSelection"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-checkbox-selection"
+              title="Checkbox selection"
+              description="Checkbox mode cascades through selectable descendants and exposes mixed parent state when only part of a branch is selected."
+              [tsCode]="checkboxSelectionTsCode"
+            >
+              <div preview class="tree-demo">
+                <aeris-tree
+                  ariaLabel="Checkbox project files"
+                  selectionMode="checkbox"
+                  [value]="files"
+                  [expandedKeys]="['workspace', 'assets']"
+                  [(selectionKeys)]="checkboxSelection"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tree-demo"&gt;
+  &lt;aeris-tree
+    ariaLabel="Checkbox project files"
+    selectionMode="checkbox"
+    [value]="files"
+    [expandedKeys]="['workspace', 'assets']"
+    [(selectionKeys)]="checkboxSelection"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-filtering"
+              title="Filtering"
+              description="The controlled filter finds node labels and preserves the ancestor path to every result."
+              [tsCode]="filterTsCode"
+            >
+              <div preview class="tree-demo tree-demo--stack">
+                <aeris-tree
+                  filter
+                  ariaLabel="Filterable project files"
+                  filterPlaceholder="Find a file"
+                  [value]="files"
+                  [(expandedKeys)]="filterExpanded"
+                  [(filterValue)]="filterQuery"
+                  (filterChanged)="handleFilter($event)"
+                />
+                <small aria-live="polite">{{ eventText() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tree-demo tree-demo--stack"&gt;
+  &lt;aeris-tree
+    filter
+    ariaLabel="Filterable project files"
+    filterPlaceholder="Find a file"
+    [value]="files"
+    [(expandedKeys)]="filterExpanded"
+    [(filterValue)]="filterQuery"
+    (filterChanged)="handleFilter($event)"
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; eventText() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-lazy"
+              title="Lazy loading"
+              description="Mark an unloaded branch with leaf: false, respond to nodeExpanded, and identify loading branches until children arrive."
+              [tsCode]="lazyTsCode"
+            >
+              <div preview class="tree-demo">
+                <aeris-tree
+                  ariaLabel="Remote project files"
+                  [value]="lazyNodes()"
+                  [loadingKeys]="lazyLoadingKeys()"
+                  [(expandedKeys)]="lazyExpanded"
+                  (nodeExpanded)="handleLazyExpand($event)"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tree-demo"&gt;
+  &lt;aeris-tree
+    ariaLabel="Remote project files"
+    [value]="lazyNodes()"
+    [loadingKeys]="lazyLoadingKeys()"
+    [(expandedKeys)]="lazyExpanded"
+    (nodeExpanded)="handleLazyExpand($event)"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-drag-drop"
+              title="Drag and drop"
+              description="Reorder nodes before, inside, or after another node. The value model receives an immutable tree and keyboard commands provide equivalent moves."
+              [tsCode]="dragDropTsCode"
+            >
+              <div preview class="tree-demo tree-demo--stack">
+                <aeris-tree
+                  dragDrop
+                  ariaLabel="Reorder project files"
+                  [(value)]="dragFiles"
+                  [(expandedKeys)]="dragExpanded"
+                  (nodeDropped)="handleDrop($event)"
+                />
+                <small aria-live="polite">{{ dragEventText() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tree-demo tree-demo--stack"&gt;
+  &lt;aeris-tree
+    dragDrop
+    ariaLabel="Reorder project files"
+    [(value)]="dragFiles"
+    [(expandedKeys)]="dragExpanded"
+    (nodeDropped)="handleDrop($event)"
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; dragEventText() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-template"
+              title="Node template"
+              description="This documentation example supplies Lucide icons through node data. Any icon component or SVG can be used without adding an icon dependency to Aeris."
+              [htmlCode]="templateHtmlCode"
+              [tsCode]="templateTsCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview class="tree-demo">
+                <aeris-tree
+                  ariaLabel="Project files with details"
+                  [value]="files"
+                  [(expandedKeys)]="basicExpanded"
+                >
+                  <ng-template aerisTreeNode let-node let-leaf="leaf">
+                    <span class="file-node">
+                      <svg [lucideIcon]="$any(node).data.icon"></svg>
+                      <span
+                        ><strong>{{ $any(node).label }}</strong
+                        ><small>{{ $any(node).data.detail }}</small></span
+                      >
+                      @if (leaf) {
+                        <span class="file-node__type">{{ $any(node).data.type }}</span>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-tree>
+              </div>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-states"
+              title="States"
+              description="Loading, empty, and disabled states remain named and expose status text where content is unavailable."
+            >
+              <div preview class="tree-state-grid">
+                <section>
+                  <h3>Loading</h3>
+                  <aeris-tree loading ariaLabel="Loading files" [value]="files" />
+                </section>
+                <section>
+                  <h3>Empty</h3>
+                  <aeris-tree ariaLabel="Empty files" [value]="[]" />
+                </section>
+                <section>
+                  <h3>Disabled</h3>
+                  <aeris-tree
+                    disabled
+                    ariaLabel="Disabled files"
+                    [value]="files"
+                    [expandedKeys]="['workspace']"
+                  />
+                </section>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tree-state-grid"&gt;
+  &lt;section&gt;
+    &lt;h3&gt;Loading&lt;/h3&gt;
+    &lt;aeris-tree loading ariaLabel="Loading files" [value]="files" /&gt;
+  &lt;/section&gt;
+  &lt;section&gt;
+    &lt;h3&gt;Empty&lt;/h3&gt;
+    &lt;aeris-tree ariaLabel="Empty files" [value]="[]" /&gt;
+  &lt;/section&gt;
+  &lt;section&gt;
+    &lt;h3&gt;Disabled&lt;/h3&gt;
+    &lt;aeris-tree
+      disabled
+      ariaLabel="Disabled files"
+      [value]="files"
+      [expandedKeys]="['workspace']"
+    /&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-events"
+              title="Events"
+              description="Typed outputs report selection, expansion, collapse, filtering, and drops while models remain the source of truth."
+              [tsCode]="eventsTsCode"
+            >
+              <div preview class="tree-demo tree-demo--stack">
+                <aeris-tree
+                  filter
+                  ariaLabel="Interactive event tree"
+                  selectionMode="single"
+                  [value]="files"
+                  [(expandedKeys)]="basicExpanded"
+                  [(selectionKeys)]="singleSelection"
+                  (selectionChanged)="handleSelection($event)"
+                  (nodeExpanded)="handleExpand($event)"
+                  (filterChanged)="handleFilter($event)"
+                />
+                <small aria-live="polite">{{ eventText() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="tree-demo tree-demo--stack"&gt;
+  &lt;aeris-tree
+    filter
+    ariaLabel="Interactive event tree"
+    selectionMode="single"
+    [value]="files"
+    [(expandedKeys)]="basicExpanded"
+    [(selectionKeys)]="singleSelection"
+    (selectionChanged)="handleSelection($event)"
+    (nodeExpanded)="handleExpand($event)"
+    (filterChanged)="handleFilter($event)"
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; eventText() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="Tree features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="tree-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="Tree inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="tree-api-models" tabindex="-1">Models</h3>
+            <div class="api-table" role="table" aria-label="Tree models" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of models; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="tree-api-outputs" tabindex="-1">Outputs</h3>
+            <div class="api-table" role="table" aria-label="Tree outputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Payload</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of outputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="tree-api-templates" tabindex="-1">Templates</h3>
+            <div class="api-table" role="table" aria-label="Tree templates" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Context</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of templates; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="tree-api-methods" tabindex="-1">Methods</h3>
+            <div class="api-table" role="table" aria-label="Tree methods" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Returns</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of methods; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="Tree API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces"
+      ><section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" /></section
+    ></aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens"
+      ><section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table compact" role="table" aria-label="Tree design tokens" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-min-width</code
+            ><span role="cell">Minimum tree width before responsive override.</span
+            ><code role="cell">16rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-max-height</code
+            ><span role="cell">Maximum scrollable node viewport height.</span
+            ><code role="cell">24rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-padding</code><span role="cell">Outer tree padding.</span
+            ><code role="cell">0.5rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-border</code><span role="cell">Outer border color.</span
+            ><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-radius</code><span role="cell">Outer corner radius.</span
+            ><code role="cell">--aeris-radius-lg</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-background</code
+            ><span role="cell">Tree surface color.</span><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-color</code
+            ><span role="cell">Default node text color.</span><code role="cell">--aeris-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-indent</code
+            ><span role="cell">Indent added for each hierarchy level.</span
+            ><code role="cell">1.25rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-indent-mobile</code
+            ><span role="cell">Hierarchy indent on narrow screens.</span
+            ><code role="cell">0.875rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-node-height</code
+            ><span role="cell">Minimum node row height.</span><code role="cell">2.375rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-node-padding</code
+            ><span role="cell">Node row padding.</span><code role="cell">0.4375rem 0.625rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-node-radius</code
+            ><span role="cell">Node row corner radius.</span
+            ><code role="cell">--aeris-radius-md</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-node-hover</code
+            ><span role="cell">Hover and active node surface.</span
+            ><code role="cell">--aeris-surface-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-node-selected</code
+            ><span role="cell">Selected node surface.</span
+            ><code role="cell">--aeris-primary-soft</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-drop-indicator</code
+            ><span role="cell">Drop line and inside-target outline.</span
+            ><code role="cell">--aeris-primary-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-tree-drop-background</code
+            ><span role="cell">Inside-target background.</span
+            ><code role="cell">--aeris-primary-soft</code>
+          </div>
+        </div>
+      </section></aeris-tab-panel
+    >
+
+    <aeris-tab-panel value="accessibility" label="Accessibility"
+      ><section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            The component uses <code>tree</code> and <code>treeitem</code> semantics with level,
+            position, set size, expanded, selected, checked, disabled, and busy states where
+            applicable.
+          </li>
+          <li>
+            Roving focus keeps one visible node in the tab order. Collapsing a branch removes hidden
+            descendants from both the DOM and keyboard sequence.
+          </li>
+          <li>
+            Checkbox parents expose <code>aria-checked="mixed"</code> when only part of their
+            selectable subtree is selected.
+          </li>
+          <li>
+            The filter is a named native search field. Empty, no-results, and loading content use
+            polite status semantics.
+          </li>
+          <li>
+            Lazy branches remain expandable before children exist; <code>loadingKeys</code> exposes
+            per-node busy state while data loads.
+          </li>
+          <li>
+            Custom node templates remain inside Aeris-managed tree items. Avoid adding nested
+            interactive controls because the tree item owns focus and keyboard behavior.
+          </li>
+          <li>
+            Drag-drop updates the controlled <code>value</code> model immutably. Pointer results and
+            keyboard moves are announced through a polite live region.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Tree keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell"
+              >Moves to the optional filter and then the active tree item; a second Tab leaves the
+              tree.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>ArrowDown</kbd> / <kbd>ArrowUp</kbd></span
+            ><span role="cell"
+              >Moves focus to the next or previous visible node. ArrowDown from the filter enters
+              the tree.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">ArrowRight</kbd
+            ><span role="cell"
+              >Expands a collapsed branch, then moves to its first child when already
+              expanded.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">ArrowLeft</kbd
+            ><span role="cell">Collapses an expanded branch, otherwise moves to its parent.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd></span
+            ><span role="cell">Moves focus to the first or last visible node.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell"
+              >Toggles selection when enabled; otherwise toggles the focused branch.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Printable characters</span
+            ><span role="cell"
+              >Moves focus to the next visible node whose label starts with the typed
+              characters.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Alt</kbd> + <kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd></span
+            ><span role="cell">Moves the focused node before or after an adjacent sibling.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Alt</kbd> + <kbd>ArrowRight</kbd></span
+            ><span role="cell"
+              >Moves the focused node into its previous sibling when that node accepts
+              children.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Alt</kbd> + <kbd>ArrowLeft</kbd></span
+            ><span role="cell">Moves the focused node out of its current parent.</span>
+          </div>
+        </div>
+      </section></aeris-tab-panel
+    >
+  </aeris-tabs>
+</article>

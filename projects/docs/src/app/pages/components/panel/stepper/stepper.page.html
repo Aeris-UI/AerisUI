@@ -1,0 +1,713 @@
+<article class="button-docs stepper-docs">
+  <app-component-page-header
+    category="Panel"
+    title="Stepper"
+    description="Guides users through multi-step workflows with controlled state, linear progression, templates, validation states, and accessible keyboard navigation."
+  />
+
+  <section id="stepper-import" class="import-section" aria-labelledby="stepper-import-title">
+    <div>
+      <h2 id="stepper-import-title">Import</h2>
+      <p>One import provides Stepper, Step, and the header and indicator template directives.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Stepper documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="stepper-basic"
+              title="Basic"
+              description="Bind the value model to control which step panel is visible."
+              [tsCode]="basicTsCode"
+            >
+              <div preview>
+                <aeris-stepper ariaLabel="Account setup" [(value)]="basicStep">
+                  <aeris-step value="account" label="Account" description="Profile details">
+                    <p>Add account details before continuing.</p>
+                  </aeris-step>
+                  <aeris-step value="security" label="Security" description="Access settings">
+                    <p>Choose password and recovery settings.</p>
+                  </aeris-step>
+                  <aeris-step value="confirm" label="Confirm" description="Review">
+                    <p>Review the setup before saving.</p>
+                  </aeris-step>
+                </aeris-stepper>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-stepper ariaLabel="Account setup" [(value)]="basicStep"&gt;
+    &lt;aeris-step value="account" label="Account" description="Profile details"&gt;
+      &lt;p&gt;Add account details before continuing.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="security" label="Security" description="Access settings"&gt;
+      &lt;p&gt;Choose password and recovery settings.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="confirm" label="Confirm" description="Review"&gt;
+      &lt;p&gt;Review the setup before saving.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+  &lt;/aeris-stepper&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="stepper-steps-only"
+              title="Steps only"
+              description="Use stepsOnly when the workflow needs a compact progress control without panel content."
+              [tsCode]="stepsOnlyTsCode"
+            >
+              <div preview>
+                <aeris-stepper ariaLabel="Release progress" [(value)]="stepsOnlyStep" stepsOnly>
+                  <aeris-step value="plan" label="Plan" completed></aeris-step>
+                  <aeris-step value="build" label="Build"></aeris-step>
+                  <aeris-step value="ship" label="Ship"></aeris-step>
+                </aeris-stepper>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-stepper ariaLabel="Release progress" [(value)]="stepsOnlyStep" stepsOnly&gt;
+    &lt;aeris-step value="plan" label="Plan" completed&gt;&lt;/aeris-step&gt;
+    &lt;aeris-step value="build" label="Build"&gt;&lt;/aeris-step&gt;
+    &lt;aeris-step value="ship" label="Ship"&gt;&lt;/aeris-step&gt;
+  &lt;/aeris-stepper&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="stepper-controlled"
+              title="Controlled state"
+              description="Use events and external controls when the application owns step transitions."
+              [tsCode]="controlledTsCode"
+              [cssCode]="controlsCssCode"
+            >
+              <div preview>
+                <aeris-stepper
+                  ariaLabel="Profile workflow"
+                  [(value)]="controlledStep"
+                  (changed)="recordStepChange($event)"
+                >
+                  <aeris-step value="profile" label="Profile" completed>
+                    <p>Profile information is complete.</p>
+                  </aeris-step>
+                  <aeris-step value="team" label="Team">
+                    <p>Add teammates or skip this step.</p>
+                  </aeris-step>
+                  <aeris-step value="finish" label="Finish">
+                    <p>Confirm the workspace configuration.</p>
+                  </aeris-step>
+                </aeris-stepper>
+                <div class="stepper-actions">
+                  <button aerisButton type="button" (click)="controlledStep.set('profile')">
+                    Profile
+                  </button>
+                  <button aerisButton type="button" (click)="controlledStep.set('team')">
+                    Team
+                  </button>
+                  <button aerisButton type="button" (click)="controlledStep.set('finish')">
+                    Finish
+                  </button>
+                </div>
+                <p class="stepper-status" aria-live="polite">{{ eventText() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-stepper
+    ariaLabel="Profile workflow"
+    [(value)]="controlledStep"
+    (changed)="recordStepChange($event)"
+  &gt;
+    &lt;aeris-step value="profile" label="Profile" completed&gt;
+      &lt;p&gt;Profile information is complete.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="team" label="Team"&gt;
+      &lt;p&gt;Add teammates or skip this step.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="finish" label="Finish"&gt;
+      &lt;p&gt;Confirm the workspace configuration.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+  &lt;/aeris-stepper&gt;
+  &lt;div class="stepper-actions"&gt;
+    &lt;button aerisButton type="button" (click)="controlledStep.set('profile')"&gt;
+      Profile
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="controlledStep.set('team')"&gt;
+      Team
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="controlledStep.set('finish')"&gt;
+      Finish
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;p class="stepper-status" aria-live="polite"&gt;&#123;&#123; eventText() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="stepper-linear"
+              title="Linear flow"
+              description="Linear mode prevents users from skipping ahead. Payment becomes available after moving to Shipping."
+              [tsCode]="linearTsCode"
+              [cssCode]="controlsCssCode"
+            >
+              <div preview>
+                <aeris-stepper #linearStepper ariaLabel="Checkout" [(value)]="linearStep" linear>
+                  <aeris-step value="details" label="Details" completed>
+                    <p>Contact details are complete.</p>
+                  </aeris-step>
+                  <aeris-step value="shipping" label="Shipping">
+                    <p>Choose a shipping method.</p>
+                  </aeris-step>
+                  <aeris-step value="payment" label="Payment">
+                    <p>Payment is available after shipping is completed.</p>
+                  </aeris-step>
+                </aeris-stepper>
+                <div class="stepper-actions">
+                  <button aerisButton type="button" (click)="linearStepper.previous($event)">
+                    Previous
+                  </button>
+                  <button aerisButton type="button" (click)="linearStepper.next($event)">
+                    Next
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-stepper #linearStepper ariaLabel="Checkout" [(value)]="linearStep" linear&gt;
+    &lt;aeris-step value="details" label="Details" completed&gt;
+      &lt;p&gt;Contact details are complete.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="shipping" label="Shipping"&gt;
+      &lt;p&gt;Choose a shipping method.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="payment" label="Payment"&gt;
+      &lt;p&gt;Payment is available after shipping is completed.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+  &lt;/aeris-stepper&gt;
+  &lt;div class="stepper-actions"&gt;
+    &lt;button aerisButton type="button" (click)="linearStepper.previous($event)"&gt;
+      Previous
+    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="linearStepper.next($event)"&gt;
+      Next
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="stepper-vertical"
+              title="Vertical"
+              description="Vertical orientation works well for longer labels or settings pages."
+              [tsCode]="verticalTsCode"
+              [cssCode]="verticalCssCode"
+            >
+              <div preview class="vertical-stepper-demo">
+                <aeris-stepper
+                  ariaLabel="Publishing workflow"
+                  [(value)]="verticalStep"
+                  orientation="vertical"
+                  variant="contained"
+                >
+                  <aeris-step value="draft" label="Draft" description="Write content" completed>
+                    <p>Draft content is ready for editorial review.</p>
+                  </aeris-step>
+                  <aeris-step value="review" label="Review" description="Approve changes">
+                    <p>Review content, accessibility notes, and release timing.</p>
+                  </aeris-step>
+                  <aeris-step value="publish" label="Publish" description="Go live">
+                    <p>Publish after review is complete.</p>
+                  </aeris-step>
+                </aeris-stepper>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="vertical-stepper-demo"&gt;
+  &lt;aeris-stepper
+    ariaLabel="Publishing workflow"
+    [(value)]="verticalStep"
+    orientation="vertical"
+    variant="contained"
+  &gt;
+    &lt;aeris-step value="draft" label="Draft" description="Write content" completed&gt;
+      &lt;p&gt;Draft content is ready for editorial review.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="review" label="Review" description="Approve changes"&gt;
+      &lt;p&gt;Review content, accessibility notes, and release timing.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="publish" label="Publish" description="Go live"&gt;
+      &lt;p&gt;Publish after review is complete.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+  &lt;/aeris-stepper&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="stepper-templates"
+              title="Templates"
+              description="Customize step headers and indicators while keeping Aeris keyboard and panel semantics."
+              [tsCode]="templateTsCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview>
+                <aeris-stepper ariaLabel="Planning workflow" [(value)]="templateStep">
+                  <ng-template aerisStepIndicator let-index="index" let-completed="completed">
+                    <span class="custom-step-indicator" [attr.data-completed]="completed"></span>
+                  </ng-template>
+                  <aeris-step value="plan" label="Plan" description="Define scope" completed>
+                    <p>Scope, owner, and timeline are defined.</p>
+                  </aeris-step>
+                  <aeris-step value="build" label="Build" description="Implement">
+                    <ng-template aerisStepHeader let-label="label" let-description="description">
+                      <span class="custom-step-header">
+                        <strong>{{ label }}</strong>
+                        <small>{{ description }}</small>
+                      </span>
+                    </ng-template>
+                    <p>Implementation is in progress.</p>
+                  </aeris-step>
+                  <aeris-step value="ship" label="Ship" description="Release">
+                    <p>Release after verification.</p>
+                  </aeris-step>
+                </aeris-stepper>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-stepper ariaLabel="Planning workflow" [(value)]="templateStep"&gt;
+    &lt;ng-template aerisStepIndicator let-index="index" let-completed="completed"&gt;
+      &lt;span class="custom-step-indicator" [attr.data-completed]="completed"&gt;&lt;/span&gt;
+    &lt;/ng-template&gt;
+    &lt;aeris-step value="plan" label="Plan" description="Define scope" completed&gt;
+      &lt;p&gt;Scope, owner, and timeline are defined.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="build" label="Build" description="Implement"&gt;
+      &lt;ng-template aerisStepHeader let-label="label" let-description="description"&gt;
+        &lt;span class="custom-step-header"&gt;
+          &lt;strong&gt;&#123;&#123; label &#125;&#125;&lt;/strong&gt;
+          &lt;small&gt;&#123;&#123; description &#125;&#125;&lt;/small&gt;
+        &lt;/span&gt;
+      &lt;/ng-template&gt;
+      &lt;p&gt;Implementation is in progress.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="ship" label="Ship" description="Release"&gt;
+      &lt;p&gt;Release after verification.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+  &lt;/aeris-stepper&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="stepper-validation"
+              title="Validation state"
+              description="Mark invalid and optional steps so state is visible and exposed through aria-invalid where appropriate."
+              [tsCode]="validationTsCode"
+            >
+              <div preview>
+                <aeris-stepper ariaLabel="Order setup" [(value)]="validationStep">
+                  <aeris-step value="account" label="Account" completed>
+                    <p>Account is complete.</p>
+                  </aeris-step>
+                  <aeris-step value="shipping" label="Shipping" invalid>
+                    <p>Shipping address needs a postal code.</p>
+                  </aeris-step>
+                  <aeris-step value="coupon" label="Coupon" optional>
+                    <p>Add a coupon code or continue without one.</p>
+                  </aeris-step>
+                </aeris-stepper>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-stepper ariaLabel="Order setup" [(value)]="validationStep"&gt;
+    &lt;aeris-step value="account" label="Account" completed&gt;
+      &lt;p&gt;Account is complete.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="shipping" label="Shipping" invalid&gt;
+      &lt;p&gt;Shipping address needs a postal code.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="coupon" label="Coupon" optional&gt;
+      &lt;p&gt;Add a coupon code or continue without one.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+  &lt;/aeris-stepper&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="stepper-disabled"
+              title="Disabled state"
+              description="Disabled steps cannot be selected, focused by Stepper keyboard navigation, or activated by pointer input."
+              [tsCode]="disabledTsCode"
+            >
+              <div preview>
+                <aeris-stepper ariaLabel="Request workflow" [(value)]="disabledStep">
+                  <aeris-step value="details" label="Details" completed>
+                    <p>Request details are ready.</p>
+                  </aeris-step>
+                  <aeris-step value="approval" label="Approval" disabled>
+                    <p>Approval is unavailable until the reviewer is assigned.</p>
+                  </aeris-step>
+                  <aeris-step value="submit" label="Submit">
+                    <p>Submit the request when all required steps are available.</p>
+                  </aeris-step>
+                </aeris-stepper>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-stepper ariaLabel="Request workflow" [(value)]="disabledStep"&gt;
+    &lt;aeris-step value="details" label="Details" completed&gt;
+      &lt;p&gt;Request details are ready.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="approval" label="Approval" disabled&gt;
+      &lt;p&gt;Approval is unavailable until the reviewer is assigned.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="submit" label="Submit"&gt;
+      &lt;p&gt;Submit the request when all required steps are available.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+  &lt;/aeris-stepper&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="stepper-custom"
+              title="Token customization"
+              description="Use component tokens for scoped brand treatments without changing stepper behavior."
+              [tsCode]="customTsCode"
+              [cssCode]="customCssCode"
+            >
+              <div preview>
+                <aeris-stepper
+                  class="brand-stepper"
+                  ariaLabel="Release workflow"
+                  [(value)]="customStep"
+                  variant="contained"
+                >
+                  <aeris-step value="scope" label="Scope" completed>
+                    <p>Release scope has been approved.</p>
+                  </aeris-step>
+                  <aeris-step value="verify" label="Verify">
+                    <p>Run accessibility, visual, and unit checks.</p>
+                  </aeris-step>
+                  <aeris-step value="release" label="Release">
+                    <p>Publish after verification.</p>
+                  </aeris-step>
+                </aeris-stepper>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-stepper
+    class="brand-stepper"
+    ariaLabel="Release workflow"
+    [(value)]="customStep"
+    variant="contained"
+  &gt;
+    &lt;aeris-step value="scope" label="Scope" completed&gt;
+      &lt;p&gt;Release scope has been approved.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="verify" label="Verify"&gt;
+      &lt;p&gt;Run accessibility, visual, and unit checks.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+    &lt;aeris-step value="release" label="Release"&gt;
+      &lt;p&gt;Publish after verification.&lt;/p&gt;
+    &lt;/aeris-step&gt;
+  &lt;/aeris-stepper&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Stepper features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="stepper-api-inputs" class="api-section">
+              <h3>Stepper inputs</h3>
+              <div class="api-table" role="table" aria-label="Stepper inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="stepper-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="Stepper models" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="stepper-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Stepper outputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="stepper-api-step-inputs" class="api-section">
+              <h3>Step inputs</h3>
+              <div class="api-table" role="table" aria-label="Step inputs" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of stepInputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="stepper-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="Stepper templates" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="stepper-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Stepper methods" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Stepper API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table token-table"
+          role="table"
+          aria-label="Stepper design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-color</code><span role="cell">Base text color.</span
+            ><code role="cell">--aeris-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-muted-color</code
+            ><span role="cell">Inactive step text and indicator color.</span
+            ><code role="cell">--aeris-text-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-description-color</code
+            ><span role="cell">Description and optional text.</span
+            ><code role="cell">--aeris-text-3</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-focus</code><span role="cell">Focus ring color.</span
+            ><code role="cell">--aeris-focus</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-radius</code><span role="cell">Trigger radius.</span
+            ><code role="cell">--aeris-radius-md</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-border</code
+            ><span role="cell">Contained header border.</span
+            ><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-list-background</code
+            ><span role="cell">Contained header background.</span
+            ><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-connector</code
+            ><span role="cell">Connector color.</span><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-connector-size</code
+            ><span role="cell">Connector thickness.</span><code role="cell">1px</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-indicator-border</code
+            ><span role="cell">Inactive indicator border.</span
+            ><code role="cell">--aeris-border-strong</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-indicator-background</code
+            ><span role="cell">Inactive indicator background.</span
+            ><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-active-border</code
+            ><span role="cell">Active indicator border.</span
+            ><code role="cell">--aeris-primary</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-active-background</code
+            ><span role="cell">Active indicator background.</span
+            ><code role="cell">--aeris-primary-soft</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-complete-border</code
+            ><span role="cell">Completed indicator and connector.</span
+            ><code role="cell">--aeris-success</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-invalid-border</code
+            ><span role="cell">Invalid indicator border.</span
+            ><code role="cell">--aeris-danger</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-panel-background</code
+            ><span role="cell">Panel surface.</span><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-stepper-panel-padding</code
+            ><span role="cell">Panel padding.</span><code role="cell">1.125rem</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            By default, Stepper renders a tablist of step triggers and a tabpanel for the active
+            step content.
+          </li>
+          <li>
+            When <code>stepsOnly</code> is enabled, Stepper renders a named list of native button
+            controls and does not render a tabpanel.
+          </li>
+          <li>
+            In panel mode, the active trigger exposes <code>aria-selected</code>,
+            <code>aria-current="step"</code>, and controls the active panel.
+          </li>
+          <li>
+            In steps-only mode, the active trigger exposes <code>aria-current="step"</code> without
+            <code>aria-selected</code> or <code>aria-controls</code>.
+          </li>
+          <li>Invalid steps expose <code>aria-invalid</code> on their trigger.</li>
+          <li>
+            Disabled or unreachable linear steps use disabled native buttons and are skipped by
+            keyboard navigation.
+          </li>
+          <li>
+            Use an accessible name with <code>ariaLabel</code> or <code>ariaLabelledBy</code>.
+          </li>
+          <li>
+            Stepper does not validate forms itself. Bind <code>completed</code> and
+            <code>invalid</code> from application state.
+          </li>
+        </ul>
+
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="Stepper keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd></span
+            ><span role="cell"
+              >Moves focus into the active step trigger and then to native controls in the active
+              panel when one is rendered.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>ArrowRight</kbd> / <kbd>ArrowDown</kbd></span
+            ><span role="cell"
+              >Moves to the next enabled reachable step; automatic mode also selects it.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>ArrowLeft</kbd> / <kbd>ArrowUp</kbd></span
+            ><span role="cell"
+              >Moves to the previous enabled reachable step; automatic mode also selects it.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Home</kbd></span
+            ><span role="cell">Moves to the first enabled reachable step.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>End</kbd></span
+            ><span role="cell">Moves to the last enabled reachable step.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell">Selects the focused step when activationMode is manual.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

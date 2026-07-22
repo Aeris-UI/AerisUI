@@ -1,0 +1,71 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.stepper-docs app-form-demo {
+  --docs-code-block-max-height: min(38rem, 72vh);
+}
+
+.stepper-docs p {
+  margin: 0;
+}
+
+.stepper-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.stepper-status {
+  margin-top: 0.75rem;
+  color: var(--text-3);
+  font-size: 0.8125rem;
+}
+
+.vertical-stepper-demo {
+  min-height: 16rem;
+}
+
+.custom-step-header {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.custom-step-header strong {
+  color: var(--text);
+}
+
+.custom-step-header small {
+  color: var(--text-3);
+  font-size: 0.75rem;
+}
+
+.custom-step-indicator {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.brand-stepper {
+  --aeris-stepper-active-border: var(--aeris-primary);
+  --aeris-stepper-active-background: color-mix(
+    in srgb,
+    var(--aeris-primary) 18%,
+    var(--aeris-surface)
+  );
+  --aeris-stepper-complete-border: var(--aeris-primary-text);
+  --aeris-stepper-panel-background: color-mix(
+    in srgb,
+    var(--aeris-primary) 7%,
+    var(--aeris-surface)
+  );
+  --aeris-stepper-panel-radius: 1.35rem;
+}
+
+@media (max-width: 40rem) {
+  .stepper-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,168 @@
+:host {
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.aeris-checkbox {
+  --_control-size: 1.125rem;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  max-width: 100%;
+  color: var(--aeris-text-2, #555555);
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  cursor: pointer;
+}
+
+.aeris-checkbox[data-label-position='start'] {
+  flex-direction: row-reverse;
+}
+
+.aeris-checkbox input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.aeris-checkbox__control {
+  position: relative;
+  box-sizing: border-box;
+  width: var(--_control-size);
+  min-width: var(--_control-size);
+  max-width: var(--_control-size);
+  height: var(--_control-size);
+  min-height: var(--_control-size);
+  max-height: var(--_control-size);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  margin-top: 0.0625rem;
+  border: 1.5px solid var(--aeris-border-strong, #c7c9c0);
+  border-radius: var(--aeris-checkbox-radius, 0.3125rem);
+  background: var(--aeris-surface, #fff);
+  color: var(--aeris-on-primary, #17200f);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.aeris-checkbox__icon {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  contain: layout paint;
+  font-size: 0;
+  line-height: 0;
+}
+
+.aeris-checkbox:hover:not([data-disabled]) .aeris-checkbox__control {
+  border-color: var(--aeris-primary, #879566);
+}
+
+.aeris-checkbox__check-mark,
+.aeris-checkbox__mixed-mark {
+  width: 72%;
+  height: 72%;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 120ms, transform 120ms;
+}
+
+.aeris-checkbox__check-mark {
+  position: relative;
+  top: -0.0625rem;
+  width: 52%;
+  height: 30%;
+  border-bottom: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  transform: rotate(-45deg) scale(0.7);
+}
+
+.aeris-checkbox__mixed-mark {
+  width: 56%;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.aeris-checkbox input:checked + .aeris-checkbox__control,
+.aeris-checkbox input:indeterminate + .aeris-checkbox__control {
+  border-color: var(--aeris-primary, #879566);
+  background: var(--aeris-primary, #879566);
+}
+
+.aeris-checkbox input:checked + .aeris-checkbox__control .aeris-checkbox__check-mark,
+.aeris-checkbox input:indeterminate + .aeris-checkbox__control .aeris-checkbox__mixed-mark {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.aeris-checkbox input:checked + .aeris-checkbox__control .aeris-checkbox__check-mark {
+  transform: rotate(-45deg) scale(1);
+}
+
+.aeris-checkbox input:focus-visible + .aeris-checkbox__control {
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 44%, transparent);
+  outline-offset: 2px;
+}
+
+.aeris-checkbox[data-invalid] .aeris-checkbox__control {
+  border-color: var(--aeris-danger, #c81e2a);
+}
+
+.aeris-checkbox[data-invalid] input:focus-visible + .aeris-checkbox__control {
+  outline-color: color-mix(in srgb, var(--aeris-danger, #c81e2a) 42%, transparent);
+}
+
+.aeris-checkbox[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.aeris-checkbox__label {
+  min-width: 0;
+  display: inline;
+  color: inherit;
+}
+
+.aeris-checkbox__label:empty {
+  display: none;
+}
+
+.aeris-checkbox[data-size='xs'] {
+  --_control-size: 0.875rem;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+}
+
+.aeris-checkbox[data-size='sm'] {
+  --_control-size: 1rem;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+}
+
+.aeris-checkbox[data-size='lg'] {
+  --_control-size: 1.375rem;
+  gap: 0.7rem;
+  font-size: 0.9375rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-checkbox__control,
+  .aeris-checkbox__check-mark,
+  .aeris-checkbox__mixed-mark {
+    transition: none;
+  }
+}

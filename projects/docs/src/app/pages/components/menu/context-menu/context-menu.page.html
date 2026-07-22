@@ -1,0 +1,487 @@
+<article class="button-docs context-menu-docs">
+  <app-component-page-header
+    category="Menu"
+    title="ContextMenu"
+    description="Right-click action menu with target or global triggers, nested submenus, templates, commands, and keyboard navigation."
+  />
+
+  <section
+    id="context-menu-import"
+    class="import-section"
+    aria-labelledby="context-menu-import-title"
+  >
+    <div>
+      <h2 id="context-menu-import-title">Import</h2>
+      <p>One import provides ContextMenu and its item template directive.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="ContextMenu documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="context-menu-basic"
+              title="Basic"
+              description="Attach the menu to a target element and open it with the native contextmenu gesture."
+              [tsCode]="basicTsCode"
+              [cssCode]="targetCssCode"
+            >
+              <div preview>
+                <div #basicTarget class="context-menu-target" tabindex="0">
+                  Right-click this surface
+                </div>
+                <aeris-context-menu
+                  [target]="basicTarget"
+                  [model]="basicItems"
+                  ariaLabel="File actions"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div #basicTarget class="context-menu-target" tabindex="0"&gt;
+    Right-click this surface
+  &lt;/div&gt;
+  &lt;aeris-context-menu
+    [target]="basicTarget"
+    [model]="basicItems"
+    ariaLabel="File actions"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="context-menu-submenus"
+              title="Submenus"
+              description="Nest items to expose related commands without overloading the root menu."
+              [tsCode]="submenuTsCode"
+              [cssCode]="targetCssCode"
+            >
+              <div preview>
+                <div #submenuTarget class="context-menu-target" tabindex="0">
+                  Right-click for nested actions
+                </div>
+                <aeris-context-menu
+                  [target]="submenuTarget"
+                  [model]="submenuItems"
+                  ariaLabel="Project actions"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div #submenuTarget class="context-menu-target" tabindex="0"&gt;
+    Right-click for nested actions
+  &lt;/div&gt;
+  &lt;aeris-context-menu
+    [target]="submenuTarget"
+    [model]="submenuItems"
+    ariaLabel="Project actions"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="context-menu-global"
+              title="Global"
+              description="Use global mode when the page itself owns the context menu behavior."
+              [tsCode]="globalTsCode"
+              [cssCode]="targetCssCode"
+            >
+              <div preview>
+                <div class="context-menu-target" tabindex="0">
+                  <button aerisButton type="button" (click)="globalActive = !globalActive">
+                    {{ globalActive ? 'Disable' : 'Enable' }} global menu
+                  </button>
+                  <span>When enabled, right-click anywhere on this page.</span>
+                </div>
+                <aeris-context-menu
+                  [global]="globalActive"
+                  [model]="globalItems"
+                  ariaLabel="Page actions"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="context-menu-target" tabindex="0"&gt;
+    &lt;button aerisButton type="button" (click)="globalActive = !globalActive"&gt;
+      &#123;&#123; globalActive ? 'Disable' : 'Enable' &#125;&#125; global menu
+    &lt;/button&gt;
+    &lt;span&gt;When enabled, right-click anywhere on this page.&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;aeris-context-menu
+    [global]="globalActive"
+    [model]="globalItems"
+    ariaLabel="Page actions"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="context-menu-template"
+              title="Template"
+              description="Customize item rows while keeping menu semantics and keyboard behavior."
+              [tsCode]="templateTsCode"
+              [cssCode]="templateCssCode + '\n\n' + targetCssCode"
+            >
+              <div preview>
+                <div #templateTarget class="context-menu-target" tabindex="0">
+                  Right-click component list
+                </div>
+                <aeris-context-menu
+                  [target]="templateTarget"
+                  [model]="templateItems"
+                  ariaLabel="Component actions"
+                >
+                  <ng-template aerisContextMenuItem let-item let-active="active">
+                    <span class="context-menu-custom-item" [attr.data-active]="active || null">
+                      <span>{{ item.label }}</span>
+                      <aeris-badge
+                        [value]="item.badge"
+                        [severity]="$any(templateTones[item.label])"
+                        size="sm"
+                        variant="soft"
+                      />
+                    </span>
+                  </ng-template>
+                </aeris-context-menu>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div #templateTarget class="context-menu-target" tabindex="0"&gt;
+    Right-click component list
+  &lt;/div&gt;
+  &lt;aeris-context-menu
+    [target]="templateTarget"
+    [model]="templateItems"
+    ariaLabel="Component actions"
+  &gt;
+    &lt;ng-template aerisContextMenuItem let-item let-active="active"&gt;
+      &lt;span class="context-menu-custom-item" [attr.data-active]="active || null"&gt;
+        &lt;span&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &lt;aeris-badge
+          [value]="item.badge"
+          [severity]="$any(templateTones[item.label])"
+          size="sm"
+          variant="soft"
+        /&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-context-menu&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="context-menu-command"
+              title="Command"
+              description="Attach command callbacks to leaf items and react to the selected item event."
+              [tsCode]="commandTsCode"
+              [cssCode]="targetCssCode + '\n\n' + statusCssCode"
+            >
+              <div preview>
+                <div #commandTarget class="context-menu-target" tabindex="0">
+                  Right-click for command actions
+                </div>
+                <aeris-context-menu
+                  [target]="commandTarget"
+                  [model]="commandItems"
+                  ariaLabel="Editor actions"
+                />
+                <p class="context-menu-status" aria-live="polite">
+                  Last action: {{ selectedAction }}
+                </p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div #commandTarget class="context-menu-target" tabindex="0"&gt;
+    Right-click for command actions
+  &lt;/div&gt;
+  &lt;aeris-context-menu
+    [target]="commandTarget"
+    [model]="commandItems"
+    ariaLabel="Editor actions"
+  /&gt;
+  &lt;p class="context-menu-status" aria-live="polite"&gt;
+    Last action: &#123;&#123; selectedAction &#125;&#125;
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="context-menu-programmatic"
+              title="Programmatic"
+              description="Open the menu from a button, pointer event, or custom trigger when right-click is not the only entry point."
+              [tsCode]="programmaticTsCode"
+            >
+              <div preview>
+                <button aerisButton type="button" (click)="openManualMenu($event)">
+                  Open menu
+                </button>
+                <aeris-context-menu #manualMenu [model]="manualItems" ariaLabel="Manual actions" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton type="button" (click)="openManualMenu($event)"&gt;
+    Open menu
+  &lt;/button&gt;
+  &lt;aeris-context-menu #manualMenu [model]="manualItems" ariaLabel="Manual actions" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc
+            title="On this page"
+            ariaLabel="ContextMenu features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="context-menu-api-inputs" class="api-section">
+              <h3>Inputs and models</h3>
+              <div class="api-table" role="table" aria-label="ContextMenu inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="context-menu-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="ContextMenu outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="context-menu-api-templates" class="api-section">
+              <h3>Templates</h3>
+              <div class="api-table" role="table" aria-label="ContextMenu templates">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Context</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of templates; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="context-menu-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="ContextMenu methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Signature</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API links" ariaLabel="ContextMenu API links" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="context-menu-interfaces-code" class="api-section">
+              <h3>Types</h3>
+              <app-code-block [code]="interfacesCode" language="TypeScript" />
+            </section>
+          </div>
+
+          <app-page-toc
+            title="Interface links"
+            ariaLabel="ContextMenu interface links"
+            [links]="interfaceLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="context-menu-token-table" class="api-section">
+              <h3>ContextMenu tokens</h3>
+              <div class="api-table" role="table" aria-label="ContextMenu design tokens">
+                <div role="row">
+                  <span role="columnheader">Token</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of tokens; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc
+            title="Token links"
+            ariaLabel="ContextMenu token links"
+            [links]="tokenLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="context-menu-a11y-semantics" class="api-section">
+              <h3>Semantics</h3>
+              <ul>
+                <li>
+                  The root list uses <code>role="menu"</code> by default with vertical orientation.
+                  <code>useMenubarRole</code> is available for applications that require a menubar
+                  root.
+                </li>
+                <li>
+                  Each actionable item uses <code>role="menuitem"</code>. Separators use
+                  <code>role="separator"</code>.
+                </li>
+                <li>
+                  Disabled items are removed from roving focus and expose disabled state through
+                  native disabled buttons or <code>aria-disabled</code> links.
+                </li>
+                <li>
+                  Submenu triggers expose <code>aria-haspopup</code>, <code>aria-expanded</code>,
+                  and <code>aria-controls</code>.
+                </li>
+                <li>
+                  Provide a specific <code>ariaLabel</code> or <code>ariaLabelledBy</code> when
+                  several context menus appear on the same page.
+                </li>
+              </ul>
+            </section>
+
+            <section id="context-menu-a11y-keyboard" class="api-section">
+              <h3>Keyboard support</h3>
+              <div class="api-table" role="table" aria-label="ContextMenu keyboard support">
+                <div role="row">
+                  <span role="columnheader">Key</span><span role="columnheader">Target</span
+                  ><span role="columnheader">Behavior</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Context menu gesture</kbd
+                  ><span role="cell">Configured target or document</span
+                  ><span role="cell">Opens the Aeris menu and suppresses the native menu.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Down</kbd><span role="cell">Menu item</span
+                  ><span role="cell"
+                    >Moves focus to the next enabled item in the current menu.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Up</kbd><span role="cell">Menu item</span
+                  ><span role="cell"
+                    >Moves focus to the previous enabled item in the current menu.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Right</kbd><span role="cell">Submenu trigger</span
+                  ><span role="cell"
+                    >Opens the submenu and moves focus to its first enabled item.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Left</kbd><span role="cell">Submenu item</span
+                  ><span role="cell">Closes the submenu and moves focus to the parent item.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Home</kbd><span role="cell">Menu item</span
+                  ><span role="cell"
+                    >Moves focus to the first enabled item in the current menu.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">End</kbd><span role="cell">Menu item</span
+                  ><span role="cell"
+                    >Moves focus to the last enabled item in the current menu.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Enter</kbd><span role="cell">Menu item</span
+                  ><span role="cell">Opens a submenu or activates a leaf item.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Space</kbd><span role="cell">Menu item</span
+                  ><span role="cell">Opens a submenu or activates a leaf item.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Escape</kbd><span role="cell">Open menu</span
+                  ><span role="cell">Closes the menu and restores focus when configured.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Tab</kbd><span role="cell">Open menu</span
+                  ><span role="cell"
+                    >Closes the menu and lets focus continue in the page tab order.</span
+                  >
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc
+            title="Accessibility links"
+            ariaLabel="ContextMenu accessibility links"
+            [links]="accessibilityLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

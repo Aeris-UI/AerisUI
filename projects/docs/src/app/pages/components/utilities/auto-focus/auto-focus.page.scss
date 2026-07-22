@@ -1,0 +1,53 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.auto-focus-docs app-form-demo {
+  --docs-code-block-max-height: min(42rem, 72vh);
+}
+
+.conditional-demo,
+.controlled-demo,
+.method-demo {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.method-demo {
+  justify-items: start;
+}
+
+.auto-focus-field {
+  width: min(100%, 24rem);
+  display: grid;
+  gap: 0.5rem;
+}
+
+.auto-focus-status {
+  margin: 0;
+  color: var(--aeris-text-2);
+}
+
+.conditional-form {
+  max-width: 28rem;
+  display: grid;
+  gap: 0.875rem;
+  padding: 1rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-lg);
+  background: var(--aeris-surface-2);
+}
+
+.conditional-form label {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.auto-focus-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.method-demo textarea {
+  width: min(100%, 30rem);
+}

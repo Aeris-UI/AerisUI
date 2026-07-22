@@ -1,0 +1,102 @@
+@use '../../form/shared/form-docs';
+
+.toolbar-docs {
+  .toolbar-actions {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .toolbar-title {
+    display: grid;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  .toolbar-title strong {
+    color: var(--text);
+  }
+
+  .toolbar-title span,
+  .toolbar-status {
+    color: var(--text-2);
+    font-size: 0.8125rem;
+  }
+
+  .toolbar-status {
+    white-space: nowrap;
+  }
+
+  .toolbar-search {
+    min-width: 12rem;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--aeris-radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.875rem;
+  }
+
+  .toolbar-search:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--aeris-focus) 38%, transparent);
+    outline-offset: 2px;
+  }
+
+  .toolbar-wide-item {
+    min-width: 10rem;
+  }
+
+  .vertical-toolbar-demo {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .vertical-preview {
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--aeris-radius-lg);
+    background: var(--surface);
+  }
+
+  .vertical-preview h4 {
+    margin: 0 0 0.375rem;
+    color: var(--text);
+  }
+
+  .vertical-preview p {
+    margin: 0;
+    color: var(--text-2);
+  }
+
+  .toolbar-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .brand-toolbar {
+    --aeris-toolbar-background: color-mix(in srgb, var(--aeris-primary) 10%, var(--surface));
+    --aeris-toolbar-border-width: 2px;
+    --aeris-toolbar-border: color-mix(in srgb, var(--aeris-primary) 72%, var(--border));
+    --aeris-toolbar-radius: 1.5rem;
+    --aeris-toolbar-gap: 1rem;
+    --aeris-toolbar-section-gap: 0.75rem;
+    --aeris-toolbar-padding-block: 1rem;
+    --aeris-toolbar-padding-inline: 1.125rem;
+  }
+}
+
+@media (max-width: 42rem) {
+  .toolbar-docs {
+    .toolbar-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .vertical-toolbar-demo {
+      flex-direction: column;
+    }
+  }
+}

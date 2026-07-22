@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json.schemastore.org/schematics",
+  "schematics": {
+    "ng-add": {
+      "description": "Install and configure Aeris UI in an Angular application.",
+      "factory": "./runtime/schematics/ng-add/index#ngAdd",
+      "schema": "./ng-add/schema.json"
+    }
+  }
+}

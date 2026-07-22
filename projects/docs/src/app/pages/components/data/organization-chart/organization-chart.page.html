@@ -1,0 +1,352 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Data"
+    title="OrganizationChart"
+    description="Render hierarchical teams with accessible tree semantics, branch controls, selection, templates, and horizontal scrolling for wide structures."
+  />
+
+  <section class="import-section" aria-labelledby="organization-chart-import-title">
+    <div>
+      <h2 id="organization-chart-import-title">Import</h2>
+      <p>Import the OrganizationChart module to use the component and its templates.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="OrganizationChart documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="organization-chart-basic"
+              title="Basic"
+              description="A chart renders one or more root nodes and recursively connects each child level."
+              [tsCode]="basicTsCode"
+            >
+              <div preview class="chart-demo">
+                <aeris-organization-chart ariaLabel="Company organization chart" [value]="chart" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="chart-demo"&gt;
+  &lt;aeris-organization-chart ariaLabel="Company organization chart" [value]="chart" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="organization-chart-selection"
+              title="Selection"
+              description="Single selection uses controlled selected keys and emits the selected node."
+            >
+              <div preview class="chart-demo chart-demo--stack">
+                <aeris-organization-chart
+                  ariaLabel="Selectable organization chart"
+                  selectionMode="single"
+                  [value]="chart"
+                  [(selectionKeys)]="selectedSingle"
+                  (selectionChanged)="handleSelection($event)"
+                />
+                <small aria-live="polite">{{ eventText() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="chart-demo chart-demo--stack"&gt;
+  &lt;aeris-organization-chart
+    ariaLabel="Selectable organization chart"
+    selectionMode="single"
+    [value]="chart"
+    [(selectionKeys)]="selectedSingle"
+    (selectionChanged)="handleSelection($event)"
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; eventText() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="organization-chart-multiple"
+              title="Multiple selection"
+              description="Multiple selection keeps every selected node key in the selectionKeys model."
+            >
+              <div preview class="chart-demo">
+                <aeris-organization-chart
+                  ariaLabel="Multiple selection organization chart"
+                  selectionMode="multiple"
+                  [value]="chart"
+                  [(selectionKeys)]="selectedMultiple"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="chart-demo"&gt;
+  &lt;aeris-organization-chart
+    ariaLabel="Multiple selection organization chart"
+    selectionMode="multiple"
+    [value]="chart"
+    [(selectionKeys)]="selectedMultiple"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="organization-chart-collapsible"
+              title="Collapsible"
+              description="Collapsed branches are controlled with collapsedKeys so state can be saved or restored."
+              [tsCode]="eventsTsCode"
+            >
+              <div preview class="chart-demo chart-demo--stack">
+                <aeris-organization-chart
+                  ariaLabel="Collapsible organization chart"
+                  [value]="chart"
+                  [(collapsedKeys)]="collapsed"
+                  (nodeCollapsed)="handleCollapse($event)"
+                />
+                <small aria-live="polite">{{ eventText() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="chart-demo chart-demo--stack"&gt;
+  &lt;aeris-organization-chart
+    ariaLabel="Collapsible organization chart"
+    [value]="chart"
+    [(collapsedKeys)]="collapsed"
+    (nodeCollapsed)="handleCollapse($event)"
+  /&gt;
+  &lt;small aria-live="polite"&gt;&#123;&#123; eventText() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="organization-chart-template"
+              title="Template"
+              description="Custom node content can show richer people cards while Aeris keeps connectors, selection, and collapse behavior."
+              [htmlCode]="templateHtmlCode"
+              [cssCode]="templateCssCode"
+            >
+              <div preview class="chart-demo">
+                <aeris-organization-chart
+                  class="people-chart"
+                  ariaLabel="Template organization chart"
+                  selectionMode="single"
+                  [value]="chart"
+                  [(selectionKeys)]="selectedSingle"
+                >
+                  <ng-template aerisOrganizationChartNode let-node let-selected="selected">
+                    <span
+                      class="person-card"
+                      [attr.data-tone]="$any(node).data?.tone"
+                      [attr.data-selected]="selected || null"
+                    >
+                      <span class="person-card__avatar">{{ initials($any(node).data?.name) }}</span>
+                      <span>
+                        <strong>{{ $any(node).data?.name }}</strong>
+                        <small>{{ $any(node).data?.role }}</small>
+                      </span>
+                    </span>
+                  </ng-template>
+                </aeris-organization-chart>
+              </div>
+            </app-form-demo>
+
+            <app-form-demo
+              id="organization-chart-scrolling"
+              title="Scrolling"
+              description="Wide charts keep their natural layout and scroll horizontally inside the component viewport."
+              [cssCode]="scrollingCssCode"
+            >
+              <div preview class="chart-demo">
+                <aeris-organization-chart
+                  class="wide-chart"
+                  ariaLabel="Wide organization chart"
+                  [value]="wideChart"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="chart-demo"&gt;
+  &lt;aeris-organization-chart
+    class="wide-chart"
+    ariaLabel="Wide organization chart"
+    [value]="wideChart"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="OrganizationChart features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="organization-chart-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="OrganizationChart inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="organization-chart-api-models" tabindex="-1">Models</h3>
+            <div class="api-table" role="table" aria-label="OrganizationChart models" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of models; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="organization-chart-api-outputs" tabindex="-1">Outputs</h3>
+            <div class="api-table" role="table" aria-label="OrganizationChart outputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Payload</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of outputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="organization-chart-api-templates" tabindex="-1">Templates</h3>
+            <div
+              class="api-table"
+              role="table"
+              aria-label="OrganizationChart templates"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Context</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of templates; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+          </div>
+          <app-page-toc
+            title="API"
+            ariaLabel="OrganizationChart API on this page"
+            [links]="apiLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="OrganizationChart design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-organization-chart-padding</code
+            ><span role="cell">Viewport padding.</span><code role="cell">1rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-organization-chart-level-gap</code
+            ><span role="cell">Vertical space between levels.</span><code role="cell">2rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-organization-chart-node-gap</code
+            ><span role="cell">Horizontal node gap.</span><code role="cell">0.625rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-organization-chart-node-min-width</code
+            ><span role="cell">Minimum node width.</span><code role="cell">9.5rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-organization-chart-connector</code
+            ><span role="cell">Connector line color.</span><code role="cell">--aeris-border</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>The chart uses tree and treeitem semantics with a configurable accessible name.</li>
+          <li>Nodes expose selected state only when selection is enabled.</li>
+          <li>Branch nodes expose expanded state and use native buttons for collapse controls.</li>
+          <li>
+            The viewport is horizontally scrollable for wide hierarchies without changing source
+            order.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="OrganizationChart keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell">Moves through chart nodes and branch controls.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell">Selects or clears the focused node when selection is enabled.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">ArrowLeft</kbd
+            ><span role="cell">Collapses an expanded branch node.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">ArrowRight</kbd
+            ><span role="cell">Expands a collapsed branch node.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Home</kbd
+            ><span role="cell">Moves focus to the first rendered node.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">End</kbd
+            ><span role="cell">Moves focus to the last rendered node.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

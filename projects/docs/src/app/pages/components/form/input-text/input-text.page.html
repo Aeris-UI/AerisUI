@@ -1,0 +1,692 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Form"
+    title="InputText"
+    description="Styles native single-line inputs with responsive sizes, clear states, accessible validation, and token-based appearances."
+  />
+
+  <section class="import-section" aria-labelledby="input-text-import-title">
+    <div>
+      <h2 id="input-text-import-title">Import</h2>
+      <p>
+        Import the directive and apply it to a native input. Native attributes, events, and forms
+        behavior remain available.
+      </p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="InputText documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>
+          Each example uses the published InputText directive and preserves native input semantics.
+        </p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="input-basic"
+              title="Basic"
+              description="Associate every input with a visible label and use native attributes normally."
+            >
+              <div preview class="field">
+                <label for="basic-email">Email address</label>
+                <input
+                  id="basic-email"
+                  aerisInputText
+                  type="email"
+                  placeholder="you@example.com"
+                  aria-describedby="basic-email-help"
+                />
+                <small id="basic-email-help">Used only for account notifications.</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="basic-email"&gt;Email address&lt;/label&gt;
+  &lt;input
+    id="basic-email"
+    aerisInputText
+    type="email"
+    placeholder="you&#64;example.com"
+    aria-describedby="basic-email-help"
+  /&gt;
+  &lt;small id="basic-email-help"&gt;Used only for account notifications.&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-types"
+              title="Input types"
+              description="The directive supports applicable native single-line input types without changing browser behavior."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="input-text-type">Text</label>
+                  <input
+                    id="input-text-type"
+                    aerisInputText
+                    type="text"
+                    placeholder="Project name"
+                  />
+                </div>
+                <div class="field">
+                  <label for="input-email-type">Email</label>
+                  <input
+                    id="input-email-type"
+                    aerisInputText
+                    type="email"
+                    placeholder="team@example.com"
+                  />
+                </div>
+                <div class="field">
+                  <label for="input-search-type">Search</label>
+                  <input
+                    id="input-search-type"
+                    aerisInputText
+                    type="search"
+                    placeholder="Search projects"
+                  />
+                </div>
+                <div class="field">
+                  <label for="input-url-type">URL</label>
+                  <input
+                    id="input-url-type"
+                    aerisInputText
+                    type="url"
+                    placeholder="https://example.com"
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="input-text-type"&gt;Text&lt;/label&gt;
+    &lt;input
+      id="input-text-type"
+      aerisInputText
+      type="text"
+      placeholder="Project name"
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="input-email-type"&gt;Email&lt;/label&gt;
+    &lt;input
+      id="input-email-type"
+      aerisInputText
+      type="email"
+      placeholder="team&#64;example.com"
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="input-search-type"&gt;Search&lt;/label&gt;
+    &lt;input
+      id="input-search-type"
+      aerisInputText
+      type="search"
+      placeholder="Search projects"
+    /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="input-url-type"&gt;URL&lt;/label&gt;
+    &lt;input
+      id="input-url-type"
+      aerisInputText
+      type="url"
+      placeholder="https://example.com"
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-sizes"
+              title="Sizes"
+              description="Four sizes align InputText with the Aeris control density scale."
+            >
+              <div preview class="field-row">
+                <label class="size-sample">
+                  <span>Extra small</span>
+                  <input aerisInputText size="xs" value="Extra small" />
+                </label>
+                <label class="size-sample">
+                  <span>Small</span>
+                  <input aerisInputText size="sm" value="Small" />
+                </label>
+                <label class="size-sample">
+                  <span>Medium</span>
+                  <input aerisInputText value="Medium" />
+                </label>
+                <label class="size-sample">
+                  <span>Large</span>
+                  <input aerisInputText size="lg" value="Large" />
+                </label>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-row"&gt;
+  &lt;label class="size-sample"&gt;
+    &lt;span&gt;Extra small&lt;/span&gt;
+    &lt;input aerisInputText size="xs" value="Extra small" /&gt;
+  &lt;/label&gt;
+  &lt;label class="size-sample"&gt;
+    &lt;span&gt;Small&lt;/span&gt;
+    &lt;input aerisInputText size="sm" value="Small" /&gt;
+  &lt;/label&gt;
+  &lt;label class="size-sample"&gt;
+    &lt;span&gt;Medium&lt;/span&gt;
+    &lt;input aerisInputText value="Medium" /&gt;
+  &lt;/label&gt;
+  &lt;label class="size-sample"&gt;
+    &lt;span&gt;Large&lt;/span&gt;
+    &lt;input aerisInputText size="lg" value="Large" /&gt;
+  &lt;/label&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-appearances"
+              title="Appearances"
+              description="Choose a crisp outline or a quieter filled surface while retaining the same focus treatment."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="input-outline">Outline</label>
+                  <input id="input-outline" aerisInputText fluid placeholder="Outline input" />
+                </div>
+                <div class="field">
+                  <label for="input-filled">Filled</label>
+                  <input
+                    id="input-filled"
+                    aerisInputText
+                    appearance="filled"
+                    fluid
+                    placeholder="Filled input"
+                  />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="input-outline"&gt;Outline&lt;/label&gt;
+    &lt;input id="input-outline" aerisInputText fluid placeholder="Outline input" /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="input-filled"&gt;Filled&lt;/label&gt;
+    &lt;input
+      id="input-filled"
+      aerisInputText
+      appearance="filled"
+      fluid
+      placeholder="Filled input"
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-states"
+              title="Disabled and read-only"
+              description="Use native attributes so browser semantics, form submission, and assistive technology behavior remain correct."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="input-disabled">Disabled</label>
+                  <input id="input-disabled" aerisInputText fluid value="Unavailable" disabled />
+                </div>
+                <div class="field">
+                  <label for="input-readonly">Read-only</label>
+                  <input id="input-readonly" aerisInputText fluid value="AERIS-1042" readonly />
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="input-disabled"&gt;Disabled&lt;/label&gt;
+    &lt;input id="input-disabled" aerisInputText fluid value="Unavailable" disabled /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="input-readonly"&gt;Read-only&lt;/label&gt;
+    &lt;input id="input-readonly" aerisInputText fluid value="AERIS-1042" readonly /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-validation"
+              title="Validation"
+              description="The invalid input synchronizes visual state with aria-invalid. Connect concise error text with aria-describedby."
+              [tsCode]="validationCode"
+            >
+              <div preview class="field">
+                <label for="validation-email">Work email</label>
+                <input
+                  id="validation-email"
+                  aerisInputText
+                  type="email"
+                  fluid
+                  [value]="email()"
+                  [invalid]="emailInvalid()"
+                  aria-describedby="validation-email-error"
+                  (input)="updateEmail($event)"
+                  (blur)="emailTouched.set(true)"
+                />
+                <small id="validation-email-error" class="error" aria-live="polite">
+                  {{
+                    emailInvalid()
+                      ? 'Enter a complete email address.'
+                      : 'Use your organization email address.'
+                  }}
+                </small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="validation-email"&gt;Work email&lt;/label&gt;
+  &lt;input
+    id="validation-email"
+    aerisInputText
+    type="email"
+    fluid
+    [value]="email()"
+    [invalid]="emailInvalid()"
+    aria-describedby="validation-email-error"
+    (input)="updateEmail($event)"
+    (blur)="emailTouched.set(true)"
+  /&gt;
+  &lt;small id="validation-email-error" class="error" aria-live="polite"&gt;
+    &#123;&#123;
+      emailInvalid()
+        ? 'Enter a complete email address.'
+        : 'Use your organization email address.'
+    &#125;&#125;
+  &lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-fluid"
+              title="Fluid layout"
+              description="Fluid inputs fill their parent and naturally adapt to narrow screens."
+            >
+              <div preview class="field">
+                <label for="input-fluid-example">Workspace name</label>
+                <input id="input-fluid-example" aerisInputText fluid placeholder="aeris-design" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="input-fluid-example"&gt;Workspace name&lt;/label&gt;
+  &lt;input id="input-fluid-example" aerisInputText fluid placeholder="aeris-design" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-affixes"
+              title="Icons and affixes"
+              description="Compose decorative icons and actions around the native input. Focus-within keeps the group visually unified."
+              [cssCode]="affixCssCode"
+            >
+              <div preview class="field">
+                <label for="project-search">Search projects</label>
+                <span class="input-affix">
+                  <svg [lucideIcon]="icons.Search"></svg>
+                  <input
+                    #searchInput
+                    id="project-search"
+                    aerisInputText
+                    type="search"
+                    placeholder="Search by name"
+                  />
+                  <button
+                    aerisButton
+                    variant="ghost"
+                    size="sm"
+                    iconOnly
+                    type="button"
+                    aria-label="Clear search"
+                    (click)="clearSearch(searchInput)"
+                  >
+                    <svg [lucideIcon]="icons.X"></svg>
+                  </button>
+                </span>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="project-search"&gt;Search projects&lt;/label&gt;
+  &lt;span class="input-affix"&gt;
+    &lt;svg [lucideIcon]="icons.Search"&gt;&lt;/svg&gt;
+    &lt;input
+      #searchInput
+      id="project-search"
+      aerisInputText
+      type="search"
+      placeholder="Search by name"
+    /&gt;
+    &lt;button
+      aerisButton
+      variant="ghost"
+      size="sm"
+      iconOnly
+      type="button"
+      aria-label="Clear search"
+      (click)="clearSearch(searchInput)"
+    &gt;
+      &lt;svg [lucideIcon]="icons.X"&gt;&lt;/svg&gt;
+    &lt;/button&gt;
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-signals"
+              title="Signal state"
+              description="Native input events update signal state directly without a wrapper component or additional value accessor."
+              [tsCode]="signalCode"
+            >
+              <div preview class="field">
+                <label for="signal-name">Display name</label>
+                <input
+                  id="signal-name"
+                  aerisInputText
+                  fluid
+                  [value]="name()"
+                  (input)="updateName($event)"
+                />
+                <small aria-live="polite">Current value: {{ name() || 'Empty' }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="signal-name"&gt;Display name&lt;/label&gt;
+  &lt;input
+    id="signal-name"
+    aerisInputText
+    fluid
+    [value]="name()"
+    (input)="updateName($event)"
+  /&gt;
+  &lt;small aria-live="polite"&gt;Current value: &#123;&#123; name() || 'Empty' &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-clearable"
+              title="Clear button"
+              description="The wrapper component adds an accessible suffix button that clears the value and restores focus to the input."
+            >
+              <div preview class="field">
+                <label for="clearable-search">Search components</label>
+                <aeris-input-text
+                  inputId="clearable-search"
+                  type="search"
+                  placeholder="Search components"
+                  clearable
+                  fluid
+                  [(value)]="search"
+                />
+                <small aria-live="polite">Current value: {{ search() || 'Empty' }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="clearable-search"&gt;Search components&lt;/label&gt;
+  &lt;aeris-input-text
+    inputId="clearable-search"
+    type="search"
+    placeholder="Search components"
+    clearable
+    fluid
+    [(value)]="search"
+  /&gt;
+  &lt;small aria-live="polite"&gt;Current value: &#123;&#123; search() || 'Empty' &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="input-angular-forms"
+              title="Reactive and template-driven forms"
+              description="The native directive uses Angular's built-in value accessor. The wrapper component provides its own ControlValueAccessor for formControl and ngModel."
+              [tsCode]="formsCode"
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="reactive-text">Reactive Forms</label>
+                  <input id="reactive-text" aerisInputText fluid [formControl]="reactiveText" />
+                  <small>Value: {{ reactiveText.value || 'Empty' }}</small>
+                </div>
+                <div class="field">
+                  <label for="template-text">Template-driven forms</label>
+                  <aeris-input-text
+                    inputId="template-text"
+                    name="templateText"
+                    fluid
+                    [(ngModel)]="templateText"
+                  />
+                  <small>Value: {{ templateText || 'Empty' }}</small>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="reactive-text"&gt;Reactive Forms&lt;/label&gt;
+    &lt;input id="reactive-text" aerisInputText fluid [formControl]="reactiveText" /&gt;
+    &lt;small&gt;Value: &#123;&#123; reactiveText.value || 'Empty' &#125;&#125;&lt;/small&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="template-text"&gt;Template-driven forms&lt;/label&gt;
+    &lt;aeris-input-text
+      inputId="template-text"
+      name="templateText"
+      fluid
+      [(ngModel)]="templateText"
+    /&gt;
+    &lt;small&gt;Value: &#123;&#123; templateText || 'Empty' &#125;&#125;&lt;/small&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="InputText features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="input-api-inputs" tabindex="-1">Inputs</h3>
+            <div class="api-table" role="table" aria-label="InputText inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b>
+                <b role="columnheader">Type</b>
+                <b role="columnheader">Default</b>
+                <b role="columnheader">Description</b>
+              </div>
+              @for (property of inputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code>
+                  <span role="cell">{{ property.type }}</span>
+                  <code role="cell">{{ property.defaultValue }}</code>
+                  <span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+
+            <h3 id="input-api-native" tabindex="-1">Native API</h3>
+            <div
+              class="api-table compact"
+              role="table"
+              aria-label="InputText native API"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Category</b>
+                <b role="columnheader">Examples</b>
+                <b role="columnheader">Behavior</b>
+              </div>
+              <div role="row">
+                <span role="cell">Attributes</span>
+                <code role="cell">type, value, name, placeholder, autocomplete</code>
+                <span role="cell"
+                  >Forwarded directly because InputText is applied to the native element.</span
+                >
+              </div>
+              <div role="row">
+                <span role="cell">State</span>
+                <code role="cell">disabled, readonly, required, minlength, maxlength</code>
+                <span role="cell">Uses native browser and form semantics.</span>
+              </div>
+              <div role="row">
+                <span role="cell">Events</span>
+                <code role="cell">input, change, focus, blur, keydown</code>
+                <span role="cell">Bind native DOM events without library-specific emitters.</span>
+              </div>
+            </div>
+
+            <h3 id="input-api-wrapper" tabindex="-1">Wrapper component inputs</h3>
+            <div class="api-table" role="table" aria-label="InputText wrapper inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b>
+                <b role="columnheader">Type</b>
+                <b role="columnheader">Default</b>
+                <b role="columnheader">Description</b>
+              </div>
+              @for (property of componentInputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code>
+                  <span role="cell">{{ property.type }}</span>
+                  <code role="cell">{{ property.defaultValue }}</code>
+                  <span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="InputText API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces and types</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="InputText design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b>
+            <b role="columnheader">Purpose</b>
+            <b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-control-height</code
+            ><span role="cell">Medium input height and density baseline.</span
+            ><code role="cell">2.625rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-radius-sm</code><span role="cell">Input corner radius.</span
+            ><code role="cell">0.4375rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface</code
+            ><span role="cell">Outlined input background.</span><code role="cell">#ffffff</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-surface-2</code
+            ><span role="cell">Filled and read-only background.</span
+            ><code role="cell">#f2f0ec</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-border-strong</code
+            ><span role="cell">Default input border.</span><code role="cell">#c7c9c0</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-focus</code><span role="cell">Focus border and ring.</span
+            ><code role="cell">#536437</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-danger</code
+            ><span role="cell">Invalid border and focus ring.</span><code role="cell">#c81e2a</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            InputText preserves native input semantics, keyboard behavior, autofill, selection, and
+            form submission.
+          </li>
+          <li>
+            Provide a visible <code>label</code> associated through matching <code>for</code> and
+            <code>id</code> values.
+          </li>
+          <li>
+            Use <code>aria-describedby</code> to connect help or validation text. Avoid
+            placeholder-only labels.
+          </li>
+          <li>
+            The <code>invalid</code> input automatically exposes <code>aria-invalid="true"</code>.
+          </li>
+          <li>
+            Prefer native <code>disabled</code>, <code>readonly</code>, <code>required</code>, and
+            autocomplete attributes.
+          </li>
+          <li>
+            Decorative icons are hidden from assistive technology. Interactive affixes require an
+            accessible name and visible focus.
+          </li>
+          <li>
+            The clear button has a configurable accessible name, appears only when usable, and
+            returns focus to the input after clearing.
+          </li>
+          <li>
+            Both the native directive and wrapper support Reactive Forms and template-driven forms;
+            the wrapper also remains compatible with Angular 22 Signal Forms.
+          </li>
+          <li>
+            Focus indicators meet the WCAG 2.2 focus appearance target and transitions respect
+            reduced-motion preferences.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="InputText keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
+            ><span role="cell">Moves focus to or away from the input and any clear action.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span
+            ><span role="cell">Moves the text caret through the value.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd></span
+            ><span role="cell">Moves the caret to the start or end of the value.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Backspace</kbd> / <kbd>Delete</kbd></span
+            ><span role="cell">Removes selected text or the character beside the caret.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Ctrl</kbd> / <kbd>Command</kbd> + <kbd>A</kbd></span
+            ><span role="cell">Selects the complete value using native platform behavior.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
+            ><span role="cell">Activates the clear button when that button is focused.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

@@ -1,0 +1,57 @@
+@use '../../form/shared/form-docs';
+
+.accordion-docs app-form-demo {
+  --docs-code-block-max-height: min(36rem, 70vh);
+}
+
+.accordion-docs aeris-accordion {
+  width: min(100%, 34rem);
+}
+
+.accordion-docs p {
+  margin: 0;
+}
+
+.status-line {
+  margin-top: 0.875rem;
+  color: var(--text-3);
+  font-size: 0.8125rem;
+}
+
+.accordion-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.accordion-stack {
+  width: 100%;
+  display: grid;
+  gap: 1rem;
+}
+
+.accordion-meta-header {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.accordion-meta-header small {
+  color: var(--text-3);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.custom-toggle-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  display: inline-grid;
+  place-items: center;
+  color: var(--primary-text);
+  font-size: var(--aeris-icon-size, 1rem);
+  font-weight: 800;
+  line-height: 1;
+}

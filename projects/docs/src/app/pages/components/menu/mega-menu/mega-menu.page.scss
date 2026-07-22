@@ -1,0 +1,27 @@
+@use '../../form/shared/form-docs';
+
+.mega-menu-docs {
+  aeris-mega-menu {
+    width: 100%;
+  }
+
+  .mega-menu-template-item {
+    display: grid;
+    gap: 0.125rem;
+  }
+
+  .mega-menu-template-item strong {
+    font-weight: 850;
+  }
+
+  .mega-menu-template-item small {
+    color: var(--text-2);
+  }
+
+  small[aria-live] {
+    display: block;
+    margin-top: 0.75rem;
+    color: var(--text-2);
+    font-weight: 700;
+  }
+}

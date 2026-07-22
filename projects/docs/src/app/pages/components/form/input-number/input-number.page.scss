@@ -1,0 +1,32 @@
+@use '../shared/form-docs';
+
+.number-button-layouts {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.number-button-layouts .field {
+  justify-items: center;
+}
+
+.number-button-layouts .field > span {
+  justify-self: start;
+}
+
+.number-result {
+  color: var(--text-2);
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 48rem) {
+  .number-button-layouts {
+    grid-template-columns: 1fr;
+  }
+
+  .number-button-layouts .field {
+    justify-items: stretch;
+  }
+}

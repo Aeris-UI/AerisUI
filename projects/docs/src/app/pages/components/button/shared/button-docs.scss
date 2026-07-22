@@ -1,0 +1,218 @@
+.button-docs {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 2.75rem 3rem 7rem;
+}
+
+.import-section {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.65fr) minmax(24rem, 1.35fr);
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface);
+}
+
+.import-section > * {
+  min-width: 0;
+}
+
+.import-section h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.125rem;
+}
+
+.import-section p {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+aeris-tabs {
+  display: block;
+}
+
+aeris-tabs::ng-deep .aeris-tabs__list {
+  position: sticky;
+  z-index: 10;
+  top: 4rem;
+  background: color-mix(in srgb, var(--page) 94%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.doc-section {
+  min-height: 22rem;
+  padding: 2.75rem 0;
+}
+
+.doc-section > h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1.625rem;
+  letter-spacing: -0.035em;
+}
+
+.doc-section > h3 {
+  margin: 2.5rem 0 0.75rem;
+  font-size: 1.125rem;
+  scroll-margin-top: 8rem;
+}
+
+.doc-section > p {
+  margin: 0 0 1.4rem;
+  color: var(--text-2);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+.doc-section code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.doc-content-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 10.5rem;
+  gap: 2.75rem;
+  align-items: start;
+}
+
+.doc-content-main {
+  min-width: 0;
+}
+
+.api-table {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  overflow-x: auto;
+}
+
+.api-table:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--focus) 44%, transparent);
+  outline-offset: 2px;
+}
+
+.api-table > div {
+  min-width: 50rem;
+  display: grid;
+  grid-template-columns: 10rem 13rem 8rem minmax(16rem, 1fr);
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-2);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  align-items: start;
+}
+
+.api-table > div:last-child {
+  border-bottom: 0;
+}
+
+.api-table .api-head {
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.api-table code {
+  color: var(--primary-text);
+  font-size: 0.8125rem;
+}
+
+.api-table.compact > div {
+  min-width: 44rem;
+  grid-template-columns: 12rem 15rem minmax(16rem, 1fr);
+}
+
+.api-table.keyboard-table > div {
+  min-width: 32rem;
+  grid-template-columns: 13rem minmax(16rem, 1fr);
+}
+
+.api-table.keyboard-table [role='cell'] > kbd,
+.api-table.keyboard-table > div > kbd[role='cell'] {
+  width: fit-content;
+  justify-self: start;
+}
+
+.doc-section ul {
+  display: grid;
+  gap: 0.8rem;
+  padding-left: 1.4rem;
+  color: var(--text-2);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+.doc-section kbd {
+  padding: 0.15rem 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 0.3rem;
+  background: var(--surface-2);
+  font: 0.8125rem ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.result {
+  align-self: center;
+  color: var(--text-3);
+  font-size: 0.8125rem;
+}
+
+svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 72rem) {
+  .doc-content-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  app-page-toc {
+    order: -1;
+  }
+}
+
+@media (max-width: 47.5rem) {
+  .button-docs {
+    padding: 2rem 1.25rem 5rem;
+  }
+
+  .import-section {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .doc-section {
+    padding-top: 2rem;
+  }
+
+  aeris-tabs::ng-deep .aeris-tabs__list {
+    position: static;
+    background: transparent;
+    backdrop-filter: none;
+  }
+
+}
+
+@media (max-width: 30rem) {
+  .button-docs {
+    padding-inline: 1rem;
+  }
+
+  .import-section {
+    padding: 1rem;
+  }
+
+}

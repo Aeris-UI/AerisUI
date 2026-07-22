@@ -1,0 +1,177 @@
+:host {
+  --aeris-speed-dial-size: 3rem;
+  --aeris-speed-dial-item-size: 2rem;
+  --aeris-speed-dial-gap: 0.375rem;
+  position: relative;
+  z-index: 20;
+  display: inline-block;
+  width: var(--aeris-speed-dial-size);
+  height: var(--aeris-speed-dial-size);
+}
+
+:host([data-open]) {
+  z-index: 1000;
+}
+
+.aeris-speed-dial__mask {
+  position: fixed;
+  z-index: 1;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  padding: 0;
+  border: 0;
+  background: rgb(17 21 16 / 44%);
+  cursor: default;
+}
+
+.aeris-speed-dial__mask[data-backdrop-blur] {
+  -webkit-backdrop-filter: blur(
+    var(--aeris-speed-dial-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem))
+  );
+  backdrop-filter: blur(
+    var(--aeris-speed-dial-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem))
+  );
+}
+
+.aeris-speed-dial__container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}
+
+.aeris-speed-dial__trigger,
+.aeris-speed-dial__action {
+  border: 0;
+  font: inherit;
+}
+
+.aeris-speed-dial__trigger {
+  position: relative;
+  z-index: 3;
+  width: var(--aeris-speed-dial-size);
+  height: var(--aeris-speed-dial-size);
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--aeris-primary, #879566);
+  box-shadow: 0 0.5rem 1.5rem color-mix(in srgb, var(--aeris-primary, #879566) 28%, transparent);
+  color: var(--aeris-on-primary, #17200f);
+  cursor: pointer;
+  transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.aeris-speed-dial__trigger[data-size='sm'] {
+  --aeris-speed-dial-size: 2.5rem;
+}
+
+.aeris-speed-dial__trigger[data-size='lg'] {
+  --aeris-speed-dial-size: 3.5rem;
+}
+
+.aeris-speed-dial__trigger:hover:not(:disabled) {
+  background: var(--aeris-primary-hover, #758154);
+  transform: translateY(-1px);
+}
+
+.aeris-speed-dial__trigger:focus-visible,
+.aeris-speed-dial__action:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 48%, transparent);
+  outline-offset: 3px;
+}
+
+.aeris-speed-dial__trigger:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.aeris-speed-dial__trigger-icon {
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:host([data-open]) .aeris-speed-dial__trigger-icon[data-rotate] {
+  transform: rotate(135deg);
+}
+
+.aeris-speed-dial__list {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  z-index: 2;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aeris-speed-dial__item {
+  position: absolute;
+  width: var(--aeris-speed-dial-item-size);
+  height: var(--aeris-speed-dial-item-size);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.55);
+  transition:
+    opacity 180ms ease var(--aeris-speed-dial-delay),
+    transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1.18) var(--aeris-speed-dial-delay);
+}
+
+.aeris-speed-dial__item[data-visible] {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.aeris-speed-dial__action {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--aeris-border, #deddd7);
+  border-radius: 999px;
+  background: var(--aeris-surface, #fff);
+  box-shadow: 0 0.4rem 1.1rem rgb(20 24 18 / 14%);
+  color: var(--aeris-text, #20231e);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+}
+
+.aeris-speed-dial__action:hover:not(:disabled):not(.aeris-speed-dial__action--disabled) {
+  border-color: var(--aeris-primary, #879566);
+  background: color-mix(in srgb, var(--aeris-primary, #879566) 10%, var(--aeris-surface, #fff));
+  transform: scale(1.08);
+}
+
+.aeris-speed-dial__action:disabled,
+.aeris-speed-dial__action--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.aeris-speed-dial__action-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  display: inline-grid;
+  place-items: center;
+  font-size: var(--aeris-icon-size, 1rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-speed-dial__trigger,
+  .aeris-speed-dial__trigger-icon,
+  .aeris-speed-dial__item,
+  .aeris-speed-dial__action {
+    animation-duration: 1ms;
+    transition-duration: 1ms;
+    transition-delay: 0ms;
+  }
+}

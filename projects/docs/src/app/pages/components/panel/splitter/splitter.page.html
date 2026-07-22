@@ -1,0 +1,891 @@
+<article class="button-docs splitter-docs">
+  <app-component-page-header
+    category="Panel"
+    title="Splitter"
+    description="Resizable panel layout with horizontal and vertical orientation, controlled sizes, constraints, and keyboard support."
+  />
+
+  <section id="splitter-import" class="import-section" aria-labelledby="splitter-import-title">
+    <div>
+      <h2 id="splitter-import-title">Import</h2>
+      <p>One import provides Splitter and SplitterPanel.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="Splitter documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="splitter-basic"
+              title="Basic"
+              description="Create a horizontal splitter with two percentage-sized panels. With no constraints, either side can collapse fully to the edge handle."
+              [cssCode]="paneCssCode"
+            >
+              <div preview>
+                <aeris-splitter height="16rem" ariaLabel="Basic workspace">
+                  <aeris-splitter-panel ariaLabel="Navigation" [size]="30">
+                    <div class="splitter-pane">
+                      <strong>Navigation</strong>
+                      <span>Drag to the edge to fully collapse this panel.</span>
+                    </div>
+                  </aeris-splitter-panel>
+                  <aeris-splitter-panel ariaLabel="Content" [size]="70">
+                    <div class="splitter-pane">
+                      <strong>Content</strong>
+                      <span>The handle remains available at the edge.</span>
+                    </div>
+                  </aeris-splitter-panel>
+                </aeris-splitter>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-splitter height="16rem" ariaLabel="Basic workspace"&gt;
+    &lt;aeris-splitter-panel ariaLabel="Navigation" [size]="30"&gt;
+      &lt;div class="splitter-pane"&gt;
+        &lt;strong&gt;Navigation&lt;/strong&gt;
+        &lt;span&gt;Drag to the edge to fully collapse this panel.&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+    &lt;aeris-splitter-panel ariaLabel="Content" [size]="70"&gt;
+      &lt;div class="splitter-pane"&gt;
+        &lt;strong&gt;Content&lt;/strong&gt;
+        &lt;span&gt;The handle remains available at the edge.&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+  &lt;/aeris-splitter&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="splitter-vertical"
+              title="Vertical"
+              description="Stack panels vertically by changing the orientation."
+              [cssCode]="dashboardCssCode"
+            >
+              <div preview>
+                <aeris-splitter orientation="vertical" height="22rem" ariaLabel="Dashboard areas">
+                  <aeris-splitter-panel ariaLabel="Charts" [size]="58">
+                    <div class="dashboard-pane">
+                      <div class="dashboard-card">
+                        <strong>Revenue</strong><span>$42.8k this month</span>
+                      </div>
+                      <div class="dashboard-card">
+                        <strong>Conversion</strong><span>7.4% from active campaigns</span>
+                      </div>
+                    </div>
+                  </aeris-splitter-panel>
+                  <aeris-splitter-panel ariaLabel="Activity" [size]="42">
+                    <div class="dashboard-pane">
+                      <div class="dashboard-card">
+                        <strong>Activity</strong><span>12 reviews waiting for approval.</span>
+                      </div>
+                    </div>
+                  </aeris-splitter-panel>
+                </aeris-splitter>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-splitter orientation="vertical" height="22rem" ariaLabel="Dashboard areas"&gt;
+    &lt;aeris-splitter-panel ariaLabel="Charts" [size]="58"&gt;
+      &lt;div class="dashboard-pane"&gt;
+        &lt;div class="dashboard-card"&gt;
+          &lt;strong&gt;Revenue&lt;/strong&gt;&lt;span&gt;$42.8k this month&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="dashboard-card"&gt;
+          &lt;strong&gt;Conversion&lt;/strong&gt;&lt;span&gt;7.4% from active campaigns&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+    &lt;aeris-splitter-panel ariaLabel="Activity" [size]="42"&gt;
+      &lt;div class="dashboard-pane"&gt;
+        &lt;div class="dashboard-card"&gt;
+          &lt;strong&gt;Activity&lt;/strong&gt;&lt;span&gt;12 reviews waiting for approval.&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+  &lt;/aeris-splitter&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="splitter-divider"
+              title="Divider"
+              description="Use handle-only separators for minimal layouts or full divider lines when stronger separation is needed."
+              [cssCode]="variantCssCode + '\n\n' + paneCssCode"
+            >
+              <div preview>
+                <div class="splitter-grid">
+                  <aeris-splitter height="10rem" ariaLabel="Handle-only splitter">
+                    <aeris-splitter-panel
+                      ><div class="splitter-pane">
+                        <strong>Handle only</strong><span>Default minimal divider.</span>
+                      </div></aeris-splitter-panel
+                    >
+                    <aeris-splitter-panel
+                      ><div class="splitter-pane">
+                        <strong>Panel</strong><span>Resize from the handle.</span>
+                      </div></aeris-splitter-panel
+                    >
+                  </aeris-splitter>
+                  <aeris-splitter height="10rem" divider="line" ariaLabel="Line splitter">
+                    <aeris-splitter-panel
+                      ><div class="splitter-pane">
+                        <strong>Full line</strong><span>Divider line with centered handle.</span>
+                      </div></aeris-splitter-panel
+                    >
+                    <aeris-splitter-panel
+                      ><div class="splitter-pane">
+                        <strong>Panel</strong><span>Useful for dense surfaces.</span>
+                      </div></aeris-splitter-panel
+                    >
+                  </aeris-splitter>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="splitter-grid"&gt;
+    &lt;aeris-splitter height="10rem" ariaLabel="Handle-only splitter"&gt;
+      &lt;aeris-splitter-panel
+        &gt;&lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Handle only&lt;/strong&gt;&lt;span&gt;Default minimal divider.&lt;/span&gt;
+        &lt;/div&gt;&lt;/aeris-splitter-panel
+      &gt;
+      &lt;aeris-splitter-panel
+        &gt;&lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Panel&lt;/strong&gt;&lt;span&gt;Resize from the handle.&lt;/span&gt;
+        &lt;/div&gt;&lt;/aeris-splitter-panel
+      &gt;
+    &lt;/aeris-splitter&gt;
+    &lt;aeris-splitter height="10rem" divider="line" ariaLabel="Line splitter"&gt;
+      &lt;aeris-splitter-panel
+        &gt;&lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Full line&lt;/strong&gt;&lt;span&gt;Divider line with centered handle.&lt;/span&gt;
+        &lt;/div&gt;&lt;/aeris-splitter-panel
+      &gt;
+      &lt;aeris-splitter-panel
+        &gt;&lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Panel&lt;/strong&gt;&lt;span&gt;Useful for dense surfaces.&lt;/span&gt;
+        &lt;/div&gt;&lt;/aeris-splitter-panel
+      &gt;
+    &lt;/aeris-splitter&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="splitter-controlled"
+              title="Controlled"
+              description="Bind the sizes model and update it from application controls or resize events."
+              [tsCode]="controlledTsCode"
+              [cssCode]="controlledCssCode + '\n\n' + paneCssCode"
+            >
+              <div preview>
+                <div class="splitter-actions">
+                  <button aerisButton type="button" size="sm" (click)="setBalancedLayout()">
+                    Balance
+                  </button>
+                  <button
+                    aerisButton
+                    type="button"
+                    size="sm"
+                    variant="secondary"
+                    (click)="setFocusLayout()"
+                  >
+                    Focus content
+                  </button>
+                </div>
+                <aeris-splitter
+                  height="15rem"
+                  [sizes]="controlledSizes()"
+                  (resized)="recordResize($event)"
+                  ariaLabel="Controlled workspace"
+                >
+                  <aeris-splitter-panel ariaLabel="Folders">
+                    <div class="splitter-pane">
+                      <strong>Folders</strong><span>Inbox, review, archive.</span>
+                    </div>
+                  </aeris-splitter-panel>
+                  <aeris-splitter-panel ariaLabel="Message">
+                    <div class="splitter-pane">
+                      <strong>Message</strong><span>Resize events update the signal.</span>
+                    </div>
+                  </aeris-splitter-panel>
+                  <aeris-splitter-panel ariaLabel="Inspector">
+                    <div class="splitter-pane">
+                      <strong>Inspector</strong><span>Metadata and actions.</span>
+                    </div>
+                  </aeris-splitter-panel>
+                </aeris-splitter>
+                <p class="splitter-status" role="status" aria-live="polite">
+                  Sizes: {{ lastResize }}
+                </p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="splitter-actions"&gt;
+    &lt;button aerisButton type="button" size="sm" (click)="setBalancedLayout()"&gt;
+      Balance
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      size="sm"
+      variant="secondary"
+      (click)="setFocusLayout()"
+    &gt;
+      Focus content
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-splitter
+    height="15rem"
+    [sizes]="controlledSizes()"
+    (resized)="recordResize($event)"
+    ariaLabel="Controlled workspace"
+  &gt;
+    &lt;aeris-splitter-panel ariaLabel="Folders"&gt;
+      &lt;div class="splitter-pane"&gt;
+        &lt;strong&gt;Folders&lt;/strong&gt;&lt;span&gt;Inbox, review, archive.&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+    &lt;aeris-splitter-panel ariaLabel="Message"&gt;
+      &lt;div class="splitter-pane"&gt;
+        &lt;strong&gt;Message&lt;/strong&gt;&lt;span&gt;Resize events update the signal.&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+    &lt;aeris-splitter-panel ariaLabel="Inspector"&gt;
+      &lt;div class="splitter-pane"&gt;
+        &lt;strong&gt;Inspector&lt;/strong&gt;&lt;span&gt;Metadata and actions.&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+  &lt;/aeris-splitter&gt;
+  &lt;p class="splitter-status" role="status" aria-live="polite"&gt;
+    Sizes: &#123;&#123; lastResize &#125;&#125;
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="splitter-constraints"
+              title="Constraints"
+              description="Use panel min and max sizes to preserve useful space."
+              [cssCode]="paneCssCode"
+            >
+              <div preview>
+                <aeris-splitter height="14rem" ariaLabel="Constrained workspace">
+                  <aeris-splitter-panel
+                    ariaLabel="Navigation"
+                    [size]="25"
+                    [minSize]="20"
+                    [maxSize]="35"
+                  >
+                    <div class="splitter-pane">
+                      <strong>20-35%</strong><span>Navigation cannot collapse too far.</span>
+                    </div>
+                  </aeris-splitter-panel>
+                  <aeris-splitter-panel ariaLabel="Main area" [size]="75" [minSize]="45">
+                    <div class="splitter-pane">
+                      <strong>Minimum 45%</strong><span>Main content keeps readable width.</span>
+                    </div>
+                  </aeris-splitter-panel>
+                </aeris-splitter>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-splitter height="14rem" ariaLabel="Constrained workspace"&gt;
+    &lt;aeris-splitter-panel
+      ariaLabel="Navigation"
+      [size]="25"
+      [minSize]="20"
+      [maxSize]="35"
+    &gt;
+      &lt;div class="splitter-pane"&gt;
+        &lt;strong&gt;20-35%&lt;/strong&gt;&lt;span&gt;Navigation cannot collapse too far.&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+    &lt;aeris-splitter-panel ariaLabel="Main area" [size]="75" [minSize]="45"&gt;
+      &lt;div class="splitter-pane"&gt;
+        &lt;strong&gt;Minimum 45%&lt;/strong&gt;&lt;span&gt;Main content keeps readable width.&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+  &lt;/aeris-splitter&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="splitter-disabled"
+              title="Disabled handles"
+              description="Disable every handle from the splitter or a specific adjacent panel."
+              [cssCode]="paneCssCode"
+            >
+              <div preview>
+                <aeris-splitter height="13rem" ariaLabel="Locked workspace">
+                  <aeris-splitter-panel
+                    ariaLabel="Locked navigation"
+                    [size]="35"
+                    [resizable]="false"
+                  >
+                    <div class="splitter-pane">
+                      <strong>Locked</strong><span>This panel disables the adjacent handle.</span>
+                    </div>
+                  </aeris-splitter-panel>
+                  <aeris-splitter-panel ariaLabel="Content" [size]="65">
+                    <div class="splitter-pane">
+                      <strong>Content</strong><span>The handle is exposed as disabled.</span>
+                    </div>
+                  </aeris-splitter-panel>
+                </aeris-splitter>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-splitter height="13rem" ariaLabel="Locked workspace"&gt;
+    &lt;aeris-splitter-panel
+      ariaLabel="Locked navigation"
+      [size]="35"
+      [resizable]="false"
+    &gt;
+      &lt;div class="splitter-pane"&gt;
+        &lt;strong&gt;Locked&lt;/strong&gt;&lt;span&gt;This panel disables the adjacent handle.&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+    &lt;aeris-splitter-panel ariaLabel="Content" [size]="65"&gt;
+      &lt;div class="splitter-pane"&gt;
+        &lt;strong&gt;Content&lt;/strong&gt;&lt;span&gt;The handle is exposed as disabled.&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+  &lt;/aeris-splitter&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="splitter-nested"
+              title="Nested"
+              description="Place a splitter inside a panel when a layout needs two resize axes."
+              [cssCode]="nestedCssCode"
+            >
+              <div preview>
+                <aeris-splitter height="22rem" ariaLabel="Mail workspace">
+                  <aeris-splitter-panel ariaLabel="Message list" [size]="32">
+                    <div class="mail-pane">
+                      <div class="mail-row">
+                        <strong>Design review</strong><span>Today at 10:30</span>
+                      </div>
+                      <div class="mail-row">
+                        <strong>Release notes</strong><span>Yesterday at 16:20</span>
+                      </div>
+                      <div class="mail-row">
+                        <strong>QA report</strong><span>Monday at 09:15</span>
+                      </div>
+                    </div>
+                  </aeris-splitter-panel>
+                  <aeris-splitter-panel ariaLabel="Message detail" [size]="68">
+                    <aeris-splitter
+                      class="mail-detail-splitter"
+                      orientation="vertical"
+                      height="100%"
+                      variant="plain"
+                      ariaLabel="Message detail sections"
+                    >
+                      <aeris-splitter-panel ariaLabel="Message body" [size]="64">
+                        <div class="mail-pane">
+                          <strong>Message body</strong
+                          ><span>Review the latest component audit and screenshots.</span>
+                        </div>
+                      </aeris-splitter-panel>
+                      <aeris-splitter-panel ariaLabel="Thread notes" [size]="36">
+                        <div class="mail-pane">
+                          <strong>Thread notes</strong
+                          ><span>Three linked tasks and two approvals.</span>
+                        </div>
+                      </aeris-splitter-panel>
+                    </aeris-splitter>
+                  </aeris-splitter-panel>
+                </aeris-splitter>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-splitter height="22rem" ariaLabel="Mail workspace"&gt;
+    &lt;aeris-splitter-panel ariaLabel="Message list" [size]="32"&gt;
+      &lt;div class="mail-pane"&gt;
+        &lt;div class="mail-row"&gt;
+          &lt;strong&gt;Design review&lt;/strong&gt;&lt;span&gt;Today at 10:30&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="mail-row"&gt;
+          &lt;strong&gt;Release notes&lt;/strong&gt;&lt;span&gt;Yesterday at 16:20&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="mail-row"&gt;
+          &lt;strong&gt;QA report&lt;/strong&gt;&lt;span&gt;Monday at 09:15&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+    &lt;aeris-splitter-panel ariaLabel="Message detail" [size]="68"&gt;
+      &lt;aeris-splitter
+        class="mail-detail-splitter"
+        orientation="vertical"
+        height="100%"
+        variant="plain"
+        ariaLabel="Message detail sections"
+      &gt;
+        &lt;aeris-splitter-panel ariaLabel="Message body" [size]="64"&gt;
+          &lt;div class="mail-pane"&gt;
+            &lt;strong&gt;Message body&lt;/strong
+            &gt;&lt;span&gt;Review the latest component audit and screenshots.&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/aeris-splitter-panel&gt;
+        &lt;aeris-splitter-panel ariaLabel="Thread notes" [size]="36"&gt;
+          &lt;div class="mail-pane"&gt;
+            &lt;strong&gt;Thread notes&lt;/strong
+            &gt;&lt;span&gt;Three linked tasks and two approvals.&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/aeris-splitter-panel&gt;
+      &lt;/aeris-splitter&gt;
+    &lt;/aeris-splitter-panel&gt;
+  &lt;/aeris-splitter&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="splitter-variants"
+              title="Variants"
+              description="Match surrounding surfaces with outlined, filled, or plain variants."
+              [cssCode]="variantCssCode + '\n\n' + paneCssCode"
+            >
+              <div preview>
+                <div class="splitter-grid">
+                  <aeris-splitter height="9rem" ariaLabel="Outlined splitter">
+                    <aeris-splitter-panel
+                      ><div class="splitter-pane">
+                        <strong>Outlined</strong><span>Default border.</span>
+                      </div></aeris-splitter-panel
+                    >
+                    <aeris-splitter-panel
+                      ><div class="splitter-pane">
+                        <strong>Panel</strong><span>Resizable.</span>
+                      </div></aeris-splitter-panel
+                    >
+                  </aeris-splitter>
+                  <aeris-splitter height="9rem" variant="filled" ariaLabel="Filled splitter">
+                    <aeris-splitter-panel
+                      ><div class="splitter-pane">
+                        <strong>Filled</strong><span>Soft surface.</span>
+                      </div></aeris-splitter-panel
+                    >
+                    <aeris-splitter-panel
+                      ><div class="splitter-pane">
+                        <strong>Panel</strong><span>Resizable.</span>
+                      </div></aeris-splitter-panel
+                    >
+                  </aeris-splitter>
+                  <aeris-splitter height="9rem" variant="plain" ariaLabel="Plain splitter">
+                    <aeris-splitter-panel
+                      ><div class="splitter-pane">
+                        <strong>Plain</strong><span>No outer border.</span>
+                      </div></aeris-splitter-panel
+                    >
+                    <aeris-splitter-panel
+                      ><div class="splitter-pane">
+                        <strong>Panel</strong><span>Resizable.</span>
+                      </div></aeris-splitter-panel
+                    >
+                  </aeris-splitter>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="splitter-grid"&gt;
+    &lt;aeris-splitter height="9rem" ariaLabel="Outlined splitter"&gt;
+      &lt;aeris-splitter-panel
+        &gt;&lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Outlined&lt;/strong&gt;&lt;span&gt;Default border.&lt;/span&gt;
+        &lt;/div&gt;&lt;/aeris-splitter-panel
+      &gt;
+      &lt;aeris-splitter-panel
+        &gt;&lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Panel&lt;/strong&gt;&lt;span&gt;Resizable.&lt;/span&gt;
+        &lt;/div&gt;&lt;/aeris-splitter-panel
+      &gt;
+    &lt;/aeris-splitter&gt;
+    &lt;aeris-splitter height="9rem" variant="filled" ariaLabel="Filled splitter"&gt;
+      &lt;aeris-splitter-panel
+        &gt;&lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Filled&lt;/strong&gt;&lt;span&gt;Soft surface.&lt;/span&gt;
+        &lt;/div&gt;&lt;/aeris-splitter-panel
+      &gt;
+      &lt;aeris-splitter-panel
+        &gt;&lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Panel&lt;/strong&gt;&lt;span&gt;Resizable.&lt;/span&gt;
+        &lt;/div&gt;&lt;/aeris-splitter-panel
+      &gt;
+    &lt;/aeris-splitter&gt;
+    &lt;aeris-splitter height="9rem" variant="plain" ariaLabel="Plain splitter"&gt;
+      &lt;aeris-splitter-panel
+        &gt;&lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Plain&lt;/strong&gt;&lt;span&gt;No outer border.&lt;/span&gt;
+        &lt;/div&gt;&lt;/aeris-splitter-panel
+      &gt;
+      &lt;aeris-splitter-panel
+        &gt;&lt;div class="splitter-pane"&gt;
+          &lt;strong&gt;Panel&lt;/strong&gt;&lt;span&gt;Resizable.&lt;/span&gt;
+        &lt;/div&gt;&lt;/aeris-splitter-panel
+      &gt;
+    &lt;/aeris-splitter&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="splitter-tokens"
+              title="Token customization"
+              description="Use component tokens to tune the surface, handle, gutter, and panel spacing."
+              [cssCode]="tokenCssCode + '\n\n' + paneCssCode"
+            >
+              <div preview>
+                <aeris-splitter
+                  class="brand-splitter"
+                  height="14rem"
+                  divider="line"
+                  ariaLabel="Custom themed splitter"
+                >
+                  <aeris-splitter-panel ariaLabel="Primary panel" [size]="38">
+                    <div class="splitter-pane">
+                      <strong>Branded surface</strong
+                      ><span>Custom border, radius, and handle.</span>
+                    </div>
+                  </aeris-splitter-panel>
+                  <aeris-splitter-panel ariaLabel="Secondary panel" [size]="62">
+                    <div class="splitter-pane">
+                      <strong>Resizable panel</strong
+                      ><span>The tokens follow palette and theme changes.</span>
+                    </div>
+                  </aeris-splitter-panel>
+                </aeris-splitter>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-splitter
+    class="brand-splitter"
+    height="14rem"
+    divider="line"
+    ariaLabel="Custom themed splitter"
+  &gt;
+    &lt;aeris-splitter-panel ariaLabel="Primary panel" [size]="38"&gt;
+      &lt;div class="splitter-pane"&gt;
+        &lt;strong&gt;Branded surface&lt;/strong
+        &gt;&lt;span&gt;Custom border, radius, and handle.&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+    &lt;aeris-splitter-panel ariaLabel="Secondary panel" [size]="62"&gt;
+      &lt;div class="splitter-pane"&gt;
+        &lt;strong&gt;Resizable panel&lt;/strong
+        &gt;&lt;span&gt;The tokens follow palette and theme changes.&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/aeris-splitter-panel&gt;
+  &lt;/aeris-splitter&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc title="On this page" ariaLabel="Splitter features" [links]="featureLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="splitter-api-inputs" class="api-section">
+              <h3>Splitter inputs</h3>
+              <div class="api-table" role="table" aria-label="Splitter inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of splitterInputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+
+              <h3>Panel inputs</h3>
+              <div class="api-table" role="table" aria-label="Splitter panel inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of panelInputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="splitter-api-models" class="api-section">
+              <h3>Models</h3>
+              <div class="api-table" role="table" aria-label="Splitter models">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of models; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="splitter-api-outputs" class="api-section">
+              <h3>Outputs</h3>
+              <div class="api-table" role="table" aria-label="Splitter outputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Payload</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of outputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="splitter-api-content" class="api-section">
+              <h3>Content</h3>
+              <div class="api-table" role="table" aria-label="Splitter content">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of content; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="splitter-api-methods" class="api-section">
+              <h3>Methods</h3>
+              <div class="api-table" role="table" aria-label="Splitter methods">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Signature</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of methods; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+
+          <app-page-toc title="API sections" ariaLabel="Splitter API" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="api-table token-table" role="table" aria-label="Splitter design tokens">
+          <div role="row">
+            <span role="columnheader">Token</span><span role="columnheader">Purpose</span
+            ><span role="columnheader">Default</span>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-background</code
+            ><span role="cell">Root surface.</span><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-color</code><span role="cell">Root text color.</span
+            ><code role="cell">--aeris-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-border</code
+            ><span role="cell">Root border color.</span><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-border-width</code
+            ><span role="cell">Root border thickness.</span><code role="cell">1px</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-radius</code
+            ><span role="cell">Root corner radius.</span><code role="cell">--aeris-radius-lg</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-shadow</code><span role="cell">Root elevation.</span
+            ><code role="cell">none</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-filled-background</code
+            ><span role="cell">Filled variant surface.</span><code role="cell">surface mix</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-panel-background</code
+            ><span role="cell">Panel surface.</span><code role="cell">transparent</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-panel-color</code
+            ><span role="cell">Panel text color.</span><code role="cell">--aeris-text-2</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-panel-padding</code
+            ><span role="cell">Panel padding.</span><code role="cell">1rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-gutter-size</code
+            ><span role="cell">Default gutter thickness.</span><code role="cell">0.75rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-gutter-background</code
+            ><span role="cell">Idle gutter surface.</span><code role="cell">transparent</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-gutter-hover-background</code
+            ><span role="cell">Hover, focus, and drag gutter surface.</span
+            ><code role="cell">primary mix</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-divider-color</code
+            ><span role="cell">Full divider line color.</span><code role="cell">border mix</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-divider-thickness</code
+            ><span role="cell">Full divider line thickness.</span><code role="cell">1px</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-handle-color</code
+            ><span role="cell">Idle handle color.</span><code role="cell">text mix</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-handle-hover-color</code
+            ><span role="cell">Hover, focus, and drag handle color.</span
+            ><code role="cell">--aeris-primary-text</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-handle-length</code
+            ><span role="cell">Visible handle length.</span><code role="cell">2rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-handle-thickness</code
+            ><span role="cell">Visible handle thickness.</span><code role="cell">0.1875rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-splitter-focus-ring</code
+            ><span role="cell">Keyboard focus ring.</span><code role="cell">--aeris-focus</code>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul class="accessibility-list">
+          <li>
+            Splitter renders each handle with <code>role="separator"</code>,
+            <code>aria-orientation</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code>,
+            and <code>aria-valuenow</code>.
+          </li>
+          <li>Handles reference the adjacent panels with <code>aria-controls</code>.</li>
+          <li>
+            Pointer resizing and keyboard resizing update the same controlled
+            <code>sizes</code> model and emit the same resize event payload.
+          </li>
+          <li>
+            Keyboard resizing uses a predictable percentage step instead of animation so each key
+            press has a clear, announced value change. Adjust <code>step</code> for finer or larger
+            increments.
+          </li>
+          <li>
+            Disabled splitters and non-resizable adjacent panels expose disabled separators and do
+            not resize.
+          </li>
+          <li>
+            Use <code>ariaLabel</code> or <code>ariaLabelledBy</code> when the splitter is a
+            meaningful region or group.
+          </li>
+          <li>
+            Motion is limited to subtle color transitions and respects reduced-motion preferences.
+          </li>
+        </ul>
+        <div class="api-table keyboard-table" role="table" aria-label="Splitter keyboard support">
+          <div role="row">
+            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab</kbd
+            ><span role="cell"
+              >Moves focus to resize separators and projected interactive content.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Arrow Left</kbd
+            ><span role="cell"
+              >Shrinks the panel before a horizontal separator by <code>step</code>.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Arrow Right</kbd
+            ><span role="cell"
+              >Expands the panel before a horizontal separator by <code>step</code>.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Arrow Up</kbd
+            ><span role="cell"
+              >Shrinks the panel before a vertical separator by <code>step</code>.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Arrow Down</kbd
+            ><span role="cell"
+              >Expands the panel before a vertical separator by <code>step</code>.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Home</kbd
+            ><span role="cell">Moves the separator to the minimum allowed value.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">End</kbd
+            ><span role="cell">Moves the separator to the maximum allowed value.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Escape</kbd><span role="cell">No built-in behavior.</span>
+          </div>
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>
