@@ -27,7 +27,15 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
     version: 'Unreleased',
     date: 'In development',
     status: 'Next release',
-    changes: ['No consumer-visible changes have been recorded since the initial alpha release.'],
+    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.1.'],
+  },
+  {
+    version: '22.0.0-alpha.1',
+    date: '23 July 2026',
+    status: 'Alpha patch',
+    changes: [
+      'Prevent touch taps from leaving Aeris buttons in a persistent hover appearance while preserving active press feedback, pointer hover, and keyboard focus visibility.',
+    ],
   },
   {
     version: '22.0.0-alpha.0',

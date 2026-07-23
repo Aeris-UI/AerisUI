@@ -7,7 +7,7 @@ describe('CodeBlockComponent', () => {
     {
       language: 'Shell',
       label: 'Pinned alpha (recommended)',
-      code: 'npm install @aeris-ui/core@22.0.0-alpha.0',
+      code: 'npm install @aeris-ui/core@22.0.0-alpha.1',
     },
     {
       language: 'Shell',

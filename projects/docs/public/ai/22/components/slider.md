@@ -2,7 +2,7 @@
 
 > Single and range value selection with pointer, touch, and complete keyboard support.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/slider`
 - Human-readable documentation: [https://aeris-ui.dev/components/slider](https://aeris-ui.dev/components/slider)

@@ -6,7 +6,7 @@ tests, documentation application, design lab, and release tooling so implementat
 evolve together.
 
 > **Alpha software:** Aeris UI is under active development and is not production ready. The
-> current `22.0.0-alpha.0` version may introduce breaking API, styling, and behavior changes before
+> current `22.0.0-alpha.1` version may introduce breaking API, styling, and behavior changes before
 > the first stable release. Pin prerelease versions exactly and review the changelog when updating.
 
 Explore the components, guides, and Design Lab at [aeris-ui.dev](https://www.aeris-ui.dev/).
@@ -112,7 +112,7 @@ access at runtime.
   "mcpServers": {
     "aeris": {
       "command": "npx",
-      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.0"]
+      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.1"]
     }
   }
 }
@@ -128,7 +128,7 @@ Install the exact prerelease version during alpha. A consumer application import
 points it needs:
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.0
+ng add @aeris-ui/core@22.0.0-alpha.1
 ```
 
 The Angular initializer supports interactive setup, a schema-backed `aeris.setup.json`, custom

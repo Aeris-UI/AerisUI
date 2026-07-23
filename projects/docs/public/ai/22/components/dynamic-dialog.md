@@ -2,7 +2,7 @@
 
 > Service-created dialog shell that renders any Angular component as dynamic content.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/dynamic-dialog`
 - Human-readable documentation: [https://aeris-ui.dev/components/dynamic-dialog](https://aeris-ui.dev/components/dynamic-dialog)

@@ -21,7 +21,7 @@ After installing the package, configure an MCP-compatible client to launch:
   "mcpServers": {
     "aeris": {
       "command": "npx",
-      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.0"]
+      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.1"]
     }
   }
 }

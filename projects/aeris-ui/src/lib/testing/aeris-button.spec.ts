@@ -15,7 +15,9 @@ import { AerisButton } from '../../../button/aeris-button';
       rounded
       fluid
       loading
-    >Save</button>
+    >
+      Save
+    </button>
     <button aerisButton iconOnly aria-label="Add item">+</button>
     <button aerisButton iconPosition="right">
       Continue
@@ -25,18 +27,12 @@ import { AerisButton } from '../../../button/aeris-button';
     <button aerisButton text outlined link>Compatibility</button>
     <a aerisButton variant="outline" href="/guide">Guide</a>
     <button aerisButton severity="info" data-testid="info-severity">Info</button>
-    <button
-      aerisButton
-      variant="outline"
-      severity="warning"
-      data-testid="warning-outline"
-    >Warning outline</button>
-    <button
-      aerisButton
-      variant="ghost"
-      severity="danger"
-      data-testid="danger-ghost"
-    >Danger ghost</button>
+    <button aerisButton variant="outline" severity="warning" data-testid="warning-outline">
+      Warning outline
+    </button>
+    <button aerisButton variant="ghost" severity="danger" data-testid="danger-ghost">
+      Danger ghost
+    </button>
 
     <aeris-button
       label="Create"
@@ -46,9 +42,9 @@ import { AerisButton } from '../../../button/aeris-button';
       [tabIndex]="2"
       raised
       rounded
-      (clicked)="clicks.update(value => value + 1)"
-      (focused)="focuses.update(value => value + 1)"
-      (blurred)="blurs.update(value => value + 1)"
+      (clicked)="clicks.update((value) => value + 1)"
+      (focused)="focuses.update((value) => value + 1)"
+      (blurred)="blurs.update((value) => value + 1)"
     />
 
     <aeris-button
@@ -64,22 +60,11 @@ import { AerisButton } from '../../../button/aeris-button';
       fluid
     />
 
-    <aeris-button
-      label="Continue"
-      iconPosition="right"
-      [iconTemplate]="icon"
-    />
+    <aeris-button label="Continue" iconPosition="right" [iconTemplate]="icon" />
 
-    <aeris-button
-      label="Saving"
-      loading
-      [loadingIconTemplate]="loadingIcon"
-    />
+    <aeris-button label="Saving" loading [loadingIconTemplate]="loadingIcon" />
 
-    <aeris-button
-      loading
-      [contentTemplate]="content"
-    />
+    <aeris-button loading [contentTemplate]="content" />
 
     <ng-template #icon let-loading="loading">
       <svg data-testid="template-icon" [attr.data-loading]="loading"></svg>
@@ -135,6 +120,20 @@ describe('AerisButton', () => {
     expect(successStyles.getPropertyValue('--_aeris-button-hover-fill')).not.toBe(
       infoStyles.getPropertyValue('--_aeris-button-hover-fill'),
     );
+  });
+
+  it('limits hover visuals to devices with a precise hover pointer', async () => {
+    const fixture = TestBed.createComponent(ButtonTestHost);
+    await fixture.whenStable();
+
+    const styleText = Array.from(document.querySelectorAll('style'))
+      .map((style) => style.textContent ?? '')
+      .join('\n');
+    const hoverMedia = styleText.search(/@media\s*\(hover:\s*hover\)\s*and\s*\(pointer:\s*fine\)/);
+    const primaryHover = styleText.search(/\.aeris-button--primary[^{,]*:hover/);
+
+    expect(hoverMedia).toBeGreaterThanOrEqual(0);
+    expect(primaryHover).toBeGreaterThan(hoverMedia);
   });
 
   it('uses tone-specific foreground and soft-state tokens for outline and ghost variants', async () => {
@@ -201,17 +200,15 @@ describe('AerisButton', () => {
     const content = button.querySelector('.aeris-button__content') as HTMLElement;
 
     expect(content.textContent).toContain('Continue');
-    expect(content.lastElementChild?.getAttribute('data-testid')).toBe(
-      'right-icon',
-    );
+    expect(content.lastElementChild?.getAttribute('data-testid')).toBe('right-icon');
   });
 
   it('applies compatibility variant flags with documented precedence', async () => {
     const fixture = TestBed.createComponent(ButtonTestHost);
     await fixture.whenStable();
 
-    const button = [...fixture.nativeElement.querySelectorAll('button')].find(
-      (element) => element.textContent?.includes('Compatibility'),
+    const button = [...fixture.nativeElement.querySelectorAll('button')].find((element) =>
+      element.textContent?.includes('Compatibility'),
     ) as HTMLButtonElement;
 
     expect(button.classList).toContain('aeris-button--link');
@@ -221,9 +218,7 @@ describe('AerisButton', () => {
     const fixture = TestBed.createComponent(ButtonTestHost);
     await fixture.whenStable();
 
-    const link = fixture.nativeElement.querySelector(
-      'a[aerisButton]',
-    ) as HTMLAnchorElement;
+    const link = fixture.nativeElement.querySelector('a[aerisButton]') as HTMLAnchorElement;
 
     expect(link.getAttribute('href')).toBe('/guide');
     expect(link.classList).toContain('aeris-button--outline');
@@ -244,9 +239,7 @@ describe('AerisButton', () => {
     expect(wrapperButton.tabIndex).toBe(2);
     expect(wrapperButton.getAttribute('data-raised')).toBe('true');
     expect(wrapperButton.getAttribute('data-rounded')).toBe('true');
-    expect(
-      wrapperButton.querySelector('[data-severity="warning"]'),
-    ).not.toBeNull();
+    expect(wrapperButton.querySelector('[data-severity="warning"]')).not.toBeNull();
 
     wrapperButton.click();
     wrapperButton.dispatchEvent(new FocusEvent('focus'));
@@ -262,17 +255,13 @@ describe('AerisButton', () => {
     const fixture = TestBed.createComponent(ButtonTestHost);
     await fixture.whenStable();
 
-    const wrapperButton = [...fixture.nativeElement.querySelectorAll(
-      'aeris-button button',
-    )].find((button) => button.textContent?.includes('Continue')) as HTMLButtonElement;
-    const content = wrapperButton.querySelector(
-      '.aeris-button__content',
-    ) as HTMLElement;
+    const wrapperButton = [...fixture.nativeElement.querySelectorAll('aeris-button button')].find(
+      (button) => button.textContent?.includes('Continue'),
+    ) as HTMLButtonElement;
+    const content = wrapperButton.querySelector('.aeris-button__content') as HTMLElement;
 
     expect(content.firstElementChild?.textContent).toContain('Continue');
-    expect(content.lastElementChild?.getAttribute('data-testid')).toBe(
-      'template-icon',
-    );
+    expect(content.lastElementChild?.getAttribute('data-testid')).toBe('template-icon');
   });
 
   it('forwards the complete documented wrapper styling contract', async () => {

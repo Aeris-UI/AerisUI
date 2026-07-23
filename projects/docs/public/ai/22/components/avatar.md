@@ -2,7 +2,7 @@
 
 > Represent people and entities with images, initials, icons, fallbacks, theme-aware tones, and responsive groups.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/avatar`
 - Human-readable documentation: [https://aeris-ui.dev/components/avatar](https://aeris-ui.dev/components/avatar)

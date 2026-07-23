@@ -7,7 +7,7 @@ const documentation = {
   schemaVersion: 1,
   library: {
     name: '@aeris-ui/core',
-    version: '22.0.0-alpha.0',
+    version: '22.0.0-alpha.1',
     status: 'alpha',
     angularPeerRange: '>=22 <23',
     documentationUrl: 'https://aeris-ui.dev',

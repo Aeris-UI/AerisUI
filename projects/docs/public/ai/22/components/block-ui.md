@@ -2,7 +2,7 @@
 
 > Temporarily block a content region or the full viewport with a dark interaction-blocking layer.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/block-ui`
 - Human-readable documentation: [https://aeris-ui.dev/components/block-ui](https://aeris-ui.dev/components/block-ui)

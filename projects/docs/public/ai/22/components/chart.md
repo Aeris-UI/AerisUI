@@ -2,7 +2,7 @@
 
 > Chart.js-powered data visualization with responsive rendering, theme-aware defaults, and accessible summaries.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/chart`
 - Human-readable documentation: [https://aeris-ui.dev/components/chart](https://aeris-ui.dev/components/chart)

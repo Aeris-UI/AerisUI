@@ -2,7 +2,7 @@
 
 > Target-relative confirmation popup with service prompts, trigger ARIA state, templates, and explicit outcomes.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/confirm-popup`
 - Human-readable documentation: [https://aeris-ui.dev/components/confirm-popup](https://aeris-ui.dev/components/confirm-popup)

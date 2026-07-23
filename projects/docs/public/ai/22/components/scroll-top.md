@@ -2,7 +2,7 @@
 
 > Floating action that returns long pages to the top with accessible controls.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/scroll-top`
 - Human-readable documentation: [https://aeris-ui.dev/components/scroll-top](https://aeris-ui.dev/components/scroll-top)

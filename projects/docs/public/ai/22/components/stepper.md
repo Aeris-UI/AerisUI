@@ -2,7 +2,7 @@
 
 > Multi-step workflow navigation with controlled state, linear progression, templates, and keyboard support.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/stepper`
 - Human-readable documentation: [https://aeris-ui.dev/components/stepper](https://aeris-ui.dev/components/stepper)
