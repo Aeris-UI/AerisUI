@@ -14,41 +14,48 @@ export interface CodeSource {
   imports: [LucideDynamicIcon],
   template: `
     <div class="code-block">
-      <div class="code-block__toolbar" role="tablist" aria-label="Code language">
-        @for (source of availableSources(); track source.label) {
-          <button
-            type="button"
-            role="tab"
-            [id]="blockId + '-tab-' + source.label"
-            [attr.aria-selected]="activeLabel() === source.label"
-            [attr.aria-controls]="blockId + '-panel-' + source.label"
-            [attr.tabindex]="activeLabel() === source.label ? 0 : -1"
-            (click)="activeLabel.set(source.label)"
-            (keydown)="handleLanguageKeydown($event, source.label)"
-          >
-            {{ source.label }}
-          </button>
-        }
+      <div class="code-block__header">
+        <div class="code-block__toolbar" role="tablist" aria-label="Code language">
+          @for (source of availableSources(); track source.label) {
+            <button
+              type="button"
+              role="tab"
+              [id]="blockId + '-tab-' + source.label"
+              [attr.aria-selected]="activeLabel() === source.label"
+              [attr.aria-controls]="blockId + '-panel-' + source.label"
+              [attr.tabindex]="activeLabel() === source.label ? 0 : -1"
+              (click)="activeLabel.set(source.label)"
+              (keydown)="handleLanguageKeydown($event, source.label)"
+            >
+              {{ source.label }}
+            </button>
+          }
+        </div>
+        <button
+          class="code-block__copy"
+          type="button"
+          [attr.aria-label]="copied() ? 'Code copied' : 'Copy code'"
+          (click)="copy()"
+        >
+          @if (copied()) {
+            <svg [lucideIcon]="icons.Check"></svg>
+            <span class="code-block__copy-label">Copied</span>
+          } @else {
+            <svg [lucideIcon]="icons.Copy"></svg>
+            <span class="code-block__copy-label">Copy</span>
+          }
+        </button>
       </div>
       <pre
         role="tabpanel"
+        tabindex="0"
         [id]="blockId + '-panel-' + activeSource().label"
         [attr.aria-labelledby]="blockId + '-tab-' + activeSource().label"
+        [attr.aria-description]="
+          'Scroll horizontally to view long ' + activeSource().label + ' lines.'
+        "
       ><code>{{ activeSource().code }}</code></pre>
-      <button
-        class="code-block__copy"
-        type="button"
-        [attr.aria-label]="copied() ? 'Code copied' : 'Copy code'"
-        (click)="copy()"
-      >
-        @if (copied()) {
-          <svg [lucideIcon]="icons.Check"></svg>
-          Copied
-        } @else {
-          <svg [lucideIcon]="icons.Copy"></svg>
-          Copy
-        }
-      </button>
+      <span class="code-block__mobile-hint" aria-hidden="true">Swipe sideways for long lines</span>
       <span class="visually-hidden" aria-live="polite">
         {{ copied() ? 'Code copied to clipboard.' : '' }}
       </span>

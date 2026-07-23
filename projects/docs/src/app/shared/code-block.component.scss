@@ -5,7 +5,6 @@
 }
 
 .code-block {
-  position: relative;
   min-width: 0;
   max-width: 100%;
   border: 1px solid var(--border);
@@ -14,15 +13,26 @@
   overflow: hidden;
 }
 
+.code-block__header {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
 .code-block__toolbar {
+  min-width: 0;
   min-height: 2.75rem;
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.375rem 4.75rem 0.375rem 0.5rem;
-  border-bottom: 1px solid var(--border);
+  padding: 0.375rem 0.25rem 0.375rem 0.5rem;
   overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  overscroll-behavior-block: auto;
   scrollbar-width: none;
+  touch-action: pan-x pan-y;
 }
 
 .code-block__toolbar::-webkit-scrollbar {
@@ -30,6 +40,7 @@
 }
 
 .code-block__toolbar button {
+  flex: 0 0 auto;
   min-height: 1.9rem;
   padding: 0 0.7rem;
   border: 1px solid transparent;
@@ -39,6 +50,7 @@
   font: inherit;
   font-size: 0.75rem;
   font-weight: 700;
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -59,14 +71,12 @@
 }
 
 .code-block__copy {
-  position: absolute;
-  z-index: 2;
-  top: 0.5rem;
-  right: 0.5rem;
   min-height: 2rem;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  margin-block: 0.375rem;
+  margin-inline-end: 0.5rem;
   padding: 0 0.65rem;
   border: 1px solid transparent;
   border-radius: 0.45rem;
@@ -95,12 +105,59 @@ pre {
   padding: 1.125rem 1.25rem 1.25rem;
   max-height: var(--docs-code-block-max-height, min(34rem, 68vh));
   overflow: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior-inline: contain;
+  overscroll-behavior-block: auto;
+  touch-action: pan-x pan-y;
+}
+
+pre:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
 }
 
 code {
   color: var(--text);
-  font: 0.8125rem/1.75 ui-monospace, SFMono-Regular, Consolas, monospace;
+  font:
+    0.8125rem/1.75 ui-monospace,
+    SFMono-Regular,
+    Consolas,
+    monospace;
   tab-size: 2;
   white-space: pre;
+}
+
+.code-block__mobile-hint {
+  display: none;
+}
+
+@media (max-width: 40rem) {
+  .code-block__copy {
+    width: 2.25rem;
+    min-width: 2.25rem;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .code-block__copy-label {
+    display: none;
+  }
+
+  pre {
+    max-height: none;
+    padding: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .code-block__mobile-hint {
+    min-height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.25rem 0.75rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-3);
+    font-size: 0.6875rem;
+    font-weight: 600;
+  }
 }

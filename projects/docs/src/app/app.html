@@ -21,7 +21,7 @@
       <span class="docs-brand__mark" aria-hidden="true">
         <aeris-logo-mark />
       </span>
-      <span>Aeris <strong>UI</strong></span>
+      <span class="docs-brand__name">Aeris <strong>UI</strong></span>
       <span class="docs-version">v{{ currentVersion }}</span>
     </a>
     <span class="docs-alpha-status" aria-label="Alpha software. Not production ready">
@@ -30,13 +30,14 @@
     </span>
   </div>
 
-  <div aerisToolbarCenter>
+  <div aerisToolbarCenter class="docs-header__search">
     <button
       aerisButton
       data-docs-search
       type="button"
       variant="secondary"
       size="sm"
+      aria-label="Search documentation"
       (click)="searchOpen.set(true)"
     >
       <span class="docs-search-content">
