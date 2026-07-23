@@ -82,28 +82,6 @@
   color: color-mix(in srgb, var(--aeris-warning, #c38600) 72%, var(--text));
   text-transform: uppercase;
 }
-button[data-docs-search] {
-  width: min(520px, 38vw);
-  justify-content: flex-start;
-  text-align: start;
-}
-.docs-search-content {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-.docs-search-label {
-  flex: 1;
-}
-button[data-docs-search] kbd {
-  padding: 2px 6px;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  background: var(--surface-2);
-  font: inherit;
-  font-size: 9px;
-}
 .docs-header__nav {
   justify-content: flex-end;
   gap: 6px;
@@ -352,6 +330,7 @@ button[data-docs-search] kbd {
 }
 button[data-docs-menu] {
   display: none;
+  flex: 0 0 auto;
   margin-inline-end: 4px;
 }
 .docs-layout {
@@ -610,6 +589,8 @@ button[data-docs-menu] {
   }
   button[data-docs-menu] {
     display: inline-flex;
+    width: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
+    min-width: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
   }
   .docs-sidebar {
     display: none;
@@ -622,10 +603,6 @@ button[data-docs-menu] {
   .docs-header {
     --aeris-toolbar-padding-inline-sm: 12px;
     --aeris-toolbar-gap-sm: 5px;
-  }
-  button[data-docs-search] .docs-search-label,
-  button[data-docs-search] kbd {
-    display: none;
   }
   .docs-version,
   .docs-alpha-status > span {
