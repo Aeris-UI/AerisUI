@@ -7,7 +7,14 @@ release line.
 
 ## [Unreleased]
 
-No consumer-visible changes have been recorded since the initial alpha release.
+No consumer-visible changes have been recorded since 22.0.0-alpha.1.
+
+## [22.0.0-alpha.1] - 2026-07-23
+
+### Fixed
+
+- Prevent touch taps from leaving buttons in a persistent hover appearance while preserving active
+  press feedback, pointer hover, and keyboard focus visibility.
 
 ## [22.0.0-alpha.0] - 2026-07-22
 
@@ -35,4 +42,6 @@ No consumer-visible changes have been recorded since the initial alpha release.
 - Align the published Lexical peer range with the version Aeris uses and declare the required
   Angular platform-browser and RxJS peers.
 
-[Unreleased]: https://github.com/Aeris-UI/AerisUI/commits/main
+[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.1...HEAD
+[22.0.0-alpha.1]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.0...v22.0.0-alpha.1
+[22.0.0-alpha.0]: https://github.com/Aeris-UI/AerisUI/releases/tag/v22.0.0-alpha.0

@@ -2,7 +2,7 @@
 
 > Chronological event display with responsive orientation, progress, alignment, and templates.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/timeline`
 - Human-readable documentation: [https://aeris-ui.dev/components/timeline](https://aeris-ui.dev/components/timeline)

@@ -1,4 +1,4 @@
-export const AERIS_UI_VERSION = '22.0.0-alpha.0';
+export const AERIS_UI_VERSION = '22.0.0-alpha.1';
 
 export {
   boundarySelectValue,

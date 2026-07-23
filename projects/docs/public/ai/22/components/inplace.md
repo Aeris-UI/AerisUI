@@ -2,7 +2,7 @@
 
 > Switch between a compact display and lazily rendered content with controlled state and accessible focus management.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/inplace`
 - Human-readable documentation: [https://aeris-ui.dev/components/inplace](https://aeris-ui.dev/components/inplace)

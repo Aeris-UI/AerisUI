@@ -1,6 +1,6 @@
 {
   "name": "@aeris-ui/mcp",
-  "version": "22.0.0-alpha.0",
+  "version": "22.0.0-alpha.1",
   "description": "Local read-only MCP server for Aeris UI documentation and examples.",
   "license": "MIT",
   "type": "module",

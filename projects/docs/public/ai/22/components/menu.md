@@ -2,7 +2,7 @@
 
 > Vertical command and navigation menu with grouped items, popup mode, controlled expansion, templates, commands, and links.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/menu`
 - Human-readable documentation: [https://aeris-ui.dev/components/menu](https://aeris-ui.dev/components/menu)

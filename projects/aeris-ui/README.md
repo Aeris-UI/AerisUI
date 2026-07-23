@@ -13,7 +13,7 @@ The package is available on npm as [`@aeris-ui/core`](https://www.npmjs.com/pack
 Use the Angular initializer for guided or reproducible setup:
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.0
+ng add @aeris-ui/core@22.0.0-alpha.1
 ```
 
 It configures an application project, theme or custom palette seeds, built-in density and corners,
@@ -21,7 +21,7 @@ light/dark support, runtime or build-time theming, mode persistence, initial dir
 and framework detection. Use a schema-backed setup file for repeatable installation:
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.0 --config=aeris.setup.json
+ng add @aeris-ui/core@22.0.0-alpha.1 --config=aeris.setup.json
 ```
 
 ```json

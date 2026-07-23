@@ -2,7 +2,7 @@
 
 > Continuous grouped inputs with text addons, icon addons, and action buttons.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/input-group`
 - Human-readable documentation: [https://aeris-ui.dev/components/input-group](https://aeris-ui.dev/components/input-group)

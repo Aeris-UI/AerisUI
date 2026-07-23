@@ -3,7 +3,7 @@
   "schemaVersion": 1,
   "library": {
     "name": "@aeris-ui/core",
-    "version": "22.0.0-alpha.0",
+    "version": "22.0.0-alpha.1",
     "status": "alpha",
     "angularPeerRange": ">=22.0.6 <23.0.0",
     "documentationUrl": "https://aeris-ui.dev",
@@ -62,7 +62,7 @@
           "id": "alpha-status",
           "title": "Alpha status",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.0 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
+            "Aeris 22.0.0-alpha.1 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
             "Public APIs, styling contracts, component behavior, and migration requirements may change before the first stable release as consumer testing uncovers improvements."
           ],
           "bullets": [
@@ -98,7 +98,7 @@
             {
               "label": "Pinned alpha (recommended)",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.0"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.1"
             },
             {
               "label": "Newest alpha",
@@ -108,7 +108,7 @@
             {
               "label": "Repository tarball",
               "language": "Shell",
-              "code": "# Run from the Aeris repository\nnpm run pack:lib\n\n# Run from the Angular application\nng add \"../path-to-aeris/dist/packages/aeris-ui-core-22.0.0-alpha.0.tgz\""
+              "code": "# Run from the Aeris repository\nnpm run pack:lib\n\n# Run from the Angular application\nng add \"../path-to-aeris/dist/packages/aeris-ui-core-22.0.0-alpha.1.tgz\""
             }
           ],
           "note": "Pill applies only where fully rounded geometry is appropriate. Structural surfaces such as tables, editors, textareas, and large panels retain suitable corners.",
@@ -222,7 +222,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.0 --config=aeris.setup.json"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.1 --config=aeris.setup.json"
             }
           ]
         },
@@ -237,7 +237,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.0 --project=web --surface=\"#dfe8ee\" --primary=\"#7196b4\" --secondary=\"#6d9992\" --accent=\"#d8ad70\" --contrast=\"#31536a\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.1 --project=web --surface=\"#dfe8ee\" --primary=\"#7196b4\" --secondary=\"#6d9992\" --accent=\"#d8ad70\" --contrast=\"#31536a\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
             },
             {
               "label": "aeris.setup.json",
@@ -258,7 +258,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.0"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.1"
             }
           ]
         },
@@ -1803,7 +1803,7 @@
           "bullets": [
             "Node.js 20 or newer for the local MCP process.",
             "An AI editor, CLI, or desktop application that supports local stdio MCP servers.",
-            "Use @aeris-ui/mcp 22.0.0-alpha.0 with @aeris-ui/core 22.0.0-alpha.0.",
+            "Use @aeris-ui/mcp 22.0.0-alpha.1 with @aeris-ui/core 22.0.0-alpha.1.",
             "Restart or reload the AI client after changing its MCP configuration."
           ],
           "note": "Pin the MCP and core packages to the same exact alpha version."
@@ -1819,7 +1819,7 @@
             {
               "label": "Generic MCP client configuration",
               "language": "JSON",
-              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.0\"]\n    }\n  }\n}"
+              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.1\"]\n    }\n  }\n}"
             }
           ],
           "note": "Do not add @aeris-ui/mcp to the Angular application dependencies. It belongs in the AI client configuration, not application source or runtime code.",
@@ -2308,7 +2308,7 @@
       "group": "Releases and updates",
       "title": "Version compatibility",
       "description": "Choose an Aeris release line that is verified for the Angular version used by your application.",
-      "summary": "The current package is Aeris 22.0.0-alpha.0, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
+      "summary": "The current package is Aeris 22.0.0-alpha.1, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
       "sections": [
         {
           "id": "matrix",
@@ -2346,7 +2346,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm view @aeris-ui/core@22.0.0-alpha.0 peerDependencies"
+              "code": "npm view @aeris-ui/core@22.0.0-alpha.1 peerDependencies"
             }
           ]
         },
@@ -2431,7 +2431,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.0"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.1"
             }
           ]
         },
@@ -2445,7 +2445,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.0"
+              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.1"
             }
           ],
           "note": "The commands show the currently supported Angular major. Replace the major only after it appears in the compatibility matrix."
@@ -2481,7 +2481,7 @@
           "id": "release-specific",
           "title": "Release-specific migration notes",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.0 begins the Angular-aligned Aeris 22 alpha line. Future prereleases that require consumer changes will add exact before-and-after instructions here."
+            "Aeris 22.0.0-alpha.1 begins the Angular-aligned Aeris 22 alpha line. Future prereleases that require consumer changes will add exact before-and-after instructions here."
           ],
           "note": "A release without an entry in this section has no known manual migration beyond the standard install and verification workflow."
         },
@@ -2551,7 +2551,17 @@
             "Next release · In development"
           ],
           "bullets": [
-            "No consumer-visible changes have been recorded since the initial alpha release."
+            "No consumer-visible changes have been recorded since 22.0.0-alpha.1."
+          ]
+        },
+        {
+          "id": "version-22.0.0-alpha.1",
+          "title": "Aeris 22.0.0-alpha.1",
+          "paragraphs": [
+            "Alpha patch · 23 July 2026"
+          ],
+          "bullets": [
+            "Prevent touch taps from leaving Aeris buttons in a persistent hover appearance while preserving active press feedback, pointer hover, and keyboard focus visibility."
           ]
         },
         {

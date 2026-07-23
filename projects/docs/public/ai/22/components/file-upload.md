@@ -2,7 +2,7 @@
 
 > Accessible file queue with drag-and-drop, validation, templates, previews, and event-driven upload progress.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/file-upload`
 - Human-readable documentation: [https://aeris-ui.dev/components/file-upload](https://aeris-ui.dev/components/file-upload)

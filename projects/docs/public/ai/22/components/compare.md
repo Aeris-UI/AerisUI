@@ -2,7 +2,7 @@
 
 > Reveal differences between images or custom content with controlled, touch, hover, vertical, and keyboard interaction.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/compare`
 - Human-readable documentation: [https://aeris-ui.dev/components/compare](https://aeris-ui.dev/components/compare)

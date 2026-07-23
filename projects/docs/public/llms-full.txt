@@ -1,13 +1,13 @@
 # Aeris UI full documentation
 
-> Complete machine-readable context for Aeris UI 22.0.0-alpha.0, an Angular >=22.0.6 <23.0.0 component library. Aeris is currently alpha software and is not production ready.
+> Complete machine-readable context for Aeris UI 22.0.0-alpha.1, an Angular >=22.0.6 <23.0.0 component library. Aeris is currently alpha software and is not production ready.
 
 This generated document combines the canonical developer guides and every component reference. The source documentation, generated component Markdown, and canonical JSON are validated together during documentation builds.
 
 ## Library contract
 
 - Package: `@aeris-ui/core`
-- Version: `22.0.0-alpha.0`
+- Version: `22.0.0-alpha.1`
 - Angular peer range: `>=22.0.6 <23.0.0`
 - License: MIT
 - Aeris is alpha software and is not production ready.
@@ -35,7 +35,7 @@ Human-readable documentation: [https://aeris-ui.dev/guides/installation](https:/
 
 #### Alpha status
 
-Aeris 22.0.0-alpha.0 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.
+Aeris 22.0.0-alpha.1 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.
 
 Public APIs, styling contracts, component behavior, and migration requirements may change before the first stable release as consumer testing uncovers improvements.
 
@@ -79,7 +79,7 @@ Schemes decide which light and dark token sets are available. Mode decides which
 ##### Pinned alpha (recommended)
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.0
+ng add @aeris-ui/core@22.0.0-alpha.1
 ```
 
 ##### Newest alpha
@@ -95,7 +95,7 @@ ng add @aeris-ui/core@next
 npm run pack:lib
 
 # Run from the Angular application
-ng add "../path-to-aeris/dist/packages/aeris-ui-core-22.0.0-alpha.0.tgz"
+ng add "../path-to-aeris/dist/packages/aeris-ui-core-22.0.0-alpha.1.tgz"
 ```
 
 - [@aeris-ui/core on npm](https://www.npmjs.com/package/@aeris-ui/core)
@@ -166,7 +166,7 @@ The setup file controls installation. Build-time projects also receive aeris.the
 ##### Terminal
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.0 --config=aeris.setup.json
+ng add @aeris-ui/core@22.0.0-alpha.1 --config=aeris.setup.json
 ```
 
 #### Provide palette seeds
@@ -178,7 +178,7 @@ Select Custom in the wizard to enter surface, primary, secondary, accent, and co
 ##### Terminal
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.0 --project=web --surface="#dfe8ee" --primary="#7196b4" --secondary="#6d9992" --accent="#d8ad70" --contrast="#31536a" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
+ng add @aeris-ui/core@22.0.0-alpha.1 --project=web --surface="#dfe8ee" --primary="#7196b4" --secondary="#6d9992" --accent="#d8ad70" --contrast="#31536a" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
 ```
 
 ##### aeris.setup.json
@@ -205,7 +205,7 @@ Install the package directly when a workspace should not be modified by the init
 ##### Terminal
 
 ```bash
-npm install @aeris-ui/core@22.0.0-alpha.0
+npm install @aeris-ui/core@22.0.0-alpha.1
 ```
 
 #### Load the global styles
@@ -1515,7 +1515,7 @@ The server bundles the canonical documentation generated for its exact Aeris ver
 
 - Node.js 20 or newer for the local MCP process.
 - An AI editor, CLI, or desktop application that supports local stdio MCP servers.
-- Use @aeris-ui/mcp 22.0.0-alpha.0 with @aeris-ui/core 22.0.0-alpha.0.
+- Use @aeris-ui/mcp 22.0.0-alpha.1 with @aeris-ui/core 22.0.0-alpha.1.
 - Restart or reload the AI client after changing its MCP configuration.
 
 > Note: Pin the MCP and core packages to the same exact alpha version.
@@ -1535,7 +1535,7 @@ Pin the exact version during alpha so the MCP documentation cannot move independ
   "mcpServers": {
     "aeris": {
       "command": "npx",
-      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.0"]
+      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.1"]
     }
   }
 }
@@ -1832,7 +1832,7 @@ Evaluate SSR applications in a disposable branch, render every component used by
 
 > Choose an Aeris release line that is verified for the Angular version used by your application.
 
-The current package is Aeris 22.0.0-alpha.0, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.
+The current package is Aeris 22.0.0-alpha.1, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.
 
 Human-readable documentation: [https://aeris-ui.dev/guides/version-compatibility](https://aeris-ui.dev/guides/version-compatibility)
 
@@ -1855,7 +1855,7 @@ The npm lookup command becomes available after the first package is published. B
 ##### Shell
 
 ```bash
-npm view @aeris-ui/core@22.0.0-alpha.0 peerDependencies
+npm view @aeris-ui/core@22.0.0-alpha.1 peerDependencies
 ```
 
 #### How Aeris versions are managed
@@ -1919,7 +1919,7 @@ When the compatibility matrix already covers the installed Angular major, update
 ##### Shell
 
 ```bash
-npm install @aeris-ui/core@22.0.0-alpha.0
+npm install @aeris-ui/core@22.0.0-alpha.1
 ```
 
 #### Update Angular and Aeris together
@@ -1932,7 +1932,7 @@ For an Angular major update, use Angular CLI migrations first, then install an A
 
 ```bash
 ng update @angular/core@22 @angular/cli@22
-npm install @aeris-ui/core@22.0.0-alpha.0
+npm install @aeris-ui/core@22.0.0-alpha.1
 ```
 
 #### Keep optional feature peers aligned
@@ -1946,7 +1946,7 @@ Chart and Editor entry points rely on optional peer packages. Update them only w
 
 #### Release-specific migration notes
 
-Aeris 22.0.0-alpha.0 begins the Angular-aligned Aeris 22 alpha line. Future prereleases that require consumer changes will add exact before-and-after instructions here.
+Aeris 22.0.0-alpha.1 begins the Angular-aligned Aeris 22 alpha line. Future prereleases that require consumer changes will add exact before-and-after instructions here.
 
 > Note: A release without an entry in this section has no known manual migration beyond the standard install and verification workflow.
 
@@ -1996,7 +1996,13 @@ Human-readable documentation: [https://aeris-ui.dev/guides/changelog](https://ae
 
 Next release · In development
 
-- No consumer-visible changes have been recorded since the initial alpha release.
+- No consumer-visible changes have been recorded since 22.0.0-alpha.1.
+
+#### Aeris 22.0.0-alpha.1
+
+Alpha patch · 23 July 2026
+
+- Prevent touch taps from leaving Aeris buttons in a persistent hover appearance while preserving active press feedback, pointer hover, and keyboard focus visibility.
 
 #### Aeris 22.0.0-alpha.0
 

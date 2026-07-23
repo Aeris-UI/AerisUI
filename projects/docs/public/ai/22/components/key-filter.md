@@ -2,7 +2,7 @@
 
 > Directive for filtering native text input with presets, custom patterns, and paste handling.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/key-filter`
 - Human-readable documentation: [https://aeris-ui.dev/components/key-filter](https://aeris-ui.dev/components/key-filter)

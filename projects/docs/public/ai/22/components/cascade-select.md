@@ -2,7 +2,7 @@
 
 > Hierarchical selection with cascading columns, templates, and Forms support.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/cascade-select`
 - Human-readable documentation: [https://aeris-ui.dev/components/cascade-select](https://aeris-ui.dev/components/cascade-select)

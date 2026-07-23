@@ -2,7 +2,7 @@
 
 > Pair a primary action with an accessible popup of related commands.
 
-Aeris 22.0.0-alpha.0 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/split-button`
 - Human-readable documentation: [https://aeris-ui.dev/components/split-button](https://aeris-ui.dev/components/split-button)
