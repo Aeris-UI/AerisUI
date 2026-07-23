@@ -103,6 +103,50 @@ svg {
   flex: 1 1 auto;
 }
 
+.docs-header .docs-header__start,
+.docs-header .docs-header__search,
+.docs-header .docs-header__nav,
+.docs-header .docs-brand {
+  min-width: 0;
+}
+
+.docs-header .docs-brand {
+  flex: 0 0 auto;
+}
+
+.docs-header .docs-brand__name {
+  white-space: nowrap;
+}
+
+@media (max-width: 620px) {
+  .docs-header .docs-header__start {
+    flex: 1 1 auto;
+  }
+
+  .docs-header .docs-header__search,
+  .docs-header .docs-header__nav {
+    flex: 0 0 auto;
+  }
+
+  .docs-header button[data-docs-search] {
+    width: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
+    min-width: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  .docs-header button[data-docs-search] .docs-search-content {
+    width: auto;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .docs-header .docs-alpha-status {
+    display: none;
+  }
+}
+
 /* Embedded showcase dialogs keep owned overlays inside the application frame. */
 .app-showcase .aeris-dialog__panel,
 .app-showcase .aeris-dialog__body {
