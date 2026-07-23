@@ -1,24 +1,63 @@
-@media (max-width: 64rem) {
+@container (max-width: 64rem) {
   .app-showcase {
-    grid-template-columns: 4.5rem minmax(0, 1fr);
+    display: block;
+    border-radius: var(--aeris-radius-lg);
   }
 
-  .app-showcase__workspace div,
-  .app-showcase__account span,
-  .app-showcase__sidebar nav button > span {
-    display: none;
+  .app-showcase__sidebar {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
   }
 
   .app-showcase__workspace,
-  .app-showcase__account {
-    justify-content: center;
+  .app-showcase__sidebar > aeris-divider,
+  .app-showcase__sidebar > aeris-message {
+    display: none;
+  }
+
+  .app-showcase__sidebar nav {
+    min-width: 0;
+    display: flex;
+    flex: 1 1 auto;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
+  }
+
+  .app-showcase__sidebar nav::-webkit-scrollbar {
+    display: none;
   }
 
   .app-showcase__sidebar nav button {
+    width: auto;
+    min-width: max-content;
+    flex: 0 0 auto;
     justify-content: center;
+    padding-inline: 0.75rem;
+  }
+
+  .app-showcase__nav-label {
+    display: inline;
   }
 
   .app-showcase__sidebar nav aeris-badge {
+    display: none;
+  }
+
+  .app-showcase__account {
+    width: auto;
+    flex: 0 0 auto;
+    justify-content: center;
+    margin-top: 0;
+  }
+
+  .app-showcase__account span {
     display: none;
   }
 
@@ -39,43 +78,7 @@
   }
 }
 
-@media (max-width: 44rem) {
-  .app-showcase {
-    display: block;
-    border-radius: var(--aeris-radius-lg);
-  }
-
-  .app-showcase__sidebar {
-    display: block;
-    padding: 0.5rem;
-    border-inline-end: 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .app-showcase__workspace,
-  .app-showcase__sidebar > aeris-divider,
-  .app-showcase__sidebar > aeris-message {
-    display: none;
-  }
-
-  .app-showcase__sidebar nav {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .app-showcase__sidebar nav button > span {
-    display: inline;
-  }
-
-  .app-showcase__account {
-    justify-content: center;
-    margin-top: 0.375rem;
-  }
-
-  .app-showcase__account span {
-    display: flex;
-    flex: 0 1 auto;
-  }
-
+@container (max-width: 44rem) {
   .app-showcase__toolbar {
     --aeris-toolbar-padding-inline-sm: 0.625rem;
   }
@@ -87,10 +90,6 @@
   .app-showcase__welcome {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .app-showcase__metrics {
-    grid-template-columns: 1fr 1fr;
   }
 
   .app-showcase__form {
@@ -115,7 +114,7 @@
   }
 }
 
-@media (max-width: 30rem) {
+@container (max-width: 30rem) {
   .app-showcase__content {
     padding: 0.75rem;
   }
@@ -129,10 +128,6 @@
   }
 
   .app-showcase__toolbar [aerisToolbarStart] {
-    display: none;
-  }
-
-  .app-showcase__sidebar nav button > span {
     display: none;
   }
 
