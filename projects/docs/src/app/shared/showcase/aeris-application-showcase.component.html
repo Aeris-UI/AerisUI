@@ -14,7 +14,8 @@
         [attr.aria-current]="activeSection() === 'overview' ? 'page' : null"
         (click)="openSection('overview')"
       >
-        <svg [lucideIcon]="icons.BarChart3" aria-hidden="true"></svg><span>Overview</span>
+        <svg [lucideIcon]="icons.BarChart3" aria-hidden="true"></svg
+        ><span class="app-showcase__nav-label">Overview</span>
       </button>
       <button
         aerisButton
@@ -25,7 +26,8 @@
         [attr.aria-current]="activeSection() === 'projects' ? 'page' : null"
         (click)="openSection('projects')"
       >
-        <svg [lucideIcon]="icons.Layers" aria-hidden="true"></svg><span>Projects</span>
+        <svg [lucideIcon]="icons.Layers" aria-hidden="true"></svg
+        ><span class="app-showcase__nav-label">Projects</span>
         <aeris-badge [value]="projectCount()" size="sm" variant="soft" />
       </button>
       <button
@@ -37,7 +39,8 @@
         [attr.aria-current]="activeSection() === 'team' ? 'page' : null"
         (click)="openSection('team')"
       >
-        <svg [lucideIcon]="icons.Monitor" aria-hidden="true"></svg><span>Team</span>
+        <svg [lucideIcon]="icons.Monitor" aria-hidden="true"></svg
+        ><span class="app-showcase__nav-label">Team</span>
         <aeris-badge value="8" size="sm" variant="soft" />
       </button>
       <button
@@ -49,7 +52,8 @@
         [attr.aria-current]="activeSection() === 'quality' ? 'page' : null"
         (click)="openSection('quality')"
       >
-        <svg [lucideIcon]="icons.CheckCircle" aria-hidden="true"></svg><span>Quality</span>
+        <svg [lucideIcon]="icons.CheckCircle" aria-hidden="true"></svg
+        ><span class="app-showcase__nav-label">Quality</span>
       </button>
     </nav>
     <aeris-divider spacing="sm" />
@@ -333,8 +337,7 @@
                     <label class="app-showcase__form-wide">
                       <span>Planning notes</span>
                       <textarea aerisTextarea fluid rows="3">
-Validate the new table behavior at narrow widths and with keyboard navigation.</textarea
-                      >
+Validate the new table behavior at narrow widths and with keyboard navigation.</textarea>
                     </label>
                     <fieldset>
                       <legend>Visibility</legend>
@@ -760,6 +763,7 @@ Validate the new table behavior at narrow widths and with keyboard navigation.</
   <aeris-dialog
     header="Create project"
     width="min(28rem, calc(100% - 2rem))"
+    mobileWidth="100%"
     [blockScroll]="false"
     [(visible)]="dialogOpen"
   >
