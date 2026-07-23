@@ -98,13 +98,7 @@ svg {
   overflow: visible;
 }
 
-.docs-header button[data-docs-search] .aeris-button__content {
-  min-width: 0;
-  flex: 1 1 auto;
-}
-
 .docs-header .docs-header__start,
-.docs-header .docs-header__search,
 .docs-header .docs-header__nav,
 .docs-header .docs-brand {
   min-width: 0;
@@ -123,21 +117,8 @@ svg {
     flex: 1 1 auto;
   }
 
-  .docs-header .docs-header__search,
   .docs-header .docs-header__nav {
     flex: 0 0 auto;
-  }
-
-  .docs-header button[data-docs-search] {
-    width: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
-    min-width: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
-    justify-content: center;
-    padding-inline: 0;
-  }
-
-  .docs-header button[data-docs-search] .docs-search-content {
-    width: auto;
-    justify-content: center;
   }
 }
 

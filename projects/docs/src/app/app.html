@@ -2,21 +2,20 @@
 
 <aeris-toolbar class="docs-header" variant="plain" size="sm" [wrap]="false" [role]="null">
   <div aerisToolbarStart class="docs-header__start">
-    @if (!isLandingPage()) {
-      <button
-        aerisButton
-        data-docs-menu
-        type="button"
-        variant="ghost"
-        size="sm"
-        iconOnly
-        aria-label="Open documentation navigation"
-        [attr.aria-expanded]="sidebarOpen()"
-        (click)="sidebarOpen.update((open) => !open)"
-      >
-        <svg [lucideIcon]="icons.Menu"></svg>
-      </button>
-    }
+    <button
+      aerisButton
+      data-docs-menu
+      data-docs-icon-button
+      type="button"
+      variant="ghost"
+      size="sm"
+      iconOnly
+      aria-label="Open documentation navigation"
+      [attr.aria-expanded]="sidebarOpen()"
+      (click)="sidebarOpen.update((open) => !open)"
+    >
+      <svg [lucideIcon]="icons.Menu"></svg>
+    </button>
     <a class="docs-brand" routerLink="/" aria-label="Aeris UI documentation home">
       <span class="docs-brand__mark" aria-hidden="true">
         <aeris-logo-mark />
@@ -30,28 +29,24 @@
     </span>
   </div>
 
-  <div aerisToolbarCenter class="docs-header__search">
-    <button
-      aerisButton
-      data-docs-search
-      type="button"
-      variant="secondary"
-      size="sm"
-      aria-label="Search documentation"
-      (click)="searchOpen.set(true)"
-    >
-      <span class="docs-search-content">
-        <svg [lucideIcon]="icons.Search"></svg>
-        <span class="docs-search-label">Search documentation</span>
-        <kbd>Ctrl K</kbd>
-      </span>
-    </button>
-  </div>
-
   <nav aerisToolbarEnd class="docs-header__nav" aria-label="Header navigation">
     <a routerLink="/guides" routerLinkActive="active">Guides</a>
     <a routerLink="/components" routerLinkActive="active">Components</a>
     <a routerLink="/design-lab" routerLinkActive="active">Design Lab</a>
+    <button
+      aerisButton
+      data-docs-search
+      data-docs-icon-button
+      type="button"
+      variant="ghost"
+      size="sm"
+      iconOnly
+      aria-label="Search documentation"
+      aria-keyshortcuts="Control+K Meta+K"
+      (click)="searchOpen.set(true)"
+    >
+      <svg [lucideIcon]="icons.Search"></svg>
+    </button>
     <div class="docs-appearance-picker" (click)="$event.stopPropagation()">
       <button
         #appearanceTrigger
@@ -388,23 +383,23 @@
         [ngTemplateOutletContext]="{ idSuffix: 'desktop' }"
       />
     </aside>
-
-    <aeris-drawer
-      class="docs-mobile-navigation"
-      header="Documentation"
-      [(visible)]="sidebarOpen"
-      [position]="activeDirectionId() === 'rtl' ? 'right' : 'left'"
-      width="17.5rem"
-      mobileWidth="min(19rem, calc(100vw - 2rem))"
-      [dismissibleMask]="true"
-      closeAriaLabel="Close documentation navigation"
-    >
-      <ng-container
-        [ngTemplateOutlet]="docsNavigation"
-        [ngTemplateOutletContext]="{ idSuffix: 'mobile' }"
-      />
-    </aeris-drawer>
   }
+
+  <aeris-drawer
+    class="docs-mobile-navigation"
+    header="Documentation"
+    [(visible)]="sidebarOpen"
+    [position]="activeDirectionId() === 'rtl' ? 'right' : 'left'"
+    width="17.5rem"
+    mobileWidth="min(19rem, calc(100vw - 2rem))"
+    [dismissibleMask]="true"
+    closeAriaLabel="Close documentation navigation"
+  >
+    <ng-container
+      [ngTemplateOutlet]="docsNavigation"
+      [ngTemplateOutletContext]="{ idSuffix: 'mobile' }"
+    />
+  </aeris-drawer>
 
   <main id="docs-content" [class.docs-content]="!isLandingPage()">
     <router-outlet />
