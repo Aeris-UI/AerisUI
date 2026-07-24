@@ -1,0 +1,166 @@
+<main class="support-page" aria-labelledby="support-title">
+  <nav class="support-breadcrumb" aria-label="Breadcrumb">
+    <a routerLink="/">Aeris UI</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">Support</span>
+  </nav>
+
+  <header class="support-hero">
+    <div class="support-hero__copy">
+      <span class="support-kicker">Open source, sustained together</span>
+      <h1 id="support-title">Help Aeris keep moving forward.</h1>
+      <p>
+        Aeris UI is free and open source. Sponsorship helps create more room for careful
+        maintenance, accessibility work, documentation, testing, and the less visible work that
+        keeps a component library dependable.
+      </p>
+      <div class="support-actions">
+        <a
+          aerisButton
+          size="lg"
+          href="https://github.com/sponsors/lilbuda"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg class="support-heart" [lucideIcon]="icons.Heart" aria-hidden="true"></svg>
+          Sponsor on GitHub
+        </a>
+        <a
+          aerisButton
+          size="lg"
+          variant="secondary"
+          href="https://github.com/Aeris-UI/AerisUI"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View the repository
+          <svg [lucideIcon]="icons.ExternalLink" aria-hidden="true"></svg>
+        </a>
+      </div>
+      <small
+        >Sponsorship is entirely optional. Aeris remains open source and available to
+        everyone.</small
+      >
+    </div>
+
+    <aeris-card class="support-summary" variant="filled" padding="lg">
+      <div aerisCardHeader class="support-summary__header">
+        <span class="support-summary__icon" aria-hidden="true">
+          <svg [lucideIcon]="icons.Heart"></svg>
+        </span>
+        <h2 aerisCardTitle>What support makes possible</h2>
+      </div>
+      <ul>
+        <li>
+          <svg [lucideIcon]="icons.CheckCircle" aria-hidden="true"></svg>
+          Ongoing component maintenance and issue resolution
+        </li>
+        <li>
+          <svg [lucideIcon]="icons.CheckCircle" aria-hidden="true"></svg>
+          Accessibility and current-browser testing
+        </li>
+        <li>
+          <svg [lucideIcon]="icons.CheckCircle" aria-hidden="true"></svg>
+          Clear documentation, examples, and AI tooling
+        </li>
+        <li>
+          <svg [lucideIcon]="icons.CheckCircle" aria-hidden="true"></svg>
+          Project infrastructure and development costs
+        </li>
+      </ul>
+    </aeris-card>
+  </header>
+
+  <section class="support-contribute" aria-labelledby="support-other-title">
+    <header>
+      <span class="support-kicker">No payment required</span>
+      <h2 id="support-other-title">Other meaningful ways to help</h2>
+      <p>Time, feedback, and a recommendation can be every bit as useful as financial support.</p>
+    </header>
+
+    <div class="support-grid">
+      <aeris-card padding="lg">
+        <div aerisCardHeader class="support-card__header">
+          <span class="support-card__number" aria-hidden="true">01</span>
+          <h3 aerisCardTitle>Use it and share feedback</h3>
+        </div>
+        <p>
+          Try Aeris in a real project and report focused, reproducible issues. Practical feedback
+          helps shape reliable APIs and sensible defaults.
+        </p>
+        <div aerisCardFooter class="support-card__footer">
+          <a
+            aerisButton
+            variant="link"
+            href="https://github.com/Aeris-UI/AerisUI/issues"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View issues
+            <svg [lucideIcon]="icons.ExternalLink" aria-hidden="true"></svg>
+          </a>
+        </div>
+      </aeris-card>
+
+      <aeris-card padding="lg">
+        <div aerisCardHeader class="support-card__header">
+          <span class="support-card__number" aria-hidden="true">02</span>
+          <h3 aerisCardTitle>Star and recommend Aeris</h3>
+        </div>
+        <p>
+          A GitHub star or a thoughtful recommendation helps other Angular developers discover the
+          project without turning the documentation into advertising.
+        </p>
+        <div aerisCardFooter class="support-card__footer">
+          <a
+            aerisButton
+            variant="link"
+            href="https://github.com/Aeris-UI/AerisUI"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open GitHub
+            <svg [lucideIcon]="icons.ExternalLink" aria-hidden="true"></svg>
+          </a>
+        </div>
+      </aeris-card>
+
+      <aeris-card padding="lg">
+        <div aerisCardHeader class="support-card__header">
+          <span class="support-card__number" aria-hidden="true">03</span>
+          <h3 aerisCardTitle>Contribute improvements</h3>
+        </div>
+        <p>
+          Documentation fixes, accessible test cases, bug reports, and carefully scoped pull
+          requests all make Aeris stronger.
+        </p>
+        <div aerisCardFooter class="support-card__footer">
+          <a
+            aerisButton
+            variant="link"
+            href="https://github.com/Aeris-UI/AerisUI/blob/main/CONTRIBUTING.md"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read the contribution guide
+            <svg [lucideIcon]="icons.ExternalLink" aria-hidden="true"></svg>
+          </a>
+        </div>
+      </aeris-card>
+    </div>
+  </section>
+
+  <section class="support-note" aria-labelledby="support-principles-title">
+    <span class="support-note__icon" aria-hidden="true">
+      <svg [lucideIcon]="icons.Info"></svg>
+    </span>
+    <div>
+      <h2 id="support-principles-title">Support does not buy product influence.</h2>
+      <p>
+        Sponsorship will never place core documentation, accessibility work, fixes, or components
+        behind a paywall. Product decisions continue to be guided by the health of the library and
+        its community.
+      </p>
+    </div>
+  </section>
+</main>

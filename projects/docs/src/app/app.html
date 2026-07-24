@@ -366,6 +366,17 @@
         Aeris does not ship or depend on an icon library. Documentation examples use Lucide; any
         icon component, SVG, or icon font can be used.
       </small>
+      <a
+        aerisButton
+        class="docs-sidebar__support"
+        size="sm"
+        variant="secondary"
+        routerLink="/support"
+        (click)="closeNavigation()"
+      >
+        <svg [lucideIcon]="icons.Heart" aria-hidden="true"></svg>
+        Support Aeris
+      </a>
       <nav class="docs-sidebar__footer-links" aria-label="Documentation resources">
         <a routerLink="/guides/version-compatibility" (click)="closeNavigation()">Compatibility</a>
         <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a>

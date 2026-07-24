@@ -34,6 +34,17 @@ describe('docs SEO metadata', () => {
     });
   });
 
+  it('exposes indexable metadata for the support page', () => {
+    const seo = resolveDocsSeo('/support');
+
+    expect(seo).toMatchObject({
+      title: 'Support Aeris UI',
+      path: '/support',
+      kind: 'page',
+    });
+    expect(seo.noIndex).toBeUndefined();
+  });
+
   it('prevents unknown component and application routes from being indexed', () => {
     expect(resolveDocsSeo('/components/unknown').noIndex).toBe(true);
     expect(resolveDocsSeo('/unknown').noIndex).toBe(true);
