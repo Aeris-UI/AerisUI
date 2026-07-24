@@ -159,6 +159,89 @@
   color: var(--primary-text);
 }
 
+.support-supporters {
+  padding-block: 4rem;
+  border-top: 1px solid var(--border);
+  scroll-margin-top: 5.5rem;
+}
+
+.support-supporters > header {
+  max-width: 42rem;
+  margin-bottom: 2rem;
+}
+
+.support-supporters h2 {
+  margin: 0.5rem 0 0;
+  color: var(--text);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  letter-spacing: -0.035em;
+}
+
+.support-supporters > header p,
+.support-supporters__empty p,
+.support-supporters__policy {
+  color: var(--text-2);
+  line-height: 1.7;
+}
+
+.support-supporters > header p {
+  margin: 0.75rem 0 0;
+}
+
+.support-supporters__empty {
+  --aeris-card-gap: 0.875rem;
+  --aeris-card-filled-background: var(--surface);
+  --aeris-card-filled-border: var(--border);
+}
+
+.support-supporters__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: var(--aeris-radius-md);
+  background: var(--aeris-danger-soft, color-mix(in srgb, #c81e2a 14%, var(--surface)));
+  color: var(--aeris-danger, #c81e2a);
+}
+
+.support-supporters__icon svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.support-supporters__empty h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.support-supporters__empty p {
+  max-width: 50rem;
+  margin: 0.25rem 0 0;
+  font-size: 0.8125rem;
+}
+
+.support-supporters__empty a svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.support-supporters__policy {
+  margin: 1rem 0 0;
+  font-size: 0.75rem;
+}
+
+.support-supporters__policy a {
+  color: var(--primary-text);
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+}
+
+.support-supporters__policy a:hover {
+  color: var(--text);
+}
+
 .support-contribute {
   padding-block: 4rem;
   border-block: 1px solid var(--border);
@@ -283,6 +366,10 @@
   }
 
   .support-contribute {
+    padding-block: 3rem;
+  }
+
+  .support-supporters {
     padding-block: 3rem;
   }
 }
