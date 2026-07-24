@@ -39,6 +39,9 @@ jobs:
       - name: Check version metadata
         run: npm run check:versions
 
+      - name: Verify release automation
+        run: npm run test:release
+
       - name: Build library
         run: npm run build:lib
 
