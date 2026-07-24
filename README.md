@@ -173,6 +173,7 @@ Global theme assets:
 - Read [Contributing](CONTRIBUTING.md) before proposing a change.
 - Follow the [Code of Conduct](CODE_OF_CONDUCT.md) in project spaces.
 - Use [Support](SUPPORT.md) to choose the correct help channel.
+- See the people who help sustain Aeris UI in [Supporters](SUPPORTERS.md).
 - Report vulnerabilities privately according to the [Security Policy](SECURITY.md).
 
 Aeris UI must remain independently designed. Contributions may use other projects only to

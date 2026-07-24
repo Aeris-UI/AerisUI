@@ -71,6 +71,45 @@
     </aeris-card>
   </header>
 
+  <section id="supporters" class="support-supporters" aria-labelledby="support-supporters-title">
+    <header>
+      <span class="support-kicker">Community</span>
+      <h2 id="support-supporters-title">Supporters</h2>
+      <p>
+        Every sponsor can optionally be recognized in the Aeris UI repository. Sponsors who
+        contribute $20 or more can also choose to appear here.
+      </p>
+    </header>
+
+    <aeris-card class="support-supporters__empty" variant="filled" padding="lg">
+      <div>
+        <h3 aerisCardTitle>The supporters wall is ready.</h3>
+        <p>
+          No supporters have opted into public recognition yet. The first names will be added here
+          with gratitude, without displaying sponsorship amounts.
+        </p>
+      </div>
+      <div aerisCardFooter>
+        <a
+          aerisButton
+          variant="link"
+          href="https://github.com/Aeris-UI/AerisUI/blob/main/SUPPORTERS.md"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View repository supporters
+          <svg [lucideIcon]="icons.ExternalLink" aria-hidden="true"></svg>
+        </a>
+      </div>
+    </aeris-card>
+
+    <p class="support-supporters__policy">
+      Recognition is optional. Sponsors may remain anonymous or request a change at any time by
+      emailing
+      <a href="mailto:budimir.dev@gmail.com">budimir.dev&#64;gmail.com</a>.
+    </p>
+  </section>
+
   <section class="support-contribute" aria-labelledby="support-other-title">
     <header>
       <span class="support-kicker">No payment required</span>
