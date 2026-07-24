@@ -1,0 +1,110 @@
+name: Release
+
+on:
+  release:
+    types:
+      - published
+
+concurrency:
+  group: release-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: publish
+    if: startsWith(github.event.release.tag_name, 'v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: npm
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Check out the release tag
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.15.0
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate release metadata
+        id: release
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_PRERELEASE: ${{ github.event.release.prerelease }}
+        run: node tools/check-release.mjs
+
+      - name: Verify release source branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          maintenance_branch="${{ steps.release.outputs.major }}.x"
+
+          if git ls-remote --exit-code --heads origin "$maintenance_branch" >/dev/null 2>&1; then
+            release_branch="$maintenance_branch"
+          else
+            release_branch="main"
+          fi
+
+          git fetch --no-tags origin \
+            "refs/heads/$release_branch:refs/remotes/origin/$release_branch"
+
+          release_commit="$(git rev-parse HEAD)"
+          if ! git merge-base --is-ancestor \
+            "$release_commit" "refs/remotes/origin/$release_branch"; then
+            echo "::error::Release tag ${{ github.event.release.tag_name }} is not on $release_branch."
+            exit 1
+          fi
+
+          echo "Release source verified on $release_branch."
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=moderate
+
+      - name: Verify release automation
+        run: npm run test:release
+
+      - name: Test library
+        run: npm run test:lib -- --watch=false
+
+      - name: Test documentation
+        run: npm run test:docs -- --watch=false
+
+      - name: Build and verify release
+        run: npm run build
+
+      - name: Pack release artifacts
+        run: |
+          node tools/pack-library.mjs
+          node tools/pack-mcp.mjs
+
+      - name: Publish packages to npm
+        run: >-
+          node tools/publish-release.mjs
+          --version "${{ steps.release.outputs.version }}"
+          --tag "${{ steps.release.outputs.npm_tag }}"
+
+      - name: Summarize release
+        run: |
+          {
+            echo "## Aeris UI ${{ steps.release.outputs.version }}"
+            echo
+            echo "- Git tag: \`${{ github.event.release.tag_name }}\`"
+            echo "- npm tag: \`${{ steps.release.outputs.npm_tag }}\`"
+            echo "- Packages: \`@aeris-ui/core\`, \`@aeris-ui/mcp\`"
+            echo "- Provenance: npm trusted publishing (OIDC)"
+          } >> "$GITHUB_STEP_SUMMARY"

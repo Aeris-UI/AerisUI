@@ -183,7 +183,7 @@ async function synchronizeOutputs(outputs, expectedComponentFiles) {
   if (shouldWrite) {
     for (const [path, output] of outputs) {
       const existing = await readFile(path, 'utf8').catch(() => '');
-      if (existing === output) continue;
+      if (normalizeLineEndings(existing) === normalizeLineEndings(output)) continue;
       await mkdir(dirname(path), { recursive: true });
       await writeFile(path, output, 'utf8');
     }
@@ -194,7 +194,7 @@ async function synchronizeOutputs(outputs, expectedComponentFiles) {
   const mismatches = [];
   for (const [path, output] of outputs) {
     const existing = await readFile(path, 'utf8').catch(() => '');
-    if (existing !== output) mismatches.push(path);
+    if (normalizeLineEndings(existing) !== normalizeLineEndings(output)) mismatches.push(path);
   }
   mismatches.push(...stale);
   if (mismatches.length) {
@@ -806,6 +806,10 @@ function normalizeCode(value) {
     .map((line, index) => (index === 0 ? line.trimStart() : line.slice(indent)))
     .join('\n')
     .trimEnd();
+}
+
+function normalizeLineEndings(value) {
+  return value.replace(/\r\n/g, '\n');
 }
 
 function normalizeText(value) {
