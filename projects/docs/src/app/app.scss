@@ -365,7 +365,7 @@ button[data-docs-menu] {
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
-.docs-navigation a {
+.docs-navigation a:not(.aeris-button) {
   min-height: 34px;
   display: flex;
   align-items: center;
@@ -376,18 +376,18 @@ button[data-docs-menu] {
   text-decoration: none;
   font-size: 12px;
 }
-.docs-navigation a:hover,
+.docs-navigation a:not(.aeris-button):hover,
 .docs-guide-group h3 button:hover,
 .docs-component-group h3 button:hover {
   background: var(--aeris-interactive-hover);
   color: var(--text);
 }
-.docs-navigation a.active {
+.docs-navigation a:not(.aeris-button).active {
   background: var(--primary-soft);
   color: var(--primary-text);
   font-weight: 600;
 }
-.docs-navigation a span {
+.docs-navigation a:not(.aeris-button) span {
   margin-inline-start: auto;
   color: var(--text-3);
   font-size: 12px;
@@ -473,6 +473,18 @@ button[data-docs-menu] {
   flex-wrap: wrap;
   gap: 0.25rem 0.75rem;
   margin-top: 0.625rem;
+}
+
+.docs-navigation .docs-sidebar__support {
+  width: 100%;
+  margin-top: 0.875rem;
+}
+
+.docs-sidebar__support svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--aeris-danger, #c81e2a);
+  fill: currentColor;
 }
 
 .docs-navigation .docs-sidebar__footer-links a {

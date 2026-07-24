@@ -115,6 +115,11 @@ export const routes: Routes = [
       import('./pages/third-party-notices.page').then((page) => page.ThirdPartyNoticesPage),
   },
   {
+    path: 'support',
+    title: 'Support Aeris UI',
+    loadComponent: () => import('./pages/support.page').then((page) => page.SupportPage),
+  },
+  {
     path: 'changelog',
     redirectTo: 'guides/changelog',
     pathMatch: 'full',

@@ -111,6 +111,16 @@ export function resolveDocsSeo(url: string): DocsSeoMetadata {
     };
   }
 
+  if (path === '/support') {
+    return {
+      title: 'Support Aeris UI',
+      description:
+        'Learn how sponsorship, testing, issue reports, and contributions help sustain the open-source Aeris UI project.',
+      path,
+      kind: 'page',
+    };
+  }
+
   return {
     title: 'Page not found - Aeris UI',
     description: 'The requested Aeris UI documentation page could not be found.',
