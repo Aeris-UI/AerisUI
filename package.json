@@ -59,7 +59,7 @@
     "@angular/build": "^22.0.6",
     "@angular/cli": "^22.0.6",
     "@angular/compiler-cli": "^22.0.6",
-    "@lucide/angular": "^1.23.0",
+    "@lucide/angular": "^1.25.0",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "@schematics/angular": "^22.0.6",
     "@types/node": "^24.13.3",
