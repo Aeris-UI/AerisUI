@@ -11,8 +11,9 @@
         <p class="home-kicker">Angular 22 component library</p>
         <h1 id="home-title">Build interfaces that stay coherent.</h1>
         <p class="home-hero__lead">
-          Aeris UI gives Angular teams accessible behavior, thoughtful defaults, and a theme system
-          that can grow with a product without getting in its way.
+          Aeris UI is a free, open-source Angular component library with accessible behavior,
+          thoughtful defaults, and a theme system that can grow with a product without getting in
+          its way.
         </p>
         <aeris-message
           class="home-alpha-notice"
@@ -111,6 +112,43 @@
       <aeris-chip label="Light and dark themes" />
       <aeris-chip label="RTL ready" />
       <aeris-chip label="Tree-shakable entry points" />
+      <aeris-chip label="Open source · MIT licensed" tone="primary" />
+    </section>
+
+    <section class="home-open-source" aria-labelledby="open-source-title">
+      <span class="home-open-source__icon" aria-hidden="true">
+        <svg [lucideIcon]="icons.Code"></svg>
+      </span>
+      <div>
+        <p class="home-kicker">Open source by design</p>
+        <h2 id="open-source-title">The whole project is open.</h2>
+        <p>
+          The library, tests, documentation, theme tooling, and release workflows are developed in
+          public under the MIT License. Use Aeris, inspect it, adapt it, and contribute
+          improvements.
+        </p>
+      </div>
+      <div class="home-open-source__actions">
+        <a
+          aerisButton
+          variant="secondary"
+          href="https://github.com/Aeris-UI/AerisUI"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View source
+          <svg [lucideIcon]="icons.ExternalLink" aria-hidden="true"></svg>
+        </a>
+        <a
+          aerisButton
+          variant="link"
+          href="https://github.com/Aeris-UI/AerisUI/blob/main/LICENSE"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Read the MIT License
+        </a>
+      </div>
     </section>
 
     <section class="home-section home-live-showcase" aria-labelledby="components-title">

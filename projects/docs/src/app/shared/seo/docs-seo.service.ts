@@ -13,7 +13,7 @@ const SITE_URL = 'https://aeris-ui.dev';
 const SITE_NAME = 'Aeris UI';
 const SOCIAL_IMAGE_URL = `${SITE_URL}/android-chrome-512x512.png`;
 const DEFAULT_DESCRIPTION =
-  'Aeris UI is an accessible, responsive, themeable Angular 22 component library currently in alpha.';
+  'Aeris UI is an accessible, responsive, themeable, open-source Angular 22 component library currently in alpha.';
 
 export interface DocsSeoMetadata {
   readonly title: string;
