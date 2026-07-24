@@ -35,7 +35,12 @@ import { AerisApplicationShowcaseComponent } from '../shared/showcase/aeris-appl
     AerisApplicationShowcaseComponent,
   ],
   templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss', './home-brand.page.scss', './home-showcase.page.scss'],
+  styleUrls: [
+    './home.page.scss',
+    './home-brand.page.scss',
+    './home-open-source.page.scss',
+    './home-showcase.page.scss',
+  ],
 })
 export class HomePage {
   protected readonly icons = DOC_ICONS;
