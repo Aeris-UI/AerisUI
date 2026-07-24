@@ -1,4 +1,5 @@
 version: 2
+
 updates:
   - package-ecosystem: npm
     directory: /
@@ -7,16 +8,55 @@ updates:
       day: monday
       time: '06:00'
       timezone: Europe/Belgrade
+
     open-pull-requests-limit: 5
+
+    cooldown:
+      default-days: 7
+      semver-patch-days: 3
+      semver-minor-days: 7
+
+    # Routine version updates may be patch or minor releases.
+    # Major dependency changes are handled intentionally alongside
+    # the corresponding Aeris major or compatibility work.
+    allow:
+      - dependency-name: '*'
+        update-types:
+          - version-update:semver-patch
+          - version-update:semver-minor
+
+    ignore:
+      # Angular 22 currently requires TypeScript 6.0.x.
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-minor
+
+      # These dependencies are duplicated in the publishable library
+      # manifest and must be updated together with their peer contracts.
+      - dependency-name: '@lexical/*'
+      - dependency-name: lexical
+      - dependency-name: chart.js
+      - dependency-name: tslib
+
     groups:
-      angular:
+      angular-toolchain:
         patterns:
           - '@angular/*'
-          - 'ng-packagr'
-      lexical:
+          - '@angular-devkit/*'
+          - '@schematics/angular'
+          - ng-packagr
+          - typescript
+        update-types:
+          - patch
+          - minor
+
+      mcp-toolchain:
         patterns:
-          - '@lexical/*'
-          - 'lexical'
+          - '@modelcontextprotocol/*'
+          - zod
+        update-types:
+          - patch
+          - minor
 
   - package-ecosystem: github-actions
     directory: /
@@ -25,4 +65,10 @@ updates:
       day: monday
       time: '06:30'
       timezone: Europe/Belgrade
+
     open-pull-requests-limit: 3
+
+    groups:
+      github-actions:
+        patterns:
+          - '*'
