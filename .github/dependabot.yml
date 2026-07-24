@@ -58,6 +58,13 @@ updates:
           - patch
           - minor
 
+      routine-updates:
+        patterns:
+          - '*'
+        update-types:
+          - patch
+          - minor
+
   - package-ecosystem: github-actions
     directory: /
     schedule:
