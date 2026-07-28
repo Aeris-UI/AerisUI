@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 .aeris-icon-field {
   --aeris-icon-field-icon-size: 1rem;
   --aeris-icon-field-icon-offset: 0.875rem;
@@ -129,9 +131,9 @@ svg.aeris-icon-field__icon > svg {
 .aeris-icon-field input:focus,
 .aeris-icon-field textarea:focus,
 .aeris-icon-field select:focus {
-  border-color: var(--aeris-focus, #3b452a);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline: 0;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #3b452a) 18%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
 }
 
 .aeris-icon-field input::placeholder,

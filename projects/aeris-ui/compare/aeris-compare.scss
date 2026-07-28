@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   display: block;
   min-inline-size: 0;
@@ -79,7 +81,7 @@
 .aeris-compare__layer--before .aeris-compare__empty {
   background: var(
     --aeris-compare-before-empty-background,
-    color-mix(in srgb, var(--aeris-primary, #606c38) 14%, var(--aeris-surface, #fff))
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 14%, var(--aeris-surface, #fff))
   );
 }
 
@@ -229,7 +231,7 @@
 }
 
 .aeris-compare:has(.aeris-compare__input:focus-visible) {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
   outline-offset: var(--aeris-compare-focus-offset, 3px);
 }
 

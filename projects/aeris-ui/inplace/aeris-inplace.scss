@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host,
 .aeris-inplace,
 .aeris-inplace * {
@@ -44,7 +46,7 @@
 .aeris-inplace__display:focus-visible,
 .aeris-inplace__close:focus-visible,
 .aeris-inplace__content:focus-visible {
-  outline: 2px solid var(--aeris-focus, #3b452a);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 2px;
 }
 

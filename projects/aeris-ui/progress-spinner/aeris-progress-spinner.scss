@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host,
 .aeris-progress-spinner,
 .aeris-progress-spinner * {
@@ -6,7 +8,7 @@
 
 :host(.aeris-progress-spinner) {
   --_aeris-progress-spinner-size: var(--aeris-progress-spinner-size, 3rem);
-  --_aeris-progress-spinner-color: var(--aeris-primary, #606c38);
+  --_aeris-progress-spinner-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
 
   position: relative;
   inline-size: var(--_aeris-progress-spinner-size);

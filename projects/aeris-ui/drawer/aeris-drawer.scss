@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   --_aeris-drawer-icon-size: var(--aeris-icon-size, 1rem);
 
@@ -123,7 +125,7 @@
 }
 
 .aeris-drawer__panel:focus-visible {
-  outline: 2px solid var(--aeris-drawer-focus, var(--aeris-focus, #3b452a));
+  outline: 2px solid var(--aeris-drawer-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   outline-offset: -4px;
 }
 
@@ -260,7 +262,7 @@
 }
 
 .aeris-drawer__action:focus-visible {
-  outline: 2px solid var(--aeris-drawer-focus, var(--aeris-focus, #3b452a));
+  outline: 2px solid var(--aeris-drawer-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   outline-offset: 2px;
 }
 

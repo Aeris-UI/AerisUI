@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
@@ -86,13 +88,13 @@
 
 .aeris-tree-select__trigger:hover,
 .aeris-tree-select[data-open] .aeris-tree-select__trigger {
-  border-color: var(--aeris-tree-select-hover-border, var(--aeris-focus, #3b452a));
+  border-color: var(--aeris-tree-select-hover-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
 }
 
 .aeris-tree-select__trigger:focus-visible {
   outline: 0;
-  border-color: var(--aeris-tree-select-focus, var(--aeris-focus, #3b452a));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-tree-select-focus, var(--aeris-focus, #3b452a)) 22%, transparent);
+  border-color: var(--aeris-tree-select-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-tree-select-focus, var(--aeris-focus, #{aeris-fallbacks.$focus})) 22%, transparent);
 }
 
 .aeris-tree-select[data-invalid] .aeris-tree-select__trigger {
@@ -170,7 +172,7 @@
 
 .aeris-tree-select__clear:focus-visible,
 .aeris-tree-select__filter-clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #3b452a);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
 }
 
@@ -246,8 +248,8 @@
 }
 
 .aeris-tree-select__filter-wrap:focus-within {
-  border-color: var(--aeris-tree-select-focus, var(--aeris-focus, #3b452a));
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--aeris-focus, #3b452a) 18%, transparent);
+  border-color: var(--aeris-tree-select-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
 }
 
 .aeris-tree-select__search-mark {
@@ -398,7 +400,7 @@
   border: 1.5px solid var(--aeris-border-strong, #c7c9c0);
   border-radius: var(--aeris-checkbox-radius, 0.3125rem);
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-on-primary, #ffffff);
+  color: var(--aeris-on-primary, #{aeris-fallbacks.$on-primary});
   transition:
     background-color 150ms,
     border-color 150ms,
@@ -406,13 +408,13 @@
 }
 
 .aeris-tree-select__node:not([data-disabled]):hover .aeris-tree-select__box {
-  border-color: var(--aeris-primary, #606c38);
+  border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
 }
 
 .aeris-tree-select__box[data-checked],
 .aeris-tree-select__box[data-mixed] {
-  border-color: var(--aeris-primary, #606c38);
-  background: var(--aeris-primary, #606c38);
+  border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
+  background: var(--aeris-primary, #{aeris-fallbacks.$primary});
 }
 
 .aeris-tree-select__box span {

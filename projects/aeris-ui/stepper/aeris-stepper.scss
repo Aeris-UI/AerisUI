@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   --_aeris-stepper-trigger-size: 2.25rem;
   --_aeris-stepper-gap: 0.75rem;
@@ -67,7 +69,7 @@
 }
 
 .aeris-stepper__trigger:focus-visible {
-  outline: 2px solid var(--aeris-stepper-focus, var(--aeris-focus, #3b452a));
+  outline: 2px solid var(--aeris-stepper-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   outline-offset: 2px;
 }
 
@@ -142,14 +144,14 @@
 }
 
 .aeris-stepper__item[data-selected] .aeris-stepper__trigger {
-  color: var(--aeris-stepper-active-color, var(--aeris-primary-text, #606c38));
+  color: var(--aeris-stepper-active-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
 }
 
 .aeris-stepper__item[data-selected] .aeris-stepper__indicator {
-  border-color: var(--aeris-stepper-active-border, var(--aeris-primary, #606c38));
+  border-color: var(--aeris-stepper-active-border, var(--aeris-primary, #{aeris-fallbacks.$primary}));
   background: var(--aeris-stepper-active-background, var(--aeris-primary-soft, #eef1e4));
-  color: var(--aeris-stepper-active-color, var(--aeris-primary-text, #606c38));
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--aeris-stepper-active-border, var(--aeris-primary, #606c38)) 16%, transparent);
+  color: var(--aeris-stepper-active-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--aeris-stepper-active-border, var(--aeris-primary, #{aeris-fallbacks.$primary})) 16%, transparent);
 }
 
 .aeris-stepper__item[data-completed] .aeris-stepper__indicator {
@@ -186,7 +188,7 @@
 }
 
 .aeris-stepper__panel:focus-visible {
-  outline: 2px solid var(--aeris-stepper-focus, var(--aeris-focus, #3b452a));
+  outline: 2px solid var(--aeris-stepper-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   outline-offset: 2px;
 }
 

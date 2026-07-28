@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
@@ -75,8 +77,8 @@
 .aeris-tree-table__global-filter input:focus,
 .aeris-tree-table__filter-row input:focus,
 .aeris-tree-table__editor:focus {
-  border-color: var(--aeris-focus, #3b452a);
-  outline: 2px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 24%, transparent);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: 2px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
 }
 
 .aeris-tree-table__global-filter input:focus {
@@ -104,7 +106,7 @@
 }
 
 .aeris-tree-table__frame:has(.aeris-tree-table__viewport:focus-visible) {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 34%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 34%, transparent);
   outline-offset: 2px;
 }
 
@@ -190,7 +192,7 @@ tbody tr:last-child td {
 }
 
 tbody tr:focus-visible {
-  outline: 2px solid var(--aeris-focus, #3b452a);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: -2px;
 }
 
@@ -208,7 +210,7 @@ tbody tr:focus-visible {
 tbody tr[data-selected='true'] td {
   background: var(
     --aeris-tree-table-row-selected,
-    color-mix(in srgb, var(--aeris-primary, #606c38) 12%, transparent)
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%, transparent)
   );
 }
 
@@ -241,13 +243,13 @@ td[data-editable='true']::after {
 
 td[data-editable='true']:hover,
 td[data-editable='true']:focus-within {
-  background: color-mix(in srgb, var(--aeris-primary, #606c38) 7%, var(--aeris-surface, #fff));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--aeris-primary, #606c38) 34%, transparent);
+  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 7%, var(--aeris-surface, #fff));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 34%, transparent);
 }
 
 td[data-editable='true']:hover::after,
 td[data-editable='true']:focus-within::after {
-  color: var(--aeris-primary-text, #606c38);
+  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
   opacity: 1;
 }
 
@@ -329,7 +331,7 @@ td[data-frozen='true'] {
 tbody tr[data-selected='true'] td[data-frozen='true'] {
   background: var(
     --aeris-tree-table-row-selected,
-    color-mix(in srgb, var(--aeris-primary, #606c38) 12%, var(--aeris-surface, #fff))
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%, var(--aeris-surface, #fff))
   );
 }
 
@@ -356,14 +358,14 @@ tbody tr[data-selected='true'] td[data-frozen='true'] {
 }
 
 .aeris-tree-table__sort:hover {
-  color: var(--aeris-primary-text, #606c38);
+  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
 }
 
 .aeris-tree-table__sort:focus-visible,
 .aeris-tree-table__header-label:focus-visible,
 .aeris-tree-table__resize:focus-visible,
 .aeris-tree-table__toggle:focus-visible {
-  outline: 2px solid var(--aeris-focus, #3b452a);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 2px;
 }
 
@@ -419,7 +421,7 @@ tbody tr[data-selected='true'] td[data-frozen='true'] {
 
 .aeris-tree-table__sort-mark[data-direction='asc'],
 .aeris-tree-table__sort-mark[data-direction='desc'] {
-  color: var(--aeris-primary-text, #606c38);
+  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
   opacity: 1;
 }
 
@@ -458,7 +460,7 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
 .aeris-tree-table__resize:hover::before,
 .aeris-tree-table__resize:focus-visible::before,
 .aeris-tree-table__resize[data-resizing]::before {
-  background: color-mix(in srgb, var(--aeris-focus, #3b452a) 36%, transparent);
+  background: color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 36%, transparent);
 }
 
 .aeris-tree-table__resize:focus-visible {
@@ -514,7 +516,7 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
 }
 
 .aeris-tree-table__toggle:hover:not(:disabled) {
-  color: var(--aeris-primary-text, #606c38);
+  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
 }
 
 .aeris-tree-table__toggle:disabled {

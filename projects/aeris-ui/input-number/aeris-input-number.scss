@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
@@ -42,14 +44,14 @@
 }
 
 .aeris-input-number__field:hover {
-  border-color: var(--aeris-primary, #606c38);
+  border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
 }
 
 .aeris-input-number__field:focus-within {
   position: relative;
   z-index: 2;
-  border-color: var(--aeris-focus, #3b452a);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #3b452a) 18%, transparent);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
 }
 
 .aeris-input-number[data-appearance='filled'] .aeris-input-number__field {
@@ -58,7 +60,7 @@
 }
 
 .aeris-input-number[data-appearance='filled'] .aeris-input-number__field:focus-within {
-  border-color: var(--aeris-focus, #3b452a);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
   background: var(--aeris-surface, #fff);
 }
 
@@ -140,7 +142,7 @@
 }
 
 .aeris-input-number__clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #3b452a);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
 }
 
@@ -167,15 +169,15 @@
 }
 
 .aeris-input-number__button:hover:not(:disabled) {
-  border-color: var(--aeris-primary, #606c38);
-  background: color-mix(in srgb, var(--aeris-primary, #606c38) 12%, var(--aeris-surface, #fff));
-  color: var(--aeris-primary-text, #606c38);
+  border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
+  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%, var(--aeris-surface, #fff));
+  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
 }
 
 .aeris-input-number__button:focus-visible {
   position: relative;
   z-index: 3;
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
   outline-offset: 2px;
 }
 

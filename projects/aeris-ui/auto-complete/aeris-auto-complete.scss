@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
@@ -92,15 +94,15 @@
 
 .aeris-auto-complete__input:hover,
 .aeris-auto-complete[data-open] .aeris-auto-complete__input {
-  border-color: var(--aeris-auto-complete-hover-border, var(--aeris-focus, #3b452a));
+  border-color: var(--aeris-auto-complete-hover-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
 }
 
 .aeris-auto-complete__input:focus-visible {
-  border-color: var(--aeris-auto-complete-focus, var(--aeris-focus, #3b452a));
+  border-color: var(--aeris-auto-complete-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   box-shadow: 0 0 0 3px
     color-mix(
       in srgb,
-      var(--aeris-auto-complete-focus, var(--aeris-focus, #3b452a)) 22%,
+      var(--aeris-auto-complete-focus, var(--aeris-focus, #{aeris-fallbacks.$focus})) 22%,
       transparent
     );
 }
@@ -158,7 +160,7 @@
 
 .aeris-auto-complete__clear:focus-visible,
 .aeris-auto-complete__dropdown:focus-visible {
-  outline: 2px solid var(--aeris-focus, #3b452a);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
 }
 

@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
@@ -31,7 +33,7 @@
 
 .aeris-organization-chart__viewport:focus-visible {
   outline: 0;
-  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #3b452a) 22%, transparent);
+  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 22%, transparent);
 }
 
 .aeris-organization-chart__tree,
@@ -81,14 +83,14 @@
 }
 
 .aeris-organization-chart__node[data-selectable='true']:hover {
-  border-color: var(--aeris-focus, #3b452a);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
   background: var(--aeris-surface-2, #f2f0ec);
 }
 
 .aeris-organization-chart__node[data-selected='true'] {
-  border-color: color-mix(in srgb, var(--aeris-primary, #606c38) 58%, var(--aeris-border, #deddd7));
+  border-color: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 58%, var(--aeris-border, #deddd7));
   background: var(--aeris-primary-soft, #eef2e6);
-  color: var(--aeris-primary-text, #3b452a);
+  color: var(--aeris-primary-text, #{aeris-fallbacks.$focus});
 }
 
 .aeris-organization-chart__node:focus-visible,
@@ -96,7 +98,7 @@
   outline: 0;
   box-shadow:
     var(--aeris-organization-chart-node-shadow, 0 0.75rem 1.75rem rgb(31 35 27 / 8%)),
-    0 0 0 3px color-mix(in srgb, var(--aeris-focus, #3b452a) 24%, transparent);
+    0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
 }
 
 .aeris-organization-chart__label {
@@ -126,7 +128,7 @@
 }
 
 .aeris-organization-chart__toggle:hover {
-  border-color: var(--aeris-focus, #3b452a);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
   background: var(--aeris-surface-2, #f2f0ec);
 }
 

@@ -1,11 +1,13 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host,
 .aeris-badge {
   box-sizing: border-box;
 }
 
 :host(.aeris-badge) {
-  --_aeris-badge-accent: var(--aeris-primary, #606c38);
-  --_aeris-badge-on-accent: var(--aeris-on-primary, #ffffff);
+  --_aeris-badge-accent: var(--aeris-primary, #{aeris-fallbacks.$primary});
+  --_aeris-badge-on-accent: var(--aeris-on-primary, #{aeris-fallbacks.$on-primary});
   --_aeris-badge-size: var(--aeris-badge-size, 1.375rem);
   --_aeris-badge-padding: var(--aeris-badge-padding-inline, 0.5rem);
   --_aeris-badge-font-size: var(--aeris-badge-font-size, 0.75rem);
@@ -71,8 +73,8 @@
 }
 
 :host(.aeris-badge[data-severity='primary']) {
-  --_aeris-badge-accent: var(--aeris-primary, #606c38);
-  --_aeris-badge-on-accent: var(--aeris-on-primary, #ffffff);
+  --_aeris-badge-accent: var(--aeris-primary, #{aeris-fallbacks.$primary});
+  --_aeris-badge-on-accent: var(--aeris-on-primary, #{aeris-fallbacks.$on-primary});
 }
 
 :host(.aeris-badge[data-severity='secondary']) {

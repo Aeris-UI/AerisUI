@@ -1,6 +1,8 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
-  --_accent: var(--aeris-primary, #606c38);
-  --_on-accent: var(--aeris-on-primary, #ffffff);
+  --_accent: var(--aeris-primary, #{aeris-fallbacks.$primary});
+  --_on-accent: var(--aeris-on-primary, #{aeris-fallbacks.$on-primary});
   --_height: var(--aeris-progress-bar-height, 0.875rem);
 
   display: grid;

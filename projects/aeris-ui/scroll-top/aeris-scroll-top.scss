@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   display: contents;
 }
@@ -59,7 +61,7 @@
 }
 
 .aeris-scroll-top:hover {
-  border-color: var(--aeris-scroll-top-hover-border, var(--aeris-focus, #3b452a));
+  border-color: var(--aeris-scroll-top-hover-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   background: var(--aeris-scroll-top-hover-background, var(--aeris-surface-2, #f2f0ec));
   color: var(--aeris-scroll-top-hover-color, var(--aeris-text, #222222));
   transform: translateY(-0.125rem);
@@ -67,10 +69,10 @@
 
 .aeris-scroll-top:focus-visible {
   outline: 0;
-  border-color: var(--aeris-scroll-top-focus, var(--aeris-focus, #3b452a));
+  border-color: var(--aeris-scroll-top-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   box-shadow:
     var(--aeris-scroll-top-shadow, 0 0.75rem 1.75rem rgb(31 35 27 / 16%)),
-    0 0 0 3px color-mix(in srgb, var(--aeris-scroll-top-focus, var(--aeris-focus, #3b452a)) 22%, transparent);
+    0 0 0 3px color-mix(in srgb, var(--aeris-scroll-top-focus, var(--aeris-focus, #{aeris-fallbacks.$focus})) 22%, transparent);
 }
 
 .aeris-scroll-top svg {

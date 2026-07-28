@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   --aeris-galleria-chevron-icon: var(
     --aeris-icon-chevron,
@@ -113,7 +115,7 @@
 }
 
 .aeris-galleria__viewport:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
   outline-offset: -4px;
 }
 
@@ -233,14 +235,14 @@
 
 .aeris-galleria__grid-item:hover {
   z-index: 1;
-  border-color: color-mix(in srgb, var(--aeris-primary, #606c38) 62%, var(--aeris-border, #deddd7));
+  border-color: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 62%, var(--aeris-border, #deddd7));
   box-shadow: 0 0.8rem 2rem rgb(31 35 27 / 16%);
   transform: translateY(-2px);
 }
 
 .aeris-galleria__grid-item[aria-current='true'] {
-  border-color: var(--aeris-galleria-active-thumbnail-border, var(--aeris-primary, #606c38));
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--aeris-primary, #606c38) 22%, transparent);
+  border-color: var(--aeris-galleria-active-thumbnail-border, var(--aeris-primary, #{aeris-fallbacks.$primary}));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 22%, transparent);
 }
 
 .aeris-galleria__grid-item img {
@@ -593,8 +595,8 @@
 }
 
 .aeris-galleria__thumbnail[aria-current='true'] {
-  border-color: var(--aeris-galleria-active-thumbnail-border, var(--aeris-primary, #606c38));
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--aeris-primary, #606c38) 22%, transparent);
+  border-color: var(--aeris-galleria-active-thumbnail-border, var(--aeris-primary, #{aeris-fallbacks.$primary}));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 22%, transparent);
   opacity: 1;
 }
 
@@ -646,8 +648,8 @@
 }
 
 .aeris-galleria__thumbnail-navigator:hover:not(:disabled) {
-  border-color: color-mix(in srgb, var(--aeris-primary, #606c38) 48%, var(--aeris-border, #deddd7));
-  background: color-mix(in srgb, var(--aeris-primary, #606c38) 9%, var(--aeris-surface, #fff));
+  border-color: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 48%, var(--aeris-border, #deddd7));
+  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 9%, var(--aeris-surface, #fff));
 }
 
 .aeris-galleria__thumbnail-navigator:disabled {
@@ -717,7 +719,7 @@
 
 .aeris-galleria__indicators button[aria-current='true'] {
   inline-size: var(--aeris-galleria-active-indicator-width, 1.5rem);
-  background: var(--aeris-galleria-active-indicator-background, var(--aeris-primary, #606c38));
+  background: var(--aeris-galleria-active-indicator-background, var(--aeris-primary, #{aeris-fallbacks.$primary}));
 }
 
 .aeris-galleria__indicators--overlay button[aria-current='true'] {
@@ -731,7 +733,7 @@
 .aeris-galleria__thumbnail:focus-visible,
 .aeris-galleria__thumbnail-navigator:focus-visible,
 .aeris-galleria__indicators button:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 38%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 38%, transparent);
   outline-offset: 2px;
 }
 

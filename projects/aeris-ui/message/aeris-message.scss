@@ -1,5 +1,7 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
-  --_accent: var(--aeris-primary, #606c38);
+  --_accent: var(--aeris-primary, #{aeris-fallbacks.$primary});
   --_accent-soft: color-mix(in srgb, var(--_accent) 14%, transparent);
   --_accent-border: color-mix(in srgb, var(--_accent) 36%, var(--aeris-border, #deddd7));
   --_surface: color-mix(in srgb, var(--aeris-surface, #fff) 94%, var(--_accent-soft));
@@ -203,7 +205,7 @@
 }
 
 .aeris-message__close:focus-visible {
-  outline: 2px solid var(--aeris-focus, #3b452a);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 2px;
 }
 
