@@ -9,12 +9,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 import { AerisIconField } from '@aeris-ui/core/icon-field';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
-import {
-  AerisThemeService,
-  type AerisDensityName,
-  type AerisDirection,
-  type AerisRadiusName,
-} from '@aeris-ui/core/theming';
+import { AerisThemeService } from '@aeris-ui/core/theming';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 import { LucideDynamicIcon } from '@lucide/angular';
 import { filter } from 'rxjs';
@@ -25,75 +20,22 @@ import {
   type ComponentCategory,
 } from './data/component-catalog';
 import { AERIS_CURRENT_VERSION } from './data/aeris-version';
-import { DOCS_PALETTES, type DocsPaletteId } from './data/docs-palettes';
+import type { DocsPaletteId } from './data/docs-palettes';
 import {
   GUIDE_GROUPS,
   GUIDE_SUMMARIES,
   GUIDE_SUMMARY_BY_ID,
   type GuideGroupTitle,
 } from './pages/guides/guide-navigation';
+import {
+  DocsAppearanceService,
+  type DocsDensityId,
+  type DocsDirectionId,
+  type DocsRadiusId,
+} from './shared/appearance/docs-appearance.service';
 import { AerisLogoMarkComponent } from './shared/branding/aeris-logo-mark.component';
 import { DOC_ICONS } from './shared/documentation/doc-icons';
 import { DocsSeoService } from './shared/seo/docs-seo.service';
-
-type DocsDensityId = 'compact' | 'medium' | 'comfortable';
-type DocsRadiusId = 'soft' | 'rounded' | 'pill';
-type DocsDirectionId = 'ltr' | 'rtl';
-
-interface DocsThemeOption<T extends string> {
-  readonly id: T;
-  readonly name: string;
-  readonly description: string;
-}
-
-const DOCS_DENSITIES: readonly DocsThemeOption<DocsDensityId>[] = [
-  {
-    id: 'compact',
-    name: 'Compact',
-    description: 'Tighter controls for dense documentation pages.',
-  },
-  {
-    id: 'medium',
-    name: 'Medium',
-    description: 'Balanced spacing for everyday reading.',
-  },
-  {
-    id: 'comfortable',
-    name: 'Comfortable',
-    description: 'Larger controls with more breathing room.',
-  },
-];
-
-const DOCS_RADII: readonly DocsThemeOption<DocsRadiusId>[] = [
-  {
-    id: 'soft',
-    name: 'Soft',
-    description: 'Subtle corners with a quieter interface shape.',
-  },
-  {
-    id: 'rounded',
-    name: 'Rounded',
-    description: 'The default Aeris corner rhythm.',
-  },
-  {
-    id: 'pill',
-    name: 'Pill',
-    description: 'Fuller corners for a more rounded surface system.',
-  },
-];
-
-const DOCS_DIRECTIONS: readonly DocsThemeOption<DocsDirectionId>[] = [
-  {
-    id: 'ltr',
-    name: 'LTR',
-    description: 'Left-to-right layout direction.',
-  },
-  {
-    id: 'rtl',
-    name: 'RTL',
-    description: 'Right-to-left layout direction.',
-  },
-];
 
 @Component({
   selector: 'app-root',
@@ -122,45 +64,30 @@ const DOCS_DIRECTIONS: readonly DocsThemeOption<DocsDirectionId>[] = [
   },
 })
 export class App {
-  private readonly paletteStorageKey = 'aeris-docs-palette';
-  private readonly densityStorageKey = 'aeris-docs-density';
-  private readonly radiusStorageKey = 'aeris-docs-radius';
-  private readonly directionStorageKey = 'aeris-docs-direction';
   private readonly appearanceTrigger =
     viewChild<ElementRef<HTMLButtonElement>>('appearanceTrigger');
   protected readonly icons = DOC_ICONS;
   private readonly document = inject(DOCUMENT);
   private readonly router = inject(Router);
   private readonly seo = inject(DocsSeoService);
+  private readonly docsAppearance = inject(DocsAppearanceService);
   protected readonly themeService = inject(AerisThemeService);
 
   protected readonly sidebarOpen = signal(false);
   protected readonly searchOpen = signal(false);
   protected readonly appearanceOpen = signal(false);
-  protected readonly palettes = DOCS_PALETTES;
-  protected readonly densities = DOCS_DENSITIES;
-  protected readonly radii = DOCS_RADII;
-  protected readonly directions = DOCS_DIRECTIONS;
-  protected readonly activePaletteId = signal<DocsPaletteId>(this.readStoredPalette());
-  protected readonly activeDensityId = signal<DocsDensityId>(this.readStoredDensity());
-  protected readonly activeRadiusId = signal<DocsRadiusId>(this.readStoredRadius());
-  protected readonly activeDirectionId = signal<DocsDirectionId>(this.readStoredDirection());
-  protected readonly activePalette = computed(
-    () =>
-      this.palettes.find((palette) => palette.id === this.activePaletteId()) ?? this.palettes[0],
-  );
-  protected readonly activeDensity = computed(
-    () =>
-      this.densities.find((density) => density.id === this.activeDensityId()) ?? this.densities[1],
-  );
-  protected readonly activeRadius = computed(
-    () => this.radii.find((radius) => radius.id === this.activeRadiusId()) ?? this.radii[1],
-  );
-  protected readonly activeDirection = computed(
-    () =>
-      this.directions.find((direction) => direction.id === this.activeDirectionId()) ??
-      this.directions[0],
-  );
+  protected readonly palettes = this.docsAppearance.palettes;
+  protected readonly densities = this.docsAppearance.densities;
+  protected readonly radii = this.docsAppearance.radii;
+  protected readonly directions = this.docsAppearance.directions;
+  protected readonly activePaletteId = this.docsAppearance.activePaletteId;
+  protected readonly activePaletteName = this.docsAppearance.activePaletteName;
+  protected readonly activeDensityId = this.docsAppearance.activeDensityId;
+  protected readonly activeRadiusId = this.docsAppearance.activeRadiusId;
+  protected readonly activeDirectionId = this.docsAppearance.activeDirectionId;
+  protected readonly activeDensity = this.docsAppearance.activeDensity;
+  protected readonly activeRadius = this.docsAppearance.activeRadius;
+  protected readonly activeDirection = this.docsAppearance.activeDirection;
   protected readonly query = signal('');
   protected readonly theme = this.themeService.mode;
   protected readonly componentCount = COMPONENT_CATALOG.length;
@@ -219,28 +146,6 @@ export class App {
       .slice(0, 10);
   });
 
-  private readonly syncPalette = effect(() => {
-    const palette = this.activePalette();
-    const density = this.activeDensityId();
-    const radius = this.activeRadiusId();
-    const direction = this.activeDirectionId();
-    this.themeService.setTheme({
-      ...palette.theme,
-      density: density satisfies AerisDensityName,
-      radius: radius satisfies AerisRadiusName,
-      direction: direction satisfies AerisDirection,
-    });
-
-    try {
-      globalThis.localStorage?.setItem(this.paletteStorageKey, palette.id);
-      globalThis.localStorage?.setItem(this.densityStorageKey, density);
-      globalThis.localStorage?.setItem(this.radiusStorageKey, radius);
-      globalThis.localStorage?.setItem(this.directionStorageKey, direction);
-    } catch {
-      // Storage can be unavailable in privacy modes or non-browser environments.
-    }
-  });
-
   private readonly expandActiveComponentGroup = effect(() => {
     this.navigationEnd();
     const slug = this.router.url.split(/[?#]/)[0]?.split('/')[2];
@@ -285,19 +190,19 @@ export class App {
   }
 
   protected selectPalette(id: DocsPaletteId): void {
-    this.activePaletteId.set(id);
+    this.docsAppearance.selectPalette(id);
   }
 
   protected selectDensity(id: DocsDensityId): void {
-    this.activeDensityId.set(id);
+    this.docsAppearance.selectDensity(id);
   }
 
   protected selectRadius(id: DocsRadiusId): void {
-    this.activeRadiusId.set(id);
+    this.docsAppearance.selectRadius(id);
   }
 
   protected selectDirection(id: DocsDirectionId): void {
-    this.activeDirectionId.set(id);
+    this.docsAppearance.selectDirection(id);
   }
 
   protected closeAppearanceMenu(): void {
@@ -359,62 +264,5 @@ export class App {
     if ((this.document.defaultView?.innerWidth ?? 0) > 960) {
       this.sidebarOpen.set(false);
     }
-  }
-
-  private readStoredPalette(): DocsPaletteId {
-    try {
-      const stored = globalThis.localStorage?.getItem(this.paletteStorageKey);
-      if (
-        stored === 'earth' ||
-        stored === 'coastal' ||
-        stored === 'orchid' ||
-        stored === 'monochrome'
-      ) {
-        return stored;
-      }
-    } catch {
-      // Storage can be unavailable in privacy modes or non-browser environments.
-    }
-
-    return 'earth';
-  }
-
-  private readStoredDensity(): DocsDensityId {
-    try {
-      const stored = globalThis.localStorage?.getItem(this.densityStorageKey);
-      if (stored === 'compact' || stored === 'medium' || stored === 'comfortable') {
-        return stored;
-      }
-    } catch {
-      // Storage can be unavailable in privacy modes or non-browser environments.
-    }
-
-    return 'medium';
-  }
-
-  private readStoredRadius(): DocsRadiusId {
-    try {
-      const stored = globalThis.localStorage?.getItem(this.radiusStorageKey);
-      if (stored === 'soft' || stored === 'rounded' || stored === 'pill') {
-        return stored;
-      }
-    } catch {
-      // Storage can be unavailable in privacy modes or non-browser environments.
-    }
-
-    return 'rounded';
-  }
-
-  private readStoredDirection(): DocsDirectionId {
-    try {
-      const stored = globalThis.localStorage?.getItem(this.directionStorageKey);
-      if (stored === 'ltr' || stored === 'rtl') {
-        return stored;
-      }
-    } catch {
-      // Storage can be unavailable in privacy modes or non-browser environments.
-    }
-
-    return 'ltr';
   }
 }
