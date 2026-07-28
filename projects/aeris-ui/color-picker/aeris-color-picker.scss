@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   --_aeris-color-picker-chevron-mask: var(
     --aeris-icon-chevron,
@@ -470,18 +472,18 @@
 }
 
 .aeris-color-picker__presets button[aria-pressed='true'] {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 2px;
 }
 
 .aeris-color-picker__trigger:hover,
 .aeris-color-picker__clear:hover,
 .aeris-color-picker__panel-value input:hover {
-  border-color: var(--aeris-primary, #879566);
+  border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
 }
 
 .aeris-color-picker__presets button:hover {
-  box-shadow: 0 0 0 1px var(--aeris-primary, #879566);
+  box-shadow: 0 0 0 1px var(--aeris-primary, #{aeris-fallbacks.$primary});
 }
 
 .aeris-color-picker__close:hover,
@@ -501,8 +503,8 @@
 .aeris-color-picker__presets button:focus-visible,
 .aeris-color-picker__plane:focus-visible,
 .aeris-color-picker__hue input:focus-visible {
-  border-color: var(--aeris-focus, #536437);
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 24%, transparent);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
   outline-offset: 1px;
 }
 

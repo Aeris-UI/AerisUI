@@ -34,7 +34,7 @@
                 <aeris-color-picker
                   inputId="color-basic"
                   ariaDescribedby="color-basic-help"
-                  value="#879566"
+                  value="#606c38"
                 />
                 <small id="color-basic-help">Choose the primary color for your interface.</small>
               </div>
@@ -43,7 +43,7 @@
   &lt;aeris-color-picker
     inputId="color-basic"
     ariaDescribedby="color-basic-help"
-    value="#879566"
+    value="#606c38"
   /&gt;
   &lt;small id="color-basic-help"&gt;Choose the primary color for your interface.&lt;/small&gt;
 &lt;/div&gt;</code></pre>
@@ -162,7 +162,7 @@
                   <label for="color-swatch-only">Compact color</label>
                   <aeris-color-picker
                     inputId="color-swatch-only"
-                    value="#879566"
+                    value="#606c38"
                     [showValue]="false"
                     [showInput]="false"
                     ariaLabel="Compact color"
@@ -172,7 +172,7 @@
                   <label for="color-swatch-with-input">Swatch with input</label>
                   <aeris-color-picker
                     inputId="color-swatch-with-input"
-                    value="#dab692"
+                    value="#dda15e"
                     [showValue]="false"
                   />
                 </div>
@@ -182,7 +182,7 @@
     &lt;label for="color-swatch-only"&gt;Compact color&lt;/label&gt;
     &lt;aeris-color-picker
       inputId="color-swatch-only"
-      value="#879566"
+      value="#606c38"
       [showValue]="false"
       [showInput]="false"
       ariaLabel="Compact color"
@@ -192,7 +192,7 @@
     &lt;label for="color-swatch-with-input"&gt;Swatch with input&lt;/label&gt;
     &lt;aeris-color-picker
       inputId="color-swatch-with-input"
-      value="#dab692"
+      value="#dda15e"
       [showValue]="false"
     /&gt;
   &lt;/div&gt;
@@ -205,16 +205,16 @@
               description="Four sizes align ColorPicker with the Aeris form density scale."
             >
               <div preview class="field-grid">
-                <aeris-color-picker size="xs" value="#e8dfe0" />
-                <aeris-color-picker size="sm" value="#879566" />
-                <aeris-color-picker size="md" value="#80939b" />
-                <aeris-color-picker size="lg" value="#dab692" />
+                <aeris-color-picker size="xs" value="#fefae0" />
+                <aeris-color-picker size="sm" value="#606c38" />
+                <aeris-color-picker size="md" value="#bc6c25" />
+                <aeris-color-picker size="lg" value="#dda15e" />
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
-  &lt;aeris-color-picker size="xs" value="#e8dfe0" /&gt;
-  &lt;aeris-color-picker size="sm" value="#879566" /&gt;
-  &lt;aeris-color-picker size="md" value="#80939b" /&gt;
-  &lt;aeris-color-picker size="lg" value="#dab692" /&gt;
+  &lt;aeris-color-picker size="xs" value="#fefae0" /&gt;
+  &lt;aeris-color-picker size="sm" value="#606c38" /&gt;
+  &lt;aeris-color-picker size="md" value="#bc6c25" /&gt;
+  &lt;aeris-color-picker size="lg" value="#dda15e" /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -224,12 +224,12 @@
               description="Use outline for clear field boundaries or filled for a quieter surface."
             >
               <div preview class="field-grid">
-                <aeris-color-picker appearance="outline" value="#879566" />
-                <aeris-color-picker appearance="filled" value="#879566" />
+                <aeris-color-picker appearance="outline" value="#606c38" />
+                <aeris-color-picker appearance="filled" value="#606c38" />
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
-  &lt;aeris-color-picker appearance="outline" value="#879566" /&gt;
-  &lt;aeris-color-picker appearance="filled" value="#879566" /&gt;
+  &lt;aeris-color-picker appearance="outline" value="#606c38" /&gt;
+  &lt;aeris-color-picker appearance="filled" value="#606c38" /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -240,11 +240,11 @@
             >
               <div preview class="field">
                 <label for="color-clear">Optional accent</label>
-                <aeris-color-picker inputId="color-clear" value="#8f5b34" clearable />
+                <aeris-color-picker inputId="color-clear" value="#283618" clearable />
               </div>
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;label for="color-clear"&gt;Optional accent&lt;/label&gt;
-  &lt;aeris-color-picker inputId="color-clear" value="#8f5b34" clearable /&gt;
+  &lt;aeris-color-picker inputId="color-clear" value="#283618" clearable /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -254,12 +254,12 @@
               description="Disabled controls block interaction and form submission; read-only controls keep the value visible without editing."
             >
               <div preview class="field-grid">
-                <aeris-color-picker value="#879566" disabled />
-                <aeris-color-picker value="#dab692" readonly />
+                <aeris-color-picker value="#606c38" disabled />
+                <aeris-color-picker value="#dda15e" readonly />
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
-  &lt;aeris-color-picker value="#879566" disabled /&gt;
-  &lt;aeris-color-picker value="#dab692" readonly /&gt;
+  &lt;aeris-color-picker value="#606c38" disabled /&gt;
+  &lt;aeris-color-picker value="#dda15e" readonly /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -359,7 +359,7 @@
                 <label for="color-events">Event color</label>
                 <aeris-color-picker
                   inputId="color-events"
-                  value="#80939b"
+                  value="#bc6c25"
                   (changed)="recordChange($event)"
                 />
                 <small aria-live="polite">{{ lastChange() }}</small>
@@ -368,7 +368,7 @@
   &lt;label for="color-events"&gt;Event color&lt;/label&gt;
   &lt;aeris-color-picker
     inputId="color-events"
-    value="#80939b"
+    value="#bc6c25"
     (changed)="recordChange($event)"
   /&gt;
   &lt;small aria-live="polite"&gt;&#123;&#123; lastChange() &#125;&#125;&lt;/small&gt;

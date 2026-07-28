@@ -2,7 +2,7 @@
 
 > Right-click action menu with target or global triggers, nested submenus, templates, commands, and keyboard navigation.
 
-Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.2 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/context-menu`
 - Human-readable documentation: [https://aeris-ui.dev/components/context-menu](https://aeris-ui.dev/components/context-menu)
@@ -146,7 +146,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 | `--aeris-context-menu-shadow` | `shadow` | `overlay shadow` | Panel and submenu shadow. |
 | `--aeris-context-menu-item-gap` | `length` | `0.625rem` | Gap inside item rows. |
 | `--aeris-context-menu-item-min-height` | `length` | `2.25rem` | Default item height. |
-| `--aeris-context-menu-item-radius` | `length` | `--aeris-radius-sm` | Item radius. |
+| `--aeris-context-menu-item-radius` | `length` | `Panel inner radius` | Item radius derived from the panel radius, padding, and border so highlighted items follow the panel curve. |
 | `--aeris-context-menu-item-hover-background` | `color` | `primary mix` | Hover and active item background. |
 | `--aeris-context-menu-icon-size` | `length` | `1.125rem` | Default icon box size. |
 | `--aeris-context-menu-disabled-opacity` | `number` | `0.52` | Disabled item opacity. |

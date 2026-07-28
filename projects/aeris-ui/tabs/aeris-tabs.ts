@@ -6,6 +6,7 @@ import {
   Component,
   Directive,
   ElementRef,
+  InjectionToken,
   TemplateRef,
   booleanAttribute,
   computed,
@@ -39,6 +40,12 @@ interface AerisTabHeaderContext {
   readonly disabled: boolean;
 }
 
+interface AerisTabsOwner {
+  readonly host: HTMLElement;
+}
+
+const AERIS_TABS_OWNER = new InjectionToken<AerisTabsOwner>('AerisTabsOwner');
+
 @Directive({ selector: 'ng-template[aerisTabHeader]' })
 export class AerisTabHeaderTemplate {
   readonly template = inject<TemplateRef<AerisTabHeaderContext>>(TemplateRef);
@@ -58,7 +65,7 @@ let nextPanelId = 0;
   },
 })
 export class AerisTabPanel {
-  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly owner = inject(AERIS_TABS_OWNER, { optional: true });
   private readonly instanceId = nextPanelId++;
   readonly value = input.required<string>();
   readonly label = input.required<string>();
@@ -71,16 +78,20 @@ export class AerisTabPanel {
   });
 
   isDirectPanelOf(tabsHost: HTMLElement): boolean {
-    const parent = this.element.nativeElement.parentElement;
-    return (
-      parent?.classList.contains('aeris-tabs__panel-source') === true &&
-      parent.parentElement === tabsHost
-    );
+    return this.owner?.host === tabsHost;
   }
 }
 
 @Component({
   selector: 'aeris-tabs',
+  providers: [
+    {
+      provide: AERIS_TABS_OWNER,
+      useFactory: () => ({
+        host: inject<ElementRef<HTMLElement>>(ElementRef).nativeElement,
+      }),
+    },
+  ],
   imports: [NgTemplateOutlet],
   template: `
     <div class="aeris-tabs__panel-source" aria-hidden="true">
@@ -226,10 +237,9 @@ export class AerisTabs {
     });
 
     effect(() => {
-      const panelSignature = this.panels()
-        .map((panel) => `${panel.value()}:${panel.label()}:${panel.disabled()}`)
-        .join('|');
-      if (!panelSignature) return;
+      const panelCount = this.panels().length;
+      this.tabButtons();
+      if (panelCount === 0) return;
       queueMicrotask(() => this.updateScrollState());
     });
   }

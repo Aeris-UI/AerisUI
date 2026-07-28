@@ -1,13 +1,13 @@
 # Aeris UI full documentation
 
-> Complete machine-readable context for Aeris UI 22.0.0-alpha.1, an Angular >=22.0.6 <23.0.0 component library. Aeris is currently alpha software and is not production ready.
+> Complete machine-readable context for Aeris UI 22.0.0-alpha.2, an Angular >=22.0.6 <23.0.0 component library. Aeris is currently alpha software and is not production ready.
 
 This generated document combines the canonical developer guides and every component reference. The source documentation, generated component Markdown, and canonical JSON are validated together during documentation builds.
 
 ## Library contract
 
 - Package: `@aeris-ui/core`
-- Version: `22.0.0-alpha.1`
+- Version: `22.0.0-alpha.2`
 - Angular peer range: `>=22.0.6 <23.0.0`
 - License: MIT
 - Aeris is alpha software and is not production ready.
@@ -35,7 +35,7 @@ Human-readable documentation: [https://aeris-ui.dev/guides/installation](https:/
 
 #### Alpha status
 
-Aeris 22.0.0-alpha.1 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.
+Aeris 22.0.0-alpha.2 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.
 
 Public APIs, styling contracts, component behavior, and migration requirements may change before the first stable release as consumer testing uncovers improvements.
 
@@ -79,7 +79,7 @@ Schemes decide which light and dark token sets are available. Mode decides which
 ##### Pinned alpha (recommended)
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.1
+ng add @aeris-ui/core@22.0.0-alpha.2
 ```
 
 ##### Newest alpha
@@ -95,7 +95,7 @@ ng add @aeris-ui/core@next
 npm run pack:lib
 
 # Run from the Angular application
-ng add "../path-to-aeris/dist/packages/aeris-ui-core-22.0.0-alpha.1.tgz"
+ng add "../path-to-aeris/dist/packages/aeris-ui-core-22.0.0-alpha.2.tgz"
 ```
 
 - [@aeris-ui/core on npm](https://www.npmjs.com/package/@aeris-ui/core)
@@ -166,7 +166,7 @@ The setup file controls installation. Build-time projects also receive aeris.the
 ##### Terminal
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.1 --config=aeris.setup.json
+ng add @aeris-ui/core@22.0.0-alpha.2 --config=aeris.setup.json
 ```
 
 #### Provide palette seeds
@@ -178,7 +178,7 @@ Select Custom in the wizard to enter surface, primary, secondary, accent, and co
 ##### Terminal
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.1 --project=web --surface="#dfe8ee" --primary="#7196b4" --secondary="#6d9992" --accent="#d8ad70" --contrast="#31536a" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
+ng add @aeris-ui/core@22.0.0-alpha.2 --project=web --surface="#dfe8ee" --primary="#7196b4" --secondary="#6d9992" --accent="#d8ad70" --contrast="#31536a" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
 ```
 
 ##### aeris.setup.json
@@ -205,7 +205,7 @@ Install the package directly when a workspace should not be modified by the init
 ##### Terminal
 
 ```bash
-npm install @aeris-ui/core@22.0.0-alpha.1
+npm install @aeris-ui/core@22.0.0-alpha.2
 ```
 
 #### Load the global styles
@@ -314,7 +314,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-- **Aeris Earth:** Quiet sage, warm sand, and grounded neutrals.
+- **Aeris Earth:** Deep olive, warm copper, and sunlit cornsilk.
 - **Coastal Glass:** Clear blues, sea glass, and sun-warmed gold.
 - **Orchid Dusk:** Soft violet, muted rose, and evening plum.
 - **Aeris Monochrome:** Black-and-white interface colors with distinct neutral action tiers and restrained status accents.
@@ -401,11 +401,11 @@ export const appConfig: ApplicationConfig = {
       themeModeStorageKey: 'my-app-color-mode',
       theme: {
         palette: {
-          surface: '#e8dfe0',
-          primary: '#879566',
-          secondary: '#80939b',
-          accent: '#dab692',
-          contrast: '#8f5b34',
+          surface: '#fefae0',
+          primary: '#606c38',
+          secondary: '#bc6c25',
+          accent: '#dda15e',
+          contrast: '#283618',
         },
         density: 'medium',
         radius: 'rounded',
@@ -1217,11 +1217,11 @@ import type { AerisThemeOverride } from '@aeris-ui/core/theming';
 
 export const productTheme: AerisThemeOverride = {
   palette: {
-    surface: '#e8dfe0',
-    primary: '#879566',
-    secondary: '#80939b',
-    accent: '#dab692',
-    contrast: '#8f5b34',
+    surface: '#fefae0',
+    primary: '#606c38',
+    secondary: '#bc6c25',
+    accent: '#dda15e',
+    contrast: '#283618',
   },
   density: 'medium',
   radius: 'rounded',
@@ -1515,7 +1515,7 @@ The server bundles the canonical documentation generated for its exact Aeris ver
 
 - Node.js 20 or newer for the local MCP process.
 - An AI editor, CLI, or desktop application that supports local stdio MCP servers.
-- Use @aeris-ui/mcp 22.0.0-alpha.1 with @aeris-ui/core 22.0.0-alpha.1.
+- Use @aeris-ui/mcp 22.0.0-alpha.2 with @aeris-ui/core 22.0.0-alpha.2.
 - Restart or reload the AI client after changing its MCP configuration.
 
 > Note: Pin the MCP and core packages to the same exact alpha version.
@@ -1535,7 +1535,7 @@ Pin the exact version during alpha so the MCP documentation cannot move independ
   "mcpServers": {
     "aeris": {
       "command": "npx",
-      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.1"]
+      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.2"]
     }
   }
 }
@@ -1832,7 +1832,7 @@ Evaluate SSR applications in a disposable branch, render every component used by
 
 > Choose an Aeris release line that is verified for the Angular version used by your application.
 
-The current package is Aeris 22.0.0-alpha.1, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.
+The current package is Aeris 22.0.0-alpha.2, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.
 
 Human-readable documentation: [https://aeris-ui.dev/guides/version-compatibility](https://aeris-ui.dev/guides/version-compatibility)
 
@@ -1855,7 +1855,7 @@ The npm lookup command becomes available after the first package is published. B
 ##### Shell
 
 ```bash
-npm view @aeris-ui/core@22.0.0-alpha.1 peerDependencies
+npm view @aeris-ui/core@22.0.0-alpha.2 peerDependencies
 ```
 
 #### How Aeris versions are managed
@@ -1919,7 +1919,7 @@ When the compatibility matrix already covers the installed Angular major, update
 ##### Shell
 
 ```bash
-npm install @aeris-ui/core@22.0.0-alpha.1
+npm install @aeris-ui/core@22.0.0-alpha.2
 ```
 
 #### Update Angular and Aeris together
@@ -1932,7 +1932,7 @@ For an Angular major update, use Angular CLI migrations first, then install an A
 
 ```bash
 ng update @angular/core@22 @angular/cli@22
-npm install @aeris-ui/core@22.0.0-alpha.1
+npm install @aeris-ui/core@22.0.0-alpha.2
 ```
 
 #### Keep optional feature peers aligned
@@ -1946,7 +1946,7 @@ Chart and Editor entry points rely on optional peer packages. Update them only w
 
 #### Release-specific migration notes
 
-Aeris 22.0.0-alpha.1 begins the Angular-aligned Aeris 22 alpha line. Future prereleases that require consumer changes will add exact before-and-after instructions here.
+Aeris 22.0.0-alpha.2 begins the Angular-aligned Aeris 22 alpha line. Future prereleases that require consumer changes will add exact before-and-after instructions here.
 
 > Note: A release without an entry in this section has no known manual migration beyond the standard install and verification workflow.
 
@@ -1996,7 +1996,20 @@ Human-readable documentation: [https://aeris-ui.dev/guides/changelog](https://ae
 
 Next release · In development
 
-- No consumer-visible changes have been recorded since 22.0.0-alpha.1.
+- No consumer-visible changes have been recorded since 22.0.0-alpha.2.
+
+#### Aeris 22.0.0-alpha.2
+
+Alpha patch · 28 July 2026
+
+- Publish Core and MCP through versioned GitHub Releases using npm trusted publishing.
+- Refresh the Earth theme and centralize component fallback colors in the theming layer.
+- Render Tabs correctly on the first lazy navigation.
+- Polish Toast stacking, motion, rapid interactions, and pointer or touch swipe dismissal.
+- Align ContextMenu corner radii and animate MeterGroup fills from the logical start edge.
+- Add discreet sponsorship and supporter-recognition guidance.
+- Clarify Aeris UI open-source positioning and production canonical URLs.
+- Update development dependencies while retaining the supported Angular 22 peer range.
 
 #### Aeris 22.0.0-alpha.1
 
@@ -4511,7 +4524,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string (model)` | `'#879566'` | Current color value with two-way binding and Forms support. |
+| `value` | `string (model)` | `'#606c38'` | Current color value with two-way binding and Forms support. |
 | `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. |
 | `inputId` | `string` | `generated` | ID assigned to the visible color-picker trigger for label association. |
 | `name` | `string` | `''` | Native form field name submitted through a hidden input. |
@@ -4630,7 +4643,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
       <aeris-color-picker
         inputId="color-basic"
         ariaDescribedby="color-basic-help"
-        value="#879566"
+        value="#606c38"
       />
       <small id="color-basic-help">Choose the primary color for your interface.</small>
     </div>
@@ -4716,7 +4729,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   `
 })
 export class ColorPickerSignalSignalValueDemo {
-  protected readonly brandColor = signal('#879566');
+  protected readonly brandColor = signal('#606c38');
 }
 ```
 
@@ -4775,7 +4788,7 @@ import { AerisColorPicker, type AerisColorFormat } from '@aeris-ui/core/color-pi
   `
 })
 export class ColorPickerFormatsSelectableFormatsDemo {
-  protected readonly formatColor = signal('#879566');
+  protected readonly formatColor = signal('#606c38');
   protected readonly selectedFormat = signal<AerisColorFormat>('hex');
 }
 ```
@@ -4892,11 +4905,11 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 })
 export class ColorPickerPresetsPresetsDemo {
   protected readonly presets: readonly string[] = [
-    '#e8dfe0',
-    '#879566',
-    '#80939b',
-    '#dab692',
-    '#8f5b34',
+    '#fefae0',
+    '#606c38',
+    '#bc6c25',
+    '#dda15e',
+    '#283618',
   ];
 }
 ```
@@ -4929,7 +4942,7 @@ export class ColorPickerSwatchOnlySwatchOnlyDemo {
     <label for="color-swatch-only">Compact color</label>
     <aeris-color-picker
       inputId="color-swatch-only"
-      value="#879566"
+      value="#606c38"
       [showValue]="false"
       [showInput]="false"
       ariaLabel="Compact color"
@@ -4939,7 +4952,7 @@ export class ColorPickerSwatchOnlySwatchOnlyDemo {
     <label for="color-swatch-with-input">Swatch with input</label>
     <aeris-color-picker
       inputId="color-swatch-with-input"
-      value="#dab692"
+      value="#dda15e"
       [showValue]="false"
     />
   </div>
@@ -5004,10 +5017,10 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   imports: [AerisColorPicker],
   template: `
     <div class="field-grid">
-      <aeris-color-picker size="xs" value="#e8dfe0" />
-      <aeris-color-picker size="sm" value="#879566" />
-      <aeris-color-picker size="md" value="#80939b" />
-      <aeris-color-picker size="lg" value="#dab692" />
+      <aeris-color-picker size="xs" value="#fefae0" />
+      <aeris-color-picker size="sm" value="#606c38" />
+      <aeris-color-picker size="md" value="#bc6c25" />
+      <aeris-color-picker size="lg" value="#dda15e" />
     </div>
   `,
   styles: `
@@ -5044,8 +5057,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   imports: [AerisColorPicker],
   template: `
     <div class="field-grid">
-      <aeris-color-picker appearance="outline" value="#879566" />
-      <aeris-color-picker appearance="filled" value="#879566" />
+      <aeris-color-picker appearance="outline" value="#606c38" />
+      <aeris-color-picker appearance="filled" value="#606c38" />
     </div>
   `,
   styles: `
@@ -5083,7 +5096,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   template: `
     <div class="field">
       <label for="color-clear">Optional accent</label>
-      <aeris-color-picker inputId="color-clear" value="#8f5b34" clearable />
+      <aeris-color-picker inputId="color-clear" value="#283618" clearable />
     </div>
   `,
   styles: `
@@ -5133,8 +5146,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   imports: [AerisColorPicker],
   template: `
     <div class="field-grid">
-      <aeris-color-picker value="#879566" disabled />
-      <aeris-color-picker value="#dab692" readonly />
+      <aeris-color-picker value="#606c38" disabled />
+      <aeris-color-picker value="#dda15e" readonly />
     </div>
   `,
   styles: `
@@ -5259,9 +5272,9 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 })
 export class ColorPickerFormsReactiveAndTemplateDrivenFormsDemo {
   protected readonly reactiveColor =
-    new FormControl('#80939b');
+    new FormControl('#bc6c25');
 
-  protected templateColor = '#8f5b34';
+  protected templateColor = '#283618';
 }
 ```
 
@@ -5347,7 +5360,7 @@ import { AerisColorPicker, type AerisColorPickerChangeEvent } from '@aeris-ui/co
       <label for="color-events">Event color</label>
       <aeris-color-picker
         inputId="color-events"
-        value="#80939b"
+        value="#bc6c25"
         (changed)="recordChange($event)"
       />
       <small aria-live="polite">{{ lastChange() }}</small>
@@ -18242,11 +18255,11 @@ export class SelectTemplatesOptionAndSelectedValueTemplatesDemo {
 }
 
 .team-mark[data-team='platform'] {
-  background: #80939b;
+  background: #bc6c25;
 }
 
 .team-mark[data-team='a11y'] {
-  background: #8f5b34;
+  background: #283618;
 }
 
 .selected-team,
@@ -43474,7 +43487,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 | `--aeris-context-menu-shadow` | `shadow` | `overlay shadow` | Panel and submenu shadow. |
 | `--aeris-context-menu-item-gap` | `length` | `0.625rem` | Gap inside item rows. |
 | `--aeris-context-menu-item-min-height` | `length` | `2.25rem` | Default item height. |
-| `--aeris-context-menu-item-radius` | `length` | `--aeris-radius-sm` | Item radius. |
+| `--aeris-context-menu-item-radius` | `length` | `Panel inner radius` | Item radius derived from the panel radius, padding, and border so highlighted items follow the panel curve. |
 | `--aeris-context-menu-item-hover-background` | `color` | `primary mix` | Hover and active item background. |
 | `--aeris-context-menu-icon-size` | `length` | `1.125rem` | Default icon box size. |
 | `--aeris-context-menu-disabled-opacity` | `number` | `0.52` | Disabled item opacity. |
@@ -48455,7 +48468,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | `AerisToastPosition` | `'top-right'` | Places the toast region on the viewport. |
+| `position` | `AerisToastPosition` | `'bottom-right'` | Places the toast region on the viewport. |
 | `group` | `string` | `''` | Renders only messages from the matching service group. |
 | `mode` | `AerisToastMode` | `'stacked'` | Uses a compact stack that expands on hover/focus or an always-expanded list. |
 | `visibleCount` | `number` | `4` | Controls how many messages are rendered in stacked and expanded modes. |
@@ -48463,6 +48476,8 @@ import {
 | `newestOnTop` | `boolean` | `true` | Shows the newest message as the primary toast. Set false to keep the oldest message on top. |
 | `pauseOnHover` | `boolean` | `true` | Pauses auto-dismiss timers while the toast region is hovered or focused. |
 | `showClose` | `boolean` | `true` | Shows close buttons for closable messages. |
+| `swipeDirection` | `AerisToastSwipeDirection &#124; readonly AerisToastSwipeDirection[]` | `['down', 'right']` | Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping. |
+| `swipeThreshold` | `number` | `40` | Sets the required swipe displacement in pixels before dismissal. |
 | `ariaLabel` | `string` | `'Notifications'` | Accessible name for the toast region. |
 | `closeAriaLabel` | `string` | `'Close notification'` | Accessible label for each close button. |
 
@@ -48470,7 +48485,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `closed` | `AerisToastCloseEvent` | `-` | Emits when a message rendered by this Toast closes by timeout, button, API, or clear. |
+| `closed` | `AerisToastCloseEvent` | `-` | Emits when a message rendered by this Toast closes by timeout, button, swipe, API, or clear. |
 
 ##### Templates
 
@@ -48522,7 +48537,8 @@ type AerisToastSeverity =
   | 'contrast';
 
 type AerisToastMode = 'stacked' | 'expanded';
-type AerisToastCloseReason = 'timeout' | 'close-button' | 'api' | 'clear';
+type AerisToastSwipeDirection = 'up' | 'down' | 'left' | 'right';
+type AerisToastCloseReason = 'timeout' | 'close-button' | 'swipe' | 'api' | 'clear';
 type AerisToastLive = 'polite' | 'assertive';
 type AerisToastRole = 'status' | 'alert';
 
@@ -48578,8 +48594,6 @@ interface AerisToastTemplateContext<TData = unknown> {
 | `--aeris-toast-offset` | `CSS custom property` | — | Distance from viewport edges. |
 | `--aeris-toast-gap` | `CSS custom property` | — | Space between expanded messages. |
 | `--aeris-toast-stack-peek` | `CSS custom property` | — | Visible sliver height for stacked messages under the primary toast. |
-| `--aeris-toast-stack-card-height` | `CSS custom property` | — | Collapsed stacked-card measurement used to calculate overlap. |
-| `--aeris-toast-expanded-message-max-height` | `CSS custom property` | — | Maximum animated message height when stacked messages expand. |
 | `--aeris-toast-icon-size` | `CSS custom property` | — | Default icon box size. |
 | `--aeris-success` | `CSS custom property` | — | Success accent. |
 | `--aeris-info` | `CSS custom property` | — | Info accent. |
@@ -48856,7 +48870,7 @@ export class ToastCustomCustomContentDemo {
 
 ##### Stacked preview
 
-Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus the stack to expand the visible window.
+Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus the stack to smoothly expand the visible window.
 
 ###### TS
 
@@ -48891,6 +48905,50 @@ export class ToastStackedStackedPreviewDemo {
       { group: 'stacked', severity: 'error', summary: 'Failed', detail: 'One job needs attention.' },
       { group: 'stacked', severity: 'info', summary: 'Assigned', detail: 'A reviewer was notified.' },
     ]);
+  }
+}
+```
+
+##### Swipe dismissal
+
+Drag with a mouse, pen, or touch gesture. The default directions are down and right; short or reversed gestures return smoothly to the resting position.
+
+###### TS
+
+```ts
+import { Component, inject } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';
+
+@Component({
+  selector: 'app-toast-swipe-demo',
+  imports: [AerisButton, AerisToastModule],
+  template: `
+    <div>
+      <div>
+        <button aerisButton type="button" (click)="showSwipeToast()">
+          Show swipeable toast
+        </button>
+      </div>
+      <aeris-toast
+        group="swipe"
+        [swipeDirection]="['down', 'right']"
+        [swipeThreshold]="40"
+      />
+    </div>
+  `
+})
+export class ToastSwipeSwipeDismissalDemo {
+  private readonly toast = inject(AerisToastService);
+
+  protected showSwipeToast(): void {
+    this.toast.show({
+      group: 'swipe',
+      severity: 'info',
+      summary: 'Drag to dismiss',
+      detail: 'Swipe this notification down or to the right.',
+      sticky: true,
+    });
   }
 }
 ```
@@ -49070,8 +49128,9 @@ export class ToastLoadingLoadingPatternDemo {
 - Use newestOnTop to control whether the newest or oldest queued message is the primary visible toast.
 - Auto-dismiss timers pause while the region is hovered or focused when pauseOnHover is enabled.
 - Messages outside the visible window are paused until they become visible so they are not dismissed before users can perceive them.
+- Pointer, pen, and touch users can swipe in any configured swipeDirection. Gestures shorter than swipeThreshold return to the resting position, and interactive content does not begin a swipe.
 - Use sticky messages for critical information that must remain available until dismissed.
-- Toast motion is disabled for users who request reduced motion.
+- Entry, dismissal, and stack motion is disabled for users who request reduced motion.
 
 ##### Keyboard support
 

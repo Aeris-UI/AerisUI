@@ -2,7 +2,7 @@
   <app-component-page-header
     category="Messages"
     title="Toast"
-    description="Displays transient notifications from a service-managed queue with timing, grouping, positions, templates, and accessible live-region semantics."
+    description="Displays animated transient notifications from a service-managed queue with timing, grouping, positions, templates, and accessible live-region semantics."
   />
 
   <section id="toast-import" class="import-section" aria-labelledby="toast-import-title">
@@ -218,7 +218,7 @@
             <app-form-demo
               id="toast-stacked"
               title="Stacked preview"
-              description="Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus the stack to expand the visible window."
+              description="Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus the stack to smoothly expand the visible window."
               [tsCode]="stackedTsCode"
             >
               <div preview>
@@ -236,6 +236,38 @@
     &lt;/button&gt;
   &lt;/div&gt;
   &lt;aeris-toast group="stacked" position="top-right" [visibleCount]="4" newestOnTop /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="toast-swipe"
+              title="Swipe dismissal"
+              description="Drag with a mouse, pen, or touch gesture. The default directions are down and right; short or reversed gestures return smoothly to the resting position."
+              [tsCode]="swipeTsCode"
+            >
+              <div preview>
+                <div>
+                  <button aerisButton type="button" (click)="showSwipeToast()">
+                    Show swipeable toast
+                  </button>
+                </div>
+                <aeris-toast
+                  group="swipe"
+                  [swipeDirection]="['down', 'right']"
+                  [swipeThreshold]="40"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div&gt;
+    &lt;button aerisButton type="button" (click)="showSwipeToast()"&gt;
+      Show swipeable toast
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-toast
+    group="swipe"
+    [swipeDirection]="['down', 'right']"
+    [swipeThreshold]="40"
+  /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -497,17 +529,7 @@
             <code role="cell">--aeris-toast-stack-peek</code
             ><span role="cell"
               >Visible sliver height for stacked messages under the primary toast.</span
-            ><code role="cell">0.55rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-toast-stack-card-height</code
-            ><span role="cell">Collapsed stacked-card measurement used to calculate overlap.</span
-            ><code role="cell">2.75rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-toast-expanded-message-max-height</code
-            ><span role="cell">Maximum animated message height when stacked messages expand.</span
-            ><code role="cell">18rem</code>
+            ><code role="cell">0.75rem</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-toast-icon-size</code
@@ -578,9 +600,16 @@
             dismissed before users can perceive them.
           </li>
           <li>
+            Pointer, pen, and touch users can swipe in any configured
+            <code>swipeDirection</code>. Gestures shorter than <code>swipeThreshold</code> return to
+            the resting position, and interactive content does not begin a swipe.
+          </li>
+          <li>
             Use sticky messages for critical information that must remain available until dismissed.
           </li>
-          <li>Toast motion is disabled for users who request reduced motion.</li>
+          <li>
+            Entry, dismissal, and stack motion is disabled for users who request reduced motion.
+          </li>
         </ul>
 
         <h3>Keyboard support</h3>

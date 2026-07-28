@@ -518,11 +518,11 @@ export const appConfig: ApplicationConfig = {
       themeModeStorageKey: 'my-app-color-mode',
       theme: {
         palette: {
-          surface: '#e8dfe0',
-          primary: '#879566',
-          secondary: '#80939b',
-          accent: '#dab692',
-          contrast: '#8f5b34',
+          surface: '#fefae0',
+          primary: '#606c38',
+          secondary: '#bc6c25',
+          accent: '#dda15e',
+          contrast: '#283618',
         },
         density: 'medium',
         radius: 'rounded',
@@ -1541,11 +1541,11 @@ export const appConfig: ApplicationConfig = {
 
 export const productTheme: AerisThemeOverride = {
   palette: {
-    surface: '#e8dfe0',
-    primary: '#879566',
-    secondary: '#80939b',
-    accent: '#dab692',
-    contrast: '#8f5b34',
+    surface: '#fefae0',
+    primary: '#606c38',
+    secondary: '#bc6c25',
+    accent: '#dda15e',
+    contrast: '#283618',
   },
   density: 'medium',
   radius: 'rounded',

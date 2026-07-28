@@ -118,11 +118,11 @@
 }
 
 :root {
-  --aeris-palette-surface: #e8dfe0;
-  --aeris-palette-primary: #879566;
-  --aeris-palette-secondary: #80939b;
-  --aeris-palette-accent: #dab692;
-  --aeris-palette-contrast: #8f5b34;
+  --aeris-palette-surface: #fefae0;
+  --aeris-palette-primary: #606c38;
+  --aeris-palette-secondary: #bc6c25;
+  --aeris-palette-accent: #dda15e;
+  --aeris-palette-contrast: #283618;
   --aeris-palette-mist: var(--aeris-palette-surface);
   --aeris-palette-sage: var(--aeris-palette-primary);
   --aeris-palette-cloud: var(--aeris-palette-secondary);
@@ -134,14 +134,14 @@
   --aeris-primary-active: color-mix(in oklch, var(--aeris-palette-primary) 95%, #111411);
   --aeris-primary-text: color-mix(in srgb, var(--aeris-palette-primary) 55%, #1d2119);
   --aeris-primary-soft: color-mix(in srgb, var(--aeris-palette-primary) 13%, transparent);
-  --aeris-on-primary: #111411;
+  --aeris-on-primary: #ffffff;
   --aeris-on-primary-hover: var(--aeris-on-primary);
   --aeris-on-primary-active: var(--aeris-on-primary);
   --aeris-on-primary-soft: var(--aeris-primary-text);
   --aeris-primary-contrast: var(--aeris-on-primary);
   --aeris-secondary: var(--aeris-palette-secondary);
-  --aeris-secondary-hover: color-mix(in oklch, var(--aeris-secondary) 96%, #111411);
-  --aeris-secondary-active: color-mix(in oklch, var(--aeris-secondary) 95%, #111411);
+  --aeris-secondary-hover: #bf7231;
+  --aeris-secondary-active: #c07334;
   --aeris-secondary-text: color-mix(in srgb, var(--aeris-secondary) 55%, #111411);
   --aeris-secondary-soft: color-mix(in srgb, var(--aeris-secondary) 14%, var(--aeris-surface));
   --aeris-on-secondary: #111411;
@@ -256,7 +256,7 @@
   --aeris-primary-active: color-mix(in srgb, var(--aeris-palette-primary) 58%, #ffffff);
   --aeris-primary-text: color-mix(in srgb, var(--aeris-palette-primary) 60%, #ffffff);
   --aeris-primary-soft: color-mix(in srgb, var(--aeris-palette-primary) 16%, transparent);
-  --aeris-on-primary: #17200f;
+  --aeris-on-primary: #111411;
   --aeris-primary-contrast: var(--aeris-on-primary);
   --aeris-secondary: color-mix(in srgb, var(--aeris-palette-secondary) 78%, #ffffff);
   --aeris-secondary-hover: color-mix(in srgb, var(--aeris-secondary) 86%, #ffffff);

@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   display: inline-block;
   max-width: 100%;
@@ -129,7 +131,7 @@
       --aeris-radio-focus-ring,
       color-mix(
         in srgb,
-        var(--aeris-focus, var(--aeris-primary, #536437)) 42%,
+        var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$focus})) 42%,
         transparent
       )
     );

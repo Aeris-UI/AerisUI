@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 .aeris-input-group {
   --aeris-input-group-height: var(--aeris-control-height, 2.625rem);
   --aeris-input-group-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
@@ -235,9 +237,9 @@ svg.aeris-input-group__addon {
 .aeris-input-group > input:focus,
 .aeris-input-group > textarea:focus,
 .aeris-input-group > select:focus {
-  border-color: var(--aeris-focus, #536437);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline: 0;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
 }
 
 .aeris-input-group--filled > input:not([type='checkbox']):not([type='radio']),

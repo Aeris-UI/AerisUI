@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   display: block;
   min-width: 0;
@@ -84,9 +86,9 @@
 }
 
 .aeris-pick-list__filter input:focus {
-  border-color: var(--aeris-focus, #536437);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline: 0;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 20%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 20%, transparent);
 }
 
 .aeris-pick-list__search-icon {
@@ -131,7 +133,7 @@
 
 .aeris-pick-list__viewport:focus-visible {
   outline: 0;
-  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 22%, transparent);
+  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 22%, transparent);
 }
 
 .aeris-pick-list__item {
@@ -168,13 +170,13 @@
 }
 
 .aeris-pick-list__item[data-selected='true'] {
-  border-color: color-mix(in srgb, var(--aeris-primary, #879566) 44%, var(--aeris-border, #deddd7));
+  border-color: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 44%, var(--aeris-border, #deddd7));
   background: var(--aeris-primary-soft, #eef2e6);
   color: var(--aeris-text, #222222);
 }
 
 .aeris-pick-list__item[data-active='true'] {
-  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--aeris-focus, #536437) 44%, transparent);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 44%, transparent);
 }
 
 .aeris-pick-list__item[data-dragging='true'] {
@@ -189,7 +191,7 @@
   left: 0.25rem;
   height: 2px;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-primary, #879566);
+  background: var(--aeris-primary, #{aeris-fallbacks.$primary});
   content: '';
 }
 
@@ -244,14 +246,14 @@
 
 .aeris-pick-list__reorder-controls button:not(:disabled):hover,
 .aeris-pick-list__transfer-controls button:not(:disabled):hover {
-  border-color: var(--aeris-focus, #536437);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
   background: var(--aeris-surface-2, #f2f0ec);
 }
 
 .aeris-pick-list__reorder-controls button:focus-visible,
 .aeris-pick-list__transfer-controls button:focus-visible {
   outline: 0;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 24%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
 }
 
 .aeris-pick-list__reorder-controls button:disabled,

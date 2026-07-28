@@ -58,11 +58,13 @@ export function resolveAerisSemanticTones(
     const overrides = scheme.tones?.[name] ?? {};
     const base = overrides.base ?? defaultBase(theme, mode, name);
     const boundary = overrides.boundary ?? base;
-    const hover = overrides.hover ?? deriveState(base, mode, stateMix(mode, 'hover'));
-    const active = overrides.active ?? deriveState(base, mode, stateMix(mode, 'active'));
+    const onBase = overrides.onBase ?? contrastingForeground(base);
+    const hover =
+      overrides.hover ?? deriveState(base, mode, stateMix(mode, 'hover'), onBase);
+    const active =
+      overrides.active ?? deriveState(base, mode, stateMix(mode, 'active'), onBase);
     const soft = overrides.soft ?? mixAerisColor(surface, base, mode === 'dark' ? 0.2 : 0.14);
     const text = overrides.text ?? ensureTextContrast(base, surface, mode);
-    const onBase = overrides.onBase ?? contrastingForeground(base);
     const onHover = overrides.onHover ?? contrastingForeground(hover, onBase);
     const onActive = overrides.onActive ?? contrastingForeground(active, onHover);
     const onSoft = overrides.onSoft ?? ensureTextContrast(text, soft, mode);
@@ -113,8 +115,48 @@ function resolveSurface(
     : mixAerisColor('#1f221c', theme.palette.surface, 0.02);
 }
 
-function deriveState(base: string, mode: 'light' | 'dark', amount: number): string {
-  return mixAerisColor(base, mode === 'light' ? DARK_FOREGROUND : LIGHT_FOREGROUND, amount);
+function deriveState(
+  base: string,
+  mode: 'light' | 'dark',
+  amount: number,
+  foreground: string,
+): string {
+  const state = mixAerisColor(
+    base,
+    mode === 'light' ? DARK_FOREGROUND : LIGHT_FOREGROUND,
+    amount,
+  );
+  const stateColor = parseAerisColor(state);
+  const foregroundColor = parseAerisColor(foreground);
+  if (
+    mode === 'dark' ||
+    !stateColor ||
+    !foregroundColor ||
+    aerisRgbContrastRatio(stateColor, foregroundColor) >= REQUIRED_TEXT_CONTRAST
+  ) {
+    return state;
+  }
+
+  const dark = parseAerisColor(DARK_FOREGROUND)!;
+  const light = parseAerisColor(LIGHT_FOREGROUND)!;
+  const target =
+    aerisRgbContrastRatio(foregroundColor, light) >
+    aerisRgbContrastRatio(foregroundColor, dark)
+      ? LIGHT_FOREGROUND
+      : DARK_FOREGROUND;
+
+  for (let mix = amount; mix <= 1; mix += 0.01) {
+    const candidate = mixAerisColor(base, target, mix);
+    const candidateColor = parseAerisColor(candidate);
+    if (
+      candidateColor &&
+      aerisRgbContrastRatio(candidateColor, foregroundColor) >= REQUIRED_TEXT_CONTRAST
+    ) {
+      return candidate;
+    }
+  }
+
+  return target;
 }
 
 function stateMix(mode: 'light' | 'dark', state: 'hover' | 'active'): number {

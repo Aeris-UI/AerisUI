@@ -50,12 +50,16 @@ describe('docs SEO metadata', () => {
     expect(resolveDocsSeo('/unknown').noIndex).toBe(true);
   });
 
-  it('updates colon-delimited Twitter metadata without invalid selectors', () => {
+  it('injects one route-specific canonical and updates colon-delimited Twitter metadata', () => {
     TestBed.configureTestingModule({ providers: [provideRouter([])] });
     TestBed.inject(DocsSeoService).initialize();
 
     const document = TestBed.inject(DOCUMENT);
     const card = document.querySelector(`meta[name='twitter:card']`);
+    const canonicals = document.querySelectorAll<HTMLLinkElement>('link[rel=canonical]');
+
     expect(card?.getAttribute('content')).toBe('summary');
+    expect(canonicals).toHaveLength(1);
+    expect(canonicals[0]?.href).toBe('https://aeris-ui.dev/');
   });
 });

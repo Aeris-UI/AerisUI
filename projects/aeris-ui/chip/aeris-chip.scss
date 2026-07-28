@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host,
 .aeris-chip,
 .aeris-chip * {
@@ -62,7 +64,7 @@
 }
 
 :host(.aeris-chip[data-tone='primary']) {
-  --_aeris-chip-accent: var(--aeris-primary, #879566);
+  --_aeris-chip-accent: var(--aeris-primary, #{aeris-fallbacks.$primary});
 }
 
 :host(.aeris-chip[data-tone='success']) {

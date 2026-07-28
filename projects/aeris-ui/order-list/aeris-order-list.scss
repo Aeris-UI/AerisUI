@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 .aeris-order-list {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
@@ -61,7 +63,7 @@
 }
 
 .aeris-order-list__controls button:not(:disabled):hover {
-  border-color: var(--aeris-focus, #536437);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
   background: var(--aeris-surface-2, #f2f0ec);
 }
 
@@ -74,7 +76,7 @@
 .aeris-order-list__item:focus-visible,
 .aeris-order-list__viewport:focus-visible {
   outline: 0;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 24%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
 }
 
 .aeris-order-list__controls span {
@@ -150,9 +152,9 @@
 }
 
 .aeris-order-list__item[data-selected='true'] {
-  border-color: color-mix(in srgb, var(--aeris-primary, #879566) 44%, var(--aeris-border, #deddd7));
+  border-color: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 44%, var(--aeris-border, #deddd7));
   background: var(--aeris-primary-soft, #eef2e6);
-  color: var(--aeris-primary-text, #536437);
+  color: var(--aeris-primary-text, #{aeris-fallbacks.$focus});
 }
 
 .aeris-order-list__empty {

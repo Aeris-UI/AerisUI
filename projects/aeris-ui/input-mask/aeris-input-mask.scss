@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   display: inline-block;
   max-width: 100%;
@@ -40,12 +42,12 @@
 }
 
 .aeris-input-mask__input:hover:not(:disabled):not(:read-only) {
-  border-color: var(--aeris-primary, #879566);
+  border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
 }
 
 .aeris-input-mask__input:focus {
-  border-color: var(--aeris-focus, #536437);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
 }
 
 .aeris-input-mask[data-appearance='filled'] .aeris-input-mask__input {
@@ -54,7 +56,7 @@
 }
 
 .aeris-input-mask[data-appearance='filled'] .aeris-input-mask__input:focus {
-  border-color: var(--aeris-focus, #536437);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
   background: var(--aeris-surface, #fff);
 }
 
@@ -131,7 +133,7 @@
 }
 
 .aeris-input-mask__clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
 }
 

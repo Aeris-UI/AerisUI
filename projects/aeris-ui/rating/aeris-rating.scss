@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   display: inline-block;
   color: var(--aeris-rating-text, var(--aeris-text, #222222));
@@ -53,7 +55,7 @@
 
 .aeris-rating__control:focus-visible .aeris-rating__stars {
   filter: drop-shadow(
-    0 0 0.18rem var(--aeris-rating-focus, var(--aeris-focus, #536437))
+    0 0 0.18rem var(--aeris-rating-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}))
   );
 }
 
@@ -78,7 +80,7 @@
   inset: 0 auto 0 0;
   z-index: 1;
   width: var(--aeris-rating-progress);
-  color: var(--aeris-rating-active, var(--aeris-primary, #879566));
+  color: var(--aeris-rating-active, var(--aeris-primary, #{aeris-fallbacks.$primary}));
   overflow: hidden;
   pointer-events: none;
 }

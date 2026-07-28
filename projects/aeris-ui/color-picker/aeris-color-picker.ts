@@ -332,7 +332,7 @@ export class AerisColorPicker implements ControlValueAccessor {
   private onTouched: () => void = () => undefined;
 
   readonly panelId = `${this.generatedId}-panel`;
-  readonly value = model('#879566');
+  readonly value = model('#606c38');
   readonly format = model<AerisColorFormat>('hex');
   readonly inputId = input('');
   readonly name = input('');
@@ -505,7 +505,7 @@ export class AerisColorPicker implements ControlValueAccessor {
 
   reset(): void {
     if (this.effectiveDisabled() || this.readonly()) return;
-    this.setFromHex('#879566');
+    this.setFromHex('#606c38');
     this.textDraft.set('');
   }
 

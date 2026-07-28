@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 aeris-breadcrumb {
   display: block;
   min-inline-size: 0;
@@ -118,12 +120,12 @@ a.aeris-breadcrumb__item:hover {
     --aeris-breadcrumb-item-hover-background,
     var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
   );
-  color: var(--aeris-breadcrumb-item-hover-color, var(--aeris-primary-text, #566137));
+  color: var(--aeris-breadcrumb-item-hover-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
 }
 
 button.aeris-breadcrumb__item:focus-visible,
 a.aeris-breadcrumb__item:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #879566)) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%, transparent);
   outline-offset: 2px;
 }
 

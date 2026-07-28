@@ -6,6 +6,7 @@ const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const routesPath = resolve(root, 'projects/docs/src/app/app.routes.ts');
 const indexPath = resolve(root, 'projects/docs/src/index.html');
 const manifestPath = resolve(root, 'projects/docs/public/site.webmanifest');
+const vercelPath = resolve(root, 'vercel.json');
 const publicDirectory = resolve(root, 'projects/docs/public');
 const siteUrl = 'https://aeris-ui.dev';
 const mode = process.argv[2] ?? '--check';
@@ -69,7 +70,6 @@ const requiredIndexMarkers = [
   'name="robots"',
   'property="og:title"',
   'name="twitter:card"',
-  'rel="canonical"',
   'type="application/ld+json"',
 ];
 for (const marker of requiredIndexMarkers) {
@@ -77,9 +77,37 @@ for (const marker of requiredIndexMarkers) {
     errors.push(`projects/docs/src/index.html is missing ${marker}.`);
 }
 
+if (indexHtml.includes('rel="canonical"')) {
+  errors.push(
+    'projects/docs/src/index.html must not declare a homepage canonical for every SPA route. DocsSeoService injects the route-specific canonical.',
+  );
+}
+
 const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
 if (manifest.start_url !== '/' || !Array.isArray(manifest.icons) || manifest.icons.length < 2) {
   errors.push('site.webmanifest must define the root start URL and both application icons.');
+}
+
+const vercel = JSON.parse(readFileSync(vercelPath, 'utf8'));
+if (vercel.trailingSlash !== false) {
+  errors.push('vercel.json must redirect trailing-slash duplicates to canonical extensionless URLs.');
+}
+
+const requiredRedirects = new Map([
+  ['/index.html', '/'],
+  ['/installation', '/guides/installation'],
+  ['/theming', '/guides/theming'],
+  ['/accessibility', '/guides/accessibility'],
+  ['/changelog', '/guides/changelog'],
+]);
+
+for (const [source, destination] of requiredRedirects) {
+  const redirect = vercel.redirects?.find((item) => item.source === source);
+  if (redirect?.destination !== destination || redirect.permanent !== true) {
+    errors.push(
+      `vercel.json must permanently redirect ${source} to its canonical URL ${destination}.`,
+    );
+  }
 }
 
 if (errors.length > 0) {

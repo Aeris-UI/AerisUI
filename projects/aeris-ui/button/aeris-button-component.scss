@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   display: inline-block;
 }
@@ -31,7 +33,7 @@
 }
 
 .aeris-button-component__badge[data-severity='primary'] {
-  --_badge-color: var(--aeris-primary-text, #566137);
+  --_badge-color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
 }
 
 .aeris-button-component__badge[data-severity='secondary'] {

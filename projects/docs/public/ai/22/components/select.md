@@ -2,7 +2,7 @@
 
 > Keyboard-first selection control with searchable, grouped, and templated options.
 
-Aeris 22.0.0-alpha.1 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.2 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/select`
 - Human-readable documentation: [https://aeris-ui.dev/components/select](https://aeris-ui.dev/components/select)
@@ -774,11 +774,11 @@ export class SelectTemplatesOptionAndSelectedValueTemplatesDemo {
 }
 
 .team-mark[data-team='platform'] {
-  background: #80939b;
+  background: #bc6c25;
 }
 
 .team-mark[data-team='a11y'] {
-  background: #8f5b34;
+  background: #283618;
 }
 
 .selected-team,

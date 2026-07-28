@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
@@ -58,8 +60,8 @@
 }
 
 .aeris-table__filter input:focus {
-  border-color: var(--aeris-focus, #536437);
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 24%, transparent);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
 }
 
 .aeris-table__frame {
@@ -83,7 +85,7 @@
 }
 
 .aeris-table__frame:has(.aeris-table__viewport:focus-visible) {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 34%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 34%, transparent);
   outline-offset: 2px;
 }
 
@@ -210,11 +212,11 @@ th:has(> .aeris-table__resize:focus-visible) {
 .aeris-table__resize:hover::before,
 .aeris-table__resize:focus-visible::before,
 .aeris-table__resize[data-resizing]::before {
-  background: color-mix(in srgb, var(--aeris-focus, #536437) 36%, transparent);
+  background: color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 36%, transparent);
 }
 
 .aeris-table__resize:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: -2px;
 }
 
@@ -239,8 +241,8 @@ th:has(> .aeris-table__resize:focus-visible) {
 
 .aeris-table__filter-row input:focus,
 .aeris-table__cell-editor:focus {
-  border-color: var(--aeris-focus, #536437);
-  outline: 2px solid color-mix(in srgb, var(--aeris-focus, #536437) 24%, transparent);
+  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: 2px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
 }
 
 tbody tr:last-child td,
@@ -249,7 +251,7 @@ tbody tr:last-child td,
 }
 
 tbody tr:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: -2px;
 }
 
@@ -269,7 +271,7 @@ tbody tr:focus-visible {
 }
 
 .aeris-table tbody tr[data-context-menu-active] td {
-  background: color-mix(in srgb, var(--aeris-primary, #879566) 12%, transparent);
+  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%, transparent);
 }
 
 td[data-editable] {
@@ -301,13 +303,13 @@ td[data-editable]::after {
 
 td[data-editable]:hover,
 td[data-editable]:focus-within {
-  background: color-mix(in srgb, var(--aeris-primary, #879566) 7%, var(--aeris-surface, #fff));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--aeris-primary, #879566) 34%, transparent);
+  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 7%, var(--aeris-surface, #fff));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 34%, transparent);
 }
 
 td[data-editable]:hover::after,
 td[data-editable]:focus-within::after {
-  color: var(--aeris-primary-text, #566137);
+  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
   opacity: 1;
 }
 
@@ -374,13 +376,13 @@ td[data-editable]:focus-within::after {
 }
 
 .aeris-table__sort:hover {
-  color: var(--aeris-primary-text, #566137);
+  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
 }
 
 .aeris-table__sort:focus-visible,
 .aeris-table__icon-button:focus-visible,
 .aeris-table__paginator button:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 2px;
 }
 
@@ -427,7 +429,7 @@ td[data-editable]:focus-within::after {
 
 .aeris-table__sort-mark[data-direction='asc'],
 .aeris-table__sort-mark[data-direction='desc'] {
-  color: var(--aeris-primary-text, #566137);
+  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
   opacity: 1;
 }
 
@@ -464,7 +466,7 @@ td[data-editable]:focus-within::after {
 }
 
 .aeris-table__control-cell input:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
   outline-offset: 2px;
 }
 
@@ -508,7 +510,7 @@ tr[data-expanded] .aeris-table__icon-button span::before {
 }
 
 tr[data-selected] td {
-  background: color-mix(in srgb, var(--aeris-primary, #879566) 12%, transparent);
+  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%, transparent);
 }
 
 .aeris-table__expansion-row td {

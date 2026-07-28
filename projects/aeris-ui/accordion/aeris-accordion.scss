@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
@@ -75,15 +77,15 @@
 .aeris-accordion__trigger:hover:not(:disabled) {
   background: var(
     --aeris-accordion-hover-background,
-    color-mix(in srgb, var(--aeris-primary, #879566) 8%, transparent)
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 8%, transparent)
   );
-  color: var(--aeris-accordion-hover-color, var(--aeris-primary-text, #566137));
+  color: var(--aeris-accordion-hover-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
 }
 
 .aeris-accordion__trigger:focus-visible {
   position: relative;
   z-index: 1;
-  outline: 2px solid var(--aeris-accordion-focus, var(--aeris-focus, #536437));
+  outline: 2px solid var(--aeris-accordion-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   outline-offset: -2px;
 }
 
@@ -127,7 +129,7 @@
 }
 
 .aeris-accordion__trigger[aria-expanded='true'] .aeris-accordion__icon {
-  color: var(--aeris-accordion-active-icon-color, var(--aeris-primary-text, #566137));
+  color: var(--aeris-accordion-active-icon-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
 }
 
 .aeris-accordion__trigger[aria-expanded='true'] .aeris-accordion__default-icon::before {
@@ -143,7 +145,7 @@
 }
 
 .aeris-accordion__panel:focus-visible {
-  outline: 2px solid var(--aeris-accordion-focus, var(--aeris-focus, #536437));
+  outline: 2px solid var(--aeris-accordion-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   outline-offset: -2px;
 }
 

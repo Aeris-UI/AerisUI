@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 aeris-context-menu {
   display: contents;
 }
@@ -69,7 +71,17 @@ aeris-context-menu {
   min-block-size: var(--aeris-context-menu-item-min-height, 2.25rem);
   padding: var(--aeris-context-menu-item-padding-block, 0.5rem) var(--aeris-context-menu-item-padding-inline, 0.625rem);
   border: 0;
-  border-radius: var(--aeris-context-menu-item-radius, var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem)));
+  border-radius: var(
+    --aeris-context-menu-item-radius,
+    max(
+      0px,
+      calc(
+        var(--aeris-context-menu-radius, var(--aeris-radius-lg, 1.125rem)) -
+          var(--aeris-context-menu-padding, 0.375rem) -
+          var(--aeris-context-menu-border-width, 1px)
+      )
+    )
+  );
   background: transparent;
   color: var(--aeris-context-menu-item-color, inherit);
   font: inherit;
@@ -95,7 +107,7 @@ aeris-context-menu {
 }
 
 .aeris-context-menu__item:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #879566)) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%, transparent);
   outline-offset: 1px;
 }
 
@@ -138,9 +150,9 @@ aeris-context-menu {
   border-radius: var(--aeris-radius-pill, 999px);
   background: var(
     --aeris-context-menu-badge-background,
-    color-mix(in srgb, var(--aeris-primary, #879566) 16%, transparent)
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 16%, transparent)
   );
-  color: var(--aeris-context-menu-badge-color, var(--aeris-primary-text, #566137));
+  color: var(--aeris-context-menu-badge-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
   font-size: 0.75rem;
   font-weight: 800;
   overflow: hidden;

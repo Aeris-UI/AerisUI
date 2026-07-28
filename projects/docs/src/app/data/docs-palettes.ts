@@ -30,7 +30,7 @@ export const DOCS_PALETTES: readonly DocsPalette[] = [
     id: 'earth',
     name: 'Aeris Earth',
     shortName: 'Earth',
-    description: 'Quiet sage, warm sand, and grounded neutrals.',
+    description: 'Deep olive, warm copper, and sunlit cornsilk.',
     theme: AERIS_THEME_PRESETS.earth,
     palette: AERIS_THEME_PRESETS.earth.palette,
     swatches: paletteSwatches(AERIS_THEME_PRESETS.earth.palette),

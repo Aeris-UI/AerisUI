@@ -114,6 +114,10 @@ describe('AerisContextMenu', () => {
     expect(menu.getAttribute('aria-label')).toBe('Target actions');
     expect(menuItems.length).toBe(3);
     expect(separator).toBeTruthy();
+    const itemRadius = getComputedStyle(menuItems[0] as HTMLElement).borderRadius;
+    expect(itemRadius).toContain('--aeris-context-menu-radius');
+    expect(itemRadius).toContain('--aeris-context-menu-padding');
+    expect(itemRadius).not.toContain('--aeris-radius-control');
     expect(fixture.componentInstance.shownEvents.length).toBe(1);
     expect(fixture.componentInstance.shownEvents[0]?.target).toBe(target);
 

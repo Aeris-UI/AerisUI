@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 aeris-menu,
 :host {
   display: inline-block;
@@ -126,7 +128,7 @@ aeris-menu,
 }
 
 .aeris-menu__item:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #879566)) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%, transparent);
   outline-offset: 1px;
 }
 
@@ -200,9 +202,9 @@ aeris-menu,
   border-radius: var(--aeris-radius-pill, 999px);
   background: var(
     --aeris-menu-badge-background,
-    color-mix(in srgb, var(--aeris-primary, #879566) 16%, transparent)
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 16%, transparent)
   );
-  color: var(--aeris-menu-badge-color, var(--aeris-primary-text, #566137));
+  color: var(--aeris-menu-badge-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
   font-size: 0.75rem;
   font-weight: 800;
   overflow: hidden;

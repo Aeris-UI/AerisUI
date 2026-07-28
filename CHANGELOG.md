@@ -7,7 +7,32 @@ release line.
 
 ## [Unreleased]
 
-No consumer-visible changes have been recorded since 22.0.0-alpha.1.
+No consumer-visible changes have been recorded since 22.0.0-alpha.2.
+
+## [22.0.0-alpha.2] - 2026-07-28
+
+### Added
+
+- Trusted npm publishing for `@aeris-ui/core` and `@aeris-ui/mcp` from versioned GitHub Releases.
+- Discreet sponsorship and supporter-recognition guidance for the project and documentation site.
+
+### Changed
+
+- Refresh the Earth theme with olive, forest, cornsilk, caramel, and copper tones.
+- Centralize component fallback colors so future built-in palette changes remain focused in the
+  theming layer.
+- Clarify Aeris UI's open-source positioning across the landing page and documentation.
+- Update development dependencies while preserving the supported Angular 22 peer range.
+
+### Fixed
+
+- Render Tabs correctly on the first lazy navigation without reading required panel inputs too
+  early.
+- Match ContextMenu item corner radii to the containing menu surface.
+- Polish Toast stacking, entry and exit motion, rapid interactions, and pointer or touch swipe
+  dismissal.
+- Animate MeterGroup fills from the logical start edge in both LTR and RTL layouts.
+- Keep canonical URLs consistent after production-domain redirects.
 
 ## [22.0.0-alpha.1] - 2026-07-23
 
@@ -42,6 +67,7 @@ No consumer-visible changes have been recorded since 22.0.0-alpha.1.
 - Align the published Lexical peer range with the version Aeris uses and declare the required
   Angular platform-browser and RxJS peers.
 
-[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.1...HEAD
+[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.2...HEAD
+[22.0.0-alpha.2]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.1...v22.0.0-alpha.2
 [22.0.0-alpha.1]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.0...v22.0.0-alpha.1
 [22.0.0-alpha.0]: https://github.com/Aeris-UI/AerisUI/releases/tag/v22.0.0-alpha.0

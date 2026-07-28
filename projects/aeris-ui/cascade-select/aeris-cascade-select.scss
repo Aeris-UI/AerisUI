@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
@@ -84,16 +86,16 @@
 
 .aeris-cascade-select__trigger:hover,
 .aeris-cascade-select[data-open] .aeris-cascade-select__trigger {
-  border-color: var(--aeris-cascade-select-hover-border, var(--aeris-focus, #536437));
+  border-color: var(--aeris-cascade-select-hover-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
 }
 
 .aeris-cascade-select__trigger:focus-visible {
   outline: 0;
-  border-color: var(--aeris-cascade-select-focus, var(--aeris-focus, #536437));
+  border-color: var(--aeris-cascade-select-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   box-shadow: 0 0 0 3px
     color-mix(
       in srgb,
-      var(--aeris-cascade-select-focus, var(--aeris-focus, #536437)) 22%,
+      var(--aeris-cascade-select-focus, var(--aeris-focus, #{aeris-fallbacks.$focus})) 22%,
       transparent
     );
 }
@@ -184,7 +186,7 @@
 }
 
 .aeris-cascade-select__clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
 }
 

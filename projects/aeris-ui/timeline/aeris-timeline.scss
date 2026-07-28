@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   display: block;
   min-width: 0;
@@ -98,16 +100,16 @@
 }
 
 .aeris-timeline__item[data-state='complete'] {
-  --aeris-timeline-connector-color: color-mix(in srgb, var(--aeris-primary, #879566) 58%, var(--aeris-border, #deddd7));
+  --aeris-timeline-connector-color: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 58%, var(--aeris-border, #deddd7));
 }
 
 .aeris-timeline__item[data-state='complete'][data-status='neutral'],
 .aeris-timeline__item[data-state='current'][data-status='neutral'] {
-  --aeris-timeline-marker-color: var(--aeris-primary, #879566);
+  --aeris-timeline-marker-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
 }
 
 .aeris-timeline__item[data-state='current'] .aeris-timeline__marker {
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--aeris-timeline-marker-color, var(--aeris-primary, #879566)) 18%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--aeris-timeline-marker-color, var(--aeris-primary, #{aeris-fallbacks.$primary})) 18%, transparent);
 }
 
 .aeris-timeline[data-orientation='vertical'] .aeris-timeline__item {

@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   display: block;
   min-inline-size: 0;
@@ -24,7 +26,7 @@
 }
 
 .aeris-chart__canvas:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 26%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 26%, transparent);
   outline-offset: -3px;
 }
 

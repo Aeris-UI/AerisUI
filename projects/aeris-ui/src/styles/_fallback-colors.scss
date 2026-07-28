@@ -1,0 +1,10 @@
+@use 'sass:map';
+@use 'tokens';
+
+$primary: map.get(tokens.$aeris-default-palette, 'primary');
+$primary-hover: #5d6837;
+$primary-active: #5c6736;
+$primary-text: $primary;
+$secondary: map.get(tokens.$aeris-default-palette, 'secondary');
+$focus: #3b452a;
+$on-primary: #ffffff;

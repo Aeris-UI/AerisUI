@@ -199,7 +199,7 @@ describe('AerisThemeService', () => {
     expect(root.style.getPropertyValue('--aeris-primary')).toBe(
       AERIS_THEME_PRESETS.earth.palette.primary,
     );
-    expect(root.style.getPropertyValue('--aeris-on-primary')).toBe('#111411');
+    expect(root.style.getPropertyValue('--aeris-on-primary')).toBe('#ffffff');
   });
 
   it('updates palette-aware borders without tinting ordinary text', async () => {
@@ -268,7 +268,7 @@ describe('AerisThemeService', () => {
         provideAeris({
           theme: {
             palette: {
-              primary: '#123456',
+              primary: '#31536a',
             },
           },
         }),
@@ -277,9 +277,9 @@ describe('AerisThemeService', () => {
 
     const service = TestBed.inject(AerisThemeService);
     await TestBed.tick();
-    expect(service.theme().palette.primary).toBe('#123456');
-    expect(service.theme().palette.sage).toBe('#123456');
-    expect(service.theme().palette.surface).toBe('#e8dfe0');
+    expect(service.theme().palette.primary).toBe('#31536a');
+    expect(service.theme().palette.sage).toBe('#31536a');
+    expect(service.theme().palette.surface).toBe('#fefae0');
     expect(listeners.size).toBe(1);
 
     service.updateTheme({
@@ -308,7 +308,7 @@ describe('AerisThemeService', () => {
             radius: 'soft',
             light: {
               tones: {
-                primary: { base: '#123456', onBase: '#ffffff' },
+                primary: { base: '#31536a', onBase: '#ffffff' },
               },
             },
             dark: {
@@ -330,7 +330,7 @@ describe('AerisThemeService', () => {
     expect(root.getAttribute('dir')).toBe('rtl');
     expect(root.dataset['aerisDensity']).toBe('compact');
     expect(root.dataset['aerisRadius']).toBe('soft');
-    expect(root.style.getPropertyValue('--aeris-primary')).toBe('#123456');
+    expect(root.style.getPropertyValue('--aeris-primary')).toBe('#31536a');
     expect(root.style.getPropertyValue('--aeris-on-primary')).toBe('#ffffff');
     expect(root.style.getPropertyValue('--aeris-control-height')).toBe('2.125rem');
     expect(root.style.getPropertyValue('--aeris-radius-sm')).toBe('0.25rem');

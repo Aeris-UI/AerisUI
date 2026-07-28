@@ -1,3 +1,5 @@
+@use '../src/styles/fallback-colors' as aeris-fallbacks;
+
 :host {
   display: block;
   min-inline-size: 0;
@@ -18,7 +20,7 @@
 }
 
 .aeris-scroll-panel__frame:has(.aeris-scroll-panel__viewport:focus-visible) {
-  outline: 3px solid color-mix(in srgb, var(--focus, var(--aeris-primary, #879566)) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%, transparent);
   outline-offset: 3px;
 }
 
