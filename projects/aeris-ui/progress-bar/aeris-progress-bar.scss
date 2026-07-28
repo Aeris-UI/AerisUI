@@ -20,7 +20,7 @@
 }
 
 :host([data-severity='secondary']) {
-  --_accent: var(--aeris-surface-3, var(--aeris-border-strong, #c7c9c0));
+  --_accent: var(--aeris-surface-3, var(--aeris-border, #deddd7));
   --_on-accent: var(--aeris-text, #222222);
 }
 
@@ -150,7 +150,7 @@
 .aeris-progress-bar__step-marker {
   inline-size: var(--aeris-progress-bar-step-marker-size, 0.75rem);
   block-size: var(--aeris-progress-bar-step-marker-size, 0.75rem);
-  border: 2px solid var(--aeris-progress-bar-step-border, var(--aeris-border-strong, #c7c9c0));
+  border: 2px solid var(--aeris-progress-bar-step-border, var(--aeris-border, #deddd7));
   border-radius: 999px;
   background: var(--aeris-progress-bar-step-background, var(--aeris-surface, #fff));
   box-shadow: 0 0 0 2px var(--aeris-progress-bar-step-ring, var(--aeris-surface, #fff));

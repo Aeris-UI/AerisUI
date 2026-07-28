@@ -40,25 +40,25 @@ interface ApiRow {
   styleUrl: './color-picker.page.scss',
 })
 export class ColorPickerPage {
-  protected readonly brandColor = signal('#606c38');
-  protected readonly accentColor = signal('#dda15e');
-  protected readonly formatColor = signal('#606c38');
+  protected readonly brandColor = signal('#5f6f36');
+  protected readonly accentColor = signal('#d79a32');
+  protected readonly formatColor = signal('#5f6f36');
   protected readonly selectedFormat = signal<AerisColorFormat>('hex');
   protected readonly invalidColor = signal('');
   protected readonly touched = signal(false);
   protected readonly lastChange = signal('No color change yet');
-  protected readonly reactiveColor = new FormControl('#bc6c25');
-  protected templateColor = '#283618';
+  protected readonly reactiveColor = new FormControl('#b75e26');
+  protected templateColor = '#28351a';
   protected readonly invalid = computed(
     () => this.touched() && this.invalidColor().trim().length === 0,
   );
 
   protected readonly presets: readonly string[] = [
-    '#fefae0',
-    '#606c38',
-    '#bc6c25',
-    '#dda15e',
-    '#283618',
+    '#f6f3e8',
+    '#5f6f36',
+    '#b75e26',
+    '#d79a32',
+    '#28351a',
   ];
 
   protected readonly featureLinks: readonly PageTocLink[] = [
@@ -85,17 +85,17 @@ export class ColorPickerPage {
 
   protected readonly importCode = `import { AerisColorPicker } from '@aeris-ui/core/color-picker';`;
 
-  protected readonly signalCode = `protected readonly brandColor = signal('#606c38');`;
+  protected readonly signalCode = `protected readonly brandColor = signal('#5f6f36');`;
 
-  protected readonly formatCode = `protected readonly formatColor = signal('#606c38');
+  protected readonly formatCode = `protected readonly formatColor = signal('#5f6f36');
 protected readonly selectedFormat = signal<AerisColorFormat>('hex');`;
 
   protected readonly presetsCode = `protected readonly presets: readonly string[] = [
-  '#fefae0',
-  '#606c38',
-  '#bc6c25',
-  '#dda15e',
-  '#283618',
+  '#f6f3e8',
+  '#5f6f36',
+  '#b75e26',
+  '#d79a32',
+  '#28351a',
 ];`;
 
   protected readonly validationCode = `protected readonly invalidColor = signal('');
@@ -104,10 +104,10 @@ protected readonly invalid = computed(
   () => this.touched() && this.invalidColor().trim().length === 0,
 );`;
 
-  protected readonly formsCode = `protected readonly reactiveColor =
-  new FormControl('#bc6c25');
+protected readonly formsCode = `protected readonly reactiveColor =
+  new FormControl('#b75e26');
 
-protected templateColor = '#283618';`;
+protected templateColor = '#28351a';`;
 
   protected readonly eventsCode = `protected readonly lastChange = signal('No color change yet');
 
@@ -129,7 +129,7 @@ interface AerisColorPickerChangeEvent {
     {
       name: 'value',
       type: 'string (model)',
-      defaultValue: "'#606c38'",
+      defaultValue: "'#5f6f36'",
       description: 'Current color value with two-way binding and Forms support.',
     },
     {

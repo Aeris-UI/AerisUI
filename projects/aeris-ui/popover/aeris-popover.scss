@@ -19,7 +19,8 @@
   max-width: var(--aeris-popover-max-width, calc(100vw - 1rem));
   display: grid;
   gap: 0;
-  border: 1px solid var(--aeris-popover-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(--aeris-popover-border, var(--aeris-border));
   border-radius: var(--aeris-popover-radius, var(--aeris-radius-lg, 0.875rem));
   background: var(--aeris-popover-background, var(--aeris-surface, #fff));
   color: var(--aeris-popover-color, var(--aeris-text, #222222));

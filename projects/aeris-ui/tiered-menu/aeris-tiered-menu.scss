@@ -22,7 +22,8 @@ aeris-tiered-menu,
   inline-size: var(--aeris-tiered-menu-width, 14rem);
   max-inline-size: var(--aeris-tiered-menu-max-width, min(22rem, 100%));
   padding: var(--aeris-tiered-menu-padding, 0.375rem);
-  border: var(--aeris-tiered-menu-border-width, 1px) solid var(--aeris-tiered-menu-border, var(--aeris-border, #deddd7));
+  border: var(--aeris-tiered-menu-border-width, 1px) solid
+    var(--aeris-tiered-menu-border, var(--aeris-border));
   border-radius: var(--aeris-tiered-menu-radius, var(--aeris-radius-lg, 1.125rem));
   background: var(--aeris-tiered-menu-background, var(--aeris-surface, #fff));
   color: var(--aeris-tiered-menu-color, var(--aeris-text, #222222));
@@ -187,7 +188,8 @@ aeris-tiered-menu,
   inset-block-start: calc(-1 * var(--aeris-tiered-menu-padding, 0.375rem));
   min-inline-size: var(--aeris-tiered-menu-submenu-width, 14rem);
   padding: var(--aeris-tiered-menu-padding, 0.375rem);
-  border: var(--aeris-tiered-menu-border-width, 1px) solid var(--aeris-tiered-menu-border, var(--aeris-border, #deddd7));
+  border: var(--aeris-tiered-menu-border-width, 1px) solid
+    var(--aeris-tiered-menu-border, var(--aeris-border));
   border-radius: var(--aeris-tiered-menu-radius, var(--aeris-radius-lg, 1.125rem));
   background: var(--aeris-tiered-menu-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-tiered-menu-shadow, 0 1rem 2.75rem rgba(0, 0, 0, 0.14));

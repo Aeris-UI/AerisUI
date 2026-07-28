@@ -29,7 +29,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string (model)` | `'#606c38'` | Current color value with two-way binding and Forms support. |
+| `value` | `string (model)` | `'#5f6f36'` | Current color value with two-way binding and Forms support. |
 | `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. |
 | `inputId` | `string` | `generated` | ID assigned to the visible color-picker trigger for label association. |
 | `name` | `string` | `''` | Native form field name submitted through a hidden input. |
@@ -148,7 +148,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
       <aeris-color-picker
         inputId="color-basic"
         ariaDescribedby="color-basic-help"
-        value="#606c38"
+        value="#5f6f36"
       />
       <small id="color-basic-help">Choose the primary color for your interface.</small>
     </div>
@@ -234,7 +234,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   `
 })
 export class ColorPickerSignalSignalValueDemo {
-  protected readonly brandColor = signal('#606c38');
+  protected readonly brandColor = signal('#5f6f36');
 }
 ```
 
@@ -293,7 +293,7 @@ import { AerisColorPicker, type AerisColorFormat } from '@aeris-ui/core/color-pi
   `
 })
 export class ColorPickerFormatsSelectableFormatsDemo {
-  protected readonly formatColor = signal('#606c38');
+  protected readonly formatColor = signal('#5f6f36');
   protected readonly selectedFormat = signal<AerisColorFormat>('hex');
 }
 ```
@@ -410,11 +410,11 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 })
 export class ColorPickerPresetsPresetsDemo {
   protected readonly presets: readonly string[] = [
-    '#fefae0',
-    '#606c38',
-    '#bc6c25',
-    '#dda15e',
-    '#283618',
+    '#f6f3e8',
+    '#5f6f36',
+    '#b75e26',
+    '#d79a32',
+    '#28351a',
   ];
 }
 ```
@@ -447,7 +447,7 @@ export class ColorPickerSwatchOnlySwatchOnlyDemo {
     <label for="color-swatch-only">Compact color</label>
     <aeris-color-picker
       inputId="color-swatch-only"
-      value="#606c38"
+      value="#5f6f36"
       [showValue]="false"
       [showInput]="false"
       ariaLabel="Compact color"
@@ -457,7 +457,7 @@ export class ColorPickerSwatchOnlySwatchOnlyDemo {
     <label for="color-swatch-with-input">Swatch with input</label>
     <aeris-color-picker
       inputId="color-swatch-with-input"
-      value="#dda15e"
+      value="#d79a32"
       [showValue]="false"
     />
   </div>
@@ -522,10 +522,10 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   imports: [AerisColorPicker],
   template: `
     <div class="field-grid">
-      <aeris-color-picker size="xs" value="#fefae0" />
-      <aeris-color-picker size="sm" value="#606c38" />
-      <aeris-color-picker size="md" value="#bc6c25" />
-      <aeris-color-picker size="lg" value="#dda15e" />
+      <aeris-color-picker size="xs" value="#f6f3e8" />
+      <aeris-color-picker size="sm" value="#5f6f36" />
+      <aeris-color-picker size="md" value="#b75e26" />
+      <aeris-color-picker size="lg" value="#d79a32" />
     </div>
   `,
   styles: `
@@ -562,8 +562,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   imports: [AerisColorPicker],
   template: `
     <div class="field-grid">
-      <aeris-color-picker appearance="outline" value="#606c38" />
-      <aeris-color-picker appearance="filled" value="#606c38" />
+      <aeris-color-picker appearance="outline" value="#5f6f36" />
+      <aeris-color-picker appearance="filled" value="#5f6f36" />
     </div>
   `,
   styles: `
@@ -601,7 +601,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   template: `
     <div class="field">
       <label for="color-clear">Optional accent</label>
-      <aeris-color-picker inputId="color-clear" value="#283618" clearable />
+      <aeris-color-picker inputId="color-clear" value="#28351a" clearable />
     </div>
   `,
   styles: `
@@ -651,8 +651,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   imports: [AerisColorPicker],
   template: `
     <div class="field-grid">
-      <aeris-color-picker value="#606c38" disabled />
-      <aeris-color-picker value="#dda15e" readonly />
+      <aeris-color-picker value="#5f6f36" disabled />
+      <aeris-color-picker value="#d79a32" readonly />
     </div>
   `,
   styles: `
@@ -777,9 +777,9 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 })
 export class ColorPickerFormsReactiveAndTemplateDrivenFormsDemo {
   protected readonly reactiveColor =
-    new FormControl('#bc6c25');
+    new FormControl('#b75e26');
 
-  protected templateColor = '#283618';
+  protected templateColor = '#28351a';
 }
 ```
 
@@ -865,7 +865,7 @@ import { AerisColorPicker, type AerisColorPickerChangeEvent } from '@aeris-ui/co
       <label for="color-events">Event color</label>
       <aeris-color-picker
         inputId="color-events"
-        value="#bc6c25"
+        value="#b75e26"
         (changed)="recordChange($event)"
       />
       <small aria-live="polite">{{ lastChange() }}</small>

@@ -43,6 +43,7 @@ select {
 button {
   min-width: max(2rem, calc(var(--aeris-control-height, 2.625rem) - 0.5rem));
   padding: 0 calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
+  border-color: var(--aeris-border);
   font-weight: 700;
   cursor: pointer;
   transition:
@@ -188,7 +189,7 @@ button:focus-visible,
   right: 0;
   min-width: 5.75rem;
   padding: calc(var(--aeris-density-gap, 0.5rem) * 0.7);
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-md, 0.6875rem);
   background: var(--aeris-surface, #fff);
   box-shadow: 0 1rem 2.5rem rgb(31 35 27 / 16%);

@@ -111,7 +111,7 @@ interface AerisSplitterResizeEvent {
 | --- | --- | --- | --- |
 | `--aeris-splitter-background` | `CSS custom property` | `--aeris-surface` | Root surface. |
 | `--aeris-splitter-color` | `CSS custom property` | `--aeris-text` | Root text color. |
-| `--aeris-splitter-border` | `CSS custom property` | `--aeris-border` | Root border color. |
+| `--aeris-splitter-border` | `CSS custom property` | `--aeris-border-subtle` | Root border color. |
 | `--aeris-splitter-border-width` | `CSS custom property` | `1px` | Root border thickness. |
 | `--aeris-splitter-radius` | `CSS custom property` | `--aeris-radius-lg` | Root corner radius. |
 | `--aeris-splitter-shadow` | `CSS custom property` | `none` | Root elevation. |

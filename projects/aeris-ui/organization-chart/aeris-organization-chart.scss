@@ -69,7 +69,11 @@
   display: grid;
   gap: 0.25rem;
   padding: var(--aeris-organization-chart-node-padding, 0.625rem 0.75rem);
-  border: 1px solid var(--aeris-organization-chart-node-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(
+      --aeris-organization-chart-node-border,
+      var(--aeris-border)
+    );
   border-radius: var(--aeris-organization-chart-node-radius, var(--aeris-radius-lg, 0.875rem));
   background: var(--aeris-organization-chart-node-background, var(--aeris-surface, #fff));
   color: var(--aeris-organization-chart-node-color, var(--aeris-text, #222222));
@@ -170,7 +174,10 @@
   left: 50%;
   width: 1px;
   height: calc(var(--aeris-organization-chart-level-gap, 2rem) / 2);
-  background: var(--aeris-organization-chart-connector, var(--aeris-border, #deddd7));
+  background: var(
+    --aeris-organization-chart-connector,
+    var(--aeris-border)
+  );
   content: '';
 }
 
@@ -179,7 +186,10 @@
   position: absolute;
   top: calc(var(--aeris-organization-chart-level-gap, 2rem) / 2);
   height: 1px;
-  background: var(--aeris-organization-chart-connector, var(--aeris-border, #deddd7));
+  background: var(
+    --aeris-organization-chart-connector,
+    var(--aeris-border)
+  );
   content: '';
 }
 
@@ -209,7 +219,10 @@
   left: 50%;
   width: 1px;
   height: calc(var(--aeris-organization-chart-level-gap, 2rem) / 2);
-  background: var(--aeris-organization-chart-connector, var(--aeris-border, #deddd7));
+  background: var(
+    --aeris-organization-chart-connector,
+    var(--aeris-border)
+  );
   content: '';
 }
 
@@ -217,7 +230,7 @@
   min-height: 10rem;
   display: grid;
   place-items: center;
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-lg, 0.875rem);
   background: var(--aeris-surface, #fff);
   color: var(--aeris-text-muted, #6d7068);

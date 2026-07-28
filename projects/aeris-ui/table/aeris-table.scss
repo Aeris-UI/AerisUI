@@ -66,7 +66,7 @@
 
 .aeris-table__frame {
   min-width: 0;
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-table-radius, var(--aeris-radius-md, 0.75rem));
   background: var(--aeris-surface, #fff);
   overflow: hidden;
@@ -76,7 +76,7 @@
   min-width: 0;
   overflow: auto;
   overscroll-behavior: contain;
-  scrollbar-color: var(--aeris-border-strong, #c7c9c0) transparent;
+  scrollbar-color: var(--aeris-border, #deddd7) transparent;
   scrollbar-width: thin;
 }
 
@@ -106,7 +106,7 @@
 .aeris-table__viewport::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-border-strong, #c7c9c0);
+  background: var(--aeris-border, #deddd7);
   background-clip: content-box;
 }
 
@@ -137,7 +137,7 @@ td {
   box-sizing: border-box;
   padding: var(--aeris-table-cell-padding-y) var(--aeris-table-cell-padding-x);
   border: 0;
-  border-block-end: 1px solid var(--aeris-border, #deddd7);
+  border-block-end: 1px solid var(--aeris-border);
   text-align: left;
   vertical-align: middle;
 }
@@ -315,7 +315,7 @@ td[data-editable]:focus-within::after {
 
 .aeris-table[data-gridlines] th,
 .aeris-table[data-gridlines] td {
-  border-inline-end: 1px solid var(--aeris-border, #deddd7);
+  border-inline-end: 1px solid var(--aeris-border);
 }
 
 .aeris-table[data-gridlines] th:last-child,
@@ -448,7 +448,7 @@ td[data-editable]:focus-within::after {
   width: 1.125rem;
   height: 1.125rem;
   margin: 0;
-  border: 1.5px solid var(--aeris-border-strong, #aeb2a8);
+  border: 1.5px solid var(--aeris-border, #deddd7);
   background: var(--aeris-surface, #fff);
   cursor: pointer;
   vertical-align: middle;
@@ -479,7 +479,7 @@ td[data-editable]:focus-within::after {
   height: var(--aeris-table-action-size);
   display: inline-grid;
   place-items: center;
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-sm, 0.4375rem);
   background: var(--aeris-surface, #fff);
   color: var(--aeris-text-2, #555555);
@@ -577,7 +577,7 @@ tr[data-selected] td {
 
   .aeris-table[data-responsive='stack'] tbody tr:not(.aeris-table__expansion-row) {
     display: grid;
-    border: 1px solid var(--aeris-border, #deddd7);
+    border: 1px solid var(--aeris-border);
     border-radius: var(--aeris-table-radius, var(--aeris-radius-md, 0.75rem));
     background: var(--aeris-surface, #fff);
     overflow: hidden;
@@ -589,7 +589,7 @@ tr[data-selected] td {
     align-items: center;
     gap: calc(var(--aeris-table-density-gap) + 0.25rem);
     min-height: var(--aeris-table-stack-row-height);
-    border-block-end: 1px solid var(--aeris-border, #deddd7);
+    border-block-end: 1px solid var(--aeris-border);
     background: transparent;
     text-align: left;
   }
@@ -608,7 +608,7 @@ tr[data-selected] td {
   .aeris-table[data-responsive='stack'] .aeris-table__expansion-row {
     display: block;
     margin-top: calc(-1 * (var(--aeris-table-density-gap) + 0.25rem));
-    border: 1px solid var(--aeris-border, #deddd7);
+    border: 1px solid var(--aeris-border);
     border-block-start: 0;
     border-radius: 0 0 var(--aeris-table-radius, var(--aeris-radius-md, 0.75rem))
       var(--aeris-table-radius, var(--aeris-radius-md, 0.75rem));

@@ -89,7 +89,7 @@
   }
 
   :host(.aeris-button--secondary:hover:not(:disabled)) {
-    border-color: var(--aeris-border-strong, #c7c9c0);
+    border-color: var(--aeris-border, #deddd7);
     background: var(--aeris-surface-2, #f2f0ec);
   }
 

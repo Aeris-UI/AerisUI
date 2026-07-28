@@ -33,9 +33,17 @@ export function resolveAerisFoundation(
 
   if (mode === 'light') {
     const surface2 = scheme.surface2 ?? mixAerisColor('#f7f6f2', surfaceSeed, 0.24);
+    const surface = scheme.surface ?? '#ffffff';
+    const border =
+      scheme.border ??
+      mixAerisColor(
+        surface,
+        mixAerisColor('#5f625d', borderSeed, 0.42),
+        0.12,
+      );
     return {
       page: scheme.page ?? mixAerisColor('#faf9f7', surfaceSeed, 0.18),
-      surface: scheme.surface ?? '#ffffff',
+      surface,
       surface2,
       surface3: scheme.surface3 ?? mixAerisColor('#f1f0eb', surfaceSeed, 0.42),
       interactiveHover:
@@ -43,16 +51,24 @@ export function resolveAerisFoundation(
       text: scheme.text ?? LIGHT_TEXT,
       text2: scheme.text2 ?? LIGHT_TEXT_SECONDARY,
       text3: scheme.text3 ?? LIGHT_TEXT_TERTIARY,
-      border: scheme.border ?? mixAerisColor('#5f625d', borderSeed, 0.42),
+      border,
       borderStrong: scheme.borderStrong ?? mixAerisColor('#444842', borderSeed, 0.3),
       focus: scheme.focus ?? mixAerisColor('#1d2119', theme.palette.primary, 0.5),
     };
   }
 
   const surface2 = scheme.surface2 ?? mixAerisColor('#171b22', surfaceSeed, 0.008);
+  const surface = scheme.surface ?? mixAerisColor('#101318', surfaceSeed, 0.006);
+  const border =
+    scheme.border ??
+    mixAerisColor(
+      surface,
+      mixAerisColor('#70746d', borderSeed, 0.35),
+      0.16,
+    );
   return {
     page: scheme.page ?? mixAerisColor('#090b0f', surfaceSeed, 0.004),
-    surface: scheme.surface ?? mixAerisColor('#101318', surfaceSeed, 0.006),
+    surface,
     surface2,
     surface3: scheme.surface3 ?? mixAerisColor('#202632', surfaceSeed, 0.01),
     interactiveHover:
@@ -60,7 +76,7 @@ export function resolveAerisFoundation(
     text: scheme.text ?? DARK_TEXT,
     text2: scheme.text2 ?? DARK_TEXT_SECONDARY,
     text3: scheme.text3 ?? DARK_TEXT_TERTIARY,
-    border: scheme.border ?? mixAerisColor('#70746d', borderSeed, 0.35),
+    border,
     borderStrong: scheme.borderStrong ?? mixAerisColor('#8d9289', borderSeed, 0.3),
     focus: scheme.focus ?? mixAerisColor('#ffffff', theme.palette.primary, 0.56),
   };

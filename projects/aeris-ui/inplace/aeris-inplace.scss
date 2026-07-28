@@ -64,7 +64,11 @@
   position: relative;
   min-inline-size: 0;
   max-inline-size: 100%;
-  border: 1px solid var(--aeris-inplace-content-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(
+      --aeris-inplace-content-border,
+      var(--aeris-border)
+    );
   border-radius: var(--aeris-inplace-radius, var(--aeris-radius-control, 0.4375rem));
   background: var(--aeris-inplace-content-background, var(--aeris-surface, #fff));
   box-shadow: var(

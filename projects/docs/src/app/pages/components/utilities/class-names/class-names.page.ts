@@ -146,7 +146,7 @@ protected toggleEmphasized(): void {
 }
 
 .state-card--emphasized {
-  box-shadow: inset 0 0 0 1px var(--aeris-border-strong);
+  box-shadow: inset 0 0 0 1px var(--aeris-border);
 }`;
 
   protected readonly nestedTsCode = `protected readonly composedClasses: AerisClassNamesValue = [

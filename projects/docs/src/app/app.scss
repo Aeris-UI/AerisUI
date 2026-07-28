@@ -194,7 +194,7 @@
   height: 14px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  border: 1px solid color-mix(in srgb, var(--border-strong) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
   border-radius: 5px;
   overflow: hidden;
 }
@@ -241,7 +241,7 @@
   cursor: pointer;
 }
 .docs-choice-grid > button:hover {
-  border-color: var(--border-strong);
+  border-color: var(--border);
   background: var(--surface-2);
 }
 .docs-choice-grid > button.active {

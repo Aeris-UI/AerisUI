@@ -242,7 +242,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
 | `--aeris-confirm-popup-max-width` | `CSS custom property` | `calc(100vw - 1rem)` | Maximum popup width. |
 | `--aeris-confirm-popup-padding` | `CSS custom property` | `1rem` | Internal spacing. |
 | `--aeris-confirm-popup-background` | `CSS custom property` | `var(--aeris-surface)` | Popup surface. |
-| `--aeris-confirm-popup-border` | `CSS custom property` | `var(--aeris-border)` | Popup border. |
+| `--aeris-confirm-popup-border` | `CSS custom property` | `var(--aeris-border-subtle)` | Popup border. |
 | `--aeris-confirm-popup-radius` | `CSS custom property` | `var(--aeris-radius-lg)` | Popup radius. |
 | `--aeris-confirm-popup-shadow` | `CSS custom property` | `component shadow` | Popup elevation. |
 | `--aeris-confirm-popup-focus` | `CSS custom property` | `var(--aeris-focus)` | Focus ring color. |

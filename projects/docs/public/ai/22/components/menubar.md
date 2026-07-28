@@ -113,7 +113,7 @@ interface AerisMenubarItemEvent<T = unknown> {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-menubar-background` | `color` | `--aeris-surface` | Root surface background. |
-| `--aeris-menubar-border` | `color` | `--aeris-border` | Root and separator border color. |
+| `--aeris-menubar-border` | `color` | `--aeris-border-subtle` | Root and separator border color. |
 | `--aeris-menubar-radius` | `length` | `--aeris-radius-lg` | Root surface corner radius. |
 | `--aeris-menubar-item-radius` | `length` | `--aeris-radius-control` | Hover and focus item corner radius. |
 | `--aeris-menubar-item-height` | `length` | `--aeris-item-height` | Minimum item height. |

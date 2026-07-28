@@ -12,7 +12,8 @@ aeris-panel {
   --_header-padding-inline: var(--aeris-panel-header-padding-inline, 1.125rem);
 
   overflow: hidden;
-  border: 1px solid var(--aeris-panel-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(--aeris-panel-border, var(--aeris-border));
   border-radius: var(--aeris-panel-radius, var(--aeris-radius-lg, 1.125rem));
   background: var(--aeris-panel-background, var(--aeris-surface, #fff));
   color: var(--aeris-panel-color, var(--aeris-text, #222222));
@@ -60,7 +61,11 @@ aeris-panel {
   gap: var(--aeris-panel-header-gap, 0.75rem);
   min-inline-size: 0;
   padding: var(--_header-padding-block) var(--_header-padding-inline);
-  border-block-end: 1px solid var(--aeris-panel-header-border, var(--aeris-border, #deddd7));
+  border-block-end: 1px solid
+    var(
+      --aeris-panel-header-border,
+      var(--aeris-border)
+    );
   background: var(--aeris-panel-header-background, color-mix(in srgb, var(--aeris-surface-2, #f2f0ec) 58%, transparent));
 }
 
@@ -199,7 +204,11 @@ aeris-panel {
   flex-wrap: wrap;
   gap: var(--aeris-panel-footer-gap, 0.625rem);
   padding: var(--aeris-panel-footer-padding-block, 0.875rem) var(--_padding-inline);
-  border-block-start: 1px solid var(--aeris-panel-footer-border, var(--aeris-border, #deddd7));
+  border-block-start: 1px solid
+    var(
+      --aeris-panel-footer-border,
+      var(--aeris-border)
+    );
   background: var(--aeris-panel-footer-background, transparent);
 }
 

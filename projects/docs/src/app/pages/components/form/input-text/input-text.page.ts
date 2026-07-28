@@ -93,7 +93,7 @@ protected readonly emailInvalid = computed(
   protected readonly affixCssCode = `.input-affix {
   display: flex;
   align-items: center;
-  border: 1px solid var(--aeris-border-strong);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-sm);
 }
 

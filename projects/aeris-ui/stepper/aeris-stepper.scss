@@ -83,7 +83,7 @@
   height: var(--_aeris-stepper-trigger-size);
   display: inline-grid;
   place-items: center;
-  border: 1px solid var(--aeris-stepper-indicator-border, var(--aeris-border-strong, #c7c9c0));
+  border: 1px solid var(--aeris-stepper-indicator-border, var(--aeris-border, #deddd7));
   border-radius: 999px;
   background: var(--aeris-stepper-indicator-background, var(--aeris-surface, #fff));
   color: var(--aeris-stepper-muted-color, var(--aeris-text-2, #555555));
@@ -172,7 +172,8 @@
 
 :host([data-variant='contained']) .aeris-stepper__list {
   padding: var(--aeris-stepper-list-padding, 0.375rem);
-  border: 1px solid var(--aeris-stepper-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(--aeris-stepper-border, var(--aeris-border));
   border-radius: calc(var(--aeris-stepper-radius, var(--aeris-radius-md, 0.6875rem)) + 0.375rem);
   background: var(--aeris-stepper-list-background, var(--aeris-surface, #fff));
 }
@@ -181,7 +182,11 @@
   min-width: 0;
   margin-top: var(--aeris-stepper-panel-gap, 1.25rem);
   padding: var(--aeris-stepper-panel-padding, 1.125rem);
-  border: 1px solid var(--aeris-stepper-panel-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(
+      --aeris-stepper-panel-border,
+      var(--aeris-border)
+    );
   border-radius: var(--aeris-stepper-panel-radius, var(--aeris-radius-lg, 1.125rem));
   background: var(--aeris-stepper-panel-background, var(--aeris-surface, #fff));
   color: var(--aeris-stepper-panel-color, var(--aeris-text-2, #555555));

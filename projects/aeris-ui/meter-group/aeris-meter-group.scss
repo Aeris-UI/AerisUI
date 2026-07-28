@@ -46,7 +46,8 @@
   block-size: var(--_aeris-meter-group-track-size);
   display: flex;
   overflow: hidden;
-  border: 1px solid var(--aeris-meter-group-track-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(--aeris-meter-group-track-border, var(--aeris-border));
   border-radius: var(--aeris-meter-group-radius, var(--aeris-radius-control, 0.4375rem));
   background: var(--aeris-meter-group-track-background, var(--aeris-surface-2, #f2f0ec));
   box-shadow: var(--aeris-meter-group-track-shadow, inset 0 0 0 1px rgb(0 0 0 / 2%));
@@ -85,7 +86,7 @@
 
 .aeris-meter-group__segment[data-tone='secondary'],
 .aeris-meter-group__marker[data-tone='secondary'] {
-  background-color: var(--aeris-surface-3, var(--aeris-border-strong, #c7c9c0));
+  background-color: var(--aeris-surface-3, var(--aeris-border, #deddd7));
 }
 
 .aeris-meter-group__segment[data-tone='success'],

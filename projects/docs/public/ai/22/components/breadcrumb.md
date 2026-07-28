@@ -125,7 +125,7 @@ interface AerisBreadcrumbEllipsisTemplateContext {
 | `--aeris-breadcrumb-color` | `color` | `--aeris-text` | Default breadcrumb text color. |
 | `--aeris-breadcrumb-muted-color` | `color` | `--aeris-text-2` | Non-current item color. |
 | `--aeris-breadcrumb-current-color` | `color` | `--aeris-text` | Current item color. |
-| `--aeris-breadcrumb-border` | `color` | `--aeris-border` | Breadcrumb border color. |
+| `--aeris-breadcrumb-border` | `color` | `--aeris-border-subtle` | Breadcrumb border color. |
 | `--aeris-breadcrumb-border-width` | `length` | `1px` | Breadcrumb border width. |
 | `--aeris-breadcrumb-radius` | `length` | `--aeris-radius-lg` | Breadcrumb corner radius. |
 | `--aeris-breadcrumb-shadow` | `shadow` | `none` | Breadcrumb shadow. |

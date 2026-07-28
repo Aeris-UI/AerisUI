@@ -13,7 +13,7 @@ describe('Aeris theme contrast audit', () => {
     const report = auditAerisThemeContrast(AERIS_DEFAULT_THEME, 'light');
 
     expect(report.mode).toBe('light');
-    expect(report.total).toBe(53);
+    expect(report.total).toBe(52);
     expect(report.checks.some((check) => check.category === 'text')).toBe(true);
     expect(report.checks.some((check) => check.category === 'interaction')).toBe(true);
     expect(report.checks.some((check) => check.category === 'focus')).toBe(true);
@@ -171,6 +171,15 @@ describe('Aeris theme contrast audit', () => {
         expect(isAchromaticHex(foundation.text)).toBe(true);
         expect(isAchromaticHex(foundation.text2)).toBe(true);
         expect(isAchromaticHex(foundation.text3)).toBe(true);
+        const borderRatio = aerisContrastRatio(foundation.border, foundation.surface);
+        const strongBorderRatio = aerisContrastRatio(
+          foundation.borderStrong,
+          foundation.surface,
+        );
+        if (borderRatio === null || strongBorderRatio === null) {
+          throw new Error('Resolved foundation border colors must be measurable.');
+        }
+        expect(borderRatio).toBeLessThan(strongBorderRatio);
       }
     }
   });

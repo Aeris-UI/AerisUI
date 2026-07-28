@@ -9,7 +9,8 @@ aeris-toolbar {
   --_gap: var(--aeris-toolbar-gap, 0.75rem);
   --_section-gap: var(--aeris-toolbar-section-gap, 0.5rem);
 
-  border: var(--aeris-toolbar-border-width, 1px) solid var(--aeris-toolbar-border, var(--aeris-border, #deddd7));
+  border: var(--aeris-toolbar-border-width, 1px) solid
+    var(--aeris-toolbar-border, var(--aeris-border));
   border-radius: var(--aeris-toolbar-radius, var(--aeris-radius-lg, 1.125rem));
   background: var(--aeris-toolbar-background, var(--aeris-surface, #fff));
   color: var(--aeris-toolbar-color, var(--aeris-text, #222222));
@@ -73,7 +74,7 @@ aeris-toolbar {
 .aeris-toolbar[data-wrap='false'] .aeris-toolbar__content {
   flex-wrap: nowrap;
   overflow-x: auto;
-  scrollbar-color: var(--aeris-border-strong, #c7c9c0) transparent;
+  scrollbar-color: var(--aeris-border, #deddd7) transparent;
   scrollbar-width: thin;
 }
 
@@ -90,7 +91,7 @@ aeris-toolbar {
 .aeris-toolbar[data-wrap='false'] .aeris-toolbar__content::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-border-strong, #c7c9c0);
+  background: var(--aeris-border, #deddd7);
   background-clip: content-box;
 }
 

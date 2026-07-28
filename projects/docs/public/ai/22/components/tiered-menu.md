@@ -136,7 +136,7 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
 | `--aeris-tiered-menu-max-width` | `length` | `min(22rem, 100%)` | Root panel maximum width. |
 | `--aeris-tiered-menu-max-height` | `length` | `min(26rem, calc(100vh - 1rem))` | Root list maximum height. |
 | `--aeris-tiered-menu-padding` | `length` | `0.375rem` | Panel and submenu padding. |
-| `--aeris-tiered-menu-border` | `color` | `--aeris-border` | Panel border color. |
+| `--aeris-tiered-menu-border` | `color` | `--aeris-border-subtle` | Panel border color. |
 | `--aeris-tiered-menu-radius` | `length` | `--aeris-radius-lg` | Panel and submenu radius. |
 | `--aeris-tiered-menu-background` | `color` | `--aeris-surface` | Panel background. |
 | `--aeris-tiered-menu-shadow` | `shadow` | `overlay shadow` | Panel and submenu elevation. |

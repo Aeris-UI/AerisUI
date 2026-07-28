@@ -2,9 +2,9 @@
 @use 'tokens';
 
 $primary: map.get(tokens.$aeris-default-palette, 'primary');
-$primary-hover: #5d6837;
-$primary-active: #5c6736;
+$primary-hover: #5c6b35;
+$primary-active: #5b6a34;
 $primary-text: $primary;
 $secondary: map.get(tokens.$aeris-default-palette, 'secondary');
-$focus: #3b452a;
+$focus: #3b4729;
 $on-primary: #ffffff;

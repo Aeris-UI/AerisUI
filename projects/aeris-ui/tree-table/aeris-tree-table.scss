@@ -87,7 +87,11 @@
 
 .aeris-tree-table__frame {
   min-width: 0;
-  border: 1px solid var(--aeris-tree-table-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(
+      --aeris-tree-table-border,
+      var(--aeris-border)
+    );
   border-radius: var(--aeris-tree-table-radius, var(--aeris-radius-md, 0.75rem));
   background: var(--aeris-tree-table-background, var(--aeris-surface, #fff));
   overflow: hidden;
@@ -97,7 +101,7 @@
   min-width: 0;
   overflow: auto;
   overscroll-behavior: contain;
-  scrollbar-color: var(--aeris-border-strong, #c7c9c0) transparent;
+  scrollbar-color: var(--aeris-border, #deddd7) transparent;
   scrollbar-width: thin;
 }
 
@@ -127,7 +131,7 @@
 .aeris-tree-table__viewport::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-border-strong, #c7c9c0);
+  background: var(--aeris-border, #deddd7);
   background-clip: content-box;
 }
 
@@ -158,7 +162,7 @@ td {
   box-sizing: border-box;
   padding: var(--aeris-tree-table-cell-padding, 0.9rem 1rem);
   border: 0;
-  border-block-end: 1px solid var(--aeris-border, #deddd7);
+  border-block-end: 1px solid var(--aeris-border);
   text-align: left;
   vertical-align: middle;
 }
@@ -260,7 +264,7 @@ tbody tr[data-disabled='true'] {
 
 .aeris-tree-table[data-gridlines='true'] th,
 .aeris-tree-table[data-gridlines='true'] td {
-  border-inline-end: 1px solid var(--aeris-border, #deddd7);
+  border-inline-end: 1px solid var(--aeris-border);
 }
 
 .aeris-tree-table[data-gridlines='true'] th:last-child,
@@ -305,7 +309,7 @@ th[data-frozen='true'],
 td[data-frozen='true'] {
   position: sticky;
   z-index: 3;
-  box-shadow: 1px 0 var(--aeris-border, #deddd7);
+  box-shadow: 1px 0 var(--aeris-border);
 }
 
 th[data-frozen='true'] {
@@ -511,7 +515,7 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
 }
 
 .aeris-tree-table__toggle[aria-expanded] {
-  border-color: var(--aeris-border, #deddd7);
+  border-color: var(--aeris-border);
   background: var(--aeris-surface, #fff);
 }
 
@@ -618,7 +622,7 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
 
   .aeris-tree-table[data-responsive='stack'] tbody tr {
     display: grid;
-    border: 1px solid var(--aeris-border, #deddd7);
+    border: 1px solid var(--aeris-border);
     border-radius: var(--aeris-tree-table-radius, var(--aeris-radius-md, 0.75rem));
     background: var(--aeris-surface, #fff);
     overflow: hidden;
@@ -630,7 +634,7 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
     align-items: center;
     gap: calc(var(--aeris-tree-table-density-gap) + 0.25rem);
     min-height: var(--aeris-tree-table-stack-row-height);
-    border-block-end: 1px solid var(--aeris-border, #deddd7);
+    border-block-end: 1px solid var(--aeris-border);
     background: transparent;
     text-align: left;
     box-shadow: none;

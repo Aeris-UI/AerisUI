@@ -103,7 +103,7 @@ interface AerisScrollPanelEvent {
 | --- | --- | --- | --- |
 | `--aeris-scroll-panel-background` | `CSS custom property` | `--aeris-surface` | Viewport surface. |
 | `--aeris-scroll-panel-color` | `CSS custom property` | `--aeris-text` | Viewport text color inheritance. |
-| `--aeris-scroll-panel-border` | `CSS custom property` | `--aeris-border` | Viewport border. |
+| `--aeris-scroll-panel-border` | `CSS custom property` | `--aeris-border-subtle` | Viewport border. |
 | `--aeris-scroll-panel-border-width` | `CSS custom property` | `1px` | Viewport border thickness. |
 | `--aeris-scroll-panel-radius` | `CSS custom property` | `--aeris-radius-lg` | Viewport corner radius. |
 | `--aeris-scroll-panel-padding` | `CSS custom property` | `1rem` | Content padding. |

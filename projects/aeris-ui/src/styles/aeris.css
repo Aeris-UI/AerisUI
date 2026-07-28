@@ -118,11 +118,11 @@
 }
 
 :root {
-  --aeris-palette-surface: #fefae0;
-  --aeris-palette-primary: #606c38;
-  --aeris-palette-secondary: #bc6c25;
-  --aeris-palette-accent: #dda15e;
-  --aeris-palette-contrast: #283618;
+  --aeris-palette-surface: #f6f3e8;
+  --aeris-palette-primary: #5f6f36;
+  --aeris-palette-secondary: #b75e26;
+  --aeris-palette-accent: #d79a32;
+  --aeris-palette-contrast: #28351a;
   --aeris-palette-mist: var(--aeris-palette-surface);
   --aeris-palette-sage: var(--aeris-palette-primary);
   --aeris-palette-cloud: var(--aeris-palette-secondary);
@@ -140,11 +140,11 @@
   --aeris-on-primary-soft: var(--aeris-primary-text);
   --aeris-primary-contrast: var(--aeris-on-primary);
   --aeris-secondary: var(--aeris-palette-secondary);
-  --aeris-secondary-hover: #bf7231;
-  --aeris-secondary-active: #c07334;
+  --aeris-secondary-hover: #b05b26;
+  --aeris-secondary-active: #ae5a26;
   --aeris-secondary-text: color-mix(in srgb, var(--aeris-secondary) 55%, #111411);
   --aeris-secondary-soft: color-mix(in srgb, var(--aeris-secondary) 14%, var(--aeris-surface));
-  --aeris-on-secondary: #111411;
+  --aeris-on-secondary: #ffffff;
   --aeris-on-secondary-hover: var(--aeris-on-secondary);
   --aeris-on-secondary-active: var(--aeris-on-secondary);
   --aeris-on-secondary-soft: var(--aeris-secondary-text);
@@ -215,7 +215,11 @@
   --aeris-text-2: #555555;
   --aeris-text-3: #707070;
   --aeris-text-muted: var(--aeris-text-2);
-  --aeris-border: color-mix(in oklch, #5f625d 58%, var(--aeris-palette-secondary));
+  --aeris-border: color-mix(
+    in srgb,
+    var(--aeris-surface) 88%,
+    color-mix(in oklch, #5f625d 58%, var(--aeris-palette-secondary))
+  );
   --aeris-border-strong: color-mix(in oklch, #444842 70%, var(--aeris-palette-secondary));
   --aeris-backdrop-blur: 0.25rem;
   --aeris-glass-blur: 0.25rem;
@@ -311,7 +315,11 @@
   --aeris-text-2: #c5c5c5;
   --aeris-text-3: #9d9d9d;
   --aeris-text-muted: var(--aeris-text-2);
-  --aeris-border: color-mix(in oklch, #70746d 65%, var(--aeris-palette-secondary));
+  --aeris-border: color-mix(
+    in srgb,
+    var(--aeris-surface) 84%,
+    color-mix(in oklch, #70746d 65%, var(--aeris-palette-secondary))
+  );
   --aeris-border-strong: color-mix(in oklch, #8d9289 70%, var(--aeris-palette-secondary));
   --aeris-focus: color-mix(in oklch, #ffffff 44%, var(--aeris-palette-primary));
   --aeris-shadow-xs: 0 1px 2px rgb(0 0 0 / 24%);

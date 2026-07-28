@@ -76,7 +76,7 @@ type AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';
 | --- | --- | --- | --- |
 | `--aeris-toolbar-background` | `color` | `--aeris-surface` | Toolbar surface color. |
 | `--aeris-toolbar-color` | `color` | `--aeris-text` | Toolbar text color. |
-| `--aeris-toolbar-border` | `color` | `--aeris-border` | Toolbar border color. |
+| `--aeris-toolbar-border` | `color` | `--aeris-border-subtle` | Toolbar border color. |
 | `--aeris-toolbar-border-width` | `length` | `1px` | Toolbar border width. |
 | `--aeris-toolbar-radius` | `length` | `--aeris-radius-lg` | Toolbar corner radius. |
 | `--aeris-toolbar-shadow` | `shadow` | `none` | Toolbar shadow. |

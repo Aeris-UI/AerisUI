@@ -20,7 +20,7 @@
   min-block-size: var(--aeris-compare-min-height, 12rem);
   overflow: hidden;
   border: var(--aeris-compare-border-width, 1px) solid
-    var(--aeris-compare-border, var(--aeris-border, #deddd7));
+    var(--aeris-compare-border, var(--aeris-border));
   border-radius: var(--aeris-compare-radius, var(--aeris-radius-lg, 0.875rem));
   background: var(--aeris-compare-background, var(--aeris-surface-2, #f2f0ec));
   color: var(--aeris-compare-color, var(--aeris-text, #222222));

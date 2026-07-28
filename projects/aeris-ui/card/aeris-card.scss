@@ -10,7 +10,8 @@ aeris-card {
   height: 100%;
   min-width: 0;
   overflow: visible;
-  border: 1px solid var(--aeris-card-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(--aeris-card-border, var(--aeris-border));
   border-radius: var(--_aeris-card-radius);
   background: var(--aeris-card-background, var(--aeris-surface, #fff));
   color: var(--aeris-card-color, var(--aeris-text, #222222));
@@ -35,7 +36,10 @@ aeris-card {
 }
 
 .aeris-card[data-hoverable='true']:hover {
-  border-color: var(--aeris-card-hover-border, var(--aeris-border-strong, #c7c9c0));
+  border-color: var(
+    --aeris-card-hover-border,
+    color-mix(in srgb, var(--aeris-border, #deddd7) 58%, transparent)
+  );
   box-shadow: var(
     --aeris-card-hover-shadow,
     0 1rem 2.5rem color-mix(in srgb, var(--aeris-text, #222222) 12%, transparent)
