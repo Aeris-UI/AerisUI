@@ -368,7 +368,13 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
     { name: '--aeris-context-menu-shadow', type: 'shadow', defaultValue: 'overlay shadow', description: 'Panel and submenu shadow.' },
     { name: '--aeris-context-menu-item-gap', type: 'length', defaultValue: '0.625rem', description: 'Gap inside item rows.' },
     { name: '--aeris-context-menu-item-min-height', type: 'length', defaultValue: '2.25rem', description: 'Default item height.' },
-    { name: '--aeris-context-menu-item-radius', type: 'length', defaultValue: '--aeris-radius-sm', description: 'Item radius.' },
+    {
+      name: '--aeris-context-menu-item-radius',
+      type: 'length',
+      defaultValue: 'Panel inner radius',
+      description:
+        'Item radius derived from the panel radius, padding, and border so highlighted items follow the panel curve.',
+    },
     { name: '--aeris-context-menu-item-hover-background', type: 'color', defaultValue: 'primary mix', description: 'Hover and active item background.' },
     { name: '--aeris-context-menu-icon-size', type: 'length', defaultValue: '1.125rem', description: 'Default icon box size.' },
     { name: '--aeris-context-menu-disabled-opacity', type: 'number', defaultValue: '0.52', description: 'Disabled item opacity.' },

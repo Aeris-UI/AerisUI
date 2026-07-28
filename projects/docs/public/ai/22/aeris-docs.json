@@ -29255,8 +29255,8 @@
         {
           "name": "--aeris-context-menu-item-radius",
           "type": "length",
-          "defaultValue": "--aeris-radius-sm",
-          "description": "Item radius."
+          "defaultValue": "Panel inner radius",
+          "description": "Item radius derived from the panel radius, padding, and border so highlighted items follow the panel curve."
         },
         {
           "name": "--aeris-context-menu-item-hover-background",
