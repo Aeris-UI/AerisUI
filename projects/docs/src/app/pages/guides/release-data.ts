@@ -27,7 +27,22 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
     version: 'Unreleased',
     date: 'In development',
     status: 'Next release',
-    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.1.'],
+    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.2.'],
+  },
+  {
+    version: '22.0.0-alpha.2',
+    date: '28 July 2026',
+    status: 'Alpha patch',
+    changes: [
+      'Publish Core and MCP through versioned GitHub Releases using npm trusted publishing.',
+      'Refresh the Earth theme and centralize component fallback colors in the theming layer.',
+      'Render Tabs correctly on the first lazy navigation.',
+      'Polish Toast stacking, motion, rapid interactions, and pointer or touch swipe dismissal.',
+      'Align ContextMenu corner radii and animate MeterGroup fills from the logical start edge.',
+      'Add discreet sponsorship and supporter-recognition guidance.',
+      'Clarify Aeris UI open-source positioning and production canonical URLs.',
+      'Update development dependencies while retaining the supported Angular 22 peer range.',
+    ],
   },
   {
     version: '22.0.0-alpha.1',
