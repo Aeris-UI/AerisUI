@@ -35,11 +35,7 @@
             Explore components
           </a>
         </div>
-        <div class="home-install" aria-label="Installation command">
-          <span>Install alpha</span>
-          <code>npm install &#64;aeris-ui/core&#64;{{ currentVersion }}</code>
-          <small>Angular 22+</small>
-        </div>
+        <app-code-block class="home-install" [sources]="installSources" />
       </div>
 
       <div class="home-hero__preview">

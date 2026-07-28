@@ -14,6 +14,7 @@ import { LucideDynamicIcon } from '@lucide/angular';
 import { COMPONENT_CATALOG } from '../data/component-catalog';
 import { AERIS_CURRENT_VERSION } from '../data/aeris-version';
 import { AerisLogoMarkComponent } from '../shared/branding/aeris-logo-mark.component';
+import { CodeBlockComponent, type CodeSource } from '../shared/code-block.component';
 import { DOC_ICONS } from '../shared/documentation/doc-icons';
 import { AerisApplicationShowcaseComponent } from '../shared/showcase/aeris-application-showcase.component';
 
@@ -32,6 +33,7 @@ import { AerisApplicationShowcaseComponent } from '../shared/showcase/aeris-appl
     AerisToggleSwitch,
     LucideDynamicIcon,
     AerisLogoMarkComponent,
+    CodeBlockComponent,
     AerisApplicationShowcaseComponent,
   ],
   templateUrl: './home.page.html',
@@ -45,7 +47,18 @@ import { AerisApplicationShowcaseComponent } from '../shared/showcase/aeris-appl
 export class HomePage {
   protected readonly icons = DOC_ICONS;
   protected readonly componentCount = COMPONENT_CATALOG.length;
-  protected readonly currentVersion = AERIS_CURRENT_VERSION;
+  protected readonly installSources: readonly CodeSource[] = [
+    {
+      label: 'Guided',
+      language: 'Shell',
+      code: `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION}`,
+    },
+    {
+      label: 'Package only',
+      language: 'Shell',
+      code: `npm install @aeris-ui/core@${AERIS_CURRENT_VERSION}`,
+    },
+  ];
   protected readonly workspaceType = signal<string | null>('product');
   protected readonly updatesEnabled = signal(true);
   protected readonly saveVisible = signal(false);
