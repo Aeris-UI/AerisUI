@@ -55,15 +55,15 @@
 
 .aeris-input-text:hover:not(:disabled):not([readonly]),
 .aeris-textarea:hover:not(:disabled):not([readonly]) {
-  border-color: var(--aeris-primary, #879566);
+  border-color: var(--aeris-primary, #606c38);
 }
 
 .aeris-input-text:focus,
 .aeris-textarea:focus {
-  border-color: var(--aeris-focus, #536437);
+  border-color: var(--aeris-focus, #3b452a);
   outline: 0;
   box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
+    color-mix(in srgb, var(--aeris-focus, #3b452a) 18%, transparent);
 }
 
 .aeris-input-text--filled:focus,

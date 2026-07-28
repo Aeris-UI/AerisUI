@@ -83,14 +83,14 @@
 
 .aeris-date-picker__trigger:hover,
 .aeris-date-picker[data-open] .aeris-date-picker__trigger {
-  border-color: var(--aeris-date-picker-focus, var(--aeris-focus, #536437));
+  border-color: var(--aeris-date-picker-focus, var(--aeris-focus, #3b452a));
 }
 
 .aeris-date-picker__trigger:focus-visible {
   outline: 0;
-  border-color: var(--aeris-date-picker-focus, var(--aeris-focus, #536437));
+  border-color: var(--aeris-date-picker-focus, var(--aeris-focus, #3b452a));
   box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--aeris-focus, #536437) 22%, transparent);
+    color-mix(in srgb, var(--aeris-focus, #3b452a) 22%, transparent);
 }
 
 .aeris-date-picker[data-invalid] .aeris-date-picker__trigger {
@@ -138,7 +138,7 @@
 }
 
 .aeris-date-picker__clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #3b452a);
   outline-offset: 1px;
 }
 
@@ -323,7 +323,7 @@
 .aeris-date-picker__choice-grid button:hover:not(:disabled) {
   background: var(
     --aeris-date-picker-hover,
-    color-mix(in srgb, var(--aeris-primary, #879566) 12%, transparent)
+    color-mix(in srgb, var(--aeris-primary, #606c38) 12%, transparent)
   );
 }
 
@@ -331,7 +331,7 @@
 .aeris-date-picker__nav:focus-visible,
 .aeris-date-picker__footer button:focus-visible,
 .aeris-date-picker__choice-grid button:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #3b452a);
   outline-offset: 1px;
 }
 
@@ -435,13 +435,13 @@
 .aeris-date-picker__day:focus-visible {
   background: var(
     --aeris-date-picker-hover,
-    color-mix(in srgb, var(--aeris-primary, #879566) 12%, transparent)
+    color-mix(in srgb, var(--aeris-primary, #606c38) 12%, transparent)
   );
 }
 
 .aeris-date-picker__day:focus-visible {
   z-index: 1;
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #3b452a);
   outline-offset: 0;
 }
 
@@ -454,7 +454,7 @@
   border-radius: 0;
   background: color-mix(
     in srgb,
-    var(--aeris-date-picker-selected-background, var(--aeris-primary, #879566))
+    var(--aeris-date-picker-selected-background, var(--aeris-primary, #606c38))
       16%,
     transparent
   );
@@ -466,7 +466,7 @@
   border-radius: 0.4375rem;
   background: var(
     --aeris-date-picker-selected-background,
-    var(--aeris-primary, #879566)
+    var(--aeris-primary, #606c38)
   );
   color: var(
     --aeris-date-picker-selected-text,
@@ -483,7 +483,7 @@
 .aeris-date-picker__day[data-range-end]:focus-visible {
   background: var(
     --aeris-date-picker-selected-hover-background,
-    var(--aeris-primary-hover, var(--aeris-primary, #879566))
+    var(--aeris-primary-hover, var(--aeris-primary, #606c38))
   );
   color: var(
     --aeris-date-picker-selected-hover-text,
@@ -497,7 +497,7 @@
   width: 0.25rem;
   height: 0.25rem;
   border-radius: 50%;
-  background: var(--aeris-primary, #879566);
+  background: var(--aeris-primary, #606c38);
   content: '';
 }
 
@@ -522,7 +522,7 @@
 .aeris-date-picker__choice-grid button[data-selected] {
   background: var(
     --aeris-date-picker-selected-background,
-    var(--aeris-primary, #879566)
+    var(--aeris-primary, #606c38)
   );
   color: var(
     --aeris-date-picker-selected-text,
@@ -535,7 +535,7 @@
 .aeris-date-picker__choice-grid button[data-selected]:focus-visible {
   background: var(
     --aeris-date-picker-selected-hover-background,
-    var(--aeris-primary-hover, var(--aeris-primary, #879566))
+    var(--aeris-primary-hover, var(--aeris-primary, #606c38))
   );
   color: var(
     --aeris-date-picker-selected-hover-text,
@@ -592,9 +592,9 @@
 
 .aeris-date-picker__time-field input:focus-visible,
 .aeris-date-picker__time-field select:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #3b452a);
   outline-offset: 1px;
-  border-color: var(--aeris-date-picker-focus, var(--aeris-focus, #536437));
+  border-color: var(--aeris-date-picker-focus, var(--aeris-focus, #3b452a));
 }
 
 .aeris-date-picker__time-field input:disabled,
@@ -624,7 +624,7 @@
 .aeris-date-picker__footer button {
   min-height: 2rem;
   padding: 0.375rem 0.625rem;
-  color: var(--aeris-primary-text, #566137);
+  color: var(--aeris-primary-text, #606c38);
   font-size: 0.8125rem;
   font-weight: 700;
 }

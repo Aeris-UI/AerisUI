@@ -311,11 +311,11 @@ const AERIS_MONOCHROME_DARK_STATUS_TONES = {
 export const AERIS_THEME_PRESETS = {
   earth: {
     palette: {
-      surface: '#e8dfe0',
-      primary: '#879566',
-      secondary: '#80939b',
-      accent: '#dab692',
-      contrast: '#8f5b34',
+      surface: '#fefae0',
+      primary: '#606c38',
+      secondary: '#bc6c25',
+      accent: '#dda15e',
+      contrast: '#283618',
     },
   },
   coastal: {

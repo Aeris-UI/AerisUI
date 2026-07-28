@@ -203,7 +203,7 @@
 }
 
 .aeris-toast__message {
-  --_accent: var(--aeris-primary, #879566);
+  --_accent: var(--aeris-primary, #606c38);
   --_accent-soft: color-mix(in srgb, var(--_accent) 14%, transparent);
   --_icon-color: var(--_accent);
 
@@ -395,7 +395,7 @@
 }
 
 .aeris-toast__close:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #3b452a);
   outline-offset: 2px;
 }
 

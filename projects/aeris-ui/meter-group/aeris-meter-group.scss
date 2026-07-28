@@ -66,7 +66,7 @@
   display: grid;
   place-items: center;
   overflow: hidden;
-  background-color: var(--aeris-primary, #879566);
+  background-color: var(--aeris-primary, #606c38);
   transform-origin: left center;
   animation: aeris-meter-group-reveal-inline 320ms ease-out both;
 }
@@ -150,7 +150,7 @@
   inline-size: var(--aeris-meter-group-marker-size, 0.625rem);
   block-size: var(--aeris-meter-group-marker-size, 0.625rem);
   border-radius: var(--aeris-meter-group-marker-radius, 50%);
-  background-color: var(--aeris-primary, #879566);
+  background-color: var(--aeris-primary, #606c38);
 }
 
 .aeris-meter-group__label {

@@ -98,7 +98,7 @@
 }
 
 .aeris-menubar__item:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #879566)) 38%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #606c38)) 38%, transparent);
   outline-offset: 2px;
 }
 
@@ -158,9 +158,9 @@
   border-radius: var(--aeris-radius-pill, 999px);
   background: var(
     --aeris-menubar-badge-background,
-    color-mix(in srgb, var(--aeris-primary, #879566) 15%, transparent)
+    color-mix(in srgb, var(--aeris-primary, #606c38) 15%, transparent)
   );
-  color: var(--aeris-menubar-badge-color, var(--aeris-primary-text, #566137));
+  color: var(--aeris-menubar-badge-color, var(--aeris-primary-text, #606c38));
   font-size: 0.72rem;
   font-weight: 850;
   overflow: hidden;
@@ -228,7 +228,7 @@
 }
 
 .aeris-menubar__toggle:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #879566)) 38%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #606c38)) 38%, transparent);
   outline-offset: 2px;
 }
 

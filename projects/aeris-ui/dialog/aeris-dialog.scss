@@ -89,7 +89,7 @@
 }
 
 .aeris-dialog__panel:focus-visible {
-  outline: 2px solid var(--aeris-dialog-focus, var(--aeris-focus, #536437));
+  outline: 2px solid var(--aeris-dialog-focus, var(--aeris-focus, #3b452a));
   outline-offset: 3px;
 }
 
@@ -187,7 +187,7 @@
 }
 
 .aeris-dialog__action:focus-visible {
-  outline: 2px solid var(--aeris-dialog-focus, var(--aeris-focus, #536437));
+  outline: 2px solid var(--aeris-dialog-focus, var(--aeris-focus, #3b452a));
   outline-offset: 2px;
 }
 

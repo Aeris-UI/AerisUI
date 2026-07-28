@@ -51,20 +51,20 @@ button {
 }
 
 button:hover:not(:disabled) {
-  border-color: color-mix(in srgb, var(--aeris-primary, #879566) 58%, var(--aeris-border, #deddd7));
+  border-color: color-mix(in srgb, var(--aeris-primary, #606c38) 58%, var(--aeris-border, #deddd7));
   background: var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec));
   color: var(--aeris-text, #222222);
   transform: translateY(-1px);
 }
 
 .aeris-paginator__pages > button[aria-current='page']:hover {
-  background: color-mix(in srgb, var(--aeris-primary, #879566) 22%, var(--aeris-surface, #fff));
+  background: color-mix(in srgb, var(--aeris-primary, #606c38) 22%, var(--aeris-surface, #fff));
 }
 
 button[aria-current='page'] {
-  border-color: var(--aeris-primary, #879566);
-  background: color-mix(in srgb, var(--aeris-primary, #879566) 16%, var(--aeris-surface, #fff));
-  color: var(--aeris-primary-text, #566137);
+  border-color: var(--aeris-primary, #606c38);
+  background: color-mix(in srgb, var(--aeris-primary, #606c38) 16%, var(--aeris-surface, #fff));
+  color: var(--aeris-primary-text, #606c38);
 }
 
 button:disabled {
@@ -74,7 +74,7 @@ button:disabled {
 
 button:focus-visible,
 .aeris-paginator__rows-trigger:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #3b452a);
   outline-offset: 2px;
 }
 
@@ -207,8 +207,8 @@ button:focus-visible,
 
 .aeris-paginator__rows-panel button:hover,
 .aeris-paginator__rows-panel button[aria-selected='true'] {
-  background: color-mix(in srgb, var(--aeris-primary, #879566) 12%, transparent);
-  color: var(--aeris-primary-text, #566137);
+  background: color-mix(in srgb, var(--aeris-primary, #606c38) 12%, transparent);
+  color: var(--aeris-primary-text, #606c38);
 }
 
 .aeris-paginator__check {

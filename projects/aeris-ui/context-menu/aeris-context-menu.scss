@@ -105,7 +105,7 @@ aeris-context-menu {
 }
 
 .aeris-context-menu__item:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #879566)) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #606c38)) 42%, transparent);
   outline-offset: 1px;
 }
 
@@ -148,9 +148,9 @@ aeris-context-menu {
   border-radius: var(--aeris-radius-pill, 999px);
   background: var(
     --aeris-context-menu-badge-background,
-    color-mix(in srgb, var(--aeris-primary, #879566) 16%, transparent)
+    color-mix(in srgb, var(--aeris-primary, #606c38) 16%, transparent)
   );
-  color: var(--aeris-context-menu-badge-color, var(--aeris-primary-text, #566137));
+  color: var(--aeris-context-menu-badge-color, var(--aeris-primary-text, #606c38));
   font-size: 0.75rem;
   font-weight: 800;
   overflow: hidden;

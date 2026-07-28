@@ -1,11 +1,11 @@
 :host {
   --_height: var(--aeris-control-height, 2.625rem);
-  --_aeris-button-fill: var(--aeris-primary, #879566);
+  --_aeris-button-fill: var(--aeris-primary, #606c38);
   --_aeris-button-boundary: var(--aeris-primary-boundary, var(--_aeris-button-fill));
-  --_aeris-button-hover-fill: var(--aeris-primary-hover, #758154);
-  --_aeris-button-active-fill: var(--aeris-primary-active, #687249);
-  --_aeris-button-text: var(--aeris-primary-text, #566137);
-  --_aeris-button-on-fill: var(--aeris-on-primary, #17200f);
+  --_aeris-button-hover-fill: var(--aeris-primary-hover, #5d6837);
+  --_aeris-button-active-fill: var(--aeris-primary-active, #5c6736);
+  --_aeris-button-text: var(--aeris-primary-text, #606c38);
+  --_aeris-button-on-fill: var(--aeris-on-primary, #ffffff);
   --_aeris-button-on-hover: var(--aeris-on-primary-hover, var(--_aeris-button-on-fill));
   --_aeris-button-on-active: var(--aeris-on-primary-active, var(--_aeris-button-on-hover));
   --_aeris-button-soft: var(
@@ -36,7 +36,7 @@
 }
 
 :host(:focus-visible) {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 44%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 44%, transparent);
   outline-offset: 2px;
 }
 
@@ -250,7 +250,7 @@
 }
 
 :host(.aeris-button--severity-secondary) {
-  --_aeris-button-fill: var(--aeris-secondary, #80939b);
+  --_aeris-button-fill: var(--aeris-secondary, #bc6c25);
   --_aeris-button-boundary: var(--aeris-secondary-boundary, var(--_aeris-button-fill));
   --_aeris-button-hover-fill: var(--aeris-secondary-hover, #75868e);
   --_aeris-button-active-fill: var(--aeris-secondary-active, #6b7b82);

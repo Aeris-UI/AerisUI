@@ -56,9 +56,9 @@
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: var(--aeris-primary, #879566);
-  box-shadow: 0 0.5rem 1.5rem color-mix(in srgb, var(--aeris-primary, #879566) 28%, transparent);
-  color: var(--aeris-on-primary, #17200f);
+  background: var(--aeris-primary, #606c38);
+  box-shadow: 0 0.5rem 1.5rem color-mix(in srgb, var(--aeris-primary, #606c38) 28%, transparent);
+  color: var(--aeris-on-primary, #ffffff);
   cursor: pointer;
   transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
 }
@@ -72,13 +72,13 @@
 }
 
 .aeris-speed-dial__trigger:hover:not(:disabled) {
-  background: var(--aeris-primary-hover, #758154);
+  background: var(--aeris-primary-hover, #5d6837);
   transform: translateY(-1px);
 }
 
 .aeris-speed-dial__trigger:focus-visible,
 .aeris-speed-dial__action:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 48%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 48%, transparent);
   outline-offset: 3px;
 }
 
@@ -144,8 +144,8 @@
 }
 
 .aeris-speed-dial__action:hover:not(:disabled):not(.aeris-speed-dial__action--disabled) {
-  border-color: var(--aeris-primary, #879566);
-  background: color-mix(in srgb, var(--aeris-primary, #879566) 10%, var(--aeris-surface, #fff));
+  border-color: var(--aeris-primary, #606c38);
+  background: color-mix(in srgb, var(--aeris-primary, #606c38) 10%, var(--aeris-surface, #fff));
   transform: scale(1.08);
 }
 

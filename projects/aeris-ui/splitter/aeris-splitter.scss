@@ -140,12 +140,12 @@
 .aeris-splitter__gutter[data-active] {
   background: var(
     --aeris-splitter-gutter-hover-background,
-    color-mix(in srgb, var(--aeris-primary, #879566) 13%, transparent)
+    color-mix(in srgb, var(--aeris-primary, #606c38) 13%, transparent)
   );
 }
 
 .aeris-splitter__gutter:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--aeris-splitter-focus-ring, var(--aeris-focus, var(--aeris-primary, #879566)));
+  box-shadow: inset 0 0 0 2px var(--aeris-splitter-focus-ring, var(--aeris-focus, var(--aeris-primary, #606c38)));
 }
 
 .aeris-splitter__gutter[data-disabled] {
@@ -177,7 +177,7 @@
 .aeris-splitter__gutter:hover:not([data-disabled]) .aeris-splitter__handle,
 .aeris-splitter__gutter:focus-visible .aeris-splitter__handle,
 .aeris-splitter__gutter[data-active] .aeris-splitter__handle {
-  background: var(--aeris-splitter-handle-hover-color, var(--aeris-primary-text, #566137));
+  background: var(--aeris-splitter-handle-hover-color, var(--aeris-primary-text, #606c38));
 }
 
 :host([data-size='sm']) > .aeris-splitter__root > .aeris-splitter__panel > .aeris-splitter__panel-content {

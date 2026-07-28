@@ -42,14 +42,14 @@
 }
 
 .aeris-input-number__field:hover {
-  border-color: var(--aeris-primary, #879566);
+  border-color: var(--aeris-primary, #606c38);
 }
 
 .aeris-input-number__field:focus-within {
   position: relative;
   z-index: 2;
-  border-color: var(--aeris-focus, #536437);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
+  border-color: var(--aeris-focus, #3b452a);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #3b452a) 18%, transparent);
 }
 
 .aeris-input-number[data-appearance='filled'] .aeris-input-number__field {
@@ -58,7 +58,7 @@
 }
 
 .aeris-input-number[data-appearance='filled'] .aeris-input-number__field:focus-within {
-  border-color: var(--aeris-focus, #536437);
+  border-color: var(--aeris-focus, #3b452a);
   background: var(--aeris-surface, #fff);
 }
 
@@ -140,7 +140,7 @@
 }
 
 .aeris-input-number__clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #3b452a);
   outline-offset: 1px;
 }
 
@@ -167,15 +167,15 @@
 }
 
 .aeris-input-number__button:hover:not(:disabled) {
-  border-color: var(--aeris-primary, #879566);
-  background: color-mix(in srgb, var(--aeris-primary, #879566) 12%, var(--aeris-surface, #fff));
-  color: var(--aeris-primary-text, #566137);
+  border-color: var(--aeris-primary, #606c38);
+  background: color-mix(in srgb, var(--aeris-primary, #606c38) 12%, var(--aeris-surface, #fff));
+  color: var(--aeris-primary-text, #606c38);
 }
 
 .aeris-input-number__button:focus-visible {
   position: relative;
   z-index: 3;
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 42%, transparent);
   outline-offset: 2px;
 }
 

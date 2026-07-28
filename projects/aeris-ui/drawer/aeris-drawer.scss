@@ -123,7 +123,7 @@
 }
 
 .aeris-drawer__panel:focus-visible {
-  outline: 2px solid var(--aeris-drawer-focus, var(--aeris-focus, #536437));
+  outline: 2px solid var(--aeris-drawer-focus, var(--aeris-focus, #3b452a));
   outline-offset: -4px;
 }
 
@@ -260,7 +260,7 @@
 }
 
 .aeris-drawer__action:focus-visible {
-  outline: 2px solid var(--aeris-drawer-focus, var(--aeris-focus, #536437));
+  outline: 2px solid var(--aeris-drawer-focus, var(--aeris-focus, #3b452a));
   outline-offset: 2px;
 }
 

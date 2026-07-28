@@ -328,7 +328,7 @@
             {
               "id": "earth",
               "name": "Aeris Earth",
-              "description": "Quiet sage, warm sand, and grounded neutrals."
+              "description": "Deep olive, warm copper, and sunlit cornsilk."
             },
             {
               "id": "coastal",
@@ -535,7 +535,7 @@
             {
               "label": "src/app/app.config.ts",
               "language": "TypeScript",
-              "code": "import { ApplicationConfig } from '@angular/core';\nimport { provideAeris } from '@aeris-ui/core/theming';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    provideAeris({\n      mode: 'system',\n      themeModeStorageKey: 'my-app-color-mode',\n      theme: {\n        palette: {\n          surface: '#e8dfe0',\n          primary: '#879566',\n          secondary: '#80939b',\n          accent: '#dab692',\n          contrast: '#8f5b34',\n        },\n        density: 'medium',\n        radius: 'rounded',\n        direction: 'ltr',\n      },\n    }),\n  ],\n};"
+              "code": "import { ApplicationConfig } from '@angular/core';\nimport { provideAeris } from '@aeris-ui/core/theming';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    provideAeris({\n      mode: 'system',\n      themeModeStorageKey: 'my-app-color-mode',\n      theme: {\n        palette: {\n          surface: '#fefae0',\n          primary: '#606c38',\n          secondary: '#bc6c25',\n          accent: '#dda15e',\n          contrast: '#283618',\n        },\n        density: 'medium',\n        radius: 'rounded',\n        direction: 'ltr',\n      },\n    }),\n  ],\n};"
             }
           ]
         },
@@ -1458,7 +1458,7 @@
             {
               "label": "TS",
               "language": "TypeScript",
-              "code": "import type { AerisThemeOverride } from '@aeris-ui/core/theming';\n\nexport const productTheme: AerisThemeOverride = {\n  palette: {\n    surface: '#e8dfe0',\n    primary: '#879566',\n    secondary: '#80939b',\n    accent: '#dab692',\n    contrast: '#8f5b34',\n  },\n  density: 'medium',\n  radius: 'rounded',\n};"
+              "code": "import type { AerisThemeOverride } from '@aeris-ui/core/theming';\n\nexport const productTheme: AerisThemeOverride = {\n  palette: {\n    surface: '#fefae0',\n    primary: '#606c38',\n    secondary: '#bc6c25',\n    accent: '#dda15e',\n    contrast: '#283618',\n  },\n  density: 'medium',\n  radius: 'rounded',\n};"
             }
           ]
         },
@@ -4147,7 +4147,7 @@
             {
               "name": "value",
               "type": "string (model)",
-              "defaultValue": "'#879566'",
+              "defaultValue": "'#606c38'",
               "description": "Current color value with two-way binding and Forms support."
             },
             {
@@ -4573,7 +4573,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-basic-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-basic\">Brand color</label>\n      <aeris-color-picker\n        inputId=\"color-basic\"\n        ariaDescribedby=\"color-basic-help\"\n        value=\"#879566\"\n      />\n      <small id=\"color-basic-help\">Choose the primary color for your interface.</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerBasicBasicDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-basic-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-basic\">Brand color</label>\n      <aeris-color-picker\n        inputId=\"color-basic\"\n        ariaDescribedby=\"color-basic-help\"\n        value=\"#606c38\"\n      />\n      <small id=\"color-basic-help\">Choose the primary color for your interface.</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerBasicBasicDemo {\n}\n"
             }
           ]
         },
@@ -4585,7 +4585,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-signal-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-signal\">Theme color</label>\n      <aeris-color-picker inputId=\"color-signal\" [(value)]=\"brandColor\" />\n      <small aria-live=\"polite\">Selected: {{ brandColor() }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerSignalSignalValueDemo {\n  protected readonly brandColor = signal('#879566');\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-signal-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-signal\">Theme color</label>\n      <aeris-color-picker inputId=\"color-signal\" [(value)]=\"brandColor\" />\n      <small aria-live=\"polite\">Selected: {{ brandColor() }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerSignalSignalValueDemo {\n  protected readonly brandColor = signal('#606c38');\n}\n"
             }
           ]
         },
@@ -4597,7 +4597,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisColorPicker, type AerisColorFormat } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-formats-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-format\">Interface color</label>\n      <aeris-color-picker\n        inputId=\"color-format\"\n        [(value)]=\"formatColor\"\n        [(format)]=\"selectedFormat\"\n      />\n      <small aria-live=\"polite\">\n        {{ selectedFormat().toUpperCase() }} · {{ formatColor() }}\n      </small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerFormatsSelectableFormatsDemo {\n  protected readonly formatColor = signal('#879566');\n  protected readonly selectedFormat = signal<AerisColorFormat>('hex');\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisColorPicker, type AerisColorFormat } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-formats-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-format\">Interface color</label>\n      <aeris-color-picker\n        inputId=\"color-format\"\n        [(value)]=\"formatColor\"\n        [(format)]=\"selectedFormat\"\n      />\n      <small aria-live=\"polite\">\n        {{ selectedFormat().toUpperCase() }} · {{ formatColor() }}\n      </small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerFormatsSelectableFormatsDemo {\n  protected readonly formatColor = signal('#606c38');\n  protected readonly selectedFormat = signal<AerisColorFormat>('hex');\n}\n"
             }
           ]
         },
@@ -4621,7 +4621,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-presets-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-presets\">Palette color</label>\n      <aeris-color-picker\n        inputId=\"color-presets\"\n        [(value)]=\"accentColor\"\n        [presets]=\"presets\"\n      />\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerPresetsPresetsDemo {\n  protected readonly presets: readonly string[] = [\n    '#e8dfe0',\n    '#879566',\n    '#80939b',\n    '#dab692',\n    '#8f5b34',\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-presets-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-presets\">Palette color</label>\n      <aeris-color-picker\n        inputId=\"color-presets\"\n        [(value)]=\"accentColor\"\n        [presets]=\"presets\"\n      />\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerPresetsPresetsDemo {\n  protected readonly presets: readonly string[] = [\n    '#fefae0',\n    '#606c38',\n    '#bc6c25',\n    '#dda15e',\n    '#283618',\n  ];\n}\n"
             }
           ]
         },
@@ -4638,7 +4638,7 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div class=\"field-grid\">\n  <div class=\"field\">\n    <label for=\"color-swatch-only\">Compact color</label>\n    <aeris-color-picker\n      inputId=\"color-swatch-only\"\n      value=\"#879566\"\n      [showValue]=\"false\"\n      [showInput]=\"false\"\n      ariaLabel=\"Compact color\"\n    />\n  </div>\n  <div class=\"field\">\n    <label for=\"color-swatch-with-input\">Swatch with input</label>\n    <aeris-color-picker\n      inputId=\"color-swatch-with-input\"\n      value=\"#dab692\"\n      [showValue]=\"false\"\n    />\n  </div>\n</div>"
+              "code": "<div class=\"field-grid\">\n  <div class=\"field\">\n    <label for=\"color-swatch-only\">Compact color</label>\n    <aeris-color-picker\n      inputId=\"color-swatch-only\"\n      value=\"#606c38\"\n      [showValue]=\"false\"\n      [showInput]=\"false\"\n      ariaLabel=\"Compact color\"\n    />\n  </div>\n  <div class=\"field\">\n    <label for=\"color-swatch-with-input\">Swatch with input</label>\n    <aeris-color-picker\n      inputId=\"color-swatch-with-input\"\n      value=\"#dda15e\"\n      [showValue]=\"false\"\n    />\n  </div>\n</div>"
             },
             {
               "language": "CSS",
@@ -4655,7 +4655,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-sizes-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field-grid\">\n      <aeris-color-picker size=\"xs\" value=\"#e8dfe0\" />\n      <aeris-color-picker size=\"sm\" value=\"#879566\" />\n      <aeris-color-picker size=\"md\" value=\"#80939b\" />\n      <aeris-color-picker size=\"lg\" value=\"#dab692\" />\n    </div>\n  `,\n  styles: `\n    .field-grid {\n      width: 100%;\n      display: grid;\n      grid-template-columns: repeat(2, minmax(0, 1fr));\n      gap: 1.25rem;\n    }\n    \n    @media (max-width: 42rem) {\n      .field-grid {\n        grid-template-columns: 1fr;\n      }\n    }\n  `\n})\nexport class ColorPickerSizesSizesDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-sizes-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field-grid\">\n      <aeris-color-picker size=\"xs\" value=\"#fefae0\" />\n      <aeris-color-picker size=\"sm\" value=\"#606c38\" />\n      <aeris-color-picker size=\"md\" value=\"#bc6c25\" />\n      <aeris-color-picker size=\"lg\" value=\"#dda15e\" />\n    </div>\n  `,\n  styles: `\n    .field-grid {\n      width: 100%;\n      display: grid;\n      grid-template-columns: repeat(2, minmax(0, 1fr));\n      gap: 1.25rem;\n    }\n    \n    @media (max-width: 42rem) {\n      .field-grid {\n        grid-template-columns: 1fr;\n      }\n    }\n  `\n})\nexport class ColorPickerSizesSizesDemo {\n}\n"
             }
           ]
         },
@@ -4667,7 +4667,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-appearances-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field-grid\">\n      <aeris-color-picker appearance=\"outline\" value=\"#879566\" />\n      <aeris-color-picker appearance=\"filled\" value=\"#879566\" />\n    </div>\n  `,\n  styles: `\n    .field-grid {\n      width: 100%;\n      display: grid;\n      grid-template-columns: repeat(2, minmax(0, 1fr));\n      gap: 1.25rem;\n    }\n    \n    @media (max-width: 42rem) {\n      .field-grid {\n        grid-template-columns: 1fr;\n      }\n    }\n  `\n})\nexport class ColorPickerAppearancesAppearancesDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-appearances-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field-grid\">\n      <aeris-color-picker appearance=\"outline\" value=\"#606c38\" />\n      <aeris-color-picker appearance=\"filled\" value=\"#606c38\" />\n    </div>\n  `,\n  styles: `\n    .field-grid {\n      width: 100%;\n      display: grid;\n      grid-template-columns: repeat(2, minmax(0, 1fr));\n      gap: 1.25rem;\n    }\n    \n    @media (max-width: 42rem) {\n      .field-grid {\n        grid-template-columns: 1fr;\n      }\n    }\n  `\n})\nexport class ColorPickerAppearancesAppearancesDemo {\n}\n"
             }
           ]
         },
@@ -4679,7 +4679,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-clear-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-clear\">Optional accent</label>\n      <aeris-color-picker inputId=\"color-clear\" value=\"#8f5b34\" clearable />\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerClearClearButtonDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-clear-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-clear\">Optional accent</label>\n      <aeris-color-picker inputId=\"color-clear\" value=\"#283618\" clearable />\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerClearClearButtonDemo {\n}\n"
             }
           ]
         },
@@ -4691,7 +4691,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-states-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field-grid\">\n      <aeris-color-picker value=\"#879566\" disabled />\n      <aeris-color-picker value=\"#dab692\" readonly />\n    </div>\n  `,\n  styles: `\n    .field-grid {\n      width: 100%;\n      display: grid;\n      grid-template-columns: repeat(2, minmax(0, 1fr));\n      gap: 1.25rem;\n    }\n    \n    @media (max-width: 42rem) {\n      .field-grid {\n        grid-template-columns: 1fr;\n      }\n    }\n  `\n})\nexport class ColorPickerStatesDisabledAndReadOnlyDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-states-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field-grid\">\n      <aeris-color-picker value=\"#606c38\" disabled />\n      <aeris-color-picker value=\"#dda15e\" readonly />\n    </div>\n  `,\n  styles: `\n    .field-grid {\n      width: 100%;\n      display: grid;\n      grid-template-columns: repeat(2, minmax(0, 1fr));\n      gap: 1.25rem;\n    }\n    \n    @media (max-width: 42rem) {\n      .field-grid {\n        grid-template-columns: 1fr;\n      }\n    }\n  `\n})\nexport class ColorPickerStatesDisabledAndReadOnlyDemo {\n}\n"
             }
           ]
         },
@@ -4725,7 +4725,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-forms-demo',\n  imports: [AerisColorPicker, FormsModule, ReactiveFormsModule],\n  templateUrl: './color-picker-forms.demo.html',\n  styleUrl: './color-picker-forms.demo.scss'\n})\nexport class ColorPickerFormsReactiveAndTemplateDrivenFormsDemo {\n  protected readonly reactiveColor =\n    new FormControl('#80939b');\n\n  protected templateColor = '#8f5b34';\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-forms-demo',\n  imports: [AerisColorPicker, FormsModule, ReactiveFormsModule],\n  templateUrl: './color-picker-forms.demo.html',\n  styleUrl: './color-picker-forms.demo.scss'\n})\nexport class ColorPickerFormsReactiveAndTemplateDrivenFormsDemo {\n  protected readonly reactiveColor =\n    new FormControl('#bc6c25');\n\n  protected templateColor = '#283618';\n}\n"
             },
             {
               "language": "HTML",
@@ -4747,7 +4747,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisColorPicker, type AerisColorPickerChangeEvent } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-events-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-events\">Event color</label>\n      <aeris-color-picker\n        inputId=\"color-events\"\n        value=\"#80939b\"\n        (changed)=\"recordChange($event)\"\n      />\n      <small aria-live=\"polite\">{{ lastChange() }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerEventsEventsDemo {\n  protected readonly lastChange = signal('No color change yet');\n\n  protected recordChange(event: AerisColorPickerChangeEvent): void {\n    this.lastChange.set(`Selected ${event.value}`);\n  }\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisColorPicker, type AerisColorPickerChangeEvent } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-events-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-events\">Event color</label>\n      <aeris-color-picker\n        inputId=\"color-events\"\n        value=\"#bc6c25\"\n        (changed)=\"recordChange($event)\"\n      />\n      <small aria-live=\"polite\">{{ lastChange() }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerEventsEventsDemo {\n  protected readonly lastChange = signal('No color change yet');\n\n  protected recordChange(event: AerisColorPickerChangeEvent): void {\n    this.lastChange.set(`Selected ${event.value}`);\n  }\n}\n"
             }
           ]
         }
@@ -11843,7 +11843,7 @@
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n.team-mark {\n  width: 0.625rem;\n  height: 0.625rem;\n  border-radius: 50%;\n  background: var(--primary);\n}\n\n.team-mark[data-team='platform'] {\n  background: #80939b;\n}\n\n.team-mark[data-team='a11y'] {\n  background: #8f5b34;\n}\n\n.selected-team,\n.team-option {\n  display: flex;\n  align-items: center;\n  gap: 0.625rem;\n}"
+              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n.team-mark {\n  width: 0.625rem;\n  height: 0.625rem;\n  border-radius: 50%;\n  background: var(--primary);\n}\n\n.team-mark[data-team='platform'] {\n  background: #bc6c25;\n}\n\n.team-mark[data-team='a11y'] {\n  background: #283618;\n}\n\n.selected-team,\n.team-option {\n  display: flex;\n  align-items: center;\n  gap: 0.625rem;\n}"
             }
           ]
         },

@@ -61,8 +61,8 @@
 }
 
 .aeris-tree__filter:focus-visible {
-  border-color: var(--aeris-focus, #536437);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 22%, transparent);
+  border-color: var(--aeris-focus, #3b452a);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #3b452a) 22%, transparent);
 }
 
 .aeris-tree__search {
@@ -98,7 +98,7 @@
 }
 
 .aeris-tree__filter-clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #3b452a);
   outline-offset: 1px;
 }
 
@@ -165,7 +165,7 @@
 
 .aeris-tree__node[data-drop-position='inside'] {
   background: var(--aeris-tree-drop-background, var(--aeris-primary-soft, #eef2e6));
-  box-shadow: inset 0 0 0 2px var(--aeris-tree-drop-indicator, var(--aeris-primary-text, #536437));
+  box-shadow: inset 0 0 0 2px var(--aeris-tree-drop-indicator, var(--aeris-primary-text, #3b452a));
 }
 
 .aeris-tree__node[data-drop-position='before']::before,
@@ -176,7 +176,7 @@
   z-index: 1;
   height: 2px;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-tree-drop-indicator, var(--aeris-primary-text, #536437));
+  background: var(--aeris-tree-drop-indicator, var(--aeris-primary-text, #3b452a));
   content: '';
 }
 
@@ -198,7 +198,7 @@
 
 .aeris-tree__node[data-selected='true'] {
   background: var(--aeris-tree-node-selected, var(--aeris-primary-soft, #eef2e6));
-  color: var(--aeris-primary-text, #536437);
+  color: var(--aeris-primary-text, #3b452a);
 }
 
 .aeris-tree__node[data-disabled='true'] {
@@ -208,7 +208,7 @@
 }
 
 .aeris-tree__node:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--aeris-focus, #536437);
+  box-shadow: inset 0 0 0 2px var(--aeris-focus, #3b452a);
 }
 
 .aeris-tree__toggle {
@@ -271,8 +271,8 @@
 
 .aeris-tree__box[data-checked='true'],
 .aeris-tree__box[data-mixed='true'] {
-  border-color: var(--aeris-primary-text, #536437);
-  background: var(--aeris-primary-text, #536437);
+  border-color: var(--aeris-primary-text, #3b452a);
+  background: var(--aeris-primary-text, #3b452a);
   color: var(--aeris-primary-contrast, #fff);
 }
 

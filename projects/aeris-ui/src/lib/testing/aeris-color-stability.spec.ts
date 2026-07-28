@@ -17,8 +17,8 @@ interface ColorStabilityFixture {
 const COLOR_STABILITY_FIXTURES: Readonly<Record<string, ColorStabilityFixture>> = {
   earth: {
     input: AERIS_THEME_PRESETS.earth,
-    light: 'bebca20a715e9eb0',
-    dark: 'cd5fbd903a973ea3',
+    light: 'e2dacffcf1c50845',
+    dark: '64317dd914e751f1',
     tokenCount: 99,
   },
   coastal: {

@@ -77,15 +77,15 @@
 
 .aeris-tabs__list button:hover:not(:disabled) {
   background: transparent;
-  color: var(--aeris-tabs-active-text, var(--aeris-primary-text, #566137));
+  color: var(--aeris-tabs-active-text, var(--aeris-primary-text, #606c38));
 }
 
 .aeris-tabs__list button[aria-selected='true'] {
-  color: var(--aeris-tabs-active-text, var(--aeris-primary-text, #566137));
+  color: var(--aeris-tabs-active-text, var(--aeris-primary-text, #606c38));
 }
 
 .aeris-tabs__list button[aria-selected='true']::after {
-  background: var(--aeris-tabs-indicator, var(--aeris-primary, #879566));
+  background: var(--aeris-tabs-indicator, var(--aeris-primary, #606c38));
 }
 
 .aeris-tabs__list button:disabled {
@@ -96,7 +96,7 @@
 .aeris-tabs__list button:focus-visible,
 .aeris-tabs__scroll:focus-visible {
   z-index: 1;
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #3b452a);
   outline-offset: -2px;
 }
 

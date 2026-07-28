@@ -27,8 +27,8 @@
   gap: 0.5rem;
   padding: 0 0.875rem;
   border: 1px solid transparent;
-  background: var(--aeris-primary, #879566);
-  color: var(--aeris-on-primary, #17200f);
+  background: var(--aeris-primary, #606c38);
+  color: var(--aeris-on-primary, #ffffff);
   font: inherit;
   font-size: 0.875rem;
   font-weight: 600;
@@ -43,14 +43,14 @@
 
 .aeris-split-button__primary:hover:not(:disabled),
 .aeris-split-button__toggle:hover:not(:disabled) {
-  background: var(--aeris-primary-hover, #758154);
+  background: var(--aeris-primary-hover, #5d6837);
 }
 
 .aeris-split-button__primary:focus-visible,
 .aeris-split-button__toggle:focus-visible {
   position: relative;
   z-index: 2;
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 42%, transparent);
   outline-offset: 2px;
 }
 
@@ -71,7 +71,7 @@
 .aeris-split-button__toggle[data-variant='outline'] {
   border-color: currentColor;
   background: transparent;
-  color: var(--aeris-primary-text, #566137);
+  color: var(--aeris-primary-text, #606c38);
 }
 
 .aeris-split-button__primary[data-variant='ghost'],
@@ -79,7 +79,7 @@
 .aeris-split-button__primary[data-variant='link'],
 .aeris-split-button__toggle[data-variant='link'] {
   background: transparent;
-  color: var(--aeris-primary-text, #566137);
+  color: var(--aeris-primary-text, #606c38);
 }
 
 .aeris-split-button__primary[data-variant='danger'],
@@ -265,12 +265,12 @@
 
 .aeris-split-button__item:hover:not(:disabled):not([aria-disabled='true']),
 .aeris-split-button__item:focus-visible {
-  background: color-mix(in srgb, var(--aeris-primary, #879566) 13%, transparent);
+  background: color-mix(in srgb, var(--aeris-primary, #606c38) 13%, transparent);
   color: var(--aeris-text, #222222);
 }
 
 .aeris-split-button__item:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 32%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 32%, transparent);
   outline-offset: -2px;
 }
 

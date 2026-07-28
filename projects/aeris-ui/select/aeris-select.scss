@@ -106,16 +106,16 @@
 
 .aeris-select__trigger:hover,
 .aeris-select[data-open] .aeris-select__trigger {
-  border-color: var(--aeris-select-hover-border, var(--aeris-focus, #536437));
+  border-color: var(--aeris-select-hover-border, var(--aeris-focus, #3b452a));
 }
 
 .aeris-select__trigger:focus-visible {
   outline: 0;
-  border-color: var(--aeris-select-focus, var(--aeris-focus, #536437));
+  border-color: var(--aeris-select-focus, var(--aeris-focus, #3b452a));
   box-shadow: 0 0 0 3px
     color-mix(
       in srgb,
-      var(--aeris-select-focus, var(--aeris-focus, #536437)) 22%,
+      var(--aeris-select-focus, var(--aeris-focus, #3b452a)) 22%,
       transparent
     );
 }
@@ -215,7 +215,7 @@
 }
 
 .aeris-select__clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #3b452a);
   outline-offset: 1px;
 }
 
@@ -297,7 +297,7 @@
 }
 
 .aeris-select__filter-clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #3b452a);
   outline-offset: 1px;
 }
 
@@ -328,9 +328,9 @@
 }
 
 .aeris-select__filter-wrap:focus-within {
-  border-color: var(--aeris-select-focus, var(--aeris-focus, #536437));
+  border-color: var(--aeris-select-focus, var(--aeris-focus, #3b452a));
   box-shadow: 0 0 0 2px
-    color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
+    color-mix(in srgb, var(--aeris-focus, #3b452a) 18%, transparent);
 }
 
 .aeris-select__search-mark {

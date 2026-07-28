@@ -103,11 +103,11 @@ aeris-panel {
 }
 
 .aeris-panel__toggle:hover {
-  color: var(--aeris-panel-toggle-hover-color, var(--aeris-primary-text, var(--aeris-primary, #879566)));
+  color: var(--aeris-panel-toggle-hover-color, var(--aeris-primary-text, var(--aeris-primary, #606c38)));
 }
 
 .aeris-panel__toggle:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--focus, var(--aeris-primary, #879566)) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--focus, var(--aeris-primary, #606c38)) 42%, transparent);
   outline-offset: 0.25rem;
 }
 

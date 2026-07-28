@@ -65,7 +65,7 @@
 }
 
 .aeris-carousel__viewport:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 24%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 24%, transparent);
   outline-offset: 2px;
 }
 
@@ -144,8 +144,8 @@
 }
 
 .aeris-carousel__navigator:hover:not(:disabled) {
-  border-color: color-mix(in srgb, var(--aeris-primary, #879566) 50%, var(--aeris-border, #deddd7));
-  background: color-mix(in srgb, var(--aeris-primary, #879566) 10%, var(--aeris-surface, #fff));
+  border-color: color-mix(in srgb, var(--aeris-primary, #606c38) 50%, var(--aeris-border, #deddd7));
+  background: color-mix(in srgb, var(--aeris-primary, #606c38) 10%, var(--aeris-surface, #fff));
 }
 
 .aeris-carousel__navigator:disabled {
@@ -155,7 +155,7 @@
 
 .aeris-carousel__navigator:focus-visible,
 .aeris-carousel__indicators button:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 25%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 25%, transparent);
   outline-offset: 2px;
 }
 
@@ -210,7 +210,7 @@
 
 .aeris-carousel__indicators button[aria-current='page'] {
   inline-size: var(--aeris-carousel-active-indicator-width, 1.5rem);
-  background: var(--aeris-carousel-active-indicator-background, var(--aeris-primary, #879566));
+  background: var(--aeris-carousel-active-indicator-background, var(--aeris-primary, #606c38));
 }
 
 @media (max-width: 38rem) {

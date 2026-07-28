@@ -49,7 +49,7 @@
   border: 1.5px solid var(--aeris-border-strong, #c7c9c0);
   border-radius: var(--aeris-checkbox-radius, 0.3125rem);
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-on-primary, #17200f);
+  color: var(--aeris-on-primary, #ffffff);
   transition:
     background-color 150ms,
     border-color 150ms,
@@ -68,7 +68,7 @@
 }
 
 .aeris-checkbox:hover:not([data-disabled]) .aeris-checkbox__control {
-  border-color: var(--aeris-primary, #879566);
+  border-color: var(--aeris-primary, #606c38);
 }
 
 .aeris-checkbox__check-mark,
@@ -99,8 +99,8 @@
 
 .aeris-checkbox input:checked + .aeris-checkbox__control,
 .aeris-checkbox input:indeterminate + .aeris-checkbox__control {
-  border-color: var(--aeris-primary, #879566);
-  background: var(--aeris-primary, #879566);
+  border-color: var(--aeris-primary, #606c38);
+  background: var(--aeris-primary, #606c38);
 }
 
 .aeris-checkbox input:checked + .aeris-checkbox__control .aeris-checkbox__check-mark,
@@ -114,7 +114,7 @@
 }
 
 .aeris-checkbox input:focus-visible + .aeris-checkbox__control {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #536437) 44%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #3b452a) 44%, transparent);
   outline-offset: 2px;
 }
 

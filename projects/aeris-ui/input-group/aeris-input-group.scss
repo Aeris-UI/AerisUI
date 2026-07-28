@@ -235,9 +235,9 @@ svg.aeris-input-group__addon {
 .aeris-input-group > input:focus,
 .aeris-input-group > textarea:focus,
 .aeris-input-group > select:focus {
-  border-color: var(--aeris-focus, #536437);
+  border-color: var(--aeris-focus, #3b452a);
   outline: 0;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #3b452a) 18%, transparent);
 }
 
 .aeris-input-group--filled > input:not([type='checkbox']):not([type='radio']),

@@ -40,12 +40,12 @@
 }
 
 .aeris-input-mask__input:hover:not(:disabled):not(:read-only) {
-  border-color: var(--aeris-primary, #879566);
+  border-color: var(--aeris-primary, #606c38);
 }
 
 .aeris-input-mask__input:focus {
-  border-color: var(--aeris-focus, #536437);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
+  border-color: var(--aeris-focus, #3b452a);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #3b452a) 18%, transparent);
 }
 
 .aeris-input-mask[data-appearance='filled'] .aeris-input-mask__input {
@@ -54,7 +54,7 @@
 }
 
 .aeris-input-mask[data-appearance='filled'] .aeris-input-mask__input:focus {
-  border-color: var(--aeris-focus, #536437);
+  border-color: var(--aeris-focus, #3b452a);
   background: var(--aeris-surface, #fff);
 }
 
@@ -131,7 +131,7 @@
 }
 
 .aeris-input-mask__clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #536437);
+  outline: 2px solid var(--aeris-focus, #3b452a);
   outline-offset: 1px;
 }
 

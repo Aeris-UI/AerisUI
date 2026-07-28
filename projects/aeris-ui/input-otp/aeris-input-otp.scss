@@ -33,7 +33,7 @@
   color: var(--aeris-text, #222222);
   font: 650 var(--_font-size) / 1 inherit;
   text-align: center;
-  caret-color: var(--aeris-primary, #879566);
+  caret-color: var(--aeris-primary, #606c38);
   transition:
     border-color 120ms ease,
     box-shadow 120ms ease,
@@ -47,12 +47,12 @@
 }
 
 .aeris-input-otp__slot:hover:not(:disabled, :read-only) {
-  border-color: var(--aeris-primary, #879566);
+  border-color: var(--aeris-primary, #606c38);
 }
 
 .aeris-input-otp__slot:focus-visible {
-  border-color: var(--aeris-focus, #536437);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
+  border-color: var(--aeris-focus, #3b452a);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #3b452a) 18%, transparent);
 }
 
 .aeris-input-otp[data-appearance='filled'] .aeris-input-otp__slot {
@@ -61,7 +61,7 @@
 }
 
 .aeris-input-otp[data-appearance='filled'] .aeris-input-otp__slot:focus-visible {
-  border-color: var(--aeris-focus, #536437);
+  border-color: var(--aeris-focus, #3b452a);
   background: var(--aeris-surface, #fff);
 }
 

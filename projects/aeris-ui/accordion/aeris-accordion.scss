@@ -75,15 +75,15 @@
 .aeris-accordion__trigger:hover:not(:disabled) {
   background: var(
     --aeris-accordion-hover-background,
-    color-mix(in srgb, var(--aeris-primary, #879566) 8%, transparent)
+    color-mix(in srgb, var(--aeris-primary, #606c38) 8%, transparent)
   );
-  color: var(--aeris-accordion-hover-color, var(--aeris-primary-text, #566137));
+  color: var(--aeris-accordion-hover-color, var(--aeris-primary-text, #606c38));
 }
 
 .aeris-accordion__trigger:focus-visible {
   position: relative;
   z-index: 1;
-  outline: 2px solid var(--aeris-accordion-focus, var(--aeris-focus, #536437));
+  outline: 2px solid var(--aeris-accordion-focus, var(--aeris-focus, #3b452a));
   outline-offset: -2px;
 }
 
@@ -127,7 +127,7 @@
 }
 
 .aeris-accordion__trigger[aria-expanded='true'] .aeris-accordion__icon {
-  color: var(--aeris-accordion-active-icon-color, var(--aeris-primary-text, #566137));
+  color: var(--aeris-accordion-active-icon-color, var(--aeris-primary-text, #606c38));
 }
 
 .aeris-accordion__trigger[aria-expanded='true'] .aeris-accordion__default-icon::before {
@@ -143,7 +143,7 @@
 }
 
 .aeris-accordion__panel:focus-visible {
-  outline: 2px solid var(--aeris-accordion-focus, var(--aeris-focus, #536437));
+  outline: 2px solid var(--aeris-accordion-focus, var(--aeris-focus, #3b452a));
   outline-offset: -2px;
 }
 

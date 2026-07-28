@@ -25,12 +25,12 @@ import {
   `,
 })
 class ColorPickerHost {
-  readonly value = signal('#879566');
+  readonly value = signal('#606c38');
   readonly format = signal<AerisColorFormat>('hex');
   readonly lastChange = signal<AerisColorPickerChangeEvent | null>(null);
   readonly openCount = signal(0);
   readonly closeCount = signal(0);
-  readonly presets = ['#879566', '#dab692', '#8f5b34'];
+  readonly presets = ['#606c38', '#dda15e', '#283618'];
 }
 
 @Component({
@@ -38,14 +38,14 @@ class ColorPickerHost {
   template: `<aeris-color-picker [formControl]="control" format="rgb" />`,
 })
 class ColorPickerFormsHost {
-  readonly control = new FormControl('#879566');
+  readonly control = new FormControl('#606c38');
 }
 
 @Component({
   imports: [AerisColorPicker],
   template: `
     <aeris-color-picker
-      value="#879566"
+      value="#606c38"
       [showValue]="false"
       [showInput]="false"
       ariaLabel="Compact color"
@@ -70,7 +70,7 @@ describe('AerisColorPicker', () => {
     expect(trigger.id).toBe('brand-color');
     expect(trigger.getAttribute('aria-haspopup')).toBe('dialog');
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
-    expect(textInput.value).toBe('#879566');
+    expect(textInput.value).toBe('#606c38');
 
     await openPicker(fixture);
 
@@ -129,8 +129,8 @@ describe('AerisColorPicker', () => {
     presets.item(2).click();
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.value()).toBe('#8f5b34');
-    expect(fixture.componentInstance.lastChange()?.hex).toBe('#8f5b34');
+    expect(fixture.componentInstance.value()).toBe('#283618');
+    expect(fixture.componentInstance.lastChange()?.hex).toBe('#283618');
 
     const rgbButton = [
       ...panel.querySelectorAll<HTMLButtonElement>('.aeris-color-picker__formats button'),
@@ -151,7 +151,7 @@ describe('AerisColorPicker', () => {
     await fixture.whenStable();
 
     expect(fixture.componentInstance.format()).toBe('rgb');
-    expect(fixture.componentInstance.value()).toBe('rgb(143, 91, 52)');
+    expect(fixture.componentInstance.value()).toBe('rgb(40, 54, 24)');
     expect(rgbButton?.getAttribute('aria-pressed')).toBe('true');
     expect(formatOrder()).toEqual(['HEX', 'RGB', 'HSL']);
     expect(fixture.nativeElement.querySelector('.aeris-color-picker__panel')).toBe(panel);
@@ -323,11 +323,11 @@ describe('AerisColorPicker', () => {
     const textInput = fixture.nativeElement.querySelector(
       '.aeris-color-picker__text',
     ) as HTMLInputElement;
-    textInput.value = 'rgb(218, 182, 146)';
+    textInput.value = 'rgb(221, 161, 94)';
     textInput.dispatchEvent(new Event('input', { bubbles: true }));
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.value()).toBe('#dab692');
+    expect(fixture.componentInstance.value()).toBe('#dda15e');
 
     const clear = fixture.nativeElement.querySelector(
       '.aeris-color-picker__clear',
@@ -345,11 +345,11 @@ describe('AerisColorPicker', () => {
     const textInput = fixture.nativeElement.querySelector(
       '.aeris-color-picker__text',
     ) as HTMLInputElement;
-    textInput.value = '#dab692';
+    textInput.value = '#dda15e';
     textInput.dispatchEvent(new Event('input', { bubbles: true }));
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.control.value).toBe('rgb(218, 182, 146)');
+    expect(fixture.componentInstance.control.value).toBe('rgb(221, 161, 94)');
   });
 
   it('closes with Escape and restores focus to the trigger', async () => {
@@ -386,7 +386,7 @@ describe('AerisColorPicker', () => {
     expect(trigger.getAttribute('aria-label')).toBe('Compact color');
     expect(textInput).toBeNull();
     expect(value).toBeNull();
-    expect(swatch.style.backgroundColor).toBe('rgb(135, 149, 102)');
+    expect(swatch.style.backgroundColor).toBe('rgb(96, 108, 56)');
     expect(getComputedStyle(swatch).borderTopWidth).toBe('0px');
     expect(getComputedStyle(swatch).boxShadow).not.toContain('inset');
   });

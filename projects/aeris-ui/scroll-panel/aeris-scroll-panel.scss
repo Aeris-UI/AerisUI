@@ -18,7 +18,7 @@
 }
 
 .aeris-scroll-panel__frame:has(.aeris-scroll-panel__viewport:focus-visible) {
-  outline: 3px solid color-mix(in srgb, var(--focus, var(--aeris-primary, #879566)) 42%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--focus, var(--aeris-primary, #606c38)) 42%, transparent);
   outline-offset: 3px;
 }
 
