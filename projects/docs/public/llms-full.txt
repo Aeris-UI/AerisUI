@@ -652,7 +652,7 @@ Start with the broadest decision and customize more narrowly only when the appli
 | page, surface, surface2, surface3 | Mode-specific surface hierarchy | CSS color |
 | interactiveHover | Shared neutral hover treatment for interactive items | CSS color |
 | text, text2, text3 | Neutral content hierarchy | CSS color |
-| borderSubtle, border, borderStrong, focus | Surface separation, structural boundaries, control boundaries, and focus indication | CSS color |
+| border, borderStrong, focus | Quiet default boundaries, optional emphasized boundaries, and focus indication | CSS color |
 | accent | Mode-specific decorative accent | CSS color |
 | shadowXs, shadowSm | Mode-specific elevation | CSS shadow |
 
@@ -746,7 +746,7 @@ Use a semantic text token when color communicates a deliberate role. These text 
 | Purpose | Tokens | Use |
 | --- | --- | --- |
 | Ordinary content | --aeris-text, --aeris-text-2, --aeris-text-3 | Default headings, body copy, supporting text, labels, and placeholders |
-| Quiet surface separation | --aeris-border-subtle | Optional low-emphasis edges around non-interactive cards, panels, and overlay shells |
+| Quiet surface separation | --aeris-border | Optional low-emphasis edges around non-interactive cards, panels, and overlay shells |
 | Colored text on neutral surfaces | --aeris-primary-text, --aeris-secondary-text, and semantic *-text tokens | Links, statuses, or emphasis where color is intentional and meaningful |
 | Content on solid semantic colors | --aeris-on-primary, --aeris-on-success, and other on-* tokens | Text and icons placed on the corresponding filled background |
 
@@ -3962,7 +3962,7 @@ interface AerisCheckboxChangeEvent {
 | --- | --- | --- | --- |
 | `--aeris-primary` | `CSS custom property` | — | Selected and mixed control background. |
 | `--aeris-on-primary` | `CSS custom property` | — | Selected icon color. |
-| `--aeris-border-strong` | `CSS custom property` | — | Unchecked border. |
+| `--aeris-border` | `CSS custom property` | — | Unchecked border. |
 | `--aeris-surface` | `CSS custom property` | — | Unchecked background. |
 | `--aeris-radius-sm` | `CSS custom property` | — | Control corner radius foundation. |
 | `--aeris-focus` | `CSS custom property` | — | Visible keyboard focus ring. |
@@ -4609,7 +4609,7 @@ interface AerisColorPickerChangeEvent {
 | --- | --- | --- | --- |
 | `--aeris-surface` | `CSS custom property` | — | Control, panel, and active format backgrounds. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled surface and clear hover. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default field and swatch borders. |
+| `--aeris-border` | `CSS custom property` | — | Default field and swatch borders. |
 | `--aeris-focus` | `CSS custom property` | — | Keyboard focus ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border. |
 | `--aeris-text / --aeris-text-2` | `CSS custom property` | — | Value and secondary text. |
@@ -7393,7 +7393,7 @@ type AerisIconFieldDensity = 'comfortable' | 'compact';
 | `--aeris-control-height` | `CSS custom property` | — | Medium field height. |
 | `--aeris-control-height-xs/sm/lg` | `CSS custom property` | — | Field heights for alternate sizes. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Outlined and filled field surfaces. |
-| `--aeris-border-strong` | `CSS custom property` | — | Field border. |
+| `--aeris-border` | `CSS custom property` | — | Field border. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-text / --aeris-text-muted` | `CSS custom property` | — | Control text, placeholder, and icon color. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border color. |
@@ -8251,7 +8251,7 @@ type AerisInputGroupMode = 'attached' | 'embedded';
 | `--aeris-control-height` | `CSS custom property` | — | Medium group height. |
 | `--aeris-radius-sm` | `CSS custom property` | — | Outer group corner radius. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Control and addon surfaces. |
-| `--aeris-border-strong` | `CSS custom property` | — | Shared group borders. |
+| `--aeris-border` | `CSS custom property` | — | Shared group borders. |
 | `--aeris-focus` | `CSS custom property` | — | Projected control focus ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid group border. |
 | `--aeris-text / --aeris-text-muted` | `CSS custom property` | — | Control and addon text. |
@@ -9326,7 +9326,7 @@ type AerisInputMaskAppearance = 'outline' | 'filled';
 | `--aeris-radius-sm` | `CSS custom property` | — | Field and clear-button radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined field background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default field border. |
+| `--aeris-border` | `CSS custom property` | — | Default field border. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border and focus ring. |
 
@@ -10340,7 +10340,7 @@ type AerisInputNumberCurrencyDisplay =
 | `--aeris-radius-sm` | `CSS custom property` | — | Field and connected button radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined field background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled field and button background. |
-| `--aeris-border-strong` | `CSS custom property` | — | Field and button border. |
+| `--aeris-border` | `CSS custom property` | — | Field and button border. |
 | `--aeris-focus` | `CSS custom property` | — | Visible keyboard focus ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border and focus ring. |
 
@@ -11500,7 +11500,7 @@ interface AerisInputOtpCompleteEvent {
 | `--aeris-control-height` | `CSS custom property` | — | Medium slot width and height. |
 | `--aeris-radius-sm` | `CSS custom property` | — | Slot corner radius. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Outlined, filled, disabled, and read-only surfaces. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default slot border. |
+| `--aeris-border` | `CSS custom property` | — | Default slot border. |
 | `--aeris-primary` | `CSS custom property` | — | Hover border and caret color. |
 | `--aeris-focus` | `CSS custom property` | — | Focused slot border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid slot border and focus ring. |
@@ -12412,7 +12412,7 @@ type AerisControlSize = AerisInputTextSize;
 | `--aeris-radius-sm` | `CSS custom property` | — | Input corner radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined input background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default input border. |
+| `--aeris-border` | `CSS custom property` | — | Default input border. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border and focus ring. |
 
@@ -13035,7 +13035,7 @@ export class InputAffixesIconsAndAffixesDemo {
 .input-affix {
   display: flex;
   align-items: center;
-  border: 1px solid var(--aeris-border-strong);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-sm);
 }
 
@@ -14061,7 +14061,7 @@ interface AerisMultiSelectLazyLoadEvent {
 | `--aeris-multi-select-panel-max-height` | `CSS custom property` | — | Scrollable option-list height. |
 | `--aeris-surface` | `CSS custom property` | — | Control, chip checkbox, and panel surfaces. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and interactive backgrounds. |
-| `--aeris-border / --aeris-border-strong` | `CSS custom property` | — | Panel and control borders. |
+| `--aeris-border / --aeris-border` | `CSS custom property` | — | Panel and control borders. |
 | `--aeris-primary / --aeris-text` | `CSS custom property` | — | Selection controls and selected option text. |
 | `--aeris-focus` | `CSS custom property` | — | Visible focus border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border. |
@@ -15123,7 +15123,7 @@ type AerisPasswordStrengthEvaluator = (
 | `--aeris-control-height` | `CSS custom property` | — | Medium control height. |
 | `--aeris-radius-sm / --aeris-radius-md` | `CSS custom property` | — | Field and feedback corner radii. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Field, panel, filled, and action surfaces. |
-| `--aeris-border / --aeris-border-strong` | `CSS custom property` | — | Panel and field borders. |
+| `--aeris-border / --aeris-border` | `CSS custom property` | — | Panel and field borders. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-danger / --aeris-warning / --aeris-success` | `CSS custom property` | — | Invalid and strength meter states. |
 
@@ -19901,7 +19901,7 @@ type AerisTextareaResize =
 | `--aeris-radius-sm` | `CSS custom property` | — | Corner radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default border. |
+| `--aeris-border` | `CSS custom property` | — | Default border. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border and ring. |
 | `--aeris-text` | `CSS custom property` | — | Entered text. |
@@ -32682,11 +32682,11 @@ interface AerisPanelToggleIconContext extends AerisPanelHeaderContext {}
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-panel-background` | `CSS custom property` | `--aeris-surface` | Panel surface. |
-| `--aeris-panel-border` | `CSS custom property` | `--aeris-border-subtle` | Outer border. |
+| `--aeris-panel-border` | `CSS custom property` | `--aeris-border` | Outer border. |
 | `--aeris-panel-radius` | `CSS custom property` | `--aeris-radius-lg` | Outer corner radius. |
 | `--aeris-panel-shadow` | `CSS custom property` | `none` | Default elevation. |
 | `--aeris-panel-header-background` | `CSS custom property` | `surface mix` | Header surface. |
-| `--aeris-panel-header-border` | `CSS custom property` | `--aeris-border-subtle` | Header separator. |
+| `--aeris-panel-header-border` | `CSS custom property` | `--aeris-border` | Header separator. |
 | `--aeris-panel-title-color` | `CSS custom property` | `--aeris-text` | Header title color. |
 | `--aeris-panel-content-color` | `CSS custom property` | `--aeris-text-2` | Body text color. |
 | `--aeris-panel-icon-size` | `CSS custom property` | `1.25rem` | Default toggle icon box. |
@@ -33259,7 +33259,7 @@ interface AerisScrollPanelEvent {
 | --- | --- | --- | --- |
 | `--aeris-scroll-panel-background` | `CSS custom property` | `--aeris-surface` | Viewport surface. |
 | `--aeris-scroll-panel-color` | `CSS custom property` | `--aeris-text` | Viewport text color inheritance. |
-| `--aeris-scroll-panel-border` | `CSS custom property` | `--aeris-border-subtle` | Viewport border. |
+| `--aeris-scroll-panel-border` | `CSS custom property` | `--aeris-border` | Viewport border. |
 | `--aeris-scroll-panel-border-width` | `CSS custom property` | `1px` | Viewport border thickness. |
 | `--aeris-scroll-panel-radius` | `CSS custom property` | `--aeris-radius-lg` | Viewport corner radius. |
 | `--aeris-scroll-panel-padding` | `CSS custom property` | `1rem` | Content padding. |
@@ -34048,7 +34048,7 @@ interface AerisSplitterResizeEvent {
 | --- | --- | --- | --- |
 | `--aeris-splitter-background` | `CSS custom property` | `--aeris-surface` | Root surface. |
 | `--aeris-splitter-color` | `CSS custom property` | `--aeris-text` | Root text color. |
-| `--aeris-splitter-border` | `CSS custom property` | `--aeris-border-subtle` | Root border color. |
+| `--aeris-splitter-border` | `CSS custom property` | `--aeris-border` | Root border color. |
 | `--aeris-splitter-border-width` | `CSS custom property` | `1px` | Root border thickness. |
 | `--aeris-splitter-radius` | `CSS custom property` | `--aeris-radius-lg` | Root corner radius. |
 | `--aeris-splitter-shadow` | `CSS custom property` | `none` | Root elevation. |
@@ -36207,7 +36207,7 @@ type AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';
 | --- | --- | --- | --- |
 | `--aeris-toolbar-background` | `color` | `--aeris-surface` | Toolbar surface color. |
 | `--aeris-toolbar-color` | `color` | `--aeris-text` | Toolbar text color. |
-| `--aeris-toolbar-border` | `color` | `--aeris-border-subtle` | Toolbar border color. |
+| `--aeris-toolbar-border` | `color` | `--aeris-border` | Toolbar border color. |
 | `--aeris-toolbar-border-width` | `length` | `1px` | Toolbar border width. |
 | `--aeris-toolbar-radius` | `length` | `--aeris-radius-lg` | Toolbar corner radius. |
 | `--aeris-toolbar-shadow` | `shadow` | `none` | Toolbar shadow. |
@@ -37682,7 +37682,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
 | `--aeris-confirm-popup-max-width` | `CSS custom property` | `calc(100vw - 1rem)` | Maximum popup width. |
 | `--aeris-confirm-popup-padding` | `CSS custom property` | `1rem` | Internal spacing. |
 | `--aeris-confirm-popup-background` | `CSS custom property` | `var(--aeris-surface)` | Popup surface. |
-| `--aeris-confirm-popup-border` | `CSS custom property` | `var(--aeris-border-subtle)` | Popup border. |
+| `--aeris-confirm-popup-border` | `CSS custom property` | `var(--aeris-border)` | Popup border. |
 | `--aeris-confirm-popup-radius` | `CSS custom property` | `var(--aeris-radius-lg)` | Popup radius. |
 | `--aeris-confirm-popup-shadow` | `CSS custom property` | `component shadow` | Popup elevation. |
 | `--aeris-confirm-popup-focus` | `CSS custom property` | `var(--aeris-focus)` | Focus ring color. |
@@ -38571,7 +38571,7 @@ Shared component planning and release notes.</textarea>
 .dialog-form input,
 .dialog-form textarea {
   width: 100%;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border);
   border-radius: var(--aeris-radius-sm);
   background: var(--aeris-surface);
   color: var(--aeris-text);
@@ -38612,7 +38612,7 @@ Shared component planning and release notes.</textarea>
 .dialog-form input,
 .dialog-form textarea {
   width: 100%;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border);
   border-radius: var(--aeris-radius-sm);
   background: var(--surface);
   color: var(--text);
@@ -39620,7 +39620,7 @@ Shared component planning and release notes.</textarea>
 .drawer-form input,
 .drawer-form textarea {
   width: 100%;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border);
   border-radius: var(--aeris-radius-sm);
   background: var(--aeris-surface);
   color: var(--aeris-text);
@@ -39653,7 +39653,7 @@ Shared component planning and release notes.</textarea>
 .drawer-form input,
 .drawer-form textarea {
   width: 100%;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border);
   border-radius: var(--aeris-radius-sm);
   background: var(--surface);
   color: var(--text);
@@ -41176,7 +41176,7 @@ interface AerisPopoverTemplateContext {
 | `--aeris-popover-width` | `CSS custom property` | `min(22rem, calc(100vw - 1rem))` | Popover width. |
 | `--aeris-popover-max-width` | `CSS custom property` | `calc(100vw - 1rem)` | Maximum popover width. |
 | `--aeris-popover-background` | `CSS custom property` | `var(--aeris-surface)` | Popover surface. |
-| `--aeris-popover-border` | `CSS custom property` | `var(--aeris-border-subtle)` | Popover border. |
+| `--aeris-popover-border` | `CSS custom property` | `var(--aeris-border)` | Popover border. |
 | `--aeris-popover-radius` | `CSS custom property` | `var(--aeris-radius-lg)` | Popover radius. |
 | `--aeris-popover-shadow` | `CSS custom property` | `component shadow` | Popover elevation. |
 | `--aeris-popover-focus` | `CSS custom property` | `var(--aeris-focus)` | Focus ring color. |
@@ -42485,7 +42485,7 @@ interface AerisFileUploadEvent {
 | `--aeris-file-upload-background` | `CSS custom property` | `var(--aeris-surface)` | Uploader surface. |
 | `--aeris-file-upload-text` | `CSS custom property` | `var(--aeris-text)` | Primary text. |
 | `--aeris-file-upload-muted-text` | `CSS custom property` | `var(--aeris-text-3)` | Secondary text. |
-| `--aeris-file-upload-border` | `CSS custom property` | `var(--aeris-border-subtle)` | Surface and file borders. |
+| `--aeris-file-upload-border` | `CSS custom property` | `var(--aeris-border)` | Surface and file borders. |
 | `--aeris-file-upload-radius` | `CSS custom property` | `var(--aeris-radius-lg)` | Surface radius. |
 | `--aeris-file-upload-shadow` | `CSS custom property` | `component shadow` | Surface elevation. |
 | `--aeris-file-upload-toolbar-padding` | `CSS custom property` | `0.875rem` | Toolbar padding. |
@@ -42962,7 +42962,7 @@ interface AerisBreadcrumbEllipsisTemplateContext {
 | `--aeris-breadcrumb-color` | `color` | `--aeris-text` | Default breadcrumb text color. |
 | `--aeris-breadcrumb-muted-color` | `color` | `--aeris-text-2` | Non-current item color. |
 | `--aeris-breadcrumb-current-color` | `color` | `--aeris-text` | Current item color. |
-| `--aeris-breadcrumb-border` | `color` | `--aeris-border-subtle` | Breadcrumb border color. |
+| `--aeris-breadcrumb-border` | `color` | `--aeris-border` | Breadcrumb border color. |
 | `--aeris-breadcrumb-border-width` | `length` | `1px` | Breadcrumb border width. |
 | `--aeris-breadcrumb-radius` | `length` | `--aeris-radius-lg` | Breadcrumb corner radius. |
 | `--aeris-breadcrumb-shadow` | `shadow` | `none` | Breadcrumb shadow. |
@@ -43481,7 +43481,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 | `--aeris-context-menu-max-width` | `length` | `min(22rem, calc(100vw - 1rem))` | Panel max width. |
 | `--aeris-context-menu-max-height` | `length` | `min(26rem, calc(100vh - 1rem))` | Root menu max height. |
 | `--aeris-context-menu-padding` | `length` | `0.375rem` | Panel padding. |
-| `--aeris-context-menu-border` | `color` | `--aeris-border-subtle` | Panel border color. |
+| `--aeris-context-menu-border` | `color` | `--aeris-border` | Panel border color. |
 | `--aeris-context-menu-radius` | `length` | `--aeris-radius-lg` | Panel radius. |
 | `--aeris-context-menu-background` | `color` | `--aeris-surface` | Panel background. |
 | `--aeris-context-menu-color` | `color` | `--aeris-text` | Panel text color. |
@@ -43492,7 +43492,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 | `--aeris-context-menu-item-hover-background` | `color` | `primary mix` | Hover and active item background. |
 | `--aeris-context-menu-icon-size` | `length` | `1.125rem` | Default icon box size. |
 | `--aeris-context-menu-disabled-opacity` | `number` | `0.52` | Disabled item opacity. |
-| `--aeris-context-menu-separator-color` | `color` | `--aeris-border-subtle` | Separator color. |
+| `--aeris-context-menu-separator-color` | `color` | `--aeris-border` | Separator color. |
 | `--aeris-context-menu-submenu-width` | `length` | `14rem` | Submenu width. |
 
 #### Examples
@@ -44018,7 +44018,7 @@ interface AerisMegaMenuItemEvent<T = unknown> {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-mega-menu-background` | `color` | `--aeris-surface` | Root surface background. |
-| `--aeris-mega-menu-border` | `color` | `--aeris-border-subtle` | Root and nested separator border color. |
+| `--aeris-mega-menu-border` | `color` | `--aeris-border` | Root and nested separator border color. |
 | `--aeris-mega-menu-panel-background` | `color` | `--aeris-surface` | Mega panel background. |
 | `--aeris-mega-menu-panel-width` | `length` | `44rem` | Maximum panel width before viewport clamping. |
 | `--aeris-mega-menu-item-hover-background` | `color` | `primary mix` | Hover and open trigger surface. |
@@ -44385,7 +44385,7 @@ interface AerisMenuVisibilityEvent {
 | `--aeris-menu-width` | `length` | `16rem` | Panel width. |
 | `--aeris-menu-max-height` | `length` | `none / viewport in popup` | Maximum scrollable panel height. |
 | `--aeris-menu-background` | `color` | `--aeris-surface` | Panel background. |
-| `--aeris-menu-border` | `color` | `--aeris-border-subtle` | Panel border. |
+| `--aeris-menu-border` | `color` | `--aeris-border` | Panel border. |
 | `--aeris-menu-radius` | `length` | `--aeris-radius-lg` | Panel corner radius. |
 | `--aeris-menu-shadow` | `shadow` | `overlay shadow` | Panel elevation. |
 | `--aeris-menu-item-min-height` | `length` | `--aeris-item-height` | Minimum item height. |
@@ -45425,7 +45425,7 @@ interface AerisMenubarItemEvent<T = unknown> {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-menubar-background` | `color` | `--aeris-surface` | Root surface background. |
-| `--aeris-menubar-border` | `color` | `--aeris-border-subtle` | Root and separator border color. |
+| `--aeris-menubar-border` | `color` | `--aeris-border` | Root and separator border color. |
 | `--aeris-menubar-radius` | `length` | `--aeris-radius-lg` | Root surface corner radius. |
 | `--aeris-menubar-item-radius` | `length` | `--aeris-radius-control` | Hover and focus item corner radius. |
 | `--aeris-menubar-item-height` | `length` | `--aeris-item-height` | Minimum item height. |
@@ -46453,7 +46453,7 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
 | `--aeris-tiered-menu-max-width` | `length` | `min(22rem, 100%)` | Root panel maximum width. |
 | `--aeris-tiered-menu-max-height` | `length` | `min(26rem, calc(100vh - 1rem))` | Root list maximum height. |
 | `--aeris-tiered-menu-padding` | `length` | `0.375rem` | Panel and submenu padding. |
-| `--aeris-tiered-menu-border` | `color` | `--aeris-border-subtle` | Panel border color. |
+| `--aeris-tiered-menu-border` | `color` | `--aeris-border` | Panel border color. |
 | `--aeris-tiered-menu-radius` | `length` | `--aeris-radius-lg` | Panel and submenu radius. |
 | `--aeris-tiered-menu-background` | `color` | `--aeris-surface` | Panel background. |
 | `--aeris-tiered-menu-shadow` | `shadow` | `overlay shadow` | Panel and submenu elevation. |
@@ -47307,7 +47307,7 @@ interface AerisChartErrorEvent {
 | --- | --- | --- | --- |
 | `--aeris-chart-min-height` | `length` | `12rem` | Minimum chart container height. |
 | `--aeris-chart-padding` | `length` | `1rem` | Space between the rendered chart and its container border. |
-| `--aeris-chart-border` | `color` | `--aeris-border-subtle` | Container border color. |
+| `--aeris-chart-border` | `color` | `--aeris-border` | Container border color. |
 | `--aeris-chart-radius` | `length` | `--aeris-radius-lg` | Container corner radius. |
 | `--aeris-chart-background` | `color` | `--aeris-surface` | Container background. |
 | `--aeris-chart-color` | `color` | `--aeris-text` | Base text color used by the chart surface. |
@@ -49241,7 +49241,7 @@ interface AerisCarouselPageEvent {
 | `--aeris-carousel-item-gap` | `length` | `--aeris-density-gap` | Space between items. |
 | `--aeris-carousel-transition-duration` | `time` | `260ms` | Track transition duration. |
 | `--aeris-carousel-navigator-background` | `color` | `--aeris-surface` | Navigator button background. |
-| `--aeris-carousel-indicator-background` | `color` | `--aeris-border-strong` | Inactive indicator color. |
+| `--aeris-carousel-indicator-background` | `color` | `--aeris-border` | Inactive indicator color. |
 | `--aeris-carousel-active-indicator-background` | `color` | `--aeris-primary` | Active indicator color. |
 
 #### Examples
@@ -49907,7 +49907,7 @@ export interface AerisCompareInputEvent {
 | `--aeris-compare-min-height` | `&lt;length&gt;` | `12rem` | Minimum comparison height. |
 | `--aeris-compare-mobile-min-height` | `&lt;length&gt;` | `10rem` | Minimum height below 32rem. |
 | `--aeris-compare-border-width` | `&lt;length&gt;` | `1px` | Surface border width. |
-| `--aeris-compare-border` | `&lt;color&gt;` | `var(--aeris-border-subtle)` | Surface border color. |
+| `--aeris-compare-border` | `&lt;color&gt;` | `var(--aeris-border)` | Surface border color. |
 | `--aeris-compare-radius` | `&lt;length&gt;` | `var(--aeris-radius-lg)` | Surface corner radius. |
 | `--aeris-compare-background` | `&lt;color&gt;` | `var(--aeris-surface-2)` | Surface background. |
 | `--aeris-compare-color` | `&lt;color&gt;` | `var(--aeris-text)` | Fallback content color. |
@@ -50736,7 +50736,7 @@ interface AerisGalleriaDownloadEvent<T = unknown> {
 | `--aeris-galleria-gap` | `length` | `density gap × 1.5` | Space between stage, indicators, and thumbnails. |
 | `--aeris-galleria-radius` | `length` | `--aeris-radius-lg` | Stage and empty-state corner radius. |
 | `--aeris-galleria-stage-background` | `color` | `#11130f` | Media stage background. |
-| `--aeris-galleria-border` | `color` | `--aeris-border-subtle` | Stage and empty-state border. |
+| `--aeris-galleria-border` | `color` | `--aeris-border` | Stage and empty-state border. |
 | `--aeris-galleria-shadow` | `shadow` | `soft elevation` | Inline stage shadow. |
 | `--aeris-galleria-transition-duration` | `time` | `420ms` | Item transition duration. |
 | `--aeris-galleria-transition-easing` | `timing function` | `spring-like curve` | Item transition easing. |
@@ -50745,14 +50745,14 @@ interface AerisGalleriaDownloadEvent<T = unknown> {
 | `--aeris-galleria-toolbar-radius` | `length` | `--aeris-radius-control` | Toolbar corner radius. |
 | `--aeris-galleria-grid-gap` | `length` | `--aeris-density-gap-lg` | Space between responsive grid tiles. |
 | `--aeris-galleria-grid-radius` | `length` | `--aeris-radius-lg` | Grid tile corner radius. |
-| `--aeris-galleria-grid-border` | `color` | `--aeris-border-subtle` | Grid tile border. |
+| `--aeris-galleria-grid-border` | `color` | `--aeris-border` | Grid tile border. |
 | `--aeris-galleria-thumbnail-gap` | `length` | `--aeris-density-gap` | Gap between thumbnail controls and items. |
 | `--aeris-galleria-thumbnail-radius` | `length` | `--aeris-radius-md` | Thumbnail corner radius. |
 | `--aeris-galleria-thumbnail-width` | `length` | `5.75rem` | Compact horizontal thumbnail width. |
 | `--aeris-galleria-thumbnail-height` | `length` | `4.5rem` | Compact vertical thumbnail height. |
 | `--aeris-galleria-thumbnail-aspect-ratio` | `ratio` | `16 / 10` | Thumbnail aspect ratio. |
 | `--aeris-galleria-active-thumbnail-border` | `color` | `--aeris-primary` | Selected thumbnail border. |
-| `--aeris-galleria-indicator-background` | `color` | `--aeris-border-strong` | Inactive indicator color. |
+| `--aeris-galleria-indicator-background` | `color` | `--aeris-border` | Inactive indicator color. |
 | `--aeris-galleria-active-indicator-background` | `color` | `--aeris-primary` | Selected indicator color. |
 | `--aeris-galleria-backdrop` | `color` | `near-black translucent` | Fullscreen backdrop. |
 | `--aeris-galleria-backdrop-blur` | `length` | `--aeris-backdrop-blur` | Fullscreen backdrop blur radius. |
@@ -57035,7 +57035,7 @@ export class ClassNamesConditionalConditionalMapDemo {
 }
 
 .state-card--emphasized {
-  box-shadow: inset 0 0 0 1px var(--aeris-border-strong);
+  box-shadow: inset 0 0 0 1px var(--aeris-border);
 }
 ```
 

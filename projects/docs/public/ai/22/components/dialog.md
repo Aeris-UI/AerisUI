@@ -284,7 +284,7 @@ Shared component planning and release notes.</textarea>
 .dialog-form input,
 .dialog-form textarea {
   width: 100%;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border);
   border-radius: var(--aeris-radius-sm);
   background: var(--aeris-surface);
   color: var(--aeris-text);
@@ -325,7 +325,7 @@ Shared component planning and release notes.</textarea>
 .dialog-form input,
 .dialog-form textarea {
   width: 100%;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border);
   border-radius: var(--aeris-radius-sm);
   background: var(--surface);
   color: var(--text);

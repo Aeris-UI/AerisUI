@@ -795,8 +795,8 @@
                 "CSS color"
               ],
               [
-                "borderSubtle, border, borderStrong, focus",
-                "Surface separation, structural boundaries, control boundaries, and focus indication",
+                "border, borderStrong, focus",
+                "Quiet default boundaries, optional emphasized boundaries, and focus indication",
                 "CSS color"
               ],
               [
@@ -931,7 +931,7 @@
               ],
               [
                 "Quiet surface separation",
-                "--aeris-border-subtle",
+                "--aeris-border",
                 "Optional low-emphasis edges around non-interactive cards, panels, and overlay shells"
               ],
               [
@@ -3954,7 +3954,7 @@
           "description": "Selected icon color."
         },
         {
-          "name": "--aeris-border-strong",
+          "name": "--aeris-border",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Unchecked border."
@@ -4508,7 +4508,7 @@
           "description": "Filled surface and clear hover."
         },
         {
-          "name": "--aeris-border-strong",
+          "name": "--aeris-border",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Default field and swatch borders."
@@ -6279,7 +6279,7 @@
           "description": "Outlined and filled field surfaces."
         },
         {
-          "name": "--aeris-border-strong",
+          "name": "--aeris-border",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Field border."
@@ -6620,7 +6620,7 @@
           "description": "Control and addon surfaces."
         },
         {
-          "name": "--aeris-border-strong",
+          "name": "--aeris-border",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Shared group borders."
@@ -7164,7 +7164,7 @@
           "description": "Filled and read-only background."
         },
         {
-          "name": "--aeris-border-strong",
+          "name": "--aeris-border",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Default field border."
@@ -7731,7 +7731,7 @@
           "description": "Filled field and button background."
         },
         {
-          "name": "--aeris-border-strong",
+          "name": "--aeris-border",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Field and button border."
@@ -8259,7 +8259,7 @@
           "description": "Outlined, filled, disabled, and read-only surfaces."
         },
         {
-          "name": "--aeris-border-strong",
+          "name": "--aeris-border",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Default slot border."
@@ -8728,7 +8728,7 @@
           "description": "Filled and read-only background."
         },
         {
-          "name": "--aeris-border-strong",
+          "name": "--aeris-border",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Default input border."
@@ -8889,7 +8889,7 @@
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n.input-affix {\n  display: flex;\n  align-items: center;\n  border: 1px solid var(--aeris-border-strong);\n  border-radius: var(--aeris-radius-sm);\n}\n\n.input-affix:focus-within {\n  border-color: var(--aeris-focus);\n  box-shadow: 0 0 0 3px\n    color-mix(in srgb, var(--aeris-focus) 18%, transparent);\n}\n\n.input-affix input {\n  width: 100%;\n  border: 0;\n  background: transparent;\n  box-shadow: none;\n}"
+              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n.input-affix {\n  display: flex;\n  align-items: center;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-sm);\n}\n\n.input-affix:focus-within {\n  border-color: var(--aeris-focus);\n  box-shadow: 0 0 0 3px\n    color-mix(in srgb, var(--aeris-focus) 18%, transparent);\n}\n\n.input-affix input {\n  width: 100%;\n  border: 0;\n  background: transparent;\n  box-shadow: none;\n}"
             }
           ]
         },
@@ -9659,7 +9659,7 @@
           "description": "Filled and interactive backgrounds."
         },
         {
-          "name": "--aeris-border / --aeris-border-strong",
+          "name": "--aeris-border / --aeris-border",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Panel and control borders."
@@ -10210,7 +10210,7 @@
           "description": "Field, panel, filled, and action surfaces."
         },
         {
-          "name": "--aeris-border / --aeris-border-strong",
+          "name": "--aeris-border / --aeris-border",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Panel and field borders."
@@ -12962,7 +12962,7 @@
           "description": "Filled and read-only background."
         },
         {
-          "name": "--aeris-border-strong",
+          "name": "--aeris-border",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Default border."
@@ -20958,7 +20958,7 @@
         {
           "name": "--aeris-panel-border",
           "type": "CSS custom property",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Outer border."
         },
         {
@@ -20982,7 +20982,7 @@
         {
           "name": "--aeris-panel-header-border",
           "type": "CSS custom property",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Header separator."
         },
         {
@@ -21403,7 +21403,7 @@
         {
           "name": "--aeris-scroll-panel-border",
           "type": "CSS custom property",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Viewport border."
         },
         {
@@ -21901,7 +21901,7 @@
         {
           "name": "--aeris-splitter-border",
           "type": "CSS custom property",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Root border color."
         },
         {
@@ -23398,7 +23398,7 @@
         {
           "name": "--aeris-toolbar-border",
           "type": "color",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Toolbar border color."
         },
         {
@@ -25160,7 +25160,7 @@
         {
           "name": "--aeris-confirm-popup-border",
           "type": "CSS custom property",
-          "defaultValue": "var(--aeris-border-subtle)",
+          "defaultValue": "var(--aeris-border)",
           "description": "Popup border."
         },
         {
@@ -25859,7 +25859,7 @@
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".dialog-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 0.5rem;\n}\n\n.dialog-status {\n  margin-top: 0.875rem;\n  color: var(--aeris-text-3);\n  font-size: 0.8125rem;\n}\n\n.dialog-form {\n  display: grid;\n  gap: 0.75rem;\n}\n\n.dialog-form label {\n  display: grid;\n  gap: 0.35rem;\n  color: var(--aeris-text);\n  font-weight: 700;\n}\n\n.dialog-form input,\n.dialog-form textarea {\n  width: 100%;\n  border: 1px solid var(--border-strong);\n  border-radius: var(--aeris-radius-sm);\n  background: var(--aeris-surface);\n  color: var(--aeris-text);\n  font: inherit;\n}\n\n.dialog-form input {\n  min-height: 2.375rem;\n  padding: 0 0.75rem;\n}\n\n.dialog-form textarea {\n  min-height: 5rem;\n  padding: 0.625rem 0.75rem;\n  resize: vertical;\n}\n\n@media (max-width: 42rem) {\n  .dialog-controls,\n    .dialog-actions {\n      align-items: stretch;\n      flex-direction: column;\n    }\n}\n\n.dialog-form {\n  display: grid;\n  gap: 0.75rem;\n}\n\n.dialog-form label {\n  display: grid;\n  gap: 0.35rem;\n  color: var(--text);\n  font-weight: 700;\n}\n\n.dialog-form input,\n.dialog-form textarea {\n  width: 100%;\n  border: 1px solid var(--border-strong);\n  border-radius: var(--aeris-radius-sm);\n  background: var(--surface);\n  color: var(--text);\n  font: inherit;\n}\n\n.dialog-form input {\n  min-height: 2.375rem;\n  padding: 0 0.75rem;\n}\n\n.dialog-form textarea {\n  min-height: 5rem;\n  padding: 0.625rem 0.75rem;\n  resize: vertical;\n}\n\n.dialog-controls {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n\n.dialog-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 0.5rem;\n}\n\n.dialog-status {\n  margin-top: 0.875rem;\n  color: var(--text-3);\n  font-size: 0.8125rem;\n}"
+              "code": ".dialog-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 0.5rem;\n}\n\n.dialog-status {\n  margin-top: 0.875rem;\n  color: var(--aeris-text-3);\n  font-size: 0.8125rem;\n}\n\n.dialog-form {\n  display: grid;\n  gap: 0.75rem;\n}\n\n.dialog-form label {\n  display: grid;\n  gap: 0.35rem;\n  color: var(--aeris-text);\n  font-weight: 700;\n}\n\n.dialog-form input,\n.dialog-form textarea {\n  width: 100%;\n  border: 1px solid var(--border);\n  border-radius: var(--aeris-radius-sm);\n  background: var(--aeris-surface);\n  color: var(--aeris-text);\n  font: inherit;\n}\n\n.dialog-form input {\n  min-height: 2.375rem;\n  padding: 0 0.75rem;\n}\n\n.dialog-form textarea {\n  min-height: 5rem;\n  padding: 0.625rem 0.75rem;\n  resize: vertical;\n}\n\n@media (max-width: 42rem) {\n  .dialog-controls,\n    .dialog-actions {\n      align-items: stretch;\n      flex-direction: column;\n    }\n}\n\n.dialog-form {\n  display: grid;\n  gap: 0.75rem;\n}\n\n.dialog-form label {\n  display: grid;\n  gap: 0.35rem;\n  color: var(--text);\n  font-weight: 700;\n}\n\n.dialog-form input,\n.dialog-form textarea {\n  width: 100%;\n  border: 1px solid var(--border);\n  border-radius: var(--aeris-radius-sm);\n  background: var(--surface);\n  color: var(--text);\n  font: inherit;\n}\n\n.dialog-form input {\n  min-height: 2.375rem;\n  padding: 0 0.75rem;\n}\n\n.dialog-form textarea {\n  min-height: 5rem;\n  padding: 0.625rem 0.75rem;\n  resize: vertical;\n}\n\n.dialog-controls {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n\n.dialog-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 0.5rem;\n}\n\n.dialog-status {\n  margin-top: 0.875rem;\n  color: var(--text-3);\n  font-size: 0.8125rem;\n}"
             }
           ]
         },
@@ -26513,7 +26513,7 @@
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".drawer-controls,\n.drawer-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n\n.drawer-actions {\n  justify-content: flex-end;\n}\n\n.drawer-status {\n  margin-top: 0.875rem;\n  color: var(--aeris-text-3);\n  font-size: 0.8125rem;\n}\n\n.drawer-form,\n.drawer-stack {\n  display: grid;\n  gap: 0.75rem;\n}\n\n.drawer-form label {\n  display: grid;\n  gap: 0.35rem;\n  color: var(--aeris-text);\n  font-weight: 700;\n}\n\n.drawer-form input,\n.drawer-form textarea {\n  width: 100%;\n  border: 1px solid var(--border-strong);\n  border-radius: var(--aeris-radius-sm);\n  background: var(--aeris-surface);\n  color: var(--aeris-text);\n  font: inherit;\n}\n\n.drawer-form input {\n  min-height: 2.375rem;\n  padding: 0 0.75rem;\n}\n\n.drawer-form textarea {\n  min-height: 5rem;\n  padding: 0.625rem 0.75rem;\n  resize: vertical;\n}\n\n.drawer-form {\n  display: grid;\n  gap: 0.75rem;\n}\n\n.drawer-form label {\n  display: grid;\n  gap: 0.35rem;\n  color: var(--text);\n  font-weight: 700;\n}\n\n.drawer-form input,\n.drawer-form textarea {\n  width: 100%;\n  border: 1px solid var(--border-strong);\n  border-radius: var(--aeris-radius-sm);\n  background: var(--surface);\n  color: var(--text);\n  font: inherit;\n}\n\n.drawer-form input {\n  min-height: 2.375rem;\n  padding: 0 0.75rem;\n}\n\n.drawer-form textarea {\n  min-height: 5rem;\n  padding: 0.625rem 0.75rem;\n  resize: vertical;\n}\n\n.drawer-controls {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n\n.drawer-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 0.5rem;\n}\n\n.drawer-status {\n  margin-top: 0.875rem;\n  color: var(--text-3);\n  font-size: 0.8125rem;\n}"
+              "code": ".drawer-controls,\n.drawer-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n\n.drawer-actions {\n  justify-content: flex-end;\n}\n\n.drawer-status {\n  margin-top: 0.875rem;\n  color: var(--aeris-text-3);\n  font-size: 0.8125rem;\n}\n\n.drawer-form,\n.drawer-stack {\n  display: grid;\n  gap: 0.75rem;\n}\n\n.drawer-form label {\n  display: grid;\n  gap: 0.35rem;\n  color: var(--aeris-text);\n  font-weight: 700;\n}\n\n.drawer-form input,\n.drawer-form textarea {\n  width: 100%;\n  border: 1px solid var(--border);\n  border-radius: var(--aeris-radius-sm);\n  background: var(--aeris-surface);\n  color: var(--aeris-text);\n  font: inherit;\n}\n\n.drawer-form input {\n  min-height: 2.375rem;\n  padding: 0 0.75rem;\n}\n\n.drawer-form textarea {\n  min-height: 5rem;\n  padding: 0.625rem 0.75rem;\n  resize: vertical;\n}\n\n.drawer-form {\n  display: grid;\n  gap: 0.75rem;\n}\n\n.drawer-form label {\n  display: grid;\n  gap: 0.35rem;\n  color: var(--text);\n  font-weight: 700;\n}\n\n.drawer-form input,\n.drawer-form textarea {\n  width: 100%;\n  border: 1px solid var(--border);\n  border-radius: var(--aeris-radius-sm);\n  background: var(--surface);\n  color: var(--text);\n  font: inherit;\n}\n\n.drawer-form input {\n  min-height: 2.375rem;\n  padding: 0 0.75rem;\n}\n\n.drawer-form textarea {\n  min-height: 5rem;\n  padding: 0.625rem 0.75rem;\n  resize: vertical;\n}\n\n.drawer-controls {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n\n.drawer-actions {\n  display: flex;\n  justify-content: flex-end;\n  gap: 0.5rem;\n}\n\n.drawer-status {\n  margin-top: 0.875rem;\n  color: var(--text-3);\n  font-size: 0.8125rem;\n}"
             }
           ]
         },
@@ -27458,7 +27458,7 @@
         {
           "name": "--aeris-popover-border",
           "type": "CSS custom property",
-          "defaultValue": "var(--aeris-border-subtle)",
+          "defaultValue": "var(--aeris-border)",
           "description": "Popover border."
         },
         {
@@ -28384,7 +28384,7 @@
         {
           "name": "--aeris-file-upload-border",
           "type": "CSS custom property",
-          "defaultValue": "var(--aeris-border-subtle)",
+          "defaultValue": "var(--aeris-border)",
           "description": "Surface and file borders."
         },
         {
@@ -28749,7 +28749,7 @@
         {
           "name": "--aeris-breadcrumb-border",
           "type": "color",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Breadcrumb border color."
         },
         {
@@ -29235,7 +29235,7 @@
         {
           "name": "--aeris-context-menu-border",
           "type": "color",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Panel border color."
         },
         {
@@ -29301,7 +29301,7 @@
         {
           "name": "--aeris-context-menu-separator-color",
           "type": "color",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Separator color."
         },
         {
@@ -29618,7 +29618,7 @@
         {
           "name": "--aeris-mega-menu-border",
           "type": "color",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Root and nested separator border color."
         },
         {
@@ -30034,7 +30034,7 @@
         {
           "name": "--aeris-menu-border",
           "type": "color",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Panel border."
         },
         {
@@ -30466,7 +30466,7 @@
         {
           "name": "--aeris-menubar-border",
           "type": "color",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Root and separator border color."
         },
         {
@@ -30918,7 +30918,7 @@
         {
           "name": "--aeris-tiered-menu-border",
           "type": "color",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Panel border color."
         },
         {
@@ -31300,7 +31300,7 @@
         {
           "name": "--aeris-chart-border",
           "type": "color",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Container border color."
         },
         {
@@ -32544,7 +32544,7 @@
         {
           "name": "--aeris-carousel-indicator-background",
           "type": "color",
-          "defaultValue": "--aeris-border-strong",
+          "defaultValue": "--aeris-border",
           "description": "Inactive indicator color."
         },
         {
@@ -32975,7 +32975,7 @@
         {
           "name": "--aeris-compare-border",
           "type": "<color>",
-          "defaultValue": "var(--aeris-border-subtle)",
+          "defaultValue": "var(--aeris-border)",
           "description": "Surface border color."
         },
         {
@@ -33945,7 +33945,7 @@
         {
           "name": "--aeris-galleria-border",
           "type": "color",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Stage and empty-state border."
         },
         {
@@ -33999,7 +33999,7 @@
         {
           "name": "--aeris-galleria-grid-border",
           "type": "color",
-          "defaultValue": "--aeris-border-subtle",
+          "defaultValue": "--aeris-border",
           "description": "Grid tile border."
         },
         {
@@ -34041,7 +34041,7 @@
         {
           "name": "--aeris-galleria-indicator-background",
           "type": "color",
-          "defaultValue": "--aeris-border-strong",
+          "defaultValue": "--aeris-border",
           "description": "Inactive indicator color."
         },
         {
@@ -37569,7 +37569,7 @@
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".class-names-demo {\n  display: grid;\n  gap: 1rem;\n}\n\n.class-names-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.625rem;\n}\n\n.state-card {\n  padding: 1.25rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-surface);\n  transition: border-color 160ms ease, background 160ms ease, opacity 160ms ease;\n}\n\n.state-card--selected {\n  border-color: var(--aeris-primary);\n  background: var(--aeris-primary-soft);\n}\n\n.state-card--busy {\n  opacity: 0.55;\n}\n\n.state-card--emphasized {\n  box-shadow: inset 0 0 0 1px var(--aeris-border-strong);\n}"
+              "code": ".class-names-demo {\n  display: grid;\n  gap: 1rem;\n}\n\n.class-names-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.625rem;\n}\n\n.state-card {\n  padding: 1.25rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-surface);\n  transition: border-color 160ms ease, background 160ms ease, opacity 160ms ease;\n}\n\n.state-card--selected {\n  border-color: var(--aeris-primary);\n  background: var(--aeris-primary-soft);\n}\n\n.state-card--busy {\n  opacity: 0.55;\n}\n\n.state-card--emphasized {\n  box-shadow: inset 0 0 0 1px var(--aeris-border);\n}"
             }
           ]
         },

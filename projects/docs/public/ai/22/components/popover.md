@@ -118,7 +118,7 @@ interface AerisPopoverTemplateContext {
 | `--aeris-popover-width` | `CSS custom property` | `min(22rem, calc(100vw - 1rem))` | Popover width. |
 | `--aeris-popover-max-width` | `CSS custom property` | `calc(100vw - 1rem)` | Maximum popover width. |
 | `--aeris-popover-background` | `CSS custom property` | `var(--aeris-surface)` | Popover surface. |
-| `--aeris-popover-border` | `CSS custom property` | `var(--aeris-border-subtle)` | Popover border. |
+| `--aeris-popover-border` | `CSS custom property` | `var(--aeris-border)` | Popover border. |
 | `--aeris-popover-radius` | `CSS custom property` | `var(--aeris-radius-lg)` | Popover radius. |
 | `--aeris-popover-shadow` | `CSS custom property` | `component shadow` | Popover elevation. |
 | `--aeris-popover-focus` | `CSS custom property` | `var(--aeris-focus)` | Focus ring color. |

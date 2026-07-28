@@ -139,7 +139,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 | `--aeris-context-menu-max-width` | `length` | `min(22rem, calc(100vw - 1rem))` | Panel max width. |
 | `--aeris-context-menu-max-height` | `length` | `min(26rem, calc(100vh - 1rem))` | Root menu max height. |
 | `--aeris-context-menu-padding` | `length` | `0.375rem` | Panel padding. |
-| `--aeris-context-menu-border` | `color` | `--aeris-border-subtle` | Panel border color. |
+| `--aeris-context-menu-border` | `color` | `--aeris-border` | Panel border color. |
 | `--aeris-context-menu-radius` | `length` | `--aeris-radius-lg` | Panel radius. |
 | `--aeris-context-menu-background` | `color` | `--aeris-surface` | Panel background. |
 | `--aeris-context-menu-color` | `color` | `--aeris-text` | Panel text color. |
@@ -150,7 +150,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 | `--aeris-context-menu-item-hover-background` | `color` | `primary mix` | Hover and active item background. |
 | `--aeris-context-menu-icon-size` | `length` | `1.125rem` | Default icon box size. |
 | `--aeris-context-menu-disabled-opacity` | `number` | `0.52` | Disabled item opacity. |
-| `--aeris-context-menu-separator-color` | `color` | `--aeris-border-subtle` | Separator color. |
+| `--aeris-context-menu-separator-color` | `color` | `--aeris-border` | Separator color. |
 | `--aeris-context-menu-submenu-width` | `length` | `14rem` | Submenu width. |
 
 ## Examples

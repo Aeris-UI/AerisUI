@@ -63,7 +63,7 @@ type AerisIconFieldDensity = 'comfortable' | 'compact';
 | `--aeris-control-height` | `CSS custom property` | — | Medium field height. |
 | `--aeris-control-height-xs/sm/lg` | `CSS custom property` | — | Field heights for alternate sizes. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Outlined and filled field surfaces. |
-| `--aeris-border-strong` | `CSS custom property` | — | Field border. |
+| `--aeris-border` | `CSS custom property` | — | Field border. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-text / --aeris-text-muted` | `CSS custom property` | — | Control text, placeholder, and icon color. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border color. |

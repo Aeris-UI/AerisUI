@@ -126,7 +126,7 @@ type AerisTextareaResize =
 | `--aeris-radius-sm` | `CSS custom property` | — | Corner radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default border. |
+| `--aeris-border` | `CSS custom property` | — | Default border. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border and ring. |
 | `--aeris-text` | `CSS custom property` | — | Entered text. |

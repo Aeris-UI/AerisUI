@@ -63,7 +63,7 @@ type AerisInputGroupMode = 'attached' | 'embedded';
 | `--aeris-control-height` | `CSS custom property` | — | Medium group height. |
 | `--aeris-radius-sm` | `CSS custom property` | — | Outer group corner radius. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Control and addon surfaces. |
-| `--aeris-border-strong` | `CSS custom property` | — | Shared group borders. |
+| `--aeris-border` | `CSS custom property` | — | Shared group borders. |
 | `--aeris-focus` | `CSS custom property` | — | Projected control focus ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid group border. |
 | `--aeris-text / --aeris-text-muted` | `CSS custom property` | — | Control and addon text. |

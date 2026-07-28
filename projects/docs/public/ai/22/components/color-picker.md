@@ -113,7 +113,7 @@ interface AerisColorPickerChangeEvent {
 | --- | --- | --- | --- |
 | `--aeris-surface` | `CSS custom property` | — | Control, panel, and active format backgrounds. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled surface and clear hover. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default field and swatch borders. |
+| `--aeris-border` | `CSS custom property` | — | Default field and swatch borders. |
 | `--aeris-focus` | `CSS custom property` | — | Keyboard focus ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border. |
 | `--aeris-text / --aeris-text-2` | `CSS custom property` | — | Value and secondary text. |

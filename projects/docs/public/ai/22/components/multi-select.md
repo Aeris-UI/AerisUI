@@ -148,7 +148,7 @@ interface AerisMultiSelectLazyLoadEvent {
 | `--aeris-multi-select-panel-max-height` | `CSS custom property` | — | Scrollable option-list height. |
 | `--aeris-surface` | `CSS custom property` | — | Control, chip checkbox, and panel surfaces. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and interactive backgrounds. |
-| `--aeris-border / --aeris-border-strong` | `CSS custom property` | — | Panel and control borders. |
+| `--aeris-border / --aeris-border` | `CSS custom property` | — | Panel and control borders. |
 | `--aeris-primary / --aeris-text` | `CSS custom property` | — | Selection controls and selected option text. |
 | `--aeris-focus` | `CSS custom property` | — | Visible focus border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border. |

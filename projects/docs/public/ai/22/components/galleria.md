@@ -206,7 +206,7 @@ interface AerisGalleriaDownloadEvent<T = unknown> {
 | `--aeris-galleria-gap` | `length` | `density gap × 1.5` | Space between stage, indicators, and thumbnails. |
 | `--aeris-galleria-radius` | `length` | `--aeris-radius-lg` | Stage and empty-state corner radius. |
 | `--aeris-galleria-stage-background` | `color` | `#11130f` | Media stage background. |
-| `--aeris-galleria-border` | `color` | `--aeris-border-subtle` | Stage and empty-state border. |
+| `--aeris-galleria-border` | `color` | `--aeris-border` | Stage and empty-state border. |
 | `--aeris-galleria-shadow` | `shadow` | `soft elevation` | Inline stage shadow. |
 | `--aeris-galleria-transition-duration` | `time` | `420ms` | Item transition duration. |
 | `--aeris-galleria-transition-easing` | `timing function` | `spring-like curve` | Item transition easing. |
@@ -215,14 +215,14 @@ interface AerisGalleriaDownloadEvent<T = unknown> {
 | `--aeris-galleria-toolbar-radius` | `length` | `--aeris-radius-control` | Toolbar corner radius. |
 | `--aeris-galleria-grid-gap` | `length` | `--aeris-density-gap-lg` | Space between responsive grid tiles. |
 | `--aeris-galleria-grid-radius` | `length` | `--aeris-radius-lg` | Grid tile corner radius. |
-| `--aeris-galleria-grid-border` | `color` | `--aeris-border-subtle` | Grid tile border. |
+| `--aeris-galleria-grid-border` | `color` | `--aeris-border` | Grid tile border. |
 | `--aeris-galleria-thumbnail-gap` | `length` | `--aeris-density-gap` | Gap between thumbnail controls and items. |
 | `--aeris-galleria-thumbnail-radius` | `length` | `--aeris-radius-md` | Thumbnail corner radius. |
 | `--aeris-galleria-thumbnail-width` | `length` | `5.75rem` | Compact horizontal thumbnail width. |
 | `--aeris-galleria-thumbnail-height` | `length` | `4.5rem` | Compact vertical thumbnail height. |
 | `--aeris-galleria-thumbnail-aspect-ratio` | `ratio` | `16 / 10` | Thumbnail aspect ratio. |
 | `--aeris-galleria-active-thumbnail-border` | `color` | `--aeris-primary` | Selected thumbnail border. |
-| `--aeris-galleria-indicator-background` | `color` | `--aeris-border-strong` | Inactive indicator color. |
+| `--aeris-galleria-indicator-background` | `color` | `--aeris-border` | Inactive indicator color. |
 | `--aeris-galleria-active-indicator-background` | `color` | `--aeris-primary` | Selected indicator color. |
 | `--aeris-galleria-backdrop` | `color` | `near-black translucent` | Fullscreen backdrop. |
 | `--aeris-galleria-backdrop-blur` | `length` | `--aeris-backdrop-blur` | Fullscreen backdrop blur radius. |

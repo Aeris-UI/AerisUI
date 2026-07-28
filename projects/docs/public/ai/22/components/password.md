@@ -117,7 +117,7 @@ type AerisPasswordStrengthEvaluator = (
 | `--aeris-control-height` | `CSS custom property` | — | Medium control height. |
 | `--aeris-radius-sm / --aeris-radius-md` | `CSS custom property` | — | Field and feedback corner radii. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Field, panel, filled, and action surfaces. |
-| `--aeris-border / --aeris-border-strong` | `CSS custom property` | — | Panel and field borders. |
+| `--aeris-border / --aeris-border` | `CSS custom property` | — | Panel and field borders. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-danger / --aeris-warning / --aeris-success` | `CSS custom property` | — | Invalid and strength meter states. |
 

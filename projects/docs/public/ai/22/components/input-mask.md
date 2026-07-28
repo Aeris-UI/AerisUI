@@ -104,7 +104,7 @@ type AerisInputMaskAppearance = 'outline' | 'filled';
 | `--aeris-radius-sm` | `CSS custom property` | — | Field and clear-button radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined field background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default field border. |
+| `--aeris-border` | `CSS custom property` | — | Default field border. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border and focus ring. |
 

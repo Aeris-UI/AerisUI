@@ -116,7 +116,7 @@ export interface AerisCompareInputEvent {
 | `--aeris-compare-min-height` | `&lt;length&gt;` | `12rem` | Minimum comparison height. |
 | `--aeris-compare-mobile-min-height` | `&lt;length&gt;` | `10rem` | Minimum height below 32rem. |
 | `--aeris-compare-border-width` | `&lt;length&gt;` | `1px` | Surface border width. |
-| `--aeris-compare-border` | `&lt;color&gt;` | `var(--aeris-border-subtle)` | Surface border color. |
+| `--aeris-compare-border` | `&lt;color&gt;` | `var(--aeris-border)` | Surface border color. |
 | `--aeris-compare-radius` | `&lt;length&gt;` | `var(--aeris-radius-lg)` | Surface corner radius. |
 | `--aeris-compare-background` | `&lt;color&gt;` | `var(--aeris-surface-2)` | Surface background. |
 | `--aeris-compare-color` | `&lt;color&gt;` | `var(--aeris-text)` | Fallback content color. |

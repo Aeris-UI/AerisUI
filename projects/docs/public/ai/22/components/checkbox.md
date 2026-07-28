@@ -87,7 +87,7 @@ interface AerisCheckboxChangeEvent {
 | --- | --- | --- | --- |
 | `--aeris-primary` | `CSS custom property` | — | Selected and mixed control background. |
 | `--aeris-on-primary` | `CSS custom property` | — | Selected icon color. |
-| `--aeris-border-strong` | `CSS custom property` | — | Unchecked border. |
+| `--aeris-border` | `CSS custom property` | — | Unchecked border. |
 | `--aeris-surface` | `CSS custom property` | — | Unchecked background. |
 | `--aeris-radius-sm` | `CSS custom property` | — | Control corner radius foundation. |
 | `--aeris-focus` | `CSS custom property` | — | Visible keyboard focus ring. |

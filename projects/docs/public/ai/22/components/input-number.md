@@ -110,7 +110,7 @@ type AerisInputNumberCurrencyDisplay =
 | `--aeris-radius-sm` | `CSS custom property` | — | Field and connected button radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined field background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled field and button background. |
-| `--aeris-border-strong` | `CSS custom property` | — | Field and button border. |
+| `--aeris-border` | `CSS custom property` | — | Field and button border. |
 | `--aeris-focus` | `CSS custom property` | — | Visible keyboard focus ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border and focus ring. |
 

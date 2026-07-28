@@ -112,7 +112,7 @@ interface AerisMegaMenuItemEvent<T = unknown> {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-mega-menu-background` | `color` | `--aeris-surface` | Root surface background. |
-| `--aeris-mega-menu-border` | `color` | `--aeris-border-subtle` | Root and nested separator border color. |
+| `--aeris-mega-menu-border` | `color` | `--aeris-border` | Root and nested separator border color. |
 | `--aeris-mega-menu-panel-background` | `color` | `--aeris-surface` | Mega panel background. |
 | `--aeris-mega-menu-panel-width` | `length` | `44rem` | Maximum panel width before viewport clamping. |
 | `--aeris-mega-menu-item-hover-background` | `color` | `primary mix` | Hover and open trigger surface. |

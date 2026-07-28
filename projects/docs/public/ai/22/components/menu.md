@@ -134,7 +134,7 @@ interface AerisMenuVisibilityEvent {
 | `--aeris-menu-width` | `length` | `16rem` | Panel width. |
 | `--aeris-menu-max-height` | `length` | `none / viewport in popup` | Maximum scrollable panel height. |
 | `--aeris-menu-background` | `color` | `--aeris-surface` | Panel background. |
-| `--aeris-menu-border` | `color` | `--aeris-border-subtle` | Panel border. |
+| `--aeris-menu-border` | `color` | `--aeris-border` | Panel border. |
 | `--aeris-menu-radius` | `length` | `--aeris-radius-lg` | Panel corner radius. |
 | `--aeris-menu-shadow` | `shadow` | `overlay shadow` | Panel elevation. |
 | `--aeris-menu-item-min-height` | `length` | `--aeris-item-height` | Minimum item height. |

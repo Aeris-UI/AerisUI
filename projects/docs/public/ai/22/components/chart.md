@@ -132,7 +132,7 @@ interface AerisChartErrorEvent {
 | --- | --- | --- | --- |
 | `--aeris-chart-min-height` | `length` | `12rem` | Minimum chart container height. |
 | `--aeris-chart-padding` | `length` | `1rem` | Space between the rendered chart and its container border. |
-| `--aeris-chart-border` | `color` | `--aeris-border-subtle` | Container border color. |
+| `--aeris-chart-border` | `color` | `--aeris-border` | Container border color. |
 | `--aeris-chart-radius` | `length` | `--aeris-radius-lg` | Container corner radius. |
 | `--aeris-chart-background` | `color` | `--aeris-surface` | Container background. |
 | `--aeris-chart-color` | `color` | `--aeris-text` | Base text color used by the chart surface. |

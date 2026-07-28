@@ -111,11 +111,11 @@ interface AerisPanelToggleIconContext extends AerisPanelHeaderContext {}
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-panel-background` | `CSS custom property` | `--aeris-surface` | Panel surface. |
-| `--aeris-panel-border` | `CSS custom property` | `--aeris-border-subtle` | Outer border. |
+| `--aeris-panel-border` | `CSS custom property` | `--aeris-border` | Outer border. |
 | `--aeris-panel-radius` | `CSS custom property` | `--aeris-radius-lg` | Outer corner radius. |
 | `--aeris-panel-shadow` | `CSS custom property` | `none` | Default elevation. |
 | `--aeris-panel-header-background` | `CSS custom property` | `surface mix` | Header surface. |
-| `--aeris-panel-header-border` | `CSS custom property` | `--aeris-border-subtle` | Header separator. |
+| `--aeris-panel-header-border` | `CSS custom property` | `--aeris-border` | Header separator. |
 | `--aeris-panel-title-color` | `CSS custom property` | `--aeris-text` | Header title color. |
 | `--aeris-panel-content-color` | `CSS custom property` | `--aeris-text-2` | Body text color. |
 | `--aeris-panel-icon-size` | `CSS custom property` | `1.25rem` | Default toggle icon box. |
