@@ -31868,7 +31868,7 @@
             {
               "name": "position",
               "type": "AerisToastPosition",
-              "defaultValue": "'top-right'",
+              "defaultValue": "'bottom-right'",
               "description": "Places the toast region on the viewport."
             },
             {
@@ -31914,6 +31914,18 @@
               "description": "Shows close buttons for closable messages."
             },
             {
+              "name": "swipeDirection",
+              "type": "AerisToastSwipeDirection | readonly AerisToastSwipeDirection[]",
+              "defaultValue": "['down', 'right']",
+              "description": "Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping."
+            },
+            {
+              "name": "swipeThreshold",
+              "type": "number",
+              "defaultValue": "40",
+              "description": "Sets the required swipe displacement in pixels before dismissal."
+            },
+            {
               "name": "ariaLabel",
               "type": "string",
               "defaultValue": "'Notifications'",
@@ -31935,7 +31947,7 @@
               "name": "closed",
               "type": "AerisToastCloseEvent",
               "defaultValue": "-",
-              "description": "Emits when a message rendered by this Toast closes by timeout, button, API, or clear."
+              "description": "Emits when a message rendered by this Toast closes by timeout, button, swipe, API, or clear."
             }
           ]
         },
@@ -32028,7 +32040,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisToastPosition =\n  | 'top-left'\n  | 'top-center'\n  | 'top-right'\n  | 'bottom-left'\n  | 'bottom-center'\n  | 'bottom-right'\n  | 'center';\n\ntype AerisToastSeverity =\n  | 'info'\n  | 'success'\n  | 'warning'\n  | 'error'\n  | 'neutral'\n  | 'secondary'\n  | 'contrast';\n\ntype AerisToastMode = 'stacked' | 'expanded';\ntype AerisToastCloseReason = 'timeout' | 'close-button' | 'api' | 'clear';\ntype AerisToastLive = 'polite' | 'assertive';\ntype AerisToastRole = 'status' | 'alert';\n\ninterface AerisToastMessageInput<TData = unknown> {\n  readonly id?: string;\n  readonly group?: string;\n  readonly severity?: AerisToastSeverity;\n  readonly summary?: string;\n  readonly detail?: string;\n  readonly life?: number;\n  readonly sticky?: boolean;\n  readonly closable?: boolean;\n  readonly data?: TData;\n  readonly ariaLabel?: string;\n  readonly ariaLive?: AerisToastLive;\n  readonly role?: AerisToastRole;\n}\n\ninterface AerisToastMessage<TData = unknown> {\n  readonly id: string;\n  readonly group: string;\n  readonly severity: AerisToastSeverity;\n  readonly summary: string;\n  readonly detail: string;\n  readonly life: number;\n  readonly sticky: boolean;\n  readonly closable: boolean;\n  readonly data: TData | undefined;\n  readonly ariaLabel: string;\n  readonly ariaLive: AerisToastLive;\n  readonly role: AerisToastRole;\n  readonly createdAt: number;\n}\n\ninterface AerisToastCloseEvent<TData = unknown> {\n  readonly message: AerisToastMessage<TData>;\n  readonly reason: AerisToastCloseReason;\n}\n\ninterface AerisToastTemplateContext<TData = unknown> {\n  readonly $implicit: AerisToastMessage<TData>;\n  readonly message: AerisToastMessage<TData>;\n  readonly close: () => void;\n}"
+          "code": "type AerisToastPosition =\n  | 'top-left'\n  | 'top-center'\n  | 'top-right'\n  | 'bottom-left'\n  | 'bottom-center'\n  | 'bottom-right'\n  | 'center';\n\ntype AerisToastSeverity =\n  | 'info'\n  | 'success'\n  | 'warning'\n  | 'error'\n  | 'neutral'\n  | 'secondary'\n  | 'contrast';\n\ntype AerisToastMode = 'stacked' | 'expanded';\ntype AerisToastSwipeDirection = 'up' | 'down' | 'left' | 'right';\ntype AerisToastCloseReason = 'timeout' | 'close-button' | 'swipe' | 'api' | 'clear';\ntype AerisToastLive = 'polite' | 'assertive';\ntype AerisToastRole = 'status' | 'alert';\n\ninterface AerisToastMessageInput<TData = unknown> {\n  readonly id?: string;\n  readonly group?: string;\n  readonly severity?: AerisToastSeverity;\n  readonly summary?: string;\n  readonly detail?: string;\n  readonly life?: number;\n  readonly sticky?: boolean;\n  readonly closable?: boolean;\n  readonly data?: TData;\n  readonly ariaLabel?: string;\n  readonly ariaLive?: AerisToastLive;\n  readonly role?: AerisToastRole;\n}\n\ninterface AerisToastMessage<TData = unknown> {\n  readonly id: string;\n  readonly group: string;\n  readonly severity: AerisToastSeverity;\n  readonly summary: string;\n  readonly detail: string;\n  readonly life: number;\n  readonly sticky: boolean;\n  readonly closable: boolean;\n  readonly data: TData | undefined;\n  readonly ariaLabel: string;\n  readonly ariaLive: AerisToastLive;\n  readonly role: AerisToastRole;\n  readonly createdAt: number;\n}\n\ninterface AerisToastCloseEvent<TData = unknown> {\n  readonly message: AerisToastMessage<TData>;\n  readonly reason: AerisToastCloseReason;\n}\n\ninterface AerisToastTemplateContext<TData = unknown> {\n  readonly $implicit: AerisToastMessage<TData>;\n  readonly message: AerisToastMessage<TData>;\n  readonly close: () => void;\n}"
         }
       ],
       "designTokens": [
@@ -32061,18 +32073,6 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Visible sliver height for stacked messages under the primary toast."
-        },
-        {
-          "name": "--aeris-toast-stack-card-height",
-          "type": "CSS custom property",
-          "defaultValue": "",
-          "description": "Collapsed stacked-card measurement used to calculate overlap."
-        },
-        {
-          "name": "--aeris-toast-expanded-message-max-height",
-          "type": "CSS custom property",
-          "defaultValue": "",
-          "description": "Maximum animated message height when stacked messages expand."
         },
         {
           "name": "--aeris-toast-icon-size",
@@ -32189,12 +32189,24 @@
         {
           "id": "toast-stacked",
           "title": "Stacked preview",
-          "description": "Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus the stack to expand the visible window.",
+          "description": "Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus the stack to smoothly expand the visible window.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
               "code": "import { Component, inject } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';\n\n@Component({\n  selector: 'app-toast-stacked-demo',\n  imports: [AerisButton, AerisToastModule],\n  template: `\n    <div>\n      <div>\n        <button aerisButton type=\"button\" (click)=\"showStackedToasts()\">\n          Show stacked toasts\n        </button>\n      </div>\n      <aeris-toast group=\"stacked\" position=\"top-right\" [visibleCount]=\"4\" newestOnTop />\n    </div>\n  `\n})\nexport class ToastStackedStackedPreviewDemo {\n  private readonly toast = inject(AerisToastService);\n\n  protected showStackedToasts(): void {\n    this.toast.showAll([\n      { group: 'stacked', severity: 'success', summary: 'Saved', detail: 'Workspace settings were stored.' },\n      { group: 'stacked', severity: 'info', summary: 'Queued', detail: 'A preview build is waiting.' },\n      { group: 'stacked', severity: 'warning', summary: 'Review', detail: 'A token needs contrast review.' },\n      { group: 'stacked', severity: 'neutral', summary: 'Synced', detail: 'Design assets are current.' },\n      { group: 'stacked', severity: 'error', summary: 'Failed', detail: 'One job needs attention.' },\n      { group: 'stacked', severity: 'info', summary: 'Assigned', detail: 'A reviewer was notified.' },\n    ]);\n  }\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "toast-swipe",
+          "title": "Swipe dismissal",
+          "description": "Drag with a mouse, pen, or touch gesture. The default directions are down and right; short or reversed gestures return smoothly to the resting position.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, inject } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';\n\n@Component({\n  selector: 'app-toast-swipe-demo',\n  imports: [AerisButton, AerisToastModule],\n  template: `\n    <div>\n      <div>\n        <button aerisButton type=\"button\" (click)=\"showSwipeToast()\">\n          Show swipeable toast\n        </button>\n      </div>\n      <aeris-toast\n        group=\"swipe\"\n        [swipeDirection]=\"['down', 'right']\"\n        [swipeThreshold]=\"40\"\n      />\n    </div>\n  `\n})\nexport class ToastSwipeSwipeDismissalDemo {\n  private readonly toast = inject(AerisToastService);\n\n  protected showSwipeToast(): void {\n    this.toast.show({\n      group: 'swipe',\n      severity: 'info',\n      summary: 'Drag to dismiss',\n      detail: 'Swipe this notification down or to the right.',\n      sticky: true,\n    });\n  }\n}\n"
             }
           ]
         },
@@ -32256,8 +32268,9 @@
           "Use newestOnTop to control whether the newest or oldest queued message is the primary visible toast.",
           "Auto-dismiss timers pause while the region is hovered or focused when pauseOnHover is enabled.",
           "Messages outside the visible window are paused until they become visible so they are not dismissed before users can perceive them.",
+          "Pointer, pen, and touch users can swipe in any configured swipeDirection. Gestures shorter than swipeThreshold return to the resting position, and interactive content does not begin a swipe.",
           "Use sticky messages for critical information that must remain available until dismissed.",
-          "Toast motion is disabled for users who request reduced motion."
+          "Entry, dismissal, and stack motion is disabled for users who request reduced motion."
         ],
         "keyboard": [
           {

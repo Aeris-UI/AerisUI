@@ -51,6 +51,7 @@ export class ToastPage {
     { id: 'toast-sticky', label: 'Sticky and clear' },
     { id: 'toast-custom', label: 'Custom content' },
     { id: 'toast-stacked', label: 'Stacked preview' },
+    { id: 'toast-swipe', label: 'Swipe dismissal' },
     { id: 'toast-positions', label: 'Positions' },
     { id: 'toast-expanded', label: 'Expanded stack' },
     { id: 'toast-loading', label: 'Loading pattern' },
@@ -198,6 +199,21 @@ protected showStackedToasts(): void {
   ]);
 }`;
 
+  protected readonly swipeTsCode = `import { inject } from '@angular/core';
+import { AerisToastService } from '@aeris-ui/core/toast';
+
+private readonly toast = inject(AerisToastService);
+
+protected showSwipeToast(): void {
+  this.toast.show({
+    group: 'swipe',
+    severity: 'info',
+    summary: 'Drag to dismiss',
+    detail: 'Swipe this notification down or to the right.',
+    sticky: true,
+  });
+}`;
+
   protected readonly expandedTsCode = `import { inject } from '@angular/core';
 import { AerisToastService } from '@aeris-ui/core/toast';
 
@@ -260,7 +276,8 @@ type AerisToastSeverity =
   | 'contrast';
 
 type AerisToastMode = 'stacked' | 'expanded';
-type AerisToastCloseReason = 'timeout' | 'close-button' | 'api' | 'clear';
+type AerisToastSwipeDirection = 'up' | 'down' | 'left' | 'right';
+type AerisToastCloseReason = 'timeout' | 'close-button' | 'swipe' | 'api' | 'clear';
 type AerisToastLive = 'polite' | 'assertive';
 type AerisToastRole = 'status' | 'alert';
 
@@ -307,40 +324,165 @@ interface AerisToastTemplateContext<TData = unknown> {
 }`;
 
   protected readonly componentInputs: readonly ApiRow[] = [
-    { name: 'position', type: 'AerisToastPosition', defaultValue: "'top-right'", description: 'Places the toast region on the viewport.' },
-    { name: 'group', type: 'string', defaultValue: "''", description: 'Renders only messages from the matching service group.' },
-    { name: 'mode', type: 'AerisToastMode', defaultValue: "'stacked'", description: 'Uses a compact stack that expands on hover/focus or an always-expanded list.' },
-    { name: 'visibleCount', type: 'number', defaultValue: '4', description: 'Controls how many messages are rendered in stacked and expanded modes.' },
-    { name: 'limit', type: 'number | undefined', defaultValue: 'undefined', description: 'Compatibility alias that overrides visibleCount when provided.' },
-    { name: 'newestOnTop', type: 'boolean', defaultValue: 'true', description: 'Shows the newest message as the primary toast. Set false to keep the oldest message on top.' },
-    { name: 'pauseOnHover', type: 'boolean', defaultValue: 'true', description: 'Pauses auto-dismiss timers while the toast region is hovered or focused.' },
-    { name: 'showClose', type: 'boolean', defaultValue: 'true', description: 'Shows close buttons for closable messages.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Notifications'", description: 'Accessible name for the toast region.' },
-    { name: 'closeAriaLabel', type: 'string', defaultValue: "'Close notification'", description: 'Accessible label for each close button.' },
+    {
+      name: 'position',
+      type: 'AerisToastPosition',
+      defaultValue: "'bottom-right'",
+      description: 'Places the toast region on the viewport.',
+    },
+    {
+      name: 'group',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Renders only messages from the matching service group.',
+    },
+    {
+      name: 'mode',
+      type: 'AerisToastMode',
+      defaultValue: "'stacked'",
+      description: 'Uses a compact stack that expands on hover/focus or an always-expanded list.',
+    },
+    {
+      name: 'visibleCount',
+      type: 'number',
+      defaultValue: '4',
+      description: 'Controls how many messages are rendered in stacked and expanded modes.',
+    },
+    {
+      name: 'limit',
+      type: 'number | undefined',
+      defaultValue: 'undefined',
+      description: 'Compatibility alias that overrides visibleCount when provided.',
+    },
+    {
+      name: 'newestOnTop',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Shows the newest message as the primary toast. Set false to keep the oldest message on top.',
+    },
+    {
+      name: 'pauseOnHover',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Pauses auto-dismiss timers while the toast region is hovered or focused.',
+    },
+    {
+      name: 'showClose',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows close buttons for closable messages.',
+    },
+    {
+      name: 'swipeDirection',
+      type: 'AerisToastSwipeDirection | readonly AerisToastSwipeDirection[]',
+      defaultValue: "['down', 'right']",
+      description:
+        'Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping.',
+    },
+    {
+      name: 'swipeThreshold',
+      type: 'number',
+      defaultValue: '40',
+      description: 'Sets the required swipe displacement in pixels before dismissal.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Notifications'",
+      description: 'Accessible name for the toast region.',
+    },
+    {
+      name: 'closeAriaLabel',
+      type: 'string',
+      defaultValue: "'Close notification'",
+      description: 'Accessible label for each close button.',
+    },
   ];
 
   protected readonly componentOutputs: readonly ApiRow[] = [
-    { name: 'closed', type: 'AerisToastCloseEvent', defaultValue: '-', description: 'Emits when a message rendered by this Toast closes by timeout, button, API, or clear.' },
+    {
+      name: 'closed',
+      type: 'AerisToastCloseEvent',
+      defaultValue: '-',
+      description:
+        'Emits when a message rendered by this Toast closes by timeout, button, swipe, API, or clear.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisToastContent', type: 'TemplateRef<AerisToastTemplateContext>', defaultValue: '-', description: 'Replaces default summary/detail content for each rendered message.' },
-    { name: 'aerisToastIcon', type: 'TemplateRef<AerisToastTemplateContext>', defaultValue: '-', description: 'Replaces the built-in severity icon for each rendered message.' },
+    {
+      name: 'aerisToastContent',
+      type: 'TemplateRef<AerisToastTemplateContext>',
+      defaultValue: '-',
+      description: 'Replaces default summary/detail content for each rendered message.',
+    },
+    {
+      name: 'aerisToastIcon',
+      type: 'TemplateRef<AerisToastTemplateContext>',
+      defaultValue: '-',
+      description: 'Replaces the built-in severity icon for each rendered message.',
+    },
   ];
 
   protected readonly serviceMethods: readonly ApiRow[] = [
-    { name: 'show(message)', type: 'AerisToastMessage', defaultValue: '-', description: 'Adds or replaces one message and starts its timer when it is not sticky.' },
-    { name: 'showAll(messages)', type: 'readonly AerisToastMessage[]', defaultValue: '-', description: 'Adds multiple messages in order.' },
-    { name: 'remove(id, reason)', type: 'void', defaultValue: "reason: 'api'", description: 'Removes one message and emits a close event.' },
-    { name: 'clear(group)', type: 'void', defaultValue: "group: ''", description: 'Removes all messages in one group.' },
-    { name: 'clearAll()', type: 'void', defaultValue: '-', description: 'Removes every active message from every group.' },
-    { name: 'pause(id)', type: 'void', defaultValue: '-', description: 'Pauses a message auto-dismiss timer.' },
-    { name: 'resume(id)', type: 'void', defaultValue: '-', description: 'Resumes a paused message auto-dismiss timer.' },
+    {
+      name: 'show(message)',
+      type: 'AerisToastMessage',
+      defaultValue: '-',
+      description: 'Adds or replaces one message and starts its timer when it is not sticky.',
+    },
+    {
+      name: 'showAll(messages)',
+      type: 'readonly AerisToastMessage[]',
+      defaultValue: '-',
+      description: 'Adds multiple messages in order.',
+    },
+    {
+      name: 'remove(id, reason)',
+      type: 'void',
+      defaultValue: "reason: 'api'",
+      description: 'Removes one message and emits a close event.',
+    },
+    {
+      name: 'clear(group)',
+      type: 'void',
+      defaultValue: "group: ''",
+      description: 'Removes all messages in one group.',
+    },
+    {
+      name: 'clearAll()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Removes every active message from every group.',
+    },
+    {
+      name: 'pause(id)',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Pauses a message auto-dismiss timer.',
+    },
+    {
+      name: 'resume(id)',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Resumes a paused message auto-dismiss timer.',
+    },
   ];
 
   protected readonly serviceProperties: readonly ApiRow[] = [
-    { name: 'messages', type: 'Signal<readonly AerisToastMessage[]>', defaultValue: '[]', description: 'Readonly signal containing the active queue.' },
-    { name: 'closed', type: 'AerisToastSubscribable<AerisToastCloseEvent>', defaultValue: '-', description: 'Subscribable close event stream for service-level coordination.' },
+    {
+      name: 'messages',
+      type: 'Signal<readonly AerisToastMessage[]>',
+      defaultValue: '[]',
+      description: 'Readonly signal containing the active queue.',
+    },
+    {
+      name: 'closed',
+      type: 'AerisToastSubscribable<AerisToastCloseEvent>',
+      defaultValue: '-',
+      description: 'Subscribable close event stream for service-level coordination.',
+    },
   ];
 
   protected showBasicToast(): void {
@@ -354,10 +496,30 @@ interface AerisToastTemplateContext<TData = unknown> {
 
   protected showSeverityToasts(): void {
     this.toast.showAll([
-      { group: 'severity', severity: 'success', summary: 'Published', detail: 'The release notes are live.' },
-      { group: 'severity', severity: 'info', summary: 'Sync running', detail: 'Assets are being checked.' },
-      { group: 'severity', severity: 'warning', summary: 'Review needed', detail: 'One token changed contrast.' },
-      { group: 'severity', severity: 'error', summary: 'Build failed', detail: 'Fix the failing test before release.' },
+      {
+        group: 'severity',
+        severity: 'success',
+        summary: 'Published',
+        detail: 'The release notes are live.',
+      },
+      {
+        group: 'severity',
+        severity: 'info',
+        summary: 'Sync running',
+        detail: 'Assets are being checked.',
+      },
+      {
+        group: 'severity',
+        severity: 'warning',
+        summary: 'Review needed',
+        detail: 'One token changed contrast.',
+      },
+      {
+        group: 'severity',
+        severity: 'error',
+        summary: 'Build failed',
+        detail: 'Fix the failing test before release.',
+      },
     ]);
   }
 
@@ -411,22 +573,87 @@ interface AerisToastTemplateContext<TData = unknown> {
 
   protected showStackedToasts(): void {
     this.toast.showAll([
-      { group: 'stacked', severity: 'success', summary: 'Saved', detail: 'Workspace settings were stored.' },
-      { group: 'stacked', severity: 'info', summary: 'Queued', detail: 'A preview build is waiting.' },
-      { group: 'stacked', severity: 'warning', summary: 'Review', detail: 'A token needs contrast review.' },
-      { group: 'stacked', severity: 'neutral', summary: 'Synced', detail: 'Design assets are current.' },
-      { group: 'stacked', severity: 'error', summary: 'Failed', detail: 'One job needs attention.' },
-      { group: 'stacked', severity: 'info', summary: 'Assigned', detail: 'A reviewer was notified.' },
+      {
+        group: 'stacked',
+        severity: 'success',
+        summary: 'Saved',
+        detail: 'Workspace settings were stored.',
+      },
+      {
+        group: 'stacked',
+        severity: 'info',
+        summary: 'Queued',
+        detail: 'A preview build is waiting.',
+      },
+      {
+        group: 'stacked',
+        severity: 'warning',
+        summary: 'Review',
+        detail: 'A token needs contrast review.',
+      },
+      {
+        group: 'stacked',
+        severity: 'neutral',
+        summary: 'Synced',
+        detail: 'Design assets are current.',
+      },
+      {
+        group: 'stacked',
+        severity: 'error',
+        summary: 'Failed',
+        detail: 'One job needs attention.',
+      },
+      {
+        group: 'stacked',
+        severity: 'info',
+        summary: 'Assigned',
+        detail: 'A reviewer was notified.',
+      },
     ]);
+  }
+
+  protected showSwipeToast(): void {
+    this.toast.show({
+      group: 'swipe',
+      severity: 'info',
+      summary: 'Drag to dismiss',
+      detail: 'Swipe this notification down or to the right.',
+      sticky: true,
+    });
   }
 
   protected showExpandedStack(): void {
     this.toast.showAll([
-      { group: 'expanded', severity: 'success', summary: 'Step 1 complete', detail: 'Schema validation passed.' },
-      { group: 'expanded', severity: 'info', summary: 'Step 2 running', detail: 'Preview assets are uploading.' },
-      { group: 'expanded', severity: 'warning', summary: 'Step 3 queued', detail: 'A reviewer must approve deployment.' },
-      { group: 'expanded', severity: 'neutral', summary: 'Step 4 waiting', detail: 'Release notes are being generated.' },
-      { group: 'expanded', severity: 'error', summary: 'Step 5 blocked', detail: 'A required owner is missing.' },
+      {
+        group: 'expanded',
+        severity: 'success',
+        summary: 'Step 1 complete',
+        detail: 'Schema validation passed.',
+      },
+      {
+        group: 'expanded',
+        severity: 'info',
+        summary: 'Step 2 running',
+        detail: 'Preview assets are uploading.',
+      },
+      {
+        group: 'expanded',
+        severity: 'warning',
+        summary: 'Step 3 queued',
+        detail: 'A reviewer must approve deployment.',
+      },
+      {
+        group: 'expanded',
+        severity: 'neutral',
+        summary: 'Step 4 waiting',
+        detail: 'Release notes are being generated.',
+      },
+      {
+        group: 'expanded',
+        severity: 'error',
+        summary: 'Step 5 blocked',
+        detail: 'A required owner is missing.',
+      },
     ]);
   }
 

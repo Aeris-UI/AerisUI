@@ -100,7 +100,9 @@ describe('AerisToast', () => {
 
     const region = fixture.nativeElement.querySelector('.aeris-toast__region') as HTMLElement;
     const messages = fixture.nativeElement.querySelectorAll('.aeris-toast__message');
-    const closeButton = fixture.nativeElement.querySelector('.aeris-toast__close') as HTMLButtonElement;
+    const closeButton = fixture.nativeElement.querySelector(
+      '.aeris-toast__close',
+    ) as HTMLButtonElement;
 
     expect(region.getAttribute('aria-label')).toBe('Notifications');
     expect(region.dataset['position']).toBe('bottom-left');
@@ -121,13 +123,36 @@ describe('AerisToast', () => {
     const message = service.show({ group: 'workspace', summary: 'Closable', sticky: true });
     fixture.detectChanges();
 
-    const closeButton = fixture.nativeElement.querySelector('.aeris-toast__close') as HTMLButtonElement;
+    const closeButton = fixture.nativeElement.querySelector(
+      '.aeris-toast__close',
+    ) as HTMLButtonElement;
     closeButton.click();
     fixture.detectChanges();
 
     expect(service.messages().some((item) => item.id === message.id)).toBe(false);
     expect(fixture.componentInstance.closedEvents.at(-1)?.reason).toBe('close-button');
     expect(fixture.nativeElement.querySelector('.aeris-toast__message')).toBeNull();
+  });
+
+  it('keeps the viewport mounted while the queue changes rapidly', () => {
+    const fixture = TestBed.createComponent(StackedToastHost);
+    fixture.detectChanges();
+    const region = fixture.nativeElement.querySelector('.aeris-toast__region') as HTMLElement;
+
+    for (let index = 0; index < 6; index += 1) {
+      const message = service.show({
+        group: 'stack',
+        summary: `Message ${index}`,
+        sticky: true,
+      });
+      fixture.detectChanges();
+      service.remove(message.id);
+      fixture.detectChanges();
+    }
+
+    expect(fixture.nativeElement.querySelector('.aeris-toast__region')).toBe(region);
+    expect(region.hasAttribute('data-empty')).toBe(true);
+    expect(region.getAttribute('aria-label')).toBeNull();
   });
 
   it('auto-dismisses non-sticky messages and pauses while the region is hovered', () => {
@@ -191,10 +216,26 @@ describe('AerisToast', () => {
     let messages = [
       ...fixture.nativeElement.querySelectorAll('.aeris-toast__message'),
     ] as HTMLElement[];
+    const stackItems = [
+      ...fixture.nativeElement.querySelectorAll('.aeris-toast__item'),
+    ] as HTMLElement[];
     const overflow = fixture.nativeElement.querySelector('.aeris-toast__overflow') as HTMLElement;
+    const region = fixture.nativeElement.querySelector('.aeris-toast__region') as HTMLElement;
+    const bodies = [
+      ...fixture.nativeElement.querySelectorAll('.aeris-toast__body'),
+    ] as HTMLElement[];
 
+    expect(region.dataset['position']).toBe('bottom-right');
     expect(messages.length).toBe(4);
+    expect(stackItems.length).toBe(4);
+    expect(stackItems[0].dataset['stackIndex']).toBe('0');
+    expect(stackItems[0].querySelector('.aeris-toast__message')).toBe(messages[0]);
+    expect(stackItems[0].style.getPropertyValue('--aeris-toast-front-height')).toBe('72px');
+    expect(stackItems[1].style.getPropertyValue('--aeris-toast-height-offset')).toBe('72px');
+    expect(stackItems[0].querySelector('.aeris-toast__body')).not.toBeNull();
     expect(messages[0].getAttribute('data-primary')).toBe('true');
+    expect(bodies[0].hasAttribute('data-behind')).toBe(false);
+    expect(bodies.slice(1).every((body) => body.hasAttribute('data-behind'))).toBe(true);
     expect(messages.map((message) => message.textContent?.trim())).toEqual([
       'Five',
       'Four',
@@ -207,7 +248,9 @@ describe('AerisToast', () => {
     closeButton.click();
     fixture.detectChanges();
 
-    messages = [...fixture.nativeElement.querySelectorAll('.aeris-toast__message')] as HTMLElement[];
+    messages = [
+      ...fixture.nativeElement.querySelectorAll('.aeris-toast__message'),
+    ] as HTMLElement[];
     expect(messages.map((message) => message.textContent?.trim())).toEqual([
       'Four',
       'Three',
@@ -232,11 +275,123 @@ describe('AerisToast', () => {
     ] as HTMLElement[];
 
     expect(messages[0].getAttribute('data-primary')).toBe('true');
-    expect(messages.map((message) => message.textContent?.trim())).toEqual([
-      'One',
-      'Two',
-      'Three',
-    ]);
+    expect(messages.map((message) => message.textContent?.trim())).toEqual(['One', 'Two', 'Three']);
+  });
+
+  it('dismisses a toast with a pointer swipe and reports the swipe reason', () => {
+    const fixture = TestBed.createComponent(ToastHost);
+    fixture.detectChanges();
+    const message = service.show({
+      group: 'workspace',
+      summary: 'Swipe me',
+      sticky: true,
+    });
+    fixture.detectChanges();
+
+    const item = fixture.nativeElement.querySelector('.aeris-toast__item') as HTMLElement;
+    item.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        bubbles: true,
+        button: 0,
+        clientX: 100,
+        clientY: 100,
+        pointerId: 7,
+        pointerType: 'mouse',
+      }),
+    );
+    item.dispatchEvent(
+      new PointerEvent('pointermove', {
+        bubbles: true,
+        clientX: 101,
+        clientY: 100,
+        pointerId: 7,
+        pointerType: 'mouse',
+      }),
+    );
+    item.dispatchEvent(
+      new PointerEvent('pointermove', {
+        bubbles: true,
+        clientX: 170,
+        clientY: 100,
+        pointerId: 7,
+        pointerType: 'mouse',
+      }),
+    );
+    item.dispatchEvent(
+      new PointerEvent('pointerup', {
+        bubbles: true,
+        clientX: 170,
+        clientY: 100,
+        pointerId: 7,
+        pointerType: 'mouse',
+      }),
+    );
+    fixture.detectChanges();
+
+    expect(item.getAttribute('data-swipe-direction')).toBe('right');
+    expect(item.hasAttribute('data-swipe-dismissing')).toBe(true);
+
+    vi.advanceTimersByTime(20);
+    fixture.detectChanges();
+
+    expect(service.messages().some((item) => item.id === message.id)).toBe(false);
+    expect(fixture.componentInstance.closedEvents.at(-1)?.reason).toBe('swipe');
+  });
+
+  it('returns a toast to its resting position when a swipe is below the threshold', () => {
+    const fixture = TestBed.createComponent(ToastHost);
+    fixture.detectChanges();
+    const message = service.show({
+      group: 'workspace',
+      summary: 'Keep me',
+      sticky: true,
+    });
+    fixture.detectChanges();
+
+    const item = fixture.nativeElement.querySelector('.aeris-toast__item') as HTMLElement;
+    item.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        bubbles: true,
+        button: 0,
+        clientX: 100,
+        clientY: 100,
+        pointerId: 9,
+        pointerType: 'touch',
+      }),
+    );
+    item.dispatchEvent(
+      new PointerEvent('pointermove', {
+        bubbles: true,
+        clientX: 101,
+        clientY: 100,
+        pointerId: 9,
+        pointerType: 'touch',
+      }),
+    );
+    item.dispatchEvent(
+      new PointerEvent('pointermove', {
+        bubbles: true,
+        clientX: 125,
+        clientY: 100,
+        pointerId: 9,
+        pointerType: 'touch',
+      }),
+    );
+    item.dispatchEvent(
+      new PointerEvent('pointerup', {
+        bubbles: true,
+        clientX: 125,
+        clientY: 100,
+        pointerId: 9,
+        pointerType: 'touch',
+      }),
+    );
+    fixture.detectChanges();
+
+    expect(service.messages().some((item) => item.id === message.id)).toBe(true);
+    expect(item.hasAttribute('data-swiping')).toBe(false);
+    expect(item.hasAttribute('data-swipe-dismissing')).toBe(false);
+    expect(item.style.getPropertyValue('--aeris-toast-swipe-x')).toBe('0px');
   });
 
   it('supports service addAll, clear by group, and clearAll', () => {

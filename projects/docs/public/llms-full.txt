@@ -48455,7 +48455,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | `AerisToastPosition` | `'top-right'` | Places the toast region on the viewport. |
+| `position` | `AerisToastPosition` | `'bottom-right'` | Places the toast region on the viewport. |
 | `group` | `string` | `''` | Renders only messages from the matching service group. |
 | `mode` | `AerisToastMode` | `'stacked'` | Uses a compact stack that expands on hover/focus or an always-expanded list. |
 | `visibleCount` | `number` | `4` | Controls how many messages are rendered in stacked and expanded modes. |
@@ -48463,6 +48463,8 @@ import {
 | `newestOnTop` | `boolean` | `true` | Shows the newest message as the primary toast. Set false to keep the oldest message on top. |
 | `pauseOnHover` | `boolean` | `true` | Pauses auto-dismiss timers while the toast region is hovered or focused. |
 | `showClose` | `boolean` | `true` | Shows close buttons for closable messages. |
+| `swipeDirection` | `AerisToastSwipeDirection &#124; readonly AerisToastSwipeDirection[]` | `['down', 'right']` | Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping. |
+| `swipeThreshold` | `number` | `40` | Sets the required swipe displacement in pixels before dismissal. |
 | `ariaLabel` | `string` | `'Notifications'` | Accessible name for the toast region. |
 | `closeAriaLabel` | `string` | `'Close notification'` | Accessible label for each close button. |
 
@@ -48470,7 +48472,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `closed` | `AerisToastCloseEvent` | `-` | Emits when a message rendered by this Toast closes by timeout, button, API, or clear. |
+| `closed` | `AerisToastCloseEvent` | `-` | Emits when a message rendered by this Toast closes by timeout, button, swipe, API, or clear. |
 
 ##### Templates
 
@@ -48522,7 +48524,8 @@ type AerisToastSeverity =
   | 'contrast';
 
 type AerisToastMode = 'stacked' | 'expanded';
-type AerisToastCloseReason = 'timeout' | 'close-button' | 'api' | 'clear';
+type AerisToastSwipeDirection = 'up' | 'down' | 'left' | 'right';
+type AerisToastCloseReason = 'timeout' | 'close-button' | 'swipe' | 'api' | 'clear';
 type AerisToastLive = 'polite' | 'assertive';
 type AerisToastRole = 'status' | 'alert';
 
@@ -48578,8 +48581,6 @@ interface AerisToastTemplateContext<TData = unknown> {
 | `--aeris-toast-offset` | `CSS custom property` | — | Distance from viewport edges. |
 | `--aeris-toast-gap` | `CSS custom property` | — | Space between expanded messages. |
 | `--aeris-toast-stack-peek` | `CSS custom property` | — | Visible sliver height for stacked messages under the primary toast. |
-| `--aeris-toast-stack-card-height` | `CSS custom property` | — | Collapsed stacked-card measurement used to calculate overlap. |
-| `--aeris-toast-expanded-message-max-height` | `CSS custom property` | — | Maximum animated message height when stacked messages expand. |
 | `--aeris-toast-icon-size` | `CSS custom property` | — | Default icon box size. |
 | `--aeris-success` | `CSS custom property` | — | Success accent. |
 | `--aeris-info` | `CSS custom property` | — | Info accent. |
@@ -48856,7 +48857,7 @@ export class ToastCustomCustomContentDemo {
 
 ##### Stacked preview
 
-Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus the stack to expand the visible window.
+Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus the stack to smoothly expand the visible window.
 
 ###### TS
 
@@ -48891,6 +48892,50 @@ export class ToastStackedStackedPreviewDemo {
       { group: 'stacked', severity: 'error', summary: 'Failed', detail: 'One job needs attention.' },
       { group: 'stacked', severity: 'info', summary: 'Assigned', detail: 'A reviewer was notified.' },
     ]);
+  }
+}
+```
+
+##### Swipe dismissal
+
+Drag with a mouse, pen, or touch gesture. The default directions are down and right; short or reversed gestures return smoothly to the resting position.
+
+###### TS
+
+```ts
+import { Component, inject } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';
+
+@Component({
+  selector: 'app-toast-swipe-demo',
+  imports: [AerisButton, AerisToastModule],
+  template: `
+    <div>
+      <div>
+        <button aerisButton type="button" (click)="showSwipeToast()">
+          Show swipeable toast
+        </button>
+      </div>
+      <aeris-toast
+        group="swipe"
+        [swipeDirection]="['down', 'right']"
+        [swipeThreshold]="40"
+      />
+    </div>
+  `
+})
+export class ToastSwipeSwipeDismissalDemo {
+  private readonly toast = inject(AerisToastService);
+
+  protected showSwipeToast(): void {
+    this.toast.show({
+      group: 'swipe',
+      severity: 'info',
+      summary: 'Drag to dismiss',
+      detail: 'Swipe this notification down or to the right.',
+      sticky: true,
+    });
   }
 }
 ```
@@ -49070,8 +49115,9 @@ export class ToastLoadingLoadingPatternDemo {
 - Use newestOnTop to control whether the newest or oldest queued message is the primary visible toast.
 - Auto-dismiss timers pause while the region is hovered or focused when pauseOnHover is enabled.
 - Messages outside the visible window are paused until they become visible so they are not dismissed before users can perceive them.
+- Pointer, pen, and touch users can swipe in any configured swipeDirection. Gestures shorter than swipeThreshold return to the resting position, and interactive content does not begin a swipe.
 - Use sticky messages for critical information that must remain available until dismissed.
-- Toast motion is disabled for users who request reduced motion.
+- Entry, dismissal, and stack motion is disabled for users who request reduced motion.
 
 ##### Keyboard support
 
