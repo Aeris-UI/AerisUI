@@ -78,7 +78,8 @@
   max-height: min(var(--aeris-dialog-max-height, calc(100dvh - 2.5rem)), 100%);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  border: 1px solid var(--aeris-dialog-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(--aeris-dialog-border, var(--aeris-border));
   border-radius: var(--aeris-dialog-radius, var(--aeris-radius-lg, 1.125rem));
   background: var(--aeris-dialog-background, var(--aeris-surface, #fff));
   color: inherit;
@@ -139,7 +140,8 @@
 }
 
 .aeris-dialog__header {
-  border-bottom: 1px solid var(--aeris-dialog-border, var(--aeris-border, #deddd7));
+  border-bottom: 1px solid
+    var(--aeris-dialog-border, var(--aeris-border));
 }
 
 .aeris-dialog__header[data-draggable] {
@@ -151,7 +153,8 @@
 
 .aeris-dialog__footer {
   justify-content: flex-end;
-  border-top: 1px solid var(--aeris-dialog-border, var(--aeris-border, #deddd7));
+  border-top: 1px solid
+    var(--aeris-dialog-border, var(--aeris-border));
 }
 
 .aeris-dialog__title {

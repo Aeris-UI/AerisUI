@@ -113,7 +113,7 @@ interface AerisCarouselPageEvent {
 | `--aeris-carousel-item-gap` | `length` | `--aeris-density-gap` | Space between items. |
 | `--aeris-carousel-transition-duration` | `time` | `260ms` | Track transition duration. |
 | `--aeris-carousel-navigator-background` | `color` | `--aeris-surface` | Navigator button background. |
-| `--aeris-carousel-indicator-background` | `color` | `--aeris-border-strong` | Inactive indicator color. |
+| `--aeris-carousel-indicator-background` | `color` | `--aeris-border` | Inactive indicator color. |
 | `--aeris-carousel-active-indicator-background` | `color` | `--aeris-primary` | Active indicator color. |
 
 ## Examples

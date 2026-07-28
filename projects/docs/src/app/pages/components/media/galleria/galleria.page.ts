@@ -860,7 +860,7 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
     {
       name: '--aeris-galleria-border',
       type: 'color',
-      defaultValue: 'Aeris border',
+      defaultValue: '--aeris-border',
       description: 'Stage and empty-state border.',
     },
     {
@@ -956,7 +956,7 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
     {
       name: '--aeris-galleria-indicator-background',
       type: 'color',
-      defaultValue: '--aeris-border-strong',
+      defaultValue: '--aeris-border',
       description: 'Inactive indicator color.',
     },
     {

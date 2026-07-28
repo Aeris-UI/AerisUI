@@ -36,7 +36,8 @@
   display: flex;
   flex: 1 1 auto;
   gap: 0.25rem;
-  border-bottom: 1px solid var(--aeris-tabs-border, var(--aeris-border, #deddd7));
+  border-bottom: 1px solid
+    var(--aeris-tabs-border, var(--aeris-border));
   overflow: visible;
   scrollbar-width: none;
 }
@@ -148,7 +149,8 @@
   place-items: center;
   padding: 0;
   border: 0;
-  border-bottom: 1px solid var(--aeris-tabs-border, var(--aeris-border, #deddd7));
+  border-bottom: 1px solid
+    var(--aeris-tabs-border, var(--aeris-border));
   background: var(--aeris-surface, #fff);
   color: var(--aeris-text-2, #555555);
   cursor: pointer;
@@ -202,7 +204,8 @@
 
 :host([data-orientation='vertical']) .aeris-tabs__list {
   flex-direction: column;
-  border-right: 1px solid var(--aeris-tabs-border, var(--aeris-border, #deddd7));
+  border-right: 1px solid
+    var(--aeris-tabs-border, var(--aeris-border));
   border-bottom: 0;
 }
 
@@ -227,7 +230,8 @@
   :host([data-orientation='vertical']) .aeris-tabs__list {
     flex-direction: row;
     border-right: 0;
-    border-bottom: 1px solid var(--aeris-tabs-border, var(--aeris-border, #deddd7));
+    border-bottom: 1px solid
+      var(--aeris-tabs-border, var(--aeris-border));
     overflow-x: auto;
   }
 }

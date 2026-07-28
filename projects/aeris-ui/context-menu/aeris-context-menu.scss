@@ -23,7 +23,11 @@ aeris-context-menu {
   min-inline-size: var(--aeris-context-menu-width, 14rem);
   max-inline-size: var(--aeris-context-menu-max-width, min(22rem, calc(100vw - 1rem)));
   padding: var(--aeris-context-menu-padding, 0.375rem);
-  border: var(--aeris-context-menu-border-width, 1px) solid var(--aeris-context-menu-border, var(--aeris-border, #deddd7));
+  border: var(--aeris-context-menu-border-width, 1px) solid
+    var(
+      --aeris-context-menu-border,
+      var(--aeris-border)
+    );
   border-radius: var(--aeris-context-menu-radius, var(--aeris-radius-lg, 1.125rem));
   background: var(--aeris-context-menu-background, var(--aeris-surface, #fff));
   color: var(--aeris-context-menu-color, var(--aeris-text, #222222));
@@ -181,7 +185,10 @@ aeris-context-menu {
     calc(var(--aeris-context-menu-density-gap) * 0.5)
       calc(var(--aeris-context-menu-density-gap) * 0.75)
   );
-  background: var(--aeris-context-menu-separator-color, var(--aeris-border, #deddd7));
+  background: var(
+    --aeris-context-menu-separator-color,
+    var(--aeris-border)
+  );
 }
 
 .aeris-context-menu__submenu {
@@ -189,7 +196,11 @@ aeris-context-menu {
   inset-block-start: calc(-1 * var(--aeris-context-menu-padding, 0.375rem));
   min-inline-size: var(--aeris-context-menu-submenu-width, 14rem);
   padding: var(--aeris-context-menu-padding, 0.375rem);
-  border: var(--aeris-context-menu-border-width, 1px) solid var(--aeris-context-menu-border, var(--aeris-border, #deddd7));
+  border: var(--aeris-context-menu-border-width, 1px) solid
+    var(
+      --aeris-context-menu-border,
+      var(--aeris-border)
+    );
   border-radius: var(--aeris-context-menu-radius, var(--aeris-radius-lg, 1.125rem));
   background: var(--aeris-context-menu-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-context-menu-shadow, 0 1.25rem 3.5rem rgba(0, 0, 0, 0.18));

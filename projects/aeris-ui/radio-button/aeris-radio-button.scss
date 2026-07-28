@@ -79,7 +79,7 @@
   height: var(--aeris-radio-size);
   box-sizing: border-box;
   border: 1.5px solid
-    var(--aeris-radio-border, var(--aeris-border-strong, #aeb2a8));
+    var(--aeris-radio-border, var(--aeris-border, #deddd7));
   border-radius: 50%;
   background: var(--aeris-radio-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-radio-shadow, none);
@@ -150,7 +150,7 @@
 .aeris-radio[data-disabled='true']:hover .aeris-radio__control {
   border-color: var(
     --aeris-radio-border,
-    var(--aeris-border-strong, #aeb2a8)
+    var(--aeris-border, #deddd7)
   );
 }
 

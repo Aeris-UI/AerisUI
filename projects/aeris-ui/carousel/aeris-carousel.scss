@@ -125,7 +125,8 @@
   min-block-size: var(--aeris-carousel-default-item-min-height, 10rem);
   place-items: center;
   padding: 1rem;
-  border: 1px solid var(--aeris-carousel-item-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(--aeris-carousel-item-border, var(--aeris-border));
   border-radius: var(--aeris-carousel-item-radius, var(--aeris-radius-lg, 0.875rem));
   background: var(--aeris-carousel-item-background, var(--aeris-surface, #fff));
   text-align: center;
@@ -205,7 +206,7 @@
   padding: 0;
   border: 0;
   border-radius: var(--aeris-carousel-indicator-radius, 999px);
-  background: var(--aeris-carousel-indicator-background, var(--aeris-border-strong, #c7c9c0));
+  background: var(--aeris-carousel-indicator-background, var(--aeris-border, #deddd7));
   cursor: pointer;
   transition: inline-size 160ms ease, background 160ms ease;
 }

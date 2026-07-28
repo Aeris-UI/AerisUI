@@ -159,11 +159,11 @@ protected readonly teams: readonly AerisSelectOption[] = [
 }
 
 .team-mark[data-team='platform'] {
-  background: #bc6c25;
+  background: #b75e26;
 }
 
 .team-mark[data-team='a11y'] {
-  background: #283618;
+  background: #28351a;
 }
 
 .selected-team,

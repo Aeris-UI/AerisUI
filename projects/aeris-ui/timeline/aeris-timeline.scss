@@ -60,7 +60,7 @@
   flex: 0 0 var(--aeris-timeline-marker-size, 1rem);
   display: grid;
   place-items: center;
-  border: 2px solid var(--aeris-timeline-marker-color, var(--aeris-border-strong, #c7c9c0));
+  border: 2px solid var(--aeris-timeline-marker-color, var(--aeris-border, #deddd7));
   border-radius: 50%;
   background: var(--aeris-surface, #fff);
   color: var(--aeris-timeline-marker-color, var(--aeris-text-muted, #6d7068));
@@ -232,7 +232,7 @@
   display: grid;
   place-items: center;
   padding: 1.5rem;
-  border: 1px dashed var(--aeris-border, #deddd7);
+  border: 1px dashed var(--aeris-border);
   border-radius: var(--aeris-radius-lg, 0.875rem);
   color: var(--aeris-text-muted, #6d7068);
   font-size: 0.8125rem;

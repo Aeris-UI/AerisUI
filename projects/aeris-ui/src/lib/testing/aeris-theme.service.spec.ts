@@ -171,7 +171,7 @@ describe('AerisThemeService', () => {
     expect(root.style.getPropertyValue('--aeris-info')).toBe('#2f6178');
     expect(root.style.getPropertyValue('--aeris-warning')).toBe('#c38600');
     expect(root.style.getPropertyValue('--aeris-danger')).toBe('#c81e2a');
-    expect(root.style.getPropertyValue('--aeris-border')).toBe('#767676');
+    expect(root.style.getPropertyValue('--aeris-border')).toBe('#efefef');
 
     service.setMode('dark');
     await TestBed.tick();
@@ -189,7 +189,7 @@ describe('AerisThemeService', () => {
     expect(root.style.getPropertyValue('--aeris-info')).toBe('#9ecbe0');
     expect(root.style.getPropertyValue('--aeris-warning')).toBe('#facc15');
     expect(root.style.getPropertyValue('--aeris-danger')).toBe('#ff5c68');
-    expect(root.style.getPropertyValue('--aeris-border')).toBe('#a3a3a3');
+    expect(root.style.getPropertyValue('--aeris-border')).toBe('#242424');
 
     service.setTheme(AERIS_THEME_PRESETS.earth);
     service.setMode('light');
@@ -279,7 +279,7 @@ describe('AerisThemeService', () => {
     await TestBed.tick();
     expect(service.theme().palette.primary).toBe('#31536a');
     expect(service.theme().palette.sage).toBe('#31536a');
-    expect(service.theme().palette.surface).toBe('#fefae0');
+    expect(service.theme().palette.surface).toBe('#f6f3e8');
     expect(listeners.size).toBe(1);
 
     service.updateTheme({

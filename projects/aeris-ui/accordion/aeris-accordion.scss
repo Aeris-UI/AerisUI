@@ -41,7 +41,11 @@
 
 .aeris-accordion__item {
   min-width: 0;
-  border-bottom: 1px solid var(--aeris-accordion-border, var(--aeris-border, #deddd7));
+  border-bottom: 1px solid
+    var(
+      --aeris-accordion-border,
+      var(--aeris-border)
+    );
   background: var(--aeris-accordion-background, var(--aeris-surface, #fff));
 }
 
@@ -150,7 +154,11 @@
 }
 
 :host([data-variant='outlined']) {
-  border: 1px solid var(--aeris-accordion-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(
+      --aeris-accordion-border,
+      var(--aeris-border)
+    );
   border-radius: var(--aeris-accordion-radius, var(--aeris-radius-lg, 1.125rem));
   background: var(--aeris-accordion-background, var(--aeris-surface, #fff));
   overflow: hidden;
@@ -172,7 +180,11 @@
 }
 
 :host([data-variant='separated']) .aeris-accordion__item {
-  border: 1px solid var(--aeris-accordion-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(
+      --aeris-accordion-border,
+      var(--aeris-border)
+    );
   border-radius: var(--aeris-accordion-radius, var(--aeris-radius-lg, 1.125rem));
   overflow: hidden;
 }

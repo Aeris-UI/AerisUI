@@ -71,7 +71,7 @@
 .home-hero__preview::before {
   position: absolute;
   inset: 8% 3% 3%;
-  border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--border));
+  border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--border));
   border-radius: var(--aeris-radius-xl);
   background:
     linear-gradient(color-mix(in srgb, var(--primary) 6%, transparent), transparent),

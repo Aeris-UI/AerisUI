@@ -66,7 +66,7 @@
 }
 
 .aeris-divider__line {
-  border-color: var(--aeris-divider-border, var(--aeris-border, #deddd7));
+  border-color: var(--aeris-divider-border, var(--aeris-border));
 }
 
 :host([data-orientation='horizontal']) .aeris-divider__line {

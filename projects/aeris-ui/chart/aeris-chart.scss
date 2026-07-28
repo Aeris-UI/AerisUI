@@ -14,7 +14,8 @@
   min-inline-size: 0;
   padding: var(--aeris-chart-padding, 1rem);
   overflow: hidden;
-  border: 1px solid var(--aeris-chart-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(--aeris-chart-border, var(--aeris-border));
   border-radius: var(--aeris-chart-radius, var(--aeris-radius-lg, 0.875rem));
   background: var(--aeris-chart-background, var(--aeris-surface, #fff));
 }

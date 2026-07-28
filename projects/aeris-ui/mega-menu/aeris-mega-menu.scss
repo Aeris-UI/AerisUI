@@ -15,7 +15,8 @@
   gap: var(--aeris-mega-menu-gap, calc(var(--aeris-density-gap, 0.5rem) * 0.5));
   margin: 0;
   padding: var(--aeris-mega-menu-padding, 0.35rem);
-  border: 1px solid var(--aeris-mega-menu-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(--aeris-mega-menu-border, var(--aeris-border));
   border-radius: var(--aeris-mega-menu-radius, var(--aeris-radius-lg, 1rem));
   background: var(--aeris-mega-menu-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-mega-menu-shadow, 0 1rem 2.5rem rgba(0, 0, 0, 0.08));
@@ -159,7 +160,11 @@
   inset-inline-start: 0;
   width: min(var(--aeris-mega-menu-panel-width, 44rem), calc(100vw - 2rem));
   padding: var(--aeris-mega-menu-panel-padding, calc(var(--aeris-item-padding-x, 0.75rem) * 1.35));
-  border: 1px solid var(--aeris-mega-menu-panel-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(
+      --aeris-mega-menu-panel-border,
+      var(--aeris-border)
+    );
   border-radius: var(--aeris-mega-menu-panel-radius, var(--aeris-radius-lg, 1rem));
   background: var(--aeris-mega-menu-panel-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-mega-menu-panel-shadow, 0 1.25rem 3rem rgba(0, 0, 0, 0.16));
@@ -218,13 +223,17 @@
 .aeris-mega-menu__panel-list .aeris-mega-menu__panel-list {
   margin-block-start: 0.25rem;
   padding-inline-start: 0.75rem;
-  border-inline-start: 1px solid var(--aeris-mega-menu-border, var(--aeris-border, #deddd7));
+  border-inline-start: 1px solid
+    var(--aeris-mega-menu-border, var(--aeris-border));
 }
 
 .aeris-mega-menu__separator {
   block-size: 1px;
   margin: 0.35rem 0.5rem;
-  background: var(--aeris-mega-menu-border, var(--aeris-border, #deddd7));
+  background: var(
+    --aeris-mega-menu-border,
+    var(--aeris-border)
+  );
 }
 
 :host([data-size='sm']) {

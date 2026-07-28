@@ -53,7 +53,7 @@
   width: 100%;
   min-height: var(--aeris-auto-complete-height);
   padding: 0 var(--aeris-auto-complete-padding);
-  border: 1px solid var(--aeris-auto-complete-border, var(--aeris-border-strong, #c7c9c0));
+  border: 1px solid var(--aeris-auto-complete-border, var(--aeris-border, #deddd7));
   border-radius: var(
     --aeris-auto-complete-radius,
     var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem))
@@ -218,10 +218,14 @@
   min-width: 100%;
   max-width: calc(100vw - 2rem);
   overflow: auto;
-  scrollbar-color: var(--aeris-border-strong, #c7c9c0) transparent;
+  scrollbar-color: var(--aeris-border, #deddd7) transparent;
   scrollbar-width: thin;
   padding: calc(var(--aeris-auto-complete-density-gap) * 0.75);
-  border: 1px solid var(--aeris-auto-complete-panel-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(
+      --aeris-auto-complete-panel-border,
+      var(--aeris-border)
+    );
   border-radius: var(--aeris-auto-complete-panel-radius, var(--aeris-radius-md, 0.6875rem));
   background: var(--aeris-auto-complete-panel-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-auto-complete-panel-shadow, 0 1rem 2.5rem rgb(31 35 27 / 16%));
@@ -240,7 +244,7 @@
 .aeris-auto-complete__panel::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-border-strong, #c7c9c0);
+  background: var(--aeris-border, #deddd7);
   background-clip: content-box;
 }
 

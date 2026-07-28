@@ -221,7 +221,8 @@
   place-items: center;
   padding: 0;
   overflow: hidden;
-  border: 1px solid var(--aeris-galleria-grid-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(--aeris-galleria-grid-border, var(--aeris-border));
   border-radius: var(--aeris-galleria-grid-radius, var(--aeris-radius-lg, 0.875rem));
   background: var(--aeris-galleria-stage-background, #11130f);
   color: #fff;
@@ -580,7 +581,8 @@
   aspect-ratio: var(--aeris-galleria-thumbnail-aspect-ratio, 16 / 10);
   place-items: center;
   padding: var(--aeris-galleria-thumbnail-padding, 0.2rem);
-  border: 1px solid var(--aeris-galleria-thumbnail-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(--aeris-galleria-thumbnail-border, var(--aeris-border));
   border-radius: var(--aeris-galleria-thumbnail-radius, var(--aeris-radius-md, 0.625rem));
   background: var(--aeris-galleria-thumbnail-background, var(--aeris-surface, #fff));
   color: var(--aeris-galleria-color, var(--aeris-text, #222222));
@@ -706,7 +708,7 @@
   padding: 0;
   border: 0;
   border-radius: 999px;
-  background: var(--aeris-galleria-indicator-background, var(--aeris-border-strong, #c7c9c0));
+  background: var(--aeris-galleria-indicator-background, var(--aeris-border, #deddd7));
   cursor: pointer;
   transition:
     inline-size 180ms ease,
@@ -742,7 +744,8 @@
   min-block-size: var(--aeris-galleria-empty-min-height, 15rem);
   place-items: center;
   padding: 2rem;
-  border: 1px dashed var(--aeris-galleria-border, var(--aeris-border, #deddd7));
+  border: 1px dashed
+    var(--aeris-galleria-border, var(--aeris-border));
   border-radius: var(--aeris-galleria-radius, var(--aeris-radius-lg, 0.875rem));
   background: var(--aeris-galleria-empty-background, var(--aeris-surface-2, #f6f6f2));
   color: var(--aeris-galleria-muted-color, var(--aeris-text-muted, #6d7067));

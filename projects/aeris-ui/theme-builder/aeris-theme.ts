@@ -73,6 +73,7 @@ export interface AerisThemeScheme {
   readonly text?: string;
   readonly text2?: string;
   readonly text3?: string;
+  /** Low-emphasis neutral boundary used throughout Aeris components. */
   readonly border?: string;
   readonly borderStrong?: string;
   readonly focus?: string;
@@ -311,29 +312,29 @@ const AERIS_MONOCHROME_DARK_STATUS_TONES = {
 export const AERIS_THEME_PRESETS = {
   earth: {
     palette: {
-      surface: '#fefae0',
-      primary: '#606c38',
-      secondary: '#bc6c25',
-      accent: '#dda15e',
-      contrast: '#283618',
+      surface: '#f6f3e8',
+      primary: '#5f6f36',
+      secondary: '#b75e26',
+      accent: '#d79a32',
+      contrast: '#28351a',
     },
   },
   coastal: {
     palette: {
-      surface: '#dfe8ee',
-      primary: '#7196b4',
-      secondary: '#6d9992',
-      accent: '#d8ad70',
-      contrast: '#31536a',
+      surface: '#eef3f5',
+      primary: '#357a9e',
+      secondary: '#347b73',
+      accent: '#d46f58',
+      contrast: '#163e54',
     },
   },
   orchid: {
     palette: {
-      surface: '#e9e1ec',
-      primary: '#9579b2',
-      secondary: '#b68194',
-      accent: '#d1a570',
-      contrast: '#5c4b6b',
+      surface: '#f3eef5',
+      primary: '#7654ad',
+      secondary: '#a94f79',
+      accent: '#d59a36',
+      contrast: '#3a2949',
     },
   },
   monochrome: {
@@ -354,7 +355,7 @@ export const AERIS_THEME_PRESETS = {
       text: '#111111',
       text2: '#242424',
       text3: '#454545',
-      border: '#767676',
+      border: '#efefef',
       borderStrong: '#111111',
       focus: '#111111',
       shadowXs: '0 1px 2px rgb(0 0 0 / 10%)',
@@ -376,7 +377,7 @@ export const AERIS_THEME_PRESETS = {
       text: '#f8f8f8',
       text2: '#ededed',
       text3: '#d0d0d0',
-      border: '#a3a3a3',
+      border: '#242424',
       borderStrong: '#ffffff',
       focus: '#ffffff',
       shadowXs: '0 1px 2px rgb(0 0 0 / 48%)',

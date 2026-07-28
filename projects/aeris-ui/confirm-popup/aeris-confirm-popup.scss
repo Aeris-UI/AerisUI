@@ -21,7 +21,11 @@
   display: grid;
   gap: 0.875rem;
   padding: var(--aeris-confirm-popup-padding, 1rem);
-  border: 1px solid var(--aeris-confirm-popup-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(
+      --aeris-confirm-popup-border,
+      var(--aeris-border)
+    );
   border-radius: var(--aeris-confirm-popup-radius, var(--aeris-radius-lg, 0.875rem));
   background: var(--aeris-confirm-popup-background, var(--aeris-surface, #fff));
   color: var(--aeris-confirm-popup-color, var(--aeris-text, #222222));

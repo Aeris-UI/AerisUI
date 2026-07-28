@@ -19,7 +19,8 @@
   block-size: 100%;
   min-inline-size: 0;
   min-block-size: 0;
-  border: var(--aeris-splitter-border-width, 1px) solid var(--aeris-splitter-border, var(--aeris-border, #deddd7));
+  border: var(--aeris-splitter-border-width, 1px) solid
+    var(--aeris-splitter-border, var(--aeris-border));
   border-radius: var(--aeris-splitter-radius, var(--aeris-radius-lg, 1.125rem));
   background: var(--aeris-splitter-background, var(--aeris-surface, #fff));
   color: var(--aeris-splitter-color, var(--aeris-text, #222222));
@@ -107,7 +108,10 @@
   display: none;
   margin: auto;
   border-radius: 999px;
-  background: var(--aeris-splitter-divider-color, color-mix(in srgb, var(--aeris-border, #deddd7) 86%, transparent));
+  background: var(
+    --aeris-splitter-divider-color,
+    var(--aeris-border, color-mix(in srgb, var(--aeris-border, #deddd7) 86%, transparent))
+  );
   content: '';
 }
 

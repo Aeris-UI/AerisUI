@@ -222,7 +222,7 @@ export class App {}`,
           source(
             'Terminal',
             'Shell',
-            `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION} --project=web --surface="#dfe8ee" --primary="#7196b4" --secondary="#6d9992" --accent="#d8ad70" --contrast="#31536a" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts`,
+            `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION} --project=web --surface="#eef3f5" --primary="#357a9e" --secondary="#347b73" --accent="#d46f58" --contrast="#163e54" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts`,
           ),
           source(
             'aeris.setup.json',
@@ -231,11 +231,11 @@ export class App {}`,
   "$schema": "./node_modules/@aeris-ui/core/setup-config.schema.json",
   "theme": {
     "seeds": {
-      "surface": "#dfe8ee",
-      "primary": "#7196b4",
-      "secondary": "#6d9992",
-      "accent": "#d8ad70",
-      "contrast": "#31536a"
+      "surface": "#eef3f5",
+      "primary": "#357a9e",
+      "secondary": "#347b73",
+      "accent": "#d46f58",
+      "contrast": "#163e54"
     }
   }
 }`,
@@ -518,11 +518,11 @@ export const appConfig: ApplicationConfig = {
       themeModeStorageKey: 'my-app-color-mode',
       theme: {
         palette: {
-          surface: '#fefae0',
-          primary: '#606c38',
-          secondary: '#bc6c25',
-          accent: '#dda15e',
-          contrast: '#283618',
+          surface: '#f6f3e8',
+          primary: '#5f6f36',
+          secondary: '#b75e26',
+          accent: '#d79a32',
+          contrast: '#28351a',
         },
         density: 'medium',
         radius: 'rounded',
@@ -830,7 +830,11 @@ export class ProfileForm {
               'CSS color',
             ],
             ['text, text2, text3', 'Neutral content hierarchy', 'CSS color'],
-            ['border, borderStrong, focus', 'Boundaries and focus indication', 'CSS color'],
+            [
+              'border, borderStrong, focus',
+              'Quiet default boundaries, optional emphasized boundaries, and focus indication',
+              'CSS color',
+            ],
             ['accent', 'Mode-specific decorative accent', 'CSS color'],
             ['shadowXs, shadowSm', 'Mode-specific elevation', 'CSS shadow'],
           ],
@@ -905,11 +909,11 @@ export const appConfig: ApplicationConfig = {
     provideAeris({
       theme: {
         palette: {
-          surface: '#dfe8ee',
-          primary: '#7196b4',
-          secondary: '#6d9992',
-          accent: '#d8ad70',
-          contrast: '#31536a',
+          surface: '#eef3f5',
+          primary: '#357a9e',
+          secondary: '#347b73',
+          accent: '#d46f58',
+          contrast: '#163e54',
         },
         dark: {
           page: '#090b0f',
@@ -974,6 +978,11 @@ export const appConfig: ApplicationConfig = {
               'Default headings, body copy, supporting text, labels, and placeholders',
             ],
             [
+              'Quiet surface separation',
+              '--aeris-border',
+              'Optional low-emphasis edges around non-interactive cards, panels, and overlay shells',
+            ],
+            [
               'Colored text on neutral surfaces',
               '--aeris-primary-text, --aeris-secondary-text, and semantic *-text tokens',
               'Links, statuses, or emphasis where color is intentional and meaningful',
@@ -1005,11 +1014,11 @@ export const appConfig: ApplicationConfig = {
 
 export const productTheme: AerisThemeOverride = {
   palette: {
-    surface: '#dfe8ee',
-    primary: '#7196b4',
-    secondary: '#6d9992',
-    accent: '#d8ad70',
-    contrast: '#31536a',
+    surface: '#eef3f5',
+    primary: '#357a9e',
+    secondary: '#347b73',
+    accent: '#d46f58',
+    contrast: '#163e54',
   },
   light: {
     tones: {
@@ -1180,7 +1189,7 @@ export function assertThemeContrast(theme: AerisTheme): void {
     "radius": "soft",
     "palette": {
       "primary": "#527da1",
-      "accent": "#d8ad70"
+      "accent": "#d46f58"
     }
   }
 }`,
@@ -1541,11 +1550,11 @@ export const appConfig: ApplicationConfig = {
 
 export const productTheme: AerisThemeOverride = {
   palette: {
-    surface: '#fefae0',
-    primary: '#606c38',
-    secondary: '#bc6c25',
-    accent: '#dda15e',
-    contrast: '#283618',
+    surface: '#f6f3e8',
+    primary: '#5f6f36',
+    secondary: '#b75e26',
+    accent: '#d79a32',
+    contrast: '#28351a',
   },
   density: 'medium',
   radius: 'rounded',

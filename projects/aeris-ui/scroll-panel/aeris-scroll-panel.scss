@@ -13,7 +13,8 @@
   position: relative;
   min-inline-size: 0;
   overflow: hidden;
-  border: var(--aeris-scroll-panel-border-width, 1px) solid var(--aeris-scroll-panel-border, var(--aeris-border, #deddd7));
+  border: var(--aeris-scroll-panel-border-width, 1px) solid
+    var(--aeris-scroll-panel-border, var(--aeris-border));
   border-radius: var(--aeris-scroll-panel-radius, var(--aeris-radius-lg, 1.125rem));
   background: var(--aeris-scroll-panel-background, var(--aeris-surface, #fff));
   color: var(--aeris-scroll-panel-color, var(--aeris-text, #222222));

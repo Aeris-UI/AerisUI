@@ -178,7 +178,7 @@ Select Custom in the wizard to enter surface, primary, secondary, accent, and co
 ##### Terminal
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.2 --project=web --surface="#dfe8ee" --primary="#7196b4" --secondary="#6d9992" --accent="#d8ad70" --contrast="#31536a" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
+ng add @aeris-ui/core@22.0.0-alpha.2 --project=web --surface="#eef3f5" --primary="#357a9e" --secondary="#347b73" --accent="#d46f58" --contrast="#163e54" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
 ```
 
 ##### aeris.setup.json
@@ -188,11 +188,11 @@ ng add @aeris-ui/core@22.0.0-alpha.2 --project=web --surface="#dfe8ee" --primary
   "$schema": "./node_modules/@aeris-ui/core/setup-config.schema.json",
   "theme": {
     "seeds": {
-      "surface": "#dfe8ee",
-      "primary": "#7196b4",
-      "secondary": "#6d9992",
-      "accent": "#d8ad70",
-      "contrast": "#31536a"
+      "surface": "#eef3f5",
+      "primary": "#357a9e",
+      "secondary": "#347b73",
+      "accent": "#d46f58",
+      "contrast": "#163e54"
     }
   }
 }
@@ -314,9 +314,9 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-- **Aeris Earth:** Deep olive, warm copper, and sunlit cornsilk.
-- **Coastal Glass:** Clear blues, sea glass, and sun-warmed gold.
-- **Orchid Dusk:** Soft violet, muted rose, and evening plum.
+- **Aeris Earth:** Grounded olive, burnished copper, and warm amber on soft ivory.
+- **Coastal Glass:** Clear ocean blue, balanced teal, and a restrained coral accent.
+- **Orchid Dusk:** Confident violet, rich berry, and warm gold on pale lavender.
 - **Aeris Monochrome:** Black-and-white interface colors with distinct neutral action tiers and restrained status accents.
 
 - [Create a custom theme](https://aeris-ui.dev/guides/theming)
@@ -401,11 +401,11 @@ export const appConfig: ApplicationConfig = {
       themeModeStorageKey: 'my-app-color-mode',
       theme: {
         palette: {
-          surface: '#fefae0',
-          primary: '#606c38',
-          secondary: '#bc6c25',
-          accent: '#dda15e',
-          contrast: '#283618',
+          surface: '#f6f3e8',
+          primary: '#5f6f36',
+          secondary: '#b75e26',
+          accent: '#d79a32',
+          contrast: '#28351a',
         },
         density: 'medium',
         radius: 'rounded',
@@ -652,7 +652,7 @@ Start with the broadest decision and customize more narrowly only when the appli
 | page, surface, surface2, surface3 | Mode-specific surface hierarchy | CSS color |
 | interactiveHover | Shared neutral hover treatment for interactive items | CSS color |
 | text, text2, text3 | Neutral content hierarchy | CSS color |
-| border, borderStrong, focus | Boundaries and focus indication | CSS color |
+| border, borderStrong, focus | Quiet default boundaries, optional emphasized boundaries, and focus indication | CSS color |
 | accent | Mode-specific decorative accent | CSS color |
 | shadowXs, shadowSm | Mode-specific elevation | CSS shadow |
 
@@ -718,11 +718,11 @@ export const appConfig: ApplicationConfig = {
     provideAeris({
       theme: {
         palette: {
-          surface: '#dfe8ee',
-          primary: '#7196b4',
-          secondary: '#6d9992',
-          accent: '#d8ad70',
-          contrast: '#31536a',
+          surface: '#eef3f5',
+          primary: '#357a9e',
+          secondary: '#347b73',
+          accent: '#d46f58',
+          contrast: '#163e54',
         },
         dark: {
           page: '#090b0f',
@@ -746,6 +746,7 @@ Use a semantic text token when color communicates a deliberate role. These text 
 | Purpose | Tokens | Use |
 | --- | --- | --- |
 | Ordinary content | --aeris-text, --aeris-text-2, --aeris-text-3 | Default headings, body copy, supporting text, labels, and placeholders |
+| Quiet surface separation | --aeris-border | Optional low-emphasis edges around non-interactive cards, panels, and overlay shells |
 | Colored text on neutral surfaces | --aeris-primary-text, --aeris-secondary-text, and semantic *-text tokens | Links, statuses, or emphasis where color is intentional and meaningful |
 | Content on solid semantic colors | --aeris-on-primary, --aeris-on-success, and other on-* tokens | Text and icons placed on the corresponding filled background |
 
@@ -802,11 +803,11 @@ import type { AerisThemeOverride } from '@aeris-ui/core/theming';
 
 export const productTheme: AerisThemeOverride = {
   palette: {
-    surface: '#dfe8ee',
-    primary: '#7196b4',
-    secondary: '#6d9992',
-    accent: '#d8ad70',
-    contrast: '#31536a',
+    surface: '#eef3f5',
+    primary: '#357a9e',
+    secondary: '#347b73',
+    accent: '#d46f58',
+    contrast: '#163e54',
   },
   light: {
     tones: {
@@ -936,7 +937,7 @@ Create one JSON configuration, generate the CSS before the application build, an
     "radius": "soft",
     "palette": {
       "primary": "#527da1",
-      "accent": "#d8ad70"
+      "accent": "#d46f58"
     }
   }
 }
@@ -1217,11 +1218,11 @@ import type { AerisThemeOverride } from '@aeris-ui/core/theming';
 
 export const productTheme: AerisThemeOverride = {
   palette: {
-    surface: '#fefae0',
-    primary: '#606c38',
-    secondary: '#bc6c25',
-    accent: '#dda15e',
-    contrast: '#283618',
+    surface: '#f6f3e8',
+    primary: '#5f6f36',
+    secondary: '#b75e26',
+    accent: '#d79a32',
+    contrast: '#28351a',
   },
   density: 'medium',
   radius: 'rounded',
@@ -3961,7 +3962,7 @@ interface AerisCheckboxChangeEvent {
 | --- | --- | --- | --- |
 | `--aeris-primary` | `CSS custom property` | — | Selected and mixed control background. |
 | `--aeris-on-primary` | `CSS custom property` | — | Selected icon color. |
-| `--aeris-border-strong` | `CSS custom property` | — | Unchecked border. |
+| `--aeris-border` | `CSS custom property` | — | Unchecked border. |
 | `--aeris-surface` | `CSS custom property` | — | Unchecked background. |
 | `--aeris-radius-sm` | `CSS custom property` | — | Control corner radius foundation. |
 | `--aeris-focus` | `CSS custom property` | — | Visible keyboard focus ring. |
@@ -4524,7 +4525,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string (model)` | `'#606c38'` | Current color value with two-way binding and Forms support. |
+| `value` | `string (model)` | `'#5f6f36'` | Current color value with two-way binding and Forms support. |
 | `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. |
 | `inputId` | `string` | `generated` | ID assigned to the visible color-picker trigger for label association. |
 | `name` | `string` | `''` | Native form field name submitted through a hidden input. |
@@ -4608,7 +4609,7 @@ interface AerisColorPickerChangeEvent {
 | --- | --- | --- | --- |
 | `--aeris-surface` | `CSS custom property` | — | Control, panel, and active format backgrounds. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled surface and clear hover. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default field and swatch borders. |
+| `--aeris-border` | `CSS custom property` | — | Default field and swatch borders. |
 | `--aeris-focus` | `CSS custom property` | — | Keyboard focus ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border. |
 | `--aeris-text / --aeris-text-2` | `CSS custom property` | — | Value and secondary text. |
@@ -4643,7 +4644,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
       <aeris-color-picker
         inputId="color-basic"
         ariaDescribedby="color-basic-help"
-        value="#606c38"
+        value="#5f6f36"
       />
       <small id="color-basic-help">Choose the primary color for your interface.</small>
     </div>
@@ -4729,7 +4730,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   `
 })
 export class ColorPickerSignalSignalValueDemo {
-  protected readonly brandColor = signal('#606c38');
+  protected readonly brandColor = signal('#5f6f36');
 }
 ```
 
@@ -4788,7 +4789,7 @@ import { AerisColorPicker, type AerisColorFormat } from '@aeris-ui/core/color-pi
   `
 })
 export class ColorPickerFormatsSelectableFormatsDemo {
-  protected readonly formatColor = signal('#606c38');
+  protected readonly formatColor = signal('#5f6f36');
   protected readonly selectedFormat = signal<AerisColorFormat>('hex');
 }
 ```
@@ -4905,11 +4906,11 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 })
 export class ColorPickerPresetsPresetsDemo {
   protected readonly presets: readonly string[] = [
-    '#fefae0',
-    '#606c38',
-    '#bc6c25',
-    '#dda15e',
-    '#283618',
+    '#f6f3e8',
+    '#5f6f36',
+    '#b75e26',
+    '#d79a32',
+    '#28351a',
   ];
 }
 ```
@@ -4942,7 +4943,7 @@ export class ColorPickerSwatchOnlySwatchOnlyDemo {
     <label for="color-swatch-only">Compact color</label>
     <aeris-color-picker
       inputId="color-swatch-only"
-      value="#606c38"
+      value="#5f6f36"
       [showValue]="false"
       [showInput]="false"
       ariaLabel="Compact color"
@@ -4952,7 +4953,7 @@ export class ColorPickerSwatchOnlySwatchOnlyDemo {
     <label for="color-swatch-with-input">Swatch with input</label>
     <aeris-color-picker
       inputId="color-swatch-with-input"
-      value="#dda15e"
+      value="#d79a32"
       [showValue]="false"
     />
   </div>
@@ -5017,10 +5018,10 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   imports: [AerisColorPicker],
   template: `
     <div class="field-grid">
-      <aeris-color-picker size="xs" value="#fefae0" />
-      <aeris-color-picker size="sm" value="#606c38" />
-      <aeris-color-picker size="md" value="#bc6c25" />
-      <aeris-color-picker size="lg" value="#dda15e" />
+      <aeris-color-picker size="xs" value="#f6f3e8" />
+      <aeris-color-picker size="sm" value="#5f6f36" />
+      <aeris-color-picker size="md" value="#b75e26" />
+      <aeris-color-picker size="lg" value="#d79a32" />
     </div>
   `,
   styles: `
@@ -5057,8 +5058,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   imports: [AerisColorPicker],
   template: `
     <div class="field-grid">
-      <aeris-color-picker appearance="outline" value="#606c38" />
-      <aeris-color-picker appearance="filled" value="#606c38" />
+      <aeris-color-picker appearance="outline" value="#5f6f36" />
+      <aeris-color-picker appearance="filled" value="#5f6f36" />
     </div>
   `,
   styles: `
@@ -5096,7 +5097,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   template: `
     <div class="field">
       <label for="color-clear">Optional accent</label>
-      <aeris-color-picker inputId="color-clear" value="#283618" clearable />
+      <aeris-color-picker inputId="color-clear" value="#28351a" clearable />
     </div>
   `,
   styles: `
@@ -5146,8 +5147,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   imports: [AerisColorPicker],
   template: `
     <div class="field-grid">
-      <aeris-color-picker value="#606c38" disabled />
-      <aeris-color-picker value="#dda15e" readonly />
+      <aeris-color-picker value="#5f6f36" disabled />
+      <aeris-color-picker value="#d79a32" readonly />
     </div>
   `,
   styles: `
@@ -5272,9 +5273,9 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 })
 export class ColorPickerFormsReactiveAndTemplateDrivenFormsDemo {
   protected readonly reactiveColor =
-    new FormControl('#bc6c25');
+    new FormControl('#b75e26');
 
-  protected templateColor = '#283618';
+  protected templateColor = '#28351a';
 }
 ```
 
@@ -5360,7 +5361,7 @@ import { AerisColorPicker, type AerisColorPickerChangeEvent } from '@aeris-ui/co
       <label for="color-events">Event color</label>
       <aeris-color-picker
         inputId="color-events"
-        value="#bc6c25"
+        value="#b75e26"
         (changed)="recordChange($event)"
       />
       <small aria-live="polite">{{ lastChange() }}</small>
@@ -7392,7 +7393,7 @@ type AerisIconFieldDensity = 'comfortable' | 'compact';
 | `--aeris-control-height` | `CSS custom property` | — | Medium field height. |
 | `--aeris-control-height-xs/sm/lg` | `CSS custom property` | — | Field heights for alternate sizes. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Outlined and filled field surfaces. |
-| `--aeris-border-strong` | `CSS custom property` | — | Field border. |
+| `--aeris-border` | `CSS custom property` | — | Field border. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-text / --aeris-text-muted` | `CSS custom property` | — | Control text, placeholder, and icon color. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border color. |
@@ -8250,7 +8251,7 @@ type AerisInputGroupMode = 'attached' | 'embedded';
 | `--aeris-control-height` | `CSS custom property` | — | Medium group height. |
 | `--aeris-radius-sm` | `CSS custom property` | — | Outer group corner radius. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Control and addon surfaces. |
-| `--aeris-border-strong` | `CSS custom property` | — | Shared group borders. |
+| `--aeris-border` | `CSS custom property` | — | Shared group borders. |
 | `--aeris-focus` | `CSS custom property` | — | Projected control focus ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid group border. |
 | `--aeris-text / --aeris-text-muted` | `CSS custom property` | — | Control and addon text. |
@@ -9325,7 +9326,7 @@ type AerisInputMaskAppearance = 'outline' | 'filled';
 | `--aeris-radius-sm` | `CSS custom property` | — | Field and clear-button radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined field background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default field border. |
+| `--aeris-border` | `CSS custom property` | — | Default field border. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border and focus ring. |
 
@@ -10339,7 +10340,7 @@ type AerisInputNumberCurrencyDisplay =
 | `--aeris-radius-sm` | `CSS custom property` | — | Field and connected button radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined field background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled field and button background. |
-| `--aeris-border-strong` | `CSS custom property` | — | Field and button border. |
+| `--aeris-border` | `CSS custom property` | — | Field and button border. |
 | `--aeris-focus` | `CSS custom property` | — | Visible keyboard focus ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border and focus ring. |
 
@@ -11499,7 +11500,7 @@ interface AerisInputOtpCompleteEvent {
 | `--aeris-control-height` | `CSS custom property` | — | Medium slot width and height. |
 | `--aeris-radius-sm` | `CSS custom property` | — | Slot corner radius. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Outlined, filled, disabled, and read-only surfaces. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default slot border. |
+| `--aeris-border` | `CSS custom property` | — | Default slot border. |
 | `--aeris-primary` | `CSS custom property` | — | Hover border and caret color. |
 | `--aeris-focus` | `CSS custom property` | — | Focused slot border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid slot border and focus ring. |
@@ -12411,7 +12412,7 @@ type AerisControlSize = AerisInputTextSize;
 | `--aeris-radius-sm` | `CSS custom property` | — | Input corner radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined input background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default input border. |
+| `--aeris-border` | `CSS custom property` | — | Default input border. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border and focus ring. |
 
@@ -13034,7 +13035,7 @@ export class InputAffixesIconsAndAffixesDemo {
 .input-affix {
   display: flex;
   align-items: center;
-  border: 1px solid var(--aeris-border-strong);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-sm);
 }
 
@@ -14060,7 +14061,7 @@ interface AerisMultiSelectLazyLoadEvent {
 | `--aeris-multi-select-panel-max-height` | `CSS custom property` | — | Scrollable option-list height. |
 | `--aeris-surface` | `CSS custom property` | — | Control, chip checkbox, and panel surfaces. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and interactive backgrounds. |
-| `--aeris-border / --aeris-border-strong` | `CSS custom property` | — | Panel and control borders. |
+| `--aeris-border / --aeris-border` | `CSS custom property` | — | Panel and control borders. |
 | `--aeris-primary / --aeris-text` | `CSS custom property` | — | Selection controls and selected option text. |
 | `--aeris-focus` | `CSS custom property` | — | Visible focus border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border. |
@@ -15122,7 +15123,7 @@ type AerisPasswordStrengthEvaluator = (
 | `--aeris-control-height` | `CSS custom property` | — | Medium control height. |
 | `--aeris-radius-sm / --aeris-radius-md` | `CSS custom property` | — | Field and feedback corner radii. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Field, panel, filled, and action surfaces. |
-| `--aeris-border / --aeris-border-strong` | `CSS custom property` | — | Panel and field borders. |
+| `--aeris-border / --aeris-border` | `CSS custom property` | — | Panel and field borders. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-danger / --aeris-warning / --aeris-success` | `CSS custom property` | — | Invalid and strength meter states. |
 
@@ -18255,11 +18256,11 @@ export class SelectTemplatesOptionAndSelectedValueTemplatesDemo {
 }
 
 .team-mark[data-team='platform'] {
-  background: #bc6c25;
+  background: #b75e26;
 }
 
 .team-mark[data-team='a11y'] {
-  background: #283618;
+  background: #28351a;
 }
 
 .selected-team,
@@ -19900,7 +19901,7 @@ type AerisTextareaResize =
 | `--aeris-radius-sm` | `CSS custom property` | — | Corner radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default border. |
+| `--aeris-border` | `CSS custom property` | — | Default border. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border and ring. |
 | `--aeris-text` | `CSS custom property` | — | Entered text. |
@@ -38570,7 +38571,7 @@ Shared component planning and release notes.</textarea>
 .dialog-form input,
 .dialog-form textarea {
   width: 100%;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-sm);
   background: var(--aeris-surface);
   color: var(--aeris-text);
@@ -38611,7 +38612,7 @@ Shared component planning and release notes.</textarea>
 .dialog-form input,
 .dialog-form textarea {
   width: 100%;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border);
   border-radius: var(--aeris-radius-sm);
   background: var(--surface);
   color: var(--text);
@@ -39619,7 +39620,7 @@ Shared component planning and release notes.</textarea>
 .drawer-form input,
 .drawer-form textarea {
   width: 100%;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-sm);
   background: var(--aeris-surface);
   color: var(--aeris-text);
@@ -39652,7 +39653,7 @@ Shared component planning and release notes.</textarea>
 .drawer-form input,
 .drawer-form textarea {
   width: 100%;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border);
   border-radius: var(--aeris-radius-sm);
   background: var(--surface);
   color: var(--text);
@@ -49240,7 +49241,7 @@ interface AerisCarouselPageEvent {
 | `--aeris-carousel-item-gap` | `length` | `--aeris-density-gap` | Space between items. |
 | `--aeris-carousel-transition-duration` | `time` | `260ms` | Track transition duration. |
 | `--aeris-carousel-navigator-background` | `color` | `--aeris-surface` | Navigator button background. |
-| `--aeris-carousel-indicator-background` | `color` | `--aeris-border-strong` | Inactive indicator color. |
+| `--aeris-carousel-indicator-background` | `color` | `--aeris-border` | Inactive indicator color. |
 | `--aeris-carousel-active-indicator-background` | `color` | `--aeris-primary` | Active indicator color. |
 
 #### Examples
@@ -50735,7 +50736,7 @@ interface AerisGalleriaDownloadEvent<T = unknown> {
 | `--aeris-galleria-gap` | `length` | `density gap × 1.5` | Space between stage, indicators, and thumbnails. |
 | `--aeris-galleria-radius` | `length` | `--aeris-radius-lg` | Stage and empty-state corner radius. |
 | `--aeris-galleria-stage-background` | `color` | `#11130f` | Media stage background. |
-| `--aeris-galleria-border` | `color` | `Aeris border` | Stage and empty-state border. |
+| `--aeris-galleria-border` | `color` | `--aeris-border` | Stage and empty-state border. |
 | `--aeris-galleria-shadow` | `shadow` | `soft elevation` | Inline stage shadow. |
 | `--aeris-galleria-transition-duration` | `time` | `420ms` | Item transition duration. |
 | `--aeris-galleria-transition-easing` | `timing function` | `spring-like curve` | Item transition easing. |
@@ -50751,7 +50752,7 @@ interface AerisGalleriaDownloadEvent<T = unknown> {
 | `--aeris-galleria-thumbnail-height` | `length` | `4.5rem` | Compact vertical thumbnail height. |
 | `--aeris-galleria-thumbnail-aspect-ratio` | `ratio` | `16 / 10` | Thumbnail aspect ratio. |
 | `--aeris-galleria-active-thumbnail-border` | `color` | `--aeris-primary` | Selected thumbnail border. |
-| `--aeris-galleria-indicator-background` | `color` | `--aeris-border-strong` | Inactive indicator color. |
+| `--aeris-galleria-indicator-background` | `color` | `--aeris-border` | Inactive indicator color. |
 | `--aeris-galleria-active-indicator-background` | `color` | `--aeris-primary` | Selected indicator color. |
 | `--aeris-galleria-backdrop` | `color` | `near-black translucent` | Fullscreen backdrop. |
 | `--aeris-galleria-backdrop-blur` | `length` | `--aeris-backdrop-blur` | Fullscreen backdrop blur radius. |
@@ -57034,7 +57035,7 @@ export class ClassNamesConditionalConditionalMapDemo {
 }
 
 .state-card--emphasized {
-  box-shadow: inset 0 0 0 1px var(--aeris-border-strong);
+  box-shadow: inset 0 0 0 1px var(--aeris-border);
 }
 ```
 

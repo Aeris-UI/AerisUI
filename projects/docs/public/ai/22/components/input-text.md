@@ -86,7 +86,7 @@ type AerisControlSize = AerisInputTextSize;
 | `--aeris-radius-sm` | `CSS custom property` | — | Input corner radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined input background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
-| `--aeris-border-strong` | `CSS custom property` | — | Default input border. |
+| `--aeris-border` | `CSS custom property` | — | Default input border. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
 | `--aeris-danger` | `CSS custom property` | — | Invalid border and focus ring. |
 
@@ -709,7 +709,7 @@ export class InputAffixesIconsAndAffixesDemo {
 .input-affix {
   display: flex;
   align-items: center;
-  border: 1px solid var(--aeris-border-strong);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-sm);
 }
 

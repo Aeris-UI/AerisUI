@@ -30,7 +30,7 @@
 }
 
 :host([data-tone='secondary']) {
-  --_aeris-progress-spinner-color: var(--aeris-surface-3, var(--aeris-border-strong, #c7c9c0));
+  --_aeris-progress-spinner-color: var(--aeris-surface-3, var(--aeris-border, #deddd7));
 }
 
 :host([data-tone='success']) {

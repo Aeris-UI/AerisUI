@@ -65,7 +65,8 @@
   max-height: var(--aeris-drawer-max-height, 100dvh);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  border: 1px solid var(--aeris-drawer-border, var(--aeris-border, #deddd7));
+  border: 1px solid
+    var(--aeris-drawer-border, var(--aeris-border));
   background: var(--aeris-drawer-background, var(--aeris-surface, #fff));
   color: inherit;
   box-shadow: var(--aeris-drawer-shadow, 0 1.25rem 3.25rem rgb(31 35 27 / 22%));
@@ -219,12 +220,14 @@
 }
 
 .aeris-drawer__header {
-  border-bottom: 1px solid var(--aeris-drawer-border, var(--aeris-border, #deddd7));
+  border-bottom: 1px solid
+    var(--aeris-drawer-border, var(--aeris-border));
 }
 
 .aeris-drawer__footer {
   justify-content: flex-end;
-  border-top: 1px solid var(--aeris-drawer-border, var(--aeris-border, #deddd7));
+  border-top: 1px solid
+    var(--aeris-drawer-border, var(--aeris-border));
 }
 
 .aeris-drawer__title {

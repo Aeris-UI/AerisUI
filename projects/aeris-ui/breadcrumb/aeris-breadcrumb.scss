@@ -6,7 +6,8 @@ aeris-breadcrumb {
 }
 
 .aeris-breadcrumb {
-  border: var(--aeris-breadcrumb-border-width, 1px) solid var(--aeris-breadcrumb-border, var(--aeris-border, #deddd7));
+  border: var(--aeris-breadcrumb-border-width, 1px) solid
+    var(--aeris-breadcrumb-border, var(--aeris-border));
   border-radius: var(--aeris-breadcrumb-radius, var(--aeris-radius-lg, 1.125rem));
   background: var(--aeris-breadcrumb-background, var(--aeris-surface, #fff));
   color: var(--aeris-breadcrumb-color, var(--aeris-text, #222222));
@@ -53,7 +54,7 @@ aeris-breadcrumb {
 .aeris-breadcrumb[data-wrap='false'] .aeris-breadcrumb__list {
   flex-wrap: nowrap;
   overflow-x: auto;
-  scrollbar-color: var(--aeris-border-strong, #c7c9c0) transparent;
+  scrollbar-color: var(--aeris-border, #deddd7) transparent;
   scrollbar-width: thin;
 }
 
@@ -70,7 +71,7 @@ aeris-breadcrumb {
 .aeris-breadcrumb[data-wrap='false'] .aeris-breadcrumb__list::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-border-strong, #c7c9c0);
+  background: var(--aeris-border, #deddd7);
   background-clip: content-box;
 }
 

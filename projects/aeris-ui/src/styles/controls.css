@@ -1,6 +1,6 @@
 .aeris-input-text,
 .aeris-textarea {
-  border: 1px solid var(--aeris-border-strong, #c7c9c0);
+  border: 1px solid var(--aeris-border, #deddd7);
   background: var(--aeris-surface, #fff);
   color: var(--aeris-text, #222222);
   font: inherit;
@@ -55,7 +55,7 @@
 
 .aeris-input-text:hover:not(:disabled):not([readonly]),
 .aeris-textarea:hover:not(:disabled):not([readonly]) {
-  border-color: var(--aeris-primary, #606c38);
+  border-color: var(--aeris-primary, #5f6f36);
 }
 
 .aeris-input-text:focus,
