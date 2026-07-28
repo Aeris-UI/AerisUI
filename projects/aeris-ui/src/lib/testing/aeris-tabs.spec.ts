@@ -63,6 +63,40 @@ class NestedTabsTestHost {}
 @Component({
   imports: [AerisTabsModule],
   template: `
+    @if (visible()) {
+      <aeris-tabs ariaLabel="Lazy documentation tabs">
+        <aeris-tab-panel value="features" label="Features">
+          <aeris-tabs ariaLabel="Lazy example tabs">
+            <aeris-tab-panel value="preview" label="Preview">Preview content</aeris-tab-panel>
+            <aeris-tab-panel value="code" label="Code">Code content</aeris-tab-panel>
+          </aeris-tabs>
+        </aeris-tab-panel>
+        <aeris-tab-panel value="api" label="API">API content</aeris-tab-panel>
+      </aeris-tabs>
+    }
+  `,
+})
+class LazyNestedTabsTestHost {
+  readonly visible = signal(false);
+}
+
+@Component({
+  imports: [AerisTabsModule],
+  template: `
+    <aeris-tabs ariaLabel="Dynamic report tabs">
+      @for (label of labels(); track label) {
+        <aeris-tab-panel [value]="label" [label]="label">{{ label }} content</aeris-tab-panel>
+      }
+    </aeris-tabs>
+  `,
+})
+class DynamicTabsTestHost {
+  readonly labels = signal<readonly string[]>([]);
+}
+
+@Component({
+  imports: [AerisTabsModule],
+  template: `
     <aeris-tabs ariaLabel="Responsive documentation tabs">
       <aeris-tab-panel value="features" label="Features">Features</aeris-tab-panel>
       <aeris-tab-panel value="api" label="API">API</aeris-tab-panel>
@@ -178,6 +212,47 @@ describe('AerisTabs', () => {
 
     expect(innerTabs.length).toBe(2);
     expect(innerTabs[0]?.textContent).toContain('Inbox');
+  });
+
+  it('renders directly owned panels on their first lazy render', () => {
+    const fixture = TestBed.createComponent(LazyNestedTabsTestHost);
+    fixture.detectChanges();
+
+    fixture.componentInstance.visible.set(true);
+    fixture.detectChanges();
+
+    const outerTablist = fixture.nativeElement.querySelector(
+      '[aria-label="Lazy documentation tabs"]',
+    ) as HTMLElement;
+    const outerTabs = Array.from(outerTablist.children).filter(
+      (child): child is HTMLButtonElement => child.getAttribute('role') === 'tab',
+    );
+    const innerTablist = fixture.nativeElement.querySelector(
+      '[aria-label="Lazy example tabs"]',
+    ) as HTMLElement;
+
+    expect(outerTabs.map((tab) => tab.textContent?.trim())).toEqual(['Features', 'API']);
+    expect(innerTablist.querySelectorAll(':scope > [role="tab"]').length).toBe(2);
+    expect(fixture.nativeElement.textContent).toContain('Preview content');
+  });
+
+  it('does not read required panel inputs before dynamic bindings are assigned', () => {
+    const fixture = TestBed.createComponent(DynamicTabsTestHost);
+    fixture.detectChanges();
+
+    expect(() => {
+      fixture.componentInstance.labels.set(['Overview', 'Revenue', 'Forecast']);
+      fixture.detectChanges();
+    }).not.toThrow();
+
+    const tabs = fixture.nativeElement.querySelectorAll(
+      '[aria-label="Dynamic report tabs"] > [role="tab"]',
+    ) as NodeListOf<HTMLButtonElement>;
+    expect(Array.from(tabs, (tab) => tab.textContent?.trim())).toEqual([
+      'Overview',
+      'Revenue',
+      'Forecast',
+    ]);
   });
 
   it('shows scroll controls only while horizontal tabs overflow', async () => {
