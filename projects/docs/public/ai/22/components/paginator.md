@@ -2,7 +2,7 @@
 
 > Navigate large record sets with page links, row count selection, and controlled state.
 
-Aeris 22.0.0-alpha.2 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.3 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/paginator`
 - Human-readable documentation: [https://aeris-ui.dev/components/paginator](https://aeris-ui.dev/components/paginator)

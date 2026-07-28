@@ -1,6 +1,6 @@
 {
   "name": "@aeris-ui/core",
-  "version": "22.0.0-alpha.2",
+  "version": "22.0.0-alpha.3",
   "description": "Accessible, themeable Angular UI components with signal-based APIs.",
   "license": "MIT",
   "repository": {
