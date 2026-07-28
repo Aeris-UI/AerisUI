@@ -4,6 +4,34 @@
   "installCommand": "npm ci",
   "buildCommand": "npm run build",
   "outputDirectory": "dist/docs/browser",
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/installation",
+      "destination": "/guides/installation",
+      "permanent": true
+    },
+    {
+      "source": "/theming",
+      "destination": "/guides/theming",
+      "permanent": true
+    },
+    {
+      "source": "/accessibility",
+      "destination": "/guides/accessibility",
+      "permanent": true
+    },
+    {
+      "source": "/changelog",
+      "destination": "/guides/changelog",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
