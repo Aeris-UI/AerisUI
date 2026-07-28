@@ -57,26 +57,10 @@
 }
 
 .home-install {
-  width: fit-content;
-  max-width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  width: min(100%, 34rem);
+  display: block;
   margin-top: 1.25rem;
-  padding: 0.625rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: var(--aeris-radius-md);
-  background: var(--surface);
-  color: var(--text-3);
-  font-size: 0.75rem;
-}
-
-.home-install code {
-  min-width: 0;
-  color: var(--text);
-  overflow-x: auto;
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  white-space: nowrap;
+  --docs-code-block-max-height: 9rem;
 }
 
 .home-hero__preview {
@@ -486,15 +470,6 @@
 
   .home-hero__copy h1 {
     font-size: clamp(2.25rem, 11vw, 3rem);
-  }
-
-  .home-install {
-    width: 100%;
-  }
-
-  .home-install > span,
-  .home-install small {
-    display: none;
   }
 
   .home-hero__preview {
