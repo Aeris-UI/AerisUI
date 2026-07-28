@@ -21,7 +21,7 @@
     "test:lib": "ng test aeris-ui",
     "test:docs": "ng test docs",
     "test:mcp": "vitest run projects/aeris-mcp/src",
-    "test:release": "node --test tools/release-metadata.spec.mjs tools/release-workflow.spec.mjs",
+    "test:release": "node --test tools/release-metadata.spec.mjs tools/release-publish-verification.spec.mjs tools/release-workflow.spec.mjs",
     "test:theme-cli": "node tools/check-theme-cli.mjs",
     "test:ng-add": "node tools/check-ng-add.mjs",
     "check:doc-examples": "node tools/sync-doc-examples.mjs",

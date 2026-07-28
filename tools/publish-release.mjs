@@ -2,6 +2,8 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 
+import { waitForPublishedPackage } from './release-publish-verification.mjs';
+
 const REGISTRY = 'https://registry.npmjs.org';
 const arguments_ = parseArguments(process.argv.slice(2));
 const version = arguments_.version;
@@ -65,10 +67,18 @@ for (const package_ of packages) {
     'inherit',
   );
 
-  const publishedVersion = viewVersion(`${package_.name}@${version}`);
-  const taggedVersion = viewVersion(`${package_.name}@${npmTag}`);
-  if (publishedVersion !== version || taggedVersion !== version) {
-    throw new Error(`${package_.name}@${version} could not be verified after publishing.`);
+  const verification = await waitForPublishedPackage({
+    name: package_.name,
+    version,
+    npmTag,
+    viewVersion,
+  });
+  if (!verification.verified) {
+    throw new Error(
+      `${package_.name}@${version} could not be verified after publishing. ` +
+        `Observed version ${verification.publishedVersion ?? 'nothing'} and tag ` +
+        `${npmTag}=${verification.taggedVersion ?? 'nothing'}.`,
+    );
   }
 
   process.stdout.write(`Published ${package_.name}@${version} with npm tag ${npmTag}.\n`);
@@ -90,7 +100,7 @@ function packageVersionExists(name, packageVersion) {
 
 function viewVersion(specifier) {
   const result = runNpm(
-    ['view', specifier, 'version', '--json', '--registry', REGISTRY],
+    ['view', specifier, 'version', '--json', '--registry', REGISTRY, '--prefer-online'],
     'pipe',
     true,
   );
