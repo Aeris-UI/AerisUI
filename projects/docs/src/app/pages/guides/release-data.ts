@@ -27,7 +27,19 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
     version: 'Unreleased',
     date: 'In development',
     status: 'Next release',
-    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.2.'],
+    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.3.'],
+  },
+  {
+    version: '22.0.0-alpha.3',
+    date: '28 July 2026',
+    status: 'Alpha patch',
+    changes: [
+      'Refine the Coastal, Earth, and Orchid palettes with more cohesive, role-based color systems.',
+      'Use subtle neutral boundaries consistently across Aeris components and documentation surfaces.',
+      'Keep generated examples, AI documentation, and theme metadata synchronized with the updated tokens.',
+      'Refresh the Angular toolchain and routine development dependencies without changing the supported Angular 22 peer range.',
+      'Show guided and package-only installation commands directly on the landing page.',
+    ],
   },
   {
     version: '22.0.0-alpha.2',

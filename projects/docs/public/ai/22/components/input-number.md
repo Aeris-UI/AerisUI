@@ -2,7 +2,7 @@
 
 > Accessible inputnumber component for Angular.
 
-Aeris 22.0.0-alpha.2 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.3 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/input-number`
 - Human-readable documentation: [https://aeris-ui.dev/components/input-number](https://aeris-ui.dev/components/input-number)

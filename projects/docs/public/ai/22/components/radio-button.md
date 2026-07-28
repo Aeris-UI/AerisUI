@@ -2,7 +2,7 @@
 
 > Single-choice control designed for accessible grouped selection.
 
-Aeris 22.0.0-alpha.2 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.3 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/radio-button`
 - Human-readable documentation: [https://aeris-ui.dev/components/radio-button](https://aeris-ui.dev/components/radio-button)

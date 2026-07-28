@@ -7,7 +7,19 @@ release line.
 
 ## [Unreleased]
 
-No consumer-visible changes have been recorded since 22.0.0-alpha.2.
+No consumer-visible changes have been recorded since 22.0.0-alpha.3.
+
+## [22.0.0-alpha.3] - 2026-07-28
+
+### Changed
+
+- Refine the Coastal, Earth, and Orchid palettes with more cohesive, role-based color systems.
+- Use subtle neutral boundaries consistently across components, controls, overlays, tables, and
+  documentation surfaces.
+- Synchronize generated examples, AI documentation, and theme metadata with the updated tokens.
+- Refresh the Angular toolchain and routine development dependencies without changing the supported
+  Angular 22 peer range.
+- Show guided and package-only installation commands directly on the landing page.
 
 ## [22.0.0-alpha.2] - 2026-07-28
 
@@ -67,7 +79,8 @@ No consumer-visible changes have been recorded since 22.0.0-alpha.2.
 - Align the published Lexical peer range with the version Aeris uses and declare the required
   Angular platform-browser and RxJS peers.
 
-[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.2...HEAD
+[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.3...HEAD
+[22.0.0-alpha.3]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.2...v22.0.0-alpha.3
 [22.0.0-alpha.2]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.1...v22.0.0-alpha.2
 [22.0.0-alpha.1]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.0...v22.0.0-alpha.1
 [22.0.0-alpha.0]: https://github.com/Aeris-UI/AerisUI/releases/tag/v22.0.0-alpha.0

@@ -2,7 +2,7 @@
 
 > Process indicator with determinate, indeterminate, formatted, severity, and stepped progress states.
 
-Aeris 22.0.0-alpha.2 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.3 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/progress-bar`
 - Human-readable documentation: [https://aeris-ui.dev/components/progress-bar](https://aeris-ui.dev/components/progress-bar)
