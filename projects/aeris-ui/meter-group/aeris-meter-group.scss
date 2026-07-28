@@ -67,8 +67,12 @@
   place-items: center;
   overflow: hidden;
   background-color: var(--aeris-primary, #879566);
-  transform-origin: center;
+  transform-origin: left center;
   animation: aeris-meter-group-reveal-inline 320ms ease-out both;
+}
+
+:host(:dir(rtl)) .aeris-meter-group__segment {
+  transform-origin: right center;
 }
 
 :host([data-orientation='vertical']) .aeris-meter-group__segment {
