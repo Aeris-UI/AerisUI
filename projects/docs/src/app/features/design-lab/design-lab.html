@@ -31,8 +31,13 @@
           <span>5 seeds</span>
         </div>
         <div class="design-lab__presets" aria-label="Palette presets">
-          @for (preset of presets; track preset.name) {
-            <button type="button" (click)="applyPreset(preset)">
+          @for (preset of presets; track preset.id) {
+            <button
+              type="button"
+              [class.active]="activePresetId() === preset.id"
+              [attr.aria-pressed]="activePresetId() === preset.id"
+              (click)="applyPreset(preset)"
+            >
               <span aria-hidden="true">
                 @for (
                   color of [

@@ -58,7 +58,7 @@
         iconOnly
         [attr.aria-label]="
           'Customize appearance. Palette: ' +
-          activePalette().name +
+          activePaletteName() +
           ', density: ' +
           activeDensity().name +
           ', corners: ' +
@@ -91,7 +91,7 @@
             <div class="docs-appearance-section">
               <div class="docs-appearance-section__header">
                 <span>Palette</span>
-                <small>{{ activePalette().name }}</small>
+                <small>{{ activePaletteName() }}</small>
               </div>
               <div
                 class="docs-palette-options"
@@ -216,7 +216,7 @@
             </div>
 
             <footer class="docs-appearance-summary">
-              <span>{{ activePalette().name }}</span>
+              <span>{{ activePaletteName() }}</span>
               <span>{{ activeDensity().name }}</span>
               <span>{{ activeRadius().name }}</span>
               <span>{{ activeDirection().name }}</span>
