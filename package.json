@@ -54,10 +54,10 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular-devkit/core": "^22.0.8",
-    "@angular-devkit/schematics": "^22.0.8",
-    "@angular/build": "^22.0.8",
-    "@angular/cli": "^22.0.8",
+    "@angular-devkit/core": "^22.0.9",
+    "@angular-devkit/schematics": "^22.0.9",
+    "@angular/build": "^22.0.9",
+    "@angular/cli": "^22.0.9",
     "@angular/compiler-cli": "^22.0.8",
     "@lucide/angular": "^1.27.0",
     "@modelcontextprotocol/sdk": "^1.29.0",
