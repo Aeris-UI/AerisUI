@@ -2,7 +2,7 @@
 
 > Responsive item carousel with controlled paging, templates, autoplay, swipe, and keyboard navigation.
 
-Aeris 22.0.0-alpha.3 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/carousel`
 - Human-readable documentation: [https://aeris-ui.dev/components/carousel](https://aeris-ui.dev/components/carousel)

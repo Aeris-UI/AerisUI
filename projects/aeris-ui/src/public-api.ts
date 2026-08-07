@@ -1,4 +1,4 @@
-export const AERIS_UI_VERSION = '22.0.0-alpha.3';
+export const AERIS_UI_VERSION = '22.0.0-alpha.4';
 
 export {
   AERIS_OVERLAY_APPEND_TO,

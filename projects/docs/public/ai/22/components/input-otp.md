@@ -2,7 +2,7 @@
 
 > Segmented one-time-code entry with paste, masking, and complete keyboard navigation.
 
-Aeris 22.0.0-alpha.3 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/input-otp`
 - Human-readable documentation: [https://aeris-ui.dev/components/input-otp](https://aeris-ui.dev/components/input-otp)

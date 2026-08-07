@@ -2,7 +2,7 @@
 
 > Toggle application classes and coordinate enter or leave transitions declaratively.
 
-Aeris 22.0.0-alpha.3 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/style-class`
 - Human-readable documentation: [https://aeris-ui.dev/components/style-class](https://aeris-ui.dev/components/style-class)

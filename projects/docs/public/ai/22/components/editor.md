@@ -2,7 +2,7 @@
 
 > Rich text editing with optional Lexical peers, accessible toolbar controls, and Forms support.
 
-Aeris 22.0.0-alpha.3 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/editor`
 - Human-readable documentation: [https://aeris-ui.dev/components/editor](https://aeris-ui.dev/components/editor)

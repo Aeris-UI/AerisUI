@@ -7,7 +7,30 @@ release line.
 
 ## [Unreleased]
 
-No consumer-visible changes have been recorded since 22.0.0-alpha.3.
+No consumer-visible changes have been recorded since 22.0.0-alpha.4.
+
+## [22.0.0-alpha.4] - 2026-08-07
+
+### Added
+
+- Add configurable `appendTo` support for overlay-producing components, with local targets and a
+  global default for panels that must escape clipping containers.
+
+### Changed
+
+- Unify structural and selectable-item corner radii across themes and components while preserving
+  intentional circular, media, and checkbox geometry.
+- Synchronize Design Lab appearance choices with the documentation theme controls.
+- Upgrade the development stack to Angular 22.1.1, Angular tooling 22.1.3, Lexical 0.49, Lucide
+  Angular 1.30, MCP SDK 1.30, and jsdom 30 without changing the supported Angular 22 peer range.
+- Refresh transitive dependencies and security overrides to resolve newly disclosed advisories.
+
+### Fixed
+
+- Keep appended tooltips positioned against their owning element while the document scrolls.
+- Restore visible, consistently sized close controls in Drawer examples.
+- Match hovered and selected item corners to their containing Menu, TieredMenu, ContextMenu,
+  Select, tree, and list surfaces.
 
 ## [22.0.0-alpha.3] - 2026-07-28
 
@@ -79,7 +102,8 @@ No consumer-visible changes have been recorded since 22.0.0-alpha.3.
 - Align the published Lexical peer range with the version Aeris uses and declare the required
   Angular platform-browser and RxJS peers.
 
-[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.3...HEAD
+[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.4...HEAD
+[22.0.0-alpha.4]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.3...v22.0.0-alpha.4
 [22.0.0-alpha.3]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.2...v22.0.0-alpha.3
 [22.0.0-alpha.2]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.1...v22.0.0-alpha.2
 [22.0.0-alpha.1]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.0...v22.0.0-alpha.1

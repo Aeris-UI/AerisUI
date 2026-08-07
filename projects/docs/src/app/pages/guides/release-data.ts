@@ -27,7 +27,19 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
     version: 'Unreleased',
     date: 'In development',
     status: 'Next release',
-    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.3.'],
+    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.4.'],
+  },
+  {
+    version: '22.0.0-alpha.4',
+    date: '7 August 2026',
+    status: 'Alpha patch',
+    changes: [
+      'Add configurable appendTo support for overlay-producing components and a global overlay target default.',
+      'Keep appended overlays, including tooltips, anchored correctly while the viewport scrolls or resizes.',
+      'Unify structural and selectable-item corner radii across themes and components.',
+      'Synchronize Design Lab appearance choices with the documentation theme controls.',
+      'Upgrade Angular, Lexical, Lucide Angular, the MCP SDK, jsdom, and audited transitive dependencies while retaining the Angular 22 peer range.',
+    ],
   },
   {
     version: '22.0.0-alpha.3',
