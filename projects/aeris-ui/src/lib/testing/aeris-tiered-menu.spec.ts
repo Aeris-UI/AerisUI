@@ -20,10 +20,7 @@ const items: readonly AerisTieredMenuItem[] = [
   },
   {
     label: 'Edit',
-    items: [
-      { label: 'Copy' },
-      { label: 'Paste', disabled: true },
-    ],
+    items: [{ label: 'Copy' }, { label: 'Paste', disabled: true }],
   },
   { separator: true },
   { label: 'Search', command: () => undefined },
@@ -105,9 +102,7 @@ class TemplateTieredMenuHost {
 
 @Component({
   imports: [AerisTieredMenuModule],
-  template: `
-    <aeris-tiered-menu #menu [model]="items" popup [autoFocus]="false" />
-  `,
+  template: ` <aeris-tiered-menu #menu [model]="items" popup [autoFocus]="false" /> `,
 })
 class ProgrammaticTieredMenuHost {
   readonly menu = viewChild.required<AerisTieredMenu>('menu');
@@ -125,7 +120,9 @@ describe('AerisTieredMenu', () => {
 
     const panel = fixture.nativeElement.querySelector('.aeris-tiered-menu__panel') as HTMLElement;
     const root = fixture.nativeElement.querySelector('.aeris-tiered-menu__list') as HTMLElement;
-    const rootItems = fixture.nativeElement.querySelectorAll('[role="menuitem"]') as NodeListOf<HTMLElement>;
+    const rootItems = fixture.nativeElement.querySelectorAll(
+      '[role="menuitem"]',
+    ) as NodeListOf<HTMLElement>;
     const separator = fixture.nativeElement.querySelector('[role="separator"]') as HTMLElement;
 
     expect(panel).toBeTruthy();
@@ -134,10 +131,10 @@ describe('AerisTieredMenu', () => {
     expect(root.getAttribute('aria-label')).toBe('Workspace actions');
     expect(rootItems.length).toBe(3);
     expect(separator).toBeTruthy();
+    const itemRadius = getComputedStyle(rootItems[0] as HTMLElement).borderRadius;
+    expect(itemRadius).toContain('--aeris-radius-item');
 
-    const fileItem = Array.from(rootItems).find((item) =>
-      item.textContent?.includes('File'),
-    );
+    const fileItem = Array.from(rootItems).find((item) => item.textContent?.includes('File'));
     fileItem?.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
     fixture.detectChanges();
 
@@ -285,7 +282,9 @@ describe('AerisTieredMenu', () => {
     fixture.detectChanges();
     await settle();
 
-    expect(document.querySelector('.aeris-tiered-menu__panel')?.textContent).toContain('Programmatic');
+    expect(document.querySelector('.aeris-tiered-menu__panel')?.textContent).toContain(
+      'Programmatic',
+    );
   });
 });
 

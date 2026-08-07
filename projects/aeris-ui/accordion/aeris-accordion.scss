@@ -3,7 +3,7 @@
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
-    url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E")
+    url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E')
   );
 
   --_trigger-min-height: 3rem;
@@ -41,23 +41,23 @@
 
 .aeris-accordion__item {
   min-width: 0;
-  border-bottom: 1px solid
-    var(
-      --aeris-accordion-border,
-      var(--aeris-border)
-    );
+  border-bottom: 1px solid var(--aeris-accordion-border, var(--aeris-border));
   background: var(--aeris-accordion-background, var(--aeris-surface, #fff));
 }
 
 .aeris-accordion__item:first-of-type {
-  border-radius: var(--aeris-accordion-radius, var(--aeris-radius-lg, 1.125rem))
-    var(--aeris-accordion-radius, var(--aeris-radius-lg, 1.125rem)) 0 0;
+  border-radius: var(
+      --aeris-accordion-radius,
+      var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+    )
+    var(--aeris-accordion-radius, var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))) 0 0;
 }
 
 .aeris-accordion__item:last-of-type {
   border-bottom: 0;
-  border-radius: 0 0 var(--aeris-accordion-radius, var(--aeris-radius-lg, 1.125rem))
-    var(--aeris-accordion-radius, var(--aeris-radius-lg, 1.125rem));
+  border-radius: 0 0
+    var(--aeris-accordion-radius, var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem)))
+    var(--aeris-accordion-radius, var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem)));
 }
 
 .aeris-accordion__trigger {
@@ -83,7 +83,10 @@
     --aeris-accordion-hover-background,
     color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 8%, transparent)
   );
-  color: var(--aeris-accordion-hover-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
+  color: var(
+    --aeris-accordion-hover-color,
+    var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
+  );
 }
 
 .aeris-accordion__trigger:focus-visible {
@@ -133,7 +136,10 @@
 }
 
 .aeris-accordion__trigger[aria-expanded='true'] .aeris-accordion__icon {
-  color: var(--aeris-accordion-active-icon-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
+  color: var(
+    --aeris-accordion-active-icon-color,
+    var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
+  );
 }
 
 .aeris-accordion__trigger[aria-expanded='true'] .aeris-accordion__default-icon::before {
@@ -154,18 +160,20 @@
 }
 
 :host([data-variant='outlined']) {
-  border: 1px solid
-    var(
-      --aeris-accordion-border,
-      var(--aeris-border)
-    );
-  border-radius: var(--aeris-accordion-radius, var(--aeris-radius-lg, 1.125rem));
+  border: 1px solid var(--aeris-accordion-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-accordion-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-accordion-background, var(--aeris-surface, #fff));
   overflow: hidden;
 }
 
 :host([data-variant='filled']) {
-  border-radius: var(--aeris-accordion-radius, var(--aeris-radius-lg, 1.125rem));
+  border-radius: var(
+    --aeris-accordion-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-accordion-filled-background, var(--aeris-surface-2, #f2f0ec));
   overflow: hidden;
 }
@@ -180,12 +188,11 @@
 }
 
 :host([data-variant='separated']) .aeris-accordion__item {
-  border: 1px solid
-    var(
-      --aeris-accordion-border,
-      var(--aeris-border)
-    );
-  border-radius: var(--aeris-accordion-radius, var(--aeris-radius-lg, 1.125rem));
+  border: 1px solid var(--aeris-accordion-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-accordion-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   overflow: hidden;
 }
 

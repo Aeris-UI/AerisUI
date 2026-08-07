@@ -1,6 +1,23 @@
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
+  --_aeris-mega-menu-item-radius: var(
+    --aeris-mega-menu-item-radius,
+    var(
+      --aeris-radius-item,
+      max(
+        0px,
+        calc(
+          var(
+              --aeris-mega-menu-radius,
+              var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+            ) - var(--aeris-mega-menu-padding, 0.35rem) -
+            1px
+        )
+      )
+    )
+  );
+
   display: block;
   color: var(--aeris-mega-menu-color, var(--aeris-text, #222222));
 }
@@ -15,9 +32,11 @@
   gap: var(--aeris-mega-menu-gap, calc(var(--aeris-density-gap, 0.5rem) * 0.5));
   margin: 0;
   padding: var(--aeris-mega-menu-padding, 0.35rem);
-  border: 1px solid
-    var(--aeris-mega-menu-border, var(--aeris-border));
-  border-radius: var(--aeris-mega-menu-radius, var(--aeris-radius-lg, 1rem));
+  border: 1px solid var(--aeris-mega-menu-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-mega-menu-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-mega-menu-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-mega-menu-shadow, 0 1rem 2.5rem rgba(0, 0, 0, 0.08));
   list-style: none;
@@ -41,7 +60,6 @@
   align-items: center;
   gap: var(--aeris-mega-menu-item-gap, var(--aeris-density-gap, 0.5rem));
   border: 0;
-  border-radius: var(--aeris-mega-menu-item-radius, var(--aeris-radius-control, var(--aeris-radius-sm, 0.5rem)));
   background: transparent;
   color: inherit;
   font: inherit;
@@ -52,6 +70,7 @@
 
 .aeris-mega-menu__trigger {
   min-height: var(--aeris-mega-menu-trigger-height, var(--aeris-item-height, 2.5rem));
+  border-radius: var(--_aeris-mega-menu-item-radius);
   padding: var(
     --aeris-mega-menu-trigger-padding,
     var(--aeris-item-padding-y, 0.5rem) var(--aeris-item-padding-x, 0.75rem)
@@ -61,6 +80,7 @@
 
 .aeris-mega-menu__panel-item {
   min-height: var(--aeris-mega-menu-panel-item-height, var(--aeris-item-height, 2.5rem));
+  border-radius: var(--aeris-mega-menu-panel-item-radius, var(--_aeris-mega-menu-item-radius));
   padding: var(
     --aeris-mega-menu-panel-item-padding,
     var(--aeris-item-padding-y, 0.5rem) var(--aeris-item-padding-x, 0.75rem)
@@ -80,7 +100,12 @@
 
 .aeris-mega-menu__trigger:focus-visible,
 .aeris-mega-menu__panel-item:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 38%, transparent);
+  outline: 3px solid
+    color-mix(
+      in srgb,
+      var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 38%,
+      transparent
+    );
   outline-offset: 2px;
 }
 
@@ -144,7 +169,10 @@
     --aeris-mega-menu-badge-background,
     color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 15%, transparent)
   );
-  color: var(--aeris-mega-menu-badge-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
+  color: var(
+    --aeris-mega-menu-badge-color,
+    var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
+  );
   font-size: 0.72rem;
   font-weight: 850;
   overflow: hidden;
@@ -160,12 +188,11 @@
   inset-inline-start: 0;
   width: min(var(--aeris-mega-menu-panel-width, 44rem), calc(100vw - 2rem));
   padding: var(--aeris-mega-menu-panel-padding, calc(var(--aeris-item-padding-x, 0.75rem) * 1.35));
-  border: 1px solid
-    var(
-      --aeris-mega-menu-panel-border,
-      var(--aeris-border)
-    );
-  border-radius: var(--aeris-mega-menu-panel-radius, var(--aeris-radius-lg, 1rem));
+  border: 1px solid var(--aeris-mega-menu-panel-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-mega-menu-panel-radius,
+    var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
+  );
   background: var(--aeris-mega-menu-panel-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-mega-menu-panel-shadow, 0 1.25rem 3rem rgba(0, 0, 0, 0.16));
 }
@@ -223,17 +250,13 @@
 .aeris-mega-menu__panel-list .aeris-mega-menu__panel-list {
   margin-block-start: 0.25rem;
   padding-inline-start: 0.75rem;
-  border-inline-start: 1px solid
-    var(--aeris-mega-menu-border, var(--aeris-border));
+  border-inline-start: 1px solid var(--aeris-mega-menu-border, var(--aeris-border));
 }
 
 .aeris-mega-menu__separator {
   block-size: 1px;
   margin: 0.35rem 0.5rem;
-  background: var(
-    --aeris-mega-menu-border,
-    var(--aeris-border)
-  );
+  background: var(--aeris-mega-menu-border, var(--aeris-border));
 }
 
 :host([data-size='sm']) {

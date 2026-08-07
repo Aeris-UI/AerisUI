@@ -71,7 +71,7 @@ aeris-avatar.aeris-avatar[data-shape='circle'] {
 
 aeris-avatar.aeris-avatar[data-shape='rounded'] {
   border-radius: min(
-    var(--aeris-avatar-radius, var(--aeris-radius-lg, 0.875rem)),
+    var(--aeris-avatar-radius, var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))),
     calc(var(--_aeris-avatar-size) * 0.3)
   );
 }

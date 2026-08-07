@@ -29,6 +29,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the panel target when popup is enabled; inline menus remain local. |
 | `id` | `string` | `generated` | ID for the root panel. |
 | `model` | `readonly AerisMenuItem&lt;T&gt;[]` | `[]` | Menu item model with groups, separators, commands, links, and nested items. |
 | `expandedKeys` | `AerisMenuExpandedKeys (model)` | `{}` | Controlled expanded state keyed by item id or generated path. |
@@ -135,10 +136,10 @@ interface AerisMenuVisibilityEvent {
 | `--aeris-menu-max-height` | `length` | `none / viewport in popup` | Maximum scrollable panel height. |
 | `--aeris-menu-background` | `color` | `--aeris-surface` | Panel background. |
 | `--aeris-menu-border` | `color` | `--aeris-border` | Panel border. |
-| `--aeris-menu-radius` | `length` | `--aeris-radius-lg` | Panel corner radius. |
+| `--aeris-menu-radius` | `length` | `--aeris-radius-overlay` | Panel corner radius shared by Aeris overlay surfaces. |
 | `--aeris-menu-shadow` | `shadow` | `overlay shadow` | Panel elevation. |
 | `--aeris-menu-item-min-height` | `length` | `--aeris-item-height` | Minimum item height. |
-| `--aeris-menu-item-radius` | `length` | `--aeris-radius-sm` | Item corner radius. |
+| `--aeris-menu-item-radius` | `length` | `--aeris-radius-item` | Item corner radius shared with other Aeris selectable rows. |
 | `--aeris-menu-item-hover-background` | `color` | `primary mix` | Hover and active item background. |
 | `--aeris-menu-icon-size` | `length` | `1.125rem` | Icon and chevron box size. |
 | `--aeris-menu-badge-max-width` | `length` | `min(7rem, 36vw)` | Maximum badge width before ellipsis. |

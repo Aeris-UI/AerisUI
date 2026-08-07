@@ -316,6 +316,7 @@ interface AerisDrawerTemplateContext {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'body'", description: 'Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'header', type: 'string', defaultValue: "''", description: 'Default drawer title rendered in the header.' },
     { name: 'position', type: 'AerisDrawerPosition', defaultValue: "'right'", description: 'Anchors the drawer to the left, right, top, or bottom viewport edge.' },
     { name: 'size', type: 'AerisDrawerSize', defaultValue: "'md'", description: 'Applies preset width or height based on position.' },

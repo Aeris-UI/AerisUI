@@ -18,6 +18,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   aerisInternalClampOverlayPoint,
   aerisInternalCreateFrameScheduler,
+  ɵAerisAppendTo,
+  type AerisAppendTo,
 } from '@aeris-ui/core';
 
 export type AerisColorPickerSize = 'xs' | 'sm' | 'md' | 'lg';
@@ -61,6 +63,7 @@ let colorPickerId = 0;
 
 @Component({
   selector: 'aeris-color-picker',
+  imports: [ɵAerisAppendTo],
   template: `
     <div
       class="aeris-color-picker"
@@ -153,6 +156,9 @@ let colorPickerId = 0;
         <section
           #pickerPanel
           class="aeris-color-picker__panel"
+          [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToAnchor]="this.triggerButton()?.nativeElement ?? null"
+          (aerisInternalAppendToOutside)="close(false)"
           role="dialog"
           [id]="panelId"
           [attr.aria-label]="resolvedPanelAriaLabel()"
@@ -319,8 +325,9 @@ export class AerisColorPicker implements ControlValueAccessor {
   private readonly repositionFrame = aerisInternalCreateFrameScheduler(() => this.positionPanel());
   private readonly injector = inject(Injector);
   private readonly pickerPanel = viewChild<ElementRef<HTMLElement>>('pickerPanel');
+  private readonly panelPortal = viewChild(ɵAerisAppendTo);
   private readonly colorPlane = viewChild<ElementRef<HTMLElement>>('colorPlane');
-  private readonly triggerButton = viewChild<ElementRef<HTMLButtonElement>>('triggerButton');
+  protected readonly triggerButton = viewChild<ElementRef<HTMLButtonElement>>('triggerButton');
   private readonly generatedId = `aeris-color-picker-${++colorPickerId}`;
   private readonly formDisabled = signal(false);
   private readonly textDraft = signal('');
@@ -337,6 +344,7 @@ export class AerisColorPicker implements ControlValueAccessor {
   readonly inputId = input('');
   readonly name = input('');
   readonly formats = input<readonly AerisColorFormat[]>(['hex', 'rgb', 'hsl']);
+  readonly appendTo = input<AerisAppendTo>();
   readonly placeholder = input('Enter color');
   readonly ariaLabel = input<string>();
   readonly ariaLabelledby = input<string>();
@@ -486,6 +494,7 @@ export class AerisColorPicker implements ControlValueAccessor {
 
   close(restoreFocus = false): void {
     if (!this.isOpen()) return;
+    this.panelPortal()?.restore();
     this.isOpen.set(false);
     this.panelPositioned.set(false);
     this.planeDragging.set(false);

@@ -23,9 +23,11 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  border: 1px solid
-    var(--aeris-pick-list-border, var(--aeris-border));
-  border-radius: var(--aeris-pick-list-radius, var(--aeris-radius-lg, 0.875rem));
+  border: 1px solid var(--aeris-pick-list-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-pick-list-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-pick-list-background, var(--aeris-surface, #fff));
   overflow: hidden;
 }
@@ -74,7 +76,7 @@
   padding: 0 var(--aeris-control-padding-x, 0.75rem) 0
     calc(var(--aeris-control-padding-x, 0.75rem) + 1.375rem);
   border: 1px solid var(--aeris-border, #deddd7);
-  border-radius: var(--aeris-radius-sm, 0.5rem);
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
   color: var(--aeris-text, #222222);
   font: inherit;
@@ -89,7 +91,8 @@
 .aeris-pick-list__filter input:focus {
   border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline: 0;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 20%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 20%, transparent);
 }
 
 .aeris-pick-list__search-icon {
@@ -134,7 +137,8 @@
 
 .aeris-pick-list__viewport:focus-visible {
   outline: 0;
-  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 22%, transparent);
+  box-shadow: inset 0 0 0 3px
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 22%, transparent);
 }
 
 .aeris-pick-list__item {
@@ -149,7 +153,10 @@
     var(--aeris-item-padding-y, 0.5rem) var(--aeris-item-padding-x, 0.75rem)
   );
   border: 1px solid transparent;
-  border-radius: var(--aeris-radius-sm, 0.5rem);
+  border-radius: var(
+    --aeris-pick-list-item-radius,
+    var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem))
+  );
   background: transparent;
   color: var(--aeris-text, #222222);
   font-size: 0.875rem;
@@ -171,13 +178,18 @@
 }
 
 .aeris-pick-list__item[data-selected='true'] {
-  border-color: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 44%, var(--aeris-border, #deddd7));
+  border-color: color-mix(
+    in srgb,
+    var(--aeris-primary, #{aeris-fallbacks.$primary}) 44%,
+    var(--aeris-border, #deddd7)
+  );
   background: var(--aeris-primary-soft, #eef2e6);
   color: var(--aeris-text, #222222);
 }
 
 .aeris-pick-list__item[data-active='true'] {
-  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 44%, transparent);
+  box-shadow: inset 0 0 0 2px
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 44%, transparent);
 }
 
 .aeris-pick-list__item[data-dragging='true'] {
@@ -239,7 +251,7 @@
   place-items: center;
   padding: 0;
   border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-sm, 0.5rem);
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
   color: var(--aeris-text, #222222);
   cursor: pointer;
@@ -254,7 +266,8 @@
 .aeris-pick-list__reorder-controls button:focus-visible,
 .aeris-pick-list__transfer-controls button:focus-visible {
   outline: 0;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
 }
 
 .aeris-pick-list__reorder-controls button:disabled,

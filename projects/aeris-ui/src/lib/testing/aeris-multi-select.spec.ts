@@ -50,7 +50,9 @@ describe('AerisMultiSelect', () => {
     expect(hidden.value).toBe('design');
     trigger.click();
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('[role=listbox]').getAttribute('aria-multiselectable')).toBe('true');
+    expect(
+      fixture.nativeElement.querySelector('[role=listbox]').getAttribute('aria-multiselectable'),
+    ).toBe('true');
   });
 
   it('keeps the panel open while toggling options with the keyboard', async () => {
@@ -74,11 +76,15 @@ describe('AerisMultiSelect', () => {
     trigger.click();
     fixture.detectChanges();
     await Promise.resolve();
-    const filter = fixture.nativeElement.querySelector('.aeris-multi-select__filter') as HTMLInputElement;
+    const filter = fixture.nativeElement.querySelector(
+      '.aeris-multi-select__filter',
+    ) as HTMLInputElement;
     filter.value = 'research';
     filter.dispatchEvent(new Event('input', { bubbles: true }));
     fixture.detectChanges();
-    (fixture.nativeElement.querySelector('.aeris-multi-select__select-all') as HTMLButtonElement).click();
+    (
+      fixture.nativeElement.querySelector('.aeris-multi-select__select-all') as HTMLButtonElement
+    ).click();
     fixture.detectChanges();
     expect(fixture.componentInstance.skills()).toEqual(['design', 'research']);
     fixture.componentInstance.multi().clear();
@@ -98,8 +104,11 @@ describe('AerisMultiSelect', () => {
     await fixture.whenStable();
     fixture.componentInstance.openPanel();
     fixture.detectChanges();
-    const options = fixture.nativeElement.querySelectorAll('[role=option]') as NodeListOf<HTMLElement>;
+    const options = fixture.nativeElement.querySelectorAll(
+      '[role=option]',
+    ) as NodeListOf<HTMLElement>;
     expect(options.item(2).getAttribute('aria-disabled')).toBe('true');
+    expect(getComputedStyle(options.item(0)).borderRadius).toContain('--aeris-radius-item');
     options.item(0).click();
     fixture.detectChanges();
     expect(fixture.componentInstance.value()).toEqual(['two']);

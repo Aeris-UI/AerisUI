@@ -1,7 +1,8 @@
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
-  --_aeris-popover-shadow: 0 18px 50px color-mix(in srgb, var(--aeris-text, #222222) 20%, transparent);
+  --_aeris-popover-shadow: 0 18px 50px
+    color-mix(in srgb, var(--aeris-text, #222222) 20%, transparent);
 
   display: contents;
 }
@@ -19,9 +20,11 @@
   max-width: var(--aeris-popover-max-width, calc(100vw - 1rem));
   display: grid;
   gap: 0;
-  border: 1px solid
-    var(--aeris-popover-border, var(--aeris-border));
-  border-radius: var(--aeris-popover-radius, var(--aeris-radius-lg, 0.875rem));
+  border: 1px solid var(--aeris-popover-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-popover-radius,
+    var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
+  );
   background: var(--aeris-popover-background, var(--aeris-surface, #fff));
   color: var(--aeris-popover-color, var(--aeris-text, #222222));
   box-shadow: var(--aeris-popover-shadow, var(--_aeris-popover-shadow));

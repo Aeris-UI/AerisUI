@@ -62,7 +62,8 @@
   inset-inline-start: var(--aeris-icon-field-icon-offset);
 }
 
-.aeris-icon-field--right .aeris-icon-field__icon:not(.aeris-icon-field__icon--start):not(.aeris-icon-field__icon--end),
+.aeris-icon-field--right
+  .aeris-icon-field__icon:not(.aeris-icon-field__icon--start):not(.aeris-icon-field__icon--end),
 .aeris-icon-field__icon--end {
   inset-inline: auto var(--aeris-icon-field-icon-offset);
 }
@@ -88,7 +89,7 @@ svg.aeris-icon-field__icon > svg {
 .aeris-icon-field select,
 .aeris-icon-field textarea:not(.aeris-textarea) {
   border: 1px solid var(--aeris-border, #deddd7);
-  border-radius: var(--aeris-radius-sm, 0.4375rem);
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
   color: var(--aeris-text, #222222);
   font: inherit;
@@ -133,7 +134,8 @@ svg.aeris-icon-field__icon > svg {
 .aeris-icon-field select:focus {
   border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline: 0;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
 }
 
 .aeris-icon-field input::placeholder,
@@ -154,13 +156,15 @@ svg.aeris-icon-field__icon > svg {
   padding-inline-end: var(--aeris-icon-field-padding);
 }
 
-.aeris-icon-field:has(.aeris-icon-field__icon--start) input:not([type='checkbox']):not([type='radio']),
+.aeris-icon-field:has(.aeris-icon-field__icon--start)
+  input:not([type='checkbox']):not([type='radio']),
 .aeris-icon-field:has(.aeris-icon-field__icon--start) select,
 .aeris-icon-field:has(.aeris-icon-field__icon--start) textarea {
   padding-inline-start: var(--aeris-icon-field-padding);
 }
 
-.aeris-icon-field:has(.aeris-icon-field__icon--end) input:not([type='checkbox']):not([type='radio']),
+.aeris-icon-field:has(.aeris-icon-field__icon--end)
+  input:not([type='checkbox']):not([type='radio']),
 .aeris-icon-field:has(.aeris-icon-field__icon--end) select,
 .aeris-icon-field:has(.aeris-icon-field__icon--end) textarea {
   padding-inline-end: var(--aeris-icon-field-padding);

@@ -403,6 +403,7 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'paginatorDropdownAppendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Forwards the mounting target to the paginator rows-per-page menu.' },
     {
       name: 'treeColumn',
       type: 'string',

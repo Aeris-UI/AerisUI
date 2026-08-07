@@ -290,6 +290,7 @@ type AerisDialogPosition =
 
 interface AerisConfirmDialogConfig<TData = unknown> {
   readonly key?: string;
+  readonly appendTo?: AerisAppendTo;
   readonly header?: string;
   readonly message?: string;
   readonly data?: TData;
@@ -336,6 +337,7 @@ interface AerisConfirmDialogTemplateContext<TData = unknown> {
   ];
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'body'", description: 'Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'key', type: 'string', defaultValue: "''", description: 'Matches service requests to a specific template host. Omit it for service-created dialogs.' },
     { name: 'header', type: 'string', defaultValue: "'Confirm action'", description: 'Visible title for declarative usage.' },
     { name: 'message', type: 'string', defaultValue: "''", description: 'Default confirmation message.' },

@@ -101,7 +101,7 @@ interface AerisButtonContentTemplateContext {
 | `--aeris-on-primary-soft` | `CSS custom property` | — | Readable foreground on the primary soft background. |
 | `--aeris-success-* / --aeris-info-* / ...` | `CSS custom property` | — | The same state roles are available for secondary, success, info, warning, danger, and contrast. |
 | `--aeris-control-height` | `CSS custom property` | — | Medium control height and density anchor. |
-| `--aeris-radius-sm` | `CSS custom property` | — | Default button radius. |
+| `--aeris-radius-control` | `CSS custom property` | — | Default button radius. |
 | `--aeris-focus` | `CSS custom property` | — | Visible focus indicator. |
 
 ## Examples

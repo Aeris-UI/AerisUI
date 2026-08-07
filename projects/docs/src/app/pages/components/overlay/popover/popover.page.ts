@@ -194,6 +194,7 @@ interface AerisPopoverTemplateContext {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'body'", description: 'Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'target', type: 'AerisPopoverTarget', defaultValue: 'null', description: 'Element or trigger event used when visible is controlled directly.' },
     { name: 'header', type: 'string', defaultValue: "''", description: 'Visible popover title.' },
     { name: 'placement', type: 'AerisPopoverPlacement', defaultValue: "'auto'", description: 'Preferred placement around the target.' },

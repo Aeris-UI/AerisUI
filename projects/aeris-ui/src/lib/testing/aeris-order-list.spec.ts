@@ -45,6 +45,8 @@ describe('AerisOrderList', () => {
     expect(options.length).toBe(3);
     expect(options[1].textContent).toContain('Beta');
     expect(options[1].getAttribute('aria-selected')).toBe('true');
+    const itemRadius = getComputedStyle(options[0] as HTMLElement).borderRadius;
+    expect(itemRadius).toContain('--aeris-radius-item');
   });
 
   it('moves selected items up', () => {

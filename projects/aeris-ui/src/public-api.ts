@@ -1,6 +1,13 @@
 export const AERIS_UI_VERSION = '22.0.0-alpha.3';
 
 export {
+  AERIS_OVERLAY_APPEND_TO,
+  aerisInternalResolveAppendTo as ɵaerisResolveAppendTo,
+  ɵAerisAppendTo,
+  type AerisAppendTo,
+} from './lib/aeris-append-to';
+
+export {
   boundarySelectValue,
   filterSelectOptions,
   groupSelectOptions,

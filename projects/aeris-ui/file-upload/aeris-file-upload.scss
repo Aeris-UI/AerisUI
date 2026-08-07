@@ -17,12 +17,11 @@
 
 .aeris-file-upload__surface,
 .aeris-file-upload__basic {
-  border: 1px solid
-    var(
-      --aeris-file-upload-border,
-      var(--aeris-border)
-    );
-  border-radius: var(--aeris-file-upload-radius, var(--aeris-radius-lg, 0.875rem));
+  border: 1px solid var(--aeris-file-upload-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-file-upload-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-file-upload-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-file-upload-shadow, 0 1px 2px rgb(20 24 18 / 5%));
 }
@@ -42,11 +41,7 @@
   justify-content: space-between;
   gap: 0.75rem;
   padding: var(--aeris-file-upload-toolbar-padding, 0.875rem);
-  border-bottom: 1px solid
-    var(
-      --aeris-file-upload-border,
-      var(--aeris-border)
-    );
+  border-bottom: 1px solid var(--aeris-file-upload-border, var(--aeris-border));
 }
 
 .aeris-file-upload__actions {
@@ -63,7 +58,10 @@
   gap: 0.45rem;
   padding: 0.5rem 0.875rem;
   border: 1px solid var(--aeris-file-upload-button-border, var(--aeris-border, #d9ddcf));
-  border-radius: var(--aeris-file-upload-button-radius, var(--aeris-radius-md, 0.625rem));
+  border-radius: var(
+    --aeris-file-upload-button-radius,
+    var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem))
+  );
   background: var(--aeris-file-upload-button-background, var(--aeris-surface, #fff));
   color: var(--aeris-file-upload-button-text, var(--aeris-text, #222222));
   font: inherit;
@@ -89,7 +87,10 @@
 }
 
 .aeris-file-upload__button--primary:hover:not(:disabled) {
-  background: var(--aeris-file-upload-primary-hover-background, var(--aeris-primary-strong, var(--aeris-primary, #6f8f3d)));
+  background: var(
+    --aeris-file-upload-primary-hover-background,
+    var(--aeris-primary-strong, var(--aeris-primary, #6f8f3d))
+  );
   color: var(--aeris-file-upload-primary-text, var(--aeris-primary-contrast, #fff));
 }
 
@@ -130,7 +131,10 @@
   margin: 0.875rem;
   padding: 1.5rem;
   border: 1px dashed var(--aeris-file-upload-dropzone-border, var(--aeris-border, #d9ddcf));
-  border-radius: var(--aeris-file-upload-dropzone-radius, var(--aeris-radius-lg, 0.875rem));
+  border-radius: var(
+    --aeris-file-upload-dropzone-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background:
     linear-gradient(
       135deg,
@@ -189,11 +193,7 @@
   gap: 0.75rem;
   min-width: 0;
   padding: 0.75rem;
-  border: 1px solid
-    var(
-      --aeris-file-upload-file-border,
-      var(--aeris-border)
-    );
+  border: 1px solid var(--aeris-file-upload-file-border, var(--aeris-border));
   border-radius: var(--aeris-file-upload-file-radius, var(--aeris-radius-md, 0.625rem));
   background: var(--aeris-file-upload-file-background, var(--aeris-surface, #fff));
 }

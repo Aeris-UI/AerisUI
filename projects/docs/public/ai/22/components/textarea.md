@@ -123,7 +123,7 @@ type AerisTextareaResize =
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
-| `--aeris-radius-sm` | `CSS custom property` | — | Corner radius. |
+| `--aeris-radius-structured-control` | `CSS custom property` | — | Corner radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
 | `--aeris-border` | `CSS custom property` | — | Default border. |

@@ -29,6 +29,7 @@ import { AerisTreeTableModule } from '@aeris-ui/core/tree-table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Forwards the mounting target to the paginator rows-per-page menu. |
 | `treeColumn` | `string` | `''` | Column field that owns indentation, toggles, and checkbox controls. Defaults to the first column. |
 | `caption` | `string` | `''` | Native table caption. |
 | `ariaLabel` | `string` | `'Tree table'` | Accessible name for the treegrid. |

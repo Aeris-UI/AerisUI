@@ -230,6 +230,7 @@ interface AerisSelectLazyLoadEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Mounts the overlay locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'options', type: 'readonly AerisSelectOption[]', defaultValue: 'required', description: 'Available options in display order.' },
     { name: 'value', type: 'string | null (model)', defaultValue: 'null', description: 'Selected option value with two-way binding and Forms support.' },
     { name: 'inputId', type: 'string', defaultValue: 'generated', description: 'ID assigned to the combobox trigger for visible labels.' },

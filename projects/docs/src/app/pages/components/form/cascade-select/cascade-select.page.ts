@@ -174,6 +174,7 @@ interface AerisCascadeSelectChangeEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Mounts the overlay locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'value', type: 'string | null (model)', defaultValue: 'null', description: 'Selected option value with two-way binding and Forms support.' },
     { name: 'options', type: 'readonly AerisCascadeSelectOption[]', defaultValue: '[]', description: 'Hierarchical option tree rendered by the cascading columns.' },
     { name: 'inputId', type: 'string', defaultValue: 'generated', description: 'ID assigned to the trigger button.' },

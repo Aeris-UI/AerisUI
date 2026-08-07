@@ -3,7 +3,7 @@
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
-    url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E")
+    url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E')
   );
 
   display: inline-block;
@@ -94,7 +94,10 @@
 
 .aeris-auto-complete__input:hover,
 .aeris-auto-complete[data-open] .aeris-auto-complete__input {
-  border-color: var(--aeris-auto-complete-hover-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  border-color: var(
+    --aeris-auto-complete-hover-border,
+    var(--aeris-focus, #{aeris-fallbacks.$focus})
+  );
 }
 
 .aeris-auto-complete__input:focus-visible {
@@ -145,7 +148,8 @@
   right: var(--aeris-auto-complete-padding);
 }
 
-.aeris-auto-complete__control:not(:has(.aeris-auto-complete__dropdown)) .aeris-auto-complete__clear {
+.aeris-auto-complete__control:not(:has(.aeris-auto-complete__dropdown))
+  .aeris-auto-complete__clear {
   right: var(--aeris-auto-complete-padding);
 }
 
@@ -221,12 +225,11 @@
   scrollbar-color: var(--aeris-border, #deddd7) transparent;
   scrollbar-width: thin;
   padding: calc(var(--aeris-auto-complete-density-gap) * 0.75);
-  border: 1px solid
-    var(
-      --aeris-auto-complete-panel-border,
-      var(--aeris-border)
-    );
-  border-radius: var(--aeris-auto-complete-panel-radius, var(--aeris-radius-md, 0.6875rem));
+  border: 1px solid var(--aeris-auto-complete-panel-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-auto-complete-panel-radius,
+    var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
+  );
   background: var(--aeris-auto-complete-panel-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-auto-complete-panel-shadow, 0 1rem 2.5rem rgb(31 35 27 / 16%));
 }
@@ -265,7 +268,7 @@
   gap: calc(var(--aeris-auto-complete-density-gap) * 0.25);
   padding: var(--aeris-item-padding-y, 0.5rem) var(--aeris-item-padding-x, 0.75rem);
   border: 0;
-  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
+  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: inherit;
   font: inherit;

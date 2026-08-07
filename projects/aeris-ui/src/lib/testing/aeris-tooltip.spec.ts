@@ -66,6 +66,16 @@ class DelayedTooltipHost {}
 @Component({
   imports: [AerisTooltipModule],
   template: `
+    <button id="tracked-target" type="button" aerisTooltip="Tracked tooltip" [aerisTooltipHideDelay]="800">
+      Tracked target
+    </button>
+  `,
+})
+class TrackedTooltipHost {}
+
+@Component({
+  imports: [AerisTooltipModule],
+  template: `
     <button id="disabled" type="button" aerisTooltip="Hidden" aerisTooltipDisabled>
       Disabled
     </button>
@@ -80,10 +90,27 @@ class DelayedTooltipHost {}
 })
 class TemplateTooltipHost {}
 
+@Component({
+  imports: [AerisTooltipModule],
+  template: `
+    <div #overlayTarget id="tooltip-overlay-target"></div>
+    <button
+      id="custom-target"
+      type="button"
+      aerisTooltip="Custom target tooltip"
+      [aerisTooltipAppendTo]="overlayTarget"
+    >
+      Custom target
+    </button>
+  `,
+})
+class AppendToTooltipHost {}
+
 describe('AerisTooltip', () => {
   afterEach(() => {
     vi.useRealTimers();
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
     document.querySelectorAll('aeris-tooltip-overlay').forEach((node) => node.remove());
   });
 
@@ -97,8 +124,11 @@ describe('AerisTooltip', () => {
     fixture.detectChanges();
 
     const tooltip = document.querySelector('[role="tooltip"]') as HTMLElement;
+    const overlay = document.body.querySelector(':scope > aeris-tooltip-overlay');
 
     expect(tooltip).toBeTruthy();
+    expect(overlay).toBeTruthy();
+    expect(target.contains(tooltip)).toBe(false);
     expect(tooltip.textContent).toContain('Save changes');
     expect(tooltip.getAttribute('data-position')).toBe('bottom');
     expect(target.getAttribute('aria-describedby')?.split(' ')).toEqual([
@@ -194,6 +224,36 @@ describe('AerisTooltip', () => {
     expect(target).toBeTruthy();
   });
 
+  it('keeps a programmatically opened tooltip anchored during its close delay while scrolling', () => {
+    vi.useFakeTimers();
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+      callback(0);
+      return 1;
+    });
+    vi.stubGlobal('cancelAnimationFrame', vi.fn());
+    const fixture = TestBed.createComponent(TrackedTooltipHost);
+    fixture.detectChanges();
+
+    const target = fixture.nativeElement.querySelector('#tracked-target') as HTMLButtonElement;
+    const targetRect = vi.spyOn(target, 'getBoundingClientRect');
+    targetRect.mockReturnValue(rect(240, 120, 80, 32));
+    const directive = fixture.debugElement.children[0].injector.get(AerisTooltip);
+    directive.show();
+    fixture.detectChanges();
+
+    const tooltip = document.querySelector('[role="tooltip"]') as HTMLElement;
+    const initialTop = tooltip.style.top;
+    directive.hide();
+    vi.advanceTimersByTime(400);
+    targetRect.mockReturnValue(rect(240, 40, 80, 32));
+    document.dispatchEvent(new Event('scroll'));
+    fixture.detectChanges();
+
+    expect(document.querySelector('[role="tooltip"]')).toBe(tooltip);
+    expect(tooltip.style.top).not.toBe(initialTop);
+    expect(Number.parseFloat(tooltip.style.top)).toBeLessThan(Number.parseFloat(initialTop));
+  });
+
   it('only shows truncated-only content when the host overflows', () => {
     const fixture = TestBed.createComponent(TemplateTooltipHost);
     fixture.detectChanges();
@@ -211,5 +271,19 @@ describe('AerisTooltip', () => {
     target.dispatchEvent(new Event('pointerenter'));
     fixture.detectChanges();
     expect(document.querySelector('[role="tooltip"]')?.textContent).toContain('Complete value');
+  });
+
+  it('mounts into an explicit HTMLElement target', () => {
+    const fixture = TestBed.createComponent(AppendToTooltipHost);
+    fixture.detectChanges();
+
+    const trigger = fixture.nativeElement.querySelector('#custom-target') as HTMLButtonElement;
+    trigger.dispatchEvent(new Event('pointerenter'));
+    fixture.detectChanges();
+
+    const target = fixture.nativeElement.querySelector('#tooltip-overlay-target') as HTMLElement;
+    expect(target.querySelector('[role="tooltip"]')?.textContent).toContain(
+      'Custom target tooltip',
+    );
   });
 });

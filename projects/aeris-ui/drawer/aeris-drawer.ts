@@ -17,6 +17,7 @@ import {
   viewChild,
 } from '@angular/core';
 import {
+  ɵAerisAppendTo,
   aerisInternalFocusInitialElement,
   aerisInternalTrapTabFocus,
   ɵisTopmostAerisOverlay,
@@ -24,6 +25,7 @@ import {
   ɵregisterAerisOverlay,
   ɵunregisterAerisOverlay,
   ɵunlockAerisDocumentScroll,
+  type AerisAppendTo,
 } from '@aeris-ui/core';
 
 export type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';
@@ -72,11 +74,12 @@ const DRAWER_FOCUS_OPTIONS = {
 
 @Component({
   selector: 'aeris-drawer',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     @if (rendered()) {
       <div
         class="aeris-drawer__overlay"
+        [aerisInternalAppendTo]="appendTo()"
         [attr.data-modal]="modal() || null"
         [attr.data-backdrop]="backdrop() || null"
         [attr.data-backdrop-blur]="backdrop() && backdropBlur() ? true : null"
@@ -206,6 +209,7 @@ export class AerisDrawer {
   private closeRenderTimer: ReturnType<typeof setTimeout> | undefined;
 
   protected readonly drawerPanel = viewChild<ElementRef<HTMLElement>>('drawerPanel');
+  private readonly overlayPortal = viewChild(ɵAerisAppendTo);
   protected readonly rendered = signal(false);
   protected readonly animationState = computed(() => (this.visible() ? 'open' : 'closed'));
   protected readonly headerTemplate = contentChild(AerisDrawerHeaderTemplate);
@@ -232,6 +236,7 @@ export class AerisDrawer {
   readonly maximized = model(false);
 
   readonly header = input('');
+  readonly appendTo = input<AerisAppendTo>('body');
   readonly position = input<AerisDrawerPosition>('right');
   readonly size = input<AerisDrawerSize>('md');
   readonly modal = input(true, { transform: booleanAttribute });
@@ -362,6 +367,7 @@ export class AerisDrawer {
     this.clearRenderTimer();
     this.closeRenderTimer = globalThis.setTimeout(() => {
       if (!this.visible()) {
+        this.overlayPortal()?.restore();
         this.rendered.set(false);
       }
       this.closeRenderTimer = undefined;

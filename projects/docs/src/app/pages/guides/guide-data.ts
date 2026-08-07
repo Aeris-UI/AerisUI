@@ -432,7 +432,7 @@ export const appConfig: ApplicationConfig = {
     title: 'Configuration',
     description: 'Configure Aeris at application startup and update supported settings at runtime.',
     summary:
-      'Aeris keeps global configuration intentionally small: theme, color mode, persistence, and direction are managed through one provider and service.',
+      'Aeris keeps global configuration intentionally small: theme, color mode, persistence, direction, and overlay mounting are managed through one provider and service.',
     sections: [
       {
         id: 'choose-strategy',
@@ -495,6 +495,12 @@ export const appConfig: ApplicationConfig = {
               'true',
               'Emit development-only diagnostics, or set false to disable every runtime theme warning',
             ],
+            [
+              'overlayAppendTo',
+              "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "'self'",
+              'Default mounting target for component overlays; a component input can override it locally',
+            ],
           ],
         },
       },
@@ -533,6 +539,15 @@ export const appConfig: ApplicationConfig = {
 };`,
           ),
         ],
+      },
+      {
+        id: 'overlay-mounting',
+        title: 'Overlay mounting',
+        paragraphs: [
+          "Overlay-producing components render beside their trigger by default. Set overlayAppendTo: 'body' globally when application containers frequently clip floating panels, or set appendTo on one component for a local exception.",
+          "Use 'self' to keep an overlay in its component, 'body' to mount it under document.body, or supply an HTMLElement, ElementRef<HTMLElement>, or TemplateRef target. Tooltip safely resolves 'self' to body because a directive host may be a void or interactive element that cannot contain generated overlay markup. null and undefined use the global setting. Aeris keeps the overlay aligned to its trigger and repositions it during scrolling and viewport changes.",
+        ],
+        note: "Prefer the default 'self' mode unless an ancestor clips or constrains the overlay. Portaling to body changes the overlay's DOM ancestry, although Aeris carries its theme variables and reading direction with it.",
       },
       {
         id: 'runtime',
@@ -611,7 +626,7 @@ export class AppearanceSettings {
         id: 'scope',
         title: 'What remains component-specific',
         paragraphs: [
-          'Behavior that changes the meaning or interaction of one component stays on that component. Overlay position, append target, responsive breakpoints, validation messages, and animation timing are documented with the component that owns them.',
+          'Behavior that changes the meaning or interaction of one component stays on that component. Overlay position, responsive breakpoints, validation messages, and animation timing are documented with the component that owns them.',
           'Use global configuration for coherent application defaults and component inputs or tokens for deliberate local exceptions.',
         ],
         links: [
@@ -1476,6 +1491,8 @@ export const appConfig: ApplicationConfig = {
         paragraphs: [
           'A design token is a named CSS custom property that represents a role instead of one hard-coded value. For example, --aeris-text always means normal readable content even though its resolved color changes with the theme and mode.',
           'Application surfaces should use semantic Aeris tokens so they stay synchronized with library components. Override a documented component token on a wrapper or component host when one instance needs a deliberate variation.',
+          'Corner roles are consistent across the library: --aeris-radius-control shapes single-line fields and buttons, --aeris-radius-structured-control keeps multi-line and grouped controls from becoming impractical pills, --aeris-radius-item shapes selectable rows and menu items, --aeris-radius-overlay shapes floating panels, and --aeris-radius-surface shapes cards and structural containers. Each role derives from the active corner scale.',
+          'The built-in scales keep overlays and structural surfaces compact. The pill preset fully rounds compact controls where that geometry is useful, while cards, tables, panels, menus, and other containers retain practical rounded corners.',
         ],
         code: [
           source(

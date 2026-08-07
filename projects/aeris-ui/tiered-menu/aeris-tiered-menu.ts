@@ -20,8 +20,10 @@ import {
   viewChildren,
 } from '@angular/core';
 import {
+  ɵAerisAppendTo,
   aerisInternalClampOverlayPoint,
   aerisInternalCreateFrameScheduler,
+  type AerisAppendTo,
 } from '@aeris-ui/core';
 
 export type AerisTieredMenuSize = 'sm' | 'md' | 'lg';
@@ -112,7 +114,7 @@ let nextTieredMenuId = 0;
 
 @Component({
   selector: 'aeris-tiered-menu',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <ng-template #defaultItemTemplate let-item let-hasSubmenu="hasSubmenu">
       @if (item.icon) {
@@ -234,6 +236,8 @@ let nextTieredMenuId = 0;
       <div
         #panel
         class="aeris-tiered-menu__panel"
+        [aerisInternalAppendTo]="popup() ? appendTo() : 'self'"
+        [aerisInternalAppendToAnchor]="popup() ? portalAnchor() : null"
         [id]="id()"
         [class]="panelStyleClass()"
         [attr.data-popup]="popup() || null"
@@ -270,6 +274,7 @@ export class AerisTieredMenu<T = unknown> {
   private scrollCleanup: (() => void) | null = null;
 
   protected readonly panel = viewChild<ElementRef<HTMLElement>>('panel');
+  private readonly panelPortal = viewChild(ɵAerisAppendTo);
   protected readonly menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
   protected readonly itemTemplate = contentChild(AerisTieredMenuItemTemplate<T>, {
     descendants: false,
@@ -288,6 +293,7 @@ export class AerisTieredMenu<T = unknown> {
   readonly model = input<readonly AerisTieredMenuItem<T>[]>([]);
   readonly open = model(false);
   readonly popup = input(false, { transform: booleanAttribute });
+  readonly appendTo = input<AerisAppendTo>();
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly size = input<AerisTieredMenuSize>('md');
   readonly width = input('');
@@ -346,6 +352,7 @@ export class AerisTieredMenu<T = unknown> {
     this.openPathKey.set('');
     if (!this.popup() || !this.open()) return;
     this.stopScrollTracking();
+    this.panelPortal()?.restore();
     this.open.set(false);
     this.positioned.set(false);
     const event = this.visibilityEvent(false, reason, originalEvent);
@@ -371,6 +378,7 @@ export class AerisTieredMenu<T = unknown> {
     const panel = this.panel()?.nativeElement;
     const view = panel?.ownerDocument.defaultView;
     if (!panel || !view) return;
+    if (panel.hasAttribute('data-aeris-append-to')) return;
 
     const rect = panel.getBoundingClientRect();
     const width = rect.width || panel.offsetWidth || 240;
@@ -491,7 +499,11 @@ export class AerisTieredMenu<T = unknown> {
   protected handleDocumentPointerdown(event: PointerEvent): void {
     if (!this.panelVisible() || !this.hideOnOutsideClick()) return;
     const target = event.target;
-    if (target instanceof Node && this.host.nativeElement.contains(target)) return;
+    const panel = this.panel()?.nativeElement;
+    if (
+      target instanceof Node &&
+      (this.host.nativeElement.contains(target) || panel?.contains(target))
+    ) return;
     this.hide(event, 'outside', false);
   }
 
@@ -536,6 +548,11 @@ export class AerisTieredMenu<T = unknown> {
       { injector: this.injector },
     );
   }
+
+  protected readonly portalAnchor = computed(() => {
+    const target = this.activeTarget();
+    return target instanceof HTMLElement ? target : this.host.nativeElement;
+  });
 
   private currentAnchorPoint(): AerisTieredMenuCoordinates {
     const target = this.activeTarget();

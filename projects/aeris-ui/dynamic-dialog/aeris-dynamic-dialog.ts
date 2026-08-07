@@ -25,9 +25,11 @@ import {
   type AerisDialogSize,
   type AerisDialogVisibilityChangeEvent,
 } from '@aeris-ui/core/dialog';
+import type { AerisAppendTo } from '@aeris-ui/core';
 
 export interface AerisDynamicDialogConfig<TData = unknown> {
   readonly header?: string;
+  readonly appendTo?: AerisAppendTo;
   readonly data?: TData;
   readonly inputValues?: Record<string, unknown>;
   readonly modal?: boolean;
@@ -62,6 +64,7 @@ export interface AerisDynamicDialogConfig<TData = unknown> {
 
 export interface AerisDynamicDialogResolvedConfig<TData = unknown> {
   readonly header: string;
+  readonly appendTo: AerisAppendTo;
   readonly data: TData | undefined;
   readonly inputValues: Record<string, unknown>;
   readonly modal: boolean;
@@ -221,6 +224,7 @@ export class AerisDynamicDialogRef<TResult = unknown> {
   template: `
     <aeris-dialog
       #dialog
+      [appendTo]="settings().appendTo"
       [header]="settings().header"
       [modal]="settings().modal"
       [backdrop]="settings().backdrop"
@@ -380,6 +384,7 @@ export class AerisDynamicDialogService {
   ): AerisDynamicDialogResolvedConfig<TData> {
     return {
       header: config.header ?? '',
+      appendTo: config.appendTo ?? 'body',
       data: config.data,
       inputValues: config.inputValues ?? {},
       modal: config.modal ?? true,

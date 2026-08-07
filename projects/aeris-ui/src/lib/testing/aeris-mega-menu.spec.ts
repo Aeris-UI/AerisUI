@@ -21,10 +21,7 @@ const model: readonly AerisMegaMenuItem[] = [
       },
       {
         label: 'Ship',
-        items: [
-          { label: 'Guides' },
-          { label: 'Changelog', disabled: true },
-        ],
+        items: [{ label: 'Guides' }, { label: 'Changelog', disabled: true }],
       },
     ],
   },
@@ -90,6 +87,7 @@ describe('AerisMegaMenu', () => {
     expect(fixture.nativeElement.querySelector('nav')?.getAttribute('aria-label')).toBe(
       'Primary navigation',
     );
+    const itemRadius = getComputedStyle(triggers[0] as HTMLElement).borderRadius;
 
     triggers.item(0).click();
     fixture.detectChanges();
@@ -99,12 +97,18 @@ describe('AerisMegaMenu', () => {
     const panelPaths = Array.from<HTMLElement>(
       fixture.nativeElement.querySelectorAll('.aeris-mega-menu__panel-item'),
     ).map((item) => item.getAttribute('data-aeris-mega-menu-path'));
+    const panelItem = fixture.nativeElement.querySelector(
+      '.aeris-mega-menu__panel-item',
+    ) as HTMLElement;
+    const panelItemRadius = getComputedStyle(panelItem).borderRadius;
 
     expect(panel.getAttribute('role')).toBe('menu');
     expect(panel.textContent).toContain('Components');
     expect(panel.textContent).toContain('Tokens');
     expect(groups.length).toBe(2);
     expect(new Set(panelPaths).size).toBe(panelPaths.length);
+    expect(itemRadius).toContain('--_aeris-mega-menu-item-radius');
+    expect(panelItemRadius).toContain('--_aeris-mega-menu-item-radius');
     expect(triggers.item(0).getAttribute('aria-expanded')).toBe('true');
   });
 
@@ -113,7 +117,9 @@ describe('AerisMegaMenu', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const products = fixture.nativeElement.querySelector('.aeris-mega-menu__trigger') as HTMLElement;
+    const products = fixture.nativeElement.querySelector(
+      '.aeris-mega-menu__trigger',
+    ) as HTMLElement;
     products.click();
     fixture.detectChanges();
 
@@ -140,7 +146,9 @@ describe('AerisMegaMenu', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const products = fixture.nativeElement.querySelector('.aeris-mega-menu__trigger') as HTMLElement;
+    const products = fixture.nativeElement.querySelector(
+      '.aeris-mega-menu__trigger',
+    ) as HTMLElement;
     products.dispatchEvent(keyEvent('ArrowDown'));
     fixture.detectChanges();
     await fixture.whenStable();

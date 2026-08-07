@@ -11,7 +11,10 @@ aeris-toolbar {
 
   border: var(--aeris-toolbar-border-width, 1px) solid
     var(--aeris-toolbar-border, var(--aeris-border));
-  border-radius: var(--aeris-toolbar-radius, var(--aeris-radius-lg, 1.125rem));
+  border-radius: var(
+    --aeris-toolbar-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-toolbar-background, var(--aeris-surface, #fff));
   color: var(--aeris-toolbar-color, var(--aeris-text, #222222));
   box-shadow: var(--aeris-toolbar-shadow, none);

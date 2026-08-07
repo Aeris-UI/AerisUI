@@ -42,6 +42,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the dialog locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Dialog title rendered by the shell. |
 | `data` | `TData` | `undefined` | Typed payload available through AERIS_DYNAMIC_DIALOG_DATA. |
 | `inputValues` | `Record&lt;string, unknown&gt;` | `{}` | Input values applied to the dynamic content component. |
@@ -94,6 +95,7 @@ import {
 ```ts
 interface AerisDynamicDialogConfig<TData = unknown> {
   readonly header?: string;
+  readonly appendTo?: AerisAppendTo;
   readonly data?: TData;
   readonly inputValues?: Record<string, unknown>;
   readonly modal?: boolean;

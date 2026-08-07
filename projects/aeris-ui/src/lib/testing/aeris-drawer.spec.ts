@@ -138,11 +138,12 @@ describe('AerisDrawer', () => {
     fixture.detectChanges();
     await settle();
 
-    const drawer = fixture.nativeElement.querySelector('[role="dialog"]') as HTMLElement;
-    const title = fixture.nativeElement.querySelector('.aeris-drawer__title') as HTMLElement;
-    const close = fixture.nativeElement.querySelector('.aeris-drawer__close') as HTMLButtonElement;
+    const drawer = document.querySelector('[role="dialog"]') as HTMLElement;
+    const title = document.querySelector('.aeris-drawer__title') as HTMLElement;
+    const close = document.querySelector('.aeris-drawer__close') as HTMLButtonElement;
+    const closeIcon = close.querySelector('.aeris-drawer__close-icon') as HTMLElement;
 
-    const overlay = fixture.nativeElement.querySelector('.aeris-drawer__overlay') as HTMLElement;
+    const overlay = document.querySelector('.aeris-drawer__overlay') as HTMLElement;
     expect(overlay.getAttribute('data-backdrop')).toBe('true');
     expect(overlay.getAttribute('data-backdrop-blur')).toBe('true');
     expect(overlay.style.getPropertyValue('--aeris-drawer-backdrop-blur')).toBe('1rem');
@@ -152,6 +153,8 @@ describe('AerisDrawer', () => {
     expect(drawer.getAttribute('data-position')).toBe('right');
     expect(drawer.getAttribute('data-state')).toBe('open');
     expect(title.textContent).toContain('Navigation');
+    expect(closeIcon).toBeTruthy();
+    expect(closeIcon.getAttribute('aria-hidden')).toBe('true');
     expect(fixture.componentInstance.shownCount()).toBe(1);
     expect(document.body.style.overflow).toBe('hidden');
     expect(document.body.style.paddingInlineEnd).toBe('21px');
@@ -166,8 +169,8 @@ describe('AerisDrawer', () => {
 
     expect(fixture.componentInstance.open()).toBe(false);
     expect(drawer.getAttribute('data-state')).toBe('closed');
-    expect(fixture.nativeElement.querySelector('.aeris-drawer__overlay')?.getAttribute('aria-hidden')).toBe('true');
-    expect(fixture.nativeElement.querySelector('.aeris-drawer__overlay')?.hasAttribute('inert')).toBe(true);
+    expect(document.querySelector('.aeris-drawer__overlay')?.getAttribute('aria-hidden')).toBe('true');
+    expect(document.querySelector('.aeris-drawer__overlay')?.hasAttribute('inert')).toBe(true);
     expect(fixture.componentInstance.lastHidden()?.reason).toBe('close-button');
     expect(document.activeElement).toBe(launcher);
     expect(document.body.style.overflow).toBe('');
@@ -178,7 +181,7 @@ describe('AerisDrawer', () => {
     const fixture = TestBed.createComponent(BackdroplessDrawerHost);
     await fixture.whenStable();
 
-    const overlay = fixture.nativeElement.querySelector('.aeris-drawer__overlay') as HTMLElement;
+    const overlay = document.querySelector('.aeris-drawer__overlay') as HTMLElement;
 
     expect(overlay.hasAttribute('data-backdrop')).toBe(false);
     expect(overlay.getAttribute('data-modal')).toBe('true');
@@ -189,10 +192,10 @@ describe('AerisDrawer', () => {
     const fixture = TestBed.createComponent(TemplatedDrawerHost);
     await fixture.whenStable();
 
-    const overlay = fixture.nativeElement.querySelector('.aeris-drawer__overlay') as HTMLElement;
-    const drawer = fixture.nativeElement.querySelector('[role="dialog"]') as HTMLElement;
-    const title = fixture.nativeElement.querySelector('.aeris-drawer__title') as HTMLElement;
-    const maximize = fixture.nativeElement.querySelector(
+    const overlay = document.querySelector('.aeris-drawer__overlay') as HTMLElement;
+    const drawer = document.querySelector('[role="dialog"]') as HTMLElement;
+    const title = document.querySelector('.aeris-drawer__title') as HTMLElement;
+    const maximize = document.querySelector(
       '.aeris-drawer__action[aria-pressed]',
     ) as HTMLButtonElement;
 
@@ -210,7 +213,7 @@ describe('AerisDrawer', () => {
     expect(drawer.style.getPropertyValue('--aeris-drawer-mobile-width')).toBe('100vw');
     expect(drawer.style.getPropertyValue('--aeris-drawer-mobile-height')).toBe('100vh');
     expect(title.textContent).toContain('Template header left normal');
-    expect(fixture.nativeElement.querySelector('.custom-close')?.textContent).toContain('close');
+    expect(document.querySelector('.custom-close')?.textContent).toContain('close');
 
     maximize.click();
     fixture.detectChanges();
@@ -220,7 +223,7 @@ describe('AerisDrawer', () => {
     expect(overlay.getAttribute('data-maximized')).toBe('true');
     expect(title.textContent).toContain('Template header left maximized');
 
-    const footerClose = fixture.nativeElement.querySelector('#footer-close') as HTMLButtonElement;
+    const footerClose = document.querySelector('#footer-close') as HTMLButtonElement;
     footerClose.click();
     fixture.detectChanges();
 
@@ -242,7 +245,7 @@ describe('AerisDrawer', () => {
     fixture.detectChanges();
     await settle();
 
-    const overlay = fixture.nativeElement.querySelector('.aeris-drawer__overlay') as HTMLElement;
+    const overlay = document.querySelector('.aeris-drawer__overlay') as HTMLElement;
     overlay.dispatchEvent(new Event('pointerdown', { bubbles: true }));
     fixture.detectChanges();
 
@@ -255,9 +258,9 @@ describe('AerisDrawer', () => {
     await fixture.whenStable();
     await settle();
 
-    const target = fixture.nativeElement.querySelector('#target') as HTMLButtonElement;
-    const second = fixture.nativeElement.querySelector('#second') as HTMLButtonElement;
-    const close = fixture.nativeElement.querySelector('.aeris-drawer__close') as HTMLButtonElement;
+    const target = document.querySelector('#target') as HTMLButtonElement;
+    const second = document.querySelector('#second') as HTMLButtonElement;
+    const close = document.querySelector('.aeris-drawer__close') as HTMLButtonElement;
 
     expect(document.activeElement).toBe(target);
 
@@ -287,7 +290,7 @@ describe('AerisDrawer', () => {
     drawer.focus();
     await settle();
     expect(
-      (fixture.nativeElement.querySelector('[role="dialog"]') as HTMLElement).contains(
+      (document.querySelector('[role="dialog"]') as HTMLElement).contains(
         document.activeElement,
       ),
     ).toBe(true);
@@ -313,14 +316,14 @@ describe('AerisDrawer', () => {
     const fixture = TestBed.createComponent(HeadlessDrawerHost);
     await fixture.whenStable();
 
-    const drawer = fixture.nativeElement.querySelector('[role="dialog"]') as HTMLElement;
-    const close = fixture.nativeElement.querySelector('#headless-close') as HTMLButtonElement;
+    const drawer = document.querySelector('[role="dialog"]') as HTMLElement;
+    const close = document.querySelector('#headless-close') as HTMLButtonElement;
 
     expect(drawer.getAttribute('data-headless')).toBe('true');
     expect(drawer.getAttribute('aria-label')).toBe('Headless drawer');
     expect(drawer.getAttribute('aria-labelledby')).toBeNull();
-    expect(fixture.nativeElement.querySelector('.aeris-drawer__header')).toBeNull();
-    expect(fixture.nativeElement.querySelector('.headless-shell')?.textContent).toContain(
+    expect(document.querySelector('.aeris-drawer__header')).toBeNull();
+    expect(document.querySelector('.headless-shell')?.textContent).toContain(
       'Headless content',
     );
 
@@ -332,6 +335,6 @@ describe('AerisDrawer', () => {
     vi.advanceTimersByTime(DRAWER_EXIT_DURATION_MS);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('[role="dialog"]')).toBeNull();
+    expect(document.querySelector('[role="dialog"]')).toBeNull();
   });
 });

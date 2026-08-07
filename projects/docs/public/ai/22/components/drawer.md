@@ -29,6 +29,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Default drawer title rendered in the header. |
 | `position` | `AerisDrawerPosition` | `'right'` | Anchors the drawer to the left, right, top, or bottom viewport edge. |
 | `size` | `AerisDrawerSize` | `'md'` | Applies preset width or height based on position. |

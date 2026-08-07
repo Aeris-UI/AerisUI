@@ -172,18 +172,18 @@ describe('AerisConfirmDialog', () => {
     await fixture.whenStable();
     await settle();
 
-    const accept = fixture.nativeElement.querySelector(
+    const accept = document.querySelector(
       '.aeris-confirm-dialog__accept',
     ) as HTMLButtonElement;
 
     expect(document.activeElement).toBe(accept);
     expect(
-      (fixture.nativeElement.querySelector('.aeris-dialog__overlay') as HTMLElement).hasAttribute(
+      (document.querySelector('.aeris-dialog__overlay') as HTMLElement).hasAttribute(
         'data-backdrop-blur',
       ),
     ).toBe(false);
     expect(
-      (fixture.nativeElement.querySelector('.aeris-dialog__overlay') as HTMLElement).style.getPropertyValue(
+      (document.querySelector('.aeris-dialog__overlay') as HTMLElement).style.getPropertyValue(
         '--aeris-dialog-backdrop-blur',
       ),
     ).toBe('1rem');
@@ -209,19 +209,19 @@ describe('AerisConfirmDialog', () => {
     const fixture = TestBed.createComponent(TemplatedConfirmDialogHost);
     await fixture.whenStable();
 
-    expect(fixture.nativeElement.querySelector('.custom-icon')?.textContent).toContain('!');
-    expect(fixture.nativeElement.querySelector('.custom-message')?.textContent).toContain(
+    expect(document.querySelector('.custom-icon')?.textContent).toContain('!');
+    expect(document.querySelector('.custom-message')?.textContent).toContain(
       'Template message',
     );
-    expect(fixture.nativeElement.querySelector('#template-reject')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('#template-accept')).toBeTruthy();
+    expect(document.querySelector('#template-reject')).toBeTruthy();
+    expect(document.querySelector('#template-accept')).toBeTruthy();
   });
 
   it('keeps modal scrolling locked when the backdrop is disabled', async () => {
     const fixture = TestBed.createComponent(BackdroplessConfirmDialogHost);
     await fixture.whenStable();
 
-    const overlay = fixture.nativeElement.querySelector('.aeris-dialog__overlay') as HTMLElement;
+    const overlay = document.querySelector('.aeris-dialog__overlay') as HTMLElement;
 
     expect(overlay.hasAttribute('data-backdrop')).toBe(false);
     expect(overlay.getAttribute('data-modal')).toBe('true');

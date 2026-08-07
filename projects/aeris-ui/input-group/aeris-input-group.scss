@@ -239,7 +239,8 @@ svg.aeris-input-group__addon {
 .aeris-input-group > select:focus {
   border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline: 0;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
 }
 
 .aeris-input-group--filled > input:not([type='checkbox']):not([type='radio']),
@@ -293,19 +294,26 @@ svg.aeris-input-group__addon {
 }
 
 .aeris-input-group:not(.aeris-input-group--vertical) > :first-child,
-.aeris-input-group:not(.aeris-input-group--vertical) > .aeris-input-group__stack:first-child > :first-child {
+.aeris-input-group:not(.aeris-input-group--vertical)
+  > .aeris-input-group__stack:first-child
+  > :first-child {
   border-start-start-radius: var(--aeris-input-group-radius) !important;
   border-end-start-radius: var(--aeris-input-group-radius) !important;
 }
 
 .aeris-input-group:not(.aeris-input-group--vertical) > :last-child,
-.aeris-input-group:not(.aeris-input-group--vertical) > .aeris-input-group__stack:last-child > :last-child {
+.aeris-input-group:not(.aeris-input-group--vertical)
+  > .aeris-input-group__stack:last-child
+  > :last-child {
   border-start-end-radius: var(--aeris-input-group-radius) !important;
   border-end-end-radius: var(--aeris-input-group-radius) !important;
 }
 
 .aeris-input-group--vertical {
-  --aeris-input-group-radius: var(--aeris-radius-md, 0.6875rem);
+  --aeris-input-group-radius: var(
+    --aeris-radius-structured-control,
+    var(--aeris-radius-md, 0.6875rem)
+  );
 
   flex-direction: column;
 }
@@ -406,13 +414,16 @@ svg.aeris-input-group__addon {
   border-radius: var(--aeris-input-group-radius) !important;
 }
 
-.aeris-input-group--embedded > .aeris-input-group__addon:first-child + input:not([type='checkbox']):not([type='radio']),
+.aeris-input-group--embedded
+  > .aeris-input-group__addon:first-child
+  + input:not([type='checkbox']):not([type='radio']),
 .aeris-input-group--embedded > .aeris-input-group__addon:first-child + select,
 .aeris-input-group--embedded > .aeris-input-group__addon:first-child + textarea {
   padding-inline-start: var(--aeris-input-group-embedded-padding);
 }
 
-.aeris-input-group--embedded > input:not([type='checkbox']):not([type='radio']):has(+ .aeris-input-group__addon),
+.aeris-input-group--embedded
+  > input:not([type='checkbox']):not([type='radio']):has(+ .aeris-input-group__addon),
 .aeris-input-group--embedded > select:has(+ .aeris-input-group__addon),
 .aeris-input-group--embedded > textarea:has(+ .aeris-input-group__addon) {
   padding-inline-end: var(--aeris-input-group-embedded-padding);

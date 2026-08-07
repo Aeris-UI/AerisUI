@@ -16,6 +16,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵAerisAppendTo, type AerisAppendTo } from '@aeris-ui/core';
 
 import {
   addDays,
@@ -87,6 +88,7 @@ let datePickerId = 0;
 
 @Component({
   selector: 'aeris-date-picker',
+  imports: [ɵAerisAppendTo],
   template: `
     <div
       class="aeris-date-picker"
@@ -164,6 +166,9 @@ let datePickerId = 0;
 
         <div
           class="aeris-date-picker__panel"
+          [aerisInternalAppendTo]="inline() ? 'self' : appendTo()"
+          [aerisInternalAppendToAnchor]="this.trigger()?.nativeElement ?? null"
+          (aerisInternalAppendToOutside)="close(false)"
           [id]="panelId"
           role="dialog"
           aria-modal="false"
@@ -435,6 +440,7 @@ export class AerisDatePicker implements ControlValueAccessor {
   readonly showIcon = input(true, { transform: booleanAttribute });
   readonly clearable = input(false, { transform: booleanAttribute });
   readonly inline = input(false, { transform: booleanAttribute });
+  readonly appendTo = input<AerisAppendTo>();
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
@@ -591,7 +597,8 @@ export class AerisDatePicker implements ControlValueAccessor {
     () => this.inputId() || `${this.panelId}-trigger`,
   );
 
-  private readonly trigger = viewChild<ElementRef<HTMLButtonElement>>('trigger');
+  protected readonly trigger = viewChild<ElementRef<HTMLButtonElement>>('trigger');
+  private readonly panelPortal = viewChild(ɵAerisAppendTo);
   private readonly hourInput = viewChild<ElementRef<HTMLInputElement>>('hourInput');
   private readonly dayButtons =
     viewChildren<ElementRef<HTMLButtonElement>>('dayButton');
@@ -645,6 +652,7 @@ export class AerisDatePicker implements ControlValueAccessor {
 
   close(restoreFocus = false): void {
     if (!this.open()) return;
+    this.panelPortal()?.restore();
     this.open.set(false);
     this.closed.emit();
     if (restoreFocus) queueMicrotask(() => this.focus());

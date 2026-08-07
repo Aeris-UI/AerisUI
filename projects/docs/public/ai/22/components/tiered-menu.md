@@ -29,6 +29,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the panel target when popup is enabled; inline menus remain local. |
 | `id` | `string` | `generated id` | Panel ID used for menu and submenu relationships. |
 | `model` | `readonly AerisTieredMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |
 | `open` | `boolean (model)` | `false` | Controlled popup visibility. |
@@ -137,12 +138,12 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
 | `--aeris-tiered-menu-max-height` | `length` | `min(26rem, calc(100vh - 1rem))` | Root list maximum height. |
 | `--aeris-tiered-menu-padding` | `length` | `0.375rem` | Panel and submenu padding. |
 | `--aeris-tiered-menu-border` | `color` | `--aeris-border` | Panel border color. |
-| `--aeris-tiered-menu-radius` | `length` | `--aeris-radius-lg` | Panel and submenu radius. |
+| `--aeris-tiered-menu-radius` | `length` | `--aeris-radius-overlay` | Panel and submenu radius shared by Aeris overlay surfaces. |
 | `--aeris-tiered-menu-background` | `color` | `--aeris-surface` | Panel background. |
 | `--aeris-tiered-menu-shadow` | `shadow` | `overlay shadow` | Panel and submenu elevation. |
 | `--aeris-tiered-menu-item-gap` | `length` | `--aeris-density-gap` | Gap inside item rows. |
 | `--aeris-tiered-menu-item-min-height` | `length` | `--aeris-item-height` | Default item height. |
-| `--aeris-tiered-menu-item-radius` | `length` | `--aeris-radius-control` | Item hover and focus radius. |
+| `--aeris-tiered-menu-item-radius` | `length` | `--aeris-radius-item` | Item hover and focus radius shared across every menu depth. |
 | `--aeris-tiered-menu-item-hover-background` | `color` | `primary mix` | Hover, active, and open item background. |
 | `--aeris-tiered-menu-icon-size` | `length` | `1.125rem` | Default icon box size. |
 | `--aeris-tiered-menu-submenu-width` | `length` | `14rem` | Submenu panel width. |

@@ -127,6 +127,7 @@ interface AerisTooltipVisibilityEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'aerisTooltipAppendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global; safely mounted to body)", description: 'Mounts the tooltip in its safe document layer for self/body, or in the supplied DOM/template target.' },
     { name: 'aerisTooltip', type: 'AerisTooltipContent', defaultValue: "''", description: 'String or template content rendered in the tooltip.' },
     { name: 'aerisTooltipPosition', type: 'AerisTooltipPosition', defaultValue: "'top'", description: 'Preferred edge around the target.' },
     { name: 'aerisTooltipEvent', type: 'AerisTooltipEvent', defaultValue: "'both'", description: 'Trigger mode: pointer hover, focus, or both.' },

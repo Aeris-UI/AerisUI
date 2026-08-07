@@ -14,9 +14,11 @@
   min-inline-size: 0;
   padding: var(--aeris-chart-padding, 1rem);
   overflow: hidden;
-  border: 1px solid
-    var(--aeris-chart-border, var(--aeris-border));
-  border-radius: var(--aeris-chart-radius, var(--aeris-radius-lg, 0.875rem));
+  border: 1px solid var(--aeris-chart-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-chart-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-chart-background, var(--aeris-surface, #fff));
 }
 
@@ -27,7 +29,8 @@
 }
 
 .aeris-chart__canvas:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 26%, transparent);
+  outline: 3px solid
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 26%, transparent);
   outline-offset: -3px;
 }
 

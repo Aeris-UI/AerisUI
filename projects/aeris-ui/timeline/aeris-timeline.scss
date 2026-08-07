@@ -100,7 +100,11 @@
 }
 
 .aeris-timeline__item[data-state='complete'] {
-  --aeris-timeline-connector-color: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 58%, var(--aeris-border, #deddd7));
+  --aeris-timeline-connector-color: color-mix(
+    in srgb,
+    var(--aeris-primary, #{aeris-fallbacks.$primary}) 58%,
+    var(--aeris-border, #deddd7)
+  );
 }
 
 .aeris-timeline__item[data-state='complete'][data-status='neutral'],
@@ -109,7 +113,12 @@
 }
 
 .aeris-timeline__item[data-state='current'] .aeris-timeline__marker {
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--aeris-timeline-marker-color, var(--aeris-primary, #{aeris-fallbacks.$primary})) 18%, transparent);
+  box-shadow: 0 0 0 4px
+    color-mix(
+      in srgb,
+      var(--aeris-timeline-marker-color, var(--aeris-primary, #{aeris-fallbacks.$primary})) 18%,
+      transparent
+    );
 }
 
 .aeris-timeline[data-orientation='vertical'] .aeris-timeline__item {
@@ -142,17 +151,24 @@
   grid-row: 1;
 }
 
-.aeris-timeline[data-orientation='vertical'] .aeris-timeline__item[data-side='end'] .aeris-timeline__opposite {
+.aeris-timeline[data-orientation='vertical']
+  .aeris-timeline__item[data-side='end']
+  .aeris-timeline__opposite {
   grid-column: 3;
   text-align: start;
 }
 
-.aeris-timeline[data-orientation='vertical'] .aeris-timeline__item[data-side='end'] .aeris-timeline__content {
+.aeris-timeline[data-orientation='vertical']
+  .aeris-timeline__item[data-side='end']
+  .aeris-timeline__content {
   grid-column: 1;
   text-align: end;
 }
 
-.aeris-timeline[data-orientation='vertical'] .aeris-timeline__item[data-side='end'] .aeris-timeline__content p {
+.aeris-timeline[data-orientation='vertical']
+  .aeris-timeline__item[data-side='end']
+  .aeris-timeline__content
+  p {
   margin-inline-start: auto;
 }
 
@@ -213,14 +229,18 @@
   padding-top: 0.75rem;
 }
 
-.aeris-timeline[data-orientation='horizontal'] .aeris-timeline__item[data-side='end'] .aeris-timeline__opposite {
+.aeris-timeline[data-orientation='horizontal']
+  .aeris-timeline__item[data-side='end']
+  .aeris-timeline__opposite {
   grid-row: 3;
   align-self: start;
   padding-top: 0.75rem;
   padding-bottom: 1.5rem;
 }
 
-.aeris-timeline[data-orientation='horizontal'] .aeris-timeline__item[data-side='end'] .aeris-timeline__content {
+.aeris-timeline[data-orientation='horizontal']
+  .aeris-timeline__item[data-side='end']
+  .aeris-timeline__content {
   grid-row: 1;
   align-self: end;
   padding-top: 0.125rem;
@@ -233,7 +253,7 @@
   place-items: center;
   padding: 1.5rem;
   border: 1px dashed var(--aeris-border);
-  border-radius: var(--aeris-radius-lg, 0.875rem);
+  border-radius: var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem));
   color: var(--aeris-text-muted, #6d7068);
   font-size: 0.8125rem;
   text-align: center;
@@ -251,7 +271,9 @@
   }
 
   .aeris-timeline[data-responsive='true'][data-orientation='vertical'] .aeris-timeline__opposite,
-  .aeris-timeline[data-responsive='true'][data-orientation='vertical'] .aeris-timeline__item[data-side='end'] .aeris-timeline__opposite {
+  .aeris-timeline[data-responsive='true'][data-orientation='vertical']
+    .aeris-timeline__item[data-side='end']
+    .aeris-timeline__opposite {
     grid-column: 2;
     grid-row: 1;
     padding-bottom: 0.25rem;
@@ -259,13 +281,18 @@
   }
 
   .aeris-timeline[data-responsive='true'][data-orientation='vertical'] .aeris-timeline__content,
-  .aeris-timeline[data-responsive='true'][data-orientation='vertical'] .aeris-timeline__item[data-side='end'] .aeris-timeline__content {
+  .aeris-timeline[data-responsive='true'][data-orientation='vertical']
+    .aeris-timeline__item[data-side='end']
+    .aeris-timeline__content {
     grid-column: 2;
     grid-row: 2;
     text-align: start;
   }
 
-  .aeris-timeline[data-responsive='true'][data-orientation='vertical'] .aeris-timeline__item[data-side='end'] .aeris-timeline__content p {
+  .aeris-timeline[data-responsive='true'][data-orientation='vertical']
+    .aeris-timeline__item[data-side='end']
+    .aeris-timeline__content
+    p {
     margin-inline-start: 0;
   }
 }

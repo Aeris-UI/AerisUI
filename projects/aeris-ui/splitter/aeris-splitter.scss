@@ -21,7 +21,10 @@
   min-block-size: 0;
   border: var(--aeris-splitter-border-width, 1px) solid
     var(--aeris-splitter-border, var(--aeris-border));
-  border-radius: var(--aeris-splitter-radius, var(--aeris-radius-lg, 1.125rem));
+  border-radius: var(
+    --aeris-splitter-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-splitter-background, var(--aeris-surface, #fff));
   color: var(--aeris-splitter-color, var(--aeris-text, #222222));
   box-shadow: var(--aeris-splitter-shadow, none);
@@ -151,7 +154,11 @@
 }
 
 .aeris-splitter__gutter:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--aeris-splitter-focus-ring, var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})));
+  box-shadow: inset 0 0 0 2px
+    var(
+      --aeris-splitter-focus-ring,
+      var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary}))
+    );
 }
 
 .aeris-splitter__gutter[data-disabled] {
@@ -164,18 +171,27 @@
   z-index: 1;
   display: block;
   border-radius: 999px;
-  background: var(--aeris-splitter-handle-color, color-mix(in srgb, var(--aeris-text, #222222) 28%, transparent));
+  background: var(
+    --aeris-splitter-handle-color,
+    color-mix(in srgb, var(--aeris-text, #222222) 28%, transparent)
+  );
   transition:
     background-color 140ms ease,
     transform 140ms ease;
 }
 
-:host([data-orientation='horizontal']) > .aeris-splitter__root > .aeris-splitter__gutter > .aeris-splitter__handle {
+:host([data-orientation='horizontal'])
+  > .aeris-splitter__root
+  > .aeris-splitter__gutter
+  > .aeris-splitter__handle {
   inline-size: var(--aeris-splitter-handle-thickness, 0.1875rem);
   block-size: var(--aeris-splitter-handle-length, 2rem);
 }
 
-:host([data-orientation='vertical']) > .aeris-splitter__root > .aeris-splitter__gutter > .aeris-splitter__handle {
+:host([data-orientation='vertical'])
+  > .aeris-splitter__root
+  > .aeris-splitter__gutter
+  > .aeris-splitter__handle {
   inline-size: var(--aeris-splitter-handle-length, 2rem);
   block-size: var(--aeris-splitter-handle-thickness, 0.1875rem);
 }
@@ -183,10 +199,16 @@
 .aeris-splitter__gutter:hover:not([data-disabled]) .aeris-splitter__handle,
 .aeris-splitter__gutter:focus-visible .aeris-splitter__handle,
 .aeris-splitter__gutter[data-active] .aeris-splitter__handle {
-  background: var(--aeris-splitter-handle-hover-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
+  background: var(
+    --aeris-splitter-handle-hover-color,
+    var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
+  );
 }
 
-:host([data-size='sm']) > .aeris-splitter__root > .aeris-splitter__panel > .aeris-splitter__panel-content {
+:host([data-size='sm'])
+  > .aeris-splitter__root
+  > .aeris-splitter__panel
+  > .aeris-splitter__panel-content {
   padding: var(--aeris-splitter-panel-padding-sm, 0.75rem);
 }
 
@@ -194,7 +216,10 @@
   --aeris-splitter-gutter-current-size: var(--aeris-splitter-gutter-size-sm, 0.625rem);
 }
 
-:host([data-size='lg']) > .aeris-splitter__root > .aeris-splitter__panel > .aeris-splitter__panel-content {
+:host([data-size='lg'])
+  > .aeris-splitter__root
+  > .aeris-splitter__panel
+  > .aeris-splitter__panel-content {
   padding: var(--aeris-splitter-panel-padding-lg, 1.25rem);
 }
 
@@ -202,19 +227,27 @@
   --aeris-splitter-gutter-current-size: var(--aeris-splitter-gutter-size-lg, 0.875rem);
 }
 
-:host([data-orientation='horizontal'][data-size='sm']) > .aeris-splitter__root > .aeris-splitter__gutter {
+:host([data-orientation='horizontal'][data-size='sm'])
+  > .aeris-splitter__root
+  > .aeris-splitter__gutter {
   inline-size: var(--aeris-splitter-gutter-current-size);
 }
 
-:host([data-orientation='vertical'][data-size='sm']) > .aeris-splitter__root > .aeris-splitter__gutter {
+:host([data-orientation='vertical'][data-size='sm'])
+  > .aeris-splitter__root
+  > .aeris-splitter__gutter {
   block-size: var(--aeris-splitter-gutter-current-size);
 }
 
-:host([data-orientation='horizontal'][data-size='lg']) > .aeris-splitter__root > .aeris-splitter__gutter {
+:host([data-orientation='horizontal'][data-size='lg'])
+  > .aeris-splitter__root
+  > .aeris-splitter__gutter {
   inline-size: var(--aeris-splitter-gutter-current-size);
 }
 
-:host([data-orientation='vertical'][data-size='lg']) > .aeris-splitter__root > .aeris-splitter__gutter {
+:host([data-orientation='vertical'][data-size='lg'])
+  > .aeris-splitter__root
+  > .aeris-splitter__gutter {
   block-size: var(--aeris-splitter-gutter-current-size);
 }
 

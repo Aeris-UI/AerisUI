@@ -366,7 +366,9 @@ describe('AerisThemeService', () => {
 
     expect(root.dataset['aerisRadius']).toBe('pill');
     expect(root.style.getPropertyValue('--aeris-radius-sm')).toBe('0.75rem');
-    expect(root.style.getPropertyValue('--aeris-radius-md')).toBe('1.125rem');
+    expect(root.style.getPropertyValue('--aeris-radius-md')).toBe('1rem');
+    expect(root.style.getPropertyValue('--aeris-radius-lg')).toBe('1.25rem');
+    expect(root.style.getPropertyValue('--aeris-radius-xl')).toBe('1.5rem');
     expect(root.style.getPropertyValue('--aeris-radius-control')).toBe('999px');
     expect(root.style.getPropertyValue('--aeris-radius-pill')).toBe('999px');
   });

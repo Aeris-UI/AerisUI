@@ -29,8 +29,7 @@
   display: block;
 }
 
-.aeris-textarea-component__field:has(.aeris-textarea-component__clear)
-  textarea {
+.aeris-textarea-component__field:has(.aeris-textarea-component__clear) textarea {
   padding-right: 2.75rem;
 }
 
@@ -44,7 +43,7 @@
   place-items: center;
   padding: 0;
   border: 0;
-  border-radius: 0.375rem;
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: var(--aeris-text-2, #555555);
   cursor: pointer;

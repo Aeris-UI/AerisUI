@@ -39,6 +39,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a specific template host. Omit it for service-created dialogs. |
 | `header` | `string` | `'Confirm action'` | Visible title for declarative usage. |
 | `message` | `string` | `''` | Default confirmation message. |
@@ -115,6 +116,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a specific template host. Omit it for service-created dialogs. |
 | `header` | `string` | `'Confirm action'` | Visible title for declarative usage. |
 | `message` | `string` | `''` | Default confirmation message. |
@@ -211,6 +213,7 @@ type AerisDialogPosition =
 
 interface AerisConfirmDialogConfig<TData = unknown> {
   readonly key?: string;
+  readonly appendTo?: AerisAppendTo;
   readonly header?: string;
   readonly message?: string;
   readonly data?: TData;

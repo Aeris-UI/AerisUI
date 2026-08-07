@@ -23,6 +23,8 @@ import {
   groupSelectOptions,
   nextEnabledSelectValue,
   selectVirtualRange,
+  ɵAerisAppendTo,
+  type AerisAppendTo,
   type AerisSelectFilterMatchMode,
   type AerisSelectOption,
   type AerisSelectOptionGroup,
@@ -139,7 +141,7 @@ let nextSelectId = 0;
 
 @Component({
   selector: 'aeris-select',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <div
       class="aeris-select"
@@ -259,7 +261,12 @@ let nextSelectId = 0;
         ></button>
 
         <div
+          #optionsPanel
           class="aeris-select__panel"
+          [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToAnchor]="this.trigger()?.nativeElement ?? null"
+          [aerisInternalAppendToMatchWidth]="true"
+          (aerisInternalAppendToOutside)="closePanel(false)"
           [id]="panelId"
           [class]="panelClass()"
           [style.--aeris-select-panel-max-height]="panelMaxHeight()"
@@ -453,6 +460,7 @@ export class AerisSelectComponent implements ControlValueAccessor {
   readonly loading = input(false, { transform: booleanAttribute });
   readonly loadingMessage = input('Loading options');
   readonly panelMaxHeight = input('18rem');
+  readonly appendTo = input<AerisAppendTo>();
   readonly panelClass = input('');
   readonly focusOnHover = input(true, { transform: booleanAttribute });
   readonly selectOnFocus = input(false, { transform: booleanAttribute });
@@ -532,7 +540,9 @@ export class AerisSelectComponent implements ControlValueAccessor {
   protected readonly resolvedInputId = computed(() => this.inputId() || `${this.panelId}-trigger`);
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly trigger = viewChild<ElementRef<HTMLElement>>('trigger');
+  protected readonly trigger = viewChild<ElementRef<HTMLElement>>('trigger');
+  private readonly optionsPanel = viewChild<ElementRef<HTMLElement>>('optionsPanel');
+  private readonly panelPortal = viewChild(ɵAerisAppendTo);
   private readonly filterInput = viewChild<ElementRef<HTMLInputElement>>('filterInput');
   protected readonly optionTemplate = contentChild(AerisSelectOptionTemplate);
   protected readonly selectedTemplate = contentChild(AerisSelectSelectedTemplate);
@@ -608,6 +618,7 @@ export class AerisSelectComponent implements ControlValueAccessor {
       return;
     }
 
+    this.panelPortal()?.restore();
     this.open.set(false);
     if (this.resetFilterOnClose()) {
       this.filterValue.set('');
@@ -757,7 +768,11 @@ export class AerisSelectComponent implements ControlValueAccessor {
 
   protected handleFocusOut(event: FocusEvent): void {
     const nextTarget = event.relatedTarget;
-    if (nextTarget instanceof Node && this.host.nativeElement.contains(nextTarget)) {
+    if (
+      nextTarget instanceof Node &&
+      (this.host.nativeElement.contains(nextTarget) ||
+        this.optionsPanel()?.nativeElement.contains(nextTarget))
+    ) {
       return;
     }
 

@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { AERIS_OVERLAY_APPEND_TO } from '@aeris-ui/core';
 
 import {
   AerisSelect,
@@ -85,7 +86,40 @@ class SelectTypeaheadTestHost {
   ];
 }
 
+@Component({
+  imports: [AerisSelect],
+  template: `
+    <div #overlayTarget id="select-overlay-target"></div>
+    <aeris-select
+      inputId="body-select"
+      ariaLabel="Body mounted select"
+      [options]="options"
+      [(value)]="bodyValue"
+      appendTo="body"
+    />
+    <aeris-select
+      inputId="target-select"
+      ariaLabel="Target mounted select"
+      [options]="options"
+      [(value)]="targetValue"
+      [appendTo]="overlayTarget"
+    />
+  `,
+})
+class SelectAppendToTestHost {
+  readonly bodyValue = signal<string | null>(null);
+  readonly targetValue = signal<string | null>(null);
+  readonly options: readonly AerisSelectOption[] = [
+    { label: 'Designer', value: 'designer' },
+    { label: 'Engineer', value: 'engineer' },
+  ];
+}
+
 describe('AerisSelect', () => {
+  afterEach(() => {
+    document.querySelectorAll('[data-aeris-append-to]').forEach((element) => element.remove());
+  });
+
   it('exposes combobox relationships and form semantics', async () => {
     const fixture = TestBed.createComponent(SelectTestHost);
     await fixture.whenStable();
@@ -195,9 +229,12 @@ describe('AerisSelect', () => {
     filter.dispatchEvent(new Event('input', { bubbles: true }));
     fixture.detectChanges();
 
-    const options = fixture.nativeElement.querySelectorAll('[role="option"]');
+    const options = fixture.nativeElement.querySelectorAll(
+      '[role="option"]',
+    ) as NodeListOf<HTMLElement>;
     expect(options.length).toBe(1);
     expect(options[0]?.textContent).toContain('Product manager');
+    expect(getComputedStyle(options.item(0)).borderRadius).toContain('--aeris-radius-item');
 
     filter.value = 'no result';
     filter.dispatchEvent(new Event('input', { bubbles: true }));
@@ -274,5 +311,63 @@ describe('AerisSelect', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.lastLazyLoad()?.first).toBeGreaterThan(0);
+  });
+
+  it('mounts, restores, and reopens its panel when appendTo is body', async () => {
+    const fixture = TestBed.createComponent(SelectAppendToTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#body-select') as HTMLButtonElement;
+    trigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    let panel = document.body.querySelector(
+      '.aeris-select__panel[data-aeris-append-to="body"]',
+    ) as HTMLElement;
+    expect(panel).toBeTruthy();
+    expect(fixture.nativeElement.contains(panel)).toBe(false);
+
+    (panel.querySelectorAll('[role="option"]')[1] as HTMLButtonElement).click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.bodyValue()).toBe('engineer');
+    expect(document.body.querySelector('.aeris-select__panel[data-aeris-append-to]')).toBeNull();
+
+    trigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    panel = document.body.querySelector(
+      '.aeris-select__panel[data-aeris-append-to="body"]',
+    ) as HTMLElement;
+    expect(panel).toBeTruthy();
+  });
+
+  it('mounts its panel into an HTMLElement target', async () => {
+    const fixture = TestBed.createComponent(SelectAppendToTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#target-select') as HTMLButtonElement;
+    trigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const target = fixture.nativeElement.querySelector('#select-overlay-target') as HTMLElement;
+    const panel = target.querySelector('.aeris-select__panel') as HTMLElement;
+    expect(panel).toBeTruthy();
+    expect(panel.getAttribute('data-aeris-append-to')).toBe('target');
+  });
+
+  it('uses the configured global overlay append target when appendTo is omitted', async () => {
+    TestBed.overrideProvider(AERIS_OVERLAY_APPEND_TO, { useValue: 'body' });
+    const fixture = TestBed.createComponent(SelectTestHost);
+    await fixture.whenStable();
+
+    (fixture.nativeElement.querySelector('#role') as HTMLButtonElement).click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(
+      document.body.querySelector('.aeris-select__panel[data-aeris-append-to="body"]'),
+    ).toBeTruthy();
   });
 });

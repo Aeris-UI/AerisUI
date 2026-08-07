@@ -19,8 +19,10 @@ import {
   viewChildren,
 } from '@angular/core';
 import {
+  ɵAerisAppendTo,
   aerisInternalClampOverlayPoint,
   aerisInternalCreateFrameScheduler,
+  type AerisAppendTo,
 } from '@aeris-ui/core';
 
 export type AerisContextMenuSize = 'sm' | 'md' | 'lg';
@@ -107,7 +109,7 @@ let nextContextMenuId = 0;
 
 @Component({
   selector: 'aeris-context-menu',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <ng-template #menuList let-entries let-level="level">
       <ul
@@ -230,6 +232,7 @@ let nextContextMenuId = 0;
         <div
           #panel
           class="aeris-context-menu__panel"
+          [aerisInternalAppendTo]="appendTo()"
           [id]="menuId()"
           [class]="panelStyleClass()"
           [attr.data-positioned]="positioned() || null"
@@ -265,6 +268,7 @@ export class AerisContextMenu<T = unknown> {
   private pendingCloseReason: AerisContextMenuCloseReason = 'api';
 
   protected readonly panel = viewChild<ElementRef<HTMLElement>>('panel');
+  private readonly panelPortal = viewChild(ɵAerisAppendTo);
   protected readonly menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
   protected readonly itemTemplate = contentChild(AerisContextMenuItemTemplate<T>, {
     descendants: false,
@@ -282,6 +286,7 @@ export class AerisContextMenu<T = unknown> {
   readonly id = input(this.generatedId);
   readonly model = input<readonly AerisContextMenuItem<T>[]>([]);
   readonly open = model(false);
+  readonly appendTo = input<AerisAppendTo>();
   readonly target = input<AerisContextMenuTarget>(null);
   readonly global = input(false, { transform: booleanAttribute });
   readonly disabled = input(false, { transform: booleanAttribute });
@@ -366,6 +371,7 @@ export class AerisContextMenu<T = unknown> {
     if (!this.open()) return;
     this.pendingOriginalEvent = originalEvent;
     this.pendingCloseReason = reason;
+    this.panelPortal()?.restore();
     this.open.set(false);
     this.positioned.set(false);
     this.activePathKey.set('');

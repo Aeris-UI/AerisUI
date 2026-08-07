@@ -15,13 +15,21 @@
   overflow: hidden;
   border: var(--aeris-scroll-panel-border-width, 1px) solid
     var(--aeris-scroll-panel-border, var(--aeris-border));
-  border-radius: var(--aeris-scroll-panel-radius, var(--aeris-radius-lg, 1.125rem));
+  border-radius: var(
+    --aeris-scroll-panel-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-scroll-panel-background, var(--aeris-surface, #fff));
   color: var(--aeris-scroll-panel-color, var(--aeris-text, #222222));
 }
 
 .aeris-scroll-panel__frame:has(.aeris-scroll-panel__viewport:focus-visible) {
-  outline: 3px solid color-mix(in srgb, var(--focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%, transparent);
+  outline: 3px solid
+    color-mix(
+      in srgb,
+      var(--focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%,
+      transparent
+    );
   outline-offset: 3px;
 }
 
@@ -35,8 +43,10 @@
   overscroll-behavior: contain;
   background: transparent;
   color: inherit;
-  scrollbar-color:
-    var(--aeris-scroll-panel-thumb, color-mix(in srgb, var(--aeris-text, #222222) 34%, transparent))
+  scrollbar-color: var(
+      --aeris-scroll-panel-thumb,
+      color-mix(in srgb, var(--aeris-text, #222222) 34%, transparent)
+    )
     var(--aeris-scroll-panel-track, transparent);
   scrollbar-gutter: stable;
   scrollbar-width: thin;
@@ -59,12 +69,18 @@
 .aeris-scroll-panel__viewport::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: 999px;
-  background: var(--aeris-scroll-panel-thumb, color-mix(in srgb, var(--aeris-text, #222222) 34%, transparent));
+  background: var(
+    --aeris-scroll-panel-thumb,
+    color-mix(in srgb, var(--aeris-text, #222222) 34%, transparent)
+  );
   background-clip: content-box;
 }
 
 .aeris-scroll-panel__viewport::-webkit-scrollbar-thumb:hover {
-  background: var(--aeris-scroll-panel-thumb-hover, color-mix(in srgb, var(--aeris-text, #222222) 48%, transparent));
+  background: var(
+    --aeris-scroll-panel-thumb-hover,
+    color-mix(in srgb, var(--aeris-text, #222222) 48%, transparent)
+  );
   background-clip: content-box;
 }
 
@@ -105,8 +121,10 @@
 }
 
 :host([data-variant='hover']) .aeris-scroll-panel__viewport:is(:hover, :focus-within) {
-  scrollbar-color:
-    var(--aeris-scroll-panel-thumb, color-mix(in srgb, var(--aeris-text, #222222) 34%, transparent))
+  scrollbar-color: var(
+      --aeris-scroll-panel-thumb,
+      color-mix(in srgb, var(--aeris-text, #222222) 34%, transparent)
+    )
     var(--aeris-scroll-panel-track, transparent);
 }
 
@@ -114,23 +132,38 @@
   background: transparent;
 }
 
-:host([data-variant='hover']) .aeris-scroll-panel__viewport:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
-  background: var(--aeris-scroll-panel-thumb, color-mix(in srgb, var(--aeris-text, #222222) 34%, transparent));
+:host([data-variant='hover'])
+  .aeris-scroll-panel__viewport:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+  background: var(
+    --aeris-scroll-panel-thumb,
+    color-mix(in srgb, var(--aeris-text, #222222) 34%, transparent)
+  );
   background-clip: content-box;
 }
 
 :host([data-variant='always']) .aeris-scroll-panel__viewport {
-  scrollbar-color:
-    var(--aeris-scroll-panel-thumb-always, color-mix(in srgb, var(--aeris-text, #222222) 42%, transparent))
-    var(--aeris-scroll-panel-track-always, color-mix(in srgb, var(--aeris-text, #222222) 8%, transparent));
+  scrollbar-color: var(
+      --aeris-scroll-panel-thumb-always,
+      color-mix(in srgb, var(--aeris-text, #222222) 42%, transparent)
+    )
+    var(
+      --aeris-scroll-panel-track-always,
+      color-mix(in srgb, var(--aeris-text, #222222) 8%, transparent)
+    );
 }
 
 :host([data-variant='always']) .aeris-scroll-panel__viewport::-webkit-scrollbar-track {
-  background: var(--aeris-scroll-panel-track-always, color-mix(in srgb, var(--aeris-text, #222222) 8%, transparent));
+  background: var(
+    --aeris-scroll-panel-track-always,
+    color-mix(in srgb, var(--aeris-text, #222222) 8%, transparent)
+  );
 }
 
 :host([data-variant='always']) .aeris-scroll-panel__viewport::-webkit-scrollbar-thumb {
-  background: var(--aeris-scroll-panel-thumb-always, color-mix(in srgb, var(--aeris-text, #222222) 42%, transparent));
+  background: var(
+    --aeris-scroll-panel-thumb-always,
+    color-mix(in srgb, var(--aeris-text, #222222) 42%, transparent)
+  );
   background-clip: content-box;
 }
 

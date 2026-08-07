@@ -24,11 +24,8 @@
   --aeris-color-picker-font-size: 0.9375rem;
   --aeris-color-picker-panel-width: 20rem;
   --aeris-color-picker-panel-background: var(--aeris-surface, #fff);
-  --aeris-color-picker-panel-border: var(
-    --aeris-border,
-    var(--aeris-border, #deddd7)
-  );
-  --aeris-color-picker-panel-radius: min(var(--aeris-radius-lg, 0.875rem), 1rem);
+  --aeris-color-picker-panel-border: var(--aeris-border, var(--aeris-border, #deddd7));
+  --aeris-color-picker-panel-radius: var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem));
   --aeris-color-picker-panel-shadow: 0 1.25rem 3.5rem rgb(31 35 27 / 22%);
   --aeris-color-picker-panel-padding: calc(var(--aeris-density-gap, 0.5rem) + 0.375rem);
   display: inline-grid;
@@ -421,7 +418,7 @@
   min-height: 1.875rem;
   padding: 0 0.5rem;
   border: 0;
-  border-radius: max(0.25rem, calc(var(--aeris-radius-control, 0.5rem) - 0.2rem));
+  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: var(--aeris-text-2, #555555);
   font-size: 0.6875rem;
@@ -507,7 +504,8 @@
 .aeris-color-picker__plane:focus-visible,
 .aeris-color-picker__hue input:focus-visible {
   border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
+  outline: 3px solid
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
   outline-offset: 1px;
 }
 

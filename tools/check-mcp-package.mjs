@@ -47,7 +47,7 @@ if (!cliSource.startsWith('#!/usr/bin/env node')) failures.push('The CLI has no 
 if (packageJson.dependencies?.['@aeris-ui/core']) {
   failures.push('@aeris-ui/mcp must not depend on @aeris-ui/core.');
 }
-if (packageJson.dependencies?.['@modelcontextprotocol/sdk'] !== '^1.29.0') {
+if (packageJson.dependencies?.['@modelcontextprotocol/sdk'] !== '^1.30.0') {
   failures.push('The supported MCP SDK runtime dependency is missing.');
 }
 

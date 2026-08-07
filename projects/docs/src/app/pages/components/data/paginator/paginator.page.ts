@@ -70,6 +70,7 @@ protected handlePage(event: AerisPaginatorPageEvent): void {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Mounts the rows-per-page menu locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'first', type: 'number (model)', defaultValue: '0', description: 'Index of the first record in the current page.' },
     { name: 'rows', type: 'number (model)', defaultValue: '10', description: 'Number of records shown per page.' },
     { name: 'totalRecords', type: 'number', defaultValue: '0', description: 'Total number of records available for pagination.' },

@@ -29,6 +29,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the menu overlay locally, in document.body, or in the supplied DOM/template target. |
 | `id` | `string` | `generated id` | Root menu ID used for menu and submenu relationships. |
 | `model` | `readonly AerisContextMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |
 | `open` | `ModelSignal&lt;boolean&gt;` | `false` | Controlled visibility state. |
@@ -140,13 +141,13 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 | `--aeris-context-menu-max-height` | `length` | `min(26rem, calc(100vh - 1rem))` | Root menu max height. |
 | `--aeris-context-menu-padding` | `length` | `0.375rem` | Panel padding. |
 | `--aeris-context-menu-border` | `color` | `--aeris-border` | Panel border color. |
-| `--aeris-context-menu-radius` | `length` | `--aeris-radius-lg` | Panel radius. |
+| `--aeris-context-menu-radius` | `length` | `--aeris-radius-overlay` | Panel radius shared by Aeris overlay surfaces. |
 | `--aeris-context-menu-background` | `color` | `--aeris-surface` | Panel background. |
 | `--aeris-context-menu-color` | `color` | `--aeris-text` | Panel text color. |
 | `--aeris-context-menu-shadow` | `shadow` | `overlay shadow` | Panel and submenu shadow. |
 | `--aeris-context-menu-item-gap` | `length` | `0.625rem` | Gap inside item rows. |
 | `--aeris-context-menu-item-min-height` | `length` | `2.25rem` | Default item height. |
-| `--aeris-context-menu-item-radius` | `length` | `Panel inner radius` | Item radius derived from the panel radius, padding, and border so highlighted items follow the panel curve. |
+| `--aeris-context-menu-item-radius` | `length` | `--aeris-radius-item` | Item radius shared across root items and nested submenus. |
 | `--aeris-context-menu-item-hover-background` | `color` | `primary mix` | Hover and active item background. |
 | `--aeris-context-menu-icon-size` | `length` | `1.125rem` | Default icon box size. |
 | `--aeris-context-menu-disabled-opacity` | `number` | `0.52` | Disabled item opacity. |

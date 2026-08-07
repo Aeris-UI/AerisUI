@@ -206,11 +206,7 @@
   --aeris-surface: #ffffff;
   --aeris-surface-2: color-mix(in oklch, #f7f6f2 76%, var(--aeris-palette-surface));
   --aeris-surface-3: color-mix(in oklch, #f1f0eb 58%, var(--aeris-palette-surface));
-  --aeris-interactive-hover: color-mix(
-    in oklch,
-    var(--aeris-surface-2) 90%,
-    var(--aeris-primary)
-  );
+  --aeris-interactive-hover: color-mix(in oklch, var(--aeris-surface-2) 90%, var(--aeris-primary));
   --aeris-text: #222222;
   --aeris-text-2: #555555;
   --aeris-text-3: #707070;
@@ -231,10 +227,14 @@
   --aeris-disabled-opacity: 0.52;
 
   --aeris-radius-sm: 0.4375rem;
-  --aeris-radius-md: 0.6875rem;
-  --aeris-radius-lg: 1.125rem;
-  --aeris-radius-xl: 1.5rem;
+  --aeris-radius-md: 0.5625rem;
+  --aeris-radius-lg: 0.75rem;
+  --aeris-radius-xl: 1rem;
   --aeris-radius-control: var(--aeris-radius-sm);
+  --aeris-radius-structured-control: min(var(--aeris-radius-control), var(--aeris-radius-md));
+  --aeris-radius-overlay: var(--aeris-radius-md);
+  --aeris-radius-surface: var(--aeris-radius-lg);
+  --aeris-radius-item: max(0px, calc(var(--aeris-radius-surface) - 0.35rem - 1px));
   --aeris-radius-pill: 999px;
   --aeris-checkbox-radius: 0.3125rem;
   --aeris-control-height: 2.625rem;
@@ -306,11 +306,7 @@
   --aeris-surface: color-mix(in oklch, #101318 99.4%, var(--aeris-palette-surface));
   --aeris-surface-2: color-mix(in oklch, #171b22 99.2%, var(--aeris-palette-surface));
   --aeris-surface-3: color-mix(in oklch, #202632 99%, var(--aeris-palette-surface));
-  --aeris-interactive-hover: color-mix(
-    in oklch,
-    var(--aeris-surface-2) 88%,
-    var(--aeris-primary)
-  );
+  --aeris-interactive-hover: color-mix(in oklch, var(--aeris-surface-2) 88%, var(--aeris-primary));
   --aeris-text: #f4f4f4;
   --aeris-text-2: #c5c5c5;
   --aeris-text-3: #9d9d9d;
@@ -350,17 +346,17 @@
 [data-aeris-radius='soft'] {
   --aeris-radius-sm: 0.25rem;
   --aeris-radius-md: 0.375rem;
-  --aeris-radius-lg: 0.625rem;
-  --aeris-radius-xl: 0.875rem;
+  --aeris-radius-lg: 0.5rem;
+  --aeris-radius-xl: 0.75rem;
   --aeris-radius-control: 0.25rem;
   --aeris-checkbox-radius: 0.25rem;
 }
 
 [data-aeris-radius='pill'] {
   --aeris-radius-sm: 0.75rem;
-  --aeris-radius-md: 1.125rem;
-  --aeris-radius-lg: 1.875rem;
-  --aeris-radius-xl: 2.25rem;
+  --aeris-radius-md: 1rem;
+  --aeris-radius-lg: 1.25rem;
+  --aeris-radius-xl: 1.5rem;
   --aeris-radius-control: 999px;
   --aeris-radius-pill: 999px;
   --aeris-checkbox-radius: 0.375rem;
@@ -443,7 +439,11 @@ aeris-card.aeris-glass[data-enabled] {
 aeris-panel.aeris-glass[data-enabled] {
   --aeris-panel-background: var(--aeris-glass-background);
   --aeris-panel-filled-background: var(--aeris-glass-background);
-  --aeris-panel-header-background: color-mix(in srgb, var(--aeris-glass-background) 82%, transparent);
+  --aeris-panel-header-background: color-mix(
+    in srgb,
+    var(--aeris-glass-background) 82%,
+    transparent
+  );
 }
 
 aeris-accordion.aeris-glass[data-enabled] {
@@ -489,12 +489,20 @@ aeris-popover.aeris-glass[data-enabled] {
 
 aeris-dialog.aeris-glass[data-enabled] {
   --aeris-dialog-background: var(--aeris-glass-background);
-  --aeris-dialog-header-background: color-mix(in srgb, var(--aeris-glass-background) 82%, transparent);
+  --aeris-dialog-header-background: color-mix(
+    in srgb,
+    var(--aeris-glass-background) 82%,
+    transparent
+  );
 }
 
 aeris-drawer.aeris-glass[data-enabled] {
   --aeris-drawer-background: var(--aeris-glass-background);
-  --aeris-drawer-header-background: color-mix(in srgb, var(--aeris-glass-background) 82%, transparent);
+  --aeris-drawer-header-background: color-mix(
+    in srgb,
+    var(--aeris-glass-background) 82%,
+    transparent
+  );
 }
 
 aeris-confirm-popup.aeris-glass[data-enabled] {

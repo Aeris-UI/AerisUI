@@ -462,6 +462,7 @@ protected openTwoDialogs(): void {
 
   protected readonly interfacesCode = `interface AerisDynamicDialogConfig<TData = unknown> {
   readonly header?: string;
+  readonly appendTo?: AerisAppendTo;
   readonly data?: TData;
   readonly inputValues?: Record<string, unknown>;
   readonly modal?: boolean;
@@ -515,6 +516,7 @@ interface AerisDynamicDialogSubscribable<T> {
   ];
 
   protected readonly configRows: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'body'", description: 'Mounts the dialog locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'header', type: 'string', defaultValue: "''", description: 'Dialog title rendered by the shell.' },
     { name: 'data', type: 'TData', defaultValue: 'undefined', description: 'Typed payload available through AERIS_DYNAMIC_DIALOG_DATA.' },
     { name: 'inputValues', type: 'Record<string, unknown>', defaultValue: '{}', description: 'Input values applied to the dynamic content component.' },

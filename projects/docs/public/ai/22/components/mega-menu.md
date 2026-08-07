@@ -115,6 +115,9 @@ interface AerisMegaMenuItemEvent<T = unknown> {
 | `--aeris-mega-menu-border` | `color` | `--aeris-border` | Root and nested separator border color. |
 | `--aeris-mega-menu-panel-background` | `color` | `--aeris-surface` | Mega panel background. |
 | `--aeris-mega-menu-panel-width` | `length` | `44rem` | Maximum panel width before viewport clamping. |
+| `--aeris-mega-menu-panel-radius` | `length` | `--aeris-radius-overlay` | Mega panel corner radius shared by Aeris overlay surfaces. |
+| `--aeris-mega-menu-item-radius` | `length` | `--aeris-radius-item` | Shared radius for top-level items and panel subitems. |
+| `--aeris-mega-menu-panel-item-radius` | `length` | `--aeris-mega-menu-item-radius` | Optional panel-only override for the otherwise shared item radius. |
 | `--aeris-mega-menu-item-hover-background` | `color` | `primary mix` | Hover and open trigger surface. |
 | `--aeris-mega-menu-icon-size` | `length` | `1.125rem` | Default icon and chevron box. |
 

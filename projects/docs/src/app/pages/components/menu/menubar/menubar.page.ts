@@ -170,8 +170,18 @@ export class MenubarPage {
       label: 'Actions',
       icon: 'Package',
       items: [
-        { id: 'search', label: 'Search', icon: 'Search', command: (event) => this.recordAction(event) },
-        { id: 'refresh', label: 'Refresh', icon: 'RefreshCw', command: (event) => this.recordAction(event) },
+        {
+          id: 'search',
+          label: 'Search',
+          icon: 'Search',
+          command: (event) => this.recordAction(event),
+        },
+        {
+          id: 'refresh',
+          label: 'Refresh',
+          icon: 'RefreshCw',
+          command: (event) => this.recordAction(event),
+        },
       ],
     },
     {
@@ -180,7 +190,14 @@ export class MenubarPage {
       icon: 'ExternalLink',
       items: [
         { id: 'components', label: 'Components', icon: 'Package', routerLink: ['/components'] },
-        { id: 'angular', label: 'Angular', icon: 'ExternalLink', url: 'https://angular.dev', target: '_blank', rel: 'noreferrer' },
+        {
+          id: 'angular',
+          label: 'Angular',
+          icon: 'ExternalLink',
+          url: 'https://angular.dev',
+          target: '_blank',
+          rel: 'noreferrer',
+        },
       ],
     },
   ];
@@ -496,54 +513,234 @@ interface AerisMenubarItemEvent<T = unknown> {
   ];
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'id', type: 'string', defaultValue: 'generated', description: 'ID prefix for the menubar and generated submenu relationships.' },
-    { name: 'model', type: 'readonly AerisMenubarItem<T>[]', defaultValue: '[]', description: 'Nested item model for root items and cascading submenu items.' },
-    { name: 'openPath', type: 'string (model)', defaultValue: "''", description: 'Controlled path key for the open submenu branch.' },
-    { name: 'mobileOpen', type: 'boolean (model)', defaultValue: 'false', description: 'Controlled responsive menu visibility.' },
-    { name: 'size', type: 'AerisMenubarSize', defaultValue: "'md'", description: 'Adjusts item height, text, and icon sizing.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Prevents activation and submenu opening.' },
-    { name: 'openOnHover', type: 'boolean', defaultValue: 'true', description: 'Opens submenu branches when pointer users hover items.' },
-    { name: 'closeOnSelect', type: 'boolean', defaultValue: 'true', description: 'Closes open menus after a leaf item is activated.' },
-    { name: 'hideOnOutsideClick', type: 'boolean', defaultValue: 'true', description: 'Closes menus when pointer interaction starts outside the component.' },
-    { name: 'closeOnEscape', type: 'boolean', defaultValue: 'true', description: 'Closes open menus when Escape is pressed.' },
-    { name: 'collapsible', type: 'boolean', defaultValue: 'true', description: 'Shows a responsive disclosure button at narrow widths.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Menubar'", description: 'Accessible name for the menubar list.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'Element IDs that label the menubar list.' },
-    { name: 'navAriaLabel', type: 'string', defaultValue: "''", description: 'Optional accessible name for the wrapping navigation landmark.' },
-    { name: 'navAriaLabelledBy', type: 'string', defaultValue: "''", description: 'Element IDs that label the wrapping navigation landmark.' },
-    { name: 'toggleAriaLabel', type: 'string', defaultValue: "'Toggle navigation menu'", description: 'Accessible label for the responsive toggle button.' },
-    { name: 'navigationHandler', type: 'AerisMenubarNavigationHandler', defaultValue: 'undefined', description: 'Handles routerLink items without coupling Aeris to Angular Router.' },
+    {
+      name: 'id',
+      type: 'string',
+      defaultValue: 'generated',
+      description: 'ID prefix for the menubar and generated submenu relationships.',
+    },
+    {
+      name: 'model',
+      type: 'readonly AerisMenubarItem<T>[]',
+      defaultValue: '[]',
+      description: 'Nested item model for root items and cascading submenu items.',
+    },
+    {
+      name: 'openPath',
+      type: 'string (model)',
+      defaultValue: "''",
+      description: 'Controlled path key for the open submenu branch.',
+    },
+    {
+      name: 'mobileOpen',
+      type: 'boolean (model)',
+      defaultValue: 'false',
+      description: 'Controlled responsive menu visibility.',
+    },
+    {
+      name: 'size',
+      type: 'AerisMenubarSize',
+      defaultValue: "'md'",
+      description: 'Adjusts item height, text, and icon sizing.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Prevents activation and submenu opening.',
+    },
+    {
+      name: 'openOnHover',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Opens submenu branches when pointer users hover items.',
+    },
+    {
+      name: 'closeOnSelect',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Closes open menus after a leaf item is activated.',
+    },
+    {
+      name: 'hideOnOutsideClick',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Closes menus when pointer interaction starts outside the component.',
+    },
+    {
+      name: 'closeOnEscape',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Closes open menus when Escape is pressed.',
+    },
+    {
+      name: 'collapsible',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows a responsive disclosure button at narrow widths.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Menubar'",
+      description: 'Accessible name for the menubar list.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Element IDs that label the menubar list.',
+    },
+    {
+      name: 'navAriaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional accessible name for the wrapping navigation landmark.',
+    },
+    {
+      name: 'navAriaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Element IDs that label the wrapping navigation landmark.',
+    },
+    {
+      name: 'toggleAriaLabel',
+      type: 'string',
+      defaultValue: "'Toggle navigation menu'",
+      description: 'Accessible label for the responsive toggle button.',
+    },
+    {
+      name: 'navigationHandler',
+      type: 'AerisMenubarNavigationHandler',
+      defaultValue: 'undefined',
+      description: 'Handles routerLink items without coupling Aeris to Angular Router.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'openPathChange', type: 'string', defaultValue: '-', description: 'Emitted automatically by the openPath model.' },
-    { name: 'mobileOpenChange', type: 'boolean', defaultValue: '-', description: 'Emitted automatically by the mobileOpen model.' },
-    { name: 'opened', type: 'AerisMenubarVisibilityEvent<T>', defaultValue: '-', description: 'Emitted when a submenu branch opens through API or interaction.' },
-    { name: 'closed', type: 'AerisMenubarVisibilityEvent<T>', defaultValue: '-', description: 'Emitted when open menus close.' },
-    { name: 'itemSelected', type: 'AerisMenubarItemEvent<T>', defaultValue: '-', description: 'Emitted when an enabled leaf item is activated.' },
+    {
+      name: 'openPathChange',
+      type: 'string',
+      defaultValue: '-',
+      description: 'Emitted automatically by the openPath model.',
+    },
+    {
+      name: 'mobileOpenChange',
+      type: 'boolean',
+      defaultValue: '-',
+      description: 'Emitted automatically by the mobileOpen model.',
+    },
+    {
+      name: 'opened',
+      type: 'AerisMenubarVisibilityEvent<T>',
+      defaultValue: '-',
+      description: 'Emitted when a submenu branch opens through API or interaction.',
+    },
+    {
+      name: 'closed',
+      type: 'AerisMenubarVisibilityEvent<T>',
+      defaultValue: '-',
+      description: 'Emitted when open menus close.',
+    },
+    {
+      name: 'itemSelected',
+      type: 'AerisMenubarItemEvent<T>',
+      defaultValue: '-',
+      description: 'Emitted when an enabled leaf item is activated.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisMenubarItem', type: 'AerisMenubarItemTemplateContext<T>', defaultValue: 'default item row', description: 'Customizes root and submenu item content.' },
-    { name: 'aerisMenubarStart', type: 'TemplateRef<unknown>', defaultValue: 'none', description: 'Projects content before the menubar items.' },
-    { name: 'aerisMenubarEnd', type: 'TemplateRef<unknown>', defaultValue: 'none', description: 'Projects content after the menubar items.' },
+    {
+      name: 'aerisMenubarItem',
+      type: 'AerisMenubarItemTemplateContext<T>',
+      defaultValue: 'default item row',
+      description: 'Customizes root and submenu item content.',
+    },
+    {
+      name: 'aerisMenubarStart',
+      type: 'TemplateRef<unknown>',
+      defaultValue: 'none',
+      description: 'Projects content before the menubar items.',
+    },
+    {
+      name: 'aerisMenubarEnd',
+      type: 'TemplateRef<unknown>',
+      defaultValue: 'none',
+      description: 'Projects content after the menubar items.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'open(path, event?)', type: 'string | readonly number[], Event | null => void', defaultValue: '-', description: 'Opens a submenu branch by path key or path array.' },
-    { name: 'close(event?, reason?)', type: 'Event | null, AerisMenubarCloseReason => void', defaultValue: '-', description: 'Closes open submenus.' },
-    { name: 'focus()', type: 'void', defaultValue: '-', description: 'Moves focus to the active or first enabled root item.' },
+    {
+      name: 'open(path, event?)',
+      type: 'string | readonly number[], Event | null => void',
+      defaultValue: '-',
+      description: 'Opens a submenu branch by path key or path array.',
+    },
+    {
+      name: 'close(event?, reason?)',
+      type: 'Event | null, AerisMenubarCloseReason => void',
+      defaultValue: '-',
+      description: 'Closes open submenus.',
+    },
+    {
+      name: 'focus()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves focus to the active or first enabled root item.',
+    },
   ];
 
   protected readonly tokens: readonly ApiRow[] = [
-    { name: '--aeris-menubar-background', type: 'color', defaultValue: '--aeris-surface', description: 'Root surface background.' },
-    { name: '--aeris-menubar-border', type: 'color', defaultValue: '--aeris-border', description: 'Root and separator border color.' },
-    { name: '--aeris-menubar-radius', type: 'length', defaultValue: '--aeris-radius-lg', description: 'Root surface corner radius.' },
-    { name: '--aeris-menubar-item-radius', type: 'length', defaultValue: '--aeris-radius-control', description: 'Hover and focus item corner radius.' },
-    { name: '--aeris-menubar-item-height', type: 'length', defaultValue: '--aeris-item-height', description: 'Minimum item height.' },
-    { name: '--aeris-menubar-submenu-width', type: 'length', defaultValue: '15rem', description: 'Minimum submenu panel width.' },
-    { name: '--aeris-menubar-submenu-radius', type: 'length', defaultValue: '--aeris-radius-lg', description: 'Submenu panel corner radius.' },
-    { name: '--aeris-menubar-icon-size', type: 'length', defaultValue: '1.125rem', description: 'Default icon and chevron size.' },
+    {
+      name: '--aeris-menubar-background',
+      type: 'color',
+      defaultValue: '--aeris-surface',
+      description: 'Root surface background.',
+    },
+    {
+      name: '--aeris-menubar-border',
+      type: 'color',
+      defaultValue: '--aeris-border',
+      description: 'Root and separator border color.',
+    },
+    {
+      name: '--aeris-menubar-radius',
+      type: 'length',
+      defaultValue: '--aeris-radius-lg',
+      description: 'Root surface corner radius.',
+    },
+    {
+      name: '--aeris-menubar-item-radius',
+      type: 'length',
+      defaultValue: '--aeris-radius-item',
+      description: 'Shared hover and focus radius for root items and submenu items.',
+    },
+    {
+      name: '--aeris-menubar-item-height',
+      type: 'length',
+      defaultValue: '--aeris-item-height',
+      description: 'Minimum item height.',
+    },
+    {
+      name: '--aeris-menubar-submenu-width',
+      type: 'length',
+      defaultValue: '15rem',
+      description: 'Minimum submenu panel width.',
+    },
+    {
+      name: '--aeris-menubar-submenu-radius',
+      type: 'length',
+      defaultValue: '--aeris-radius-overlay',
+      description: 'Submenu corner radius shared by Aeris overlay surfaces.',
+    },
+    {
+      name: '--aeris-menubar-icon-size',
+      type: 'length',
+      defaultValue: '1.125rem',
+      description: 'Default icon and chevron size.',
+    },
   ];
 
   protected recordAction(event: AerisMenubarItemEvent): void {

@@ -176,6 +176,7 @@ interface AerisAutoCompleteSelectEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Mounts the overlay locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'value', type: 'string (model)', defaultValue: "''", description: 'Current text value with two-way binding and Forms support.' },
     { name: 'suggestions', type: 'readonly AerisAutoCompleteOption[]', defaultValue: '[]', description: 'Suggestion records used by local filtering and option rendering.' },
     { name: 'inputId', type: 'string', defaultValue: 'generated', description: 'ID assigned to the internal text input.' },

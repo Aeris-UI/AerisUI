@@ -133,6 +133,8 @@ describe('AerisTree', () => {
     expect(items.item(1).getAttribute('aria-disabled')).toBe('true');
     expect(items.item(0).tabIndex).toBe(0);
     expect(items.item(1).tabIndex).toBe(-1);
+    const nodeRadius = getComputedStyle(items.item(0)).borderRadius;
+    expect(nodeRadius).toContain('--aeris-radius-item');
   });
 
   it('expands and collapses branches while emitting controlled state events', () => {

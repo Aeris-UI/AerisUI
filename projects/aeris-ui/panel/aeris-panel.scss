@@ -12,9 +12,11 @@ aeris-panel {
   --_header-padding-inline: var(--aeris-panel-header-padding-inline, 1.125rem);
 
   overflow: hidden;
-  border: 1px solid
-    var(--aeris-panel-border, var(--aeris-border));
-  border-radius: var(--aeris-panel-radius, var(--aeris-radius-lg, 1.125rem));
+  border: 1px solid var(--aeris-panel-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-panel-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-panel-background, var(--aeris-surface, #fff));
   color: var(--aeris-panel-color, var(--aeris-text, #222222));
   box-shadow: var(--aeris-panel-shadow, none);
@@ -61,12 +63,11 @@ aeris-panel {
   gap: var(--aeris-panel-header-gap, 0.75rem);
   min-inline-size: 0;
   padding: var(--_header-padding-block) var(--_header-padding-inline);
-  border-block-end: 1px solid
-    var(
-      --aeris-panel-header-border,
-      var(--aeris-border)
-    );
-  background: var(--aeris-panel-header-background, color-mix(in srgb, var(--aeris-surface-2, #f2f0ec) 58%, transparent));
+  border-block-end: 1px solid var(--aeris-panel-header-border, var(--aeris-border));
+  background: var(
+    --aeris-panel-header-background,
+    color-mix(in srgb, var(--aeris-surface-2, #f2f0ec) 58%, transparent)
+  );
 }
 
 .aeris-panel[data-variant='plain'] .aeris-panel__header {
@@ -101,7 +102,10 @@ aeris-panel {
   margin: 0;
   padding: 0;
   border: 0;
-  border-radius: var(--aeris-panel-toggle-radius, var(--aeris-radius-md, 0.6875rem));
+  border-radius: var(
+    --aeris-panel-toggle-radius,
+    var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem))
+  );
   background: transparent;
   color: inherit;
   font: inherit;
@@ -110,11 +114,19 @@ aeris-panel {
 }
 
 .aeris-panel__toggle:hover {
-  color: var(--aeris-panel-toggle-hover-color, var(--aeris-primary-text, var(--aeris-primary, #{aeris-fallbacks.$primary})));
+  color: var(
+    --aeris-panel-toggle-hover-color,
+    var(--aeris-primary-text, var(--aeris-primary, #{aeris-fallbacks.$primary}))
+  );
 }
 
 .aeris-panel__toggle:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%, transparent);
+  outline: 3px solid
+    color-mix(
+      in srgb,
+      var(--focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%,
+      transparent
+    );
   outline-offset: 0.25rem;
 }
 
@@ -204,11 +216,7 @@ aeris-panel {
   flex-wrap: wrap;
   gap: var(--aeris-panel-footer-gap, 0.625rem);
   padding: var(--aeris-panel-footer-padding-block, 0.875rem) var(--_padding-inline);
-  border-block-start: 1px solid
-    var(
-      --aeris-panel-footer-border,
-      var(--aeris-border)
-    );
+  border-block-start: 1px solid var(--aeris-panel-footer-border, var(--aeris-border));
   background: var(--aeris-panel-footer-background, transparent);
 }
 

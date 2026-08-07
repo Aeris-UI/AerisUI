@@ -64,8 +64,11 @@ npm ci
 npm start
 ```
 
-`npm start` builds the library before serving the documentation application, ensuring the docs
-consume package output rather than library source files.
+`npm start` anchors every child process to this repository, builds the library before serving the
+documentation application, and watches both projects. It refuses to start a duplicate development
+session or reuse a port that is already occupied. If the repository has moved, it automatically
+discards Angular cache metadata created at the previous absolute path. Stop the complete development
+stack with `Ctrl+C`.
 
 ### Verification commands
 
