@@ -31,6 +31,7 @@ import {
   type AerisDialogVisibilityChangeEvent,
 } from '@aeris-ui/core/dialog';
 import { AerisButtonDirective, type AerisButtonSeverity } from '@aeris-ui/core/button';
+import type { AerisAppendTo } from '@aeris-ui/core';
 
 export type AerisConfirmDialogSeverity =
   | 'primary'
@@ -52,6 +53,7 @@ export type AerisConfirmDialogResult = 'accept' | 'reject' | 'dismiss';
 
 export interface AerisConfirmDialogConfig<TData = unknown> {
   readonly key?: string;
+  readonly appendTo?: AerisAppendTo;
   readonly header?: string;
   readonly message?: string;
   readonly data?: TData;
@@ -93,6 +95,7 @@ export interface AerisConfirmDialogConfig<TData = unknown> {
 
 export interface AerisConfirmDialogResolvedConfig<TData = unknown> {
   readonly key: string;
+  readonly appendTo: AerisAppendTo;
   readonly header: string;
   readonly message: string;
   readonly data: TData | undefined;
@@ -380,6 +383,7 @@ export class AerisConfirmDialogService {
   ): AerisConfirmDialogResolvedConfig<TData> {
     return {
       key: config.key ?? '',
+      appendTo: config.appendTo ?? 'body',
       header: config.header ?? 'Confirm action',
       message: config.message ?? '',
       data: config.data,
@@ -433,6 +437,7 @@ export class AerisConfirmDialogService {
   template: `
     <aeris-dialog
       #dialog
+      [appendTo]="settings().appendTo"
       [role]="'alertdialog'"
       [header]="settings().header"
       [modal]="settings().modal"
@@ -577,6 +582,7 @@ export class AerisConfirmDialog {
   private readonly activeRequest = signal<AerisConfirmDialogRequest | null>(null);
   private readonly localConfig = computed<AerisConfirmDialogResolvedConfig>(() => ({
     key: this.key(),
+    appendTo: this.appendTo(),
     header: this.header(),
     message: this.message(),
     data: this.data(),
@@ -667,6 +673,7 @@ export class AerisConfirmDialog {
   readonly visible = model(false);
 
   readonly key = input('');
+  readonly appendTo = input<AerisAppendTo>('body');
   readonly header = input('Confirm action');
   readonly message = input('');
   readonly data = input<unknown>();

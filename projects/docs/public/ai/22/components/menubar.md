@@ -115,10 +115,10 @@ interface AerisMenubarItemEvent<T = unknown> {
 | `--aeris-menubar-background` | `color` | `--aeris-surface` | Root surface background. |
 | `--aeris-menubar-border` | `color` | `--aeris-border` | Root and separator border color. |
 | `--aeris-menubar-radius` | `length` | `--aeris-radius-lg` | Root surface corner radius. |
-| `--aeris-menubar-item-radius` | `length` | `--aeris-radius-control` | Hover and focus item corner radius. |
+| `--aeris-menubar-item-radius` | `length` | `--aeris-radius-item` | Shared hover and focus radius for root items and submenu items. |
 | `--aeris-menubar-item-height` | `length` | `--aeris-item-height` | Minimum item height. |
 | `--aeris-menubar-submenu-width` | `length` | `15rem` | Minimum submenu panel width. |
-| `--aeris-menubar-submenu-radius` | `length` | `--aeris-radius-lg` | Submenu panel corner radius. |
+| `--aeris-menubar-submenu-radius` | `length` | `--aeris-radius-overlay` | Submenu corner radius shared by Aeris overlay surfaces. |
 | `--aeris-menubar-icon-size` | `length` | `1.125rem` | Default icon and chevron size. |
 
 ## Examples

@@ -258,6 +258,7 @@ interface AerisDialogTemplateContext {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Mounts the dialog overlay locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'header', type: 'string', defaultValue: "''", description: 'Default dialog title rendered in the header.' },
     { name: 'role', type: 'AerisDialogRole', defaultValue: "'dialog'", description: 'Dialog landmark role. Use alertdialog only for interruptive confirmation-style surfaces.' },
     { name: 'modal', type: 'boolean', defaultValue: 'true', description: 'Enables modal semantics, focus handling, and optional scroll blocking.' },

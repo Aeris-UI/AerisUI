@@ -29,6 +29,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the rows-per-page menu locally, in document.body, or in the supplied DOM/template target. |
 | `first` | `number (model)` | `0` | Index of the first record in the current page. |
 | `rows` | `number (model)` | `10` | Number of records shown per page. |
 | `totalRecords` | `number` | `0` | Total number of records available for pagination. |

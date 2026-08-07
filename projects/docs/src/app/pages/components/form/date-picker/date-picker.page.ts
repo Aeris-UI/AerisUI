@@ -210,6 +210,7 @@ interface AerisDatePickerChangeEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Mounts the overlay locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'value', type: 'AerisDatePickerValue (model)', defaultValue: 'null', description: 'Selected Date, date array, or range according to selectionMode.' },
     { name: 'selectionMode', type: 'AerisDatePickerSelectionMode', defaultValue: "'single'", description: 'Selects one date, multiple independent dates, or a start/end range.' },
     { name: 'view', type: 'AerisDatePickerView', defaultValue: "'day'", description: 'Chooses day, month, or year selection granularity.' },

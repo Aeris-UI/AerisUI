@@ -16,6 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵAerisAppendTo, type AerisAppendTo } from '@aeris-ui/core';
 
 export type AerisPasswordSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisPasswordAppearance = 'outline' | 'filled';
@@ -91,7 +92,7 @@ let passwordId = 0;
 
 @Component({
   selector: 'aeris-password',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <span
       class="aeris-password"
@@ -163,7 +164,11 @@ let passwordId = 0;
 
       @if (feedbackVisible()) {
         <span
+          #feedbackPanel
           class="aeris-password__feedback"
+          [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToAnchor]="passwordInput"
+          [aerisInternalAppendToMatchWidth]="true"
           [id]="feedbackId"
         >
           @if (headerTemplate(); as header) {
@@ -227,6 +232,8 @@ let passwordId = 0;
 export class AerisPasswordComponent implements ControlValueAccessor {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('passwordInput');
+  private readonly feedbackPanel = viewChild<ElementRef<HTMLElement>>('feedbackPanel');
+  private readonly feedbackPortal = viewChild(ɵAerisAppendTo);
   private readonly generatedId = `aeris-password-${++passwordId}`;
   private readonly formDisabled = signal(false);
   private readonly hasFocus = signal(false);
@@ -235,6 +242,7 @@ export class AerisPasswordComponent implements ControlValueAccessor {
 
   readonly value = model('');
   readonly visible = model(false);
+  readonly appendTo = input<AerisAppendTo>('self');
   readonly inputId = input('');
   readonly name = input('');
   readonly placeholder = input('');
@@ -348,7 +356,12 @@ export class AerisPasswordComponent implements ControlValueAccessor {
 
   protected handleFocusOut(event: FocusEvent): void {
     const nextTarget = event.relatedTarget;
-    if (nextTarget instanceof Node && this.host.nativeElement.contains(nextTarget)) return;
+    if (
+      nextTarget instanceof Node &&
+      (this.host.nativeElement.contains(nextTarget) ||
+        this.feedbackPanel()?.nativeElement.contains(nextTarget))
+    ) return;
+    this.feedbackPortal()?.restore();
     this.hasFocus.set(false);
     this.touch.emit();
     this.onTouched();

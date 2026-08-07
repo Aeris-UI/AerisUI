@@ -46,18 +46,23 @@
 }
 
 .aeris-button-group[data-orientation='horizontal'] > .aeris-button:first-child,
-.aeris-button-group[data-orientation='horizontal']
-  > aeris-button:first-child
-  > .aeris-button {
-  border-start-start-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem)) !important;
-  border-end-start-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem)) !important;
+.aeris-button-group[data-orientation='horizontal'] > aeris-button:first-child > .aeris-button {
+  border-start-start-radius: var(
+    --aeris-radius-control,
+    var(--aeris-radius-sm, 0.4375rem)
+  ) !important;
+  border-end-start-radius: var(
+    --aeris-radius-control,
+    var(--aeris-radius-sm, 0.4375rem)
+  ) !important;
 }
 
 .aeris-button-group[data-orientation='horizontal'] > .aeris-button:last-child,
-.aeris-button-group[data-orientation='horizontal']
-  > aeris-button:last-child
-  > .aeris-button {
-  border-start-end-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem)) !important;
+.aeris-button-group[data-orientation='horizontal'] > aeris-button:last-child > .aeris-button {
+  border-start-end-radius: var(
+    --aeris-radius-control,
+    var(--aeris-radius-sm, 0.4375rem)
+  ) !important;
   border-end-end-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem)) !important;
 }
 
@@ -67,26 +72,32 @@
 
 .aeris-button-group[data-orientation='vertical'] > .aeris-button,
 .aeris-button-group[data-orientation='vertical'] > aeris-button,
-.aeris-button-group[data-orientation='vertical']
-  > aeris-button
-  > .aeris-button {
+.aeris-button-group[data-orientation='vertical'] > aeris-button > .aeris-button {
   width: 100%;
 }
 
 .aeris-button-group[data-orientation='vertical'] > .aeris-button:first-child,
-.aeris-button-group[data-orientation='vertical']
-  > aeris-button:first-child
-  > .aeris-button {
-  border-start-start-radius: var(--aeris-radius-md, 0.6875rem) !important;
-  border-start-end-radius: var(--aeris-radius-md, 0.6875rem) !important;
+.aeris-button-group[data-orientation='vertical'] > aeris-button:first-child > .aeris-button {
+  border-start-start-radius: var(
+    --aeris-radius-structured-control,
+    var(--aeris-radius-md, 0.6875rem)
+  ) !important;
+  border-start-end-radius: var(
+    --aeris-radius-structured-control,
+    var(--aeris-radius-md, 0.6875rem)
+  ) !important;
 }
 
 .aeris-button-group[data-orientation='vertical'] > .aeris-button:last-child,
-.aeris-button-group[data-orientation='vertical']
-  > aeris-button:last-child
-  > .aeris-button {
-  border-end-start-radius: var(--aeris-radius-md, 0.6875rem) !important;
-  border-end-end-radius: var(--aeris-radius-md, 0.6875rem) !important;
+.aeris-button-group[data-orientation='vertical'] > aeris-button:last-child > .aeris-button {
+  border-end-start-radius: var(
+    --aeris-radius-structured-control,
+    var(--aeris-radius-md, 0.6875rem)
+  ) !important;
+  border-end-end-radius: var(
+    --aeris-radius-structured-control,
+    var(--aeris-radius-md, 0.6875rem)
+  ) !important;
 }
 
 @media (max-width: 40rem) {
@@ -102,26 +113,32 @@
 
   .aeris-button-group[data-responsive='true'] > .aeris-button,
   .aeris-button-group[data-responsive='true'] > aeris-button,
-  .aeris-button-group[data-responsive='true']
-    > aeris-button
-    > .aeris-button {
+  .aeris-button-group[data-responsive='true'] > aeris-button > .aeris-button {
     width: 100%;
     border-radius: 0 !important;
   }
 
   .aeris-button-group[data-responsive='true'] > .aeris-button:first-child,
-  .aeris-button-group[data-responsive='true']
-    > aeris-button:first-child
-    > .aeris-button {
-    border-start-start-radius: var(--aeris-radius-md, 0.6875rem) !important;
-    border-start-end-radius: var(--aeris-radius-md, 0.6875rem) !important;
+  .aeris-button-group[data-responsive='true'] > aeris-button:first-child > .aeris-button {
+    border-start-start-radius: var(
+      --aeris-radius-structured-control,
+      var(--aeris-radius-md, 0.6875rem)
+    ) !important;
+    border-start-end-radius: var(
+      --aeris-radius-structured-control,
+      var(--aeris-radius-md, 0.6875rem)
+    ) !important;
   }
 
   .aeris-button-group[data-responsive='true'] > .aeris-button:last-child,
-  .aeris-button-group[data-responsive='true']
-    > aeris-button:last-child
-    > .aeris-button {
-    border-end-start-radius: var(--aeris-radius-md, 0.6875rem) !important;
-    border-end-end-radius: var(--aeris-radius-md, 0.6875rem) !important;
+  .aeris-button-group[data-responsive='true'] > aeris-button:last-child > .aeris-button {
+    border-end-start-radius: var(
+      --aeris-radius-structured-control,
+      var(--aeris-radius-md, 0.6875rem)
+    ) !important;
+    border-end-end-radius: var(
+      --aeris-radius-structured-control,
+      var(--aeris-radius-md, 0.6875rem)
+    ) !important;
   }
 }

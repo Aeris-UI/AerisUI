@@ -353,7 +353,7 @@ The core library has no required runtime package beyond Angular and tslib. Insta
 
 > Configure Aeris at application startup and update supported settings at runtime.
 
-Aeris keeps global configuration intentionally small: theme, color mode, persistence, and direction are managed through one provider and service.
+Aeris keeps global configuration intentionally small: theme, color mode, persistence, direction, and overlay mounting are managed through one provider and service.
 
 Human-readable documentation: [https://aeris-ui.dev/guides/configuration](https://aeris-ui.dev/guides/configuration)
 
@@ -383,6 +383,7 @@ Theme diagnostics are enabled only during development and can be disabled with t
 | theme | AerisThemeOverride | AERIS_DEFAULT_THEME | Palette, semantic tones, schemes, density, radius, and direction |
 | themeModeStorageKey | string &#124; false | 'aeris-theme-mode' | Mode persistence key, or false to disable persistence |
 | themeValidation | boolean | true | Emit development-only diagnostics, or set false to disable every runtime theme warning |
+| overlayAppendTo | 'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined | 'self' | Default mounting target for component overlays; a component input can override it locally |
 
 #### Complete startup example
 
@@ -415,6 +416,14 @@ export const appConfig: ApplicationConfig = {
   ],
 };
 ```
+
+#### Overlay mounting
+
+Overlay-producing components render beside their trigger by default. Set overlayAppendTo: 'body' globally when application containers frequently clip floating panels, or set appendTo on one component for a local exception.
+
+Use 'self' to keep an overlay in its component, 'body' to mount it under document.body, or supply an HTMLElement, ElementRef<HTMLElement>, or TemplateRef target. Tooltip safely resolves 'self' to body because a directive host may be a void or interactive element that cannot contain generated overlay markup. null and undefined use the global setting. Aeris keeps the overlay aligned to its trigger and repositions it during scrolling and viewport changes.
+
+> Note: Prefer the default 'self' mode unless an ancestor clips or constrains the overlay. Portaling to body changes the overlay's DOM ancestry, although Aeris carries its theme variables and reading direction with it.
 
 #### Runtime configuration
 
@@ -470,7 +479,7 @@ export class AppearanceSettings {
 
 #### What remains component-specific
 
-Behavior that changes the meaning or interaction of one component stays on that component. Overlay position, append target, responsive breakpoints, validation messages, and animation timing are documented with the component that owns them.
+Behavior that changes the meaning or interaction of one component stays on that component. Overlay position, responsive breakpoints, validation messages, and animation timing are documented with the component that owns them.
 
 Use global configuration for coherent application defaults and component inputs or tokens for deliberate local exceptions.
 
@@ -1153,6 +1162,10 @@ export const appConfig: ApplicationConfig = {
 A design token is a named CSS custom property that represents a role instead of one hard-coded value. For example, --aeris-text always means normal readable content even though its resolved color changes with the theme and mode.
 
 Application surfaces should use semantic Aeris tokens so they stay synchronized with library components. Override a documented component token on a wrapper or component host when one instance needs a deliberate variation.
+
+Corner roles are consistent across the library: --aeris-radius-control shapes single-line fields and buttons, --aeris-radius-structured-control keeps multi-line and grouped controls from becoming impractical pills, --aeris-radius-item shapes selectable rows and menu items, --aeris-radius-overlay shapes floating panels, and --aeris-radius-surface shapes cards and structural containers. Each role derives from the active corner scale.
+
+The built-in scales keep overlays and structural surfaces compact. The pill preset fully rounds compact controls where that geometry is useful, while cards, tables, panels, menus, and other containers retain practical rounded corners.
 
 ##### src/styles.scss
 
@@ -2072,6 +2085,7 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
 | `value` | `string (model)` | `''` | Current text value with two-way binding and Forms support. |
 | `suggestions` | `readonly AerisAutoCompleteOption[]` | `[]` | Suggestion records used by local filtering and option rendering. |
 | `inputId` | `string` | `generated` | ID assigned to the internal text input. |
@@ -3112,6 +3126,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
 | `options` | `readonly AerisCascadeSelectOption[]` | `[]` | Hierarchical option tree rendered by the cascading columns. |
 | `inputId` | `string` | `generated` | ID assigned to the trigger button. |
@@ -4535,6 +4550,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
 | `value` | `string (model)` | `'#5f6f36'` | Current color value with two-way binding and Forms support. |
 | `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. |
 | `inputId` | `string` | `generated` | ID assigned to the visible color-picker trigger for label association. |
@@ -5457,6 +5473,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
 | `value` | `AerisDatePickerValue (model)` | `null` | Selected Date, date array, or range according to selectionMode. |
 | `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. |
 | `view` | `AerisDatePickerView` | `'day'` | Chooses day, month, or year selection granularity. |
@@ -11508,7 +11525,7 @@ interface AerisInputOtpCompleteEvent {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-control-height` | `CSS custom property` | — | Medium slot width and height. |
-| `--aeris-radius-sm` | `CSS custom property` | — | Slot corner radius. |
+| `--aeris-radius-control` | `CSS custom property` | — | Slot corner radius. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Outlined, filled, disabled, and read-only surfaces. |
 | `--aeris-border` | `CSS custom property` | — | Default slot border. |
 | `--aeris-primary` | `CSS custom property` | — | Hover border and caret color. |
@@ -12419,7 +12436,7 @@ type AerisControlSize = AerisInputTextSize;
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-control-height` | `CSS custom property` | — | Medium input height and density baseline. |
-| `--aeris-radius-sm` | `CSS custom property` | — | Input corner radius. |
+| `--aeris-radius-control` | `CSS custom property` | — | Input corner radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined input background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
 | `--aeris-border` | `CSS custom property` | — | Default input border. |
@@ -13952,6 +13969,7 @@ import { AerisMultiSelect, type AerisSelectOption } from '@aeris-ui/core/multi-s
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `readonly string[] (model)` | `[]` | Selected option values with two-way binding and Forms support. |
 | `inputId` | `string` | `''` | Visible-label association. |
@@ -15045,6 +15063,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self'` | Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target. |
 | `value` | `string (model)` | `''` | Password value with two-way binding and Forms support. |
 | `visible` | `boolean (model)` | `false` | Controls whether the value is masked. |
 | `inputId` | `string` | `''` | Native input ID. |
@@ -15131,7 +15150,7 @@ type AerisPasswordStrengthEvaluator = (
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-control-height` | `CSS custom property` | — | Medium control height. |
-| `--aeris-radius-sm / --aeris-radius-md` | `CSS custom property` | — | Field and feedback corner radii. |
+| `--aeris-radius-control / --aeris-radius-overlay` | `CSS custom property` | — | Field and feedback corner radii. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Field, panel, filled, and action surfaces. |
 | `--aeris-border / --aeris-border` | `CSS custom property` | — | Panel and field borders. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |
@@ -17521,6 +17540,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
 | `inputId` | `string` | `generated` | ID assigned to the combobox trigger for visible labels. |
@@ -19908,7 +19928,7 @@ type AerisTextareaResize =
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
-| `--aeris-radius-sm` | `CSS custom property` | — | Corner radius. |
+| `--aeris-radius-structured-control` | `CSS custom property` | — | Corner radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
 | `--aeris-border` | `CSS custom property` | — | Default border. |
@@ -21357,6 +21377,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
 | `nodes` | `readonly AerisTreeNode[]` | `required` | Tree data rendered recursively in source order. Nesting depth is not limited by the component API. |
 | `value` | `AerisTreeSelectValue (model)` | `null` | Selected value for single mode or selected value array for multiple and checkbox modes. |
 | `selectionMode` | `AerisTreeSelectMode` | `'single'` | Selection behavior: single, multiple, or checkbox with optional descendant propagation. |
@@ -22273,7 +22294,7 @@ interface AerisButtonContentTemplateContext {
 | `--aeris-on-primary-soft` | `CSS custom property` | — | Readable foreground on the primary soft background. |
 | `--aeris-success-* / --aeris-info-* / ...` | `CSS custom property` | — | The same state roles are available for secondary, success, info, warning, danger, and contrast. |
 | `--aeris-control-height` | `CSS custom property` | — | Medium control height and density anchor. |
-| `--aeris-radius-sm` | `CSS custom property` | — | Default button radius. |
+| `--aeris-radius-control` | `CSS custom property` | — | Default button radius. |
 | `--aeris-focus` | `CSS custom property` | — | Visible focus indicator. |
 
 #### Examples
@@ -24353,6 +24374,7 @@ from '@aeris-ui/core/split-button';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the action menu locally, in document.body, or in the supplied DOM/template target. |
 | `navigationHandler` | `AerisSplitButtonNavigationHandler &#124; undefined` | `undefined` | Optional framework-routing bridge for routerLink items. Native href navigation is used otherwise. |
 | `id` | `string` | `generated` | Stable base ID for the popup relationship and menu items. |
 | `label` | `string` | `''` | Primary action label. |
@@ -24436,7 +24458,7 @@ interface AerisSplitButtonProps {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-radius-sm` | `CSS custom property` | — | Connected segment corner radius. |
-| `--aeris-radius-md` | `CSS custom property` | — | Popup menu radius. |
+| `--aeris-radius-overlay` | `CSS custom property` | — | Popup menu radius. |
 | `--aeris-border` | `CSS custom property` | — | Popup border and connected divider. |
 | `--aeris-primary` | `CSS custom property` | — | Primary segments and selected menu feedback. |
 | `--aeris-focus` | `CSS custom property` | — | Visible segment and menu focus rings. |
@@ -25395,8 +25417,10 @@ interface AerisOrderListSelectionEvent<TItem = AerisOrderListItem> {
 | `--aeris-border` | `CSS custom property` | — | Container and control borders. |
 | `--aeris-primary-soft` | `CSS custom property` | — | Selected item background. |
 | `--aeris-focus` | `CSS custom property` | — | Keyboard focus ring. |
+| `--aeris-order-list-radius` | `CSS custom property` | — | Outer surface radius. |
 | `--aeris-order-list-max-height` | `CSS custom property` | — | Scrollable viewport max height. |
 | `--aeris-order-list-item-padding` | `CSS custom property` | — | List item padding. |
+| `--aeris-order-list-item-radius` | `CSS custom property` | — | Item radius shared with other Aeris selectable rows. |
 
 #### Examples
 
@@ -26126,6 +26150,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the rows-per-page menu locally, in document.body, or in the supplied DOM/template target. |
 | `first` | `number (model)` | `0` | Index of the first record in the current page. |
 | `rows` | `number (model)` | `10` | Number of records shown per page. |
 | `totalRecords` | `number` | `0` | Total number of records available for pagination. |
@@ -26492,6 +26517,7 @@ interface AerisPickListDragEvent<TItem> {
 | `--aeris-pick-list-min-height` | `CSS custom property` | — | Minimum listbox viewport height. |
 | `--aeris-pick-list-max-height` | `CSS custom property` | — | Maximum scrollable viewport height. |
 | `--aeris-pick-list-item-padding` | `CSS custom property` | — | Item content padding. |
+| `--aeris-pick-list-item-radius` | `CSS custom property` | — | Item radius shared with other Aeris selectable rows. |
 | `--aeris-pick-list-filter-height` | `CSS custom property` | — | Filter field height. |
 
 #### Examples
@@ -26949,6 +26975,7 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Forwards the mounting target to the paginator rows-per-page menu. |
 | `data` | `readonly AerisTableData[]` | `[]` | Rows rendered by the table. |
 | `columns` | `readonly AerisTableColumn[] (model)` | `[]` | Column definitions used for headers, cells, sorting, filtering, and controlled resized widths. |
 | `rowKeyField` | `string` | `'id'` | Row field used for selection, expansion, and tracking. |
@@ -28799,7 +28826,7 @@ interface AerisTreeNodeContext<TData = unknown> {
 | `--aeris-tree-indent-mobile` | `CSS custom property` | — | Hierarchy indent on narrow screens. |
 | `--aeris-tree-node-height` | `CSS custom property` | — | Minimum node row height. |
 | `--aeris-tree-node-padding` | `CSS custom property` | — | Node row padding. |
-| `--aeris-tree-node-radius` | `CSS custom property` | — | Node row corner radius. |
+| `--aeris-tree-node-radius` | `CSS custom property` | — | Node radius shared with other Aeris selectable rows. |
 | `--aeris-tree-node-hover` | `CSS custom property` | — | Hover and active node surface. |
 | `--aeris-tree-node-selected` | `CSS custom property` | — | Selected node surface. |
 | `--aeris-tree-drop-indicator` | `CSS custom property` | — | Drop line and inside-target outline. |
@@ -29530,6 +29557,7 @@ import { AerisTreeTableModule } from '@aeris-ui/core/tree-table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Forwards the mounting target to the paginator rows-per-page menu. |
 | `treeColumn` | `string` | `''` | Column field that owns indentation, toggles, and checkbox controls. Defaults to the first column. |
 | `caption` | `string` | `''` | Native table caption. |
 | `ariaLabel` | `string` | `'Tree table'` | Accessible name for the treegrid. |
@@ -36700,6 +36728,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a specific template host. Omit it for service-created dialogs. |
 | `header` | `string` | `'Confirm action'` | Visible title for declarative usage. |
 | `message` | `string` | `''` | Default confirmation message. |
@@ -36776,6 +36805,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a specific template host. Omit it for service-created dialogs. |
 | `header` | `string` | `'Confirm action'` | Visible title for declarative usage. |
 | `message` | `string` | `''` | Default confirmation message. |
@@ -36872,6 +36902,7 @@ type AerisDialogPosition =
 
 interface AerisConfirmDialogConfig<TData = unknown> {
   readonly key?: string;
+  readonly appendTo?: AerisAppendTo;
   readonly header?: string;
   readonly message?: string;
   readonly data?: TData;
@@ -37489,6 +37520,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a template host. |
 | `target` | `AerisConfirmPopupTarget` | `required` | Element or trigger event used for positioning and trigger ARIA state. |
 | `header` | `string` | `'Confirm action'` | Visible popup title. |
@@ -37562,6 +37594,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a template host. |
 | `target` | `AerisConfirmPopupTarget` | `required` | Element or trigger event used for positioning and trigger ARIA state. |
 | `header` | `string` | `'Confirm action'` | Visible popup title. |
@@ -37643,6 +37676,7 @@ type AerisConfirmPopupTarget = Element | EventTarget | Event | null | undefined;
 interface AerisConfirmPopupConfig<TData = unknown> {
   readonly key?: string;
   readonly target: AerisConfirmPopupTarget;
+  readonly appendTo?: AerisAppendTo;
   readonly header?: string;
   readonly message?: string;
   readonly data?: TData;
@@ -37693,7 +37727,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
 | `--aeris-confirm-popup-padding` | `CSS custom property` | `1rem` | Internal spacing. |
 | `--aeris-confirm-popup-background` | `CSS custom property` | `var(--aeris-surface)` | Popup surface. |
 | `--aeris-confirm-popup-border` | `CSS custom property` | `var(--aeris-border)` | Popup border. |
-| `--aeris-confirm-popup-radius` | `CSS custom property` | `var(--aeris-radius-lg)` | Popup radius. |
+| `--aeris-confirm-popup-radius` | `CSS custom property` | `var(--aeris-radius-overlay)` | Popup radius. |
 | `--aeris-confirm-popup-shadow` | `CSS custom property` | `component shadow` | Popup elevation. |
 | `--aeris-confirm-popup-focus` | `CSS custom property` | `var(--aeris-focus)` | Focus ring color. |
 | `--aeris-confirm-popup-icon-size` | `CSS custom property` | `2rem` | Built-in icon container size. |
@@ -38326,6 +38360,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the dialog overlay locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Default dialog title rendered in the header. |
 | `role` | `AerisDialogRole` | `'dialog'` | Dialog landmark role. Use alertdialog only for interruptive confirmation-style surfaces. |
 | `modal` | `boolean` | `true` | Enables modal semantics, focus handling, and optional scroll blocking. |
@@ -39384,6 +39419,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Default drawer title rendered in the header. |
 | `position` | `AerisDrawerPosition` | `'right'` | Anchors the drawer to the left, right, top, or bottom viewport edge. |
 | `size` | `AerisDrawerSize` | `'md'` | Applies preset width or height based on position. |
@@ -40465,6 +40501,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the dialog locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Dialog title rendered by the shell. |
 | `data` | `TData` | `undefined` | Typed payload available through AERIS_DYNAMIC_DIALOG_DATA. |
 | `inputValues` | `Record&lt;string, unknown&gt;` | `{}` | Input values applied to the dynamic content component. |
@@ -40517,6 +40554,7 @@ import {
 ```ts
 interface AerisDynamicDialogConfig<TData = unknown> {
   readonly header?: string;
+  readonly appendTo?: AerisAppendTo;
   readonly data?: TData;
   readonly inputValues?: Record<string, unknown>;
   readonly modal?: boolean;
@@ -41097,6 +41135,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target. |
 | `target` | `AerisPopoverTarget` | `null` | Element or trigger event used when visible is controlled directly. |
 | `header` | `string` | `''` | Visible popover title. |
 | `placement` | `AerisPopoverPlacement` | `'auto'` | Preferred placement around the target. |
@@ -41187,7 +41226,7 @@ interface AerisPopoverTemplateContext {
 | `--aeris-popover-max-width` | `CSS custom property` | `calc(100vw - 1rem)` | Maximum popover width. |
 | `--aeris-popover-background` | `CSS custom property` | `var(--aeris-surface)` | Popover surface. |
 | `--aeris-popover-border` | `CSS custom property` | `var(--aeris-border)` | Popover border. |
-| `--aeris-popover-radius` | `CSS custom property` | `var(--aeris-radius-lg)` | Popover radius. |
+| `--aeris-popover-radius` | `CSS custom property` | `var(--aeris-radius-overlay)` | Popover radius. |
 | `--aeris-popover-shadow` | `CSS custom property` | `component shadow` | Popover elevation. |
 | `--aeris-popover-focus` | `CSS custom property` | `var(--aeris-focus)` | Focus ring color. |
 | `--aeris-popover-body-padding` | `CSS custom property` | `1rem` | Body padding. |
@@ -41751,6 +41790,7 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `aerisTooltipAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global; safely mounted to body)` | Mounts the tooltip in its safe document layer for self/body, or in the supplied DOM/template target. |
 | `aerisTooltip` | `AerisTooltipContent` | `''` | String or template content rendered in the tooltip. |
 | `aerisTooltipPosition` | `AerisTooltipPosition` | `'top'` | Preferred edge around the target. |
 | `aerisTooltipEvent` | `AerisTooltipEvent` | `'both'` | Trigger mode: pointer hover, focus, or both. |
@@ -42981,7 +43021,7 @@ interface AerisBreadcrumbEllipsisTemplateContext {
 | `--aeris-breadcrumb-gap` | `length` | `0.25rem` | Gap between list items. |
 | `--aeris-breadcrumb-item-gap` | `length` | `0.375rem` | Gap inside each item. |
 | `--aeris-breadcrumb-icon-size` | `length` | `1rem` | Default icon box size for item icon metadata. |
-| `--aeris-breadcrumb-item-radius` | `length` | `--aeris-radius-sm` | Interactive item radius. |
+| `--aeris-breadcrumb-item-radius` | `length` | `--aeris-radius-control` | Interactive item radius. |
 | `--aeris-breadcrumb-item-hover-background` | `color` | `primary mix` | Hover background for links and buttons. |
 | `--aeris-breadcrumb-separator-color` | `color` | `muted text mix` | Separator color. |
 | `--aeris-breadcrumb-separator-size` | `length` | `1.25rem` | Default separator icon box size. |
@@ -43381,6 +43421,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the menu overlay locally, in document.body, or in the supplied DOM/template target. |
 | `id` | `string` | `generated id` | Root menu ID used for menu and submenu relationships. |
 | `model` | `readonly AerisContextMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |
 | `open` | `ModelSignal&lt;boolean&gt;` | `false` | Controlled visibility state. |
@@ -43492,13 +43533,13 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 | `--aeris-context-menu-max-height` | `length` | `min(26rem, calc(100vh - 1rem))` | Root menu max height. |
 | `--aeris-context-menu-padding` | `length` | `0.375rem` | Panel padding. |
 | `--aeris-context-menu-border` | `color` | `--aeris-border` | Panel border color. |
-| `--aeris-context-menu-radius` | `length` | `--aeris-radius-lg` | Panel radius. |
+| `--aeris-context-menu-radius` | `length` | `--aeris-radius-overlay` | Panel radius shared by Aeris overlay surfaces. |
 | `--aeris-context-menu-background` | `color` | `--aeris-surface` | Panel background. |
 | `--aeris-context-menu-color` | `color` | `--aeris-text` | Panel text color. |
 | `--aeris-context-menu-shadow` | `shadow` | `overlay shadow` | Panel and submenu shadow. |
 | `--aeris-context-menu-item-gap` | `length` | `0.625rem` | Gap inside item rows. |
 | `--aeris-context-menu-item-min-height` | `length` | `2.25rem` | Default item height. |
-| `--aeris-context-menu-item-radius` | `length` | `Panel inner radius` | Item radius derived from the panel radius, padding, and border so highlighted items follow the panel curve. |
+| `--aeris-context-menu-item-radius` | `length` | `--aeris-radius-item` | Item radius shared across root items and nested submenus. |
 | `--aeris-context-menu-item-hover-background` | `color` | `primary mix` | Hover and active item background. |
 | `--aeris-context-menu-icon-size` | `length` | `1.125rem` | Default icon box size. |
 | `--aeris-context-menu-disabled-opacity` | `number` | `0.52` | Disabled item opacity. |
@@ -44031,6 +44072,9 @@ interface AerisMegaMenuItemEvent<T = unknown> {
 | `--aeris-mega-menu-border` | `color` | `--aeris-border` | Root and nested separator border color. |
 | `--aeris-mega-menu-panel-background` | `color` | `--aeris-surface` | Mega panel background. |
 | `--aeris-mega-menu-panel-width` | `length` | `44rem` | Maximum panel width before viewport clamping. |
+| `--aeris-mega-menu-panel-radius` | `length` | `--aeris-radius-overlay` | Mega panel corner radius shared by Aeris overlay surfaces. |
+| `--aeris-mega-menu-item-radius` | `length` | `--aeris-radius-item` | Shared radius for top-level items and panel subitems. |
+| `--aeris-mega-menu-panel-item-radius` | `length` | `--aeris-mega-menu-item-radius` | Optional panel-only override for the otherwise shared item radius. |
 | `--aeris-mega-menu-item-hover-background` | `color` | `primary mix` | Hover and open trigger surface. |
 | `--aeris-mega-menu-icon-size` | `length` | `1.125rem` | Default icon and chevron box. |
 
@@ -44290,6 +44334,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the panel target when popup is enabled; inline menus remain local. |
 | `id` | `string` | `generated` | ID for the root panel. |
 | `model` | `readonly AerisMenuItem&lt;T&gt;[]` | `[]` | Menu item model with groups, separators, commands, links, and nested items. |
 | `expandedKeys` | `AerisMenuExpandedKeys (model)` | `{}` | Controlled expanded state keyed by item id or generated path. |
@@ -44396,10 +44441,10 @@ interface AerisMenuVisibilityEvent {
 | `--aeris-menu-max-height` | `length` | `none / viewport in popup` | Maximum scrollable panel height. |
 | `--aeris-menu-background` | `color` | `--aeris-surface` | Panel background. |
 | `--aeris-menu-border` | `color` | `--aeris-border` | Panel border. |
-| `--aeris-menu-radius` | `length` | `--aeris-radius-lg` | Panel corner radius. |
+| `--aeris-menu-radius` | `length` | `--aeris-radius-overlay` | Panel corner radius shared by Aeris overlay surfaces. |
 | `--aeris-menu-shadow` | `shadow` | `overlay shadow` | Panel elevation. |
 | `--aeris-menu-item-min-height` | `length` | `--aeris-item-height` | Minimum item height. |
-| `--aeris-menu-item-radius` | `length` | `--aeris-radius-sm` | Item corner radius. |
+| `--aeris-menu-item-radius` | `length` | `--aeris-radius-item` | Item corner radius shared with other Aeris selectable rows. |
 | `--aeris-menu-item-hover-background` | `color` | `primary mix` | Hover and active item background. |
 | `--aeris-menu-icon-size` | `length` | `1.125rem` | Icon and chevron box size. |
 | `--aeris-menu-badge-max-width` | `length` | `min(7rem, 36vw)` | Maximum badge width before ellipsis. |
@@ -45437,10 +45482,10 @@ interface AerisMenubarItemEvent<T = unknown> {
 | `--aeris-menubar-background` | `color` | `--aeris-surface` | Root surface background. |
 | `--aeris-menubar-border` | `color` | `--aeris-border` | Root and separator border color. |
 | `--aeris-menubar-radius` | `length` | `--aeris-radius-lg` | Root surface corner radius. |
-| `--aeris-menubar-item-radius` | `length` | `--aeris-radius-control` | Hover and focus item corner radius. |
+| `--aeris-menubar-item-radius` | `length` | `--aeris-radius-item` | Shared hover and focus radius for root items and submenu items. |
 | `--aeris-menubar-item-height` | `length` | `--aeris-item-height` | Minimum item height. |
 | `--aeris-menubar-submenu-width` | `length` | `15rem` | Minimum submenu panel width. |
-| `--aeris-menubar-submenu-radius` | `length` | `--aeris-radius-lg` | Submenu panel corner radius. |
+| `--aeris-menubar-submenu-radius` | `length` | `--aeris-radius-overlay` | Submenu corner radius shared by Aeris overlay surfaces. |
 | `--aeris-menubar-icon-size` | `length` | `1.125rem` | Default icon and chevron size. |
 
 #### Examples
@@ -46356,6 +46401,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the panel target when popup is enabled; inline menus remain local. |
 | `id` | `string` | `generated id` | Panel ID used for menu and submenu relationships. |
 | `model` | `readonly AerisTieredMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |
 | `open` | `boolean (model)` | `false` | Controlled popup visibility. |
@@ -46464,12 +46510,12 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
 | `--aeris-tiered-menu-max-height` | `length` | `min(26rem, calc(100vh - 1rem))` | Root list maximum height. |
 | `--aeris-tiered-menu-padding` | `length` | `0.375rem` | Panel and submenu padding. |
 | `--aeris-tiered-menu-border` | `color` | `--aeris-border` | Panel border color. |
-| `--aeris-tiered-menu-radius` | `length` | `--aeris-radius-lg` | Panel and submenu radius. |
+| `--aeris-tiered-menu-radius` | `length` | `--aeris-radius-overlay` | Panel and submenu radius shared by Aeris overlay surfaces. |
 | `--aeris-tiered-menu-background` | `color` | `--aeris-surface` | Panel background. |
 | `--aeris-tiered-menu-shadow` | `shadow` | `overlay shadow` | Panel and submenu elevation. |
 | `--aeris-tiered-menu-item-gap` | `length` | `--aeris-density-gap` | Gap inside item rows. |
 | `--aeris-tiered-menu-item-min-height` | `length` | `--aeris-item-height` | Default item height. |
-| `--aeris-tiered-menu-item-radius` | `length` | `--aeris-radius-control` | Item hover and focus radius. |
+| `--aeris-tiered-menu-item-radius` | `length` | `--aeris-radius-item` | Item hover and focus radius shared across every menu depth. |
 | `--aeris-tiered-menu-item-hover-background` | `color` | `primary mix` | Hover, active, and open item background. |
 | `--aeris-tiered-menu-icon-size` | `length` | `1.125rem` | Default icon box size. |
 | `--aeris-tiered-menu-submenu-width` | `length` | `14rem` | Submenu panel width. |

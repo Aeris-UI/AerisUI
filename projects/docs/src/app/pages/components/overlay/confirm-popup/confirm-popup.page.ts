@@ -311,6 +311,7 @@ type AerisConfirmPopupTarget = Element | EventTarget | Event | null | undefined;
 interface AerisConfirmPopupConfig<TData = unknown> {
   readonly key?: string;
   readonly target: AerisConfirmPopupTarget;
+  readonly appendTo?: AerisAppendTo;
   readonly header?: string;
   readonly message?: string;
   readonly data?: TData;
@@ -356,6 +357,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
   ];
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'body'", description: 'Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'key', type: 'string', defaultValue: "''", description: 'Matches service requests to a template host.' },
     { name: 'target', type: 'AerisConfirmPopupTarget', defaultValue: 'required', description: 'Element or trigger event used for positioning and trigger ARIA state.' },
     { name: 'header', type: 'string', defaultValue: "'Confirm action'", description: 'Visible popup title.' },

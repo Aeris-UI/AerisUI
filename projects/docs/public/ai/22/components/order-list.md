@@ -101,8 +101,10 @@ interface AerisOrderListSelectionEvent<TItem = AerisOrderListItem> {
 | `--aeris-border` | `CSS custom property` | — | Container and control borders. |
 | `--aeris-primary-soft` | `CSS custom property` | — | Selected item background. |
 | `--aeris-focus` | `CSS custom property` | — | Keyboard focus ring. |
+| `--aeris-order-list-radius` | `CSS custom property` | — | Outer surface radius. |
 | `--aeris-order-list-max-height` | `CSS custom property` | — | Scrollable viewport max height. |
 | `--aeris-order-list-item-padding` | `CSS custom property` | — | List item padding. |
+| `--aeris-order-list-item-radius` | `CSS custom property` | — | Item radius shared with other Aeris selectable rows. |
 
 ## Examples
 

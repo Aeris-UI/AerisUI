@@ -26,6 +26,7 @@ import {
   aerisInternalMeasureColumnWidths,
   aerisInternalPixelWidth,
   aerisInternalSetColumnPairWidths,
+  type AerisAppendTo,
 } from '@aeris-ui/core';
 
 export type AerisTableSize = 'sm' | 'md' | 'lg';
@@ -585,6 +586,7 @@ export class AerisTableLoadingTemplate {
           [totalRecords]="filteredSortedRows().length"
           [pageLinkSize]="pageLinkSize()"
           [rowsPerPageOptions]="rowsPerPageOptions()"
+          [appendTo]="paginatorDropdownAppendTo()"
           (page)="handlePage($event)"
         />
       }
@@ -615,6 +617,7 @@ export class AerisTable {
   readonly first = model(0);
   readonly pageLinkSize = input(5);
   readonly rowsPerPageOptions = input<readonly number[]>([]);
+  readonly paginatorDropdownAppendTo = input<AerisAppendTo>();
   readonly globalFilter = input(false, { transform: booleanAttribute });
   readonly filterValue = model('');
   readonly columnFilter = input(false, { transform: booleanAttribute });

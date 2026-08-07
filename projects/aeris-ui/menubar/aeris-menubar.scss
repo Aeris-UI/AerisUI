@@ -1,6 +1,23 @@
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
+  --_aeris-menubar-item-radius: var(
+    --aeris-menubar-item-radius,
+    var(
+      --aeris-radius-item,
+      max(
+        0px,
+        calc(
+          var(
+              --aeris-menubar-radius,
+              var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+            ) - var(--aeris-menubar-padding, 0.35rem) -
+            1px
+        )
+      )
+    )
+  );
+
   display: block;
   max-inline-size: 100%;
   color: var(--aeris-menubar-color, var(--aeris-text, #222222));
@@ -17,9 +34,11 @@
   gap: var(--aeris-menubar-gap, calc(var(--aeris-density-gap, 0.5rem) * 0.65));
   min-inline-size: 0;
   padding: var(--aeris-menubar-padding, 0.35rem);
-  border: 1px solid
-    var(--aeris-menubar-border, var(--aeris-border));
-  border-radius: var(--aeris-menubar-radius, var(--aeris-radius-lg, 1rem));
+  border: 1px solid var(--aeris-menubar-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-menubar-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-menubar-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-menubar-shadow, 0 1rem 2.5rem rgba(0, 0, 0, 0.08));
 }
@@ -69,7 +88,7 @@
     var(--aeris-item-padding-y, 0.5rem) var(--aeris-item-padding-x, 0.75rem)
   );
   border: 0;
-  border-radius: var(--aeris-menubar-item-radius, var(--aeris-radius-control, var(--aeris-radius-sm, 0.5rem)));
+  border-radius: var(--_aeris-menubar-item-radius);
   background: transparent;
   color: inherit;
   font: inherit;
@@ -101,7 +120,12 @@
 }
 
 .aeris-menubar__item:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 38%, transparent);
+  outline: 3px solid
+    color-mix(
+      in srgb,
+      var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 38%,
+      transparent
+    );
   outline-offset: 2px;
 }
 
@@ -148,7 +172,9 @@
   transition: transform 140ms ease;
 }
 
-.aeris-menubar__item-shell[data-open='true'] > .aeris-menubar__item .aeris-menubar__chevron[data-root='true'] {
+.aeris-menubar__item-shell[data-open='true']
+  > .aeris-menubar__item
+  .aeris-menubar__chevron[data-root='true'] {
   transform: rotate(180deg);
 }
 
@@ -163,7 +189,10 @@
     --aeris-menubar-badge-background,
     color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 15%, transparent)
   );
-  color: var(--aeris-menubar-badge-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
+  color: var(
+    --aeris-menubar-badge-color,
+    var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
+  );
   font-size: 0.72rem;
   font-weight: 850;
   overflow: hidden;
@@ -188,12 +217,11 @@
   min-inline-size: var(--aeris-menubar-submenu-width, 15rem);
   max-inline-size: min(var(--aeris-menubar-submenu-max-width, 22rem), calc(100vw - 2rem));
   padding: var(--aeris-menubar-submenu-padding, 0.35rem);
-  border: 1px solid
-    var(
-      --aeris-menubar-submenu-border,
-      var(--aeris-border)
-    );
-  border-radius: var(--aeris-menubar-submenu-radius, var(--aeris-radius-lg, 1rem));
+  border: 1px solid var(--aeris-menubar-submenu-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-menubar-submenu-radius,
+    var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
+  );
   background: var(--aeris-menubar-submenu-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-menubar-submenu-shadow, 0 1.25rem 3rem rgba(0, 0, 0, 0.16));
 }
@@ -211,10 +239,7 @@
 .aeris-menubar__separator {
   block-size: 1px;
   margin: 0.35rem 0.5rem;
-  background: var(
-    --aeris-menubar-border,
-    var(--aeris-border)
-  );
+  background: var(--aeris-menubar-border, var(--aeris-border));
 }
 
 .aeris-menubar__toggle {
@@ -238,7 +263,12 @@
 }
 
 .aeris-menubar__toggle:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 38%, transparent);
+  outline: 3px solid
+    color-mix(
+      in srgb,
+      var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 38%,
+      transparent
+    );
   outline-offset: 2px;
 }
 

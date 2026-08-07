@@ -29,6 +29,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self'` | Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target. |
 | `value` | `string (model)` | `''` | Password value with two-way binding and Forms support. |
 | `visible` | `boolean (model)` | `false` | Controls whether the value is masked. |
 | `inputId` | `string` | `''` | Native input ID. |
@@ -115,7 +116,7 @@ type AerisPasswordStrengthEvaluator = (
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-control-height` | `CSS custom property` | — | Medium control height. |
-| `--aeris-radius-sm / --aeris-radius-md` | `CSS custom property` | — | Field and feedback corner radii. |
+| `--aeris-radius-control / --aeris-radius-overlay` | `CSS custom property` | — | Field and feedback corner radii. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Field, panel, filled, and action surfaces. |
 | `--aeris-border / --aeris-border` | `CSS custom property` | — | Panel and field borders. |
 | `--aeris-focus` | `CSS custom property` | — | Focus border and ring. |

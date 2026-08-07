@@ -129,15 +129,22 @@ describe('AerisMenu', () => {
     await fixture.whenStable();
 
     const root = fixture.nativeElement.querySelector('[role="menu"]') as HTMLElement;
-    const items = fixture.nativeElement.querySelectorAll('[role="menuitem"]') as NodeListOf<HTMLElement>;
-    const disabled = [...items]
-      .find((item) => item.textContent?.includes('Disabled')) as HTMLButtonElement;
+    const items = fixture.nativeElement.querySelectorAll(
+      '[role="menuitem"]',
+    ) as NodeListOf<HTMLElement>;
+    const disabled = [...items].find((item) =>
+      item.textContent?.includes('Disabled'),
+    ) as HTMLButtonElement;
 
     expect(root.getAttribute('aria-label')).toBe('Workspace menu');
     expect(items.length).toBe(5);
     expect(fixture.nativeElement.querySelector('[role="separator"]')).not.toBeNull();
-    expect(fixture.nativeElement.querySelector('.aeris-menu__badge')?.textContent?.trim()).toBe('New');
+    expect(fixture.nativeElement.querySelector('.aeris-menu__badge')?.textContent?.trim()).toBe(
+      'New',
+    );
     expect(disabled.disabled).toBe(true);
+    const itemRadius = getComputedStyle(items[0] as HTMLElement).borderRadius;
+    expect(itemRadius).toContain('--aeris-radius-item');
   });
 
   it('sanitizes unsafe URLs and protects new browsing contexts', async () => {
@@ -154,8 +161,9 @@ describe('AerisMenu', () => {
     const fixture = TestBed.createComponent(MenuTestHost);
     await fixture.whenStable();
 
-    const profile = [...fixture.nativeElement.querySelectorAll('[role="menuitem"]')]
-      .find((item: HTMLElement) => item.textContent?.includes('Profile')) as HTMLButtonElement;
+    const profile = [...fixture.nativeElement.querySelectorAll('[role="menuitem"]')].find(
+      (item: HTMLElement) => item.textContent?.includes('Profile'),
+    ) as HTMLButtonElement;
     profile.click();
     fixture.detectChanges();
 
@@ -167,8 +175,9 @@ describe('AerisMenu', () => {
     const fixture = TestBed.createComponent(MenuTestHost);
     await fixture.whenStable();
 
-    const workspace = [...fixture.nativeElement.querySelectorAll('[role="menuitem"]')]
-      .find((item: HTMLElement) => item.textContent?.includes('Workspace')) as HTMLButtonElement;
+    const workspace = [...fixture.nativeElement.querySelectorAll('[role="menuitem"]')].find(
+      (item: HTMLElement) => item.textContent?.includes('Workspace'),
+    ) as HTMLButtonElement;
     expect(workspace.getAttribute('aria-expanded')).toBe('true');
 
     workspace.click();
@@ -208,17 +217,23 @@ describe('AerisMenu', () => {
     await fixture.whenStable();
 
     expect(document.activeElement?.textContent).toContain('Profile');
-    document.activeElement?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+    document.activeElement?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
+    );
     fixture.detectChanges();
     await fixture.whenStable();
     expect(document.activeElement?.textContent).toContain('Workspace');
 
-    document.activeElement?.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }));
+    document.activeElement?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'End', bubbles: true }),
+    );
     fixture.detectChanges();
     await fixture.whenStable();
     expect(document.activeElement?.textContent).toContain('Reports');
 
-    document.activeElement?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
+    document.activeElement?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Home', bubbles: true }),
+    );
     fixture.detectChanges();
     await fixture.whenStable();
     expect(document.activeElement?.textContent).toContain('Profile');

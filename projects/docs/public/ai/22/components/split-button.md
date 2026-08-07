@@ -30,6 +30,7 @@ from '@aeris-ui/core/split-button';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the action menu locally, in document.body, or in the supplied DOM/template target. |
 | `navigationHandler` | `AerisSplitButtonNavigationHandler &#124; undefined` | `undefined` | Optional framework-routing bridge for routerLink items. Native href navigation is used otherwise. |
 | `id` | `string` | `generated` | Stable base ID for the popup relationship and menu items. |
 | `label` | `string` | `''` | Primary action label. |
@@ -113,7 +114,7 @@ interface AerisSplitButtonProps {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-radius-sm` | `CSS custom property` | — | Connected segment corner radius. |
-| `--aeris-radius-md` | `CSS custom property` | — | Popup menu radius. |
+| `--aeris-radius-overlay` | `CSS custom property` | — | Popup menu radius. |
 | `--aeris-border` | `CSS custom property` | — | Popup border and connected divider. |
 | `--aeris-primary` | `CSS custom property` | — | Primary segments and selected menu feedback. |
 | `--aeris-focus` | `CSS custom property` | — | Visible segment and menu focus rings. |

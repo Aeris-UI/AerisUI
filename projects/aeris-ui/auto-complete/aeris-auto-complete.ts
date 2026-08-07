@@ -16,6 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵAerisAppendTo, type AerisAppendTo } from '@aeris-ui/core';
 
 export type AerisAutoCompleteSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisAutoCompleteAppearance = 'outline' | 'filled';
@@ -99,7 +100,7 @@ let nextAutoCompleteId = 0;
 
 @Component({
   selector: 'aeris-auto-complete',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <div
       class="aeris-auto-complete"
@@ -181,7 +182,12 @@ let nextAutoCompleteId = 0;
         ></button>
 
         <div
+          #suggestionsPanel
           class="aeris-auto-complete__panel"
+          [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToAnchor]="inputElement()?.nativeElement ?? null"
+          [aerisInternalAppendToMatchWidth]="true"
+          (aerisInternalAppendToOutside)="closePanel()"
           [id]="panelId"
           role="listbox"
           [attr.aria-label]="listboxAriaLabel()"
@@ -285,7 +291,9 @@ let nextAutoCompleteId = 0;
   },
 })
 export class AerisAutoComplete implements ControlValueAccessor {
-  private readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('textInput');
+  protected readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('textInput');
+  private readonly suggestionsPanel = viewChild<ElementRef<HTMLElement>>('suggestionsPanel');
+  private readonly panelPortal = viewChild(ɵAerisAppendTo);
   private readonly generatedId = `aeris-auto-complete-${++nextAutoCompleteId}`;
   private readonly formDisabled = signal(false);
   private readonly activeValue = signal<string | null>(null);
@@ -313,6 +321,7 @@ export class AerisAutoComplete implements ControlValueAccessor {
   readonly filterMatchMode = input<AerisAutoCompleteFilterMatchMode>('contains');
   readonly minLength = input(1);
   readonly panelMaxHeight = input('16rem');
+  readonly appendTo = input<AerisAppendTo>();
   readonly invalid = input(false, { transform: booleanAttribute });
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly readonly = input(false, { transform: booleanAttribute });
@@ -407,6 +416,7 @@ export class AerisAutoComplete implements ControlValueAccessor {
 
   closePanel(): void {
     if (!this.panelOpen()) return;
+    this.panelPortal()?.restore();
     this.panelOpen.set(false);
     this.activeValue.set(null);
     this.closed.emit();
@@ -465,7 +475,11 @@ export class AerisAutoComplete implements ControlValueAccessor {
   protected handleFocusOut(event: FocusEvent): void {
     const nextTarget = event.relatedTarget as Node | null;
     const currentTarget = event.currentTarget as HTMLElement;
-    if (!nextTarget || !currentTarget.contains(nextTarget)) {
+    if (
+      !nextTarget ||
+      (!currentTarget.contains(nextTarget) &&
+        !this.suggestionsPanel()?.nativeElement.contains(nextTarget))
+    ) {
       this.closePanel();
     }
   }

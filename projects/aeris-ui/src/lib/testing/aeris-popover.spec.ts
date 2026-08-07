@@ -125,10 +125,10 @@ describe('AerisPopover', () => {
     await settle();
     await settle();
 
-    const popover = fixture.nativeElement.querySelector('[role="dialog"]') as HTMLElement;
-    const title = fixture.nativeElement.querySelector('.aeris-popover__title') as HTMLElement;
-    const firstAction = fixture.nativeElement.querySelector('#first-action') as HTMLButtonElement;
-    const close = fixture.nativeElement.querySelector('.aeris-popover__close') as HTMLButtonElement;
+    const popover = document.querySelector('[role="dialog"]') as HTMLElement;
+    const title = document.querySelector('.aeris-popover__title') as HTMLElement;
+    const firstAction = document.querySelector('#first-action') as HTMLButtonElement;
+    const close = document.querySelector('.aeris-popover__close') as HTMLButtonElement;
 
     expect(popover).toBeTruthy();
     expect(popover.getAttribute('aria-modal')).toBe('true');
@@ -160,7 +160,7 @@ describe('AerisPopover', () => {
     await settle();
     await settle();
 
-    const action = fixture.nativeElement.querySelector('#controlled-action') as HTMLButtonElement;
+    const action = document.querySelector('#controlled-action') as HTMLButtonElement;
     expect(document.activeElement).toBe(action);
 
     action.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
@@ -208,11 +208,11 @@ describe('AerisPopover', () => {
     fixture.detectChanges();
     await settle();
 
-    expect(fixture.nativeElement.querySelector('.custom-header')?.textContent).toContain(
+    expect(document.querySelector('.custom-header')?.textContent).toContain(
       'Template header',
     );
-    expect(fixture.nativeElement.querySelector('.custom-close')?.textContent).toContain('x');
-    expect(fixture.nativeElement.querySelector('#template-close')).toBeTruthy();
+    expect(document.querySelector('.custom-close')?.textContent).toContain('x');
+    expect(document.querySelector('#template-close')).toBeTruthy();
   });
 
   it('supports headless template content', async () => {
@@ -224,9 +224,9 @@ describe('AerisPopover', () => {
     fixture.detectChanges();
     await settle();
 
-    expect(fixture.nativeElement.querySelector('.headless-shell')?.textContent).toContain(
+    expect(document.querySelector('.headless-shell')?.textContent).toContain(
       'Headless content',
     );
-    expect(fixture.nativeElement.querySelector('#headless-close')).toBeTruthy();
+    expect(document.querySelector('#headless-close')).toBeTruthy();
   });
 });

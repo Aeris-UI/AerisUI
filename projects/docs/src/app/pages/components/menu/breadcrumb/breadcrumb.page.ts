@@ -307,59 +307,247 @@ interface AerisBreadcrumbEllipsisTemplateContext {
 
   protected readonly inputs: readonly ApiRow[] = [
     { name: 'id', type: 'string', defaultValue: 'generated id', description: 'Host ID.' },
-    { name: 'items', type: 'readonly AerisBreadcrumbItem[]', defaultValue: '[]', description: 'Breadcrumb trail items after the optional home item.' },
-    { name: 'home', type: 'AerisBreadcrumbItem | null', defaultValue: 'null', description: 'Optional first item for the root location. It can be icon-only when ariaLabel is provided.' },
-    { name: 'variant', type: 'AerisBreadcrumbVariant', defaultValue: "'outlined'", description: 'Outlined, filled, or plain surface treatment.' },
-    { name: 'size', type: 'AerisBreadcrumbSize', defaultValue: "'md'", description: 'Controls padding, separator size, and text density.' },
-    { name: 'separator', type: 'string', defaultValue: "''", description: 'Text separator. Empty value renders the default Aeris chevron.' },
-    { name: 'maxItems', type: 'number | null', defaultValue: 'null', description: 'Maximum visible items before middle items collapse behind an ellipsis.' },
-    { name: 'wrap', type: 'boolean', defaultValue: 'true', description: 'Allows the breadcrumb trail to wrap when space is limited.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'true', description: 'Makes the breadcrumb fill the available inline size.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Breadcrumb'", description: 'Accessible name for the internal navigation element.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the breadcrumb navigation.' },
-    { name: 'ariaDescribedBy', type: 'string', defaultValue: "''", description: 'ID of text that describes the breadcrumb navigation.' },
-    { name: 'ariaCurrent', type: 'AerisBreadcrumbAriaCurrent', defaultValue: "'page'", description: 'Value applied to the current item through aria-current.' },
-    { name: 'ellipsisLabel', type: 'string', defaultValue: "'Show hidden breadcrumb items'", description: 'Accessible name for the ellipsis button.' },
+    {
+      name: 'items',
+      type: 'readonly AerisBreadcrumbItem[]',
+      defaultValue: '[]',
+      description: 'Breadcrumb trail items after the optional home item.',
+    },
+    {
+      name: 'home',
+      type: 'AerisBreadcrumbItem | null',
+      defaultValue: 'null',
+      description:
+        'Optional first item for the root location. It can be icon-only when ariaLabel is provided.',
+    },
+    {
+      name: 'variant',
+      type: 'AerisBreadcrumbVariant',
+      defaultValue: "'outlined'",
+      description: 'Outlined, filled, or plain surface treatment.',
+    },
+    {
+      name: 'size',
+      type: 'AerisBreadcrumbSize',
+      defaultValue: "'md'",
+      description: 'Controls padding, separator size, and text density.',
+    },
+    {
+      name: 'separator',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Text separator. Empty value renders the default Aeris chevron.',
+    },
+    {
+      name: 'maxItems',
+      type: 'number | null',
+      defaultValue: 'null',
+      description: 'Maximum visible items before middle items collapse behind an ellipsis.',
+    },
+    {
+      name: 'wrap',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Allows the breadcrumb trail to wrap when space is limited.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Makes the breadcrumb fill the available inline size.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Breadcrumb'",
+      description: 'Accessible name for the internal navigation element.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the breadcrumb navigation.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of text that describes the breadcrumb navigation.',
+    },
+    {
+      name: 'ariaCurrent',
+      type: 'AerisBreadcrumbAriaCurrent',
+      defaultValue: "'page'",
+      description: 'Value applied to the current item through aria-current.',
+    },
+    {
+      name: 'ellipsisLabel',
+      type: 'string',
+      defaultValue: "'Show hidden breadcrumb items'",
+      description: 'Accessible name for the ellipsis button.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'itemSelected', type: 'AerisBreadcrumbItemEvent', defaultValue: '-', description: 'Emitted when a non-current, enabled item is selected.' },
-    { name: 'ellipsisSelected', type: 'AerisBreadcrumbEllipsisEvent', defaultValue: '-', description: 'Emitted when the ellipsis control is selected.' },
+    {
+      name: 'itemSelected',
+      type: 'AerisBreadcrumbItemEvent',
+      defaultValue: '-',
+      description: 'Emitted when a non-current, enabled item is selected.',
+    },
+    {
+      name: 'ellipsisSelected',
+      type: 'AerisBreadcrumbEllipsisEvent',
+      defaultValue: '-',
+      description: 'Emitted when the ellipsis control is selected.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisBreadcrumbItem', type: 'AerisBreadcrumbItemTemplateContext', defaultValue: 'default anchor, button, or text item', description: 'Custom content for each visible breadcrumb item.' },
-    { name: 'aerisBreadcrumbSeparator', type: 'AerisBreadcrumbSeparatorTemplateContext', defaultValue: 'Aeris chevron icon or separator text', description: 'Custom separator rendered between items.' },
-    { name: 'aerisBreadcrumbEllipsis', type: 'AerisBreadcrumbEllipsisTemplateContext', defaultValue: 'ellipsis glyph', description: 'Custom ellipsis content when middle items are collapsed.' },
+    {
+      name: 'aerisBreadcrumbItem',
+      type: 'AerisBreadcrumbItemTemplateContext',
+      defaultValue: 'default anchor, button, or text item',
+      description: 'Custom content for each visible breadcrumb item.',
+    },
+    {
+      name: 'aerisBreadcrumbSeparator',
+      type: 'AerisBreadcrumbSeparatorTemplateContext',
+      defaultValue: 'Aeris chevron icon or separator text',
+      description: 'Custom separator rendered between items.',
+    },
+    {
+      name: 'aerisBreadcrumbEllipsis',
+      type: 'AerisBreadcrumbEllipsisTemplateContext',
+      defaultValue: 'ellipsis glyph',
+      description: 'Custom ellipsis content when middle items are collapsed.',
+    },
   ];
 
   protected readonly contentRows: readonly ApiRow[] = [
-    { name: 'default content', type: 'content projection', defaultValue: '-', description: 'Only template directives are consumed. Visual items come from the items and home inputs.' },
+    {
+      name: 'default content',
+      type: 'content projection',
+      defaultValue: '-',
+      description:
+        'Only template directives are consumed. Visual items come from the items and home inputs.',
+    },
   ];
 
   protected readonly tokens: readonly ApiRow[] = [
-    { name: '--aeris-breadcrumb-background', type: 'color', defaultValue: '--aeris-surface', description: 'Breadcrumb surface color.' },
-    { name: '--aeris-breadcrumb-color', type: 'color', defaultValue: '--aeris-text', description: 'Default breadcrumb text color.' },
-    { name: '--aeris-breadcrumb-muted-color', type: 'color', defaultValue: '--aeris-text-2', description: 'Non-current item color.' },
-    { name: '--aeris-breadcrumb-current-color', type: 'color', defaultValue: '--aeris-text', description: 'Current item color.' },
-    { name: '--aeris-breadcrumb-border', type: 'color', defaultValue: '--aeris-border', description: 'Breadcrumb border color.' },
-    { name: '--aeris-breadcrumb-border-width', type: 'length', defaultValue: '1px', description: 'Breadcrumb border width.' },
-    { name: '--aeris-breadcrumb-radius', type: 'length', defaultValue: '--aeris-radius-lg', description: 'Breadcrumb corner radius.' },
-    { name: '--aeris-breadcrumb-shadow', type: 'shadow', defaultValue: 'none', description: 'Breadcrumb shadow.' },
-    { name: '--aeris-breadcrumb-padding-block', type: 'length', defaultValue: '0.75rem', description: 'Default block padding.' },
-    { name: '--aeris-breadcrumb-padding-inline', type: 'length', defaultValue: '0.875rem', description: 'Default inline padding.' },
-    { name: '--aeris-breadcrumb-gap', type: 'length', defaultValue: '0.25rem', description: 'Gap between list items.' },
-    { name: '--aeris-breadcrumb-item-gap', type: 'length', defaultValue: '0.375rem', description: 'Gap inside each item.' },
-    { name: '--aeris-breadcrumb-icon-size', type: 'length', defaultValue: '1rem', description: 'Default icon box size for item icon metadata.' },
-    { name: '--aeris-breadcrumb-item-radius', type: 'length', defaultValue: '--aeris-radius-sm', description: 'Interactive item radius.' },
-    { name: '--aeris-breadcrumb-item-hover-background', type: 'color', defaultValue: 'primary mix', description: 'Hover background for links and buttons.' },
-    { name: '--aeris-breadcrumb-separator-color', type: 'color', defaultValue: 'muted text mix', description: 'Separator color.' },
-    { name: '--aeris-breadcrumb-separator-size', type: 'length', defaultValue: '1.25rem', description: 'Default separator icon box size.' },
-    { name: '--aeris-breadcrumb-disabled-opacity', type: 'number', defaultValue: '0.54', description: 'Disabled item opacity.' },
+    {
+      name: '--aeris-breadcrumb-background',
+      type: 'color',
+      defaultValue: '--aeris-surface',
+      description: 'Breadcrumb surface color.',
+    },
+    {
+      name: '--aeris-breadcrumb-color',
+      type: 'color',
+      defaultValue: '--aeris-text',
+      description: 'Default breadcrumb text color.',
+    },
+    {
+      name: '--aeris-breadcrumb-muted-color',
+      type: 'color',
+      defaultValue: '--aeris-text-2',
+      description: 'Non-current item color.',
+    },
+    {
+      name: '--aeris-breadcrumb-current-color',
+      type: 'color',
+      defaultValue: '--aeris-text',
+      description: 'Current item color.',
+    },
+    {
+      name: '--aeris-breadcrumb-border',
+      type: 'color',
+      defaultValue: '--aeris-border',
+      description: 'Breadcrumb border color.',
+    },
+    {
+      name: '--aeris-breadcrumb-border-width',
+      type: 'length',
+      defaultValue: '1px',
+      description: 'Breadcrumb border width.',
+    },
+    {
+      name: '--aeris-breadcrumb-radius',
+      type: 'length',
+      defaultValue: '--aeris-radius-lg',
+      description: 'Breadcrumb corner radius.',
+    },
+    {
+      name: '--aeris-breadcrumb-shadow',
+      type: 'shadow',
+      defaultValue: 'none',
+      description: 'Breadcrumb shadow.',
+    },
+    {
+      name: '--aeris-breadcrumb-padding-block',
+      type: 'length',
+      defaultValue: '0.75rem',
+      description: 'Default block padding.',
+    },
+    {
+      name: '--aeris-breadcrumb-padding-inline',
+      type: 'length',
+      defaultValue: '0.875rem',
+      description: 'Default inline padding.',
+    },
+    {
+      name: '--aeris-breadcrumb-gap',
+      type: 'length',
+      defaultValue: '0.25rem',
+      description: 'Gap between list items.',
+    },
+    {
+      name: '--aeris-breadcrumb-item-gap',
+      type: 'length',
+      defaultValue: '0.375rem',
+      description: 'Gap inside each item.',
+    },
+    {
+      name: '--aeris-breadcrumb-icon-size',
+      type: 'length',
+      defaultValue: '1rem',
+      description: 'Default icon box size for item icon metadata.',
+    },
+    {
+      name: '--aeris-breadcrumb-item-radius',
+      type: 'length',
+      defaultValue: '--aeris-radius-control',
+      description: 'Interactive item radius.',
+    },
+    {
+      name: '--aeris-breadcrumb-item-hover-background',
+      type: 'color',
+      defaultValue: 'primary mix',
+      description: 'Hover background for links and buttons.',
+    },
+    {
+      name: '--aeris-breadcrumb-separator-color',
+      type: 'color',
+      defaultValue: 'muted text mix',
+      description: 'Separator color.',
+    },
+    {
+      name: '--aeris-breadcrumb-separator-size',
+      type: 'length',
+      defaultValue: '1.25rem',
+      description: 'Default separator icon box size.',
+    },
+    {
+      name: '--aeris-breadcrumb-disabled-opacity',
+      type: 'number',
+      defaultValue: '0.54',
+      description: 'Disabled item opacity.',
+    },
   ];
 
   protected recordSelection(event: AerisBreadcrumbItemEvent): void {
-    this.lastSelection = event.item.label ?? event.item.ariaLabel ?? event.item.icon ?? 'Unnamed item';
+    this.lastSelection =
+      event.item.label ?? event.item.ariaLabel ?? event.item.icon ?? 'Unnamed item';
   }
 
   protected recordHiddenItems(event: AerisBreadcrumbEllipsisEvent): void {
@@ -367,5 +555,4 @@ interface AerisBreadcrumbEllipsisTemplateContext {
       .map((item) => item.label ?? item.ariaLabel ?? item.icon ?? 'Unnamed item')
       .join(', ');
   }
-
 }

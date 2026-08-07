@@ -92,7 +92,7 @@ interface AerisInputOtpCompleteEvent {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-control-height` | `CSS custom property` | — | Medium slot width and height. |
-| `--aeris-radius-sm` | `CSS custom property` | — | Slot corner radius. |
+| `--aeris-radius-control` | `CSS custom property` | — | Slot corner radius. |
 | `--aeris-surface / --aeris-surface-2` | `CSS custom property` | — | Outlined, filled, disabled, and read-only surfaces. |
 | `--aeris-border` | `CSS custom property` | — | Default slot border. |
 | `--aeris-primary` | `CSS custom property` | — | Hover border and caret color. |

@@ -79,7 +79,9 @@ describe('AerisMenubar', () => {
     const roots = fixture.nativeElement.querySelectorAll(
       '.aeris-menubar__root > .aeris-menubar__item-shell > .aeris-menubar__item',
     ) as NodeListOf<HTMLElement>;
-    const toggle = fixture.nativeElement.querySelector('.aeris-menubar__toggle') as HTMLButtonElement;
+    const toggle = fixture.nativeElement.querySelector(
+      '.aeris-menubar__toggle',
+    ) as HTMLButtonElement;
 
     expect(nav.getAttribute('aria-label')).toBe('Primary');
     expect(menubar.getAttribute('aria-label')).toBe('Application menu');
@@ -105,6 +107,9 @@ describe('AerisMenubar', () => {
     expect(file.getAttribute('aria-expanded')).toBe('true');
     expect(fixture.nativeElement.querySelector('#file-submenu')).not.toBeNull();
     expect(fixture.nativeElement.textContent).toContain('Open recent');
+
+    const submenuItem = fixture.nativeElement.querySelector('#new') as HTMLElement;
+    expect(getComputedStyle(file).borderRadius).toBe(getComputedStyle(submenuItem).borderRadius);
 
     const recent = fixture.nativeElement.querySelector('#recent') as HTMLButtonElement;
     recent.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));

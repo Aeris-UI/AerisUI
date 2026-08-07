@@ -20,13 +20,7 @@ export interface AerisPalette extends AerisPaletteConfig {
 }
 
 export type AerisSemanticToneName =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'danger'
-  | 'contrast';
+  'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'contrast';
 
 export interface AerisSemanticTone {
   readonly base?: string;
@@ -429,24 +423,24 @@ export const AERIS_RADIUS_PRESETS: Readonly<Record<'soft' | 'rounded' | 'pill', 
     soft: {
       sm: '0.25rem',
       md: '0.375rem',
-      lg: '0.625rem',
-      xl: '0.875rem',
+      lg: '0.5rem',
+      xl: '0.75rem',
       control: '0.25rem',
       pill: '999px',
     },
     rounded: {
       sm: '0.4375rem',
-      md: '0.6875rem',
-      lg: '1.125rem',
-      xl: '1.5rem',
+      md: '0.5625rem',
+      lg: '0.75rem',
+      xl: '1rem',
       control: '0.4375rem',
       pill: '999px',
     },
     pill: {
       sm: '0.75rem',
-      md: '1.125rem',
-      lg: '1.875rem',
-      xl: '2.25rem',
+      md: '1rem',
+      lg: '1.25rem',
+      xl: '1.5rem',
       control: '999px',
       pill: '999px',
     },

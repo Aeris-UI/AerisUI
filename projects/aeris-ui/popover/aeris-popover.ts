@@ -16,10 +16,12 @@ import {
   viewChild,
 } from '@angular/core';
 import {
+  ɵAerisAppendTo,
   aerisInternalFocusInitialElement,
   aerisInternalCreateFrameScheduler,
   aerisInternalPositionAnchoredOverlay,
   aerisInternalTrapTabFocus,
+  type AerisAppendTo,
 } from '@aeris-ui/core';
 
 export type AerisPopoverPlacement = 'auto' | 'top' | 'right' | 'bottom' | 'left';
@@ -65,10 +67,14 @@ let nextPopoverId = 0;
 
 @Component({
   selector: 'aeris-popover',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     @if (visible()) {
-      <div class="aeris-popover__layer" [attr.data-positioned]="positioned() || null">
+      <div
+        class="aeris-popover__layer"
+        [aerisInternalAppendTo]="appendTo()"
+        [attr.data-positioned]="positioned() || null"
+      >
         <section
           #popoverPanel
           class="aeris-popover__panel"
@@ -168,6 +174,7 @@ export class AerisPopover {
   private pendingCloseReason: AerisPopoverCloseReason = 'api';
 
   protected readonly popoverPanel = viewChild<ElementRef<HTMLElement>>('popoverPanel');
+  private readonly panelPortal = viewChild(ɵAerisAppendTo);
   protected readonly headerTemplate = contentChild(AerisPopoverHeaderTemplate);
   protected readonly footerTemplate = contentChild(AerisPopoverFooterTemplate);
   protected readonly closeIconTemplate = contentChild(AerisPopoverCloseIconTemplate);
@@ -192,6 +199,7 @@ export class AerisPopover {
   }));
 
   readonly visible = model(false);
+  readonly appendTo = input<AerisAppendTo>('body');
   readonly target = input<AerisPopoverTarget>(null);
   readonly header = input('');
   readonly placement = input<AerisPopoverPlacement>('auto');
@@ -360,6 +368,7 @@ export class AerisPopover {
   }
 
   private handleHidden(): void {
+    this.panelPortal()?.restore();
     const target = this.activeTarget();
     const shouldRestoreFocus = this.restoreFocus();
     const event = this.visibilityEvent(

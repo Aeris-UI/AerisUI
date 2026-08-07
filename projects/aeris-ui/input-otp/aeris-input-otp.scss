@@ -29,7 +29,7 @@
   min-width: 0;
   padding: 0;
   border: 1px solid var(--aeris-border, #deddd7);
-  border-radius: var(--aeris-radius-sm, 0.4375rem);
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   outline: 0;
   background: var(--aeris-surface, #fff);
   color: var(--aeris-text, #222222);
@@ -54,7 +54,8 @@
 
 .aeris-input-otp__slot:focus-visible {
   border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
 }
 
 .aeris-input-otp[data-appearance='filled'] .aeris-input-otp__slot {

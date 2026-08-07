@@ -19,19 +19,14 @@
 }
 
 .aeris-dialog__overlay[data-backdrop] {
-  background: var(
-    --aeris-dialog-mask-background,
-    color-mix(in srgb, #10130e 46%, transparent)
-  );
+  background: var(--aeris-dialog-mask-background, color-mix(in srgb, #10130e 46%, transparent));
 }
 
 .aeris-dialog__overlay[data-backdrop][data-backdrop-blur] {
   -webkit-backdrop-filter: blur(
     var(--aeris-dialog-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem))
   );
-  backdrop-filter: blur(
-    var(--aeris-dialog-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem))
-  );
+  backdrop-filter: blur(var(--aeris-dialog-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem)));
 }
 
 .aeris-dialog__overlay[data-position='top'] {
@@ -78,17 +73,16 @@
   max-height: min(var(--aeris-dialog-max-height, calc(100dvh - 2.5rem)), 100%);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  border: 1px solid
-    var(--aeris-dialog-border, var(--aeris-border));
-  border-radius: var(--aeris-dialog-radius, var(--aeris-radius-lg, 1.125rem));
+  border: 1px solid var(--aeris-dialog-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-dialog-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-dialog-background, var(--aeris-surface, #fff));
   color: inherit;
   box-shadow: var(--aeris-dialog-shadow, 0 1.25rem 3.25rem rgb(31 35 27 / 22%));
   overflow: hidden;
-  transform: translate(
-    var(--aeris-dialog-drag-x, 0),
-    var(--aeris-dialog-drag-y, 0)
-  );
+  transform: translate(var(--aeris-dialog-drag-x, 0), var(--aeris-dialog-drag-y, 0));
 }
 
 .aeris-dialog__panel:focus-visible {
@@ -140,8 +134,7 @@
 }
 
 .aeris-dialog__header {
-  border-bottom: 1px solid
-    var(--aeris-dialog-border, var(--aeris-border));
+  border-bottom: 1px solid var(--aeris-dialog-border, var(--aeris-border));
 }
 
 .aeris-dialog__header[data-draggable] {
@@ -153,8 +146,7 @@
 
 .aeris-dialog__footer {
   justify-content: flex-end;
-  border-top: 1px solid
-    var(--aeris-dialog-border, var(--aeris-border));
+  border-top: 1px solid var(--aeris-dialog-border, var(--aeris-border));
 }
 
 .aeris-dialog__title {
@@ -199,8 +191,8 @@
 .aeris-dialog__close-icon,
 .aeris-dialog__maximize-icon {
   position: relative;
-  width: var(--_aeris-dialog-icon-size);
-  height: var(--_aeris-dialog-icon-size);
+  width: var(--_aeris-dialog-icon-size, var(--aeris-icon-size, 1rem));
+  height: var(--_aeris-dialog-icon-size, var(--aeris-icon-size, 1rem));
   display: inline-block;
 }
 
@@ -248,10 +240,7 @@
 
   .aeris-dialog__panel {
     width: var(--aeris-dialog-mobile-width, calc(100vw - 1.5rem));
-    max-width: min(
-      var(--aeris-dialog-mobile-width, calc(100vw - 1.5rem)),
-      calc(100vw - 1.5rem)
-    );
+    max-width: min(var(--aeris-dialog-mobile-width, calc(100vw - 1.5rem)), calc(100vw - 1.5rem));
     max-height: calc(100vh - 1.5rem);
     max-height: calc(100dvh - 1.5rem);
     border-radius: var(--aeris-dialog-mobile-radius, var(--aeris-radius-md, 0.6875rem));

@@ -1,4 +1,5 @@
-import { Component, computed, input, model, output, signal } from '@angular/core';
+import { Component, ElementRef, computed, input, model, output, signal, viewChild } from '@angular/core';
+import { ɵAerisAppendTo, type AerisAppendTo } from '@aeris-ui/core';
 
 export interface AerisPaginatorPageEvent {
   readonly first: number;
@@ -9,6 +10,7 @@ export interface AerisPaginatorPageEvent {
 
 @Component({
   selector: 'aeris-paginator',
+  imports: [ɵAerisAppendTo],
   template: `
     <nav class="aeris-paginator" [attr.aria-label]="ariaLabel()">
       <span class="aeris-paginator__report" aria-live="polite">{{ pageReport() }}</span>
@@ -23,6 +25,7 @@ export interface AerisPaginatorPageEvent {
 
         @for (page of visiblePages(); track page) {
           <button
+            #rowsTrigger
             type="button"
             [attr.aria-label]="'Page ' + (page + 1)"
             [attr.aria-current]="page === currentPage() ? 'page' : null"
@@ -59,7 +62,11 @@ export interface AerisPaginatorPageEvent {
 
           @if (rowsPanelOpen()) {
             <div
+              #rowsPanel
               class="aeris-paginator__rows-panel"
+              [aerisInternalAppendTo]="appendTo()"
+              [aerisInternalAppendToAnchor]="this.rowsTrigger()?.nativeElement ?? null"
+              (aerisInternalAppendToOutside)="closeRowsPanel()"
               [id]="rowsListboxId"
               role="listbox"
               [attr.aria-labelledby]="rowsLabelId"
@@ -93,10 +100,14 @@ export class AerisPaginator {
   readonly totalRecords = input(0);
   readonly pageLinkSize = input(5);
   readonly rowsPerPageOptions = input<readonly number[]>([]);
+  readonly appendTo = input<AerisAppendTo>();
   readonly ariaLabel = input('Pagination');
   readonly rowsPerPageLabel = input('Rows per page');
   readonly page = output<AerisPaginatorPageEvent>();
   protected readonly rowsPanelOpen = signal(false);
+  protected readonly rowsTrigger = viewChild<ElementRef<HTMLButtonElement>>('rowsTrigger');
+  private readonly rowsPanel = viewChild<ElementRef<HTMLElement>>('rowsPanel');
+  private readonly rowsPanelPortal = viewChild(ɵAerisAppendTo);
   protected readonly rowsLabelId = `aeris-paginator-rows-label-${AerisPaginator.nextId++}`;
   protected readonly rowsValueId = `${this.rowsLabelId}-value`;
   protected readonly rowsListboxId = `${this.rowsLabelId}-listbox`;
@@ -136,19 +147,20 @@ export class AerisPaginator {
   }
 
   protected toggleRowsPanel(): void {
-    this.rowsPanelOpen.update((open) => !open);
+    if (this.rowsPanelOpen()) this.closeRowsPanel();
+    else this.rowsPanelOpen.set(true);
   }
 
   protected selectRows(rows: number): void {
     this.rows.set(rows);
     this.first.set(0);
-    this.rowsPanelOpen.set(false);
+    this.closeRowsPanel();
     this.emitPage();
   }
 
   protected handleRowsTriggerKeydown(event: KeyboardEvent): void {
     if (event.key === 'Escape') {
-      this.rowsPanelOpen.set(false);
+      this.closeRowsPanel();
       return;
     }
 
@@ -161,14 +173,23 @@ export class AerisPaginator {
   protected handleRowsPanelKeydown(event: KeyboardEvent): void {
     if (event.key !== 'Escape') return;
     event.preventDefault();
-    this.rowsPanelOpen.set(false);
+    this.closeRowsPanel();
   }
 
   protected handleRowsFocusOut(event: FocusEvent): void {
     const nextTarget = event.relatedTarget;
-    if (nextTarget instanceof Node && (event.currentTarget as HTMLElement).contains(nextTarget)) {
+    if (
+      nextTarget instanceof Node &&
+      ((event.currentTarget as HTMLElement).contains(nextTarget) ||
+        this.rowsPanel()?.nativeElement.contains(nextTarget))
+    ) {
       return;
     }
+    this.closeRowsPanel();
+  }
+
+  protected closeRowsPanel(): void {
+    this.rowsPanelPortal()?.restore();
     this.rowsPanelOpen.set(false);
   }
 

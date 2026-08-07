@@ -28,6 +28,7 @@ import {
   aerisInternalMeasureColumnWidths,
   aerisInternalPixelWidth,
   aerisInternalSetColumnPairWidths,
+  type AerisAppendTo,
 } from '@aeris-ui/core';
 
 export type AerisTreeTableData = Readonly<Record<string, unknown>>;
@@ -552,6 +553,7 @@ let treeTableId = 0;
           [totalRecords]="paginatorTotal()"
           [pageLinkSize]="pageLinkSize()"
           [rowsPerPageOptions]="rowsPerPageOptions()"
+          [appendTo]="paginatorDropdownAppendTo()"
           (page)="handlePage($event)"
         />
       }
@@ -597,6 +599,7 @@ export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableDat
   readonly paginator = input(false, { transform: booleanAttribute });
   readonly pageLinkSize = input(5);
   readonly rowsPerPageOptions = input<readonly number[]>([]);
+  readonly paginatorDropdownAppendTo = input<AerisAppendTo>();
   readonly lazy = input(false, { transform: booleanAttribute });
   readonly totalRecords = input(0);
   readonly loading = input(false, { transform: booleanAttribute });

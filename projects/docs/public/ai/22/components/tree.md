@@ -160,7 +160,7 @@ interface AerisTreeNodeContext<TData = unknown> {
 | `--aeris-tree-indent-mobile` | `CSS custom property` | — | Hierarchy indent on narrow screens. |
 | `--aeris-tree-node-height` | `CSS custom property` | — | Minimum node row height. |
 | `--aeris-tree-node-padding` | `CSS custom property` | — | Node row padding. |
-| `--aeris-tree-node-radius` | `CSS custom property` | — | Node row corner radius. |
+| `--aeris-tree-node-radius` | `CSS custom property` | — | Node radius shared with other Aeris selectable rows. |
 | `--aeris-tree-node-hover` | `CSS custom property` | — | Hover and active node surface. |
 | `--aeris-tree-node-selected` | `CSS custom property` | — | Selected node surface. |
 | `--aeris-tree-drop-indicator` | `CSS custom property` | — | Drop line and inside-target outline. |

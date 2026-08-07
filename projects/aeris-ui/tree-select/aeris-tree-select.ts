@@ -16,6 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵAerisAppendTo, type AerisAppendTo } from '@aeris-ui/core';
 
 export type AerisTreeSelectSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisTreeSelectAppearance = 'outline' | 'filled';
@@ -95,7 +96,7 @@ let treeSelectId = 0;
 
 @Component({
   selector: 'aeris-tree-select',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <div
       class="aeris-tree-select"
@@ -176,7 +177,12 @@ let treeSelectId = 0;
         ></button>
 
         <div
+          #optionsPanel
           class="aeris-tree-select__panel"
+          [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToAnchor]="this.trigger()?.nativeElement ?? null"
+          [aerisInternalAppendToMatchWidth]="true"
+          (aerisInternalAppendToOutside)="closePanel(false)"
           [id]="panelId"
           [style.--aeris-tree-select-panel-max-height]="panelMaxHeight()"
         >
@@ -345,6 +351,7 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   readonly emptyMessage = input('No items available');
   readonly emptyFilterMessage = input('No matching items');
   readonly panelMaxHeight = input('18rem');
+  readonly appendTo = input<AerisAppendTo>();
   readonly propagateSelection = input(true, { transform: booleanAttribute });
   readonly expandOnFilter = input(true, { transform: booleanAttribute });
 
@@ -414,7 +421,9 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   );
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly trigger = viewChild<ElementRef<HTMLButtonElement>>('trigger');
+  protected readonly trigger = viewChild<ElementRef<HTMLButtonElement>>('trigger');
+  private readonly optionsPanel = viewChild<ElementRef<HTMLElement>>('optionsPanel');
+  private readonly panelPortal = viewChild(ɵAerisAppendTo);
   private readonly filterInput = viewChild<ElementRef<HTMLInputElement>>('filterInput');
   protected readonly nodeTemplate = contentChild(AerisTreeSelectNodeTemplate);
   protected readonly valueTemplate = contentChild(AerisTreeSelectValueTemplate);
@@ -463,6 +472,7 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
 
   closePanel(restoreFocus = false): void {
     if (!this.open()) return;
+    this.panelPortal()?.restore();
     this.open.set(false);
     if (this.resetFilterOnClose()) this.filterValue.set('');
     this.closed.emit();
@@ -642,7 +652,12 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
 
   protected handleFocusOut(event: FocusEvent): void {
     const next = event.relatedTarget;
-    if (next instanceof Node && this.host.nativeElement.contains(next)) return;
+    if (
+      next instanceof Node &&
+      (this.host.nativeElement.contains(next) || this.optionsPanel()?.nativeElement.contains(next))
+    ) {
+      return;
+    }
     this.closePanel(false);
     this.onTouched();
     this.touch.emit();

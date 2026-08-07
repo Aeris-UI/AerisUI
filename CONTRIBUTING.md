@@ -25,8 +25,10 @@ npm ci
 npm start
 ```
 
-`npm start` builds the library and then serves the documentation application. It does not publish
-anything.
+`npm start` builds the library and then serves the documentation application. It anchors child
+processes to the checked-out repository, rejects duplicate sessions and occupied ports, and clears
+Angular cache metadata when the checkout moves to a different absolute path. Stop the complete
+development stack with `Ctrl+C`. It does not publish anything.
 
 ## Repository structure
 

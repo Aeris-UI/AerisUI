@@ -17,6 +17,12 @@ import {
   output,
   signal,
 } from '@angular/core';
+import {
+  AERIS_OVERLAY_APPEND_TO,
+  aerisInternalCreateFrameScheduler,
+  ɵaerisResolveAppendTo,
+  type AerisAppendTo,
+} from '@aeris-ui/core';
 
 export type AerisTooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 export type AerisTooltipEvent = 'hover' | 'focus' | 'both';
@@ -91,11 +97,13 @@ export class AerisTooltipOverlay {
   },
 })
 export class AerisTooltip {
+  private readonly repositionFrame = aerisInternalCreateFrameScheduler(() => this.reposition());
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly appRef = inject(ApplicationRef);
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
   private readonly environmentInjector = inject(EnvironmentInjector);
+  private readonly defaultAppendTo = inject(AERIS_OVERLAY_APPEND_TO);
   private overlayRef: ComponentRef<AerisTooltipOverlay> | null = null;
   private showTimer: ReturnType<typeof setTimeout> | null = null;
   private hideTimer: ReturnType<typeof setTimeout> | null = null;
@@ -115,6 +123,7 @@ export class AerisTooltip {
   readonly viewportMargin = input(6, { alias: 'aerisTooltipViewportMargin' });
   readonly maxWidth = input('', { alias: 'aerisTooltipMaxWidth' });
   readonly styleClass = input('', { alias: 'aerisTooltipStyleClass' });
+  readonly appendTo = input<AerisAppendTo>(undefined, { alias: 'aerisTooltipAppendTo' });
   readonly truncatedOnly = input(false, {
     alias: 'aerisTooltipTruncatedOnly',
     transform: booleanAttribute,
@@ -127,6 +136,7 @@ export class AerisTooltip {
     this.destroyRef.onDestroy(() => {
       this.clearShowTimer();
       this.clearHideTimer();
+      this.unbindPositionTracking();
       this.removeTooltipDescription();
       this.destroyOverlay();
     });
@@ -235,16 +245,25 @@ export class AerisTooltip {
     });
     this.overlayRef = overlayRef;
     this.appRef.attachView(overlayRef.hostView);
-    this.document.body.appendChild(this.rootNode(overlayRef));
+    const target = ɵaerisResolveAppendTo(
+      this.appendTo() ?? this.defaultAppendTo,
+      this.document,
+    );
+    // A tooltip directive can be hosted by void or interactive elements such as inputs and
+    // buttons. Appending generated content inside those hosts is invalid or not rendered, so
+    // Tooltip's natural `self` layer is the document body. Explicit DOM targets remain supported.
+    (target === 'self' ? this.document.body : target).appendChild(this.rootNode(overlayRef));
     const element = this.rootElement(overlayRef);
     element.addEventListener('pointerenter', this.handleOverlayPointerEnter);
     element.addEventListener('pointerleave', this.handleOverlayPointerLeave);
+    this.bindPositionTracking();
     return overlayRef;
   }
 
   private destroyOverlay(): void {
     const overlayRef = this.overlayRef;
     if (!overlayRef) return;
+    this.unbindPositionTracking();
     const element = this.rootElement(overlayRef);
     element.removeEventListener('pointerenter', this.handleOverlayPointerEnter);
     element.removeEventListener('pointerleave', this.handleOverlayPointerLeave);
@@ -255,6 +274,21 @@ export class AerisTooltip {
     overlayRef.destroy();
     this.overlayRef = null;
     this.overlayPointerInside = false;
+  }
+
+  private bindPositionTracking(): void {
+    const view = this.document.defaultView;
+    this.document.addEventListener('scroll', this.repositionFrame.schedule, true);
+    view?.addEventListener('scroll', this.repositionFrame.schedule);
+    view?.addEventListener('resize', this.repositionFrame.schedule);
+  }
+
+  private unbindPositionTracking(): void {
+    const view = this.document.defaultView;
+    this.document.removeEventListener('scroll', this.repositionFrame.schedule, true);
+    view?.removeEventListener('scroll', this.repositionFrame.schedule);
+    view?.removeEventListener('resize', this.repositionFrame.schedule);
+    this.repositionFrame.cancel();
   }
 
   private reposition(): void {

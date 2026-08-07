@@ -62,8 +62,7 @@
 .aeris-textarea:focus {
   border-color: var(--aeris-focus, #3b452a);
   outline: 0;
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--aeris-focus, #3b452a) 18%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #3b452a) 18%, transparent);
 }
 
 .aeris-input-text--filled:focus,
@@ -80,8 +79,7 @@
 
 .aeris-input-text--invalid:focus,
 .aeris-textarea--invalid:focus {
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--aeris-danger, #c81e2a) 18%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-danger, #c81e2a) 18%, transparent);
 }
 
 .aeris-input-text:read-only,
@@ -106,7 +104,13 @@
   min-height: 5.5rem;
   padding: calc(var(--aeris-item-padding-y, 0.5rem) + 0.125rem)
     var(--aeris-control-padding-x, 0.75rem);
-  border-radius: var(--aeris-radius-md, 0.6875rem);
+  border-radius: var(
+    --aeris-radius-structured-control,
+    min(
+      var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem)),
+      var(--aeris-radius-md, 0.6875rem)
+    )
+  );
   line-height: 1.5;
   resize: vertical;
 }
@@ -116,8 +120,7 @@
   --aeris-textarea-vertical-padding: 16px;
 
   min-height: 4rem;
-  padding: var(--aeris-item-padding-y, 0.5rem)
-    calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
+  padding: var(--aeris-item-padding-y, 0.5rem) calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
   font-size: 0.75rem;
 }
 

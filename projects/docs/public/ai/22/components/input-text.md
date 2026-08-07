@@ -83,7 +83,7 @@ type AerisControlSize = AerisInputTextSize;
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-control-height` | `CSS custom property` | — | Medium input height and density baseline. |
-| `--aeris-radius-sm` | `CSS custom property` | — | Input corner radius. |
+| `--aeris-radius-control` | `CSS custom property` | — | Input corner radius. |
 | `--aeris-surface` | `CSS custom property` | — | Outlined input background. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled and read-only background. |
 | `--aeris-border` | `CSS custom property` | — | Default input border. |

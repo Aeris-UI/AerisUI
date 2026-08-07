@@ -47,7 +47,11 @@ export class MegaMenuPage {
           label: 'Build',
           description: 'Component foundations',
           items: [
-            { label: 'Components', description: 'Production Angular UI', routerLink: ['/components'] },
+            {
+              label: 'Components',
+              description: 'Production Angular UI',
+              routerLink: ['/components'],
+            },
             { label: 'Design tokens', description: 'Theme surfaces and palettes' },
             { label: 'Accessibility', description: 'Patterns and keyboard support' },
           ],
@@ -68,19 +72,11 @@ export class MegaMenuPage {
       groups: [
         {
           label: 'Learn',
-          items: [
-            { label: 'Installation' },
-            { label: 'Theming' },
-            { label: 'Accessibility' },
-          ],
+          items: [{ label: 'Installation' }, { label: 'Theming' }, { label: 'Accessibility' }],
         },
         {
           label: 'Community',
-          items: [
-            { label: 'Roadmap' },
-            { label: 'Examples' },
-            { label: 'Support' },
-          ],
+          items: [{ label: 'Roadmap' }, { label: 'Examples' }, { label: 'Support' }],
         },
       ],
     },
@@ -246,30 +242,138 @@ interface AerisMegaMenuItemEvent<T = unknown> {
   ];
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'id', type: 'string', defaultValue: 'generated id', description: 'Base id used for menu item and panel relationships.' },
-    { name: 'model', type: 'readonly AerisMegaMenuItem<T>[]', defaultValue: '[]', description: 'Root menu items with optional grouped mega panels.' },
-    { name: 'orientation', type: 'horizontal | vertical', defaultValue: "'horizontal'", description: 'Lays root items across or stacked.' },
-    { name: 'size', type: 'sm | md | lg', defaultValue: "'md'", description: 'Controls trigger and panel item density.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Mega menu'", description: 'Accessible name for the navigation region.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the navigation region.' },
-    { name: 'openOnHover', type: 'boolean', defaultValue: 'true', description: 'Opens root panels on pointer hover.' },
-    { name: 'closeOnSelect', type: 'boolean', defaultValue: 'true', description: 'Closes an open panel after activating a leaf item.' },
-    { name: 'navigationHandler', type: 'AerisMegaMenuNavigationHandler', defaultValue: 'undefined', description: 'Handles routerLink items without coupling Aeris to Angular Router.' },
+    {
+      name: 'id',
+      type: 'string',
+      defaultValue: 'generated id',
+      description: 'Base id used for menu item and panel relationships.',
+    },
+    {
+      name: 'model',
+      type: 'readonly AerisMegaMenuItem<T>[]',
+      defaultValue: '[]',
+      description: 'Root menu items with optional grouped mega panels.',
+    },
+    {
+      name: 'orientation',
+      type: 'horizontal | vertical',
+      defaultValue: "'horizontal'",
+      description: 'Lays root items across or stacked.',
+    },
+    {
+      name: 'size',
+      type: 'sm | md | lg',
+      defaultValue: "'md'",
+      description: 'Controls trigger and panel item density.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Mega menu'",
+      description: 'Accessible name for the navigation region.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the navigation region.',
+    },
+    {
+      name: 'openOnHover',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Opens root panels on pointer hover.',
+    },
+    {
+      name: 'closeOnSelect',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Closes an open panel after activating a leaf item.',
+    },
+    {
+      name: 'navigationHandler',
+      type: 'AerisMegaMenuNavigationHandler',
+      defaultValue: 'undefined',
+      description: 'Handles routerLink items without coupling Aeris to Angular Router.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'itemSelected', type: 'AerisMegaMenuItemEvent<T>', defaultValue: '-', description: 'Emitted when an enabled item is activated.' },
-    { name: 'opened', type: 'AerisMegaMenuVisibilityEvent<T>', defaultValue: '-', description: 'Emitted when a root mega panel opens.' },
-    { name: 'closed', type: 'AerisMegaMenuVisibilityEvent<T>', defaultValue: '-', description: 'Emitted when a root mega panel closes.' },
+    {
+      name: 'itemSelected',
+      type: 'AerisMegaMenuItemEvent<T>',
+      defaultValue: '-',
+      description: 'Emitted when an enabled item is activated.',
+    },
+    {
+      name: 'opened',
+      type: 'AerisMegaMenuVisibilityEvent<T>',
+      defaultValue: '-',
+      description: 'Emitted when a root mega panel opens.',
+    },
+    {
+      name: 'closed',
+      type: 'AerisMegaMenuVisibilityEvent<T>',
+      defaultValue: '-',
+      description: 'Emitted when a root mega panel closes.',
+    },
   ];
 
   protected readonly tokens: readonly ApiRow[] = [
-    { name: '--aeris-mega-menu-background', type: 'color', defaultValue: '--aeris-surface', description: 'Root surface background.' },
-    { name: '--aeris-mega-menu-border', type: 'color', defaultValue: '--aeris-border', description: 'Root and nested separator border color.' },
-    { name: '--aeris-mega-menu-panel-background', type: 'color', defaultValue: '--aeris-surface', description: 'Mega panel background.' },
-    { name: '--aeris-mega-menu-panel-width', type: 'length', defaultValue: '44rem', description: 'Maximum panel width before viewport clamping.' },
-    { name: '--aeris-mega-menu-item-hover-background', type: 'color', defaultValue: 'primary mix', description: 'Hover and open trigger surface.' },
-    { name: '--aeris-mega-menu-icon-size', type: 'length', defaultValue: '1.125rem', description: 'Default icon and chevron box.' },
+    {
+      name: '--aeris-mega-menu-background',
+      type: 'color',
+      defaultValue: '--aeris-surface',
+      description: 'Root surface background.',
+    },
+    {
+      name: '--aeris-mega-menu-border',
+      type: 'color',
+      defaultValue: '--aeris-border',
+      description: 'Root and nested separator border color.',
+    },
+    {
+      name: '--aeris-mega-menu-panel-background',
+      type: 'color',
+      defaultValue: '--aeris-surface',
+      description: 'Mega panel background.',
+    },
+    {
+      name: '--aeris-mega-menu-panel-width',
+      type: 'length',
+      defaultValue: '44rem',
+      description: 'Maximum panel width before viewport clamping.',
+    },
+    {
+      name: '--aeris-mega-menu-panel-radius',
+      type: 'length',
+      defaultValue: '--aeris-radius-overlay',
+      description: 'Mega panel corner radius shared by Aeris overlay surfaces.',
+    },
+    {
+      name: '--aeris-mega-menu-item-radius',
+      type: 'length',
+      defaultValue: '--aeris-radius-item',
+      description: 'Shared radius for top-level items and panel subitems.',
+    },
+    {
+      name: '--aeris-mega-menu-panel-item-radius',
+      type: 'length',
+      defaultValue: '--aeris-mega-menu-item-radius',
+      description: 'Optional panel-only override for the otherwise shared item radius.',
+    },
+    {
+      name: '--aeris-mega-menu-item-hover-background',
+      type: 'color',
+      defaultValue: 'primary mix',
+      description: 'Hover and open trigger surface.',
+    },
+    {
+      name: '--aeris-mega-menu-icon-size',
+      type: 'length',
+      defaultValue: '1.125rem',
+      description: 'Default icon and chevron box.',
+    },
   ];
 
   protected recordAction(event: AerisMegaMenuItemEvent): void {

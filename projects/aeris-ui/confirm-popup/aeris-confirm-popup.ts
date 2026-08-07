@@ -23,10 +23,12 @@ import {
 } from '@angular/core';
 import { AerisButtonDirective, type AerisButtonSeverity } from '@aeris-ui/core/button';
 import {
+  ɵAerisAppendTo,
   aerisInternalFocusInitialElement,
   aerisInternalCreateFrameScheduler,
   aerisInternalPositionAnchoredOverlay,
   aerisInternalTrapTabFocus,
+  type AerisAppendTo,
 } from '@aeris-ui/core';
 
 export type AerisConfirmPopupSeverity =
@@ -42,6 +44,7 @@ export type AerisConfirmPopupTarget = Element | EventTarget | Event | null | und
 export interface AerisConfirmPopupConfig<TData = unknown> {
   readonly key?: string;
   readonly target: AerisConfirmPopupTarget;
+  readonly appendTo?: AerisAppendTo;
   readonly header?: string;
   readonly message?: string;
   readonly data?: TData;
@@ -79,6 +82,7 @@ export interface AerisConfirmPopupConfig<TData = unknown> {
 export interface AerisConfirmPopupResolvedConfig<TData = unknown> {
   readonly key: string;
   readonly target: Element;
+  readonly appendTo: AerisAppendTo;
   readonly header: string;
   readonly message: string;
   readonly data: TData | undefined;
@@ -371,6 +375,7 @@ export class AerisConfirmPopupService {
     return {
       key: config.key ?? '',
       target: this.resolveTarget(config.target),
+      appendTo: config.appendTo ?? 'body',
       header: config.header ?? 'Confirm action',
       message: config.message ?? '',
       data: config.data,
@@ -427,10 +432,14 @@ let nextPopupId = 0;
 
 @Component({
   selector: 'aeris-confirm-popup',
-  imports: [AerisButtonDirective, NgTemplateOutlet],
+  imports: [AerisButtonDirective, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     @if (visible()) {
-      <div class="aeris-confirm-popup__layer" [attr.data-positioned]="positioned() || null">
+      <div
+        class="aeris-confirm-popup__layer"
+        [aerisInternalAppendTo]="settings().appendTo"
+        [attr.data-positioned]="positioned() || null"
+      >
         <section
           #popupPanel
           class="aeris-confirm-popup__panel"
@@ -580,6 +589,7 @@ export class AerisConfirmPopup {
   private readonly localConfig = computed<AerisConfirmPopupResolvedConfig>(() => ({
     key: this.key(),
     target: this.localTarget(),
+    appendTo: this.appendTo(),
     header: this.header(),
     message: this.message(),
     data: this.data(),
@@ -625,6 +635,7 @@ export class AerisConfirmPopup {
   private pendingOriginalEvent: Event | null = null;
 
   protected readonly popupPanel = viewChild<ElementRef<HTMLElement>>('popupPanel');
+  private readonly panelPortal = viewChild(ɵAerisAppendTo);
   protected readonly iconTemplate = contentChild(AerisConfirmPopupIconTemplate);
   protected readonly messageTemplate = contentChild(AerisConfirmPopupMessageTemplate);
   protected readonly footerTemplate = contentChild(AerisConfirmPopupFooterTemplate);
@@ -680,6 +691,7 @@ export class AerisConfirmPopup {
   readonly visible = model(false);
 
   readonly key = input('');
+  readonly appendTo = input<AerisAppendTo>('body');
   readonly header = input('Confirm action');
   readonly message = input('');
   readonly data = input<unknown>();
@@ -873,6 +885,7 @@ export class AerisConfirmPopup {
   }
 
   private handleHidden(): void {
+    this.panelPortal()?.restore();
     const restoreFocus = this.settings().restoreFocus;
     const focusTarget = this.settings().target;
     const result = this.pendingResult ?? 'dismiss';
@@ -923,6 +936,7 @@ export class AerisConfirmPopup {
     this.pendingResult = result;
     this.pendingReason = reason;
     this.pendingOriginalEvent = originalEvent;
+    this.panelPortal()?.restore();
     this.visible.set(false);
   }
 

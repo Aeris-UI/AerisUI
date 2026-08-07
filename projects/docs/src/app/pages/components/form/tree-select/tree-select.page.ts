@@ -189,6 +189,7 @@ interface AerisTreeSelectFilterEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Mounts the overlay locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'nodes', type: 'readonly AerisTreeNode[]', defaultValue: 'required', description: 'Tree data rendered recursively in source order. Nesting depth is not limited by the component API.' },
     { name: 'value', type: 'AerisTreeSelectValue (model)', defaultValue: 'null', description: 'Selected value for single mode or selected value array for multiple and checkbox modes.' },
     { name: 'selectionMode', type: 'AerisTreeSelectMode', defaultValue: "'single'", description: 'Selection behavior: single, multiple, or checkbox with optional descendant propagation.' },

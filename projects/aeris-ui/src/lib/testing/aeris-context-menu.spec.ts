@@ -81,9 +81,7 @@ class TemplateContextMenuHost {
 
 @Component({
   imports: [AerisContextMenuModule],
-  template: `
-    <aeris-context-menu #menu [model]="items" [autoFocus]="false" />
-  `,
+  template: ` <aeris-context-menu #menu [model]="items" [autoFocus]="false" /> `,
 })
 class ProgrammaticContextMenuHost {
   readonly menu = viewChild.required<AerisContextMenu>('menu');
@@ -115,9 +113,7 @@ describe('AerisContextMenu', () => {
     expect(menuItems.length).toBe(3);
     expect(separator).toBeTruthy();
     const itemRadius = getComputedStyle(menuItems[0] as HTMLElement).borderRadius;
-    expect(itemRadius).toContain('--aeris-context-menu-radius');
-    expect(itemRadius).toContain('--aeris-context-menu-padding');
-    expect(itemRadius).not.toContain('--aeris-radius-control');
+    expect(itemRadius).toContain('--aeris-radius-item');
     expect(fixture.componentInstance.shownEvents.length).toBe(1);
     expect(fixture.componentInstance.shownEvents[0]?.target).toBe(target);
 
@@ -211,8 +207,9 @@ describe('AerisContextMenu', () => {
     await settle();
     fixture.detectChanges();
 
-    const createItem = Array.from(document.querySelectorAll<HTMLElement>('[role="menuitem"]'))
-      .find((item) => item.textContent?.includes('Create'));
+    const createItem = Array.from(document.querySelectorAll<HTMLElement>('[role="menuitem"]')).find(
+      (item) => item.textContent?.includes('Create'),
+    );
 
     createItem?.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
     fixture.detectChanges();

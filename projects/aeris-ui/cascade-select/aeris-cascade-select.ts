@@ -16,6 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵAerisAppendTo, type AerisAppendTo } from '@aeris-ui/core';
 
 export type AerisCascadeSelectSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisCascadeSelectAppearance = 'outline' | 'filled';
@@ -70,7 +71,7 @@ let nextCascadeSelectId = 0;
 
 @Component({
   selector: 'aeris-cascade-select',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <div
       class="aeris-cascade-select"
@@ -144,7 +145,12 @@ let nextCascadeSelectId = 0;
         ></button>
 
         <div
+          #optionsPanel
           class="aeris-cascade-select__panel"
+          [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToAnchor]="triggerElement()?.nativeElement ?? null"
+          [aerisInternalAppendToMatchWidth]="true"
+          (aerisInternalAppendToOutside)="closePanel()"
           [id]="panelId"
           [style.max-height]="panelMaxHeight()"
         >
@@ -223,7 +229,9 @@ let nextCascadeSelectId = 0;
   },
 })
 export class AerisCascadeSelect implements ControlValueAccessor {
-  private readonly triggerElement = viewChild<ElementRef<HTMLButtonElement>>('trigger');
+  protected readonly triggerElement = viewChild<ElementRef<HTMLButtonElement>>('trigger');
+  private readonly optionsPanel = viewChild<ElementRef<HTMLElement>>('optionsPanel');
+  private readonly panelPortal = viewChild(ɵAerisAppendTo);
   private readonly generatedId = `aeris-cascade-select-${++nextCascadeSelectId}`;
   private readonly formDisabled = signal(false);
   private readonly panelOpen = signal(false);
@@ -246,6 +254,7 @@ export class AerisCascadeSelect implements ControlValueAccessor {
   readonly appearance = input<AerisCascadeSelectAppearance>('outline');
   readonly separator = input(' / ');
   readonly panelMaxHeight = input('18rem');
+  readonly appendTo = input<AerisAppendTo>();
   readonly invalid = input(false, { transform: booleanAttribute });
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
@@ -325,6 +334,7 @@ export class AerisCascadeSelect implements ControlValueAccessor {
 
   closePanel(): void {
     if (!this.panelOpen()) return;
+    this.panelPortal()?.restore();
     this.panelOpen.set(false);
     this.activePath.set([]);
     this.activeLevel.set(0);
@@ -363,7 +373,12 @@ export class AerisCascadeSelect implements ControlValueAccessor {
   protected handleFocusOut(event: FocusEvent): void {
     const nextTarget = event.relatedTarget as Node | null;
     const currentTarget = event.currentTarget as HTMLElement;
-    if (!nextTarget || !currentTarget.contains(nextTarget)) this.closePanel();
+    if (
+      !nextTarget ||
+      (!currentTarget.contains(nextTarget) && !this.optionsPanel()?.nativeElement.contains(nextTarget))
+    ) {
+      this.closePanel();
+    }
   }
 
   protected handleKeydown(event: KeyboardEvent): void {

@@ -29,6 +29,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the dialog overlay locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Default dialog title rendered in the header. |
 | `role` | `AerisDialogRole` | `'dialog'` | Dialog landmark role. Use alertdialog only for interruptive confirmation-style surfaces. |
 | `modal` | `boolean` | `true` | Enables modal semantics, focus handling, and optional scroll blocking. |

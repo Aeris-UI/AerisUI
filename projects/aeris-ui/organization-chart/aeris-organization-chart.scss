@@ -3,7 +3,7 @@
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
-    url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E")
+    url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E')
   );
 
   display: block;
@@ -33,7 +33,8 @@
 
 .aeris-organization-chart__viewport:focus-visible {
   outline: 0;
-  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 22%, transparent);
+  box-shadow: inset 0 0 0 3px
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 22%, transparent);
 }
 
 .aeris-organization-chart__tree,
@@ -69,12 +70,11 @@
   display: grid;
   gap: 0.25rem;
   padding: var(--aeris-organization-chart-node-padding, 0.625rem 0.75rem);
-  border: 1px solid
-    var(
-      --aeris-organization-chart-node-border,
-      var(--aeris-border)
-    );
-  border-radius: var(--aeris-organization-chart-node-radius, var(--aeris-radius-lg, 0.875rem));
+  border: 1px solid var(--aeris-organization-chart-node-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-organization-chart-node-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-organization-chart-node-background, var(--aeris-surface, #fff));
   color: var(--aeris-organization-chart-node-color, var(--aeris-text, #222222));
   box-shadow: var(--aeris-organization-chart-node-shadow, 0 0.75rem 1.75rem rgb(31 35 27 / 8%));
@@ -92,7 +92,11 @@
 }
 
 .aeris-organization-chart__node[data-selected='true'] {
-  border-color: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 58%, var(--aeris-border, #deddd7));
+  border-color: color-mix(
+    in srgb,
+    var(--aeris-primary, #{aeris-fallbacks.$primary}) 58%,
+    var(--aeris-border, #deddd7)
+  );
   background: var(--aeris-primary-soft, #eef2e6);
   color: var(--aeris-primary-text, #{aeris-fallbacks.$focus});
 }
@@ -174,10 +178,7 @@
   left: 50%;
   width: 1px;
   height: calc(var(--aeris-organization-chart-level-gap, 2rem) / 2);
-  background: var(
-    --aeris-organization-chart-connector,
-    var(--aeris-border)
-  );
+  background: var(--aeris-organization-chart-connector, var(--aeris-border));
   content: '';
 }
 
@@ -186,10 +187,7 @@
   position: absolute;
   top: calc(var(--aeris-organization-chart-level-gap, 2rem) / 2);
   height: 1px;
-  background: var(
-    --aeris-organization-chart-connector,
-    var(--aeris-border)
-  );
+  background: var(--aeris-organization-chart-connector, var(--aeris-border));
   content: '';
 }
 
@@ -213,16 +211,15 @@
   content: none;
 }
 
-.aeris-organization-chart__children > .aeris-organization-chart__branch > .aeris-organization-chart__node-shell::before {
+.aeris-organization-chart__children
+  > .aeris-organization-chart__branch
+  > .aeris-organization-chart__node-shell::before {
   position: absolute;
   top: calc(-1 * var(--aeris-organization-chart-level-gap, 2rem) / 2);
   left: 50%;
   width: 1px;
   height: calc(var(--aeris-organization-chart-level-gap, 2rem) / 2);
-  background: var(
-    --aeris-organization-chart-connector,
-    var(--aeris-border)
-  );
+  background: var(--aeris-organization-chart-connector, var(--aeris-border));
   content: '';
 }
 
@@ -231,7 +228,7 @@
   display: grid;
   place-items: center;
   border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg, 0.875rem);
+  border-radius: var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem));
   background: var(--aeris-surface, #fff);
   color: var(--aeris-text-muted, #6d7068);
   text-align: center;

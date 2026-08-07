@@ -86,7 +86,10 @@
   overflow: hidden;
   border: 1px solid
     var(--aeris-galleria-border, color-mix(in srgb, var(--aeris-border, #deddd7) 72%, transparent));
-  border-radius: var(--aeris-galleria-radius, var(--aeris-radius-lg, 0.875rem));
+  border-radius: var(
+    --aeris-galleria-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background:
     radial-gradient(circle at 50% 15%, rgb(255 255 255 / 7%), transparent 48%),
     var(--aeris-galleria-stage-background, #11130f);
@@ -115,7 +118,8 @@
 }
 
 .aeris-galleria__viewport:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
+  outline: 3px solid
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
   outline-offset: -4px;
 }
 
@@ -221,9 +225,11 @@
   place-items: center;
   padding: 0;
   overflow: hidden;
-  border: 1px solid
-    var(--aeris-galleria-grid-border, var(--aeris-border));
-  border-radius: var(--aeris-galleria-grid-radius, var(--aeris-radius-lg, 0.875rem));
+  border: 1px solid var(--aeris-galleria-grid-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-galleria-grid-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-galleria-stage-background, #11130f);
   color: #fff;
   cursor: pointer;
@@ -236,14 +242,22 @@
 
 .aeris-galleria__grid-item:hover {
   z-index: 1;
-  border-color: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 62%, var(--aeris-border, #deddd7));
+  border-color: color-mix(
+    in srgb,
+    var(--aeris-primary, #{aeris-fallbacks.$primary}) 62%,
+    var(--aeris-border, #deddd7)
+  );
   box-shadow: 0 0.8rem 2rem rgb(31 35 27 / 16%);
   transform: translateY(-2px);
 }
 
 .aeris-galleria__grid-item[aria-current='true'] {
-  border-color: var(--aeris-galleria-active-thumbnail-border, var(--aeris-primary, #{aeris-fallbacks.$primary}));
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 22%, transparent);
+  border-color: var(
+    --aeris-galleria-active-thumbnail-border,
+    var(--aeris-primary, #{aeris-fallbacks.$primary})
+  );
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 22%, transparent);
 }
 
 .aeris-galleria__grid-item img {
@@ -304,10 +318,7 @@
   place-items: center;
   padding: 0;
   border: 0;
-  border-radius: max(
-    0.25rem,
-    calc(var(--aeris-galleria-toolbar-radius, var(--aeris-radius-control, 0.6875rem)) - 0.2rem)
-  );
+  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: inherit;
   cursor: pointer;
@@ -581,8 +592,7 @@
   aspect-ratio: var(--aeris-galleria-thumbnail-aspect-ratio, 16 / 10);
   place-items: center;
   padding: var(--aeris-galleria-thumbnail-padding, 0.2rem);
-  border: 1px solid
-    var(--aeris-galleria-thumbnail-border, var(--aeris-border));
+  border: 1px solid var(--aeris-galleria-thumbnail-border, var(--aeris-border));
   border-radius: var(--aeris-galleria-thumbnail-radius, var(--aeris-radius-md, 0.625rem));
   background: var(--aeris-galleria-thumbnail-background, var(--aeris-surface, #fff));
   color: var(--aeris-galleria-color, var(--aeris-text, #222222));
@@ -597,8 +607,12 @@
 }
 
 .aeris-galleria__thumbnail[aria-current='true'] {
-  border-color: var(--aeris-galleria-active-thumbnail-border, var(--aeris-primary, #{aeris-fallbacks.$primary}));
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 22%, transparent);
+  border-color: var(
+    --aeris-galleria-active-thumbnail-border,
+    var(--aeris-primary, #{aeris-fallbacks.$primary})
+  );
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 22%, transparent);
   opacity: 1;
 }
 
@@ -650,8 +664,16 @@
 }
 
 .aeris-galleria__thumbnail-navigator:hover:not(:disabled) {
-  border-color: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 48%, var(--aeris-border, #deddd7));
-  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 9%, var(--aeris-surface, #fff));
+  border-color: color-mix(
+    in srgb,
+    var(--aeris-primary, #{aeris-fallbacks.$primary}) 48%,
+    var(--aeris-border, #deddd7)
+  );
+  background: color-mix(
+    in srgb,
+    var(--aeris-primary, #{aeris-fallbacks.$primary}) 9%,
+    var(--aeris-surface, #fff)
+  );
 }
 
 .aeris-galleria__thumbnail-navigator:disabled {
@@ -721,7 +743,10 @@
 
 .aeris-galleria__indicators button[aria-current='true'] {
   inline-size: var(--aeris-galleria-active-indicator-width, 1.5rem);
-  background: var(--aeris-galleria-active-indicator-background, var(--aeris-primary, #{aeris-fallbacks.$primary}));
+  background: var(
+    --aeris-galleria-active-indicator-background,
+    var(--aeris-primary, #{aeris-fallbacks.$primary})
+  );
 }
 
 .aeris-galleria__indicators--overlay button[aria-current='true'] {
@@ -735,7 +760,8 @@
 .aeris-galleria__thumbnail:focus-visible,
 .aeris-galleria__thumbnail-navigator:focus-visible,
 .aeris-galleria__indicators button:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 38%, transparent);
+  outline: 3px solid
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 38%, transparent);
   outline-offset: 2px;
 }
 
@@ -744,9 +770,11 @@
   min-block-size: var(--aeris-galleria-empty-min-height, 15rem);
   place-items: center;
   padding: 2rem;
-  border: 1px dashed
-    var(--aeris-galleria-border, var(--aeris-border));
-  border-radius: var(--aeris-galleria-radius, var(--aeris-radius-lg, 0.875rem));
+  border: 1px dashed var(--aeris-galleria-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-galleria-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-galleria-empty-background, var(--aeris-surface-2, #f6f6f2));
   color: var(--aeris-galleria-muted-color, var(--aeris-text-muted, #6d7067));
   text-align: center;
@@ -780,9 +808,7 @@
   -webkit-backdrop-filter: blur(
     var(--aeris-galleria-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem))
   );
-  backdrop-filter: blur(
-    var(--aeris-galleria-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem))
-  );
+  backdrop-filter: blur(var(--aeris-galleria-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem)));
 }
 
 .aeris-galleria--fullscreen .aeris-galleria__panel {

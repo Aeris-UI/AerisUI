@@ -3,7 +3,7 @@
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
-    url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E")
+    url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E')
   );
 
   position: relative;
@@ -35,7 +35,10 @@
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
 }
 
 .aeris-split-button__toggle {
@@ -52,7 +55,8 @@
 .aeris-split-button__toggle:focus-visible {
   position: relative;
   z-index: 2;
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
+  outline: 3px solid
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
   outline-offset: 2px;
 }
 
@@ -240,7 +244,7 @@
   gap: 0.125rem;
   padding: 0.35rem;
   border: 1px solid var(--aeris-border, #deddd7);
-  border-radius: var(--aeris-radius-md, 0.6875rem);
+  border-radius: var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem));
   background: var(--aeris-surface, #fff);
   box-shadow: 0 0.75rem 2rem rgb(25 29 22 / 18%);
   animation: aeris-split-button-menu-in 140ms ease both;
@@ -254,7 +258,7 @@
   gap: 0.625rem;
   padding: 0 0.7rem;
   border: 0;
-  border-radius: calc(var(--aeris-radius-sm, 0.4375rem) - 1px);
+  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: var(--aeris-text-2, #555555);
   font: inherit;
@@ -267,12 +271,17 @@
 
 .aeris-split-button__item:hover:not(:disabled):not([aria-disabled='true']),
 .aeris-split-button__item:focus-visible {
-  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 13%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aeris-primary, #{aeris-fallbacks.$primary}) 13%,
+    transparent
+  );
   color: var(--aeris-text, #222222);
 }
 
 .aeris-split-button__item:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 32%, transparent);
+  outline: 3px solid
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 32%, transparent);
   outline-offset: -2px;
 }
 

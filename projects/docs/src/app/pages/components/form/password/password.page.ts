@@ -144,6 +144,7 @@ type AerisPasswordStrengthEvaluator = (
 ) => AerisPasswordStrengthResult;`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self'", description: 'Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target.' },
     { name: 'value', type: 'string (model)', defaultValue: "''", description: 'Password value with two-way binding and Forms support.' },
     { name: 'visible', type: 'boolean (model)', defaultValue: 'false', description: 'Controls whether the value is masked.' },
     { name: 'inputId', type: 'string', defaultValue: "''", description: 'Native input ID.' },

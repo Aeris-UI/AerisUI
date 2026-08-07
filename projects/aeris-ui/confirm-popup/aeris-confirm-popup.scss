@@ -2,7 +2,8 @@
 
 :host {
   --_aeris-confirm-popup-icon-size: 2rem;
-  --_aeris-confirm-popup-shadow: 0 18px 50px color-mix(in srgb, var(--aeris-text, #222222) 20%, transparent);
+  --_aeris-confirm-popup-shadow: 0 18px 50px
+    color-mix(in srgb, var(--aeris-text, #222222) 20%, transparent);
 
   display: contents;
 }
@@ -21,12 +22,11 @@
   display: grid;
   gap: 0.875rem;
   padding: var(--aeris-confirm-popup-padding, 1rem);
-  border: 1px solid
-    var(
-      --aeris-confirm-popup-border,
-      var(--aeris-border)
-    );
-  border-radius: var(--aeris-confirm-popup-radius, var(--aeris-radius-lg, 0.875rem));
+  border: 1px solid var(--aeris-confirm-popup-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-confirm-popup-radius,
+    var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
+  );
   background: var(--aeris-confirm-popup-background, var(--aeris-surface, #fff));
   color: var(--aeris-confirm-popup-color, var(--aeris-text, #222222));
   box-shadow: var(--aeris-confirm-popup-shadow, var(--_aeris-confirm-popup-shadow));

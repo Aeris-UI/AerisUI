@@ -437,7 +437,7 @@
       "group": "Getting started",
       "title": "Configuration",
       "description": "Configure Aeris at application startup and update supported settings at runtime.",
-      "summary": "Aeris keeps global configuration intentionally small: theme, color mode, persistence, and direction are managed through one provider and service.",
+      "summary": "Aeris keeps global configuration intentionally small: theme, color mode, persistence, direction, and overlay mounting are managed through one provider and service.",
       "sections": [
         {
           "id": "choose-strategy",
@@ -521,6 +521,12 @@
                 "boolean",
                 "true",
                 "Emit development-only diagnostics, or set false to disable every runtime theme warning"
+              ],
+              [
+                "overlayAppendTo",
+                "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+                "'self'",
+                "Default mounting target for component overlays; a component input can override it locally"
               ]
             ]
           }
@@ -538,6 +544,15 @@
               "code": "import { ApplicationConfig } from '@angular/core';\nimport { provideAeris } from '@aeris-ui/core/theming';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    provideAeris({\n      mode: 'system',\n      themeModeStorageKey: 'my-app-color-mode',\n      theme: {\n        palette: {\n          surface: '#f6f3e8',\n          primary: '#5f6f36',\n          secondary: '#b75e26',\n          accent: '#d79a32',\n          contrast: '#28351a',\n        },\n        density: 'medium',\n        radius: 'rounded',\n        direction: 'ltr',\n      },\n    }),\n  ],\n};"
             }
           ]
+        },
+        {
+          "id": "overlay-mounting",
+          "title": "Overlay mounting",
+          "paragraphs": [
+            "Overlay-producing components render beside their trigger by default. Set overlayAppendTo: 'body' globally when application containers frequently clip floating panels, or set appendTo on one component for a local exception.",
+            "Use 'self' to keep an overlay in its component, 'body' to mount it under document.body, or supply an HTMLElement, ElementRef<HTMLElement>, or TemplateRef target. Tooltip safely resolves 'self' to body because a directive host may be a void or interactive element that cannot contain generated overlay markup. null and undefined use the global setting. Aeris keeps the overlay aligned to its trigger and repositions it during scrolling and viewport changes."
+          ],
+          "note": "Prefer the default 'self' mode unless an ancestor clips or constrains the overlay. Portaling to body changes the overlay's DOM ancestry, although Aeris carries its theme variables and reading direction with it."
         },
         {
           "id": "runtime",
@@ -609,7 +624,7 @@
           "id": "scope",
           "title": "What remains component-specific",
           "paragraphs": [
-            "Behavior that changes the meaning or interaction of one component stays on that component. Overlay position, append target, responsive breakpoints, validation messages, and animation timing are documented with the component that owns them.",
+            "Behavior that changes the meaning or interaction of one component stays on that component. Overlay position, responsive breakpoints, validation messages, and animation timing are documented with the component that owns them.",
             "Use global configuration for coherent application defaults and component inputs or tokens for deliberate local exceptions."
           ],
           "links": [
@@ -1388,7 +1403,9 @@
           "title": "Use semantic and component tokens",
           "paragraphs": [
             "A design token is a named CSS custom property that represents a role instead of one hard-coded value. For example, --aeris-text always means normal readable content even though its resolved color changes with the theme and mode.",
-            "Application surfaces should use semantic Aeris tokens so they stay synchronized with library components. Override a documented component token on a wrapper or component host when one instance needs a deliberate variation."
+            "Application surfaces should use semantic Aeris tokens so they stay synchronized with library components. Override a documented component token on a wrapper or component host when one instance needs a deliberate variation.",
+            "Corner roles are consistent across the library: --aeris-radius-control shapes single-line fields and buttons, --aeris-radius-structured-control keeps multi-line and grouped controls from becoming impractical pills, --aeris-radius-item shapes selectable rows and menu items, --aeris-radius-overlay shapes floating panels, and --aeris-radius-surface shapes cards and structural containers. Each role derives from the active corner scale.",
+            "The built-in scales keep overlays and structural surfaces compact. The pill preset fully rounds compact controls where that geometry is useful, while cards, tables, panels, menus, and other containers retain practical rounded corners."
           ],
           "code": [
             {
@@ -2660,6 +2677,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
               "name": "value",
               "type": "string (model)",
               "defaultValue": "''",
@@ -3285,6 +3308,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+            },
             {
               "name": "value",
               "type": "string | null (model)",
@@ -4181,6 +4210,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
               "name": "value",
               "type": "string (model)",
               "defaultValue": "'#5f6f36'",
@@ -4857,6 +4892,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+            },
             {
               "name": "value",
               "type": "AerisDatePickerValue (model)",
@@ -8261,7 +8302,7 @@
           "description": "Medium slot width and height."
         },
         {
-          "name": "--aeris-radius-sm",
+          "name": "--aeris-radius-control",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Slot corner radius."
@@ -8724,7 +8765,7 @@
           "description": "Medium input height and density baseline."
         },
         {
-          "name": "--aeris-radius-sm",
+          "name": "--aeris-radius-control",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Input corner radius."
@@ -9267,6 +9308,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+            },
             {
               "name": "options",
               "type": "readonly AerisSelectOption[]",
@@ -9948,6 +9995,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self'",
+              "description": "Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
               "name": "value",
               "type": "string (model)",
               "defaultValue": "''",
@@ -10212,7 +10265,7 @@
           "description": "Medium control height."
         },
         {
-          "name": "--aeris-radius-sm / --aeris-radius-md",
+          "name": "--aeris-radius-control / --aeris-radius-overlay",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Field and feedback corner radii."
@@ -11272,6 +11325,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+            },
             {
               "name": "options",
               "type": "readonly AerisSelectOption[]",
@@ -12958,7 +13017,7 @@
       ],
       "designTokens": [
         {
-          "name": "--aeris-radius-sm",
+          "name": "--aeris-radius-structured-control",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Corner radius."
@@ -13642,6 +13701,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+            },
             {
               "name": "nodes",
               "type": "readonly AerisTreeNode[]",
@@ -14385,7 +14450,7 @@
           "description": "Medium control height and density anchor."
         },
         {
-          "name": "--aeris-radius-sm",
+          "name": "--aeris-radius-control",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Default button radius."
@@ -15236,6 +15301,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the action menu locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
               "name": "navigationHandler",
               "type": "AerisSplitButtonNavigationHandler | undefined",
               "defaultValue": "undefined",
@@ -15462,7 +15533,7 @@
           "description": "Connected segment corner radius."
         },
         {
-          "name": "--aeris-radius-md",
+          "name": "--aeris-radius-overlay",
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Popup menu radius."
@@ -15930,6 +16001,12 @@
           "description": "Keyboard focus ring."
         },
         {
+          "name": "--aeris-order-list-radius",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Outer surface radius."
+        },
+        {
           "name": "--aeris-order-list-max-height",
           "type": "CSS custom property",
           "defaultValue": "",
@@ -15940,6 +16017,12 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "List item padding."
+        },
+        {
+          "name": "--aeris-order-list-item-radius",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Item radius shared with other Aeris selectable rows."
         }
       ],
       "examples": [
@@ -16364,6 +16447,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the rows-per-page menu locally, in document.body, or in the supplied DOM/template target."
+            },
             {
               "name": "first",
               "type": "number (model)",
@@ -16961,6 +17050,12 @@
           "description": "Item content padding."
         },
         {
+          "name": "--aeris-pick-list-item-radius",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Item radius shared with other Aeris selectable rows."
+        },
+        {
           "name": "--aeris-pick-list-filter-height",
           "type": "CSS custom property",
           "defaultValue": "",
@@ -17149,6 +17244,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "paginatorDropdownAppendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Forwards the mounting target to the paginator rows-per-page menu."
+            },
             {
               "name": "data",
               "type": "readonly AerisTableData[]",
@@ -18606,7 +18707,7 @@
           "name": "--aeris-tree-node-radius",
           "type": "CSS custom property",
           "defaultValue": "",
-          "description": "Node row corner radius."
+          "description": "Node radius shared with other Aeris selectable rows."
         },
         {
           "name": "--aeris-tree-node-hover",
@@ -18857,6 +18958,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "paginatorDropdownAppendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Forwards the mounting target to the paginator rows-per-page menu."
+            },
             {
               "name": "treeColumn",
               "type": "string",
@@ -23692,6 +23799,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'body'",
+              "description": "Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
               "name": "key",
               "type": "string",
               "defaultValue": "''",
@@ -24028,6 +24141,12 @@
           "kind": "property",
           "entries": [
             {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'body'",
+              "description": "Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
               "name": "key",
               "type": "string",
               "defaultValue": "''",
@@ -24316,7 +24435,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisConfirmDialogSeverity =\n  | 'primary'\n  | 'secondary'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'neutral';\n\ntype AerisConfirmDialogIcon =\n  | 'question'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'success'\n  | 'none';\n\ntype AerisConfirmDialogDefaultFocus =\n  | 'accept'\n  | 'reject'\n  | 'close'\n  | 'dialog'\n  | 'none';\n\ntype AerisConfirmDialogResult = 'accept' | 'reject' | 'dismiss';\n\ntype AerisDialogPosition =\n  | 'center'\n  | 'top'\n  | 'bottom'\n  | 'left'\n  | 'right'\n  | 'top-left'\n  | 'top-right'\n  | 'bottom-left'\n  | 'bottom-right';\n\ninterface AerisConfirmDialogConfig<TData = unknown> {\n  readonly key?: string;\n  readonly header?: string;\n  readonly message?: string;\n  readonly data?: TData;\n  readonly severity?: AerisConfirmDialogSeverity;\n  readonly icon?: AerisConfirmDialogIcon;\n  readonly acceptLabel?: string;\n  readonly rejectLabel?: string;\n  readonly defaultFocus?: AerisConfirmDialogDefaultFocus;\n  readonly backdrop?: boolean;\n  readonly backdropBlur?: boolean;\n  readonly backdropBlurAmount?: string;\n  readonly dismissibleMask?: boolean;\n  readonly position?: AerisDialogPosition;\n  readonly width?: string;\n  readonly blockScroll?: boolean;\n  readonly accept?: (event: AerisConfirmDialogActionEvent<TData>) => void;\n  readonly reject?: (event: AerisConfirmDialogActionEvent<TData>) => void;\n}\n\ninterface AerisConfirmDialogActionEvent<TData = unknown> {\n  readonly originalEvent: Event | null;\n  readonly data: TData | undefined;\n  readonly config: AerisConfirmDialogResolvedConfig<TData>;\n}\n\ninterface AerisConfirmDialogCloseEvent<TData = unknown>\n  extends AerisConfirmDialogActionEvent<TData> {\n  readonly result: AerisConfirmDialogResult;\n  readonly reason: AerisDialogCloseReason | 'accept' | 'reject';\n}\n\ninterface AerisConfirmDialogTemplateContext<TData = unknown> {\n  readonly $implicit: AerisConfirmDialog;\n  readonly config: AerisConfirmDialogResolvedConfig<TData>;\n  readonly data: TData | undefined;\n  readonly accept: (event?: Event) => void;\n  readonly reject: (event?: Event) => void;\n  readonly close: (event?: Event) => void;\n}"
+          "code": "type AerisConfirmDialogSeverity =\n  | 'primary'\n  | 'secondary'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'neutral';\n\ntype AerisConfirmDialogIcon =\n  | 'question'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'success'\n  | 'none';\n\ntype AerisConfirmDialogDefaultFocus =\n  | 'accept'\n  | 'reject'\n  | 'close'\n  | 'dialog'\n  | 'none';\n\ntype AerisConfirmDialogResult = 'accept' | 'reject' | 'dismiss';\n\ntype AerisDialogPosition =\n  | 'center'\n  | 'top'\n  | 'bottom'\n  | 'left'\n  | 'right'\n  | 'top-left'\n  | 'top-right'\n  | 'bottom-left'\n  | 'bottom-right';\n\ninterface AerisConfirmDialogConfig<TData = unknown> {\n  readonly key?: string;\n  readonly appendTo?: AerisAppendTo;\n  readonly header?: string;\n  readonly message?: string;\n  readonly data?: TData;\n  readonly severity?: AerisConfirmDialogSeverity;\n  readonly icon?: AerisConfirmDialogIcon;\n  readonly acceptLabel?: string;\n  readonly rejectLabel?: string;\n  readonly defaultFocus?: AerisConfirmDialogDefaultFocus;\n  readonly backdrop?: boolean;\n  readonly backdropBlur?: boolean;\n  readonly backdropBlurAmount?: string;\n  readonly dismissibleMask?: boolean;\n  readonly position?: AerisDialogPosition;\n  readonly width?: string;\n  readonly blockScroll?: boolean;\n  readonly accept?: (event: AerisConfirmDialogActionEvent<TData>) => void;\n  readonly reject?: (event: AerisConfirmDialogActionEvent<TData>) => void;\n}\n\ninterface AerisConfirmDialogActionEvent<TData = unknown> {\n  readonly originalEvent: Event | null;\n  readonly data: TData | undefined;\n  readonly config: AerisConfirmDialogResolvedConfig<TData>;\n}\n\ninterface AerisConfirmDialogCloseEvent<TData = unknown>\n  extends AerisConfirmDialogActionEvent<TData> {\n  readonly result: AerisConfirmDialogResult;\n  readonly reason: AerisDialogCloseReason | 'accept' | 'reject';\n}\n\ninterface AerisConfirmDialogTemplateContext<TData = unknown> {\n  readonly $implicit: AerisConfirmDialog;\n  readonly config: AerisConfirmDialogResolvedConfig<TData>;\n  readonly data: TData | undefined;\n  readonly accept: (event?: Event) => void;\n  readonly reject: (event?: Event) => void;\n  readonly close: (event?: Event) => void;\n}"
         }
       ],
       "designTokens": [
@@ -24548,6 +24667,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'body'",
+              "description": "Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target."
+            },
             {
               "name": "key",
               "type": "string",
@@ -24867,6 +24992,12 @@
           "kind": "property",
           "entries": [
             {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'body'",
+              "description": "Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
               "name": "key",
               "type": "string",
               "defaultValue": "''",
@@ -25137,7 +25268,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisConfirmPopupSeverity =\n  | 'primary'\n  | 'secondary'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'neutral';\n\ntype AerisConfirmPopupIcon =\n  | 'question'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'success'\n  | 'none';\n\ntype AerisConfirmPopupPlacement = 'auto' | 'top' | 'right' | 'bottom' | 'left';\ntype AerisConfirmPopupAlignment = 'start' | 'center' | 'end';\ntype AerisConfirmPopupDefaultFocus = 'accept' | 'reject' | 'popup' | 'none';\ntype AerisConfirmPopupResult = 'accept' | 'reject' | 'dismiss';\ntype AerisConfirmPopupCloseReason = 'api' | 'accept' | 'reject' | 'escape' | 'outside';\ntype AerisConfirmPopupTarget = Element | EventTarget | Event | null | undefined;\n\ninterface AerisConfirmPopupConfig<TData = unknown> {\n  readonly key?: string;\n  readonly target: AerisConfirmPopupTarget;\n  readonly header?: string;\n  readonly message?: string;\n  readonly data?: TData;\n  readonly severity?: AerisConfirmPopupSeverity;\n  readonly icon?: AerisConfirmPopupIcon;\n  readonly acceptLabel?: string;\n  readonly rejectLabel?: string;\n  readonly defaultFocus?: AerisConfirmPopupDefaultFocus;\n  readonly placement?: AerisConfirmPopupPlacement;\n  readonly alignment?: AerisConfirmPopupAlignment;\n  readonly dismissible?: boolean;\n  readonly closeOnEscape?: boolean;\n  readonly focusTrap?: boolean;\n  readonly restoreFocus?: boolean;\n  readonly accept?: (event: AerisConfirmPopupActionEvent<TData>) => void;\n  readonly reject?: (event: AerisConfirmPopupActionEvent<TData>) => void;\n}\n\ninterface AerisConfirmPopupActionEvent<TData = unknown> {\n  readonly originalEvent: Event | null;\n  readonly data: TData | undefined;\n  readonly config: AerisConfirmPopupResolvedConfig<TData>;\n}\n\ninterface AerisConfirmPopupCloseEvent<TData = unknown>\n  extends AerisConfirmPopupActionEvent<TData> {\n  readonly result: AerisConfirmPopupResult;\n  readonly reason: AerisConfirmPopupCloseReason;\n}\n\ninterface AerisConfirmPopupTemplateContext<TData = unknown> {\n  readonly $implicit: AerisConfirmPopup;\n  readonly config: AerisConfirmPopupResolvedConfig<TData>;\n  readonly data: TData | undefined;\n  readonly accept: (event?: Event) => void;\n  readonly reject: (event?: Event) => void;\n  readonly close: (event?: Event) => void;\n}"
+          "code": "type AerisConfirmPopupSeverity =\n  | 'primary'\n  | 'secondary'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'neutral';\n\ntype AerisConfirmPopupIcon =\n  | 'question'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'success'\n  | 'none';\n\ntype AerisConfirmPopupPlacement = 'auto' | 'top' | 'right' | 'bottom' | 'left';\ntype AerisConfirmPopupAlignment = 'start' | 'center' | 'end';\ntype AerisConfirmPopupDefaultFocus = 'accept' | 'reject' | 'popup' | 'none';\ntype AerisConfirmPopupResult = 'accept' | 'reject' | 'dismiss';\ntype AerisConfirmPopupCloseReason = 'api' | 'accept' | 'reject' | 'escape' | 'outside';\ntype AerisConfirmPopupTarget = Element | EventTarget | Event | null | undefined;\n\ninterface AerisConfirmPopupConfig<TData = unknown> {\n  readonly key?: string;\n  readonly target: AerisConfirmPopupTarget;\n  readonly appendTo?: AerisAppendTo;\n  readonly header?: string;\n  readonly message?: string;\n  readonly data?: TData;\n  readonly severity?: AerisConfirmPopupSeverity;\n  readonly icon?: AerisConfirmPopupIcon;\n  readonly acceptLabel?: string;\n  readonly rejectLabel?: string;\n  readonly defaultFocus?: AerisConfirmPopupDefaultFocus;\n  readonly placement?: AerisConfirmPopupPlacement;\n  readonly alignment?: AerisConfirmPopupAlignment;\n  readonly dismissible?: boolean;\n  readonly closeOnEscape?: boolean;\n  readonly focusTrap?: boolean;\n  readonly restoreFocus?: boolean;\n  readonly accept?: (event: AerisConfirmPopupActionEvent<TData>) => void;\n  readonly reject?: (event: AerisConfirmPopupActionEvent<TData>) => void;\n}\n\ninterface AerisConfirmPopupActionEvent<TData = unknown> {\n  readonly originalEvent: Event | null;\n  readonly data: TData | undefined;\n  readonly config: AerisConfirmPopupResolvedConfig<TData>;\n}\n\ninterface AerisConfirmPopupCloseEvent<TData = unknown>\n  extends AerisConfirmPopupActionEvent<TData> {\n  readonly result: AerisConfirmPopupResult;\n  readonly reason: AerisConfirmPopupCloseReason;\n}\n\ninterface AerisConfirmPopupTemplateContext<TData = unknown> {\n  readonly $implicit: AerisConfirmPopup;\n  readonly config: AerisConfirmPopupResolvedConfig<TData>;\n  readonly data: TData | undefined;\n  readonly accept: (event?: Event) => void;\n  readonly reject: (event?: Event) => void;\n  readonly close: (event?: Event) => void;\n}"
         }
       ],
       "designTokens": [
@@ -25180,7 +25311,7 @@
         {
           "name": "--aeris-confirm-popup-radius",
           "type": "CSS custom property",
-          "defaultValue": "var(--aeris-radius-lg)",
+          "defaultValue": "var(--aeris-radius-overlay)",
           "description": "Popup radius."
         },
         {
@@ -25386,6 +25517,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the dialog overlay locally, in document.body, or in the supplied DOM/template target."
+            },
             {
               "name": "header",
               "type": "string",
@@ -26095,6 +26232,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'body'",
+              "description": "Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
               "name": "header",
               "type": "string",
               "defaultValue": "''",
@@ -26752,6 +26895,12 @@
           "kind": "property",
           "entries": [
             {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'body'",
+              "description": "Mounts the dialog locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
               "name": "header",
               "type": "string",
               "defaultValue": "''",
@@ -26998,7 +27147,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "interface AerisDynamicDialogConfig<TData = unknown> {\n  readonly header?: string;\n  readonly data?: TData;\n  readonly inputValues?: Record<string, unknown>;\n  readonly modal?: boolean;\n  readonly backdrop?: boolean;\n  readonly backdropBlur?: boolean;\n  readonly backdropBlurAmount?: string;\n  readonly dismissibleMask?: boolean;\n  readonly closeOnEscape?: boolean;\n  readonly closable?: boolean;\n  readonly maximizable?: boolean;\n  readonly maximized?: boolean;\n  readonly draggable?: boolean;\n  readonly resizable?: boolean;\n  readonly blockScroll?: boolean;\n  readonly focusTrap?: boolean;\n  readonly restoreFocus?: boolean;\n  readonly autoFocus?: boolean;\n  readonly initialFocus?: string;\n  readonly position?: AerisDialogPosition;\n  readonly size?: AerisDialogSize;\n  readonly width?: string;\n  readonly minWidth?: string;\n  readonly maxWidth?: string;\n  readonly height?: string;\n  readonly maxHeight?: string;\n  readonly mobileWidth?: string;\n  readonly closeAriaLabel?: string;\n  readonly ariaLabel?: string;\n  readonly ariaLabelledBy?: string;\n  readonly ariaDescribedBy?: string;\n}\n\ninterface AerisDynamicDialogCloseEvent<TResult = unknown> {\n  readonly originalEvent: Event | null;\n  readonly reason: AerisDialogCloseReason;\n  readonly result: TResult | undefined;\n}\n\ninterface AerisDynamicDialogShowEvent {\n  readonly originalEvent: Event | null;\n}\n\ninterface AerisDynamicDialogSubscribable<T> {\n  subscribe(next: (event: T) => void): { unsubscribe(): void };\n}"
+          "code": "interface AerisDynamicDialogConfig<TData = unknown> {\n  readonly header?: string;\n  readonly appendTo?: AerisAppendTo;\n  readonly data?: TData;\n  readonly inputValues?: Record<string, unknown>;\n  readonly modal?: boolean;\n  readonly backdrop?: boolean;\n  readonly backdropBlur?: boolean;\n  readonly backdropBlurAmount?: string;\n  readonly dismissibleMask?: boolean;\n  readonly closeOnEscape?: boolean;\n  readonly closable?: boolean;\n  readonly maximizable?: boolean;\n  readonly maximized?: boolean;\n  readonly draggable?: boolean;\n  readonly resizable?: boolean;\n  readonly blockScroll?: boolean;\n  readonly focusTrap?: boolean;\n  readonly restoreFocus?: boolean;\n  readonly autoFocus?: boolean;\n  readonly initialFocus?: string;\n  readonly position?: AerisDialogPosition;\n  readonly size?: AerisDialogSize;\n  readonly width?: string;\n  readonly minWidth?: string;\n  readonly maxWidth?: string;\n  readonly height?: string;\n  readonly maxHeight?: string;\n  readonly mobileWidth?: string;\n  readonly closeAriaLabel?: string;\n  readonly ariaLabel?: string;\n  readonly ariaLabelledBy?: string;\n  readonly ariaDescribedBy?: string;\n}\n\ninterface AerisDynamicDialogCloseEvent<TResult = unknown> {\n  readonly originalEvent: Event | null;\n  readonly reason: AerisDialogCloseReason;\n  readonly result: TResult | undefined;\n}\n\ninterface AerisDynamicDialogShowEvent {\n  readonly originalEvent: Event | null;\n}\n\ninterface AerisDynamicDialogSubscribable<T> {\n  subscribe(next: (event: T) => void): { unsubscribe(): void };\n}"
         }
       ],
       "designTokens": [
@@ -27200,6 +27349,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'body'",
+              "description": "Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target."
+            },
             {
               "name": "target",
               "type": "AerisPopoverTarget",
@@ -27478,7 +27633,7 @@
         {
           "name": "--aeris-popover-radius",
           "type": "CSS custom property",
-          "defaultValue": "var(--aeris-radius-lg)",
+          "defaultValue": "var(--aeris-radius-overlay)",
           "description": "Popover radius."
         },
         {
@@ -27672,6 +27827,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "aerisTooltipAppendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global; safely mounted to body)",
+              "description": "Mounts the tooltip in its safe document layer for self/body, or in the supplied DOM/template target."
+            },
             {
               "name": "aerisTooltip",
               "type": "AerisTooltipContent",
@@ -28817,7 +28978,7 @@
         {
           "name": "--aeris-breadcrumb-item-radius",
           "type": "length",
-          "defaultValue": "--aeris-radius-sm",
+          "defaultValue": "--aeris-radius-control",
           "description": "Interactive item radius."
         },
         {
@@ -29001,6 +29162,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the menu overlay locally, in document.body, or in the supplied DOM/template target."
+            },
             {
               "name": "id",
               "type": "string",
@@ -29255,8 +29422,8 @@
         {
           "name": "--aeris-context-menu-radius",
           "type": "length",
-          "defaultValue": "--aeris-radius-lg",
-          "description": "Panel radius."
+          "defaultValue": "--aeris-radius-overlay",
+          "description": "Panel radius shared by Aeris overlay surfaces."
         },
         {
           "name": "--aeris-context-menu-background",
@@ -29291,8 +29458,8 @@
         {
           "name": "--aeris-context-menu-item-radius",
           "type": "length",
-          "defaultValue": "Panel inner radius",
-          "description": "Item radius derived from the panel radius, padding, and border so highlighted items follow the panel curve."
+          "defaultValue": "--aeris-radius-item",
+          "description": "Item radius shared across root items and nested submenus."
         },
         {
           "name": "--aeris-context-menu-item-hover-background",
@@ -29648,6 +29815,24 @@
           "description": "Maximum panel width before viewport clamping."
         },
         {
+          "name": "--aeris-mega-menu-panel-radius",
+          "type": "length",
+          "defaultValue": "--aeris-radius-overlay",
+          "description": "Mega panel corner radius shared by Aeris overlay surfaces."
+        },
+        {
+          "name": "--aeris-mega-menu-item-radius",
+          "type": "length",
+          "defaultValue": "--aeris-radius-item",
+          "description": "Shared radius for top-level items and panel subitems."
+        },
+        {
+          "name": "--aeris-mega-menu-panel-item-radius",
+          "type": "length",
+          "defaultValue": "--aeris-mega-menu-item-radius",
+          "description": "Optional panel-only override for the otherwise shared item radius."
+        },
+        {
           "name": "--aeris-mega-menu-item-hover-background",
           "type": "color",
           "defaultValue": "primary mix",
@@ -29782,6 +29967,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the panel target when popup is enabled; inline menus remain local."
+            },
             {
               "name": "id",
               "type": "string",
@@ -30054,8 +30245,8 @@
         {
           "name": "--aeris-menu-radius",
           "type": "length",
-          "defaultValue": "--aeris-radius-lg",
-          "description": "Panel corner radius."
+          "defaultValue": "--aeris-radius-overlay",
+          "description": "Panel corner radius shared by Aeris overlay surfaces."
         },
         {
           "name": "--aeris-menu-shadow",
@@ -30072,8 +30263,8 @@
         {
           "name": "--aeris-menu-item-radius",
           "type": "length",
-          "defaultValue": "--aeris-radius-sm",
-          "description": "Item corner radius."
+          "defaultValue": "--aeris-radius-item",
+          "description": "Item corner radius shared with other Aeris selectable rows."
         },
         {
           "name": "--aeris-menu-item-hover-background",
@@ -30492,8 +30683,8 @@
         {
           "name": "--aeris-menubar-item-radius",
           "type": "length",
-          "defaultValue": "--aeris-radius-control",
-          "description": "Hover and focus item corner radius."
+          "defaultValue": "--aeris-radius-item",
+          "description": "Shared hover and focus radius for root items and submenu items."
         },
         {
           "name": "--aeris-menubar-item-height",
@@ -30510,8 +30701,8 @@
         {
           "name": "--aeris-menubar-submenu-radius",
           "type": "length",
-          "defaultValue": "--aeris-radius-lg",
-          "description": "Submenu panel corner radius."
+          "defaultValue": "--aeris-radius-overlay",
+          "description": "Submenu corner radius shared by Aeris overlay surfaces."
         },
         {
           "name": "--aeris-menubar-icon-size",
@@ -30696,6 +30887,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the panel target when popup is enabled; inline menus remain local."
+            },
             {
               "name": "id",
               "type": "string",
@@ -30938,8 +31135,8 @@
         {
           "name": "--aeris-tiered-menu-radius",
           "type": "length",
-          "defaultValue": "--aeris-radius-lg",
-          "description": "Panel and submenu radius."
+          "defaultValue": "--aeris-radius-overlay",
+          "description": "Panel and submenu radius shared by Aeris overlay surfaces."
         },
         {
           "name": "--aeris-tiered-menu-background",
@@ -30968,8 +31165,8 @@
         {
           "name": "--aeris-tiered-menu-item-radius",
           "type": "length",
-          "defaultValue": "--aeris-radius-control",
-          "description": "Item hover and focus radius."
+          "defaultValue": "--aeris-radius-item",
+          "description": "Item hover and focus radius shared across every menu depth."
         },
         {
           "name": "--aeris-tiered-menu-item-hover-background",

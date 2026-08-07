@@ -29,6 +29,7 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `aerisTooltipAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global; safely mounted to body)` | Mounts the tooltip in its safe document layer for self/body, or in the supplied DOM/template target. |
 | `aerisTooltip` | `AerisTooltipContent` | `''` | String or template content rendered in the tooltip. |
 | `aerisTooltipPosition` | `AerisTooltipPosition` | `'top'` | Preferred edge around the target. |
 | `aerisTooltipEvent` | `AerisTooltipEvent` | `'both'` | Trigger mode: pointer hover, focus, or both. |

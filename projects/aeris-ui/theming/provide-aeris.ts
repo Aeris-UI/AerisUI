@@ -4,6 +4,7 @@ import {
   provideEnvironmentInitializer,
   type EnvironmentProviders,
 } from '@angular/core';
+import { AERIS_OVERLAY_APPEND_TO } from '@aeris-ui/core';
 
 import {
   AERIS_CONFIG,
@@ -20,6 +21,7 @@ export function provideAeris(config: AerisConfig = {}): EnvironmentProviders {
 
   return makeEnvironmentProviders([
     { provide: AERIS_CONFIG, useValue: resolvedConfig },
+    { provide: AERIS_OVERLAY_APPEND_TO, useValue: resolvedConfig.overlayAppendTo },
     provideEnvironmentInitializer(() => inject(AerisThemeService)),
   ]);
 }

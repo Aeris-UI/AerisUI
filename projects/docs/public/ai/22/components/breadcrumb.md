@@ -134,7 +134,7 @@ interface AerisBreadcrumbEllipsisTemplateContext {
 | `--aeris-breadcrumb-gap` | `length` | `0.25rem` | Gap between list items. |
 | `--aeris-breadcrumb-item-gap` | `length` | `0.375rem` | Gap inside each item. |
 | `--aeris-breadcrumb-icon-size` | `length` | `1rem` | Default icon box size for item icon metadata. |
-| `--aeris-breadcrumb-item-radius` | `length` | `--aeris-radius-sm` | Interactive item radius. |
+| `--aeris-breadcrumb-item-radius` | `length` | `--aeris-radius-control` | Interactive item radius. |
 | `--aeris-breadcrumb-item-hover-background` | `color` | `primary mix` | Hover background for links and buttons. |
 | `--aeris-breadcrumb-separator-color` | `color` | `muted text mix` | Separator color. |
 | `--aeris-breadcrumb-separator-size` | `length` | `1.25rem` | Default separator icon box size. |

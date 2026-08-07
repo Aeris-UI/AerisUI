@@ -17,6 +17,7 @@ import {
   viewChild,
 } from '@angular/core';
 import {
+  ɵAerisAppendTo,
   aerisInternalFocusInitialElement,
   aerisInternalTrapTabFocus,
   ɵisTopmostAerisOverlay,
@@ -24,6 +25,7 @@ import {
   ɵregisterAerisOverlay,
   ɵunregisterAerisOverlay,
   ɵunlockAerisDocumentScroll,
+  type AerisAppendTo,
 } from '@aeris-ui/core';
 
 export type AerisDialogCloseReason = 'api' | 'close-button' | 'escape' | 'mask';
@@ -80,11 +82,12 @@ const DIALOG_FOCUS_OPTIONS = {
 
 @Component({
   selector: 'aeris-dialog',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     @if (visible()) {
       <div
         class="aeris-dialog__overlay"
+        [aerisInternalAppendTo]="appendTo()"
         [attr.data-modal]="modal() || null"
         [attr.data-backdrop]="backdrop() || null"
         [attr.data-backdrop-blur]="backdrop() && backdropBlur() ? true : null"
@@ -220,6 +223,7 @@ export class AerisDialog {
   private pendingCloseReason: AerisDialogCloseReason = 'api';
 
   protected readonly dialogPanel = viewChild<ElementRef<HTMLElement>>('dialogPanel');
+  private readonly overlayPortal = viewChild(ɵAerisAppendTo);
   protected readonly headerTemplate = contentChild(AerisDialogHeaderTemplate);
   protected readonly footerTemplate = contentChild(AerisDialogFooterTemplate);
   protected readonly closeIconTemplate = contentChild(AerisDialogCloseIconTemplate);
@@ -244,6 +248,7 @@ export class AerisDialog {
   readonly maximized = model(false);
 
   readonly header = input('');
+  readonly appendTo = input<AerisAppendTo>();
   readonly role = input<AerisDialogRole>('dialog');
   readonly modal = input(true, { transform: booleanAttribute });
   readonly backdrop = input(true, { transform: booleanAttribute });
@@ -332,6 +337,7 @@ export class AerisDialog {
     if (!this.visible()) return;
     this.pendingOriginalEvent = originalEvent;
     this.pendingCloseReason = reason;
+    this.overlayPortal()?.restore();
     this.visible.set(false);
   }
 
@@ -423,6 +429,7 @@ export class AerisDialog {
   }
 
   private handleHidden(): void {
+    this.overlayPortal()?.restore();
     const restoreFocus = ɵisTopmostAerisOverlay(this.document, this.overlayToken);
     this.stopDrag();
     ɵunregisterAerisOverlay(this.document, this.overlayToken);

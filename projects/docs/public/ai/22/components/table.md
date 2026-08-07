@@ -29,6 +29,7 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Forwards the mounting target to the paginator rows-per-page menu. |
 | `data` | `readonly AerisTableData[]` | `[]` | Rows rendered by the table. |
 | `columns` | `readonly AerisTableColumn[] (model)` | `[]` | Column definitions used for headers, cells, sorting, filtering, and controlled resized widths. |
 | `rowKeyField` | `string` | `'id'` | Row field used for selection, expansion, and tracking. |

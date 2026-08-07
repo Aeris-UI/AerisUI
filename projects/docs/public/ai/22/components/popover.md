@@ -29,6 +29,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target. |
 | `target` | `AerisPopoverTarget` | `null` | Element or trigger event used when visible is controlled directly. |
 | `header` | `string` | `''` | Visible popover title. |
 | `placement` | `AerisPopoverPlacement` | `'auto'` | Preferred placement around the target. |
@@ -119,7 +120,7 @@ interface AerisPopoverTemplateContext {
 | `--aeris-popover-max-width` | `CSS custom property` | `calc(100vw - 1rem)` | Maximum popover width. |
 | `--aeris-popover-background` | `CSS custom property` | `var(--aeris-surface)` | Popover surface. |
 | `--aeris-popover-border` | `CSS custom property` | `var(--aeris-border)` | Popover border. |
-| `--aeris-popover-radius` | `CSS custom property` | `var(--aeris-radius-lg)` | Popover radius. |
+| `--aeris-popover-radius` | `CSS custom property` | `var(--aeris-radius-overlay)` | Popover radius. |
 | `--aeris-popover-shadow` | `CSS custom property` | `component shadow` | Popover elevation. |
 | `--aeris-popover-focus` | `CSS custom property` | `var(--aeris-focus)` | Focus ring color. |
 | `--aeris-popover-body-padding` | `CSS custom property` | `1rem` | Body padding. |

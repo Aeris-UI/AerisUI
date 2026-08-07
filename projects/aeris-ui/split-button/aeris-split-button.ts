@@ -14,6 +14,7 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
+import { ɵAerisAppendTo, type AerisAppendTo } from '@aeris-ui/core';
 
 export type AerisSplitButtonVariant =
   | 'primary'
@@ -90,7 +91,7 @@ let splitButtonId = 0;
 
 @Component({
   selector: 'aeris-split-button',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <div class="aeris-split-button__control">
       <button
@@ -167,7 +168,11 @@ let splitButtonId = 0;
 
     @if (open()) {
       <div
+        #menuPanel
         class="aeris-split-button__menu"
+        [aerisInternalAppendTo]="appendTo()"
+        [aerisInternalAppendToAnchor]="toggleButton()?.nativeElement ?? null"
+        (aerisInternalAppendToOutside)="hide($event)"
         [class]="menuStyleClass()"
         [id]="menuId()"
         role="menu"
@@ -243,8 +248,9 @@ let splitButtonId = 0;
 export class AerisSplitButton<T = unknown> {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly generatedId = `aeris-split-button-${++splitButtonId}`;
-  private readonly toggleButton =
+  protected readonly toggleButton =
     viewChild<ElementRef<HTMLButtonElement>>('toggle');
+  private readonly panelPortal = viewChild(ɵAerisAppendTo);
   private readonly menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
 
   readonly id = input(this.generatedId);
@@ -252,6 +258,7 @@ export class AerisSplitButton<T = unknown> {
   readonly icon = input('');
   readonly model = input<readonly AerisSplitButtonItem<T>[]>([]);
   readonly open = model(false);
+  readonly appendTo = input<AerisAppendTo>();
   readonly type = input<'button' | 'submit' | 'reset'>('button');
   readonly variant = input<AerisSplitButtonVariant>('primary');
   readonly severity = input<AerisSplitButtonSeverity>('primary');
@@ -342,6 +349,7 @@ export class AerisSplitButton<T = unknown> {
 
   protected hide(event: Event, restoreFocus = false): void {
     if (!this.open()) return;
+    this.panelPortal()?.restore();
     this.open.set(false);
     this.hidden.emit(event);
     if (restoreFocus) {

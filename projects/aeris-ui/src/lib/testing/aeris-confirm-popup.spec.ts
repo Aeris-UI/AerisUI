@@ -211,7 +211,7 @@ describe('AerisConfirmPopup', () => {
     await settle();
     await settle();
 
-    const accept = fixture.nativeElement.querySelector(
+    const accept = document.querySelector(
       '.aeris-confirm-popup__accept',
     ) as HTMLButtonElement;
 
@@ -260,12 +260,12 @@ describe('AerisConfirmPopup', () => {
     fixture.detectChanges();
     await settle();
 
-    expect(fixture.nativeElement.querySelector('.custom-icon')?.textContent).toContain('!');
-    expect(fixture.nativeElement.querySelector('.custom-message')?.textContent).toContain(
+    expect(document.querySelector('.custom-icon')?.textContent).toContain('!');
+    expect(document.querySelector('.custom-message')?.textContent).toContain(
       'release',
     );
-    expect(fixture.nativeElement.querySelector('#template-reject')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('#template-accept')).toBeTruthy();
+    expect(document.querySelector('#template-reject')).toBeTruthy();
+    expect(document.querySelector('#template-accept')).toBeTruthy();
   });
 
   it('supports headless template content', async () => {
@@ -277,10 +277,10 @@ describe('AerisConfirmPopup', () => {
     fixture.detectChanges();
     await settle();
 
-    expect(fixture.nativeElement.querySelector('.headless-shell')?.textContent).toContain(
+    expect(document.querySelector('.headless-shell')?.textContent).toContain(
       'Headless confirmation',
     );
-    expect(fixture.nativeElement.querySelector('#headless-close')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('#headless-accept')).toBeTruthy();
+    expect(document.querySelector('#headless-close')).toBeTruthy();
+    expect(document.querySelector('#headless-accept')).toBeTruthy();
   });
 });

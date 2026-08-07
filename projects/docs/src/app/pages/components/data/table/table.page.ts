@@ -324,6 +324,7 @@ interface AerisTableCsvExportOptions {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'paginatorDropdownAppendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Forwards the mounting target to the paginator rows-per-page menu.' },
     { name: 'data', type: 'readonly AerisTableData[]', defaultValue: '[]', description: 'Rows rendered by the table.' },
     { name: 'columns', type: 'readonly AerisTableColumn[] (model)', defaultValue: '[]', description: 'Column definitions used for headers, cells, sorting, filtering, and controlled resized widths.' },
     { name: 'rowKeyField', type: 'string', defaultValue: "'id'", description: 'Row field used for selection, expansion, and tracking.' },

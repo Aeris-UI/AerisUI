@@ -3,7 +3,7 @@
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
-    url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E")
+    url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E')
   );
 
   display: inline-block;
@@ -74,8 +74,7 @@
     box-shadow 150ms ease;
 }
 
-.aeris-cascade-select__control:has(.aeris-cascade-select__clear)
-  .aeris-cascade-select__trigger {
+.aeris-cascade-select__control:has(.aeris-cascade-select__clear) .aeris-cascade-select__trigger {
   padding-right: 4.5rem;
 }
 
@@ -86,7 +85,10 @@
 
 .aeris-cascade-select__trigger:hover,
 .aeris-cascade-select[data-open] .aeris-cascade-select__trigger {
-  border-color: var(--aeris-cascade-select-hover-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  border-color: var(
+    --aeris-cascade-select-hover-border,
+    var(--aeris-focus, #{aeris-fallbacks.$focus})
+  );
 }
 
 .aeris-cascade-select__trigger:focus-visible {
@@ -222,12 +224,11 @@
   scrollbar-color: var(--aeris-border, #deddd7) transparent;
   scrollbar-width: thin;
   padding: calc(var(--aeris-cascade-select-density-gap) * 0.75);
-  border: 1px solid
-    var(
-      --aeris-cascade-select-panel-border,
-      var(--aeris-border)
-    );
-  border-radius: var(--aeris-cascade-select-panel-radius, var(--aeris-radius-md, 0.6875rem));
+  border: 1px solid var(--aeris-cascade-select-panel-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-cascade-select-panel-radius,
+    var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
+  );
   background: var(--aeris-cascade-select-panel-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-cascade-select-panel-shadow, 0 1rem 2.5rem rgb(31 35 27 / 16%));
 }
@@ -271,7 +272,7 @@
   gap: calc(var(--aeris-cascade-select-density-gap) + 0.25rem);
   padding: var(--aeris-item-padding-y, 0.5rem) var(--aeris-item-padding-x, 0.75rem);
   border: 0;
-  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
+  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: inherit;
   font: inherit;

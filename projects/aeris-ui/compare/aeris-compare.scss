@@ -21,7 +21,10 @@
   overflow: hidden;
   border: var(--aeris-compare-border-width, 1px) solid
     var(--aeris-compare-border, var(--aeris-border));
-  border-radius: var(--aeris-compare-radius, var(--aeris-radius-lg, 0.875rem));
+  border-radius: var(
+    --aeris-compare-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-compare-background, var(--aeris-surface-2, #f2f0ec));
   color: var(--aeris-compare-color, var(--aeris-text, #222222));
   isolation: isolate;
@@ -81,7 +84,11 @@
 .aeris-compare__layer--before .aeris-compare__empty {
   background: var(
     --aeris-compare-before-empty-background,
-    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 14%, var(--aeris-surface, #fff))
+    color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 14%,
+      var(--aeris-surface, #fff)
+    )
   );
 }
 
@@ -231,7 +238,8 @@
 }
 
 .aeris-compare:has(.aeris-compare__input:focus-visible) {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
+  outline: 3px solid
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
   outline-offset: var(--aeris-compare-focus-offset, 3px);
 }
 

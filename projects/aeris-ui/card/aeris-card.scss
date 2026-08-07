@@ -4,14 +4,16 @@ aeris-card {
 }
 
 .aeris-card {
-  --_aeris-card-radius: var(--aeris-card-radius, var(--aeris-radius-lg, 1.125rem));
+  --_aeris-card-radius: var(
+    --aeris-card-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
 
   width: 100%;
   height: 100%;
   min-width: 0;
   overflow: visible;
-  border: 1px solid
-    var(--aeris-card-border, var(--aeris-border));
+  border: 1px solid var(--aeris-card-border, var(--aeris-border));
   border-radius: var(--_aeris-card-radius);
   background: var(--aeris-card-background, var(--aeris-surface, #fff));
   color: var(--aeris-card-color, var(--aeris-text, #222222));

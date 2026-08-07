@@ -98,9 +98,12 @@ describe('AerisAutoComplete', () => {
     input.dispatchEvent(new Event('input', { bubbles: true }));
     fixture.detectChanges();
 
-    const options = fixture.nativeElement.querySelectorAll('[role="option"]');
+    const options = fixture.nativeElement.querySelectorAll(
+      '[role="option"]',
+    ) as NodeListOf<HTMLElement>;
     expect(options.length).toBe(1);
     expect(options[0]?.textContent).toContain('TypeScript');
+    expect(getComputedStyle(options.item(0)).borderRadius).toContain('--aeris-radius-item');
   });
 
   it('navigates enabled suggestions and selects through the keyboard', async () => {

@@ -39,6 +39,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a template host. |
 | `target` | `AerisConfirmPopupTarget` | `required` | Element or trigger event used for positioning and trigger ARIA state. |
 | `header` | `string` | `'Confirm action'` | Visible popup title. |
@@ -112,6 +113,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a template host. |
 | `target` | `AerisConfirmPopupTarget` | `required` | Element or trigger event used for positioning and trigger ARIA state. |
 | `header` | `string` | `'Confirm action'` | Visible popup title. |
@@ -193,6 +195,7 @@ type AerisConfirmPopupTarget = Element | EventTarget | Event | null | undefined;
 interface AerisConfirmPopupConfig<TData = unknown> {
   readonly key?: string;
   readonly target: AerisConfirmPopupTarget;
+  readonly appendTo?: AerisAppendTo;
   readonly header?: string;
   readonly message?: string;
   readonly data?: TData;
@@ -243,7 +246,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
 | `--aeris-confirm-popup-padding` | `CSS custom property` | `1rem` | Internal spacing. |
 | `--aeris-confirm-popup-background` | `CSS custom property` | `var(--aeris-surface)` | Popup surface. |
 | `--aeris-confirm-popup-border` | `CSS custom property` | `var(--aeris-border)` | Popup border. |
-| `--aeris-confirm-popup-radius` | `CSS custom property` | `var(--aeris-radius-lg)` | Popup radius. |
+| `--aeris-confirm-popup-radius` | `CSS custom property` | `var(--aeris-radius-overlay)` | Popup radius. |
 | `--aeris-confirm-popup-shadow` | `CSS custom property` | `component shadow` | Popup elevation. |
 | `--aeris-confirm-popup-focus` | `CSS custom property` | `var(--aeris-focus)` | Focus ring color. |
 | `--aeris-confirm-popup-icon-size` | `CSS custom property` | `2rem` | Built-in icon container size. |

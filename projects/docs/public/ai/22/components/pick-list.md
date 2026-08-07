@@ -164,6 +164,7 @@ interface AerisPickListDragEvent<TItem> {
 | `--aeris-pick-list-min-height` | `CSS custom property` | — | Minimum listbox viewport height. |
 | `--aeris-pick-list-max-height` | `CSS custom property` | — | Maximum scrollable viewport height. |
 | `--aeris-pick-list-item-padding` | `CSS custom property` | — | Item content padding. |
+| `--aeris-pick-list-item-radius` | `CSS custom property` | — | Item radius shared with other Aeris selectable rows. |
 | `--aeris-pick-list-filter-height` | `CSS custom property` | — | Filter field height. |
 
 ## Examples

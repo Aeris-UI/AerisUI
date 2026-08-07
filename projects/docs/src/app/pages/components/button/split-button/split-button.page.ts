@@ -145,6 +145,7 @@ interface AerisSplitButtonProps {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Mounts the action menu locally, in document.body, or in the supplied DOM/template target.' },
     {
       name: 'navigationHandler',
       type: 'AerisSplitButtonNavigationHandler | undefined',
