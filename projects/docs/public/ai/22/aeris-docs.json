@@ -20,12 +20,12 @@
       "@angular/platform-browser": ">=22.0.6 <23.0.0",
       "rxjs": ">=7.8.0 <8.0.0",
       "chart.js": "^4.5.1",
-      "@lexical/history": "^0.47.0",
-      "@lexical/html": "^0.47.0",
-      "@lexical/list": "^0.47.0",
-      "@lexical/rich-text": "^0.47.0",
-      "@lexical/selection": "^0.47.0",
-      "lexical": "^0.47.0"
+      "@lexical/history": "^0.49.0",
+      "@lexical/html": "^0.49.0",
+      "@lexical/list": "^0.49.0",
+      "@lexical/rich-text": "^0.49.0",
+      "@lexical/selection": "^0.49.0",
+      "lexical": "^0.49.0"
     },
     "principles": [
       "Aeris is alpha software and is not production ready.",
