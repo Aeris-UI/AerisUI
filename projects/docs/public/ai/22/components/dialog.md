@@ -2,7 +2,7 @@
 
 > Modal surface with focus management, dismissal rules, and responsive sizing.
 
-Aeris 22.0.0-alpha.3 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/dialog`
 - Human-readable documentation: [https://aeris-ui.dev/components/dialog](https://aeris-ui.dev/components/dialog)
