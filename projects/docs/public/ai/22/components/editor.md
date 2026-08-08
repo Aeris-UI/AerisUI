@@ -39,8 +39,8 @@ import { AerisEditor } from '@aeris-ui/core/editor';
 | `ariaLabelledby` | `string` | `''` | IDs of visible elements that label the editor. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
 | `toolbarAriaLabel` | `string` | `'Formatting tools'` | Accessible name for the toolbar. |
-| `size` | `AerisEditorSize` | `'md'` | Controls editor typography and padding. |
-| `appearance` | `AerisEditorAppearance` | `'outline'` | Outlined or filled surface treatment. |
+| `size` | `AerisEditorSize` | `'md'` | Controls editor typography and padding. Options: 'sm', 'md', 'lg'. |
+| `appearance` | `AerisEditorAppearance` | `'outline'` | Outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `minHeight` | `string` | `'12rem'` | Minimum content area height. |
 | `formats` | `readonly AerisEditorFormat[]` | `AERIS_EDITOR_DEFAULT_FORMATS` | Controls which toolbar actions are rendered. Use AERIS_EDITOR_ALL_FORMATS for every built-in action. |
 | `namespace` | `string` | `'AerisEditor'` | Lexical namespace used when creating the editor instance. |

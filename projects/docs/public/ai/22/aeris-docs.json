@@ -91,7 +91,7 @@
           "paragraphs": [
             "Use the Angular initializer for the recommended guided installation. It selects the target application in a multi-project workspace and configures the package, global styles, theme, density, corners, color schemes, persistence, and initial direction.",
             "The initializer detects Tailwind CSS and Bootstrap, keeps their styles before Aeris, and never installs an icon library. Ordinary package installation remains silent for teams that prefer the manual steps below.",
-            "Aeris is available from the public npm registry. Pin the exact alpha version shown below for reproducible installs, or use the next tag when intentionally evaluating the newest prerelease. Repository contributors can still use a local tarball to verify workspace changes.",
+            "Aeris is available from the public npm registry. Pin the exact alpha version shown below for reproducible installs, or use the next tag when intentionally evaluating the newest prerelease.",
             "Schemes decide which light and dark token sets are available. Mode decides which available scheme is active when the application starts."
           ],
           "code": [
@@ -104,11 +104,6 @@
               "label": "Newest alpha",
               "language": "Shell",
               "code": "ng add @aeris-ui/core@next"
-            },
-            {
-              "label": "Repository tarball",
-              "language": "Shell",
-              "code": "# Run from the Aeris repository\nnpm run pack:lib\n\n# Run from the Angular application\nng add \"../path-to-aeris/dist/packages/aeris-ui-core-22.0.0-alpha.4.tgz\""
             }
           ],
           "note": "Pill applies only where fully rounded geometry is appropriate. Structural surfaces such as tables, editors, textareas, and large panels retain suitable corners.",
@@ -1832,9 +1827,10 @@
         },
         {
           "id": "published-setup",
-          "title": "Configure the package",
+          "title": "Use the published package",
           "paragraphs": [
-            "The published @aeris-ui/mcp package is available from the public npm registry. Add an Aeris server entry to the MCP configuration used by the chosen client. The configuration file location and outer property name differ between clients, but the command and arguments remain the same.",
+            "The published @aeris-ui/mcp package is available from the public npm registry. The recommended setup uses npx, which downloads and runs the pinned package for the MCP client, so there is no separate installation step and nothing is added to the Angular application.",
+            "Add an Aeris server entry to the MCP configuration used by the chosen client. The configuration file location and outer property name differ between clients, but the command and arguments remain the same.",
             "Pin the exact version during alpha so the MCP documentation cannot move independently from the Aeris package being evaluated."
           ],
           "code": [
@@ -1854,24 +1850,24 @@
           ]
         },
         {
-          "id": "local-setup",
-          "title": "Use the repository build",
+          "id": "global-install",
+          "title": "Install it globally instead",
           "paragraphs": [
-            "Build the package in this repository, then configure the MCP client to launch the generated CLI with Node.js. Replace the example path with the absolute path on the local machine; forward slashes work in JSON on Windows."
+            "If the MCP client cannot use npx, or a persistent local installation is preferred, install the executable globally and configure the client to launch aeris-mcp directly. Keep the installed version aligned with @aeris-ui/core."
           ],
           "code": [
             {
-              "label": "Build and verify",
+              "label": "Install the MCP executable",
               "language": "Shell",
-              "code": "npm run build:mcp\nnpm run test:mcp\nnpm run check:mcp-package"
+              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.4"
             },
             {
-              "label": "Local MCP client configuration",
+              "label": "Global installation configuration",
               "language": "JSON",
-              "code": "{\n  \"mcpServers\": {\n    \"aeris-local\": {\n      \"command\": \"node\",\n      \"args\": [\"D:/path/to/AerisUI/dist/aeris-mcp/cli.js\"]\n    }\n  }\n}"
+              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"aeris-mcp\"\n    }\n  }\n}"
             }
           ],
-          "note": "Launching the CLI directly in a terminal appears to wait silently because it is expecting protocol messages on stdin. Test it through an MCP client or protocol inspector instead."
+          "note": "After installing or updating the global package, restart the MCP client. The npm global binary directory must be available on PATH."
         },
         {
           "id": "capabilities",
@@ -1963,10 +1959,6 @@
               [
                 "The server is not listed",
                 "Validate the client configuration format and restart the client"
-              ],
-              [
-                "The local build cannot start",
-                "Run npm run build:mcp and use an absolute path to dist/aeris-mcp/cli.js"
               ],
               [
                 "npx cannot find the package",
@@ -2362,7 +2354,7 @@
           "paragraphs": [
             "The published package declares Angular Common, Core, and Forms as peer dependencies. Your application owns the Angular installation, while the package manager warns when the installed version falls outside the supported range.",
             "Check the installed package metadata when diagnosing a version conflict instead of relying only on a copied installation command.",
-            "The npm lookup command becomes available after the first package is published. Before then, inspect projects/aeris-ui/package.json or the metadata inside the locally built tarball."
+            "Check the peer dependency range for the version you plan to install before updating Angular or Aeris."
           ],
           "code": [
             {
@@ -2600,7 +2592,7 @@
             "Refine the Coastal, Earth, and Orchid palettes with more cohesive, role-based color systems.",
             "Use subtle neutral boundaries consistently across Aeris components and documentation surfaces.",
             "Keep generated examples, AI documentation, and theme metadata synchronized with the updated tokens.",
-            "Refresh the Angular toolchain and routine development dependencies without changing the supported Angular 22 peer range.",
+            "Keep the supported Angular 22 range unchanged while refreshing compatible runtime integrations.",
             "Show guided and package-only installation commands directly on the landing page."
           ]
         },
@@ -2611,14 +2603,14 @@
             "Alpha patch · 28 July 2026"
           ],
           "bullets": [
-            "Publish Core and MCP through versioned GitHub Releases using npm trusted publishing.",
+            "Provide version-matched Core and MCP packages for consistent application and AI documentation.",
             "Refresh the Earth theme and centralize component fallback colors in the theming layer.",
             "Render Tabs correctly on the first lazy navigation.",
             "Polish Toast stacking, motion, rapid interactions, and pointer or touch swipe dismissal.",
             "Align ContextMenu corner radii and animate MeterGroup fills from the logical start edge.",
             "Add discreet sponsorship and supporter-recognition guidance.",
             "Clarify Aeris UI open-source positioning and production canonical URLs.",
-            "Update development dependencies while retaining the supported Angular 22 peer range."
+            "Retain the supported Angular 22 peer range while updating compatible integrations."
           ]
         },
         {
@@ -2645,7 +2637,7 @@
             "Provide semantic theming with palettes, light and dark modes, density, corner styles, and RTL.",
             "Document component APIs, accessibility behavior, design tokens, and responsive examples.",
             "Publish version-matched AI documentation and the local read-only @aeris-ui/mcp package.",
-            "Verify package exports, dependencies, preserved CSS, and tarball contents in CI."
+            "Ship verified package exports, dependencies, global styles, and secondary entry points."
           ]
         },
         {
@@ -2784,19 +2776,19 @@
               "name": "size",
               "type": "AerisAutoCompleteSize",
               "defaultValue": "'md'",
-              "description": "Control height and typography size."
+              "description": "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisAutoCompleteAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled visual treatment."
+              "description": "Outlined or filled visual treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "filterMatchMode",
               "type": "AerisAutoCompleteFilterMatchMode",
               "defaultValue": "'contains'",
-              "description": "Local filtering strategy applied to label, value, description, and group."
+              "description": "Local filtering strategy applied to label, value, description, and group. Options: 'contains', 'startsWith', 'endsWith', 'equals'."
             },
             {
               "name": "minLength",
@@ -3392,13 +3384,13 @@
               "name": "size",
               "type": "AerisCascadeSelectSize",
               "defaultValue": "'md'",
-              "description": "Control height and typography size."
+              "description": "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisCascadeSelectAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled visual treatment."
+              "description": "Outlined or filled visual treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "separator",
@@ -3884,13 +3876,13 @@
               "name": "size",
               "type": "AerisCheckboxSize",
               "defaultValue": "'md'",
-              "description": "Control and label size."
+              "description": "Control and label size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "labelPosition",
               "type": "AerisCheckboxLabelPosition",
               "defaultValue": "'end'",
-              "description": "Places the visible label before or after the control."
+              "description": "Places the visible label before or after the control. Options: 'start', 'end'."
             },
             {
               "name": "tabIndex",
@@ -4239,7 +4231,7 @@
               "name": "format",
               "type": "AerisColorFormat (model)",
               "defaultValue": "'hex'",
-              "description": "Active output format. Users can change it from the panel when format selection is enabled."
+              "description": "Active output format. Users can change it from the panel when format selection is enabled. Options: 'hex', 'rgb', 'hsl'."
             },
             {
               "name": "inputId",
@@ -4257,7 +4249,7 @@
               "name": "formats",
               "type": "readonly AerisColorFormat[]",
               "defaultValue": "['hex', 'rgb', 'hsl']",
-              "description": "Formats offered by the panel format selector."
+              "description": "Formats offered by the panel format selector. Options: 'hex', 'rgb', 'hsl'."
             },
             {
               "name": "placeholder",
@@ -4365,13 +4357,13 @@
               "name": "size",
               "type": "AerisColorPickerSize",
               "defaultValue": "'md'",
-              "description": "Control height and typography size."
+              "description": "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisColorPickerAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled visual treatment."
+              "description": "Outlined or filled visual treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "presets",
@@ -4455,7 +4447,7 @@
               "name": "formatChange",
               "type": "AerisColorFormat",
               "defaultValue": "-",
-              "description": "Emitted automatically when the format model changes."
+              "description": "Emitted automatically when the format model changes. Options: 'hex', 'rgb', 'hsl'."
             },
             {
               "name": "valueInput",
@@ -4922,7 +4914,7 @@
               "name": "selectionMode",
               "type": "AerisDatePickerSelectionMode",
               "defaultValue": "'single'",
-              "description": "Selects one date, multiple independent dates, or a start/end range."
+              "description": "Selects one date, multiple independent dates, or a start/end range. Options: 'single', 'multiple', 'range'."
             },
             {
               "name": "view",
@@ -4934,7 +4926,7 @@
               "name": "mode",
               "type": "AerisDatePickerMode",
               "defaultValue": "'date'",
-              "description": "Chooses date-only, date-and-time, or time-only entry."
+              "description": "Chooses date-only, date-and-time, or time-only entry. Options: 'date', 'dateTime', 'time'."
             },
             {
               "name": "inputId",
@@ -4982,13 +4974,13 @@
               "name": "size",
               "type": "AerisDatePickerSize",
               "defaultValue": "'md'",
-              "description": "Control density from extra small through large."
+              "description": "Control density from extra small through large. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisDatePickerAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled field treatment."
+              "description": "Outlined or filled field treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "locale",
@@ -5000,13 +4992,13 @@
               "name": "dateStyle",
               "type": "AerisDatePickerDateStyle",
               "defaultValue": "'medium'",
-              "description": "Intl.DateTimeFormat date style used in the trigger."
+              "description": "Intl.DateTimeFormat date style used in the trigger. Options: 'short', 'medium', 'long', 'full'."
             },
             {
               "name": "hourCycle",
               "type": "AerisDatePickerHourCycle",
               "defaultValue": "'24'",
-              "description": "Formats and edits time with 24-hour or 12-hour controls."
+              "description": "Formats and edits time with 24-hour or 12-hour controls. Options: 12, 24."
             },
             {
               "name": "showSeconds",
@@ -5766,13 +5758,13 @@
               "name": "size",
               "type": "AerisEditorSize",
               "defaultValue": "'md'",
-              "description": "Controls editor typography and padding."
+              "description": "Controls editor typography and padding. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisEditorAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled surface treatment."
+              "description": "Outlined or filled surface treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "minHeight",
@@ -6254,19 +6246,19 @@
               "name": "size",
               "type": "AerisIconFieldSize",
               "defaultValue": "'md'",
-              "description": "Controls height, padding, icon size, and text size."
+              "description": "Controls height, padding, icon size, and text size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisIconFieldAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled field surface."
+              "description": "Outlined or filled field surface. Options: 'outline', 'filled'."
             },
             {
               "name": "density",
               "type": "AerisIconFieldDensity",
               "defaultValue": "'comfortable'",
-              "description": "Adjusts spacing between icon and control."
+              "description": "Adjusts spacing between icon and control. Options: 'comfortable', 'compact'."
             },
             {
               "name": "invalid",
@@ -6590,13 +6582,13 @@
               "name": "size",
               "type": "AerisInputGroupSize",
               "defaultValue": "'md'",
-              "description": "Controls addon height, font size, and grouped native-control size."
+              "description": "Controls addon height, font size, and grouped native-control size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisInputGroupAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled treatment for grouped controls, addons, and attached buttons."
+              "description": "Outlined or filled treatment for grouped controls, addons, and attached buttons. Options: 'outline', 'filled'."
             },
             {
               "name": "mode",
@@ -7001,9 +6993,9 @@
             },
             {
               "name": "inputMode",
-              "type": "string",
+              "type": "'text' | 'numeric' | 'tel' | 'email' | 'url' | 'search'",
               "defaultValue": "'text'",
-              "description": "Virtual keyboard hint such as tel or numeric."
+              "description": "Virtual keyboard hint used to select an appropriate on-screen keyboard."
             },
             {
               "name": "ariaLabel",
@@ -7063,13 +7055,13 @@
               "name": "size",
               "type": "AerisInputMaskSize",
               "defaultValue": "'md'",
-              "description": "Control height and typography size."
+              "description": "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisInputMaskAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled visual treatment."
+              "description": "Outlined or filled visual treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "disabled",
@@ -7563,7 +7555,7 @@
               "name": "currencyDisplay",
               "type": "AerisInputNumberCurrencyDisplay",
               "defaultValue": "'symbol'",
-              "description": "Currency label style."
+              "description": "Currency label style. Options: 'symbol', 'narrowSymbol', 'code', 'name'."
             },
             {
               "name": "prefix",
@@ -7641,7 +7633,7 @@
               "name": "buttonLayout",
               "type": "AerisInputNumberButtonLayout",
               "defaultValue": "'stacked'",
-              "description": "Positions the step controls."
+              "description": "Positions the step controls. Options: 'stacked', 'horizontal', 'vertical'."
             },
             {
               "name": "buttonTabIndex",
@@ -7665,13 +7657,13 @@
               "name": "size",
               "type": "AerisInputNumberSize",
               "defaultValue": "'md'",
-              "description": "Control height and typography size."
+              "description": "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisInputNumberAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled visual treatment."
+              "description": "Outlined or filled visual treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "disabled",
@@ -8176,13 +8168,13 @@
               "name": "size",
               "type": "AerisInputOtpSize",
               "defaultValue": "'md'",
-              "description": "Slot dimensions and typography size."
+              "description": "Slot dimensions and typography size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisInputOtpAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled slot treatment."
+              "description": "Outlined or filled slot treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "mask",
@@ -8601,13 +8593,13 @@
               "name": "size",
               "type": "AerisInputTextSize",
               "defaultValue": "'md'",
-              "description": "Sets the input height, padding, and font size."
+              "description": "Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisInputTextAppearance",
               "defaultValue": "'outline'",
-              "description": "Selects an outlined or filled surface treatment."
+              "description": "Selects an outlined or filled surface treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "invalid",
@@ -8685,13 +8677,13 @@
               "name": "size",
               "type": "AerisInputTextSize",
               "defaultValue": "'md'",
-              "description": "Sets the input height, padding, and font size."
+              "description": "Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisInputTextAppearance",
               "defaultValue": "'outline'",
-              "description": "Selects an outlined or filled surface treatment."
+              "description": "Selects an outlined or filled surface treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "invalid",
@@ -9392,13 +9384,13 @@
               "name": "size",
               "type": "AerisMultiSelectSize",
               "defaultValue": "'md'",
-              "description": "Control height and typography size."
+              "description": "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisMultiSelectAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled visual treatment."
+              "description": "Outlined or filled visual treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "display",
@@ -10072,13 +10064,13 @@
               "name": "size",
               "type": "AerisPasswordSize",
               "defaultValue": "'md'",
-              "description": "Control height and typography size."
+              "description": "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisPasswordAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled visual treatment."
+              "description": "Outlined or filled visual treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "minLength",
@@ -10592,13 +10584,13 @@
               "name": "size",
               "type": "AerisRadioButtonSize",
               "defaultValue": "'md'",
-              "description": "Control and label size."
+              "description": "Control and label size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "labelPosition",
               "type": "AerisRadioButtonLabelPosition",
               "defaultValue": "'end'",
-              "description": "Places the visible label before or after the control."
+              "description": "Places the visible label before or after the control. Options: 'start', 'end'."
             },
             {
               "name": "disabled",
@@ -10976,7 +10968,7 @@
               "name": "size",
               "type": "AerisRatingSize",
               "defaultValue": "'md'",
-              "description": "Visual star size."
+              "description": "Visual star size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "showValue",
@@ -11403,13 +11395,13 @@
               "name": "size",
               "type": "AerisSelectSize",
               "defaultValue": "'md'",
-              "description": "Control height and typography size."
+              "description": "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisSelectAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled visual treatment."
+              "description": "Outlined or filled visual treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "disabled",
@@ -11463,7 +11455,7 @@
               "name": "filterMatchMode",
               "type": "AerisSelectFilterMatchMode",
               "defaultValue": "'contains'",
-              "description": "Matching strategy for local filtering."
+              "description": "Matching strategy for local filtering. Options: 'contains', 'startsWith', 'endsWith', 'equals'."
             },
             {
               "name": "filterFields",
@@ -12226,7 +12218,7 @@
               "name": "size",
               "type": "AerisSliderSize",
               "defaultValue": "'md'",
-              "description": "Track thickness and thumb size."
+              "description": "Track thickness and thumb size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "name",
@@ -12715,19 +12707,19 @@
               "name": "size",
               "type": "AerisTextareaSize",
               "defaultValue": "'md'",
-              "description": "Sets the padding, font size, and minimum height."
+              "description": "Sets the padding, font size, and minimum height. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisTextareaAppearance",
               "defaultValue": "'outline'",
-              "description": "Selects the outlined or filled surface treatment."
+              "description": "Selects the outlined or filled surface treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "resize",
               "type": "AerisTextareaResize",
               "defaultValue": "'vertical'",
-              "description": "Controls the native browser resize handle."
+              "description": "Controls the native browser resize handle. Options: 'none', 'vertical', 'horizontal', 'both'."
             },
             {
               "name": "invalid",
@@ -12829,19 +12821,19 @@
               "name": "size",
               "type": "AerisTextareaSize",
               "defaultValue": "'md'",
-              "description": "Sets the padding, font size, and minimum height."
+              "description": "Sets the padding, font size, and minimum height. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisTextareaAppearance",
               "defaultValue": "'outline'",
-              "description": "Selects the outlined or filled surface treatment."
+              "description": "Selects the outlined or filled surface treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "resize",
               "type": "AerisTextareaResize",
               "defaultValue": "'vertical'",
-              "description": "Controls the native browser resize handle."
+              "description": "Controls the native browser resize handle. Options: 'none', 'vertical', 'horizontal', 'both'."
             },
             {
               "name": "invalid",
@@ -13388,13 +13380,13 @@
               "name": "size",
               "type": "AerisToggleSwitchSize",
               "defaultValue": "'md'",
-              "description": "Track, thumb, gap, and label size."
+              "description": "Track, thumb, gap, and label size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "labelPosition",
               "type": "AerisToggleSwitchLabelPosition",
               "defaultValue": "'end'",
-              "description": "Places visible label content before or after the control."
+              "description": "Places visible label content before or after the control. Options: 'start', 'end'."
             },
             {
               "name": "disabled",
@@ -13791,13 +13783,13 @@
               "name": "size",
               "type": "AerisTreeSelectSize",
               "defaultValue": "'md'",
-              "description": "Control height and typography size."
+              "description": "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "appearance",
               "type": "AerisTreeSelectAppearance",
               "defaultValue": "'outline'",
-              "description": "Outlined or filled visual treatment."
+              "description": "Outlined or filled visual treatment. Options: 'outline', 'filled'."
             },
             {
               "name": "disabled",
@@ -14255,25 +14247,25 @@
               "name": "variant",
               "type": "AerisButtonVariant",
               "defaultValue": "'primary'",
-              "description": "Visual treatment of the button."
+              "description": "Visual treatment of the button. Options: 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'."
             },
             {
               "name": "severity",
               "type": "AerisButtonSeverity",
               "defaultValue": "'primary'",
-              "description": "Semantic color applied to the selected variant."
+              "description": "Semantic color applied to the selected variant. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'."
             },
             {
               "name": "size",
               "type": "AerisButtonSize",
               "defaultValue": "'md'",
-              "description": "Control height and typography size."
+              "description": "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "iconPosition",
               "type": "AerisButtonIconPosition",
               "defaultValue": "'left'",
-              "description": "Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically."
+              "description": "Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically. Options: 'left', 'right', 'top', 'bottom'."
             },
             {
               "name": "loading",
@@ -14521,7 +14513,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\n\n@Component({\n  selector: 'app-feature-severity-demo',\n  imports: [AerisButton],\n  template: `\n    <div class=\"wrap aeris-example-row\">\n      @for (severity of severities; track severity) {\n        <button aerisButton [severity]=\"severity\">{{ severity }}</button>\n      }\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    .wrap {\n      display: flex;\n      gap: 0.5625rem;\n      flex-wrap: wrap;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class FeatureSeveritySeverityDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton, type AerisButtonSeverity } from '@aeris-ui/core/button';\n\n@Component({\n  selector: 'app-feature-severity-demo',\n  imports: [AerisButton],\n  template: `\n    <div class=\"wrap aeris-example-row\">\n      @for (severity of severities; track severity) {\n        <button aerisButton [severity]=\"severity\">{{ severity }}</button>\n      }\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    .wrap {\n      display: flex;\n      gap: 0.5625rem;\n      flex-wrap: wrap;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class FeatureSeveritySeverityDemo {\n  protected readonly severities: readonly AerisButtonSeverity[] = [\n    'primary',\n    'secondary',\n    'success',\n    'info',\n    'warning',\n    'danger',\n    'contrast',\n  ];\n}\n"
             }
           ]
         },
@@ -14667,7 +14659,7 @@
               "name": "orientation",
               "type": "AerisButtonGroupOrientation",
               "defaultValue": "'horizontal'",
-              "description": "Connects child controls horizontally or vertically."
+              "description": "Connects child controls horizontally or vertically. Options: 'horizontal', 'vertical'."
             },
             {
               "name": "fluid",
@@ -14907,7 +14899,7 @@
               "name": "direction",
               "type": "AerisSpeedDialDirection",
               "defaultValue": "'up'",
-              "description": "Direction used by linear and partial-circle layouts."
+              "description": "Direction used by linear and partial-circle layouts. Options: 'up', 'down', 'left', 'right', 'up-left', 'up-right', 'down-left', 'down-right'."
             },
             {
               "name": "type",
@@ -15366,19 +15358,19 @@
               "name": "variant",
               "type": "AerisSplitButtonVariant",
               "defaultValue": "'primary'",
-              "description": "Visual treatment shared by both button segments."
+              "description": "Visual treatment shared by both button segments. Options: 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'."
             },
             {
               "name": "severity",
               "type": "AerisSplitButtonSeverity",
               "defaultValue": "'primary'",
-              "description": "Semantic color shared by both segments."
+              "description": "Semantic color shared by both segments. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'."
             },
             {
               "name": "size",
               "type": "AerisSplitButtonSize",
               "defaultValue": "'md'",
-              "description": "Control height and typography size."
+              "description": "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'."
             },
             {
               "name": "disabled",
@@ -20329,13 +20321,13 @@
               "name": "orientation",
               "type": "AerisCardOrientation",
               "defaultValue": "'vertical'",
-              "description": "Stacks content vertically or places media beside the body."
+              "description": "Stacks content vertically or places media beside the body. Options: 'vertical', 'horizontal'."
             },
             {
               "name": "padding",
               "type": "AerisCardPadding",
               "defaultValue": "'md'",
-              "description": "Controls body padding without changing projected media."
+              "description": "Controls body padding without changing projected media. Options: 'none', 'sm', 'md', 'lg'."
             },
             {
               "name": "hoverable",
@@ -20347,7 +20339,7 @@
               "name": "role",
               "type": "AerisCardRole | null",
               "defaultValue": "null",
-              "description": "Optional semantic role for meaningful independent regions."
+              "description": "Optional semantic role for meaningful independent regions. Options: 'article', 'region', 'group'."
             },
             {
               "name": "ariaLabel",
@@ -20665,7 +20657,7 @@
               "name": "spacing",
               "type": "AerisDividerSpacing",
               "defaultValue": "'md'",
-              "description": "Controls outer spacing around the divider."
+              "description": "Controls outer spacing around the divider. Options: 'none', 'sm', 'md', 'lg'."
             },
             {
               "name": "decorative",
@@ -20927,7 +20919,7 @@
               "name": "size",
               "type": "AerisPanelSize",
               "defaultValue": "'md'",
-              "description": "Controls header and content density."
+              "description": "Controls header and content density. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "animated",
@@ -21336,13 +21328,13 @@
               "name": "orientation",
               "type": "AerisScrollPanelOrientation",
               "defaultValue": "'vertical'",
-              "description": "Controls vertical, horizontal, or two-axis overflow."
+              "description": "Controls vertical, horizontal, or two-axis overflow. Options: 'vertical', 'horizontal', 'both'."
             },
             {
               "name": "variant",
               "type": "AerisScrollPanelVariant",
               "defaultValue": "'auto'",
-              "description": "Adjusts scrollbar visibility styling."
+              "description": "Adjusts scrollbar visibility styling. Options: 'auto', 'hover', 'always', 'hidden'."
             },
             {
               "name": "fade",
@@ -21798,7 +21790,7 @@
               "name": "orientation",
               "type": "AerisSplitterOrientation",
               "defaultValue": "'horizontal'",
-              "description": "Lays panels out left-to-right or top-to-bottom."
+              "description": "Lays panels out left-to-right or top-to-bottom. Options: 'horizontal', 'vertical'."
             },
             {
               "name": "variant",
@@ -21810,13 +21802,13 @@
               "name": "size",
               "type": "AerisSplitterSize",
               "defaultValue": "'md'",
-              "description": "Controls panel padding and gutter density."
+              "description": "Controls panel padding and gutter density. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "divider",
               "type": "AerisSplitterDivider",
               "defaultValue": "'handle'",
-              "description": "Displays handle-only separators or full divider lines with handles."
+              "description": "Displays handle-only separators or full divider lines with handles. Options: 'handle', 'line'."
             },
             {
               "name": "disabled",
@@ -22408,13 +22400,13 @@
               "name": "orientation",
               "type": "AerisStepperOrientation",
               "defaultValue": "'horizontal'",
-              "description": "Lays out step headers horizontally or vertically."
+              "description": "Lays out step headers horizontally or vertically. Options: 'horizontal', 'vertical'."
             },
             {
               "name": "activationMode",
               "type": "AerisStepperActivationMode",
               "defaultValue": "'automatic'",
-              "description": "Selects focused steps automatically or waits for Enter/Space in manual mode."
+              "description": "Selects focused steps automatically or waits for Enter/Space in manual mode. Options: 'automatic', 'manual'."
             },
             {
               "name": "linear",
@@ -22432,7 +22424,7 @@
               "name": "size",
               "type": "AerisStepperSize",
               "defaultValue": "'md'",
-              "description": "Controls trigger and indicator sizing."
+              "description": "Controls trigger and indicator sizing. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "variant",
@@ -23403,7 +23395,7 @@
               "name": "size",
               "type": "AerisToolbarSize",
               "defaultValue": "'md'",
-              "description": "Controls toolbar padding and spacing density."
+              "description": "Controls toolbar padding and spacing density. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "orientation",
@@ -23415,7 +23407,7 @@
               "name": "align",
               "type": "AerisToolbarAlign",
               "defaultValue": "'center'",
-              "description": "Aligns sections across the cross axis."
+              "description": "Aligns sections across the cross axis. Options: 'start', 'center', 'end', 'stretch'."
             },
             {
               "name": "wrap",
@@ -23846,13 +23838,13 @@
               "name": "icon",
               "type": "AerisConfirmDialogIcon",
               "defaultValue": "'question'",
-              "description": "Built-in icon or none."
+              "description": "Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'."
             },
             {
               "name": "severity",
               "type": "AerisConfirmDialogSeverity",
               "defaultValue": "'primary'",
-              "description": "Visual intent for icon and accept action."
+              "description": "Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'."
             },
             {
               "name": "acceptLabel",
@@ -23906,7 +23898,7 @@
               "name": "defaultFocus",
               "type": "AerisConfirmDialogDefaultFocus",
               "defaultValue": "'accept'",
-              "description": "Built-in first focus target."
+              "description": "Built-in first focus target. Options: 'accept', 'reject', 'close', 'dialog', 'none'."
             },
             {
               "name": "modal",
@@ -23984,13 +23976,13 @@
               "name": "position",
               "type": "AerisDialogPosition",
               "defaultValue": "'center'",
-              "description": "Places the dialog within the viewport."
+              "description": "Places the dialog within the viewport. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'."
             },
             {
               "name": "size",
               "type": "AerisDialogSize",
               "defaultValue": "'sm'",
-              "description": "Dialog width preset."
+              "description": "Dialog width preset. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'."
             },
             {
               "name": "width",
@@ -24188,13 +24180,13 @@
               "name": "icon",
               "type": "AerisConfirmDialogIcon",
               "defaultValue": "'question'",
-              "description": "Built-in icon or none."
+              "description": "Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'."
             },
             {
               "name": "severity",
               "type": "AerisConfirmDialogSeverity",
               "defaultValue": "'primary'",
-              "description": "Visual intent for icon and accept action."
+              "description": "Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'."
             },
             {
               "name": "acceptLabel",
@@ -24248,7 +24240,7 @@
               "name": "defaultFocus",
               "type": "AerisConfirmDialogDefaultFocus",
               "defaultValue": "'accept'",
-              "description": "Built-in first focus target."
+              "description": "Built-in first focus target. Options: 'accept', 'reject', 'close', 'dialog', 'none'."
             },
             {
               "name": "modal",
@@ -24326,13 +24318,13 @@
               "name": "position",
               "type": "AerisDialogPosition",
               "defaultValue": "'center'",
-              "description": "Places the dialog within the viewport."
+              "description": "Places the dialog within the viewport. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'."
             },
             {
               "name": "size",
               "type": "AerisDialogSize",
               "defaultValue": "'sm'",
-              "description": "Dialog width preset."
+              "description": "Dialog width preset. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'."
             },
             {
               "name": "width",
@@ -24721,13 +24713,13 @@
               "name": "icon",
               "type": "AerisConfirmPopupIcon",
               "defaultValue": "'question'",
-              "description": "Built-in icon or none."
+              "description": "Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'."
             },
             {
               "name": "severity",
               "type": "AerisConfirmPopupSeverity",
               "defaultValue": "'primary'",
-              "description": "Visual intent for icon and accept action."
+              "description": "Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'."
             },
             {
               "name": "acceptLabel",
@@ -24781,19 +24773,19 @@
               "name": "defaultFocus",
               "type": "AerisConfirmPopupDefaultFocus",
               "defaultValue": "'accept'",
-              "description": "Built-in first focus target."
+              "description": "Built-in first focus target. Options: 'accept', 'reject', 'popup', 'none'."
             },
             {
               "name": "placement",
               "type": "AerisConfirmPopupPlacement",
               "defaultValue": "'auto'",
-              "description": "Preferred placement around the target."
+              "description": "Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'."
             },
             {
               "name": "alignment",
               "type": "AerisConfirmPopupAlignment",
               "defaultValue": "'center'",
-              "description": "Alignment along the target edge."
+              "description": "Alignment along the target edge. Options: 'start', 'center', 'end'."
             },
             {
               "name": "width",
@@ -25045,13 +25037,13 @@
               "name": "icon",
               "type": "AerisConfirmPopupIcon",
               "defaultValue": "'question'",
-              "description": "Built-in icon or none."
+              "description": "Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'."
             },
             {
               "name": "severity",
               "type": "AerisConfirmPopupSeverity",
               "defaultValue": "'primary'",
-              "description": "Visual intent for icon and accept action."
+              "description": "Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'."
             },
             {
               "name": "acceptLabel",
@@ -25105,19 +25097,19 @@
               "name": "defaultFocus",
               "type": "AerisConfirmPopupDefaultFocus",
               "defaultValue": "'accept'",
-              "description": "Built-in first focus target."
+              "description": "Built-in first focus target. Options: 'accept', 'reject', 'popup', 'none'."
             },
             {
               "name": "placement",
               "type": "AerisConfirmPopupPlacement",
               "defaultValue": "'auto'",
-              "description": "Preferred placement around the target."
+              "description": "Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'."
             },
             {
               "name": "alignment",
               "type": "AerisConfirmPopupAlignment",
               "defaultValue": "'center'",
-              "description": "Alignment along the target edge."
+              "description": "Alignment along the target edge. Options: 'start', 'center', 'end'."
             },
             {
               "name": "width",
@@ -25643,13 +25635,13 @@
               "name": "position",
               "type": "AerisDialogPosition",
               "defaultValue": "'center'",
-              "description": "Places the dialog within the viewport."
+              "description": "Places the dialog within the viewport. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'."
             },
             {
               "name": "size",
               "type": "AerisDialogSize",
               "defaultValue": "'md'",
-              "description": "Controls the default dialog width."
+              "description": "Controls the default dialog width. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'."
             },
             {
               "name": "width",
@@ -25817,7 +25809,7 @@
               "name": "hide(event?, reason?)",
               "type": "(Event | null, AerisDialogCloseReason) => void",
               "defaultValue": "-",
-              "description": "Closes the dialog and records the close reason."
+              "description": "Closes the dialog and records the close reason. Options: 'api', 'close-button', 'escape', 'mask'."
             },
             {
               "name": "toggle(event?)",
@@ -26267,7 +26259,7 @@
               "name": "size",
               "type": "AerisDrawerSize",
               "defaultValue": "'md'",
-              "description": "Applies preset width or height based on position."
+              "description": "Applies preset width or height based on position. Options: 'sm', 'md', 'lg', 'full'."
             },
             {
               "name": "modal",
@@ -27032,13 +27024,13 @@
               "name": "position",
               "type": "AerisDialogPosition",
               "defaultValue": "'center'",
-              "description": "Viewport placement."
+              "description": "Viewport placement. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'."
             },
             {
               "name": "size",
               "type": "AerisDialogSize",
               "defaultValue": "'md'",
-              "description": "Default shell size."
+              "description": "Default shell size. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'."
             },
             {
               "name": "width",
@@ -27385,13 +27377,13 @@
               "name": "placement",
               "type": "AerisPopoverPlacement",
               "defaultValue": "'auto'",
-              "description": "Preferred placement around the target."
+              "description": "Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'."
             },
             {
               "name": "alignment",
               "type": "AerisPopoverAlignment",
               "defaultValue": "'center'",
-              "description": "Alignment along the target edge."
+              "description": "Alignment along the target edge. Options: 'start', 'center', 'end'."
             },
             {
               "name": "width",
@@ -27583,7 +27575,7 @@
               "name": "hide(event?, reason?)",
               "type": "(Event | null, AerisPopoverCloseReason) => void",
               "defaultValue": "reason: 'api'",
-              "description": "Closes the popover and records the close reason."
+              "description": "Closes the popover and records the close reason. Options: 'api', 'close-button', 'escape', 'outside'."
             },
             {
               "name": "toggle(targetOrEvent?, originalEvent?)",
@@ -27857,7 +27849,7 @@
               "name": "aerisTooltipPosition",
               "type": "AerisTooltipPosition",
               "defaultValue": "'top'",
-              "description": "Preferred edge around the target."
+              "description": "Preferred edge around the target. Options: 'top', 'right', 'bottom', 'left'."
             },
             {
               "name": "aerisTooltipEvent",
@@ -27953,7 +27945,7 @@
               "name": "hide(originalEvent?, reason?)",
               "type": "(Event | null, AerisTooltipCloseReason) => void",
               "defaultValue": "reason: 'api'",
-              "description": "Closes the tooltip programmatically using the configured delay."
+              "description": "Closes the tooltip programmatically using the configured delay. Options: 'api', 'escape', 'blur', 'pointerleave', 'disabled'."
             }
           ]
         }
@@ -28203,7 +28195,7 @@
               "name": "mode",
               "type": "AerisFileUploadMode",
               "defaultValue": "'advanced'",
-              "description": "Renders compact basic controls or the full queue surface."
+              "description": "Renders compact basic controls or the full queue surface. Options: 'basic', 'advanced'."
             },
             {
               "name": "multiple",
@@ -28515,7 +28507,7 @@
               "name": "clear(event?, reason?)",
               "type": "(Event | null, AerisFileUploadClearReason) => void",
               "defaultValue": "reason: 'api'",
-              "description": "Clears the queue."
+              "description": "Clears the queue. Options: 'api', 'clear-button'."
             },
             {
               "name": "remove(file, event?)",
@@ -28790,7 +28782,7 @@
               "name": "size",
               "type": "AerisBreadcrumbSize",
               "defaultValue": "'md'",
-              "description": "Controls padding, separator size, and text density."
+              "description": "Controls padding, separator size, and text density. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "separator",
@@ -28838,7 +28830,7 @@
               "name": "ariaCurrent",
               "type": "AerisBreadcrumbAriaCurrent",
               "defaultValue": "'page'",
-              "description": "Value applied to the current item through aria-current."
+              "description": "Value applied to the current item through aria-current. Options: 'page', 'step', 'location', 'date', 'time', 'true'."
             },
             {
               "name": "ellipsisLabel",
@@ -29222,7 +29214,7 @@
               "name": "size",
               "type": "AerisContextMenuSize",
               "defaultValue": "'md'",
-              "description": "Controls item density and icon sizing."
+              "description": "Controls item density and icon sizing. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "width",
@@ -29366,7 +29358,7 @@
               "name": "hide(event?, reason?, restoreFocus?)",
               "type": "Event | null, AerisContextMenuCloseReason, boolean => void",
               "defaultValue": "-",
-              "description": "Closes the menu."
+              "description": "Closes the menu. Options: 'api', 'escape', 'outside', 'scroll', 'select', 'target'."
             },
             {
               "name": "toggle(event)",
@@ -30027,7 +30019,7 @@
               "name": "size",
               "type": "AerisMenuSize",
               "defaultValue": "'md'",
-              "description": "Controls item density and icon sizing."
+              "description": "Controls item density and icon sizing. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "width",
@@ -30189,7 +30181,7 @@
               "name": "hide(event?, reason?, restoreFocus?)",
               "type": "Event | null, AerisMenuCloseReason, boolean => void",
               "defaultValue": "-",
-              "description": "Closes a popup menu."
+              "description": "Closes a popup menu. Options: 'api', 'escape', 'outside', 'select'."
             },
             {
               "name": "toggle(event)",
@@ -30507,7 +30499,7 @@
               "name": "size",
               "type": "AerisMenubarSize",
               "defaultValue": "'md'",
-              "description": "Adjusts item height, text, and icon sizing."
+              "description": "Adjusts item height, text, and icon sizing. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "disabled",
@@ -30657,7 +30649,7 @@
               "name": "close(event?, reason?)",
               "type": "Event | null, AerisMenubarCloseReason => void",
               "defaultValue": "-",
-              "description": "Closes open submenus."
+              "description": "Closes open submenus. Options: 'api', 'escape', 'outside', 'select'."
             },
             {
               "name": "focus()",
@@ -30941,7 +30933,7 @@
               "name": "size",
               "type": "AerisTieredMenuSize",
               "defaultValue": "'md'",
-              "description": "Controls item density and icon sizing."
+              "description": "Controls item density and icon sizing. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "width",
@@ -31079,7 +31071,7 @@
               "name": "hide(event?, reason?, restoreFocus?)",
               "type": "Event | null, AerisTieredMenuCloseReason, boolean => void",
               "defaultValue": "-",
-              "description": "Closes a popup menu and clears open submenus."
+              "description": "Closes a popup menu and clears open submenus. Options: 'api', 'escape', 'outside', 'select'."
             },
             {
               "name": "toggle(event)",
@@ -31701,7 +31693,7 @@
               "name": "severity",
               "type": "AerisMessageSeverity",
               "defaultValue": "'info'",
-              "description": "Sets visual tone and default live-region behavior."
+              "description": "Sets visual tone and default live-region behavior. Options: 'info', 'success', 'warning', 'error', 'neutral', 'secondary', 'contrast'."
             },
             {
               "name": "variant",
@@ -31713,7 +31705,7 @@
               "name": "size",
               "type": "AerisMessageSize",
               "defaultValue": "'md'",
-              "description": "Sets compact, default, or large spacing and type scale."
+              "description": "Sets compact, default, or large spacing and type scale. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "text",
@@ -31743,13 +31735,13 @@
               "name": "role",
               "type": "AerisMessageRole | ''",
               "defaultValue": "''",
-              "description": "Overrides the default alert/status role."
+              "description": "Overrides the default alert/status role. Options: 'status', 'alert', 'note'."
             },
             {
               "name": "ariaLive",
               "type": "AerisMessageLive | ''",
               "defaultValue": "''",
-              "description": "Overrides the default live-region politeness."
+              "description": "Overrides the default live-region politeness. Options: 'polite', 'assertive', 'off'."
             },
             {
               "name": "ariaLabel",
@@ -32116,7 +32108,7 @@
               "name": "position",
               "type": "AerisToastPosition",
               "defaultValue": "'bottom-right'",
-              "description": "Places the toast region on the viewport."
+              "description": "Places the toast region on the viewport. Options: 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'center'."
             },
             {
               "name": "group",
@@ -32128,7 +32120,7 @@
               "name": "mode",
               "type": "AerisToastMode",
               "defaultValue": "'stacked'",
-              "description": "Uses a compact stack that expands on hover/focus or an always-expanded list."
+              "description": "Uses a compact stack that expands on hover/focus or an always-expanded list. Options: 'stacked', 'expanded'."
             },
             {
               "name": "visibleCount",
@@ -32164,7 +32156,7 @@
               "name": "swipeDirection",
               "type": "AerisToastSwipeDirection | readonly AerisToastSwipeDirection[]",
               "defaultValue": "['down', 'right']",
-              "description": "Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping."
+              "description": "Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping. Options: 'up', 'down', 'left', 'right'."
             },
             {
               "name": "swipeThreshold",
@@ -32962,7 +32954,7 @@
               "name": "orientation",
               "type": "AerisCompareOrientation",
               "defaultValue": "'horizontal'",
-              "description": "Direction of the reveal and divider."
+              "description": "Direction of the reveal and divider. Options: 'horizontal', 'vertical'."
             },
             {
               "name": "slideOnHover",
@@ -33028,7 +33020,7 @@
               "name": "objectFit",
               "type": "AerisCompareObjectFit",
               "defaultValue": "'cover'",
-              "description": "Fit used by built-in images."
+              "description": "Fit used by built-in images. Options: 'contain', 'cover', 'fill', 'none', 'scale-down'."
             },
             {
               "name": "aspectRatio",
@@ -33566,7 +33558,7 @@
               "name": "mode",
               "type": "AerisGalleriaMode",
               "defaultValue": "'gallery'",
-              "description": "Selects the gallery, responsive grid, or focused single-item presentation."
+              "description": "Selects the gallery, responsive grid, or focused single-item presentation. Options: 'gallery', 'grid', 'single'."
             },
             {
               "name": "numVisible",
@@ -33968,7 +33960,7 @@
               "name": "fullscreenClosed",
               "type": "AerisGalleriaFullscreenCloseReason",
               "defaultValue": "-",
-              "description": "Emits when a component action closes fullscreen mode."
+              "description": "Emits when a component action closes fullscreen mode. Options: 'toggle', 'escape', 'backdrop', 'api'."
             },
             {
               "name": "transformChanged",
@@ -34551,13 +34543,13 @@
               "name": "imageFit",
               "type": "AerisAvatarImageFit",
               "defaultValue": "'cover'",
-              "description": "Controls whether an image covers or fits within the avatar."
+              "description": "Controls whether an image covers or fits within the avatar. Options: 'cover', 'contain'."
             },
             {
               "name": "size",
               "type": "AerisAvatarSize",
               "defaultValue": "'md'",
-              "description": "Sets the avatar dimensions and typography."
+              "description": "Sets the avatar dimensions and typography. Options: 'sm', 'md', 'lg', 'xl'."
             },
             {
               "name": "shape",
@@ -34569,7 +34561,7 @@
               "name": "tone",
               "type": "AerisAvatarTone",
               "defaultValue": "'primary'",
-              "description": "Sets a theme-aware fallback background and foreground."
+              "description": "Sets a theme-aware fallback background and foreground. Options: 'primary', 'neutral', 'success', 'info', 'warning', 'danger'."
             },
             {
               "name": "decorative",
@@ -34641,7 +34633,7 @@
               "name": "overlap",
               "type": "AerisAvatarGroupOverlap",
               "defaultValue": "'default'",
-              "description": "Controls how closely neighboring avatars overlap."
+              "description": "Controls how closely neighboring avatars overlap. Options: 'subtle', 'default', 'strong'."
             },
             {
               "name": "ariaLabel",
@@ -34836,13 +34828,13 @@
               "name": "severity",
               "type": "AerisBadgeSeverity",
               "defaultValue": "'primary'",
-              "description": "Sets the semantic color accent."
+              "description": "Sets the semantic color accent. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'."
             },
             {
               "name": "size",
               "type": "AerisBadgeSize",
               "defaultValue": "'md'",
-              "description": "Controls badge height, padding, and font size."
+              "description": "Controls badge height, padding, and font size. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "variant",
@@ -34920,13 +34912,13 @@
               "name": "severity",
               "type": "AerisBadgeSeverity",
               "defaultValue": "'primary'",
-              "description": "Sets the overlay badge color accent."
+              "description": "Sets the overlay badge color accent. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'."
             },
             {
               "name": "size",
               "type": "AerisBadgeSize",
               "defaultValue": "'md'",
-              "description": "Controls overlay badge size."
+              "description": "Controls overlay badge size. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "variant",
@@ -34968,7 +34960,7 @@
               "name": "position",
               "type": "AerisBadgeOverlayPosition",
               "defaultValue": "'top-right'",
-              "description": "Places the overlay badge on one corner of the projected content."
+              "description": "Places the overlay badge on one corner of the projected content. Options: 'top-right', 'top-left', 'bottom-right', 'bottom-left'."
             }
           ]
         },
@@ -35479,7 +35471,7 @@
               "name": "size",
               "type": "AerisChipSize",
               "defaultValue": "'md'",
-              "description": "Sets chip height, padding, and typography."
+              "description": "Sets chip height, padding, and typography. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "variant",
@@ -35491,7 +35483,7 @@
               "name": "tone",
               "type": "AerisChipTone",
               "defaultValue": "'neutral'",
-              "description": "Sets the palette-aware visual tone."
+              "description": "Sets the palette-aware visual tone. Options: 'primary', 'neutral', 'success', 'info', 'warning', 'danger'."
             },
             {
               "name": "shape",
@@ -35942,7 +35934,7 @@
               "name": "ariaLive",
               "type": "AerisInplaceAriaLive",
               "defaultValue": "'polite'",
-              "description": "Live-region politeness applied to newly rendered content."
+              "description": "Live-region politeness applied to newly rendered content. Options: 'off', 'polite', 'assertive'."
             }
           ]
         },
@@ -36236,7 +36228,7 @@
               "name": "legendLayout",
               "type": "AerisMeterGroupLegendLayout",
               "defaultValue": "'auto'",
-              "description": "Sets row, column, or orientation-aware legend layout."
+              "description": "Sets row, column, or orientation-aware legend layout. Options: 'auto', 'row', 'column'."
             },
             {
               "name": "legendPosition",
@@ -36248,7 +36240,7 @@
               "name": "size",
               "type": "AerisMeterGroupSize",
               "defaultValue": "'md'",
-              "description": "Sets the meter track thickness."
+              "description": "Sets the meter track thickness. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "showLegend",
@@ -36558,13 +36550,13 @@
               "name": "severity",
               "type": "AerisProgressBarSeverity",
               "defaultValue": "'primary'",
-              "description": "Color accent for the filled track and completed steps."
+              "description": "Color accent for the filled track and completed steps. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'."
             },
             {
               "name": "size",
               "type": "AerisProgressBarSize",
               "defaultValue": "'md'",
-              "description": "Track height."
+              "description": "Track height. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "showValue",
@@ -36917,13 +36909,13 @@
               "name": "size",
               "type": "AerisProgressSpinnerSize",
               "defaultValue": "'md'",
-              "description": "Sets small, medium, or large diameter."
+              "description": "Sets small, medium, or large diameter. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "tone",
               "type": "AerisProgressSpinnerTone",
               "defaultValue": "'primary'",
-              "description": "Sets the palette-aware indicator tone."
+              "description": "Sets the palette-aware indicator tone. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'."
             },
             {
               "name": "strokeWidth",
@@ -37151,13 +37143,13 @@
               "name": "shape",
               "type": "AerisSkeletonShape",
               "defaultValue": "'text'",
-              "description": "Sets text, rectangular, or circular geometry."
+              "description": "Sets text, rectangular, or circular geometry. Options: 'text', 'rectangle', 'circle'."
             },
             {
               "name": "animation",
               "type": "AerisSkeletonAnimation",
               "defaultValue": "'wave'",
-              "description": "Sets wave, pulse, or static presentation."
+              "description": "Sets wave, pulse, or static presentation. Options: 'wave', 'pulse', 'none'."
             },
             {
               "name": "width",
@@ -37373,7 +37365,7 @@
               "name": "aerisAnimateOnScroll",
               "type": "AerisAnimateOnScrollEffect",
               "defaultValue": "'fade-up'",
-              "description": "Selects the built-in reveal effect."
+              "description": "Selects the built-in reveal effect. Options: 'fade', 'fade-up', 'fade-down', 'slide-start', 'slide-end', 'scale'."
             },
             {
               "name": "threshold",
@@ -38368,25 +38360,25 @@
               "name": "behavior",
               "type": "AerisScrollTopBehavior",
               "defaultValue": "'smooth'",
-              "description": "Scroll behavior passed to the browser scroll API."
+              "description": "Scroll behavior passed to the browser scroll API. Options: 'auto', 'smooth'."
             },
             {
               "name": "position",
               "type": "AerisScrollTopPosition",
               "defaultValue": "'bottom-right'",
-              "description": "Fixed viewport placement."
+              "description": "Fixed viewport placement. Options: 'bottom-right', 'bottom-left', 'top-right', 'top-left'."
             },
             {
               "name": "size",
               "type": "AerisScrollTopSize",
               "defaultValue": "'md'",
-              "description": "Button size."
+              "description": "Button size. Options: 'sm', 'md', 'lg'."
             },
             {
               "name": "strategy",
               "type": "AerisScrollTopStrategy",
               "defaultValue": "'fixed'",
-              "description": "CSS positioning strategy. Use absolute when embedding ScrollTop inside a contained preview."
+              "description": "CSS positioning strategy. Use absolute when embedding ScrollTop inside a contained preview. Options: 'fixed', 'absolute'."
             },
             {
               "name": "ariaLabel",

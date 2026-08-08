@@ -32,7 +32,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
 | `orientation` | `AerisDividerOrientation` | `'horizontal'` | Sets horizontal or vertical separator layout. |
 | `align` | `AerisDividerAlign` | `'center'` | Places projected content near the start, center, or end of the separator. |
 | `lineStyle` | `AerisDividerLineStyle` | `'solid'` | Sets the separator line to solid, dashed, or dotted. |
-| `spacing` | `AerisDividerSpacing` | `'md'` | Controls outer spacing around the divider. |
+| `spacing` | `AerisDividerSpacing` | `'md'` | Controls outer spacing around the divider. Options: 'none', 'sm', 'md', 'lg'. |
 | `decorative` | `boolean` | `false` | Removes separator semantics and hides the divider from assistive technology. |
 | `ariaLabel` | `string` | `''` | Accessible name for a meaningful separator without visible naming text. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that names a meaningful separator. |

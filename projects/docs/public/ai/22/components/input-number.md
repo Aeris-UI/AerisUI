@@ -40,7 +40,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
 | `locale` | `string` | `'en-US'` | BCP 47 locale used by Intl.NumberFormat. |
 | `mode` | `'decimal' &#124; 'currency'` | `'decimal'` | Number formatting mode. |
 | `currency` | `string` | `'USD'` | ISO 4217 currency code used in currency mode. |
-| `currencyDisplay` | `AerisInputNumberCurrencyDisplay` | `'symbol'` | Currency label style. |
+| `currencyDisplay` | `AerisInputNumberCurrencyDisplay` | `'symbol'` | Currency label style. Options: 'symbol', 'narrowSymbol', 'code', 'name'. |
 | `prefix` | `string` | `''` | Text displayed before the editable value. |
 | `suffix` | `string` | `''` | Text displayed after the editable value. |
 | `min` | `number &#124; undefined` | `undefined` | Minimum committed and stepped value. |
@@ -53,12 +53,12 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
 | `clearable` | `boolean` | `false` | Shows an inline suffix button while a value is present. |
 | `clearButtonAriaLabel` | `string` | `'Clear value'` | Accessible name for the clear button. |
 | `showButtons` | `boolean` | `false` | Shows increment and decrement controls. |
-| `buttonLayout` | `AerisInputNumberButtonLayout` | `'stacked'` | Positions the step controls. |
+| `buttonLayout` | `AerisInputNumberButtonLayout` | `'stacked'` | Positions the step controls. Options: 'stacked', 'horizontal', 'vertical'. |
 | `buttonTabIndex` | `number` | `-1` | Tab index for step buttons; the input remains the primary tab stop. |
 | `incrementButtonAriaLabel` | `string` | `'Increase value'` | Accessible name for increment. |
 | `decrementButtonAriaLabel` | `string` | `'Decrease value'` | Accessible name for decrement. |
-| `size` | `AerisInputNumberSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisInputNumberAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisInputNumberSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisInputNumberAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `disabled` | `boolean` | `false` | Disables all interaction. |
 | `readonly` | `boolean` | `false` | Allows focus and selection without editing. |
 | `required` | `boolean` | `false` | Exposes required semantics. |

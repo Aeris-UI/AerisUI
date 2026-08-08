@@ -29,7 +29,7 @@ import { AerisFileUploadModule } from '@aeris-ui/core/file-upload';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `mode` | `AerisFileUploadMode` | `'advanced'` | Renders compact basic controls or the full queue surface. |
+| `mode` | `AerisFileUploadMode` | `'advanced'` | Renders compact basic controls or the full queue surface. Options: 'basic', 'advanced'. |
 | `multiple` | `boolean` | `false` | Allows selecting more than one file. |
 | `accept` | `string` | `''` | Native accept filter and validation rule. |
 | `minFileSize` | `number` | `0` | Minimum file size in bytes. Zero disables the rule. |
@@ -97,7 +97,7 @@ import { AerisFileUploadModule } from '@aeris-ui/core/file-upload';
 | --- | --- | --- | --- |
 | `choose(event?)` | `(Event &#124; null) =&gt; void` | `-` | Opens the native file picker. |
 | `upload(event?)` | `(Event &#124; null) =&gt; void` | `-` | Requests upload for ready files. |
-| `clear(event?, reason?)` | `(Event &#124; null, AerisFileUploadClearReason) =&gt; void` | `reason: 'api'` | Clears the queue. |
+| `clear(event?, reason?)` | `(Event &#124; null, AerisFileUploadClearReason) =&gt; void` | `reason: 'api'` | Clears the queue. Options: 'api', 'clear-button'. |
 | `remove(file, event?)` | `(File, Event &#124; null) =&gt; void` | `-` | Removes one selected file. |
 | `setProgress(file, progress)` | `(File, number) =&gt; void` | `-` | Marks a file as uploading and updates progress. |
 | `markUploaded(files?)` | `(readonly File[]) =&gt; void` | `all files` | Marks files as uploaded. |

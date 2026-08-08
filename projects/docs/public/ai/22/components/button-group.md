@@ -31,7 +31,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
 | --- | --- | --- | --- |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name for the group when no visible label exists. |
 | `ariaLabelledBy` | `string &#124; undefined` | `undefined` | ID of visible text that labels the group. |
-| `orientation` | `AerisButtonGroupOrientation` | `'horizontal'` | Connects child controls horizontally or vertically. |
+| `orientation` | `AerisButtonGroupOrientation` | `'horizontal'` | Connects child controls horizontally or vertically. Options: 'horizontal', 'vertical'. |
 | `fluid` | `boolean` | `false` | Fills the available width and distributes children evenly. |
 | `responsive` | `boolean` | `false` | Stacks a horizontal group vertically below 40rem. |
 

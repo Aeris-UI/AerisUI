@@ -34,8 +34,8 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
 | `min` | `number` | `0` | Minimum determinate value. |
 | `max` | `number` | `100` | Maximum determinate value. |
 | `mode` | `AerisProgressBarMode` | `'determinate'` | Determinate percentage or indeterminate activity. |
-| `severity` | `AerisProgressBarSeverity` | `'primary'` | Color accent for the filled track and completed steps. |
-| `size` | `AerisProgressBarSize` | `'md'` | Track height. |
+| `severity` | `AerisProgressBarSeverity` | `'primary'` | Color accent for the filled track and completed steps. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `size` | `AerisProgressBarSize` | `'md'` | Track height. Options: 'sm', 'md', 'lg'. |
 | `showValue` | `boolean` | `true` | Shows the value text inside determinate bars. |
 | `striped` | `boolean` | `false` | Applies striped fill styling. |
 | `animated` | `boolean` | `false` | Animates striped fill when enabled. |

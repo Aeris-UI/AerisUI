@@ -31,9 +31,9 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
 | `value` | `AerisDatePickerValue (model)` | `null` | Selected Date, date array, or range according to selectionMode. |
-| `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. |
+| `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. Options: 'single', 'multiple', 'range'. |
 | `view` | `AerisDatePickerView` | `'day'` | Chooses day, month, or year selection granularity. |
-| `mode` | `AerisDatePickerMode` | `'date'` | Chooses date-only, date-and-time, or time-only entry. |
+| `mode` | `AerisDatePickerMode` | `'date'` | Chooses date-only, date-and-time, or time-only entry. Options: 'date', 'dateTime', 'time'. |
 | `inputId` | `string` | `generated` | ID assigned to the popup trigger. |
 | `name` | `string` | `''` | Native hidden field name. Values are serialized as local date, date-time, time, range, or list strings. |
 | `placeholder` | `string` | `'Choose a date'` | Text shown while no value is selected. |
@@ -41,11 +41,11 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | `ariaLabelledby` | `string` | `''` | IDs of elements that label the trigger. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
 | `calendarAriaLabel` | `string` | `'Choose a date'` | Accessible name for the calendar dialog. |
-| `size` | `AerisDatePickerSize` | `'md'` | Control density from extra small through large. |
-| `appearance` | `AerisDatePickerAppearance` | `'outline'` | Outlined or filled field treatment. |
+| `size` | `AerisDatePickerSize` | `'md'` | Control density from extra small through large. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisDatePickerAppearance` | `'outline'` | Outlined or filled field treatment. Options: 'outline', 'filled'. |
 | `locale` | `string` | `'en-US'` | BCP 47 locale used for labels and formatted values. |
-| `dateStyle` | `AerisDatePickerDateStyle` | `'medium'` | Intl.DateTimeFormat date style used in the trigger. |
-| `hourCycle` | `AerisDatePickerHourCycle` | `'24'` | Formats and edits time with 24-hour or 12-hour controls. |
+| `dateStyle` | `AerisDatePickerDateStyle` | `'medium'` | Intl.DateTimeFormat date style used in the trigger. Options: 'short', 'medium', 'long', 'full'. |
+| `hourCycle` | `AerisDatePickerHourCycle` | `'24'` | Formats and edits time with 24-hour or 12-hour controls. Options: 12, 24. |
 | `showSeconds` | `boolean` | `false` | Adds a seconds field to date-time and time-only modes. |
 | `minuteStep` | `number` | `1` | Native step value for the minute input, clamped from 1 through 59. |
 | `secondStep` | `number` | `1` | Native step value for the seconds input, clamped from 1 through 59. |

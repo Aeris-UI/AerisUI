@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import {
-  AerisScrollPanelModule,
-  type AerisScrollPanelEvent,
-} from '@aeris-ui/core/scroll-panel';
+import { AerisScrollPanelModule, type AerisScrollPanelEvent } from '@aeris-ui/core/scroll-panel';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -242,43 +239,185 @@ interface AerisScrollPanelEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'id', type: 'string', defaultValue: 'generated id', description: 'Host ID used to derive the viewport ID.' },
-    { name: 'orientation', type: 'AerisScrollPanelOrientation', defaultValue: "'vertical'", description: 'Controls vertical, horizontal, or two-axis overflow.' },
-    { name: 'variant', type: 'AerisScrollPanelVariant', defaultValue: "'auto'", description: 'Adjusts scrollbar visibility styling.' },
-    { name: 'fade', type: 'boolean', defaultValue: 'false', description: 'Adds visual fades at scroll edges when additional content exists.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'true', description: 'Sets the host inline size to 100%.' },
-    { name: 'focusable', type: 'boolean', defaultValue: 'true', description: 'Makes the scroll viewport keyboard-focusable.' },
-    { name: 'tabIndex', type: 'number', defaultValue: '0', description: 'Tab order for the scroll viewport when focusable.' },
-    { name: 'height', type: 'string', defaultValue: "'14rem'", description: 'Viewport block size as a CSS length.' },
-    { name: 'maxHeight', type: 'string', defaultValue: "''", description: 'Optional maximum block size.' },
-    { name: 'width', type: 'string', defaultValue: "'100%'", description: 'Viewport inline size as a CSS length.' },
-    { name: 'maxWidth', type: 'string', defaultValue: "''", description: 'Optional maximum inline size.' },
-    { name: 'role', type: 'AerisScrollPanelRole', defaultValue: "'region'", description: 'Semantic role for the viewport.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Scrollable content'", description: 'Accessible name when no visible label is referenced.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the scroll region.' },
-    { name: 'ariaDescribedBy', type: 'string', defaultValue: "''", description: 'ID of text that describes the scroll region.' },
+    {
+      name: 'id',
+      type: 'string',
+      defaultValue: 'generated id',
+      description: 'Host ID used to derive the viewport ID.',
+    },
+    {
+      name: 'orientation',
+      type: 'AerisScrollPanelOrientation',
+      defaultValue: "'vertical'",
+      description:
+        "Controls vertical, horizontal, or two-axis overflow. Options: 'vertical', 'horizontal', 'both'.",
+    },
+    {
+      name: 'variant',
+      type: 'AerisScrollPanelVariant',
+      defaultValue: "'auto'",
+      description:
+        "Adjusts scrollbar visibility styling. Options: 'auto', 'hover', 'always', 'hidden'.",
+    },
+    {
+      name: 'fade',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Adds visual fades at scroll edges when additional content exists.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Sets the host inline size to 100%.',
+    },
+    {
+      name: 'focusable',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Makes the scroll viewport keyboard-focusable.',
+    },
+    {
+      name: 'tabIndex',
+      type: 'number',
+      defaultValue: '0',
+      description: 'Tab order for the scroll viewport when focusable.',
+    },
+    {
+      name: 'height',
+      type: 'string',
+      defaultValue: "'14rem'",
+      description: 'Viewport block size as a CSS length.',
+    },
+    {
+      name: 'maxHeight',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional maximum block size.',
+    },
+    {
+      name: 'width',
+      type: 'string',
+      defaultValue: "'100%'",
+      description: 'Viewport inline size as a CSS length.',
+    },
+    {
+      name: 'maxWidth',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional maximum inline size.',
+    },
+    {
+      name: 'role',
+      type: 'AerisScrollPanelRole',
+      defaultValue: "'region'",
+      description: 'Semantic role for the viewport.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Scrollable content'",
+      description: 'Accessible name when no visible label is referenced.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the scroll region.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of text that describes the scroll region.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'scrolled', type: 'AerisScrollPanelEvent', defaultValue: '-', description: 'Emitted whenever the viewport scrolls.' },
-    { name: 'reachedTop', type: 'AerisScrollPanelEvent', defaultValue: '-', description: 'Emitted when a scroll event occurs at the top edge.' },
-    { name: 'reachedBottom', type: 'AerisScrollPanelEvent', defaultValue: '-', description: 'Emitted when a scroll event occurs at the bottom edge.' },
-    { name: 'reachedStart', type: 'AerisScrollPanelEvent', defaultValue: '-', description: 'Emitted when a scroll event occurs at the horizontal start edge.' },
-    { name: 'reachedEnd', type: 'AerisScrollPanelEvent', defaultValue: '-', description: 'Emitted when a scroll event occurs at the horizontal end edge.' },
+    {
+      name: 'scrolled',
+      type: 'AerisScrollPanelEvent',
+      defaultValue: '-',
+      description: 'Emitted whenever the viewport scrolls.',
+    },
+    {
+      name: 'reachedTop',
+      type: 'AerisScrollPanelEvent',
+      defaultValue: '-',
+      description: 'Emitted when a scroll event occurs at the top edge.',
+    },
+    {
+      name: 'reachedBottom',
+      type: 'AerisScrollPanelEvent',
+      defaultValue: '-',
+      description: 'Emitted when a scroll event occurs at the bottom edge.',
+    },
+    {
+      name: 'reachedStart',
+      type: 'AerisScrollPanelEvent',
+      defaultValue: '-',
+      description: 'Emitted when a scroll event occurs at the horizontal start edge.',
+    },
+    {
+      name: 'reachedEnd',
+      type: 'AerisScrollPanelEvent',
+      defaultValue: '-',
+      description: 'Emitted when a scroll event occurs at the horizontal end edge.',
+    },
   ];
 
   protected readonly content: readonly ApiRow[] = [
-    { name: 'default content', type: 'content projection', defaultValue: '-', description: 'Scrollable content rendered inside the viewport.' },
+    {
+      name: 'default content',
+      type: 'content projection',
+      defaultValue: '-',
+      description: 'Scrollable content rendered inside the viewport.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'scrollTo', type: '(options: ScrollToOptions) => void', defaultValue: '-', description: 'Scrolls the viewport to an absolute position.' },
-    { name: 'scrollBy', type: '(options: ScrollToOptions) => void', defaultValue: '-', description: 'Scrolls the viewport by a relative amount.' },
-    { name: 'scrollToTop', type: '(options?: ScrollOptions) => void', defaultValue: '-', description: 'Scrolls to the top edge.' },
-    { name: 'scrollToBottom', type: '(options?: ScrollOptions) => void', defaultValue: '-', description: 'Scrolls to the bottom edge.' },
-    { name: 'scrollToStart', type: '(options?: ScrollOptions) => void', defaultValue: '-', description: 'Scrolls to the horizontal start edge.' },
-    { name: 'scrollToEnd', type: '(options?: ScrollOptions) => void', defaultValue: '-', description: 'Scrolls to the horizontal end edge.' },
-    { name: 'refresh', type: '() => void', defaultValue: '-', description: 'Recalculates edge fade state after content or size changes.' },
+    {
+      name: 'scrollTo',
+      type: '(options: ScrollToOptions) => void',
+      defaultValue: '-',
+      description: 'Scrolls the viewport to an absolute position.',
+    },
+    {
+      name: 'scrollBy',
+      type: '(options: ScrollToOptions) => void',
+      defaultValue: '-',
+      description: 'Scrolls the viewport by a relative amount.',
+    },
+    {
+      name: 'scrollToTop',
+      type: '(options?: ScrollOptions) => void',
+      defaultValue: '-',
+      description: 'Scrolls to the top edge.',
+    },
+    {
+      name: 'scrollToBottom',
+      type: '(options?: ScrollOptions) => void',
+      defaultValue: '-',
+      description: 'Scrolls to the bottom edge.',
+    },
+    {
+      name: 'scrollToStart',
+      type: '(options?: ScrollOptions) => void',
+      defaultValue: '-',
+      description: 'Scrolls to the horizontal start edge.',
+    },
+    {
+      name: 'scrollToEnd',
+      type: '(options?: ScrollOptions) => void',
+      defaultValue: '-',
+      description: 'Scrolls to the horizontal end edge.',
+    },
+    {
+      name: 'refresh',
+      type: '() => void',
+      defaultValue: '-',
+      description: 'Recalculates edge fade state after content or size changes.',
+    },
   ];
 
   protected handleScroll(event: AerisScrollPanelEvent): void {

@@ -35,7 +35,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | `open` | `boolean (model)` | `false` | Controlled popup visibility. |
 | `popup` | `boolean` | `false` | Renders the menu as a target-relative overlay opened with show or toggle. |
 | `disabled` | `boolean` | `false` | Prevents activation and popup opening. |
-| `size` | `AerisTieredMenuSize` | `'md'` | Controls item density and icon sizing. |
+| `size` | `AerisTieredMenuSize` | `'md'` | Controls item density and icon sizing. Options: 'sm', 'md', 'lg'. |
 | `width` | `string` | `''` | Sets --aeris-tiered-menu-width on the panel. |
 | `maxWidth` | `string` | `''` | Sets --aeris-tiered-menu-max-width on the panel. |
 | `viewportMargin` | `number` | `8` | Minimum popup distance from viewport edges. |
@@ -70,7 +70,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `show(event)` | `MouseEvent &#124; PointerEvent =&gt; void` | `-` | Opens a popup menu below the event currentTarget. |
-| `hide(event?, reason?, restoreFocus?)` | `Event &#124; null, AerisTieredMenuCloseReason, boolean =&gt; void` | `-` | Closes a popup menu and clears open submenus. |
+| `hide(event?, reason?, restoreFocus?)` | `Event &#124; null, AerisTieredMenuCloseReason, boolean =&gt; void` | `-` | Closes a popup menu and clears open submenus. Options: 'api', 'escape', 'outside', 'select'. |
 | `toggle(event)` | `MouseEvent &#124; PointerEvent =&gt; void` | `-` | Toggles popup visibility from a trigger event. |
 | `focus()` | `void` | `-` | Moves focus to the active or first enabled item. |
 | `reposition()` | `void` | `-` | Recalculates popup coordinates inside the viewport. |

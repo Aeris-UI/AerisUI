@@ -92,7 +92,7 @@ export const GUIDE_ARTICLES: readonly GuideArticle[] = [
         paragraphs: [
           'Use the Angular initializer for the recommended guided installation. It selects the target application in a multi-project workspace and configures the package, global styles, theme, density, corners, color schemes, persistence, and initial direction.',
           'The initializer detects Tailwind CSS and Bootstrap, keeps their styles before Aeris, and never installs an icon library. Ordinary package installation remains silent for teams that prefer the manual steps below.',
-          'Aeris is available from the public npm registry. Pin the exact alpha version shown below for reproducible installs, or use the next tag when intentionally evaluating the newest prerelease. Repository contributors can still use a local tarball to verify workspace changes.',
+          'Aeris is available from the public npm registry. Pin the exact alpha version shown below for reproducible installs, or use the next tag when intentionally evaluating the newest prerelease.',
           'Schemes decide which light and dark token sets are available. Mode decides which available scheme is active when the application starts.',
         ],
         code: [
@@ -102,15 +102,6 @@ export const GUIDE_ARTICLES: readonly GuideArticle[] = [
             `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION}`,
           ),
           source('Newest alpha', 'Shell', 'ng add @aeris-ui/core@next'),
-          source(
-            'Repository tarball',
-            'Shell',
-            `# Run from the Aeris repository
-npm run pack:lib
-
-# Run from the Angular application
-ng add "../path-to-aeris/dist/packages/aeris-ui-core-${AERIS_CURRENT_VERSION}.tgz"`,
-          ),
         ],
         table: {
           caption: 'Initializer decisions',
@@ -1931,9 +1922,10 @@ export class ProjectDetails {
       },
       {
         id: 'published-setup',
-        title: 'Configure the package',
+        title: 'Use the published package',
         paragraphs: [
-          'The published @aeris-ui/mcp package is available from the public npm registry. Add an Aeris server entry to the MCP configuration used by the chosen client. The configuration file location and outer property name differ between clients, but the command and arguments remain the same.',
+          'The published @aeris-ui/mcp package is available from the public npm registry. The recommended setup uses npx, which downloads and runs the pinned package for the MCP client, so there is no separate installation step and nothing is added to the Angular application.',
+          'Add an Aeris server entry to the MCP configuration used by the chosen client. The configuration file location and outer property name differ between clients, but the command and arguments remain the same.',
           'Pin the exact version during alpha so the MCP documentation cannot move independently from the Aeris package being evaluated.',
         ],
         code: [
@@ -1960,33 +1952,30 @@ export class ProjectDetails {
         ],
       },
       {
-        id: 'local-setup',
-        title: 'Use the repository build',
+        id: 'global-install',
+        title: 'Install it globally instead',
         paragraphs: [
-          'Build the package in this repository, then configure the MCP client to launch the generated CLI with Node.js. Replace the example path with the absolute path on the local machine; forward slashes work in JSON on Windows.',
+          'If the MCP client cannot use npx, or a persistent local installation is preferred, install the executable globally and configure the client to launch aeris-mcp directly. Keep the installed version aligned with @aeris-ui/core.',
         ],
         code: [
           source(
-            'Build and verify',
+            'Install the MCP executable',
             'Shell',
-            `npm run build:mcp
-npm run test:mcp
-npm run check:mcp-package`,
+            `npm install --global @aeris-ui/mcp@${AERIS_CURRENT_VERSION}`,
           ),
           source(
-            'Local MCP client configuration',
+            'Global installation configuration',
             'JSON',
             `{
   "mcpServers": {
-    "aeris-local": {
-      "command": "node",
-      "args": ["D:/path/to/AerisUI/dist/aeris-mcp/cli.js"]
+    "aeris": {
+      "command": "aeris-mcp"
     }
   }
 }`,
           ),
         ],
-        note: 'Launching the CLI directly in a terminal appears to wait silently because it is expecting protocol messages on stdin. Test it through an MCP client or protocol inspector instead.',
+        note: 'After installing or updating the global package, restart the MCP client. The npm global binary directory must be available on PATH.',
       },
       {
         id: 'capabilities',
@@ -2052,10 +2041,6 @@ npm run check:mcp-package`,
             [
               'The server is not listed',
               'Validate the client configuration format and restart the client',
-            ],
-            [
-              'The local build cannot start',
-              'Run npm run build:mcp and use an absolute path to dist/aeris-mcp/cli.js',
             ],
             [
               'npx cannot find the package',
@@ -2393,7 +2378,7 @@ npm run check:mcp-package`,
         paragraphs: [
           'The published package declares Angular Common, Core, and Forms as peer dependencies. Your application owns the Angular installation, while the package manager warns when the installed version falls outside the supported range.',
           'Check the installed package metadata when diagnosing a version conflict instead of relying only on a copied installation command.',
-          'The npm lookup command becomes available after the first package is published. Before then, inspect projects/aeris-ui/package.json or the metadata inside the locally built tarball.',
+          'Check the peer dependency range for the version you plan to install before updating Angular or Aeris.',
         ],
         code: [
           source(
@@ -2441,7 +2426,7 @@ npm run check:mcp-package`,
     id: 'updating',
     path: '/guides/updating',
     group: 'Releases and updates',
-    kicker: 'Release workflow',
+    kicker: 'Version management',
     title: 'Updating Aeris',
     description:
       'Upgrade Aeris and its Angular or feature-specific peers without losing a clear rollback path.',

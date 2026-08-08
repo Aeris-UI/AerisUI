@@ -29,11 +29,11 @@ import { AerisStepperModule } from '@aeris-ui/core/stepper';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `orientation` | `AerisStepperOrientation` | `'horizontal'` | Lays out step headers horizontally or vertically. |
-| `activationMode` | `AerisStepperActivationMode` | `'automatic'` | Selects focused steps automatically or waits for Enter/Space in manual mode. |
+| `orientation` | `AerisStepperOrientation` | `'horizontal'` | Lays out step headers horizontally or vertically. Options: 'horizontal', 'vertical'. |
+| `activationMode` | `AerisStepperActivationMode` | `'automatic'` | Selects focused steps automatically or waits for Enter/Space in manual mode. Options: 'automatic', 'manual'. |
 | `linear` | `boolean` | `false` | Prevents skipping ahead by allowing only previous steps, the active step, and the immediate next step. |
 | `stepsOnly` | `boolean` | `false` | Shows only the step indicators and labels without rendering an active content panel. |
-| `size` | `AerisStepperSize` | `'md'` | Controls trigger and indicator sizing. |
+| `size` | `AerisStepperSize` | `'md'` | Controls trigger and indicator sizing. Options: 'sm', 'md', 'lg'. |
 | `variant` | `AerisStepperVariant` | `'line'` | Uses an open line layout or contained header surface. |
 | `optionalLabel` | `string` | `'Optional'` | Text rendered for optional steps without a custom header. |
 | `ariaLabel` | `string` | `''` | Accessible name for the step list. |

@@ -31,10 +31,10 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
 | `value` | `string (model)` | `'#5f6f36'` | Current color value with two-way binding and Forms support. |
-| `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. |
+| `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. Options: 'hex', 'rgb', 'hsl'. |
 | `inputId` | `string` | `generated` | ID assigned to the visible color-picker trigger for label association. |
 | `name` | `string` | `''` | Native form field name submitted through a hidden input. |
-| `formats` | `readonly AerisColorFormat[]` | `['hex', 'rgb', 'hsl']` | Formats offered by the panel format selector. |
+| `formats` | `readonly AerisColorFormat[]` | `['hex', 'rgb', 'hsl']` | Formats offered by the panel format selector. Options: 'hex', 'rgb', 'hsl'. |
 | `placeholder` | `string` | `'Enter color'` | Placeholder for the optional text input. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name for the visible trigger when no visible label is available. |
 | `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of visible elements that label the trigger. |
@@ -52,8 +52,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | `clearButtonAriaLabel` | `string` | `'Clear color'` | Accessible name for the clear button. |
 | `closeButtonAriaLabel` | `string` | `'Close color picker'` | Accessible name for panel dismissal controls. |
 | `eyeDropperAriaLabel` | `string` | `'Pick a color from the screen'` | Accessible name for the optional browser-provided eyedropper action. |
-| `size` | `AerisColorPickerSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisColorPickerAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisColorPickerSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisColorPickerAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `presets` | `readonly string[]` | `[]` | Preset colors shown inside the picker panel. Hex, rgb(), and hsl() strings are accepted. |
 | `showInput` | `boolean` | `true` | Shows the editable text value input next to the trigger. |
 | `showValue` | `boolean` | `true` | Shows the formatted color text inside the trigger. When false, the trigger becomes a square swatch button. |
@@ -71,7 +71,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `valueChange` | `string` | `-` | Emitted automatically by the value model. |
-| `formatChange` | `AerisColorFormat` | `-` | Emitted automatically when the format model changes. |
+| `formatChange` | `AerisColorFormat` | `-` | Emitted automatically when the format model changes. Options: 'hex', 'rgb', 'hsl'. |
 | `valueInput` | `string` | `-` | Emitted when user interaction changes the value. |
 | `changed` | `AerisColorPickerChangeEvent` | `-` | Emitted when the user commits a plane, hue, format, text, preset, or screen-sampled change. |
 | `focused` | `FocusEvent` | `-` | Emitted when an editable picker control receives focus. |

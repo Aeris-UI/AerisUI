@@ -45,8 +45,8 @@ import {
 | `header` | `string` | `'Confirm action'` | Visible popup title. |
 | `message` | `string` | `''` | Default confirmation message. |
 | `data` | `unknown` | `undefined` | Context data exposed to templates and events. |
-| `icon` | `AerisConfirmPopupIcon` | `'question'` | Built-in icon or none. |
-| `severity` | `AerisConfirmPopupSeverity` | `'primary'` | Visual intent for icon and accept action. |
+| `icon` | `AerisConfirmPopupIcon` | `'question'` | Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'. |
+| `severity` | `AerisConfirmPopupSeverity` | `'primary'` | Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'. |
 | `acceptLabel` | `string` | `'Confirm'` | Accept button text. |
 | `rejectLabel` | `string` | `'Cancel'` | Reject button text. |
 | `acceptVisible` | `boolean` | `true` | Renders the accept action. |
@@ -55,9 +55,9 @@ import {
 | `rejectDisabled` | `boolean` | `false` | Disables the reject action. |
 | `acceptAriaLabel` | `string` | `''` | Accessible label for the accept action; falls back to acceptLabel. |
 | `rejectAriaLabel` | `string` | `''` | Accessible label for the reject action; falls back to rejectLabel. |
-| `defaultFocus` | `AerisConfirmPopupDefaultFocus` | `'accept'` | Built-in first focus target. |
-| `placement` | `AerisConfirmPopupPlacement` | `'auto'` | Preferred placement around the target. |
-| `alignment` | `AerisConfirmPopupAlignment` | `'center'` | Alignment along the target edge. |
+| `defaultFocus` | `AerisConfirmPopupDefaultFocus` | `'accept'` | Built-in first focus target. Options: 'accept', 'reject', 'popup', 'none'. |
+| `placement` | `AerisConfirmPopupPlacement` | `'auto'` | Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'. |
+| `alignment` | `AerisConfirmPopupAlignment` | `'center'` | Alignment along the target edge. Options: 'start', 'center', 'end'. |
 | `width` | `string` | `''` | Custom popup width. |
 | `maxWidth` | `string` | `''` | Custom maximum popup width. |
 | `offset` | `number` | `10` | Distance between target and popup in pixels. |
@@ -119,8 +119,8 @@ import {
 | `header` | `string` | `'Confirm action'` | Visible popup title. |
 | `message` | `string` | `''` | Default confirmation message. |
 | `data` | `unknown` | `undefined` | Context data exposed to templates and events. |
-| `icon` | `AerisConfirmPopupIcon` | `'question'` | Built-in icon or none. |
-| `severity` | `AerisConfirmPopupSeverity` | `'primary'` | Visual intent for icon and accept action. |
+| `icon` | `AerisConfirmPopupIcon` | `'question'` | Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'. |
+| `severity` | `AerisConfirmPopupSeverity` | `'primary'` | Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'. |
 | `acceptLabel` | `string` | `'Confirm'` | Accept button text. |
 | `rejectLabel` | `string` | `'Cancel'` | Reject button text. |
 | `acceptVisible` | `boolean` | `true` | Renders the accept action. |
@@ -129,9 +129,9 @@ import {
 | `rejectDisabled` | `boolean` | `false` | Disables the reject action. |
 | `acceptAriaLabel` | `string` | `''` | Accessible label for the accept action; falls back to acceptLabel. |
 | `rejectAriaLabel` | `string` | `''` | Accessible label for the reject action; falls back to rejectLabel. |
-| `defaultFocus` | `AerisConfirmPopupDefaultFocus` | `'accept'` | Built-in first focus target. |
-| `placement` | `AerisConfirmPopupPlacement` | `'auto'` | Preferred placement around the target. |
-| `alignment` | `AerisConfirmPopupAlignment` | `'center'` | Alignment along the target edge. |
+| `defaultFocus` | `AerisConfirmPopupDefaultFocus` | `'accept'` | Built-in first focus target. Options: 'accept', 'reject', 'popup', 'none'. |
+| `placement` | `AerisConfirmPopupPlacement` | `'auto'` | Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'. |
+| `alignment` | `AerisConfirmPopupAlignment` | `'center'` | Alignment along the target edge. Options: 'start', 'center', 'end'. |
 | `width` | `string` | `''` | Custom popup width. |
 | `maxWidth` | `string` | `''` | Custom maximum popup width. |
 | `offset` | `number` | `10` | Distance between target and popup in pixels. |

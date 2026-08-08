@@ -33,9 +33,9 @@ import { AerisMeterGroupModule } from '@aeris-ui/core/meter-group';
 | `min` | `number` | `0` | Minimum combined meter value. |
 | `max` | `number` | `100` | Maximum combined meter value and visual capacity. |
 | `orientation` | `AerisMeterGroupOrientation` | `'horizontal'` | Sets a horizontal or vertical meter track. |
-| `legendLayout` | `AerisMeterGroupLegendLayout` | `'auto'` | Sets row, column, or orientation-aware legend layout. |
+| `legendLayout` | `AerisMeterGroupLegendLayout` | `'auto'` | Sets row, column, or orientation-aware legend layout. Options: 'auto', 'row', 'column'. |
 | `legendPosition` | `AerisMeterGroupLegendPosition` | `'after'` | Places the legend before or after the meter track. |
-| `size` | `AerisMeterGroupSize` | `'md'` | Sets the meter track thickness. |
+| `size` | `AerisMeterGroupSize` | `'md'` | Sets the meter track thickness. Options: 'sm', 'md', 'lg'. |
 | `showLegend` | `boolean` | `true` | Shows or visually hides the item legend. |
 | `showValues` | `boolean` | `true` | Shows formatted values beside visible legend labels. |
 | `rounded` | `boolean` | `true` | Uses pill corners for the meter track. |

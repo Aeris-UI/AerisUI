@@ -47,8 +47,8 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
 | `restoreFocus` | `boolean` | `true` | Returns focus to the previously focused element after close. |
 | `autoFocus` | `boolean` | `true` | Moves focus into the dialog after it opens. |
 | `initialFocus` | `string` | `''` | Optional selector for the first element to focus. |
-| `position` | `AerisDialogPosition` | `'center'` | Places the dialog within the viewport. |
-| `size` | `AerisDialogSize` | `'md'` | Controls the default dialog width. |
+| `position` | `AerisDialogPosition` | `'center'` | Places the dialog within the viewport. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'. |
+| `size` | `AerisDialogSize` | `'md'` | Controls the default dialog width. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'. |
 | `width` | `string` | `''` | Custom dialog width such as 42rem, 60vw, or min(40rem, 100%). |
 | `minWidth` | `string` | `''` | Custom minimum dialog width. |
 | `maxWidth` | `string` | `''` | Custom maximum dialog width. |
@@ -92,7 +92,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `show(event?)` | `(Event &#124; null) =&gt; void` | `-` | Opens the dialog. |
-| `hide(event?, reason?)` | `(Event &#124; null, AerisDialogCloseReason) =&gt; void` | `-` | Closes the dialog and records the close reason. |
+| `hide(event?, reason?)` | `(Event &#124; null, AerisDialogCloseReason) =&gt; void` | `-` | Closes the dialog and records the close reason. Options: 'api', 'close-button', 'escape', 'mask'. |
 | `toggle(event?)` | `(Event &#124; null) =&gt; void` | `-` | Opens or closes the dialog. |
 | `focus(options?)` | `(FocusOptions) =&gt; void` | `-` | Moves focus to the initial focus target or first focusable control. |
 | `toggleMaximized()` | `() =&gt; void` | `-` | Toggles maximized layout. |

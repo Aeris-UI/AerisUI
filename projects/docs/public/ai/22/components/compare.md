@@ -32,7 +32,7 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
 | `min` | `number` | `0` | Minimum comparison value. |
 | `max` | `number` | `100` | Maximum comparison value. |
 | `step` | `number` | `1` | Pointer and keyboard increment. |
-| `orientation` | `AerisCompareOrientation` | `'horizontal'` | Direction of the reveal and divider. |
+| `orientation` | `AerisCompareOrientation` | `'horizontal'` | Direction of the reveal and divider. Options: 'horizontal', 'vertical'. |
 | `slideOnHover` | `boolean` | `false` | Updates from mouse or pen hover without requiring a press. |
 | `disabled` | `boolean` | `false` | Disables focus and all interaction. |
 | `readonly` | `boolean` | `false` | Keeps the slider focusable while preventing changes. |
@@ -43,7 +43,7 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
 | `beforeLabel` | `string` | `'Before'` | Before label and empty-state text. |
 | `afterLabel` | `string` | `'After'` | After label and empty-state text. |
 | `showLabels` | `boolean` | `false` | Displays compact before and after labels. |
-| `objectFit` | `AerisCompareObjectFit` | `'cover'` | Fit used by built-in images. |
+| `objectFit` | `AerisCompareObjectFit` | `'cover'` | Fit used by built-in images. Options: 'contain', 'cover', 'fill', 'none', 'scale-down'. |
 | `aspectRatio` | `string` | `'16 / 9'` | CSS aspect ratio of the comparison surface. |
 | `loading` | `'eager' &#124; 'lazy'` | `'lazy'` | Loading behavior for built-in images. |
 | `name` | `string` | `''` | Native range name for form submission. |

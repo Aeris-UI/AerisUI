@@ -328,7 +328,8 @@ interface AerisToastTemplateContext<TData = unknown> {
       name: 'position',
       type: 'AerisToastPosition',
       defaultValue: "'bottom-right'",
-      description: 'Places the toast region on the viewport.',
+      description:
+        "Places the toast region on the viewport. Options: 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'center'.",
     },
     {
       name: 'group',
@@ -340,7 +341,8 @@ interface AerisToastTemplateContext<TData = unknown> {
       name: 'mode',
       type: 'AerisToastMode',
       defaultValue: "'stacked'",
-      description: 'Uses a compact stack that expands on hover/focus or an always-expanded list.',
+      description:
+        "Uses a compact stack that expands on hover/focus or an always-expanded list. Options: 'stacked', 'expanded'.",
     },
     {
       name: 'visibleCount',
@@ -378,7 +380,7 @@ interface AerisToastTemplateContext<TData = unknown> {
       type: 'AerisToastSwipeDirection | readonly AerisToastSwipeDirection[]',
       defaultValue: "['down', 'right']",
       description:
-        'Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping.',
+        "Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping. Options: 'up', 'down', 'left', 'right'.",
     },
     {
       name: 'swipeThreshold',

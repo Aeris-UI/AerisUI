@@ -104,7 +104,7 @@ protected readonly invalid = computed(
   () => this.touched() && this.invalidColor().trim().length === 0,
 );`;
 
-protected readonly formsCode = `protected readonly reactiveColor =
+  protected readonly formsCode = `protected readonly reactiveColor =
   new FormControl('#b75e26');
 
 protected templateColor = '#28351a';`;
@@ -126,7 +126,13 @@ interface AerisColorPickerChangeEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Mounts the overlay locally, in document.body, or in the supplied DOM/template target.' },
+    {
+      name: 'appendTo',
+      type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+      defaultValue: "'self' (global)",
+      description:
+        'Mounts the overlay locally, in document.body, or in the supplied DOM/template target.',
+    },
     {
       name: 'value',
       type: 'string (model)',
@@ -138,7 +144,7 @@ interface AerisColorPickerChangeEvent {
       type: 'AerisColorFormat (model)',
       defaultValue: "'hex'",
       description:
-        'Active output format. Users can change it from the panel when format selection is enabled.',
+        "Active output format. Users can change it from the panel when format selection is enabled. Options: 'hex', 'rgb', 'hsl'.",
     },
     {
       name: 'inputId',
@@ -156,7 +162,7 @@ interface AerisColorPickerChangeEvent {
       name: 'formats',
       type: 'readonly AerisColorFormat[]',
       defaultValue: "['hex', 'rgb', 'hsl']",
-      description: 'Formats offered by the panel format selector.',
+      description: "Formats offered by the panel format selector. Options: 'hex', 'rgb', 'hsl'.",
     },
     {
       name: 'placeholder',
@@ -264,13 +270,13 @@ interface AerisColorPickerChangeEvent {
       name: 'size',
       type: 'AerisColorPickerSize',
       defaultValue: "'md'",
-      description: 'Control height and typography size.',
+      description: "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'.",
     },
     {
       name: 'appearance',
       type: 'AerisColorPickerAppearance',
       defaultValue: "'outline'",
-      description: 'Outlined or filled visual treatment.',
+      description: "Outlined or filled visual treatment. Options: 'outline', 'filled'.",
     },
     {
       name: 'presets',
@@ -354,7 +360,8 @@ interface AerisColorPickerChangeEvent {
       name: 'formatChange',
       type: 'AerisColorFormat',
       defaultValue: '-',
-      description: 'Emitted automatically when the format model changes.',
+      description:
+        "Emitted automatically when the format model changes. Options: 'hex', 'rgb', 'hsl'.",
     },
     {
       name: 'valueInput',

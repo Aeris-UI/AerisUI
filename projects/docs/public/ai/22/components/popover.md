@@ -32,8 +32,8 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target. |
 | `target` | `AerisPopoverTarget` | `null` | Element or trigger event used when visible is controlled directly. |
 | `header` | `string` | `''` | Visible popover title. |
-| `placement` | `AerisPopoverPlacement` | `'auto'` | Preferred placement around the target. |
-| `alignment` | `AerisPopoverAlignment` | `'center'` | Alignment along the target edge. |
+| `placement` | `AerisPopoverPlacement` | `'auto'` | Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'. |
+| `alignment` | `AerisPopoverAlignment` | `'center'` | Alignment along the target edge. Options: 'start', 'center', 'end'. |
 | `width` | `string` | `''` | Custom popover width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |
 | `offset` | `number` | `10` | Distance between target and popover in pixels. |
@@ -81,7 +81,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `show(targetOrEvent?, originalEvent?)` | `(AerisPopoverTarget, Event &#124; null) =&gt; void` | `-` | Opens the popover relative to a target. |
-| `hide(event?, reason?)` | `(Event &#124; null, AerisPopoverCloseReason) =&gt; void` | `reason: 'api'` | Closes the popover and records the close reason. |
+| `hide(event?, reason?)` | `(Event &#124; null, AerisPopoverCloseReason) =&gt; void` | `reason: 'api'` | Closes the popover and records the close reason. Options: 'api', 'close-button', 'escape', 'outside'. |
 | `toggle(targetOrEvent?, originalEvent?)` | `(AerisPopoverTarget, Event &#124; null) =&gt; void` | `-` | Opens when closed or closes when open. |
 | `focus(options?)` | `(FocusOptions) =&gt; void` | `-` | Moves focus to the configured initial focus target. |
 | `reposition()` | `() =&gt; void` | `-` | Recalculates target-relative position. |

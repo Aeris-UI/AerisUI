@@ -277,7 +277,8 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
       name: 'mode',
       type: 'AerisGalleriaMode',
       defaultValue: "'gallery'",
-      description: 'Selects the gallery, responsive grid, or focused single-item presentation.',
+      description:
+        "Selects the gallery, responsive grid, or focused single-item presentation. Options: 'gallery', 'grid', 'single'.",
     },
     {
       name: 'numVisible',
@@ -675,7 +676,8 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
       name: 'fullscreenClosed',
       type: 'AerisGalleriaFullscreenCloseReason',
       defaultValue: '-',
-      description: 'Emits when a component action closes fullscreen mode.',
+      description:
+        "Emits when a component action closes fullscreen mode. Options: 'toggle', 'escape', 'backdrop', 'api'.",
     },
     {
       name: 'transformChanged',

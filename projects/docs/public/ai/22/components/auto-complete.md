@@ -44,9 +44,9 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
 | `clearButtonAriaLabel` | `string` | `'Clear value'` | Accessible name for the clear button. |
 | `emptyMessage` | `string` | `'No suggestions found'` | Message shown when filtering returns no enabled suggestions. |
 | `loadingMessage` | `string` | `'Loading suggestions'` | Message shown while loading is true. |
-| `size` | `AerisAutoCompleteSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisAutoCompleteAppearance` | `'outline'` | Outlined or filled visual treatment. |
-| `filterMatchMode` | `AerisAutoCompleteFilterMatchMode` | `'contains'` | Local filtering strategy applied to label, value, description, and group. |
+| `size` | `AerisAutoCompleteSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisAutoCompleteAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
+| `filterMatchMode` | `AerisAutoCompleteFilterMatchMode` | `'contains'` | Local filtering strategy applied to label, value, description, and group. Options: 'contains', 'startsWith', 'endsWith', 'equals'. |
 | `minLength` | `number` | `1` | Minimum query length before suggestions are shown unless completeOnFocus is enabled. |
 | `panelMaxHeight` | `string` | `'16rem'` | Maximum dropdown panel height. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |

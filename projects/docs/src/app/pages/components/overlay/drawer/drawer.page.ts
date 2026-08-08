@@ -316,62 +316,281 @@ interface AerisDrawerTemplateContext {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'body'", description: 'Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target.' },
-    { name: 'header', type: 'string', defaultValue: "''", description: 'Default drawer title rendered in the header.' },
-    { name: 'position', type: 'AerisDrawerPosition', defaultValue: "'right'", description: 'Anchors the drawer to the left, right, top, or bottom viewport edge.' },
-    { name: 'size', type: 'AerisDrawerSize', defaultValue: "'md'", description: 'Applies preset width or height based on position.' },
-    { name: 'modal', type: 'boolean', defaultValue: 'true', description: 'Enables modal semantics, focus handling, and optional scroll blocking.' },
-    { name: 'backdrop', type: 'boolean', defaultValue: 'true', description: 'Shows the modal backdrop. Set false for a modal drawer without the visual mask.' },
-    { name: 'backdropBlur', type: 'boolean', defaultValue: 'true', description: 'Applies the default frosted-glass blur to the visible backdrop.' },
-    { name: 'backdropBlurAmount', type: 'string', defaultValue: "''", description: 'Overrides the backdrop blur radius for this drawer with a CSS length.' },
-    { name: 'dismissibleMask', type: 'boolean', defaultValue: 'false', description: 'Closes the drawer when the mask itself is pressed.' },
-    { name: 'closeOnEscape', type: 'boolean', defaultValue: 'true', description: 'Closes the drawer when Escape is pressed.' },
-    { name: 'closable', type: 'boolean', defaultValue: 'true', description: 'Shows the close button in the header.' },
-    { name: 'maximizable', type: 'boolean', defaultValue: 'false', description: 'Shows a header action that toggles full-screen drawer layout.' },
-    { name: 'blockScroll', type: 'boolean', defaultValue: 'true', description: 'Locks body scroll while a modal drawer is open.' },
-    { name: 'focusTrap', type: 'boolean', defaultValue: 'true', description: 'Cycles Tab and Shift + Tab inside the drawer while open.' },
-    { name: 'restoreFocus', type: 'boolean', defaultValue: 'true', description: 'Returns focus to the previously focused element after close.' },
-    { name: 'autoFocus', type: 'boolean', defaultValue: 'true', description: 'Focuses the initial target or first focusable element after open.' },
-    { name: 'initialFocus', type: 'string', defaultValue: "''", description: 'CSS selector for the first element to focus inside the drawer.' },
-    { name: 'width', type: 'string', defaultValue: "''", description: 'Custom width for left and right drawers.' },
-    { name: 'height', type: 'string', defaultValue: "''", description: 'Custom height for top and bottom drawers.' },
+    {
+      name: 'appendTo',
+      type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+      defaultValue: "'body'",
+      description:
+        'Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target.',
+    },
+    {
+      name: 'header',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Default drawer title rendered in the header.',
+    },
+    {
+      name: 'position',
+      type: 'AerisDrawerPosition',
+      defaultValue: "'right'",
+      description: 'Anchors the drawer to the left, right, top, or bottom viewport edge.',
+    },
+    {
+      name: 'size',
+      type: 'AerisDrawerSize',
+      defaultValue: "'md'",
+      description:
+        "Applies preset width or height based on position. Options: 'sm', 'md', 'lg', 'full'.",
+    },
+    {
+      name: 'modal',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Enables modal semantics, focus handling, and optional scroll blocking.',
+    },
+    {
+      name: 'backdrop',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Shows the modal backdrop. Set false for a modal drawer without the visual mask.',
+    },
+    {
+      name: 'backdropBlur',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Applies the default frosted-glass blur to the visible backdrop.',
+    },
+    {
+      name: 'backdropBlurAmount',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Overrides the backdrop blur radius for this drawer with a CSS length.',
+    },
+    {
+      name: 'dismissibleMask',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Closes the drawer when the mask itself is pressed.',
+    },
+    {
+      name: 'closeOnEscape',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Closes the drawer when Escape is pressed.',
+    },
+    {
+      name: 'closable',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows the close button in the header.',
+    },
+    {
+      name: 'maximizable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows a header action that toggles full-screen drawer layout.',
+    },
+    {
+      name: 'blockScroll',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Locks body scroll while a modal drawer is open.',
+    },
+    {
+      name: 'focusTrap',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Cycles Tab and Shift + Tab inside the drawer while open.',
+    },
+    {
+      name: 'restoreFocus',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Returns focus to the previously focused element after close.',
+    },
+    {
+      name: 'autoFocus',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Focuses the initial target or first focusable element after open.',
+    },
+    {
+      name: 'initialFocus',
+      type: 'string',
+      defaultValue: "''",
+      description: 'CSS selector for the first element to focus inside the drawer.',
+    },
+    {
+      name: 'width',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Custom width for left and right drawers.',
+    },
+    {
+      name: 'height',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Custom height for top and bottom drawers.',
+    },
     { name: 'maxWidth', type: 'string', defaultValue: "''", description: 'Maximum drawer width.' },
-    { name: 'maxHeight', type: 'string', defaultValue: "''", description: 'Maximum drawer height.' },
-    { name: 'mobileWidth', type: 'string', defaultValue: "''", description: 'Width used by side drawers on narrow viewports.' },
-    { name: 'mobileHeight', type: 'string', defaultValue: "''", description: 'Height used by top or bottom drawers on narrow viewports.' },
-    { name: 'mobileFullScreen', type: 'boolean', defaultValue: 'false', description: 'Makes the drawer full viewport below the built-in narrow breakpoint.' },
-    { name: 'closeAriaLabel', type: 'string', defaultValue: "'Close drawer'", description: 'Accessible label for the built-in close button.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name used when no visible header labels the drawer.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the drawer.' },
-    { name: 'ariaDescribedBy', type: 'string', defaultValue: "''", description: 'IDs of elements that describe the drawer content.' },
+    {
+      name: 'maxHeight',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Maximum drawer height.',
+    },
+    {
+      name: 'mobileWidth',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Width used by side drawers on narrow viewports.',
+    },
+    {
+      name: 'mobileHeight',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Height used by top or bottom drawers on narrow viewports.',
+    },
+    {
+      name: 'mobileFullScreen',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Makes the drawer full viewport below the built-in narrow breakpoint.',
+    },
+    {
+      name: 'closeAriaLabel',
+      type: 'string',
+      defaultValue: "'Close drawer'",
+      description: 'Accessible label for the built-in close button.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name used when no visible header labels the drawer.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the drawer.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'IDs of elements that describe the drawer content.',
+    },
   ];
 
   protected readonly models: readonly ApiRow[] = [
-    { name: 'visible', type: 'boolean', defaultValue: 'false', description: 'Controls whether the drawer is rendered.' },
-    { name: 'maximized', type: 'boolean', defaultValue: 'false', description: 'Controls whether the drawer fills the viewport.' },
+    {
+      name: 'visible',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Controls whether the drawer is rendered.',
+    },
+    {
+      name: 'maximized',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Controls whether the drawer fills the viewport.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'shown', type: 'AerisDrawerVisibilityChangeEvent', defaultValue: '-', description: 'Emits after the drawer becomes visible.' },
-    { name: 'hidden', type: 'AerisDrawerVisibilityChangeEvent', defaultValue: '-', description: 'Emits after the drawer is hidden.' },
-    { name: 'visibilityChanged', type: 'AerisDrawerVisibilityChangeEvent', defaultValue: '-', description: 'Emits for both open and close transitions.' },
+    {
+      name: 'shown',
+      type: 'AerisDrawerVisibilityChangeEvent',
+      defaultValue: '-',
+      description: 'Emits after the drawer becomes visible.',
+    },
+    {
+      name: 'hidden',
+      type: 'AerisDrawerVisibilityChangeEvent',
+      defaultValue: '-',
+      description: 'Emits after the drawer is hidden.',
+    },
+    {
+      name: 'visibilityChanged',
+      type: 'AerisDrawerVisibilityChangeEvent',
+      defaultValue: '-',
+      description: 'Emits for both open and close transitions.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisDrawerHeader', type: 'TemplateRef<AerisDrawerTemplateContext>', defaultValue: '-', description: 'Replaces the default header title area.' },
-    { name: 'aerisDrawerFooter', type: 'TemplateRef<AerisDrawerTemplateContext>', defaultValue: '-', description: 'Renders a footer below the scrollable body.' },
-    { name: 'aerisDrawerCloseIcon', type: 'TemplateRef<AerisDrawerTemplateContext>', defaultValue: '-', description: 'Replaces the built-in close icon inside the native close button.' },
-    { name: 'aerisDrawerHeadless', type: 'TemplateRef<AerisDrawerTemplateContext>', defaultValue: '-', description: 'Replaces all internal chrome while keeping drawer semantics and focus behavior.' },
+    {
+      name: 'aerisDrawerHeader',
+      type: 'TemplateRef<AerisDrawerTemplateContext>',
+      defaultValue: '-',
+      description: 'Replaces the default header title area.',
+    },
+    {
+      name: 'aerisDrawerFooter',
+      type: 'TemplateRef<AerisDrawerTemplateContext>',
+      defaultValue: '-',
+      description: 'Renders a footer below the scrollable body.',
+    },
+    {
+      name: 'aerisDrawerCloseIcon',
+      type: 'TemplateRef<AerisDrawerTemplateContext>',
+      defaultValue: '-',
+      description: 'Replaces the built-in close icon inside the native close button.',
+    },
+    {
+      name: 'aerisDrawerHeadless',
+      type: 'TemplateRef<AerisDrawerTemplateContext>',
+      defaultValue: '-',
+      description:
+        'Replaces all internal chrome while keeping drawer semantics and focus behavior.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'show(originalEvent)', type: 'void', defaultValue: 'originalEvent: null', description: 'Opens the drawer.' },
-    { name: 'hide(originalEvent, reason)', type: 'void', defaultValue: "reason: 'api'", description: 'Closes the drawer and emits the close reason.' },
-    { name: 'toggle(originalEvent)', type: 'void', defaultValue: 'originalEvent: null', description: 'Opens the drawer when closed or closes it when open.' },
-    { name: 'focus(options)', type: 'void', defaultValue: '-', description: 'Moves focus to the configured initial target or first focusable element.' },
-    { name: 'toggleMaximized()', type: 'void', defaultValue: '-', description: 'Toggles full-screen drawer layout.' },
-    { name: 'maximize()', type: 'void', defaultValue: '-', description: 'Sets the drawer to full-screen layout.' },
-    { name: 'restore()', type: 'void', defaultValue: '-', description: 'Restores the drawer to its configured edge size.' },
+    {
+      name: 'show(originalEvent)',
+      type: 'void',
+      defaultValue: 'originalEvent: null',
+      description: 'Opens the drawer.',
+    },
+    {
+      name: 'hide(originalEvent, reason)',
+      type: 'void',
+      defaultValue: "reason: 'api'",
+      description: 'Closes the drawer and emits the close reason.',
+    },
+    {
+      name: 'toggle(originalEvent)',
+      type: 'void',
+      defaultValue: 'originalEvent: null',
+      description: 'Opens the drawer when closed or closes it when open.',
+    },
+    {
+      name: 'focus(options)',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves focus to the configured initial target or first focusable element.',
+    },
+    {
+      name: 'toggleMaximized()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Toggles full-screen drawer layout.',
+    },
+    {
+      name: 'maximize()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Sets the drawer to full-screen layout.',
+    },
+    {
+      name: 'restore()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Restores the drawer to its configured edge size.',
+    },
   ];
 
   protected openDrawerAt(position: AerisDrawerPosition): void {
@@ -380,8 +599,6 @@ interface AerisDrawerTemplateContext {
   }
 
   protected recordDrawerEvent(event: AerisDrawerVisibilityChangeEvent): void {
-    this.lastEvent.set(
-      event.visible ? 'Drawer opened.' : `Drawer closed by ${event.reason}.`,
-    );
+    this.lastEvent.set(event.visible ? 'Drawer opened.' : `Drawer closed by ${event.reason}.`);
   }
 }

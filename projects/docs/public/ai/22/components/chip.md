@@ -40,9 +40,9 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
 | `imageAlt` | `string` | `''` | Alternative text used when the image is the chip’s only meaningful content. |
 | `removable` | `boolean` | `false` | Shows the native remove button. |
 | `disabled` | `boolean` | `false` | Disables removal while keeping the chip visible. |
-| `size` | `AerisChipSize` | `'md'` | Sets chip height, padding, and typography. |
+| `size` | `AerisChipSize` | `'md'` | Sets chip height, padding, and typography. Options: 'sm', 'md', 'lg'. |
 | `variant` | `AerisChipVariant` | `'soft'` | Sets a soft filled or outline appearance. |
-| `tone` | `AerisChipTone` | `'neutral'` | Sets the palette-aware visual tone. |
+| `tone` | `AerisChipTone` | `'neutral'` | Sets the palette-aware visual tone. Options: 'primary', 'neutral', 'success', 'info', 'warning', 'danger'. |
 | `shape` | `AerisChipShape` | `'pill'` | Sets pill or rounded corners. |
 | `removeAriaLabel` | `string` | `''` | Overrides the remove button accessible name. |
 | `ariaLabel` | `string` | `''` | Accessible name for custom projected chip content. |

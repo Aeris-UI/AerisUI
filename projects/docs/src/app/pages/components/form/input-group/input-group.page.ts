@@ -81,8 +81,7 @@ export class InputGroupPage {
     { id: 'input-group-api-outputs', label: 'Outputs' },
   ];
 
-  protected readonly importCode =
-    `import { AerisInputGroup } from '@aeris-ui/core/input-group';`;
+  protected readonly importCode = `import { AerisInputGroup } from '@aeris-ui/core/input-group';`;
 
   protected readonly usernameCode = `protected readonly username = signal('');`;
 
@@ -104,12 +103,51 @@ type AerisInputGroupAppearance = 'outline' | 'filled';
 type AerisInputGroupMode = 'attached' | 'embedded';`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'size', type: 'AerisInputGroupSize', defaultValue: "'md'", description: 'Controls addon height, font size, and grouped native-control size.' },
-    { name: 'appearance', type: 'AerisInputGroupAppearance', defaultValue: "'outline'", description: 'Outlined or filled treatment for grouped controls, addons, and attached buttons.' },
-    { name: 'mode', type: 'AerisInputGroupMode', defaultValue: "'attached'", description: 'Attached creates shared-addon groups. Embedded positions icon addons inside a normal-looking input.' },
-    { name: 'orientation', type: "'horizontal' | 'vertical'", defaultValue: "'horizontal'", description: 'Stacks group items vertically when horizontal space is constrained or the design needs stacked controls.' },
-    { name: 'invalid', type: 'boolean', defaultValue: 'false', description: 'Applies invalid styling and aria-invalid to the group wrapper.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Applies disabled group styling. Keep projected controls disabled as well.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'false', description: 'Expands the group to fill available inline space.' },
+    {
+      name: 'size',
+      type: 'AerisInputGroupSize',
+      defaultValue: "'md'",
+      description:
+        "Controls addon height, font size, and grouped native-control size. Options: 'xs', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'appearance',
+      type: 'AerisInputGroupAppearance',
+      defaultValue: "'outline'",
+      description:
+        "Outlined or filled treatment for grouped controls, addons, and attached buttons. Options: 'outline', 'filled'.",
+    },
+    {
+      name: 'mode',
+      type: 'AerisInputGroupMode',
+      defaultValue: "'attached'",
+      description:
+        'Attached creates shared-addon groups. Embedded positions icon addons inside a normal-looking input.',
+    },
+    {
+      name: 'orientation',
+      type: "'horizontal' | 'vertical'",
+      defaultValue: "'horizontal'",
+      description:
+        'Stacks group items vertically when horizontal space is constrained or the design needs stacked controls.',
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Applies invalid styling and aria-invalid to the group wrapper.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Applies disabled group styling. Keep projected controls disabled as well.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Expands the group to fill available inline space.',
+    },
   ];
 }

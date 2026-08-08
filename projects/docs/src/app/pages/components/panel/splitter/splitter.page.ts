@@ -1,9 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import {
-  AerisSplitterModule,
-  type AerisSplitterResizeEvent,
-} from '@aeris-ui/core/splitter';
+import { AerisSplitterModule, type AerisSplitterResizeEvent } from '@aeris-ui/core/splitter';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -176,7 +173,7 @@ protected recordResize(event: AerisSplitterResizeEvent): void {
   this.lastResize = event.sizes.map((size) => Math.round(size)).join(' / ');
 }`;
 
-protected readonly interfacesCode = `type AerisSplitterOrientation = 'horizontal' | 'vertical';
+  protected readonly interfacesCode = `type AerisSplitterOrientation = 'horizontal' | 'vertical';
 type AerisSplitterVariant = 'outlined' | 'filled' | 'plain';
 type AerisSplitterSize = 'sm' | 'md' | 'lg';
 type AerisSplitterDivider = 'handle' | 'line';
@@ -190,52 +187,209 @@ interface AerisSplitterResizeEvent {
 }`;
 
   protected readonly splitterInputs: readonly ApiRow[] = [
-    { name: 'orientation', type: 'AerisSplitterOrientation', defaultValue: "'horizontal'", description: 'Lays panels out left-to-right or top-to-bottom.' },
-    { name: 'variant', type: 'AerisSplitterVariant', defaultValue: "'outlined'", description: 'Applies outlined, filled, or plain surface treatment.' },
-    { name: 'size', type: 'AerisSplitterSize', defaultValue: "'md'", description: 'Controls panel padding and gutter density.' },
-    { name: 'divider', type: 'AerisSplitterDivider', defaultValue: "'handle'", description: 'Displays handle-only separators or full divider lines with handles.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables every resize handle.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'true', description: 'Sets the host inline size to 100%.' },
-    { name: 'step', type: 'number', defaultValue: '5', description: 'Keyboard resize increment in percentage points.' },
-    { name: 'height', type: 'string', defaultValue: "''", description: 'CSS block size for the splitter root.' },
-    { name: 'minHeight', type: 'string', defaultValue: "''", description: 'Optional minimum block size for the splitter root.' },
-    { name: 'maxHeight', type: 'string', defaultValue: "''", description: 'Optional maximum block size for the splitter root.' },
-    { name: 'width', type: 'string', defaultValue: "'100%'", description: 'CSS inline size for the splitter root.' },
-    { name: 'maxWidth', type: 'string', defaultValue: "''", description: 'Optional maximum inline size for the splitter root.' },
-    { name: 'role', type: "'group' | 'region' | null", defaultValue: "'group'", description: 'Semantic role for the splitter root.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Resizable panels'", description: 'Accessible name when no visible label is referenced.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the splitter.' },
-    { name: 'ariaDescribedBy', type: 'string', defaultValue: "''", description: 'ID of text that describes the splitter.' },
-    { name: 'separatorLabel', type: 'string', defaultValue: "'Resize panels'", description: 'Accessible name for each resize separator.' },
+    {
+      name: 'orientation',
+      type: 'AerisSplitterOrientation',
+      defaultValue: "'horizontal'",
+      description:
+        "Lays panels out left-to-right or top-to-bottom. Options: 'horizontal', 'vertical'.",
+    },
+    {
+      name: 'variant',
+      type: 'AerisSplitterVariant',
+      defaultValue: "'outlined'",
+      description: 'Applies outlined, filled, or plain surface treatment.',
+    },
+    {
+      name: 'size',
+      type: 'AerisSplitterSize',
+      defaultValue: "'md'",
+      description: "Controls panel padding and gutter density. Options: 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'divider',
+      type: 'AerisSplitterDivider',
+      defaultValue: "'handle'",
+      description:
+        "Displays handle-only separators or full divider lines with handles. Options: 'handle', 'line'.",
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables every resize handle.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Sets the host inline size to 100%.',
+    },
+    {
+      name: 'step',
+      type: 'number',
+      defaultValue: '5',
+      description: 'Keyboard resize increment in percentage points.',
+    },
+    {
+      name: 'height',
+      type: 'string',
+      defaultValue: "''",
+      description: 'CSS block size for the splitter root.',
+    },
+    {
+      name: 'minHeight',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional minimum block size for the splitter root.',
+    },
+    {
+      name: 'maxHeight',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional maximum block size for the splitter root.',
+    },
+    {
+      name: 'width',
+      type: 'string',
+      defaultValue: "'100%'",
+      description: 'CSS inline size for the splitter root.',
+    },
+    {
+      name: 'maxWidth',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional maximum inline size for the splitter root.',
+    },
+    {
+      name: 'role',
+      type: "'group' | 'region' | null",
+      defaultValue: "'group'",
+      description: 'Semantic role for the splitter root.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Resizable panels'",
+      description: 'Accessible name when no visible label is referenced.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the splitter.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of text that describes the splitter.',
+    },
+    {
+      name: 'separatorLabel',
+      type: 'string',
+      defaultValue: "'Resize panels'",
+      description: 'Accessible name for each resize separator.',
+    },
   ];
 
   protected readonly panelInputs: readonly ApiRow[] = [
-    { name: 'size', type: 'number | null', defaultValue: 'null', description: 'Initial panel size in percentage when the splitter sizes model is empty.' },
-    { name: 'minSize', type: 'number', defaultValue: '0', description: 'Minimum panel size in percentage. The default allows full collapse.' },
-    { name: 'maxSize', type: 'number', defaultValue: '100', description: 'Maximum panel size in percentage.' },
-    { name: 'resizable', type: 'boolean', defaultValue: 'true', description: 'Disables adjacent handles when false.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name for the rendered panel section.' },
+    {
+      name: 'size',
+      type: 'number | null',
+      defaultValue: 'null',
+      description: 'Initial panel size in percentage when the splitter sizes model is empty.',
+    },
+    {
+      name: 'minSize',
+      type: 'number',
+      defaultValue: '0',
+      description: 'Minimum panel size in percentage. The default allows full collapse.',
+    },
+    {
+      name: 'maxSize',
+      type: 'number',
+      defaultValue: '100',
+      description: 'Maximum panel size in percentage.',
+    },
+    {
+      name: 'resizable',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Disables adjacent handles when false.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name for the rendered panel section.',
+    },
   ];
 
   protected readonly models: readonly ApiRow[] = [
-    { name: 'sizes', type: 'readonly number[]', defaultValue: '[]', description: 'Controlled panel sizes in percentages.' },
+    {
+      name: 'sizes',
+      type: 'readonly number[]',
+      defaultValue: '[]',
+      description: 'Controlled panel sizes in percentages.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'resizeStart', type: 'AerisSplitterResizeEvent', defaultValue: '-', description: 'Emitted when pointer resizing starts.' },
-    { name: 'resized', type: 'AerisSplitterResizeEvent', defaultValue: '-', description: 'Emitted when keyboard, pointer, or method resizing changes sizes.' },
-    { name: 'resizeEnd', type: 'AerisSplitterResizeEvent', defaultValue: '-', description: 'Emitted when pointer resizing ends.' },
+    {
+      name: 'resizeStart',
+      type: 'AerisSplitterResizeEvent',
+      defaultValue: '-',
+      description: 'Emitted when pointer resizing starts.',
+    },
+    {
+      name: 'resized',
+      type: 'AerisSplitterResizeEvent',
+      defaultValue: '-',
+      description: 'Emitted when keyboard, pointer, or method resizing changes sizes.',
+    },
+    {
+      name: 'resizeEnd',
+      type: 'AerisSplitterResizeEvent',
+      defaultValue: '-',
+      description: 'Emitted when pointer resizing ends.',
+    },
   ];
 
   protected readonly content: readonly ApiRow[] = [
-    { name: 'aeris-splitter-panel', type: 'component', defaultValue: '-', description: 'Projected panel rendered by the splitter in source order.' },
-    { name: 'default panel content', type: 'content projection', defaultValue: '-', description: 'Content rendered inside each resizable panel.' },
+    {
+      name: 'aeris-splitter-panel',
+      type: 'component',
+      defaultValue: '-',
+      description: 'Projected panel rendered by the splitter in source order.',
+    },
+    {
+      name: 'default panel content',
+      type: 'content projection',
+      defaultValue: '-',
+      description: 'Content rendered inside each resizable panel.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'setSizes', type: '(sizes: readonly number[], originalEvent?: Event | null) => void', defaultValue: '-', description: 'Sets controlled sizes after normalizing them to the available panels.' },
-    { name: 'reset', type: '(originalEvent?: Event | null) => void', defaultValue: '-', description: 'Returns to panel input sizes, or equal sizes when none are set.' },
-    { name: 'focusHandle', type: '(index: number, options?: FocusOptions) => void', defaultValue: '-', description: 'Moves focus to a resize separator by index.' },
+    {
+      name: 'setSizes',
+      type: '(sizes: readonly number[], originalEvent?: Event | null) => void',
+      defaultValue: '-',
+      description: 'Sets controlled sizes after normalizing them to the available panels.',
+    },
+    {
+      name: 'reset',
+      type: '(originalEvent?: Event | null) => void',
+      defaultValue: '-',
+      description: 'Returns to panel input sizes, or equal sizes when none are set.',
+    },
+    {
+      name: 'focusHandle',
+      type: '(index: number, options?: FocusOptions) => void',
+      defaultValue: '-',
+      description: 'Moves focus to a resize separator by index.',
+    },
   ];
 
   protected setBalancedLayout(): void {

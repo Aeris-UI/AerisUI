@@ -522,7 +522,7 @@ interface AerisMenuVisibilityEvent {
       name: 'size',
       type: 'AerisMenuSize',
       defaultValue: "'md'",
-      description: 'Controls item density and icon sizing.',
+      description: "Controls item density and icon sizing. Options: 'sm', 'md', 'lg'.",
     },
     {
       name: 'width',
@@ -675,7 +675,7 @@ interface AerisMenuVisibilityEvent {
       name: 'hide(event?, reason?, restoreFocus?)',
       type: 'Event | null, AerisMenuCloseReason, boolean => void',
       defaultValue: '-',
-      description: 'Closes a popup menu.',
+      description: "Closes a popup menu. Options: 'api', 'escape', 'outside', 'select'.",
     },
     {
       name: 'toggle(event)',

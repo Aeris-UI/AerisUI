@@ -33,7 +33,7 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | `model` | `readonly AerisMenubarItem&lt;T&gt;[]` | `[]` | Nested item model for root items and cascading submenu items. |
 | `openPath` | `string (model)` | `''` | Controlled path key for the open submenu branch. |
 | `mobileOpen` | `boolean (model)` | `false` | Controlled responsive menu visibility. |
-| `size` | `AerisMenubarSize` | `'md'` | Adjusts item height, text, and icon sizing. |
+| `size` | `AerisMenubarSize` | `'md'` | Adjusts item height, text, and icon sizing. Options: 'sm', 'md', 'lg'. |
 | `disabled` | `boolean` | `false` | Prevents activation and submenu opening. |
 | `openOnHover` | `boolean` | `true` | Opens submenu branches when pointer users hover items. |
 | `closeOnSelect` | `boolean` | `true` | Closes open menus after a leaf item is activated. |
@@ -70,7 +70,7 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `open(path, event?)` | `string &#124; readonly number[], Event &#124; null =&gt; void` | `-` | Opens a submenu branch by path key or path array. |
-| `close(event?, reason?)` | `Event &#124; null, AerisMenubarCloseReason =&gt; void` | `-` | Closes open submenus. |
+| `close(event?, reason?)` | `Event &#124; null, AerisMenubarCloseReason =&gt; void` | `-` | Closes open submenus. Options: 'api', 'escape', 'outside', 'select'. |
 | `focus()` | `void` | `-` | Moves focus to the active or first enabled root item. |
 
 ## Interfaces and types

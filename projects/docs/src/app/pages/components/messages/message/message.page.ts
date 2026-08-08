@@ -56,12 +56,8 @@ export class MessagePage {
   protected readonly username = signal('');
   protected readonly phone = signal('');
   protected readonly formErrors = computed(() => [
-    ...(this.usernameTouched() && !this.username().trim()
-      ? ['Username is required.']
-      : []),
-    ...(this.phoneTouched() && !this.phone().trim()
-      ? ['Phone number is required.']
-      : []),
+    ...(this.usernameTouched() && !this.username().trim() ? ['Username is required.'] : []),
+    ...(this.phoneTouched() && !this.phone().trim() ? ['Phone number is required.'] : []),
   ]);
 
   protected readonly featureLinks: readonly PageTocLink[] = [
@@ -259,40 +255,154 @@ interface AerisMessageTemplateContext {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'id', type: 'string', defaultValue: 'generated id', description: 'Sets the host element id.' },
-    { name: 'severity', type: 'AerisMessageSeverity', defaultValue: "'info'", description: 'Sets visual tone and default live-region behavior.' },
-    { name: 'variant', type: 'AerisMessageVariant', defaultValue: "'filled'", description: 'Sets filled, outlined, or simple presentation.' },
-    { name: 'size', type: 'AerisMessageSize', defaultValue: "'md'", description: 'Sets compact, default, or large spacing and type scale.' },
-    { name: 'text', type: 'string', defaultValue: "''", description: 'Renders plain message text when no content template is provided.' },
-    { name: 'closable', type: 'boolean', defaultValue: 'false', description: 'Shows a native close button.' },
-    { name: 'life', type: 'number', defaultValue: '0', description: 'Auto-closes the message after the provided number of milliseconds. Zero disables auto-close.' },
-    { name: 'showIcon', type: 'boolean', defaultValue: 'true', description: 'Shows or hides the severity icon region.' },
-    { name: 'role', type: "AerisMessageRole | ''", defaultValue: "''", description: 'Overrides the default alert/status role.' },
-    { name: 'ariaLive', type: "AerisMessageLive | ''", defaultValue: "''", description: 'Overrides the default live-region politeness.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name for the message when visible text is not enough.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that names the message.' },
-    { name: 'closeAriaLabel', type: 'string', defaultValue: "'Close message'", description: 'Accessible label for the close button.' },
+    {
+      name: 'id',
+      type: 'string',
+      defaultValue: 'generated id',
+      description: 'Sets the host element id.',
+    },
+    {
+      name: 'severity',
+      type: 'AerisMessageSeverity',
+      defaultValue: "'info'",
+      description:
+        "Sets visual tone and default live-region behavior. Options: 'info', 'success', 'warning', 'error', 'neutral', 'secondary', 'contrast'.",
+    },
+    {
+      name: 'variant',
+      type: 'AerisMessageVariant',
+      defaultValue: "'filled'",
+      description: 'Sets filled, outlined, or simple presentation.',
+    },
+    {
+      name: 'size',
+      type: 'AerisMessageSize',
+      defaultValue: "'md'",
+      description:
+        "Sets compact, default, or large spacing and type scale. Options: 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'text',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Renders plain message text when no content template is provided.',
+    },
+    {
+      name: 'closable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows a native close button.',
+    },
+    {
+      name: 'life',
+      type: 'number',
+      defaultValue: '0',
+      description:
+        'Auto-closes the message after the provided number of milliseconds. Zero disables auto-close.',
+    },
+    {
+      name: 'showIcon',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows or hides the severity icon region.',
+    },
+    {
+      name: 'role',
+      type: "AerisMessageRole | ''",
+      defaultValue: "''",
+      description: "Overrides the default alert/status role. Options: 'status', 'alert', 'note'.",
+    },
+    {
+      name: 'ariaLive',
+      type: "AerisMessageLive | ''",
+      defaultValue: "''",
+      description:
+        "Overrides the default live-region politeness. Options: 'polite', 'assertive', 'off'.",
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name for the message when visible text is not enough.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that names the message.',
+    },
+    {
+      name: 'closeAriaLabel',
+      type: 'string',
+      defaultValue: "'Close message'",
+      description: 'Accessible label for the close button.',
+    },
   ];
 
   protected readonly models: readonly ApiRow[] = [
-    { name: 'visible', type: 'boolean', defaultValue: 'true', description: 'Controls whether the message is rendered.' },
+    {
+      name: 'visible',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Controls whether the message is rendered.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'closed', type: 'AerisMessageCloseEvent', defaultValue: '-', description: 'Emits when close button, timeout, or API closes the message.' },
-    { name: 'visibilityChanged', type: 'boolean', defaultValue: '-', description: 'Emits after show or close changes visible state.' },
+    {
+      name: 'closed',
+      type: 'AerisMessageCloseEvent',
+      defaultValue: '-',
+      description: 'Emits when close button, timeout, or API closes the message.',
+    },
+    {
+      name: 'visibilityChanged',
+      type: 'boolean',
+      defaultValue: '-',
+      description: 'Emits after show or close changes visible state.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisMessageIcon', type: 'TemplateRef<AerisMessageTemplateContext>', defaultValue: '-', description: 'Replaces the built-in severity icon.' },
-    { name: 'aerisMessageContent', type: 'TemplateRef<AerisMessageTemplateContext>', defaultValue: '-', description: 'Replaces text/default projected content and receives close context.' },
-    { name: 'default content', type: 'content projection', defaultValue: '-', description: 'Projected content rendered when text and aerisMessageContent are not provided.' },
+    {
+      name: 'aerisMessageIcon',
+      type: 'TemplateRef<AerisMessageTemplateContext>',
+      defaultValue: '-',
+      description: 'Replaces the built-in severity icon.',
+    },
+    {
+      name: 'aerisMessageContent',
+      type: 'TemplateRef<AerisMessageTemplateContext>',
+      defaultValue: '-',
+      description: 'Replaces text/default projected content and receives close context.',
+    },
+    {
+      name: 'default content',
+      type: 'content projection',
+      defaultValue: '-',
+      description: 'Projected content rendered when text and aerisMessageContent are not provided.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'close(originalEvent, reason)', type: 'void', defaultValue: "reason: 'api'", description: 'Closes the message and emits closed/visibility events.' },
-    { name: 'show()', type: 'void', defaultValue: '-', description: 'Shows the message and emits visibilityChanged when it was hidden.' },
-    { name: 'hide()', type: 'void', defaultValue: '-', description: 'Closes the message with the api reason.' },
+    {
+      name: 'close(originalEvent, reason)',
+      type: 'void',
+      defaultValue: "reason: 'api'",
+      description: 'Closes the message and emits closed/visibility events.',
+    },
+    {
+      name: 'show()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Shows the message and emits visibilityChanged when it was hidden.',
+    },
+    {
+      name: 'hide()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Closes the message with the api reason.',
+    },
   ];
 
   protected recordClose(event: AerisMessageCloseEvent): void {

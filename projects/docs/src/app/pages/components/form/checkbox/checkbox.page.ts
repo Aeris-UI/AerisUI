@@ -1,9 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  AerisCheckbox,
-  type AerisCheckboxChangeEvent,
-} from '@aeris-ui/core/checkbox';
+import { AerisCheckbox, type AerisCheckboxChangeEvent } from '@aeris-ui/core/checkbox';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -54,7 +51,11 @@ export class CheckboxPage {
   protected readonly interests: readonly Interest[] = [
     { value: 'angular', label: 'Angular', description: 'Framework releases and patterns' },
     { value: 'accessibility', label: 'Accessibility', description: 'Inclusive interface guidance' },
-    { value: 'performance', label: 'Performance', description: 'Rendering and delivery techniques' },
+    {
+      value: 'performance',
+      label: 'Performance',
+      description: 'Rendering and delivery techniques',
+    },
   ];
   protected readonly allSelected = computed(
     () => this.selectedInterests().length === this.interests.length,
@@ -81,8 +82,7 @@ export class CheckboxPage {
     { id: 'checkbox-api-methods', label: 'Methods' },
   ];
 
-  protected readonly importCode =
-    `import { AerisCheckbox } from '@aeris-ui/core/checkbox';`;
+  protected readonly importCode = `import { AerisCheckbox } from '@aeris-ui/core/checkbox';`;
   protected readonly modelCode = `protected readonly notifications = signal(true);`;
   protected readonly formsCode = `protected readonly reactiveChecked =
   new FormControl(false);
@@ -120,21 +120,91 @@ interface AerisCheckboxChangeEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'checked', type: 'boolean (model)', defaultValue: 'false', description: 'Boolean selection state and Angular Signal Forms checkbox contract.' },
-    { name: 'indeterminate', type: 'boolean (model)', defaultValue: 'false', description: 'Mixed visual and native state. User activation clears it.' },
-    { name: 'inputId', type: 'string', defaultValue: 'generated', description: 'ID assigned to the native checkbox.' },
+    {
+      name: 'checked',
+      type: 'boolean (model)',
+      defaultValue: 'false',
+      description: 'Boolean selection state and Angular Signal Forms checkbox contract.',
+    },
+    {
+      name: 'indeterminate',
+      type: 'boolean (model)',
+      defaultValue: 'false',
+      description: 'Mixed visual and native state. User activation clears it.',
+    },
+    {
+      name: 'inputId',
+      type: 'string',
+      defaultValue: 'generated',
+      description: 'ID assigned to the native checkbox.',
+    },
     { name: 'name', type: 'string', defaultValue: "''", description: 'Native form field name.' },
-    { name: 'value', type: 'string', defaultValue: "'on'", description: 'Value submitted by a native form when checked.' },
-    { name: 'label', type: 'string', defaultValue: "''", description: 'Optional text label. Projected label content is also supported.' },
-    { name: 'ariaLabel', type: 'string | undefined', defaultValue: 'undefined', description: 'Accessible name for a checkbox without visible label content.' },
-    { name: 'ariaLabelledby', type: 'string | undefined', defaultValue: 'undefined', description: 'IDs of external labeling elements.' },
-    { name: 'ariaDescribedby', type: 'string | undefined', defaultValue: 'undefined', description: 'IDs of help and validation messages.' },
-    { name: 'size', type: 'AerisCheckboxSize', defaultValue: "'md'", description: 'Control and label size.' },
-    { name: 'labelPosition', type: 'AerisCheckboxLabelPosition', defaultValue: "'end'", description: 'Places the visible label before or after the control.' },
-    { name: 'tabIndex', type: 'number', defaultValue: '0', description: 'Native tab order value for composite widgets that manage focus.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables native interaction and form submission.' },
-    { name: 'required', type: 'boolean', defaultValue: 'false', description: 'Exposes native required validation semantics.' },
-    { name: 'invalid', type: 'boolean', defaultValue: 'false', description: 'Applies invalid styling and aria-invalid.' },
+    {
+      name: 'value',
+      type: 'string',
+      defaultValue: "'on'",
+      description: 'Value submitted by a native form when checked.',
+    },
+    {
+      name: 'label',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional text label. Projected label content is also supported.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'Accessible name for a checkbox without visible label content.',
+    },
+    {
+      name: 'ariaLabelledby',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'IDs of external labeling elements.',
+    },
+    {
+      name: 'ariaDescribedby',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'IDs of help and validation messages.',
+    },
+    {
+      name: 'size',
+      type: 'AerisCheckboxSize',
+      defaultValue: "'md'",
+      description: "Control and label size. Options: 'xs', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'labelPosition',
+      type: 'AerisCheckboxLabelPosition',
+      defaultValue: "'end'",
+      description: "Places the visible label before or after the control. Options: 'start', 'end'.",
+    },
+    {
+      name: 'tabIndex',
+      type: 'number',
+      defaultValue: '0',
+      description: 'Native tab order value for composite widgets that manage focus.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables native interaction and form submission.',
+    },
+    {
+      name: 'required',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Exposes native required validation semantics.',
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Applies invalid styling and aria-invalid.',
+    },
   ];
 
   protected isInterestSelected(value: string): boolean {

@@ -178,13 +178,14 @@ interface AerisProgressSpinnerValueContext {
       name: 'size',
       type: 'AerisProgressSpinnerSize',
       defaultValue: "'md'",
-      description: 'Sets small, medium, or large diameter.',
+      description: "Sets small, medium, or large diameter. Options: 'sm', 'md', 'lg'.",
     },
     {
       name: 'tone',
       type: 'AerisProgressSpinnerTone',
       defaultValue: "'primary'",
-      description: 'Sets the palette-aware indicator tone.',
+      description:
+        "Sets the palette-aware indicator tone. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'.",
     },
     {
       name: 'strokeWidth',

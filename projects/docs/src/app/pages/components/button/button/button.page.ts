@@ -1,8 +1,5 @@
 import { Component, signal } from '@angular/core';
-import {
-  AerisButton,
-  type AerisButtonSeverity,
-} from '@aeris-ui/core/button';
+import { AerisButton, type AerisButtonSeverity } from '@aeris-ui/core/button';
 import { LucideDynamicIcon } from '@lucide/angular';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
@@ -58,14 +55,22 @@ export class ButtonPage {
     { id: 'api-emitters', label: 'Emitters' },
     { id: 'api-templates', label: 'Templates' },
   ];
-  protected readonly importCode =
-    `import { AerisButton } from '@aeris-ui/core/button';`;
+  protected readonly importCode = `import { AerisButton } from '@aeris-ui/core/button';`;
   protected readonly wrapperTsCode = `protected readonly clickCount = signal(0);
 
 protected createProject(event: MouseEvent): void {
   this.clickCount.update((count) => count + 1);
   // Create the project here.
 }`;
+  protected readonly severityTsCode = `protected readonly severities: readonly AerisButtonSeverity[] = [
+  'primary',
+  'secondary',
+  'success',
+  'info',
+  'warning',
+  'danger',
+  'contrast',
+];`;
   protected readonly loadingTsCode = `protected readonly saving = signal(false);
 
 protected save(): void {
@@ -108,35 +113,160 @@ interface AerisButtonContentTemplateContext {
   ];
 
   protected readonly directiveInputs: readonly ApiRow[] = [
-    { name: 'variant', type: 'AerisButtonVariant', defaultValue: "'primary'", description: 'Visual treatment of the button.' },
-    { name: 'severity', type: 'AerisButtonSeverity', defaultValue: "'primary'", description: 'Semantic color applied to the selected variant.' },
-    { name: 'size', type: 'AerisButtonSize', defaultValue: "'md'", description: 'Control height and typography size.' },
-    { name: 'iconPosition', type: 'AerisButtonIconPosition', defaultValue: "'left'", description: 'Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically.' },
-    { name: 'loading', type: 'boolean', defaultValue: 'false', description: 'Displays progress and exposes aria-busy.' },
-    { name: 'showSpinner', type: 'boolean', defaultValue: 'true', description: 'Controls the built-in loading spinner.' },
-    { name: 'iconOnly', type: 'boolean', defaultValue: 'false', description: 'Creates a square icon button. Requires an accessible name.' },
+    {
+      name: 'variant',
+      type: 'AerisButtonVariant',
+      defaultValue: "'primary'",
+      description:
+        "Visual treatment of the button. Options: 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'.",
+    },
+    {
+      name: 'severity',
+      type: 'AerisButtonSeverity',
+      defaultValue: "'primary'",
+      description:
+        "Semantic color applied to the selected variant. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'.",
+    },
+    {
+      name: 'size',
+      type: 'AerisButtonSize',
+      defaultValue: "'md'",
+      description: "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'iconPosition',
+      type: 'AerisButtonIconPosition',
+      defaultValue: "'left'",
+      description:
+        "Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically. Options: 'left', 'right', 'top', 'bottom'.",
+    },
+    {
+      name: 'loading',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Displays progress and exposes aria-busy.',
+    },
+    {
+      name: 'showSpinner',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Controls the built-in loading spinner.',
+    },
+    {
+      name: 'iconOnly',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Creates a square icon button. Requires an accessible name.',
+    },
     { name: 'raised', type: 'boolean', defaultValue: 'false', description: 'Adds elevation.' },
-    { name: 'rounded', type: 'boolean', defaultValue: 'false', description: 'Uses a pill-shaped radius.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'false', description: 'Fills the available inline width.' },
-    { name: 'plain', type: 'boolean', defaultValue: 'false', description: 'Overrides semantic colors with a neutral treatment.' },
-    { name: 'text', type: 'boolean', defaultValue: 'false', description: "Compatibility alias for variant='ghost'." },
-    { name: 'outlined', type: 'boolean', defaultValue: 'false', description: "Compatibility alias for variant='outline'." },
-    { name: 'link', type: 'boolean', defaultValue: 'false', description: "Compatibility alias for variant='link'." },
+    {
+      name: 'rounded',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Uses a pill-shaped radius.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Fills the available inline width.',
+    },
+    {
+      name: 'plain',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Overrides semantic colors with a neutral treatment.',
+    },
+    {
+      name: 'text',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: "Compatibility alias for variant='ghost'.",
+    },
+    {
+      name: 'outlined',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: "Compatibility alias for variant='outline'.",
+    },
+    {
+      name: 'link',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: "Compatibility alias for variant='link'.",
+    },
   ];
 
   protected readonly componentInputs: readonly ApiRow[] = [
-    { name: 'type', type: "'button' | 'submit' | 'reset'", defaultValue: "'button'", description: 'Native button type.' },
-    { name: 'label', type: 'string', defaultValue: "''", description: 'Text rendered inside the button.' },
-    { name: 'badge', type: 'string | undefined', defaultValue: 'undefined', description: 'Optional badge value.' },
-    { name: 'badgeSeverity', type: 'AerisButtonSeverity', defaultValue: "'secondary'", description: 'Semantic badge color.' },
-    { name: 'ariaLabel', type: 'string | undefined', defaultValue: 'undefined', description: 'Accessible name, required for icon-only wrapper buttons.' },
-    { name: 'tabIndex', type: 'number | undefined', defaultValue: 'undefined', description: 'Native tabindex override.' },
-    { name: 'autofocus', type: 'boolean', defaultValue: 'false', description: 'Requests focus when rendered.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables interaction.' },
+    {
+      name: 'type',
+      type: "'button' | 'submit' | 'reset'",
+      defaultValue: "'button'",
+      description: 'Native button type.',
+    },
+    {
+      name: 'label',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Text rendered inside the button.',
+    },
+    {
+      name: 'badge',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'Optional badge value.',
+    },
+    {
+      name: 'badgeSeverity',
+      type: 'AerisButtonSeverity',
+      defaultValue: "'secondary'",
+      description:
+        "Semantic badge color. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'.",
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'Accessible name, required for icon-only wrapper buttons.',
+    },
+    {
+      name: 'tabIndex',
+      type: 'number | undefined',
+      defaultValue: 'undefined',
+      description: 'Native tabindex override.',
+    },
+    {
+      name: 'autofocus',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Requests focus when rendered.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables interaction.',
+    },
     ...this.directiveInputs.filter((row) => row.name !== 'showSpinner'),
-    { name: 'contentTemplate', type: 'TemplateRef<AerisButtonContentTemplateContext>', defaultValue: 'undefined', description: 'Replaces all default content and receives effective loading and disabled state.' },
-    { name: 'iconTemplate', type: 'TemplateRef<AerisButtonIconTemplateContext>', defaultValue: 'undefined', description: 'Custom idle icon.' },
-    { name: 'loadingIconTemplate', type: 'TemplateRef<AerisButtonIconTemplateContext>', defaultValue: 'undefined', description: 'Custom loading indicator.' },
+    {
+      name: 'contentTemplate',
+      type: 'TemplateRef<AerisButtonContentTemplateContext>',
+      defaultValue: 'undefined',
+      description:
+        'Replaces all default content and receives effective loading and disabled state.',
+    },
+    {
+      name: 'iconTemplate',
+      type: 'TemplateRef<AerisButtonIconTemplateContext>',
+      defaultValue: 'undefined',
+      description: 'Custom idle icon.',
+    },
+    {
+      name: 'loadingIconTemplate',
+      type: 'TemplateRef<AerisButtonIconTemplateContext>',
+      defaultValue: 'undefined',
+      description: 'Custom loading indicator.',
+    },
   ];
 
   protected toggleLoading(): void {
@@ -147,5 +277,4 @@ interface AerisButtonContentTemplateContext {
   protected createProject(_event: MouseEvent): void {
     this.clickCount.update((count) => count + 1);
   }
-
 }

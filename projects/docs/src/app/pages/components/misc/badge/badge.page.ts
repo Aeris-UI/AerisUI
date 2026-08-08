@@ -150,37 +150,166 @@ type AerisBadgeOverlayPosition =
   | 'bottom-left';`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'value', type: 'string | number | null | undefined', defaultValue: 'undefined', description: 'Text or number rendered inside the badge. Projected content is used when no value is provided.' },
-    { name: 'severity', type: 'AerisBadgeSeverity', defaultValue: "'primary'", description: 'Sets the semantic color accent.' },
-    { name: 'size', type: 'AerisBadgeSize', defaultValue: "'md'", description: 'Controls badge height, padding, and font size.' },
-    { name: 'variant', type: 'AerisBadgeVariant', defaultValue: "'solid'", description: 'Sets solid, soft, or outline visual treatment.' },
-    { name: 'shape', type: 'AerisBadgeShape', defaultValue: "'pill'", description: 'Sets pill or rounded rectangle corners.' },
-    { name: 'max', type: 'number | null', defaultValue: 'null', description: 'Caps numeric values and appends a plus sign when the value is larger.' },
-    { name: 'dot', type: 'boolean', defaultValue: 'false', description: 'Renders a compact status dot with no visible text.' },
-    { name: 'showZero', type: 'boolean', defaultValue: 'true', description: 'Controls whether numeric zero is rendered.' },
-    { name: 'hidden', type: 'boolean', defaultValue: 'false', description: 'Hides the badge visually and from assistive technology.' },
-    { name: 'decorative', type: 'boolean', defaultValue: 'false', description: 'Marks a purely visual badge as hidden from assistive technology.' },
-    { name: 'role', type: 'AerisBadgeRole', defaultValue: "''", description: 'Optional ARIA role for standalone status or note badges.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name for a meaningful badge that does not have enough visible text.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that names the badge.' },
+    {
+      name: 'value',
+      type: 'string | number | null | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Text or number rendered inside the badge. Projected content is used when no value is provided.',
+    },
+    {
+      name: 'severity',
+      type: 'AerisBadgeSeverity',
+      defaultValue: "'primary'",
+      description:
+        "Sets the semantic color accent. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'.",
+    },
+    {
+      name: 'size',
+      type: 'AerisBadgeSize',
+      defaultValue: "'md'",
+      description: "Controls badge height, padding, and font size. Options: 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'variant',
+      type: 'AerisBadgeVariant',
+      defaultValue: "'solid'",
+      description: 'Sets solid, soft, or outline visual treatment.',
+    },
+    {
+      name: 'shape',
+      type: 'AerisBadgeShape',
+      defaultValue: "'pill'",
+      description: 'Sets pill or rounded rectangle corners.',
+    },
+    {
+      name: 'max',
+      type: 'number | null',
+      defaultValue: 'null',
+      description: 'Caps numeric values and appends a plus sign when the value is larger.',
+    },
+    {
+      name: 'dot',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Renders a compact status dot with no visible text.',
+    },
+    {
+      name: 'showZero',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Controls whether numeric zero is rendered.',
+    },
+    {
+      name: 'hidden',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Hides the badge visually and from assistive technology.',
+    },
+    {
+      name: 'decorative',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Marks a purely visual badge as hidden from assistive technology.',
+    },
+    {
+      name: 'role',
+      type: 'AerisBadgeRole',
+      defaultValue: "''",
+      description: 'Optional ARIA role for standalone status or note badges.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name for a meaningful badge that does not have enough visible text.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that names the badge.',
+    },
   ];
 
   protected readonly overlayInputs: readonly ApiRow[] = [
-    { name: 'value', type: 'string | number | null | undefined', defaultValue: 'undefined', description: 'Text or number rendered in the visual overlay badge.' },
-    { name: 'severity', type: 'AerisBadgeSeverity', defaultValue: "'primary'", description: 'Sets the overlay badge color accent.' },
-    { name: 'size', type: 'AerisBadgeSize', defaultValue: "'md'", description: 'Controls overlay badge size.' },
-    { name: 'variant', type: 'AerisBadgeVariant', defaultValue: "'solid'", description: 'Sets solid, soft, or outline treatment.' },
-    { name: 'shape', type: 'AerisBadgeShape', defaultValue: "'pill'", description: 'Sets pill or rounded overlay corners.' },
-    { name: 'max', type: 'number | null', defaultValue: 'null', description: 'Caps numeric overlay values and appends a plus sign.' },
-    { name: 'dot', type: 'boolean', defaultValue: 'false', description: 'Renders the overlay as a compact status dot.' },
-    { name: 'showZero', type: 'boolean', defaultValue: 'true', description: 'Controls whether zero is rendered in the overlay.' },
-    { name: 'hidden', type: 'boolean', defaultValue: 'false', description: 'Hides the overlay badge.' },
-    { name: 'position', type: 'AerisBadgeOverlayPosition', defaultValue: "'top-right'", description: 'Places the overlay badge on one corner of the projected content.' },
+    {
+      name: 'value',
+      type: 'string | number | null | undefined',
+      defaultValue: 'undefined',
+      description: 'Text or number rendered in the visual overlay badge.',
+    },
+    {
+      name: 'severity',
+      type: 'AerisBadgeSeverity',
+      defaultValue: "'primary'",
+      description:
+        "Sets the overlay badge color accent. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'.",
+    },
+    {
+      name: 'size',
+      type: 'AerisBadgeSize',
+      defaultValue: "'md'",
+      description: "Controls overlay badge size. Options: 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'variant',
+      type: 'AerisBadgeVariant',
+      defaultValue: "'solid'",
+      description: 'Sets solid, soft, or outline treatment.',
+    },
+    {
+      name: 'shape',
+      type: 'AerisBadgeShape',
+      defaultValue: "'pill'",
+      description: 'Sets pill or rounded overlay corners.',
+    },
+    {
+      name: 'max',
+      type: 'number | null',
+      defaultValue: 'null',
+      description: 'Caps numeric overlay values and appends a plus sign.',
+    },
+    {
+      name: 'dot',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Renders the overlay as a compact status dot.',
+    },
+    {
+      name: 'showZero',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Controls whether zero is rendered in the overlay.',
+    },
+    {
+      name: 'hidden',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Hides the overlay badge.',
+    },
+    {
+      name: 'position',
+      type: 'AerisBadgeOverlayPosition',
+      defaultValue: "'top-right'",
+      description:
+        "Places the overlay badge on one corner of the projected content. Options: 'top-right', 'top-left', 'bottom-right', 'bottom-left'.",
+    },
   ];
 
   protected readonly content: readonly ApiRow[] = [
-    { name: 'default badge content', type: 'content projection', defaultValue: '-', description: 'Text or inline content rendered inside Badge when value is not provided.' },
-    { name: 'default overlay content', type: 'content projection', defaultValue: '-', description: 'Button, icon, avatar, or other content that receives a visual badge overlay.' },
+    {
+      name: 'default badge content',
+      type: 'content projection',
+      defaultValue: '-',
+      description: 'Text or inline content rendered inside Badge when value is not provided.',
+    },
+    {
+      name: 'default overlay content',
+      type: 'content projection',
+      defaultValue: '-',
+      description: 'Button, icon, avatar, or other content that receives a visual badge overlay.',
+    },
   ];
 
   protected addUnread(): void {

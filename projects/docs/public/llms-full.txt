@@ -60,7 +60,7 @@ Use the Angular initializer for the recommended guided installation. It selects 
 
 The initializer detects Tailwind CSS and Bootstrap, keeps their styles before Aeris, and never installs an icon library. Ordinary package installation remains silent for teams that prefer the manual steps below.
 
-Aeris is available from the public npm registry. Pin the exact alpha version shown below for reproducible installs, or use the next tag when intentionally evaluating the newest prerelease. Repository contributors can still use a local tarball to verify workspace changes.
+Aeris is available from the public npm registry. Pin the exact alpha version shown below for reproducible installs, or use the next tag when intentionally evaluating the newest prerelease.
 
 Schemes decide which light and dark token sets are available. Mode decides which available scheme is active when the application starts.
 
@@ -86,16 +86,6 @@ ng add @aeris-ui/core@22.0.0-alpha.4
 
 ```bash
 ng add @aeris-ui/core@next
-```
-
-##### Repository tarball
-
-```bash
-# Run from the Aeris repository
-npm run pack:lib
-
-# Run from the Angular application
-ng add "../path-to-aeris/dist/packages/aeris-ui-core-22.0.0-alpha.4.tgz"
 ```
 
 - [@aeris-ui/core on npm](https://www.npmjs.com/package/@aeris-ui/core)
@@ -1534,9 +1524,11 @@ The server bundles the canonical documentation generated for its exact Aeris ver
 
 > Note: Pin the MCP and core packages to the same exact alpha version.
 
-#### Configure the package
+#### Use the published package
 
-The published @aeris-ui/mcp package is available from the public npm registry. Add an Aeris server entry to the MCP configuration used by the chosen client. The configuration file location and outer property name differ between clients, but the command and arguments remain the same.
+The published @aeris-ui/mcp package is available from the public npm registry. The recommended setup uses npx, which downloads and runs the pinned package for the MCP client, so there is no separate installation step and nothing is added to the Angular application.
+
+Add an Aeris server entry to the MCP configuration used by the chosen client. The configuration file location and outer property name differ between clients, but the command and arguments remain the same.
 
 Pin the exact version during alpha so the MCP documentation cannot move independently from the Aeris package being evaluated.
 
@@ -1557,28 +1549,25 @@ Pin the exact version during alpha so the MCP documentation cannot move independ
 
 - [@aeris-ui/mcp on npm](https://www.npmjs.com/package/@aeris-ui/mcp)
 
-#### Use the repository build
+#### Install it globally instead
 
-Build the package in this repository, then configure the MCP client to launch the generated CLI with Node.js. Replace the example path with the absolute path on the local machine; forward slashes work in JSON on Windows.
+If the MCP client cannot use npx, or a persistent local installation is preferred, install the executable globally and configure the client to launch aeris-mcp directly. Keep the installed version aligned with @aeris-ui/core.
 
-> Note: Launching the CLI directly in a terminal appears to wait silently because it is expecting protocol messages on stdin. Test it through an MCP client or protocol inspector instead.
+> Note: After installing or updating the global package, restart the MCP client. The npm global binary directory must be available on PATH.
 
-##### Build and verify
+##### Install the MCP executable
 
 ```bash
-npm run build:mcp
-npm run test:mcp
-npm run check:mcp-package
+npm install --global @aeris-ui/mcp@22.0.0-alpha.4
 ```
 
-##### Local MCP client configuration
+##### Global installation configuration
 
 ```json
 {
   "mcpServers": {
-    "aeris-local": {
-      "command": "node",
-      "args": ["D:/path/to/AerisUI/dist/aeris-mcp/cli.js"]
+    "aeris": {
+      "command": "aeris-mcp"
     }
   }
 }
@@ -1621,7 +1610,6 @@ The AI client still controls which tools it permits a model to call and how retu
 | Problem | Check |
 | --- | --- |
 | The server is not listed | Validate the client configuration format and restart the client |
-| The local build cannot start | Run npm run build:mcp and use an absolute path to dist/aeris-mcp/cli.js |
 | npx cannot find the package | The requested package version does not exist or npm registry access is unavailable |
 | The terminal appears frozen | The stdio server is waiting for an MCP client; it has no interactive terminal UI |
 | Documentation does not match the app | Pin @aeris-ui/mcp to the same exact version as @aeris-ui/core |
@@ -1864,7 +1852,7 @@ The published package declares Angular Common, Core, and Forms as peer dependenc
 
 Check the installed package metadata when diagnosing a version conflict instead of relying only on a copied installation command.
 
-The npm lookup command becomes available after the first package is published. Before then, inspect projects/aeris-ui/package.json or the metadata inside the locally built tarball.
+Check the peer dependency range for the version you plan to install before updating Angular or Aeris.
 
 ##### Shell
 
@@ -2029,21 +2017,21 @@ Alpha patch · 28 July 2026
 - Refine the Coastal, Earth, and Orchid palettes with more cohesive, role-based color systems.
 - Use subtle neutral boundaries consistently across Aeris components and documentation surfaces.
 - Keep generated examples, AI documentation, and theme metadata synchronized with the updated tokens.
-- Refresh the Angular toolchain and routine development dependencies without changing the supported Angular 22 peer range.
+- Keep the supported Angular 22 range unchanged while refreshing compatible runtime integrations.
 - Show guided and package-only installation commands directly on the landing page.
 
 #### Aeris 22.0.0-alpha.2
 
 Alpha patch · 28 July 2026
 
-- Publish Core and MCP through versioned GitHub Releases using npm trusted publishing.
+- Provide version-matched Core and MCP packages for consistent application and AI documentation.
 - Refresh the Earth theme and centralize component fallback colors in the theming layer.
 - Render Tabs correctly on the first lazy navigation.
 - Polish Toast stacking, motion, rapid interactions, and pointer or touch swipe dismissal.
 - Align ContextMenu corner radii and animate MeterGroup fills from the logical start edge.
 - Add discreet sponsorship and supporter-recognition guidance.
 - Clarify Aeris UI open-source positioning and production canonical URLs.
-- Update development dependencies while retaining the supported Angular 22 peer range.
+- Retain the supported Angular 22 peer range while updating compatible integrations.
 
 #### Aeris 22.0.0-alpha.1
 
@@ -2062,7 +2050,7 @@ Published alpha · 22 July 2026
 - Provide semantic theming with palettes, light and dark modes, density, corner styles, and RTL.
 - Document component APIs, accessibility behavior, design tokens, and responsive examples.
 - Publish version-matched AI documentation and the local read-only @aeris-ui/mcp package.
-- Verify package exports, dependencies, preserved CSS, and tarball contents in CI.
+- Ship verified package exports, dependencies, global styles, and secondary entry points.
 
 #### Planning an update
 
@@ -2110,9 +2098,9 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
 | `clearButtonAriaLabel` | `string` | `'Clear value'` | Accessible name for the clear button. |
 | `emptyMessage` | `string` | `'No suggestions found'` | Message shown when filtering returns no enabled suggestions. |
 | `loadingMessage` | `string` | `'Loading suggestions'` | Message shown while loading is true. |
-| `size` | `AerisAutoCompleteSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisAutoCompleteAppearance` | `'outline'` | Outlined or filled visual treatment. |
-| `filterMatchMode` | `AerisAutoCompleteFilterMatchMode` | `'contains'` | Local filtering strategy applied to label, value, description, and group. |
+| `size` | `AerisAutoCompleteSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisAutoCompleteAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
+| `filterMatchMode` | `AerisAutoCompleteFilterMatchMode` | `'contains'` | Local filtering strategy applied to label, value, description, and group. Options: 'contains', 'startsWith', 'endsWith', 'equals'. |
 | `minLength` | `number` | `1` | Minimum query length before suggestions are shown unless completeOnFocus is enabled. |
 | `panelMaxHeight` | `string` | `'16rem'` | Maximum dropdown panel height. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
@@ -3147,8 +3135,8 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 | `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
 | `clearButtonAriaLabel` | `string` | `'Clear value'` | Accessible name for the clear button. |
 | `emptyMessage` | `string` | `'No options available'` | Message shown when the options tree is empty. |
-| `size` | `AerisCascadeSelectSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisCascadeSelectAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisCascadeSelectSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisCascadeSelectAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `separator` | `string` | `' / '` | Text used between labels in the selected path. |
 | `panelMaxHeight` | `string` | `'18rem'` | Maximum dropdown panel height. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
@@ -3948,8 +3936,8 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name for a checkbox without visible label content. |
 | `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of external labeling elements. |
 | `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
-| `size` | `AerisCheckboxSize` | `'md'` | Control and label size. |
-| `labelPosition` | `AerisCheckboxLabelPosition` | `'end'` | Places the visible label before or after the control. |
+| `size` | `AerisCheckboxSize` | `'md'` | Control and label size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `labelPosition` | `AerisCheckboxLabelPosition` | `'end'` | Places the visible label before or after the control. Options: 'start', 'end'. |
 | `tabIndex` | `number` | `0` | Native tab order value for composite widgets that manage focus. |
 | `disabled` | `boolean` | `false` | Disables native interaction and form submission. |
 | `required` | `boolean` | `false` | Exposes native required validation semantics. |
@@ -4562,10 +4550,10 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
 | `value` | `string (model)` | `'#5f6f36'` | Current color value with two-way binding and Forms support. |
-| `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. |
+| `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. Options: 'hex', 'rgb', 'hsl'. |
 | `inputId` | `string` | `generated` | ID assigned to the visible color-picker trigger for label association. |
 | `name` | `string` | `''` | Native form field name submitted through a hidden input. |
-| `formats` | `readonly AerisColorFormat[]` | `['hex', 'rgb', 'hsl']` | Formats offered by the panel format selector. |
+| `formats` | `readonly AerisColorFormat[]` | `['hex', 'rgb', 'hsl']` | Formats offered by the panel format selector. Options: 'hex', 'rgb', 'hsl'. |
 | `placeholder` | `string` | `'Enter color'` | Placeholder for the optional text input. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name for the visible trigger when no visible label is available. |
 | `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of visible elements that label the trigger. |
@@ -4583,8 +4571,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | `clearButtonAriaLabel` | `string` | `'Clear color'` | Accessible name for the clear button. |
 | `closeButtonAriaLabel` | `string` | `'Close color picker'` | Accessible name for panel dismissal controls. |
 | `eyeDropperAriaLabel` | `string` | `'Pick a color from the screen'` | Accessible name for the optional browser-provided eyedropper action. |
-| `size` | `AerisColorPickerSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisColorPickerAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisColorPickerSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisColorPickerAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `presets` | `readonly string[]` | `[]` | Preset colors shown inside the picker panel. Hex, rgb(), and hsl() strings are accepted. |
 | `showInput` | `boolean` | `true` | Shows the editable text value input next to the trigger. |
 | `showValue` | `boolean` | `true` | Shows the formatted color text inside the trigger. When false, the trigger becomes a square swatch button. |
@@ -4602,7 +4590,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `valueChange` | `string` | `-` | Emitted automatically by the value model. |
-| `formatChange` | `AerisColorFormat` | `-` | Emitted automatically when the format model changes. |
+| `formatChange` | `AerisColorFormat` | `-` | Emitted automatically when the format model changes. Options: 'hex', 'rgb', 'hsl'. |
 | `valueInput` | `string` | `-` | Emitted when user interaction changes the value. |
 | `changed` | `AerisColorPickerChangeEvent` | `-` | Emitted when the user commits a plane, hue, format, text, preset, or screen-sampled change. |
 | `focused` | `FocusEvent` | `-` | Emitted when an editable picker control receives focus. |
@@ -5485,9 +5473,9 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
 | `value` | `AerisDatePickerValue (model)` | `null` | Selected Date, date array, or range according to selectionMode. |
-| `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. |
+| `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. Options: 'single', 'multiple', 'range'. |
 | `view` | `AerisDatePickerView` | `'day'` | Chooses day, month, or year selection granularity. |
-| `mode` | `AerisDatePickerMode` | `'date'` | Chooses date-only, date-and-time, or time-only entry. |
+| `mode` | `AerisDatePickerMode` | `'date'` | Chooses date-only, date-and-time, or time-only entry. Options: 'date', 'dateTime', 'time'. |
 | `inputId` | `string` | `generated` | ID assigned to the popup trigger. |
 | `name` | `string` | `''` | Native hidden field name. Values are serialized as local date, date-time, time, range, or list strings. |
 | `placeholder` | `string` | `'Choose a date'` | Text shown while no value is selected. |
@@ -5495,11 +5483,11 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | `ariaLabelledby` | `string` | `''` | IDs of elements that label the trigger. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
 | `calendarAriaLabel` | `string` | `'Choose a date'` | Accessible name for the calendar dialog. |
-| `size` | `AerisDatePickerSize` | `'md'` | Control density from extra small through large. |
-| `appearance` | `AerisDatePickerAppearance` | `'outline'` | Outlined or filled field treatment. |
+| `size` | `AerisDatePickerSize` | `'md'` | Control density from extra small through large. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisDatePickerAppearance` | `'outline'` | Outlined or filled field treatment. Options: 'outline', 'filled'. |
 | `locale` | `string` | `'en-US'` | BCP 47 locale used for labels and formatted values. |
-| `dateStyle` | `AerisDatePickerDateStyle` | `'medium'` | Intl.DateTimeFormat date style used in the trigger. |
-| `hourCycle` | `AerisDatePickerHourCycle` | `'24'` | Formats and edits time with 24-hour or 12-hour controls. |
+| `dateStyle` | `AerisDatePickerDateStyle` | `'medium'` | Intl.DateTimeFormat date style used in the trigger. Options: 'short', 'medium', 'long', 'full'. |
+| `hourCycle` | `AerisDatePickerHourCycle` | `'24'` | Formats and edits time with 24-hour or 12-hour controls. Options: 12, 24. |
 | `showSeconds` | `boolean` | `false` | Adds a seconds field to date-time and time-only modes. |
 | `minuteStep` | `number` | `1` | Native step value for the minute input, clamped from 1 through 59. |
 | `secondStep` | `number` | `1` | Native step value for the seconds input, clamped from 1 through 59. |
@@ -6563,8 +6551,8 @@ import { AerisEditor } from '@aeris-ui/core/editor';
 | `ariaLabelledby` | `string` | `''` | IDs of visible elements that label the editor. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
 | `toolbarAriaLabel` | `string` | `'Formatting tools'` | Accessible name for the toolbar. |
-| `size` | `AerisEditorSize` | `'md'` | Controls editor typography and padding. |
-| `appearance` | `AerisEditorAppearance` | `'outline'` | Outlined or filled surface treatment. |
+| `size` | `AerisEditorSize` | `'md'` | Controls editor typography and padding. Options: 'sm', 'md', 'lg'. |
+| `appearance` | `AerisEditorAppearance` | `'outline'` | Outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `minHeight` | `string` | `'12rem'` | Minimum content area height. |
 | `formats` | `readonly AerisEditorFormat[]` | `AERIS_EDITOR_DEFAULT_FORMATS` | Controls which toolbar actions are rendered. Use AERIS_EDITOR_ALL_FORMATS for every built-in action. |
 | `namespace` | `string` | `'AerisEditor'` | Lexical namespace used when creating the editor instance. |
@@ -7397,9 +7385,9 @@ import { AerisIconField } from '@aeris-ui/core/icon-field';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `iconPosition` | `'left' &#124; 'right'` | `'left'` | Places content marked with aerisIcon before or after the projected control. |
-| `size` | `AerisIconFieldSize` | `'md'` | Controls height, padding, icon size, and text size. |
-| `appearance` | `AerisIconFieldAppearance` | `'outline'` | Outlined or filled field surface. |
-| `density` | `AerisIconFieldDensity` | `'comfortable'` | Adjusts spacing between icon and control. |
+| `size` | `AerisIconFieldSize` | `'md'` | Controls height, padding, icon size, and text size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisIconFieldAppearance` | `'outline'` | Outlined or filled field surface. Options: 'outline', 'filled'. |
+| `density` | `AerisIconFieldDensity` | `'comfortable'` | Adjusts spacing between icon and control. Options: 'comfortable', 'compact'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid to the field wrapper. |
 | `disabled` | `boolean` | `false` | Applies disabled field styling. Keep the projected control disabled as well. |
 | `readonly` | `boolean` | `false` | Applies read-only field styling. Keep the projected control read-only as well. |
@@ -8254,8 +8242,8 @@ import { AerisInputGroup } from '@aeris-ui/core/input-group';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `size` | `AerisInputGroupSize` | `'md'` | Controls addon height, font size, and grouped native-control size. |
-| `appearance` | `AerisInputGroupAppearance` | `'outline'` | Outlined or filled treatment for grouped controls, addons, and attached buttons. |
+| `size` | `AerisInputGroupSize` | `'md'` | Controls addon height, font size, and grouped native-control size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisInputGroupAppearance` | `'outline'` | Outlined or filled treatment for grouped controls, addons, and attached buttons. Options: 'outline', 'filled'. |
 | `mode` | `AerisInputGroupMode` | `'attached'` | Attached creates shared-addon groups. Embedded positions icon addons inside a normal-looking input. |
 | `orientation` | `'horizontal' &#124; 'vertical'` | `'horizontal'` | Stacks group items vertically when horizontal space is constrained or the design needs stacked controls. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid to the group wrapper. |
@@ -9294,7 +9282,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
 | `name` | `string` | `''` | Native input name. |
 | `placeholder` | `string` | `''` | Custom placeholder that overrides the generated mask placeholder. |
 | `autocomplete` | `string` | `'off'` | Native autocomplete hint. |
-| `inputMode` | `string` | `'text'` | Virtual keyboard hint such as tel or numeric. |
+| `inputMode` | `'text' &#124; 'numeric' &#124; 'tel' &#124; 'email' &#124; 'url' &#124; 'search'` | `'text'` | Virtual keyboard hint used to select an appropriate on-screen keyboard. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label is associated. |
 | `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
 | `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
@@ -9304,8 +9292,8 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
 | `autoClear` | `boolean` | `false` | Clears incomplete input when focus leaves the field. |
 | `clearable` | `boolean` | `false` | Shows an inline clear button while a value is present. |
 | `clearButtonAriaLabel` | `string` | `'Clear value'` | Accessible name for the clear button. |
-| `size` | `AerisInputMaskSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisInputMaskAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisInputMaskSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisInputMaskAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `disabled` | `boolean` | `false` | Disables input and clear interaction. |
 | `readonly` | `boolean` | `false` | Allows focus and selection without editing. |
 | `required` | `boolean` | `false` | Exposes native required semantics. |
@@ -10307,7 +10295,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
 | `locale` | `string` | `'en-US'` | BCP 47 locale used by Intl.NumberFormat. |
 | `mode` | `'decimal' &#124; 'currency'` | `'decimal'` | Number formatting mode. |
 | `currency` | `string` | `'USD'` | ISO 4217 currency code used in currency mode. |
-| `currencyDisplay` | `AerisInputNumberCurrencyDisplay` | `'symbol'` | Currency label style. |
+| `currencyDisplay` | `AerisInputNumberCurrencyDisplay` | `'symbol'` | Currency label style. Options: 'symbol', 'narrowSymbol', 'code', 'name'. |
 | `prefix` | `string` | `''` | Text displayed before the editable value. |
 | `suffix` | `string` | `''` | Text displayed after the editable value. |
 | `min` | `number &#124; undefined` | `undefined` | Minimum committed and stepped value. |
@@ -10320,12 +10308,12 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
 | `clearable` | `boolean` | `false` | Shows an inline suffix button while a value is present. |
 | `clearButtonAriaLabel` | `string` | `'Clear value'` | Accessible name for the clear button. |
 | `showButtons` | `boolean` | `false` | Shows increment and decrement controls. |
-| `buttonLayout` | `AerisInputNumberButtonLayout` | `'stacked'` | Positions the step controls. |
+| `buttonLayout` | `AerisInputNumberButtonLayout` | `'stacked'` | Positions the step controls. Options: 'stacked', 'horizontal', 'vertical'. |
 | `buttonTabIndex` | `number` | `-1` | Tab index for step buttons; the input remains the primary tab stop. |
 | `incrementButtonAriaLabel` | `string` | `'Increase value'` | Accessible name for increment. |
 | `decrementButtonAriaLabel` | `string` | `'Decrease value'` | Accessible name for decrement. |
-| `size` | `AerisInputNumberSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisInputNumberAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisInputNumberSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisInputNumberAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `disabled` | `boolean` | `false` | Disables all interaction. |
 | `readonly` | `boolean` | `false` | Allows focus and selection without editing. |
 | `required` | `boolean` | `false` | Exposes required semantics. |
@@ -11482,8 +11470,8 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 | `ariaLabelledby` | `string` | `''` | IDs of visible elements that label the complete group. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages for the group. |
 | `slotAriaLabel` | `string` | `'Character {0} of {1}'` | Localized accessible label pattern for each slot. |
-| `size` | `AerisInputOtpSize` | `'md'` | Slot dimensions and typography size. |
-| `appearance` | `AerisInputOtpAppearance` | `'outline'` | Outlined or filled slot treatment. |
+| `size` | `AerisInputOtpSize` | `'md'` | Slot dimensions and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisInputOtpAppearance` | `'outline'` | Outlined or filled slot treatment. Options: 'outline', 'filled'. |
 | `mask` | `boolean` | `false` | Masks each entered character using password input rendering. |
 | `autoFocus` | `boolean` | `false` | Focuses the first slot after the component renders. |
 | `selectOnFocus` | `boolean` | `true` | Selects an existing slot value when that slot receives focus. |
@@ -12392,8 +12380,8 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. |
-| `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. |
+| `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
 | `fluid` | `boolean` | `false` | Expands the native input to fill its available inline space. |
 
@@ -12410,8 +12398,8 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label is associated. |
 | `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
 | `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help or validation messages. |
-| `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. |
-| `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. |
+| `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
 | `fluid` | `boolean` | `false` | Expands the native input to fill its available inline space. |
 | `disabled` | `boolean` | `false` | Disables the input and clear action. |
@@ -13990,8 +13978,8 @@ import { AerisMultiSelect, type AerisSelectOption } from '@aeris-ui/core/multi-s
 | `ariaLabelledby` | `string` | `''` | IDs of visible elements that label the field. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
 | `listboxAriaLabel` | `string` | `'Options'` | Accessible name for the multi-select listbox. |
-| `size` | `AerisMultiSelectSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisMultiSelectAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisMultiSelectSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisMultiSelectAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `display` | `AerisMultiSelectDisplay` | `'summary'` | Displays a text summary or removable chips. |
 | `selectedItemsLabel` | `string` | `'{0} items selected'` | Summary used after the visible label threshold. |
 | `maxSelectedLabels` | `number` | `3` | Maximum labels or chips shown before a count is used. |
@@ -15083,8 +15071,8 @@ import { AerisPassword } from '@aeris-ui/core/password';
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label exists. |
 | `ariaLabelledby` | `string` | `''` | IDs of visible elements that label the field. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
-| `size` | `AerisPasswordSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisPasswordAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisPasswordSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisPasswordAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `minLength` | `number` | `8` | Native minimum length and default feedback requirement. |
 | `maxLength` | `number &#124; undefined` | `undefined` | Optional native maximum length. |
 | `toggleMask` | `boolean` | `true` | Shows the visibility toggle. |
@@ -16068,8 +16056,8 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
 | `name` | `string` | `''` | Native radio group name. Use the same value for related options. |
 | `inputId` | `string` | `generated` | ID assigned to the native radio input. |
 | `label` | `string` | `''` | Optional text label. Projected label content is also supported. |
-| `size` | `AerisRadioButtonSize` | `'md'` | Control and label size. |
-| `labelPosition` | `AerisRadioButtonLabelPosition` | `'end'` | Places the visible label before or after the control. |
+| `size` | `AerisRadioButtonSize` | `'md'` | Control and label size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `labelPosition` | `AerisRadioButtonLabelPosition` | `'end'` | Places the visible label before or after the control. Options: 'start', 'end'. |
 | `disabled` | `boolean` | `false` | Disables native interaction and form participation. |
 | `required` | `boolean` | `false` | Applies native required validation to the group. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
@@ -16782,7 +16770,7 @@ import { AerisRating } from '@aeris-ui/core/rating';
 | `allowClear` | `boolean` | `true` | Allows setting the rating to zero with repeat click, Home, Delete, Backspace, clear(), or reset(). |
 | `disabled` | `boolean` | `false` | Disables pointer, keyboard, and form interaction. |
 | `required` | `boolean` | `false` | Sets aria-required for validation flows. |
-| `size` | `AerisRatingSize` | `'md'` | Visual star size. |
+| `size` | `AerisRatingSize` | `'md'` | Visual star size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `showValue` | `boolean` | `false` | Shows formatted value text next to the rating. |
 | `name` | `string` | `''` | Hidden native form field name. |
 | `inputId` | `string` | `generated` | ID applied to the focusable rating control. |
@@ -17560,8 +17548,8 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 | `ariaLabelledby` | `string` | `''` | IDs of elements that label the combobox. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
 | `listboxAriaLabel` | `string` | `'Options'` | Accessible name for the options list. |
-| `size` | `AerisSelectSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisSelectAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisSelectSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisSelectAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `disabled` | `boolean` | `false` | Disables opening, selection, clearing, and Forms interaction. |
 | `required` | `boolean` | `false` | Exposes aria-required for validation. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
@@ -17570,7 +17558,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 | `editable` | `boolean` | `false` | Allows free-form values in addition to listed options. |
 | `filter` | `boolean` | `false` | Adds an accessible search field to the options panel. |
 | `filterValue` | `string (model)` | `''` | Controlled filter query with two-way binding. |
-| `filterMatchMode` | `AerisSelectFilterMatchMode` | `'contains'` | Matching strategy for local filtering. |
+| `filterMatchMode` | `AerisSelectFilterMatchMode` | `'contains'` | Matching strategy for local filtering. Options: 'contains', 'startsWith', 'endsWith', 'equals'. |
 | `filterFields` | `readonly ('label' &#124; 'description' &#124; 'group')[]` | `['label']` | Option fields included in local filtering. |
 | `filterLocale` | `string &#124; undefined` | `undefined` | Locale used for case normalization. |
 | `filterPlaceholder` | `string` | `'Search options'` | Visible filter placeholder. |
@@ -19019,7 +19007,7 @@ import { AerisSlider } from '@aeris-ui/core/slider';
 | `pageStep` | `number &#124; undefined` | `10% of range` | Increment used by Page Up and Page Down. |
 | `orientation` | `AerisSliderOrientation` | `'horizontal'` | Horizontal or vertical track layout. |
 | `reversed` | `boolean` | `false` | Reverses visual direction and arrow-key increments. |
-| `size` | `AerisSliderSize` | `'md'` | Track thickness and thumb size. |
+| `size` | `AerisSliderSize` | `'md'` | Track thickness and thumb size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `name` | `string` | `''` | Hidden native form field name. |
 | `inputId` | `string` | `generated` | Single-thumb ID or base ID for range thumbs. |
 | `ariaLabel` | `string` | `'Value'` | Accessible name for a single slider thumb. |
@@ -19844,9 +19832,9 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `size` | `AerisTextareaSize` | `'md'` | Sets the padding, font size, and minimum height. |
-| `appearance` | `AerisTextareaAppearance` | `'outline'` | Selects the outlined or filled surface treatment. |
-| `resize` | `AerisTextareaResize` | `'vertical'` | Controls the native browser resize handle. |
+| `size` | `AerisTextareaSize` | `'md'` | Sets the padding, font size, and minimum height. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisTextareaAppearance` | `'outline'` | Selects the outlined or filled surface treatment. Options: 'outline', 'filled'. |
+| `resize` | `AerisTextareaResize` | `'vertical'` | Controls the native browser resize handle. Options: 'none', 'vertical', 'horizontal', 'both'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
 | `fluid` | `boolean` | `false` | Expands the textarea to its container width. |
 
@@ -19867,9 +19855,9 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label is available. |
 | `ariaLabelledby` | `string` | `''` | IDs of elements that label the textarea. |
 | `ariaDescribedby` | `string` | `''` | IDs of help or validation messages. |
-| `size` | `AerisTextareaSize` | `'md'` | Sets the padding, font size, and minimum height. |
-| `appearance` | `AerisTextareaAppearance` | `'outline'` | Selects the outlined or filled surface treatment. |
-| `resize` | `AerisTextareaResize` | `'vertical'` | Controls the native browser resize handle. |
+| `size` | `AerisTextareaSize` | `'md'` | Sets the padding, font size, and minimum height. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisTextareaAppearance` | `'outline'` | Selects the outlined or filled surface treatment. Options: 'outline', 'filled'. |
+| `resize` | `AerisTextareaResize` | `'vertical'` | Controls the native browser resize handle. Options: 'none', 'vertical', 'horizontal', 'both'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
 | `fluid` | `boolean` | `false` | Expands the textarea to its container width. |
 | `disabled` | `boolean` | `false` | Disables editing and the clear action. |
@@ -20873,8 +20861,8 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label content exists. |
 | `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of external elements that label the switch. |
 | `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
-| `size` | `AerisToggleSwitchSize` | `'md'` | Track, thumb, gap, and label size. |
-| `labelPosition` | `AerisToggleSwitchLabelPosition` | `'end'` | Places visible label content before or after the control. |
+| `size` | `AerisToggleSwitchSize` | `'md'` | Track, thumb, gap, and label size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `labelPosition` | `AerisToggleSwitchLabelPosition` | `'end'` | Places visible label content before or after the control. Options: 'start', 'end'. |
 | `disabled` | `boolean` | `false` | Disables interaction and native form submission. |
 | `required` | `boolean` | `false` | Exposes native required validation semantics. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
@@ -21399,8 +21387,8 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
 | `ariaLabelledby` | `string` | `''` | IDs of elements that label the combobox. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
 | `treeAriaLabel` | `string` | `'Tree options'` | Accessible name for the popup tree. |
-| `size` | `AerisTreeSelectSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisTreeSelectAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisTreeSelectSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisTreeSelectAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `disabled` | `boolean` | `false` | Disables opening, selection, clearing, and forms interaction. |
 | `required` | `boolean` | `false` | Exposes aria-required for validation. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
@@ -22232,10 +22220,10 @@ import { AerisButton } from '@aeris-ui/core/button';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `variant` | `AerisButtonVariant` | `'primary'` | Visual treatment of the button. |
-| `severity` | `AerisButtonSeverity` | `'primary'` | Semantic color applied to the selected variant. |
-| `size` | `AerisButtonSize` | `'md'` | Control height and typography size. |
-| `iconPosition` | `AerisButtonIconPosition` | `'left'` | Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically. |
+| `variant` | `AerisButtonVariant` | `'primary'` | Visual treatment of the button. Options: 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. |
+| `severity` | `AerisButtonSeverity` | `'primary'` | Semantic color applied to the selected variant. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. |
+| `size` | `AerisButtonSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `iconPosition` | `AerisButtonIconPosition` | `'left'` | Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically. Options: 'left', 'right', 'top', 'bottom'. |
 | `loading` | `boolean` | `false` | Displays progress and exposes aria-busy. |
 | `showSpinner` | `boolean` | `true` | Controls the built-in loading spinner. |
 | `iconOnly` | `boolean` | `false` | Creates a square icon button. Requires an accessible name. |
@@ -22455,7 +22443,7 @@ Each semantic tone supplies its own base, hover, active, and accessible foregrou
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisButton } from '@aeris-ui/core/button';
+import { AerisButton, type AerisButtonSeverity } from '@aeris-ui/core/button';
 
 @Component({
   selector: 'app-feature-severity-demo',
@@ -22489,6 +22477,15 @@ import { AerisButton } from '@aeris-ui/core/button';
   `
 })
 export class FeatureSeveritySeverityDemo {
+  protected readonly severities: readonly AerisButtonSeverity[] = [
+    'primary',
+    'secondary',
+    'success',
+    'info',
+    'warning',
+    'danger',
+    'contrast',
+  ];
 }
 ```
 
@@ -22879,7 +22876,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
 | --- | --- | --- | --- |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name for the group when no visible label exists. |
 | `ariaLabelledBy` | `string &#124; undefined` | `undefined` | ID of visible text that labels the group. |
-| `orientation` | `AerisButtonGroupOrientation` | `'horizontal'` | Connects child controls horizontally or vertically. |
+| `orientation` | `AerisButtonGroupOrientation` | `'horizontal'` | Connects child controls horizontally or vertically. Options: 'horizontal', 'vertical'. |
 | `fluid` | `boolean` | `false` | Fills the available width and distributes children evenly. |
 | `responsive` | `boolean` | `false` | Stacks a horizontal group vertically below 40rem. |
 
@@ -23349,7 +23346,7 @@ from '@aeris-ui/core/speed-dial';
 | `id` | `string` | `generated` | Stable base ID for the trigger, menu, and items. |
 | `model` | `readonly AerisSpeedDialItem&lt;T&gt;[]` | `[]` | Actions displayed by the menu. |
 | `visible` | `boolean (model)` | `false` | Controls open state and supports two-way binding. |
-| `direction` | `AerisSpeedDialDirection` | `'up'` | Direction used by linear and partial-circle layouts. |
+| `direction` | `AerisSpeedDialDirection` | `'up'` | Direction used by linear and partial-circle layouts. Options: 'up', 'down', 'left', 'right', 'up-left', 'up-right', 'down-left', 'down-right'. |
 | `type` | `AerisSpeedDialType` | `'linear'` | Linear, circle, semi-circle, or quarter-circle layout. |
 | `maxItems` | `number &#124; undefined` | `layout limit` | Optionally lowers the limit. Linear and quarter-circle allow 5, semi-circle allows 7, and circle allows 8. |
 | `radius` | `number` | `0` | Radial distance in pixels. Zero derives a radius from item count. |
@@ -24392,9 +24389,9 @@ from '@aeris-ui/core/split-button';
 | `model` | `readonly AerisSplitButtonItem&lt;T&gt;[]` | `[]` | Popup menu commands, links, separators, and item states. |
 | `open` | `boolean (model)` | `false` | Controls popup visibility and supports two-way binding. |
 | `type` | `'button' &#124; 'submit' &#124; 'reset'` | `'button'` | Native primary button type. |
-| `variant` | `AerisSplitButtonVariant` | `'primary'` | Visual treatment shared by both button segments. |
-| `severity` | `AerisSplitButtonSeverity` | `'primary'` | Semantic color shared by both segments. |
-| `size` | `AerisSplitButtonSize` | `'md'` | Control height and typography size. |
+| `variant` | `AerisSplitButtonVariant` | `'primary'` | Visual treatment shared by both button segments. Options: 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. |
+| `severity` | `AerisSplitButtonSeverity` | `'primary'` | Semantic color shared by both segments. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. |
+| `size` | `AerisSplitButtonSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `disabled` | `boolean` | `false` | Disables the primary action and popup trigger. |
 | `loading` | `boolean` | `false` | Shows primary progress and disables both segments. |
 | `raised` | `boolean` | `false` | Adds elevation. |
@@ -31754,10 +31751,10 @@ import { AerisCardModule } from '@aeris-ui/core/card';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `variant` | `AerisCardVariant` | `'outlined'` | Outlined, elevated, or filled surface treatment. |
-| `orientation` | `AerisCardOrientation` | `'vertical'` | Stacks content vertically or places media beside the body. |
-| `padding` | `AerisCardPadding` | `'md'` | Controls body padding without changing projected media. |
+| `orientation` | `AerisCardOrientation` | `'vertical'` | Stacks content vertically or places media beside the body. Options: 'vertical', 'horizontal'. |
+| `padding` | `AerisCardPadding` | `'md'` | Controls body padding without changing projected media. Options: 'none', 'sm', 'md', 'lg'. |
 | `hoverable` | `boolean` | `false` | Adds a hover treatment for cards contained by a link or other native control. |
-| `role` | `AerisCardRole &#124; null` | `null` | Optional semantic role for meaningful independent regions. |
+| `role` | `AerisCardRole &#124; null` | `null` | Optional semantic role for meaningful independent regions. Options: 'article', 'region', 'group'. |
 | `ariaLabel` | `string` | `''` | Accessible name when visible title text is unavailable. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that names the card region. |
 | `ariaDescribedBy` | `string` | `''` | ID of content that provides the card description. |
@@ -32340,7 +32337,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
 | `orientation` | `AerisDividerOrientation` | `'horizontal'` | Sets horizontal or vertical separator layout. |
 | `align` | `AerisDividerAlign` | `'center'` | Places projected content near the start, center, or end of the separator. |
 | `lineStyle` | `AerisDividerLineStyle` | `'solid'` | Sets the separator line to solid, dashed, or dotted. |
-| `spacing` | `AerisDividerSpacing` | `'md'` | Controls outer spacing around the divider. |
+| `spacing` | `AerisDividerSpacing` | `'md'` | Controls outer spacing around the divider. Options: 'none', 'sm', 'md', 'lg'. |
 | `decorative` | `boolean` | `false` | Removes separator semantics and hides the divider from assistive technology. |
 | `ariaLabel` | `string` | `''` | Accessible name for a meaningful separator without visible naming text. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that names a meaningful separator. |
@@ -32653,7 +32650,7 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
 | `toggleable` | `boolean` | `false` | Adds a native disclosure button for showing and hiding content. |
 | `disabled` | `boolean` | `false` | Disables the toggle button without hiding content. |
 | `variant` | `AerisPanelVariant` | `'outlined'` | Outlined, elevated, filled, or plain surface treatment. |
-| `size` | `AerisPanelSize` | `'md'` | Controls header and content density. |
+| `size` | `AerisPanelSize` | `'md'` | Controls header and content density. Options: 'sm', 'md', 'lg'. |
 | `animated` | `boolean` | `true` | Enables content and indicator transitions. |
 | `headingLevel` | `1 &#124; 2 &#124; 3 &#124; 4 &#124; 5 &#124; 6` | `3` | ARIA heading level for the panel header. |
 | `role` | `AerisPanelRole` | `null` | Optional semantic role for the panel host. |
@@ -33234,8 +33231,8 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `id` | `string` | `generated id` | Host ID used to derive the viewport ID. |
-| `orientation` | `AerisScrollPanelOrientation` | `'vertical'` | Controls vertical, horizontal, or two-axis overflow. |
-| `variant` | `AerisScrollPanelVariant` | `'auto'` | Adjusts scrollbar visibility styling. |
+| `orientation` | `AerisScrollPanelOrientation` | `'vertical'` | Controls vertical, horizontal, or two-axis overflow. Options: 'vertical', 'horizontal', 'both'. |
+| `variant` | `AerisScrollPanelVariant` | `'auto'` | Adjusts scrollbar visibility styling. Options: 'auto', 'hover', 'always', 'hidden'. |
 | `fade` | `boolean` | `false` | Adds visual fades at scroll edges when additional content exists. |
 | `fluid` | `boolean` | `true` | Sets the host inline size to 100%. |
 | `focusable` | `boolean` | `true` | Makes the scroll viewport keyboard-focusable. |
@@ -34014,10 +34011,10 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `orientation` | `AerisSplitterOrientation` | `'horizontal'` | Lays panels out left-to-right or top-to-bottom. |
+| `orientation` | `AerisSplitterOrientation` | `'horizontal'` | Lays panels out left-to-right or top-to-bottom. Options: 'horizontal', 'vertical'. |
 | `variant` | `AerisSplitterVariant` | `'outlined'` | Applies outlined, filled, or plain surface treatment. |
-| `size` | `AerisSplitterSize` | `'md'` | Controls panel padding and gutter density. |
-| `divider` | `AerisSplitterDivider` | `'handle'` | Displays handle-only separators or full divider lines with handles. |
+| `size` | `AerisSplitterSize` | `'md'` | Controls panel padding and gutter density. Options: 'sm', 'md', 'lg'. |
+| `divider` | `AerisSplitterDivider` | `'handle'` | Displays handle-only separators or full divider lines with handles. Options: 'handle', 'line'. |
 | `disabled` | `boolean` | `false` | Disables every resize handle. |
 | `fluid` | `boolean` | `true` | Sets the host inline size to 100%. |
 | `step` | `number` | `5` | Keyboard resize increment in percentage points. |
@@ -34973,11 +34970,11 @@ import { AerisStepperModule } from '@aeris-ui/core/stepper';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `orientation` | `AerisStepperOrientation` | `'horizontal'` | Lays out step headers horizontally or vertically. |
-| `activationMode` | `AerisStepperActivationMode` | `'automatic'` | Selects focused steps automatically or waits for Enter/Space in manual mode. |
+| `orientation` | `AerisStepperOrientation` | `'horizontal'` | Lays out step headers horizontally or vertically. Options: 'horizontal', 'vertical'. |
+| `activationMode` | `AerisStepperActivationMode` | `'automatic'` | Selects focused steps automatically or waits for Enter/Space in manual mode. Options: 'automatic', 'manual'. |
 | `linear` | `boolean` | `false` | Prevents skipping ahead by allowing only previous steps, the active step, and the immediate next step. |
 | `stepsOnly` | `boolean` | `false` | Shows only the step indicators and labels without rendering an active content panel. |
-| `size` | `AerisStepperSize` | `'md'` | Controls trigger and indicator sizing. |
+| `size` | `AerisStepperSize` | `'md'` | Controls trigger and indicator sizing. Options: 'sm', 'md', 'lg'. |
 | `variant` | `AerisStepperVariant` | `'line'` | Uses an open line layout or contained header surface. |
 | `optionalLabel` | `string` | `'Optional'` | Text rendered for optional steps without a custom header. |
 | `ariaLabel` | `string` | `''` | Accessible name for the step list. |
@@ -36210,9 +36207,9 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 | --- | --- | --- | --- |
 | `id` | `string` | `''` | Optional ID for the toolbar host. |
 | `variant` | `AerisToolbarVariant` | `'outlined'` | Outlined, filled, elevated, or plain surface treatment. |
-| `size` | `AerisToolbarSize` | `'md'` | Controls toolbar padding and spacing density. |
+| `size` | `AerisToolbarSize` | `'md'` | Controls toolbar padding and spacing density. Options: 'sm', 'md', 'lg'. |
 | `orientation` | `AerisToolbarOrientation` | `'horizontal'` | Sets horizontal or vertical layout and toolbar orientation semantics. |
-| `align` | `AerisToolbarAlign` | `'center'` | Aligns sections across the cross axis. |
+| `align` | `AerisToolbarAlign` | `'center'` | Aligns sections across the cross axis. Options: 'start', 'center', 'end', 'stretch'. |
 | `wrap` | `boolean` | `true` | Allows horizontal toolbars to wrap when space is limited. |
 | `fluid` | `boolean` | `true` | Makes the toolbar fill the available inline size. |
 | `disabled` | `boolean` | `false` | Marks the toolbar disabled and makes projected controls inert. |
@@ -36743,8 +36740,8 @@ import {
 | `header` | `string` | `'Confirm action'` | Visible title for declarative usage. |
 | `message` | `string` | `''` | Default confirmation message. |
 | `data` | `unknown` | `undefined` | Context data exposed to templates and events. |
-| `icon` | `AerisConfirmDialogIcon` | `'question'` | Built-in icon or none. |
-| `severity` | `AerisConfirmDialogSeverity` | `'primary'` | Visual intent for icon and accept action. |
+| `icon` | `AerisConfirmDialogIcon` | `'question'` | Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'. |
+| `severity` | `AerisConfirmDialogSeverity` | `'primary'` | Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'. |
 | `acceptLabel` | `string` | `'Confirm'` | Accept button text. |
 | `rejectLabel` | `string` | `'Cancel'` | Reject button text. |
 | `acceptVisible` | `boolean` | `true` | Renders the accept action. |
@@ -36753,7 +36750,7 @@ import {
 | `rejectDisabled` | `boolean` | `false` | Disables the reject action. |
 | `acceptAriaLabel` | `string` | `''` | Accessible label for the accept action; falls back to acceptLabel. |
 | `rejectAriaLabel` | `string` | `''` | Accessible label for the reject action; falls back to rejectLabel. |
-| `defaultFocus` | `AerisConfirmDialogDefaultFocus` | `'accept'` | Built-in first focus target. |
+| `defaultFocus` | `AerisConfirmDialogDefaultFocus` | `'accept'` | Built-in first focus target. Options: 'accept', 'reject', 'close', 'dialog', 'none'. |
 | `modal` | `boolean` | `true` | Enables modal dialog semantics. |
 | `backdrop` | `boolean` | `true` | Shows the modal backdrop. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur to the backdrop. |
@@ -36766,8 +36763,8 @@ import {
 | `restoreFocus` | `boolean` | `true` | Returns focus to the launcher after close. |
 | `autoFocus` | `boolean` | `true` | Moves focus into the dialog after open. |
 | `initialFocus` | `string` | `''` | Custom selector that overrides defaultFocus. |
-| `position` | `AerisDialogPosition` | `'center'` | Places the dialog within the viewport. |
-| `size` | `AerisDialogSize` | `'sm'` | Dialog width preset. |
+| `position` | `AerisDialogPosition` | `'center'` | Places the dialog within the viewport. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'. |
+| `size` | `AerisDialogSize` | `'sm'` | Dialog width preset. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'. |
 | `width` | `string` | `''` | Custom dialog width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |
 | `mobileWidth` | `string` | `''` | Narrow viewport width. |
@@ -36820,8 +36817,8 @@ import {
 | `header` | `string` | `'Confirm action'` | Visible title for declarative usage. |
 | `message` | `string` | `''` | Default confirmation message. |
 | `data` | `unknown` | `undefined` | Context data exposed to templates and events. |
-| `icon` | `AerisConfirmDialogIcon` | `'question'` | Built-in icon or none. |
-| `severity` | `AerisConfirmDialogSeverity` | `'primary'` | Visual intent for icon and accept action. |
+| `icon` | `AerisConfirmDialogIcon` | `'question'` | Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'. |
+| `severity` | `AerisConfirmDialogSeverity` | `'primary'` | Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'. |
 | `acceptLabel` | `string` | `'Confirm'` | Accept button text. |
 | `rejectLabel` | `string` | `'Cancel'` | Reject button text. |
 | `acceptVisible` | `boolean` | `true` | Renders the accept action. |
@@ -36830,7 +36827,7 @@ import {
 | `rejectDisabled` | `boolean` | `false` | Disables the reject action. |
 | `acceptAriaLabel` | `string` | `''` | Accessible label for the accept action; falls back to acceptLabel. |
 | `rejectAriaLabel` | `string` | `''` | Accessible label for the reject action; falls back to rejectLabel. |
-| `defaultFocus` | `AerisConfirmDialogDefaultFocus` | `'accept'` | Built-in first focus target. |
+| `defaultFocus` | `AerisConfirmDialogDefaultFocus` | `'accept'` | Built-in first focus target. Options: 'accept', 'reject', 'close', 'dialog', 'none'. |
 | `modal` | `boolean` | `true` | Enables modal dialog semantics. |
 | `backdrop` | `boolean` | `true` | Shows the modal backdrop. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur to the backdrop. |
@@ -36843,8 +36840,8 @@ import {
 | `restoreFocus` | `boolean` | `true` | Returns focus to the launcher after close. |
 | `autoFocus` | `boolean` | `true` | Moves focus into the dialog after open. |
 | `initialFocus` | `string` | `''` | Custom selector that overrides defaultFocus. |
-| `position` | `AerisDialogPosition` | `'center'` | Places the dialog within the viewport. |
-| `size` | `AerisDialogSize` | `'sm'` | Dialog width preset. |
+| `position` | `AerisDialogPosition` | `'center'` | Places the dialog within the viewport. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'. |
+| `size` | `AerisDialogSize` | `'sm'` | Dialog width preset. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'. |
 | `width` | `string` | `''` | Custom dialog width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |
 | `mobileWidth` | `string` | `''` | Narrow viewport width. |
@@ -37536,8 +37533,8 @@ import {
 | `header` | `string` | `'Confirm action'` | Visible popup title. |
 | `message` | `string` | `''` | Default confirmation message. |
 | `data` | `unknown` | `undefined` | Context data exposed to templates and events. |
-| `icon` | `AerisConfirmPopupIcon` | `'question'` | Built-in icon or none. |
-| `severity` | `AerisConfirmPopupSeverity` | `'primary'` | Visual intent for icon and accept action. |
+| `icon` | `AerisConfirmPopupIcon` | `'question'` | Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'. |
+| `severity` | `AerisConfirmPopupSeverity` | `'primary'` | Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'. |
 | `acceptLabel` | `string` | `'Confirm'` | Accept button text. |
 | `rejectLabel` | `string` | `'Cancel'` | Reject button text. |
 | `acceptVisible` | `boolean` | `true` | Renders the accept action. |
@@ -37546,9 +37543,9 @@ import {
 | `rejectDisabled` | `boolean` | `false` | Disables the reject action. |
 | `acceptAriaLabel` | `string` | `''` | Accessible label for the accept action; falls back to acceptLabel. |
 | `rejectAriaLabel` | `string` | `''` | Accessible label for the reject action; falls back to rejectLabel. |
-| `defaultFocus` | `AerisConfirmPopupDefaultFocus` | `'accept'` | Built-in first focus target. |
-| `placement` | `AerisConfirmPopupPlacement` | `'auto'` | Preferred placement around the target. |
-| `alignment` | `AerisConfirmPopupAlignment` | `'center'` | Alignment along the target edge. |
+| `defaultFocus` | `AerisConfirmPopupDefaultFocus` | `'accept'` | Built-in first focus target. Options: 'accept', 'reject', 'popup', 'none'. |
+| `placement` | `AerisConfirmPopupPlacement` | `'auto'` | Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'. |
+| `alignment` | `AerisConfirmPopupAlignment` | `'center'` | Alignment along the target edge. Options: 'start', 'center', 'end'. |
 | `width` | `string` | `''` | Custom popup width. |
 | `maxWidth` | `string` | `''` | Custom maximum popup width. |
 | `offset` | `number` | `10` | Distance between target and popup in pixels. |
@@ -37610,8 +37607,8 @@ import {
 | `header` | `string` | `'Confirm action'` | Visible popup title. |
 | `message` | `string` | `''` | Default confirmation message. |
 | `data` | `unknown` | `undefined` | Context data exposed to templates and events. |
-| `icon` | `AerisConfirmPopupIcon` | `'question'` | Built-in icon or none. |
-| `severity` | `AerisConfirmPopupSeverity` | `'primary'` | Visual intent for icon and accept action. |
+| `icon` | `AerisConfirmPopupIcon` | `'question'` | Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'. |
+| `severity` | `AerisConfirmPopupSeverity` | `'primary'` | Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'. |
 | `acceptLabel` | `string` | `'Confirm'` | Accept button text. |
 | `rejectLabel` | `string` | `'Cancel'` | Reject button text. |
 | `acceptVisible` | `boolean` | `true` | Renders the accept action. |
@@ -37620,9 +37617,9 @@ import {
 | `rejectDisabled` | `boolean` | `false` | Disables the reject action. |
 | `acceptAriaLabel` | `string` | `''` | Accessible label for the accept action; falls back to acceptLabel. |
 | `rejectAriaLabel` | `string` | `''` | Accessible label for the reject action; falls back to rejectLabel. |
-| `defaultFocus` | `AerisConfirmPopupDefaultFocus` | `'accept'` | Built-in first focus target. |
-| `placement` | `AerisConfirmPopupPlacement` | `'auto'` | Preferred placement around the target. |
-| `alignment` | `AerisConfirmPopupAlignment` | `'center'` | Alignment along the target edge. |
+| `defaultFocus` | `AerisConfirmPopupDefaultFocus` | `'accept'` | Built-in first focus target. Options: 'accept', 'reject', 'popup', 'none'. |
+| `placement` | `AerisConfirmPopupPlacement` | `'auto'` | Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'. |
+| `alignment` | `AerisConfirmPopupAlignment` | `'center'` | Alignment along the target edge. Options: 'start', 'center', 'end'. |
 | `width` | `string` | `''` | Custom popup width. |
 | `maxWidth` | `string` | `''` | Custom maximum popup width. |
 | `offset` | `number` | `10` | Distance between target and popup in pixels. |
@@ -38388,8 +38385,8 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
 | `restoreFocus` | `boolean` | `true` | Returns focus to the previously focused element after close. |
 | `autoFocus` | `boolean` | `true` | Moves focus into the dialog after it opens. |
 | `initialFocus` | `string` | `''` | Optional selector for the first element to focus. |
-| `position` | `AerisDialogPosition` | `'center'` | Places the dialog within the viewport. |
-| `size` | `AerisDialogSize` | `'md'` | Controls the default dialog width. |
+| `position` | `AerisDialogPosition` | `'center'` | Places the dialog within the viewport. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'. |
+| `size` | `AerisDialogSize` | `'md'` | Controls the default dialog width. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'. |
 | `width` | `string` | `''` | Custom dialog width such as 42rem, 60vw, or min(40rem, 100%). |
 | `minWidth` | `string` | `''` | Custom minimum dialog width. |
 | `maxWidth` | `string` | `''` | Custom maximum dialog width. |
@@ -38433,7 +38430,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `show(event?)` | `(Event &#124; null) =&gt; void` | `-` | Opens the dialog. |
-| `hide(event?, reason?)` | `(Event &#124; null, AerisDialogCloseReason) =&gt; void` | `-` | Closes the dialog and records the close reason. |
+| `hide(event?, reason?)` | `(Event &#124; null, AerisDialogCloseReason) =&gt; void` | `-` | Closes the dialog and records the close reason. Options: 'api', 'close-button', 'escape', 'mask'. |
 | `toggle(event?)` | `(Event &#124; null) =&gt; void` | `-` | Opens or closes the dialog. |
 | `focus(options?)` | `(FocusOptions) =&gt; void` | `-` | Moves focus to the initial focus target or first focusable control. |
 | `toggleMaximized()` | `() =&gt; void` | `-` | Toggles maximized layout. |
@@ -39432,7 +39429,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Default drawer title rendered in the header. |
 | `position` | `AerisDrawerPosition` | `'right'` | Anchors the drawer to the left, right, top, or bottom viewport edge. |
-| `size` | `AerisDrawerSize` | `'md'` | Applies preset width or height based on position. |
+| `size` | `AerisDrawerSize` | `'md'` | Applies preset width or height based on position. Options: 'sm', 'md', 'lg', 'full'. |
 | `modal` | `boolean` | `true` | Enables modal semantics, focus handling, and optional scroll blocking. |
 | `backdrop` | `boolean` | `true` | Shows the modal backdrop. Set false for a modal drawer without the visual mask. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur to the visible backdrop. |
@@ -40531,8 +40528,8 @@ import {
 | `restoreFocus` | `boolean` | `true` | Restores focus to the previously focused element after close. |
 | `autoFocus` | `boolean` | `true` | Moves focus into the dialog after open. |
 | `initialFocus` | `string` | `''` | Selector for the first focused element. |
-| `position` | `AerisDialogPosition` | `'center'` | Viewport placement. |
-| `size` | `AerisDialogSize` | `'md'` | Default shell size. |
+| `position` | `AerisDialogPosition` | `'center'` | Viewport placement. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'. |
+| `size` | `AerisDialogSize` | `'md'` | Default shell size. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'. |
 | `width` | `string` | `''` | Custom CSS width. |
 | `minWidth` | `string` | `''` | Custom minimum width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |
@@ -41148,8 +41145,8 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target. |
 | `target` | `AerisPopoverTarget` | `null` | Element or trigger event used when visible is controlled directly. |
 | `header` | `string` | `''` | Visible popover title. |
-| `placement` | `AerisPopoverPlacement` | `'auto'` | Preferred placement around the target. |
-| `alignment` | `AerisPopoverAlignment` | `'center'` | Alignment along the target edge. |
+| `placement` | `AerisPopoverPlacement` | `'auto'` | Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'. |
+| `alignment` | `AerisPopoverAlignment` | `'center'` | Alignment along the target edge. Options: 'start', 'center', 'end'. |
 | `width` | `string` | `''` | Custom popover width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |
 | `offset` | `number` | `10` | Distance between target and popover in pixels. |
@@ -41197,7 +41194,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `show(targetOrEvent?, originalEvent?)` | `(AerisPopoverTarget, Event &#124; null) =&gt; void` | `-` | Opens the popover relative to a target. |
-| `hide(event?, reason?)` | `(Event &#124; null, AerisPopoverCloseReason) =&gt; void` | `reason: 'api'` | Closes the popover and records the close reason. |
+| `hide(event?, reason?)` | `(Event &#124; null, AerisPopoverCloseReason) =&gt; void` | `reason: 'api'` | Closes the popover and records the close reason. Options: 'api', 'close-button', 'escape', 'outside'. |
 | `toggle(targetOrEvent?, originalEvent?)` | `(AerisPopoverTarget, Event &#124; null) =&gt; void` | `-` | Opens when closed or closes when open. |
 | `focus(options?)` | `(FocusOptions) =&gt; void` | `-` | Moves focus to the configured initial focus target. |
 | `reposition()` | `() =&gt; void` | `-` | Recalculates target-relative position. |
@@ -41802,7 +41799,7 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
 | --- | --- | --- | --- |
 | `aerisTooltipAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global; safely mounted to body)` | Mounts the tooltip in its safe document layer for self/body, or in the supplied DOM/template target. |
 | `aerisTooltip` | `AerisTooltipContent` | `''` | String or template content rendered in the tooltip. |
-| `aerisTooltipPosition` | `AerisTooltipPosition` | `'top'` | Preferred edge around the target. |
+| `aerisTooltipPosition` | `AerisTooltipPosition` | `'top'` | Preferred edge around the target. Options: 'top', 'right', 'bottom', 'left'. |
 | `aerisTooltipEvent` | `AerisTooltipEvent` | `'both'` | Trigger mode: pointer hover, focus, or both. |
 | `aerisTooltipShowDelay` | `number` | `0` | Delay before opening in milliseconds. |
 | `aerisTooltipHideDelay` | `number` | `0` | Delay before closing in milliseconds. |
@@ -41826,7 +41823,7 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `show(originalEvent?)` | `(Event &#124; null) =&gt; void` | `-` | Opens the tooltip programmatically using the configured delay. |
-| `hide(originalEvent?, reason?)` | `(Event &#124; null, AerisTooltipCloseReason) =&gt; void` | `reason: 'api'` | Closes the tooltip programmatically using the configured delay. |
+| `hide(originalEvent?, reason?)` | `(Event &#124; null, AerisTooltipCloseReason) =&gt; void` | `reason: 'api'` | Closes the tooltip programmatically using the configured delay. Options: 'api', 'escape', 'blur', 'pointerleave', 'disabled'. |
 
 #### Interfaces and types
 
@@ -42417,7 +42414,7 @@ import { AerisFileUploadModule } from '@aeris-ui/core/file-upload';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `mode` | `AerisFileUploadMode` | `'advanced'` | Renders compact basic controls or the full queue surface. |
+| `mode` | `AerisFileUploadMode` | `'advanced'` | Renders compact basic controls or the full queue surface. Options: 'basic', 'advanced'. |
 | `multiple` | `boolean` | `false` | Allows selecting more than one file. |
 | `accept` | `string` | `''` | Native accept filter and validation rule. |
 | `minFileSize` | `number` | `0` | Minimum file size in bytes. Zero disables the rule. |
@@ -42485,7 +42482,7 @@ import { AerisFileUploadModule } from '@aeris-ui/core/file-upload';
 | --- | --- | --- | --- |
 | `choose(event?)` | `(Event &#124; null) =&gt; void` | `-` | Opens the native file picker. |
 | `upload(event?)` | `(Event &#124; null) =&gt; void` | `-` | Requests upload for ready files. |
-| `clear(event?, reason?)` | `(Event &#124; null, AerisFileUploadClearReason) =&gt; void` | `reason: 'api'` | Clears the queue. |
+| `clear(event?, reason?)` | `(Event &#124; null, AerisFileUploadClearReason) =&gt; void` | `reason: 'api'` | Clears the queue. Options: 'api', 'clear-button'. |
 | `remove(file, event?)` | `(File, Event &#124; null) =&gt; void` | `-` | Removes one selected file. |
 | `setProgress(file, progress)` | `(File, number) =&gt; void` | `-` | Marks a file as uploading and updates progress. |
 | `markUploaded(files?)` | `(readonly File[]) =&gt; void` | `all files` | Marks files as uploaded. |
@@ -42930,7 +42927,7 @@ import { AerisBreadcrumbModule } from '@aeris-ui/core/breadcrumb';
 | `items` | `readonly AerisBreadcrumbItem[]` | `[]` | Breadcrumb trail items after the optional home item. |
 | `home` | `AerisBreadcrumbItem &#124; null` | `null` | Optional first item for the root location. It can be icon-only when ariaLabel is provided. |
 | `variant` | `AerisBreadcrumbVariant` | `'outlined'` | Outlined, filled, or plain surface treatment. |
-| `size` | `AerisBreadcrumbSize` | `'md'` | Controls padding, separator size, and text density. |
+| `size` | `AerisBreadcrumbSize` | `'md'` | Controls padding, separator size, and text density. Options: 'sm', 'md', 'lg'. |
 | `separator` | `string` | `''` | Text separator. Empty value renders the default Aeris chevron. |
 | `maxItems` | `number &#124; null` | `null` | Maximum visible items before middle items collapse behind an ellipsis. |
 | `wrap` | `boolean` | `true` | Allows the breadcrumb trail to wrap when space is limited. |
@@ -42938,7 +42935,7 @@ import { AerisBreadcrumbModule } from '@aeris-ui/core/breadcrumb';
 | `ariaLabel` | `string` | `'Breadcrumb'` | Accessible name for the internal navigation element. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the breadcrumb navigation. |
 | `ariaDescribedBy` | `string` | `''` | ID of text that describes the breadcrumb navigation. |
-| `ariaCurrent` | `AerisBreadcrumbAriaCurrent` | `'page'` | Value applied to the current item through aria-current. |
+| `ariaCurrent` | `AerisBreadcrumbAriaCurrent` | `'page'` | Value applied to the current item through aria-current. Options: 'page', 'step', 'location', 'date', 'time', 'true'. |
 | `ellipsisLabel` | `string` | `'Show hidden breadcrumb items'` | Accessible name for the ellipsis button. |
 
 ##### Outputs
@@ -43438,7 +43435,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 | `target` | `AerisContextMenuTarget` | `null` | Element that opens the menu on contextmenu. |
 | `global` | `boolean` | `false` | Opens the menu from document-level contextmenu events. |
 | `disabled` | `boolean` | `false` | Prevents target, global, and programmatic opening. |
-| `size` | `AerisContextMenuSize` | `'md'` | Controls item density and icon sizing. |
+| `size` | `AerisContextMenuSize` | `'md'` | Controls item density and icon sizing. Options: 'sm', 'md', 'lg'. |
 | `width` | `string` | `''` | CSS width for the root menu panel. |
 | `maxWidth` | `string` | `''` | CSS max-width for the root menu panel. |
 | `viewportMargin` | `number` | `8` | Minimum spacing from viewport edges when positioning. |
@@ -43474,7 +43471,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 | --- | --- | --- | --- |
 | `show(event)` | `MouseEvent &#124; PointerEvent =&gt; void` | `-` | Opens the menu at the event coordinates and prevents the native context menu. |
 | `openAt(x, y, originalEvent?)` | `number, number, Event &#124; null =&gt; void` | `-` | Opens the menu at explicit viewport coordinates. |
-| `hide(event?, reason?, restoreFocus?)` | `Event &#124; null, AerisContextMenuCloseReason, boolean =&gt; void` | `-` | Closes the menu. |
+| `hide(event?, reason?, restoreFocus?)` | `Event &#124; null, AerisContextMenuCloseReason, boolean =&gt; void` | `-` | Closes the menu. Options: 'api', 'escape', 'outside', 'scroll', 'select', 'target'. |
 | `toggle(event)` | `MouseEvent &#124; PointerEvent =&gt; void` | `-` | Toggles visibility at the event coordinates. |
 | `focus()` | `() =&gt; void` | `-` | Moves focus to the active menu item. |
 | `reposition()` | `() =&gt; void` | `-` | Recomputes panel placement inside the viewport. |
@@ -44351,7 +44348,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 | `open` | `boolean (model)` | `false` | Controlled popup visibility. |
 | `popup` | `boolean` | `false` | Renders the menu as a target-relative overlay opened with show or toggle. |
 | `disabled` | `boolean` | `false` | Prevents popup opening. |
-| `size` | `AerisMenuSize` | `'md'` | Controls item density and icon sizing. |
+| `size` | `AerisMenuSize` | `'md'` | Controls item density and icon sizing. Options: 'sm', 'md', 'lg'. |
 | `width` | `string` | `''` | Sets --aeris-menu-width on the panel. |
 | `maxHeight` | `string` | `''` | Sets --aeris-menu-max-height on the panel. |
 | `viewportMargin` | `number` | `8` | Minimum popup distance from viewport edges. |
@@ -44390,7 +44387,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `show(event)` | `MouseEvent &#124; PointerEvent =&gt; void` | `-` | Opens a popup menu below the event currentTarget. |
-| `hide(event?, reason?, restoreFocus?)` | `Event &#124; null, AerisMenuCloseReason, boolean =&gt; void` | `-` | Closes a popup menu. |
+| `hide(event?, reason?, restoreFocus?)` | `Event &#124; null, AerisMenuCloseReason, boolean =&gt; void` | `-` | Closes a popup menu. Options: 'api', 'escape', 'outside', 'select'. |
 | `toggle(event)` | `MouseEvent &#124; PointerEvent =&gt; void` | `-` | Toggles popup visibility from a trigger event. |
 | `focus()` | `void` | `-` | Moves focus to the active or first enabled visible item. |
 | `expandAll()` | `void` | `-` | Expands all toggleable groups. |
@@ -45410,7 +45407,7 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | `model` | `readonly AerisMenubarItem&lt;T&gt;[]` | `[]` | Nested item model for root items and cascading submenu items. |
 | `openPath` | `string (model)` | `''` | Controlled path key for the open submenu branch. |
 | `mobileOpen` | `boolean (model)` | `false` | Controlled responsive menu visibility. |
-| `size` | `AerisMenubarSize` | `'md'` | Adjusts item height, text, and icon sizing. |
+| `size` | `AerisMenubarSize` | `'md'` | Adjusts item height, text, and icon sizing. Options: 'sm', 'md', 'lg'. |
 | `disabled` | `boolean` | `false` | Prevents activation and submenu opening. |
 | `openOnHover` | `boolean` | `true` | Opens submenu branches when pointer users hover items. |
 | `closeOnSelect` | `boolean` | `true` | Closes open menus after a leaf item is activated. |
@@ -45447,7 +45444,7 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `open(path, event?)` | `string &#124; readonly number[], Event &#124; null =&gt; void` | `-` | Opens a submenu branch by path key or path array. |
-| `close(event?, reason?)` | `Event &#124; null, AerisMenubarCloseReason =&gt; void` | `-` | Closes open submenus. |
+| `close(event?, reason?)` | `Event &#124; null, AerisMenubarCloseReason =&gt; void` | `-` | Closes open submenus. Options: 'api', 'escape', 'outside', 'select'. |
 | `focus()` | `void` | `-` | Moves focus to the active or first enabled root item. |
 
 #### Interfaces and types
@@ -46417,7 +46414,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | `open` | `boolean (model)` | `false` | Controlled popup visibility. |
 | `popup` | `boolean` | `false` | Renders the menu as a target-relative overlay opened with show or toggle. |
 | `disabled` | `boolean` | `false` | Prevents activation and popup opening. |
-| `size` | `AerisTieredMenuSize` | `'md'` | Controls item density and icon sizing. |
+| `size` | `AerisTieredMenuSize` | `'md'` | Controls item density and icon sizing. Options: 'sm', 'md', 'lg'. |
 | `width` | `string` | `''` | Sets --aeris-tiered-menu-width on the panel. |
 | `maxWidth` | `string` | `''` | Sets --aeris-tiered-menu-max-width on the panel. |
 | `viewportMargin` | `number` | `8` | Minimum popup distance from viewport edges. |
@@ -46452,7 +46449,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `show(event)` | `MouseEvent &#124; PointerEvent =&gt; void` | `-` | Opens a popup menu below the event currentTarget. |
-| `hide(event?, reason?, restoreFocus?)` | `Event &#124; null, AerisTieredMenuCloseReason, boolean =&gt; void` | `-` | Closes a popup menu and clears open submenus. |
+| `hide(event?, reason?, restoreFocus?)` | `Event &#124; null, AerisTieredMenuCloseReason, boolean =&gt; void` | `-` | Closes a popup menu and clears open submenus. Options: 'api', 'escape', 'outside', 'select'. |
 | `toggle(event)` | `MouseEvent &#124; PointerEvent =&gt; void` | `-` | Toggles popup visibility from a trigger event. |
 | `focus()` | `void` | `-` | Moves focus to the active or first enabled item. |
 | `reposition()` | `void` | `-` | Recalculates popup coordinates inside the viewport. |
@@ -47812,15 +47809,15 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `id` | `string` | `generated id` | Sets the host element id. |
-| `severity` | `AerisMessageSeverity` | `'info'` | Sets visual tone and default live-region behavior. |
+| `severity` | `AerisMessageSeverity` | `'info'` | Sets visual tone and default live-region behavior. Options: 'info', 'success', 'warning', 'error', 'neutral', 'secondary', 'contrast'. |
 | `variant` | `AerisMessageVariant` | `'filled'` | Sets filled, outlined, or simple presentation. |
-| `size` | `AerisMessageSize` | `'md'` | Sets compact, default, or large spacing and type scale. |
+| `size` | `AerisMessageSize` | `'md'` | Sets compact, default, or large spacing and type scale. Options: 'sm', 'md', 'lg'. |
 | `text` | `string` | `''` | Renders plain message text when no content template is provided. |
 | `closable` | `boolean` | `false` | Shows a native close button. |
 | `life` | `number` | `0` | Auto-closes the message after the provided number of milliseconds. Zero disables auto-close. |
 | `showIcon` | `boolean` | `true` | Shows or hides the severity icon region. |
-| `role` | `AerisMessageRole &#124; ''` | `''` | Overrides the default alert/status role. |
-| `ariaLive` | `AerisMessageLive &#124; ''` | `''` | Overrides the default live-region politeness. |
+| `role` | `AerisMessageRole &#124; ''` | `''` | Overrides the default alert/status role. Options: 'status', 'alert', 'note'. |
+| `ariaLive` | `AerisMessageLive &#124; ''` | `''` | Overrides the default live-region politeness. Options: 'polite', 'assertive', 'off'. |
 | `ariaLabel` | `string` | `''` | Accessible name for the message when visible text is not enough. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that names the message. |
 | `closeAriaLabel` | `string` | `'Close message'` | Accessible label for the close button. |
@@ -48535,15 +48532,15 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | `AerisToastPosition` | `'bottom-right'` | Places the toast region on the viewport. |
+| `position` | `AerisToastPosition` | `'bottom-right'` | Places the toast region on the viewport. Options: 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'center'. |
 | `group` | `string` | `''` | Renders only messages from the matching service group. |
-| `mode` | `AerisToastMode` | `'stacked'` | Uses a compact stack that expands on hover/focus or an always-expanded list. |
+| `mode` | `AerisToastMode` | `'stacked'` | Uses a compact stack that expands on hover/focus or an always-expanded list. Options: 'stacked', 'expanded'. |
 | `visibleCount` | `number` | `4` | Controls how many messages are rendered in stacked and expanded modes. |
 | `limit` | `number &#124; undefined` | `undefined` | Compatibility alias that overrides visibleCount when provided. |
 | `newestOnTop` | `boolean` | `true` | Shows the newest message as the primary toast. Set false to keep the oldest message on top. |
 | `pauseOnHover` | `boolean` | `true` | Pauses auto-dismiss timers while the toast region is hovered or focused. |
 | `showClose` | `boolean` | `true` | Shows close buttons for closable messages. |
-| `swipeDirection` | `AerisToastSwipeDirection &#124; readonly AerisToastSwipeDirection[]` | `['down', 'right']` | Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping. |
+| `swipeDirection` | `AerisToastSwipeDirection &#124; readonly AerisToastSwipeDirection[]` | `['down', 'right']` | Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping. Options: 'up', 'down', 'left', 'right'. |
 | `swipeThreshold` | `number` | `40` | Sets the required swipe displacement in pixels before dismissal. |
 | `ariaLabel` | `string` | `'Notifications'` | Accessible name for the toast region. |
 | `closeAriaLabel` | `string` | `'Close notification'` | Accessible label for each close button. |
@@ -49889,7 +49886,7 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
 | `min` | `number` | `0` | Minimum comparison value. |
 | `max` | `number` | `100` | Maximum comparison value. |
 | `step` | `number` | `1` | Pointer and keyboard increment. |
-| `orientation` | `AerisCompareOrientation` | `'horizontal'` | Direction of the reveal and divider. |
+| `orientation` | `AerisCompareOrientation` | `'horizontal'` | Direction of the reveal and divider. Options: 'horizontal', 'vertical'. |
 | `slideOnHover` | `boolean` | `false` | Updates from mouse or pen hover without requiring a press. |
 | `disabled` | `boolean` | `false` | Disables focus and all interaction. |
 | `readonly` | `boolean` | `false` | Keeps the slider focusable while preventing changes. |
@@ -49900,7 +49897,7 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
 | `beforeLabel` | `string` | `'Before'` | Before label and empty-state text. |
 | `afterLabel` | `string` | `'After'` | After label and empty-state text. |
 | `showLabels` | `boolean` | `false` | Displays compact before and after labels. |
-| `objectFit` | `AerisCompareObjectFit` | `'cover'` | Fit used by built-in images. |
+| `objectFit` | `AerisCompareObjectFit` | `'cover'` | Fit used by built-in images. Options: 'contain', 'cover', 'fill', 'none', 'scale-down'. |
 | `aspectRatio` | `string` | `'16 / 9'` | CSS aspect ratio of the comparison surface. |
 | `loading` | `'eager' &#124; 'lazy'` | `'lazy'` | Loading behavior for built-in images. |
 | `name` | `string` | `''` | Native range name for form submission. |
@@ -50626,7 +50623,7 @@ import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `readonly T[]` | `[]` | Gallery items. AerisGalleriaImage values receive a complete built-in image presentation. |
-| `mode` | `AerisGalleriaMode` | `'gallery'` | Selects the gallery, responsive grid, or focused single-item presentation. |
+| `mode` | `AerisGalleriaMode` | `'gallery'` | Selects the gallery, responsive grid, or focused single-item presentation. Options: 'gallery', 'grid', 'single'. |
 | `numVisible` | `number &#124; 'auto'` | `'auto'` | Maximum thumbnails visible in the thumbnail window; auto fills the available width. |
 | `fullscreenNumVisible` | `number &#124; 'auto'` | `'auto'` | Maximum fullscreen thumbnails; auto fills the strip using the available viewport width. |
 | `responsiveOptions` | `readonly AerisGalleriaResponsiveOption[]` | `[]` | Container-width options for thumbnail count, visibility, and position. |
@@ -50701,7 +50698,7 @@ import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `indexChanged` | `AerisGalleriaIndexChangeEvent&lt;T&gt;` | `-` | Emits after user, autoplay, or API navigation with the item and reason. |
-| `fullscreenClosed` | `AerisGalleriaFullscreenCloseReason` | `-` | Emits when a component action closes fullscreen mode. |
+| `fullscreenClosed` | `AerisGalleriaFullscreenCloseReason` | `-` | Emits when a component action closes fullscreen mode. Options: 'toggle', 'escape', 'backdrop', 'api'. |
 | `transformChanged` | `AerisGalleriaTransformState` | `-` | Emits the complete transform state after toolbar or API changes. |
 | `downloadRequested` | `AerisGalleriaDownloadEvent&lt;T&gt;` | `-` | Emits after a safe built-in image download is requested. |
 
@@ -51528,10 +51525,10 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
 | `imageSrc` | `string` | `''` | Image URL. A failed image automatically falls back to the label or projected content. |
 | `imageAlt` | `string` | `''` | Alternative text for a meaningful image and the fallback accessible name. |
 | `imageLoading` | `AerisAvatarImageLoading` | `'lazy'` | Sets native eager or lazy image loading. |
-| `imageFit` | `AerisAvatarImageFit` | `'cover'` | Controls whether an image covers or fits within the avatar. |
-| `size` | `AerisAvatarSize` | `'md'` | Sets the avatar dimensions and typography. |
+| `imageFit` | `AerisAvatarImageFit` | `'cover'` | Controls whether an image covers or fits within the avatar. Options: 'cover', 'contain'. |
+| `size` | `AerisAvatarSize` | `'md'` | Sets the avatar dimensions and typography. Options: 'sm', 'md', 'lg', 'xl'. |
 | `shape` | `AerisAvatarShape` | `'circle'` | Sets circle, rounded, or compact square corners. |
-| `tone` | `AerisAvatarTone` | `'primary'` | Sets a theme-aware fallback background and foreground. |
+| `tone` | `AerisAvatarTone` | `'primary'` | Sets a theme-aware fallback background and foreground. Options: 'primary', 'neutral', 'success', 'info', 'warning', 'danger'. |
 | `decorative` | `boolean` | `false` | Hides the complete avatar from assistive technology when nearby content identifies it. |
 | `ariaLabel` | `string` | `''` | Accessible name for initials or projected content, or an override for image semantics. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the avatar. |
@@ -51559,7 +51556,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `overlap` | `AerisAvatarGroupOverlap` | `'default'` | Controls how closely neighboring avatars overlap. |
+| `overlap` | `AerisAvatarGroupOverlap` | `'default'` | Controls how closely neighboring avatars overlap. Options: 'subtle', 'default', 'strong'. |
 | `ariaLabel` | `string` | `''` | Accessible name for the group. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the group. |
 
@@ -51969,8 +51966,8 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string &#124; number &#124; null &#124; undefined` | `undefined` | Text or number rendered inside the badge. Projected content is used when no value is provided. |
-| `severity` | `AerisBadgeSeverity` | `'primary'` | Sets the semantic color accent. |
-| `size` | `AerisBadgeSize` | `'md'` | Controls badge height, padding, and font size. |
+| `severity` | `AerisBadgeSeverity` | `'primary'` | Sets the semantic color accent. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `size` | `AerisBadgeSize` | `'md'` | Controls badge height, padding, and font size. Options: 'sm', 'md', 'lg'. |
 | `variant` | `AerisBadgeVariant` | `'solid'` | Sets solid, soft, or outline visual treatment. |
 | `shape` | `AerisBadgeShape` | `'pill'` | Sets pill or rounded rectangle corners. |
 | `max` | `number &#124; null` | `null` | Caps numeric values and appends a plus sign when the value is larger. |
@@ -51987,15 +51984,15 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string &#124; number &#124; null &#124; undefined` | `undefined` | Text or number rendered in the visual overlay badge. |
-| `severity` | `AerisBadgeSeverity` | `'primary'` | Sets the overlay badge color accent. |
-| `size` | `AerisBadgeSize` | `'md'` | Controls overlay badge size. |
+| `severity` | `AerisBadgeSeverity` | `'primary'` | Sets the overlay badge color accent. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `size` | `AerisBadgeSize` | `'md'` | Controls overlay badge size. Options: 'sm', 'md', 'lg'. |
 | `variant` | `AerisBadgeVariant` | `'solid'` | Sets solid, soft, or outline treatment. |
 | `shape` | `AerisBadgeShape` | `'pill'` | Sets pill or rounded overlay corners. |
 | `max` | `number &#124; null` | `null` | Caps numeric overlay values and appends a plus sign. |
 | `dot` | `boolean` | `false` | Renders the overlay as a compact status dot. |
 | `showZero` | `boolean` | `true` | Controls whether zero is rendered in the overlay. |
 | `hidden` | `boolean` | `false` | Hides the overlay badge. |
-| `position` | `AerisBadgeOverlayPosition` | `'top-right'` | Places the overlay badge on one corner of the projected content. |
+| `position` | `AerisBadgeOverlayPosition` | `'top-right'` | Places the overlay badge on one corner of the projected content. Options: 'top-right', 'top-left', 'bottom-right', 'bottom-left'. |
 
 ##### Content
 
@@ -52614,9 +52611,9 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
 | `imageAlt` | `string` | `''` | Alternative text used when the image is the chip’s only meaningful content. |
 | `removable` | `boolean` | `false` | Shows the native remove button. |
 | `disabled` | `boolean` | `false` | Disables removal while keeping the chip visible. |
-| `size` | `AerisChipSize` | `'md'` | Sets chip height, padding, and typography. |
+| `size` | `AerisChipSize` | `'md'` | Sets chip height, padding, and typography. Options: 'sm', 'md', 'lg'. |
 | `variant` | `AerisChipVariant` | `'soft'` | Sets a soft filled or outline appearance. |
-| `tone` | `AerisChipTone` | `'neutral'` | Sets the palette-aware visual tone. |
+| `tone` | `AerisChipTone` | `'neutral'` | Sets the palette-aware visual tone. Options: 'primary', 'neutral', 'success', 'info', 'warning', 'danger'. |
 | `shape` | `AerisChipShape` | `'pill'` | Sets pill or rounded corners. |
 | `removeAriaLabel` | `string` | `''` | Overrides the remove button accessible name. |
 | `ariaLabel` | `string` | `''` | Accessible name for custom projected chip content. |
@@ -53369,7 +53366,7 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
 | `ariaLabel` | `string` | `''` | Accessible name for the display button. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that names the display button. |
 | `ariaDescribedBy` | `string` | `''` | ID of supplemental display-button instructions. |
-| `ariaLive` | `AerisInplaceAriaLive` | `'polite'` | Live-region politeness applied to newly rendered content. |
+| `ariaLive` | `AerisInplaceAriaLive` | `'polite'` | Live-region politeness applied to newly rendered content. Options: 'off', 'polite', 'assertive'. |
 
 ##### Outputs
 
@@ -53965,9 +53962,9 @@ import { AerisMeterGroupModule } from '@aeris-ui/core/meter-group';
 | `min` | `number` | `0` | Minimum combined meter value. |
 | `max` | `number` | `100` | Maximum combined meter value and visual capacity. |
 | `orientation` | `AerisMeterGroupOrientation` | `'horizontal'` | Sets a horizontal or vertical meter track. |
-| `legendLayout` | `AerisMeterGroupLegendLayout` | `'auto'` | Sets row, column, or orientation-aware legend layout. |
+| `legendLayout` | `AerisMeterGroupLegendLayout` | `'auto'` | Sets row, column, or orientation-aware legend layout. Options: 'auto', 'row', 'column'. |
 | `legendPosition` | `AerisMeterGroupLegendPosition` | `'after'` | Places the legend before or after the meter track. |
-| `size` | `AerisMeterGroupSize` | `'md'` | Sets the meter track thickness. |
+| `size` | `AerisMeterGroupSize` | `'md'` | Sets the meter track thickness. Options: 'sm', 'md', 'lg'. |
 | `showLegend` | `boolean` | `true` | Shows or visually hides the item legend. |
 | `showValues` | `boolean` | `true` | Shows formatted values beside visible legend labels. |
 | `rounded` | `boolean` | `true` | Uses pill corners for the meter track. |
@@ -54574,8 +54571,8 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
 | `min` | `number` | `0` | Minimum determinate value. |
 | `max` | `number` | `100` | Maximum determinate value. |
 | `mode` | `AerisProgressBarMode` | `'determinate'` | Determinate percentage or indeterminate activity. |
-| `severity` | `AerisProgressBarSeverity` | `'primary'` | Color accent for the filled track and completed steps. |
-| `size` | `AerisProgressBarSize` | `'md'` | Track height. |
+| `severity` | `AerisProgressBarSeverity` | `'primary'` | Color accent for the filled track and completed steps. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `size` | `AerisProgressBarSize` | `'md'` | Track height. Options: 'sm', 'md', 'lg'. |
 | `showValue` | `boolean` | `true` | Shows the value text inside determinate bars. |
 | `striped` | `boolean` | `false` | Applies striped fill styling. |
 | `animated` | `boolean` | `false` | Animates striped fill when enabled. |
@@ -55034,8 +55031,8 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
 | `value` | `number &#124; null` | `null` | Numeric progress value; null selects indeterminate mode. |
 | `min` | `number` | `0` | Minimum determinate value. |
 | `max` | `number` | `100` | Maximum determinate value. |
-| `size` | `AerisProgressSpinnerSize` | `'md'` | Sets small, medium, or large diameter. |
-| `tone` | `AerisProgressSpinnerTone` | `'primary'` | Sets the palette-aware indicator tone. |
+| `size` | `AerisProgressSpinnerSize` | `'md'` | Sets small, medium, or large diameter. Options: 'sm', 'md', 'lg'. |
+| `tone` | `AerisProgressSpinnerTone` | `'primary'` | Sets the palette-aware indicator tone. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
 | `strokeWidth` | `number` | `4` | Sets SVG stroke width, clamped from 1 through 12. |
 | `showTrack` | `boolean` | `true` | Shows the background progress track. |
 | `showValue` | `boolean` | `true` | Shows centered determinate value text except at small size. |
@@ -55454,8 +55451,8 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `shape` | `AerisSkeletonShape` | `'text'` | Sets text, rectangular, or circular geometry. |
-| `animation` | `AerisSkeletonAnimation` | `'wave'` | Sets wave, pulse, or static presentation. |
+| `shape` | `AerisSkeletonShape` | `'text'` | Sets text, rectangular, or circular geometry. Options: 'text', 'rectangle', 'circle'. |
+| `animation` | `AerisSkeletonAnimation` | `'wave'` | Sets wave, pulse, or static presentation. Options: 'wave', 'pulse', 'none'. |
 | `width` | `string` | `'100%'` | Sets CSS inline size while remaining container-safe. |
 | `height` | `string` | `''` | Overrides the shape-aware default block size. |
 | `radius` | `string` | `''` | Overrides the theme-aware border radius. |
@@ -56011,7 +56008,7 @@ import { AerisAnimateOnScrollModule } from '@aeris-ui/core/animate-on-scroll';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aerisAnimateOnScroll` | `AerisAnimateOnScrollEffect` | `'fade-up'` | Selects the built-in reveal effect. |
+| `aerisAnimateOnScroll` | `AerisAnimateOnScrollEffect` | `'fade-up'` | Selects the built-in reveal effect. Options: 'fade', 'fade-up', 'fade-down', 'slide-start', 'slide-end', 'scale'. |
 | `threshold` | `number` | `0.2` | Visible proportion required to enter, clamped from 0 to 1. |
 | `rootMargin` | `string` | `'0px 0px -10% 0px'` | IntersectionObserver margin used to tune the reveal boundary. |
 | `once` | `boolean` | `true` | Keeps the element visible and stops observation after its first entrance. |
@@ -58869,10 +58866,10 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `threshold` | `number` | `320` | Vertical scroll offset in pixels before the button is shown. |
-| `behavior` | `AerisScrollTopBehavior` | `'smooth'` | Scroll behavior passed to the browser scroll API. |
-| `position` | `AerisScrollTopPosition` | `'bottom-right'` | Fixed viewport placement. |
-| `size` | `AerisScrollTopSize` | `'md'` | Button size. |
-| `strategy` | `AerisScrollTopStrategy` | `'fixed'` | CSS positioning strategy. Use absolute when embedding ScrollTop inside a contained preview. |
+| `behavior` | `AerisScrollTopBehavior` | `'smooth'` | Scroll behavior passed to the browser scroll API. Options: 'auto', 'smooth'. |
+| `position` | `AerisScrollTopPosition` | `'bottom-right'` | Fixed viewport placement. Options: 'bottom-right', 'bottom-left', 'top-right', 'top-left'. |
+| `size` | `AerisScrollTopSize` | `'md'` | Button size. Options: 'sm', 'md', 'lg'. |
+| `strategy` | `AerisScrollTopStrategy` | `'fixed'` | CSS positioning strategy. Use absolute when embedding ScrollTop inside a contained preview. Options: 'fixed', 'absolute'. |
 | `ariaLabel` | `string` | `'Scroll to top'` | Accessible name for the button. |
 | `alwaysVisible` | `boolean` | `false` | Keeps the button visible regardless of scroll position. |
 

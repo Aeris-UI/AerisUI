@@ -29,8 +29,8 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `shape` | `AerisSkeletonShape` | `'text'` | Sets text, rectangular, or circular geometry. |
-| `animation` | `AerisSkeletonAnimation` | `'wave'` | Sets wave, pulse, or static presentation. |
+| `shape` | `AerisSkeletonShape` | `'text'` | Sets text, rectangular, or circular geometry. Options: 'text', 'rectangle', 'circle'. |
+| `animation` | `AerisSkeletonAnimation` | `'wave'` | Sets wave, pulse, or static presentation. Options: 'wave', 'pulse', 'none'. |
 | `width` | `string` | `'100%'` | Sets CSS inline size while remaining container-safe. |
 | `height` | `string` | `''` | Overrides the shape-aware default block size. |
 | `radius` | `string` | `''` | Overrides the theme-aware border radius. |

@@ -302,7 +302,8 @@ interface AerisMeterGroupSummaryContext {
       name: 'legendLayout',
       type: 'AerisMeterGroupLegendLayout',
       defaultValue: "'auto'",
-      description: 'Sets row, column, or orientation-aware legend layout.',
+      description:
+        "Sets row, column, or orientation-aware legend layout. Options: 'auto', 'row', 'column'.",
     },
     {
       name: 'legendPosition',
@@ -314,7 +315,7 @@ interface AerisMeterGroupSummaryContext {
       name: 'size',
       type: 'AerisMeterGroupSize',
       defaultValue: "'md'",
-      description: 'Sets the meter track thickness.',
+      description: "Sets the meter track thickness. Options: 'sm', 'md', 'lg'.",
     },
     {
       name: 'showLegend',

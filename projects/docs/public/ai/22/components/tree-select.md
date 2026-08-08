@@ -41,8 +41,8 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
 | `ariaLabelledby` | `string` | `''` | IDs of elements that label the combobox. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
 | `treeAriaLabel` | `string` | `'Tree options'` | Accessible name for the popup tree. |
-| `size` | `AerisTreeSelectSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisTreeSelectAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisTreeSelectSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisTreeSelectAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `disabled` | `boolean` | `false` | Disables opening, selection, clearing, and forms interaction. |
 | `required` | `boolean` | `false` | Exposes aria-required for validation. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |

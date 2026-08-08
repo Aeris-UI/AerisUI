@@ -29,10 +29,10 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `orientation` | `AerisSplitterOrientation` | `'horizontal'` | Lays panels out left-to-right or top-to-bottom. |
+| `orientation` | `AerisSplitterOrientation` | `'horizontal'` | Lays panels out left-to-right or top-to-bottom. Options: 'horizontal', 'vertical'. |
 | `variant` | `AerisSplitterVariant` | `'outlined'` | Applies outlined, filled, or plain surface treatment. |
-| `size` | `AerisSplitterSize` | `'md'` | Controls panel padding and gutter density. |
-| `divider` | `AerisSplitterDivider` | `'handle'` | Displays handle-only separators or full divider lines with handles. |
+| `size` | `AerisSplitterSize` | `'md'` | Controls panel padding and gutter density. Options: 'sm', 'md', 'lg'. |
+| `divider` | `AerisSplitterDivider` | `'handle'` | Displays handle-only separators or full divider lines with handles. Options: 'handle', 'line'. |
 | `disabled` | `boolean` | `false` | Disables every resize handle. |
 | `fluid` | `boolean` | `true` | Sets the host inline size to 100%. |
 | `step` | `number` | `5` | Keyboard resize increment in percentage points. |

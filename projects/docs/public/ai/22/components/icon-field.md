@@ -30,9 +30,9 @@ import { AerisIconField } from '@aeris-ui/core/icon-field';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `iconPosition` | `'left' &#124; 'right'` | `'left'` | Places content marked with aerisIcon before or after the projected control. |
-| `size` | `AerisIconFieldSize` | `'md'` | Controls height, padding, icon size, and text size. |
-| `appearance` | `AerisIconFieldAppearance` | `'outline'` | Outlined or filled field surface. |
-| `density` | `AerisIconFieldDensity` | `'comfortable'` | Adjusts spacing between icon and control. |
+| `size` | `AerisIconFieldSize` | `'md'` | Controls height, padding, icon size, and text size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisIconFieldAppearance` | `'outline'` | Outlined or filled field surface. Options: 'outline', 'filled'. |
+| `density` | `AerisIconFieldDensity` | `'comfortable'` | Adjusts spacing between icon and control. Options: 'comfortable', 'compact'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid to the field wrapper. |
 | `disabled` | `boolean` | `false` | Applies disabled field styling. Keep the projected control disabled as well. |
 | `readonly` | `boolean` | `false` | Applies read-only field styling. Keep the projected control read-only as well. |

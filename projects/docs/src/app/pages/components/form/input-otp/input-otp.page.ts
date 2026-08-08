@@ -1,9 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  AerisInputOtp,
-  type AerisInputOtpCompleteEvent,
-} from '@aeris-ui/core/input-otp';
+import { AerisInputOtp, type AerisInputOtpCompleteEvent } from '@aeris-ui/core/input-otp';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -75,8 +72,7 @@ export class InputOtpPage {
     { id: 'otp-api-methods', label: 'Methods' },
   ];
 
-  protected readonly importCode =
-    `import { AerisInputOtp } from '@aeris-ui/core/input-otp';`;
+  protected readonly importCode = `import { AerisInputOtp } from '@aeris-ui/core/input-otp';`;
 
   protected readonly modelCode = `protected readonly code = signal('');`;
 
@@ -113,26 +109,126 @@ interface AerisInputOtpCompleteEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'value', type: 'string (model)', defaultValue: "''", description: 'Accepted OTP characters with two-way binding and Forms support.' },
-    { name: 'length', type: 'number', defaultValue: '4', description: 'Number of rendered character slots.' },
-    { name: 'mode', type: 'numeric | alphanumeric', defaultValue: "'numeric'", description: 'Accepted character set and mobile keyboard hint.' },
-    { name: 'inputId', type: 'string', defaultValue: 'generated', description: 'ID assigned to the first slot for optional direct label association.' },
-    { name: 'name', type: 'string', defaultValue: "''", description: 'Creates a hidden native form value containing the complete current string.' },
-    { name: 'autocomplete', type: 'string', defaultValue: "'one-time-code'", description: 'Autocomplete hint applied to the first slot.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible group name when no visible label exists.' },
-    { name: 'ariaLabelledby', type: 'string', defaultValue: "''", description: 'IDs of visible elements that label the complete group.' },
-    { name: 'ariaDescribedby', type: 'string', defaultValue: "''", description: 'IDs of help and validation messages for the group.' },
-    { name: 'slotAriaLabel', type: 'string', defaultValue: "'Character {0} of {1}'", description: 'Localized accessible label pattern for each slot.' },
-    { name: 'size', type: 'AerisInputOtpSize', defaultValue: "'md'", description: 'Slot dimensions and typography size.' },
-    { name: 'appearance', type: 'AerisInputOtpAppearance', defaultValue: "'outline'", description: 'Outlined or filled slot treatment.' },
-    { name: 'mask', type: 'boolean', defaultValue: 'false', description: 'Masks each entered character using password input rendering.' },
-    { name: 'autoFocus', type: 'boolean', defaultValue: 'false', description: 'Focuses the first slot after the component renders.' },
-    { name: 'selectOnFocus', type: 'boolean', defaultValue: 'true', description: 'Selects an existing slot value when that slot receives focus.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables interaction and native form submission.' },
-    { name: 'readonly', type: 'boolean', defaultValue: 'false', description: 'Makes the slots read-only.' },
-    { name: 'required', type: 'boolean', defaultValue: 'false', description: 'Exposes native required validation semantics.' },
-    { name: 'invalid', type: 'boolean', defaultValue: 'false', description: 'Applies invalid styling and synchronizes aria-invalid.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'false', description: 'Fills the available inline space.' },
+    {
+      name: 'value',
+      type: 'string (model)',
+      defaultValue: "''",
+      description: 'Accepted OTP characters with two-way binding and Forms support.',
+    },
+    {
+      name: 'length',
+      type: 'number',
+      defaultValue: '4',
+      description: 'Number of rendered character slots.',
+    },
+    {
+      name: 'mode',
+      type: 'numeric | alphanumeric',
+      defaultValue: "'numeric'",
+      description: 'Accepted character set and mobile keyboard hint.',
+    },
+    {
+      name: 'inputId',
+      type: 'string',
+      defaultValue: 'generated',
+      description: 'ID assigned to the first slot for optional direct label association.',
+    },
+    {
+      name: 'name',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Creates a hidden native form value containing the complete current string.',
+    },
+    {
+      name: 'autocomplete',
+      type: 'string',
+      defaultValue: "'one-time-code'",
+      description: 'Autocomplete hint applied to the first slot.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible group name when no visible label exists.',
+    },
+    {
+      name: 'ariaLabelledby',
+      type: 'string',
+      defaultValue: "''",
+      description: 'IDs of visible elements that label the complete group.',
+    },
+    {
+      name: 'ariaDescribedby',
+      type: 'string',
+      defaultValue: "''",
+      description: 'IDs of help and validation messages for the group.',
+    },
+    {
+      name: 'slotAriaLabel',
+      type: 'string',
+      defaultValue: "'Character {0} of {1}'",
+      description: 'Localized accessible label pattern for each slot.',
+    },
+    {
+      name: 'size',
+      type: 'AerisInputOtpSize',
+      defaultValue: "'md'",
+      description: "Slot dimensions and typography size. Options: 'xs', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'appearance',
+      type: 'AerisInputOtpAppearance',
+      defaultValue: "'outline'",
+      description: "Outlined or filled slot treatment. Options: 'outline', 'filled'.",
+    },
+    {
+      name: 'mask',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Masks each entered character using password input rendering.',
+    },
+    {
+      name: 'autoFocus',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Focuses the first slot after the component renders.',
+    },
+    {
+      name: 'selectOnFocus',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Selects an existing slot value when that slot receives focus.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables interaction and native form submission.',
+    },
+    {
+      name: 'readonly',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Makes the slots read-only.',
+    },
+    {
+      name: 'required',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Exposes native required validation semantics.',
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Applies invalid styling and synchronizes aria-invalid.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Fills the available inline space.',
+    },
   ];
 
   protected handleComplete(event: AerisInputOtpCompleteEvent): void {

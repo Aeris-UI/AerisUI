@@ -30,7 +30,7 @@ import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `readonly T[]` | `[]` | Gallery items. AerisGalleriaImage values receive a complete built-in image presentation. |
-| `mode` | `AerisGalleriaMode` | `'gallery'` | Selects the gallery, responsive grid, or focused single-item presentation. |
+| `mode` | `AerisGalleriaMode` | `'gallery'` | Selects the gallery, responsive grid, or focused single-item presentation. Options: 'gallery', 'grid', 'single'. |
 | `numVisible` | `number &#124; 'auto'` | `'auto'` | Maximum thumbnails visible in the thumbnail window; auto fills the available width. |
 | `fullscreenNumVisible` | `number &#124; 'auto'` | `'auto'` | Maximum fullscreen thumbnails; auto fills the strip using the available viewport width. |
 | `responsiveOptions` | `readonly AerisGalleriaResponsiveOption[]` | `[]` | Container-width options for thumbnail count, visibility, and position. |
@@ -105,7 +105,7 @@ import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `indexChanged` | `AerisGalleriaIndexChangeEvent&lt;T&gt;` | `-` | Emits after user, autoplay, or API navigation with the item and reason. |
-| `fullscreenClosed` | `AerisGalleriaFullscreenCloseReason` | `-` | Emits when a component action closes fullscreen mode. |
+| `fullscreenClosed` | `AerisGalleriaFullscreenCloseReason` | `-` | Emits when a component action closes fullscreen mode. Options: 'toggle', 'escape', 'backdrop', 'api'. |
 | `transformChanged` | `AerisGalleriaTransformState` | `-` | Emits the complete transform state after toolbar or API changes. |
 | `downloadRequested` | `AerisGalleriaDownloadEvent&lt;T&gt;` | `-` | Emits after a safe built-in image download is requested. |
 

@@ -44,8 +44,8 @@ import {
 | `header` | `string` | `'Confirm action'` | Visible title for declarative usage. |
 | `message` | `string` | `''` | Default confirmation message. |
 | `data` | `unknown` | `undefined` | Context data exposed to templates and events. |
-| `icon` | `AerisConfirmDialogIcon` | `'question'` | Built-in icon or none. |
-| `severity` | `AerisConfirmDialogSeverity` | `'primary'` | Visual intent for icon and accept action. |
+| `icon` | `AerisConfirmDialogIcon` | `'question'` | Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'. |
+| `severity` | `AerisConfirmDialogSeverity` | `'primary'` | Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'. |
 | `acceptLabel` | `string` | `'Confirm'` | Accept button text. |
 | `rejectLabel` | `string` | `'Cancel'` | Reject button text. |
 | `acceptVisible` | `boolean` | `true` | Renders the accept action. |
@@ -54,7 +54,7 @@ import {
 | `rejectDisabled` | `boolean` | `false` | Disables the reject action. |
 | `acceptAriaLabel` | `string` | `''` | Accessible label for the accept action; falls back to acceptLabel. |
 | `rejectAriaLabel` | `string` | `''` | Accessible label for the reject action; falls back to rejectLabel. |
-| `defaultFocus` | `AerisConfirmDialogDefaultFocus` | `'accept'` | Built-in first focus target. |
+| `defaultFocus` | `AerisConfirmDialogDefaultFocus` | `'accept'` | Built-in first focus target. Options: 'accept', 'reject', 'close', 'dialog', 'none'. |
 | `modal` | `boolean` | `true` | Enables modal dialog semantics. |
 | `backdrop` | `boolean` | `true` | Shows the modal backdrop. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur to the backdrop. |
@@ -67,8 +67,8 @@ import {
 | `restoreFocus` | `boolean` | `true` | Returns focus to the launcher after close. |
 | `autoFocus` | `boolean` | `true` | Moves focus into the dialog after open. |
 | `initialFocus` | `string` | `''` | Custom selector that overrides defaultFocus. |
-| `position` | `AerisDialogPosition` | `'center'` | Places the dialog within the viewport. |
-| `size` | `AerisDialogSize` | `'sm'` | Dialog width preset. |
+| `position` | `AerisDialogPosition` | `'center'` | Places the dialog within the viewport. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'. |
+| `size` | `AerisDialogSize` | `'sm'` | Dialog width preset. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'. |
 | `width` | `string` | `''` | Custom dialog width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |
 | `mobileWidth` | `string` | `''` | Narrow viewport width. |
@@ -121,8 +121,8 @@ import {
 | `header` | `string` | `'Confirm action'` | Visible title for declarative usage. |
 | `message` | `string` | `''` | Default confirmation message. |
 | `data` | `unknown` | `undefined` | Context data exposed to templates and events. |
-| `icon` | `AerisConfirmDialogIcon` | `'question'` | Built-in icon or none. |
-| `severity` | `AerisConfirmDialogSeverity` | `'primary'` | Visual intent for icon and accept action. |
+| `icon` | `AerisConfirmDialogIcon` | `'question'` | Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'. |
+| `severity` | `AerisConfirmDialogSeverity` | `'primary'` | Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'. |
 | `acceptLabel` | `string` | `'Confirm'` | Accept button text. |
 | `rejectLabel` | `string` | `'Cancel'` | Reject button text. |
 | `acceptVisible` | `boolean` | `true` | Renders the accept action. |
@@ -131,7 +131,7 @@ import {
 | `rejectDisabled` | `boolean` | `false` | Disables the reject action. |
 | `acceptAriaLabel` | `string` | `''` | Accessible label for the accept action; falls back to acceptLabel. |
 | `rejectAriaLabel` | `string` | `''` | Accessible label for the reject action; falls back to rejectLabel. |
-| `defaultFocus` | `AerisConfirmDialogDefaultFocus` | `'accept'` | Built-in first focus target. |
+| `defaultFocus` | `AerisConfirmDialogDefaultFocus` | `'accept'` | Built-in first focus target. Options: 'accept', 'reject', 'close', 'dialog', 'none'. |
 | `modal` | `boolean` | `true` | Enables modal dialog semantics. |
 | `backdrop` | `boolean` | `true` | Shows the modal backdrop. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur to the backdrop. |
@@ -144,8 +144,8 @@ import {
 | `restoreFocus` | `boolean` | `true` | Returns focus to the launcher after close. |
 | `autoFocus` | `boolean` | `true` | Moves focus into the dialog after open. |
 | `initialFocus` | `string` | `''` | Custom selector that overrides defaultFocus. |
-| `position` | `AerisDialogPosition` | `'center'` | Places the dialog within the viewport. |
-| `size` | `AerisDialogSize` | `'sm'` | Dialog width preset. |
+| `position` | `AerisDialogPosition` | `'center'` | Places the dialog within the viewport. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'. |
+| `size` | `AerisDialogSize` | `'sm'` | Dialog width preset. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'. |
 | `width` | `string` | `''` | Custom dialog width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |
 | `mobileWidth` | `string` | `''` | Narrow viewport width. |

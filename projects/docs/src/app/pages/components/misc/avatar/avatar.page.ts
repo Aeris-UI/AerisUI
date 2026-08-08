@@ -144,13 +144,14 @@ type AerisAvatarGroupOverlap = 'subtle' | 'default' | 'strong';`;
       name: 'imageFit',
       type: 'AerisAvatarImageFit',
       defaultValue: "'cover'",
-      description: 'Controls whether an image covers or fits within the avatar.',
+      description:
+        "Controls whether an image covers or fits within the avatar. Options: 'cover', 'contain'.",
     },
     {
       name: 'size',
       type: 'AerisAvatarSize',
       defaultValue: "'md'",
-      description: 'Sets the avatar dimensions and typography.',
+      description: "Sets the avatar dimensions and typography. Options: 'sm', 'md', 'lg', 'xl'.",
     },
     {
       name: 'shape',
@@ -162,7 +163,8 @@ type AerisAvatarGroupOverlap = 'subtle' | 'default' | 'strong';`;
       name: 'tone',
       type: 'AerisAvatarTone',
       defaultValue: "'primary'",
-      description: 'Sets a theme-aware fallback background and foreground.',
+      description:
+        "Sets a theme-aware fallback background and foreground. Options: 'primary', 'neutral', 'success', 'info', 'warning', 'danger'.",
     },
     {
       name: 'decorative',
@@ -224,7 +226,8 @@ type AerisAvatarGroupOverlap = 'subtle' | 'default' | 'strong';`;
       name: 'overlap',
       type: 'AerisAvatarGroupOverlap',
       defaultValue: "'default'",
-      description: 'Controls how closely neighboring avatars overlap.',
+      description:
+        "Controls how closely neighboring avatars overlap. Options: 'subtle', 'default', 'strong'.",
     },
     {
       name: 'ariaLabel',

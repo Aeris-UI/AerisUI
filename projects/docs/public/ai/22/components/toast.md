@@ -32,15 +32,15 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `position` | `AerisToastPosition` | `'bottom-right'` | Places the toast region on the viewport. |
+| `position` | `AerisToastPosition` | `'bottom-right'` | Places the toast region on the viewport. Options: 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'center'. |
 | `group` | `string` | `''` | Renders only messages from the matching service group. |
-| `mode` | `AerisToastMode` | `'stacked'` | Uses a compact stack that expands on hover/focus or an always-expanded list. |
+| `mode` | `AerisToastMode` | `'stacked'` | Uses a compact stack that expands on hover/focus or an always-expanded list. Options: 'stacked', 'expanded'. |
 | `visibleCount` | `number` | `4` | Controls how many messages are rendered in stacked and expanded modes. |
 | `limit` | `number &#124; undefined` | `undefined` | Compatibility alias that overrides visibleCount when provided. |
 | `newestOnTop` | `boolean` | `true` | Shows the newest message as the primary toast. Set false to keep the oldest message on top. |
 | `pauseOnHover` | `boolean` | `true` | Pauses auto-dismiss timers while the toast region is hovered or focused. |
 | `showClose` | `boolean` | `true` | Shows close buttons for closable messages. |
-| `swipeDirection` | `AerisToastSwipeDirection &#124; readonly AerisToastSwipeDirection[]` | `['down', 'right']` | Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping. |
+| `swipeDirection` | `AerisToastSwipeDirection &#124; readonly AerisToastSwipeDirection[]` | `['down', 'right']` | Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping. Options: 'up', 'down', 'left', 'right'. |
 | `swipeThreshold` | `number` | `40` | Sets the required swipe displacement in pixels before dismissal. |
 | `ariaLabel` | `string` | `'Notifications'` | Accessible name for the toast region. |
 | `closeAriaLabel` | `string` | `'Close notification'` | Accessible label for each close button. |

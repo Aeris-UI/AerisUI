@@ -1,8 +1,5 @@
 import { Component, signal } from '@angular/core';
-import {
-  AerisSplitButton,
-  type AerisSplitButtonItem,
-} from '@aeris-ui/core/split-button';
+import { AerisSplitButton, type AerisSplitButtonItem } from '@aeris-ui/core/split-button';
 import { LucideDynamicIcon } from '@lucide/angular';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
@@ -81,8 +78,7 @@ export class SplitButtonPage {
     { id: 'split-api-templates', label: 'Templates' },
   ];
 
-  protected readonly importCode =
-    `import { AerisSplitButton, type AerisSplitButtonItem }\n  from '@aeris-ui/core/split-button';`;
+  protected readonly importCode = `import { AerisSplitButton, type AerisSplitButtonItem }\n  from '@aeris-ui/core/split-button';`;
   protected readonly modelCode = `protected readonly items: readonly AerisSplitButtonItem[] = [
   { label: 'Save draft', icon: 'save', command: () => saveDraft() },
   { label: 'Save a copy', icon: 'copy', command: () => saveCopy() },
@@ -145,40 +141,174 @@ interface AerisSplitButtonProps {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Mounts the action menu locally, in document.body, or in the supplied DOM/template target.' },
+    {
+      name: 'appendTo',
+      type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+      defaultValue: "'self' (global)",
+      description:
+        'Mounts the action menu locally, in document.body, or in the supplied DOM/template target.',
+    },
     {
       name: 'navigationHandler',
       type: 'AerisSplitButtonNavigationHandler | undefined',
       defaultValue: 'undefined',
-      description: 'Optional framework-routing bridge for routerLink items. Native href navigation is used otherwise.',
+      description:
+        'Optional framework-routing bridge for routerLink items. Native href navigation is used otherwise.',
     },
-    { name: 'id', type: 'string', defaultValue: 'generated', description: 'Stable base ID for the popup relationship and menu items.' },
+    {
+      name: 'id',
+      type: 'string',
+      defaultValue: 'generated',
+      description: 'Stable base ID for the popup relationship and menu items.',
+    },
     { name: 'label', type: 'string', defaultValue: "''", description: 'Primary action label.' },
-    { name: 'icon', type: 'string', defaultValue: "''", description: 'Optional primary action glyph when no icon template is supplied.' },
-    { name: 'model', type: 'readonly AerisSplitButtonItem<T>[]', defaultValue: '[]', description: 'Popup menu commands, links, separators, and item states.' },
-    { name: 'open', type: 'boolean (model)', defaultValue: 'false', description: 'Controls popup visibility and supports two-way binding.' },
-    { name: 'type', type: "'button' | 'submit' | 'reset'", defaultValue: "'button'", description: 'Native primary button type.' },
-    { name: 'variant', type: 'AerisSplitButtonVariant', defaultValue: "'primary'", description: 'Visual treatment shared by both button segments.' },
-    { name: 'severity', type: 'AerisSplitButtonSeverity', defaultValue: "'primary'", description: 'Semantic color shared by both segments.' },
-    { name: 'size', type: 'AerisSplitButtonSize', defaultValue: "'md'", description: 'Control height and typography size.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables the primary action and popup trigger.' },
-    { name: 'loading', type: 'boolean', defaultValue: 'false', description: 'Shows primary progress and disables both segments.' },
+    {
+      name: 'icon',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional primary action glyph when no icon template is supplied.',
+    },
+    {
+      name: 'model',
+      type: 'readonly AerisSplitButtonItem<T>[]',
+      defaultValue: '[]',
+      description: 'Popup menu commands, links, separators, and item states.',
+    },
+    {
+      name: 'open',
+      type: 'boolean (model)',
+      defaultValue: 'false',
+      description: 'Controls popup visibility and supports two-way binding.',
+    },
+    {
+      name: 'type',
+      type: "'button' | 'submit' | 'reset'",
+      defaultValue: "'button'",
+      description: 'Native primary button type.',
+    },
+    {
+      name: 'variant',
+      type: 'AerisSplitButtonVariant',
+      defaultValue: "'primary'",
+      description:
+        "Visual treatment shared by both button segments. Options: 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'.",
+    },
+    {
+      name: 'severity',
+      type: 'AerisSplitButtonSeverity',
+      defaultValue: "'primary'",
+      description:
+        "Semantic color shared by both segments. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'.",
+    },
+    {
+      name: 'size',
+      type: 'AerisSplitButtonSize',
+      defaultValue: "'md'",
+      description: "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables the primary action and popup trigger.',
+    },
+    {
+      name: 'loading',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows primary progress and disables both segments.',
+    },
     { name: 'raised', type: 'boolean', defaultValue: 'false', description: 'Adds elevation.' },
-    { name: 'rounded', type: 'boolean', defaultValue: 'false', description: 'Uses connected pill-shaped corners.' },
-    { name: 'outlined', type: 'boolean', defaultValue: 'false', description: 'Uses the outlined Button treatment.' },
-    { name: 'text', type: 'boolean', defaultValue: 'false', description: 'Uses the ghost Button treatment.' },
-    { name: 'plain', type: 'boolean', defaultValue: 'false', description: 'Uses a neutral treatment.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'false', description: 'Fills the available inline width.' },
-    { name: 'hideOnClickOutside', type: 'boolean', defaultValue: 'true', description: 'Closes when a pointer clicks outside the component.' },
-    { name: 'menuAriaLabel', type: 'string', defaultValue: "'Additional actions'", description: 'Accessible name for the popup menu.' },
-    { name: 'menuStyleClass', type: 'string', defaultValue: "''", description: 'Additional popup menu class.' },
-    { name: 'buttonProps', type: 'AerisSplitButtonProps', defaultValue: 'undefined', description: 'Primary button ARIA label, title, and tabindex.' },
-    { name: 'menuButtonProps', type: 'AerisSplitButtonProps', defaultValue: 'undefined', description: 'Popup trigger ARIA label, title, and tabindex.' },
-    { name: 'contentTemplate', type: 'TemplateRef', defaultValue: 'undefined', description: 'Replaces primary action content.' },
-    { name: 'iconTemplate', type: 'TemplateRef', defaultValue: 'undefined', description: 'Replaces the primary action icon.' },
-    { name: 'loadingIconTemplate', type: 'TemplateRef', defaultValue: 'undefined', description: 'Replaces the loading indicator.' },
-    { name: 'dropdownIconTemplate', type: 'TemplateRef', defaultValue: 'undefined', description: 'Replaces the popup trigger icon.' },
-    { name: 'itemTemplate', type: 'TemplateRef', defaultValue: 'undefined', description: 'Replaces popup item content.' },
+    {
+      name: 'rounded',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Uses connected pill-shaped corners.',
+    },
+    {
+      name: 'outlined',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Uses the outlined Button treatment.',
+    },
+    {
+      name: 'text',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Uses the ghost Button treatment.',
+    },
+    {
+      name: 'plain',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Uses a neutral treatment.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Fills the available inline width.',
+    },
+    {
+      name: 'hideOnClickOutside',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Closes when a pointer clicks outside the component.',
+    },
+    {
+      name: 'menuAriaLabel',
+      type: 'string',
+      defaultValue: "'Additional actions'",
+      description: 'Accessible name for the popup menu.',
+    },
+    {
+      name: 'menuStyleClass',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Additional popup menu class.',
+    },
+    {
+      name: 'buttonProps',
+      type: 'AerisSplitButtonProps',
+      defaultValue: 'undefined',
+      description: 'Primary button ARIA label, title, and tabindex.',
+    },
+    {
+      name: 'menuButtonProps',
+      type: 'AerisSplitButtonProps',
+      defaultValue: 'undefined',
+      description: 'Popup trigger ARIA label, title, and tabindex.',
+    },
+    {
+      name: 'contentTemplate',
+      type: 'TemplateRef',
+      defaultValue: 'undefined',
+      description: 'Replaces primary action content.',
+    },
+    {
+      name: 'iconTemplate',
+      type: 'TemplateRef',
+      defaultValue: 'undefined',
+      description: 'Replaces the primary action icon.',
+    },
+    {
+      name: 'loadingIconTemplate',
+      type: 'TemplateRef',
+      defaultValue: 'undefined',
+      description: 'Replaces the loading indicator.',
+    },
+    {
+      name: 'dropdownIconTemplate',
+      type: 'TemplateRef',
+      defaultValue: 'undefined',
+      description: 'Replaces the popup trigger icon.',
+    },
+    {
+      name: 'itemTemplate',
+      type: 'TemplateRef',
+      defaultValue: 'undefined',
+      description: 'Replaces popup item content.',
+    },
   ];
 
   protected save(): void {

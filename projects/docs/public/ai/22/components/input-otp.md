@@ -39,8 +39,8 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 | `ariaLabelledby` | `string` | `''` | IDs of visible elements that label the complete group. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages for the group. |
 | `slotAriaLabel` | `string` | `'Character {0} of {1}'` | Localized accessible label pattern for each slot. |
-| `size` | `AerisInputOtpSize` | `'md'` | Slot dimensions and typography size. |
-| `appearance` | `AerisInputOtpAppearance` | `'outline'` | Outlined or filled slot treatment. |
+| `size` | `AerisInputOtpSize` | `'md'` | Slot dimensions and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisInputOtpAppearance` | `'outline'` | Outlined or filled slot treatment. Options: 'outline', 'filled'. |
 | `mask` | `boolean` | `false` | Masks each entered character using password input rendering. |
 | `autoFocus` | `boolean` | `false` | Focuses the first slot after the component renders. |
 | `selectOnFocus` | `boolean` | `true` | Selects an existing slot value when that slot receives focus. |

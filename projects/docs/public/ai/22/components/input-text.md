@@ -29,8 +29,8 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. |
-| `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. |
+| `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
 | `fluid` | `boolean` | `false` | Expands the native input to fill its available inline space. |
 
@@ -47,8 +47,8 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label is associated. |
 | `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
 | `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help or validation messages. |
-| `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. |
-| `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. |
+| `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
 | `fluid` | `boolean` | `false` | Expands the native input to fill its available inline space. |
 | `disabled` | `boolean` | `false` | Disables the input and clear action. |

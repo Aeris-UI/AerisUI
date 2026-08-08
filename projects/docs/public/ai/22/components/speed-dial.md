@@ -34,7 +34,7 @@ from '@aeris-ui/core/speed-dial';
 | `id` | `string` | `generated` | Stable base ID for the trigger, menu, and items. |
 | `model` | `readonly AerisSpeedDialItem&lt;T&gt;[]` | `[]` | Actions displayed by the menu. |
 | `visible` | `boolean (model)` | `false` | Controls open state and supports two-way binding. |
-| `direction` | `AerisSpeedDialDirection` | `'up'` | Direction used by linear and partial-circle layouts. |
+| `direction` | `AerisSpeedDialDirection` | `'up'` | Direction used by linear and partial-circle layouts. Options: 'up', 'down', 'left', 'right', 'up-left', 'up-right', 'down-left', 'down-right'. |
 | `type` | `AerisSpeedDialType` | `'linear'` | Linear, circle, semi-circle, or quarter-circle layout. |
 | `maxItems` | `number &#124; undefined` | `layout limit` | Optionally lowers the limit. Linear and quarter-circle allow 5, semi-circle allows 7, and circle allows 8. |
 | `radius` | `number` | `0` | Radial distance in pixels. Zero derives a radius from item count. |

@@ -262,7 +262,8 @@ protected onLeft(): void {
       name: 'aerisAnimateOnScroll',
       type: 'AerisAnimateOnScrollEffect',
       defaultValue: "'fade-up'",
-      description: 'Selects the built-in reveal effect.',
+      description:
+        "Selects the built-in reveal effect. Options: 'fade', 'fade-up', 'fade-down', 'slide-start', 'slide-end', 'scale'.",
     },
     {
       name: 'threshold',

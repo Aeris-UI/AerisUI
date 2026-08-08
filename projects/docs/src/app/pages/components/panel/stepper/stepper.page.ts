@@ -1,9 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import {
-  AerisStepperModule,
-  type AerisStepperChangeEvent,
-} from '@aeris-ui/core/stepper';
+import { AerisStepperModule, type AerisStepperChangeEvent } from '@aeris-ui/core/stepper';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -176,49 +173,195 @@ interface AerisStepTemplateContext {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'orientation', type: 'AerisStepperOrientation', defaultValue: "'horizontal'", description: 'Lays out step headers horizontally or vertically.' },
-    { name: 'activationMode', type: 'AerisStepperActivationMode', defaultValue: "'automatic'", description: 'Selects focused steps automatically or waits for Enter/Space in manual mode.' },
-    { name: 'linear', type: 'boolean', defaultValue: 'false', description: 'Prevents skipping ahead by allowing only previous steps, the active step, and the immediate next step.' },
-    { name: 'stepsOnly', type: 'boolean', defaultValue: 'false', description: 'Shows only the step indicators and labels without rendering an active content panel.' },
-    { name: 'size', type: 'AerisStepperSize', defaultValue: "'md'", description: 'Controls trigger and indicator sizing.' },
-    { name: 'variant', type: 'AerisStepperVariant', defaultValue: "'line'", description: 'Uses an open line layout or contained header surface.' },
-    { name: 'optionalLabel', type: 'string', defaultValue: "'Optional'", description: 'Text rendered for optional steps without a custom header.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name for the step list.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that names the step list.' },
-    { name: 'panelTabIndex', type: '0 | -1', defaultValue: '0', description: 'Tab index applied to the active step panel.' },
+    {
+      name: 'orientation',
+      type: 'AerisStepperOrientation',
+      defaultValue: "'horizontal'",
+      description:
+        "Lays out step headers horizontally or vertically. Options: 'horizontal', 'vertical'.",
+    },
+    {
+      name: 'activationMode',
+      type: 'AerisStepperActivationMode',
+      defaultValue: "'automatic'",
+      description:
+        "Selects focused steps automatically or waits for Enter/Space in manual mode. Options: 'automatic', 'manual'.",
+    },
+    {
+      name: 'linear',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Prevents skipping ahead by allowing only previous steps, the active step, and the immediate next step.',
+    },
+    {
+      name: 'stepsOnly',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Shows only the step indicators and labels without rendering an active content panel.',
+    },
+    {
+      name: 'size',
+      type: 'AerisStepperSize',
+      defaultValue: "'md'",
+      description: "Controls trigger and indicator sizing. Options: 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'variant',
+      type: 'AerisStepperVariant',
+      defaultValue: "'line'",
+      description: 'Uses an open line layout or contained header surface.',
+    },
+    {
+      name: 'optionalLabel',
+      type: 'string',
+      defaultValue: "'Optional'",
+      description: 'Text rendered for optional steps without a custom header.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name for the step list.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that names the step list.',
+    },
+    {
+      name: 'panelTabIndex',
+      type: '0 | -1',
+      defaultValue: '0',
+      description: 'Tab index applied to the active step panel.',
+    },
   ];
 
   protected readonly models: readonly ApiRow[] = [
-    { name: 'value', type: 'string', defaultValue: "''", description: 'Current active step value.' },
+    {
+      name: 'value',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Current active step value.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'valueChange', type: 'string', defaultValue: '-', description: 'Emitted by the value model.' },
-    { name: 'changed', type: 'AerisStepperChangeEvent', defaultValue: '-', description: 'Emitted after the active step changes.' },
-    { name: 'stepFocused', type: 'string', defaultValue: '-', description: 'Emitted when a step trigger receives focus.' },
+    {
+      name: 'valueChange',
+      type: 'string',
+      defaultValue: '-',
+      description: 'Emitted by the value model.',
+    },
+    {
+      name: 'changed',
+      type: 'AerisStepperChangeEvent',
+      defaultValue: '-',
+      description: 'Emitted after the active step changes.',
+    },
+    {
+      name: 'stepFocused',
+      type: 'string',
+      defaultValue: '-',
+      description: 'Emitted when a step trigger receives focus.',
+    },
   ];
 
   protected readonly stepInputs: readonly ApiRow[] = [
-    { name: 'value', type: 'string', defaultValue: 'required', description: 'Unique step value used for selection and events.' },
-    { name: 'label', type: 'string', defaultValue: 'required', description: 'Default visible step label.' },
-    { name: 'description', type: 'string', defaultValue: "''", description: 'Optional supporting text below the label.' },
-    { name: 'optional', type: 'boolean', defaultValue: 'false', description: 'Marks the step with optional supporting text.' },
-    { name: 'completed', type: 'boolean', defaultValue: 'false', description: 'Marks the step as complete.' },
-    { name: 'invalid', type: 'boolean', defaultValue: 'false', description: 'Marks the step with invalid state and aria-invalid.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables step selection and keyboard focus.' },
+    {
+      name: 'value',
+      type: 'string',
+      defaultValue: 'required',
+      description: 'Unique step value used for selection and events.',
+    },
+    {
+      name: 'label',
+      type: 'string',
+      defaultValue: 'required',
+      description: 'Default visible step label.',
+    },
+    {
+      name: 'description',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional supporting text below the label.',
+    },
+    {
+      name: 'optional',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Marks the step with optional supporting text.',
+    },
+    {
+      name: 'completed',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Marks the step as complete.',
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Marks the step with invalid state and aria-invalid.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables step selection and keyboard focus.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisStepHeader', type: 'AerisStepTemplateContext', defaultValue: 'label, description, optional label', description: 'Custom header content for a single step.' },
-    { name: 'aerisStepIndicator', type: 'AerisStepTemplateContext', defaultValue: 'step number or check mark', description: 'Custom indicator for a single step or all steps when placed directly under Stepper.' },
-    { name: 'default step content', type: 'content projection', defaultValue: '-', description: 'Active panel content rendered for the selected step unless stepsOnly is enabled.' },
+    {
+      name: 'aerisStepHeader',
+      type: 'AerisStepTemplateContext',
+      defaultValue: 'label, description, optional label',
+      description: 'Custom header content for a single step.',
+    },
+    {
+      name: 'aerisStepIndicator',
+      type: 'AerisStepTemplateContext',
+      defaultValue: 'step number or check mark',
+      description:
+        'Custom indicator for a single step or all steps when placed directly under Stepper.',
+    },
+    {
+      name: 'default step content',
+      type: 'content projection',
+      defaultValue: '-',
+      description:
+        'Active panel content rendered for the selected step unless stepsOnly is enabled.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'select(value, event?)', type: '(string, Event | null) => void', defaultValue: '-', description: 'Selects a reachable step by value.' },
-    { name: 'next(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Moves to the next reachable enabled step.' },
-    { name: 'previous(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Moves to the previous enabled step.' },
-    { name: 'focusStep(value, options?)', type: '(string, FocusOptions) => void', defaultValue: '-', description: 'Moves focus to a reachable enabled step trigger.' },
+    {
+      name: 'select(value, event?)',
+      type: '(string, Event | null) => void',
+      defaultValue: '-',
+      description: 'Selects a reachable step by value.',
+    },
+    {
+      name: 'next(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Moves to the next reachable enabled step.',
+    },
+    {
+      name: 'previous(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Moves to the previous enabled step.',
+    },
+    {
+      name: 'focusStep(value, options?)',
+      type: '(string, FocusOptions) => void',
+      defaultValue: '-',
+      description: 'Moves focus to a reachable enabled step trigger.',
+    },
   ];
 
   protected recordStepChange(event: AerisStepperChangeEvent): void {

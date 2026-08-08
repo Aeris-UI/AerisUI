@@ -29,10 +29,10 @@ import { AerisButton } from '@aeris-ui/core/button';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `variant` | `AerisButtonVariant` | `'primary'` | Visual treatment of the button. |
-| `severity` | `AerisButtonSeverity` | `'primary'` | Semantic color applied to the selected variant. |
-| `size` | `AerisButtonSize` | `'md'` | Control height and typography size. |
-| `iconPosition` | `AerisButtonIconPosition` | `'left'` | Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically. |
+| `variant` | `AerisButtonVariant` | `'primary'` | Visual treatment of the button. Options: 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. |
+| `severity` | `AerisButtonSeverity` | `'primary'` | Semantic color applied to the selected variant. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. |
+| `size` | `AerisButtonSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `iconPosition` | `AerisButtonIconPosition` | `'left'` | Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically. Options: 'left', 'right', 'top', 'bottom'. |
 | `loading` | `boolean` | `false` | Displays progress and exposes aria-busy. |
 | `showSpinner` | `boolean` | `true` | Controls the built-in loading spinner. |
 | `iconOnly` | `boolean` | `false` | Creates a square icon button. Requires an accessible name. |
@@ -252,7 +252,7 @@ Each semantic tone supplies its own base, hover, active, and accessible foregrou
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisButton } from '@aeris-ui/core/button';
+import { AerisButton, type AerisButtonSeverity } from '@aeris-ui/core/button';
 
 @Component({
   selector: 'app-feature-severity-demo',
@@ -286,6 +286,15 @@ import { AerisButton } from '@aeris-ui/core/button';
   `
 })
 export class FeatureSeveritySeverityDemo {
+  protected readonly severities: readonly AerisButtonSeverity[] = [
+    'primary',
+    'secondary',
+    'success',
+    'info',
+    'warning',
+    'danger',
+    'contrast',
+  ];
 }
 ```
 

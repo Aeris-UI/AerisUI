@@ -40,8 +40,8 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 | `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
 | `clearButtonAriaLabel` | `string` | `'Clear value'` | Accessible name for the clear button. |
 | `emptyMessage` | `string` | `'No options available'` | Message shown when the options tree is empty. |
-| `size` | `AerisCascadeSelectSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisCascadeSelectAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisCascadeSelectSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisCascadeSelectAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `separator` | `string` | `' / '` | Text used between labels in the selected path. |
 | `panelMaxHeight` | `string` | `'18rem'` | Maximum dropdown panel height. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |

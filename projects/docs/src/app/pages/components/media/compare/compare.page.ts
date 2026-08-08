@@ -373,7 +373,7 @@ export class CompareFormsDemo {
       name: 'orientation',
       type: 'AerisCompareOrientation',
       defaultValue: "'horizontal'",
-      description: 'Direction of the reveal and divider.',
+      description: "Direction of the reveal and divider. Options: 'horizontal', 'vertical'.",
     },
     {
       name: 'slideOnHover',
@@ -439,7 +439,8 @@ export class CompareFormsDemo {
       name: 'objectFit',
       type: 'AerisCompareObjectFit',
       defaultValue: "'cover'",
-      description: 'Fit used by built-in images.',
+      description:
+        "Fit used by built-in images. Options: 'contain', 'cover', 'fill', 'none', 'scale-down'.",
     },
     {
       name: 'aspectRatio',

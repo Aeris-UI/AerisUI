@@ -30,8 +30,8 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `id` | `string` | `generated id` | Host ID used to derive the viewport ID. |
-| `orientation` | `AerisScrollPanelOrientation` | `'vertical'` | Controls vertical, horizontal, or two-axis overflow. |
-| `variant` | `AerisScrollPanelVariant` | `'auto'` | Adjusts scrollbar visibility styling. |
+| `orientation` | `AerisScrollPanelOrientation` | `'vertical'` | Controls vertical, horizontal, or two-axis overflow. Options: 'vertical', 'horizontal', 'both'. |
+| `variant` | `AerisScrollPanelVariant` | `'auto'` | Adjusts scrollbar visibility styling. Options: 'auto', 'hover', 'always', 'hidden'. |
 | `fade` | `boolean` | `false` | Adds visual fades at scroll edges when additional content exists. |
 | `fluid` | `boolean` | `true` | Sets the host inline size to 100%. |
 | `focusable` | `boolean` | `true` | Makes the scroll viewport keyboard-focusable. |

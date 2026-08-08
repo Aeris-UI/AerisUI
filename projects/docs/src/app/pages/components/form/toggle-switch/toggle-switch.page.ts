@@ -1,9 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  AerisToggleSwitch,
-  type AerisToggleSwitchChangeEvent,
-} from '@aeris-ui/core/toggle-switch';
+import { AerisToggleSwitch, type AerisToggleSwitchChangeEvent } from '@aeris-ui/core/toggle-switch';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -43,9 +40,7 @@ export class ToggleSwitchPage {
   protected readonly lastChange = signal('No interaction');
   protected readonly consent = signal(false);
   protected readonly consentTouched = signal(false);
-  protected readonly consentInvalid = computed(
-    () => this.consentTouched() && !this.consent(),
-  );
+  protected readonly consentInvalid = computed(() => this.consentTouched() && !this.consent());
   protected readonly reactiveEnabled = new FormControl(false);
   protected templateEnabled = true;
 
@@ -67,8 +62,7 @@ export class ToggleSwitchPage {
     { id: 'toggle-switch-api-methods', label: 'Methods' },
   ];
 
-  protected readonly importCode =
-    `import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';`;
+  protected readonly importCode = `import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';`;
 
   protected readonly modelCode = `protected readonly notifications = signal(true);
 protected readonly lastChange = signal('No interaction');
@@ -109,39 +103,143 @@ interface AerisToggleSwitchChangeEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'checked', type: 'boolean (model)', defaultValue: 'false', description: 'Current on/off state with two-way binding support.' },
-    { name: 'inputId', type: 'string', defaultValue: 'generated', description: 'ID assigned to the internal native checkbox.' },
+    {
+      name: 'checked',
+      type: 'boolean (model)',
+      defaultValue: 'false',
+      description: 'Current on/off state with two-way binding support.',
+    },
+    {
+      name: 'inputId',
+      type: 'string',
+      defaultValue: 'generated',
+      description: 'ID assigned to the internal native checkbox.',
+    },
     { name: 'name', type: 'string', defaultValue: "''", description: 'Native form field name.' },
-    { name: 'value', type: 'string', defaultValue: "'on'", description: 'Value submitted by a native form while checked.' },
-    { name: 'label', type: 'string', defaultValue: "''", description: 'Optional visible text label. Projected label content is also supported.' },
-    { name: 'ariaLabel', type: 'string | undefined', defaultValue: 'undefined', description: 'Accessible name when no visible label content exists.' },
-    { name: 'ariaLabelledby', type: 'string | undefined', defaultValue: 'undefined', description: 'IDs of external elements that label the switch.' },
-    { name: 'ariaDescribedby', type: 'string | undefined', defaultValue: 'undefined', description: 'IDs of help and validation messages.' },
-    { name: 'size', type: 'AerisToggleSwitchSize', defaultValue: "'md'", description: 'Track, thumb, gap, and label size.' },
-    { name: 'labelPosition', type: 'AerisToggleSwitchLabelPosition', defaultValue: "'end'", description: 'Places visible label content before or after the control.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables interaction and native form submission.' },
-    { name: 'required', type: 'boolean', defaultValue: 'false', description: 'Exposes native required validation semantics.' },
-    { name: 'invalid', type: 'boolean', defaultValue: 'false', description: 'Applies invalid styling and synchronizes aria-invalid.' },
+    {
+      name: 'value',
+      type: 'string',
+      defaultValue: "'on'",
+      description: 'Value submitted by a native form while checked.',
+    },
+    {
+      name: 'label',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional visible text label. Projected label content is also supported.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'Accessible name when no visible label content exists.',
+    },
+    {
+      name: 'ariaLabelledby',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'IDs of external elements that label the switch.',
+    },
+    {
+      name: 'ariaDescribedby',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'IDs of help and validation messages.',
+    },
+    {
+      name: 'size',
+      type: 'AerisToggleSwitchSize',
+      defaultValue: "'md'",
+      description: "Track, thumb, gap, and label size. Options: 'xs', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'labelPosition',
+      type: 'AerisToggleSwitchLabelPosition',
+      defaultValue: "'end'",
+      description:
+        "Places visible label content before or after the control. Options: 'start', 'end'.",
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables interaction and native form submission.',
+    },
+    {
+      name: 'required',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Exposes native required validation semantics.',
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Applies invalid styling and synchronizes aria-invalid.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'checkedChange', type: 'boolean', defaultValue: '-', description: 'Emitted automatically by the checked model.' },
-    { name: 'checkedInput', type: 'boolean', defaultValue: '-', description: 'Emitted when user interaction or a public method changes state.' },
-    { name: 'changed', type: 'AerisToggleSwitchChangeEvent', defaultValue: '-', description: 'Provides the native event, checked state, and submitted value.' },
-    { name: 'focused', type: 'FocusEvent', defaultValue: '-', description: 'Emitted when the native switch receives focus.' },
-    { name: 'blurred', type: 'FocusEvent', defaultValue: '-', description: 'Emitted when the native switch loses focus.' },
-    { name: 'touch', type: 'void', defaultValue: '-', description: 'Emitted on blur for touched-state integration.' },
+    {
+      name: 'checkedChange',
+      type: 'boolean',
+      defaultValue: '-',
+      description: 'Emitted automatically by the checked model.',
+    },
+    {
+      name: 'checkedInput',
+      type: 'boolean',
+      defaultValue: '-',
+      description: 'Emitted when user interaction or a public method changes state.',
+    },
+    {
+      name: 'changed',
+      type: 'AerisToggleSwitchChangeEvent',
+      defaultValue: '-',
+      description: 'Provides the native event, checked state, and submitted value.',
+    },
+    {
+      name: 'focused',
+      type: 'FocusEvent',
+      defaultValue: '-',
+      description: 'Emitted when the native switch receives focus.',
+    },
+    {
+      name: 'blurred',
+      type: 'FocusEvent',
+      defaultValue: '-',
+      description: 'Emitted when the native switch loses focus.',
+    },
+    {
+      name: 'touch',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Emitted on blur for touched-state integration.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'focus(options?)', type: 'void', defaultValue: '-', description: 'Moves focus to the native switch.' },
-    { name: 'toggle()', type: 'void', defaultValue: '-', description: 'Toggles an enabled switch and moves focus to it.' },
-    { name: 'reset()', type: 'void', defaultValue: '-', description: 'Sets checked state to false.' },
+    {
+      name: 'focus(options?)',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves focus to the native switch.',
+    },
+    {
+      name: 'toggle()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Toggles an enabled switch and moves focus to it.',
+    },
+    {
+      name: 'reset()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Sets checked state to false.',
+    },
   ];
 
   protected recordChange(event: AerisToggleSwitchChangeEvent): void {
-    this.lastChange.set(
-      event.checked ? 'Notifications enabled' : 'Notifications disabled',
-    );
+    this.lastChange.set(event.checked ? 'Notifications enabled' : 'Notifications disabled');
   }
 }

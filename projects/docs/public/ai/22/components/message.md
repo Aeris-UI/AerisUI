@@ -30,15 +30,15 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `id` | `string` | `generated id` | Sets the host element id. |
-| `severity` | `AerisMessageSeverity` | `'info'` | Sets visual tone and default live-region behavior. |
+| `severity` | `AerisMessageSeverity` | `'info'` | Sets visual tone and default live-region behavior. Options: 'info', 'success', 'warning', 'error', 'neutral', 'secondary', 'contrast'. |
 | `variant` | `AerisMessageVariant` | `'filled'` | Sets filled, outlined, or simple presentation. |
-| `size` | `AerisMessageSize` | `'md'` | Sets compact, default, or large spacing and type scale. |
+| `size` | `AerisMessageSize` | `'md'` | Sets compact, default, or large spacing and type scale. Options: 'sm', 'md', 'lg'. |
 | `text` | `string` | `''` | Renders plain message text when no content template is provided. |
 | `closable` | `boolean` | `false` | Shows a native close button. |
 | `life` | `number` | `0` | Auto-closes the message after the provided number of milliseconds. Zero disables auto-close. |
 | `showIcon` | `boolean` | `true` | Shows or hides the severity icon region. |
-| `role` | `AerisMessageRole &#124; ''` | `''` | Overrides the default alert/status role. |
-| `ariaLive` | `AerisMessageLive &#124; ''` | `''` | Overrides the default live-region politeness. |
+| `role` | `AerisMessageRole &#124; ''` | `''` | Overrides the default alert/status role. Options: 'status', 'alert', 'note'. |
+| `ariaLive` | `AerisMessageLive &#124; ''` | `''` | Overrides the default live-region politeness. Options: 'polite', 'assertive', 'off'. |
 | `ariaLabel` | `string` | `''` | Accessible name for the message when visible text is not enough. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that names the message. |
 | `closeAriaLabel` | `string` | `'Close message'` | Accessible label for the close button. |

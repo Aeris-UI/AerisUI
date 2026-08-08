@@ -29,7 +29,7 @@ import { AerisAnimateOnScrollModule } from '@aeris-ui/core/animate-on-scroll';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aerisAnimateOnScroll` | `AerisAnimateOnScrollEffect` | `'fade-up'` | Selects the built-in reveal effect. |
+| `aerisAnimateOnScroll` | `AerisAnimateOnScrollEffect` | `'fade-up'` | Selects the built-in reveal effect. Options: 'fade', 'fade-up', 'fade-down', 'slide-start', 'slide-end', 'scale'. |
 | `threshold` | `number` | `0.2` | Visible proportion required to enter, clamped from 0 to 1. |
 | `rootMargin` | `string` | `'0px 0px -10% 0px'` | IntersectionObserver margin used to tune the reveal boundary. |
 | `once` | `boolean` | `true` | Keeps the element visible and stops observation after its first entrance. |
