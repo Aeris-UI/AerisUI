@@ -33,7 +33,7 @@ import { AerisBreadcrumbModule } from '@aeris-ui/core/breadcrumb';
 | `items` | `readonly AerisBreadcrumbItem[]` | `[]` | Breadcrumb trail items after the optional home item. |
 | `home` | `AerisBreadcrumbItem &#124; null` | `null` | Optional first item for the root location. It can be icon-only when ariaLabel is provided. |
 | `variant` | `AerisBreadcrumbVariant` | `'outlined'` | Outlined, filled, or plain surface treatment. |
-| `size` | `AerisBreadcrumbSize` | `'md'` | Controls padding, separator size, and text density. |
+| `size` | `AerisBreadcrumbSize` | `'md'` | Controls padding, separator size, and text density. Options: 'sm', 'md', 'lg'. |
 | `separator` | `string` | `''` | Text separator. Empty value renders the default Aeris chevron. |
 | `maxItems` | `number &#124; null` | `null` | Maximum visible items before middle items collapse behind an ellipsis. |
 | `wrap` | `boolean` | `true` | Allows the breadcrumb trail to wrap when space is limited. |
@@ -41,7 +41,7 @@ import { AerisBreadcrumbModule } from '@aeris-ui/core/breadcrumb';
 | `ariaLabel` | `string` | `'Breadcrumb'` | Accessible name for the internal navigation element. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the breadcrumb navigation. |
 | `ariaDescribedBy` | `string` | `''` | ID of text that describes the breadcrumb navigation. |
-| `ariaCurrent` | `AerisBreadcrumbAriaCurrent` | `'page'` | Value applied to the current item through aria-current. |
+| `ariaCurrent` | `AerisBreadcrumbAriaCurrent` | `'page'` | Value applied to the current item through aria-current. Options: 'page', 'step', 'location', 'date', 'time', 'true'. |
 | `ellipsisLabel` | `string` | `'Show hidden breadcrumb items'` | Accessible name for the ellipsis button. |
 
 ### Outputs

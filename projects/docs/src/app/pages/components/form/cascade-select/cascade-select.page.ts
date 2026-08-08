@@ -115,8 +115,7 @@ export class CascadeSelectPage {
     { id: 'cascade-api-templates', label: 'Templates' },
   ];
 
-  protected readonly importCode =
-    `import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';`;
+  protected readonly importCode = `import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';`;
 
   protected readonly optionsCode = `protected readonly locations: readonly AerisCascadeSelectOption[] = [
   {
@@ -174,47 +173,220 @@ interface AerisCascadeSelectChangeEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Mounts the overlay locally, in document.body, or in the supplied DOM/template target.' },
-    { name: 'value', type: 'string | null (model)', defaultValue: 'null', description: 'Selected option value with two-way binding and Forms support.' },
-    { name: 'options', type: 'readonly AerisCascadeSelectOption[]', defaultValue: '[]', description: 'Hierarchical option tree rendered by the cascading columns.' },
-    { name: 'inputId', type: 'string', defaultValue: 'generated', description: 'ID assigned to the trigger button.' },
-    { name: 'name', type: 'string', defaultValue: "''", description: 'Native form field name submitted through a hidden input when a value is selected.' },
-    { name: 'placeholder', type: 'string', defaultValue: "'Select an option'", description: 'Text shown while no value is selected.' },
-    { name: 'ariaLabel', type: 'string | undefined', defaultValue: 'undefined', description: 'Accessible name when no visible label is available.' },
-    { name: 'ariaLabelledby', type: 'string | undefined', defaultValue: 'undefined', description: 'IDs of visible elements that label the trigger.' },
-    { name: 'ariaDescribedby', type: 'string | undefined', defaultValue: 'undefined', description: 'IDs of help and validation messages.' },
-    { name: 'clearButtonAriaLabel', type: 'string', defaultValue: "'Clear value'", description: 'Accessible name for the clear button.' },
-    { name: 'emptyMessage', type: 'string', defaultValue: "'No options available'", description: 'Message shown when the options tree is empty.' },
-    { name: 'size', type: 'AerisCascadeSelectSize', defaultValue: "'md'", description: 'Control height and typography size.' },
-    { name: 'appearance', type: 'AerisCascadeSelectAppearance', defaultValue: "'outline'", description: 'Outlined or filled visual treatment.' },
-    { name: 'separator', type: 'string', defaultValue: "' / '", description: 'Text used between labels in the selected path.' },
-    { name: 'panelMaxHeight', type: 'string', defaultValue: "'18rem'", description: 'Maximum dropdown panel height.' },
-    { name: 'invalid', type: 'boolean', defaultValue: 'false', description: 'Applies invalid styling and synchronizes aria-invalid.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables interaction and form submission.' },
-    { name: 'required', type: 'boolean', defaultValue: 'false', description: 'Exposes required semantics to forms and assistive technology.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'false', description: 'Fills the available inline space.' },
-    { name: 'clearable', type: 'boolean', defaultValue: 'false', description: 'Shows a clear action while a value exists.' },
-    { name: 'selectBranches', type: 'boolean', defaultValue: 'false', description: 'Allows branch options with children to be selected instead of only opening the next level.' },
+    {
+      name: 'appendTo',
+      type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+      defaultValue: "'self' (global)",
+      description:
+        'Mounts the overlay locally, in document.body, or in the supplied DOM/template target.',
+    },
+    {
+      name: 'value',
+      type: 'string | null (model)',
+      defaultValue: 'null',
+      description: 'Selected option value with two-way binding and Forms support.',
+    },
+    {
+      name: 'options',
+      type: 'readonly AerisCascadeSelectOption[]',
+      defaultValue: '[]',
+      description: 'Hierarchical option tree rendered by the cascading columns.',
+    },
+    {
+      name: 'inputId',
+      type: 'string',
+      defaultValue: 'generated',
+      description: 'ID assigned to the trigger button.',
+    },
+    {
+      name: 'name',
+      type: 'string',
+      defaultValue: "''",
+      description:
+        'Native form field name submitted through a hidden input when a value is selected.',
+    },
+    {
+      name: 'placeholder',
+      type: 'string',
+      defaultValue: "'Select an option'",
+      description: 'Text shown while no value is selected.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'Accessible name when no visible label is available.',
+    },
+    {
+      name: 'ariaLabelledby',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'IDs of visible elements that label the trigger.',
+    },
+    {
+      name: 'ariaDescribedby',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'IDs of help and validation messages.',
+    },
+    {
+      name: 'clearButtonAriaLabel',
+      type: 'string',
+      defaultValue: "'Clear value'",
+      description: 'Accessible name for the clear button.',
+    },
+    {
+      name: 'emptyMessage',
+      type: 'string',
+      defaultValue: "'No options available'",
+      description: 'Message shown when the options tree is empty.',
+    },
+    {
+      name: 'size',
+      type: 'AerisCascadeSelectSize',
+      defaultValue: "'md'",
+      description: "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'appearance',
+      type: 'AerisCascadeSelectAppearance',
+      defaultValue: "'outline'",
+      description: "Outlined or filled visual treatment. Options: 'outline', 'filled'.",
+    },
+    {
+      name: 'separator',
+      type: 'string',
+      defaultValue: "' / '",
+      description: 'Text used between labels in the selected path.',
+    },
+    {
+      name: 'panelMaxHeight',
+      type: 'string',
+      defaultValue: "'18rem'",
+      description: 'Maximum dropdown panel height.',
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Applies invalid styling and synchronizes aria-invalid.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables interaction and form submission.',
+    },
+    {
+      name: 'required',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Exposes required semantics to forms and assistive technology.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Fills the available inline space.',
+    },
+    {
+      name: 'clearable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows a clear action while a value exists.',
+    },
+    {
+      name: 'selectBranches',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Allows branch options with children to be selected instead of only opening the next level.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'valueChange', type: 'string | null', defaultValue: '-', description: 'Emitted automatically by the value model.' },
-    { name: 'changed', type: 'AerisCascadeSelectChangeEvent', defaultValue: '-', description: 'Emitted after selection or clearing changes the value.' },
-    { name: 'cleared', type: 'void', defaultValue: '-', description: 'Emitted after the clear action succeeds.' },
-    { name: 'opened', type: 'void', defaultValue: '-', description: 'Emitted when the panel opens.' },
-    { name: 'closed', type: 'void', defaultValue: '-', description: 'Emitted when the panel closes.' },
-    { name: 'focused', type: 'FocusEvent', defaultValue: '-', description: 'Emitted when the trigger receives focus.' },
-    { name: 'blurred', type: 'FocusEvent', defaultValue: '-', description: 'Emitted when the trigger loses focus.' },
-    { name: 'touch', type: 'void', defaultValue: '-', description: 'Emitted on blur for touched-state integration.' },
+    {
+      name: 'valueChange',
+      type: 'string | null',
+      defaultValue: '-',
+      description: 'Emitted automatically by the value model.',
+    },
+    {
+      name: 'changed',
+      type: 'AerisCascadeSelectChangeEvent',
+      defaultValue: '-',
+      description: 'Emitted after selection or clearing changes the value.',
+    },
+    {
+      name: 'cleared',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Emitted after the clear action succeeds.',
+    },
+    {
+      name: 'opened',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Emitted when the panel opens.',
+    },
+    {
+      name: 'closed',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Emitted when the panel closes.',
+    },
+    {
+      name: 'focused',
+      type: 'FocusEvent',
+      defaultValue: '-',
+      description: 'Emitted when the trigger receives focus.',
+    },
+    {
+      name: 'blurred',
+      type: 'FocusEvent',
+      defaultValue: '-',
+      description: 'Emitted when the trigger loses focus.',
+    },
+    {
+      name: 'touch',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Emitted on blur for touched-state integration.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'focus(options?)', type: 'void', defaultValue: '-', description: 'Moves focus to the trigger button.' },
-    { name: 'openPanel()', type: 'void', defaultValue: '-', description: 'Opens the cascading panel and syncs the active path.' },
-    { name: 'closePanel()', type: 'void', defaultValue: '-', description: 'Closes the cascading panel.' },
+    {
+      name: 'focus(options?)',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves focus to the trigger button.',
+    },
+    {
+      name: 'openPanel()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Opens the cascading panel and syncs the active path.',
+    },
+    {
+      name: 'closePanel()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Closes the cascading panel.',
+    },
     { name: 'toggle()', type: 'void', defaultValue: '-', description: 'Toggles the panel.' },
-    { name: 'clear()', type: 'void', defaultValue: '-', description: 'Clears the selected value and restores focus.' },
-    { name: 'reset()', type: 'void', defaultValue: '-', description: 'Clears the value and closes the panel.' },
+    {
+      name: 'clear()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Clears the selected value and restores focus.',
+    },
+    {
+      name: 'reset()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Clears the value and closes the panel.',
+    },
   ];
 
   protected recordChange(event: AerisCascadeSelectChangeEvent): void {

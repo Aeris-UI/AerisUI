@@ -64,8 +64,7 @@ export class InputMaskPage {
     { id: 'mask-api-grammar', label: 'Mask grammar' },
   ];
 
-  protected readonly importCode =
-    `import { AerisInputMask } from '@aeris-ui/core/input-mask';`;
+  protected readonly importCode = `import { AerisInputMask } from '@aeris-ui/core/input-mask';`;
   protected readonly signalCode = `protected readonly phone = signal('');
 
 // The value model structurally satisfies Angular 22 Signal Forms'
@@ -90,28 +89,138 @@ type AerisInputMaskAppearance = 'outline' | 'filled';
 // \\  Escape the next mask character`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'value', type: 'string (model)', defaultValue: "''", description: 'Formatted or raw value, depending on unmask.' },
-    { name: 'mask', type: 'string', defaultValue: 'required', description: 'Mask grammar applied to user input.' },
-    { name: 'inputId', type: 'string', defaultValue: 'generated', description: 'ID assigned to the internal input.' },
+    {
+      name: 'value',
+      type: 'string (model)',
+      defaultValue: "''",
+      description: 'Formatted or raw value, depending on unmask.',
+    },
+    {
+      name: 'mask',
+      type: 'string',
+      defaultValue: 'required',
+      description: 'Mask grammar applied to user input.',
+    },
+    {
+      name: 'inputId',
+      type: 'string',
+      defaultValue: 'generated',
+      description: 'ID assigned to the internal input.',
+    },
     { name: 'name', type: 'string', defaultValue: "''", description: 'Native input name.' },
-    { name: 'placeholder', type: 'string', defaultValue: "''", description: 'Custom placeholder that overrides the generated mask placeholder.' },
-    { name: 'autocomplete', type: 'string', defaultValue: "'off'", description: 'Native autocomplete hint.' },
-    { name: 'inputMode', type: 'string', defaultValue: "'text'", description: 'Virtual keyboard hint such as tel or numeric.' },
-    { name: 'ariaLabel', type: 'string | undefined', defaultValue: 'undefined', description: 'Accessible name when no visible label is associated.' },
-    { name: 'ariaLabelledby', type: 'string | undefined', defaultValue: 'undefined', description: 'IDs of elements that label the input.' },
-    { name: 'ariaDescribedby', type: 'string | undefined', defaultValue: 'undefined', description: 'IDs of help and validation messages.' },
-    { name: 'slotChar', type: 'string', defaultValue: "'_'", description: 'Character used for empty mask slots.' },
-    { name: 'showMask', type: 'boolean', defaultValue: 'false', description: 'Displays all literals and empty slots in the field.' },
-    { name: 'unmask', type: 'boolean', defaultValue: 'false', description: 'Stores only accepted slot characters in the value model.' },
-    { name: 'autoClear', type: 'boolean', defaultValue: 'false', description: 'Clears incomplete input when focus leaves the field.' },
-    { name: 'clearable', type: 'boolean', defaultValue: 'false', description: 'Shows an inline clear button while a value is present.' },
-    { name: 'clearButtonAriaLabel', type: 'string', defaultValue: "'Clear value'", description: 'Accessible name for the clear button.' },
-    { name: 'size', type: 'AerisInputMaskSize', defaultValue: "'md'", description: 'Control height and typography size.' },
-    { name: 'appearance', type: 'AerisInputMaskAppearance', defaultValue: "'outline'", description: 'Outlined or filled visual treatment.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables input and clear interaction.' },
-    { name: 'readonly', type: 'boolean', defaultValue: 'false', description: 'Allows focus and selection without editing.' },
-    { name: 'required', type: 'boolean', defaultValue: 'false', description: 'Exposes native required semantics.' },
-    { name: 'invalid', type: 'boolean', defaultValue: 'false', description: 'Applies invalid styling and aria-invalid.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'false', description: 'Fills the available inline width.' },
+    {
+      name: 'placeholder',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Custom placeholder that overrides the generated mask placeholder.',
+    },
+    {
+      name: 'autocomplete',
+      type: 'string',
+      defaultValue: "'off'",
+      description: 'Native autocomplete hint.',
+    },
+    {
+      name: 'inputMode',
+      type: "'text' | 'numeric' | 'tel' | 'email' | 'url' | 'search'",
+      defaultValue: "'text'",
+      description: 'Virtual keyboard hint used to select an appropriate on-screen keyboard.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'Accessible name when no visible label is associated.',
+    },
+    {
+      name: 'ariaLabelledby',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'IDs of elements that label the input.',
+    },
+    {
+      name: 'ariaDescribedby',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'IDs of help and validation messages.',
+    },
+    {
+      name: 'slotChar',
+      type: 'string',
+      defaultValue: "'_'",
+      description: 'Character used for empty mask slots.',
+    },
+    {
+      name: 'showMask',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Displays all literals and empty slots in the field.',
+    },
+    {
+      name: 'unmask',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Stores only accepted slot characters in the value model.',
+    },
+    {
+      name: 'autoClear',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Clears incomplete input when focus leaves the field.',
+    },
+    {
+      name: 'clearable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows an inline clear button while a value is present.',
+    },
+    {
+      name: 'clearButtonAriaLabel',
+      type: 'string',
+      defaultValue: "'Clear value'",
+      description: 'Accessible name for the clear button.',
+    },
+    {
+      name: 'size',
+      type: 'AerisInputMaskSize',
+      defaultValue: "'md'",
+      description: "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'appearance',
+      type: 'AerisInputMaskAppearance',
+      defaultValue: "'outline'",
+      description: "Outlined or filled visual treatment. Options: 'outline', 'filled'.",
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables input and clear interaction.',
+    },
+    {
+      name: 'readonly',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Allows focus and selection without editing.',
+    },
+    {
+      name: 'required',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Exposes native required semantics.',
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Applies invalid styling and aria-invalid.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Fills the available inline width.',
+    },
   ];
 }

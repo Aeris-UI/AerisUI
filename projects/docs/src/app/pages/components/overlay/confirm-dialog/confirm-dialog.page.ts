@@ -332,92 +332,409 @@ interface AerisConfirmDialogTemplateContext<TData = unknown> {
 }`;
 
   protected readonly serviceRows: readonly ApiRow[] = [
-    { name: 'confirm(config)', type: 'AerisConfirmDialogConfig => AerisConfirmDialogRef', defaultValue: '-', description: 'Opens a service-created confirmation. When key is provided, opens the matching template host.' },
-    { name: 'closeAll()', type: '() => void', defaultValue: '-', description: 'Dismisses active confirmations opened through the service.' },
+    {
+      name: 'confirm(config)',
+      type: 'AerisConfirmDialogConfig => AerisConfirmDialogRef',
+      defaultValue: '-',
+      description:
+        'Opens a service-created confirmation. When key is provided, opens the matching template host.',
+    },
+    {
+      name: 'closeAll()',
+      type: '() => void',
+      defaultValue: '-',
+      description: 'Dismisses active confirmations opened through the service.',
+    },
   ];
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'body'", description: 'Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target.' },
-    { name: 'key', type: 'string', defaultValue: "''", description: 'Matches service requests to a specific template host. Omit it for service-created dialogs.' },
-    { name: 'header', type: 'string', defaultValue: "'Confirm action'", description: 'Visible title for declarative usage.' },
-    { name: 'message', type: 'string', defaultValue: "''", description: 'Default confirmation message.' },
-    { name: 'data', type: 'unknown', defaultValue: 'undefined', description: 'Context data exposed to templates and events.' },
-    { name: 'icon', type: 'AerisConfirmDialogIcon', defaultValue: "'question'", description: 'Built-in icon or none.' },
-    { name: 'severity', type: 'AerisConfirmDialogSeverity', defaultValue: "'primary'", description: 'Visual intent for icon and accept action.' },
-    { name: 'acceptLabel', type: 'string', defaultValue: "'Confirm'", description: 'Accept button text.' },
-    { name: 'rejectLabel', type: 'string', defaultValue: "'Cancel'", description: 'Reject button text.' },
-    { name: 'acceptVisible', type: 'boolean', defaultValue: 'true', description: 'Renders the accept action.' },
-    { name: 'rejectVisible', type: 'boolean', defaultValue: 'true', description: 'Renders the reject action.' },
-    { name: 'acceptDisabled', type: 'boolean', defaultValue: 'false', description: 'Disables the accept action.' },
-    { name: 'rejectDisabled', type: 'boolean', defaultValue: 'false', description: 'Disables the reject action.' },
-    { name: 'acceptAriaLabel', type: 'string', defaultValue: "''", description: 'Accessible label for the accept action; falls back to acceptLabel.' },
-    { name: 'rejectAriaLabel', type: 'string', defaultValue: "''", description: 'Accessible label for the reject action; falls back to rejectLabel.' },
-    { name: 'defaultFocus', type: 'AerisConfirmDialogDefaultFocus', defaultValue: "'accept'", description: 'Built-in first focus target.' },
-    { name: 'modal', type: 'boolean', defaultValue: 'true', description: 'Enables modal dialog semantics.' },
-    { name: 'backdrop', type: 'boolean', defaultValue: 'true', description: 'Shows the modal backdrop.' },
-    { name: 'backdropBlur', type: 'boolean', defaultValue: 'true', description: 'Applies the default frosted-glass blur to the backdrop.' },
-    { name: 'backdropBlurAmount', type: 'string', defaultValue: "''", description: 'Overrides the backdrop blur radius with a CSS length.' },
-    { name: 'dismissibleMask', type: 'boolean', defaultValue: 'false', description: 'Allows clicking the mask to dismiss.' },
-    { name: 'closeOnEscape', type: 'boolean', defaultValue: 'true', description: 'Allows Escape to dismiss.' },
-    { name: 'closable', type: 'boolean', defaultValue: 'true', description: 'Shows the header close action.' },
-    { name: 'blockScroll', type: 'boolean', defaultValue: 'true', description: 'Locks page scrolling while modal.' },
-    { name: 'focusTrap', type: 'boolean', defaultValue: 'true', description: 'Keeps Tab navigation inside the dialog.' },
-    { name: 'restoreFocus', type: 'boolean', defaultValue: 'true', description: 'Returns focus to the launcher after close.' },
-    { name: 'autoFocus', type: 'boolean', defaultValue: 'true', description: 'Moves focus into the dialog after open.' },
-    { name: 'initialFocus', type: 'string', defaultValue: "''", description: 'Custom selector that overrides defaultFocus.' },
-    { name: 'position', type: 'AerisDialogPosition', defaultValue: "'center'", description: 'Places the dialog within the viewport.' },
-    { name: 'size', type: 'AerisDialogSize', defaultValue: "'sm'", description: 'Dialog width preset.' },
+    {
+      name: 'appendTo',
+      type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+      defaultValue: "'body'",
+      description:
+        'Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target.',
+    },
+    {
+      name: 'key',
+      type: 'string',
+      defaultValue: "''",
+      description:
+        'Matches service requests to a specific template host. Omit it for service-created dialogs.',
+    },
+    {
+      name: 'header',
+      type: 'string',
+      defaultValue: "'Confirm action'",
+      description: 'Visible title for declarative usage.',
+    },
+    {
+      name: 'message',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Default confirmation message.',
+    },
+    {
+      name: 'data',
+      type: 'unknown',
+      defaultValue: 'undefined',
+      description: 'Context data exposed to templates and events.',
+    },
+    {
+      name: 'icon',
+      type: 'AerisConfirmDialogIcon',
+      defaultValue: "'question'",
+      description:
+        "Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'.",
+    },
+    {
+      name: 'severity',
+      type: 'AerisConfirmDialogSeverity',
+      defaultValue: "'primary'",
+      description:
+        "Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'.",
+    },
+    {
+      name: 'acceptLabel',
+      type: 'string',
+      defaultValue: "'Confirm'",
+      description: 'Accept button text.',
+    },
+    {
+      name: 'rejectLabel',
+      type: 'string',
+      defaultValue: "'Cancel'",
+      description: 'Reject button text.',
+    },
+    {
+      name: 'acceptVisible',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Renders the accept action.',
+    },
+    {
+      name: 'rejectVisible',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Renders the reject action.',
+    },
+    {
+      name: 'acceptDisabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables the accept action.',
+    },
+    {
+      name: 'rejectDisabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables the reject action.',
+    },
+    {
+      name: 'acceptAriaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible label for the accept action; falls back to acceptLabel.',
+    },
+    {
+      name: 'rejectAriaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible label for the reject action; falls back to rejectLabel.',
+    },
+    {
+      name: 'defaultFocus',
+      type: 'AerisConfirmDialogDefaultFocus',
+      defaultValue: "'accept'",
+      description:
+        "Built-in first focus target. Options: 'accept', 'reject', 'close', 'dialog', 'none'.",
+    },
+    {
+      name: 'modal',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Enables modal dialog semantics.',
+    },
+    {
+      name: 'backdrop',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows the modal backdrop.',
+    },
+    {
+      name: 'backdropBlur',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Applies the default frosted-glass blur to the backdrop.',
+    },
+    {
+      name: 'backdropBlurAmount',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Overrides the backdrop blur radius with a CSS length.',
+    },
+    {
+      name: 'dismissibleMask',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Allows clicking the mask to dismiss.',
+    },
+    {
+      name: 'closeOnEscape',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Allows Escape to dismiss.',
+    },
+    {
+      name: 'closable',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows the header close action.',
+    },
+    {
+      name: 'blockScroll',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Locks page scrolling while modal.',
+    },
+    {
+      name: 'focusTrap',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Keeps Tab navigation inside the dialog.',
+    },
+    {
+      name: 'restoreFocus',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Returns focus to the launcher after close.',
+    },
+    {
+      name: 'autoFocus',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Moves focus into the dialog after open.',
+    },
+    {
+      name: 'initialFocus',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Custom selector that overrides defaultFocus.',
+    },
+    {
+      name: 'position',
+      type: 'AerisDialogPosition',
+      defaultValue: "'center'",
+      description:
+        "Places the dialog within the viewport. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'.",
+    },
+    {
+      name: 'size',
+      type: 'AerisDialogSize',
+      defaultValue: "'sm'",
+      description: "Dialog width preset. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'.",
+    },
     { name: 'width', type: 'string', defaultValue: "''", description: 'Custom dialog width.' },
     { name: 'maxWidth', type: 'string', defaultValue: "''", description: 'Custom maximum width.' },
-    { name: 'mobileWidth', type: 'string', defaultValue: "''", description: 'Narrow viewport width.' },
-    { name: 'closeAriaLabel', type: 'string', defaultValue: "'Close confirmation dialog'", description: 'Accessible label for the close action.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name when no visible title labels the dialog.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the dialog.' },
-    { name: 'ariaDescribedBy', type: 'string', defaultValue: "''", description: 'ID of content that describes the confirmation.' },
+    {
+      name: 'mobileWidth',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Narrow viewport width.',
+    },
+    {
+      name: 'closeAriaLabel',
+      type: 'string',
+      defaultValue: "'Close confirmation dialog'",
+      description: 'Accessible label for the close action.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name when no visible title labels the dialog.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the dialog.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of content that describes the confirmation.',
+    },
   ];
 
   protected readonly models: readonly ApiRow[] = [
-    { name: 'visible', type: 'boolean', defaultValue: 'false', description: 'Controls declarative visibility.' },
+    {
+      name: 'visible',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Controls declarative visibility.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'visibleChange', type: 'boolean', defaultValue: '-', description: 'Emitted by the visible model.' },
-    { name: 'shown', type: 'AerisConfirmDialogActionEvent', defaultValue: '-', description: 'Emitted after the confirmation opens.' },
-    { name: 'accepted', type: 'AerisConfirmDialogActionEvent', defaultValue: '-', description: 'Emitted when the accept action runs.' },
-    { name: 'rejected', type: 'AerisConfirmDialogActionEvent', defaultValue: '-', description: 'Emitted when the reject action runs.' },
-    { name: 'closed', type: 'AerisConfirmDialogCloseEvent', defaultValue: '-', description: 'Emitted for accept, reject, and dismiss closes.' },
+    {
+      name: 'visibleChange',
+      type: 'boolean',
+      defaultValue: '-',
+      description: 'Emitted by the visible model.',
+    },
+    {
+      name: 'shown',
+      type: 'AerisConfirmDialogActionEvent',
+      defaultValue: '-',
+      description: 'Emitted after the confirmation opens.',
+    },
+    {
+      name: 'accepted',
+      type: 'AerisConfirmDialogActionEvent',
+      defaultValue: '-',
+      description: 'Emitted when the accept action runs.',
+    },
+    {
+      name: 'rejected',
+      type: 'AerisConfirmDialogActionEvent',
+      defaultValue: '-',
+      description: 'Emitted when the reject action runs.',
+    },
+    {
+      name: 'closed',
+      type: 'AerisConfirmDialogCloseEvent',
+      defaultValue: '-',
+      description: 'Emitted for accept, reject, and dismiss closes.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisConfirmDialogIcon', type: 'AerisConfirmDialogTemplateContext', defaultValue: 'built-in icon', description: 'Custom decorative icon content.' },
-    { name: 'aerisConfirmDialogMessage', type: 'AerisConfirmDialogTemplateContext', defaultValue: 'message input', description: 'Custom body message content.' },
-    { name: 'aerisConfirmDialogFooter', type: 'AerisConfirmDialogTemplateContext', defaultValue: 'default actions', description: 'Custom footer actions with accept, reject, and close callbacks.' },
-    { name: 'aerisConfirmDialogHeadless', type: 'AerisConfirmDialogTemplateContext', defaultValue: '-', description: 'Replaces the built-in confirmation body and footer inside the dialog shell.' },
+    {
+      name: 'aerisConfirmDialogIcon',
+      type: 'AerisConfirmDialogTemplateContext',
+      defaultValue: 'built-in icon',
+      description: 'Custom decorative icon content.',
+    },
+    {
+      name: 'aerisConfirmDialogMessage',
+      type: 'AerisConfirmDialogTemplateContext',
+      defaultValue: 'message input',
+      description: 'Custom body message content.',
+    },
+    {
+      name: 'aerisConfirmDialogFooter',
+      type: 'AerisConfirmDialogTemplateContext',
+      defaultValue: 'default actions',
+      description: 'Custom footer actions with accept, reject, and close callbacks.',
+    },
+    {
+      name: 'aerisConfirmDialogHeadless',
+      type: 'AerisConfirmDialogTemplateContext',
+      defaultValue: '-',
+      description: 'Replaces the built-in confirmation body and footer inside the dialog shell.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'accept(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Runs accept callbacks and closes with accept result.' },
-    { name: 'reject(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Runs reject callbacks and closes with reject result.' },
-    { name: 'close(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Dismisses the confirmation without accepting or rejecting.' },
-    { name: 'focus(options?)', type: '(FocusOptions) => void', defaultValue: '-', description: 'Moves focus to the configured initial focus target.' },
-    { name: 'openWithConfig(config, ref)', type: '(ResolvedConfig, AerisConfirmDialogRef) => void', defaultValue: '-', description: 'Opens a resolved configuration for a service-created host.' },
+    {
+      name: 'accept(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Runs accept callbacks and closes with accept result.',
+    },
+    {
+      name: 'reject(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Runs reject callbacks and closes with reject result.',
+    },
+    {
+      name: 'close(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Dismisses the confirmation without accepting or rejecting.',
+    },
+    {
+      name: 'focus(options?)',
+      type: '(FocusOptions) => void',
+      defaultValue: '-',
+      description: 'Moves focus to the configured initial focus target.',
+    },
+    {
+      name: 'openWithConfig(config, ref)',
+      type: '(ResolvedConfig, AerisConfirmDialogRef) => void',
+      defaultValue: '-',
+      description: 'Opens a resolved configuration for a service-created host.',
+    },
   ];
 
   protected readonly configRows: readonly ApiRow[] = [
     ...this.inputs,
-    { name: 'accept', type: '(AerisConfirmDialogActionEvent) => void', defaultValue: '-', description: 'Callback invoked before an accepted confirmation closes.' },
-    { name: 'reject', type: '(AerisConfirmDialogActionEvent) => void', defaultValue: '-', description: 'Callback invoked before a rejected confirmation closes.' },
+    {
+      name: 'accept',
+      type: '(AerisConfirmDialogActionEvent) => void',
+      defaultValue: '-',
+      description: 'Callback invoked before an accepted confirmation closes.',
+    },
+    {
+      name: 'reject',
+      type: '(AerisConfirmDialogActionEvent) => void',
+      defaultValue: '-',
+      description: 'Callback invoked before a rejected confirmation closes.',
+    },
   ];
 
   protected readonly refRows: readonly ApiRow[] = [
-    { name: 'accept(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Accepts the confirmation programmatically.' },
-    { name: 'reject(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Rejects the confirmation programmatically.' },
-    { name: 'close(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Dismisses the confirmation programmatically.' },
-    { name: 'focus(options?)', type: '(FocusOptions) => void', defaultValue: '-', description: 'Moves focus into the active confirmation.' },
-    { name: 'accepted', type: 'Subscribable<AerisConfirmDialogActionEvent>', defaultValue: '-', description: 'Subscribe to accept actions.' },
-    { name: 'rejected', type: 'Subscribable<AerisConfirmDialogActionEvent>', defaultValue: '-', description: 'Subscribe to reject actions.' },
-    { name: 'closed', type: 'Subscribable<AerisConfirmDialogCloseEvent>', defaultValue: '-', description: 'Subscribe to the final close result.' },
-    { name: 'shown', type: 'Subscribable<AerisConfirmDialogActionEvent>', defaultValue: '-', description: 'Subscribe after the dialog opens.' },
+    {
+      name: 'accept(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Accepts the confirmation programmatically.',
+    },
+    {
+      name: 'reject(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Rejects the confirmation programmatically.',
+    },
+    {
+      name: 'close(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Dismisses the confirmation programmatically.',
+    },
+    {
+      name: 'focus(options?)',
+      type: '(FocusOptions) => void',
+      defaultValue: '-',
+      description: 'Moves focus into the active confirmation.',
+    },
+    {
+      name: 'accepted',
+      type: 'Subscribable<AerisConfirmDialogActionEvent>',
+      defaultValue: '-',
+      description: 'Subscribe to accept actions.',
+    },
+    {
+      name: 'rejected',
+      type: 'Subscribable<AerisConfirmDialogActionEvent>',
+      defaultValue: '-',
+      description: 'Subscribe to reject actions.',
+    },
+    {
+      name: 'closed',
+      type: 'Subscribable<AerisConfirmDialogCloseEvent>',
+      defaultValue: '-',
+      description: 'Subscribe to the final close result.',
+    },
+    {
+      name: 'shown',
+      type: 'Subscribable<AerisConfirmDialogActionEvent>',
+      defaultValue: '-',
+      description: 'Subscribe after the dialog opens.',
+    },
   ];
 
   protected confirmDelete(): void {
@@ -437,22 +754,24 @@ interface AerisConfirmDialogTemplateContext<TData = unknown> {
   }
 
   protected confirmSeverity(severity: AerisConfirmDialogSeverity): void {
-    this.confirmations.confirm({
-      header: `${severity} confirmation`,
-      message: 'Each severity updates the icon, emphasis color, and accept action.',
-      severity,
-      icon:
-        severity === 'danger'
-          ? 'danger'
-          : severity === 'success'
-            ? 'success'
-            : severity === 'warning'
-              ? 'warning'
-              : 'info',
-      acceptLabel: 'Continue',
-    }).closed.subscribe((event) => {
-      this.lastResult.set(`${severity} closed with ${event.result}.`);
-    });
+    this.confirmations
+      .confirm({
+        header: `${severity} confirmation`,
+        message: 'Each severity updates the icon, emphasis color, and accept action.',
+        severity,
+        icon:
+          severity === 'danger'
+            ? 'danger'
+            : severity === 'success'
+              ? 'success'
+              : severity === 'warning'
+                ? 'warning'
+                : 'info',
+        acceptLabel: 'Continue',
+      })
+      .closed.subscribe((event) => {
+        this.lastResult.set(`${severity} closed with ${event.result}.`);
+      });
   }
 
   protected confirmAt(
@@ -492,7 +811,8 @@ interface AerisConfirmDialogTemplateContext<TData = unknown> {
   protected confirmWithoutBackdrop(): void {
     this.confirmations.confirm({
       header: 'Publish changes?',
-      message: 'The backdrop is hidden, but page scrolling remains locked while this modal is open.',
+      message:
+        'The backdrop is hidden, but page scrolling remains locked while this modal is open.',
       backdrop: false,
       position: 'top',
       width: 'min(34rem, calc(100vw - 2rem))',

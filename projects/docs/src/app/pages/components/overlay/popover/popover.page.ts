@@ -156,7 +156,7 @@ protected recordEvent(event: AerisPopoverVisibilityChangeEvent): void {
   );
 }`;
 
-protected readonly placementTsCode = `import { signal } from '@angular/core';
+  protected readonly placementTsCode = `import { signal } from '@angular/core';
 import { type AerisPopover, type AerisPopoverPlacement } from '@aeris-ui/core/popover';
 
 protected readonly activePlacement = signal<AerisPopoverPlacement>('auto');
@@ -194,54 +194,222 @@ interface AerisPopoverTemplateContext {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'body'", description: 'Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target.' },
-    { name: 'target', type: 'AerisPopoverTarget', defaultValue: 'null', description: 'Element or trigger event used when visible is controlled directly.' },
+    {
+      name: 'appendTo',
+      type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+      defaultValue: "'body'",
+      description:
+        'Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target.',
+    },
+    {
+      name: 'target',
+      type: 'AerisPopoverTarget',
+      defaultValue: 'null',
+      description: 'Element or trigger event used when visible is controlled directly.',
+    },
     { name: 'header', type: 'string', defaultValue: "''", description: 'Visible popover title.' },
-    { name: 'placement', type: 'AerisPopoverPlacement', defaultValue: "'auto'", description: 'Preferred placement around the target.' },
-    { name: 'alignment', type: 'AerisPopoverAlignment', defaultValue: "'center'", description: 'Alignment along the target edge.' },
+    {
+      name: 'placement',
+      type: 'AerisPopoverPlacement',
+      defaultValue: "'auto'",
+      description:
+        "Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'.",
+    },
+    {
+      name: 'alignment',
+      type: 'AerisPopoverAlignment',
+      defaultValue: "'center'",
+      description: "Alignment along the target edge. Options: 'start', 'center', 'end'.",
+    },
     { name: 'width', type: 'string', defaultValue: "''", description: 'Custom popover width.' },
     { name: 'maxWidth', type: 'string', defaultValue: "''", description: 'Custom maximum width.' },
-    { name: 'offset', type: 'number', defaultValue: '10', description: 'Distance between target and popover in pixels.' },
-    { name: 'viewportMargin', type: 'number', defaultValue: '8', description: 'Minimum viewport edge gap in pixels.' },
-    { name: 'dismissible', type: 'boolean', defaultValue: 'true', description: 'Allows outside pointerdown to close.' },
-    { name: 'closeOnEscape', type: 'boolean', defaultValue: 'true', description: 'Allows Escape to close.' },
-    { name: 'closable', type: 'boolean', defaultValue: 'false', description: 'Shows the built-in close button.' },
-    { name: 'focusTrap', type: 'boolean', defaultValue: 'true', description: 'Keeps Tab navigation inside the popover.' },
-    { name: 'restoreFocus', type: 'boolean', defaultValue: 'true', description: 'Returns focus to the trigger after close.' },
-    { name: 'autoFocus', type: 'boolean', defaultValue: 'true', description: 'Moves focus into the popover after open.' },
-    { name: 'initialFocus', type: 'string', defaultValue: "''", description: 'Selector for the initial focus target.' },
-    { name: 'showArrow', type: 'boolean', defaultValue: 'true', description: 'Shows the pointer arrow.' },
-    { name: 'closeAriaLabel', type: 'string', defaultValue: "'Close popover'", description: 'Accessible label for the close button.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name when no visible title labels the popover.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the popover.' },
-    { name: 'ariaDescribedBy', type: 'string', defaultValue: "''", description: 'ID of content that describes the popover.' },
+    {
+      name: 'offset',
+      type: 'number',
+      defaultValue: '10',
+      description: 'Distance between target and popover in pixels.',
+    },
+    {
+      name: 'viewportMargin',
+      type: 'number',
+      defaultValue: '8',
+      description: 'Minimum viewport edge gap in pixels.',
+    },
+    {
+      name: 'dismissible',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Allows outside pointerdown to close.',
+    },
+    {
+      name: 'closeOnEscape',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Allows Escape to close.',
+    },
+    {
+      name: 'closable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows the built-in close button.',
+    },
+    {
+      name: 'focusTrap',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Keeps Tab navigation inside the popover.',
+    },
+    {
+      name: 'restoreFocus',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Returns focus to the trigger after close.',
+    },
+    {
+      name: 'autoFocus',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Moves focus into the popover after open.',
+    },
+    {
+      name: 'initialFocus',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Selector for the initial focus target.',
+    },
+    {
+      name: 'showArrow',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows the pointer arrow.',
+    },
+    {
+      name: 'closeAriaLabel',
+      type: 'string',
+      defaultValue: "'Close popover'",
+      description: 'Accessible label for the close button.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name when no visible title labels the popover.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the popover.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of content that describes the popover.',
+    },
   ];
 
   protected readonly models: readonly ApiRow[] = [
-    { name: 'visible', type: 'boolean', defaultValue: 'false', description: 'Controls whether the popover is open.' },
+    {
+      name: 'visible',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Controls whether the popover is open.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'visibleChange', type: 'boolean', defaultValue: '-', description: 'Emitted by the visible model.' },
-    { name: 'shown', type: 'AerisPopoverVisibilityChangeEvent', defaultValue: '-', description: 'Emitted after the popover opens.' },
-    { name: 'hidden', type: 'AerisPopoverVisibilityChangeEvent', defaultValue: '-', description: 'Emitted after the popover closes.' },
-    { name: 'visibilityChanged', type: 'AerisPopoverVisibilityChangeEvent', defaultValue: '-', description: 'Emitted after either open or close.' },
+    {
+      name: 'visibleChange',
+      type: 'boolean',
+      defaultValue: '-',
+      description: 'Emitted by the visible model.',
+    },
+    {
+      name: 'shown',
+      type: 'AerisPopoverVisibilityChangeEvent',
+      defaultValue: '-',
+      description: 'Emitted after the popover opens.',
+    },
+    {
+      name: 'hidden',
+      type: 'AerisPopoverVisibilityChangeEvent',
+      defaultValue: '-',
+      description: 'Emitted after the popover closes.',
+    },
+    {
+      name: 'visibilityChanged',
+      type: 'AerisPopoverVisibilityChangeEvent',
+      defaultValue: '-',
+      description: 'Emitted after either open or close.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisPopoverHeader', type: 'AerisPopoverTemplateContext', defaultValue: 'header input', description: 'Custom header content.' },
-    { name: 'aerisPopoverFooter', type: 'AerisPopoverTemplateContext', defaultValue: '-', description: 'Footer content with access to the close callback.' },
-    { name: 'aerisPopoverCloseIcon', type: 'AerisPopoverTemplateContext', defaultValue: 'built-in close icon', description: 'Custom decorative close icon.' },
-    { name: 'aerisPopoverHeadless', type: 'AerisPopoverTemplateContext', defaultValue: '-', description: 'Replaces all built-in chrome while keeping positioning and focus behavior.' },
-    { name: 'default content', type: 'content projection', defaultValue: '-', description: 'Popover body content.' },
+    {
+      name: 'aerisPopoverHeader',
+      type: 'AerisPopoverTemplateContext',
+      defaultValue: 'header input',
+      description: 'Custom header content.',
+    },
+    {
+      name: 'aerisPopoverFooter',
+      type: 'AerisPopoverTemplateContext',
+      defaultValue: '-',
+      description: 'Footer content with access to the close callback.',
+    },
+    {
+      name: 'aerisPopoverCloseIcon',
+      type: 'AerisPopoverTemplateContext',
+      defaultValue: 'built-in close icon',
+      description: 'Custom decorative close icon.',
+    },
+    {
+      name: 'aerisPopoverHeadless',
+      type: 'AerisPopoverTemplateContext',
+      defaultValue: '-',
+      description: 'Replaces all built-in chrome while keeping positioning and focus behavior.',
+    },
+    {
+      name: 'default content',
+      type: 'content projection',
+      defaultValue: '-',
+      description: 'Popover body content.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'show(targetOrEvent?, originalEvent?)', type: '(AerisPopoverTarget, Event | null) => void', defaultValue: '-', description: 'Opens the popover relative to a target.' },
-    { name: 'hide(event?, reason?)', type: '(Event | null, AerisPopoverCloseReason) => void', defaultValue: "reason: 'api'", description: 'Closes the popover and records the close reason.' },
-    { name: 'toggle(targetOrEvent?, originalEvent?)', type: '(AerisPopoverTarget, Event | null) => void', defaultValue: '-', description: 'Opens when closed or closes when open.' },
-    { name: 'focus(options?)', type: '(FocusOptions) => void', defaultValue: '-', description: 'Moves focus to the configured initial focus target.' },
-    { name: 'reposition()', type: '() => void', defaultValue: '-', description: 'Recalculates target-relative position.' },
+    {
+      name: 'show(targetOrEvent?, originalEvent?)',
+      type: '(AerisPopoverTarget, Event | null) => void',
+      defaultValue: '-',
+      description: 'Opens the popover relative to a target.',
+    },
+    {
+      name: 'hide(event?, reason?)',
+      type: '(Event | null, AerisPopoverCloseReason) => void',
+      defaultValue: "reason: 'api'",
+      description:
+        "Closes the popover and records the close reason. Options: 'api', 'close-button', 'escape', 'outside'.",
+    },
+    {
+      name: 'toggle(targetOrEvent?, originalEvent?)',
+      type: '(AerisPopoverTarget, Event | null) => void',
+      defaultValue: '-',
+      description: 'Opens when closed or closes when open.',
+    },
+    {
+      name: 'focus(options?)',
+      type: '(FocusOptions) => void',
+      defaultValue: '-',
+      description: 'Moves focus to the configured initial focus target.',
+    },
+    {
+      name: 'reposition()',
+      type: '() => void',
+      defaultValue: '-',
+      description: 'Recalculates target-relative position.',
+    },
   ];
 
   protected openControlled(event: Event): void {
@@ -250,9 +418,7 @@ interface AerisPopoverTemplateContext {
   }
 
   protected recordEvent(event: AerisPopoverVisibilityChangeEvent): void {
-    this.lastEvent.set(
-      event.visible ? 'Popover opened.' : `Popover closed by ${event.reason}.`,
-    );
+    this.lastEvent.set(event.visible ? 'Popover opened.' : `Popover closed by ${event.reason}.`);
   }
 
   protected openPlacement(

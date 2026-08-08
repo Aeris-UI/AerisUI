@@ -39,8 +39,8 @@ import { AerisPassword } from '@aeris-ui/core/password';
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label exists. |
 | `ariaLabelledby` | `string` | `''` | IDs of visible elements that label the field. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
-| `size` | `AerisPasswordSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisPasswordAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisPasswordSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisPasswordAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `minLength` | `number` | `8` | Native minimum length and default feedback requirement. |
 | `maxLength` | `number &#124; undefined` | `undefined` | Optional native maximum length. |
 | `toggleMask` | `boolean` | `true` | Shows the visibility toggle. |

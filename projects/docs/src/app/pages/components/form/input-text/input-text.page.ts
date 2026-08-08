@@ -71,8 +71,7 @@ export class InputTextPage {
     { id: 'input-api-wrapper', label: 'Wrapper inputs' },
   ];
 
-  protected readonly importCode =
-    `import { AerisInputText } from '@aeris-ui/core/input-text';`;
+  protected readonly importCode = `import { AerisInputText } from '@aeris-ui/core/input-text';`;
   protected readonly signalCode = `protected readonly name = signal('');
 
 protected updateName(event: Event): void {
@@ -121,13 +120,14 @@ type AerisControlSize = AerisInputTextSize;`;
       name: 'size',
       type: 'AerisInputTextSize',
       defaultValue: "'md'",
-      description: 'Sets the input height, padding, and font size.',
+      description:
+        "Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'.",
     },
     {
       name: 'appearance',
       type: 'AerisInputTextAppearance',
       defaultValue: "'outline'",
-      description: 'Selects an outlined or filled surface treatment.',
+      description: "Selects an outlined or filled surface treatment. Options: 'outline', 'filled'.",
     },
     {
       name: 'invalid',
@@ -143,21 +143,81 @@ type AerisControlSize = AerisInputTextSize;`;
     },
   ];
   protected readonly componentInputs: readonly ApiRow[] = [
-    { name: 'value', type: 'string (model)', defaultValue: "''", description: 'Text value with two-way binding and Signal Forms compatibility.' },
-    { name: 'inputId', type: 'string', defaultValue: 'generated', description: 'ID assigned to the internal native input.' },
+    {
+      name: 'value',
+      type: 'string (model)',
+      defaultValue: "''",
+      description: 'Text value with two-way binding and Signal Forms compatibility.',
+    },
+    {
+      name: 'inputId',
+      type: 'string',
+      defaultValue: 'generated',
+      description: 'ID assigned to the internal native input.',
+    },
     { name: 'type', type: 'string', defaultValue: "'text'", description: 'Native input type.' },
     { name: 'name', type: 'string', defaultValue: "''", description: 'Native input name.' },
-    { name: 'placeholder', type: 'string', defaultValue: "''", description: 'Native placeholder text.' },
-    { name: 'autocomplete', type: 'string', defaultValue: "'off'", description: 'Native autocomplete hint.' },
-    { name: 'ariaLabel', type: 'string | undefined', defaultValue: 'undefined', description: 'Accessible name when no visible label is associated.' },
-    { name: 'ariaLabelledby', type: 'string | undefined', defaultValue: 'undefined', description: 'IDs of elements that label the input.' },
-    { name: 'ariaDescribedby', type: 'string | undefined', defaultValue: 'undefined', description: 'IDs of help or validation messages.' },
+    {
+      name: 'placeholder',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Native placeholder text.',
+    },
+    {
+      name: 'autocomplete',
+      type: 'string',
+      defaultValue: "'off'",
+      description: 'Native autocomplete hint.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'Accessible name when no visible label is associated.',
+    },
+    {
+      name: 'ariaLabelledby',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'IDs of elements that label the input.',
+    },
+    {
+      name: 'ariaDescribedby',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'IDs of help or validation messages.',
+    },
     ...this.inputs,
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables the input and clear action.' },
-    { name: 'readonly', type: 'boolean', defaultValue: 'false', description: 'Allows focus and selection without editing.' },
-    { name: 'required', type: 'boolean', defaultValue: 'false', description: 'Exposes native required semantics.' },
-    { name: 'clearable', type: 'boolean', defaultValue: 'false', description: 'Shows an inline clear button while a value is present.' },
-    { name: 'clearButtonAriaLabel', type: 'string', defaultValue: "'Clear value'", description: 'Accessible name for the clear button.' },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables the input and clear action.',
+    },
+    {
+      name: 'readonly',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Allows focus and selection without editing.',
+    },
+    {
+      name: 'required',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Exposes native required semantics.',
+    },
+    {
+      name: 'clearable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows an inline clear button while a value is present.',
+    },
+    {
+      name: 'clearButtonAriaLabel',
+      type: 'string',
+      defaultValue: "'Clear value'",
+      description: 'Accessible name for the clear button.',
+    },
   ];
 
   protected updateName(event: Event): void {

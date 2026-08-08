@@ -30,10 +30,10 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `threshold` | `number` | `320` | Vertical scroll offset in pixels before the button is shown. |
-| `behavior` | `AerisScrollTopBehavior` | `'smooth'` | Scroll behavior passed to the browser scroll API. |
-| `position` | `AerisScrollTopPosition` | `'bottom-right'` | Fixed viewport placement. |
-| `size` | `AerisScrollTopSize` | `'md'` | Button size. |
-| `strategy` | `AerisScrollTopStrategy` | `'fixed'` | CSS positioning strategy. Use absolute when embedding ScrollTop inside a contained preview. |
+| `behavior` | `AerisScrollTopBehavior` | `'smooth'` | Scroll behavior passed to the browser scroll API. Options: 'auto', 'smooth'. |
+| `position` | `AerisScrollTopPosition` | `'bottom-right'` | Fixed viewport placement. Options: 'bottom-right', 'bottom-left', 'top-right', 'top-left'. |
+| `size` | `AerisScrollTopSize` | `'md'` | Button size. Options: 'sm', 'md', 'lg'. |
+| `strategy` | `AerisScrollTopStrategy` | `'fixed'` | CSS positioning strategy. Use absolute when embedding ScrollTop inside a contained preview. Options: 'fixed', 'absolute'. |
 | `ariaLabel` | `string` | `'Scroll to top'` | Accessible name for the button. |
 | `alwaysVisible` | `boolean` | `false` | Keeps the button visible regardless of scroll position. |
 

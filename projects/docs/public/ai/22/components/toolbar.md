@@ -31,9 +31,9 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 | --- | --- | --- | --- |
 | `id` | `string` | `''` | Optional ID for the toolbar host. |
 | `variant` | `AerisToolbarVariant` | `'outlined'` | Outlined, filled, elevated, or plain surface treatment. |
-| `size` | `AerisToolbarSize` | `'md'` | Controls toolbar padding and spacing density. |
+| `size` | `AerisToolbarSize` | `'md'` | Controls toolbar padding and spacing density. Options: 'sm', 'md', 'lg'. |
 | `orientation` | `AerisToolbarOrientation` | `'horizontal'` | Sets horizontal or vertical layout and toolbar orientation semantics. |
-| `align` | `AerisToolbarAlign` | `'center'` | Aligns sections across the cross axis. |
+| `align` | `AerisToolbarAlign` | `'center'` | Aligns sections across the cross axis. Options: 'start', 'center', 'end', 'stretch'. |
 | `wrap` | `boolean` | `true` | Allows horizontal toolbars to wrap when space is limited. |
 | `fluid` | `boolean` | `true` | Makes the toolbar fill the available inline size. |
 | `disabled` | `boolean` | `false` | Marks the toolbar disabled and makes projected controls inert. |

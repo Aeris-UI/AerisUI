@@ -353,7 +353,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
       name: 'size',
       type: 'AerisContextMenuSize',
       defaultValue: "'md'",
-      description: 'Controls item density and icon sizing.',
+      description: "Controls item density and icon sizing. Options: 'sm', 'md', 'lg'.",
     },
     {
       name: 'width',
@@ -488,7 +488,8 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
       name: 'hide(event?, reason?, restoreFocus?)',
       type: 'Event | null, AerisContextMenuCloseReason, boolean => void',
       defaultValue: '-',
-      description: 'Closes the menu.',
+      description:
+        "Closes the menu. Options: 'api', 'escape', 'outside', 'scroll', 'select', 'target'.",
     },
     {
       name: 'toggle(event)',

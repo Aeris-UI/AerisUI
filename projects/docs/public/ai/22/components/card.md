@@ -30,10 +30,10 @@ import { AerisCardModule } from '@aeris-ui/core/card';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `variant` | `AerisCardVariant` | `'outlined'` | Outlined, elevated, or filled surface treatment. |
-| `orientation` | `AerisCardOrientation` | `'vertical'` | Stacks content vertically or places media beside the body. |
-| `padding` | `AerisCardPadding` | `'md'` | Controls body padding without changing projected media. |
+| `orientation` | `AerisCardOrientation` | `'vertical'` | Stacks content vertically or places media beside the body. Options: 'vertical', 'horizontal'. |
+| `padding` | `AerisCardPadding` | `'md'` | Controls body padding without changing projected media. Options: 'none', 'sm', 'md', 'lg'. |
 | `hoverable` | `boolean` | `false` | Adds a hover treatment for cards contained by a link or other native control. |
-| `role` | `AerisCardRole &#124; null` | `null` | Optional semantic role for meaningful independent regions. |
+| `role` | `AerisCardRole &#124; null` | `null` | Optional semantic role for meaningful independent regions. Options: 'article', 'region', 'group'. |
 | `ariaLabel` | `string` | `''` | Accessible name when visible title text is unavailable. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that names the card region. |
 | `ariaDescribedBy` | `string` | `''` | ID of content that provides the card description. |

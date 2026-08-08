@@ -36,7 +36,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 | `open` | `boolean (model)` | `false` | Controlled popup visibility. |
 | `popup` | `boolean` | `false` | Renders the menu as a target-relative overlay opened with show or toggle. |
 | `disabled` | `boolean` | `false` | Prevents popup opening. |
-| `size` | `AerisMenuSize` | `'md'` | Controls item density and icon sizing. |
+| `size` | `AerisMenuSize` | `'md'` | Controls item density and icon sizing. Options: 'sm', 'md', 'lg'. |
 | `width` | `string` | `''` | Sets --aeris-menu-width on the panel. |
 | `maxHeight` | `string` | `''` | Sets --aeris-menu-max-height on the panel. |
 | `viewportMargin` | `number` | `8` | Minimum popup distance from viewport edges. |
@@ -75,7 +75,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `show(event)` | `MouseEvent &#124; PointerEvent =&gt; void` | `-` | Opens a popup menu below the event currentTarget. |
-| `hide(event?, reason?, restoreFocus?)` | `Event &#124; null, AerisMenuCloseReason, boolean =&gt; void` | `-` | Closes a popup menu. |
+| `hide(event?, reason?, restoreFocus?)` | `Event &#124; null, AerisMenuCloseReason, boolean =&gt; void` | `-` | Closes a popup menu. Options: 'api', 'escape', 'outside', 'select'. |
 | `toggle(event)` | `MouseEvent &#124; PointerEvent =&gt; void` | `-` | Toggles popup visibility from a trigger event. |
 | `focus()` | `void` | `-` | Moves focus to the active or first enabled visible item. |
 | `expandAll()` | `void` | `-` | Expands all toggleable groups. |

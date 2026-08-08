@@ -48,9 +48,17 @@ interface ReleaseDialogResult {
     </div>
   `,
   styles: `
-    .dynamic-dialog-content { display: grid; gap: 0.875rem; }
-    .dynamic-dialog-content p { margin: 0; }
-    .dynamic-dialog-actions { display: flex; justify-content: flex-end; }
+    .dynamic-dialog-content {
+      display: grid;
+      gap: 0.875rem;
+    }
+    .dynamic-dialog-content p {
+      margin: 0;
+    }
+    .dynamic-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
   `,
 })
 class BasicAuditDialogContent {
@@ -75,23 +83,38 @@ class BasicAuditDialogContent {
       <p class="dynamic-dialog-note">Owner: {{ owner() }}</p>
       <div class="dynamic-dialog-actions">
         <button aerisButton type="button" (click)="cancel()">Cancel</button>
-        <button aerisButton id="release-confirm" type="button" (click)="confirm()">Confirm release</button>
+        <button aerisButton id="release-confirm" type="button" (click)="confirm()">
+          Confirm release
+        </button>
       </div>
     </div>
   `,
   styles: `
-    .dynamic-dialog-content { display: grid; gap: 0.875rem; }
-    .dynamic-dialog-content p { margin: 0; }
-    .dynamic-dialog-content ul { margin: 0; padding-inline-start: 1.2rem; }
-    .dynamic-dialog-note { color: var(--aeris-text-3); font-size: 0.8125rem; }
-    .dynamic-dialog-actions { display: flex; justify-content: flex-end; gap: 0.5rem; }
+    .dynamic-dialog-content {
+      display: grid;
+      gap: 0.875rem;
+    }
+    .dynamic-dialog-content p {
+      margin: 0;
+    }
+    .dynamic-dialog-content ul {
+      margin: 0;
+      padding-inline-start: 1.2rem;
+    }
+    .dynamic-dialog-note {
+      color: var(--aeris-text-3);
+      font-size: 0.8125rem;
+    }
+    .dynamic-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
   `,
 })
 class ReleaseDialogContent {
   readonly owner = input('Design systems');
-  private readonly ref = inject<AerisDynamicDialogRef<ReleaseDialogResult>>(
-    AerisDynamicDialogRef,
-  );
+  private readonly ref = inject<AerisDynamicDialogRef<ReleaseDialogResult>>(AerisDynamicDialogRef);
   protected readonly data = inject(AERIS_DYNAMIC_DIALOG_DATA) as ReleaseDialogData;
 
   protected confirm(): void {
@@ -108,16 +131,26 @@ class ReleaseDialogContent {
   imports: [AerisButton],
   template: `
     <div class="dynamic-dialog-content">
-      <p>{{ data.scope }} audit uses {{ config.size }} sizing and starts focus on the action button.</p>
+      <p>
+        {{ data.scope }} audit uses {{ config.size }} sizing and starts focus on the action button.
+      </p>
       <div class="dynamic-dialog-actions">
         <button aerisButton id="audit-close" type="button" (click)="close()">Close audit</button>
       </div>
     </div>
   `,
   styles: `
-    .dynamic-dialog-content { display: grid; gap: 0.875rem; }
-    .dynamic-dialog-content p { margin: 0; }
-    .dynamic-dialog-actions { display: flex; justify-content: flex-end; }
+    .dynamic-dialog-content {
+      display: grid;
+      gap: 0.875rem;
+    }
+    .dynamic-dialog-content p {
+      margin: 0;
+    }
+    .dynamic-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
   `,
 })
 class AuditDialogContent {
@@ -144,9 +177,17 @@ class AuditDialogContent {
     </div>
   `,
   styles: `
-    .dynamic-dialog-content { display: grid; gap: 0.875rem; }
-    .dynamic-dialog-content p { margin: 0; }
-    .dynamic-dialog-actions { display: flex; justify-content: flex-end; }
+    .dynamic-dialog-content {
+      display: grid;
+      gap: 0.875rem;
+    }
+    .dynamic-dialog-content p {
+      margin: 0;
+    }
+    .dynamic-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
   `,
 })
 class ManageDialogContent {
@@ -510,72 +551,283 @@ interface AerisDynamicDialogSubscribable<T> {
 }`;
 
   protected readonly serviceRows: readonly ApiRow[] = [
-    { name: 'open(component, config?)', type: '<TComponent, TData, TResult>(Type<TComponent>, AerisDynamicDialogConfig<TData>) => AerisDynamicDialogRef<TResult>', defaultValue: '-', description: 'Creates a dynamic dialog and renders the provided component as content.' },
-    { name: 'closeAll()', type: '() => void', defaultValue: '-', description: 'Closes every active dynamic dialog through the normal close lifecycle.' },
-    { name: 'destroyAll()', type: '() => void', defaultValue: '-', description: 'Immediately destroys every active dynamic dialog without emitting close results.' },
+    {
+      name: 'open(component, config?)',
+      type: '<TComponent, TData, TResult>(Type<TComponent>, AerisDynamicDialogConfig<TData>) => AerisDynamicDialogRef<TResult>',
+      defaultValue: '-',
+      description: 'Creates a dynamic dialog and renders the provided component as content.',
+    },
+    {
+      name: 'closeAll()',
+      type: '() => void',
+      defaultValue: '-',
+      description: 'Closes every active dynamic dialog through the normal close lifecycle.',
+    },
+    {
+      name: 'destroyAll()',
+      type: '() => void',
+      defaultValue: '-',
+      description:
+        'Immediately destroys every active dynamic dialog without emitting close results.',
+    },
   ];
 
   protected readonly configRows: readonly ApiRow[] = [
-    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'body'", description: 'Mounts the dialog locally, in document.body, or in the supplied DOM/template target.' },
-    { name: 'header', type: 'string', defaultValue: "''", description: 'Dialog title rendered by the shell.' },
-    { name: 'data', type: 'TData', defaultValue: 'undefined', description: 'Typed payload available through AERIS_DYNAMIC_DIALOG_DATA.' },
-    { name: 'inputValues', type: 'Record<string, unknown>', defaultValue: '{}', description: 'Input values applied to the dynamic content component.' },
-    { name: 'modal', type: 'boolean', defaultValue: 'true', description: 'Enables modal semantics and scroll blocking.' },
-    { name: 'backdrop', type: 'boolean', defaultValue: 'true', description: 'Shows the visual backdrop.' },
-    { name: 'backdropBlur', type: 'boolean', defaultValue: 'true', description: 'Applies the default frosted-glass blur to the backdrop.' },
-    { name: 'backdropBlurAmount', type: 'string', defaultValue: "''", description: 'Overrides the backdrop blur radius with a CSS length.' },
-    { name: 'dismissibleMask', type: 'boolean', defaultValue: 'false', description: 'Closes when the mask itself is pressed.' },
-    { name: 'closeOnEscape', type: 'boolean', defaultValue: 'true', description: 'Closes when Escape is pressed.' },
-    { name: 'closable', type: 'boolean', defaultValue: 'true', description: 'Shows the shell close button.' },
-    { name: 'maximizable', type: 'boolean', defaultValue: 'false', description: 'Shows the maximize action.' },
-    { name: 'maximized', type: 'boolean', defaultValue: 'false', description: 'Initial maximized state.' },
-    { name: 'draggable', type: 'boolean', defaultValue: 'false', description: 'Allows dragging from the header.' },
-    { name: 'resizable', type: 'boolean', defaultValue: 'false', description: 'Allows browser-native panel resizing.' },
-    { name: 'blockScroll', type: 'boolean', defaultValue: 'true', description: 'Prevents body scroll while modal.' },
-    { name: 'focusTrap', type: 'boolean', defaultValue: 'true', description: 'Keeps Tab navigation inside the dialog.' },
-    { name: 'restoreFocus', type: 'boolean', defaultValue: 'true', description: 'Restores focus to the previously focused element after close.' },
-    { name: 'autoFocus', type: 'boolean', defaultValue: 'true', description: 'Moves focus into the dialog after open.' },
-    { name: 'initialFocus', type: 'string', defaultValue: "''", description: 'Selector for the first focused element.' },
-    { name: 'position', type: 'AerisDialogPosition', defaultValue: "'center'", description: 'Viewport placement.' },
-    { name: 'size', type: 'AerisDialogSize', defaultValue: "'md'", description: 'Default shell size.' },
+    {
+      name: 'appendTo',
+      type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+      defaultValue: "'body'",
+      description:
+        'Mounts the dialog locally, in document.body, or in the supplied DOM/template target.',
+    },
+    {
+      name: 'header',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Dialog title rendered by the shell.',
+    },
+    {
+      name: 'data',
+      type: 'TData',
+      defaultValue: 'undefined',
+      description: 'Typed payload available through AERIS_DYNAMIC_DIALOG_DATA.',
+    },
+    {
+      name: 'inputValues',
+      type: 'Record<string, unknown>',
+      defaultValue: '{}',
+      description: 'Input values applied to the dynamic content component.',
+    },
+    {
+      name: 'modal',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Enables modal semantics and scroll blocking.',
+    },
+    {
+      name: 'backdrop',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows the visual backdrop.',
+    },
+    {
+      name: 'backdropBlur',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Applies the default frosted-glass blur to the backdrop.',
+    },
+    {
+      name: 'backdropBlurAmount',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Overrides the backdrop blur radius with a CSS length.',
+    },
+    {
+      name: 'dismissibleMask',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Closes when the mask itself is pressed.',
+    },
+    {
+      name: 'closeOnEscape',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Closes when Escape is pressed.',
+    },
+    {
+      name: 'closable',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows the shell close button.',
+    },
+    {
+      name: 'maximizable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows the maximize action.',
+    },
+    {
+      name: 'maximized',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Initial maximized state.',
+    },
+    {
+      name: 'draggable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Allows dragging from the header.',
+    },
+    {
+      name: 'resizable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Allows browser-native panel resizing.',
+    },
+    {
+      name: 'blockScroll',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Prevents body scroll while modal.',
+    },
+    {
+      name: 'focusTrap',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Keeps Tab navigation inside the dialog.',
+    },
+    {
+      name: 'restoreFocus',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Restores focus to the previously focused element after close.',
+    },
+    {
+      name: 'autoFocus',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Moves focus into the dialog after open.',
+    },
+    {
+      name: 'initialFocus',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Selector for the first focused element.',
+    },
+    {
+      name: 'position',
+      type: 'AerisDialogPosition',
+      defaultValue: "'center'",
+      description:
+        "Viewport placement. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'.",
+    },
+    {
+      name: 'size',
+      type: 'AerisDialogSize',
+      defaultValue: "'md'",
+      description: "Default shell size. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'.",
+    },
     { name: 'width', type: 'string', defaultValue: "''", description: 'Custom CSS width.' },
     { name: 'minWidth', type: 'string', defaultValue: "''", description: 'Custom minimum width.' },
     { name: 'maxWidth', type: 'string', defaultValue: "''", description: 'Custom maximum width.' },
     { name: 'height', type: 'string', defaultValue: "''", description: 'Custom height.' },
-    { name: 'maxHeight', type: 'string', defaultValue: "''", description: 'Custom maximum height.' },
-    { name: 'mobileWidth', type: 'string', defaultValue: "''", description: 'Width used on narrow viewports.' },
-    { name: 'closeAriaLabel', type: 'string', defaultValue: "'Close dialog'", description: 'Accessible close button label.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name when no visible title labels the dialog.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the dialog.' },
-    { name: 'ariaDescribedBy', type: 'string', defaultValue: "''", description: 'ID of content that describes the dialog.' },
+    {
+      name: 'maxHeight',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Custom maximum height.',
+    },
+    {
+      name: 'mobileWidth',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Width used on narrow viewports.',
+    },
+    {
+      name: 'closeAriaLabel',
+      type: 'string',
+      defaultValue: "'Close dialog'",
+      description: 'Accessible close button label.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name when no visible title labels the dialog.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the dialog.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of content that describes the dialog.',
+    },
   ];
 
   protected readonly refRows: readonly ApiRow[] = [
-    { name: 'closed', type: 'AerisDynamicDialogSubscribable<AerisDynamicDialogCloseEvent<TResult>>', defaultValue: '-', description: 'Emits once when the dialog closes through the normal lifecycle.' },
-    { name: 'shown', type: 'AerisDynamicDialogSubscribable<AerisDynamicDialogShowEvent>', defaultValue: '-', description: 'Emits after the dialog opens.' },
-    { name: 'close(result?, event?)', type: '(TResult | undefined, Event | null) => void', defaultValue: '-', description: 'Closes the dialog and emits an optional result.' },
-    { name: 'destroy()', type: '() => void', defaultValue: '-', description: 'Immediately removes the dialog without emitting a close result.' },
-    { name: 'focus(options?)', type: '(FocusOptions) => void', defaultValue: '-', description: 'Moves focus to the shell initial focus target.' },
-    { name: 'maximize()', type: '() => void', defaultValue: '-', description: 'Maximizes the dialog.' },
-    { name: 'restore()', type: '() => void', defaultValue: '-', description: 'Restores the dialog from maximized state.' },
-    { name: 'toggleMaximized()', type: '() => void', defaultValue: '-', description: 'Toggles maximized state.' },
+    {
+      name: 'closed',
+      type: 'AerisDynamicDialogSubscribable<AerisDynamicDialogCloseEvent<TResult>>',
+      defaultValue: '-',
+      description: 'Emits once when the dialog closes through the normal lifecycle.',
+    },
+    {
+      name: 'shown',
+      type: 'AerisDynamicDialogSubscribable<AerisDynamicDialogShowEvent>',
+      defaultValue: '-',
+      description: 'Emits after the dialog opens.',
+    },
+    {
+      name: 'close(result?, event?)',
+      type: '(TResult | undefined, Event | null) => void',
+      defaultValue: '-',
+      description: 'Closes the dialog and emits an optional result.',
+    },
+    {
+      name: 'destroy()',
+      type: '() => void',
+      defaultValue: '-',
+      description: 'Immediately removes the dialog without emitting a close result.',
+    },
+    {
+      name: 'focus(options?)',
+      type: '(FocusOptions) => void',
+      defaultValue: '-',
+      description: 'Moves focus to the shell initial focus target.',
+    },
+    {
+      name: 'maximize()',
+      type: '() => void',
+      defaultValue: '-',
+      description: 'Maximizes the dialog.',
+    },
+    {
+      name: 'restore()',
+      type: '() => void',
+      defaultValue: '-',
+      description: 'Restores the dialog from maximized state.',
+    },
+    {
+      name: 'toggleMaximized()',
+      type: '() => void',
+      defaultValue: '-',
+      description: 'Toggles maximized state.',
+    },
   ];
 
   protected readonly tokenRows: readonly ApiRow[] = [
-    { name: 'AERIS_DYNAMIC_DIALOG_DATA', type: 'InjectionToken<unknown>', defaultValue: 'config.data', description: 'Injects the data payload inside the dynamic content component.' },
-    { name: 'AERIS_DYNAMIC_DIALOG_CONFIG', type: 'InjectionToken<AerisDynamicDialogResolvedConfig>', defaultValue: 'resolved config', description: 'Injects the resolved dialog configuration inside the dynamic content component.' },
-    { name: 'AerisDynamicDialogRef', type: 'class token', defaultValue: 'current ref', description: 'Injects the current dialog reference inside dynamic content.' },
+    {
+      name: 'AERIS_DYNAMIC_DIALOG_DATA',
+      type: 'InjectionToken<unknown>',
+      defaultValue: 'config.data',
+      description: 'Injects the data payload inside the dynamic content component.',
+    },
+    {
+      name: 'AERIS_DYNAMIC_DIALOG_CONFIG',
+      type: 'InjectionToken<AerisDynamicDialogResolvedConfig>',
+      defaultValue: 'resolved config',
+      description:
+        'Injects the resolved dialog configuration inside the dynamic content component.',
+    },
+    {
+      name: 'AerisDynamicDialogRef',
+      type: 'class token',
+      defaultValue: 'current ref',
+      description: 'Injects the current dialog reference inside dynamic content.',
+    },
   ];
 
   protected openAuditDialog(): void {
-    this.dialogService.open<BasicAuditDialogContent, unknown, string>(
-      BasicAuditDialogContent,
-      {
-        header: 'Accessibility audit',
-        initialFocus: '#audit-close',
-        width: '32rem',
-      },
-    );
+    this.dialogService.open<BasicAuditDialogContent, unknown, string>(BasicAuditDialogContent, {
+      header: 'Accessibility audit',
+      initialFocus: '#audit-close',
+      width: '32rem',
+    });
   }
 
   protected openReleaseDialog(): void {
@@ -595,18 +847,19 @@ interface AerisDynamicDialogSubscribable<T> {
   }
 
   protected openResultDialog(): void {
-    const ref = this.dialogService.open<ReleaseDialogContent, ReleaseDialogData, ReleaseDialogResult>(
+    const ref = this.dialogService.open<
       ReleaseDialogContent,
-      {
-        header: 'Release approval',
-        data: {
-          version: '4.2',
-          tasks: ['Confirm changelog', 'Approve rollout'],
-        },
-        inputValues: { owner: 'Rin' },
-        initialFocus: '#release-confirm',
+      ReleaseDialogData,
+      ReleaseDialogResult
+    >(ReleaseDialogContent, {
+      header: 'Release approval',
+      data: {
+        version: '4.2',
+        tasks: ['Confirm changelog', 'Approve rollout'],
       },
-    );
+      inputValues: { owner: 'Rin' },
+      initialFocus: '#release-confirm',
+    });
 
     ref.closed.subscribe((event: AerisDynamicDialogCloseEvent<ReleaseDialogResult>) => {
       this.lastResult.set(

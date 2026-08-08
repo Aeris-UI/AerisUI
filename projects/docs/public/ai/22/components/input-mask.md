@@ -35,7 +35,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
 | `name` | `string` | `''` | Native input name. |
 | `placeholder` | `string` | `''` | Custom placeholder that overrides the generated mask placeholder. |
 | `autocomplete` | `string` | `'off'` | Native autocomplete hint. |
-| `inputMode` | `string` | `'text'` | Virtual keyboard hint such as tel or numeric. |
+| `inputMode` | `'text' &#124; 'numeric' &#124; 'tel' &#124; 'email' &#124; 'url' &#124; 'search'` | `'text'` | Virtual keyboard hint used to select an appropriate on-screen keyboard. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label is associated. |
 | `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
 | `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
@@ -45,8 +45,8 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
 | `autoClear` | `boolean` | `false` | Clears incomplete input when focus leaves the field. |
 | `clearable` | `boolean` | `false` | Shows an inline clear button while a value is present. |
 | `clearButtonAriaLabel` | `string` | `'Clear value'` | Accessible name for the clear button. |
-| `size` | `AerisInputMaskSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisInputMaskAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisInputMaskSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisInputMaskAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `disabled` | `boolean` | `false` | Disables input and clear interaction. |
 | `readonly` | `boolean` | `false` | Allows focus and selection without editing. |
 | `required` | `boolean` | `false` | Exposes native required semantics. |

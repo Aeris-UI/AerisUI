@@ -339,13 +339,13 @@ interface AerisEditorChangeEvent {
       name: 'size',
       type: 'AerisEditorSize',
       defaultValue: "'md'",
-      description: 'Controls editor typography and padding.',
+      description: "Controls editor typography and padding. Options: 'sm', 'md', 'lg'.",
     },
     {
       name: 'appearance',
       type: 'AerisEditorAppearance',
       defaultValue: "'outline'",
-      description: 'Outlined or filled surface treatment.',
+      description: "Outlined or filled surface treatment. Options: 'outline', 'filled'.",
     },
     {
       name: 'minHeight',

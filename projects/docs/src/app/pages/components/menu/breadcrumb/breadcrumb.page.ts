@@ -330,7 +330,7 @@ interface AerisBreadcrumbEllipsisTemplateContext {
       name: 'size',
       type: 'AerisBreadcrumbSize',
       defaultValue: "'md'",
-      description: 'Controls padding, separator size, and text density.',
+      description: "Controls padding, separator size, and text density. Options: 'sm', 'md', 'lg'.",
     },
     {
       name: 'separator',
@@ -378,7 +378,8 @@ interface AerisBreadcrumbEllipsisTemplateContext {
       name: 'ariaCurrent',
       type: 'AerisBreadcrumbAriaCurrent',
       defaultValue: "'page'",
-      description: 'Value applied to the current item through aria-current.',
+      description:
+        "Value applied to the current item through aria-current. Options: 'page', 'step', 'location', 'date', 'time', 'true'.",
     },
     {
       name: 'ellipsisLabel',

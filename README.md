@@ -121,9 +121,11 @@ access at runtime.
 }
 ```
 
-For repository development, build it with `npm run build:mcp` and point an MCP client to
-`dist/aeris-mcp/cli.js`. The documentation [MCP guide](https://aeris-ui.dev/guides/mcp) covers
-package and local configuration.
+For repository development, run `npm ci` and the MCP scripts from the cloned AerisUI repository
+root, then point an MCP client to `dist/aeris-mcp/cli.js`. These scripts are not available in a
+consumer Angular project. The documentation [MCP guide](https://aeris-ui.dev/guides/mcp) covers
+published-package setup, optional global installation, troubleshooting, versioning, and client
+behavior.
 
 ## Package usage
 

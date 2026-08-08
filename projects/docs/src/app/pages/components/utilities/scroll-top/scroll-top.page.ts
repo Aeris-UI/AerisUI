@@ -48,8 +48,7 @@ export class ScrollTopPage {
     { id: 'scroll-top-api-methods', label: 'Methods' },
   ];
 
-  protected readonly importCode =
-    `import { AerisScrollTop } from '@aeris-ui/core/scroll-top';`;
+  protected readonly importCode = `import { AerisScrollTop } from '@aeris-ui/core/scroll-top';`;
 
   protected readonly eventsCode = `protected readonly visibilityLog = signal(
   'Visibility has not changed in this demo yet.',
@@ -71,23 +70,80 @@ type AerisScrollTopSize = 'sm' | 'md' | 'lg';
 type AerisScrollTopStrategy = 'fixed' | 'absolute';`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'threshold', type: 'number', defaultValue: '320', description: 'Vertical scroll offset in pixels before the button is shown.' },
-    { name: 'behavior', type: 'AerisScrollTopBehavior', defaultValue: "'smooth'", description: 'Scroll behavior passed to the browser scroll API.' },
-    { name: 'position', type: 'AerisScrollTopPosition', defaultValue: "'bottom-right'", description: 'Fixed viewport placement.' },
-    { name: 'size', type: 'AerisScrollTopSize', defaultValue: "'md'", description: 'Button size.' },
-    { name: 'strategy', type: 'AerisScrollTopStrategy', defaultValue: "'fixed'", description: 'CSS positioning strategy. Use absolute when embedding ScrollTop inside a contained preview.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Scroll to top'", description: 'Accessible name for the button.' },
-    { name: 'alwaysVisible', type: 'boolean', defaultValue: 'false', description: 'Keeps the button visible regardless of scroll position.' },
+    {
+      name: 'threshold',
+      type: 'number',
+      defaultValue: '320',
+      description: 'Vertical scroll offset in pixels before the button is shown.',
+    },
+    {
+      name: 'behavior',
+      type: 'AerisScrollTopBehavior',
+      defaultValue: "'smooth'",
+      description: "Scroll behavior passed to the browser scroll API. Options: 'auto', 'smooth'.",
+    },
+    {
+      name: 'position',
+      type: 'AerisScrollTopPosition',
+      defaultValue: "'bottom-right'",
+      description:
+        "Fixed viewport placement. Options: 'bottom-right', 'bottom-left', 'top-right', 'top-left'.",
+    },
+    {
+      name: 'size',
+      type: 'AerisScrollTopSize',
+      defaultValue: "'md'",
+      description: "Button size. Options: 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'strategy',
+      type: 'AerisScrollTopStrategy',
+      defaultValue: "'fixed'",
+      description:
+        "CSS positioning strategy. Use absolute when embedding ScrollTop inside a contained preview. Options: 'fixed', 'absolute'.",
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Scroll to top'",
+      description: 'Accessible name for the button.',
+    },
+    {
+      name: 'alwaysVisible',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Keeps the button visible regardless of scroll position.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'clicked', type: 'MouseEvent', defaultValue: '-', description: 'Emitted before the component scrolls to the top.' },
-    { name: 'visibilityChanged', type: 'boolean', defaultValue: '-', description: 'Emitted when the threshold visibility changes.' },
+    {
+      name: 'clicked',
+      type: 'MouseEvent',
+      defaultValue: '-',
+      description: 'Emitted before the component scrolls to the top.',
+    },
+    {
+      name: 'visibilityChanged',
+      type: 'boolean',
+      defaultValue: '-',
+      description: 'Emitted when the threshold visibility changes.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'handleScroll()', type: 'void', defaultValue: '-', description: 'Updates threshold visibility. Called automatically on window scroll.' },
-    { name: 'scrollToTop(event)', type: 'void', defaultValue: '-', description: 'Emits clicked and scrolls the window to the top.' },
+    {
+      name: 'handleScroll()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Updates threshold visibility. Called automatically on window scroll.',
+    },
+    {
+      name: 'scrollToTop(event)',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Emits clicked and scrolls the window to the top.',
+    },
   ];
 
   protected recordVisibility(visible: boolean): void {

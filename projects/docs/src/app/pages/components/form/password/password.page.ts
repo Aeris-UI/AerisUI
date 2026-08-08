@@ -1,9 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  AerisPassword,
-  type AerisPasswordStrengthResult,
-} from '@aeris-ui/core/password';
+import { AerisPassword, type AerisPasswordStrengthResult } from '@aeris-ui/core/password';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -71,8 +68,7 @@ export class PasswordPage {
     { id: 'password-api-methods', label: 'Methods' },
   ];
 
-  protected readonly importCode =
-    `import { AerisPassword } from '@aeris-ui/core/password';`;
+  protected readonly importCode = `import { AerisPassword } from '@aeris-ui/core/password';`;
 
   protected readonly modelCode = `protected readonly password = signal('');`;
 
@@ -144,33 +140,159 @@ type AerisPasswordStrengthEvaluator = (
 ) => AerisPasswordStrengthResult;`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self'", description: 'Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target.' },
-    { name: 'value', type: 'string (model)', defaultValue: "''", description: 'Password value with two-way binding and Forms support.' },
-    { name: 'visible', type: 'boolean (model)', defaultValue: 'false', description: 'Controls whether the value is masked.' },
+    {
+      name: 'appendTo',
+      type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+      defaultValue: "'self'",
+      description:
+        'Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target.',
+    },
+    {
+      name: 'value',
+      type: 'string (model)',
+      defaultValue: "''",
+      description: 'Password value with two-way binding and Forms support.',
+    },
+    {
+      name: 'visible',
+      type: 'boolean (model)',
+      defaultValue: 'false',
+      description: 'Controls whether the value is masked.',
+    },
     { name: 'inputId', type: 'string', defaultValue: "''", description: 'Native input ID.' },
     { name: 'name', type: 'string', defaultValue: "''", description: 'Native form field name.' },
-    { name: 'placeholder', type: 'string', defaultValue: "''", description: 'Native placeholder text.' },
-    { name: 'autocomplete', type: 'string', defaultValue: "'current-password'", description: 'Password-manager and browser autofill hint.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name when no visible label exists.' },
-    { name: 'ariaLabelledby', type: 'string', defaultValue: "''", description: 'IDs of visible elements that label the field.' },
-    { name: 'ariaDescribedby', type: 'string', defaultValue: "''", description: 'IDs of help and validation messages.' },
-    { name: 'size', type: 'AerisPasswordSize', defaultValue: "'md'", description: 'Control height and typography size.' },
-    { name: 'appearance', type: 'AerisPasswordAppearance', defaultValue: "'outline'", description: 'Outlined or filled visual treatment.' },
-    { name: 'minLength', type: 'number', defaultValue: '8', description: 'Native minimum length and default feedback requirement.' },
-    { name: 'maxLength', type: 'number | undefined', defaultValue: 'undefined', description: 'Optional native maximum length.' },
-    { name: 'toggleMask', type: 'boolean', defaultValue: 'true', description: 'Shows the visibility toggle.' },
-    { name: 'feedback', type: 'boolean', defaultValue: 'true', description: 'Shows the strength panel while focus remains in the component.' },
-    { name: 'showRequirements', type: 'boolean', defaultValue: 'true', description: 'Shows default requirement progress in the feedback panel.' },
-    { name: 'strengthEvaluator', type: 'AerisPasswordStrengthEvaluator', defaultValue: 'evaluateAerisPassword', description: 'Replaces the default presentation-oriented strength policy.' },
-    { name: 'clearable', type: 'boolean', defaultValue: 'false', description: 'Shows a clear suffix action while editable content exists.' },
-    { name: 'clearButtonAriaLabel', type: 'string', defaultValue: "'Clear password'", description: 'Accessible name for the clear action.' },
-    { name: 'showPasswordAriaLabel', type: 'string', defaultValue: 'localized label', description: 'Accessible name for showing the password.' },
-    { name: 'hidePasswordAriaLabel', type: 'string', defaultValue: 'localized label', description: 'Accessible name for hiding the password.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables interaction and native form submission.' },
-    { name: 'readonly', type: 'boolean', defaultValue: 'false', description: 'Makes the native input read-only.' },
-    { name: 'required', type: 'boolean', defaultValue: 'false', description: 'Exposes native required validation semantics.' },
-    { name: 'invalid', type: 'boolean', defaultValue: 'false', description: 'Applies invalid styling and synchronizes aria-invalid.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'false', description: 'Fills the available inline space.' },
+    {
+      name: 'placeholder',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Native placeholder text.',
+    },
+    {
+      name: 'autocomplete',
+      type: 'string',
+      defaultValue: "'current-password'",
+      description: 'Password-manager and browser autofill hint.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name when no visible label exists.',
+    },
+    {
+      name: 'ariaLabelledby',
+      type: 'string',
+      defaultValue: "''",
+      description: 'IDs of visible elements that label the field.',
+    },
+    {
+      name: 'ariaDescribedby',
+      type: 'string',
+      defaultValue: "''",
+      description: 'IDs of help and validation messages.',
+    },
+    {
+      name: 'size',
+      type: 'AerisPasswordSize',
+      defaultValue: "'md'",
+      description: "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'appearance',
+      type: 'AerisPasswordAppearance',
+      defaultValue: "'outline'",
+      description: "Outlined or filled visual treatment. Options: 'outline', 'filled'.",
+    },
+    {
+      name: 'minLength',
+      type: 'number',
+      defaultValue: '8',
+      description: 'Native minimum length and default feedback requirement.',
+    },
+    {
+      name: 'maxLength',
+      type: 'number | undefined',
+      defaultValue: 'undefined',
+      description: 'Optional native maximum length.',
+    },
+    {
+      name: 'toggleMask',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows the visibility toggle.',
+    },
+    {
+      name: 'feedback',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows the strength panel while focus remains in the component.',
+    },
+    {
+      name: 'showRequirements',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows default requirement progress in the feedback panel.',
+    },
+    {
+      name: 'strengthEvaluator',
+      type: 'AerisPasswordStrengthEvaluator',
+      defaultValue: 'evaluateAerisPassword',
+      description: 'Replaces the default presentation-oriented strength policy.',
+    },
+    {
+      name: 'clearable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows a clear suffix action while editable content exists.',
+    },
+    {
+      name: 'clearButtonAriaLabel',
+      type: 'string',
+      defaultValue: "'Clear password'",
+      description: 'Accessible name for the clear action.',
+    },
+    {
+      name: 'showPasswordAriaLabel',
+      type: 'string',
+      defaultValue: 'localized label',
+      description: 'Accessible name for showing the password.',
+    },
+    {
+      name: 'hidePasswordAriaLabel',
+      type: 'string',
+      defaultValue: 'localized label',
+      description: 'Accessible name for hiding the password.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables interaction and native form submission.',
+    },
+    {
+      name: 'readonly',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Makes the native input read-only.',
+    },
+    {
+      name: 'required',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Exposes native required validation semantics.',
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Applies invalid styling and synchronizes aria-invalid.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Fills the available inline space.',
+    },
   ];
 
   protected readonly companyPolicy = (
@@ -184,7 +306,8 @@ type AerisPasswordStrengthEvaluator = (
     ];
     const met = requirements.filter((item) => item.met).length;
     const score = met === 3 ? 3 : met >= 2 ? 2 : value ? 1 : 0;
-    const strength = score === 3 ? 'strong' : score === 2 ? 'medium' : score === 1 ? 'weak' : 'empty';
+    const strength =
+      score === 3 ? 'strong' : score === 2 ? 'medium' : score === 1 ? 'weak' : 'empty';
     return {
       score,
       strength,

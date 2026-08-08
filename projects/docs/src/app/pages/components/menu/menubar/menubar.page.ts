@@ -541,7 +541,7 @@ interface AerisMenubarItemEvent<T = unknown> {
       name: 'size',
       type: 'AerisMenubarSize',
       defaultValue: "'md'",
-      description: 'Adjusts item height, text, and icon sizing.',
+      description: "Adjusts item height, text, and icon sizing. Options: 'sm', 'md', 'lg'.",
     },
     {
       name: 'disabled',
@@ -682,7 +682,7 @@ interface AerisMenubarItemEvent<T = unknown> {
       name: 'close(event?, reason?)',
       type: 'Event | null, AerisMenubarCloseReason => void',
       defaultValue: '-',
-      description: 'Closes open submenus.',
+      description: "Closes open submenus. Options: 'api', 'escape', 'outside', 'select'.",
     },
     {
       name: 'focus()',

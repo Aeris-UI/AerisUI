@@ -32,7 +32,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Default drawer title rendered in the header. |
 | `position` | `AerisDrawerPosition` | `'right'` | Anchors the drawer to the left, right, top, or bottom viewport edge. |
-| `size` | `AerisDrawerSize` | `'md'` | Applies preset width or height based on position. |
+| `size` | `AerisDrawerSize` | `'md'` | Applies preset width or height based on position. Options: 'sm', 'md', 'lg', 'full'. |
 | `modal` | `boolean` | `true` | Enables modal semantics, focus handling, and optional scroll blocking. |
 | `backdrop` | `boolean` | `true` | Shows the modal backdrop. Set false for a modal drawer without the visual mask. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur to the visible backdrop. |

@@ -33,10 +33,10 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
 | `imageSrc` | `string` | `''` | Image URL. A failed image automatically falls back to the label or projected content. |
 | `imageAlt` | `string` | `''` | Alternative text for a meaningful image and the fallback accessible name. |
 | `imageLoading` | `AerisAvatarImageLoading` | `'lazy'` | Sets native eager or lazy image loading. |
-| `imageFit` | `AerisAvatarImageFit` | `'cover'` | Controls whether an image covers or fits within the avatar. |
-| `size` | `AerisAvatarSize` | `'md'` | Sets the avatar dimensions and typography. |
+| `imageFit` | `AerisAvatarImageFit` | `'cover'` | Controls whether an image covers or fits within the avatar. Options: 'cover', 'contain'. |
+| `size` | `AerisAvatarSize` | `'md'` | Sets the avatar dimensions and typography. Options: 'sm', 'md', 'lg', 'xl'. |
 | `shape` | `AerisAvatarShape` | `'circle'` | Sets circle, rounded, or compact square corners. |
-| `tone` | `AerisAvatarTone` | `'primary'` | Sets a theme-aware fallback background and foreground. |
+| `tone` | `AerisAvatarTone` | `'primary'` | Sets a theme-aware fallback background and foreground. Options: 'primary', 'neutral', 'success', 'info', 'warning', 'danger'. |
 | `decorative` | `boolean` | `false` | Hides the complete avatar from assistive technology when nearby content identifies it. |
 | `ariaLabel` | `string` | `''` | Accessible name for initials or projected content, or an override for image semantics. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the avatar. |
@@ -64,7 +64,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `overlap` | `AerisAvatarGroupOverlap` | `'default'` | Controls how closely neighboring avatars overlap. |
+| `overlap` | `AerisAvatarGroupOverlap` | `'default'` | Controls how closely neighboring avatars overlap. Options: 'subtle', 'default', 'strong'. |
 | `ariaLabel` | `string` | `''` | Accessible name for the group. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the group. |
 

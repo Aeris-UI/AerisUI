@@ -493,7 +493,7 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
       name: 'size',
       type: 'AerisTieredMenuSize',
       defaultValue: "'md'",
-      description: 'Controls item density and icon sizing.',
+      description: "Controls item density and icon sizing. Options: 'sm', 'md', 'lg'.",
     },
     {
       name: 'width',
@@ -622,7 +622,8 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
       name: 'hide(event?, reason?, restoreFocus?)',
       type: 'Event | null, AerisTieredMenuCloseReason, boolean => void',
       defaultValue: '-',
-      description: 'Closes a popup menu and clears open submenus.',
+      description:
+        "Closes a popup menu and clears open submenus. Options: 'api', 'escape', 'outside', 'select'.",
     },
     {
       name: 'toggle(event)',

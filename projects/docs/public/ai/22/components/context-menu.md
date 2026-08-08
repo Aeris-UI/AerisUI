@@ -36,7 +36,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 | `target` | `AerisContextMenuTarget` | `null` | Element that opens the menu on contextmenu. |
 | `global` | `boolean` | `false` | Opens the menu from document-level contextmenu events. |
 | `disabled` | `boolean` | `false` | Prevents target, global, and programmatic opening. |
-| `size` | `AerisContextMenuSize` | `'md'` | Controls item density and icon sizing. |
+| `size` | `AerisContextMenuSize` | `'md'` | Controls item density and icon sizing. Options: 'sm', 'md', 'lg'. |
 | `width` | `string` | `''` | CSS width for the root menu panel. |
 | `maxWidth` | `string` | `''` | CSS max-width for the root menu panel. |
 | `viewportMargin` | `number` | `8` | Minimum spacing from viewport edges when positioning. |
@@ -72,7 +72,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 | --- | --- | --- | --- |
 | `show(event)` | `MouseEvent &#124; PointerEvent =&gt; void` | `-` | Opens the menu at the event coordinates and prevents the native context menu. |
 | `openAt(x, y, originalEvent?)` | `number, number, Event &#124; null =&gt; void` | `-` | Opens the menu at explicit viewport coordinates. |
-| `hide(event?, reason?, restoreFocus?)` | `Event &#124; null, AerisContextMenuCloseReason, boolean =&gt; void` | `-` | Closes the menu. |
+| `hide(event?, reason?, restoreFocus?)` | `Event &#124; null, AerisContextMenuCloseReason, boolean =&gt; void` | `-` | Closes the menu. Options: 'api', 'escape', 'outside', 'scroll', 'select', 'target'. |
 | `toggle(event)` | `MouseEvent &#124; PointerEvent =&gt; void` | `-` | Toggles visibility at the event coordinates. |
 | `focus()` | `() =&gt; void` | `-` | Moves focus to the active menu item. |
 | `reposition()` | `() =&gt; void` | `-` | Recomputes panel placement inside the viewport. |

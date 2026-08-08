@@ -352,90 +352,399 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
 }`;
 
   protected readonly serviceRows: readonly ApiRow[] = [
-    { name: 'confirm(config)', type: 'AerisConfirmPopupConfig => AerisConfirmPopupRef', defaultValue: '-', description: 'Opens a target-relative confirmation popup.' },
-    { name: 'closeAll()', type: '() => void', defaultValue: '-', description: 'Dismisses active popups opened through the service.' },
+    {
+      name: 'confirm(config)',
+      type: 'AerisConfirmPopupConfig => AerisConfirmPopupRef',
+      defaultValue: '-',
+      description: 'Opens a target-relative confirmation popup.',
+    },
+    {
+      name: 'closeAll()',
+      type: '() => void',
+      defaultValue: '-',
+      description: 'Dismisses active popups opened through the service.',
+    },
   ];
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'body'", description: 'Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target.' },
-    { name: 'key', type: 'string', defaultValue: "''", description: 'Matches service requests to a template host.' },
-    { name: 'target', type: 'AerisConfirmPopupTarget', defaultValue: 'required', description: 'Element or trigger event used for positioning and trigger ARIA state.' },
-    { name: 'header', type: 'string', defaultValue: "'Confirm action'", description: 'Visible popup title.' },
-    { name: 'message', type: 'string', defaultValue: "''", description: 'Default confirmation message.' },
-    { name: 'data', type: 'unknown', defaultValue: 'undefined', description: 'Context data exposed to templates and events.' },
-    { name: 'icon', type: 'AerisConfirmPopupIcon', defaultValue: "'question'", description: 'Built-in icon or none.' },
-    { name: 'severity', type: 'AerisConfirmPopupSeverity', defaultValue: "'primary'", description: 'Visual intent for icon and accept action.' },
-    { name: 'acceptLabel', type: 'string', defaultValue: "'Confirm'", description: 'Accept button text.' },
-    { name: 'rejectLabel', type: 'string', defaultValue: "'Cancel'", description: 'Reject button text.' },
-    { name: 'acceptVisible', type: 'boolean', defaultValue: 'true', description: 'Renders the accept action.' },
-    { name: 'rejectVisible', type: 'boolean', defaultValue: 'true', description: 'Renders the reject action.' },
-    { name: 'acceptDisabled', type: 'boolean', defaultValue: 'false', description: 'Disables the accept action.' },
-    { name: 'rejectDisabled', type: 'boolean', defaultValue: 'false', description: 'Disables the reject action.' },
-    { name: 'acceptAriaLabel', type: 'string', defaultValue: "''", description: 'Accessible label for the accept action; falls back to acceptLabel.' },
-    { name: 'rejectAriaLabel', type: 'string', defaultValue: "''", description: 'Accessible label for the reject action; falls back to rejectLabel.' },
-    { name: 'defaultFocus', type: 'AerisConfirmPopupDefaultFocus', defaultValue: "'accept'", description: 'Built-in first focus target.' },
-    { name: 'placement', type: 'AerisConfirmPopupPlacement', defaultValue: "'auto'", description: 'Preferred placement around the target.' },
-    { name: 'alignment', type: 'AerisConfirmPopupAlignment', defaultValue: "'center'", description: 'Alignment along the target edge.' },
+    {
+      name: 'appendTo',
+      type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+      defaultValue: "'body'",
+      description:
+        'Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target.',
+    },
+    {
+      name: 'key',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Matches service requests to a template host.',
+    },
+    {
+      name: 'target',
+      type: 'AerisConfirmPopupTarget',
+      defaultValue: 'required',
+      description: 'Element or trigger event used for positioning and trigger ARIA state.',
+    },
+    {
+      name: 'header',
+      type: 'string',
+      defaultValue: "'Confirm action'",
+      description: 'Visible popup title.',
+    },
+    {
+      name: 'message',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Default confirmation message.',
+    },
+    {
+      name: 'data',
+      type: 'unknown',
+      defaultValue: 'undefined',
+      description: 'Context data exposed to templates and events.',
+    },
+    {
+      name: 'icon',
+      type: 'AerisConfirmPopupIcon',
+      defaultValue: "'question'",
+      description:
+        "Built-in icon or none. Options: 'question', 'info', 'warning', 'danger', 'success', 'none'.",
+    },
+    {
+      name: 'severity',
+      type: 'AerisConfirmPopupSeverity',
+      defaultValue: "'primary'",
+      description:
+        "Visual intent for icon and accept action. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral'.",
+    },
+    {
+      name: 'acceptLabel',
+      type: 'string',
+      defaultValue: "'Confirm'",
+      description: 'Accept button text.',
+    },
+    {
+      name: 'rejectLabel',
+      type: 'string',
+      defaultValue: "'Cancel'",
+      description: 'Reject button text.',
+    },
+    {
+      name: 'acceptVisible',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Renders the accept action.',
+    },
+    {
+      name: 'rejectVisible',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Renders the reject action.',
+    },
+    {
+      name: 'acceptDisabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables the accept action.',
+    },
+    {
+      name: 'rejectDisabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables the reject action.',
+    },
+    {
+      name: 'acceptAriaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible label for the accept action; falls back to acceptLabel.',
+    },
+    {
+      name: 'rejectAriaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible label for the reject action; falls back to rejectLabel.',
+    },
+    {
+      name: 'defaultFocus',
+      type: 'AerisConfirmPopupDefaultFocus',
+      defaultValue: "'accept'",
+      description: "Built-in first focus target. Options: 'accept', 'reject', 'popup', 'none'.",
+    },
+    {
+      name: 'placement',
+      type: 'AerisConfirmPopupPlacement',
+      defaultValue: "'auto'",
+      description:
+        "Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'.",
+    },
+    {
+      name: 'alignment',
+      type: 'AerisConfirmPopupAlignment',
+      defaultValue: "'center'",
+      description: "Alignment along the target edge. Options: 'start', 'center', 'end'.",
+    },
     { name: 'width', type: 'string', defaultValue: "''", description: 'Custom popup width.' },
-    { name: 'maxWidth', type: 'string', defaultValue: "''", description: 'Custom maximum popup width.' },
-    { name: 'offset', type: 'number', defaultValue: '10', description: 'Distance between target and popup in pixels.' },
-    { name: 'viewportMargin', type: 'number', defaultValue: '8', description: 'Minimum viewport edge gap in pixels.' },
-    { name: 'dismissible', type: 'boolean', defaultValue: 'true', description: 'Allows outside pointerdown to dismiss.' },
-    { name: 'closeOnEscape', type: 'boolean', defaultValue: 'true', description: 'Allows Escape to dismiss.' },
-    { name: 'focusTrap', type: 'boolean', defaultValue: 'true', description: 'Keeps Tab navigation inside the popup.' },
-    { name: 'restoreFocus', type: 'boolean', defaultValue: 'true', description: 'Returns focus to the trigger after close.' },
-    { name: 'autoFocus', type: 'boolean', defaultValue: 'true', description: 'Moves focus into the popup after open.' },
-    { name: 'initialFocus', type: 'string', defaultValue: "''", description: 'Custom selector that overrides defaultFocus.' },
-    { name: 'showArrow', type: 'boolean', defaultValue: 'true', description: 'Shows the pointer arrow.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name when no visible title labels the popup.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the popup.' },
-    { name: 'ariaDescribedBy', type: 'string', defaultValue: "''", description: 'ID of content that describes the confirmation.' },
+    {
+      name: 'maxWidth',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Custom maximum popup width.',
+    },
+    {
+      name: 'offset',
+      type: 'number',
+      defaultValue: '10',
+      description: 'Distance between target and popup in pixels.',
+    },
+    {
+      name: 'viewportMargin',
+      type: 'number',
+      defaultValue: '8',
+      description: 'Minimum viewport edge gap in pixels.',
+    },
+    {
+      name: 'dismissible',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Allows outside pointerdown to dismiss.',
+    },
+    {
+      name: 'closeOnEscape',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Allows Escape to dismiss.',
+    },
+    {
+      name: 'focusTrap',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Keeps Tab navigation inside the popup.',
+    },
+    {
+      name: 'restoreFocus',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Returns focus to the trigger after close.',
+    },
+    {
+      name: 'autoFocus',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Moves focus into the popup after open.',
+    },
+    {
+      name: 'initialFocus',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Custom selector that overrides defaultFocus.',
+    },
+    {
+      name: 'showArrow',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows the pointer arrow.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name when no visible title labels the popup.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the popup.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of content that describes the confirmation.',
+    },
   ];
 
   protected readonly models: readonly ApiRow[] = [
-    { name: 'visible', type: 'boolean', defaultValue: 'false', description: 'Controls declarative visibility.' },
+    {
+      name: 'visible',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Controls declarative visibility.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'visibleChange', type: 'boolean', defaultValue: '-', description: 'Emitted by the visible model.' },
-    { name: 'shown', type: 'AerisConfirmPopupActionEvent', defaultValue: '-', description: 'Emitted after the popup opens.' },
-    { name: 'accepted', type: 'AerisConfirmPopupActionEvent', defaultValue: '-', description: 'Emitted when the accept action runs.' },
-    { name: 'rejected', type: 'AerisConfirmPopupActionEvent', defaultValue: '-', description: 'Emitted when the reject action runs.' },
-    { name: 'closed', type: 'AerisConfirmPopupCloseEvent', defaultValue: '-', description: 'Emitted for accept, reject, and dismiss closes.' },
+    {
+      name: 'visibleChange',
+      type: 'boolean',
+      defaultValue: '-',
+      description: 'Emitted by the visible model.',
+    },
+    {
+      name: 'shown',
+      type: 'AerisConfirmPopupActionEvent',
+      defaultValue: '-',
+      description: 'Emitted after the popup opens.',
+    },
+    {
+      name: 'accepted',
+      type: 'AerisConfirmPopupActionEvent',
+      defaultValue: '-',
+      description: 'Emitted when the accept action runs.',
+    },
+    {
+      name: 'rejected',
+      type: 'AerisConfirmPopupActionEvent',
+      defaultValue: '-',
+      description: 'Emitted when the reject action runs.',
+    },
+    {
+      name: 'closed',
+      type: 'AerisConfirmPopupCloseEvent',
+      defaultValue: '-',
+      description: 'Emitted for accept, reject, and dismiss closes.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisConfirmPopupIcon', type: 'AerisConfirmPopupTemplateContext', defaultValue: 'built-in icon', description: 'Custom decorative icon content.' },
-    { name: 'aerisConfirmPopupMessage', type: 'AerisConfirmPopupTemplateContext', defaultValue: 'message input', description: 'Custom body message content.' },
-    { name: 'aerisConfirmPopupFooter', type: 'AerisConfirmPopupTemplateContext', defaultValue: 'default actions', description: 'Custom footer actions with accept, reject, and close callbacks.' },
-    { name: 'aerisConfirmPopupHeadless', type: 'AerisConfirmPopupTemplateContext', defaultValue: '-', description: 'Replaces all built-in popup UI while preserving popup behavior.' },
+    {
+      name: 'aerisConfirmPopupIcon',
+      type: 'AerisConfirmPopupTemplateContext',
+      defaultValue: 'built-in icon',
+      description: 'Custom decorative icon content.',
+    },
+    {
+      name: 'aerisConfirmPopupMessage',
+      type: 'AerisConfirmPopupTemplateContext',
+      defaultValue: 'message input',
+      description: 'Custom body message content.',
+    },
+    {
+      name: 'aerisConfirmPopupFooter',
+      type: 'AerisConfirmPopupTemplateContext',
+      defaultValue: 'default actions',
+      description: 'Custom footer actions with accept, reject, and close callbacks.',
+    },
+    {
+      name: 'aerisConfirmPopupHeadless',
+      type: 'AerisConfirmPopupTemplateContext',
+      defaultValue: '-',
+      description: 'Replaces all built-in popup UI while preserving popup behavior.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'accept(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Runs accept callbacks and closes with accept result.' },
-    { name: 'reject(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Runs reject callbacks and closes with reject result.' },
-    { name: 'close(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Dismisses the popup without accepting or rejecting.' },
-    { name: 'focus(options?)', type: '(FocusOptions) => void', defaultValue: '-', description: 'Moves focus to the configured initial focus target.' },
-    { name: 'reposition()', type: '() => void', defaultValue: '-', description: 'Recalculates target-relative popup position.' },
-    { name: 'openWithConfig(config, ref)', type: '(ResolvedConfig, AerisConfirmPopupRef) => void', defaultValue: '-', description: 'Opens a resolved configuration for a service-created host.' },
+    {
+      name: 'accept(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Runs accept callbacks and closes with accept result.',
+    },
+    {
+      name: 'reject(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Runs reject callbacks and closes with reject result.',
+    },
+    {
+      name: 'close(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Dismisses the popup without accepting or rejecting.',
+    },
+    {
+      name: 'focus(options?)',
+      type: '(FocusOptions) => void',
+      defaultValue: '-',
+      description: 'Moves focus to the configured initial focus target.',
+    },
+    {
+      name: 'reposition()',
+      type: '() => void',
+      defaultValue: '-',
+      description: 'Recalculates target-relative popup position.',
+    },
+    {
+      name: 'openWithConfig(config, ref)',
+      type: '(ResolvedConfig, AerisConfirmPopupRef) => void',
+      defaultValue: '-',
+      description: 'Opens a resolved configuration for a service-created host.',
+    },
   ];
 
   protected readonly configRows: readonly ApiRow[] = [
     ...this.inputs,
-    { name: 'accept', type: '(AerisConfirmPopupActionEvent) => void', defaultValue: '-', description: 'Callback invoked before an accepted popup closes.' },
-    { name: 'reject', type: '(AerisConfirmPopupActionEvent) => void', defaultValue: '-', description: 'Callback invoked before a rejected popup closes.' },
+    {
+      name: 'accept',
+      type: '(AerisConfirmPopupActionEvent) => void',
+      defaultValue: '-',
+      description: 'Callback invoked before an accepted popup closes.',
+    },
+    {
+      name: 'reject',
+      type: '(AerisConfirmPopupActionEvent) => void',
+      defaultValue: '-',
+      description: 'Callback invoked before a rejected popup closes.',
+    },
   ];
 
   protected readonly refRows: readonly ApiRow[] = [
-    { name: 'accept(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Accepts the popup programmatically.' },
-    { name: 'reject(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Rejects the popup programmatically.' },
-    { name: 'close(event?)', type: '(Event | null) => void', defaultValue: '-', description: 'Dismisses the popup programmatically.' },
-    { name: 'focus(options?)', type: '(FocusOptions) => void', defaultValue: '-', description: 'Moves focus into the active popup.' },
-    { name: 'reposition()', type: '() => void', defaultValue: '-', description: 'Recalculates the active popup position.' },
-    { name: 'accepted', type: 'Subscribable<AerisConfirmPopupActionEvent>', defaultValue: '-', description: 'Subscribe to accept actions.' },
-    { name: 'rejected', type: 'Subscribable<AerisConfirmPopupActionEvent>', defaultValue: '-', description: 'Subscribe to reject actions.' },
-    { name: 'closed', type: 'Subscribable<AerisConfirmPopupCloseEvent>', defaultValue: '-', description: 'Subscribe to the final close result.' },
-    { name: 'shown', type: 'Subscribable<AerisConfirmPopupActionEvent>', defaultValue: '-', description: 'Subscribe after the popup opens.' },
+    {
+      name: 'accept(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Accepts the popup programmatically.',
+    },
+    {
+      name: 'reject(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Rejects the popup programmatically.',
+    },
+    {
+      name: 'close(event?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Dismisses the popup programmatically.',
+    },
+    {
+      name: 'focus(options?)',
+      type: '(FocusOptions) => void',
+      defaultValue: '-',
+      description: 'Moves focus into the active popup.',
+    },
+    {
+      name: 'reposition()',
+      type: '() => void',
+      defaultValue: '-',
+      description: 'Recalculates the active popup position.',
+    },
+    {
+      name: 'accepted',
+      type: 'Subscribable<AerisConfirmPopupActionEvent>',
+      defaultValue: '-',
+      description: 'Subscribe to accept actions.',
+    },
+    {
+      name: 'rejected',
+      type: 'Subscribable<AerisConfirmPopupActionEvent>',
+      defaultValue: '-',
+      description: 'Subscribe to reject actions.',
+    },
+    {
+      name: 'closed',
+      type: 'Subscribable<AerisConfirmPopupCloseEvent>',
+      defaultValue: '-',
+      description: 'Subscribe to the final close result.',
+    },
+    {
+      name: 'shown',
+      type: 'Subscribable<AerisConfirmPopupActionEvent>',
+      defaultValue: '-',
+      description: 'Subscribe after the popup opens.',
+    },
   ];
 
   protected confirmDelete(event: MouseEvent): void {
@@ -456,23 +765,25 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
   }
 
   protected confirmSeverity(event: MouseEvent, severity: AerisConfirmPopupSeverity): void {
-    this.confirmations.confirm({
-      target: event,
-      header: `${severity} confirmation`,
-      message: 'Severity updates the icon, emphasis color, and accept action.',
-      severity,
-      icon:
-        severity === 'danger'
-          ? 'danger'
-          : severity === 'success'
-            ? 'success'
-            : severity === 'warning'
-              ? 'warning'
-              : 'info',
-      acceptLabel: 'Continue',
-    }).closed.subscribe((close) => {
-      this.lastResult.set(`${severity} closed with ${close.result}.`);
-    });
+    this.confirmations
+      .confirm({
+        target: event,
+        header: `${severity} confirmation`,
+        message: 'Severity updates the icon, emphasis color, and accept action.',
+        severity,
+        icon:
+          severity === 'danger'
+            ? 'danger'
+            : severity === 'success'
+              ? 'success'
+              : severity === 'warning'
+                ? 'warning'
+                : 'info',
+        acceptLabel: 'Continue',
+      })
+      .closed.subscribe((close) => {
+        this.lastResult.set(`${severity} closed with ${close.result}.`);
+      });
   }
 
   protected confirmAt(event: MouseEvent, placement: AerisConfirmPopupPlacement): void {

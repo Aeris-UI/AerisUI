@@ -40,8 +40,8 @@ import { AerisMultiSelect, type AerisSelectOption } from '@aeris-ui/core/multi-s
 | `ariaLabelledby` | `string` | `''` | IDs of visible elements that label the field. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
 | `listboxAriaLabel` | `string` | `'Options'` | Accessible name for the multi-select listbox. |
-| `size` | `AerisMultiSelectSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisMultiSelectAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisMultiSelectSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisMultiSelectAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `display` | `AerisMultiSelectDisplay` | `'summary'` | Displays a text summary or removable chips. |
 | `selectedItemsLabel` | `string` | `'{0} items selected'` | Summary used after the visible label threshold. |
 | `maxSelectedLabels` | `number` | `3` | Maximum labels or chips shown before a count is used. |

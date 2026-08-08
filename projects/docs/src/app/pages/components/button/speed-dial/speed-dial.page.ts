@@ -1,8 +1,5 @@
 import { Component, signal } from '@angular/core';
-import {
-  AerisSpeedDial,
-  type AerisSpeedDialItem,
-} from '@aeris-ui/core/speed-dial';
+import { AerisSpeedDial, type AerisSpeedDialItem } from '@aeris-ui/core/speed-dial';
 import { LucideDynamicIcon } from '@lucide/angular';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
@@ -52,7 +49,13 @@ export class SpeedDialPage {
   protected readonly stateActions: readonly AerisSpeedDialItem[] = [
     { label: 'Edit', icon: 'edit' },
     { label: 'Delete', icon: 'delete', disabled: true },
-    { label: 'Copy repository URL', icon: 'copy', url: 'https://github.com', target: '_blank', rel: 'noopener noreferrer' },
+    {
+      label: 'Copy repository URL',
+      icon: 'copy',
+      url: 'https://github.com',
+      target: '_blank',
+      rel: 'noopener noreferrer',
+    },
   ];
 
   protected readonly featureLinks: readonly PageTocLink[] = [
@@ -72,8 +75,7 @@ export class SpeedDialPage {
     { id: 'speed-dial-api-templates', label: 'Templates' },
   ];
 
-  protected readonly importCode =
-    `import { AerisSpeedDial, type AerisSpeedDialItem }\n  from '@aeris-ui/core/speed-dial';`;
+  protected readonly importCode = `import { AerisSpeedDial, type AerisSpeedDialItem }\n  from '@aeris-ui/core/speed-dial';`;
   protected readonly modelTsCode = `protected readonly actions: readonly AerisSpeedDialItem[] = [
   { label: 'Edit', icon: 'edit', command: () => edit() },
   { label: 'Delete', icon: 'delete', command: () => remove() },
@@ -156,31 +158,154 @@ interface AerisSpeedDialCommandEvent<T = unknown> {
       name: 'navigationHandler',
       type: 'AerisSpeedDialNavigationHandler | undefined',
       defaultValue: 'undefined',
-      description: 'Optional framework-routing bridge for routerLink items. Native href navigation is used otherwise.',
+      description:
+        'Optional framework-routing bridge for routerLink items. Native href navigation is used otherwise.',
     },
-    { name: 'id', type: 'string', defaultValue: 'generated', description: 'Stable base ID for the trigger, menu, and items.' },
-    { name: 'model', type: 'readonly AerisSpeedDialItem<T>[]', defaultValue: '[]', description: 'Actions displayed by the menu.' },
-    { name: 'visible', type: 'boolean (model)', defaultValue: 'false', description: 'Controls open state and supports two-way binding.' },
-    { name: 'direction', type: 'AerisSpeedDialDirection', defaultValue: "'up'", description: 'Direction used by linear and partial-circle layouts.' },
-    { name: 'type', type: 'AerisSpeedDialType', defaultValue: "'linear'", description: 'Linear, circle, semi-circle, or quarter-circle layout.' },
-    { name: 'maxItems', type: 'number | undefined', defaultValue: 'layout limit', description: 'Optionally lowers the limit. Linear and quarter-circle allow 5, semi-circle allows 7, and circle allows 8.' },
-    { name: 'radius', type: 'number', defaultValue: '0', description: 'Radial distance in pixels. Zero derives a radius from item count.' },
-    { name: 'transitionDelay', type: 'number', defaultValue: '30', description: 'Stagger interval between action animations in milliseconds.' },
-    { name: 'mask', type: 'boolean', defaultValue: 'false', description: 'Displays a dismissible page mask while open.' },
-    { name: 'backdropBlur', type: 'boolean', defaultValue: 'true', description: 'Applies the default frosted-glass blur when the mask is visible.' },
-    { name: 'backdropBlurAmount', type: 'string', defaultValue: "''", description: 'Overrides the mask blur radius with a CSS length.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables the trigger.' },
-    { name: 'hideOnClickOutside', type: 'boolean', defaultValue: 'true', description: 'Closes when focus is not required and a pointer clicks elsewhere.' },
-    { name: 'showIcon', type: 'string', defaultValue: "'+'", description: 'Default closed trigger glyph.' },
-    { name: 'hideIcon', type: 'string', defaultValue: "''", description: 'Optional open trigger glyph.' },
-    { name: 'rotateAnimation', type: 'boolean', defaultValue: 'true', description: 'Rotates the show glyph when no hide glyph is supplied.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Open actions'", description: 'Accessible trigger and menu name.' },
-    { name: 'ariaLabelledBy', type: 'string | undefined', defaultValue: 'undefined', description: 'ID of visible text that labels the trigger and menu.' },
-    { name: 'buttonProps', type: 'AerisSpeedDialButtonProps', defaultValue: 'undefined', description: 'Configures trigger title and size.' },
-    { name: 'buttonClass', type: 'string', defaultValue: "''", description: 'Additional trigger class.' },
-    { name: 'maskClass', type: 'string', defaultValue: "''", description: 'Additional mask class.' },
-    { name: 'buttonTemplate', type: 'TemplateRef', defaultValue: 'undefined', description: 'Replaces the complete trigger.' },
-    { name: 'itemTemplate', type: 'TemplateRef', defaultValue: 'undefined', description: 'Replaces action content.' },
-    { name: 'iconTemplate', type: 'TemplateRef', defaultValue: 'undefined', description: 'Replaces the default trigger glyph.' },
+    {
+      name: 'id',
+      type: 'string',
+      defaultValue: 'generated',
+      description: 'Stable base ID for the trigger, menu, and items.',
+    },
+    {
+      name: 'model',
+      type: 'readonly AerisSpeedDialItem<T>[]',
+      defaultValue: '[]',
+      description: 'Actions displayed by the menu.',
+    },
+    {
+      name: 'visible',
+      type: 'boolean (model)',
+      defaultValue: 'false',
+      description: 'Controls open state and supports two-way binding.',
+    },
+    {
+      name: 'direction',
+      type: 'AerisSpeedDialDirection',
+      defaultValue: "'up'",
+      description:
+        "Direction used by linear and partial-circle layouts. Options: 'up', 'down', 'left', 'right', 'up-left', 'up-right', 'down-left', 'down-right'.",
+    },
+    {
+      name: 'type',
+      type: 'AerisSpeedDialType',
+      defaultValue: "'linear'",
+      description: 'Linear, circle, semi-circle, or quarter-circle layout.',
+    },
+    {
+      name: 'maxItems',
+      type: 'number | undefined',
+      defaultValue: 'layout limit',
+      description:
+        'Optionally lowers the limit. Linear and quarter-circle allow 5, semi-circle allows 7, and circle allows 8.',
+    },
+    {
+      name: 'radius',
+      type: 'number',
+      defaultValue: '0',
+      description: 'Radial distance in pixels. Zero derives a radius from item count.',
+    },
+    {
+      name: 'transitionDelay',
+      type: 'number',
+      defaultValue: '30',
+      description: 'Stagger interval between action animations in milliseconds.',
+    },
+    {
+      name: 'mask',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Displays a dismissible page mask while open.',
+    },
+    {
+      name: 'backdropBlur',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Applies the default frosted-glass blur when the mask is visible.',
+    },
+    {
+      name: 'backdropBlurAmount',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Overrides the mask blur radius with a CSS length.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables the trigger.',
+    },
+    {
+      name: 'hideOnClickOutside',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Closes when focus is not required and a pointer clicks elsewhere.',
+    },
+    {
+      name: 'showIcon',
+      type: 'string',
+      defaultValue: "'+'",
+      description: 'Default closed trigger glyph.',
+    },
+    {
+      name: 'hideIcon',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional open trigger glyph.',
+    },
+    {
+      name: 'rotateAnimation',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Rotates the show glyph when no hide glyph is supplied.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Open actions'",
+      description: 'Accessible trigger and menu name.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string | undefined',
+      defaultValue: 'undefined',
+      description: 'ID of visible text that labels the trigger and menu.',
+    },
+    {
+      name: 'buttonProps',
+      type: 'AerisSpeedDialButtonProps',
+      defaultValue: 'undefined',
+      description: 'Configures trigger title and size.',
+    },
+    {
+      name: 'buttonClass',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Additional trigger class.',
+    },
+    {
+      name: 'maskClass',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Additional mask class.',
+    },
+    {
+      name: 'buttonTemplate',
+      type: 'TemplateRef',
+      defaultValue: 'undefined',
+      description: 'Replaces the complete trigger.',
+    },
+    {
+      name: 'itemTemplate',
+      type: 'TemplateRef',
+      defaultValue: 'undefined',
+      description: 'Replaces action content.',
+    },
+    {
+      name: 'iconTemplate',
+      type: 'TemplateRef',
+      defaultValue: 'undefined',
+      description: 'Replaces the default trigger glyph.',
+    },
   ];
 }

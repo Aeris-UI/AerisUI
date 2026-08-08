@@ -35,7 +35,7 @@ import { AerisRating } from '@aeris-ui/core/rating';
 | `allowClear` | `boolean` | `true` | Allows setting the rating to zero with repeat click, Home, Delete, Backspace, clear(), or reset(). |
 | `disabled` | `boolean` | `false` | Disables pointer, keyboard, and form interaction. |
 | `required` | `boolean` | `false` | Sets aria-required for validation flows. |
-| `size` | `AerisRatingSize` | `'md'` | Visual star size. |
+| `size` | `AerisRatingSize` | `'md'` | Visual star size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `showValue` | `boolean` | `false` | Shows formatted value text next to the rating. |
 | `name` | `string` | `''` | Hidden native form field name. |
 | `inputId` | `string` | `generated` | ID applied to the focusable rating control. |

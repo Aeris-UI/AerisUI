@@ -173,47 +173,214 @@ type AerisToolbarRole = 'toolbar' | 'group' | null;
 type AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'id', type: 'string', defaultValue: "''", description: 'Optional ID for the toolbar host.' },
-    { name: 'variant', type: 'AerisToolbarVariant', defaultValue: "'outlined'", description: 'Outlined, filled, elevated, or plain surface treatment.' },
-    { name: 'size', type: 'AerisToolbarSize', defaultValue: "'md'", description: 'Controls toolbar padding and spacing density.' },
-    { name: 'orientation', type: 'AerisToolbarOrientation', defaultValue: "'horizontal'", description: 'Sets horizontal or vertical layout and toolbar orientation semantics.' },
-    { name: 'align', type: 'AerisToolbarAlign', defaultValue: "'center'", description: 'Aligns sections across the cross axis.' },
-    { name: 'wrap', type: 'boolean', defaultValue: 'true', description: 'Allows horizontal toolbars to wrap when space is limited.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'true', description: 'Makes the toolbar fill the available inline size.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Marks the toolbar disabled and makes projected controls inert.' },
-    { name: 'role', type: 'AerisToolbarRole', defaultValue: "'toolbar'", description: 'Semantic role for the host. Use group or null when toolbar semantics are not appropriate.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name for the toolbar host.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the toolbar.' },
-    { name: 'ariaDescribedBy', type: 'string', defaultValue: "''", description: 'ID of text that describes the toolbar.' },
+    {
+      name: 'id',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional ID for the toolbar host.',
+    },
+    {
+      name: 'variant',
+      type: 'AerisToolbarVariant',
+      defaultValue: "'outlined'",
+      description: 'Outlined, filled, elevated, or plain surface treatment.',
+    },
+    {
+      name: 'size',
+      type: 'AerisToolbarSize',
+      defaultValue: "'md'",
+      description: "Controls toolbar padding and spacing density. Options: 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'orientation',
+      type: 'AerisToolbarOrientation',
+      defaultValue: "'horizontal'",
+      description: 'Sets horizontal or vertical layout and toolbar orientation semantics.',
+    },
+    {
+      name: 'align',
+      type: 'AerisToolbarAlign',
+      defaultValue: "'center'",
+      description:
+        "Aligns sections across the cross axis. Options: 'start', 'center', 'end', 'stretch'.",
+    },
+    {
+      name: 'wrap',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Allows horizontal toolbars to wrap when space is limited.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Makes the toolbar fill the available inline size.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Marks the toolbar disabled and makes projected controls inert.',
+    },
+    {
+      name: 'role',
+      type: 'AerisToolbarRole',
+      defaultValue: "'toolbar'",
+      description:
+        'Semantic role for the host. Use group or null when toolbar semantics are not appropriate.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name for the toolbar host.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the toolbar.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of text that describes the toolbar.',
+    },
   ];
 
   protected readonly slots: readonly ApiRow[] = [
-    { name: 'aerisToolbarStart', type: 'attribute directive', defaultValue: '-', description: 'Start-aligned section for primary navigation or leading actions.' },
-    { name: 'aerisToolbarCenter', type: 'attribute directive', defaultValue: '-', description: 'Centered section for status, segmented actions, or title content.' },
-    { name: 'aerisToolbarEnd', type: 'attribute directive', defaultValue: '-', description: 'End-aligned section for final or secondary actions.' },
-    { name: 'aerisToolbarGroup', type: 'attribute directive', defaultValue: '-', description: 'Inline group for related controls inside a section.' },
-    { name: 'aerisToolbarSpacer', type: 'attribute directive', defaultValue: '-', description: 'Flexible spacer for custom projected layouts.' },
+    {
+      name: 'aerisToolbarStart',
+      type: 'attribute directive',
+      defaultValue: '-',
+      description: 'Start-aligned section for primary navigation or leading actions.',
+    },
+    {
+      name: 'aerisToolbarCenter',
+      type: 'attribute directive',
+      defaultValue: '-',
+      description: 'Centered section for status, segmented actions, or title content.',
+    },
+    {
+      name: 'aerisToolbarEnd',
+      type: 'attribute directive',
+      defaultValue: '-',
+      description: 'End-aligned section for final or secondary actions.',
+    },
+    {
+      name: 'aerisToolbarGroup',
+      type: 'attribute directive',
+      defaultValue: '-',
+      description: 'Inline group for related controls inside a section.',
+    },
+    {
+      name: 'aerisToolbarSpacer',
+      type: 'attribute directive',
+      defaultValue: '-',
+      description: 'Flexible spacer for custom projected layouts.',
+    },
   ];
 
   protected readonly contentRows: readonly ApiRow[] = [
-    { name: 'default content', type: 'content projection', defaultValue: '-', description: 'Unslotted content rendered after the named toolbar sections.' },
+    {
+      name: 'default content',
+      type: 'content projection',
+      defaultValue: '-',
+      description: 'Unslotted content rendered after the named toolbar sections.',
+    },
   ];
 
   protected readonly tokens: readonly ApiRow[] = [
-    { name: '--aeris-toolbar-background', type: 'color', defaultValue: '--aeris-surface', description: 'Toolbar surface color.' },
-    { name: '--aeris-toolbar-color', type: 'color', defaultValue: '--aeris-text', description: 'Toolbar text color.' },
-    { name: '--aeris-toolbar-border', type: 'color', defaultValue: '--aeris-border', description: 'Toolbar border color.' },
-    { name: '--aeris-toolbar-border-width', type: 'length', defaultValue: '1px', description: 'Toolbar border width.' },
-    { name: '--aeris-toolbar-radius', type: 'length', defaultValue: '--aeris-radius-lg', description: 'Toolbar corner radius.' },
-    { name: '--aeris-toolbar-shadow', type: 'shadow', defaultValue: 'none', description: 'Toolbar shadow.' },
-    { name: '--aeris-toolbar-filled-background', type: 'color', defaultValue: 'surface mix', description: 'Filled variant surface.' },
-    { name: '--aeris-toolbar-elevated-shadow', type: 'shadow', defaultValue: 'soft elevation', description: 'Elevated variant shadow.' },
-    { name: '--aeris-toolbar-padding-block', type: 'length', defaultValue: '0.75rem', description: 'Default block padding.' },
-    { name: '--aeris-toolbar-padding-inline', type: 'length', defaultValue: '0.875rem', description: 'Default inline padding.' },
-    { name: '--aeris-toolbar-gap', type: 'length', defaultValue: '0.75rem', description: 'Gap between toolbar sections.' },
-    { name: '--aeris-toolbar-section-gap', type: 'length', defaultValue: '0.5rem', description: 'Gap between controls inside sections and groups.' },
-    { name: '--aeris-toolbar-min-height', type: 'length', defaultValue: '3.25rem', description: 'Minimum content row height.' },
-    { name: '--aeris-toolbar-spacer-min-size', type: 'length', defaultValue: '1rem', description: 'Minimum size for flexible spacers.' },
-    { name: '--aeris-toolbar-disabled-opacity', type: 'number', defaultValue: '0.62', description: 'Opacity when disabled.' },
+    {
+      name: '--aeris-toolbar-background',
+      type: 'color',
+      defaultValue: '--aeris-surface',
+      description: 'Toolbar surface color.',
+    },
+    {
+      name: '--aeris-toolbar-color',
+      type: 'color',
+      defaultValue: '--aeris-text',
+      description: 'Toolbar text color.',
+    },
+    {
+      name: '--aeris-toolbar-border',
+      type: 'color',
+      defaultValue: '--aeris-border',
+      description: 'Toolbar border color.',
+    },
+    {
+      name: '--aeris-toolbar-border-width',
+      type: 'length',
+      defaultValue: '1px',
+      description: 'Toolbar border width.',
+    },
+    {
+      name: '--aeris-toolbar-radius',
+      type: 'length',
+      defaultValue: '--aeris-radius-lg',
+      description: 'Toolbar corner radius.',
+    },
+    {
+      name: '--aeris-toolbar-shadow',
+      type: 'shadow',
+      defaultValue: 'none',
+      description: 'Toolbar shadow.',
+    },
+    {
+      name: '--aeris-toolbar-filled-background',
+      type: 'color',
+      defaultValue: 'surface mix',
+      description: 'Filled variant surface.',
+    },
+    {
+      name: '--aeris-toolbar-elevated-shadow',
+      type: 'shadow',
+      defaultValue: 'soft elevation',
+      description: 'Elevated variant shadow.',
+    },
+    {
+      name: '--aeris-toolbar-padding-block',
+      type: 'length',
+      defaultValue: '0.75rem',
+      description: 'Default block padding.',
+    },
+    {
+      name: '--aeris-toolbar-padding-inline',
+      type: 'length',
+      defaultValue: '0.875rem',
+      description: 'Default inline padding.',
+    },
+    {
+      name: '--aeris-toolbar-gap',
+      type: 'length',
+      defaultValue: '0.75rem',
+      description: 'Gap between toolbar sections.',
+    },
+    {
+      name: '--aeris-toolbar-section-gap',
+      type: 'length',
+      defaultValue: '0.5rem',
+      description: 'Gap between controls inside sections and groups.',
+    },
+    {
+      name: '--aeris-toolbar-min-height',
+      type: 'length',
+      defaultValue: '3.25rem',
+      description: 'Minimum content row height.',
+    },
+    {
+      name: '--aeris-toolbar-spacer-min-size',
+      type: 'length',
+      defaultValue: '1rem',
+      description: 'Minimum size for flexible spacers.',
+    },
+    {
+      name: '--aeris-toolbar-disabled-opacity',
+      type: 'number',
+      defaultValue: '0.62',
+      description: 'Opacity when disabled.',
+    },
   ];
 }

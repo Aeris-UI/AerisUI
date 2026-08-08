@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import {
-  AerisPanelModule,
-  type AerisPanelToggleEvent,
-} from '@aeris-ui/core/panel';
+import { AerisPanelModule, type AerisPanelToggleEvent } from '@aeris-ui/core/panel';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -205,46 +202,166 @@ interface AerisPanelHeaderContext {
 interface AerisPanelToggleIconContext extends AerisPanelHeaderContext {}`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'id', type: 'string', defaultValue: 'generated id', description: 'Host ID used to derive header and content IDs.' },
+    {
+      name: 'id',
+      type: 'string',
+      defaultValue: 'generated id',
+      description: 'Host ID used to derive header and content IDs.',
+    },
     { name: 'header', type: 'string', defaultValue: "''", description: 'Default header text.' },
-    { name: 'toggleable', type: 'boolean', defaultValue: 'false', description: 'Adds a native disclosure button for showing and hiding content.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables the toggle button without hiding content.' },
-    { name: 'variant', type: 'AerisPanelVariant', defaultValue: "'outlined'", description: 'Outlined, elevated, filled, or plain surface treatment.' },
-    { name: 'size', type: 'AerisPanelSize', defaultValue: "'md'", description: 'Controls header and content density.' },
-    { name: 'animated', type: 'boolean', defaultValue: 'true', description: 'Enables content and indicator transitions.' },
-    { name: 'headingLevel', type: '1 | 2 | 3 | 4 | 5 | 6', defaultValue: '3', description: 'ARIA heading level for the panel header.' },
-    { name: 'role', type: 'AerisPanelRole', defaultValue: 'null', description: 'Optional semantic role for the panel host.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name for the panel host when no visible label is referenced.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the panel host.' },
-    { name: 'ariaDescribedBy', type: 'string', defaultValue: "''", description: 'ID of text that describes the panel host.' },
-    { name: 'toggleButtonLabel', type: 'string', defaultValue: "''", description: 'Optional accessible name for the toggle button when header text is not enough.' },
+    {
+      name: 'toggleable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Adds a native disclosure button for showing and hiding content.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables the toggle button without hiding content.',
+    },
+    {
+      name: 'variant',
+      type: 'AerisPanelVariant',
+      defaultValue: "'outlined'",
+      description: 'Outlined, elevated, filled, or plain surface treatment.',
+    },
+    {
+      name: 'size',
+      type: 'AerisPanelSize',
+      defaultValue: "'md'",
+      description: "Controls header and content density. Options: 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'animated',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Enables content and indicator transitions.',
+    },
+    {
+      name: 'headingLevel',
+      type: '1 | 2 | 3 | 4 | 5 | 6',
+      defaultValue: '3',
+      description: 'ARIA heading level for the panel header.',
+    },
+    {
+      name: 'role',
+      type: 'AerisPanelRole',
+      defaultValue: 'null',
+      description: 'Optional semantic role for the panel host.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name for the panel host when no visible label is referenced.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the panel host.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of text that describes the panel host.',
+    },
+    {
+      name: 'toggleButtonLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional accessible name for the toggle button when header text is not enough.',
+    },
   ];
 
   protected readonly models: readonly ApiRow[] = [
-    { name: 'collapsed', type: 'boolean', defaultValue: 'false', description: 'Two-way collapse state for controlled panels.' },
+    {
+      name: 'collapsed',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Two-way collapse state for controlled panels.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'toggled', type: 'AerisPanelToggleEvent', defaultValue: '-', description: 'Emitted whenever the panel changes collapse state.' },
-    { name: 'panelExpanded', type: 'AerisPanelToggleEvent', defaultValue: '-', description: 'Emitted when content becomes visible.' },
-    { name: 'panelCollapsed', type: 'AerisPanelToggleEvent', defaultValue: '-', description: 'Emitted when content becomes hidden.' },
+    {
+      name: 'toggled',
+      type: 'AerisPanelToggleEvent',
+      defaultValue: '-',
+      description: 'Emitted whenever the panel changes collapse state.',
+    },
+    {
+      name: 'panelExpanded',
+      type: 'AerisPanelToggleEvent',
+      defaultValue: '-',
+      description: 'Emitted when content becomes visible.',
+    },
+    {
+      name: 'panelCollapsed',
+      type: 'AerisPanelToggleEvent',
+      defaultValue: '-',
+      description: 'Emitted when content becomes hidden.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisPanelHeader', type: 'AerisPanelHeaderContext', defaultValue: 'header text', description: 'Custom header content rendered inside the heading or toggle button.' },
-    { name: 'aerisPanelToggleIcon', type: 'AerisPanelToggleIconContext', defaultValue: 'centered chevron icon', description: 'Custom indicator for toggleable panels.' },
+    {
+      name: 'aerisPanelHeader',
+      type: 'AerisPanelHeaderContext',
+      defaultValue: 'header text',
+      description: 'Custom header content rendered inside the heading or toggle button.',
+    },
+    {
+      name: 'aerisPanelToggleIcon',
+      type: 'AerisPanelToggleIconContext',
+      defaultValue: 'centered chevron icon',
+      description: 'Custom indicator for toggleable panels.',
+    },
   ];
 
   protected readonly slots: readonly ApiRow[] = [
-    { name: 'default content', type: 'content projection', defaultValue: '-', description: 'Panel body content.' },
-    { name: 'aerisPanelHeaderActions', type: 'attribute directive', defaultValue: '-', description: 'Action area aligned beside the header.' },
-    { name: 'aerisPanelFooter', type: 'attribute directive', defaultValue: '-', description: 'Footer content rendered after the body.' },
+    {
+      name: 'default content',
+      type: 'content projection',
+      defaultValue: '-',
+      description: 'Panel body content.',
+    },
+    {
+      name: 'aerisPanelHeaderActions',
+      type: 'attribute directive',
+      defaultValue: '-',
+      description: 'Action area aligned beside the header.',
+    },
+    {
+      name: 'aerisPanelFooter',
+      type: 'attribute directive',
+      defaultValue: '-',
+      description: 'Footer content rendered after the body.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'toggle', type: '(originalEvent?: Event | null) => void', defaultValue: '-', description: 'Toggles a toggleable, enabled panel.' },
-    { name: 'expand', type: '(originalEvent?: Event | null) => void', defaultValue: '-', description: 'Shows content when the panel is toggleable and enabled.' },
-    { name: 'collapse', type: '(originalEvent?: Event | null) => void', defaultValue: '-', description: 'Hides content when the panel is toggleable and enabled.' },
+    {
+      name: 'toggle',
+      type: '(originalEvent?: Event | null) => void',
+      defaultValue: '-',
+      description: 'Toggles a toggleable, enabled panel.',
+    },
+    {
+      name: 'expand',
+      type: '(originalEvent?: Event | null) => void',
+      defaultValue: '-',
+      description: 'Shows content when the panel is toggleable and enabled.',
+    },
+    {
+      name: 'collapse',
+      type: '(originalEvent?: Event | null) => void',
+      defaultValue: '-',
+      description: 'Hides content when the panel is toggleable and enabled.',
+    },
   ];
 
   protected openPanel(): void {

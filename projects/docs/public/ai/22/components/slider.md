@@ -38,7 +38,7 @@ import { AerisSlider } from '@aeris-ui/core/slider';
 | `pageStep` | `number &#124; undefined` | `10% of range` | Increment used by Page Up and Page Down. |
 | `orientation` | `AerisSliderOrientation` | `'horizontal'` | Horizontal or vertical track layout. |
 | `reversed` | `boolean` | `false` | Reverses visual direction and arrow-key increments. |
-| `size` | `AerisSliderSize` | `'md'` | Track thickness and thumb size. |
+| `size` | `AerisSliderSize` | `'md'` | Track thickness and thumb size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `name` | `string` | `''` | Hidden native form field name. |
 | `inputId` | `string` | `generated` | Single-thumb ID or base ID for range thumbs. |
 | `ariaLabel` | `string` | `'Value'` | Accessible name for a single slider thumb. |

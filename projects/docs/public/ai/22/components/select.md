@@ -39,8 +39,8 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 | `ariaLabelledby` | `string` | `''` | IDs of elements that label the combobox. |
 | `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
 | `listboxAriaLabel` | `string` | `'Options'` | Accessible name for the options list. |
-| `size` | `AerisSelectSize` | `'md'` | Control height and typography size. |
-| `appearance` | `AerisSelectAppearance` | `'outline'` | Outlined or filled visual treatment. |
+| `size` | `AerisSelectSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisSelectAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `disabled` | `boolean` | `false` | Disables opening, selection, clearing, and Forms interaction. |
 | `required` | `boolean` | `false` | Exposes aria-required for validation. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
@@ -49,7 +49,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 | `editable` | `boolean` | `false` | Allows free-form values in addition to listed options. |
 | `filter` | `boolean` | `false` | Adds an accessible search field to the options panel. |
 | `filterValue` | `string (model)` | `''` | Controlled filter query with two-way binding. |
-| `filterMatchMode` | `AerisSelectFilterMatchMode` | `'contains'` | Matching strategy for local filtering. |
+| `filterMatchMode` | `AerisSelectFilterMatchMode` | `'contains'` | Matching strategy for local filtering. Options: 'contains', 'startsWith', 'endsWith', 'equals'. |
 | `filterFields` | `readonly ('label' &#124; 'description' &#124; 'group')[]` | `['label']` | Option fields included in local filtering. |
 | `filterLocale` | `string &#124; undefined` | `undefined` | Locale used for case normalization. |
 | `filterPlaceholder` | `string` | `'Search options'` | Visible filter placeholder. |

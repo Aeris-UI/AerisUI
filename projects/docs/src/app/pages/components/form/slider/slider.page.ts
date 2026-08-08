@@ -69,8 +69,7 @@ export class SliderPage {
     { id: 'slider-api-methods', label: 'Methods' },
   ];
 
-  protected readonly importCode =
-    `import { AerisSlider } from '@aeris-ui/core/slider';`;
+  protected readonly importCode = `import { AerisSlider } from '@aeris-ui/core/slider';`;
 
   protected readonly basicCode = `protected readonly volume =
   signal<AerisSliderValue>(42);`;
@@ -134,50 +133,230 @@ interface AerisSliderChangeEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'value', type: 'AerisSliderValue (model)', defaultValue: '0', description: 'Single number or two-number range with two-way binding support.' },
-    { name: 'range', type: 'boolean', defaultValue: 'false', description: 'Enables lower and upper thumbs.' },
+    {
+      name: 'value',
+      type: 'AerisSliderValue (model)',
+      defaultValue: '0',
+      description: 'Single number or two-number range with two-way binding support.',
+    },
+    {
+      name: 'range',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Enables lower and upper thumbs.',
+    },
     { name: 'min', type: 'number', defaultValue: '0', description: 'Minimum slider value.' },
     { name: 'max', type: 'number', defaultValue: '100', description: 'Maximum slider value.' },
-    { name: 'step', type: 'number', defaultValue: '1', description: 'Value interval used by pointer alignment and arrow keys.' },
-    { name: 'minRange', type: 'number', defaultValue: '0', description: 'Minimum permitted distance between range thumbs.' },
-    { name: 'pageStep', type: 'number | undefined', defaultValue: '10% of range', description: 'Increment used by Page Up and Page Down.' },
-    { name: 'orientation', type: 'AerisSliderOrientation', defaultValue: "'horizontal'", description: 'Horizontal or vertical track layout.' },
-    { name: 'reversed', type: 'boolean', defaultValue: 'false', description: 'Reverses visual direction and arrow-key increments.' },
-    { name: 'size', type: 'AerisSliderSize', defaultValue: "'md'", description: 'Track thickness and thumb size.' },
-    { name: 'name', type: 'string', defaultValue: "''", description: 'Hidden native form field name.' },
-    { name: 'inputId', type: 'string', defaultValue: 'generated', description: 'Single-thumb ID or base ID for range thumbs.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Value'", description: 'Accessible name for a single slider thumb.' },
-    { name: 'ariaLabelledby', type: 'string', defaultValue: "''", description: 'IDs of external elements labelling a single thumb.' },
-    { name: 'ariaDescribedby', type: 'string', defaultValue: "''", description: 'IDs of shared instructions and validation messages.' },
-    { name: 'lowerAriaLabel', type: 'string', defaultValue: "'Minimum value'", description: 'Accessible name for the lower range thumb.' },
-    { name: 'upperAriaLabel', type: 'string', defaultValue: "'Maximum value'", description: 'Accessible name for the upper range thumb.' },
-    { name: 'lowerAriaLabelledby', type: 'string', defaultValue: "''", description: 'External label IDs for the lower thumb.' },
-    { name: 'upperAriaLabelledby', type: 'string', defaultValue: "''", description: 'External label IDs for the upper thumb.' },
-    { name: 'valueText', type: '((value: number) => string) | null', defaultValue: 'null', description: 'Formats visible values, tooltips, and aria-valuetext.' },
-    { name: 'showValue', type: 'boolean', defaultValue: 'false', description: 'Shows current values beside the track.' },
-    { name: 'showTooltip', type: 'boolean', defaultValue: 'false', description: 'Shows a value tooltip on hover, focus, and drag.' },
-    { name: 'showTicks', type: 'boolean', defaultValue: 'false', description: 'Shows one tick for each step when within maxTicks.' },
-    { name: 'maxTicks', type: 'number', defaultValue: '101', description: 'Prevents excessive tick rendering for dense ranges.' },
-    { name: 'showMinMax', type: 'boolean', defaultValue: 'false', description: 'Shows formatted minimum and maximum labels.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables pointer, keyboard, and form interaction.' },
-    { name: 'readonly', type: 'boolean', defaultValue: 'false', description: 'Keeps thumbs focusable while preventing changes.' },
-    { name: 'invalid', type: 'boolean', defaultValue: 'false', description: 'Applies invalid styling and aria-invalid.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'false', description: 'Expands a horizontal slider to available width.' },
+    {
+      name: 'step',
+      type: 'number',
+      defaultValue: '1',
+      description: 'Value interval used by pointer alignment and arrow keys.',
+    },
+    {
+      name: 'minRange',
+      type: 'number',
+      defaultValue: '0',
+      description: 'Minimum permitted distance between range thumbs.',
+    },
+    {
+      name: 'pageStep',
+      type: 'number | undefined',
+      defaultValue: '10% of range',
+      description: 'Increment used by Page Up and Page Down.',
+    },
+    {
+      name: 'orientation',
+      type: 'AerisSliderOrientation',
+      defaultValue: "'horizontal'",
+      description: 'Horizontal or vertical track layout.',
+    },
+    {
+      name: 'reversed',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Reverses visual direction and arrow-key increments.',
+    },
+    {
+      name: 'size',
+      type: 'AerisSliderSize',
+      defaultValue: "'md'",
+      description: "Track thickness and thumb size. Options: 'xs', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'name',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Hidden native form field name.',
+    },
+    {
+      name: 'inputId',
+      type: 'string',
+      defaultValue: 'generated',
+      description: 'Single-thumb ID or base ID for range thumbs.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Value'",
+      description: 'Accessible name for a single slider thumb.',
+    },
+    {
+      name: 'ariaLabelledby',
+      type: 'string',
+      defaultValue: "''",
+      description: 'IDs of external elements labelling a single thumb.',
+    },
+    {
+      name: 'ariaDescribedby',
+      type: 'string',
+      defaultValue: "''",
+      description: 'IDs of shared instructions and validation messages.',
+    },
+    {
+      name: 'lowerAriaLabel',
+      type: 'string',
+      defaultValue: "'Minimum value'",
+      description: 'Accessible name for the lower range thumb.',
+    },
+    {
+      name: 'upperAriaLabel',
+      type: 'string',
+      defaultValue: "'Maximum value'",
+      description: 'Accessible name for the upper range thumb.',
+    },
+    {
+      name: 'lowerAriaLabelledby',
+      type: 'string',
+      defaultValue: "''",
+      description: 'External label IDs for the lower thumb.',
+    },
+    {
+      name: 'upperAriaLabelledby',
+      type: 'string',
+      defaultValue: "''",
+      description: 'External label IDs for the upper thumb.',
+    },
+    {
+      name: 'valueText',
+      type: '((value: number) => string) | null',
+      defaultValue: 'null',
+      description: 'Formats visible values, tooltips, and aria-valuetext.',
+    },
+    {
+      name: 'showValue',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows current values beside the track.',
+    },
+    {
+      name: 'showTooltip',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows a value tooltip on hover, focus, and drag.',
+    },
+    {
+      name: 'showTicks',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows one tick for each step when within maxTicks.',
+    },
+    {
+      name: 'maxTicks',
+      type: 'number',
+      defaultValue: '101',
+      description: 'Prevents excessive tick rendering for dense ranges.',
+    },
+    {
+      name: 'showMinMax',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows formatted minimum and maximum labels.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables pointer, keyboard, and form interaction.',
+    },
+    {
+      name: 'readonly',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Keeps thumbs focusable while preventing changes.',
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Applies invalid styling and aria-invalid.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Expands a horizontal slider to available width.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'valueChange', type: 'AerisSliderValue', defaultValue: '-', description: 'Emitted automatically by the value model.' },
-    { name: 'valueInput', type: 'AerisSliderValue', defaultValue: '-', description: 'Emitted whenever interaction updates the value.' },
-    { name: 'sliding', type: 'AerisSliderInputEvent', defaultValue: '-', description: 'Continuous pointer and keyboard value updates.' },
-    { name: 'changed', type: 'AerisSliderChangeEvent', defaultValue: '-', description: 'Committed keyboard update or completed pointer drag.' },
-    { name: 'focused', type: 'FocusEvent', defaultValue: '-', description: 'Emitted when either thumb receives focus.' },
-    { name: 'blurred', type: 'FocusEvent', defaultValue: '-', description: 'Emitted when a thumb loses focus.' },
-    { name: 'touch', type: 'void', defaultValue: '-', description: 'Emitted on thumb blur for touched-state integration.' },
+    {
+      name: 'valueChange',
+      type: 'AerisSliderValue',
+      defaultValue: '-',
+      description: 'Emitted automatically by the value model.',
+    },
+    {
+      name: 'valueInput',
+      type: 'AerisSliderValue',
+      defaultValue: '-',
+      description: 'Emitted whenever interaction updates the value.',
+    },
+    {
+      name: 'sliding',
+      type: 'AerisSliderInputEvent',
+      defaultValue: '-',
+      description: 'Continuous pointer and keyboard value updates.',
+    },
+    {
+      name: 'changed',
+      type: 'AerisSliderChangeEvent',
+      defaultValue: '-',
+      description: 'Committed keyboard update or completed pointer drag.',
+    },
+    {
+      name: 'focused',
+      type: 'FocusEvent',
+      defaultValue: '-',
+      description: 'Emitted when either thumb receives focus.',
+    },
+    {
+      name: 'blurred',
+      type: 'FocusEvent',
+      defaultValue: '-',
+      description: 'Emitted when a thumb loses focus.',
+    },
+    {
+      name: 'touch',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Emitted on thumb blur for touched-state integration.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'focus(thumb?)', type: 'void', defaultValue: '-', description: 'Focuses the single, lower, or upper thumb.' },
-    { name: 'reset()', type: 'void', defaultValue: '-', description: 'Resets a single slider to min or a range slider to [min, max].' },
+    {
+      name: 'focus(thumb?)',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Focuses the single, lower, or upper thumb.',
+    },
+    {
+      name: 'reset()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Resets a single slider to min or a range slider to [min, max].',
+    },
   ];
 
   protected readonly formatCurrency = (value: number): string => `$${value}`;

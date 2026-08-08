@@ -364,7 +364,8 @@ interface AerisInplaceContentContext {
       name: 'ariaLive',
       type: 'AerisInplaceAriaLive',
       defaultValue: "'polite'",
-      description: 'Live-region politeness applied to newly rendered content.',
+      description:
+        "Live-region politeness applied to newly rendered content. Options: 'off', 'polite', 'assertive'.",
     },
   ];
 

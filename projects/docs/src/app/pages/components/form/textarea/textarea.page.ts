@@ -36,9 +36,7 @@ interface ApiRow {
   styleUrl: './textarea.page.scss',
 })
 export class TextareaPage {
-  protected readonly notes = signal(
-    'Aeris keeps multiline content comfortable to read and edit.',
-  );
+  protected readonly notes = signal('Aeris keeps multiline content comfortable to read and edit.');
   protected readonly summary = signal('A concise project summary.');
   protected readonly feedback = signal('');
   protected readonly feedbackTouched = signal(false);
@@ -72,8 +70,7 @@ export class TextareaPage {
     { id: 'textarea-api-methods', label: 'Methods' },
   ];
 
-  protected readonly importCode =
-    `import { AerisTextarea } from '@aeris-ui/core/textarea';`;
+  protected readonly importCode = `import { AerisTextarea } from '@aeris-ui/core/textarea';`;
 
   protected readonly signalCode = `protected readonly notes = signal(
   'Aeris keeps multiline content comfortable to read and edit.',
@@ -113,19 +110,22 @@ type AerisTextareaResize =
       name: 'size',
       type: 'AerisTextareaSize',
       defaultValue: "'md'",
-      description: 'Sets the padding, font size, and minimum height.',
+      description:
+        "Sets the padding, font size, and minimum height. Options: 'xs', 'sm', 'md', 'lg'.",
     },
     {
       name: 'appearance',
       type: 'AerisTextareaAppearance',
       defaultValue: "'outline'",
-      description: 'Selects the outlined or filled surface treatment.',
+      description:
+        "Selects the outlined or filled surface treatment. Options: 'outline', 'filled'.",
     },
     {
       name: 'resize',
       type: 'AerisTextareaResize',
       defaultValue: "'vertical'",
-      description: 'Controls the native browser resize handle.',
+      description:
+        "Controls the native browser resize handle. Options: 'none', 'vertical', 'horizontal', 'both'.",
     },
     {
       name: 'invalid',
@@ -284,20 +284,75 @@ type AerisTextareaResize =
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'valueChange', type: 'string', defaultValue: '-', description: 'Emits for two-way value model changes.' },
-    { name: 'valueInput', type: 'string', defaultValue: '-', description: 'Emits whenever user input changes the value.' },
-    { name: 'focused', type: 'FocusEvent', defaultValue: '-', description: 'Emits when the internal textarea receives focus.' },
-    { name: 'blurred', type: 'FocusEvent', defaultValue: '-', description: 'Emits when the internal textarea loses focus.' },
-    { name: 'scrolled', type: 'Event', defaultValue: '-', description: 'Emits when textarea content scrolls.' },
-    { name: 'touch', type: 'void', defaultValue: '-', description: 'Emits when blur marks the control as touched.' },
-    { name: 'cleared', type: 'void', defaultValue: '-', description: 'Emits after the clear action succeeds.' },
+    {
+      name: 'valueChange',
+      type: 'string',
+      defaultValue: '-',
+      description: 'Emits for two-way value model changes.',
+    },
+    {
+      name: 'valueInput',
+      type: 'string',
+      defaultValue: '-',
+      description: 'Emits whenever user input changes the value.',
+    },
+    {
+      name: 'focused',
+      type: 'FocusEvent',
+      defaultValue: '-',
+      description: 'Emits when the internal textarea receives focus.',
+    },
+    {
+      name: 'blurred',
+      type: 'FocusEvent',
+      defaultValue: '-',
+      description: 'Emits when the internal textarea loses focus.',
+    },
+    {
+      name: 'scrolled',
+      type: 'Event',
+      defaultValue: '-',
+      description: 'Emits when textarea content scrolls.',
+    },
+    {
+      name: 'touch',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Emits when blur marks the control as touched.',
+    },
+    {
+      name: 'cleared',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Emits after the clear action succeeds.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'focus(options?)', type: 'void', defaultValue: '-', description: 'Moves focus to the native textarea.' },
-    { name: 'clear()', type: 'void', defaultValue: '-', description: 'Clears an editable value and restores focus.' },
-    { name: 'reset()', type: 'void', defaultValue: '-', description: 'Sets the value to an empty string.' },
-    { name: 'resizeToContent()', type: 'void', defaultValue: '-', description: 'Recalculates height when autoResize is enabled.' },
+    {
+      name: 'focus(options?)',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves focus to the native textarea.',
+    },
+    {
+      name: 'clear()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Clears an editable value and restores focus.',
+    },
+    {
+      name: 'reset()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Sets the value to an empty string.',
+    },
+    {
+      name: 'resizeToContent()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Recalculates height when autoResize is enabled.',
+    },
   ];
 
   protected updateFeedback(event: Event): void {

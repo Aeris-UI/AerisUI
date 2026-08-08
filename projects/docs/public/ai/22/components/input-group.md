@@ -29,8 +29,8 @@ import { AerisInputGroup } from '@aeris-ui/core/input-group';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `size` | `AerisInputGroupSize` | `'md'` | Controls addon height, font size, and grouped native-control size. |
-| `appearance` | `AerisInputGroupAppearance` | `'outline'` | Outlined or filled treatment for grouped controls, addons, and attached buttons. |
+| `size` | `AerisInputGroupSize` | `'md'` | Controls addon height, font size, and grouped native-control size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisInputGroupAppearance` | `'outline'` | Outlined or filled treatment for grouped controls, addons, and attached buttons. Options: 'outline', 'filled'. |
 | `mode` | `AerisInputGroupMode` | `'attached'` | Attached creates shared-addon groups. Embedded positions icon addons inside a normal-looking input. |
 | `orientation` | `'horizontal' &#124; 'vertical'` | `'horizontal'` | Stacks group items vertically when horizontal space is constrained or the design needs stacked controls. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid to the group wrapper. |

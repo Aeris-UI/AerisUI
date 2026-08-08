@@ -30,8 +30,8 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string &#124; number &#124; null &#124; undefined` | `undefined` | Text or number rendered inside the badge. Projected content is used when no value is provided. |
-| `severity` | `AerisBadgeSeverity` | `'primary'` | Sets the semantic color accent. |
-| `size` | `AerisBadgeSize` | `'md'` | Controls badge height, padding, and font size. |
+| `severity` | `AerisBadgeSeverity` | `'primary'` | Sets the semantic color accent. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `size` | `AerisBadgeSize` | `'md'` | Controls badge height, padding, and font size. Options: 'sm', 'md', 'lg'. |
 | `variant` | `AerisBadgeVariant` | `'solid'` | Sets solid, soft, or outline visual treatment. |
 | `shape` | `AerisBadgeShape` | `'pill'` | Sets pill or rounded rectangle corners. |
 | `max` | `number &#124; null` | `null` | Caps numeric values and appends a plus sign when the value is larger. |
@@ -48,15 +48,15 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string &#124; number &#124; null &#124; undefined` | `undefined` | Text or number rendered in the visual overlay badge. |
-| `severity` | `AerisBadgeSeverity` | `'primary'` | Sets the overlay badge color accent. |
-| `size` | `AerisBadgeSize` | `'md'` | Controls overlay badge size. |
+| `severity` | `AerisBadgeSeverity` | `'primary'` | Sets the overlay badge color accent. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `size` | `AerisBadgeSize` | `'md'` | Controls overlay badge size. Options: 'sm', 'md', 'lg'. |
 | `variant` | `AerisBadgeVariant` | `'solid'` | Sets solid, soft, or outline treatment. |
 | `shape` | `AerisBadgeShape` | `'pill'` | Sets pill or rounded overlay corners. |
 | `max` | `number &#124; null` | `null` | Caps numeric overlay values and appends a plus sign. |
 | `dot` | `boolean` | `false` | Renders the overlay as a compact status dot. |
 | `showZero` | `boolean` | `true` | Controls whether zero is rendered in the overlay. |
 | `hidden` | `boolean` | `false` | Hides the overlay badge. |
-| `position` | `AerisBadgeOverlayPosition` | `'top-right'` | Places the overlay badge on one corner of the projected content. |
+| `position` | `AerisBadgeOverlayPosition` | `'top-right'` | Places the overlay badge on one corner of the projected content. Options: 'top-right', 'top-left', 'bottom-right', 'bottom-left'. |
 
 ### Content
 

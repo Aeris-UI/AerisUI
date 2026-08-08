@@ -232,13 +232,14 @@ type AerisSkeletonAnimation = 'wave' | 'pulse' | 'none';`;
       name: 'shape',
       type: 'AerisSkeletonShape',
       defaultValue: "'text'",
-      description: 'Sets text, rectangular, or circular geometry.',
+      description:
+        "Sets text, rectangular, or circular geometry. Options: 'text', 'rectangle', 'circle'.",
     },
     {
       name: 'animation',
       type: 'AerisSkeletonAnimation',
       defaultValue: "'wave'",
-      description: 'Sets wave, pulse, or static presentation.',
+      description: "Sets wave, pulse, or static presentation. Options: 'wave', 'pulse', 'none'.",
     },
     {
       name: 'width',

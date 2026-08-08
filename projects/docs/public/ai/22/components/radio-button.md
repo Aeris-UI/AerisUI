@@ -34,8 +34,8 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
 | `name` | `string` | `''` | Native radio group name. Use the same value for related options. |
 | `inputId` | `string` | `generated` | ID assigned to the native radio input. |
 | `label` | `string` | `''` | Optional text label. Projected label content is also supported. |
-| `size` | `AerisRadioButtonSize` | `'md'` | Control and label size. |
-| `labelPosition` | `AerisRadioButtonLabelPosition` | `'end'` | Places the visible label before or after the control. |
+| `size` | `AerisRadioButtonSize` | `'md'` | Control and label size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `labelPosition` | `AerisRadioButtonLabelPosition` | `'end'` | Places the visible label before or after the control. Options: 'start', 'end'. |
 | `disabled` | `boolean` | `false` | Disables native interaction and form participation. |
 | `required` | `boolean` | `false` | Applies native required validation to the group. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |

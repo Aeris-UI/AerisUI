@@ -176,28 +176,109 @@ interface AerisProgressBarStepContext {
     { name: 'value', type: 'number', defaultValue: '0', description: 'Current determinate value.' },
     { name: 'min', type: 'number', defaultValue: '0', description: 'Minimum determinate value.' },
     { name: 'max', type: 'number', defaultValue: '100', description: 'Maximum determinate value.' },
-    { name: 'mode', type: 'AerisProgressBarMode', defaultValue: "'determinate'", description: 'Determinate percentage or indeterminate activity.' },
-    { name: 'severity', type: 'AerisProgressBarSeverity', defaultValue: "'primary'", description: 'Color accent for the filled track and completed steps.' },
-    { name: 'size', type: 'AerisProgressBarSize', defaultValue: "'md'", description: 'Track height.' },
-    { name: 'showValue', type: 'boolean', defaultValue: 'true', description: 'Shows the value text inside determinate bars.' },
-    { name: 'striped', type: 'boolean', defaultValue: 'false', description: 'Applies striped fill styling.' },
-    { name: 'animated', type: 'boolean', defaultValue: 'false', description: 'Animates striped fill when enabled.' },
-    { name: 'rounded', type: 'boolean', defaultValue: 'true', description: 'Uses pill-shaped track corners.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name when no visible label names the bar.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that labels the bar.' },
-    { name: 'ariaValueText', type: 'string', defaultValue: "''", description: 'Custom accessible value text.' },
-    { name: 'steps', type: 'readonly AerisProgressBarStep[]', defaultValue: '[]', description: 'Optional visual step markers.' },
-    { name: 'activeStep', type: 'number | null', defaultValue: 'null', description: 'Optional explicit active step index.' },
-    { name: 'valueFormatter', type: '(AerisProgressBarValueContext) => string | null', defaultValue: 'null', description: 'Formats visible and accessible value text when no value template is used.' },
+    {
+      name: 'mode',
+      type: 'AerisProgressBarMode',
+      defaultValue: "'determinate'",
+      description: 'Determinate percentage or indeterminate activity.',
+    },
+    {
+      name: 'severity',
+      type: 'AerisProgressBarSeverity',
+      defaultValue: "'primary'",
+      description:
+        "Color accent for the filled track and completed steps. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'.",
+    },
+    {
+      name: 'size',
+      type: 'AerisProgressBarSize',
+      defaultValue: "'md'",
+      description: "Track height. Options: 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'showValue',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows the value text inside determinate bars.',
+    },
+    {
+      name: 'striped',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Applies striped fill styling.',
+    },
+    {
+      name: 'animated',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Animates striped fill when enabled.',
+    },
+    {
+      name: 'rounded',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Uses pill-shaped track corners.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name when no visible label names the bar.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that labels the bar.',
+    },
+    {
+      name: 'ariaValueText',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Custom accessible value text.',
+    },
+    {
+      name: 'steps',
+      type: 'readonly AerisProgressBarStep[]',
+      defaultValue: '[]',
+      description: 'Optional visual step markers.',
+    },
+    {
+      name: 'activeStep',
+      type: 'number | null',
+      defaultValue: 'null',
+      description: 'Optional explicit active step index.',
+    },
+    {
+      name: 'valueFormatter',
+      type: '(AerisProgressBarValueContext) => string | null',
+      defaultValue: 'null',
+      description: 'Formats visible and accessible value text when no value template is used.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisProgressBarValue', type: 'AerisProgressBarValueContext', defaultValue: 'percentage text', description: 'Custom visible value content.' },
-    { name: 'aerisProgressBarStep', type: 'AerisProgressBarStepContext', defaultValue: 'step label', description: 'Custom visual step label content.' },
+    {
+      name: 'aerisProgressBarValue',
+      type: 'AerisProgressBarValueContext',
+      defaultValue: 'percentage text',
+      description: 'Custom visible value content.',
+    },
+    {
+      name: 'aerisProgressBarStep',
+      type: 'AerisProgressBarStepContext',
+      defaultValue: 'step label',
+      description: 'Custom visual step label content.',
+    },
   ];
 
   protected readonly content: readonly ApiRow[] = [
-    { name: 'default content', type: 'none', defaultValue: '-', description: 'ProgressBar renders from inputs and templates only.' },
+    {
+      name: 'default content',
+      type: 'none',
+      defaultValue: '-',
+      description: 'ProgressBar renders from inputs and templates only.',
+    },
   ];
 
   protected readonly fileSizeFormatter = (context: AerisProgressBarValueContext): string => {

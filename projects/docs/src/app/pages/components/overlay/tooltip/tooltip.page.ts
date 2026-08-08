@@ -1,9 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import {
-  AerisTooltipModule,
-  type AerisTooltipVisibilityEvent,
-} from '@aeris-ui/core/tooltip';
+import { AerisTooltipModule, type AerisTooltipVisibilityEvent } from '@aeris-ui/core/tooltip';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -127,29 +124,117 @@ interface AerisTooltipVisibilityEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'aerisTooltipAppendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global; safely mounted to body)", description: 'Mounts the tooltip in its safe document layer for self/body, or in the supplied DOM/template target.' },
-    { name: 'aerisTooltip', type: 'AerisTooltipContent', defaultValue: "''", description: 'String or template content rendered in the tooltip.' },
-    { name: 'aerisTooltipPosition', type: 'AerisTooltipPosition', defaultValue: "'top'", description: 'Preferred edge around the target.' },
-    { name: 'aerisTooltipEvent', type: 'AerisTooltipEvent', defaultValue: "'both'", description: 'Trigger mode: pointer hover, focus, or both.' },
-    { name: 'aerisTooltipShowDelay', type: 'number', defaultValue: '0', description: 'Delay before opening in milliseconds.' },
-    { name: 'aerisTooltipHideDelay', type: 'number', defaultValue: '0', description: 'Delay before closing in milliseconds.' },
-    { name: 'aerisTooltipDisabled', type: 'boolean', defaultValue: 'false', description: 'Prevents the tooltip from opening and closes an open tooltip.' },
-    { name: 'aerisTooltipAutoHide', type: 'boolean', defaultValue: 'true', description: 'Closes when the pointer leaves the target. Set false when pointer text selection inside the tooltip is needed.' },
-    { name: 'aerisTooltipOffset', type: 'number', defaultValue: '8', description: 'Distance from the target in pixels.' },
-    { name: 'aerisTooltipViewportMargin', type: 'number', defaultValue: '6', description: 'Minimum viewport edge gap in pixels.' },
-    { name: 'aerisTooltipMaxWidth', type: 'string', defaultValue: "''", description: 'Custom maximum tooltip width.' },
-    { name: 'aerisTooltipStyleClass', type: 'string', defaultValue: "''", description: 'Additional CSS class applied to the tooltip panel.' },
-    { name: 'aerisTooltipTruncatedOnly', type: 'boolean', defaultValue: 'false', description: 'Opens only when the target content overflows its visible dimensions.' },
+    {
+      name: 'aerisTooltipAppendTo',
+      type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+      defaultValue: "'self' (global; safely mounted to body)",
+      description:
+        'Mounts the tooltip in its safe document layer for self/body, or in the supplied DOM/template target.',
+    },
+    {
+      name: 'aerisTooltip',
+      type: 'AerisTooltipContent',
+      defaultValue: "''",
+      description: 'String or template content rendered in the tooltip.',
+    },
+    {
+      name: 'aerisTooltipPosition',
+      type: 'AerisTooltipPosition',
+      defaultValue: "'top'",
+      description: "Preferred edge around the target. Options: 'top', 'right', 'bottom', 'left'.",
+    },
+    {
+      name: 'aerisTooltipEvent',
+      type: 'AerisTooltipEvent',
+      defaultValue: "'both'",
+      description: 'Trigger mode: pointer hover, focus, or both.',
+    },
+    {
+      name: 'aerisTooltipShowDelay',
+      type: 'number',
+      defaultValue: '0',
+      description: 'Delay before opening in milliseconds.',
+    },
+    {
+      name: 'aerisTooltipHideDelay',
+      type: 'number',
+      defaultValue: '0',
+      description: 'Delay before closing in milliseconds.',
+    },
+    {
+      name: 'aerisTooltipDisabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Prevents the tooltip from opening and closes an open tooltip.',
+    },
+    {
+      name: 'aerisTooltipAutoHide',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Closes when the pointer leaves the target. Set false when pointer text selection inside the tooltip is needed.',
+    },
+    {
+      name: 'aerisTooltipOffset',
+      type: 'number',
+      defaultValue: '8',
+      description: 'Distance from the target in pixels.',
+    },
+    {
+      name: 'aerisTooltipViewportMargin',
+      type: 'number',
+      defaultValue: '6',
+      description: 'Minimum viewport edge gap in pixels.',
+    },
+    {
+      name: 'aerisTooltipMaxWidth',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Custom maximum tooltip width.',
+    },
+    {
+      name: 'aerisTooltipStyleClass',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Additional CSS class applied to the tooltip panel.',
+    },
+    {
+      name: 'aerisTooltipTruncatedOnly',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Opens only when the target content overflows its visible dimensions.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'aerisTooltipShown', type: 'AerisTooltipVisibilityEvent', defaultValue: '-', description: 'Emitted after the tooltip becomes visible.' },
-    { name: 'aerisTooltipHidden', type: 'AerisTooltipVisibilityEvent', defaultValue: '-', description: 'Emitted after the tooltip closes.' },
+    {
+      name: 'aerisTooltipShown',
+      type: 'AerisTooltipVisibilityEvent',
+      defaultValue: '-',
+      description: 'Emitted after the tooltip becomes visible.',
+    },
+    {
+      name: 'aerisTooltipHidden',
+      type: 'AerisTooltipVisibilityEvent',
+      defaultValue: '-',
+      description: 'Emitted after the tooltip closes.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'show(originalEvent?)', type: '(Event | null) => void', defaultValue: '-', description: 'Opens the tooltip programmatically using the configured delay.' },
-    { name: 'hide(originalEvent?, reason?)', type: '(Event | null, AerisTooltipCloseReason) => void', defaultValue: "reason: 'api'", description: 'Closes the tooltip programmatically using the configured delay.' },
+    {
+      name: 'show(originalEvent?)',
+      type: '(Event | null) => void',
+      defaultValue: '-',
+      description: 'Opens the tooltip programmatically using the configured delay.',
+    },
+    {
+      name: 'hide(originalEvent?, reason?)',
+      type: '(Event | null, AerisTooltipCloseReason) => void',
+      defaultValue: "reason: 'api'",
+      description:
+        "Closes the tooltip programmatically using the configured delay. Options: 'api', 'escape', 'blur', 'pointerleave', 'disabled'.",
+    },
   ];
 
   protected recordTooltip(event: AerisTooltipVisibilityEvent): void {

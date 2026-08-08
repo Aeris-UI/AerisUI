@@ -204,7 +204,7 @@ interface AerisChipRemoveIconContext {
       name: 'size',
       type: 'AerisChipSize',
       defaultValue: "'md'",
-      description: 'Sets chip height, padding, and typography.',
+      description: "Sets chip height, padding, and typography. Options: 'sm', 'md', 'lg'.",
     },
     {
       name: 'variant',
@@ -216,7 +216,8 @@ interface AerisChipRemoveIconContext {
       name: 'tone',
       type: 'AerisChipTone',
       defaultValue: "'neutral'",
-      description: 'Sets the palette-aware visual tone.',
+      description:
+        "Sets the palette-aware visual tone. Options: 'primary', 'neutral', 'success', 'info', 'warning', 'danger'.",
     },
     {
       name: 'shape',

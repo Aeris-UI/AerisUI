@@ -38,8 +38,8 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name for a checkbox without visible label content. |
 | `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of external labeling elements. |
 | `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
-| `size` | `AerisCheckboxSize` | `'md'` | Control and label size. |
-| `labelPosition` | `AerisCheckboxLabelPosition` | `'end'` | Places the visible label before or after the control. |
+| `size` | `AerisCheckboxSize` | `'md'` | Control and label size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `labelPosition` | `AerisCheckboxLabelPosition` | `'end'` | Places the visible label before or after the control. Options: 'start', 'end'. |
 | `tabIndex` | `number` | `0` | Native tab order value for composite widgets that manage focus. |
 | `disabled` | `boolean` | `false` | Disables native interaction and form submission. |
 | `required` | `boolean` | `false` | Exposes native required validation semantics. |

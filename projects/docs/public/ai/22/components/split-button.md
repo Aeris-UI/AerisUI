@@ -38,9 +38,9 @@ from '@aeris-ui/core/split-button';
 | `model` | `readonly AerisSplitButtonItem&lt;T&gt;[]` | `[]` | Popup menu commands, links, separators, and item states. |
 | `open` | `boolean (model)` | `false` | Controls popup visibility and supports two-way binding. |
 | `type` | `'button' &#124; 'submit' &#124; 'reset'` | `'button'` | Native primary button type. |
-| `variant` | `AerisSplitButtonVariant` | `'primary'` | Visual treatment shared by both button segments. |
-| `severity` | `AerisSplitButtonSeverity` | `'primary'` | Semantic color shared by both segments. |
-| `size` | `AerisSplitButtonSize` | `'md'` | Control height and typography size. |
+| `variant` | `AerisSplitButtonVariant` | `'primary'` | Visual treatment shared by both button segments. Options: 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. |
+| `severity` | `AerisSplitButtonSeverity` | `'primary'` | Semantic color shared by both segments. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. |
+| `size` | `AerisSplitButtonSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `disabled` | `boolean` | `false` | Disables the primary action and popup trigger. |
 | `loading` | `boolean` | `false` | Shows primary progress and disables both segments. |
 | `raised` | `boolean` | `false` | Adds elevation. |

@@ -50,8 +50,7 @@ export class ButtonGroupPage {
     { id: 'group-api-content', label: 'Content' },
   ];
 
-  protected readonly importCode =
-    `import { AerisButtonGroup } from '@aeris-ui/core/button-group';`;
+  protected readonly importCode = `import { AerisButtonGroup } from '@aeris-ui/core/button-group';`;
 
   protected readonly interfacesCode = `type AerisButtonGroupOrientation =
   | 'horizontal'
@@ -74,7 +73,8 @@ export class ButtonGroupPage {
       name: 'orientation',
       type: 'AerisButtonGroupOrientation',
       defaultValue: "'horizontal'",
-      description: 'Connects child controls horizontally or vertically.',
+      description:
+        "Connects child controls horizontally or vertically. Options: 'horizontal', 'vertical'.",
     },
     {
       name: 'fluid',
@@ -89,5 +89,4 @@ export class ButtonGroupPage {
       description: 'Stacks a horizontal group vertically below 40rem.',
     },
   ];
-
 }

@@ -32,8 +32,8 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
 | `value` | `number &#124; null` | `null` | Numeric progress value; null selects indeterminate mode. |
 | `min` | `number` | `0` | Minimum determinate value. |
 | `max` | `number` | `100` | Maximum determinate value. |
-| `size` | `AerisProgressSpinnerSize` | `'md'` | Sets small, medium, or large diameter. |
-| `tone` | `AerisProgressSpinnerTone` | `'primary'` | Sets the palette-aware indicator tone. |
+| `size` | `AerisProgressSpinnerSize` | `'md'` | Sets small, medium, or large diameter. Options: 'sm', 'md', 'lg'. |
+| `tone` | `AerisProgressSpinnerTone` | `'primary'` | Sets the palette-aware indicator tone. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
 | `strokeWidth` | `number` | `4` | Sets SVG stroke width, clamped from 1 through 12. |
 | `showTrack` | `boolean` | `true` | Shows the background progress track. |
 | `showValue` | `boolean` | `true` | Shows centered determinate value text except at small size. |

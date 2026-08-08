@@ -29,9 +29,9 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `size` | `AerisTextareaSize` | `'md'` | Sets the padding, font size, and minimum height. |
-| `appearance` | `AerisTextareaAppearance` | `'outline'` | Selects the outlined or filled surface treatment. |
-| `resize` | `AerisTextareaResize` | `'vertical'` | Controls the native browser resize handle. |
+| `size` | `AerisTextareaSize` | `'md'` | Sets the padding, font size, and minimum height. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisTextareaAppearance` | `'outline'` | Selects the outlined or filled surface treatment. Options: 'outline', 'filled'. |
+| `resize` | `AerisTextareaResize` | `'vertical'` | Controls the native browser resize handle. Options: 'none', 'vertical', 'horizontal', 'both'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
 | `fluid` | `boolean` | `false` | Expands the textarea to its container width. |
 
@@ -52,9 +52,9 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label is available. |
 | `ariaLabelledby` | `string` | `''` | IDs of elements that label the textarea. |
 | `ariaDescribedby` | `string` | `''` | IDs of help or validation messages. |
-| `size` | `AerisTextareaSize` | `'md'` | Sets the padding, font size, and minimum height. |
-| `appearance` | `AerisTextareaAppearance` | `'outline'` | Selects the outlined or filled surface treatment. |
-| `resize` | `AerisTextareaResize` | `'vertical'` | Controls the native browser resize handle. |
+| `size` | `AerisTextareaSize` | `'md'` | Sets the padding, font size, and minimum height. Options: 'xs', 'sm', 'md', 'lg'. |
+| `appearance` | `AerisTextareaAppearance` | `'outline'` | Selects the outlined or filled surface treatment. Options: 'outline', 'filled'. |
+| `resize` | `AerisTextareaResize` | `'vertical'` | Controls the native browser resize handle. Options: 'none', 'vertical', 'horizontal', 'both'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
 | `fluid` | `boolean` | `false` | Expands the textarea to its container width. |
 | `disabled` | `boolean` | `false` | Disables editing and the clear action. |

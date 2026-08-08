@@ -37,8 +37,8 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label content exists. |
 | `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of external elements that label the switch. |
 | `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
-| `size` | `AerisToggleSwitchSize` | `'md'` | Track, thumb, gap, and label size. |
-| `labelPosition` | `AerisToggleSwitchLabelPosition` | `'end'` | Places visible label content before or after the control. |
+| `size` | `AerisToggleSwitchSize` | `'md'` | Track, thumb, gap, and label size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `labelPosition` | `AerisToggleSwitchLabelPosition` | `'end'` | Places visible label content before or after the control. Options: 'start', 'end'. |
 | `disabled` | `boolean` | `false` | Disables interaction and native form submission. |
 | `required` | `boolean` | `false` | Exposes native required validation semantics. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |

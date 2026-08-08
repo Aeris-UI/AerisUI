@@ -94,16 +94,56 @@ type AerisDividerLineStyle = 'solid' | 'dashed' | 'dotted';
 type AerisDividerSpacing = 'none' | 'sm' | 'md' | 'lg';`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'orientation', type: 'AerisDividerOrientation', defaultValue: "'horizontal'", description: 'Sets horizontal or vertical separator layout.' },
-    { name: 'align', type: 'AerisDividerAlign', defaultValue: "'center'", description: 'Places projected content near the start, center, or end of the separator.' },
-    { name: 'lineStyle', type: 'AerisDividerLineStyle', defaultValue: "'solid'", description: 'Sets the separator line to solid, dashed, or dotted.' },
-    { name: 'spacing', type: 'AerisDividerSpacing', defaultValue: "'md'", description: 'Controls outer spacing around the divider.' },
-    { name: 'decorative', type: 'boolean', defaultValue: 'false', description: 'Removes separator semantics and hides the divider from assistive technology.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name for a meaningful separator without visible naming text.' },
-    { name: 'ariaLabelledBy', type: 'string', defaultValue: "''", description: 'ID of visible text that names a meaningful separator.' },
+    {
+      name: 'orientation',
+      type: 'AerisDividerOrientation',
+      defaultValue: "'horizontal'",
+      description: 'Sets horizontal or vertical separator layout.',
+    },
+    {
+      name: 'align',
+      type: 'AerisDividerAlign',
+      defaultValue: "'center'",
+      description: 'Places projected content near the start, center, or end of the separator.',
+    },
+    {
+      name: 'lineStyle',
+      type: 'AerisDividerLineStyle',
+      defaultValue: "'solid'",
+      description: 'Sets the separator line to solid, dashed, or dotted.',
+    },
+    {
+      name: 'spacing',
+      type: 'AerisDividerSpacing',
+      defaultValue: "'md'",
+      description: "Controls outer spacing around the divider. Options: 'none', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'decorative',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Removes separator semantics and hides the divider from assistive technology.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name for a meaningful separator without visible naming text.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible text that names a meaningful separator.',
+    },
   ];
 
   protected readonly content: readonly ApiRow[] = [
-    { name: 'default content', type: 'content projection', defaultValue: '-', description: 'Optional text, icon, or small label rendered between the separator lines.' },
+    {
+      name: 'default content',
+      type: 'content projection',
+      defaultValue: '-',
+      description: 'Optional text, icon, or small label rendered between the separator lines.',
+    },
   ];
 }

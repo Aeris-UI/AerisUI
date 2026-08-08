@@ -62,8 +62,8 @@ import {
 | `restoreFocus` | `boolean` | `true` | Restores focus to the previously focused element after close. |
 | `autoFocus` | `boolean` | `true` | Moves focus into the dialog after open. |
 | `initialFocus` | `string` | `''` | Selector for the first focused element. |
-| `position` | `AerisDialogPosition` | `'center'` | Viewport placement. |
-| `size` | `AerisDialogSize` | `'md'` | Default shell size. |
+| `position` | `AerisDialogPosition` | `'center'` | Viewport placement. Options: 'center', 'top', 'bottom', 'left', 'right', 'top-left', 'top-right', 'bottom-left', 'bottom-right'. |
+| `size` | `AerisDialogSize` | `'md'` | Default shell size. Options: 'sm', 'md', 'lg', 'xl', 'fullscreen'. |
 | `width` | `string` | `''` | Custom CSS width. |
 | `minWidth` | `string` | `''` | Custom minimum width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |

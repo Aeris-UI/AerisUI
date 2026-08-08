@@ -34,7 +34,7 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
 | `toggleable` | `boolean` | `false` | Adds a native disclosure button for showing and hiding content. |
 | `disabled` | `boolean` | `false` | Disables the toggle button without hiding content. |
 | `variant` | `AerisPanelVariant` | `'outlined'` | Outlined, elevated, filled, or plain surface treatment. |
-| `size` | `AerisPanelSize` | `'md'` | Controls header and content density. |
+| `size` | `AerisPanelSize` | `'md'` | Controls header and content density. Options: 'sm', 'md', 'lg'. |
 | `animated` | `boolean` | `true` | Enables content and indicator transitions. |
 | `headingLevel` | `1 &#124; 2 &#124; 3 &#124; 4 &#124; 5 &#124; 6` | `3` | ARIA heading level for the panel header. |
 | `role` | `AerisPanelRole` | `null` | Optional semantic role for the panel host. |

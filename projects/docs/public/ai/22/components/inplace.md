@@ -45,7 +45,7 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
 | `ariaLabel` | `string` | `''` | Accessible name for the display button. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that names the display button. |
 | `ariaDescribedBy` | `string` | `''` | ID of supplemental display-button instructions. |
-| `ariaLive` | `AerisInplaceAriaLive` | `'polite'` | Live-region politeness applied to newly rendered content. |
+| `ariaLive` | `AerisInplaceAriaLive` | `'polite'` | Live-region politeness applied to newly rendered content. Options: 'off', 'polite', 'assertive'. |
 
 ### Outputs
 

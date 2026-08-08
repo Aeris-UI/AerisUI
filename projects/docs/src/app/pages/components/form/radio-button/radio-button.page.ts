@@ -1,9 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  AerisRadioButton,
-  type AerisRadioButtonChangeEvent,
-} from '@aeris-ui/core/radio-button';
+import { AerisRadioButton, type AerisRadioButtonChangeEvent } from '@aeris-ui/core/radio-button';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -87,12 +84,9 @@ export class RadioButtonPage {
     { id: 'radio-api-methods', label: 'Methods' },
   ];
 
-  protected readonly importCode =
-    `import { AerisRadioButton } from '@aeris-ui/core/radio-button';`;
-  protected readonly basicCode =
-    `protected readonly visibility = signal<string | null>('private');`;
-  protected readonly modelCode =
-    `protected readonly notificationChannel = signal<string | null>('email');`;
+  protected readonly importCode = `import { AerisRadioButton } from '@aeris-ui/core/radio-button';`;
+  protected readonly basicCode = `protected readonly visibility = signal<string | null>('private');`;
+  protected readonly modelCode = `protected readonly notificationChannel = signal<string | null>('email');`;
   protected readonly richOptionsCode = `interface Plan {
   readonly value: string;
   readonly label: string;
@@ -120,19 +114,84 @@ interface AerisRadioButtonChangeEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'selected', type: 'string | null (model)', defaultValue: 'null', description: 'Selected value shared by every radio in a group.' },
-    { name: 'value', type: 'string', defaultValue: 'required', description: 'Value selected and submitted by this option.' },
-    { name: 'name', type: 'string', defaultValue: "''", description: 'Native radio group name. Use the same value for related options.' },
-    { name: 'inputId', type: 'string', defaultValue: 'generated', description: 'ID assigned to the native radio input.' },
-    { name: 'label', type: 'string', defaultValue: "''", description: 'Optional text label. Projected label content is also supported.' },
-    { name: 'size', type: 'AerisRadioButtonSize', defaultValue: "'md'", description: 'Control and label size.' },
-    { name: 'labelPosition', type: 'AerisRadioButtonLabelPosition', defaultValue: "'end'", description: 'Places the visible label before or after the control.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables native interaction and form participation.' },
-    { name: 'required', type: 'boolean', defaultValue: 'false', description: 'Applies native required validation to the group.' },
-    { name: 'invalid', type: 'boolean', defaultValue: 'false', description: 'Applies invalid styling and aria-invalid.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "''", description: 'Accessible name for an option without visible label content.' },
-    { name: 'ariaLabelledby', type: 'string', defaultValue: "''", description: 'IDs of external labeling elements.' },
-    { name: 'ariaDescribedby', type: 'string', defaultValue: "''", description: 'IDs of help and validation messages.' },
+    {
+      name: 'selected',
+      type: 'string | null (model)',
+      defaultValue: 'null',
+      description: 'Selected value shared by every radio in a group.',
+    },
+    {
+      name: 'value',
+      type: 'string',
+      defaultValue: 'required',
+      description: 'Value selected and submitted by this option.',
+    },
+    {
+      name: 'name',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Native radio group name. Use the same value for related options.',
+    },
+    {
+      name: 'inputId',
+      type: 'string',
+      defaultValue: 'generated',
+      description: 'ID assigned to the native radio input.',
+    },
+    {
+      name: 'label',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Optional text label. Projected label content is also supported.',
+    },
+    {
+      name: 'size',
+      type: 'AerisRadioButtonSize',
+      defaultValue: "'md'",
+      description: "Control and label size. Options: 'xs', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'labelPosition',
+      type: 'AerisRadioButtonLabelPosition',
+      defaultValue: "'end'",
+      description: "Places the visible label before or after the control. Options: 'start', 'end'.",
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables native interaction and form participation.',
+    },
+    {
+      name: 'required',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Applies native required validation to the group.',
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Applies invalid styling and aria-invalid.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Accessible name for an option without visible label content.',
+    },
+    {
+      name: 'ariaLabelledby',
+      type: 'string',
+      defaultValue: "''",
+      description: 'IDs of external labeling elements.',
+    },
+    {
+      name: 'ariaDescribedby',
+      type: 'string',
+      defaultValue: "''",
+      description: 'IDs of help and validation messages.',
+    },
   ];
 
   protected recordChange(event: AerisRadioButtonChangeEvent): void {
