@@ -36,6 +36,9 @@ class ValueHost {}
     <aeris-badge-overlay value="7" position="bottom-left">
       <button type="button" aria-label="Notifications, 7 unread">Inbox</button>
     </aeris-badge-overlay>
+    <aeris-badge-overlay class="long-overlay" value="128">
+      <span>Notifications</span>
+    </aeris-badge-overlay>
   `,
 })
 class DotAndOverlayHost {}
@@ -79,6 +82,9 @@ describe('AerisBadge', () => {
     const dot = fixture.nativeElement.querySelector('aeris-badge') as HTMLElement;
     const overlay = fixture.nativeElement.querySelector('aeris-badge-overlay') as HTMLElement;
     const overlayBadge = overlay.querySelector('.aeris-badge-overlay__badge') as HTMLElement;
+    const longOverlayBadge = fixture.nativeElement.querySelector(
+      '.long-overlay .aeris-badge-overlay__badge',
+    ) as HTMLElement;
     const button = overlay.querySelector('button') as HTMLButtonElement;
 
     expect(dot.dataset['dot']).toBe('true');
@@ -87,6 +93,7 @@ describe('AerisBadge', () => {
     expect(overlay.dataset['position']).toBe('bottom-left');
     expect(overlayBadge.textContent?.trim()).toBe('7');
     expect(overlayBadge.getAttribute('aria-hidden')).toBe('true');
+    expect(longOverlayBadge.textContent?.trim()).toBe('128');
     expect(button.getAttribute('aria-label')).toBe('Notifications, 7 unread');
   });
 });

@@ -47,7 +47,7 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string &#124; number &#124; null &#124; undefined` | `undefined` | Text or number rendered in the visual overlay badge. |
+| `value` | `string &#124; number &#124; null &#124; undefined` | `undefined` | Text or number rendered in the visual overlay badge. Short values remain circular; longer values expand inline to fit their content. |
 | `severity` | `AerisBadgeSeverity` | `'primary'` | Sets the overlay badge color accent. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
 | `size` | `AerisBadgeSize` | `'md'` | Controls overlay badge size. Options: 'sm', 'md', 'lg'. |
 | `variant` | `AerisBadgeVariant` | `'solid'` | Sets solid, soft, or outline treatment. |

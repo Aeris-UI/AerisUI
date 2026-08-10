@@ -237,7 +237,8 @@ type AerisBadgeOverlayPosition =
       name: 'value',
       type: 'string | number | null | undefined',
       defaultValue: 'undefined',
-      description: 'Text or number rendered in the visual overlay badge.',
+      description:
+        'Text or number rendered in the visual overlay badge. Short values remain circular; longer values expand inline to fit their content.',
     },
     {
       name: 'severity',
