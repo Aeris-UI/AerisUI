@@ -14,7 +14,10 @@
   inset: 0;
   display: grid;
   place-items: center;
-  padding: var(--aeris-dialog-viewport-padding, 1.25rem);
+  padding: calc(var(--aeris-dialog-viewport-padding, 1.25rem) + var(--aeris-safe-area-top, 0px))
+    calc(var(--aeris-dialog-viewport-padding, 1.25rem) + var(--aeris-safe-area-right, 0px))
+    calc(var(--aeris-dialog-viewport-padding, 1.25rem) + var(--aeris-safe-area-bottom, 0px))
+    calc(var(--aeris-dialog-viewport-padding, 1.25rem) + var(--aeris-safe-area-left, 0px));
   pointer-events: auto;
 }
 
@@ -235,7 +238,14 @@
 
 @media (max-width: 42rem) {
   .aeris-dialog__overlay {
-    padding: var(--aeris-dialog-mobile-viewport-padding, 0.75rem);
+    padding: calc(
+        var(--aeris-dialog-mobile-viewport-padding, 0.75rem) + var(--aeris-safe-area-top, 0px)
+      )
+      calc(var(--aeris-dialog-mobile-viewport-padding, 0.75rem) + var(--aeris-safe-area-right, 0px))
+      calc(
+        var(--aeris-dialog-mobile-viewport-padding, 0.75rem) + var(--aeris-safe-area-bottom, 0px)
+      )
+      calc(var(--aeris-dialog-mobile-viewport-padding, 0.75rem) + var(--aeris-safe-area-left, 0px));
   }
 
   .aeris-dialog__panel {

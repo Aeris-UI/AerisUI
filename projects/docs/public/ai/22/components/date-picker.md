@@ -30,6 +30,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the calendar inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `value` | `AerisDatePickerValue (model)` | `null` | Selected Date, date array, or range according to selectionMode. |
 | `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. Options: 'single', 'multiple', 'range'. |
 | `view` | `AerisDatePickerView` | `'day'` | Chooses day, month, or year selection granularity. |
@@ -245,6 +246,93 @@ export class DatePickerBasicBasicDemo {
         : 'Selection updated',
     );
   }
+}
+```
+
+### Constrained viewport
+
+The calendar flips and remains within the visual viewport. Mount it to body when an overflow container would otherwise clip it, and reserve fixed interface regions with per-edge margins.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+
+@Component({
+  selector: 'app-date-picker-collision-demo',
+  imports: [AerisDatePicker],
+  templateUrl: './date-picker-collision.demo.html',
+  styleUrl: './date-picker-collision.demo.scss'
+})
+export class DatePickerCollisionConstrainedViewportDemo {
+  protected readonly overlayViewportMargin = {
+    top: 16,
+    right: 16,
+    bottom: 72,
+    left: 16,
+  } as const;
+}
+```
+
+#### HTML
+
+```html
+<div class="collision-demo">
+  <div class="field">
+    <label for="collision-date">Delivery date</label>
+    <aeris-date-picker
+      inputId="collision-date"
+      appendTo="body"
+      [viewportMargin]="overlayViewportMargin"
+      placeholder="Choose a date"
+      ariaDescribedBy="collision-date-help"
+      clearable
+    />
+    <small id="collision-date-help">
+      The panel escapes this clipped container and avoids a 72px bottom bar.
+    </small>
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+.field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  grid-auto-rows: max-content;
+  gap: 0.45rem;
+}
+
+.field > label,
+.field > span:first-child {
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.field small {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.field small.error {
+  color: var(--aeris-danger);
+}
+
+.collision-demo {
+  min-height: 18rem;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: var(--aeris-surface-2);
+  overflow: hidden;
 }
 ```
 

@@ -2084,6 +2084,7 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Use per-edge values to reserve fixed headers, navigation, or other exclusion zones. |
 | `value` | `string (model)` | `''` | Current text value with two-way binding and Forms support. |
 | `suggestions` | `readonly AerisAutoCompleteOption[]` | `[]` | Suggestion records used by local filtering and option rendering. |
 | `inputId` | `string` | `generated` | ID assigned to the internal text input. |
@@ -3125,6 +3126,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
 | `options` | `readonly AerisCascadeSelectOption[]` | `[]` | Hierarchical option tree rendered by the cascading columns. |
 | `inputId` | `string` | `generated` | ID assigned to the trigger button. |
@@ -4549,6 +4551,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `'#5f6f36'` | Current color value with two-way binding and Forms support. |
 | `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. Options: 'hex', 'rgb', 'hsl'. |
 | `inputId` | `string` | `generated` | ID assigned to the visible color-picker trigger for label association. |
@@ -5472,6 +5475,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the calendar inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `value` | `AerisDatePickerValue (model)` | `null` | Selected Date, date array, or range according to selectionMode. |
 | `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. Options: 'single', 'multiple', 'range'. |
 | `view` | `AerisDatePickerView` | `'day'` | Chooses day, month, or year selection granularity. |
@@ -5687,6 +5691,93 @@ export class DatePickerBasicBasicDemo {
         : 'Selection updated',
     );
   }
+}
+```
+
+##### Constrained viewport
+
+The calendar flips and remains within the visual viewport. Mount it to body when an overflow container would otherwise clip it, and reserve fixed interface regions with per-edge margins.
+
+###### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+
+@Component({
+  selector: 'app-date-picker-collision-demo',
+  imports: [AerisDatePicker],
+  templateUrl: './date-picker-collision.demo.html',
+  styleUrl: './date-picker-collision.demo.scss'
+})
+export class DatePickerCollisionConstrainedViewportDemo {
+  protected readonly overlayViewportMargin = {
+    top: 16,
+    right: 16,
+    bottom: 72,
+    left: 16,
+  } as const;
+}
+```
+
+###### HTML
+
+```html
+<div class="collision-demo">
+  <div class="field">
+    <label for="collision-date">Delivery date</label>
+    <aeris-date-picker
+      inputId="collision-date"
+      appendTo="body"
+      [viewportMargin]="overlayViewportMargin"
+      placeholder="Choose a date"
+      ariaDescribedBy="collision-date-help"
+      clearable
+    />
+    <small id="collision-date-help">
+      The panel escapes this clipped container and avoids a 72px bottom bar.
+    </small>
+  </div>
+</div>
+```
+
+###### CSS
+
+```css
+.field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  grid-auto-rows: max-content;
+  gap: 0.45rem;
+}
+
+.field > label,
+.field > span:first-child {
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.field small {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.field small.error {
+  color: var(--aeris-danger);
+}
+
+.collision-demo {
+  min-height: 18rem;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: var(--aeris-surface-2);
+  overflow: hidden;
 }
 ```
 
@@ -13968,6 +14059,7 @@ import { AerisMultiSelect, type AerisSelectOption } from '@aeris-ui/core/multi-s
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `readonly string[] (model)` | `[]` | Selected option values with two-way binding and Forms support. |
 | `inputId` | `string` | `''` | Visible-label association. |
@@ -15062,6 +15154,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self'` | Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the feedback panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `''` | Password value with two-way binding and Forms support. |
 | `visible` | `boolean (model)` | `false` | Controls whether the value is masked. |
 | `inputId` | `string` | `''` | Native input ID. |
@@ -17539,6 +17632,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the options panel inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
 | `inputId` | `string` | `generated` | ID assigned to the combobox trigger for visible labels. |
@@ -21376,6 +21470,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the tree panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `nodes` | `readonly AerisTreeNode[]` | `required` | Tree data rendered recursively in source order. Nesting depth is not limited by the component API. |
 | `value` | `AerisTreeSelectValue (model)` | `null` | Selected value for single mode or selected value array for multiple and checkbox modes. |
 | `selectionMode` | `AerisTreeSelectMode` | `'single'` | Selection behavior: single, multiple, or checkbox with optional descendant propagation. |
@@ -24382,6 +24477,7 @@ from '@aeris-ui/core/split-button';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the action menu locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the action menu inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `navigationHandler` | `AerisSplitButtonNavigationHandler &#124; undefined` | `undefined` | Optional framework-routing bridge for routerLink items. Native href navigation is used otherwise. |
 | `id` | `string` | `generated` | Stable base ID for the popup relationship and menu items. |
 | `label` | `string` | `''` | Primary action label. |
@@ -26158,6 +26254,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the rows-per-page menu locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the rows menu inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `first` | `number (model)` | `0` | Index of the first record in the current page. |
 | `rows` | `number (model)` | `10` | Number of records shown per page. |
 | `totalRecords` | `number` | `0` | Total number of records available for pagination. |
@@ -41150,7 +41247,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 | `width` | `string` | `''` | Custom popover width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |
 | `offset` | `number` | `10` | Distance between target and popover in pixels. |
-| `viewportMargin` | `number` | `8` | Minimum viewport edge gap in pixels. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Minimum visual viewport gap. Per-edge values reserve fixed interface regions; preferred placements flip when they do not fit. |
 | `dismissible` | `boolean` | `true` | Allows outside pointerdown to close. |
 | `closeOnEscape` | `boolean` | `true` | Allows Escape to close. |
 | `closable` | `boolean` | `false` | Shows the built-in close button. |
@@ -41806,7 +41903,7 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
 | `aerisTooltipDisabled` | `boolean` | `false` | Prevents the tooltip from opening and closes an open tooltip. |
 | `aerisTooltipAutoHide` | `boolean` | `true` | Closes when the pointer leaves the target. Set false when pointer text selection inside the tooltip is needed. |
 | `aerisTooltipOffset` | `number` | `8` | Distance from the target in pixels. |
-| `aerisTooltipViewportMargin` | `number` | `6` | Minimum viewport edge gap in pixels. |
+| `aerisTooltipViewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `6` | Minimum visual viewport gap. Per-edge values reserve fixed interface regions; the tooltip flips when its preferred position does not fit. |
 | `aerisTooltipMaxWidth` | `string` | `''` | Custom maximum tooltip width. |
 | `aerisTooltipStyleClass` | `string` | `''` | Additional CSS class applied to the tooltip panel. |
 | `aerisTooltipTruncatedOnly` | `boolean` | `false` | Opens only when the target content overflows its visible dimensions. |
@@ -44342,6 +44439,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the panel target when popup is enabled; inline menus remain local. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `id` | `string` | `generated` | ID for the root panel. |
 | `model` | `readonly AerisMenuItem&lt;T&gt;[]` | `[]` | Menu item model with groups, separators, commands, links, and nested items. |
 | `expandedKeys` | `AerisMenuExpandedKeys (model)` | `{}` | Controlled expanded state keyed by item id or generated path. |
@@ -46409,6 +46507,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the panel target when popup is enabled; inline menus remain local. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `id` | `string` | `generated id` | Panel ID used for menu and submenu relationships. |
 | `model` | `readonly AerisTieredMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |
 | `open` | `boolean (model)` | `false` | Controlled popup visibility. |

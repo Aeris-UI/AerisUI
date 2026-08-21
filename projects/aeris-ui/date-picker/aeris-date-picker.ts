@@ -16,7 +16,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵAerisAppendTo, type AerisAppendTo } from '@aeris-ui/core';
+import { ɵAerisAppendTo, type AerisAppendTo, type AerisOverlayCollisionPadding } from '@aeris-ui/core';
 
 import {
   addDays,
@@ -168,6 +168,7 @@ let datePickerId = 0;
           class="aeris-date-picker__panel"
           [aerisInternalAppendTo]="inline() ? 'self' : appendTo()"
           [aerisInternalAppendToAnchor]="this.trigger()?.nativeElement ?? null"
+          [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="close(false)"
           [id]="panelId"
           role="dialog"
@@ -441,6 +442,7 @@ export class AerisDatePicker implements ControlValueAccessor {
   readonly clearable = input(false, { transform: booleanAttribute });
   readonly inline = input(false, { transform: booleanAttribute });
   readonly appendTo = input<AerisAppendTo>();
+  readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });

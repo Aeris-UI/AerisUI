@@ -12,19 +12,18 @@ import {
   output,
 } from '@angular/core';
 
-import { aerisInternalPositionAnchoredOverlay } from './aeris-overlay-position';
+import {
+  type AerisInternalOverlayAlignment,
+  type AerisInternalOverlayPlacement,
+  type AerisOverlayCollisionPadding,
+  aerisInternalPositionAnchoredOverlay,
+} from './aeris-overlay-position';
 
 let nextAppendToZIndex = 1100;
 const positionedTargets = new WeakMap<HTMLElement, { count: number; readonly previous: string }>();
 
 export type AerisAppendTo =
-  | 'self'
-  | 'body'
-  | HTMLElement
-  | ElementRef<HTMLElement>
-  | TemplateRef<unknown>
-  | null
-  | undefined;
+  'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined;
 
 export const AERIS_OVERLAY_APPEND_TO = new InjectionToken<AerisAppendTo>(
   'AERIS_OVERLAY_APPEND_TO',
@@ -59,6 +58,9 @@ export class ɵAerisAppendTo {
   readonly aerisInternalAppendToAnchor = input<HTMLElement | null>(null);
   readonly aerisInternalAppendToOffset = input(7);
   readonly aerisInternalAppendToMatchWidth = input(false);
+  readonly aerisInternalAppendToPlacement = input<AerisInternalOverlayPlacement | 'auto'>('auto');
+  readonly aerisInternalAppendToAlignment = input<AerisInternalOverlayAlignment | 'auto'>('auto');
+  readonly aerisInternalAppendToCollisionPadding = input<number | AerisOverlayCollisionPadding>(8);
   readonly aerisInternalAppendToOutside = output<PointerEvent>();
 
   constructor() {
@@ -70,11 +72,13 @@ export class ɵAerisAppendTo {
       const anchor = this.aerisInternalAppendToAnchor();
       this.captureOrigin();
 
-      if (target === 'self') {
-        this.restoreToOrigin();
+      if (target === 'self') this.restoreToOrigin();
+      if (target === 'self' && !anchor) {
         this.element.removeAttribute('data-aeris-append-to');
         return;
       }
+      const positioningTarget = target === 'self' ? this.element.parentElement : target;
+      if (!positioningTarget) return;
 
       const inheritedStyles = this.preserveInheritedStyles();
       const positioningStyles = this.preserveInlineStyles([
@@ -87,19 +91,28 @@ export class ɵAerisAppendTo {
         'left',
         'top',
         'min-width',
+        'max-width',
+        'max-height',
+        'overflow-x',
+        'overflow-y',
+        'overscroll-behavior',
         'z-index',
       ]);
-      const targetPosition = this.ensurePositionedTarget(target);
-      this.renderer.appendChild(target, this.element);
-      this.applyInheritedStyles(inheritedStyles);
-      this.renderer.setAttribute(
-        this.element,
-        'data-aeris-append-to',
-        target === this.document.body ? 'body' : 'target',
-      );
-      this.bringToFront();
+      const targetPosition = this.ensurePositionedTarget(positioningTarget);
+      if (target !== 'self') {
+        this.renderer.appendChild(target, this.element);
+        this.applyInheritedStyles(inheritedStyles);
+        this.renderer.setAttribute(
+          this.element,
+          'data-aeris-append-to',
+          target === this.document.body ? 'body' : 'target',
+        );
+        this.bringToFront();
+      } else {
+        this.element.removeAttribute('data-aeris-append-to');
+      }
 
-      const reposition = () => this.schedulePosition(anchor, target);
+      const reposition = () => this.schedulePosition(anchor, positioningTarget);
       const pointerdown = (event: PointerEvent) => {
         const eventTarget = event.target;
         if (!isDomNode(eventTarget)) return;
@@ -107,17 +120,22 @@ export class ɵAerisAppendTo {
         this.aerisInternalAppendToOutside.emit(event);
       };
       const view = this.document.defaultView;
+      const visualViewport = view?.visualViewport;
       view?.addEventListener('resize', reposition);
+      visualViewport?.addEventListener('resize', reposition);
+      visualViewport?.addEventListener('scroll', reposition);
       this.document.addEventListener('scroll', reposition, true);
       this.document.addEventListener('pointerdown', pointerdown, true);
       const resizeObserver =
         typeof ResizeObserver === 'undefined' || !anchor ? null : new ResizeObserver(reposition);
       if (anchor) resizeObserver?.observe(anchor);
       resizeObserver?.observe(this.element);
-      if (anchor && view) this.positionConnectedOverlay(anchor, target, view);
+      if (anchor && view) this.positionConnectedOverlay(anchor, positioningTarget, view);
 
       onCleanup(() => {
         view?.removeEventListener('resize', reposition);
+        visualViewport?.removeEventListener('resize', reposition);
+        visualViewport?.removeEventListener('scroll', reposition);
         this.document.removeEventListener('scroll', reposition, true);
         this.document.removeEventListener('pointerdown', pointerdown, true);
         resizeObserver?.disconnect();
@@ -125,10 +143,12 @@ export class ɵAerisAppendTo {
         this.restoreInlineStyles(positioningStyles);
         this.element.removeAttribute('data-placement');
         this.element.removeAttribute('data-positioned');
+        this.element.removeAttribute('data-viewport-constrained');
+        this.element.removeAttribute('data-viewport-constrained-width');
         this.restoreInheritedStyles(inheritedStyles);
         targetPosition.restore();
         this.element.removeAttribute('data-aeris-append-to');
-        this.element.remove();
+        if (target !== 'self') this.element.remove();
       });
     });
 
@@ -153,11 +173,7 @@ export class ɵAerisAppendTo {
     });
   }
 
-  private positionConnectedOverlay(
-    anchor: HTMLElement,
-    target: HTMLElement,
-    view: Window,
-  ): void {
+  private positionConnectedOverlay(anchor: HTMLElement, target: HTMLElement, view: Window): void {
     if (!anchor.isConnected || !this.element.isConnected) return;
     const anchorRect = anchor.getBoundingClientRect();
     this.element.style.position = target === this.document.body ? 'fixed' : 'absolute';
@@ -166,22 +182,71 @@ export class ɵAerisAppendTo {
     this.element.style.insetInlineStart = 'auto';
     this.element.style.right = 'auto';
     this.element.style.bottom = 'auto';
+    const viewport = view.visualViewport;
+    const viewportLeft = viewport?.offsetLeft ?? 0;
+    const viewportTop = viewport?.offsetTop ?? 0;
+    const collisionPadding = this.collisionPadding(view);
+    const availableWidth = Math.max(
+      0,
+      (viewport?.width ?? view.innerWidth) -
+        (collisionPadding.left ?? 0) -
+        (collisionPadding.right ?? 0),
+    );
     if (this.aerisInternalAppendToMatchWidth()) {
-      this.element.style.minWidth = `${anchorRect.width}px`;
+      this.element.style.minWidth = `${Math.min(anchorRect.width, availableWidth)}px`;
     }
-
-    const panelRect = this.element.getBoundingClientRect();
+    const availableHeight = Math.max(
+      0,
+      (viewport?.height ?? view.innerHeight) -
+        (collisionPadding.top ?? 0) -
+        (collisionPadding.bottom ?? 0),
+    );
+    let panelRect = this.element.getBoundingClientRect();
+    if (panelRect.width > availableWidth && availableWidth > 0) {
+      this.element.style.maxWidth = `${availableWidth}px`;
+      this.element.style.overflowX = 'auto';
+      this.element.style.overscrollBehavior = 'contain';
+      this.element.setAttribute('data-viewport-constrained-width', 'true');
+      panelRect = this.element.getBoundingClientRect();
+    } else if (this.element.hasAttribute('data-viewport-constrained-width')) {
+      this.element.style.removeProperty('max-width');
+      this.element.style.removeProperty('overflow-x');
+      this.element.removeAttribute('data-viewport-constrained-width');
+      panelRect = this.element.getBoundingClientRect();
+    }
+    if (panelRect.height > availableHeight && availableHeight > 0) {
+      this.element.style.maxHeight = `${availableHeight}px`;
+      this.element.style.overflowY = 'auto';
+      this.element.style.overscrollBehavior = 'contain';
+      this.element.setAttribute('data-viewport-constrained', 'true');
+      panelRect = this.element.getBoundingClientRect();
+    } else if (this.element.hasAttribute('data-viewport-constrained')) {
+      this.element.style.removeProperty('max-height');
+      this.element.style.removeProperty('overflow-y');
+      this.element.style.removeProperty('overscroll-behavior');
+      this.element.removeAttribute('data-viewport-constrained');
+      panelRect = this.element.getBoundingClientRect();
+    }
     const direction = view.getComputedStyle(anchor).direction;
+    const configuredAlignment = this.aerisInternalAppendToAlignment();
     const point = aerisInternalPositionAnchoredOverlay({
       target: anchorRect,
       width: panelRect.width || this.element.offsetWidth || anchorRect.width,
       height: panelRect.height || this.element.offsetHeight,
-      placement: 'auto',
-      alignment: direction === 'rtl' ? 'end' : 'start',
+      placement: this.aerisInternalAppendToPlacement(),
+      alignment:
+        configuredAlignment === 'auto'
+          ? direction === 'rtl'
+            ? 'end'
+            : 'start'
+          : configuredAlignment,
       offset: this.aerisInternalAppendToOffset(),
       margin: 8,
-      viewportWidth: view.innerWidth,
-      viewportHeight: view.innerHeight,
+      viewportWidth: viewport?.width ?? view.innerWidth,
+      viewportHeight: viewport?.height ?? view.innerHeight,
+      viewportLeft,
+      viewportTop,
+      collisionPadding,
     });
 
     if (target === this.document.body) {
@@ -194,6 +259,26 @@ export class ɵAerisAppendTo {
     }
     this.element.setAttribute('data-placement', point.placement);
     this.element.setAttribute('data-positioned', 'true');
+  }
+
+  private collisionPadding(view: Window): AerisOverlayCollisionPadding {
+    const configured = this.aerisInternalAppendToCollisionPadding();
+    const padding =
+      typeof configured === 'number'
+        ? { top: configured, right: configured, bottom: configured, left: configured }
+        : configured;
+    const rootStyles = view.getComputedStyle(this.document.documentElement);
+    const value = (side: keyof AerisOverlayCollisionPadding): number => {
+      const safeArea =
+        Number.parseFloat(rootStyles.getPropertyValue(`--aeris-safe-area-${side}`)) || 0;
+      return Math.max(0, padding[side] ?? 0) + safeArea;
+    };
+    return {
+      top: value('top'),
+      right: value('right'),
+      bottom: value('bottom'),
+      left: value('left'),
+    };
   }
 
   private preserveInheritedStyles(): ReadonlyMap<
@@ -319,7 +404,9 @@ export class ɵAerisAppendTo {
   }
 }
 
-function elementRefNativeElement(value: Exclude<AerisAppendTo, string | null | undefined>): unknown {
+function elementRefNativeElement(
+  value: Exclude<AerisAppendTo, string | null | undefined>,
+): unknown {
   if ('nativeElement' in value) return value.nativeElement;
   if ('elementRef' in value) {
     const node = value.elementRef.nativeElement as unknown;

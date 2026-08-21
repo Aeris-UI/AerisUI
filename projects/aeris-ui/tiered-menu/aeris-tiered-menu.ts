@@ -24,6 +24,7 @@ import {
   aerisInternalClampOverlayPoint,
   aerisInternalCreateFrameScheduler,
   type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
 } from '@aeris-ui/core';
 
 export type AerisTieredMenuSize = 'sm' | 'md' | 'lg';
@@ -238,6 +239,7 @@ let nextTieredMenuId = 0;
         class="aeris-tiered-menu__panel"
         [aerisInternalAppendTo]="popup() ? appendTo() : 'self'"
         [aerisInternalAppendToAnchor]="popup() ? portalAnchor() : null"
+        [aerisInternalAppendToCollisionPadding]="viewportMargin()"
         [id]="id()"
         [class]="panelStyleClass()"
         [attr.data-popup]="popup() || null"
@@ -298,7 +300,7 @@ export class AerisTieredMenu<T = unknown> {
   readonly size = input<AerisTieredMenuSize>('md');
   readonly width = input('');
   readonly maxWidth = input('');
-  readonly viewportMargin = input(8);
+  readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly hideOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly closeOnSelect = input(true, { transform: booleanAttribute });
@@ -384,17 +386,24 @@ export class AerisTieredMenu<T = unknown> {
     const width = rect.width || panel.offsetWidth || 240;
     const height = rect.height || panel.offsetHeight || 260;
     const anchor = this.currentAnchorPoint();
+    const viewport = view.visualViewport;
     const { x, y } = aerisInternalClampOverlayPoint(
       anchor,
       width,
       height,
-      view.innerWidth,
-      view.innerHeight,
+      viewport?.width ?? view.innerWidth,
+      viewport?.height ?? view.innerHeight,
       this.viewportMargin(),
+      viewport?.offsetLeft ?? 0,
+      viewport?.offsetTop ?? 0,
     );
     this.anchorPoint.set(anchor);
     this.coordinates.set({ x, y });
-    this.submenuSide.set(anchor.x > view.innerWidth / 2 ? 'start' : 'end');
+    this.submenuSide.set(
+      anchor.x > (viewport?.offsetLeft ?? 0) + (viewport?.width ?? view.innerWidth) / 2
+        ? 'start'
+        : 'end',
+    );
     this.positioned.set(true);
     panel.style.left = `${x}px`;
     panel.style.top = `${y}px`;
@@ -503,7 +512,8 @@ export class AerisTieredMenu<T = unknown> {
     if (
       target instanceof Node &&
       (this.host.nativeElement.contains(target) || panel?.contains(target))
-    ) return;
+    )
+      return;
     this.hide(event, 'outside', false);
   }
 
@@ -719,7 +729,6 @@ export class AerisTieredMenu<T = unknown> {
   private isRtl(): boolean {
     return this.host.nativeElement.ownerDocument.documentElement.dir === 'rtl';
   }
-
 }
 
 export const AerisTieredMenuModule = [AerisTieredMenu, AerisTieredMenuItemTemplate] as const;

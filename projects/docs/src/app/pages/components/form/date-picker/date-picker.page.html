@@ -56,6 +56,47 @@
             </app-form-demo>
 
             <app-form-demo
+              id="date-picker-collision"
+              title="Constrained viewport"
+              description="The calendar flips and remains within the visual viewport. Mount it to body when an overflow container would otherwise clip it, and reserve fixed interface regions with per-edge margins."
+              [tsCode]="collisionCode"
+              [cssCode]="collisionCss"
+            >
+              <div preview class="collision-demo">
+                <div class="field">
+                  <label for="collision-date">Delivery date</label>
+                  <aeris-date-picker
+                    inputId="collision-date"
+                    appendTo="body"
+                    [viewportMargin]="overlayViewportMargin"
+                    placeholder="Choose a date"
+                    ariaDescribedBy="collision-date-help"
+                    clearable
+                  />
+                  <small id="collision-date-help">
+                    The panel escapes this clipped container and avoids a 72px bottom bar.
+                  </small>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="collision-demo"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="collision-date"&gt;Delivery date&lt;/label&gt;
+    &lt;aeris-date-picker
+      inputId="collision-date"
+      appendTo="body"
+      [viewportMargin]="overlayViewportMargin"
+      placeholder="Choose a date"
+      ariaDescribedBy="collision-date-help"
+      clearable
+    /&gt;
+    &lt;small id="collision-date-help"&gt;
+      The panel escapes this clipped container and avoids a 72px bottom bar.
+    &lt;/small&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
               id="date-picker-time"
               title="Date and time"
               description="Use date-time mode when the calendar selection needs a time. Use time-only mode when the date section should be hidden."

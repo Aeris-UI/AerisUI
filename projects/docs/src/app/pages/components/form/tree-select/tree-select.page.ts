@@ -196,6 +196,13 @@ interface AerisTreeSelectFilterEvent {
         'Mounts the overlay locally, in document.body, or in the supplied DOM/template target.',
     },
     {
+      name: 'viewportMargin',
+      type: 'number | AerisOverlayCollisionPadding',
+      defaultValue: '8',
+      description:
+        'Keeps the tree panel inside the visual viewport. Per-edge values reserve fixed interface regions.',
+    },
+    {
       name: 'nodes',
       type: 'readonly AerisTreeNode[]',
       defaultValue: 'required',

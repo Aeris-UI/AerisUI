@@ -42,6 +42,7 @@ export {
   type AerisInternalOverlayAlignment,
   type AerisInternalOverlayPlacement,
   type AerisInternalOverlayPoint,
+  type AerisOverlayCollisionPadding,
 } from './lib/aeris-overlay-position';
 export {
   aerisInternalApplyMeasuredColumnWidths,

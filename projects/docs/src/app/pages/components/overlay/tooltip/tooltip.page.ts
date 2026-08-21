@@ -182,9 +182,10 @@ interface AerisTooltipVisibilityEvent {
     },
     {
       name: 'aerisTooltipViewportMargin',
-      type: 'number',
+      type: 'number | AerisOverlayCollisionPadding',
       defaultValue: '6',
-      description: 'Minimum viewport edge gap in pixels.',
+      description:
+        'Minimum visual viewport gap. Per-edge values reserve fixed interface regions; the tooltip flips when its preferred position does not fit.',
     },
     {
       name: 'aerisTooltipMaxWidth',

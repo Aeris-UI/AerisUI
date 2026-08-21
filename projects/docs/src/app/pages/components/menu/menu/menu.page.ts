@@ -483,6 +483,13 @@ interface AerisMenuVisibilityEvent {
       description: 'Mounts the panel target when popup is enabled; inline menus remain local.',
     },
     {
+      name: 'viewportMargin',
+      type: 'number | AerisOverlayCollisionPadding',
+      defaultValue: '8',
+      description:
+        'Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions.',
+    },
+    {
       name: 'id',
       type: 'string',
       defaultValue: 'generated',

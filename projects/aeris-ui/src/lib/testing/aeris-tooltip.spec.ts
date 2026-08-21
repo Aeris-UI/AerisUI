@@ -251,7 +251,8 @@ describe('AerisTooltip', () => {
 
     expect(document.querySelector('[role="tooltip"]')).toBe(tooltip);
     expect(tooltip.style.top).not.toBe(initialTop);
-    expect(Number.parseFloat(tooltip.style.top)).toBeLessThan(Number.parseFloat(initialTop));
+    expect(tooltip.getAttribute('data-position')).toBe('bottom');
+    expect(Number.parseFloat(tooltip.style.top)).toBe(80);
   });
 
   it('only shows truncated-only content when the host overflows', () => {

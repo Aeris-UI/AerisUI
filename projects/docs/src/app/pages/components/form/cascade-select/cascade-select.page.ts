@@ -181,6 +181,13 @@ interface AerisCascadeSelectChangeEvent {
         'Mounts the overlay locally, in document.body, or in the supplied DOM/template target.',
     },
     {
+      name: 'viewportMargin',
+      type: 'number | AerisOverlayCollisionPadding',
+      defaultValue: '8',
+      description:
+        'Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions.',
+    },
+    {
       name: 'value',
       type: 'string | null (model)',
       defaultValue: 'null',

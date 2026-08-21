@@ -16,7 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵAerisAppendTo, type AerisAppendTo } from '@aeris-ui/core';
+import { ɵAerisAppendTo, type AerisAppendTo, type AerisOverlayCollisionPadding } from '@aeris-ui/core';
 
 export type AerisPasswordSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisPasswordAppearance = 'outline' | 'filled';
@@ -169,6 +169,7 @@ let passwordId = 0;
           [aerisInternalAppendTo]="appendTo()"
           [aerisInternalAppendToAnchor]="passwordInput"
           [aerisInternalAppendToMatchWidth]="true"
+          [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           [id]="feedbackId"
         >
           @if (headerTemplate(); as header) {
@@ -243,6 +244,7 @@ export class AerisPasswordComponent implements ControlValueAccessor {
   readonly value = model('');
   readonly visible = model(false);
   readonly appendTo = input<AerisAppendTo>('self');
+  readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly inputId = input('');
   readonly name = input('');
   readonly placeholder = input('');

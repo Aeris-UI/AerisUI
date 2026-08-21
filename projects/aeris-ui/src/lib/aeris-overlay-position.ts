@@ -1,6 +1,13 @@
 export type AerisInternalOverlayPlacement = 'top' | 'right' | 'bottom' | 'left';
 export type AerisInternalOverlayAlignment = 'start' | 'center' | 'end';
 
+export interface AerisOverlayCollisionPadding {
+  readonly top?: number;
+  readonly right?: number;
+  readonly bottom?: number;
+  readonly left?: number;
+}
+
 export interface AerisInternalOverlayPoint {
   readonly x: number;
   readonly y: number;
@@ -16,6 +23,9 @@ export interface AerisInternalAnchoredOverlayPositionOptions {
   readonly margin: number;
   readonly viewportWidth: number;
   readonly viewportHeight: number;
+  readonly viewportLeft?: number;
+  readonly viewportTop?: number;
+  readonly collisionPadding?: number | AerisOverlayCollisionPadding;
 }
 
 export interface AerisInternalAnchoredOverlayPosition extends AerisInternalOverlayPoint {
@@ -28,18 +38,30 @@ export function aerisInternalClampOverlayPoint(
   height: number,
   viewportWidth: number,
   viewportHeight: number,
-  margin: number,
+  margin: number | AerisOverlayCollisionPadding,
+  viewportLeft = 0,
+  viewportTop = 0,
 ): AerisInternalOverlayPoint {
+  const padding = normalizePadding(margin);
   return {
-    x: clamp(point.x, margin, Math.max(margin, viewportWidth - width - margin)),
-    y: clamp(point.y, margin, Math.max(margin, viewportHeight - height - margin)),
+    x: clamp(
+      point.x,
+      viewportLeft + padding.left,
+      Math.max(viewportLeft + padding.left, viewportLeft + viewportWidth - width - padding.right),
+    ),
+    y: clamp(
+      point.y,
+      viewportTop + padding.top,
+      Math.max(viewportTop + padding.top, viewportTop + viewportHeight - height - padding.bottom),
+    ),
   };
 }
 
 export function aerisInternalPositionAnchoredOverlay(
   options: AerisInternalAnchoredOverlayPositionOptions,
 ): AerisInternalAnchoredOverlayPosition {
-  const placement = resolvePlacement(options);
+  const bounds = resolveBounds(options);
+  const placement = resolvePlacement(options, bounds);
   const point = rawPosition(placement, options);
   return {
     placement,
@@ -47,29 +69,85 @@ export function aerisInternalPositionAnchoredOverlay(
       point,
       options.width,
       options.height,
-      options.viewportWidth,
-      options.viewportHeight,
-      options.margin,
+      bounds.right - bounds.left,
+      bounds.bottom - bounds.top,
+      0,
+      bounds.left,
+      bounds.top,
     ),
   };
 }
 
 function resolvePlacement(
   options: AerisInternalAnchoredOverlayPositionOptions,
+  bounds: OverlayBounds,
 ): AerisInternalOverlayPlacement {
-  if (options.placement !== 'auto') return options.placement;
   const spaces: Record<AerisInternalOverlayPlacement, number> = {
-    bottom: options.viewportHeight - options.target.bottom - options.offset,
-    top: options.target.top - options.offset,
-    right: options.viewportWidth - options.target.right - options.offset,
-    left: options.target.left - options.offset,
+    bottom: bounds.bottom - options.target.bottom - options.offset,
+    top: options.target.top - bounds.top - options.offset,
+    right: bounds.right - options.target.right - options.offset,
+    left: options.target.left - bounds.left - options.offset,
   };
-  if (spaces.bottom >= options.height) return 'bottom';
-  if (spaces.top >= options.height) return 'top';
-  if (spaces.right >= options.width) return 'right';
-  if (spaces.left >= options.width) return 'left';
-  return (Object.entries(spaces).sort((left, right) => right[1] - left[1])[0]?.[0] ??
-    'bottom') as AerisInternalOverlayPlacement;
+  const preferred = options.placement === 'auto' ? 'bottom' : options.placement;
+  const candidates = placementCandidates(preferred);
+  const fitting = candidates.find(
+    (placement) =>
+      spaces[placement] >=
+      (placement === 'top' || placement === 'bottom' ? options.height : options.width),
+  );
+  return (
+    fitting ??
+    candidates.reduce((best, placement) => (spaces[placement] > spaces[best] ? placement : best))
+  );
+}
+
+interface OverlayBounds {
+  readonly top: number;
+  readonly right: number;
+  readonly bottom: number;
+  readonly left: number;
+}
+
+function resolveBounds(options: AerisInternalAnchoredOverlayPositionOptions): OverlayBounds {
+  const padding = normalizePadding(options.collisionPadding ?? options.margin);
+  const left = options.viewportLeft ?? 0;
+  const top = options.viewportTop ?? 0;
+  return {
+    top: top + padding.top,
+    right: left + options.viewportWidth - padding.right,
+    bottom: top + options.viewportHeight - padding.bottom,
+    left: left + padding.left,
+  };
+}
+
+function normalizePadding(
+  padding: number | AerisOverlayCollisionPadding,
+): Required<AerisOverlayCollisionPadding> {
+  if (typeof padding === 'number') {
+    const value = Math.max(0, padding);
+    return { top: value, right: value, bottom: value, left: value };
+  }
+  return {
+    top: Math.max(0, padding.top ?? 0),
+    right: Math.max(0, padding.right ?? 0),
+    bottom: Math.max(0, padding.bottom ?? 0),
+    left: Math.max(0, padding.left ?? 0),
+  };
+}
+
+function placementCandidates(
+  preferred: AerisInternalOverlayPlacement,
+): readonly AerisInternalOverlayPlacement[] {
+  switch (preferred) {
+    case 'top':
+      return ['top', 'bottom', 'right', 'left'];
+    case 'right':
+      return ['right', 'left', 'bottom', 'top'];
+    case 'bottom':
+      return ['bottom', 'top', 'right', 'left'];
+    case 'left':
+      return ['left', 'right', 'bottom', 'top'];
+  }
 }
 
 function rawPosition(

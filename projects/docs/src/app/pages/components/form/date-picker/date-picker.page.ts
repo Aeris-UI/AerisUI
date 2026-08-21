@@ -54,6 +54,7 @@ export class DatePickerPage {
     new Date(2026, 5, 25),
   ]);
   protected readonly constrainedDate = signal<AerisDatePickerValue>(null);
+  protected readonly overlayViewportMargin = { top: 16, right: 16, bottom: 72, left: 16 } as const;
   protected readonly validationDate = signal<AerisDatePickerValue>(null);
   protected readonly validationTouched = signal(false);
   protected readonly validationInvalid = computed(
@@ -69,6 +70,7 @@ export class DatePickerPage {
 
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'date-picker-basic', label: 'Basic' },
+    { id: 'date-picker-collision', label: 'Constrained viewport' },
     { id: 'date-picker-time', label: 'Date and time' },
     { id: 'date-picker-selection', label: 'Selection modes' },
     { id: 'date-picker-constraints', label: 'Constraints' },
@@ -142,6 +144,23 @@ protected readonly disablePast = (
   date: Date,
 ): boolean => date < new Date(2026, 5, 11);`;
 
+  protected readonly collisionCode = `protected readonly overlayViewportMargin = {
+  top: 16,
+  right: 16,
+  bottom: 72,
+  left: 16,
+} as const;`;
+
+  protected readonly collisionCss = `.collision-demo {
+  min-height: 18rem;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: var(--aeris-surface-2);
+  overflow: hidden;
+}`;
+
   protected readonly validationCode = `protected readonly validationDate =
   signal<AerisDatePickerValue>(null);
 protected readonly validationTouched = signal(false);
@@ -203,6 +222,13 @@ interface AerisDatePickerChangeEvent {
       defaultValue: "'self' (global)",
       description:
         'Mounts the overlay locally, in document.body, or in the supplied DOM/template target.',
+    },
+    {
+      name: 'viewportMargin',
+      type: 'number | AerisOverlayCollisionPadding',
+      defaultValue: '8',
+      description:
+        'Keeps the calendar inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation.',
     },
     {
       name: 'value',

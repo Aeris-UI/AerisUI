@@ -23,6 +23,7 @@ import {
   aerisInternalClampOverlayPoint,
   aerisInternalCreateFrameScheduler,
   type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
 } from '@aeris-ui/core';
 
 export type AerisMenuSize = 'sm' | 'md' | 'lg';
@@ -287,6 +288,7 @@ let nextMenuId = 0;
         class="aeris-menu__panel"
         [aerisInternalAppendTo]="popup() ? appendTo() : 'self'"
         [aerisInternalAppendToAnchor]="popup() ? portalAnchor() : null"
+        [aerisInternalAppendToCollisionPadding]="viewportMargin()"
         [id]="menuId()"
         [class]="panelStyleClass()"
         [attr.data-popup]="popup() || null"
@@ -359,7 +361,7 @@ export class AerisMenu<T = unknown> {
   readonly size = input<AerisMenuSize>('md');
   readonly width = input('');
   readonly maxHeight = input('');
-  readonly viewportMargin = input(8);
+  readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly hideOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly closeOnSelect = input(true, { transform: booleanAttribute });
@@ -460,13 +462,16 @@ export class AerisMenu<T = unknown> {
     const width = rect.width || panel.offsetWidth || 240;
     const height = rect.height || panel.offsetHeight || 320;
     const anchor = this.anchorPoint();
+    const viewport = view.visualViewport;
     const { x, y } = aerisInternalClampOverlayPoint(
       anchor,
       width,
       height,
-      view.innerWidth,
-      view.innerHeight,
+      viewport?.width ?? view.innerWidth,
+      viewport?.height ?? view.innerHeight,
       this.viewportMargin(),
+      viewport?.offsetLeft ?? 0,
+      viewport?.offsetTop ?? 0,
     );
     this.coordinates.set({ x, y });
     this.positioned.set(true);
@@ -764,7 +769,6 @@ export class AerisMenu<T = unknown> {
   private pathKey(path: readonly number[]): string {
     return path.join('.');
   }
-
 }
 
 export const AerisMenuModule = [

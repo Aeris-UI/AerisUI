@@ -37,7 +37,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 | `width` | `string` | `''` | Custom popover width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |
 | `offset` | `number` | `10` | Distance between target and popover in pixels. |
-| `viewportMargin` | `number` | `8` | Minimum viewport edge gap in pixels. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Minimum visual viewport gap. Per-edge values reserve fixed interface regions; preferred placements flip when they do not fit. |
 | `dismissible` | `boolean` | `true` | Allows outside pointerdown to close. |
 | `closeOnEscape` | `boolean` | `true` | Allows Escape to close. |
 | `closable` | `boolean` | `false` | Shows the built-in close button. |

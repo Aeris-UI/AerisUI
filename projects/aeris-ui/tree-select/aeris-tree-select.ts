@@ -16,7 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵAerisAppendTo, type AerisAppendTo } from '@aeris-ui/core';
+import { ɵAerisAppendTo, type AerisAppendTo, type AerisOverlayCollisionPadding } from '@aeris-ui/core';
 
 export type AerisTreeSelectSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisTreeSelectAppearance = 'outline' | 'filled';
@@ -182,6 +182,7 @@ let treeSelectId = 0;
           [aerisInternalAppendTo]="appendTo()"
           [aerisInternalAppendToAnchor]="this.trigger()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
+          [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel(false)"
           [id]="panelId"
           [style.--aeris-tree-select-panel-max-height]="panelMaxHeight()"
@@ -352,6 +353,7 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   readonly emptyFilterMessage = input('No matching items');
   readonly panelMaxHeight = input('18rem');
   readonly appendTo = input<AerisAppendTo>();
+  readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly propagateSelection = input(true, { transform: booleanAttribute });
   readonly expandOnFilter = input(true, { transform: booleanAttribute });
 

@@ -2689,6 +2689,12 @@
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the panel inside the visual viewport. Use per-edge values to reserve fixed headers, navigation, or other exclusion zones."
+            },
+            {
               "name": "value",
               "type": "string (model)",
               "defaultValue": "''",
@@ -3319,6 +3325,12 @@
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions."
             },
             {
               "name": "value",
@@ -4222,6 +4234,12 @@
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions."
+            },
+            {
               "name": "value",
               "type": "string (model)",
               "defaultValue": "'#5f6f36'",
@@ -4905,6 +4923,12 @@
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the calendar inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation."
+            },
+            {
               "name": "value",
               "type": "AerisDatePickerValue (model)",
               "defaultValue": "null",
@@ -5400,6 +5424,28 @@
               "language": "TypeScript",
               "label": "TS",
               "code": "import { Component, signal } from '@angular/core';\nimport { AerisDatePicker, type AerisDatePickerChangeEvent, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';\n\n@Component({\n  selector: 'app-date-picker-basic-demo',\n  imports: [AerisDatePicker],\n  template: `\n    <div class=\"field-stack\">\n      <div class=\"field\">\n        <label for=\"basic-date\">Project date</label>\n        <aeris-date-picker\n          inputId=\"basic-date\"\n          [(value)]=\"basicDate\"\n          clearable\n          (changed)=\"recordChange($event)\"\n        />\n        <small aria-live=\"polite\">Last change: {{ lastChange() }}</small>\n      </div>\n    </div>\n  `,\n  styles: `\n    .field-stack {\n      width: 100%;\n      display: grid;\n      gap: 1rem;\n    }\n    \n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class DatePickerBasicBasicDemo {\n  protected readonly basicDate =\n    signal<AerisDatePickerValue>(\n      new Date(2026, 5, 18),\n    );\n\n  protected recordChange(\n    event: AerisDatePickerChangeEvent,\n  ): void {\n    const value = event.value;\n    this.lastChange.set(\n      value instanceof Date\n        ? value.toLocaleDateString()\n        : 'Selection updated',\n    );\n  }\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "date-picker-collision",
+          "title": "Constrained viewport",
+          "description": "The calendar flips and remains within the visual viewport. Mount it to body when an overflow container would otherwise clip it, and reserve fixed interface regions with per-edge margins.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisDatePicker } from '@aeris-ui/core/date-picker';\n\n@Component({\n  selector: 'app-date-picker-collision-demo',\n  imports: [AerisDatePicker],\n  templateUrl: './date-picker-collision.demo.html',\n  styleUrl: './date-picker-collision.demo.scss'\n})\nexport class DatePickerCollisionConstrainedViewportDemo {\n  protected readonly overlayViewportMargin = {\n    top: 16,\n    right: 16,\n    bottom: 72,\n    left: 16,\n  } as const;\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"collision-demo\">\n  <div class=\"field\">\n    <label for=\"collision-date\">Delivery date</label>\n    <aeris-date-picker\n      inputId=\"collision-date\"\n      appendTo=\"body\"\n      [viewportMargin]=\"overlayViewportMargin\"\n      placeholder=\"Choose a date\"\n      ariaDescribedBy=\"collision-date-help\"\n      clearable\n    />\n    <small id=\"collision-date-help\">\n      The panel escapes this clipped container and avoids a 72px bottom bar.\n    </small>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n.collision-demo {\n  min-height: 18rem;\n  display: flex;\n  align-items: flex-end;\n  padding: 1rem;\n  border-radius: 0.75rem;\n  background: var(--aeris-surface-2);\n  overflow: hidden;\n}"
             }
           ]
         },
@@ -9321,6 +9367,12 @@
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions."
+            },
+            {
               "name": "options",
               "type": "readonly AerisSelectOption[]",
               "defaultValue": "required",
@@ -10005,6 +10057,12 @@
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self'",
               "description": "Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the feedback panel inside the visual viewport. Per-edge values reserve fixed interface regions."
             },
             {
               "name": "value",
@@ -11336,6 +11394,12 @@
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the options panel inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation."
             },
             {
               "name": "options",
@@ -13714,6 +13778,12 @@
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the tree panel inside the visual viewport. Per-edge values reserve fixed interface regions."
+            },
+            {
               "name": "nodes",
               "type": "readonly AerisTreeNode[]",
               "defaultValue": "required",
@@ -15313,6 +15383,12 @@
               "description": "Mounts the action menu locally, in document.body, or in the supplied DOM/template target."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the action menu inside the visual viewport. Per-edge values reserve fixed interface regions."
+            },
+            {
               "name": "navigationHandler",
               "type": "AerisSplitButtonNavigationHandler | undefined",
               "defaultValue": "undefined",
@@ -16458,6 +16534,12 @@
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
               "description": "Mounts the rows-per-page menu locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the rows menu inside the visual viewport. Per-edge values reserve fixed interface regions."
             },
             {
               "name": "first",
@@ -27405,9 +27487,9 @@
             },
             {
               "name": "viewportMargin",
-              "type": "number",
+              "type": "number | AerisOverlayCollisionPadding",
               "defaultValue": "8",
-              "description": "Minimum viewport edge gap in pixels."
+              "description": "Minimum visual viewport gap. Per-edge values reserve fixed interface regions; preferred placements flip when they do not fit."
             },
             {
               "name": "dismissible",
@@ -27889,9 +27971,9 @@
             },
             {
               "name": "aerisTooltipViewportMargin",
-              "type": "number",
+              "type": "number | AerisOverlayCollisionPadding",
               "defaultValue": "6",
-              "description": "Minimum viewport edge gap in pixels."
+              "description": "Minimum visual viewport gap. Per-edge values reserve fixed interface regions; the tooltip flips when its preferred position does not fit."
             },
             {
               "name": "aerisTooltipMaxWidth",
@@ -29980,6 +30062,12 @@
               "description": "Mounts the panel target when popup is enabled; inline menus remain local."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions."
+            },
+            {
               "name": "id",
               "type": "string",
               "defaultValue": "generated",
@@ -30898,6 +30986,12 @@
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
               "description": "Mounts the panel target when popup is enabled; inline menus remain local."
+            },
+            {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions."
             },
             {
               "name": "id",

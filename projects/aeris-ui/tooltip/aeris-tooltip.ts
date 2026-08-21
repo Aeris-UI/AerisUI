@@ -20,8 +20,10 @@ import {
 import {
   AERIS_OVERLAY_APPEND_TO,
   aerisInternalCreateFrameScheduler,
+  aerisInternalPositionAnchoredOverlay,
   ɵaerisResolveAppendTo,
   type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
 } from '@aeris-ui/core';
 
 export type AerisTooltipPosition = 'top' | 'right' | 'bottom' | 'left';
@@ -120,7 +122,9 @@ export class AerisTooltip {
   readonly disabled = input(false, { alias: 'aerisTooltipDisabled', transform: booleanAttribute });
   readonly autoHide = input(true, { alias: 'aerisTooltipAutoHide', transform: booleanAttribute });
   readonly offset = input(8, { alias: 'aerisTooltipOffset' });
-  readonly viewportMargin = input(6, { alias: 'aerisTooltipViewportMargin' });
+  readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(6, {
+    alias: 'aerisTooltipViewportMargin',
+  });
   readonly maxWidth = input('', { alias: 'aerisTooltipMaxWidth' });
   readonly styleClass = input('', { alias: 'aerisTooltipStyleClass' });
   readonly appendTo = input<AerisAppendTo>(undefined, { alias: 'aerisTooltipAppendTo' });
@@ -278,16 +282,22 @@ export class AerisTooltip {
 
   private bindPositionTracking(): void {
     const view = this.document.defaultView;
+    const viewport = view?.visualViewport;
     this.document.addEventListener('scroll', this.repositionFrame.schedule, true);
     view?.addEventListener('scroll', this.repositionFrame.schedule);
     view?.addEventListener('resize', this.repositionFrame.schedule);
+    viewport?.addEventListener('scroll', this.repositionFrame.schedule);
+    viewport?.addEventListener('resize', this.repositionFrame.schedule);
   }
 
   private unbindPositionTracking(): void {
     const view = this.document.defaultView;
+    const viewport = view?.visualViewport;
     this.document.removeEventListener('scroll', this.repositionFrame.schedule, true);
     view?.removeEventListener('scroll', this.repositionFrame.schedule);
     view?.removeEventListener('resize', this.repositionFrame.schedule);
+    viewport?.removeEventListener('scroll', this.repositionFrame.schedule);
+    viewport?.removeEventListener('resize', this.repositionFrame.schedule);
     this.repositionFrame.cancel();
   }
 
@@ -302,14 +312,23 @@ export class AerisTooltip {
     const panelRect = panel.getBoundingClientRect();
     const width = panelRect.width || panel.offsetWidth || 160;
     const height = panelRect.height || panel.offsetHeight || 38;
-    const offset = this.offset();
-    const margin = this.viewportMargin();
-    const raw = this.rawPosition(this.position(), targetRect, width, height, offset);
-    const maxX = view.innerWidth - width - margin;
-    const maxY = view.innerHeight - height - margin;
-    const x = this.clamp(raw.x, margin, Math.max(margin, maxX));
-    const y = this.clamp(raw.y, margin, Math.max(margin, maxY));
+    const viewport = view.visualViewport;
+    const { x, y, placement } = aerisInternalPositionAnchoredOverlay({
+      target: targetRect,
+      width,
+      height,
+      placement: this.position(),
+      alignment: 'center',
+      offset: this.offset(),
+      margin: 0,
+      collisionPadding: this.viewportMargin(),
+      viewportWidth: viewport?.width ?? view.innerWidth,
+      viewportHeight: viewport?.height ?? view.innerHeight,
+      viewportLeft: viewport?.offsetLeft ?? 0,
+      viewportTop: viewport?.offsetTop ?? 0,
+    });
 
+    overlay.instance.position.set(placement);
     overlay.instance.coordinates.set({ x, y });
     overlay.changeDetectorRef.detectChanges();
     panel.style.left = `${x}px`;
@@ -325,30 +344,6 @@ export class AerisTooltip {
     panel.addEventListener('pointerenter', this.handleOverlayPointerEnter);
     panel.addEventListener('pointerleave', this.handleOverlayPointerLeave);
     this.overlayPanel = panel;
-  }
-
-  private rawPosition(
-    position: AerisTooltipPosition,
-    targetRect: DOMRect,
-    width: number,
-    height: number,
-    offset: number,
-  ): { readonly x: number; readonly y: number } {
-    switch (position) {
-      case 'bottom':
-        return { x: targetRect.left + targetRect.width / 2 - width / 2, y: targetRect.bottom + offset };
-      case 'left':
-        return { x: targetRect.left - width - offset, y: targetRect.top + targetRect.height / 2 - height / 2 };
-      case 'right':
-        return { x: targetRect.right + offset, y: targetRect.top + targetRect.height / 2 - height / 2 };
-      case 'top':
-      default:
-        return { x: targetRect.left + targetRect.width / 2 - width / 2, y: targetRect.top - height - offset };
-    }
-  }
-
-  private clamp(value: number, min: number, max: number): number {
-    return Math.min(Math.max(value, min), max);
   }
 
   private hasContent(): boolean {

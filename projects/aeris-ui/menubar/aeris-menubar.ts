@@ -17,6 +17,7 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
+import { aerisInternalCreateFrameScheduler } from '@aeris-ui/core';
 
 export type AerisMenubarSize = 'sm' | 'md' | 'lg';
 export type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select';
@@ -224,6 +225,7 @@ let nextMenubarId = 0;
 
               @if (entry.children.length && entry.open) {
                 <div
+                  #submenu
                   class="aeris-menubar__submenu"
                   [id]="entry.id + '-submenu'"
                   [attr.data-level]="entry.level + 1"
@@ -292,6 +294,9 @@ let nextMenubarId = 0;
   },
 })
 export class AerisMenubar<T = unknown> {
+  private readonly submenuPositionFrame = aerisInternalCreateFrameScheduler(() =>
+    this.positionSubmenus(),
+  );
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly injector = inject(Injector);
   private readonly generatedId = `aeris-menubar-${++nextMenubarId}`;
@@ -304,6 +309,7 @@ export class AerisMenubar<T = unknown> {
   });
   protected readonly endTemplate = contentChild(AerisMenubarEndTemplate, { descendants: false });
   protected readonly menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
+  protected readonly submenus = viewChildren<ElementRef<HTMLElement>>('submenu');
   protected readonly activePathKey = signal('0');
 
   readonly id = input(this.generatedId);
@@ -343,6 +349,26 @@ export class AerisMenubar<T = unknown> {
       onCleanup(() => {
         document.removeEventListener('pointerdown', pointerdown);
         document.removeEventListener('keydown', keydown);
+      });
+    });
+
+    effect((onCleanup) => {
+      if (!this.openPath()) return;
+      const document = this.host.nativeElement.ownerDocument;
+      const view = document.defaultView;
+      const viewport = view?.visualViewport;
+      const reposition = this.submenuPositionFrame.schedule;
+      afterNextRender(reposition, { injector: this.injector });
+      document.addEventListener('scroll', reposition, true);
+      view?.addEventListener('resize', reposition);
+      viewport?.addEventListener('resize', reposition);
+      viewport?.addEventListener('scroll', reposition);
+      onCleanup(() => {
+        document.removeEventListener('scroll', reposition, true);
+        view?.removeEventListener('resize', reposition);
+        viewport?.removeEventListener('resize', reposition);
+        viewport?.removeEventListener('scroll', reposition);
+        this.submenuPositionFrame.cancel();
       });
     });
   }
@@ -656,6 +682,56 @@ export class AerisMenubar<T = unknown> {
 
   private pathKey(path: readonly number[]): string {
     return path.join('.');
+  }
+
+  private positionSubmenus(): void {
+    const document = this.host.nativeElement.ownerDocument;
+    const view = document.defaultView;
+    if (!view) return;
+    const viewport = view.visualViewport;
+    const left = (viewport?.offsetLeft ?? 0) + 8;
+    const top = (viewport?.offsetTop ?? 0) + 8;
+    const right = (viewport?.offsetLeft ?? 0) + (viewport?.width ?? view.innerWidth) - 8;
+    const bottom = (viewport?.offsetTop ?? 0) + (viewport?.height ?? view.innerHeight) - 8;
+
+    for (const { nativeElement: submenu } of this.submenus()) {
+      submenu.style.removeProperty('inset-inline-end');
+      submenu.style.removeProperty('inset-block-end');
+      submenu.style.removeProperty('translate');
+      submenu.removeAttribute('data-flipped-inline');
+      submenu.removeAttribute('data-flipped-block');
+
+      const level = Number(submenu.dataset['level'] ?? 1);
+      let rect = submenu.getBoundingClientRect();
+      if (rect.right > right && level > 1) {
+        submenu.style.insetInlineStart = 'auto';
+        submenu.style.insetInlineEnd = 'calc(100% + var(--aeris-menubar-submenu-offset, 0.45rem))';
+        submenu.setAttribute('data-flipped-inline', 'true');
+        rect = submenu.getBoundingClientRect();
+      } else {
+        submenu.style.removeProperty('inset-inline-start');
+      }
+
+      const translateX =
+        rect.right > right ? right - rect.right : rect.left < left ? left - rect.left : 0;
+      const parentRect = submenu.parentElement?.getBoundingClientRect();
+      if (
+        rect.bottom > bottom &&
+        level === 1 &&
+        parentRect &&
+        rect.height <= parentRect.top - top
+      ) {
+        submenu.style.insetBlockStart = 'auto';
+        submenu.style.insetBlockEnd = 'calc(100% + var(--aeris-menubar-submenu-offset, 0.45rem))';
+        submenu.setAttribute('data-flipped-block', 'true');
+        rect = submenu.getBoundingClientRect();
+      } else {
+        submenu.style.removeProperty('inset-block-start');
+      }
+      const translateY =
+        rect.bottom > bottom ? bottom - rect.bottom : rect.top < top ? top - rect.top : 0;
+      if (translateX || translateY) submenu.style.translate = `${translateX}px ${translateY}px`;
+    }
   }
 }
 
