@@ -117,6 +117,87 @@
             </app-form-demo>
 
             <app-form-demo
+              id="menubar-appearance"
+              title="Appearance and active route"
+              description="Use Button-aligned appearances for root and submenu items, override individual items, and expose the current route without custom CSS."
+              [tsCode]="appearanceCode"
+              [cssCode]="itemTemplateCss"
+            >
+              <div preview>
+                <aeris-menubar
+                  [model]="appearanceItems"
+                  rootItemVariant="ghost"
+                  submenuItemVariant="outline"
+                  rootItemSeverity="info"
+                  submenuItemSeverity="secondary"
+                  ariaLabel="Appearance navigation"
+                >
+                  <ng-template
+                    aerisMenubarItem
+                    let-item
+                    let-root="root"
+                    let-open="open"
+                    let-hasSubmenu="hasSubmenu"
+                  >
+                    <span class="menubar-doc-item">
+                      @if (item.icon) {
+                        <svg [lucideIcon]="icons[item.icon]" aria-hidden="true"></svg>
+                      }
+                      <span class="menubar-doc-item__label">{{ item.label }}</span>
+                      @if (hasSubmenu) {
+                        <svg
+                          class="menubar-doc-item__chevron"
+                          [attr.data-root]="root || null"
+                          [attr.data-open]="open || null"
+                          viewBox="0 0 20 20"
+                          aria-hidden="true"
+                        >
+                          <path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" />
+                        </svg>
+                      }
+                    </span>
+                  </ng-template>
+                </aeris-menubar>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-menubar
+    [model]="appearanceItems"
+    rootItemVariant="ghost"
+    submenuItemVariant="outline"
+    rootItemSeverity="info"
+    submenuItemSeverity="secondary"
+    ariaLabel="Appearance navigation"
+  &gt;
+    &lt;ng-template
+      aerisMenubarItem
+      let-item
+      let-root="root"
+      let-open="open"
+      let-hasSubmenu="hasSubmenu"
+    &gt;
+      &lt;span class="menubar-doc-item"&gt;
+        &#64;if (item.icon) &#123;
+          &lt;svg [lucideIcon]="icons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
+        &#125;
+        &lt;span class="menubar-doc-item__label"&gt;&#123;&#123; item.label &#125;&#125;&lt;/span&gt;
+        &#64;if (hasSubmenu) &#123;
+          &lt;svg
+            class="menubar-doc-item__chevron"
+            [attr.data-root]="root || null"
+            [attr.data-open]="open || null"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          &gt;
+            &lt;path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" /&gt;
+          &lt;/svg&gt;
+        &#125;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-menubar&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
               id="menubar-submenus"
               title="Submenus"
               description="Nested item arrays create cascading submenu branches for deeper navigation."
@@ -609,7 +690,9 @@
               <p>
                 Menubar renders a navigation landmark, a root <code>menubar</code>, nested
                 <code>menu</code> submenus, and <code>menuitem</code> controls. Submenu triggers
-                expose expanded state and controls relationships.
+                expose expanded state and controls relationships. Set an item's
+                <code>active</code> property to expose <code>aria-current="page"</code>, or use
+                <code>ariaCurrent</code> for another supported current-item value.
               </p>
             </section>
             <section id="menubar-a11y-keyboard" class="api-section">

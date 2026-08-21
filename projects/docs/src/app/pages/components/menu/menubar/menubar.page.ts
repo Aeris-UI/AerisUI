@@ -124,6 +124,32 @@ export class MenubarPage {
     { id: 'help', label: 'Help', icon: 'HelpCircle' },
   ];
 
+  protected readonly appearanceItems: readonly AerisMenubarItem[] = [
+    {
+      id: 'overview',
+      label: 'Overview',
+      icon: 'Home',
+      routerLink: ['/components', 'menubar'],
+      active: true,
+    },
+    {
+      id: 'workspace-appearance',
+      label: 'Workspace',
+      icon: 'Package',
+      items: [
+        { id: 'projects-appearance', label: 'Projects', icon: 'FolderOpen' },
+        {
+          id: 'settings-appearance',
+          label: 'Settings',
+          icon: 'Settings',
+          variant: 'ghost',
+          severity: 'secondary',
+        },
+      ],
+    },
+    { id: 'account-appearance', label: 'Account', icon: 'User' },
+  ];
+
   protected readonly nestedItems: readonly AerisMenubarItem[] = [
     {
       id: 'workspace',
@@ -235,6 +261,7 @@ export class MenubarPage {
   LucideSettings,
   LucideUndo2,
   LucideUpload,
+  LucideUser,
   LucideZoomIn,
   LucideZoomOut,
   type LucideIconInput,
@@ -257,6 +284,7 @@ export class MenubarPage {
   Settings: LucideSettings,
   Undo2: LucideUndo2,
   Upload: LucideUpload,
+  User: LucideUser,
   ZoomIn: LucideZoomIn,
   ZoomOut: LucideZoomOut,
 };`;
@@ -288,6 +316,36 @@ protected readonly basicItems: readonly AerisMenubarItem[] = [
     ],
   },
   { id: 'help', label: 'Help', icon: 'HelpCircle' },
+];`;
+
+  protected readonly appearanceCode = `${this.iconImportsCode}
+
+${this.iconMapCode}
+
+protected readonly appearanceItems: readonly AerisMenubarItem[] = [
+  {
+    id: 'overview',
+    label: 'Overview',
+    icon: 'Home',
+    routerLink: ['/components', 'menubar'],
+    active: true,
+  },
+  {
+    id: 'workspace-appearance',
+    label: 'Workspace',
+    icon: 'Package',
+    items: [
+      { id: 'projects-appearance', label: 'Projects', icon: 'FolderOpen' },
+      {
+        id: 'settings-appearance',
+        label: 'Settings',
+        icon: 'Settings',
+        variant: 'ghost',
+        severity: 'secondary',
+      },
+    ],
+  },
+  { id: 'account-appearance', label: 'Account', icon: 'User' },
 ];`;
 
   protected readonly nestedCode = `${this.iconImportsCode}
@@ -452,6 +510,30 @@ protected readonly templateItems: readonly AerisMenubarItem[] = [
 
   protected readonly interfacesCode = `type AerisMenubarSize = 'sm' | 'md' | 'lg';
 type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
+type AerisMenubarItemVariant =
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'outline'
+  | 'ghost'
+  | 'danger'
+  | 'link';
+type AerisMenubarAriaCurrent =
+  | 'page'
+  | 'step'
+  | 'location'
+  | 'date'
+  | 'time'
+  | true
+  | false;
+type AerisButtonSeverity =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'info'
+  | 'warning'
+  | 'danger'
+  | 'contrast';
 
 interface AerisMenubarItem<T = unknown> {
   readonly id?: string;
@@ -461,6 +543,17 @@ interface AerisMenubarItem<T = unknown> {
   readonly icon?: string;
   readonly badge?: string | number;
   readonly shortcut?: string;
+  readonly variant?: Exclude<AerisMenubarItemVariant, 'default'>;
+  readonly severity?:
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | 'danger'
+    | 'contrast';
+  readonly active?: boolean;
+  readonly ariaCurrent?: AerisMenubarAriaCurrent;
   readonly disabled?: boolean;
   readonly visible?: boolean;
   readonly separator?: boolean;
@@ -477,11 +570,26 @@ interface AerisMenubarItemEvent<T = unknown> {
   readonly originalEvent: MouseEvent | KeyboardEvent;
   readonly item: AerisMenubarItem<T>;
   readonly path: readonly number[];
+}
+
+interface AerisMenubarItemTemplateContext<T = unknown> {
+  readonly $implicit: AerisMenubarItem<T>;
+  readonly item: AerisMenubarItem<T>;
+  readonly level: number;
+  readonly root: boolean;
+  readonly active: boolean;
+  readonly current: boolean;
+  readonly open: boolean;
+  readonly disabled: boolean;
+  readonly hasSubmenu: boolean;
+  readonly variant: AerisMenubarItemVariant;
+  readonly severity: AerisButtonSeverity;
 }`;
 
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'menubar-import', label: 'Import' },
     { id: 'menubar-basic', label: 'Basic' },
+    { id: 'menubar-appearance', label: 'Appearance and active route' },
     { id: 'menubar-submenus', label: 'Submenus' },
     { id: 'menubar-controlled', label: 'Controlled' },
     { id: 'menubar-command', label: 'Command and links' },
@@ -542,6 +650,34 @@ interface AerisMenubarItemEvent<T = unknown> {
       type: 'AerisMenubarSize',
       defaultValue: "'md'",
       description: "Adjusts item height, text, and icon sizing. Options: 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'rootItemVariant',
+      type: 'AerisMenubarItemVariant',
+      defaultValue: "'default'",
+      description:
+        "Default appearance for root items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'.",
+    },
+    {
+      name: 'submenuItemVariant',
+      type: 'AerisMenubarItemVariant',
+      defaultValue: "'default'",
+      description:
+        "Default appearance for submenu items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'.",
+    },
+    {
+      name: 'rootItemSeverity',
+      type: 'AerisButtonSeverity',
+      defaultValue: "'primary'",
+      description:
+        "Default root-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'.",
+    },
+    {
+      name: 'submenuItemSeverity',
+      type: 'AerisButtonSeverity',
+      defaultValue: "'primary'",
+      description:
+        "Default submenu-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'.",
     },
     {
       name: 'disabled',
@@ -730,6 +866,18 @@ interface AerisMenubarItemEvent<T = unknown> {
       type: 'length',
       defaultValue: '--aeris-item-height',
       description: 'Minimum item height.',
+    },
+    {
+      name: '--aeris-menubar-item-hover-background',
+      type: 'color',
+      defaultValue: '--aeris-interactive-hover',
+      description: 'Hover and current-route background for the default item appearance.',
+    },
+    {
+      name: '--aeris-menubar-item-hover-color',
+      type: 'color',
+      defaultValue: '--aeris-text',
+      description: 'Hover and current-route text color for the default item appearance.',
     },
     {
       name: '--aeris-menubar-submenu-width',

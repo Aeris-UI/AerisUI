@@ -18,9 +18,12 @@ import {
   viewChildren,
 } from '@angular/core';
 import { aerisInternalCreateFrameScheduler } from '@aeris-ui/core';
+import type { AerisButtonSeverity, AerisButtonVariant } from '@aeris-ui/core/button';
 
 export type AerisMenubarSize = 'sm' | 'md' | 'lg';
 export type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
+export type AerisMenubarItemVariant = 'default' | AerisButtonVariant;
+export type AerisMenubarAriaCurrent = 'page' | 'step' | 'location' | 'date' | 'time' | true | false;
 
 export interface AerisMenubarItem<T = unknown> {
   readonly id?: string;
@@ -30,6 +33,10 @@ export interface AerisMenubarItem<T = unknown> {
   readonly icon?: string;
   readonly badge?: string | number;
   readonly shortcut?: string;
+  readonly variant?: AerisButtonVariant;
+  readonly severity?: AerisButtonSeverity;
+  readonly active?: boolean;
+  readonly ariaCurrent?: AerisMenubarAriaCurrent;
   readonly disabled?: boolean;
   readonly visible?: boolean;
   readonly separator?: boolean;
@@ -63,9 +70,12 @@ export interface AerisMenubarItemTemplateContext<T = unknown> {
   readonly level: number;
   readonly root: boolean;
   readonly active: boolean;
+  readonly current: boolean;
   readonly open: boolean;
   readonly disabled: boolean;
   readonly hasSubmenu: boolean;
+  readonly variant: AerisMenubarItemVariant;
+  readonly severity: AerisButtonSeverity;
 }
 
 export type AerisMenubarNavigationHandler = (
@@ -85,7 +95,11 @@ interface AerisMenubarEntry<T> {
   readonly separator: boolean;
   readonly disabled: boolean;
   readonly active: boolean;
+  readonly current: boolean;
   readonly open: boolean;
+  readonly variant: AerisMenubarItemVariant;
+  readonly severity: AerisButtonSeverity;
+  readonly ariaCurrent: Exclude<AerisMenubarAriaCurrent, true | false> | null;
   readonly children: readonly AerisMenubarEntry<T>[];
 }
 
@@ -164,6 +178,7 @@ let nextMenubarId = 0;
               [attr.data-root]="entry.level === 0 || null"
               [attr.data-open]="entry.open || null"
               [attr.data-active]="entry.active || null"
+              [attr.data-current]="entry.current || null"
               [attr.data-disabled]="entry.disabled || null"
             >
               @if (entry.href) {
@@ -183,9 +198,13 @@ let nextMenubarId = 0;
                   [attr.aria-haspopup]="entry.children.length ? 'menu' : null"
                   [attr.aria-expanded]="entry.children.length ? entry.open : null"
                   [attr.aria-controls]="entry.children.length ? entry.id + '-submenu' : null"
+                  [attr.aria-current]="entry.ariaCurrent"
                   [attr.tabindex]="entry.active && !entry.disabled ? 0 : -1"
                   [attr.data-aeris-menubar-path]="entry.pathKey"
                   [attr.data-custom-template]="itemTemplate() ? true : null"
+                  [attr.data-variant]="entry.variant"
+                  [attr.data-severity]="entry.severity"
+                  [attr.data-current]="entry.current || null"
                   (click)="activateEntry($event, entry)"
                   (focus)="setActivePath(entry.path)"
                   (mouseenter)="handlePointerEnter(entry)"
@@ -208,9 +227,13 @@ let nextMenubarId = 0;
                   [attr.aria-haspopup]="entry.children.length ? 'menu' : null"
                   [attr.aria-expanded]="entry.children.length ? entry.open : null"
                   [attr.aria-controls]="entry.children.length ? entry.id + '-submenu' : null"
+                  [attr.aria-current]="entry.ariaCurrent"
                   [attr.tabindex]="entry.active && !entry.disabled ? 0 : -1"
                   [attr.data-aeris-menubar-path]="entry.pathKey"
                   [attr.data-custom-template]="itemTemplate() ? true : null"
+                  [attr.data-variant]="entry.variant"
+                  [attr.data-severity]="entry.severity"
+                  [attr.data-current]="entry.current || null"
                   (click)="activateEntry($event, entry)"
                   (focus)="setActivePath(entry.path)"
                   (mouseenter)="handlePointerEnter(entry)"
@@ -318,6 +341,10 @@ export class AerisMenubar<T = unknown> {
   readonly openPath = model('');
   readonly mobileOpen = model(false);
   readonly size = input<AerisMenubarSize>('md');
+  readonly rootItemVariant = input<AerisMenubarItemVariant>('default');
+  readonly submenuItemVariant = input<AerisMenubarItemVariant>('default');
+  readonly rootItemSeverity = input<AerisButtonSeverity>('primary');
+  readonly submenuItemSeverity = input<AerisButtonSeverity>('primary');
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly openOnHover = input(true, { transform: booleanAttribute });
   readonly closeOnMouseLeave = input(true, { transform: booleanAttribute });
@@ -537,9 +564,12 @@ export class AerisMenubar<T = unknown> {
       level: entry.level,
       root: entry.level === 0,
       active: entry.active,
+      current: entry.current,
       open: entry.open,
       disabled: entry.disabled,
       hasSubmenu: entry.children.length > 0,
+      variant: entry.variant,
+      severity: entry.severity,
     };
   }
 
@@ -563,6 +593,7 @@ export class AerisMenubar<T = unknown> {
           activePathKey,
           openPathKey,
         );
+        const ariaCurrent = this.resolveAriaCurrent(item);
         return {
           item,
           index,
@@ -575,7 +606,13 @@ export class AerisMenubar<T = unknown> {
           separator: !!item.separator,
           disabled: !!item.disabled,
           active: activePathKey === key,
+          current: !!item.active || ariaCurrent !== null,
           open: openPathKey === key || openPathKey.startsWith(`${key}.`),
+          variant:
+            item.variant ?? (level === 0 ? this.rootItemVariant() : this.submenuItemVariant()),
+          severity:
+            item.severity ?? (level === 0 ? this.rootItemSeverity() : this.submenuItemSeverity()),
+          ariaCurrent,
           children,
         };
       });
@@ -684,6 +721,14 @@ export class AerisMenubar<T = unknown> {
       .map((segment) => String(segment).replace(/^\/+|\/+$/g, ''))
       .filter(Boolean)
       .join('/')}`;
+  }
+
+  private resolveAriaCurrent(
+    item: AerisMenubarItem<T>,
+  ): Exclude<AerisMenubarAriaCurrent, true | false> | null {
+    if (item.ariaCurrent === false) return null;
+    if (item.ariaCurrent === true) return 'page';
+    return item.ariaCurrent ?? (item.active ? 'page' : null);
   }
 
   private pathKey(path: readonly number[]): string {
