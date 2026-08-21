@@ -1,0 +1,44 @@
+@use '../shared/form-docs';
+
+.form-field-docs {
+  .form-field-example {
+    width: min(100%, 28rem);
+  }
+
+  .profile-form,
+  .validation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .profile-form__wide,
+  .validation-actions {
+    grid-column: 1 / -1;
+  }
+
+  .validation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .field-state-stack {
+    width: min(100%, 32rem);
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (max-width: 42rem) {
+    .profile-form,
+    .validation-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .profile-form__wide,
+    .validation-actions {
+      grid-column: auto;
+    }
+  }
+}

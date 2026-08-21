@@ -42,6 +42,7 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [ColorPicker](https://aeris-ui.dev/ai/22/components/color-picker.md): Lightweight color input with native picker behavior, text entry, presets, and forms support.
 - [DatePicker](https://aeris-ui.dev/ai/22/components/date-picker.md): Locale-aware date, range, month, and year selection with complete keyboard support.
 - [Editor](https://aeris-ui.dev/ai/22/components/editor.md): Rich text editing with optional Lexical peers, accessible toolbar controls, and Forms support.
+- [FormField](https://aeris-ui.dev/ai/22/components/form-field.md): Compose labels, controls, hints, and validation messages with stable spacing and accessible relationships.
 - [IconField](https://aeris-ui.dev/ai/22/components/icon-field.md): Composable field shell for placing icons around native and Aeris form controls.
 - [InputGroup](https://aeris-ui.dev/ai/22/components/input-group.md): Continuous grouped inputs with text addons, icon addons, and action buttons.
 - [InputMask](https://aeris-ui.dev/ai/22/components/input-mask.md): Accessible inputmask component for Angular.

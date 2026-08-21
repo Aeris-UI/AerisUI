@@ -87,6 +87,8 @@ const descriptions: Readonly<Record<string, string>> = {
     'Accessible file queue with drag-and-drop, validation, templates, previews, and event-driven upload progress.',
   fluid:
     'Make compatible Aeris controls fill the available width through one responsive layout wrapper.',
+  'form-field':
+    'Compose labels, controls, hints, and validation messages with stable spacing and accessible relationships.',
   'icon-field': 'Composable field shell for placing icons around native and Aeris form controls.',
   'input-group': 'Continuous grouped inputs with text addons, icon addons, and action buttons.',
   inplace:
@@ -180,6 +182,7 @@ export const COMPONENT_CATALOG: readonly ComponentCatalogItem[] = [
     'ColorPicker',
     'DatePicker',
     'Editor',
+    'FormField',
     'IconField',
     'InputGroup',
     'InputMask',

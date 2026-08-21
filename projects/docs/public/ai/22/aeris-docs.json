@@ -6267,6 +6267,377 @@
       }
     },
     {
+      "name": "FormField",
+      "slug": "form-field",
+      "category": "Form",
+      "description": "Compose labels, controls, hints, and validation messages with stable spacing and accessible relationships.",
+      "entryPoint": "@aeris-ui/core/form-field",
+      "documentationUrl": "https://aeris-ui.dev/components/form-field",
+      "imports": [
+        "AerisFormField"
+      ],
+      "importCode": "import { AerisFormField } from '@aeris-ui/core/form-field';",
+      "api": [
+        {
+          "name": "Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "controlId",
+              "type": "string",
+              "defaultValue": "generated",
+              "description": "ID shared by the label and control. Exposed as a signal for Aeris controls."
+            },
+            {
+              "name": "invalid",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Shows the error, applies invalid presentation, and includes its ID in describedBy()."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Applies disabled field presentation. Disable the projected control separately."
+            },
+            {
+              "name": "required",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Shows the required indicator and sets aria-required on native aerisFormControl elements."
+            },
+            {
+              "name": "optional",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Shows an optional indicator unless required is also true."
+            },
+            {
+              "name": "optionalText",
+              "type": "string",
+              "defaultValue": "'Optional'",
+              "description": "Text displayed by the optional indicator for localization."
+            },
+            {
+              "name": "fluid",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Makes the field and native aerisFormControl element fill available inline space."
+            },
+            {
+              "name": "reserveMessageSpace",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Reserves one message line so adjacent grid fields remain visually stable."
+            },
+            {
+              "name": "ariaDescribedby",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Additional description IDs merged into the generated describedBy() value."
+            },
+            {
+              "name": "errorLive",
+              "type": "AerisFormErrorLive",
+              "defaultValue": "'polite'",
+              "description": "Default error announcement behavior. Options: 'off', 'polite', 'assertive'."
+            }
+          ]
+        },
+        {
+          "name": "Directive Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "id",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Overrides the generated label ID."
+            },
+            {
+              "name": "for",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Overrides the generated label target. The TypeScript property name is forId."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Overrides the generated native or host-semantic control ID."
+            },
+            {
+              "name": "aria-describedby",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Additional description IDs merged with the FormField IDs. The TypeScript property name is ariaDescribedby."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Overrides the generated hint ID."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Overrides the generated error ID."
+            },
+            {
+              "name": "hideWhenValid",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Hides the projected error while FormField invalid is false."
+            },
+            {
+              "name": "live",
+              "type": "AerisFormErrorLive | undefined",
+              "defaultValue": "undefined",
+              "description": "Overrides the field announcement behavior. Options: 'off', 'polite', 'assertive', or undefined to inherit errorLive."
+            }
+          ]
+        },
+        {
+          "name": "Properties",
+          "kind": "property",
+          "entries": [
+            {
+              "name": "labelId",
+              "type": "Signal<string>",
+              "defaultValue": "derived",
+              "description": "Generated label ID for ariaLabelledby on Aeris or custom controls."
+            },
+            {
+              "name": "hintId",
+              "type": "Signal<string>",
+              "defaultValue": "derived",
+              "description": "Generated default hint ID."
+            },
+            {
+              "name": "errorId",
+              "type": "Signal<string>",
+              "defaultValue": "derived",
+              "description": "Generated default error ID."
+            },
+            {
+              "name": "describedBy",
+              "type": "Signal<string>",
+              "defaultValue": "derived",
+              "description": "Deduplicated hint, active error, and external description IDs for control binding."
+            }
+          ]
+        }
+      ],
+      "referenceTables": [],
+      "interfaces": [
+        {
+          "name": "Interfaces",
+          "code": "type AerisFormErrorLive = 'off' | 'polite' | 'assertive';"
+        }
+      ],
+      "designTokens": [
+        {
+          "name": "--aeris-form-field-gap",
+          "type": "length",
+          "defaultValue": "0.45rem",
+          "description": "Spacing between label, control, and support area."
+        },
+        {
+          "name": "--aeris-form-field-color",
+          "type": "color",
+          "defaultValue": "--aeris-text",
+          "description": "Base field text color."
+        },
+        {
+          "name": "--aeris-form-field-label-color",
+          "type": "color",
+          "defaultValue": "--aeris-text",
+          "description": "Label text color."
+        },
+        {
+          "name": "--aeris-form-field-label-font-size",
+          "type": "length",
+          "defaultValue": "0.875rem",
+          "description": "Label font size."
+        },
+        {
+          "name": "--aeris-form-field-label-font-weight",
+          "type": "number",
+          "defaultValue": "700",
+          "description": "Label font weight."
+        },
+        {
+          "name": "--aeris-form-field-indicator-gap",
+          "type": "length",
+          "defaultValue": "0.25rem",
+          "description": "Gap before required or optional indicators."
+        },
+        {
+          "name": "--aeris-form-field-required-color",
+          "type": "color",
+          "defaultValue": "--aeris-danger",
+          "description": "Required indicator color."
+        },
+        {
+          "name": "--aeris-form-field-optional-color",
+          "type": "color",
+          "defaultValue": "--aeris-text-2",
+          "description": "Optional indicator color."
+        },
+        {
+          "name": "--aeris-form-field-message-gap",
+          "type": "length",
+          "defaultValue": "0.25rem",
+          "description": "Gap between hint and error messages."
+        },
+        {
+          "name": "--aeris-form-field-message-space",
+          "type": "length",
+          "defaultValue": "1.2rem",
+          "description": "Reserved support-area height."
+        },
+        {
+          "name": "--aeris-form-field-message-font-size",
+          "type": "length",
+          "defaultValue": "0.8125rem",
+          "description": "Hint and error font size."
+        },
+        {
+          "name": "--aeris-form-field-hint-color",
+          "type": "color",
+          "defaultValue": "--aeris-text-2",
+          "description": "Hint text color."
+        },
+        {
+          "name": "--aeris-form-field-error-color",
+          "type": "color",
+          "defaultValue": "--aeris-danger-text",
+          "description": "Error text color."
+        },
+        {
+          "name": "--aeris-form-field-disabled-opacity",
+          "type": "number",
+          "defaultValue": "0.52",
+          "description": "Disabled label and hint opacity."
+        }
+      ],
+      "examples": [
+        {
+          "id": "form-field-basic",
+          "title": "Native control",
+          "description": "aerisFormControl automatically connects a native control to the generated label, hint, and field state.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { FormsModule } from '@angular/forms';\nimport { AerisFormField } from '@aeris-ui/core/form-field';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\n\n@Component({\n  selector: 'app-form-field-basic-demo',\n  imports: [AerisFormField, AerisInputText, FormsModule],\n  templateUrl: './form-field-basic.demo.html',\n  styleUrl: './form-field-basic.demo.scss'\n})\nexport class FormFieldBasicNativeControlDemo {\n  protected readonly email = signal('alex@example.com');\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"form-field-example\">\n  <aeris-form-field required fluid>\n    <label aerisFormLabel>Email address</label>\n    <input\n      aerisInputText\n      aerisFormControl\n      type=\"email\"\n      autocomplete=\"email\"\n      required\n      fluid\n      [(ngModel)]=\"email\"\n    />\n    <small aerisFormHint>We use this address for account notifications.</small>\n  </aeris-form-field>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".form-field-example {\n  width: min(100%, 28rem);\n}"
+            }
+          ]
+        },
+        {
+          "id": "form-field-profile",
+          "title": "Responsive profile form",
+          "description": "Mix native and Aeris controls in a two-column form that collapses cleanly on small screens.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { FormsModule } from '@angular/forms';\nimport { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';\nimport { AerisFormField } from '@aeris-ui/core/form-field';\nimport { AerisInputNumber } from '@aeris-ui/core/input-number';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\nimport { AerisSelect } from '@aeris-ui/core/select';\nimport { AerisTextarea } from '@aeris-ui/core/textarea';\n\n@Component({\n  selector: 'app-form-field-profile-demo',\n  imports: [AerisDatePicker, AerisFormField, AerisInputNumber, AerisInputText, AerisSelect, AerisTextarea, FormsModule],\n  templateUrl: './form-field-profile.demo.html',\n  styleUrl: './form-field-profile.demo.scss'\n})\nexport class FormFieldProfileResponsiveProfileFormDemo {\n  protected readonly profileName = signal('Alex Morgan');\n  protected readonly birthDate = signal<AerisDatePickerValue>(new Date(1994, 6, 12));\n  protected readonly height = signal<number | null>(178);\n  protected readonly role = signal<string | null>('designer');\n  protected readonly biography = signal('Product designer focused on accessible workflows.');\n\n  protected readonly roleOptions = [\n    { label: 'Designer', value: 'designer' },\n    { label: 'Engineer', value: 'engineer' },\n    { label: 'Product manager', value: 'product-manager' },\n  ] as const;\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"profile-form\">\n  <aeris-form-field required fluid>\n    <label aerisFormLabel>Display name</label>\n    <input\n      aerisInputText\n      aerisFormControl\n      autocomplete=\"name\"\n      required\n      fluid\n      [(ngModel)]=\"profileName\"\n    />\n    <small aerisFormHint>Shown to other workspace members.</small>\n  </aeris-form-field>\n\n  <aeris-form-field #birthField optional fluid>\n    <label aerisFormLabel>Birth date</label>\n    <aeris-date-picker\n      [inputId]=\"birthField.controlId()\"\n      [ariaLabelledby]=\"birthField.labelId()\"\n      [ariaDescribedby]=\"birthField.describedBy()\"\n      [(value)]=\"birthDate\"\n      fluid\n    />\n    <small aerisFormHint>Used only for age-based preferences.</small>\n  </aeris-form-field>\n\n  <aeris-form-field #heightField optional fluid>\n    <label aerisFormLabel>Height</label>\n    <aeris-input-number\n      [inputId]=\"heightField.controlId()\"\n      [ariaLabelledby]=\"heightField.labelId()\"\n      [ariaDescribedby]=\"heightField.describedBy()\"\n      [(value)]=\"height\"\n      suffix=\" cm\"\n      [min]=\"80\"\n      [max]=\"250\"\n      fluid\n    />\n    <small aerisFormHint>Used to calculate BMI.</small>\n  </aeris-form-field>\n\n  <aeris-form-field #roleField required fluid>\n    <label aerisFormLabel>Role</label>\n    <aeris-select\n      [inputId]=\"roleField.controlId()\"\n      [ariaLabelledby]=\"roleField.labelId()\"\n      [ariaDescribedby]=\"roleField.describedBy()\"\n      [options]=\"roleOptions\"\n      [(value)]=\"role\"\n      placeholder=\"Choose a role\"\n      required\n      fluid\n    />\n    <small aerisFormHint>Controls the defaults shown in your workspace.</small>\n  </aeris-form-field>\n\n  <aeris-form-field #bioField class=\"profile-form__wide\" optional fluid>\n    <label aerisFormLabel>Biography</label>\n    <aeris-textarea\n      [inputId]=\"bioField.controlId()\"\n      [ariaLabelledby]=\"bioField.labelId()\"\n      [ariaDescribedby]=\"bioField.describedBy()\"\n      [(value)]=\"biography\"\n      [rows]=\"3\"\n      fluid\n    />\n    <small aerisFormHint>Share a short introduction with your team.</small>\n  </aeris-form-field>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".profile-form {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1rem;\n  align-items: stretch;\n}\n\n.profile-form__wide {\n  grid-column: 1 / -1;\n}\n\n@media (max-width: 42rem) {\n  .profile-form {\n    grid-template-columns: 1fr;\n  }\n\n  .profile-form__wide {\n    grid-column: auto;\n  }\n}"
+            }
+          ]
+        },
+        {
+          "id": "form-field-validation",
+          "title": "Validation and alignment",
+          "description": "Reserve support space to keep adjacent fields stable while an error appears. Fields stay top-aligned even when one hint wraps.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, computed, signal } from '@angular/core';\nimport { FormsModule } from '@angular/forms';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisFormField } from '@aeris-ui/core/form-field';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\n\n@Component({\n  selector: 'app-form-field-validation-demo',\n  imports: [AerisButton, AerisFormField, AerisInputText, FormsModule],\n  templateUrl: './form-field-validation.demo.html',\n  styleUrl: './form-field-validation.demo.scss'\n})\nexport class FormFieldValidationValidationAndAlignmentDemo {\n  protected readonly validationEmail = signal('alex@');\n  protected readonly validationTouched = signal(false);\n  protected readonly validationInvalid = computed(\n    () =>\n      this.validationTouched() &&\n      !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(this.validationEmail()),\n  );\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"validation-grid\">\n  <aeris-form-field\n    required\n    fluid\n    reserveMessageSpace\n    [invalid]=\"validationInvalid()\"\n  >\n    <label aerisFormLabel>Work email</label>\n    <input\n      aerisInputText\n      aerisFormControl\n      type=\"email\"\n      required\n      fluid\n      [invalid]=\"validationInvalid()\"\n      [(ngModel)]=\"validationEmail\"\n      (blur)=\"validationTouched.set(true)\"\n    />\n    <small aerisFormError>Enter a complete email address.</small>\n  </aeris-form-field>\n\n  <aeris-form-field optional fluid reserveMessageSpace>\n    <label aerisFormLabel>Employee ID</label>\n    <input aerisInputText aerisFormControl value=\"AE-1042\" fluid />\n    <small aerisFormHint>\n      This longer help message does not stretch the neighboring label-to-control gap.\n    </small>\n  </aeris-form-field>\n\n  <div class=\"validation-actions\">\n    <button aerisButton type=\"button\" (click)=\"validateEmail()\">Check email</button>\n    <button aerisButton type=\"button\" variant=\"secondary\" (click)=\"resetValidation()\">\n      Reset\n    </button>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".validation-grid {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1rem;\n  align-items: stretch;\n}\n\n.validation-actions {\n  grid-column: 1 / -1;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.75rem;\n}\n\n@media (max-width: 42rem) {\n  .validation-grid {\n    grid-template-columns: 1fr;\n  }\n\n  .validation-actions {\n    grid-column: auto;\n  }\n}"
+            }
+          ]
+        },
+        {
+          "id": "form-field-states",
+          "title": "Required, optional, and disabled",
+          "description": "Field indicators and presentation stay consistent while the projected controls retain their own native state.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisFormField } from '@aeris-ui/core/form-field';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\nimport { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';\n\n@Component({\n  selector: 'app-form-field-states-demo',\n  imports: [AerisFormField, AerisInputText, AerisToggleSwitch],\n  templateUrl: './form-field-states.demo.html',\n  styleUrl: './form-field-states.demo.scss'\n})\nexport class FormFieldStatesRequiredOptionalAndDisabledDemo {\n  protected readonly notifications = signal(true);\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"field-state-stack\">\n  <aeris-form-field #notificationField required fluid>\n    <label aerisFormLabel>Workspace notifications</label>\n    <aeris-toggle-switch\n      [inputId]=\"notificationField.controlId()\"\n      [ariaLabelledby]=\"notificationField.labelId()\"\n      [ariaDescribedby]=\"notificationField.describedBy()\"\n      [(checked)]=\"notifications\"\n      required\n    />\n    <small aerisFormHint>Receive updates about assigned work.</small>\n  </aeris-form-field>\n\n  <aeris-form-field optional optionalText=\"Not required\" fluid>\n    <label aerisFormLabel>Portfolio URL</label>\n    <input aerisInputText aerisFormControl type=\"url\" placeholder=\"https://\" fluid />\n  </aeris-form-field>\n\n  <aeris-form-field disabled fluid>\n    <label aerisFormLabel>Organization</label>\n    <input aerisInputText aerisFormControl value=\"Aeris Labs\" disabled fluid />\n    <small aerisFormHint>Managed by your administrator.</small>\n  </aeris-form-field>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".field-state-stack {\n  width: min(100%, 32rem);\n  display: grid;\n  gap: 1rem;\n}"
+            }
+          ]
+        }
+      ],
+      "accessibility": {
+        "guidance": [
+          "Use aerisFormControl for native controls. It applies the generated ID, aria-describedby, aria-invalid, and aria-required. For Aeris controls with an internal interactive element, bind controlId(), labelId(), and describedBy() to the control's existing accessibility inputs, as shown in the profile example.",
+          "Errors are hidden while the field is valid and included in the control description only while invalid. The default polite live region avoids interrupting current speech. Use errorLive=\"off\" when another form-level summary announces validation, or assertive only for time-sensitive feedback."
+        ],
+        "keyboard": [
+          {
+            "keys": "Tab",
+            "behavior": "Moves focus to the projected control according to its native or Aeris behavior."
+          },
+          {
+            "keys": "Shift + Tab",
+            "behavior": "Moves focus backward through the page tab order."
+          },
+          {
+            "keys": "Enter / Space",
+            "behavior": "Uses the projected control's documented behavior; FormField adds no competing keyboard handlers."
+          },
+          {
+            "keys": "Label click",
+            "behavior": "Focuses or activates the associated labelable control through the native label relationship."
+          }
+        ]
+      }
+    },
+    {
       "name": "IconField",
       "slug": "icon-field",
       "category": "Form",
