@@ -1,7 +1,10 @@
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 aeris-avatar.aeris-avatar {
-  --_aeris-avatar-size: var(--aeris-avatar-size, var(--aeris-control-height, 2.625rem));
+  --_aeris-avatar-size: var(
+    --aeris-avatar-size,
+    var(--aeris-avatar-md-size, var(--aeris-control-height, 2.625rem))
+  );
   --_aeris-avatar-accent: var(--aeris-primary, #{aeris-fallbacks.$primary});
   --_aeris-avatar-background: color-mix(
     in srgb,
@@ -19,7 +22,12 @@ aeris-avatar.aeris-avatar {
   isolation: isolate;
   inline-size: var(--_aeris-avatar-size);
   min-inline-size: var(--_aeris-avatar-size);
+  max-inline-size: var(--_aeris-avatar-size);
   block-size: var(--_aeris-avatar-size);
+  min-block-size: var(--_aeris-avatar-size);
+  max-block-size: var(--_aeris-avatar-size);
+  aspect-ratio: 1;
+  flex: 0 0 auto;
   display: inline-grid;
   place-items: center;
   border: var(--aeris-avatar-border-width, 1px) solid
@@ -43,24 +51,33 @@ aeris-avatar.aeris-avatar {
 
 aeris-avatar.aeris-avatar[data-size='sm'] {
   --_aeris-avatar-size: var(
-    --aeris-avatar-sm-size,
-    calc(var(--aeris-control-height, 2.625rem) - 0.625rem)
+    --aeris-avatar-size,
+    var(
+      --aeris-avatar-sm-size,
+      calc(var(--aeris-control-height, 2.625rem) - 0.625rem)
+    )
   );
   font-size: var(--aeris-avatar-sm-font-size, 0.6875rem);
 }
 
 aeris-avatar.aeris-avatar[data-size='lg'] {
   --_aeris-avatar-size: var(
-    --aeris-avatar-lg-size,
-    calc(var(--aeris-control-height, 2.625rem) + 0.75rem)
+    --aeris-avatar-size,
+    var(
+      --aeris-avatar-lg-size,
+      calc(var(--aeris-control-height, 2.625rem) + 0.75rem)
+    )
   );
   font-size: var(--aeris-avatar-lg-font-size, 1rem);
 }
 
 aeris-avatar.aeris-avatar[data-size='xl'] {
   --_aeris-avatar-size: var(
-    --aeris-avatar-xl-size,
-    calc(var(--aeris-control-height, 2.625rem) + 1.75rem)
+    --aeris-avatar-size,
+    var(
+      --aeris-avatar-xl-size,
+      calc(var(--aeris-control-height, 2.625rem) + 1.75rem)
+    )
   );
   font-size: var(--aeris-avatar-xl-font-size, 1.25rem);
 }
@@ -111,6 +128,9 @@ aeris-avatar.aeris-avatar .aeris-avatar__content {
 }
 
 aeris-avatar.aeris-avatar .aeris-avatar__image {
+  display: block;
+  min-inline-size: 0;
+  min-block-size: 0;
   max-inline-size: none;
   max-block-size: none;
   border: 0;

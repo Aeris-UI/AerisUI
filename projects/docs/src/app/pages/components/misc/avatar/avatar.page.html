@@ -272,7 +272,7 @@
             <app-form-demo
               id="avatar-custom"
               title="Token customization"
-              description="Scope Avatar tokens to create a distinct identity without replacing component structure."
+              description="Use the general size token as a final per-instance override, even when a semantic size is selected."
               [cssCode]="customCssCode"
             >
               <div preview>
@@ -280,6 +280,7 @@
                   class="brand-avatar"
                   label="AU"
                   ariaLabel="Aeris UI"
+                  size="xl"
                   shape="rounded"
                 />
               </div>
@@ -288,6 +289,7 @@
     class="brand-avatar"
     label="AU"
     ariaLabel="Aeris UI"
+    size="xl"
     shape="rounded"
   /&gt;
 &lt;/div&gt;</code></pre>
@@ -419,6 +421,13 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
+        <p>
+          Avatar resolves dimensions in a predictable order: a scoped
+          <code>--aeris-avatar-size</code> override wins first, then the token for the selected
+          semantic size, and finally its control-height fallback. Both axes, minimum and maximum
+          dimensions, and aspect ratio use that single resolved value, while flex shrinking is
+          disabled.
+        </p>
         <div
           class="api-table token-table"
           role="table"

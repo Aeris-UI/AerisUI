@@ -402,7 +402,7 @@ export class AvatarFallbackImageFallbackDemo {
 
 ### Token customization
 
-Scope Avatar tokens to create a distinct identity without replacing component structure.
+Use the general size token as a final per-instance override, even when a semantic size is selected.
 
 #### TS
 
@@ -419,6 +419,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
         class="brand-avatar"
         label="AU"
         ariaLabel="Aeris UI"
+        size="xl"
         shape="rounded"
       />
     </div>

@@ -31,6 +31,42 @@ class GroupHost {}
 @Component({
   imports: [AerisAvatar],
   template: `
+    <div class="avatar-flex-layout">
+      <aeris-avatar id="medium-avatar" label="MD" />
+      <aeris-avatar id="instance-avatar" label="IN" size="xl" />
+      <aeris-avatar id="semantic-avatar" label="XL" size="xl" />
+    </div>
+    <div class="avatar-grid-layout">
+      <aeris-avatar id="grid-avatar" label="GR" size="xl" />
+    </div>
+  `,
+  styles: `
+    .avatar-flex-layout {
+      display: flex;
+      block-size: 4.375rem;
+    }
+
+    .avatar-grid-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    #instance-avatar,
+    #grid-avatar {
+      --aeris-avatar-size: 5rem;
+      --aeris-avatar-xl-size: 6rem;
+    }
+
+    #semantic-avatar {
+      --aeris-avatar-xl-size: 5rem;
+    }
+  `,
+})
+class AvatarSizingHost {}
+
+@Component({
+  imports: [AerisAvatar],
+  template: `
     <aeris-avatar
       #avatar
       label="AR"
@@ -110,5 +146,45 @@ describe('AerisAvatar', () => {
 
     expect(styles.maxInlineSize).toBe('100%');
     expect(styles.overflowX).toBe('auto');
+  });
+
+  it('resolves general and semantic size tokens while preserving square flex and grid items', () => {
+    const fixture = TestBed.createComponent(AvatarSizingHost);
+    fixture.detectChanges();
+
+    const medium = fixture.nativeElement.querySelector('#medium-avatar') as HTMLElement;
+    const instance = fixture.nativeElement.querySelector('#instance-avatar') as HTMLElement;
+    const semantic = fixture.nativeElement.querySelector('#semantic-avatar') as HTMLElement;
+    const grid = fixture.nativeElement.querySelector('#grid-avatar') as HTMLElement;
+    const mediumStyles = getComputedStyle(medium);
+    const instanceStyles = getComputedStyle(instance);
+    const semanticStyles = getComputedStyle(semantic);
+    const gridStyles = getComputedStyle(grid);
+
+    expect(mediumStyles.getPropertyValue('--_aeris-avatar-size')).toContain(
+      '--aeris-avatar-md-size',
+    );
+    expect(instanceStyles.getPropertyValue('--aeris-avatar-size')).toBe('5rem');
+    expect(instanceStyles.getPropertyValue('--aeris-avatar-xl-size')).toBe('6rem');
+    expect(instanceStyles.getPropertyValue('--_aeris-avatar-size')).toContain(
+      'var(--aeris-avatar-size,var(--aeris-avatar-xl-size',
+    );
+    expect(semanticStyles.getPropertyValue('--aeris-avatar-size')).toBe('');
+    expect(semanticStyles.getPropertyValue('--aeris-avatar-xl-size')).toBe('5rem');
+    expect(semanticStyles.getPropertyValue('--_aeris-avatar-size')).toContain(
+      'var(--aeris-avatar-size,var(--aeris-avatar-xl-size',
+    );
+    expect(gridStyles.getPropertyValue('--aeris-avatar-size')).toBe('5rem');
+
+    for (const styles of [instanceStyles, semanticStyles, gridStyles]) {
+      expect(styles.inlineSize).toContain('--_aeris-avatar-size');
+      expect(styles.blockSize).toContain('--_aeris-avatar-size');
+      expect(styles.minInlineSize).toContain('--_aeris-avatar-size');
+      expect(styles.minBlockSize).toContain('--_aeris-avatar-size');
+      expect(styles.maxInlineSize).toContain('--_aeris-avatar-size');
+      expect(styles.maxBlockSize).toContain('--_aeris-avatar-size');
+      expect(styles.aspectRatio).toBe('1 / 1');
+      expect(styles.flexShrink).toBe('0');
+    }
   });
 });

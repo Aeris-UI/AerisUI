@@ -34884,12 +34884,12 @@
         {
           "id": "avatar-custom",
           "title": "Token customization",
-          "description": "Scope Avatar tokens to create a distinct identity without replacing component structure.",
+          "description": "Use the general size token as a final per-instance override, even when a semantic size is selected.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisAvatarModule } from '@aeris-ui/core/avatar';\n\n@Component({\n  selector: 'app-avatar-custom-demo',\n  imports: [AerisAvatarModule],\n  template: `\n    <div>\n      <aeris-avatar\n        class=\"brand-avatar\"\n        label=\"AU\"\n        ariaLabel=\"Aeris UI\"\n        shape=\"rounded\"\n      />\n    </div>\n  `,\n  styles: `\n    .brand-avatar {\n      --aeris-avatar-size: 4.5rem;\n      --aeris-avatar-background: linear-gradient(135deg, #17200f, #7f9564);\n      --aeris-avatar-color: #f8faef;\n      --aeris-avatar-border: color-mix(in srgb, #b9d897 58%, transparent);\n      --aeris-avatar-border-width: 2px;\n      --aeris-avatar-font-size: 1.25rem;\n      --aeris-avatar-shadow: 0 0.75rem 2rem rgb(40 58 28 / 22%);\n    }\n  `\n})\nexport class AvatarCustomTokenCustomizationDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisAvatarModule } from '@aeris-ui/core/avatar';\n\n@Component({\n  selector: 'app-avatar-custom-demo',\n  imports: [AerisAvatarModule],\n  template: `\n    <div>\n      <aeris-avatar\n        class=\"brand-avatar\"\n        label=\"AU\"\n        ariaLabel=\"Aeris UI\"\n        size=\"xl\"\n        shape=\"rounded\"\n      />\n    </div>\n  `,\n  styles: `\n    .brand-avatar {\n      --aeris-avatar-size: 4.5rem;\n      --aeris-avatar-background: linear-gradient(135deg, #17200f, #7f9564);\n      --aeris-avatar-color: #f8faef;\n      --aeris-avatar-border: color-mix(in srgb, #b9d897 58%, transparent);\n      --aeris-avatar-border-width: 2px;\n      --aeris-avatar-font-size: 1.25rem;\n      --aeris-avatar-shadow: 0 0.75rem 2rem rgb(40 58 28 / 22%);\n    }\n  `\n})\nexport class AvatarCustomTokenCustomizationDemo {\n}\n"
             }
           ]
         }
