@@ -43538,6 +43538,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 | `viewportMargin` | `number` | `8` | Minimum spacing from viewport edges when positioning. |
 | `hideOnOutsideClick` | `boolean` | `true` | Closes the menu when pointerdown occurs outside the panel. |
 | `hideOnScroll` | `boolean` | `false` | Closes on window scroll instead of repositioning. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open. |
 | `closeOnEscape` | `boolean` | `true` | Closes the menu when Escape is pressed. |
 | `autoFocus` | `boolean` | `true` | Moves focus to the first enabled item after opening. |
 | `restoreFocus` | `boolean` | `true` | Returns focus to the context target when the menu closes. |
@@ -44097,6 +44098,7 @@ import { AerisMegaMenuModule } from '@aeris-ui/core/mega-menu';
 | `ariaLabel` | `string` | `'Mega menu'` | Accessible name for the navigation region. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the navigation region. |
 | `openOnHover` | `boolean` | `true` | Opens root panels on pointer hover. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes the open panel when the pointer leaves the mega menu. Set false to keep it open. |
 | `closeOnSelect` | `boolean` | `true` | Closes an open panel after activating a leaf item. |
 | `navigationHandler` | `AerisMegaMenuNavigationHandler` | `undefined` | Handles routerLink items without coupling Aeris to Angular Router. |
 
@@ -44130,7 +44132,7 @@ import { AerisMegaMenuModule } from '@aeris-ui/core/mega-menu';
 ```ts
 type AerisMegaMenuOrientation = 'horizontal' | 'vertical';
 type AerisMegaMenuSize = 'sm' | 'md' | 'lg';
-type AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select';
+type AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
 
 interface AerisMegaMenuItem<T = unknown> {
   readonly id?: string;
@@ -45508,6 +45510,7 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | `size` | `AerisMenubarSize` | `'md'` | Adjusts item height, text, and icon sizing. Options: 'sm', 'md', 'lg'. |
 | `disabled` | `boolean` | `false` | Prevents activation and submenu opening. |
 | `openOnHover` | `boolean` | `true` | Opens submenu branches when pointer users hover items. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes submenu branches when the pointer leaves the menubar. Set false to keep them open. |
 | `closeOnSelect` | `boolean` | `true` | Closes open menus after a leaf item is activated. |
 | `hideOnOutsideClick` | `boolean` | `true` | Closes menus when pointer interaction starts outside the component. |
 | `closeOnEscape` | `boolean` | `true` | Closes open menus when Escape is pressed. |
@@ -45542,7 +45545,7 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `open(path, event?)` | `string &#124; readonly number[], Event &#124; null =&gt; void` | `-` | Opens a submenu branch by path key or path array. |
-| `close(event?, reason?)` | `Event &#124; null, AerisMenubarCloseReason =&gt; void` | `-` | Closes open submenus. Options: 'api', 'escape', 'outside', 'select'. |
+| `close(event?, reason?)` | `Event &#124; null, AerisMenubarCloseReason =&gt; void` | `-` | Closes open submenus. Options: 'api', 'escape', 'outside', 'select', 'mouseleave'. |
 | `focus()` | `void` | `-` | Moves focus to the active or first enabled root item. |
 
 #### Interfaces and types
@@ -45551,7 +45554,7 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 
 ```ts
 type AerisMenubarSize = 'sm' | 'md' | 'lg';
-type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select';
+type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
 
 interface AerisMenubarItem<T = unknown> {
   readonly id?: string;
@@ -46518,6 +46521,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | `maxWidth` | `string` | `''` | Sets --aeris-tiered-menu-max-width on the panel. |
 | `viewportMargin` | `number` | `8` | Minimum popup distance from viewport edges. |
 | `hideOnOutsideClick` | `boolean` | `true` | Closes open popup menus or visible submenus on outside pointer interaction. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open. |
 | `closeOnEscape` | `boolean` | `true` | Closes open popup menus or visible submenus when Escape is pressed. |
 | `closeOnSelect` | `boolean` | `true` | Closes open overlays after an enabled leaf item is activated. |
 | `autoFocus` | `boolean` | `true` | Moves focus to the first enabled item when a popup opens. |

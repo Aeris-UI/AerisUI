@@ -527,6 +527,13 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
       description: 'Closes open popup menus or visible submenus on outside pointer interaction.',
     },
     {
+      name: 'closeOnMouseLeave',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open.',
+    },
+    {
       name: 'closeOnEscape',
       type: 'boolean',
       defaultValue: 'true',

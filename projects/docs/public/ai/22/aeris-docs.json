@@ -29329,6 +29329,12 @@
               "description": "Closes on window scroll instead of repositioning."
             },
             {
+              "name": "closeOnMouseLeave",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open."
+            },
+            {
               "name": "closeOnEscape",
               "type": "boolean",
               "defaultValue": "true",
@@ -29779,6 +29785,12 @@
               "description": "Opens root panels on pointer hover."
             },
             {
+              "name": "closeOnMouseLeave",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Closes the open panel when the pointer leaves the mega menu. Set false to keep it open."
+            },
+            {
               "name": "closeOnSelect",
               "type": "boolean",
               "defaultValue": "true",
@@ -29874,7 +29886,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisMegaMenuOrientation = 'horizontal' | 'vertical';\ntype AerisMegaMenuSize = 'sm' | 'md' | 'lg';\ntype AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select';\n\ninterface AerisMegaMenuItem<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly ariaLabel?: string;\n  readonly icon?: string;\n  readonly badge?: string | number;\n  readonly disabled?: boolean;\n  readonly visible?: boolean;\n  readonly separator?: boolean;\n  readonly url?: string;\n  readonly routerLink?: string | readonly (string | number)[];\n  readonly target?: string;\n  readonly rel?: string;\n  readonly items?: readonly AerisMegaMenuItem<T>[];\n  readonly groups?: readonly AerisMegaMenuGroup<T>[];\n  readonly data?: T;\n  readonly command?: (event: AerisMegaMenuItemEvent<T>) => void;\n}\n\ninterface AerisMegaMenuGroup<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly items: readonly AerisMegaMenuItem<T>[];\n}\n\ninterface AerisMegaMenuItemEvent<T = unknown> {\n  readonly originalEvent: MouseEvent | KeyboardEvent;\n  readonly item: AerisMegaMenuItem<T>;\n  readonly path: readonly number[];\n  readonly root: AerisMegaMenuItem<T>;\n  readonly group: AerisMegaMenuGroup<T> | null;\n}"
+          "code": "type AerisMegaMenuOrientation = 'horizontal' | 'vertical';\ntype AerisMegaMenuSize = 'sm' | 'md' | 'lg';\ntype AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';\n\ninterface AerisMegaMenuItem<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly ariaLabel?: string;\n  readonly icon?: string;\n  readonly badge?: string | number;\n  readonly disabled?: boolean;\n  readonly visible?: boolean;\n  readonly separator?: boolean;\n  readonly url?: string;\n  readonly routerLink?: string | readonly (string | number)[];\n  readonly target?: string;\n  readonly rel?: string;\n  readonly items?: readonly AerisMegaMenuItem<T>[];\n  readonly groups?: readonly AerisMegaMenuGroup<T>[];\n  readonly data?: T;\n  readonly command?: (event: AerisMegaMenuItemEvent<T>) => void;\n}\n\ninterface AerisMegaMenuGroup<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly items: readonly AerisMegaMenuItem<T>[];\n}\n\ninterface AerisMegaMenuItemEvent<T = unknown> {\n  readonly originalEvent: MouseEvent | KeyboardEvent;\n  readonly item: AerisMegaMenuItem<T>;\n  readonly path: readonly number[];\n  readonly root: AerisMegaMenuItem<T>;\n  readonly group: AerisMegaMenuGroup<T> | null;\n}"
         }
       ],
       "designTokens": [
@@ -30602,6 +30614,12 @@
               "description": "Opens submenu branches when pointer users hover items."
             },
             {
+              "name": "closeOnMouseLeave",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Closes submenu branches when the pointer leaves the menubar. Set false to keep them open."
+            },
+            {
               "name": "closeOnSelect",
               "type": "boolean",
               "defaultValue": "true",
@@ -30737,7 +30755,7 @@
               "name": "close(event?, reason?)",
               "type": "Event | null, AerisMenubarCloseReason => void",
               "defaultValue": "-",
-              "description": "Closes open submenus. Options: 'api', 'escape', 'outside', 'select'."
+              "description": "Closes open submenus. Options: 'api', 'escape', 'outside', 'select', 'mouseleave'."
             },
             {
               "name": "focus()",
@@ -30752,7 +30770,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisMenubarSize = 'sm' | 'md' | 'lg';\ntype AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select';\n\ninterface AerisMenubarItem<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly ariaLabel?: string;\n  readonly icon?: string;\n  readonly badge?: string | number;\n  readonly shortcut?: string;\n  readonly disabled?: boolean;\n  readonly visible?: boolean;\n  readonly separator?: boolean;\n  readonly url?: string;\n  readonly routerLink?: string | readonly (string | number)[];\n  readonly target?: string;\n  readonly rel?: string;\n  readonly items?: readonly AerisMenubarItem<T>[];\n  readonly data?: T;\n  readonly command?: (event: AerisMenubarItemEvent<T>) => void;\n}\n\ninterface AerisMenubarItemEvent<T = unknown> {\n  readonly originalEvent: MouseEvent | KeyboardEvent;\n  readonly item: AerisMenubarItem<T>;\n  readonly path: readonly number[];\n}"
+          "code": "type AerisMenubarSize = 'sm' | 'md' | 'lg';\ntype AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';\n\ninterface AerisMenubarItem<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly ariaLabel?: string;\n  readonly icon?: string;\n  readonly badge?: string | number;\n  readonly shortcut?: string;\n  readonly disabled?: boolean;\n  readonly visible?: boolean;\n  readonly separator?: boolean;\n  readonly url?: string;\n  readonly routerLink?: string | readonly (string | number)[];\n  readonly target?: string;\n  readonly rel?: string;\n  readonly items?: readonly AerisMenubarItem<T>[];\n  readonly data?: T;\n  readonly command?: (event: AerisMenubarItemEvent<T>) => void;\n}\n\ninterface AerisMenubarItemEvent<T = unknown> {\n  readonly originalEvent: MouseEvent | KeyboardEvent;\n  readonly item: AerisMenubarItem<T>;\n  readonly path: readonly number[];\n}"
         }
       ],
       "designTokens": [
@@ -31052,6 +31070,12 @@
               "type": "boolean",
               "defaultValue": "true",
               "description": "Closes open popup menus or visible submenus on outside pointer interaction."
+            },
+            {
+              "name": "closeOnMouseLeave",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open."
             },
             {
               "name": "closeOnEscape",

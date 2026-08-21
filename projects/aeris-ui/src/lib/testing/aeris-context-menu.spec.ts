@@ -1,4 +1,4 @@
-import { Component, viewChild } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import {
@@ -29,6 +29,7 @@ const items: readonly AerisContextMenuItem[] = [
     <aeris-context-menu
       [target]="target"
       [model]="items"
+      [closeOnMouseLeave]="closeOnMouseLeave()"
       ariaLabel="Target actions"
       (shown)="shownEvents.push($event)"
       (hidden)="hiddenEvents.push($event)"
@@ -38,6 +39,7 @@ const items: readonly AerisContextMenuItem[] = [
 })
 class TargetContextMenuHost {
   readonly items = items;
+  readonly closeOnMouseLeave = signal(true);
   readonly shownEvents: AerisContextMenuVisibilityEvent[] = [];
   readonly hiddenEvents: AerisContextMenuVisibilityEvent[] = [];
   readonly selectedEvents: AerisContextMenuItemEvent[] = [];
@@ -221,6 +223,36 @@ describe('AerisContextMenu', () => {
 
     expect(submenu).toBeTruthy();
     expect(getComputedStyle(rootList).overflow).toBe('visible');
+  });
+
+  it('closes hover submenus on mouse leave by default and supports keeping them open', async () => {
+    const fixture = TestBed.createComponent(TargetContextMenuHost);
+    fixture.detectChanges();
+
+    const target = fixture.nativeElement.querySelector('#target') as HTMLButtonElement;
+    target.dispatchEvent(contextMenuEvent(80, 90));
+    fixture.detectChanges();
+    await settle();
+    fixture.detectChanges();
+
+    const panel = document.querySelector('.aeris-context-menu__panel') as HTMLElement;
+    const createItem = Array.from(document.querySelectorAll<HTMLElement>('[role="menuitem"]')).find(
+      (item) => item.textContent?.includes('Create'),
+    );
+    createItem?.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    expect(document.querySelector('.aeris-context-menu__submenu')).toBeTruthy();
+
+    panel.dispatchEvent(new MouseEvent('mouseleave'));
+    fixture.detectChanges();
+    expect(document.querySelector('.aeris-context-menu__submenu')).toBeNull();
+
+    fixture.componentInstance.closeOnMouseLeave.set(false);
+    createItem?.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    panel.dispatchEvent(new MouseEvent('mouseleave'));
+    fixture.detectChanges();
+    expect(document.querySelector('.aeris-context-menu__submenu')).toBeTruthy();
   });
 
   it('opens globally and can hide on scroll', async () => {

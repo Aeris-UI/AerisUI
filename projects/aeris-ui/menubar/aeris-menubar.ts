@@ -20,7 +20,7 @@ import {
 import { aerisInternalCreateFrameScheduler } from '@aeris-ui/core';
 
 export type AerisMenubarSize = 'sm' | 'md' | 'lg';
-export type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select';
+export type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
 
 export interface AerisMenubarItem<T = unknown> {
   readonly id?: string;
@@ -249,6 +249,7 @@ let nextMenubarId = 0;
       class="aeris-menubar__nav"
       [attr.aria-label]="navAriaLabel() || null"
       [attr.aria-labelledby]="navAriaLabelledBy() || null"
+      (mouseleave)="handleNavMouseLeave($event)"
     >
       <div class="aeris-menubar__surface">
         @if (startTemplate()) {
@@ -319,6 +320,7 @@ export class AerisMenubar<T = unknown> {
   readonly size = input<AerisMenubarSize>('md');
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly openOnHover = input(true, { transform: booleanAttribute });
+  readonly closeOnMouseLeave = input(true, { transform: booleanAttribute });
   readonly closeOnSelect = input(true, { transform: booleanAttribute });
   readonly hideOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
@@ -407,6 +409,10 @@ export class AerisMenubar<T = unknown> {
     } else if (entry.level > 0) {
       this.openPath.set(entry.parentPathKey);
     }
+  }
+
+  protected handleNavMouseLeave(event: MouseEvent): void {
+    if (this.closeOnMouseLeave() && this.openPath()) this.close(event, 'mouseleave');
   }
 
   protected activateEntry(event: MouseEvent | KeyboardEvent, entry: AerisMenubarEntry<T>): void {

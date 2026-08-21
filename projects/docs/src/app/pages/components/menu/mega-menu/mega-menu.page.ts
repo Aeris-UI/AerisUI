@@ -172,7 +172,7 @@ protected recordAction(event: AerisMegaMenuItemEvent): void {
 
   protected readonly interfacesCode = `type AerisMegaMenuOrientation = 'horizontal' | 'vertical';
 type AerisMegaMenuSize = 'sm' | 'md' | 'lg';
-type AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select';
+type AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
 
 interface AerisMegaMenuItem<T = unknown> {
   readonly id?: string;
@@ -283,6 +283,13 @@ interface AerisMegaMenuItemEvent<T = unknown> {
       type: 'boolean',
       defaultValue: 'true',
       description: 'Opens root panels on pointer hover.',
+    },
+    {
+      name: 'closeOnMouseLeave',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Closes the open panel when the pointer leaves the mega menu. Set false to keep it open.',
     },
     {
       name: 'closeOnSelect',

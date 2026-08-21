@@ -386,6 +386,13 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
       description: 'Closes on window scroll instead of repositioning.',
     },
     {
+      name: 'closeOnMouseLeave',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open.',
+    },
+    {
       name: 'closeOnEscape',
       type: 'boolean',
       defaultValue: 'true',

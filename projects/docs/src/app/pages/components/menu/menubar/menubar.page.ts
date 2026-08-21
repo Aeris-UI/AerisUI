@@ -451,7 +451,7 @@ protected readonly templateItems: readonly AerisMenubarItem[] = [
 }`;
 
   protected readonly interfacesCode = `type AerisMenubarSize = 'sm' | 'md' | 'lg';
-type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select';
+type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
 
 interface AerisMenubarItem<T = unknown> {
   readonly id?: string;
@@ -554,6 +554,13 @@ interface AerisMenubarItemEvent<T = unknown> {
       type: 'boolean',
       defaultValue: 'true',
       description: 'Opens submenu branches when pointer users hover items.',
+    },
+    {
+      name: 'closeOnMouseLeave',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Closes submenu branches when the pointer leaves the menubar. Set false to keep them open.',
     },
     {
       name: 'closeOnSelect',
@@ -682,7 +689,8 @@ interface AerisMenubarItemEvent<T = unknown> {
       name: 'close(event?, reason?)',
       type: 'Event | null, AerisMenubarCloseReason => void',
       defaultValue: '-',
-      description: "Closes open submenus. Options: 'api', 'escape', 'outside', 'select'.",
+      description:
+        "Closes open submenus. Options: 'api', 'escape', 'outside', 'select', 'mouseleave'.",
     },
     {
       name: 'focus()',

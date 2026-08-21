@@ -36,6 +36,7 @@ const items: readonly AerisMenubarItem[] = [
     <aeris-menubar
       #menubar
       [model]="items"
+      [closeOnMouseLeave]="closeOnMouseLeave()"
       ariaLabel="Application menu"
       navAriaLabel="Primary"
       (itemSelected)="selected.set($event)"
@@ -44,6 +45,7 @@ const items: readonly AerisMenubarItem[] = [
 })
 class MenubarHost {
   readonly menubar = viewChild.required<AerisMenubar>('menubar');
+  readonly closeOnMouseLeave = signal(true);
   readonly selected = signal<AerisMenubarItemEvent | null>(null);
   readonly items = items;
 }
@@ -123,6 +125,28 @@ describe('AerisMenubar', () => {
 
     expect(fixture.componentInstance.selected()?.item.id).toBe('new');
     expect(fixture.nativeElement.querySelector('#file-submenu')).toBeNull();
+  });
+
+  it('closes submenus on mouse leave by default and supports keeping them open', () => {
+    const fixture = TestBed.createComponent(MenubarHost);
+    fixture.detectChanges();
+
+    const nav = fixture.nativeElement.querySelector('.aeris-menubar__nav') as HTMLElement;
+    const file = fixture.nativeElement.querySelector('#file') as HTMLButtonElement;
+    file.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('#file-submenu')).not.toBeNull();
+
+    nav.dispatchEvent(new MouseEvent('mouseleave'));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('#file-submenu')).toBeNull();
+
+    fixture.componentInstance.closeOnMouseLeave.set(false);
+    file.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    nav.dispatchEvent(new MouseEvent('mouseleave'));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('#file-submenu')).not.toBeNull();
   });
 
   it('supports keyboard navigation and closes submenu focus back to root', async () => {

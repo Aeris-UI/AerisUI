@@ -31,6 +31,7 @@ const items: readonly AerisTieredMenuItem[] = [
   template: `
     <aeris-tiered-menu
       [model]="items"
+      [closeOnMouseLeave]="closeOnMouseLeave()"
       ariaLabel="Workspace actions"
       (itemSelected)="selectedEvents.push($event)"
     />
@@ -38,6 +39,7 @@ const items: readonly AerisTieredMenuItem[] = [
 })
 class StaticTieredMenuHost {
   readonly items = items;
+  readonly closeOnMouseLeave = signal(true);
   readonly selectedEvents: AerisTieredMenuItemEvent[] = [];
 }
 
@@ -177,6 +179,30 @@ describe('AerisTieredMenu', () => {
     await settle();
 
     expect(fileItem).toBe(document.activeElement);
+  });
+
+  it('closes hover submenus on mouse leave by default and supports keeping them open', () => {
+    const fixture = TestBed.createComponent(StaticTieredMenuHost);
+    fixture.detectChanges();
+
+    const panel = fixture.nativeElement.querySelector('.aeris-tiered-menu__panel') as HTMLElement;
+    const fileItem = menuItems(fixture.nativeElement).find((item) =>
+      item.textContent?.includes('File'),
+    );
+    fileItem?.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.aeris-tiered-menu__submenu')).toBeTruthy();
+
+    panel.dispatchEvent(new MouseEvent('mouseleave'));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.aeris-tiered-menu__submenu')).toBeNull();
+
+    fixture.componentInstance.closeOnMouseLeave.set(false);
+    fileItem?.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    panel.dispatchEvent(new MouseEvent('mouseleave'));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.aeris-tiered-menu__submenu')).toBeTruthy();
   });
 
   it('uses the opposite arrow direction for RTL submenu navigation', async () => {

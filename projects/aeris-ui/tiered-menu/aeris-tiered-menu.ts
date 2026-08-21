@@ -251,6 +251,7 @@ let nextTieredMenuId = 0;
         [style.--aeris-tiered-menu-width]="width() || null"
         [style.--aeris-tiered-menu-max-width]="maxWidth() || null"
         (contextmenu)="suppressNativeMenu($event)"
+        (mouseleave)="handlePanelMouseLeave()"
       >
         <ng-container
           [ngTemplateOutlet]="menuList"
@@ -303,6 +304,7 @@ export class AerisTieredMenu<T = unknown> {
   readonly maxWidth = input('');
   readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly hideOnOutsideClick = input(true, { transform: booleanAttribute });
+  readonly closeOnMouseLeave = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly closeOnSelect = input(true, { transform: booleanAttribute });
   readonly autoFocus = input(true, { transform: booleanAttribute });
@@ -428,6 +430,10 @@ export class AerisTieredMenu<T = unknown> {
     if (entry.disabled || entry.separator) return;
     this.activePathKey.set(entry.pathKey);
     this.openPathKey.set(entry.children.length ? entry.pathKey : entry.parentPathKey);
+  }
+
+  protected handlePanelMouseLeave(): void {
+    if (this.closeOnMouseLeave()) this.openPathKey.set('');
   }
 
   protected activateEntry(event: MouseEvent | KeyboardEvent, entry: AerisTieredMenuEntry<T>): void {

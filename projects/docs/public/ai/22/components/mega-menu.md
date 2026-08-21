@@ -36,6 +36,7 @@ import { AerisMegaMenuModule } from '@aeris-ui/core/mega-menu';
 | `ariaLabel` | `string` | `'Mega menu'` | Accessible name for the navigation region. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the navigation region. |
 | `openOnHover` | `boolean` | `true` | Opens root panels on pointer hover. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes the open panel when the pointer leaves the mega menu. Set false to keep it open. |
 | `closeOnSelect` | `boolean` | `true` | Closes an open panel after activating a leaf item. |
 | `navigationHandler` | `AerisMegaMenuNavigationHandler` | `undefined` | Handles routerLink items without coupling Aeris to Angular Router. |
 
@@ -69,7 +70,7 @@ import { AerisMegaMenuModule } from '@aeris-ui/core/mega-menu';
 ```ts
 type AerisMegaMenuOrientation = 'horizontal' | 'vertical';
 type AerisMegaMenuSize = 'sm' | 'md' | 'lg';
-type AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select';
+type AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
 
 interface AerisMegaMenuItem<T = unknown> {
   readonly id?: string;

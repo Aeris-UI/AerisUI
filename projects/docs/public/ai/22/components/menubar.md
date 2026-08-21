@@ -36,6 +36,7 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | `size` | `AerisMenubarSize` | `'md'` | Adjusts item height, text, and icon sizing. Options: 'sm', 'md', 'lg'. |
 | `disabled` | `boolean` | `false` | Prevents activation and submenu opening. |
 | `openOnHover` | `boolean` | `true` | Opens submenu branches when pointer users hover items. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes submenu branches when the pointer leaves the menubar. Set false to keep them open. |
 | `closeOnSelect` | `boolean` | `true` | Closes open menus after a leaf item is activated. |
 | `hideOnOutsideClick` | `boolean` | `true` | Closes menus when pointer interaction starts outside the component. |
 | `closeOnEscape` | `boolean` | `true` | Closes open menus when Escape is pressed. |
@@ -70,7 +71,7 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `open(path, event?)` | `string &#124; readonly number[], Event &#124; null =&gt; void` | `-` | Opens a submenu branch by path key or path array. |
-| `close(event?, reason?)` | `Event &#124; null, AerisMenubarCloseReason =&gt; void` | `-` | Closes open submenus. Options: 'api', 'escape', 'outside', 'select'. |
+| `close(event?, reason?)` | `Event &#124; null, AerisMenubarCloseReason =&gt; void` | `-` | Closes open submenus. Options: 'api', 'escape', 'outside', 'select', 'mouseleave'. |
 | `focus()` | `void` | `-` | Moves focus to the active or first enabled root item. |
 
 ## Interfaces and types
@@ -79,7 +80,7 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 
 ```ts
 type AerisMenubarSize = 'sm' | 'md' | 'lg';
-type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select';
+type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
 
 interface AerisMenubarItem<T = unknown> {
   readonly id?: string;

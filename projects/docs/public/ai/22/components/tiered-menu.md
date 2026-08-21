@@ -41,6 +41,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | `maxWidth` | `string` | `''` | Sets --aeris-tiered-menu-max-width on the panel. |
 | `viewportMargin` | `number` | `8` | Minimum popup distance from viewport edges. |
 | `hideOnOutsideClick` | `boolean` | `true` | Closes open popup menus or visible submenus on outside pointer interaction. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open. |
 | `closeOnEscape` | `boolean` | `true` | Closes open popup menus or visible submenus when Escape is pressed. |
 | `closeOnSelect` | `boolean` | `true` | Closes open overlays after an enabled leaf item is activated. |
 | `autoFocus` | `boolean` | `true` | Moves focus to the first enabled item when a popup opens. |

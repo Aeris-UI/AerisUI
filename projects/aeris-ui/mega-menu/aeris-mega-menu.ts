@@ -19,7 +19,7 @@ import {
 
 export type AerisMegaMenuOrientation = 'horizontal' | 'vertical';
 export type AerisMegaMenuSize = 'sm' | 'md' | 'lg';
-export type AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select';
+export type AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
 
 export interface AerisMegaMenuItem<T = unknown> {
   readonly id?: string;
@@ -230,6 +230,7 @@ let nextMegaMenuId = 0;
       class="aeris-mega-menu__nav"
       [attr.aria-label]="ariaLabel() || null"
       [attr.aria-labelledby]="ariaLabelledBy() || null"
+      (mouseleave)="handleNavMouseLeave($event)"
     >
       <ul class="aeris-mega-menu__root" role="menubar" [attr.aria-orientation]="orientation()">
         @for (entry of rootEntries(); track entry.id) {
@@ -363,6 +364,7 @@ export class AerisMegaMenu<T = unknown> {
   readonly ariaLabel = input('Mega menu');
   readonly ariaLabelledBy = input('');
   readonly openOnHover = input(true, { transform: booleanAttribute });
+  readonly closeOnMouseLeave = input(true, { transform: booleanAttribute });
   readonly closeOnSelect = input(true, { transform: booleanAttribute });
   readonly navigationHandler = input<AerisMegaMenuNavigationHandler>();
 
@@ -479,6 +481,12 @@ export class AerisMegaMenu<T = unknown> {
   protected openRootFromPointer(entry: AerisMegaMenuEntry<T>): void {
     if (!this.openOnHover() || entry.disabled || !entry.panelGroups.length) return;
     this.open(entry.path[0] ?? 0);
+  }
+
+  protected handleNavMouseLeave(event: MouseEvent): void {
+    if (this.closeOnMouseLeave() && this.openRootIndex() !== null) {
+      this.close(event, 'mouseleave');
+    }
   }
 
   protected setActivePath(path: readonly number[]): void {

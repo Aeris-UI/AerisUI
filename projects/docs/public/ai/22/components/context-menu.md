@@ -42,6 +42,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 | `viewportMargin` | `number` | `8` | Minimum spacing from viewport edges when positioning. |
 | `hideOnOutsideClick` | `boolean` | `true` | Closes the menu when pointerdown occurs outside the panel. |
 | `hideOnScroll` | `boolean` | `false` | Closes on window scroll instead of repositioning. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open. |
 | `closeOnEscape` | `boolean` | `true` | Closes the menu when Escape is pressed. |
 | `autoFocus` | `boolean` | `true` | Moves focus to the first enabled item after opening. |
 | `restoreFocus` | `boolean` | `true` | Returns focus to the context target when the menu closes. |
