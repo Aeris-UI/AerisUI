@@ -38,3 +38,35 @@
 .scroll-demo {
   width: min(100%, 25rem);
 }
+
+.statistics-summary {
+  min-height: 15rem;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  color: var(--aeris-text-2);
+  text-align: center;
+}
+
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.statistics-card {
+  min-width: 0;
+  padding: 1rem;
+  border-radius: var(--aeris-radius-container);
+  background: var(--aeris-surface-2);
+}
+
+.statistics-card h4 {
+  margin: 0 0 0.75rem;
+}
+
+@media (max-width: 44rem) {
+  .statistics-grid {
+    grid-template-columns: 1fr;
+  }
+}

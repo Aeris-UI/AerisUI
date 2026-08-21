@@ -40,13 +40,14 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 | `scrollable` | `boolean` | `true` | Keeps horizontal tabs contained and shows scroll controls only when the tab list overflows. |
 | `panelTabIndex` | `0 &#124; -1` | `0` | Controls whether the active tabpanel is directly focusable. |
 
-### TabPanel inputs
+### Panel Inputs
 
-| Name | Type | Description |
-| --- | --- | --- |
-| value | string, required | Stable selection identifier. |
-| label | string, required | Default visible tab label. |
-| disabled | boolean | Disables and removes the tab from keyboard navigation. |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string, required` | `required` | Stable selection identifier. |
+| `label` | `string, required` | `required` | Default visible tab label. |
+| `disabled` | `boolean` | `false` | Disables and removes the tab from keyboard navigation. |
+| `renderStrategy` | `eager &#124; preserve &#124; active` | `'eager'` | Renders immediately, preserves deferred content after first activation, or mounts deferred content only while active. |
 
 ### Tabs outputs
 
@@ -61,6 +62,7 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 | Directive | Context | Description |
 | --- | --- | --- |
 | aerisTabHeader | selected, disabled | Custom content inside the native tab button. |
+| aerisTabContent | none | Defines the instantiation boundary required by preserve and active rendering. |
 
 ### Tabs methods
 
@@ -79,6 +81,7 @@ type AerisTabsActivationMode = 'automatic' | 'manual';
 type AerisTabsVariant = 'line' | 'pill';
 type AerisTabsSize = 'sm' | 'md' | 'lg';
 type AerisTabsJustify = 'start' | 'center' | 'end' | 'stretch';
+type AerisTabRenderStrategy = 'eager' | 'preserve' | 'active';
 
 interface AerisTabChangeEvent {
   readonly originalEvent: Event | null;
@@ -214,6 +217,132 @@ export class TabsControlledControlledStateAndEventsDemo {
   padding: 1.25rem;
   color: var(--aeris-text-2);
   line-height: 1.6;
+}
+```
+
+### Deferred statistics
+
+Preserve rendering waits until Statistics is first opened, initializes charts at their visible width, and keeps their state mounted on later tab changes.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
+import { AerisTabsModule } from '@aeris-ui/core/tabs';
+
+@Component({
+  selector: 'app-tabs-lazy-demo',
+  imports: [AerisChartModule, AerisTabsModule],
+  templateUrl: './tabs-lazy.demo.html',
+  styleUrl: './tabs-lazy.demo.scss'
+})
+export class TabsLazyDeferredStatisticsDemo {
+  protected readonly trafficData: AerisChartData = {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    datasets: [
+      {
+        label: 'Sessions',
+        data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],
+        tension: 0.35,
+        fill: true,
+      },
+    ],
+  };
+
+  protected readonly conversionData: AerisChartData = {
+    labels: ['Direct', 'Search', 'Social', 'Referral'],
+    datasets: [
+      { label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 },
+    ],
+  };
+
+  protected readonly statisticsOptions: AerisChartOptions = {
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: { legend: { position: 'bottom' } },
+  };
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <aeris-tabs ariaLabel="Workspace analytics">
+    <aeris-tab-panel value="summary" label="Summary">
+      <div class="statistics-summary">
+        <div>
+          <strong>Analytics overview</strong>
+          <p>Open Statistics to initialize the detailed charts.</p>
+        </div>
+      </div>
+    </aeris-tab-panel>
+    <aeris-tab-panel value="statistics" label="Statistics" renderStrategy="preserve">
+      <ng-template aerisTabContent>
+        <div class="statistics-grid">
+          <section class="statistics-card">
+            <h4>Weekly traffic</h4>
+            <aeris-chart
+              type="line"
+              [data]="trafficData"
+              [options]="statisticsOptions"
+              height="17rem"
+              ariaLabel="Weekly sessions"
+              ariaDescription="Sessions rise overall from Monday to Sunday."
+            />
+          </section>
+          <section class="statistics-card">
+            <h4>Conversions by source</h4>
+            <aeris-chart
+              type="bar"
+              [data]="conversionData"
+              [options]="statisticsOptions"
+              height="17rem"
+              ariaLabel="Conversions by traffic source"
+              ariaDescription="Search produces the most conversions."
+            />
+          </section>
+        </div>
+      </ng-template>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</div>
+```
+
+#### CSS
+
+```css
+.statistics-summary {
+  min-height: 15rem;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  color: var(--aeris-text-2);
+  text-align: center;
+}
+
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.statistics-card {
+  min-width: 0;
+  padding: 1rem;
+  border-radius: var(--aeris-radius-container);
+  background: var(--aeris-surface-2);
+}
+
+.statistics-card h4 {
+  margin: 0 0 0.75rem;
+}
+
+@media (max-width: 44rem) {
+  .statistics-grid {
+    grid-template-columns: 1fr;
+  }
 }
 ```
 
@@ -625,6 +754,7 @@ export class TabsScrollableScrollableTabsDemo {
 - Horizontal and vertical orientations expose aria-orientation and use matching arrow keys.
 - Custom headers remain inside native buttons, so they must not contain nested interactive elements.
 - The active panel is focusable by default for keyboard and screen-reader navigation.
+- Deferred panels keep their stable tabpanel element and ARIA relationship before their content is initialized. Wrap deferred content in <ng-template aerisTabContent>; rendering strategy does not change keyboard behavior.
 - Scrollable tabs retain keyboard operation and provide labeled native scroll buttons.
 
 ### Keyboard support

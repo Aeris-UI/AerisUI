@@ -23437,34 +23437,39 @@
               "description": "Controls whether the active tabpanel is directly focusable."
             }
           ]
+        },
+        {
+          "name": "Panel Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "value",
+              "type": "string, required",
+              "defaultValue": "required",
+              "description": "Stable selection identifier."
+            },
+            {
+              "name": "label",
+              "type": "string, required",
+              "defaultValue": "required",
+              "description": "Default visible tab label."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Disables and removes the tab from keyboard navigation."
+            },
+            {
+              "name": "renderStrategy",
+              "type": "eager | preserve | active",
+              "defaultValue": "'eager'",
+              "description": "Renders immediately, preserves deferred content after first activation, or mounts deferred content only while active."
+            }
+          ]
         }
       ],
       "referenceTables": [
-        {
-          "caption": "TabPanel inputs",
-          "columns": [
-            "Name",
-            "Type",
-            "Description"
-          ],
-          "rows": [
-            [
-              "value",
-              "string, required",
-              "Stable selection identifier."
-            ],
-            [
-              "label",
-              "string, required",
-              "Default visible tab label."
-            ],
-            [
-              "disabled",
-              "boolean",
-              "Disables and removes the tab from keyboard navigation."
-            ]
-          ]
-        },
         {
           "caption": "Tabs outputs",
           "columns": [
@@ -23502,6 +23507,11 @@
               "aerisTabHeader",
               "selected, disabled",
               "Custom content inside the native tab button."
+            ],
+            [
+              "aerisTabContent",
+              "none",
+              "Defines the instantiation boundary required by preserve and active rendering."
             ]
           ]
         },
@@ -23529,7 +23539,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisTabsOrientation = 'horizontal' | 'vertical';\ntype AerisTabsActivationMode = 'automatic' | 'manual';\ntype AerisTabsVariant = 'line' | 'pill';\ntype AerisTabsSize = 'sm' | 'md' | 'lg';\ntype AerisTabsJustify = 'start' | 'center' | 'end' | 'stretch';\n\ninterface AerisTabChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly value: string;\n  readonly previousValue: string;\n}"
+          "code": "type AerisTabsOrientation = 'horizontal' | 'vertical';\ntype AerisTabsActivationMode = 'automatic' | 'manual';\ntype AerisTabsVariant = 'line' | 'pill';\ntype AerisTabsSize = 'sm' | 'md' | 'lg';\ntype AerisTabsJustify = 'start' | 'center' | 'end' | 'stretch';\ntype AerisTabRenderStrategy = 'eager' | 'preserve' | 'active';\n\ninterface AerisTabChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly value: string;\n  readonly previousValue: string;\n}"
         }
       ],
       "designTokens": [
@@ -23630,6 +23640,28 @@
               "language": "CSS",
               "label": "CSS",
               "code": ".tabs-demo-panel {\n  min-height: 6rem;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  line-height: 1.6;\n}"
+            }
+          ]
+        },
+        {
+          "id": "tabs-lazy",
+          "title": "Deferred statistics",
+          "description": "Preserve rendering waits until Statistics is first opened, initializes charts at their visible width, and keeps their state mounted on later tab changes.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\nimport { AerisTabsModule } from '@aeris-ui/core/tabs';\n\n@Component({\n  selector: 'app-tabs-lazy-demo',\n  imports: [AerisChartModule, AerisTabsModule],\n  templateUrl: './tabs-lazy.demo.html',\n  styleUrl: './tabs-lazy.demo.scss'\n})\nexport class TabsLazyDeferredStatisticsDemo {\n  protected readonly trafficData: AerisChartData = {\n    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],\n    datasets: [\n      {\n        label: 'Sessions',\n        data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],\n        tension: 0.35,\n        fill: true,\n      },\n    ],\n  };\n\n  protected readonly conversionData: AerisChartData = {\n    labels: ['Direct', 'Search', 'Social', 'Referral'],\n    datasets: [\n      { label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 },\n    ],\n  };\n\n  protected readonly statisticsOptions: AerisChartOptions = {\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <aeris-tabs ariaLabel=\"Workspace analytics\">\n    <aeris-tab-panel value=\"summary\" label=\"Summary\">\n      <div class=\"statistics-summary\">\n        <div>\n          <strong>Analytics overview</strong>\n          <p>Open Statistics to initialize the detailed charts.</p>\n        </div>\n      </div>\n    </aeris-tab-panel>\n    <aeris-tab-panel value=\"statistics\" label=\"Statistics\" renderStrategy=\"preserve\">\n      <ng-template aerisTabContent>\n        <div class=\"statistics-grid\">\n          <section class=\"statistics-card\">\n            <h4>Weekly traffic</h4>\n            <aeris-chart\n              type=\"line\"\n              [data]=\"trafficData\"\n              [options]=\"statisticsOptions\"\n              height=\"17rem\"\n              ariaLabel=\"Weekly sessions\"\n              ariaDescription=\"Sessions rise overall from Monday to Sunday.\"\n            />\n          </section>\n          <section class=\"statistics-card\">\n            <h4>Conversions by source</h4>\n            <aeris-chart\n              type=\"bar\"\n              [data]=\"conversionData\"\n              [options]=\"statisticsOptions\"\n              height=\"17rem\"\n              ariaLabel=\"Conversions by traffic source\"\n              ariaDescription=\"Search produces the most conversions.\"\n            />\n          </section>\n        </div>\n      </ng-template>\n    </aeris-tab-panel>\n  </aeris-tabs>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".statistics-summary {\n  min-height: 15rem;\n  display: grid;\n  place-items: center;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  text-align: center;\n}\n\n.statistics-grid {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1rem;\n}\n\n.statistics-card {\n  min-width: 0;\n  padding: 1rem;\n  border-radius: var(--aeris-radius-container);\n  background: var(--aeris-surface-2);\n}\n\n.statistics-card h4 {\n  margin: 0 0 0.75rem;\n}\n\n@media (max-width: 44rem) {\n  .statistics-grid {\n    grid-template-columns: 1fr;\n  }\n}"
             }
           ]
         },
@@ -23786,6 +23818,7 @@
           "Horizontal and vertical orientations expose aria-orientation and use matching arrow keys.",
           "Custom headers remain inside native buttons, so they must not contain nested interactive elements.",
           "The active panel is focusable by default for keyboard and screen-reader navigation.",
+          "Deferred panels keep their stable tabpanel element and ARIA relationship before their content is initialized. Wrap deferred content in <ng-template aerisTabContent>; rendering strategy does not change keyboard behavior.",
           "Scrollable tabs retain keyboard operation and provide labeled native scroll buttons."
         ],
         "keyboard": [

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, inject, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { AerisTabsModule, type AerisTabChangeEvent } from '../../../tabs/aeris-tabs';
@@ -108,6 +108,75 @@ class DynamicTabsTestHost {
 })
 class ResponsiveTabsTestHost {}
 
+@Component({
+  selector: 'aeris-tabs-lifecycle-probe',
+  template: `<button type="button" (click)="count.update((value) => value + 1)">
+    State {{ count() }}
+  </button>`,
+})
+class TabsLifecycleProbe implements AfterViewInit, OnDestroy {
+  static created = 0;
+  static destroyed = 0;
+  static lastVisibleWidth = 0;
+
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
+  readonly count = signal(0);
+
+  constructor() {
+    TabsLifecycleProbe.created += 1;
+  }
+
+  ngAfterViewInit(): void {
+    TabsLifecycleProbe.lastVisibleWidth =
+      this.element.nativeElement.parentElement?.getBoundingClientRect().width ?? 0;
+  }
+
+  ngOnDestroy(): void {
+    TabsLifecycleProbe.destroyed += 1;
+  }
+
+  static reset(): void {
+    TabsLifecycleProbe.created = 0;
+    TabsLifecycleProbe.destroyed = 0;
+    TabsLifecycleProbe.lastVisibleWidth = 0;
+  }
+}
+
+@Component({
+  imports: [AerisTabsModule, TabsLifecycleProbe],
+  template: `
+    <aeris-tabs ariaLabel="Deferred reports" [(value)]="value">
+      <aeris-tab-panel value="overview" label="Overview">Overview content</aeris-tab-panel>
+      <aeris-tab-panel value="statistics" label="Statistics" renderStrategy="preserve">
+        <ng-template aerisTabContent>
+          <aeris-tabs-lifecycle-probe />
+        </ng-template>
+      </aeris-tab-panel>
+      <aeris-tab-panel value="live" label="Live" renderStrategy="active">
+        <ng-template aerisTabContent>
+          <aeris-tabs-lifecycle-probe />
+        </ng-template>
+      </aeris-tab-panel>
+    </aeris-tabs>
+  `,
+})
+class DeferredTabsTestHost {
+  readonly value = signal('overview');
+}
+
+@Component({
+  imports: [AerisTabsModule, TabsLifecycleProbe],
+  template: `
+    <aeris-tabs ariaLabel="Eager reports">
+      <aeris-tab-panel value="overview" label="Overview">Overview content</aeris-tab-panel>
+      <aeris-tab-panel value="statistics" label="Statistics">
+        <aeris-tabs-lifecycle-probe />
+      </aeris-tab-panel>
+    </aeris-tabs>
+  `,
+})
+class EagerTabsTestHost {}
+
 describe('AerisTabs', () => {
   it('renders an accessible tab relationship and selects tabs', async () => {
     const fixture = TestBed.createComponent(TabsTestHost);
@@ -118,7 +187,7 @@ describe('AerisTabs', () => {
     ) as NodeListOf<HTMLButtonElement>;
     const tablist = fixture.nativeElement.querySelector('[role="tablist"]') as HTMLElement;
     const panel = (): HTMLElement =>
-      fixture.nativeElement.querySelector('[role="tabpanel"]') as HTMLElement;
+      fixture.nativeElement.querySelector('[role="tabpanel"]:not([hidden])') as HTMLElement;
 
     expect(tablist.getAttribute('aria-label')).toBe('Account settings');
     expect(tablist.getAttribute('aria-orientation')).toBe('horizontal');
@@ -304,5 +373,109 @@ describe('AerisTabs', () => {
     tablist.dispatchEvent(new Event('scroll'));
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.aeris-tabs__scroll')).toBeNull();
+  });
+
+  it('renders eager panel content before the panel is activated', () => {
+    TabsLifecycleProbe.reset();
+    const fixture = TestBed.createComponent(EagerTabsTestHost);
+    fixture.detectChanges();
+
+    expect(TabsLifecycleProbe.created).toBe(1);
+    expect(fixture.nativeElement.querySelectorAll('[role="tabpanel"]').length).toBe(2);
+    expect(
+      fixture.nativeElement
+        .querySelector('[aria-label="Eager reports"] [aria-controls]')
+        ?.getAttribute('aria-controls'),
+    ).toBe(fixture.nativeElement.querySelector('[role="tabpanel"]')?.id);
+  });
+
+  it('defers preserved content until activation and retains its state', () => {
+    TabsLifecycleProbe.reset();
+    const fixture = TestBed.createComponent(DeferredTabsTestHost);
+    fixture.detectChanges();
+
+    expect(TabsLifecycleProbe.created).toBe(0);
+    expect(fixture.nativeElement.querySelectorAll('[role="tabpanel"]').length).toBe(3);
+
+    fixture.componentInstance.value.set('statistics');
+    fixture.detectChanges();
+    const probeButton = fixture.nativeElement.querySelector(
+      'aeris-tabs-lifecycle-probe button',
+    ) as HTMLButtonElement;
+    probeButton.click();
+    fixture.detectChanges();
+
+    fixture.componentInstance.value.set('overview');
+    fixture.detectChanges();
+    expect(TabsLifecycleProbe.destroyed).toBe(0);
+
+    fixture.componentInstance.value.set('statistics');
+    fixture.detectChanges();
+    expect(TabsLifecycleProbe.created).toBe(1);
+    expect(fixture.nativeElement.textContent).toContain('State 1');
+  });
+
+  it('initializes deferred content through automatic keyboard activation', () => {
+    TabsLifecycleProbe.reset();
+    const fixture = TestBed.createComponent(DeferredTabsTestHost);
+    fixture.detectChanges();
+    const tablist = fixture.nativeElement.querySelector('[role="tablist"]') as HTMLElement;
+    const tabs = fixture.nativeElement.querySelectorAll(
+      '[role="tab"]',
+    ) as NodeListOf<HTMLButtonElement>;
+
+    tabs.item(0).focus();
+    tablist.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.value()).toBe('statistics');
+    expect(tabs.item(1).getAttribute('aria-selected')).toBe('true');
+    expect(TabsLifecycleProbe.created).toBe(1);
+  });
+
+  it('destroys active-only content when its panel is deactivated', () => {
+    TabsLifecycleProbe.reset();
+    const fixture = TestBed.createComponent(DeferredTabsTestHost);
+    fixture.detectChanges();
+
+    fixture.componentInstance.value.set('live');
+    fixture.detectChanges();
+    expect(TabsLifecycleProbe.created).toBe(1);
+
+    fixture.componentInstance.value.set('overview');
+    fixture.detectChanges();
+    expect(TabsLifecycleProbe.destroyed).toBe(1);
+
+    fixture.componentInstance.value.set('live');
+    fixture.detectChanges();
+    expect(TabsLifecycleProbe.created).toBe(2);
+  });
+
+  it('creates deferred content after its panel becomes visible', () => {
+    TabsLifecycleProbe.reset();
+    const rect = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(function (this: HTMLElement) {
+        const width = this.hidden ? 0 : 360;
+        return {
+          x: 0,
+          y: 0,
+          width,
+          height: 240,
+          top: 0,
+          right: width,
+          bottom: 240,
+          left: 0,
+          toJSON: () => ({}),
+        };
+      });
+    const fixture = TestBed.createComponent(DeferredTabsTestHost);
+    fixture.detectChanges();
+
+    fixture.componentInstance.value.set('statistics');
+    fixture.detectChanges();
+
+    expect(TabsLifecycleProbe.lastVisibleWidth).toBe(360);
+    rect.mockRestore();
   });
 });

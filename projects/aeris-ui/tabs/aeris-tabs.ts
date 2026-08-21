@@ -3,6 +3,7 @@ import {
   PLATFORM_ID,
   DestroyRef,
   afterNextRender,
+  afterRenderEffect,
   Component,
   Directive,
   ElementRef,
@@ -27,6 +28,7 @@ export type AerisTabsActivationMode = 'automatic' | 'manual';
 export type AerisTabsVariant = 'line' | 'pill';
 export type AerisTabsSize = 'sm' | 'md' | 'lg';
 export type AerisTabsJustify = 'start' | 'center' | 'end' | 'stretch';
+export type AerisTabRenderStrategy = 'eager' | 'preserve' | 'active';
 
 export interface AerisTabChangeEvent {
   readonly originalEvent: Event | null;
@@ -44,11 +46,22 @@ interface AerisTabsOwner {
   readonly host: HTMLElement;
 }
 
+interface AerisTabPanelView {
+  readonly panel: AerisTabPanel;
+  readonly active: boolean;
+  readonly rendered: boolean;
+}
+
 const AERIS_TABS_OWNER = new InjectionToken<AerisTabsOwner>('AerisTabsOwner');
 
 @Directive({ selector: 'ng-template[aerisTabHeader]' })
 export class AerisTabHeaderTemplate {
   readonly template = inject<TemplateRef<AerisTabHeaderContext>>(TemplateRef);
+}
+
+@Directive({ selector: 'ng-template[aerisTabContent]' })
+export class AerisTabContentTemplate {
+  readonly template = inject<TemplateRef<unknown>>(TemplateRef);
 }
 
 let nextPanelId = 0;
@@ -70,12 +83,17 @@ export class AerisTabPanel {
   readonly value = input.required<string>();
   readonly label = input.required<string>();
   readonly disabled = input(false, { transform: booleanAttribute });
+  readonly renderStrategy = input<AerisTabRenderStrategy>('eager');
   readonly panelId = `aeris-tab-panel-${this.instanceId}`;
   readonly tabId = `aeris-tab-${this.instanceId}`;
-  readonly content = viewChild.required<TemplateRef<unknown>>('content');
+  private readonly projectedContent = viewChild.required<TemplateRef<unknown>>('content');
+  private readonly deferredContent = contentChild(AerisTabContentTemplate, {
+    descendants: false,
+  });
   readonly headerTemplate = contentChild(AerisTabHeaderTemplate, {
     descendants: false,
   });
+  readonly content = computed(() => this.deferredContent()?.template ?? this.projectedContent());
 
   isDirectPanelOf(tabsHost: HTMLElement): boolean {
     return this.owner?.host === tabsHost;
@@ -163,15 +181,18 @@ export class AerisTabPanel {
       }
     </div>
 
-    @if (activePanel(); as panel) {
+    @for (view of panelViews(); track view.panel.panelId) {
       <div
         class="aeris-tabs__panel"
         role="tabpanel"
-        [id]="panel.panelId"
-        [attr.aria-labelledby]="panel.tabId"
-        [attr.tabindex]="panelTabIndex()"
+        [id]="view.panel.panelId"
+        [attr.aria-labelledby]="view.panel.tabId"
+        [attr.tabindex]="view.active ? panelTabIndex() : -1"
+        [hidden]="!view.active"
       >
-        <ng-container [ngTemplateOutlet]="panel.content()" />
+        @if (view.rendered) {
+          <ng-container [ngTemplateOutlet]="view.panel.content()" />
+        }
       </div>
     }
   `,
@@ -213,6 +234,7 @@ export class AerisTabs {
   private readonly tabList = viewChild<ElementRef<HTMLElement>>('tabList');
   private readonly tabHeader = viewChild<ElementRef<HTMLElement>>('tabHeader');
   private readonly focusedValue = signal('');
+  private readonly activatedPanels = signal<ReadonlySet<AerisTabPanel>>(new Set());
   private readonly hasOverflow = signal(false);
   protected readonly canScrollPrevious = signal(false);
   protected readonly canScrollNext = signal(false);
@@ -229,6 +251,20 @@ export class AerisTabs {
       this.panels().find((panel) => !panel.disabled() && panel.value() === this.focusedValue()) ??
       this.activePanel(),
   );
+  protected readonly panelViews = computed<readonly AerisTabPanelView[]>(() => {
+    const activePanel = this.activePanel();
+    const activatedPanels = this.activatedPanels();
+    return this.panels().map((panel) => {
+      const active = panel === activePanel;
+      const strategy = panel.renderStrategy();
+      return {
+        panel,
+        active,
+        rendered:
+          strategy === 'eager' || active || (strategy === 'preserve' && activatedPanels.has(panel)),
+      };
+    });
+  });
 
   constructor() {
     afterNextRender(() => {
@@ -241,6 +277,12 @@ export class AerisTabs {
       this.tabButtons();
       if (panelCount === 0) return;
       queueMicrotask(() => this.updateScrollState());
+    });
+
+    afterRenderEffect(() => {
+      const panel = this.activePanel();
+      if (!panel || this.activatedPanels().has(panel)) return;
+      this.activatedPanels.update((current) => new Set(current).add(panel));
     });
   }
 
@@ -388,4 +430,9 @@ export class AerisTabs {
   }
 }
 
-export const AerisTabsModule = [AerisTabs, AerisTabPanel, AerisTabHeaderTemplate] as const;
+export const AerisTabsModule = [
+  AerisTabs,
+  AerisTabPanel,
+  AerisTabHeaderTemplate,
+  AerisTabContentTemplate,
+] as const;

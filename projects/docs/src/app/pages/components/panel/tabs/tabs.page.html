@@ -2,7 +2,7 @@
   <app-component-page-header
     category="Panel"
     title="Tabs"
-    description="Organizes related content with automatic or manual activation, responsive orientations, custom headers, controlled state, and complete ARIA tab semantics."
+    description="Organizes related content with eager or deferred rendering, automatic or manual activation, responsive orientations, controlled state, and complete ARIA tab semantics."
   />
 
   <section class="import-section" aria-labelledby="tabs-import-title">
@@ -95,6 +95,95 @@
     &gt;
   &lt;/aeris-tabs&gt;
   &lt;small aria-live="polite"&gt;&#123;&#123; lastChange() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tabs-lazy"
+              title="Deferred statistics"
+              description="Preserve rendering waits until Statistics is first opened, initializes charts at their visible width, and keeps their state mounted on later tab changes."
+              [tsCode]="lazyCode"
+              [cssCode]="lazyCss"
+            >
+              <div preview>
+                <aeris-tabs ariaLabel="Workspace analytics">
+                  <aeris-tab-panel value="summary" label="Summary">
+                    <div class="statistics-summary">
+                      <div>
+                        <strong>Analytics overview</strong>
+                        <p>Open Statistics to initialize the detailed charts.</p>
+                      </div>
+                    </div>
+                  </aeris-tab-panel>
+                  <aeris-tab-panel value="statistics" label="Statistics" renderStrategy="preserve">
+                    <ng-template aerisTabContent>
+                      <div class="statistics-grid">
+                        <section class="statistics-card">
+                          <h4>Weekly traffic</h4>
+                          <aeris-chart
+                            type="line"
+                            [data]="trafficData"
+                            [options]="statisticsOptions"
+                            height="17rem"
+                            ariaLabel="Weekly sessions"
+                            ariaDescription="Sessions rise overall from Monday to Sunday."
+                          />
+                        </section>
+                        <section class="statistics-card">
+                          <h4>Conversions by source</h4>
+                          <aeris-chart
+                            type="bar"
+                            [data]="conversionData"
+                            [options]="statisticsOptions"
+                            height="17rem"
+                            ariaLabel="Conversions by traffic source"
+                            ariaDescription="Search produces the most conversions."
+                          />
+                        </section>
+                      </div>
+                    </ng-template>
+                  </aeris-tab-panel>
+                </aeris-tabs>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-tabs ariaLabel="Workspace analytics"&gt;
+    &lt;aeris-tab-panel value="summary" label="Summary"&gt;
+      &lt;div class="statistics-summary"&gt;
+        &lt;div&gt;
+          &lt;strong&gt;Analytics overview&lt;/strong&gt;
+          &lt;p&gt;Open Statistics to initialize the detailed charts.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/aeris-tab-panel&gt;
+    &lt;aeris-tab-panel value="statistics" label="Statistics" renderStrategy="preserve"&gt;
+      &lt;ng-template aerisTabContent&gt;
+        &lt;div class="statistics-grid"&gt;
+          &lt;section class="statistics-card"&gt;
+            &lt;h4&gt;Weekly traffic&lt;/h4&gt;
+            &lt;aeris-chart
+              type="line"
+              [data]="trafficData"
+              [options]="statisticsOptions"
+              height="17rem"
+              ariaLabel="Weekly sessions"
+              ariaDescription="Sessions rise overall from Monday to Sunday."
+            /&gt;
+          &lt;/section&gt;
+          &lt;section class="statistics-card"&gt;
+            &lt;h4&gt;Conversions by source&lt;/h4&gt;
+            &lt;aeris-chart
+              type="bar"
+              [data]="conversionData"
+              [options]="statisticsOptions"
+              height="17rem"
+              ariaLabel="Conversions by traffic source"
+              ariaDescription="Search produces the most conversions."
+            /&gt;
+          &lt;/section&gt;
+        &lt;/div&gt;
+      &lt;/ng-template&gt;
+    &lt;/aeris-tab-panel&gt;
+  &lt;/aeris-tabs&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -416,20 +505,16 @@
             <div class="api-table compact" role="table" aria-label="TabPanel inputs" tabindex="0">
               <div class="api-head" role="row">
                 <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Description</b>
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
               </div>
-              <div role="row">
-                <code role="cell">value</code><span role="cell">string, required</span
-                ><span role="cell">Stable selection identifier.</span>
-              </div>
-              <div role="row">
-                <code role="cell">label</code><span role="cell">string, required</span
-                ><span role="cell">Default visible tab label.</span>
-              </div>
-              <div role="row">
-                <code role="cell">disabled</code><span role="cell">boolean</span
-                ><span role="cell">Disables and removes the tab from keyboard navigation.</span>
-              </div>
+              @for (property of panelInputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
             </div>
             <h3 id="tabs-api-outputs" tabindex="-1">Outputs</h3>
             <div class="api-table compact" role="table" aria-label="Tabs outputs" tabindex="0">
@@ -459,6 +544,13 @@
               <div role="row">
                 <code role="cell">aerisTabHeader</code><span role="cell">selected, disabled</span
                 ><span role="cell">Custom content inside the native tab button.</span>
+              </div>
+              <div role="row">
+                <code role="cell">aerisTabContent</code><span role="cell">none</span
+                ><span role="cell"
+                  >Defines the instantiation boundary required by <code>preserve</code> and
+                  <code>active</code> rendering.</span
+                >
               </div>
             </div>
             <h3 id="tabs-api-methods" tabindex="-1">Methods</h3>
@@ -569,6 +661,12 @@
           </li>
           <li>
             The active panel is focusable by default for keyboard and screen-reader navigation.
+          </li>
+          <li>
+            Deferred panels keep their stable tabpanel element and ARIA relationship before their
+            content is initialized. Wrap deferred content in
+            <code>&lt;ng-template aerisTabContent&gt;</code>; rendering strategy does not change
+            keyboard behavior.
           </li>
           <li>
             Scrollable tabs retain keyboard operation and provide labeled native scroll buttons.
