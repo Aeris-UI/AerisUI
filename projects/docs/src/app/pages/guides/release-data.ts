@@ -27,7 +27,20 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
     version: 'Unreleased',
     date: 'In development',
     status: 'Next release',
-    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.4.'],
+    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.5.'],
+  },
+  {
+    version: '22.0.0-alpha.5',
+    date: '21 August 2026',
+    status: 'Alpha patch',
+    changes: [
+      'Keep overlays collision-aware, viewport-contained, and anchored during scroll or resize.',
+      'Add Menubar appearance and active-route APIs, plus configurable submenu close behavior.',
+      'Add accessible FormField composition for consistent labels, hints, errors, and responsive layouts.',
+      'Add explicit preserve-state and active-only deferred rendering for Tabs.',
+      'Make Avatar instance size overrides predictable and keep avatars square in flex and grid layouts.',
+      'Verify consumer composition, server rendering, bundle size, and real packed-package installation in release checks.',
+    ],
   },
   {
     version: '22.0.0-alpha.4',

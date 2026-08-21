@@ -2,7 +2,7 @@
 
 > Accessible automatic and manual tab navigation with responsive layouts and custom headers.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tabs`
 - Human-readable documentation: [https://aeris-ui.dev/components/tabs](https://aeris-ui.dev/components/tabs)
@@ -47,7 +47,12 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 | `value` | `string, required` | `required` | Stable selection identifier. |
 | `label` | `string, required` | `required` | Default visible tab label. |
 | `disabled` | `boolean` | `false` | Disables and removes the tab from keyboard navigation. |
-| `renderStrategy` | `eager &#124; preserve &#124; active` | `'eager'` | Renders immediately, preserves deferred content after first activation, or mounts deferred content only while active. |
+
+### Content Template Inputs
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `aerisTabContent` | `preserve &#124; active` | `'preserve'` | Preserves content after its first activation or destroys it whenever its panel becomes inactive. |
 
 ### Tabs outputs
 
@@ -62,7 +67,7 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 | Directive | Context | Description |
 | --- | --- | --- |
 | aerisTabHeader | selected, disabled | Custom content inside the native tab button. |
-| aerisTabContent | none | Defines the instantiation boundary required by preserve and active rendering. |
+| aerisTabContent | none | Defers content until first activation and preserves it by default. Use active to destroy content on deactivation. |
 
 ### Tabs methods
 
@@ -81,7 +86,7 @@ type AerisTabsActivationMode = 'automatic' | 'manual';
 type AerisTabsVariant = 'line' | 'pill';
 type AerisTabsSize = 'sm' | 'md' | 'lg';
 type AerisTabsJustify = 'start' | 'center' | 'end' | 'stretch';
-type AerisTabRenderStrategy = 'eager' | 'preserve' | 'active';
+type AerisTabContentStrategy = 'preserve' | 'active';
 
 interface AerisTabChangeEvent {
   readonly originalEvent: Event | null;
@@ -222,7 +227,7 @@ export class TabsControlledControlledStateAndEventsDemo {
 
 ### Deferred statistics
 
-Preserve rendering waits until Statistics is first opened, initializes charts at their visible width, and keeps their state mounted on later tab changes.
+The aerisTabContent template waits until Statistics is first opened, initializes charts at their visible width, and preserves their state on later tab changes.
 
 #### TS
 
@@ -278,7 +283,7 @@ export class TabsLazyDeferredStatisticsDemo {
         </div>
       </div>
     </aeris-tab-panel>
-    <aeris-tab-panel value="statistics" label="Statistics" renderStrategy="preserve">
+    <aeris-tab-panel value="statistics" label="Statistics">
       <ng-template aerisTabContent>
         <div class="statistics-grid">
           <section class="statistics-card">
@@ -754,7 +759,7 @@ export class TabsScrollableScrollableTabsDemo {
 - Horizontal and vertical orientations expose aria-orientation and use matching arrow keys.
 - Custom headers remain inside native buttons, so they must not contain nested interactive elements.
 - The active panel is focusable by default for keyboard and screen-reader navigation.
-- Deferred panels keep their stable tabpanel element and ARIA relationship before their content is initialized. Wrap deferred content in <ng-template aerisTabContent>; rendering strategy does not change keyboard behavior.
+- Deferred panels keep their stable tabpanel element and ARIA relationship before their content is initialized. Use <ng-template aerisTabContent> to preserve content after first activation, or aerisTabContent="active" to destroy it on exit. Rendering strategy does not change keyboard behavior.
 - Scrollable tabs retain keyboard operation and provide labeled native scroll buttons.
 
 ### Keyboard support

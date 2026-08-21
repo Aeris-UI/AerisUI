@@ -2323,10 +2323,11 @@ export class ProjectDetails {
         id: 'ssr-hydration',
         title: 'Server rendering and hydration',
         paragraphs: [
-          'Angular server rendering and hydration are not yet part of the verified Aeris alpha compatibility promise. Browser-dependent observers and animation work are guarded where components use them, but the complete library has not yet passed a dedicated server-render and hydration matrix.',
+          'Aeris release verification now server-renders a consumer composition containing deferred Tabs and body-targeted overlay controls, checks stable ARIA relationships, and verifies Angular hydration metadata. Browser-dependent observers and animation work remain guarded where components use them.',
+          "This targeted regression is not yet a complete all-component SSR and hydration matrix. During alpha, evaluate every component used by an application's initial route and treat the browser production build as a separate check.",
           'Evaluate SSR applications in a disposable branch, render every component used by the initial route, and check for direct document access, hydration mismatches, overlay creation before the browser is ready, and layout changes after hydration. Treat a successful browser build alone as insufficient evidence.',
         ],
-        note: 'This statement should be replaced with a tested support matrix only after automated server rendering and hydration coverage is part of release verification.',
+        note: 'A complete SSR support promise will follow only after the full component matrix is automated.',
       },
       {
         id: 'application-testing',
@@ -2499,9 +2500,30 @@ npm install @aeris-ui/core@${AERIS_CURRENT_VERSION}`,
         id: 'release-specific',
         title: 'Release-specific migration notes',
         paragraphs: [
-          `Aeris ${AERIS_CURRENT_VERSION} begins the Angular-aligned Aeris 22 alpha line. Future prereleases that require consumer changes will add exact before-and-after instructions here.`,
+          `Aeris ${AERIS_CURRENT_VERSION} renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.`,
+          'Use a bare aerisTabContent template to initialize expensive content on first activation and preserve its state. Set the directive to active to destroy and recreate the content whenever selection changes.',
         ],
-        note: 'A release without an entry in this section has no known manual migration beyond the standard install and verification workflow.',
+        code: [
+          source(
+            'Preserve after first activation',
+            'HTML',
+            `<aeris-tab-panel value="statistics" label="Statistics">
+  <ng-template aerisTabContent>
+    <app-expensive-statistics />
+  </ng-template>
+</aeris-tab-panel>`,
+          ),
+          source(
+            'Destroy on deactivation',
+            'HTML',
+            `<aeris-tab-panel value="live" label="Live">
+  <ng-template aerisTabContent="active">
+    <app-live-resource />
+  </ng-template>
+</aeris-tab-panel>`,
+          ),
+        ],
+        note: 'No migration is needed for applications that want every panel initialized eagerly.',
       },
       {
         id: 'verification',

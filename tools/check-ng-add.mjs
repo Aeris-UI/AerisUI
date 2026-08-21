@@ -3,8 +3,9 @@ import { readFileSync } from 'node:fs';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing/index.js';
 import { Tree } from '@angular-devkit/schematics';
 
-const collectionPath = resolve('dist/aeris-ui/schematics/collection.json');
-const packagePath = resolve('dist/aeris-ui/package.json');
+const packageRoot = resolve(process.env.AERIS_PACKAGE_ROOT ?? 'dist/aeris-ui');
+const collectionPath = resolve(packageRoot, 'schematics/collection.json');
+const packagePath = resolve(packageRoot, 'package.json');
 const packageManifest = JSON.parse(readFileSync(packagePath, 'utf8'));
 assert(
   packageManifest.schematics === './schematics/collection.json',

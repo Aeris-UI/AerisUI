@@ -123,6 +123,7 @@ for (const requiredFile of [
   'LICENSE',
   'README.md',
   'schematics/collection.json',
+  'schematics/runtime/schematics/ng-add/index.js',
   'tools/aeris-theme.mjs',
 ]) {
   assert(

@@ -147,13 +147,13 @@ class TabsLifecycleProbe implements AfterViewInit, OnDestroy {
   template: `
     <aeris-tabs ariaLabel="Deferred reports" [(value)]="value">
       <aeris-tab-panel value="overview" label="Overview">Overview content</aeris-tab-panel>
-      <aeris-tab-panel value="statistics" label="Statistics" renderStrategy="preserve">
+      <aeris-tab-panel value="statistics" label="Statistics">
         <ng-template aerisTabContent>
           <aeris-tabs-lifecycle-probe />
         </ng-template>
       </aeris-tab-panel>
-      <aeris-tab-panel value="live" label="Live" renderStrategy="active">
-        <ng-template aerisTabContent>
+      <aeris-tab-panel value="live" label="Live">
+        <ng-template aerisTabContent="active">
           <aeris-tabs-lifecycle-probe />
         </ng-template>
       </aeris-tab-panel>

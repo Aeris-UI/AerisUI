@@ -101,7 +101,7 @@
             <app-form-demo
               id="tabs-lazy"
               title="Deferred statistics"
-              description="Preserve rendering waits until Statistics is first opened, initializes charts at their visible width, and keeps their state mounted on later tab changes."
+              description="The aerisTabContent template waits until Statistics is first opened, initializes charts at their visible width, and preserves their state on later tab changes."
               [tsCode]="lazyCode"
               [cssCode]="lazyCss"
             >
@@ -115,7 +115,7 @@
                       </div>
                     </div>
                   </aeris-tab-panel>
-                  <aeris-tab-panel value="statistics" label="Statistics" renderStrategy="preserve">
+                  <aeris-tab-panel value="statistics" label="Statistics">
                     <ng-template aerisTabContent>
                       <div class="statistics-grid">
                         <section class="statistics-card">
@@ -155,7 +155,7 @@
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/aeris-tab-panel&gt;
-    &lt;aeris-tab-panel value="statistics" label="Statistics" renderStrategy="preserve"&gt;
+    &lt;aeris-tab-panel value="statistics" label="Statistics"&gt;
       &lt;ng-template aerisTabContent&gt;
         &lt;div class="statistics-grid"&gt;
           &lt;section class="statistics-card"&gt;
@@ -548,10 +548,30 @@
               <div role="row">
                 <code role="cell">aerisTabContent</code><span role="cell">none</span
                 ><span role="cell"
-                  >Defines the instantiation boundary required by <code>preserve</code> and
-                  <code>active</code> rendering.</span
+                  >Defers content until first activation and preserves it by default. Use
+                  <code>active</code> to destroy content on deactivation.</span
                 >
               </div>
+            </div>
+            <h3 id="tabs-api-template-inputs" tabindex="-1">Content template input</h3>
+            <div
+              class="api-table"
+              role="table"
+              aria-label="Tabs content template input"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of contentTemplateInputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
             </div>
             <h3 id="tabs-api-methods" tabindex="-1">Methods</h3>
             <div class="api-table compact" role="table" aria-label="Tabs methods" tabindex="0">
@@ -664,9 +684,9 @@
           </li>
           <li>
             Deferred panels keep their stable tabpanel element and ARIA relationship before their
-            content is initialized. Wrap deferred content in
-            <code>&lt;ng-template aerisTabContent&gt;</code>; rendering strategy does not change
-            keyboard behavior.
+            content is initialized. Use <code>&lt;ng-template aerisTabContent&gt;</code> to preserve
+            content after first activation, or <code>aerisTabContent="active"</code> to destroy it
+            on exit. Rendering strategy does not change keyboard behavior.
           </li>
           <li>
             Scrollable tabs retain keyboard operation and provide labeled native scroll buttons.

@@ -82,6 +82,7 @@ export class TabsPage {
     { id: 'tabs-api-panel', label: 'Panel inputs' },
     { id: 'tabs-api-outputs', label: 'Outputs' },
     { id: 'tabs-api-templates', label: 'Templates' },
+    { id: 'tabs-api-template-inputs', label: 'Template inputs' },
     { id: 'tabs-api-methods', label: 'Methods' },
   ];
 
@@ -160,7 +161,7 @@ type AerisTabsActivationMode = 'automatic' | 'manual';
 type AerisTabsVariant = 'line' | 'pill';
 type AerisTabsSize = 'sm' | 'md' | 'lg';
 type AerisTabsJustify = 'start' | 'center' | 'end' | 'stretch';
-type AerisTabRenderStrategy = 'eager' | 'preserve' | 'active';
+type AerisTabContentStrategy = 'preserve' | 'active';
 
 interface AerisTabChangeEvent {
   readonly originalEvent: Event | null;
@@ -251,12 +252,15 @@ interface AerisTabChangeEvent {
       defaultValue: 'false',
       description: 'Disables and removes the tab from keyboard navigation.',
     },
+  ];
+
+  protected readonly contentTemplateInputs: readonly ApiRow[] = [
     {
-      name: 'renderStrategy',
-      type: 'eager | preserve | active',
-      defaultValue: "'eager'",
+      name: 'aerisTabContent',
+      type: 'preserve | active',
+      defaultValue: "'preserve'",
       description:
-        'Renders immediately, preserves deferred content after first activation, or mounts deferred content only while active.',
+        'Preserves content after its first activation or destroys it whenever its panel becomes inactive.',
     },
   ];
 

@@ -28,7 +28,9 @@ export type AerisTabsActivationMode = 'automatic' | 'manual';
 export type AerisTabsVariant = 'line' | 'pill';
 export type AerisTabsSize = 'sm' | 'md' | 'lg';
 export type AerisTabsJustify = 'start' | 'center' | 'end' | 'stretch';
-export type AerisTabRenderStrategy = 'eager' | 'preserve' | 'active';
+export type AerisTabContentStrategy = 'preserve' | 'active';
+
+type AerisTabRenderStrategy = 'eager' | AerisTabContentStrategy;
 
 export interface AerisTabChangeEvent {
   readonly originalEvent: Event | null;
@@ -62,6 +64,13 @@ export class AerisTabHeaderTemplate {
 @Directive({ selector: 'ng-template[aerisTabContent]' })
 export class AerisTabContentTemplate {
   readonly template = inject<TemplateRef<unknown>>(TemplateRef);
+  readonly renderStrategy = input<AerisTabContentStrategy, AerisTabContentStrategy | ''>(
+    'preserve',
+    {
+      alias: 'aerisTabContent',
+      transform: (value) => value || 'preserve',
+    },
+  );
 }
 
 let nextPanelId = 0;
@@ -83,7 +92,6 @@ export class AerisTabPanel {
   readonly value = input.required<string>();
   readonly label = input.required<string>();
   readonly disabled = input(false, { transform: booleanAttribute });
-  readonly renderStrategy = input<AerisTabRenderStrategy>('eager');
   readonly panelId = `aeris-tab-panel-${this.instanceId}`;
   readonly tabId = `aeris-tab-${this.instanceId}`;
   private readonly projectedContent = viewChild.required<TemplateRef<unknown>>('content');
@@ -94,6 +102,9 @@ export class AerisTabPanel {
     descendants: false,
   });
   readonly content = computed(() => this.deferredContent()?.template ?? this.projectedContent());
+  readonly renderStrategy = computed<AerisTabRenderStrategy>(
+    () => this.deferredContent()?.renderStrategy() ?? 'eager',
+  );
 
   isDirectPanelOf(tabsHost: HTMLElement): boolean {
     return this.owner?.host === tabsHost;

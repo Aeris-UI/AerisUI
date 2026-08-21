@@ -2,7 +2,7 @@
 
 > Compose labels, controls, hints, and validation messages with stable spacing and accessible relationships.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/form-field`
 - Human-readable documentation: [https://aeris-ui.dev/components/form-field](https://aeris-ui.dev/components/form-field)
