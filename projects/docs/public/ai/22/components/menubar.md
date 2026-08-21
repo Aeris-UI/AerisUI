@@ -1139,6 +1139,7 @@ export class MenubarTemplateTemplateDemo {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  padding-inline: 0.5rem;
   font-weight: 850;
 }
 
@@ -1202,6 +1203,7 @@ small[aria-live] {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  padding-inline: 0.5rem;
   font-weight: 850;
 }
 

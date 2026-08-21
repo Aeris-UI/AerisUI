@@ -500,6 +500,7 @@ protected readonly templateItems: readonly AerisMenubarItem[] = [
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  padding-inline: 0.5rem;
   font-weight: 850;
 }
 
