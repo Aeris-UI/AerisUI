@@ -1,10 +1,62 @@
 @use '../../form/shared/form-docs';
 
+.rendering-guide {
+  scroll-margin-top: 8rem;
+}
+
+.rendering-guide > p {
+  max-width: 72ch;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+
+.rendering-table {
+  margin-top: 1.25rem;
+}
+
+.rendering-table > [role='row'] {
+  grid-template-columns: minmax(12rem, 1.45fr) repeat(2, minmax(7rem, 0.72fr)) minmax(14rem, 1.5fr);
+}
+
+.rendering-table code {
+  overflow-wrap: anywhere;
+}
+
+.rendering-note {
+  margin-top: 1rem;
+  padding: 1rem 1.125rem;
+  border-radius: var(--aeris-radius-container);
+  background: var(--surface-2);
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+.rendering-note strong {
+  color: var(--text);
+}
+
 .tabs-demo-panel {
   min-height: 6rem;
   padding: 1.25rem;
   color: var(--text-2);
   line-height: 1.6;
+}
+
+.active-only-panel {
+  min-height: 9rem;
+  display: grid;
+  align-content: center;
+  gap: 0.5rem;
+  padding: 1.25rem;
+}
+
+.active-only-panel label {
+  font-weight: 600;
+}
+
+.active-only-panel small {
+  color: var(--aeris-text-2);
+  line-height: 1.5;
 }
 
 .vertical-demo {
@@ -66,6 +118,10 @@
 }
 
 @media (max-width: 44rem) {
+  .rendering-table {
+    min-width: 46rem;
+  }
+
   .statistics-grid {
     grid-template-columns: 1fr;
   }

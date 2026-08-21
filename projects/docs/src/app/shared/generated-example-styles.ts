@@ -155,6 +155,7 @@ export const DOC_EXAMPLE_STYLES: Readonly<Record<string, string>> = {
   "table-selection": ".table-state-grid {\n  width: 100%;\n  display: grid;\n  gap: 1rem;\n}\n\n.table-state-grid > .aeris-button {\n  justify-self: start;\n}",
   "table-states": ".table-state-grid {\n  width: 100%;\n  display: grid;\n  gap: 1rem;\n}\n\n.table-state-grid > .aeris-button {\n  justify-self: start;\n}",
   "table-templates": ".status-pill {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 4.5rem;\n  padding: 0.2rem 0.55rem;\n  border-radius: 99px;\n  background: var(--aeris-surface-2);\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n  font-weight: 700;\n}\n\n.status-pill[data-status=Active] {\n  background: color-mix(in srgb, var(--aeris-success) 14%, transparent);\n  color: var(--aeris-success);\n}\n\n.status-pill[data-status=Invited] {\n  background: color-mix(in srgb, var(--aeris-warning) 16%, transparent);\n  color: var(--aeris-warning);\n}",
+  "tabs-active-content": ".tabs-demo-panel {\n  min-height: 6rem;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  line-height: 1.6;\n}",
   "tabs-basic": ".tabs-demo-panel {\n  min-height: 6rem;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  line-height: 1.6;\n}",
   "tabs-controlled": ".tabs-demo-panel {\n  min-height: 6rem;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  line-height: 1.6;\n}",
   "tabs-disabled": ".tabs-demo-panel {\n  min-height: 6rem;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  line-height: 1.6;\n}",

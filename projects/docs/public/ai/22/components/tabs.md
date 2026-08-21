@@ -52,7 +52,7 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aerisTabContent` | `preserve &#124; active` | `'preserve'` | Preserves content after its first activation or destroys it whenever its panel becomes inactive. |
+| `aerisTabContent` | `preserve &#124; active` | `'preserve'` | Controls deferred template lifetime. preserve creates content on first activation and keeps it mounted; active creates it on activation and destroys it on deactivation. |
 
 ### Tabs outputs
 
@@ -67,7 +67,7 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 | Directive | Context | Description |
 | --- | --- | --- |
 | aerisTabHeader | selected, disabled | Custom content inside the native tab button. |
-| aerisTabContent | none | Defers content until first activation and preserves it by default. Use active to destroy content on deactivation. |
+| aerisTabContent | none | Marks the exact content Angular should defer. Without a value, it creates the content on first activation and preserves it. Set it to active to destroy the content on deactivation. |
 
 ### Tabs methods
 
@@ -113,7 +113,7 @@ interface AerisTabChangeEvent {
 
 ### Basic
 
-Each panel has a stable value and label. The first enabled panel is displayed when no value is provided.
+Plain panel content is eager: Angular creates every panel's content during the initial render and keeps it mounted while tabs change.
 
 #### TS
 
@@ -225,9 +225,9 @@ export class TabsControlledControlledStateAndEventsDemo {
 }
 ```
 
-### Deferred statistics
+### Deferred and preserved content
 
-The aerisTabContent template waits until Statistics is first opened, initializes charts at their visible width, and preserves their state on later tab changes.
+A bare aerisTabContent template creates Statistics only the first time it opens. The charts then remain mounted, so their state survives later tab changes.
 
 #### TS
 
@@ -242,7 +242,7 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
   templateUrl: './tabs-lazy.demo.html',
   styleUrl: './tabs-lazy.demo.scss'
 })
-export class TabsLazyDeferredStatisticsDemo {
+export class TabsLazyDeferredAndPreservedContentDemo {
   protected readonly trafficData: AerisChartData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [
@@ -348,6 +348,86 @@ export class TabsLazyDeferredStatisticsDemo {
   .statistics-grid {
     grid-template-columns: 1fr;
   }
+}
+```
+
+### Active-only content
+
+Set aerisTabContent to active when content should exist only while its tab is selected. Angular destroys it on exit, runs normal cleanup hooks, and creates a fresh instance when the tab opens again.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisTabsModule } from '@aeris-ui/core/tabs';
+
+@Component({
+  selector: 'app-tabs-active-content-demo',
+  imports: [AerisInputText, AerisTabsModule],
+  templateUrl: './tabs-active-content.demo.html',
+  styleUrl: './tabs-active-content.demo.scss'
+})
+export class TabsActiveContentActiveOnlyContentDemo {
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <aeris-tabs ariaLabel="Active-only content example">
+    <aeris-tab-panel value="instructions" label="Instructions">
+      <div class="tabs-demo-panel">
+        Open Temporary editor, enter text, leave the tab, and return. The field resets
+        because its content was destroyed.
+      </div>
+    </aeris-tab-panel>
+    <aeris-tab-panel value="editor" label="Temporary editor">
+      <ng-template aerisTabContent="active">
+        <div class="active-only-panel">
+          <label for="temporary-draft">Temporary draft</label>
+          <input
+            id="temporary-draft"
+            aerisInputText
+            placeholder="This value resets when you leave"
+          />
+          <small>
+            Leaving this tab destroys the input and any local component state inside
+            this template.
+          </small>
+        </div>
+      </ng-template>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</div>
+```
+
+#### CSS
+
+```css
+.tabs-demo-panel {
+  min-height: 6rem;
+  padding: 1.25rem;
+  color: var(--aeris-text-2);
+  line-height: 1.6;
+}
+
+.active-only-panel {
+  min-height: 9rem;
+  display: grid;
+  align-content: center;
+  gap: 0.5rem;
+  padding: 1.25rem;
+}
+
+.active-only-panel label {
+  font-weight: 600;
+}
+
+.active-only-panel small {
+  color: var(--aeris-text-2);
+  line-height: 1.5;
 }
 ```
 

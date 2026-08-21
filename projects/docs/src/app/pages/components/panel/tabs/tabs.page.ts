@@ -4,6 +4,7 @@ import {
   type AerisChartData,
   type AerisChartOptions,
 } from '@aeris-ui/core/chart';
+import { AerisInputText } from '@aeris-ui/core/input-text';
 import { AerisTabsModule, type AerisTabChangeEvent } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -26,6 +27,7 @@ interface ApiRow {
   selector: 'app-tabs-page',
   imports: [
     AerisChartModule,
+    AerisInputText,
     AerisTabsModule,
     CodeBlockComponent,
     ComponentPageHeaderComponent,
@@ -65,9 +67,11 @@ export class TabsPage {
   };
 
   protected readonly featureLinks: readonly PageTocLink[] = [
+    { id: 'tabs-rendering', label: 'Rendering behavior' },
     { id: 'tabs-basic', label: 'Basic' },
     { id: 'tabs-controlled', label: 'Controlled state' },
-    { id: 'tabs-lazy', label: 'Deferred rendering' },
+    { id: 'tabs-lazy', label: 'Deferred and preserved' },
+    { id: 'tabs-active-content', label: 'Active-only content' },
     { id: 'tabs-disabled', label: 'Disabled tabs' },
     { id: 'tabs-manual', label: 'Manual activation' },
     { id: 'tabs-vertical', label: 'Vertical tabs' },
@@ -154,6 +158,23 @@ protected readonly statisticsOptions: AerisChartOptions = {
   .statistics-grid {
     grid-template-columns: 1fr;
   }
+}`;
+
+  protected readonly activeOnlyCss = `.active-only-panel {
+  min-height: 9rem;
+  display: grid;
+  align-content: center;
+  gap: 0.5rem;
+  padding: 1.25rem;
+}
+
+.active-only-panel label {
+  font-weight: 600;
+}
+
+.active-only-panel small {
+  color: var(--aeris-text-2);
+  line-height: 1.5;
 }`;
 
   protected readonly interfacesCode = `type AerisTabsOrientation = 'horizontal' | 'vertical';
@@ -260,7 +281,7 @@ interface AerisTabChangeEvent {
       type: 'preserve | active',
       defaultValue: "'preserve'",
       description:
-        'Preserves content after its first activation or destroys it whenever its panel becomes inactive.',
+        'Controls deferred template lifetime. preserve creates content on first activation and keeps it mounted; active creates it on activation and destroys it on deactivation.',
     },
   ];
 

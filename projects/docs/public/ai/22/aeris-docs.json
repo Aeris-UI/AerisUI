@@ -23499,7 +23499,7 @@
               "name": "aerisTabContent",
               "type": "preserve | active",
               "defaultValue": "'preserve'",
-              "description": "Preserves content after its first activation or destroys it whenever its panel becomes inactive."
+              "description": "Controls deferred template lifetime. preserve creates content on first activation and keeps it mounted; active creates it on activation and destroys it on deactivation."
             }
           ]
         }
@@ -23546,7 +23546,7 @@
             [
               "aerisTabContent",
               "none",
-              "Defers content until first activation and preserves it by default. Use active to destroy content on deactivation."
+              "Marks the exact content Angular should defer. Without a value, it creates the content on first activation and preserves it. Set it to active to destroy the content on deactivation."
             ]
           ]
         },
@@ -23637,7 +23637,7 @@
         {
           "id": "tabs-basic",
           "title": "Basic",
-          "description": "Each panel has a stable value and label. The first enabled panel is displayed when no value is provided.",
+          "description": "Plain panel content is eager: Angular creates every panel's content during the initial render and keeps it mounted while tabs change.",
           "sources": [
             {
               "language": "TypeScript",
@@ -23680,13 +23680,13 @@
         },
         {
           "id": "tabs-lazy",
-          "title": "Deferred statistics",
-          "description": "The aerisTabContent template waits until Statistics is first opened, initializes charts at their visible width, and preserves their state on later tab changes.",
+          "title": "Deferred and preserved content",
+          "description": "A bare aerisTabContent template creates Statistics only the first time it opens. The charts then remain mounted, so their state survives later tab changes.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\nimport { AerisTabsModule } from '@aeris-ui/core/tabs';\n\n@Component({\n  selector: 'app-tabs-lazy-demo',\n  imports: [AerisChartModule, AerisTabsModule],\n  templateUrl: './tabs-lazy.demo.html',\n  styleUrl: './tabs-lazy.demo.scss'\n})\nexport class TabsLazyDeferredStatisticsDemo {\n  protected readonly trafficData: AerisChartData = {\n    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],\n    datasets: [\n      {\n        label: 'Sessions',\n        data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],\n        tension: 0.35,\n        fill: true,\n      },\n    ],\n  };\n\n  protected readonly conversionData: AerisChartData = {\n    labels: ['Direct', 'Search', 'Social', 'Referral'],\n    datasets: [\n      { label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 },\n    ],\n  };\n\n  protected readonly statisticsOptions: AerisChartOptions = {\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\nimport { AerisTabsModule } from '@aeris-ui/core/tabs';\n\n@Component({\n  selector: 'app-tabs-lazy-demo',\n  imports: [AerisChartModule, AerisTabsModule],\n  templateUrl: './tabs-lazy.demo.html',\n  styleUrl: './tabs-lazy.demo.scss'\n})\nexport class TabsLazyDeferredAndPreservedContentDemo {\n  protected readonly trafficData: AerisChartData = {\n    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],\n    datasets: [\n      {\n        label: 'Sessions',\n        data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],\n        tension: 0.35,\n        fill: true,\n      },\n    ],\n  };\n\n  protected readonly conversionData: AerisChartData = {\n    labels: ['Direct', 'Search', 'Social', 'Referral'],\n    datasets: [\n      { label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 },\n    ],\n  };\n\n  protected readonly statisticsOptions: AerisChartOptions = {\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
             },
             {
               "language": "HTML",
@@ -23697,6 +23697,28 @@
               "language": "CSS",
               "label": "CSS",
               "code": ".statistics-summary {\n  min-height: 15rem;\n  display: grid;\n  place-items: center;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  text-align: center;\n}\n\n.statistics-grid {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1rem;\n}\n\n.statistics-card {\n  min-width: 0;\n  padding: 1rem;\n  border-radius: var(--aeris-radius-container);\n  background: var(--aeris-surface-2);\n}\n\n.statistics-card h4 {\n  margin: 0 0 0.75rem;\n}\n\n@media (max-width: 44rem) {\n  .statistics-grid {\n    grid-template-columns: 1fr;\n  }\n}"
+            }
+          ]
+        },
+        {
+          "id": "tabs-active-content",
+          "title": "Active-only content",
+          "description": "Set aerisTabContent to active when content should exist only while its tab is selected. Angular destroys it on exit, runs normal cleanup hooks, and creates a fresh instance when the tab opens again.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\nimport { AerisTabsModule } from '@aeris-ui/core/tabs';\n\n@Component({\n  selector: 'app-tabs-active-content-demo',\n  imports: [AerisInputText, AerisTabsModule],\n  templateUrl: './tabs-active-content.demo.html',\n  styleUrl: './tabs-active-content.demo.scss'\n})\nexport class TabsActiveContentActiveOnlyContentDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <aeris-tabs ariaLabel=\"Active-only content example\">\n    <aeris-tab-panel value=\"instructions\" label=\"Instructions\">\n      <div class=\"tabs-demo-panel\">\n        Open Temporary editor, enter text, leave the tab, and return. The field resets\n        because its content was destroyed.\n      </div>\n    </aeris-tab-panel>\n    <aeris-tab-panel value=\"editor\" label=\"Temporary editor\">\n      <ng-template aerisTabContent=\"active\">\n        <div class=\"active-only-panel\">\n          <label for=\"temporary-draft\">Temporary draft</label>\n          <input\n            id=\"temporary-draft\"\n            aerisInputText\n            placeholder=\"This value resets when you leave\"\n          />\n          <small>\n            Leaving this tab destroys the input and any local component state inside\n            this template.\n          </small>\n        </div>\n      </ng-template>\n    </aeris-tab-panel>\n  </aeris-tabs>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".tabs-demo-panel {\n  min-height: 6rem;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  line-height: 1.6;\n}\n\n.active-only-panel {\n  min-height: 9rem;\n  display: grid;\n  align-content: center;\n  gap: 0.5rem;\n  padding: 1.25rem;\n}\n\n.active-only-panel label {\n  font-weight: 600;\n}\n\n.active-only-panel small {\n  color: var(--aeris-text-2);\n  line-height: 1.5;\n}"
             }
           ]
         },
