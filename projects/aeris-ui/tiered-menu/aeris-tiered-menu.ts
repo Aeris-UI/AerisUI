@@ -240,6 +240,7 @@ let nextTieredMenuId = 0;
         [aerisInternalAppendTo]="popup() ? appendTo() : 'self'"
         [aerisInternalAppendToAnchor]="popup() ? portalAnchor() : null"
         [aerisInternalAppendToCollisionPadding]="viewportMargin()"
+        [aerisInternalAppendToPositionSelf]="false"
         [id]="id()"
         [class]="panelStyleClass()"
         [attr.data-popup]="popup() || null"
@@ -325,13 +326,18 @@ export class AerisTieredMenu<T = unknown> {
       const pointerdown = (event: PointerEvent) => this.handleDocumentPointerdown(event);
       const keydown = (event: KeyboardEvent) => this.handleDocumentKeydown(event);
       const reposition = this.repositionFrame.schedule;
+      const viewport = view?.visualViewport;
       document.addEventListener('pointerdown', pointerdown);
       document.addEventListener('keydown', keydown);
       view?.addEventListener('resize', reposition);
+      viewport?.addEventListener('resize', reposition);
+      viewport?.addEventListener('scroll', reposition);
       onCleanup(() => {
         document.removeEventListener('pointerdown', pointerdown);
         document.removeEventListener('keydown', keydown);
         view?.removeEventListener('resize', reposition);
+        viewport?.removeEventListener('resize', reposition);
+        viewport?.removeEventListener('scroll', reposition);
         this.repositionFrame.cancel();
       });
     });

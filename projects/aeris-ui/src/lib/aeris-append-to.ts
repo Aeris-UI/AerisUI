@@ -61,6 +61,7 @@ export class ɵAerisAppendTo {
   readonly aerisInternalAppendToPlacement = input<AerisInternalOverlayPlacement | 'auto'>('auto');
   readonly aerisInternalAppendToAlignment = input<AerisInternalOverlayAlignment | 'auto'>('auto');
   readonly aerisInternalAppendToCollisionPadding = input<number | AerisOverlayCollisionPadding>(8);
+  readonly aerisInternalAppendToPositionSelf = input(true);
   readonly aerisInternalAppendToOutside = output<PointerEvent>();
 
   constructor() {
@@ -73,7 +74,7 @@ export class ɵAerisAppendTo {
       this.captureOrigin();
 
       if (target === 'self') this.restoreToOrigin();
-      if (target === 'self' && !anchor) {
+      if (target === 'self' && (!anchor || !this.aerisInternalAppendToPositionSelf())) {
         this.element.removeAttribute('data-aeris-append-to');
         return;
       }

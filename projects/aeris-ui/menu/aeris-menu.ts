@@ -289,6 +289,7 @@ let nextMenuId = 0;
         [aerisInternalAppendTo]="popup() ? appendTo() : 'self'"
         [aerisInternalAppendToAnchor]="popup() ? portalAnchor() : null"
         [aerisInternalAppendToCollisionPadding]="viewportMargin()"
+        [aerisInternalAppendToPositionSelf]="false"
         [id]="menuId()"
         [class]="panelStyleClass()"
         [attr.data-popup]="popup() || null"
@@ -385,15 +386,22 @@ export class AerisMenu<T = unknown> {
       const pointerdown = (event: PointerEvent) => this.handleDocumentPointerdown(event);
       const keydown = (event: KeyboardEvent) => this.handleDocumentKeydown(event);
       const reposition = this.repositionFrame.schedule;
+      const viewport = view?.visualViewport;
       document.addEventListener('pointerdown', pointerdown);
       document.addEventListener('keydown', keydown);
+      document.addEventListener('scroll', reposition, true);
       view?.addEventListener('resize', reposition);
       view?.addEventListener('scroll', reposition);
+      viewport?.addEventListener('resize', reposition);
+      viewport?.addEventListener('scroll', reposition);
       onCleanup(() => {
         document.removeEventListener('pointerdown', pointerdown);
         document.removeEventListener('keydown', keydown);
+        document.removeEventListener('scroll', reposition, true);
         view?.removeEventListener('resize', reposition);
         view?.removeEventListener('scroll', reposition);
+        viewport?.removeEventListener('resize', reposition);
+        viewport?.removeEventListener('scroll', reposition);
         this.repositionFrame.cancel();
       });
     });
@@ -461,7 +469,7 @@ export class AerisMenu<T = unknown> {
     const rect = panel.getBoundingClientRect();
     const width = rect.width || panel.offsetWidth || 240;
     const height = rect.height || panel.offsetHeight || 320;
-    const anchor = this.anchorPoint();
+    const anchor = this.currentAnchorPoint();
     const viewport = view.visualViewport;
     const { x, y } = aerisInternalClampOverlayPoint(
       anchor,
@@ -473,6 +481,7 @@ export class AerisMenu<T = unknown> {
       viewport?.offsetLeft ?? 0,
       viewport?.offsetTop ?? 0,
     );
+    this.anchorPoint.set(anchor);
     this.coordinates.set({ x, y });
     this.positioned.set(true);
     panel.style.left = `${x}px`;
@@ -621,6 +630,13 @@ export class AerisMenu<T = unknown> {
     const target = this.activeTarget();
     return target instanceof HTMLElement ? target : this.host.nativeElement;
   });
+
+  private currentAnchorPoint(): AerisMenuCoordinates {
+    const target = this.activeTarget();
+    if (!target) return this.anchorPoint();
+    const rect = target.getBoundingClientRect();
+    return { x: rect.left, y: rect.bottom + 6 };
+  }
 
   private buildEntries(
     items: readonly AerisMenuItem<T>[],
