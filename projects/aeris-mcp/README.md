@@ -22,7 +22,7 @@ pinned package with `npx`:
   "mcpServers": {
     "aeris": {
       "command": "npx",
-      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.4"]
+      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.5"]
     }
   }
 }
@@ -36,7 +36,7 @@ launched by the MCP client and is not part of the application runtime or bundle.
 If the client cannot use `npx`, install the executable globally:
 
 ```bash
-npm install --global @aeris-ui/mcp@22.0.0-alpha.4
+npm install --global @aeris-ui/mcp@22.0.0-alpha.5
 ```
 
 Then configure the client to launch the installed executable:

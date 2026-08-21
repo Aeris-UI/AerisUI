@@ -7,7 +7,41 @@ release line.
 
 ## [Unreleased]
 
-No consumer-visible changes have been recorded since 22.0.0-alpha.4.
+No consumer-visible changes have been recorded since 22.0.0-alpha.5.
+
+## [22.0.0-alpha.5] - 2026-08-21
+
+### Added
+
+- Add collision-aware overlay positioning with viewport margins, safe-area and exclusion-zone
+  support, edge flipping, and coalesced scroll or resize repositioning.
+- Add first-class Menubar item appearance, severity, active-route, and `aria-current` APIs.
+- Add the accessible FormField composition component for labels, controls, hints, errors, and
+  stable responsive field layouts.
+- Add explicit deferred Tabs content with preserve-state and active-only rendering strategies.
+- Add automated consumer-composition, server-rendering, bundle-size, and packed-install release
+  gates.
+
+### Changed
+
+- Make `--aeris-avatar-size` the final per-instance Avatar size override and keep avatars square in
+  flex and grid layouts.
+- Close menu submenus when pointer focus leaves the menu by default, with an opt-out for persistent
+  submenu workflows.
+- Render ordinary Tabs panel content eagerly. Deferred content now uses an explicit Angular
+  template boundary so components are not instantiated before activation.
+
+### Fixed
+
+- Keep popup menus anchored to their trigger rather than moving with the page viewport.
+- Keep overlays inside constrained and mobile viewports while preserving body-mounted and local
+  overlay accessibility relationships.
+
+### Migration from alpha.4
+
+- Tabs that contain charts, API resources, or other expensive content should wrap that content in
+  `<ng-template aerisTabContent>`. Use `aerisTabContent="active"` when content should be destroyed
+  every time its panel becomes inactive. Plain projected panel content is eager in alpha.5.
 
 ## [22.0.0-alpha.4] - 2026-08-07
 
@@ -102,7 +136,8 @@ No consumer-visible changes have been recorded since 22.0.0-alpha.4.
 - Align the published Lexical peer range with the version Aeris uses and declare the required
   Angular platform-browser and RxJS peers.
 
-[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.4...HEAD
+[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.5...HEAD
+[22.0.0-alpha.5]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.4...v22.0.0-alpha.5
 [22.0.0-alpha.4]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.3...v22.0.0-alpha.4
 [22.0.0-alpha.3]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.2...v22.0.0-alpha.3
 [22.0.0-alpha.2]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.1...v22.0.0-alpha.2

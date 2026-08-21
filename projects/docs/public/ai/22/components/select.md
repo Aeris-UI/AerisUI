@@ -2,7 +2,7 @@
 
 > Keyboard-first selection control with searchable, grouped, and templated options.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/select`
 - Human-readable documentation: [https://aeris-ui.dev/components/select](https://aeris-ui.dev/components/select)
@@ -30,6 +30,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the options panel inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
 | `inputId` | `string` | `generated` | ID assigned to the combobox trigger for visible labels. |

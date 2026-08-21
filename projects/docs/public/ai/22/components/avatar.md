@@ -2,7 +2,7 @@
 
 > Represent people and entities with images, initials, icons, fallbacks, theme-aware tones, and responsive groups.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/avatar`
 - Human-readable documentation: [https://aeris-ui.dev/components/avatar](https://aeris-ui.dev/components/avatar)
@@ -402,7 +402,7 @@ export class AvatarFallbackImageFallbackDemo {
 
 ### Token customization
 
-Scope Avatar tokens to create a distinct identity without replacing component structure.
+Use the general size token as a final per-instance override, even when a semantic size is selected.
 
 #### TS
 
@@ -419,6 +419,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
         class="brand-avatar"
         label="AU"
         ariaLabel="Aeris UI"
+        size="xl"
         shape="rounded"
       />
     </div>

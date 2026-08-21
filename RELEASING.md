@@ -9,8 +9,10 @@ for every Aeris release.
 - Minor releases add backward-compatible Aeris features within an Angular release line.
 - Patch releases contain backward-compatible fixes and documentation corrections.
 - Prereleases use standard identifiers such as `22.0.0-alpha.0` and `22.0.0-rc.0`.
-- Public APIs are not intentionally broken within an Aeris major. Deprecate them first and remove
-  them only in the next Angular-aligned major release.
+- Alpha and beta releases may simplify or replace public APIs without a compatibility layer when
+  consumer testing reveals a cleaner design. Every such change requires exact migration notes.
+- Beginning with the first stable release, public APIs are not intentionally broken within an Aeris
+  major. Deprecate them first and remove them only in the next Angular-aligned major release.
 - Angular peer dependencies use an explicit lower bound and exclude the next Angular major, for
   example `>=22.0.6 <23.0.0`.
 

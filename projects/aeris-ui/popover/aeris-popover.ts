@@ -22,6 +22,7 @@ import {
   aerisInternalPositionAnchoredOverlay,
   aerisInternalTrapTabFocus,
   type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
 } from '@aeris-ui/core';
 
 export type AerisPopoverPlacement = 'auto' | 'top' | 'right' | 'bottom' | 'left';
@@ -207,7 +208,7 @@ export class AerisPopover {
   readonly width = input('');
   readonly maxWidth = input('');
   readonly offset = input(10);
-  readonly viewportMargin = input(8);
+  readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly dismissible = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly closable = input(false, { transform: booleanAttribute });
@@ -247,15 +248,22 @@ export class AerisPopover {
       const pointerdown = (event: PointerEvent) => this.handleDocumentPointerdown(event);
       const reposition = this.repositionFrame.schedule;
       const view = this.document.defaultView;
+      const viewport = view?.visualViewport;
+      this.document.addEventListener('scroll', reposition, true);
       this.document.addEventListener('keydown', keydown);
       this.document.addEventListener('pointerdown', pointerdown);
       view?.addEventListener('resize', reposition);
       view?.addEventListener('scroll', reposition);
+      viewport?.addEventListener('scroll', reposition);
+      viewport?.addEventListener('resize', reposition);
       onCleanup(() => {
+        this.document.removeEventListener('scroll', reposition, true);
         this.document.removeEventListener('keydown', keydown);
         this.document.removeEventListener('pointerdown', pointerdown);
         view?.removeEventListener('resize', reposition);
         view?.removeEventListener('scroll', reposition);
+        viewport?.removeEventListener('scroll', reposition);
+        viewport?.removeEventListener('resize', reposition);
         this.repositionFrame.cancel();
       });
     });
@@ -302,6 +310,7 @@ export class AerisPopover {
     const panelRect = panel.getBoundingClientRect();
     const width = panelRect.width || panel.offsetWidth || 320;
     const height = panelRect.height || panel.offsetHeight || 160;
+    const viewport = view.visualViewport;
     const { placement, x, y } = aerisInternalPositionAnchoredOverlay({
       target: targetRect,
       width,
@@ -309,9 +318,12 @@ export class AerisPopover {
       placement: this.placement(),
       alignment: this.alignment(),
       offset: this.offset(),
-      margin: this.viewportMargin(),
-      viewportWidth: view.innerWidth,
-      viewportHeight: view.innerHeight,
+      margin: 0,
+      collisionPadding: this.viewportMargin(),
+      viewportWidth: viewport?.width ?? view.innerWidth,
+      viewportHeight: viewport?.height ?? view.innerHeight,
+      viewportLeft: viewport?.offsetLeft ?? 0,
+      viewportTop: viewport?.offsetTop ?? 0,
     });
 
     this.actualPlacement.set(placement);

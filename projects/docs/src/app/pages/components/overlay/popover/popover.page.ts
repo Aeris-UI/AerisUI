@@ -231,9 +231,10 @@ interface AerisPopoverTemplateContext {
     },
     {
       name: 'viewportMargin',
-      type: 'number',
+      type: 'number | AerisOverlayCollisionPadding',
       defaultValue: '8',
-      description: 'Minimum viewport edge gap in pixels.',
+      description:
+        'Minimum visual viewport gap. Per-edge values reserve fixed interface regions; preferred placements flip when they do not fit.',
     },
     {
       name: 'dismissible',

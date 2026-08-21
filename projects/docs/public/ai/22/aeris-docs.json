@@ -3,7 +3,7 @@
   "schemaVersion": 1,
   "library": {
     "name": "@aeris-ui/core",
-    "version": "22.0.0-alpha.4",
+    "version": "22.0.0-alpha.5",
     "status": "alpha",
     "angularPeerRange": ">=22.0.6 <23.0.0",
     "documentationUrl": "https://aeris-ui.dev",
@@ -62,7 +62,7 @@
           "id": "alpha-status",
           "title": "Alpha status",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.4 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
+            "Aeris 22.0.0-alpha.5 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
             "Public APIs, styling contracts, component behavior, and migration requirements may change before the first stable release as consumer testing uncovers improvements."
           ],
           "bullets": [
@@ -98,7 +98,7 @@
             {
               "label": "Pinned alpha (recommended)",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.4"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.5"
             },
             {
               "label": "Newest alpha",
@@ -217,7 +217,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.4 --config=aeris.setup.json"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.5 --config=aeris.setup.json"
             }
           ]
         },
@@ -232,7 +232,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.4 --project=web --surface=\"#eef3f5\" --primary=\"#357a9e\" --secondary=\"#347b73\" --accent=\"#d46f58\" --contrast=\"#163e54\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.5 --project=web --surface=\"#eef3f5\" --primary=\"#357a9e\" --secondary=\"#347b73\" --accent=\"#d46f58\" --contrast=\"#163e54\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
             },
             {
               "label": "aeris.setup.json",
@@ -253,7 +253,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.4"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.5"
             }
           ]
         },
@@ -1820,7 +1820,7 @@
           "bullets": [
             "Node.js 20 or newer for the local MCP process.",
             "An AI editor, CLI, or desktop application that supports local stdio MCP servers.",
-            "Use @aeris-ui/mcp 22.0.0-alpha.4 with @aeris-ui/core 22.0.0-alpha.4.",
+            "Use @aeris-ui/mcp 22.0.0-alpha.5 with @aeris-ui/core 22.0.0-alpha.5.",
             "Restart or reload the AI client after changing its MCP configuration."
           ],
           "note": "Pin the MCP and core packages to the same exact alpha version."
@@ -1837,7 +1837,7 @@
             {
               "label": "Generic MCP client configuration",
               "language": "JSON",
-              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.4\"]\n    }\n  }\n}"
+              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.5\"]\n    }\n  }\n}"
             }
           ],
           "note": "Do not add @aeris-ui/mcp to the Angular application dependencies. It belongs in the AI client configuration, not application source or runtime code.",
@@ -1859,7 +1859,7 @@
             {
               "label": "Install the MCP executable",
               "language": "Shell",
-              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.4"
+              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.5"
             },
             {
               "label": "Global installation configuration",
@@ -2284,10 +2284,11 @@
           "id": "ssr-hydration",
           "title": "Server rendering and hydration",
           "paragraphs": [
-            "Angular server rendering and hydration are not yet part of the verified Aeris alpha compatibility promise. Browser-dependent observers and animation work are guarded where components use them, but the complete library has not yet passed a dedicated server-render and hydration matrix.",
+            "Aeris release verification now server-renders a consumer composition containing deferred Tabs and body-targeted overlay controls, checks stable ARIA relationships, and verifies Angular hydration metadata. Browser-dependent observers and animation work remain guarded where components use them.",
+            "This targeted regression is not yet a complete all-component SSR and hydration matrix. During alpha, evaluate every component used by an application's initial route and treat the browser production build as a separate check.",
             "Evaluate SSR applications in a disposable branch, render every component used by the initial route, and check for direct document access, hydration mismatches, overlay creation before the browser is ready, and layout changes after hydration. Treat a successful browser build alone as insufficient evidence."
           ],
-          "note": "This statement should be replaced with a tested support matrix only after automated server rendering and hydration coverage is part of release verification."
+          "note": "A complete SSR support promise will follow only after the full component matrix is automated."
         },
         {
           "id": "application-testing",
@@ -2322,7 +2323,7 @@
       "group": "Releases and updates",
       "title": "Version compatibility",
       "description": "Choose an Aeris release line that is verified for the Angular version used by your application.",
-      "summary": "The current package is Aeris 22.0.0-alpha.4, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
+      "summary": "The current package is Aeris 22.0.0-alpha.5, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
       "sections": [
         {
           "id": "matrix",
@@ -2360,7 +2361,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm view @aeris-ui/core@22.0.0-alpha.4 peerDependencies"
+              "code": "npm view @aeris-ui/core@22.0.0-alpha.5 peerDependencies"
             }
           ]
         },
@@ -2445,7 +2446,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.4"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.5"
             }
           ]
         },
@@ -2459,7 +2460,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.4"
+              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.5"
             }
           ],
           "note": "The commands show the currently supported Angular major. Replace the major only after it appears in the compatibility matrix."
@@ -2495,9 +2496,22 @@
           "id": "release-specific",
           "title": "Release-specific migration notes",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.4 begins the Angular-aligned Aeris 22 alpha line. Future prereleases that require consumer changes will add exact before-and-after instructions here."
+            "Aeris 22.0.0-alpha.5 renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.",
+            "Use a bare aerisTabContent template to initialize expensive content on first activation and preserve its state. Set the directive to active to destroy and recreate the content whenever selection changes."
           ],
-          "note": "A release without an entry in this section has no known manual migration beyond the standard install and verification workflow."
+          "code": [
+            {
+              "label": "Preserve after first activation",
+              "language": "HTML",
+              "code": "<aeris-tab-panel value=\"statistics\" label=\"Statistics\">\n  <ng-template aerisTabContent>\n    <app-expensive-statistics />\n  </ng-template>\n</aeris-tab-panel>"
+            },
+            {
+              "label": "Destroy on deactivation",
+              "language": "HTML",
+              "code": "<aeris-tab-panel value=\"live\" label=\"Live\">\n  <ng-template aerisTabContent=\"active\">\n    <app-live-resource />\n  </ng-template>\n</aeris-tab-panel>"
+            }
+          ],
+          "note": "No migration is needed for applications that want every panel initialized eagerly."
         },
         {
           "id": "verification",
@@ -2565,7 +2579,22 @@
             "Next release · In development"
           ],
           "bullets": [
-            "No consumer-visible changes have been recorded since 22.0.0-alpha.4."
+            "No consumer-visible changes have been recorded since 22.0.0-alpha.5."
+          ]
+        },
+        {
+          "id": "version-22.0.0-alpha.5",
+          "title": "Aeris 22.0.0-alpha.5",
+          "paragraphs": [
+            "Alpha patch · 21 August 2026"
+          ],
+          "bullets": [
+            "Keep overlays collision-aware, viewport-contained, and anchored during scroll or resize.",
+            "Add Menubar appearance and active-route APIs, plus configurable submenu close behavior.",
+            "Add accessible FormField composition for consistent labels, hints, errors, and responsive layouts.",
+            "Add explicit preserve-state and active-only deferred rendering for Tabs.",
+            "Make Avatar instance size overrides predictable and keep avatars square in flex and grid layouts.",
+            "Verify consumer composition, server rendering, bundle size, and real packed-package installation in release checks."
           ]
         },
         {
@@ -2687,6 +2716,12 @@
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the panel inside the visual viewport. Use per-edge values to reserve fixed headers, navigation, or other exclusion zones."
             },
             {
               "name": "value",
@@ -3319,6 +3354,12 @@
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions."
             },
             {
               "name": "value",
@@ -4222,6 +4263,12 @@
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions."
+            },
+            {
               "name": "value",
               "type": "string (model)",
               "defaultValue": "'#5f6f36'",
@@ -4905,6 +4952,12 @@
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the calendar inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation."
+            },
+            {
               "name": "value",
               "type": "AerisDatePickerValue (model)",
               "defaultValue": "null",
@@ -5400,6 +5453,28 @@
               "language": "TypeScript",
               "label": "TS",
               "code": "import { Component, signal } from '@angular/core';\nimport { AerisDatePicker, type AerisDatePickerChangeEvent, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';\n\n@Component({\n  selector: 'app-date-picker-basic-demo',\n  imports: [AerisDatePicker],\n  template: `\n    <div class=\"field-stack\">\n      <div class=\"field\">\n        <label for=\"basic-date\">Project date</label>\n        <aeris-date-picker\n          inputId=\"basic-date\"\n          [(value)]=\"basicDate\"\n          clearable\n          (changed)=\"recordChange($event)\"\n        />\n        <small aria-live=\"polite\">Last change: {{ lastChange() }}</small>\n      </div>\n    </div>\n  `,\n  styles: `\n    .field-stack {\n      width: 100%;\n      display: grid;\n      gap: 1rem;\n    }\n    \n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class DatePickerBasicBasicDemo {\n  protected readonly basicDate =\n    signal<AerisDatePickerValue>(\n      new Date(2026, 5, 18),\n    );\n\n  protected recordChange(\n    event: AerisDatePickerChangeEvent,\n  ): void {\n    const value = event.value;\n    this.lastChange.set(\n      value instanceof Date\n        ? value.toLocaleDateString()\n        : 'Selection updated',\n    );\n  }\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "date-picker-collision",
+          "title": "Constrained viewport",
+          "description": "The calendar flips and remains within the visual viewport. Mount it to body when an overflow container would otherwise clip it, and reserve fixed interface regions with per-edge margins.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisDatePicker } from '@aeris-ui/core/date-picker';\n\n@Component({\n  selector: 'app-date-picker-collision-demo',\n  imports: [AerisDatePicker],\n  templateUrl: './date-picker-collision.demo.html',\n  styleUrl: './date-picker-collision.demo.scss'\n})\nexport class DatePickerCollisionConstrainedViewportDemo {\n  protected readonly overlayViewportMargin = {\n    top: 16,\n    right: 16,\n    bottom: 72,\n    left: 16,\n  } as const;\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"collision-demo\">\n  <div class=\"field\">\n    <label for=\"collision-date\">Delivery date</label>\n    <aeris-date-picker\n      inputId=\"collision-date\"\n      appendTo=\"body\"\n      [viewportMargin]=\"overlayViewportMargin\"\n      placeholder=\"Choose a date\"\n      ariaDescribedBy=\"collision-date-help\"\n      clearable\n    />\n    <small id=\"collision-date-help\">\n      The panel escapes this clipped container and avoids a 72px bottom bar.\n    </small>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n.collision-demo {\n  min-height: 18rem;\n  display: flex;\n  align-items: flex-end;\n  padding: 1rem;\n  border-radius: 0.75rem;\n  background: var(--aeris-surface-2);\n  overflow: hidden;\n}"
             }
           ]
         },
@@ -6216,6 +6291,377 @@
           {
             "keys": "Enter / Space",
             "behavior": "Activates the focused toolbar button."
+          }
+        ]
+      }
+    },
+    {
+      "name": "FormField",
+      "slug": "form-field",
+      "category": "Form",
+      "description": "Compose labels, controls, hints, and validation messages with stable spacing and accessible relationships.",
+      "entryPoint": "@aeris-ui/core/form-field",
+      "documentationUrl": "https://aeris-ui.dev/components/form-field",
+      "imports": [
+        "AerisFormField"
+      ],
+      "importCode": "import { AerisFormField } from '@aeris-ui/core/form-field';",
+      "api": [
+        {
+          "name": "Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "controlId",
+              "type": "string",
+              "defaultValue": "generated",
+              "description": "ID shared by the label and control. Exposed as a signal for Aeris controls."
+            },
+            {
+              "name": "invalid",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Shows the error, applies invalid presentation, and includes its ID in describedBy()."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Applies disabled field presentation. Disable the projected control separately."
+            },
+            {
+              "name": "required",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Shows the required indicator and sets aria-required on native aerisFormControl elements."
+            },
+            {
+              "name": "optional",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Shows an optional indicator unless required is also true."
+            },
+            {
+              "name": "optionalText",
+              "type": "string",
+              "defaultValue": "'Optional'",
+              "description": "Text displayed by the optional indicator for localization."
+            },
+            {
+              "name": "fluid",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Makes the field and native aerisFormControl element fill available inline space."
+            },
+            {
+              "name": "reserveMessageSpace",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Reserves one message line so adjacent grid fields remain visually stable."
+            },
+            {
+              "name": "ariaDescribedby",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Additional description IDs merged into the generated describedBy() value."
+            },
+            {
+              "name": "errorLive",
+              "type": "AerisFormErrorLive",
+              "defaultValue": "'polite'",
+              "description": "Default error announcement behavior. Options: 'off', 'polite', 'assertive'."
+            }
+          ]
+        },
+        {
+          "name": "Directive Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "id",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Overrides the generated label ID."
+            },
+            {
+              "name": "for",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Overrides the generated label target. The TypeScript property name is forId."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Overrides the generated native or host-semantic control ID."
+            },
+            {
+              "name": "aria-describedby",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Additional description IDs merged with the FormField IDs. The TypeScript property name is ariaDescribedby."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Overrides the generated hint ID."
+            },
+            {
+              "name": "id",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Overrides the generated error ID."
+            },
+            {
+              "name": "hideWhenValid",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Hides the projected error while FormField invalid is false."
+            },
+            {
+              "name": "live",
+              "type": "AerisFormErrorLive | undefined",
+              "defaultValue": "undefined",
+              "description": "Overrides the field announcement behavior. Options: 'off', 'polite', 'assertive', or undefined to inherit errorLive."
+            }
+          ]
+        },
+        {
+          "name": "Properties",
+          "kind": "property",
+          "entries": [
+            {
+              "name": "labelId",
+              "type": "Signal<string>",
+              "defaultValue": "derived",
+              "description": "Generated label ID for ariaLabelledby on Aeris or custom controls."
+            },
+            {
+              "name": "hintId",
+              "type": "Signal<string>",
+              "defaultValue": "derived",
+              "description": "Generated default hint ID."
+            },
+            {
+              "name": "errorId",
+              "type": "Signal<string>",
+              "defaultValue": "derived",
+              "description": "Generated default error ID."
+            },
+            {
+              "name": "describedBy",
+              "type": "Signal<string>",
+              "defaultValue": "derived",
+              "description": "Deduplicated hint, active error, and external description IDs for control binding."
+            }
+          ]
+        }
+      ],
+      "referenceTables": [],
+      "interfaces": [
+        {
+          "name": "Interfaces",
+          "code": "type AerisFormErrorLive = 'off' | 'polite' | 'assertive';"
+        }
+      ],
+      "designTokens": [
+        {
+          "name": "--aeris-form-field-gap",
+          "type": "length",
+          "defaultValue": "0.45rem",
+          "description": "Spacing between label, control, and support area."
+        },
+        {
+          "name": "--aeris-form-field-color",
+          "type": "color",
+          "defaultValue": "--aeris-text",
+          "description": "Base field text color."
+        },
+        {
+          "name": "--aeris-form-field-label-color",
+          "type": "color",
+          "defaultValue": "--aeris-text",
+          "description": "Label text color."
+        },
+        {
+          "name": "--aeris-form-field-label-font-size",
+          "type": "length",
+          "defaultValue": "0.875rem",
+          "description": "Label font size."
+        },
+        {
+          "name": "--aeris-form-field-label-font-weight",
+          "type": "number",
+          "defaultValue": "700",
+          "description": "Label font weight."
+        },
+        {
+          "name": "--aeris-form-field-indicator-gap",
+          "type": "length",
+          "defaultValue": "0.25rem",
+          "description": "Gap before required or optional indicators."
+        },
+        {
+          "name": "--aeris-form-field-required-color",
+          "type": "color",
+          "defaultValue": "--aeris-danger",
+          "description": "Required indicator color."
+        },
+        {
+          "name": "--aeris-form-field-optional-color",
+          "type": "color",
+          "defaultValue": "--aeris-text-2",
+          "description": "Optional indicator color."
+        },
+        {
+          "name": "--aeris-form-field-message-gap",
+          "type": "length",
+          "defaultValue": "0.25rem",
+          "description": "Gap between hint and error messages."
+        },
+        {
+          "name": "--aeris-form-field-message-space",
+          "type": "length",
+          "defaultValue": "1.2rem",
+          "description": "Reserved support-area height."
+        },
+        {
+          "name": "--aeris-form-field-message-font-size",
+          "type": "length",
+          "defaultValue": "0.8125rem",
+          "description": "Hint and error font size."
+        },
+        {
+          "name": "--aeris-form-field-hint-color",
+          "type": "color",
+          "defaultValue": "--aeris-text-2",
+          "description": "Hint text color."
+        },
+        {
+          "name": "--aeris-form-field-error-color",
+          "type": "color",
+          "defaultValue": "--aeris-danger-text",
+          "description": "Error text color."
+        },
+        {
+          "name": "--aeris-form-field-disabled-opacity",
+          "type": "number",
+          "defaultValue": "0.52",
+          "description": "Disabled label and hint opacity."
+        }
+      ],
+      "examples": [
+        {
+          "id": "form-field-basic",
+          "title": "Native control",
+          "description": "aerisFormControl automatically connects a native control to the generated label, hint, and field state.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { FormsModule } from '@angular/forms';\nimport { AerisFormField } from '@aeris-ui/core/form-field';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\n\n@Component({\n  selector: 'app-form-field-basic-demo',\n  imports: [AerisFormField, AerisInputText, FormsModule],\n  templateUrl: './form-field-basic.demo.html',\n  styleUrl: './form-field-basic.demo.scss'\n})\nexport class FormFieldBasicNativeControlDemo {\n  protected readonly email = signal('alex@example.com');\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"form-field-example\">\n  <aeris-form-field required fluid>\n    <label aerisFormLabel>Email address</label>\n    <input\n      aerisInputText\n      aerisFormControl\n      type=\"email\"\n      autocomplete=\"email\"\n      required\n      fluid\n      [(ngModel)]=\"email\"\n    />\n    <small aerisFormHint>We use this address for account notifications.</small>\n  </aeris-form-field>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".form-field-example {\n  width: min(100%, 28rem);\n}"
+            }
+          ]
+        },
+        {
+          "id": "form-field-profile",
+          "title": "Responsive profile form",
+          "description": "Mix native and Aeris controls in a two-column form that collapses cleanly on small screens.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { FormsModule } from '@angular/forms';\nimport { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';\nimport { AerisFormField } from '@aeris-ui/core/form-field';\nimport { AerisInputNumber } from '@aeris-ui/core/input-number';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\nimport { AerisSelect } from '@aeris-ui/core/select';\nimport { AerisTextarea } from '@aeris-ui/core/textarea';\n\n@Component({\n  selector: 'app-form-field-profile-demo',\n  imports: [AerisDatePicker, AerisFormField, AerisInputNumber, AerisInputText, AerisSelect, AerisTextarea, FormsModule],\n  templateUrl: './form-field-profile.demo.html',\n  styleUrl: './form-field-profile.demo.scss'\n})\nexport class FormFieldProfileResponsiveProfileFormDemo {\n  protected readonly profileName = signal('Alex Morgan');\n  protected readonly birthDate = signal<AerisDatePickerValue>(new Date(1994, 6, 12));\n  protected readonly height = signal<number | null>(178);\n  protected readonly role = signal<string | null>('designer');\n  protected readonly biography = signal('Product designer focused on accessible workflows.');\n\n  protected readonly roleOptions = [\n    { label: 'Designer', value: 'designer' },\n    { label: 'Engineer', value: 'engineer' },\n    { label: 'Product manager', value: 'product-manager' },\n  ] as const;\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"profile-form\">\n  <aeris-form-field required fluid>\n    <label aerisFormLabel>Display name</label>\n    <input\n      aerisInputText\n      aerisFormControl\n      autocomplete=\"name\"\n      required\n      fluid\n      [(ngModel)]=\"profileName\"\n    />\n    <small aerisFormHint>Shown to other workspace members.</small>\n  </aeris-form-field>\n\n  <aeris-form-field #birthField optional fluid>\n    <label aerisFormLabel>Birth date</label>\n    <aeris-date-picker\n      [inputId]=\"birthField.controlId()\"\n      [ariaLabelledby]=\"birthField.labelId()\"\n      [ariaDescribedby]=\"birthField.describedBy()\"\n      [(value)]=\"birthDate\"\n      fluid\n    />\n    <small aerisFormHint>Used only for age-based preferences.</small>\n  </aeris-form-field>\n\n  <aeris-form-field #heightField optional fluid>\n    <label aerisFormLabel>Height</label>\n    <aeris-input-number\n      [inputId]=\"heightField.controlId()\"\n      [ariaLabelledby]=\"heightField.labelId()\"\n      [ariaDescribedby]=\"heightField.describedBy()\"\n      [(value)]=\"height\"\n      suffix=\" cm\"\n      [min]=\"80\"\n      [max]=\"250\"\n      fluid\n    />\n    <small aerisFormHint>Used to calculate BMI.</small>\n  </aeris-form-field>\n\n  <aeris-form-field #roleField required fluid>\n    <label aerisFormLabel>Role</label>\n    <aeris-select\n      [inputId]=\"roleField.controlId()\"\n      [ariaLabelledby]=\"roleField.labelId()\"\n      [ariaDescribedby]=\"roleField.describedBy()\"\n      [options]=\"roleOptions\"\n      [(value)]=\"role\"\n      placeholder=\"Choose a role\"\n      required\n      fluid\n    />\n    <small aerisFormHint>Controls the defaults shown in your workspace.</small>\n  </aeris-form-field>\n\n  <aeris-form-field #bioField class=\"profile-form__wide\" optional fluid>\n    <label aerisFormLabel>Biography</label>\n    <aeris-textarea\n      [inputId]=\"bioField.controlId()\"\n      [ariaLabelledby]=\"bioField.labelId()\"\n      [ariaDescribedby]=\"bioField.describedBy()\"\n      [(value)]=\"biography\"\n      [rows]=\"3\"\n      fluid\n    />\n    <small aerisFormHint>Share a short introduction with your team.</small>\n  </aeris-form-field>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".profile-form {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1rem;\n  align-items: stretch;\n}\n\n.profile-form__wide {\n  grid-column: 1 / -1;\n}\n\n@media (max-width: 42rem) {\n  .profile-form {\n    grid-template-columns: 1fr;\n  }\n\n  .profile-form__wide {\n    grid-column: auto;\n  }\n}"
+            }
+          ]
+        },
+        {
+          "id": "form-field-validation",
+          "title": "Validation and alignment",
+          "description": "Reserve support space to keep adjacent fields stable while an error appears. Fields stay top-aligned even when one hint wraps.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, computed, signal } from '@angular/core';\nimport { FormsModule } from '@angular/forms';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisFormField } from '@aeris-ui/core/form-field';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\n\n@Component({\n  selector: 'app-form-field-validation-demo',\n  imports: [AerisButton, AerisFormField, AerisInputText, FormsModule],\n  templateUrl: './form-field-validation.demo.html',\n  styleUrl: './form-field-validation.demo.scss'\n})\nexport class FormFieldValidationValidationAndAlignmentDemo {\n  protected readonly validationEmail = signal('alex@');\n  protected readonly validationTouched = signal(false);\n  protected readonly validationInvalid = computed(\n    () =>\n      this.validationTouched() &&\n      !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(this.validationEmail()),\n  );\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"validation-grid\">\n  <aeris-form-field\n    required\n    fluid\n    reserveMessageSpace\n    [invalid]=\"validationInvalid()\"\n  >\n    <label aerisFormLabel>Work email</label>\n    <input\n      aerisInputText\n      aerisFormControl\n      type=\"email\"\n      required\n      fluid\n      [invalid]=\"validationInvalid()\"\n      [(ngModel)]=\"validationEmail\"\n      (blur)=\"validationTouched.set(true)\"\n    />\n    <small aerisFormError>Enter a complete email address.</small>\n  </aeris-form-field>\n\n  <aeris-form-field optional fluid reserveMessageSpace>\n    <label aerisFormLabel>Employee ID</label>\n    <input aerisInputText aerisFormControl value=\"AE-1042\" fluid />\n    <small aerisFormHint>\n      This longer help message does not stretch the neighboring label-to-control gap.\n    </small>\n  </aeris-form-field>\n\n  <div class=\"validation-actions\">\n    <button aerisButton type=\"button\" (click)=\"validateEmail()\">Check email</button>\n    <button aerisButton type=\"button\" variant=\"secondary\" (click)=\"resetValidation()\">\n      Reset\n    </button>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".validation-grid {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1rem;\n  align-items: stretch;\n}\n\n.validation-actions {\n  grid-column: 1 / -1;\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.75rem;\n}\n\n@media (max-width: 42rem) {\n  .validation-grid {\n    grid-template-columns: 1fr;\n  }\n\n  .validation-actions {\n    grid-column: auto;\n  }\n}"
+            }
+          ]
+        },
+        {
+          "id": "form-field-states",
+          "title": "Required, optional, and disabled",
+          "description": "Field indicators and presentation stay consistent while the projected controls retain their own native state.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisFormField } from '@aeris-ui/core/form-field';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\nimport { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';\n\n@Component({\n  selector: 'app-form-field-states-demo',\n  imports: [AerisFormField, AerisInputText, AerisToggleSwitch],\n  templateUrl: './form-field-states.demo.html',\n  styleUrl: './form-field-states.demo.scss'\n})\nexport class FormFieldStatesRequiredOptionalAndDisabledDemo {\n  protected readonly notifications = signal(true);\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"field-state-stack\">\n  <aeris-form-field #notificationField required fluid>\n    <label aerisFormLabel>Workspace notifications</label>\n    <aeris-toggle-switch\n      [inputId]=\"notificationField.controlId()\"\n      [ariaLabelledby]=\"notificationField.labelId()\"\n      [ariaDescribedby]=\"notificationField.describedBy()\"\n      [(checked)]=\"notifications\"\n      required\n    />\n    <small aerisFormHint>Receive updates about assigned work.</small>\n  </aeris-form-field>\n\n  <aeris-form-field optional optionalText=\"Not required\" fluid>\n    <label aerisFormLabel>Portfolio URL</label>\n    <input aerisInputText aerisFormControl type=\"url\" placeholder=\"https://\" fluid />\n  </aeris-form-field>\n\n  <aeris-form-field disabled fluid>\n    <label aerisFormLabel>Organization</label>\n    <input aerisInputText aerisFormControl value=\"Aeris Labs\" disabled fluid />\n    <small aerisFormHint>Managed by your administrator.</small>\n  </aeris-form-field>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".field-state-stack {\n  width: min(100%, 32rem);\n  display: grid;\n  gap: 1rem;\n}"
+            }
+          ]
+        }
+      ],
+      "accessibility": {
+        "guidance": [
+          "Use aerisFormControl for native controls. It applies the generated ID, aria-describedby, aria-invalid, and aria-required. For Aeris controls with an internal interactive element, bind controlId(), labelId(), and describedBy() to the control's existing accessibility inputs, as shown in the profile example.",
+          "Errors are hidden while the field is valid and included in the control description only while invalid. The default polite live region avoids interrupting current speech. Use errorLive=\"off\" when another form-level summary announces validation, or assertive only for time-sensitive feedback."
+        ],
+        "keyboard": [
+          {
+            "keys": "Tab",
+            "behavior": "Moves focus to the projected control according to its native or Aeris behavior."
+          },
+          {
+            "keys": "Shift + Tab",
+            "behavior": "Moves focus backward through the page tab order."
+          },
+          {
+            "keys": "Enter / Space",
+            "behavior": "Uses the projected control's documented behavior; FormField adds no competing keyboard handlers."
+          },
+          {
+            "keys": "Label click",
+            "behavior": "Focuses or activates the associated labelable control through the native label relationship."
           }
         ]
       }
@@ -9321,6 +9767,12 @@
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions."
+            },
+            {
               "name": "options",
               "type": "readonly AerisSelectOption[]",
               "defaultValue": "required",
@@ -10005,6 +10457,12 @@
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self'",
               "description": "Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the feedback panel inside the visual viewport. Per-edge values reserve fixed interface regions."
             },
             {
               "name": "value",
@@ -11336,6 +11794,12 @@
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the options panel inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation."
             },
             {
               "name": "options",
@@ -13714,6 +14178,12 @@
               "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the tree panel inside the visual viewport. Per-edge values reserve fixed interface regions."
+            },
+            {
               "name": "nodes",
               "type": "readonly AerisTreeNode[]",
               "defaultValue": "required",
@@ -15313,6 +15783,12 @@
               "description": "Mounts the action menu locally, in document.body, or in the supplied DOM/template target."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the action menu inside the visual viewport. Per-edge values reserve fixed interface regions."
+            },
+            {
               "name": "navigationHandler",
               "type": "AerisSplitButtonNavigationHandler | undefined",
               "defaultValue": "undefined",
@@ -16458,6 +16934,12 @@
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
               "description": "Mounts the rows-per-page menu locally, in document.body, or in the supplied DOM/template target."
+            },
+            {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps the rows menu inside the visual viewport. Per-edge values reserve fixed interface regions."
             },
             {
               "name": "first",
@@ -22984,34 +23466,45 @@
               "description": "Controls whether the active tabpanel is directly focusable."
             }
           ]
+        },
+        {
+          "name": "Panel Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "value",
+              "type": "string, required",
+              "defaultValue": "required",
+              "description": "Stable selection identifier."
+            },
+            {
+              "name": "label",
+              "type": "string, required",
+              "defaultValue": "required",
+              "description": "Default visible tab label."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Disables and removes the tab from keyboard navigation."
+            }
+          ]
+        },
+        {
+          "name": "Content Template Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "aerisTabContent",
+              "type": "preserve | active",
+              "defaultValue": "'preserve'",
+              "description": "Controls deferred template lifetime. preserve creates content on first activation and keeps it mounted; active creates it on activation and destroys it on deactivation."
+            }
+          ]
         }
       ],
       "referenceTables": [
-        {
-          "caption": "TabPanel inputs",
-          "columns": [
-            "Name",
-            "Type",
-            "Description"
-          ],
-          "rows": [
-            [
-              "value",
-              "string, required",
-              "Stable selection identifier."
-            ],
-            [
-              "label",
-              "string, required",
-              "Default visible tab label."
-            ],
-            [
-              "disabled",
-              "boolean",
-              "Disables and removes the tab from keyboard navigation."
-            ]
-          ]
-        },
         {
           "caption": "Tabs outputs",
           "columns": [
@@ -23049,6 +23542,11 @@
               "aerisTabHeader",
               "selected, disabled",
               "Custom content inside the native tab button."
+            ],
+            [
+              "aerisTabContent",
+              "none",
+              "Marks the exact content Angular should defer. Without a value, it creates the content on first activation and preserves it. Set it to active to destroy the content on deactivation."
             ]
           ]
         },
@@ -23076,7 +23574,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisTabsOrientation = 'horizontal' | 'vertical';\ntype AerisTabsActivationMode = 'automatic' | 'manual';\ntype AerisTabsVariant = 'line' | 'pill';\ntype AerisTabsSize = 'sm' | 'md' | 'lg';\ntype AerisTabsJustify = 'start' | 'center' | 'end' | 'stretch';\n\ninterface AerisTabChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly value: string;\n  readonly previousValue: string;\n}"
+          "code": "type AerisTabsOrientation = 'horizontal' | 'vertical';\ntype AerisTabsActivationMode = 'automatic' | 'manual';\ntype AerisTabsVariant = 'line' | 'pill';\ntype AerisTabsSize = 'sm' | 'md' | 'lg';\ntype AerisTabsJustify = 'start' | 'center' | 'end' | 'stretch';\ntype AerisTabContentStrategy = 'preserve' | 'active';\n\ninterface AerisTabChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly value: string;\n  readonly previousValue: string;\n}"
         }
       ],
       "designTokens": [
@@ -23139,7 +23637,7 @@
         {
           "id": "tabs-basic",
           "title": "Basic",
-          "description": "Each panel has a stable value and label. The first enabled panel is displayed when no value is provided.",
+          "description": "Plain panel content is eager: Angular creates every panel's content during the initial render and keeps it mounted while tabs change.",
           "sources": [
             {
               "language": "TypeScript",
@@ -23177,6 +23675,50 @@
               "language": "CSS",
               "label": "CSS",
               "code": ".tabs-demo-panel {\n  min-height: 6rem;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  line-height: 1.6;\n}"
+            }
+          ]
+        },
+        {
+          "id": "tabs-lazy",
+          "title": "Deferred and preserved content",
+          "description": "A bare aerisTabContent template creates Statistics only the first time it opens. The charts then remain mounted, so their state survives later tab changes.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\nimport { AerisTabsModule } from '@aeris-ui/core/tabs';\n\n@Component({\n  selector: 'app-tabs-lazy-demo',\n  imports: [AerisChartModule, AerisTabsModule],\n  templateUrl: './tabs-lazy.demo.html',\n  styleUrl: './tabs-lazy.demo.scss'\n})\nexport class TabsLazyDeferredAndPreservedContentDemo {\n  protected readonly trafficData: AerisChartData = {\n    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],\n    datasets: [\n      {\n        label: 'Sessions',\n        data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],\n        tension: 0.35,\n        fill: true,\n      },\n    ],\n  };\n\n  protected readonly conversionData: AerisChartData = {\n    labels: ['Direct', 'Search', 'Social', 'Referral'],\n    datasets: [\n      { label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 },\n    ],\n  };\n\n  protected readonly statisticsOptions: AerisChartOptions = {\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <aeris-tabs ariaLabel=\"Workspace analytics\">\n    <aeris-tab-panel value=\"summary\" label=\"Summary\">\n      <div class=\"statistics-summary\">\n        <div>\n          <strong>Analytics overview</strong>\n          <p>Open Statistics to initialize the detailed charts.</p>\n        </div>\n      </div>\n    </aeris-tab-panel>\n    <aeris-tab-panel value=\"statistics\" label=\"Statistics\">\n      <ng-template aerisTabContent>\n        <div class=\"statistics-grid\">\n          <section class=\"statistics-card\">\n            <h4>Weekly traffic</h4>\n            <aeris-chart\n              type=\"line\"\n              [data]=\"trafficData\"\n              [options]=\"statisticsOptions\"\n              height=\"17rem\"\n              ariaLabel=\"Weekly sessions\"\n              ariaDescription=\"Sessions rise overall from Monday to Sunday.\"\n            />\n          </section>\n          <section class=\"statistics-card\">\n            <h4>Conversions by source</h4>\n            <aeris-chart\n              type=\"bar\"\n              [data]=\"conversionData\"\n              [options]=\"statisticsOptions\"\n              height=\"17rem\"\n              ariaLabel=\"Conversions by traffic source\"\n              ariaDescription=\"Search produces the most conversions.\"\n            />\n          </section>\n        </div>\n      </ng-template>\n    </aeris-tab-panel>\n  </aeris-tabs>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".statistics-summary {\n  min-height: 15rem;\n  display: grid;\n  place-items: center;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  text-align: center;\n}\n\n.statistics-grid {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1rem;\n}\n\n.statistics-card {\n  min-width: 0;\n  padding: 1rem;\n  border-radius: var(--aeris-radius-container);\n  background: var(--aeris-surface-2);\n}\n\n.statistics-card h4 {\n  margin: 0 0 0.75rem;\n}\n\n@media (max-width: 44rem) {\n  .statistics-grid {\n    grid-template-columns: 1fr;\n  }\n}"
+            }
+          ]
+        },
+        {
+          "id": "tabs-active-content",
+          "title": "Active-only content",
+          "description": "Set aerisTabContent to active when content should exist only while its tab is selected. Angular destroys it on exit, runs normal cleanup hooks, and creates a fresh instance when the tab opens again.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\nimport { AerisTabsModule } from '@aeris-ui/core/tabs';\n\n@Component({\n  selector: 'app-tabs-active-content-demo',\n  imports: [AerisInputText, AerisTabsModule],\n  templateUrl: './tabs-active-content.demo.html',\n  styleUrl: './tabs-active-content.demo.scss'\n})\nexport class TabsActiveContentActiveOnlyContentDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <aeris-tabs ariaLabel=\"Active-only content example\">\n    <aeris-tab-panel value=\"instructions\" label=\"Instructions\">\n      <div class=\"tabs-demo-panel\">\n        Open Temporary editor, enter text, leave the tab, and return. The field resets\n        because its content was destroyed.\n      </div>\n    </aeris-tab-panel>\n    <aeris-tab-panel value=\"editor\" label=\"Temporary editor\">\n      <ng-template aerisTabContent=\"active\">\n        <div class=\"active-only-panel\">\n          <label for=\"temporary-draft\">Temporary draft</label>\n          <input\n            id=\"temporary-draft\"\n            aerisInputText\n            placeholder=\"This value resets when you leave\"\n          />\n          <small>\n            Leaving this tab destroys the input and any local component state inside\n            this template.\n          </small>\n        </div>\n      </ng-template>\n    </aeris-tab-panel>\n  </aeris-tabs>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".tabs-demo-panel {\n  min-height: 6rem;\n  padding: 1.25rem;\n  color: var(--aeris-text-2);\n  line-height: 1.6;\n}\n\n.active-only-panel {\n  min-height: 9rem;\n  display: grid;\n  align-content: center;\n  gap: 0.5rem;\n  padding: 1.25rem;\n}\n\n.active-only-panel label {\n  font-weight: 600;\n}\n\n.active-only-panel small {\n  color: var(--aeris-text-2);\n  line-height: 1.5;\n}"
             }
           ]
         },
@@ -23333,6 +23875,7 @@
           "Horizontal and vertical orientations expose aria-orientation and use matching arrow keys.",
           "Custom headers remain inside native buttons, so they must not contain nested interactive elements.",
           "The active panel is focusable by default for keyboard and screen-reader navigation.",
+          "Deferred panels keep their stable tabpanel element and ARIA relationship before their content is initialized. Use <ng-template aerisTabContent> to preserve content after first activation, or aerisTabContent=\"active\" to destroy it on exit. Rendering strategy does not change keyboard behavior.",
           "Scrollable tabs retain keyboard operation and provide labeled native scroll buttons."
         ],
         "keyboard": [
@@ -27405,9 +27948,9 @@
             },
             {
               "name": "viewportMargin",
-              "type": "number",
+              "type": "number | AerisOverlayCollisionPadding",
               "defaultValue": "8",
-              "description": "Minimum viewport edge gap in pixels."
+              "description": "Minimum visual viewport gap. Per-edge values reserve fixed interface regions; preferred placements flip when they do not fit."
             },
             {
               "name": "dismissible",
@@ -27889,9 +28432,9 @@
             },
             {
               "name": "aerisTooltipViewportMargin",
-              "type": "number",
+              "type": "number | AerisOverlayCollisionPadding",
               "defaultValue": "6",
-              "description": "Minimum viewport edge gap in pixels."
+              "description": "Minimum visual viewport gap. Per-edge values reserve fixed interface regions; the tooltip flips when its preferred position does not fit."
             },
             {
               "name": "aerisTooltipMaxWidth",
@@ -29247,6 +29790,12 @@
               "description": "Closes on window scroll instead of repositioning."
             },
             {
+              "name": "closeOnMouseLeave",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open."
+            },
+            {
               "name": "closeOnEscape",
               "type": "boolean",
               "defaultValue": "true",
@@ -29697,6 +30246,12 @@
               "description": "Opens root panels on pointer hover."
             },
             {
+              "name": "closeOnMouseLeave",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Closes the open panel when the pointer leaves the mega menu. Set false to keep it open."
+            },
+            {
               "name": "closeOnSelect",
               "type": "boolean",
               "defaultValue": "true",
@@ -29792,7 +30347,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisMegaMenuOrientation = 'horizontal' | 'vertical';\ntype AerisMegaMenuSize = 'sm' | 'md' | 'lg';\ntype AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select';\n\ninterface AerisMegaMenuItem<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly ariaLabel?: string;\n  readonly icon?: string;\n  readonly badge?: string | number;\n  readonly disabled?: boolean;\n  readonly visible?: boolean;\n  readonly separator?: boolean;\n  readonly url?: string;\n  readonly routerLink?: string | readonly (string | number)[];\n  readonly target?: string;\n  readonly rel?: string;\n  readonly items?: readonly AerisMegaMenuItem<T>[];\n  readonly groups?: readonly AerisMegaMenuGroup<T>[];\n  readonly data?: T;\n  readonly command?: (event: AerisMegaMenuItemEvent<T>) => void;\n}\n\ninterface AerisMegaMenuGroup<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly items: readonly AerisMegaMenuItem<T>[];\n}\n\ninterface AerisMegaMenuItemEvent<T = unknown> {\n  readonly originalEvent: MouseEvent | KeyboardEvent;\n  readonly item: AerisMegaMenuItem<T>;\n  readonly path: readonly number[];\n  readonly root: AerisMegaMenuItem<T>;\n  readonly group: AerisMegaMenuGroup<T> | null;\n}"
+          "code": "type AerisMegaMenuOrientation = 'horizontal' | 'vertical';\ntype AerisMegaMenuSize = 'sm' | 'md' | 'lg';\ntype AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';\n\ninterface AerisMegaMenuItem<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly ariaLabel?: string;\n  readonly icon?: string;\n  readonly badge?: string | number;\n  readonly disabled?: boolean;\n  readonly visible?: boolean;\n  readonly separator?: boolean;\n  readonly url?: string;\n  readonly routerLink?: string | readonly (string | number)[];\n  readonly target?: string;\n  readonly rel?: string;\n  readonly items?: readonly AerisMegaMenuItem<T>[];\n  readonly groups?: readonly AerisMegaMenuGroup<T>[];\n  readonly data?: T;\n  readonly command?: (event: AerisMegaMenuItemEvent<T>) => void;\n}\n\ninterface AerisMegaMenuGroup<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly items: readonly AerisMegaMenuItem<T>[];\n}\n\ninterface AerisMegaMenuItemEvent<T = unknown> {\n  readonly originalEvent: MouseEvent | KeyboardEvent;\n  readonly item: AerisMegaMenuItem<T>;\n  readonly path: readonly number[];\n  readonly root: AerisMegaMenuItem<T>;\n  readonly group: AerisMegaMenuGroup<T> | null;\n}"
         }
       ],
       "designTokens": [
@@ -29978,6 +30533,12 @@
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
               "description": "Mounts the panel target when popup is enabled; inline menus remain local."
+            },
+            {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions."
             },
             {
               "name": "id",
@@ -30502,6 +31063,30 @@
               "description": "Adjusts item height, text, and icon sizing. Options: 'sm', 'md', 'lg'."
             },
             {
+              "name": "rootItemVariant",
+              "type": "AerisMenubarItemVariant",
+              "defaultValue": "'default'",
+              "description": "Default appearance for root items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'."
+            },
+            {
+              "name": "submenuItemVariant",
+              "type": "AerisMenubarItemVariant",
+              "defaultValue": "'default'",
+              "description": "Default appearance for submenu items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'."
+            },
+            {
+              "name": "rootItemSeverity",
+              "type": "AerisButtonSeverity",
+              "defaultValue": "'primary'",
+              "description": "Default root-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'."
+            },
+            {
+              "name": "submenuItemSeverity",
+              "type": "AerisButtonSeverity",
+              "defaultValue": "'primary'",
+              "description": "Default submenu-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'."
+            },
+            {
               "name": "disabled",
               "type": "boolean",
               "defaultValue": "false",
@@ -30512,6 +31097,12 @@
               "type": "boolean",
               "defaultValue": "true",
               "description": "Opens submenu branches when pointer users hover items."
+            },
+            {
+              "name": "closeOnMouseLeave",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Closes submenu branches when the pointer leaves the menubar. Set false to keep them open."
             },
             {
               "name": "closeOnSelect",
@@ -30649,7 +31240,7 @@
               "name": "close(event?, reason?)",
               "type": "Event | null, AerisMenubarCloseReason => void",
               "defaultValue": "-",
-              "description": "Closes open submenus. Options: 'api', 'escape', 'outside', 'select'."
+              "description": "Closes open submenus. Options: 'api', 'escape', 'outside', 'select', 'mouseleave'."
             },
             {
               "name": "focus()",
@@ -30664,7 +31255,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisMenubarSize = 'sm' | 'md' | 'lg';\ntype AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select';\n\ninterface AerisMenubarItem<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly ariaLabel?: string;\n  readonly icon?: string;\n  readonly badge?: string | number;\n  readonly shortcut?: string;\n  readonly disabled?: boolean;\n  readonly visible?: boolean;\n  readonly separator?: boolean;\n  readonly url?: string;\n  readonly routerLink?: string | readonly (string | number)[];\n  readonly target?: string;\n  readonly rel?: string;\n  readonly items?: readonly AerisMenubarItem<T>[];\n  readonly data?: T;\n  readonly command?: (event: AerisMenubarItemEvent<T>) => void;\n}\n\ninterface AerisMenubarItemEvent<T = unknown> {\n  readonly originalEvent: MouseEvent | KeyboardEvent;\n  readonly item: AerisMenubarItem<T>;\n  readonly path: readonly number[];\n}"
+          "code": "type AerisMenubarSize = 'sm' | 'md' | 'lg';\ntype AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';\ntype AerisMenubarItemVariant =\n  | 'default'\n  | 'primary'\n  | 'secondary'\n  | 'outline'\n  | 'ghost'\n  | 'danger'\n  | 'link';\ntype AerisMenubarAriaCurrent =\n  | 'page'\n  | 'step'\n  | 'location'\n  | 'date'\n  | 'time'\n  | true\n  | false;\ntype AerisButtonSeverity =\n  | 'primary'\n  | 'secondary'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'contrast';\n\ninterface AerisMenubarItem<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly ariaLabel?: string;\n  readonly icon?: string;\n  readonly badge?: string | number;\n  readonly shortcut?: string;\n  readonly variant?: Exclude<AerisMenubarItemVariant, 'default'>;\n  readonly severity?:\n    | 'primary'\n    | 'secondary'\n    | 'success'\n    | 'info'\n    | 'warning'\n    | 'danger'\n    | 'contrast';\n  readonly active?: boolean;\n  readonly ariaCurrent?: AerisMenubarAriaCurrent;\n  readonly disabled?: boolean;\n  readonly visible?: boolean;\n  readonly separator?: boolean;\n  readonly url?: string;\n  readonly routerLink?: string | readonly (string | number)[];\n  readonly target?: string;\n  readonly rel?: string;\n  readonly items?: readonly AerisMenubarItem<T>[];\n  readonly data?: T;\n  readonly command?: (event: AerisMenubarItemEvent<T>) => void;\n}\n\ninterface AerisMenubarItemEvent<T = unknown> {\n  readonly originalEvent: MouseEvent | KeyboardEvent;\n  readonly item: AerisMenubarItem<T>;\n  readonly path: readonly number[];\n}\n\ninterface AerisMenubarItemTemplateContext<T = unknown> {\n  readonly $implicit: AerisMenubarItem<T>;\n  readonly item: AerisMenubarItem<T>;\n  readonly level: number;\n  readonly root: boolean;\n  readonly active: boolean;\n  readonly current: boolean;\n  readonly open: boolean;\n  readonly disabled: boolean;\n  readonly hasSubmenu: boolean;\n  readonly variant: AerisMenubarItemVariant;\n  readonly severity: AerisButtonSeverity;\n}"
         }
       ],
       "designTokens": [
@@ -30699,6 +31290,18 @@
           "description": "Minimum item height."
         },
         {
+          "name": "--aeris-menubar-item-hover-background",
+          "type": "color",
+          "defaultValue": "--aeris-interactive-hover",
+          "description": "Hover and current-route background for the default item appearance."
+        },
+        {
+          "name": "--aeris-menubar-item-hover-color",
+          "type": "color",
+          "defaultValue": "--aeris-text",
+          "description": "Hover and current-route text color for the default item appearance."
+        },
+        {
           "name": "--aeris-menubar-submenu-width",
           "type": "length",
           "defaultValue": "15rem",
@@ -30726,12 +31329,34 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisBadgeModule } from '@aeris-ui/core/badge';\nimport { type AerisMenubarItem } from '@aeris-ui/core/menu';\nimport { AerisMenubarModule } from '@aeris-ui/core/menubar';\nimport { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';\n\n@Component({\n  selector: 'app-menubar-basic-demo',\n  imports: [AerisBadgeModule, AerisMenubarModule, LucideDynamicIcon],\n  templateUrl: './menubar-basic.demo.html',\n  styleUrl: './menubar-basic.demo.scss'\n})\nexport class MenubarBasicBasicDemo {\n  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {\n    Clipboard: LucideClipboard,\n    Copy: LucideCopy,\n    Download: LucideDownload,\n    ExternalLink: LucideExternalLink,\n    FileText: LucideFileText,\n    FolderOpen: LucideFolderOpen,\n    HelpCircle: LucideHelpCircle,\n    Home: LucideHome,\n    Package: LucidePackage,\n    RefreshCw: LucideRefreshCw,\n    Save: LucideSave,\n    Scissors: LucideScissors,\n    Search: LucideSearch,\n    Settings: LucideSettings,\n    Undo2: LucideUndo2,\n    Upload: LucideUpload,\n    ZoomIn: LucideZoomIn,\n    ZoomOut: LucideZoomOut,\n  };\n\n  protected readonly basicItems: readonly AerisMenubarItem[] = [\n    {\n      id: 'file',\n      label: 'File',\n      icon: 'FileText',\n      items: [\n        { id: 'new-document', label: 'New document', icon: 'FileText', shortcut: '⌘ + N' },\n        { id: 'open', label: 'Open', icon: 'FolderOpen', shortcut: '⌘ + O' },\n        { separator: true },\n        { id: 'save', label: 'Save', icon: 'Save', shortcut: '⌘ + S' },\n      ],\n    },\n    {\n      id: 'edit',\n      label: 'Edit',\n      icon: 'Scissors',\n      items: [\n        { id: 'undo', label: 'Undo', icon: 'Undo2', shortcut: '⌘ + Z' },\n        { id: 'copy', label: 'Copy', icon: 'Copy', shortcut: '⌘ + C' },\n        { id: 'paste', label: 'Paste', icon: 'Clipboard', disabled: true },\n      ],\n    },\n    { id: 'help', label: 'Help', icon: 'HelpCircle' },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisBadgeModule } from '@aeris-ui/core/badge';\nimport { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';\nimport { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';\n\n@Component({\n  selector: 'app-menubar-basic-demo',\n  imports: [AerisBadgeModule, AerisMenubarModule, LucideDynamicIcon],\n  templateUrl: './menubar-basic.demo.html',\n  styleUrl: './menubar-basic.demo.scss'\n})\nexport class MenubarBasicBasicDemo {\n  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {\n    Clipboard: LucideClipboard,\n    Copy: LucideCopy,\n    Download: LucideDownload,\n    ExternalLink: LucideExternalLink,\n    FileText: LucideFileText,\n    FolderOpen: LucideFolderOpen,\n    HelpCircle: LucideHelpCircle,\n    Home: LucideHome,\n    Package: LucidePackage,\n    RefreshCw: LucideRefreshCw,\n    Save: LucideSave,\n    Scissors: LucideScissors,\n    Search: LucideSearch,\n    Settings: LucideSettings,\n    Undo2: LucideUndo2,\n    Upload: LucideUpload,\n    User: LucideUser,\n    ZoomIn: LucideZoomIn,\n    ZoomOut: LucideZoomOut,\n  };\n\n  protected readonly basicItems: readonly AerisMenubarItem[] = [\n    {\n      id: 'file',\n      label: 'File',\n      icon: 'FileText',\n      items: [\n        { id: 'new-document', label: 'New document', icon: 'FileText', shortcut: '⌘ + N' },\n        { id: 'open', label: 'Open', icon: 'FolderOpen', shortcut: '⌘ + O' },\n        { separator: true },\n        { id: 'save', label: 'Save', icon: 'Save', shortcut: '⌘ + S' },\n      ],\n    },\n    {\n      id: 'edit',\n      label: 'Edit',\n      icon: 'Scissors',\n      items: [\n        { id: 'undo', label: 'Undo', icon: 'Undo2', shortcut: '⌘ + Z' },\n        { id: 'copy', label: 'Copy', icon: 'Copy', shortcut: '⌘ + C' },\n        { id: 'paste', label: 'Paste', icon: 'Clipboard', disabled: true },\n      ],\n    },\n    { id: 'help', label: 'Help', icon: 'HelpCircle' },\n  ];\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
               "code": "<div>\n  <aeris-menubar\n    [model]=\"basicItems\"\n    ariaLabel=\"Application actions\"\n    navAriaLabel=\"Application\"\n  >\n    <ng-template\n      aerisMenubarItem\n      let-item\n      let-root=\"root\"\n      let-open=\"open\"\n      let-hasSubmenu=\"hasSubmenu\"\n    >\n      <span class=\"menubar-doc-item\">\n        @if (item.icon) {\n          <svg [lucideIcon]=\"icons[item.icon]\" aria-hidden=\"true\"></svg>\n        }\n        <span class=\"menubar-doc-item__label\">{{ item.label }}</span>\n        @if (item.badge !== undefined && item.badge !== null) {\n          <aeris-badge\n            class=\"menubar-doc-item__badge\"\n            [value]=\"item.badge\"\n            size=\"sm\"\n            variant=\"soft\"\n          />\n        }\n        @if (item.shortcut) {\n          <kbd>{{ item.shortcut }}</kbd>\n        }\n        @if (hasSubmenu) {\n          <svg\n            class=\"menubar-doc-item__chevron\"\n            [attr.data-root]=\"root || null\"\n            [attr.data-open]=\"open || null\"\n            viewBox=\"0 0 20 20\"\n            aria-hidden=\"true\"\n          >\n            <path [attr.d]=\"root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'\" />\n          </svg>\n        }\n      </span>\n    </ng-template>\n  </aeris-menubar>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".menubar-doc-item {\n  display: grid;\n  grid-template-columns: auto minmax(0, 1fr) auto auto auto;\n  align-items: center;\n  gap: 0.625rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.menubar-doc-item svg {\n  width: 1rem;\n  height: 1rem;\n}\n\n.menubar-doc-item__label {\n  min-inline-size: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.menubar-doc-item__badge {\n  max-inline-size: min(7rem, 36vw);\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.menubar-doc-item kbd {\n  color: var(--text-2);\n  font: inherit;\n  font-size: 0.75rem;\n  font-weight: 750;\n}\n\n.menubar-doc-item__chevron {\n  fill: none;\n  stroke: currentColor;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n  stroke-width: 2;\n}"
+            }
+          ]
+        },
+        {
+          "id": "menubar-appearance",
+          "title": "Appearance and active route",
+          "description": "Use Button-aligned appearances for root and submenu items, override individual items, and expose the current route without custom CSS.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';\nimport { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';\n\n@Component({\n  selector: 'app-menubar-appearance-demo',\n  imports: [AerisMenubarModule, LucideDynamicIcon],\n  templateUrl: './menubar-appearance.demo.html',\n  styleUrl: './menubar-appearance.demo.scss'\n})\nexport class MenubarAppearanceAppearanceAndActiveRouteDemo {\n  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {\n    Clipboard: LucideClipboard,\n    Copy: LucideCopy,\n    Download: LucideDownload,\n    ExternalLink: LucideExternalLink,\n    FileText: LucideFileText,\n    FolderOpen: LucideFolderOpen,\n    HelpCircle: LucideHelpCircle,\n    Home: LucideHome,\n    Package: LucidePackage,\n    RefreshCw: LucideRefreshCw,\n    Save: LucideSave,\n    Scissors: LucideScissors,\n    Search: LucideSearch,\n    Settings: LucideSettings,\n    Undo2: LucideUndo2,\n    Upload: LucideUpload,\n    User: LucideUser,\n    ZoomIn: LucideZoomIn,\n    ZoomOut: LucideZoomOut,\n  };\n\n  protected readonly appearanceItems: readonly AerisMenubarItem[] = [\n    {\n      id: 'overview',\n      label: 'Overview',\n      icon: 'Home',\n      routerLink: ['/components', 'menubar'],\n      active: true,\n    },\n    {\n      id: 'workspace-appearance',\n      label: 'Workspace',\n      icon: 'Package',\n      items: [\n        { id: 'projects-appearance', label: 'Projects', icon: 'FolderOpen' },\n        {\n          id: 'settings-appearance',\n          label: 'Settings',\n          icon: 'Settings',\n          variant: 'ghost',\n          severity: 'secondary',\n        },\n      ],\n    },\n    { id: 'account-appearance', label: 'Account', icon: 'User' },\n  ];\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <aeris-menubar\n    [model]=\"appearanceItems\"\n    rootItemVariant=\"ghost\"\n    submenuItemVariant=\"outline\"\n    rootItemSeverity=\"info\"\n    submenuItemSeverity=\"secondary\"\n    ariaLabel=\"Appearance navigation\"\n  >\n    <ng-template\n      aerisMenubarItem\n      let-item\n      let-root=\"root\"\n      let-open=\"open\"\n      let-hasSubmenu=\"hasSubmenu\"\n    >\n      <span class=\"menubar-doc-item\">\n        @if (item.icon) {\n          <svg [lucideIcon]=\"icons[item.icon]\" aria-hidden=\"true\"></svg>\n        }\n        <span class=\"menubar-doc-item__label\">{{ item.label }}</span>\n        @if (hasSubmenu) {\n          <svg\n            class=\"menubar-doc-item__chevron\"\n            [attr.data-root]=\"root || null\"\n            [attr.data-open]=\"open || null\"\n            viewBox=\"0 0 20 20\"\n            aria-hidden=\"true\"\n          >\n            <path [attr.d]=\"root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'\" />\n          </svg>\n        }\n      </span>\n    </ng-template>\n  </aeris-menubar>\n</div>"
             },
             {
               "language": "CSS",
@@ -30748,7 +31373,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { type AerisMenubarItem } from '@aeris-ui/core/menu';\nimport { AerisMenubarModule } from '@aeris-ui/core/menubar';\nimport { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';\n\n@Component({\n  selector: 'app-menubar-submenus-demo',\n  imports: [AerisMenubarModule, LucideDynamicIcon],\n  templateUrl: './menubar-submenus.demo.html',\n  styleUrl: './menubar-submenus.demo.scss'\n})\nexport class MenubarSubmenusSubmenusDemo {\n  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {\n    Clipboard: LucideClipboard,\n    Copy: LucideCopy,\n    Download: LucideDownload,\n    ExternalLink: LucideExternalLink,\n    FileText: LucideFileText,\n    FolderOpen: LucideFolderOpen,\n    HelpCircle: LucideHelpCircle,\n    Home: LucideHome,\n    Package: LucidePackage,\n    RefreshCw: LucideRefreshCw,\n    Save: LucideSave,\n    Scissors: LucideScissors,\n    Search: LucideSearch,\n    Settings: LucideSettings,\n    Undo2: LucideUndo2,\n    Upload: LucideUpload,\n    ZoomIn: LucideZoomIn,\n    ZoomOut: LucideZoomOut,\n  };\n\n  protected readonly nestedItems: readonly AerisMenubarItem[] = [\n    {\n      id: 'workspace',\n      label: 'Workspace',\n      icon: 'Package',\n      items: [\n        { id: 'home', label: 'Home', icon: 'Home' },\n        {\n          id: 'recent',\n          label: 'Open recent',\n          icon: 'FolderOpen',\n          items: [\n            { id: 'release-notes', label: 'release-notes.md', icon: 'FileText' },\n            { id: 'roadmap', label: 'roadmap.md', icon: 'FileText' },\n          ],\n        },\n        { id: 'settings', label: 'Settings', icon: 'Settings' },\n      ],\n    },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';\nimport { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';\n\n@Component({\n  selector: 'app-menubar-submenus-demo',\n  imports: [AerisMenubarModule, LucideDynamicIcon],\n  templateUrl: './menubar-submenus.demo.html',\n  styleUrl: './menubar-submenus.demo.scss'\n})\nexport class MenubarSubmenusSubmenusDemo {\n  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {\n    Clipboard: LucideClipboard,\n    Copy: LucideCopy,\n    Download: LucideDownload,\n    ExternalLink: LucideExternalLink,\n    FileText: LucideFileText,\n    FolderOpen: LucideFolderOpen,\n    HelpCircle: LucideHelpCircle,\n    Home: LucideHome,\n    Package: LucidePackage,\n    RefreshCw: LucideRefreshCw,\n    Save: LucideSave,\n    Scissors: LucideScissors,\n    Search: LucideSearch,\n    Settings: LucideSettings,\n    Undo2: LucideUndo2,\n    Upload: LucideUpload,\n    User: LucideUser,\n    ZoomIn: LucideZoomIn,\n    ZoomOut: LucideZoomOut,\n  };\n\n  protected readonly nestedItems: readonly AerisMenubarItem[] = [\n    {\n      id: 'workspace',\n      label: 'Workspace',\n      icon: 'Package',\n      items: [\n        { id: 'home', label: 'Home', icon: 'Home' },\n        {\n          id: 'recent',\n          label: 'Open recent',\n          icon: 'FolderOpen',\n          items: [\n            { id: 'release-notes', label: 'release-notes.md', icon: 'FileText' },\n            { id: 'roadmap', label: 'roadmap.md', icon: 'FileText' },\n          ],\n        },\n        { id: 'settings', label: 'Settings', icon: 'Settings' },\n      ],\n    },\n  ];\n}\n"
             },
             {
               "language": "HTML",
@@ -30770,7 +31395,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { type AerisMenubarItem } from '@aeris-ui/core/menu';\nimport { AerisMenubarModule } from '@aeris-ui/core/menubar';\nimport { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';\n\n@Component({\n  selector: 'app-menubar-controlled-demo',\n  imports: [AerisButton, AerisMenubarModule, LucideDynamicIcon],\n  templateUrl: './menubar-controlled.demo.html',\n  styleUrl: './menubar-controlled.demo.scss'\n})\nexport class MenubarControlledControlledAndResponsiveDemo {\n  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {\n    Clipboard: LucideClipboard,\n    Copy: LucideCopy,\n    Download: LucideDownload,\n    ExternalLink: LucideExternalLink,\n    FileText: LucideFileText,\n    FolderOpen: LucideFolderOpen,\n    HelpCircle: LucideHelpCircle,\n    Home: LucideHome,\n    Package: LucidePackage,\n    RefreshCw: LucideRefreshCw,\n    Save: LucideSave,\n    Scissors: LucideScissors,\n    Search: LucideSearch,\n    Settings: LucideSettings,\n    Undo2: LucideUndo2,\n    Upload: LucideUpload,\n    ZoomIn: LucideZoomIn,\n    ZoomOut: LucideZoomOut,\n  };\n\n  protected readonly openPath = signal('');\n  protected readonly mobileOpen = signal(false);\n\n  protected readonly nestedItems: readonly AerisMenubarItem[] = [\n    {\n      id: 'workspace',\n      label: 'Workspace',\n      icon: 'Package',\n      items: [\n        { id: 'home', label: 'Home', icon: 'Home' },\n        { id: 'settings', label: 'Settings', icon: 'Settings' },\n      ],\n    },\n  ];\n\n  protected openWorkspace(): void {\n    this.openPath.set('0');\n  }\n\n  protected closeMenubar(): void {\n    this.openPath.set('');\n    this.mobileOpen.set(false);\n  }\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';\nimport { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';\n\n@Component({\n  selector: 'app-menubar-controlled-demo',\n  imports: [AerisButton, AerisMenubarModule, LucideDynamicIcon],\n  templateUrl: './menubar-controlled.demo.html',\n  styleUrl: './menubar-controlled.demo.scss'\n})\nexport class MenubarControlledControlledAndResponsiveDemo {\n  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {\n    Clipboard: LucideClipboard,\n    Copy: LucideCopy,\n    Download: LucideDownload,\n    ExternalLink: LucideExternalLink,\n    FileText: LucideFileText,\n    FolderOpen: LucideFolderOpen,\n    HelpCircle: LucideHelpCircle,\n    Home: LucideHome,\n    Package: LucidePackage,\n    RefreshCw: LucideRefreshCw,\n    Save: LucideSave,\n    Scissors: LucideScissors,\n    Search: LucideSearch,\n    Settings: LucideSettings,\n    Undo2: LucideUndo2,\n    Upload: LucideUpload,\n    User: LucideUser,\n    ZoomIn: LucideZoomIn,\n    ZoomOut: LucideZoomOut,\n  };\n\n  protected readonly openPath = signal('');\n  protected readonly mobileOpen = signal(false);\n\n  protected readonly nestedItems: readonly AerisMenubarItem[] = [\n    {\n      id: 'workspace',\n      label: 'Workspace',\n      icon: 'Package',\n      items: [\n        { id: 'home', label: 'Home', icon: 'Home' },\n        { id: 'settings', label: 'Settings', icon: 'Settings' },\n      ],\n    },\n  ];\n\n  protected openWorkspace(): void {\n    this.openPath.set('0');\n  }\n\n  protected closeMenubar(): void {\n    this.openPath.set('');\n    this.mobileOpen.set(false);\n  }\n}\n"
             },
             {
               "language": "HTML",
@@ -30792,7 +31417,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { type AerisMenubarItem, type AerisMenubarItemEvent } from '@aeris-ui/core/menu';\nimport { AerisMenubarModule } from '@aeris-ui/core/menubar';\nimport { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';\n\n@Component({\n  selector: 'app-menubar-command-demo',\n  imports: [AerisMenubarModule, LucideDynamicIcon],\n  templateUrl: './menubar-command.demo.html',\n  styleUrl: './menubar-command.demo.scss'\n})\nexport class MenubarCommandCommandAndLinksDemo {\n  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {\n    Clipboard: LucideClipboard,\n    Copy: LucideCopy,\n    Download: LucideDownload,\n    ExternalLink: LucideExternalLink,\n    FileText: LucideFileText,\n    FolderOpen: LucideFolderOpen,\n    HelpCircle: LucideHelpCircle,\n    Home: LucideHome,\n    Package: LucidePackage,\n    RefreshCw: LucideRefreshCw,\n    Save: LucideSave,\n    Scissors: LucideScissors,\n    Search: LucideSearch,\n    Settings: LucideSettings,\n    Undo2: LucideUndo2,\n    Upload: LucideUpload,\n    ZoomIn: LucideZoomIn,\n    ZoomOut: LucideZoomOut,\n  };\n\n  protected readonly commandMessage = signal('No menubar action yet.');\n\n  protected readonly commandItems: readonly AerisMenubarItem[] = [\n    {\n      id: 'actions',\n      label: 'Actions',\n      icon: 'Package',\n      items: [\n        { id: 'search', label: 'Search', icon: 'Search', command: (event) => this.recordAction(event) },\n        { id: 'refresh', label: 'Refresh', icon: 'RefreshCw', command: (event) => this.recordAction(event) },\n      ],\n    },\n    {\n      id: 'links',\n      label: 'Links',\n      icon: 'ExternalLink',\n      items: [\n        { id: 'components', label: 'Components', icon: 'Package', routerLink: ['/components'] },\n        { id: 'angular', label: 'Angular', icon: 'ExternalLink', url: 'https://angular.dev', target: '_blank', rel: 'noreferrer' },\n      ],\n    },\n  ];\n\n  protected recordAction(event: AerisMenubarItemEvent): void {\n    this.commandMessage.set(`Activated ${event.item.label}`);\n  }\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisMenubarModule, type AerisMenubarItem, type AerisMenubarItemEvent } from '@aeris-ui/core/menubar';\nimport { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';\n\n@Component({\n  selector: 'app-menubar-command-demo',\n  imports: [AerisMenubarModule, LucideDynamicIcon],\n  templateUrl: './menubar-command.demo.html',\n  styleUrl: './menubar-command.demo.scss'\n})\nexport class MenubarCommandCommandAndLinksDemo {\n  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {\n    Clipboard: LucideClipboard,\n    Copy: LucideCopy,\n    Download: LucideDownload,\n    ExternalLink: LucideExternalLink,\n    FileText: LucideFileText,\n    FolderOpen: LucideFolderOpen,\n    HelpCircle: LucideHelpCircle,\n    Home: LucideHome,\n    Package: LucidePackage,\n    RefreshCw: LucideRefreshCw,\n    Save: LucideSave,\n    Scissors: LucideScissors,\n    Search: LucideSearch,\n    Settings: LucideSettings,\n    Undo2: LucideUndo2,\n    Upload: LucideUpload,\n    User: LucideUser,\n    ZoomIn: LucideZoomIn,\n    ZoomOut: LucideZoomOut,\n  };\n\n  protected readonly commandMessage = signal('No menubar action yet.');\n\n  protected readonly commandItems: readonly AerisMenubarItem[] = [\n    {\n      id: 'actions',\n      label: 'Actions',\n      icon: 'Package',\n      items: [\n        { id: 'search', label: 'Search', icon: 'Search', command: (event) => this.recordAction(event) },\n        { id: 'refresh', label: 'Refresh', icon: 'RefreshCw', command: (event) => this.recordAction(event) },\n      ],\n    },\n    {\n      id: 'links',\n      label: 'Links',\n      icon: 'ExternalLink',\n      items: [\n        { id: 'components', label: 'Components', icon: 'Package', routerLink: ['/components'] },\n        { id: 'angular', label: 'Angular', icon: 'ExternalLink', url: 'https://angular.dev', target: '_blank', rel: 'noreferrer' },\n      ],\n    },\n  ];\n\n  protected recordAction(event: AerisMenubarItemEvent): void {\n    this.commandMessage.set(`Activated ${event.item.label}`);\n  }\n}\n"
             },
             {
               "language": "HTML",
@@ -30814,7 +31439,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisBadgeModule } from '@aeris-ui/core/badge';\nimport { type AerisMenubarItem } from '@aeris-ui/core/menu';\nimport { AerisMenubarModule } from '@aeris-ui/core/menubar';\nimport { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';\n\n@Component({\n  selector: 'app-menubar-template-demo',\n  imports: [AerisBadgeModule, AerisMenubarModule, LucideDynamicIcon],\n  templateUrl: './menubar-template.demo.html',\n  styleUrl: './menubar-template.demo.scss'\n})\nexport class MenubarTemplateTemplateDemo {\n  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {\n    Clipboard: LucideClipboard,\n    Copy: LucideCopy,\n    Download: LucideDownload,\n    ExternalLink: LucideExternalLink,\n    FileText: LucideFileText,\n    FolderOpen: LucideFolderOpen,\n    HelpCircle: LucideHelpCircle,\n    Home: LucideHome,\n    Package: LucidePackage,\n    RefreshCw: LucideRefreshCw,\n    Save: LucideSave,\n    Scissors: LucideScissors,\n    Search: LucideSearch,\n    Settings: LucideSettings,\n    Undo2: LucideUndo2,\n    Upload: LucideUpload,\n    ZoomIn: LucideZoomIn,\n    ZoomOut: LucideZoomOut,\n  };\n\n  protected readonly templateItems: readonly AerisMenubarItem[] = [\n    {\n      id: 'projects',\n      label: 'Projects',\n      icon: 'Package',\n      badge: 3,\n      items: [\n        { id: 'core', label: 'Core', icon: 'Package', shortcut: '⌘ + 1' },\n        { id: 'docs', label: 'Docs', icon: 'FileText', shortcut: '⌘ + 2' },\n      ],\n    },\n    { id: 'search', label: 'Search', icon: 'Search' },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisBadgeModule } from '@aeris-ui/core/badge';\nimport { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';\nimport { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';\n\n@Component({\n  selector: 'app-menubar-template-demo',\n  imports: [AerisBadgeModule, AerisMenubarModule, LucideDynamicIcon],\n  templateUrl: './menubar-template.demo.html',\n  styleUrl: './menubar-template.demo.scss'\n})\nexport class MenubarTemplateTemplateDemo {\n  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {\n    Clipboard: LucideClipboard,\n    Copy: LucideCopy,\n    Download: LucideDownload,\n    ExternalLink: LucideExternalLink,\n    FileText: LucideFileText,\n    FolderOpen: LucideFolderOpen,\n    HelpCircle: LucideHelpCircle,\n    Home: LucideHome,\n    Package: LucidePackage,\n    RefreshCw: LucideRefreshCw,\n    Save: LucideSave,\n    Scissors: LucideScissors,\n    Search: LucideSearch,\n    Settings: LucideSettings,\n    Undo2: LucideUndo2,\n    Upload: LucideUpload,\n    User: LucideUser,\n    ZoomIn: LucideZoomIn,\n    ZoomOut: LucideZoomOut,\n  };\n\n  protected readonly templateItems: readonly AerisMenubarItem[] = [\n    {\n      id: 'projects',\n      label: 'Projects',\n      icon: 'Package',\n      badge: 3,\n      items: [\n        { id: 'core', label: 'Core', icon: 'Package', shortcut: '⌘ + 1' },\n        { id: 'docs', label: 'Docs', icon: 'FileText', shortcut: '⌘ + 2' },\n      ],\n    },\n    { id: 'search', label: 'Search', icon: 'Search' },\n  ];\n}\n"
             },
             {
               "language": "HTML",
@@ -30824,14 +31449,14 @@
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".menubar-doc-item {\n  display: grid;\n  grid-template-columns: auto minmax(0, 1fr) auto auto auto;\n  align-items: center;\n  gap: 0.625rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.menubar-doc-item svg {\n  width: 1rem;\n  height: 1rem;\n}\n\n.menubar-doc-item__label {\n  min-inline-size: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.menubar-doc-item__badge {\n  max-inline-size: min(7rem, 36vw);\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.menubar-doc-item kbd {\n  color: var(--aeris-text-2);\n  font: inherit;\n  font-size: 0.75rem;\n  font-weight: 750;\n}\n\n.menubar-doc-item__chevron {\n  fill: none;\n  stroke: currentColor;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n  stroke-width: 2;\n}\n\n.menubar-doc-item__chevron[data-root=true][data-open=true] {\n  transform: rotate(180deg);\n}\n\n.menubar-brand,\n.menubar-user {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-weight: 850;\n}\n\n.menubar-brand svg,\n.menubar-user svg {\n  width: 1rem;\n  height: 1rem;\n}\n\n.menubar-user,\nsmall[aria-live] {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n}\n\n.menubar-doc-item {\n  display: grid;\n  grid-template-columns: auto minmax(0, 1fr) auto auto auto;\n  align-items: center;\n  gap: 0.625rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.menubar-doc-item svg {\n  width: 1rem;\n  height: 1rem;\n}\n\n.menubar-doc-item__label {\n  min-inline-size: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.menubar-doc-item__badge {\n  max-inline-size: min(7rem, 36vw);\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.menubar-doc-item kbd {\n  color: var(--text-2);\n  font: inherit;\n  font-size: 0.75rem;\n  font-weight: 750;\n}\n\n.menubar-doc-item__chevron {\n  fill: none;\n  stroke: currentColor;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n  stroke-width: 2;\n}\n\n.menubar-brand,\n.menubar-user {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.5rem;\n  font-weight: 850;\n}\n\n.menubar-user {\n  color: var(--text-2);\n  font-size: 0.8125rem;\n}"
+              "code": ".menubar-doc-item {\n  display: grid;\n  grid-template-columns: auto minmax(0, 1fr) auto auto auto;\n  align-items: center;\n  gap: 0.625rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.menubar-doc-item svg {\n  width: 1rem;\n  height: 1rem;\n}\n\n.menubar-doc-item__label {\n  min-inline-size: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.menubar-doc-item__badge {\n  max-inline-size: min(7rem, 36vw);\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.menubar-doc-item kbd {\n  color: var(--aeris-text-2);\n  font: inherit;\n  font-size: 0.75rem;\n  font-weight: 750;\n}\n\n.menubar-doc-item__chevron {\n  fill: none;\n  stroke: currentColor;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n  stroke-width: 2;\n}\n\n.menubar-doc-item__chevron[data-root=true][data-open=true] {\n  transform: rotate(180deg);\n}\n\n.menubar-brand,\n.menubar-user {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding-inline: 0.5rem;\n  font-weight: 850;\n}\n\n.menubar-brand svg,\n.menubar-user svg {\n  width: 1rem;\n  height: 1rem;\n}\n\n.menubar-user,\nsmall[aria-live] {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n}\n\n.menubar-doc-item {\n  display: grid;\n  grid-template-columns: auto minmax(0, 1fr) auto auto auto;\n  align-items: center;\n  gap: 0.625rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.menubar-doc-item svg {\n  width: 1rem;\n  height: 1rem;\n}\n\n.menubar-doc-item__label {\n  min-inline-size: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.menubar-doc-item__badge {\n  max-inline-size: min(7rem, 36vw);\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.menubar-doc-item kbd {\n  color: var(--text-2);\n  font: inherit;\n  font-size: 0.75rem;\n  font-weight: 750;\n}\n\n.menubar-doc-item__chevron {\n  fill: none;\n  stroke: currentColor;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n  stroke-width: 2;\n}\n\n.menubar-brand,\n.menubar-user {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding-inline: 0.5rem;\n  font-weight: 850;\n}\n\n.menubar-user {\n  color: var(--text-2);\n  font-size: 0.8125rem;\n}"
             }
           ]
         }
       ],
       "accessibility": {
         "guidance": [
-          "Menubar renders a navigation landmark, a root menubar, nested menu submenus, and menuitem controls. Submenu triggers expose expanded state and controls relationships."
+          "Menubar renders a navigation landmark, a root menubar, nested menu submenus, and menuitem controls. Submenu triggers expose expanded state and controls relationships. Set an item's active property to expose aria-current=\"page\", or use ariaCurrent for another supported current-item value."
         ],
         "keyboard": [
           {
@@ -30900,6 +31525,12 @@
               "description": "Mounts the panel target when popup is enabled; inline menus remain local."
             },
             {
+              "name": "viewportMargin",
+              "type": "number | AerisOverlayCollisionPadding",
+              "defaultValue": "8",
+              "description": "Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions."
+            },
+            {
               "name": "id",
               "type": "string",
               "defaultValue": "generated id",
@@ -30958,6 +31589,12 @@
               "type": "boolean",
               "defaultValue": "true",
               "description": "Closes open popup menus or visible submenus on outside pointer interaction."
+            },
+            {
+              "name": "closeOnMouseLeave",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open."
             },
             {
               "name": "closeOnEscape",
@@ -34766,12 +35403,12 @@
         {
           "id": "avatar-custom",
           "title": "Token customization",
-          "description": "Scope Avatar tokens to create a distinct identity without replacing component structure.",
+          "description": "Use the general size token as a final per-instance override, even when a semantic size is selected.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisAvatarModule } from '@aeris-ui/core/avatar';\n\n@Component({\n  selector: 'app-avatar-custom-demo',\n  imports: [AerisAvatarModule],\n  template: `\n    <div>\n      <aeris-avatar\n        class=\"brand-avatar\"\n        label=\"AU\"\n        ariaLabel=\"Aeris UI\"\n        shape=\"rounded\"\n      />\n    </div>\n  `,\n  styles: `\n    .brand-avatar {\n      --aeris-avatar-size: 4.5rem;\n      --aeris-avatar-background: linear-gradient(135deg, #17200f, #7f9564);\n      --aeris-avatar-color: #f8faef;\n      --aeris-avatar-border: color-mix(in srgb, #b9d897 58%, transparent);\n      --aeris-avatar-border-width: 2px;\n      --aeris-avatar-font-size: 1.25rem;\n      --aeris-avatar-shadow: 0 0.75rem 2rem rgb(40 58 28 / 22%);\n    }\n  `\n})\nexport class AvatarCustomTokenCustomizationDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisAvatarModule } from '@aeris-ui/core/avatar';\n\n@Component({\n  selector: 'app-avatar-custom-demo',\n  imports: [AerisAvatarModule],\n  template: `\n    <div>\n      <aeris-avatar\n        class=\"brand-avatar\"\n        label=\"AU\"\n        ariaLabel=\"Aeris UI\"\n        size=\"xl\"\n        shape=\"rounded\"\n      />\n    </div>\n  `,\n  styles: `\n    .brand-avatar {\n      --aeris-avatar-size: 4.5rem;\n      --aeris-avatar-background: linear-gradient(135deg, #17200f, #7f9564);\n      --aeris-avatar-color: #f8faef;\n      --aeris-avatar-border: color-mix(in srgb, #b9d897 58%, transparent);\n      --aeris-avatar-border-width: 2px;\n      --aeris-avatar-font-size: 1.25rem;\n      --aeris-avatar-shadow: 0 0.75rem 2rem rgb(40 58 28 / 22%);\n    }\n  `\n})\nexport class AvatarCustomTokenCustomizationDemo {\n}\n"
             }
           ]
         }
@@ -34906,7 +35543,7 @@
               "name": "value",
               "type": "string | number | null | undefined",
               "defaultValue": "undefined",
-              "description": "Text or number rendered in the visual overlay badge."
+              "description": "Text or number rendered in the visual overlay badge. Short values remain circular; longer values expand inline to fit their content."
             },
             {
               "name": "severity",

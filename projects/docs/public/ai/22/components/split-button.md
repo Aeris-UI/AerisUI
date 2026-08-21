@@ -2,7 +2,7 @@
 
 > Pair a primary action with an accessible popup of related commands.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/split-button`
 - Human-readable documentation: [https://aeris-ui.dev/components/split-button](https://aeris-ui.dev/components/split-button)
@@ -31,6 +31,7 @@ from '@aeris-ui/core/split-button';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the action menu locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the action menu inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `navigationHandler` | `AerisSplitButtonNavigationHandler &#124; undefined` | `undefined` | Optional framework-routing bridge for routerLink items. Native href navigation is used otherwise. |
 | `id` | `string` | `generated` | Stable base ID for the popup relationship and menu items. |
 | `label` | `string` | `''` | Primary action label. |

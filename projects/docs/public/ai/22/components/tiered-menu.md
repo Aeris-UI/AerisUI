@@ -2,7 +2,7 @@
 
 > Vertical command menu with cascading submenu overlays, popup mode, templates, commands, links, and keyboard support.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tiered-menu`
 - Human-readable documentation: [https://aeris-ui.dev/components/tiered-menu](https://aeris-ui.dev/components/tiered-menu)
@@ -30,6 +30,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the panel target when popup is enabled; inline menus remain local. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `id` | `string` | `generated id` | Panel ID used for menu and submenu relationships. |
 | `model` | `readonly AerisTieredMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |
 | `open` | `boolean (model)` | `false` | Controlled popup visibility. |
@@ -40,6 +41,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | `maxWidth` | `string` | `''` | Sets --aeris-tiered-menu-max-width on the panel. |
 | `viewportMargin` | `number` | `8` | Minimum popup distance from viewport edges. |
 | `hideOnOutsideClick` | `boolean` | `true` | Closes open popup menus or visible submenus on outside pointer interaction. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open. |
 | `closeOnEscape` | `boolean` | `true` | Closes open popup menus or visible submenus when Escape is pressed. |
 | `closeOnSelect` | `boolean` | `true` | Closes open overlays after an enabled leaf item is activated. |
 | `autoFocus` | `boolean` | `true` | Moves focus to the first enabled item when a popup opens. |

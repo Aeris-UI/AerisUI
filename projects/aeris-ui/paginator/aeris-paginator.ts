@@ -1,5 +1,5 @@
 import { Component, ElementRef, computed, input, model, output, signal, viewChild } from '@angular/core';
-import { ɵAerisAppendTo, type AerisAppendTo } from '@aeris-ui/core';
+import { ɵAerisAppendTo, type AerisAppendTo, type AerisOverlayCollisionPadding } from '@aeris-ui/core';
 
 export interface AerisPaginatorPageEvent {
   readonly first: number;
@@ -66,6 +66,7 @@ export interface AerisPaginatorPageEvent {
               class="aeris-paginator__rows-panel"
               [aerisInternalAppendTo]="appendTo()"
               [aerisInternalAppendToAnchor]="this.rowsTrigger()?.nativeElement ?? null"
+              [aerisInternalAppendToCollisionPadding]="viewportMargin()"
               (aerisInternalAppendToOutside)="closeRowsPanel()"
               [id]="rowsListboxId"
               role="listbox"
@@ -101,6 +102,7 @@ export class AerisPaginator {
   readonly pageLinkSize = input(5);
   readonly rowsPerPageOptions = input<readonly number[]>([]);
   readonly appendTo = input<AerisAppendTo>();
+  readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly ariaLabel = input('Pagination');
   readonly rowsPerPageLabel = input('Rows per page');
   readonly page = output<AerisPaginatorPageEvent>();

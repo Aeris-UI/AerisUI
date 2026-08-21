@@ -2,7 +2,7 @@
 
 > Password entry with visibility controls, strength feedback, and secure autofill semantics.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/password`
 - Human-readable documentation: [https://aeris-ui.dev/components/password](https://aeris-ui.dev/components/password)
@@ -30,6 +30,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self'` | Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the feedback panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `''` | Password value with two-way binding and Forms support. |
 | `visible` | `boolean (model)` | `false` | Controls whether the value is masked. |
 | `inputId` | `string` | `''` | Native input ID. |

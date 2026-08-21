@@ -35,12 +35,14 @@ const model: readonly AerisMegaMenuItem[] = [
     <aeris-mega-menu
       ariaLabel="Primary navigation"
       [model]="model"
+      [closeOnMouseLeave]="closeOnMouseLeave()"
       (itemSelected)="selected.set($event)"
     />
   `,
 })
 class MegaMenuHost {
   readonly model = model;
+  readonly closeOnMouseLeave = signal(true);
   readonly selected = signal<AerisMegaMenuItemEvent | null>(null);
 }
 
@@ -110,6 +112,28 @@ describe('AerisMegaMenu', () => {
     expect(itemRadius).toContain('--_aeris-mega-menu-item-radius');
     expect(panelItemRadius).toContain('--_aeris-mega-menu-item-radius');
     expect(triggers.item(0).getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('closes panels on mouse leave by default and supports keeping them open', () => {
+    const fixture = TestBed.createComponent(MegaMenuHost);
+    fixture.detectChanges();
+
+    const nav = fixture.nativeElement.querySelector('.aeris-mega-menu__nav') as HTMLElement;
+    const products = fixture.nativeElement.querySelector('.aeris-mega-menu__trigger') as HTMLElement;
+    products.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.aeris-mega-menu__panel')).not.toBeNull();
+
+    nav.dispatchEvent(new MouseEvent('mouseleave'));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.aeris-mega-menu__panel')).toBeNull();
+
+    fixture.componentInstance.closeOnMouseLeave.set(false);
+    products.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    nav.dispatchEvent(new MouseEvent('mouseleave'));
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.aeris-mega-menu__panel')).not.toBeNull();
   });
 
   it('emits item selection and respects disabled panel items', async () => {

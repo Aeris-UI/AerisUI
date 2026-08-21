@@ -459,6 +459,13 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
       description: 'Mounts the panel target when popup is enabled; inline menus remain local.',
     },
     {
+      name: 'viewportMargin',
+      type: 'number | AerisOverlayCollisionPadding',
+      defaultValue: '8',
+      description:
+        'Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions.',
+    },
+    {
       name: 'id',
       type: 'string',
       defaultValue: 'generated id',
@@ -518,6 +525,13 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
       type: 'boolean',
       defaultValue: 'true',
       description: 'Closes open popup menus or visible submenus on outside pointer interaction.',
+    },
+    {
+      name: 'closeOnMouseLeave',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open.',
     },
     {
       name: 'closeOnEscape',

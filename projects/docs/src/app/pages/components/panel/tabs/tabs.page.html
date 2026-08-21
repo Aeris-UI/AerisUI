@@ -2,7 +2,7 @@
   <app-component-page-header
     category="Panel"
     title="Tabs"
-    description="Organizes related content with automatic or manual activation, responsive orientations, custom headers, controlled state, and complete ARIA tab semantics."
+    description="Organizes related content with eager or deferred rendering, automatic or manual activation, responsive orientations, controlled state, and complete ARIA tab semantics."
   />
 
   <section class="import-section" aria-labelledby="tabs-import-title">
@@ -16,13 +16,61 @@
   <aeris-tabs ariaLabel="Tabs documentation">
     <aeris-tab-panel value="features" label="Features">
       <section class="doc-section">
+        <section id="tabs-rendering" class="rendering-guide" tabindex="-1">
+          <h2>Choose a rendering behavior</h2>
+          <p>
+            Rendering behavior controls <strong>when Angular creates panel content</strong> and
+            whether that content remains alive after the user selects another tab. It does not
+            change selection, keyboard behavior, or ARIA relationships.
+          </p>
+          <div
+            class="api-table rendering-table"
+            role="table"
+            aria-label="Tabs rendering behavior comparison"
+            tabindex="0"
+          >
+            <div class="api-head" role="row">
+              <b role="columnheader">Markup</b><b role="columnheader">Created</b
+              ><b role="columnheader">After leaving</b><b role="columnheader">Use when</b>
+            </div>
+            <div role="row">
+              <code role="cell">Plain panel content</code><span role="cell">Initial render</span
+              ><span role="cell">Stays mounted</span
+              ><span role="cell">Content is lightweight and should be ready immediately.</span>
+            </div>
+            <div role="row">
+              <code role="cell">&lt;ng-template aerisTabContent&gt;</code
+              ><span role="cell">First activation</span><span role="cell">Stays mounted</span
+              ><span role="cell"
+                >Initialization is expensive, but local state must survive tab changes.</span
+              >
+            </div>
+            <div role="row">
+              <code role="cell">&lt;ng-template aerisTabContent="active"&gt;</code
+              ><span role="cell">Every activation</span><span role="cell">Destroyed</span
+              ><span role="cell"
+                >Content should clean up resources and reset whenever the user leaves.</span
+              >
+            </div>
+          </div>
+          <div class="rendering-note">
+            <strong>Recommended default:</strong> use plain content. Add
+            <code>aerisTabContent</code> only for work that should wait until its tab is opened. Use
+            <code>active</code> only when destroying and recreating the content is intentional.
+          </div>
+          <p>
+            Aeris always keeps each panel's semantic <code>tabpanel</code> shell and stable IDs in
+            the DOM. Only the content inside the deferred template is delayed or destroyed.
+          </p>
+        </section>
+
         <h2>Features showcase</h2>
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <app-form-demo
               id="tabs-basic"
               title="Basic"
-              description="Each panel has a stable value and label. The first enabled panel is displayed when no value is provided."
+              description="Plain panel content is eager: Angular creates every panel's content during the initial render and keeps it mounted while tabs change."
             >
               <div preview>
                 <aeris-tabs ariaLabel="Project details">
@@ -95,6 +143,155 @@
     &gt;
   &lt;/aeris-tabs&gt;
   &lt;small aria-live="polite"&gt;&#123;&#123; lastChange() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tabs-lazy"
+              title="Deferred and preserved content"
+              description="A bare aerisTabContent template creates Statistics only the first time it opens. The charts then remain mounted, so their state survives later tab changes."
+              [tsCode]="lazyCode"
+              [cssCode]="lazyCss"
+            >
+              <div preview>
+                <aeris-tabs ariaLabel="Workspace analytics">
+                  <aeris-tab-panel value="summary" label="Summary">
+                    <div class="statistics-summary">
+                      <div>
+                        <strong>Analytics overview</strong>
+                        <p>Open Statistics to initialize the detailed charts.</p>
+                      </div>
+                    </div>
+                  </aeris-tab-panel>
+                  <aeris-tab-panel value="statistics" label="Statistics">
+                    <ng-template aerisTabContent>
+                      <div class="statistics-grid">
+                        <section class="statistics-card">
+                          <h4>Weekly traffic</h4>
+                          <aeris-chart
+                            type="line"
+                            [data]="trafficData"
+                            [options]="statisticsOptions"
+                            height="17rem"
+                            ariaLabel="Weekly sessions"
+                            ariaDescription="Sessions rise overall from Monday to Sunday."
+                          />
+                        </section>
+                        <section class="statistics-card">
+                          <h4>Conversions by source</h4>
+                          <aeris-chart
+                            type="bar"
+                            [data]="conversionData"
+                            [options]="statisticsOptions"
+                            height="17rem"
+                            ariaLabel="Conversions by traffic source"
+                            ariaDescription="Search produces the most conversions."
+                          />
+                        </section>
+                      </div>
+                    </ng-template>
+                  </aeris-tab-panel>
+                </aeris-tabs>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-tabs ariaLabel="Workspace analytics"&gt;
+    &lt;aeris-tab-panel value="summary" label="Summary"&gt;
+      &lt;div class="statistics-summary"&gt;
+        &lt;div&gt;
+          &lt;strong&gt;Analytics overview&lt;/strong&gt;
+          &lt;p&gt;Open Statistics to initialize the detailed charts.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/aeris-tab-panel&gt;
+    &lt;aeris-tab-panel value="statistics" label="Statistics"&gt;
+      &lt;ng-template aerisTabContent&gt;
+        &lt;div class="statistics-grid"&gt;
+          &lt;section class="statistics-card"&gt;
+            &lt;h4&gt;Weekly traffic&lt;/h4&gt;
+            &lt;aeris-chart
+              type="line"
+              [data]="trafficData"
+              [options]="statisticsOptions"
+              height="17rem"
+              ariaLabel="Weekly sessions"
+              ariaDescription="Sessions rise overall from Monday to Sunday."
+            /&gt;
+          &lt;/section&gt;
+          &lt;section class="statistics-card"&gt;
+            &lt;h4&gt;Conversions by source&lt;/h4&gt;
+            &lt;aeris-chart
+              type="bar"
+              [data]="conversionData"
+              [options]="statisticsOptions"
+              height="17rem"
+              ariaLabel="Conversions by traffic source"
+              ariaDescription="Search produces the most conversions."
+            /&gt;
+          &lt;/section&gt;
+        &lt;/div&gt;
+      &lt;/ng-template&gt;
+    &lt;/aeris-tab-panel&gt;
+  &lt;/aeris-tabs&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tabs-active-content"
+              title="Active-only content"
+              description="Set aerisTabContent to active when content should exist only while its tab is selected. Angular destroys it on exit, runs normal cleanup hooks, and creates a fresh instance when the tab opens again."
+              [cssCode]="activeOnlyCss"
+            >
+              <div preview>
+                <aeris-tabs ariaLabel="Active-only content example">
+                  <aeris-tab-panel value="instructions" label="Instructions">
+                    <div class="tabs-demo-panel">
+                      Open Temporary editor, enter text, leave the tab, and return. The field resets
+                      because its content was destroyed.
+                    </div>
+                  </aeris-tab-panel>
+                  <aeris-tab-panel value="editor" label="Temporary editor">
+                    <ng-template aerisTabContent="active">
+                      <div class="active-only-panel">
+                        <label for="temporary-draft">Temporary draft</label>
+                        <input
+                          id="temporary-draft"
+                          aerisInputText
+                          placeholder="This value resets when you leave"
+                        />
+                        <small>
+                          Leaving this tab destroys the input and any local component state inside
+                          this template.
+                        </small>
+                      </div>
+                    </ng-template>
+                  </aeris-tab-panel>
+                </aeris-tabs>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-tabs ariaLabel="Active-only content example"&gt;
+    &lt;aeris-tab-panel value="instructions" label="Instructions"&gt;
+      &lt;div class="tabs-demo-panel"&gt;
+        Open Temporary editor, enter text, leave the tab, and return. The field resets
+        because its content was destroyed.
+      &lt;/div&gt;
+    &lt;/aeris-tab-panel&gt;
+    &lt;aeris-tab-panel value="editor" label="Temporary editor"&gt;
+      &lt;ng-template aerisTabContent="active"&gt;
+        &lt;div class="active-only-panel"&gt;
+          &lt;label for="temporary-draft"&gt;Temporary draft&lt;/label&gt;
+          &lt;input
+            id="temporary-draft"
+            aerisInputText
+            placeholder="This value resets when you leave"
+          /&gt;
+          &lt;small&gt;
+            Leaving this tab destroys the input and any local component state inside
+            this template.
+          &lt;/small&gt;
+        &lt;/div&gt;
+      &lt;/ng-template&gt;
+    &lt;/aeris-tab-panel&gt;
+  &lt;/aeris-tabs&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -416,20 +613,16 @@
             <div class="api-table compact" role="table" aria-label="TabPanel inputs" tabindex="0">
               <div class="api-head" role="row">
                 <b role="columnheader">Name</b><b role="columnheader">Type</b
-                ><b role="columnheader">Description</b>
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
               </div>
-              <div role="row">
-                <code role="cell">value</code><span role="cell">string, required</span
-                ><span role="cell">Stable selection identifier.</span>
-              </div>
-              <div role="row">
-                <code role="cell">label</code><span role="cell">string, required</span
-                ><span role="cell">Default visible tab label.</span>
-              </div>
-              <div role="row">
-                <code role="cell">disabled</code><span role="cell">boolean</span
-                ><span role="cell">Disables and removes the tab from keyboard navigation.</span>
-              </div>
+              @for (property of panelInputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
             </div>
             <h3 id="tabs-api-outputs" tabindex="-1">Outputs</h3>
             <div class="api-table compact" role="table" aria-label="Tabs outputs" tabindex="0">
@@ -460,6 +653,34 @@
                 <code role="cell">aerisTabHeader</code><span role="cell">selected, disabled</span
                 ><span role="cell">Custom content inside the native tab button.</span>
               </div>
+              <div role="row">
+                <code role="cell">aerisTabContent</code><span role="cell">none</span
+                ><span role="cell"
+                  >Marks the exact content Angular should defer. Without a value, it creates the
+                  content on first activation and preserves it. Set it to <code>active</code> to
+                  destroy the content on deactivation.</span
+                >
+              </div>
+            </div>
+            <h3 id="tabs-api-template-inputs" tabindex="-1">Content template input</h3>
+            <div
+              class="api-table"
+              role="table"
+              aria-label="Tabs content template input"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of contentTemplateInputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
             </div>
             <h3 id="tabs-api-methods" tabindex="-1">Methods</h3>
             <div class="api-table compact" role="table" aria-label="Tabs methods" tabindex="0">
@@ -569,6 +790,12 @@
           </li>
           <li>
             The active panel is focusable by default for keyboard and screen-reader navigation.
+          </li>
+          <li>
+            Deferred panels keep their stable tabpanel element and ARIA relationship before their
+            content is initialized. Use <code>&lt;ng-template aerisTabContent&gt;</code> to preserve
+            content after first activation, or <code>aerisTabContent="active"</code> to destroy it
+            on exit. Rendering strategy does not change keyboard behavior.
           </li>
           <li>
             Scrollable tabs retain keyboard operation and provide labeled native scroll buttons.

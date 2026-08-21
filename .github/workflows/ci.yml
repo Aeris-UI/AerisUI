@@ -48,6 +48,12 @@ jobs:
       - name: Verify npm package
         run: npm run check:package
 
+      - name: Check library bundle size
+        run: npm run check:bundle-size
+
+      - name: Test packed library installation
+        run: npm run check:packed-install
+
       - name: Build MCP server
         run: npm run build:mcp
 

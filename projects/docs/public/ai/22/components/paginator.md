@@ -2,7 +2,7 @@
 
 > Navigate large record sets with page links, row count selection, and controlled state.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/paginator`
 - Human-readable documentation: [https://aeris-ui.dev/components/paginator](https://aeris-ui.dev/components/paginator)
@@ -30,6 +30,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the rows-per-page menu locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the rows menu inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `first` | `number (model)` | `0` | Index of the first record in the current page. |
 | `rows` | `number (model)` | `10` | Number of records shown per page. |
 | `totalRecords` | `number` | `0` | Total number of records available for pagination. |

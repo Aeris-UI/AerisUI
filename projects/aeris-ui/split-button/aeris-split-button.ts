@@ -14,7 +14,7 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { ɵAerisAppendTo, type AerisAppendTo } from '@aeris-ui/core';
+import { ɵAerisAppendTo, type AerisAppendTo, type AerisOverlayCollisionPadding } from '@aeris-ui/core';
 
 export type AerisSplitButtonVariant =
   | 'primary'
@@ -172,6 +172,7 @@ let splitButtonId = 0;
         class="aeris-split-button__menu"
         [aerisInternalAppendTo]="appendTo()"
         [aerisInternalAppendToAnchor]="toggleButton()?.nativeElement ?? null"
+        [aerisInternalAppendToCollisionPadding]="viewportMargin()"
         (aerisInternalAppendToOutside)="hide($event)"
         [class]="menuStyleClass()"
         [id]="menuId()"
@@ -259,6 +260,7 @@ export class AerisSplitButton<T = unknown> {
   readonly model = input<readonly AerisSplitButtonItem<T>[]>([]);
   readonly open = model(false);
   readonly appendTo = input<AerisAppendTo>();
+  readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly type = input<'button' | 'submit' | 'reset'>('button');
   readonly variant = input<AerisSplitButtonVariant>('primary');
   readonly severity = input<AerisSplitButtonSeverity>('primary');

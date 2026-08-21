@@ -17,9 +17,13 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
+import { aerisInternalCreateFrameScheduler } from '@aeris-ui/core';
+import type { AerisButtonSeverity, AerisButtonVariant } from '@aeris-ui/core/button';
 
 export type AerisMenubarSize = 'sm' | 'md' | 'lg';
-export type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select';
+export type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
+export type AerisMenubarItemVariant = 'default' | AerisButtonVariant;
+export type AerisMenubarAriaCurrent = 'page' | 'step' | 'location' | 'date' | 'time' | true | false;
 
 export interface AerisMenubarItem<T = unknown> {
   readonly id?: string;
@@ -29,6 +33,10 @@ export interface AerisMenubarItem<T = unknown> {
   readonly icon?: string;
   readonly badge?: string | number;
   readonly shortcut?: string;
+  readonly variant?: AerisButtonVariant;
+  readonly severity?: AerisButtonSeverity;
+  readonly active?: boolean;
+  readonly ariaCurrent?: AerisMenubarAriaCurrent;
   readonly disabled?: boolean;
   readonly visible?: boolean;
   readonly separator?: boolean;
@@ -62,9 +70,12 @@ export interface AerisMenubarItemTemplateContext<T = unknown> {
   readonly level: number;
   readonly root: boolean;
   readonly active: boolean;
+  readonly current: boolean;
   readonly open: boolean;
   readonly disabled: boolean;
   readonly hasSubmenu: boolean;
+  readonly variant: AerisMenubarItemVariant;
+  readonly severity: AerisButtonSeverity;
 }
 
 export type AerisMenubarNavigationHandler = (
@@ -84,7 +95,11 @@ interface AerisMenubarEntry<T> {
   readonly separator: boolean;
   readonly disabled: boolean;
   readonly active: boolean;
+  readonly current: boolean;
   readonly open: boolean;
+  readonly variant: AerisMenubarItemVariant;
+  readonly severity: AerisButtonSeverity;
+  readonly ariaCurrent: Exclude<AerisMenubarAriaCurrent, true | false> | null;
   readonly children: readonly AerisMenubarEntry<T>[];
 }
 
@@ -163,6 +178,7 @@ let nextMenubarId = 0;
               [attr.data-root]="entry.level === 0 || null"
               [attr.data-open]="entry.open || null"
               [attr.data-active]="entry.active || null"
+              [attr.data-current]="entry.current || null"
               [attr.data-disabled]="entry.disabled || null"
             >
               @if (entry.href) {
@@ -182,9 +198,13 @@ let nextMenubarId = 0;
                   [attr.aria-haspopup]="entry.children.length ? 'menu' : null"
                   [attr.aria-expanded]="entry.children.length ? entry.open : null"
                   [attr.aria-controls]="entry.children.length ? entry.id + '-submenu' : null"
+                  [attr.aria-current]="entry.ariaCurrent"
                   [attr.tabindex]="entry.active && !entry.disabled ? 0 : -1"
                   [attr.data-aeris-menubar-path]="entry.pathKey"
                   [attr.data-custom-template]="itemTemplate() ? true : null"
+                  [attr.data-variant]="entry.variant"
+                  [attr.data-severity]="entry.severity"
+                  [attr.data-current]="entry.current || null"
                   (click)="activateEntry($event, entry)"
                   (focus)="setActivePath(entry.path)"
                   (mouseenter)="handlePointerEnter(entry)"
@@ -207,9 +227,13 @@ let nextMenubarId = 0;
                   [attr.aria-haspopup]="entry.children.length ? 'menu' : null"
                   [attr.aria-expanded]="entry.children.length ? entry.open : null"
                   [attr.aria-controls]="entry.children.length ? entry.id + '-submenu' : null"
+                  [attr.aria-current]="entry.ariaCurrent"
                   [attr.tabindex]="entry.active && !entry.disabled ? 0 : -1"
                   [attr.data-aeris-menubar-path]="entry.pathKey"
                   [attr.data-custom-template]="itemTemplate() ? true : null"
+                  [attr.data-variant]="entry.variant"
+                  [attr.data-severity]="entry.severity"
+                  [attr.data-current]="entry.current || null"
                   (click)="activateEntry($event, entry)"
                   (focus)="setActivePath(entry.path)"
                   (mouseenter)="handlePointerEnter(entry)"
@@ -224,6 +248,7 @@ let nextMenubarId = 0;
 
               @if (entry.children.length && entry.open) {
                 <div
+                  #submenu
                   class="aeris-menubar__submenu"
                   [id]="entry.id + '-submenu'"
                   [attr.data-level]="entry.level + 1"
@@ -247,6 +272,7 @@ let nextMenubarId = 0;
       class="aeris-menubar__nav"
       [attr.aria-label]="navAriaLabel() || null"
       [attr.aria-labelledby]="navAriaLabelledBy() || null"
+      (mouseleave)="handleNavMouseLeave($event)"
     >
       <div class="aeris-menubar__surface">
         @if (startTemplate()) {
@@ -292,6 +318,9 @@ let nextMenubarId = 0;
   },
 })
 export class AerisMenubar<T = unknown> {
+  private readonly submenuPositionFrame = aerisInternalCreateFrameScheduler(() =>
+    this.positionSubmenus(),
+  );
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly injector = inject(Injector);
   private readonly generatedId = `aeris-menubar-${++nextMenubarId}`;
@@ -304,6 +333,7 @@ export class AerisMenubar<T = unknown> {
   });
   protected readonly endTemplate = contentChild(AerisMenubarEndTemplate, { descendants: false });
   protected readonly menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
+  protected readonly submenus = viewChildren<ElementRef<HTMLElement>>('submenu');
   protected readonly activePathKey = signal('0');
 
   readonly id = input(this.generatedId);
@@ -311,8 +341,13 @@ export class AerisMenubar<T = unknown> {
   readonly openPath = model('');
   readonly mobileOpen = model(false);
   readonly size = input<AerisMenubarSize>('md');
+  readonly rootItemVariant = input<AerisMenubarItemVariant>('default');
+  readonly submenuItemVariant = input<AerisMenubarItemVariant>('default');
+  readonly rootItemSeverity = input<AerisButtonSeverity>('primary');
+  readonly submenuItemSeverity = input<AerisButtonSeverity>('primary');
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly openOnHover = input(true, { transform: booleanAttribute });
+  readonly closeOnMouseLeave = input(true, { transform: booleanAttribute });
   readonly closeOnSelect = input(true, { transform: booleanAttribute });
   readonly hideOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
@@ -343,6 +378,26 @@ export class AerisMenubar<T = unknown> {
       onCleanup(() => {
         document.removeEventListener('pointerdown', pointerdown);
         document.removeEventListener('keydown', keydown);
+      });
+    });
+
+    effect((onCleanup) => {
+      if (!this.openPath()) return;
+      const document = this.host.nativeElement.ownerDocument;
+      const view = document.defaultView;
+      const viewport = view?.visualViewport;
+      const reposition = this.submenuPositionFrame.schedule;
+      afterNextRender(reposition, { injector: this.injector });
+      document.addEventListener('scroll', reposition, true);
+      view?.addEventListener('resize', reposition);
+      viewport?.addEventListener('resize', reposition);
+      viewport?.addEventListener('scroll', reposition);
+      onCleanup(() => {
+        document.removeEventListener('scroll', reposition, true);
+        view?.removeEventListener('resize', reposition);
+        viewport?.removeEventListener('resize', reposition);
+        viewport?.removeEventListener('scroll', reposition);
+        this.submenuPositionFrame.cancel();
       });
     });
   }
@@ -381,6 +436,10 @@ export class AerisMenubar<T = unknown> {
     } else if (entry.level > 0) {
       this.openPath.set(entry.parentPathKey);
     }
+  }
+
+  protected handleNavMouseLeave(event: MouseEvent): void {
+    if (this.closeOnMouseLeave() && this.openPath()) this.close(event, 'mouseleave');
   }
 
   protected activateEntry(event: MouseEvent | KeyboardEvent, entry: AerisMenubarEntry<T>): void {
@@ -505,9 +564,12 @@ export class AerisMenubar<T = unknown> {
       level: entry.level,
       root: entry.level === 0,
       active: entry.active,
+      current: entry.current,
       open: entry.open,
       disabled: entry.disabled,
       hasSubmenu: entry.children.length > 0,
+      variant: entry.variant,
+      severity: entry.severity,
     };
   }
 
@@ -531,6 +593,7 @@ export class AerisMenubar<T = unknown> {
           activePathKey,
           openPathKey,
         );
+        const ariaCurrent = this.resolveAriaCurrent(item);
         return {
           item,
           index,
@@ -543,7 +606,13 @@ export class AerisMenubar<T = unknown> {
           separator: !!item.separator,
           disabled: !!item.disabled,
           active: activePathKey === key,
+          current: !!item.active || ariaCurrent !== null,
           open: openPathKey === key || openPathKey.startsWith(`${key}.`),
+          variant:
+            item.variant ?? (level === 0 ? this.rootItemVariant() : this.submenuItemVariant()),
+          severity:
+            item.severity ?? (level === 0 ? this.rootItemSeverity() : this.submenuItemSeverity()),
+          ariaCurrent,
           children,
         };
       });
@@ -654,8 +723,66 @@ export class AerisMenubar<T = unknown> {
       .join('/')}`;
   }
 
+  private resolveAriaCurrent(
+    item: AerisMenubarItem<T>,
+  ): Exclude<AerisMenubarAriaCurrent, true | false> | null {
+    if (item.ariaCurrent === false) return null;
+    if (item.ariaCurrent === true) return 'page';
+    return item.ariaCurrent ?? (item.active ? 'page' : null);
+  }
+
   private pathKey(path: readonly number[]): string {
     return path.join('.');
+  }
+
+  private positionSubmenus(): void {
+    const document = this.host.nativeElement.ownerDocument;
+    const view = document.defaultView;
+    if (!view) return;
+    const viewport = view.visualViewport;
+    const left = (viewport?.offsetLeft ?? 0) + 8;
+    const top = (viewport?.offsetTop ?? 0) + 8;
+    const right = (viewport?.offsetLeft ?? 0) + (viewport?.width ?? view.innerWidth) - 8;
+    const bottom = (viewport?.offsetTop ?? 0) + (viewport?.height ?? view.innerHeight) - 8;
+
+    for (const { nativeElement: submenu } of this.submenus()) {
+      submenu.style.removeProperty('inset-inline-end');
+      submenu.style.removeProperty('inset-block-end');
+      submenu.style.removeProperty('translate');
+      submenu.removeAttribute('data-flipped-inline');
+      submenu.removeAttribute('data-flipped-block');
+
+      const level = Number(submenu.dataset['level'] ?? 1);
+      let rect = submenu.getBoundingClientRect();
+      if (rect.right > right && level > 1) {
+        submenu.style.insetInlineStart = 'auto';
+        submenu.style.insetInlineEnd = 'calc(100% + var(--aeris-menubar-submenu-offset, 0.45rem))';
+        submenu.setAttribute('data-flipped-inline', 'true');
+        rect = submenu.getBoundingClientRect();
+      } else {
+        submenu.style.removeProperty('inset-inline-start');
+      }
+
+      const translateX =
+        rect.right > right ? right - rect.right : rect.left < left ? left - rect.left : 0;
+      const parentRect = submenu.parentElement?.getBoundingClientRect();
+      if (
+        rect.bottom > bottom &&
+        level === 1 &&
+        parentRect &&
+        rect.height <= parentRect.top - top
+      ) {
+        submenu.style.insetBlockStart = 'auto';
+        submenu.style.insetBlockEnd = 'calc(100% + var(--aeris-menubar-submenu-offset, 0.45rem))';
+        submenu.setAttribute('data-flipped-block', 'true');
+        rect = submenu.getBoundingClientRect();
+      } else {
+        submenu.style.removeProperty('inset-block-start');
+      }
+      const translateY =
+        rect.bottom > bottom ? bottom - rect.bottom : rect.top < top ? top - rect.top : 0;
+      if (translateX || translateY) submenu.style.translate = `${translateX}px ${translateY}px`;
+    }
   }
 }
 

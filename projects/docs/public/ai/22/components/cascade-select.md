@@ -2,7 +2,7 @@
 
 > Hierarchical selection with cascading columns, templates, and Forms support.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/cascade-select`
 - Human-readable documentation: [https://aeris-ui.dev/components/cascade-select](https://aeris-ui.dev/components/cascade-select)
@@ -30,6 +30,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
 | `options` | `readonly AerisCascadeSelectOption[]` | `[]` | Hierarchical option tree rendered by the cascading columns. |
 | `inputId` | `string` | `generated` | ID assigned to the trigger button. |

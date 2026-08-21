@@ -2,7 +2,7 @@
 
 > Multiple selection with filtering, chips, groups, limits, and virtualization.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/multi-select`
 - Human-readable documentation: [https://aeris-ui.dev/components/multi-select](https://aeris-ui.dev/components/multi-select)
@@ -30,6 +30,7 @@ import { AerisMultiSelect, type AerisSelectOption } from '@aeris-ui/core/multi-s
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `readonly string[] (model)` | `[]` | Selected option values with two-way binding and Forms support. |
 | `inputId` | `string` | `''` | Visible-label association. |

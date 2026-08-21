@@ -2,7 +2,7 @@
 
 > Accessible automatic and manual tab navigation with responsive layouts and custom headers.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tabs`
 - Human-readable documentation: [https://aeris-ui.dev/components/tabs](https://aeris-ui.dev/components/tabs)
@@ -40,13 +40,19 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 | `scrollable` | `boolean` | `true` | Keeps horizontal tabs contained and shows scroll controls only when the tab list overflows. |
 | `panelTabIndex` | `0 &#124; -1` | `0` | Controls whether the active tabpanel is directly focusable. |
 
-### TabPanel inputs
+### Panel Inputs
 
-| Name | Type | Description |
-| --- | --- | --- |
-| value | string, required | Stable selection identifier. |
-| label | string, required | Default visible tab label. |
-| disabled | boolean | Disables and removes the tab from keyboard navigation. |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string, required` | `required` | Stable selection identifier. |
+| `label` | `string, required` | `required` | Default visible tab label. |
+| `disabled` | `boolean` | `false` | Disables and removes the tab from keyboard navigation. |
+
+### Content Template Inputs
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `aerisTabContent` | `preserve &#124; active` | `'preserve'` | Controls deferred template lifetime. preserve creates content on first activation and keeps it mounted; active creates it on activation and destroys it on deactivation. |
 
 ### Tabs outputs
 
@@ -61,6 +67,7 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 | Directive | Context | Description |
 | --- | --- | --- |
 | aerisTabHeader | selected, disabled | Custom content inside the native tab button. |
+| aerisTabContent | none | Marks the exact content Angular should defer. Without a value, it creates the content on first activation and preserves it. Set it to active to destroy the content on deactivation. |
 
 ### Tabs methods
 
@@ -79,6 +86,7 @@ type AerisTabsActivationMode = 'automatic' | 'manual';
 type AerisTabsVariant = 'line' | 'pill';
 type AerisTabsSize = 'sm' | 'md' | 'lg';
 type AerisTabsJustify = 'start' | 'center' | 'end' | 'stretch';
+type AerisTabContentStrategy = 'preserve' | 'active';
 
 interface AerisTabChangeEvent {
   readonly originalEvent: Event | null;
@@ -105,7 +113,7 @@ interface AerisTabChangeEvent {
 
 ### Basic
 
-Each panel has a stable value and label. The first enabled panel is displayed when no value is provided.
+Plain panel content is eager: Angular creates every panel's content during the initial render and keeps it mounted while tabs change.
 
 #### TS
 
@@ -214,6 +222,212 @@ export class TabsControlledControlledStateAndEventsDemo {
   padding: 1.25rem;
   color: var(--aeris-text-2);
   line-height: 1.6;
+}
+```
+
+### Deferred and preserved content
+
+A bare aerisTabContent template creates Statistics only the first time it opens. The charts then remain mounted, so their state survives later tab changes.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
+import { AerisTabsModule } from '@aeris-ui/core/tabs';
+
+@Component({
+  selector: 'app-tabs-lazy-demo',
+  imports: [AerisChartModule, AerisTabsModule],
+  templateUrl: './tabs-lazy.demo.html',
+  styleUrl: './tabs-lazy.demo.scss'
+})
+export class TabsLazyDeferredAndPreservedContentDemo {
+  protected readonly trafficData: AerisChartData = {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    datasets: [
+      {
+        label: 'Sessions',
+        data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],
+        tension: 0.35,
+        fill: true,
+      },
+    ],
+  };
+
+  protected readonly conversionData: AerisChartData = {
+    labels: ['Direct', 'Search', 'Social', 'Referral'],
+    datasets: [
+      { label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 },
+    ],
+  };
+
+  protected readonly statisticsOptions: AerisChartOptions = {
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: { legend: { position: 'bottom' } },
+  };
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <aeris-tabs ariaLabel="Workspace analytics">
+    <aeris-tab-panel value="summary" label="Summary">
+      <div class="statistics-summary">
+        <div>
+          <strong>Analytics overview</strong>
+          <p>Open Statistics to initialize the detailed charts.</p>
+        </div>
+      </div>
+    </aeris-tab-panel>
+    <aeris-tab-panel value="statistics" label="Statistics">
+      <ng-template aerisTabContent>
+        <div class="statistics-grid">
+          <section class="statistics-card">
+            <h4>Weekly traffic</h4>
+            <aeris-chart
+              type="line"
+              [data]="trafficData"
+              [options]="statisticsOptions"
+              height="17rem"
+              ariaLabel="Weekly sessions"
+              ariaDescription="Sessions rise overall from Monday to Sunday."
+            />
+          </section>
+          <section class="statistics-card">
+            <h4>Conversions by source</h4>
+            <aeris-chart
+              type="bar"
+              [data]="conversionData"
+              [options]="statisticsOptions"
+              height="17rem"
+              ariaLabel="Conversions by traffic source"
+              ariaDescription="Search produces the most conversions."
+            />
+          </section>
+        </div>
+      </ng-template>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</div>
+```
+
+#### CSS
+
+```css
+.statistics-summary {
+  min-height: 15rem;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  color: var(--aeris-text-2);
+  text-align: center;
+}
+
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.statistics-card {
+  min-width: 0;
+  padding: 1rem;
+  border-radius: var(--aeris-radius-container);
+  background: var(--aeris-surface-2);
+}
+
+.statistics-card h4 {
+  margin: 0 0 0.75rem;
+}
+
+@media (max-width: 44rem) {
+  .statistics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+```
+
+### Active-only content
+
+Set aerisTabContent to active when content should exist only while its tab is selected. Angular destroys it on exit, runs normal cleanup hooks, and creates a fresh instance when the tab opens again.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisTabsModule } from '@aeris-ui/core/tabs';
+
+@Component({
+  selector: 'app-tabs-active-content-demo',
+  imports: [AerisInputText, AerisTabsModule],
+  templateUrl: './tabs-active-content.demo.html',
+  styleUrl: './tabs-active-content.demo.scss'
+})
+export class TabsActiveContentActiveOnlyContentDemo {
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <aeris-tabs ariaLabel="Active-only content example">
+    <aeris-tab-panel value="instructions" label="Instructions">
+      <div class="tabs-demo-panel">
+        Open Temporary editor, enter text, leave the tab, and return. The field resets
+        because its content was destroyed.
+      </div>
+    </aeris-tab-panel>
+    <aeris-tab-panel value="editor" label="Temporary editor">
+      <ng-template aerisTabContent="active">
+        <div class="active-only-panel">
+          <label for="temporary-draft">Temporary draft</label>
+          <input
+            id="temporary-draft"
+            aerisInputText
+            placeholder="This value resets when you leave"
+          />
+          <small>
+            Leaving this tab destroys the input and any local component state inside
+            this template.
+          </small>
+        </div>
+      </ng-template>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</div>
+```
+
+#### CSS
+
+```css
+.tabs-demo-panel {
+  min-height: 6rem;
+  padding: 1.25rem;
+  color: var(--aeris-text-2);
+  line-height: 1.6;
+}
+
+.active-only-panel {
+  min-height: 9rem;
+  display: grid;
+  align-content: center;
+  gap: 0.5rem;
+  padding: 1.25rem;
+}
+
+.active-only-panel label {
+  font-weight: 600;
+}
+
+.active-only-panel small {
+  color: var(--aeris-text-2);
+  line-height: 1.5;
 }
 ```
 
@@ -625,6 +839,7 @@ export class TabsScrollableScrollableTabsDemo {
 - Horizontal and vertical orientations expose aria-orientation and use matching arrow keys.
 - Custom headers remain inside native buttons, so they must not contain nested interactive elements.
 - The active panel is focusable by default for keyboard and screen-reader navigation.
+- Deferred panels keep their stable tabpanel element and ARIA relationship before their content is initialized. Use <ng-template aerisTabContent> to preserve content after first activation, or aerisTabContent="active" to destroy it on exit. Rendering strategy does not change keyboard behavior.
 - Scrollable tabs retain keyboard operation and provide labeled native scroll buttons.
 
 ### Keyboard support

@@ -1,5 +1,6 @@
 import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import {
   AerisMenu,
@@ -259,6 +260,49 @@ describe('AerisMenu', () => {
     expect(fixture.componentInstance.selected()).toBe(true);
     expect(fixture.componentInstance.hiddenReason()).toBe('select');
     expect(document.activeElement).toBe(trigger);
+  });
+
+  it('keeps popup menus anchored to their trigger when its viewport position changes', async () => {
+    const fixture = TestBed.createComponent(MenuPopupTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#trigger') as HTMLButtonElement;
+    const triggerRect = vi.spyOn(trigger, 'getBoundingClientRect');
+    triggerRect.mockReturnValue({
+      x: 120,
+      y: 120,
+      top: 120,
+      right: 200,
+      bottom: 152,
+      left: 120,
+      width: 80,
+      height: 32,
+      toJSON: () => undefined,
+    });
+    trigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const panel = fixture.nativeElement.querySelector('.aeris-menu__panel[data-popup]') as HTMLElement;
+    expect(panel.hasAttribute('data-aeris-append-to')).toBe(false);
+    expect(panel.style.left).toBe('120px');
+    expect(panel.style.top).toBe('158px');
+
+    triggerRect.mockReturnValue({
+      x: 120,
+      y: 220,
+      top: 220,
+      right: 200,
+      bottom: 252,
+      left: 120,
+      width: 80,
+      height: 32,
+      toJSON: () => undefined,
+    });
+    fixture.componentInstance.menu().reposition();
+
+    expect(panel.style.left).toBe('120px');
+    expect(panel.style.top).toBe('258px');
   });
 
   it('closes popup menus with Escape', async () => {

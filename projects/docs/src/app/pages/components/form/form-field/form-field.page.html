@@ -1,0 +1,548 @@
+<article class="button-docs form-field-docs">
+  <app-component-page-header
+    category="Form"
+    title="FormField"
+    description="Compose labels, controls, hints, and validation feedback with stable grid alignment and accessible generated relationships."
+  />
+
+  <section id="form-field-import" class="import-section" aria-labelledby="form-field-import-title">
+    <div>
+      <h2 id="form-field-import-title">Import</h2>
+      <p>One import provides FormField and its label, control, hint, and error directives.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+
+  <aeris-tabs ariaLabel="FormField documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <p>
+          FormField owns layout and accessible relationships. Keep value, disabled, required, and
+          validation state synchronized with the projected control.
+        </p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="form-field-basic"
+              title="Native control"
+              description="aerisFormControl automatically connects a native control to the generated label, hint, and field state."
+              [tsCode]="basicCode"
+              [cssCode]="basicCss"
+            >
+              <div preview class="form-field-example">
+                <aeris-form-field required fluid>
+                  <label aerisFormLabel>Email address</label>
+                  <input
+                    aerisInputText
+                    aerisFormControl
+                    type="email"
+                    autocomplete="email"
+                    required
+                    fluid
+                    [(ngModel)]="email"
+                  />
+                  <small aerisFormHint>We use this address for account notifications.</small>
+                </aeris-form-field>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="form-field-example"&gt;
+  &lt;aeris-form-field required fluid&gt;
+    &lt;label aerisFormLabel&gt;Email address&lt;/label&gt;
+    &lt;input
+      aerisInputText
+      aerisFormControl
+      type="email"
+      autocomplete="email"
+      required
+      fluid
+      [(ngModel)]="email"
+    /&gt;
+    &lt;small aerisFormHint&gt;We use this address for account notifications.&lt;/small&gt;
+  &lt;/aeris-form-field&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="form-field-profile"
+              title="Responsive profile form"
+              description="Mix native and Aeris controls in a two-column form that collapses cleanly on small screens."
+              [tsCode]="profileCode"
+              [cssCode]="profileCss"
+            >
+              <div preview class="profile-form">
+                <aeris-form-field required fluid>
+                  <label aerisFormLabel>Display name</label>
+                  <input
+                    aerisInputText
+                    aerisFormControl
+                    autocomplete="name"
+                    required
+                    fluid
+                    [(ngModel)]="profileName"
+                  />
+                  <small aerisFormHint>Shown to other workspace members.</small>
+                </aeris-form-field>
+
+                <aeris-form-field #birthField optional fluid>
+                  <label aerisFormLabel>Birth date</label>
+                  <aeris-date-picker
+                    [inputId]="birthField.controlId()"
+                    [ariaLabelledby]="birthField.labelId()"
+                    [ariaDescribedby]="birthField.describedBy()"
+                    [(value)]="birthDate"
+                    fluid
+                  />
+                  <small aerisFormHint>Used only for age-based preferences.</small>
+                </aeris-form-field>
+
+                <aeris-form-field #heightField optional fluid>
+                  <label aerisFormLabel>Height</label>
+                  <aeris-input-number
+                    [inputId]="heightField.controlId()"
+                    [ariaLabelledby]="heightField.labelId()"
+                    [ariaDescribedby]="heightField.describedBy()"
+                    [(value)]="height"
+                    suffix=" cm"
+                    [min]="80"
+                    [max]="250"
+                    fluid
+                  />
+                  <small aerisFormHint>Used to calculate BMI.</small>
+                </aeris-form-field>
+
+                <aeris-form-field #roleField required fluid>
+                  <label aerisFormLabel>Role</label>
+                  <aeris-select
+                    [inputId]="roleField.controlId()"
+                    [ariaLabelledby]="roleField.labelId()"
+                    [ariaDescribedby]="roleField.describedBy()"
+                    [options]="roleOptions"
+                    [(value)]="role"
+                    placeholder="Choose a role"
+                    required
+                    fluid
+                  />
+                  <small aerisFormHint>Controls the defaults shown in your workspace.</small>
+                </aeris-form-field>
+
+                <aeris-form-field #bioField class="profile-form__wide" optional fluid>
+                  <label aerisFormLabel>Biography</label>
+                  <aeris-textarea
+                    [inputId]="bioField.controlId()"
+                    [ariaLabelledby]="bioField.labelId()"
+                    [ariaDescribedby]="bioField.describedBy()"
+                    [(value)]="biography"
+                    [rows]="3"
+                    fluid
+                  />
+                  <small aerisFormHint>Share a short introduction with your team.</small>
+                </aeris-form-field>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="profile-form"&gt;
+  &lt;aeris-form-field required fluid&gt;
+    &lt;label aerisFormLabel&gt;Display name&lt;/label&gt;
+    &lt;input
+      aerisInputText
+      aerisFormControl
+      autocomplete="name"
+      required
+      fluid
+      [(ngModel)]="profileName"
+    /&gt;
+    &lt;small aerisFormHint&gt;Shown to other workspace members.&lt;/small&gt;
+  &lt;/aeris-form-field&gt;
+
+  &lt;aeris-form-field #birthField optional fluid&gt;
+    &lt;label aerisFormLabel&gt;Birth date&lt;/label&gt;
+    &lt;aeris-date-picker
+      [inputId]="birthField.controlId()"
+      [ariaLabelledby]="birthField.labelId()"
+      [ariaDescribedby]="birthField.describedBy()"
+      [(value)]="birthDate"
+      fluid
+    /&gt;
+    &lt;small aerisFormHint&gt;Used only for age-based preferences.&lt;/small&gt;
+  &lt;/aeris-form-field&gt;
+
+  &lt;aeris-form-field #heightField optional fluid&gt;
+    &lt;label aerisFormLabel&gt;Height&lt;/label&gt;
+    &lt;aeris-input-number
+      [inputId]="heightField.controlId()"
+      [ariaLabelledby]="heightField.labelId()"
+      [ariaDescribedby]="heightField.describedBy()"
+      [(value)]="height"
+      suffix=" cm"
+      [min]="80"
+      [max]="250"
+      fluid
+    /&gt;
+    &lt;small aerisFormHint&gt;Used to calculate BMI.&lt;/small&gt;
+  &lt;/aeris-form-field&gt;
+
+  &lt;aeris-form-field #roleField required fluid&gt;
+    &lt;label aerisFormLabel&gt;Role&lt;/label&gt;
+    &lt;aeris-select
+      [inputId]="roleField.controlId()"
+      [ariaLabelledby]="roleField.labelId()"
+      [ariaDescribedby]="roleField.describedBy()"
+      [options]="roleOptions"
+      [(value)]="role"
+      placeholder="Choose a role"
+      required
+      fluid
+    /&gt;
+    &lt;small aerisFormHint&gt;Controls the defaults shown in your workspace.&lt;/small&gt;
+  &lt;/aeris-form-field&gt;
+
+  &lt;aeris-form-field #bioField class="profile-form__wide" optional fluid&gt;
+    &lt;label aerisFormLabel&gt;Biography&lt;/label&gt;
+    &lt;aeris-textarea
+      [inputId]="bioField.controlId()"
+      [ariaLabelledby]="bioField.labelId()"
+      [ariaDescribedby]="bioField.describedBy()"
+      [(value)]="biography"
+      [rows]="3"
+      fluid
+    /&gt;
+    &lt;small aerisFormHint&gt;Share a short introduction with your team.&lt;/small&gt;
+  &lt;/aeris-form-field&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="form-field-validation"
+              title="Validation and alignment"
+              description="Reserve support space to keep adjacent fields stable while an error appears. Fields stay top-aligned even when one hint wraps."
+              [tsCode]="validationCode"
+              [cssCode]="validationCss"
+            >
+              <div preview class="validation-grid">
+                <aeris-form-field
+                  required
+                  fluid
+                  reserveMessageSpace
+                  [invalid]="validationInvalid()"
+                >
+                  <label aerisFormLabel>Work email</label>
+                  <input
+                    aerisInputText
+                    aerisFormControl
+                    type="email"
+                    required
+                    fluid
+                    [invalid]="validationInvalid()"
+                    [(ngModel)]="validationEmail"
+                    (blur)="validationTouched.set(true)"
+                  />
+                  <small aerisFormError>Enter a complete email address.</small>
+                </aeris-form-field>
+
+                <aeris-form-field optional fluid reserveMessageSpace>
+                  <label aerisFormLabel>Employee ID</label>
+                  <input aerisInputText aerisFormControl value="AE-1042" fluid />
+                  <small aerisFormHint>
+                    This longer help message does not stretch the neighboring label-to-control gap.
+                  </small>
+                </aeris-form-field>
+
+                <div class="validation-actions">
+                  <button aerisButton type="button" (click)="validateEmail()">Check email</button>
+                  <button aerisButton type="button" variant="secondary" (click)="resetValidation()">
+                    Reset
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="validation-grid"&gt;
+  &lt;aeris-form-field
+    required
+    fluid
+    reserveMessageSpace
+    [invalid]="validationInvalid()"
+  &gt;
+    &lt;label aerisFormLabel&gt;Work email&lt;/label&gt;
+    &lt;input
+      aerisInputText
+      aerisFormControl
+      type="email"
+      required
+      fluid
+      [invalid]="validationInvalid()"
+      [(ngModel)]="validationEmail"
+      (blur)="validationTouched.set(true)"
+    /&gt;
+    &lt;small aerisFormError&gt;Enter a complete email address.&lt;/small&gt;
+  &lt;/aeris-form-field&gt;
+
+  &lt;aeris-form-field optional fluid reserveMessageSpace&gt;
+    &lt;label aerisFormLabel&gt;Employee ID&lt;/label&gt;
+    &lt;input aerisInputText aerisFormControl value="AE-1042" fluid /&gt;
+    &lt;small aerisFormHint&gt;
+      This longer help message does not stretch the neighboring label-to-control gap.
+    &lt;/small&gt;
+  &lt;/aeris-form-field&gt;
+
+  &lt;div class="validation-actions"&gt;
+    &lt;button aerisButton type="button" (click)="validateEmail()"&gt;Check email&lt;/button&gt;
+    &lt;button aerisButton type="button" variant="secondary" (click)="resetValidation()"&gt;
+      Reset
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="form-field-states"
+              title="Required, optional, and disabled"
+              description="Field indicators and presentation stay consistent while the projected controls retain their own native state."
+              [tsCode]="stateCode"
+              [cssCode]="statesCss"
+            >
+              <div preview class="field-state-stack">
+                <aeris-form-field #notificationField required fluid>
+                  <label aerisFormLabel>Workspace notifications</label>
+                  <aeris-toggle-switch
+                    [inputId]="notificationField.controlId()"
+                    [ariaLabelledby]="notificationField.labelId()"
+                    [ariaDescribedby]="notificationField.describedBy()"
+                    [(checked)]="notifications"
+                    required
+                  />
+                  <small aerisFormHint>Receive updates about assigned work.</small>
+                </aeris-form-field>
+
+                <aeris-form-field optional optionalText="Not required" fluid>
+                  <label aerisFormLabel>Portfolio URL</label>
+                  <input aerisInputText aerisFormControl type="url" placeholder="https://" fluid />
+                </aeris-form-field>
+
+                <aeris-form-field disabled fluid>
+                  <label aerisFormLabel>Organization</label>
+                  <input aerisInputText aerisFormControl value="Aeris Labs" disabled fluid />
+                  <small aerisFormHint>Managed by your administrator.</small>
+                </aeris-form-field>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-state-stack"&gt;
+  &lt;aeris-form-field #notificationField required fluid&gt;
+    &lt;label aerisFormLabel&gt;Workspace notifications&lt;/label&gt;
+    &lt;aeris-toggle-switch
+      [inputId]="notificationField.controlId()"
+      [ariaLabelledby]="notificationField.labelId()"
+      [ariaDescribedby]="notificationField.describedBy()"
+      [(checked)]="notifications"
+      required
+    /&gt;
+    &lt;small aerisFormHint&gt;Receive updates about assigned work.&lt;/small&gt;
+  &lt;/aeris-form-field&gt;
+
+  &lt;aeris-form-field optional optionalText="Not required" fluid&gt;
+    &lt;label aerisFormLabel&gt;Portfolio URL&lt;/label&gt;
+    &lt;input aerisInputText aerisFormControl type="url" placeholder="https://" fluid /&gt;
+  &lt;/aeris-form-field&gt;
+
+  &lt;aeris-form-field disabled fluid&gt;
+    &lt;label aerisFormLabel&gt;Organization&lt;/label&gt;
+    &lt;input aerisInputText aerisFormControl value="Aeris Labs" disabled fluid /&gt;
+    &lt;small aerisFormHint&gt;Managed by your administrator.&lt;/small&gt;
+  &lt;/aeris-form-field&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+
+          <app-page-toc
+            title="On this page"
+            ariaLabel="FormField features"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="form-field-api-inputs" class="api-section">
+              <h3>FormField inputs</h3>
+              <div class="api-table" role="table" aria-label="FormField inputs">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of inputs; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="form-field-api-directives" class="api-section">
+              <h3>Directives</h3>
+              <div class="api-table" role="table" aria-label="FormField directives">
+                <div role="row">
+                  <span role="columnheader">Directive</span><span role="columnheader">Input</span
+                  ><span role="columnheader">Type</span><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of directiveInputs; track $index) {
+                  <div role="row">
+                    <code role="cell">{{ row.owner }}</code
+                    ><code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+
+            <section id="form-field-api-properties" class="api-section">
+              <h3>Public properties</h3>
+              <div class="api-table" role="table" aria-label="FormField public properties">
+                <div role="row">
+                  <span role="columnheader">Name</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of properties; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc title="API links" ariaLabel="FormField API links" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="interfaces" label="Interfaces">
+      <section class="doc-section">
+        <h2>Interfaces</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="form-field-interfaces-code" class="api-section">
+              <h3>Types</h3>
+              <app-code-block [code]="interfacesCode" language="TypeScript" />
+            </section>
+          </div>
+          <app-page-toc
+            title="Interface links"
+            ariaLabel="FormField interface links"
+            [links]="interfaceLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="tokens" label="Tokens">
+      <section class="doc-section">
+        <h2>Design tokens</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="form-field-token-table" class="api-section">
+              <h3>FormField tokens</h3>
+              <div class="api-table" role="table" aria-label="FormField design tokens">
+                <div role="row">
+                  <span role="columnheader">Token</span><span role="columnheader">Type</span
+                  ><span role="columnheader">Default</span
+                  ><span role="columnheader">Description</span>
+                </div>
+                @for (row of tokens; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          </div>
+          <app-page-toc
+            title="Token links"
+            ariaLabel="FormField token links"
+            [links]="tokenLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+
+    <aeris-tab-panel value="accessibility" label="Accessibility">
+      <section class="doc-section">
+        <h2>Accessibility</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <section id="form-field-a11y-associations" class="api-section">
+              <h3>Labels and descriptions</h3>
+              <p>
+                Use <code>aerisFormControl</code> for native controls. It applies the generated ID,
+                <code>aria-describedby</code>, <code>aria-invalid</code>, and
+                <code>aria-required</code>. For Aeris controls with an internal interactive element,
+                bind <code>controlId()</code>, <code>labelId()</code>, and
+                <code>describedBy()</code> to the control's existing accessibility inputs, as shown
+                in the profile example.
+              </p>
+            </section>
+            <section id="form-field-a11y-errors" class="api-section">
+              <h3>Errors and announcements</h3>
+              <p>
+                Errors are hidden while the field is valid and included in the control description
+                only while invalid. The default polite live region avoids interrupting current
+                speech. Use <code>errorLive="off"</code> when another form-level summary announces
+                validation, or <code>assertive</code> only for time-sensitive feedback.
+              </p>
+            </section>
+            <section id="form-field-a11y-keyboard" class="api-section">
+              <h3>Keyboard support</h3>
+              <div class="api-table" role="table" aria-label="FormField keyboard support">
+                <div role="row">
+                  <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Tab</kbd
+                  ><span role="cell"
+                    >Moves focus to the projected control according to its native or Aeris
+                    behavior.</span
+                  >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Shift + Tab</kbd
+                  ><span role="cell">Moves focus backward through the page tab order.</span>
+                </div>
+                <div role="row">
+                  <kbd role="cell">Enter / Space</kbd
+                  ><span role="cell"
+                    >Uses the projected control's documented behavior; FormField adds no competing
+                    keyboard handlers.</span
+                  >
+                </div>
+                <div role="row">
+                  <span role="cell">Label click</span
+                  ><span role="cell"
+                    >Focuses or activates the associated labelable control through the native label
+                    relationship.</span
+                  >
+                </div>
+              </div>
+            </section>
+          </div>
+          <app-page-toc
+            title="Accessibility links"
+            ariaLabel="FormField accessibility links"
+            [links]="accessibilityLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</article>

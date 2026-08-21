@@ -14,8 +14,9 @@
 
   min-inline-size: var(--_aeris-badge-size);
   block-size: var(--_aeris-badge-size);
-  display: inline-grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding-inline: var(--_aeris-badge-padding);
   border: 1px solid transparent;
   border-radius: 999px;
@@ -136,6 +137,8 @@
 }
 
 :host(.aeris-badge-overlay) .aeris-badge-overlay__badge {
+  --_aeris-badge-padding: var(--aeris-badge-padding-inline, 0.25rem);
+
   position: absolute;
   z-index: 1;
   pointer-events: none;

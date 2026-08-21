@@ -1,13 +1,13 @@
 # Aeris UI full documentation
 
-> Complete machine-readable context for Aeris UI 22.0.0-alpha.4, an Angular >=22.0.6 <23.0.0 component library. Aeris is currently alpha software and is not production ready.
+> Complete machine-readable context for Aeris UI 22.0.0-alpha.5, an Angular >=22.0.6 <23.0.0 component library. Aeris is currently alpha software and is not production ready.
 
 This generated document combines the canonical developer guides and every component reference. The source documentation, generated component Markdown, and canonical JSON are validated together during documentation builds.
 
 ## Library contract
 
 - Package: `@aeris-ui/core`
-- Version: `22.0.0-alpha.4`
+- Version: `22.0.0-alpha.5`
 - Angular peer range: `>=22.0.6 <23.0.0`
 - License: MIT
 - Aeris is alpha software and is not production ready.
@@ -35,7 +35,7 @@ Human-readable documentation: [https://aeris-ui.dev/guides/installation](https:/
 
 #### Alpha status
 
-Aeris 22.0.0-alpha.4 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.
+Aeris 22.0.0-alpha.5 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.
 
 Public APIs, styling contracts, component behavior, and migration requirements may change before the first stable release as consumer testing uncovers improvements.
 
@@ -79,7 +79,7 @@ Schemes decide which light and dark token sets are available. Mode decides which
 ##### Pinned alpha (recommended)
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.4
+ng add @aeris-ui/core@22.0.0-alpha.5
 ```
 
 ##### Newest alpha
@@ -156,7 +156,7 @@ The setup file controls installation. Build-time projects also receive aeris.the
 ##### Terminal
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.4 --config=aeris.setup.json
+ng add @aeris-ui/core@22.0.0-alpha.5 --config=aeris.setup.json
 ```
 
 #### Provide palette seeds
@@ -168,7 +168,7 @@ Select Custom in the wizard to enter surface, primary, secondary, accent, and co
 ##### Terminal
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.4 --project=web --surface="#eef3f5" --primary="#357a9e" --secondary="#347b73" --accent="#d46f58" --contrast="#163e54" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
+ng add @aeris-ui/core@22.0.0-alpha.5 --project=web --surface="#eef3f5" --primary="#357a9e" --secondary="#347b73" --accent="#d46f58" --contrast="#163e54" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
 ```
 
 ##### aeris.setup.json
@@ -195,7 +195,7 @@ Install the package directly when a workspace should not be modified by the init
 ##### Terminal
 
 ```bash
-npm install @aeris-ui/core@22.0.0-alpha.4
+npm install @aeris-ui/core@22.0.0-alpha.5
 ```
 
 #### Load the global styles
@@ -1519,7 +1519,7 @@ The server bundles the canonical documentation generated for its exact Aeris ver
 
 - Node.js 20 or newer for the local MCP process.
 - An AI editor, CLI, or desktop application that supports local stdio MCP servers.
-- Use @aeris-ui/mcp 22.0.0-alpha.4 with @aeris-ui/core 22.0.0-alpha.4.
+- Use @aeris-ui/mcp 22.0.0-alpha.5 with @aeris-ui/core 22.0.0-alpha.5.
 - Restart or reload the AI client after changing its MCP configuration.
 
 > Note: Pin the MCP and core packages to the same exact alpha version.
@@ -1541,7 +1541,7 @@ Pin the exact version during alpha so the MCP documentation cannot move independ
   "mcpServers": {
     "aeris": {
       "command": "npx",
-      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.4"]
+      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.5"]
     }
   }
 }
@@ -1558,7 +1558,7 @@ If the MCP client cannot use npx, or a persistent local installation is preferre
 ##### Install the MCP executable
 
 ```bash
-npm install --global @aeris-ui/mcp@22.0.0-alpha.4
+npm install --global @aeris-ui/mcp@22.0.0-alpha.5
 ```
 
 ##### Global installation configuration
@@ -1808,11 +1808,13 @@ Optional visual effects such as backdrop blur degrade to the underlying transluc
 
 #### Server rendering and hydration
 
-Angular server rendering and hydration are not yet part of the verified Aeris alpha compatibility promise. Browser-dependent observers and animation work are guarded where components use them, but the complete library has not yet passed a dedicated server-render and hydration matrix.
+Aeris release verification now server-renders a consumer composition containing deferred Tabs and body-targeted overlay controls, checks stable ARIA relationships, and verifies Angular hydration metadata. Browser-dependent observers and animation work remain guarded where components use them.
+
+This targeted regression is not yet a complete all-component SSR and hydration matrix. During alpha, evaluate every component used by an application's initial route and treat the browser production build as a separate check.
 
 Evaluate SSR applications in a disposable branch, render every component used by the initial route, and check for direct document access, hydration mismatches, overlay creation before the browser is ready, and layout changes after hydration. Treat a successful browser build alone as insufficient evidence.
 
-> Note: This statement should be replaced with a tested support matrix only after automated server rendering and hydration coverage is part of release verification.
+> Note: A complete SSR support promise will follow only after the full component matrix is automated.
 
 #### Application testing
 
@@ -1834,7 +1836,7 @@ Evaluate SSR applications in a disposable branch, render every component used by
 
 > Choose an Aeris release line that is verified for the Angular version used by your application.
 
-The current package is Aeris 22.0.0-alpha.4, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.
+The current package is Aeris 22.0.0-alpha.5, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.
 
 Human-readable documentation: [https://aeris-ui.dev/guides/version-compatibility](https://aeris-ui.dev/guides/version-compatibility)
 
@@ -1857,7 +1859,7 @@ Check the peer dependency range for the version you plan to install before updat
 ##### Shell
 
 ```bash
-npm view @aeris-ui/core@22.0.0-alpha.4 peerDependencies
+npm view @aeris-ui/core@22.0.0-alpha.5 peerDependencies
 ```
 
 #### How Aeris versions are managed
@@ -1921,7 +1923,7 @@ When the compatibility matrix already covers the installed Angular major, update
 ##### Shell
 
 ```bash
-npm install @aeris-ui/core@22.0.0-alpha.4
+npm install @aeris-ui/core@22.0.0-alpha.5
 ```
 
 #### Update Angular and Aeris together
@@ -1934,7 +1936,7 @@ For an Angular major update, use Angular CLI migrations first, then install an A
 
 ```bash
 ng update @angular/core@22 @angular/cli@22
-npm install @aeris-ui/core@22.0.0-alpha.4
+npm install @aeris-ui/core@22.0.0-alpha.5
 ```
 
 #### Keep optional feature peers aligned
@@ -1948,9 +1950,31 @@ Chart and Editor entry points rely on optional peer packages. Update them only w
 
 #### Release-specific migration notes
 
-Aeris 22.0.0-alpha.4 begins the Angular-aligned Aeris 22 alpha line. Future prereleases that require consumer changes will add exact before-and-after instructions here.
+Aeris 22.0.0-alpha.5 renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.
 
-> Note: A release without an entry in this section has no known manual migration beyond the standard install and verification workflow.
+Use a bare aerisTabContent template to initialize expensive content on first activation and preserve its state. Set the directive to active to destroy and recreate the content whenever selection changes.
+
+> Note: No migration is needed for applications that want every panel initialized eagerly.
+
+##### Preserve after first activation
+
+```html
+<aeris-tab-panel value="statistics" label="Statistics">
+  <ng-template aerisTabContent>
+    <app-expensive-statistics />
+  </ng-template>
+</aeris-tab-panel>
+```
+
+##### Destroy on deactivation
+
+```html
+<aeris-tab-panel value="live" label="Live">
+  <ng-template aerisTabContent="active">
+    <app-live-resource />
+  </ng-template>
+</aeris-tab-panel>
+```
 
 #### Verify and roll back
 
@@ -1998,7 +2022,18 @@ Human-readable documentation: [https://aeris-ui.dev/guides/changelog](https://ae
 
 Next release · In development
 
-- No consumer-visible changes have been recorded since 22.0.0-alpha.4.
+- No consumer-visible changes have been recorded since 22.0.0-alpha.5.
+
+#### Aeris 22.0.0-alpha.5
+
+Alpha patch · 21 August 2026
+
+- Keep overlays collision-aware, viewport-contained, and anchored during scroll or resize.
+- Add Menubar appearance and active-route APIs, plus configurable submenu close behavior.
+- Add accessible FormField composition for consistent labels, hints, errors, and responsive layouts.
+- Add explicit preserve-state and active-only deferred rendering for Tabs.
+- Make Avatar instance size overrides predictable and keep avatars square in flex and grid layouts.
+- Verify consumer composition, server rendering, bundle size, and real packed-package installation in release checks.
 
 #### Aeris 22.0.0-alpha.4
 
@@ -2084,6 +2119,7 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Use per-edge values to reserve fixed headers, navigation, or other exclusion zones. |
 | `value` | `string (model)` | `''` | Current text value with two-way binding and Forms support. |
 | `suggestions` | `readonly AerisAutoCompleteOption[]` | `[]` | Suggestion records used by local filtering and option rendering. |
 | `inputId` | `string` | `generated` | ID assigned to the internal text input. |
@@ -3125,6 +3161,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
 | `options` | `readonly AerisCascadeSelectOption[]` | `[]` | Hierarchical option tree rendered by the cascading columns. |
 | `inputId` | `string` | `generated` | ID assigned to the trigger button. |
@@ -4549,6 +4586,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `'#5f6f36'` | Current color value with two-way binding and Forms support. |
 | `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. Options: 'hex', 'rgb', 'hsl'. |
 | `inputId` | `string` | `generated` | ID assigned to the visible color-picker trigger for label association. |
@@ -5472,6 +5510,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the calendar inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `value` | `AerisDatePickerValue (model)` | `null` | Selected Date, date array, or range according to selectionMode. |
 | `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. Options: 'single', 'multiple', 'range'. |
 | `view` | `AerisDatePickerView` | `'day'` | Chooses day, month, or year selection granularity. |
@@ -5687,6 +5726,93 @@ export class DatePickerBasicBasicDemo {
         : 'Selection updated',
     );
   }
+}
+```
+
+##### Constrained viewport
+
+The calendar flips and remains within the visual viewport. Mount it to body when an overflow container would otherwise clip it, and reserve fixed interface regions with per-edge margins.
+
+###### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+
+@Component({
+  selector: 'app-date-picker-collision-demo',
+  imports: [AerisDatePicker],
+  templateUrl: './date-picker-collision.demo.html',
+  styleUrl: './date-picker-collision.demo.scss'
+})
+export class DatePickerCollisionConstrainedViewportDemo {
+  protected readonly overlayViewportMargin = {
+    top: 16,
+    right: 16,
+    bottom: 72,
+    left: 16,
+  } as const;
+}
+```
+
+###### HTML
+
+```html
+<div class="collision-demo">
+  <div class="field">
+    <label for="collision-date">Delivery date</label>
+    <aeris-date-picker
+      inputId="collision-date"
+      appendTo="body"
+      [viewportMargin]="overlayViewportMargin"
+      placeholder="Choose a date"
+      ariaDescribedBy="collision-date-help"
+      clearable
+    />
+    <small id="collision-date-help">
+      The panel escapes this clipped container and avoids a 72px bottom bar.
+    </small>
+  </div>
+</div>
+```
+
+###### CSS
+
+```css
+.field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  grid-auto-rows: max-content;
+  gap: 0.45rem;
+}
+
+.field > label,
+.field > span:first-child {
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.field small {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.field small.error {
+  color: var(--aeris-danger);
+}
+
+.collision-demo {
+  min-height: 18rem;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: var(--aeris-surface-2);
+  overflow: hidden;
 }
 ```
 
@@ -7367,6 +7493,446 @@ export class EditorFormsReactiveAndTemplateDrivenFormsDemo {
 | `Ctrl / Command + Z` | Undo. |
 | `Ctrl / Command + Shift + Z` | Redo. |
 | `Enter / Space` | Activates the focused toolbar button. |
+
+### FormField
+
+> Compose labels, controls, hints, and validation messages with stable spacing and accessible relationships.
+
+#### Import
+
+```ts
+import { AerisFormField } from '@aeris-ui/core/form-field';
+```
+
+#### API
+
+##### Inputs
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `controlId` | `string` | `generated` | ID shared by the label and control. Exposed as a signal for Aeris controls. |
+| `invalid` | `boolean` | `false` | Shows the error, applies invalid presentation, and includes its ID in describedBy(). |
+| `disabled` | `boolean` | `false` | Applies disabled field presentation. Disable the projected control separately. |
+| `required` | `boolean` | `false` | Shows the required indicator and sets aria-required on native aerisFormControl elements. |
+| `optional` | `boolean` | `false` | Shows an optional indicator unless required is also true. |
+| `optionalText` | `string` | `'Optional'` | Text displayed by the optional indicator for localization. |
+| `fluid` | `boolean` | `false` | Makes the field and native aerisFormControl element fill available inline space. |
+| `reserveMessageSpace` | `boolean` | `false` | Reserves one message line so adjacent grid fields remain visually stable. |
+| `ariaDescribedby` | `string` | `''` | Additional description IDs merged into the generated describedBy() value. |
+| `errorLive` | `AerisFormErrorLive` | `'polite'` | Default error announcement behavior. Options: 'off', 'polite', 'assertive'. |
+
+##### Directive Inputs
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | `''` | Overrides the generated label ID. |
+| `for` | `string` | `''` | Overrides the generated label target. The TypeScript property name is forId. |
+| `id` | `string` | `''` | Overrides the generated native or host-semantic control ID. |
+| `aria-describedby` | `string` | `''` | Additional description IDs merged with the FormField IDs. The TypeScript property name is ariaDescribedby. |
+| `id` | `string` | `''` | Overrides the generated hint ID. |
+| `id` | `string` | `''` | Overrides the generated error ID. |
+| `hideWhenValid` | `boolean` | `true` | Hides the projected error while FormField invalid is false. |
+| `live` | `AerisFormErrorLive &#124; undefined` | `undefined` | Overrides the field announcement behavior. Options: 'off', 'polite', 'assertive', or undefined to inherit errorLive. |
+
+##### Properties
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `labelId` | `Signal&lt;string&gt;` | `derived` | Generated label ID for ariaLabelledby on Aeris or custom controls. |
+| `hintId` | `Signal&lt;string&gt;` | `derived` | Generated default hint ID. |
+| `errorId` | `Signal&lt;string&gt;` | `derived` | Generated default error ID. |
+| `describedBy` | `Signal&lt;string&gt;` | `derived` | Deduplicated hint, active error, and external description IDs for control binding. |
+
+#### Interfaces and types
+
+##### Interfaces
+
+```ts
+type AerisFormErrorLive = 'off' | 'polite' | 'assertive';
+```
+
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-form-field-gap` | `length` | `0.45rem` | Spacing between label, control, and support area. |
+| `--aeris-form-field-color` | `color` | `--aeris-text` | Base field text color. |
+| `--aeris-form-field-label-color` | `color` | `--aeris-text` | Label text color. |
+| `--aeris-form-field-label-font-size` | `length` | `0.875rem` | Label font size. |
+| `--aeris-form-field-label-font-weight` | `number` | `700` | Label font weight. |
+| `--aeris-form-field-indicator-gap` | `length` | `0.25rem` | Gap before required or optional indicators. |
+| `--aeris-form-field-required-color` | `color` | `--aeris-danger` | Required indicator color. |
+| `--aeris-form-field-optional-color` | `color` | `--aeris-text-2` | Optional indicator color. |
+| `--aeris-form-field-message-gap` | `length` | `0.25rem` | Gap between hint and error messages. |
+| `--aeris-form-field-message-space` | `length` | `1.2rem` | Reserved support-area height. |
+| `--aeris-form-field-message-font-size` | `length` | `0.8125rem` | Hint and error font size. |
+| `--aeris-form-field-hint-color` | `color` | `--aeris-text-2` | Hint text color. |
+| `--aeris-form-field-error-color` | `color` | `--aeris-danger-text` | Error text color. |
+| `--aeris-form-field-disabled-opacity` | `number` | `0.52` | Disabled label and hint opacity. |
+
+#### Examples
+
+##### Native control
+
+aerisFormControl automatically connects a native control to the generated label, hint, and field state.
+
+###### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AerisFormField } from '@aeris-ui/core/form-field';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+
+@Component({
+  selector: 'app-form-field-basic-demo',
+  imports: [AerisFormField, AerisInputText, FormsModule],
+  templateUrl: './form-field-basic.demo.html',
+  styleUrl: './form-field-basic.demo.scss'
+})
+export class FormFieldBasicNativeControlDemo {
+  protected readonly email = signal('alex@example.com');
+}
+```
+
+###### HTML
+
+```html
+<div class="form-field-example">
+  <aeris-form-field required fluid>
+    <label aerisFormLabel>Email address</label>
+    <input
+      aerisInputText
+      aerisFormControl
+      type="email"
+      autocomplete="email"
+      required
+      fluid
+      [(ngModel)]="email"
+    />
+    <small aerisFormHint>We use this address for account notifications.</small>
+  </aeris-form-field>
+</div>
+```
+
+###### CSS
+
+```css
+.form-field-example {
+  width: min(100%, 28rem);
+}
+```
+
+##### Responsive profile form
+
+Mix native and Aeris controls in a two-column form that collapses cleanly on small screens.
+
+###### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';
+import { AerisFormField } from '@aeris-ui/core/form-field';
+import { AerisInputNumber } from '@aeris-ui/core/input-number';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisTextarea } from '@aeris-ui/core/textarea';
+
+@Component({
+  selector: 'app-form-field-profile-demo',
+  imports: [AerisDatePicker, AerisFormField, AerisInputNumber, AerisInputText, AerisSelect, AerisTextarea, FormsModule],
+  templateUrl: './form-field-profile.demo.html',
+  styleUrl: './form-field-profile.demo.scss'
+})
+export class FormFieldProfileResponsiveProfileFormDemo {
+  protected readonly profileName = signal('Alex Morgan');
+  protected readonly birthDate = signal<AerisDatePickerValue>(new Date(1994, 6, 12));
+  protected readonly height = signal<number | null>(178);
+  protected readonly role = signal<string | null>('designer');
+  protected readonly biography = signal('Product designer focused on accessible workflows.');
+
+  protected readonly roleOptions = [
+    { label: 'Designer', value: 'designer' },
+    { label: 'Engineer', value: 'engineer' },
+    { label: 'Product manager', value: 'product-manager' },
+  ] as const;
+}
+```
+
+###### HTML
+
+```html
+<div class="profile-form">
+  <aeris-form-field required fluid>
+    <label aerisFormLabel>Display name</label>
+    <input
+      aerisInputText
+      aerisFormControl
+      autocomplete="name"
+      required
+      fluid
+      [(ngModel)]="profileName"
+    />
+    <small aerisFormHint>Shown to other workspace members.</small>
+  </aeris-form-field>
+
+  <aeris-form-field #birthField optional fluid>
+    <label aerisFormLabel>Birth date</label>
+    <aeris-date-picker
+      [inputId]="birthField.controlId()"
+      [ariaLabelledby]="birthField.labelId()"
+      [ariaDescribedby]="birthField.describedBy()"
+      [(value)]="birthDate"
+      fluid
+    />
+    <small aerisFormHint>Used only for age-based preferences.</small>
+  </aeris-form-field>
+
+  <aeris-form-field #heightField optional fluid>
+    <label aerisFormLabel>Height</label>
+    <aeris-input-number
+      [inputId]="heightField.controlId()"
+      [ariaLabelledby]="heightField.labelId()"
+      [ariaDescribedby]="heightField.describedBy()"
+      [(value)]="height"
+      suffix=" cm"
+      [min]="80"
+      [max]="250"
+      fluid
+    />
+    <small aerisFormHint>Used to calculate BMI.</small>
+  </aeris-form-field>
+
+  <aeris-form-field #roleField required fluid>
+    <label aerisFormLabel>Role</label>
+    <aeris-select
+      [inputId]="roleField.controlId()"
+      [ariaLabelledby]="roleField.labelId()"
+      [ariaDescribedby]="roleField.describedBy()"
+      [options]="roleOptions"
+      [(value)]="role"
+      placeholder="Choose a role"
+      required
+      fluid
+    />
+    <small aerisFormHint>Controls the defaults shown in your workspace.</small>
+  </aeris-form-field>
+
+  <aeris-form-field #bioField class="profile-form__wide" optional fluid>
+    <label aerisFormLabel>Biography</label>
+    <aeris-textarea
+      [inputId]="bioField.controlId()"
+      [ariaLabelledby]="bioField.labelId()"
+      [ariaDescribedby]="bioField.describedBy()"
+      [(value)]="biography"
+      [rows]="3"
+      fluid
+    />
+    <small aerisFormHint>Share a short introduction with your team.</small>
+  </aeris-form-field>
+</div>
+```
+
+###### CSS
+
+```css
+.profile-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.profile-form__wide {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 42rem) {
+  .profile-form {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-form__wide {
+    grid-column: auto;
+  }
+}
+```
+
+##### Validation and alignment
+
+Reserve support space to keep adjacent fields stable while an error appears. Fields stay top-aligned even when one hint wraps.
+
+###### TS
+
+```ts
+import { Component, computed, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisFormField } from '@aeris-ui/core/form-field';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+
+@Component({
+  selector: 'app-form-field-validation-demo',
+  imports: [AerisButton, AerisFormField, AerisInputText, FormsModule],
+  templateUrl: './form-field-validation.demo.html',
+  styleUrl: './form-field-validation.demo.scss'
+})
+export class FormFieldValidationValidationAndAlignmentDemo {
+  protected readonly validationEmail = signal('alex@');
+  protected readonly validationTouched = signal(false);
+  protected readonly validationInvalid = computed(
+    () =>
+      this.validationTouched() &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.validationEmail()),
+  );
+}
+```
+
+###### HTML
+
+```html
+<div class="validation-grid">
+  <aeris-form-field
+    required
+    fluid
+    reserveMessageSpace
+    [invalid]="validationInvalid()"
+  >
+    <label aerisFormLabel>Work email</label>
+    <input
+      aerisInputText
+      aerisFormControl
+      type="email"
+      required
+      fluid
+      [invalid]="validationInvalid()"
+      [(ngModel)]="validationEmail"
+      (blur)="validationTouched.set(true)"
+    />
+    <small aerisFormError>Enter a complete email address.</small>
+  </aeris-form-field>
+
+  <aeris-form-field optional fluid reserveMessageSpace>
+    <label aerisFormLabel>Employee ID</label>
+    <input aerisInputText aerisFormControl value="AE-1042" fluid />
+    <small aerisFormHint>
+      This longer help message does not stretch the neighboring label-to-control gap.
+    </small>
+  </aeris-form-field>
+
+  <div class="validation-actions">
+    <button aerisButton type="button" (click)="validateEmail()">Check email</button>
+    <button aerisButton type="button" variant="secondary" (click)="resetValidation()">
+      Reset
+    </button>
+  </div>
+</div>
+```
+
+###### CSS
+
+```css
+.validation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.validation-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (max-width: 42rem) {
+  .validation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .validation-actions {
+    grid-column: auto;
+  }
+}
+```
+
+##### Required, optional, and disabled
+
+Field indicators and presentation stay consistent while the projected controls retain their own native state.
+
+###### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisFormField } from '@aeris-ui/core/form-field';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
+
+@Component({
+  selector: 'app-form-field-states-demo',
+  imports: [AerisFormField, AerisInputText, AerisToggleSwitch],
+  templateUrl: './form-field-states.demo.html',
+  styleUrl: './form-field-states.demo.scss'
+})
+export class FormFieldStatesRequiredOptionalAndDisabledDemo {
+  protected readonly notifications = signal(true);
+}
+```
+
+###### HTML
+
+```html
+<div class="field-state-stack">
+  <aeris-form-field #notificationField required fluid>
+    <label aerisFormLabel>Workspace notifications</label>
+    <aeris-toggle-switch
+      [inputId]="notificationField.controlId()"
+      [ariaLabelledby]="notificationField.labelId()"
+      [ariaDescribedby]="notificationField.describedBy()"
+      [(checked)]="notifications"
+      required
+    />
+    <small aerisFormHint>Receive updates about assigned work.</small>
+  </aeris-form-field>
+
+  <aeris-form-field optional optionalText="Not required" fluid>
+    <label aerisFormLabel>Portfolio URL</label>
+    <input aerisInputText aerisFormControl type="url" placeholder="https://" fluid />
+  </aeris-form-field>
+
+  <aeris-form-field disabled fluid>
+    <label aerisFormLabel>Organization</label>
+    <input aerisInputText aerisFormControl value="Aeris Labs" disabled fluid />
+    <small aerisFormHint>Managed by your administrator.</small>
+  </aeris-form-field>
+</div>
+```
+
+###### CSS
+
+```css
+.field-state-stack {
+  width: min(100%, 32rem);
+  display: grid;
+  gap: 1rem;
+}
+```
+
+#### Accessibility
+
+- Use aerisFormControl for native controls. It applies the generated ID, aria-describedby, aria-invalid, and aria-required. For Aeris controls with an internal interactive element, bind controlId(), labelId(), and describedBy() to the control's existing accessibility inputs, as shown in the profile example.
+- Errors are hidden while the field is valid and included in the control description only while invalid. The default polite live region avoids interrupting current speech. Use errorLive="off" when another form-level summary announces validation, or assertive only for time-sensitive feedback.
+
+##### Keyboard support
+
+| Key | Function |
+| --- | --- |
+| `Tab` | Moves focus to the projected control according to its native or Aeris behavior. |
+| `Shift + Tab` | Moves focus backward through the page tab order. |
+| `Enter / Space` | Uses the projected control's documented behavior; FormField adds no competing keyboard handlers. |
+| `Label click` | Focuses or activates the associated labelable control through the native label relationship. |
 
 ### IconField
 
@@ -13968,6 +14534,7 @@ import { AerisMultiSelect, type AerisSelectOption } from '@aeris-ui/core/multi-s
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `readonly string[] (model)` | `[]` | Selected option values with two-way binding and Forms support. |
 | `inputId` | `string` | `''` | Visible-label association. |
@@ -15062,6 +15629,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self'` | Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the feedback panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `''` | Password value with two-way binding and Forms support. |
 | `visible` | `boolean (model)` | `false` | Controls whether the value is masked. |
 | `inputId` | `string` | `''` | Native input ID. |
@@ -17539,6 +18107,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the options panel inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
 | `inputId` | `string` | `generated` | ID assigned to the combobox trigger for visible labels. |
@@ -21376,6 +21945,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the tree panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `nodes` | `readonly AerisTreeNode[]` | `required` | Tree data rendered recursively in source order. Nesting depth is not limited by the component API. |
 | `value` | `AerisTreeSelectValue (model)` | `null` | Selected value for single mode or selected value array for multiple and checkbox modes. |
 | `selectionMode` | `AerisTreeSelectMode` | `'single'` | Selection behavior: single, multiple, or checkbox with optional descendant propagation. |
@@ -24382,6 +24952,7 @@ from '@aeris-ui/core/split-button';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the action menu locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the action menu inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `navigationHandler` | `AerisSplitButtonNavigationHandler &#124; undefined` | `undefined` | Optional framework-routing bridge for routerLink items. Native href navigation is used otherwise. |
 | `id` | `string` | `generated` | Stable base ID for the popup relationship and menu items. |
 | `label` | `string` | `''` | Primary action label. |
@@ -26158,6 +26729,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the rows-per-page menu locally, in document.body, or in the supplied DOM/template target. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the rows menu inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `first` | `number (model)` | `0` | Index of the first record in the current page. |
 | `rows` | `number (model)` | `10` | Number of records shown per page. |
 | `totalRecords` | `number` | `0` | Total number of records available for pagination. |
@@ -35591,13 +36163,19 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 | `scrollable` | `boolean` | `true` | Keeps horizontal tabs contained and shows scroll controls only when the tab list overflows. |
 | `panelTabIndex` | `0 &#124; -1` | `0` | Controls whether the active tabpanel is directly focusable. |
 
-##### TabPanel inputs
+##### Panel Inputs
 
-| Name | Type | Description |
-| --- | --- | --- |
-| value | string, required | Stable selection identifier. |
-| label | string, required | Default visible tab label. |
-| disabled | boolean | Disables and removes the tab from keyboard navigation. |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string, required` | `required` | Stable selection identifier. |
+| `label` | `string, required` | `required` | Default visible tab label. |
+| `disabled` | `boolean` | `false` | Disables and removes the tab from keyboard navigation. |
+
+##### Content Template Inputs
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `aerisTabContent` | `preserve &#124; active` | `'preserve'` | Controls deferred template lifetime. preserve creates content on first activation and keeps it mounted; active creates it on activation and destroys it on deactivation. |
 
 ##### Tabs outputs
 
@@ -35612,6 +36190,7 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 | Directive | Context | Description |
 | --- | --- | --- |
 | aerisTabHeader | selected, disabled | Custom content inside the native tab button. |
+| aerisTabContent | none | Marks the exact content Angular should defer. Without a value, it creates the content on first activation and preserves it. Set it to active to destroy the content on deactivation. |
 
 ##### Tabs methods
 
@@ -35630,6 +36209,7 @@ type AerisTabsActivationMode = 'automatic' | 'manual';
 type AerisTabsVariant = 'line' | 'pill';
 type AerisTabsSize = 'sm' | 'md' | 'lg';
 type AerisTabsJustify = 'start' | 'center' | 'end' | 'stretch';
+type AerisTabContentStrategy = 'preserve' | 'active';
 
 interface AerisTabChangeEvent {
   readonly originalEvent: Event | null;
@@ -35656,7 +36236,7 @@ interface AerisTabChangeEvent {
 
 ##### Basic
 
-Each panel has a stable value and label. The first enabled panel is displayed when no value is provided.
+Plain panel content is eager: Angular creates every panel's content during the initial render and keeps it mounted while tabs change.
 
 ###### TS
 
@@ -35765,6 +36345,212 @@ export class TabsControlledControlledStateAndEventsDemo {
   padding: 1.25rem;
   color: var(--aeris-text-2);
   line-height: 1.6;
+}
+```
+
+##### Deferred and preserved content
+
+A bare aerisTabContent template creates Statistics only the first time it opens. The charts then remain mounted, so their state survives later tab changes.
+
+###### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
+import { AerisTabsModule } from '@aeris-ui/core/tabs';
+
+@Component({
+  selector: 'app-tabs-lazy-demo',
+  imports: [AerisChartModule, AerisTabsModule],
+  templateUrl: './tabs-lazy.demo.html',
+  styleUrl: './tabs-lazy.demo.scss'
+})
+export class TabsLazyDeferredAndPreservedContentDemo {
+  protected readonly trafficData: AerisChartData = {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    datasets: [
+      {
+        label: 'Sessions',
+        data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],
+        tension: 0.35,
+        fill: true,
+      },
+    ],
+  };
+
+  protected readonly conversionData: AerisChartData = {
+    labels: ['Direct', 'Search', 'Social', 'Referral'],
+    datasets: [
+      { label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 },
+    ],
+  };
+
+  protected readonly statisticsOptions: AerisChartOptions = {
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: { legend: { position: 'bottom' } },
+  };
+}
+```
+
+###### HTML
+
+```html
+<div>
+  <aeris-tabs ariaLabel="Workspace analytics">
+    <aeris-tab-panel value="summary" label="Summary">
+      <div class="statistics-summary">
+        <div>
+          <strong>Analytics overview</strong>
+          <p>Open Statistics to initialize the detailed charts.</p>
+        </div>
+      </div>
+    </aeris-tab-panel>
+    <aeris-tab-panel value="statistics" label="Statistics">
+      <ng-template aerisTabContent>
+        <div class="statistics-grid">
+          <section class="statistics-card">
+            <h4>Weekly traffic</h4>
+            <aeris-chart
+              type="line"
+              [data]="trafficData"
+              [options]="statisticsOptions"
+              height="17rem"
+              ariaLabel="Weekly sessions"
+              ariaDescription="Sessions rise overall from Monday to Sunday."
+            />
+          </section>
+          <section class="statistics-card">
+            <h4>Conversions by source</h4>
+            <aeris-chart
+              type="bar"
+              [data]="conversionData"
+              [options]="statisticsOptions"
+              height="17rem"
+              ariaLabel="Conversions by traffic source"
+              ariaDescription="Search produces the most conversions."
+            />
+          </section>
+        </div>
+      </ng-template>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</div>
+```
+
+###### CSS
+
+```css
+.statistics-summary {
+  min-height: 15rem;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  color: var(--aeris-text-2);
+  text-align: center;
+}
+
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.statistics-card {
+  min-width: 0;
+  padding: 1rem;
+  border-radius: var(--aeris-radius-container);
+  background: var(--aeris-surface-2);
+}
+
+.statistics-card h4 {
+  margin: 0 0 0.75rem;
+}
+
+@media (max-width: 44rem) {
+  .statistics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+```
+
+##### Active-only content
+
+Set aerisTabContent to active when content should exist only while its tab is selected. Angular destroys it on exit, runs normal cleanup hooks, and creates a fresh instance when the tab opens again.
+
+###### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisTabsModule } from '@aeris-ui/core/tabs';
+
+@Component({
+  selector: 'app-tabs-active-content-demo',
+  imports: [AerisInputText, AerisTabsModule],
+  templateUrl: './tabs-active-content.demo.html',
+  styleUrl: './tabs-active-content.demo.scss'
+})
+export class TabsActiveContentActiveOnlyContentDemo {
+}
+```
+
+###### HTML
+
+```html
+<div>
+  <aeris-tabs ariaLabel="Active-only content example">
+    <aeris-tab-panel value="instructions" label="Instructions">
+      <div class="tabs-demo-panel">
+        Open Temporary editor, enter text, leave the tab, and return. The field resets
+        because its content was destroyed.
+      </div>
+    </aeris-tab-panel>
+    <aeris-tab-panel value="editor" label="Temporary editor">
+      <ng-template aerisTabContent="active">
+        <div class="active-only-panel">
+          <label for="temporary-draft">Temporary draft</label>
+          <input
+            id="temporary-draft"
+            aerisInputText
+            placeholder="This value resets when you leave"
+          />
+          <small>
+            Leaving this tab destroys the input and any local component state inside
+            this template.
+          </small>
+        </div>
+      </ng-template>
+    </aeris-tab-panel>
+  </aeris-tabs>
+</div>
+```
+
+###### CSS
+
+```css
+.tabs-demo-panel {
+  min-height: 6rem;
+  padding: 1.25rem;
+  color: var(--aeris-text-2);
+  line-height: 1.6;
+}
+
+.active-only-panel {
+  min-height: 9rem;
+  display: grid;
+  align-content: center;
+  gap: 0.5rem;
+  padding: 1.25rem;
+}
+
+.active-only-panel label {
+  font-weight: 600;
+}
+
+.active-only-panel small {
+  color: var(--aeris-text-2);
+  line-height: 1.5;
 }
 ```
 
@@ -36176,6 +36962,7 @@ export class TabsScrollableScrollableTabsDemo {
 - Horizontal and vertical orientations expose aria-orientation and use matching arrow keys.
 - Custom headers remain inside native buttons, so they must not contain nested interactive elements.
 - The active panel is focusable by default for keyboard and screen-reader navigation.
+- Deferred panels keep their stable tabpanel element and ARIA relationship before their content is initialized. Use <ng-template aerisTabContent> to preserve content after first activation, or aerisTabContent="active" to destroy it on exit. Rendering strategy does not change keyboard behavior.
 - Scrollable tabs retain keyboard operation and provide labeled native scroll buttons.
 
 ##### Keyboard support
@@ -41150,7 +41937,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 | `width` | `string` | `''` | Custom popover width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |
 | `offset` | `number` | `10` | Distance between target and popover in pixels. |
-| `viewportMargin` | `number` | `8` | Minimum viewport edge gap in pixels. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Minimum visual viewport gap. Per-edge values reserve fixed interface regions; preferred placements flip when they do not fit. |
 | `dismissible` | `boolean` | `true` | Allows outside pointerdown to close. |
 | `closeOnEscape` | `boolean` | `true` | Allows Escape to close. |
 | `closable` | `boolean` | `false` | Shows the built-in close button. |
@@ -41806,7 +42593,7 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
 | `aerisTooltipDisabled` | `boolean` | `false` | Prevents the tooltip from opening and closes an open tooltip. |
 | `aerisTooltipAutoHide` | `boolean` | `true` | Closes when the pointer leaves the target. Set false when pointer text selection inside the tooltip is needed. |
 | `aerisTooltipOffset` | `number` | `8` | Distance from the target in pixels. |
-| `aerisTooltipViewportMargin` | `number` | `6` | Minimum viewport edge gap in pixels. |
+| `aerisTooltipViewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `6` | Minimum visual viewport gap. Per-edge values reserve fixed interface regions; the tooltip flips when its preferred position does not fit. |
 | `aerisTooltipMaxWidth` | `string` | `''` | Custom maximum tooltip width. |
 | `aerisTooltipStyleClass` | `string` | `''` | Additional CSS class applied to the tooltip panel. |
 | `aerisTooltipTruncatedOnly` | `boolean` | `false` | Opens only when the target content overflows its visible dimensions. |
@@ -43441,6 +44228,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 | `viewportMargin` | `number` | `8` | Minimum spacing from viewport edges when positioning. |
 | `hideOnOutsideClick` | `boolean` | `true` | Closes the menu when pointerdown occurs outside the panel. |
 | `hideOnScroll` | `boolean` | `false` | Closes on window scroll instead of repositioning. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open. |
 | `closeOnEscape` | `boolean` | `true` | Closes the menu when Escape is pressed. |
 | `autoFocus` | `boolean` | `true` | Moves focus to the first enabled item after opening. |
 | `restoreFocus` | `boolean` | `true` | Returns focus to the context target when the menu closes. |
@@ -44000,6 +44788,7 @@ import { AerisMegaMenuModule } from '@aeris-ui/core/mega-menu';
 | `ariaLabel` | `string` | `'Mega menu'` | Accessible name for the navigation region. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the navigation region. |
 | `openOnHover` | `boolean` | `true` | Opens root panels on pointer hover. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes the open panel when the pointer leaves the mega menu. Set false to keep it open. |
 | `closeOnSelect` | `boolean` | `true` | Closes an open panel after activating a leaf item. |
 | `navigationHandler` | `AerisMegaMenuNavigationHandler` | `undefined` | Handles routerLink items without coupling Aeris to Angular Router. |
 
@@ -44033,7 +44822,7 @@ import { AerisMegaMenuModule } from '@aeris-ui/core/mega-menu';
 ```ts
 type AerisMegaMenuOrientation = 'horizontal' | 'vertical';
 type AerisMegaMenuSize = 'sm' | 'md' | 'lg';
-type AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select';
+type AerisMegaMenuCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
 
 interface AerisMegaMenuItem<T = unknown> {
   readonly id?: string;
@@ -44342,6 +45131,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the panel target when popup is enabled; inline menus remain local. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `id` | `string` | `generated` | ID for the root panel. |
 | `model` | `readonly AerisMenuItem&lt;T&gt;[]` | `[]` | Menu item model with groups, separators, commands, links, and nested items. |
 | `expandedKeys` | `AerisMenuExpandedKeys (model)` | `{}` | Controlled expanded state keyed by item id or generated path. |
@@ -45408,8 +46198,13 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | `openPath` | `string (model)` | `''` | Controlled path key for the open submenu branch. |
 | `mobileOpen` | `boolean (model)` | `false` | Controlled responsive menu visibility. |
 | `size` | `AerisMenubarSize` | `'md'` | Adjusts item height, text, and icon sizing. Options: 'sm', 'md', 'lg'. |
+| `rootItemVariant` | `AerisMenubarItemVariant` | `'default'` | Default appearance for root items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. |
+| `submenuItemVariant` | `AerisMenubarItemVariant` | `'default'` | Default appearance for submenu items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. |
+| `rootItemSeverity` | `AerisButtonSeverity` | `'primary'` | Default root-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. |
+| `submenuItemSeverity` | `AerisButtonSeverity` | `'primary'` | Default submenu-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. |
 | `disabled` | `boolean` | `false` | Prevents activation and submenu opening. |
 | `openOnHover` | `boolean` | `true` | Opens submenu branches when pointer users hover items. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes submenu branches when the pointer leaves the menubar. Set false to keep them open. |
 | `closeOnSelect` | `boolean` | `true` | Closes open menus after a leaf item is activated. |
 | `hideOnOutsideClick` | `boolean` | `true` | Closes menus when pointer interaction starts outside the component. |
 | `closeOnEscape` | `boolean` | `true` | Closes open menus when Escape is pressed. |
@@ -45444,7 +46239,7 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `open(path, event?)` | `string &#124; readonly number[], Event &#124; null =&gt; void` | `-` | Opens a submenu branch by path key or path array. |
-| `close(event?, reason?)` | `Event &#124; null, AerisMenubarCloseReason =&gt; void` | `-` | Closes open submenus. Options: 'api', 'escape', 'outside', 'select'. |
+| `close(event?, reason?)` | `Event &#124; null, AerisMenubarCloseReason =&gt; void` | `-` | Closes open submenus. Options: 'api', 'escape', 'outside', 'select', 'mouseleave'. |
 | `focus()` | `void` | `-` | Moves focus to the active or first enabled root item. |
 
 #### Interfaces and types
@@ -45453,7 +46248,31 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 
 ```ts
 type AerisMenubarSize = 'sm' | 'md' | 'lg';
-type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select';
+type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
+type AerisMenubarItemVariant =
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'outline'
+  | 'ghost'
+  | 'danger'
+  | 'link';
+type AerisMenubarAriaCurrent =
+  | 'page'
+  | 'step'
+  | 'location'
+  | 'date'
+  | 'time'
+  | true
+  | false;
+type AerisButtonSeverity =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'info'
+  | 'warning'
+  | 'danger'
+  | 'contrast';
 
 interface AerisMenubarItem<T = unknown> {
   readonly id?: string;
@@ -45463,6 +46282,17 @@ interface AerisMenubarItem<T = unknown> {
   readonly icon?: string;
   readonly badge?: string | number;
   readonly shortcut?: string;
+  readonly variant?: Exclude<AerisMenubarItemVariant, 'default'>;
+  readonly severity?:
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | 'danger'
+    | 'contrast';
+  readonly active?: boolean;
+  readonly ariaCurrent?: AerisMenubarAriaCurrent;
   readonly disabled?: boolean;
   readonly visible?: boolean;
   readonly separator?: boolean;
@@ -45480,6 +46310,20 @@ interface AerisMenubarItemEvent<T = unknown> {
   readonly item: AerisMenubarItem<T>;
   readonly path: readonly number[];
 }
+
+interface AerisMenubarItemTemplateContext<T = unknown> {
+  readonly $implicit: AerisMenubarItem<T>;
+  readonly item: AerisMenubarItem<T>;
+  readonly level: number;
+  readonly root: boolean;
+  readonly active: boolean;
+  readonly current: boolean;
+  readonly open: boolean;
+  readonly disabled: boolean;
+  readonly hasSubmenu: boolean;
+  readonly variant: AerisMenubarItemVariant;
+  readonly severity: AerisButtonSeverity;
+}
 ```
 
 #### Design tokens
@@ -45491,6 +46335,8 @@ interface AerisMenubarItemEvent<T = unknown> {
 | `--aeris-menubar-radius` | `length` | `--aeris-radius-lg` | Root surface corner radius. |
 | `--aeris-menubar-item-radius` | `length` | `--aeris-radius-item` | Shared hover and focus radius for root items and submenu items. |
 | `--aeris-menubar-item-height` | `length` | `--aeris-item-height` | Minimum item height. |
+| `--aeris-menubar-item-hover-background` | `color` | `--aeris-interactive-hover` | Hover and current-route background for the default item appearance. |
+| `--aeris-menubar-item-hover-color` | `color` | `--aeris-text` | Hover and current-route text color for the default item appearance. |
 | `--aeris-menubar-submenu-width` | `length` | `15rem` | Minimum submenu panel width. |
 | `--aeris-menubar-submenu-radius` | `length` | `--aeris-radius-overlay` | Submenu corner radius shared by Aeris overlay surfaces. |
 | `--aeris-menubar-icon-size` | `length` | `1.125rem` | Default icon and chevron size. |
@@ -45506,9 +46352,8 @@ Use nested items, separators, disabled entries, badges, and shortcuts in a horiz
 ```ts
 import { Component } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
-import { type AerisMenubarItem } from '@aeris-ui/core/menu';
-import { AerisMenubarModule } from '@aeris-ui/core/menubar';
-import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
+import { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';
+import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menubar-basic-demo',
@@ -45534,6 +46379,7 @@ export class MenubarBasicBasicDemo {
     Settings: LucideSettings,
     Undo2: LucideUndo2,
     Upload: LucideUpload,
+    User: LucideUser,
     ZoomIn: LucideZoomIn,
     ZoomOut: LucideZoomOut,
   };
@@ -45661,6 +46507,162 @@ export class MenubarBasicBasicDemo {
 }
 ```
 
+##### Appearance and active route
+
+Use Button-aligned appearances for root and submenu items, override individual items, and expose the current route without custom CSS.
+
+###### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';
+import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
+
+@Component({
+  selector: 'app-menubar-appearance-demo',
+  imports: [AerisMenubarModule, LucideDynamicIcon],
+  templateUrl: './menubar-appearance.demo.html',
+  styleUrl: './menubar-appearance.demo.scss'
+})
+export class MenubarAppearanceAppearanceAndActiveRouteDemo {
+  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {
+    Clipboard: LucideClipboard,
+    Copy: LucideCopy,
+    Download: LucideDownload,
+    ExternalLink: LucideExternalLink,
+    FileText: LucideFileText,
+    FolderOpen: LucideFolderOpen,
+    HelpCircle: LucideHelpCircle,
+    Home: LucideHome,
+    Package: LucidePackage,
+    RefreshCw: LucideRefreshCw,
+    Save: LucideSave,
+    Scissors: LucideScissors,
+    Search: LucideSearch,
+    Settings: LucideSettings,
+    Undo2: LucideUndo2,
+    Upload: LucideUpload,
+    User: LucideUser,
+    ZoomIn: LucideZoomIn,
+    ZoomOut: LucideZoomOut,
+  };
+
+  protected readonly appearanceItems: readonly AerisMenubarItem[] = [
+    {
+      id: 'overview',
+      label: 'Overview',
+      icon: 'Home',
+      routerLink: ['/components', 'menubar'],
+      active: true,
+    },
+    {
+      id: 'workspace-appearance',
+      label: 'Workspace',
+      icon: 'Package',
+      items: [
+        { id: 'projects-appearance', label: 'Projects', icon: 'FolderOpen' },
+        {
+          id: 'settings-appearance',
+          label: 'Settings',
+          icon: 'Settings',
+          variant: 'ghost',
+          severity: 'secondary',
+        },
+      ],
+    },
+    { id: 'account-appearance', label: 'Account', icon: 'User' },
+  ];
+}
+```
+
+###### HTML
+
+```html
+<div>
+  <aeris-menubar
+    [model]="appearanceItems"
+    rootItemVariant="ghost"
+    submenuItemVariant="outline"
+    rootItemSeverity="info"
+    submenuItemSeverity="secondary"
+    ariaLabel="Appearance navigation"
+  >
+    <ng-template
+      aerisMenubarItem
+      let-item
+      let-root="root"
+      let-open="open"
+      let-hasSubmenu="hasSubmenu"
+    >
+      <span class="menubar-doc-item">
+        @if (item.icon) {
+          <svg [lucideIcon]="icons[item.icon]" aria-hidden="true"></svg>
+        }
+        <span class="menubar-doc-item__label">{{ item.label }}</span>
+        @if (hasSubmenu) {
+          <svg
+            class="menubar-doc-item__chevron"
+            [attr.data-root]="root || null"
+            [attr.data-open]="open || null"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          >
+            <path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" />
+          </svg>
+        }
+      </span>
+    </ng-template>
+  </aeris-menubar>
+</div>
+```
+
+###### CSS
+
+```css
+.menubar-doc-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.menubar-doc-item svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.menubar-doc-item__label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menubar-doc-item__badge {
+  max-inline-size: min(7rem, 36vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menubar-doc-item kbd {
+  color: var(--text-2);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.menubar-doc-item__chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+```
+
 ##### Submenus
 
 Nested item arrays create cascading submenu branches for deeper navigation.
@@ -45669,9 +46671,8 @@ Nested item arrays create cascading submenu branches for deeper navigation.
 
 ```ts
 import { Component } from '@angular/core';
-import { type AerisMenubarItem } from '@aeris-ui/core/menu';
-import { AerisMenubarModule } from '@aeris-ui/core/menubar';
-import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
+import { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';
+import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menubar-submenus-demo',
@@ -45697,6 +46698,7 @@ export class MenubarSubmenusSubmenusDemo {
     Settings: LucideSettings,
     Undo2: LucideUndo2,
     Upload: LucideUpload,
+    User: LucideUser,
     ZoomIn: LucideZoomIn,
     ZoomOut: LucideZoomOut,
   };
@@ -45814,9 +46816,8 @@ Bind openPath and mobileOpen when application state owns submenu and responsive 
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { type AerisMenubarItem } from '@aeris-ui/core/menu';
-import { AerisMenubarModule } from '@aeris-ui/core/menubar';
-import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
+import { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';
+import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menubar-controlled-demo',
@@ -45842,6 +46843,7 @@ export class MenubarControlledControlledAndResponsiveDemo {
     Settings: LucideSettings,
     Undo2: LucideUndo2,
     Upload: LucideUpload,
+    User: LucideUser,
     ZoomIn: LucideZoomIn,
     ZoomOut: LucideZoomOut,
   };
@@ -45987,9 +46989,8 @@ Leaf items can emit commands, hand routerLink values to the app, or render nativ
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { type AerisMenubarItem, type AerisMenubarItemEvent } from '@aeris-ui/core/menu';
-import { AerisMenubarModule } from '@aeris-ui/core/menubar';
-import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
+import { AerisMenubarModule, type AerisMenubarItem, type AerisMenubarItemEvent } from '@aeris-ui/core/menubar';
+import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menubar-command-demo',
@@ -46015,6 +47016,7 @@ export class MenubarCommandCommandAndLinksDemo {
     Settings: LucideSettings,
     Undo2: LucideUndo2,
     Upload: LucideUpload,
+    User: LucideUser,
     ZoomIn: LucideZoomIn,
     ZoomOut: LucideZoomOut,
   };
@@ -46143,9 +47145,8 @@ Project brand and user content around the menubar and customize each item row.
 ```ts
 import { Component } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
-import { type AerisMenubarItem } from '@aeris-ui/core/menu';
-import { AerisMenubarModule } from '@aeris-ui/core/menubar';
-import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
+import { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';
+import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menubar-template-demo',
@@ -46171,6 +47172,7 @@ export class MenubarTemplateTemplateDemo {
     Settings: LucideSettings,
     Undo2: LucideUndo2,
     Upload: LucideUpload,
+    User: LucideUser,
     ZoomIn: LucideZoomIn,
     ZoomOut: LucideZoomOut,
   };
@@ -46301,6 +47303,7 @@ export class MenubarTemplateTemplateDemo {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  padding-inline: 0.5rem;
   font-weight: 850;
 }
 
@@ -46364,6 +47367,7 @@ small[aria-live] {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  padding-inline: 0.5rem;
   font-weight: 850;
 }
 
@@ -46375,7 +47379,7 @@ small[aria-live] {
 
 #### Accessibility
 
-- Menubar renders a navigation landmark, a root menubar, nested menu submenus, and menuitem controls. Submenu triggers expose expanded state and controls relationships.
+- Menubar renders a navigation landmark, a root menubar, nested menu submenus, and menuitem controls. Submenu triggers expose expanded state and controls relationships. Set an item's active property to expose aria-current="page", or use ariaCurrent for another supported current-item value.
 
 ##### Keyboard support
 
@@ -46409,6 +47413,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the panel target when popup is enabled; inline menus remain local. |
+| `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `id` | `string` | `generated id` | Panel ID used for menu and submenu relationships. |
 | `model` | `readonly AerisTieredMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |
 | `open` | `boolean (model)` | `false` | Controlled popup visibility. |
@@ -46419,6 +47424,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | `maxWidth` | `string` | `''` | Sets --aeris-tiered-menu-max-width on the panel. |
 | `viewportMargin` | `number` | `8` | Minimum popup distance from viewport edges. |
 | `hideOnOutsideClick` | `boolean` | `true` | Closes open popup menus or visible submenus on outside pointer interaction. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open. |
 | `closeOnEscape` | `boolean` | `true` | Closes open popup menus or visible submenus when Escape is pressed. |
 | `closeOnSelect` | `boolean` | `true` | Closes open overlays after an enabled leaf item is activated. |
 | `autoFocus` | `boolean` | `true` | Moves focus to the first enabled item when a popup opens. |
@@ -51894,7 +52900,7 @@ export class AvatarFallbackImageFallbackDemo {
 
 ##### Token customization
 
-Scope Avatar tokens to create a distinct identity without replacing component structure.
+Use the general size token as a final per-instance override, even when a semantic size is selected.
 
 ###### TS
 
@@ -51911,6 +52917,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
         class="brand-avatar"
         label="AU"
         ariaLabel="Aeris UI"
+        size="xl"
         shape="rounded"
       />
     </div>
@@ -51983,7 +52990,7 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string &#124; number &#124; null &#124; undefined` | `undefined` | Text or number rendered in the visual overlay badge. |
+| `value` | `string &#124; number &#124; null &#124; undefined` | `undefined` | Text or number rendered in the visual overlay badge. Short values remain circular; longer values expand inline to fit their content. |
 | `severity` | `AerisBadgeSeverity` | `'primary'` | Sets the overlay badge color accent. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
 | `size` | `AerisBadgeSize` | `'md'` | Controls overlay badge size. Options: 'sm', 'md', 'lg'. |
 | `variant` | `AerisBadgeVariant` | `'solid'` | Sets solid, soft, or outline treatment. |

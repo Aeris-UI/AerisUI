@@ -14,9 +14,18 @@
   min-height: 1.25rem;
 }
 
+.collision-demo {
+  min-height: 18rem;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: var(--aeris-surface-2);
+  overflow: hidden;
+}
+
 @media (max-width: 42rem) {
   .field-row aeris-date-picker {
     width: 100%;
   }
 }
-

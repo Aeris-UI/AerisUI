@@ -149,6 +149,13 @@ interface AerisSplitButtonProps {
         'Mounts the action menu locally, in document.body, or in the supplied DOM/template target.',
     },
     {
+      name: 'viewportMargin',
+      type: 'number | AerisOverlayCollisionPadding',
+      defaultValue: '8',
+      description:
+        'Keeps the action menu inside the visual viewport. Per-edge values reserve fixed interface regions.',
+    },
+    {
       name: 'navigationHandler',
       type: 'AerisSplitButtonNavigationHandler | undefined',
       defaultValue: 'undefined',

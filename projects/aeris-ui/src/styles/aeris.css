@@ -5,6 +5,13 @@
  * Preflight and Bootstrap Reboot without resetting consumer content globally.
  * Every selector is limited to an Aeris host or an Aeris-owned class.
  */
+:root {
+  --aeris-safe-area-top: env(safe-area-inset-top, 0px);
+  --aeris-safe-area-right: env(safe-area-inset-right, 0px);
+  --aeris-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --aeris-safe-area-left: env(safe-area-inset-left, 0px);
+}
+
 :where(
   aeris-accordion,
   aeris-accordion-panel,

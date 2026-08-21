@@ -1,4 +1,4 @@
-export const AERIS_UI_VERSION = '22.0.0-alpha.4';
+export const AERIS_UI_VERSION = '22.0.0-alpha.5';
 
 export {
   AERIS_OVERLAY_APPEND_TO,
@@ -42,6 +42,7 @@ export {
   type AerisInternalOverlayAlignment,
   type AerisInternalOverlayPlacement,
   type AerisInternalOverlayPoint,
+  type AerisOverlayCollisionPadding,
 } from './lib/aeris-overlay-position';
 export {
   aerisInternalApplyMeasuredColumnWidths,

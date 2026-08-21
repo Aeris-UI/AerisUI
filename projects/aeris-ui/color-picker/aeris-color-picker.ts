@@ -20,6 +20,7 @@ import {
   aerisInternalCreateFrameScheduler,
   ɵAerisAppendTo,
   type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
 } from '@aeris-ui/core';
 
 export type AerisColorPickerSize = 'xs' | 'sm' | 'md' | 'lg';
@@ -158,6 +159,7 @@ let colorPickerId = 0;
           class="aeris-color-picker__panel"
           [aerisInternalAppendTo]="appendTo()"
           [aerisInternalAppendToAnchor]="this.triggerButton()?.nativeElement ?? null"
+          [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="close(false)"
           role="dialog"
           [id]="panelId"
@@ -345,6 +347,7 @@ export class AerisColorPicker implements ControlValueAccessor {
   readonly name = input('');
   readonly formats = input<readonly AerisColorFormat[]>(['hex', 'rgb', 'hsl']);
   readonly appendTo = input<AerisAppendTo>();
+  readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly placeholder = input('Enter color');
   readonly ariaLabel = input<string>();
   readonly ariaLabelledby = input<string>();

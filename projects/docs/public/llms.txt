@@ -1,6 +1,6 @@
 # Aeris UI
 
-> Aeris UI 22.0.0-alpha.4 is an accessible, responsive, themeable Angular 22 component library using standalone and signal-based APIs. It is currently alpha software and is not production ready.
+> Aeris UI 22.0.0-alpha.5 is an accessible, responsive, themeable Angular 22 component library using standalone and signal-based APIs. It is currently alpha software and is not production ready.
 
 Use component secondary entry points and load both global Aeris styles once. Aeris has no required icon library; the documentation uses Lucide only to demonstrate consumer-provided icons. Components are designed for WCAG 2.2 AA, mobile layouts, light and dark themes, RTL, Tailwind CSS, and Bootstrap coexistence.
 
@@ -42,6 +42,7 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [ColorPicker](https://aeris-ui.dev/ai/22/components/color-picker.md): Lightweight color input with native picker behavior, text entry, presets, and forms support.
 - [DatePicker](https://aeris-ui.dev/ai/22/components/date-picker.md): Locale-aware date, range, month, and year selection with complete keyboard support.
 - [Editor](https://aeris-ui.dev/ai/22/components/editor.md): Rich text editing with optional Lexical peers, accessible toolbar controls, and Forms support.
+- [FormField](https://aeris-ui.dev/ai/22/components/form-field.md): Compose labels, controls, hints, and validation messages with stable spacing and accessible relationships.
 - [IconField](https://aeris-ui.dev/ai/22/components/icon-field.md): Composable field shell for placing icons around native and Aeris form controls.
 - [InputGroup](https://aeris-ui.dev/ai/22/components/input-group.md): Continuous grouped inputs with text addons, icon addons, and action buttons.
 - [InputMask](https://aeris-ui.dev/ai/22/components/input-mask.md): Accessible inputmask component for Angular.

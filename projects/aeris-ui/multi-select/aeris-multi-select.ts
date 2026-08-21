@@ -25,6 +25,7 @@ import {
   selectVirtualRange,
   ɵAerisAppendTo,
   type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
   type AerisSelectFilterMatchMode,
   type AerisSelectOption,
   type AerisSelectOptionGroup,
@@ -199,6 +200,7 @@ let multiSelectId = 0;
           [aerisInternalAppendTo]="appendTo()"
           [aerisInternalAppendToAnchor]="this.trigger()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
+          [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel(false)"
           [id]="panelId"
           [style.--aeris-multi-select-panel-max-height]="panelMaxHeight()"
@@ -403,6 +405,7 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
   readonly loadingMessage = input('Loading options');
   readonly panelMaxHeight = input('18rem');
   readonly appendTo = input<AerisAppendTo>();
+  readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly virtualScroll = input(false, { transform: booleanAttribute });
   readonly virtualItemSize = input(40, { transform: numberAttribute });
   readonly virtualBuffer = input(4, { transform: numberAttribute });

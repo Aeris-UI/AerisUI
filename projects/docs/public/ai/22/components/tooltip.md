@@ -2,7 +2,7 @@
 
 > Advisory target text with hover, focus, delays, templates, and accessible tooltip semantics.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tooltip`
 - Human-readable documentation: [https://aeris-ui.dev/components/tooltip](https://aeris-ui.dev/components/tooltip)
@@ -38,7 +38,7 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
 | `aerisTooltipDisabled` | `boolean` | `false` | Prevents the tooltip from opening and closes an open tooltip. |
 | `aerisTooltipAutoHide` | `boolean` | `true` | Closes when the pointer leaves the target. Set false when pointer text selection inside the tooltip is needed. |
 | `aerisTooltipOffset` | `number` | `8` | Distance from the target in pixels. |
-| `aerisTooltipViewportMargin` | `number` | `6` | Minimum viewport edge gap in pixels. |
+| `aerisTooltipViewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `6` | Minimum visual viewport gap. Per-edge values reserve fixed interface regions; the tooltip flips when its preferred position does not fit. |
 | `aerisTooltipMaxWidth` | `string` | `''` | Custom maximum tooltip width. |
 | `aerisTooltipStyleClass` | `string` | `''` | Additional CSS class applied to the tooltip panel. |
 | `aerisTooltipTruncatedOnly` | `boolean` | `false` | Opens only when the target content overflows its visible dimensions. |

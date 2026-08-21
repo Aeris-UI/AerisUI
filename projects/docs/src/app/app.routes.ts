@@ -250,6 +250,14 @@ export const routes: Routes = [
       import('./pages/components/form/editor/editor.page').then((page) => page.EditorPage),
   },
   {
+    path: 'components/form-field',
+    title: 'FormField - Aeris UI',
+    loadComponent: () =>
+      import('./pages/components/form/form-field/form-field.page').then(
+        (page) => page.FormFieldPage,
+      ),
+  },
+  {
     path: 'components/icon-field',
     title: 'IconField - Aeris UI',
     loadComponent: () =>

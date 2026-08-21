@@ -24,6 +24,7 @@ import {
   aerisInternalClampOverlayPoint,
   aerisInternalCreateFrameScheduler,
   type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
 } from '@aeris-ui/core';
 
 export type AerisTieredMenuSize = 'sm' | 'md' | 'lg';
@@ -238,6 +239,8 @@ let nextTieredMenuId = 0;
         class="aeris-tiered-menu__panel"
         [aerisInternalAppendTo]="popup() ? appendTo() : 'self'"
         [aerisInternalAppendToAnchor]="popup() ? portalAnchor() : null"
+        [aerisInternalAppendToCollisionPadding]="viewportMargin()"
+        [aerisInternalAppendToPositionSelf]="false"
         [id]="id()"
         [class]="panelStyleClass()"
         [attr.data-popup]="popup() || null"
@@ -248,6 +251,7 @@ let nextTieredMenuId = 0;
         [style.--aeris-tiered-menu-width]="width() || null"
         [style.--aeris-tiered-menu-max-width]="maxWidth() || null"
         (contextmenu)="suppressNativeMenu($event)"
+        (mouseleave)="handlePanelMouseLeave()"
       >
         <ng-container
           [ngTemplateOutlet]="menuList"
@@ -298,8 +302,9 @@ export class AerisTieredMenu<T = unknown> {
   readonly size = input<AerisTieredMenuSize>('md');
   readonly width = input('');
   readonly maxWidth = input('');
-  readonly viewportMargin = input(8);
+  readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly hideOnOutsideClick = input(true, { transform: booleanAttribute });
+  readonly closeOnMouseLeave = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly closeOnSelect = input(true, { transform: booleanAttribute });
   readonly autoFocus = input(true, { transform: booleanAttribute });
@@ -323,13 +328,18 @@ export class AerisTieredMenu<T = unknown> {
       const pointerdown = (event: PointerEvent) => this.handleDocumentPointerdown(event);
       const keydown = (event: KeyboardEvent) => this.handleDocumentKeydown(event);
       const reposition = this.repositionFrame.schedule;
+      const viewport = view?.visualViewport;
       document.addEventListener('pointerdown', pointerdown);
       document.addEventListener('keydown', keydown);
       view?.addEventListener('resize', reposition);
+      viewport?.addEventListener('resize', reposition);
+      viewport?.addEventListener('scroll', reposition);
       onCleanup(() => {
         document.removeEventListener('pointerdown', pointerdown);
         document.removeEventListener('keydown', keydown);
         view?.removeEventListener('resize', reposition);
+        viewport?.removeEventListener('resize', reposition);
+        viewport?.removeEventListener('scroll', reposition);
         this.repositionFrame.cancel();
       });
     });
@@ -384,17 +394,24 @@ export class AerisTieredMenu<T = unknown> {
     const width = rect.width || panel.offsetWidth || 240;
     const height = rect.height || panel.offsetHeight || 260;
     const anchor = this.currentAnchorPoint();
+    const viewport = view.visualViewport;
     const { x, y } = aerisInternalClampOverlayPoint(
       anchor,
       width,
       height,
-      view.innerWidth,
-      view.innerHeight,
+      viewport?.width ?? view.innerWidth,
+      viewport?.height ?? view.innerHeight,
       this.viewportMargin(),
+      viewport?.offsetLeft ?? 0,
+      viewport?.offsetTop ?? 0,
     );
     this.anchorPoint.set(anchor);
     this.coordinates.set({ x, y });
-    this.submenuSide.set(anchor.x > view.innerWidth / 2 ? 'start' : 'end');
+    this.submenuSide.set(
+      anchor.x > (viewport?.offsetLeft ?? 0) + (viewport?.width ?? view.innerWidth) / 2
+        ? 'start'
+        : 'end',
+    );
     this.positioned.set(true);
     panel.style.left = `${x}px`;
     panel.style.top = `${y}px`;
@@ -413,6 +430,10 @@ export class AerisTieredMenu<T = unknown> {
     if (entry.disabled || entry.separator) return;
     this.activePathKey.set(entry.pathKey);
     this.openPathKey.set(entry.children.length ? entry.pathKey : entry.parentPathKey);
+  }
+
+  protected handlePanelMouseLeave(): void {
+    if (this.closeOnMouseLeave()) this.openPathKey.set('');
   }
 
   protected activateEntry(event: MouseEvent | KeyboardEvent, entry: AerisTieredMenuEntry<T>): void {
@@ -503,7 +524,8 @@ export class AerisTieredMenu<T = unknown> {
     if (
       target instanceof Node &&
       (this.host.nativeElement.contains(target) || panel?.contains(target))
-    ) return;
+    )
+      return;
     this.hide(event, 'outside', false);
   }
 
@@ -719,7 +741,6 @@ export class AerisTieredMenu<T = unknown> {
   private isRtl(): boolean {
     return this.host.nativeElement.ownerDocument.documentElement.dir === 'rtl';
   }
-
 }
 
 export const AerisTieredMenuModule = [AerisTieredMenu, AerisTieredMenuItemTemplate] as const;

@@ -2,7 +2,7 @@
 
 > Horizontal application menu with cascading submenus, templates, commands, links, and responsive collapse.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/menubar`
 - Human-readable documentation: [https://aeris-ui.dev/components/menubar](https://aeris-ui.dev/components/menubar)
@@ -34,8 +34,13 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | `openPath` | `string (model)` | `''` | Controlled path key for the open submenu branch. |
 | `mobileOpen` | `boolean (model)` | `false` | Controlled responsive menu visibility. |
 | `size` | `AerisMenubarSize` | `'md'` | Adjusts item height, text, and icon sizing. Options: 'sm', 'md', 'lg'. |
+| `rootItemVariant` | `AerisMenubarItemVariant` | `'default'` | Default appearance for root items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. |
+| `submenuItemVariant` | `AerisMenubarItemVariant` | `'default'` | Default appearance for submenu items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. |
+| `rootItemSeverity` | `AerisButtonSeverity` | `'primary'` | Default root-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. |
+| `submenuItemSeverity` | `AerisButtonSeverity` | `'primary'` | Default submenu-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. |
 | `disabled` | `boolean` | `false` | Prevents activation and submenu opening. |
 | `openOnHover` | `boolean` | `true` | Opens submenu branches when pointer users hover items. |
+| `closeOnMouseLeave` | `boolean` | `true` | Closes submenu branches when the pointer leaves the menubar. Set false to keep them open. |
 | `closeOnSelect` | `boolean` | `true` | Closes open menus after a leaf item is activated. |
 | `hideOnOutsideClick` | `boolean` | `true` | Closes menus when pointer interaction starts outside the component. |
 | `closeOnEscape` | `boolean` | `true` | Closes open menus when Escape is pressed. |
@@ -70,7 +75,7 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `open(path, event?)` | `string &#124; readonly number[], Event &#124; null =&gt; void` | `-` | Opens a submenu branch by path key or path array. |
-| `close(event?, reason?)` | `Event &#124; null, AerisMenubarCloseReason =&gt; void` | `-` | Closes open submenus. Options: 'api', 'escape', 'outside', 'select'. |
+| `close(event?, reason?)` | `Event &#124; null, AerisMenubarCloseReason =&gt; void` | `-` | Closes open submenus. Options: 'api', 'escape', 'outside', 'select', 'mouseleave'. |
 | `focus()` | `void` | `-` | Moves focus to the active or first enabled root item. |
 
 ## Interfaces and types
@@ -79,7 +84,31 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 
 ```ts
 type AerisMenubarSize = 'sm' | 'md' | 'lg';
-type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select';
+type AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';
+type AerisMenubarItemVariant =
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'outline'
+  | 'ghost'
+  | 'danger'
+  | 'link';
+type AerisMenubarAriaCurrent =
+  | 'page'
+  | 'step'
+  | 'location'
+  | 'date'
+  | 'time'
+  | true
+  | false;
+type AerisButtonSeverity =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'info'
+  | 'warning'
+  | 'danger'
+  | 'contrast';
 
 interface AerisMenubarItem<T = unknown> {
   readonly id?: string;
@@ -89,6 +118,17 @@ interface AerisMenubarItem<T = unknown> {
   readonly icon?: string;
   readonly badge?: string | number;
   readonly shortcut?: string;
+  readonly variant?: Exclude<AerisMenubarItemVariant, 'default'>;
+  readonly severity?:
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | 'danger'
+    | 'contrast';
+  readonly active?: boolean;
+  readonly ariaCurrent?: AerisMenubarAriaCurrent;
   readonly disabled?: boolean;
   readonly visible?: boolean;
   readonly separator?: boolean;
@@ -106,6 +146,20 @@ interface AerisMenubarItemEvent<T = unknown> {
   readonly item: AerisMenubarItem<T>;
   readonly path: readonly number[];
 }
+
+interface AerisMenubarItemTemplateContext<T = unknown> {
+  readonly $implicit: AerisMenubarItem<T>;
+  readonly item: AerisMenubarItem<T>;
+  readonly level: number;
+  readonly root: boolean;
+  readonly active: boolean;
+  readonly current: boolean;
+  readonly open: boolean;
+  readonly disabled: boolean;
+  readonly hasSubmenu: boolean;
+  readonly variant: AerisMenubarItemVariant;
+  readonly severity: AerisButtonSeverity;
+}
 ```
 
 ## Design tokens
@@ -117,6 +171,8 @@ interface AerisMenubarItemEvent<T = unknown> {
 | `--aeris-menubar-radius` | `length` | `--aeris-radius-lg` | Root surface corner radius. |
 | `--aeris-menubar-item-radius` | `length` | `--aeris-radius-item` | Shared hover and focus radius for root items and submenu items. |
 | `--aeris-menubar-item-height` | `length` | `--aeris-item-height` | Minimum item height. |
+| `--aeris-menubar-item-hover-background` | `color` | `--aeris-interactive-hover` | Hover and current-route background for the default item appearance. |
+| `--aeris-menubar-item-hover-color` | `color` | `--aeris-text` | Hover and current-route text color for the default item appearance. |
 | `--aeris-menubar-submenu-width` | `length` | `15rem` | Minimum submenu panel width. |
 | `--aeris-menubar-submenu-radius` | `length` | `--aeris-radius-overlay` | Submenu corner radius shared by Aeris overlay surfaces. |
 | `--aeris-menubar-icon-size` | `length` | `1.125rem` | Default icon and chevron size. |
@@ -132,9 +188,8 @@ Use nested items, separators, disabled entries, badges, and shortcuts in a horiz
 ```ts
 import { Component } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
-import { type AerisMenubarItem } from '@aeris-ui/core/menu';
-import { AerisMenubarModule } from '@aeris-ui/core/menubar';
-import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
+import { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';
+import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menubar-basic-demo',
@@ -160,6 +215,7 @@ export class MenubarBasicBasicDemo {
     Settings: LucideSettings,
     Undo2: LucideUndo2,
     Upload: LucideUpload,
+    User: LucideUser,
     ZoomIn: LucideZoomIn,
     ZoomOut: LucideZoomOut,
   };
@@ -287,6 +343,162 @@ export class MenubarBasicBasicDemo {
 }
 ```
 
+### Appearance and active route
+
+Use Button-aligned appearances for root and submenu items, override individual items, and expose the current route without custom CSS.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';
+import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
+
+@Component({
+  selector: 'app-menubar-appearance-demo',
+  imports: [AerisMenubarModule, LucideDynamicIcon],
+  templateUrl: './menubar-appearance.demo.html',
+  styleUrl: './menubar-appearance.demo.scss'
+})
+export class MenubarAppearanceAppearanceAndActiveRouteDemo {
+  protected readonly icons: Readonly<Record<string, LucideIconInput>> = {
+    Clipboard: LucideClipboard,
+    Copy: LucideCopy,
+    Download: LucideDownload,
+    ExternalLink: LucideExternalLink,
+    FileText: LucideFileText,
+    FolderOpen: LucideFolderOpen,
+    HelpCircle: LucideHelpCircle,
+    Home: LucideHome,
+    Package: LucidePackage,
+    RefreshCw: LucideRefreshCw,
+    Save: LucideSave,
+    Scissors: LucideScissors,
+    Search: LucideSearch,
+    Settings: LucideSettings,
+    Undo2: LucideUndo2,
+    Upload: LucideUpload,
+    User: LucideUser,
+    ZoomIn: LucideZoomIn,
+    ZoomOut: LucideZoomOut,
+  };
+
+  protected readonly appearanceItems: readonly AerisMenubarItem[] = [
+    {
+      id: 'overview',
+      label: 'Overview',
+      icon: 'Home',
+      routerLink: ['/components', 'menubar'],
+      active: true,
+    },
+    {
+      id: 'workspace-appearance',
+      label: 'Workspace',
+      icon: 'Package',
+      items: [
+        { id: 'projects-appearance', label: 'Projects', icon: 'FolderOpen' },
+        {
+          id: 'settings-appearance',
+          label: 'Settings',
+          icon: 'Settings',
+          variant: 'ghost',
+          severity: 'secondary',
+        },
+      ],
+    },
+    { id: 'account-appearance', label: 'Account', icon: 'User' },
+  ];
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <aeris-menubar
+    [model]="appearanceItems"
+    rootItemVariant="ghost"
+    submenuItemVariant="outline"
+    rootItemSeverity="info"
+    submenuItemSeverity="secondary"
+    ariaLabel="Appearance navigation"
+  >
+    <ng-template
+      aerisMenubarItem
+      let-item
+      let-root="root"
+      let-open="open"
+      let-hasSubmenu="hasSubmenu"
+    >
+      <span class="menubar-doc-item">
+        @if (item.icon) {
+          <svg [lucideIcon]="icons[item.icon]" aria-hidden="true"></svg>
+        }
+        <span class="menubar-doc-item__label">{{ item.label }}</span>
+        @if (hasSubmenu) {
+          <svg
+            class="menubar-doc-item__chevron"
+            [attr.data-root]="root || null"
+            [attr.data-open]="open || null"
+            viewBox="0 0 20 20"
+            aria-hidden="true"
+          >
+            <path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" />
+          </svg>
+        }
+      </span>
+    </ng-template>
+  </aeris-menubar>
+</div>
+```
+
+#### CSS
+
+```css
+.menubar-doc-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.menubar-doc-item svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.menubar-doc-item__label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menubar-doc-item__badge {
+  max-inline-size: min(7rem, 36vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menubar-doc-item kbd {
+  color: var(--text-2);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.menubar-doc-item__chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+```
+
 ### Submenus
 
 Nested item arrays create cascading submenu branches for deeper navigation.
@@ -295,9 +507,8 @@ Nested item arrays create cascading submenu branches for deeper navigation.
 
 ```ts
 import { Component } from '@angular/core';
-import { type AerisMenubarItem } from '@aeris-ui/core/menu';
-import { AerisMenubarModule } from '@aeris-ui/core/menubar';
-import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
+import { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';
+import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menubar-submenus-demo',
@@ -323,6 +534,7 @@ export class MenubarSubmenusSubmenusDemo {
     Settings: LucideSettings,
     Undo2: LucideUndo2,
     Upload: LucideUpload,
+    User: LucideUser,
     ZoomIn: LucideZoomIn,
     ZoomOut: LucideZoomOut,
   };
@@ -440,9 +652,8 @@ Bind openPath and mobileOpen when application state owns submenu and responsive 
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { type AerisMenubarItem } from '@aeris-ui/core/menu';
-import { AerisMenubarModule } from '@aeris-ui/core/menubar';
-import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
+import { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';
+import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menubar-controlled-demo',
@@ -468,6 +679,7 @@ export class MenubarControlledControlledAndResponsiveDemo {
     Settings: LucideSettings,
     Undo2: LucideUndo2,
     Upload: LucideUpload,
+    User: LucideUser,
     ZoomIn: LucideZoomIn,
     ZoomOut: LucideZoomOut,
   };
@@ -613,9 +825,8 @@ Leaf items can emit commands, hand routerLink values to the app, or render nativ
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { type AerisMenubarItem, type AerisMenubarItemEvent } from '@aeris-ui/core/menu';
-import { AerisMenubarModule } from '@aeris-ui/core/menubar';
-import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
+import { AerisMenubarModule, type AerisMenubarItem, type AerisMenubarItemEvent } from '@aeris-ui/core/menubar';
+import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menubar-command-demo',
@@ -641,6 +852,7 @@ export class MenubarCommandCommandAndLinksDemo {
     Settings: LucideSettings,
     Undo2: LucideUndo2,
     Upload: LucideUpload,
+    User: LucideUser,
     ZoomIn: LucideZoomIn,
     ZoomOut: LucideZoomOut,
   };
@@ -769,9 +981,8 @@ Project brand and user content around the menubar and customize each item row.
 ```ts
 import { Component } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
-import { type AerisMenubarItem } from '@aeris-ui/core/menu';
-import { AerisMenubarModule } from '@aeris-ui/core/menubar';
-import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
+import { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';
+import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menubar-template-demo',
@@ -797,6 +1008,7 @@ export class MenubarTemplateTemplateDemo {
     Settings: LucideSettings,
     Undo2: LucideUndo2,
     Upload: LucideUpload,
+    User: LucideUser,
     ZoomIn: LucideZoomIn,
     ZoomOut: LucideZoomOut,
   };
@@ -927,6 +1139,7 @@ export class MenubarTemplateTemplateDemo {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  padding-inline: 0.5rem;
   font-weight: 850;
 }
 
@@ -990,6 +1203,7 @@ small[aria-live] {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  padding-inline: 0.5rem;
   font-weight: 850;
 }
 
@@ -1001,7 +1215,7 @@ small[aria-live] {
 
 ## Accessibility
 
-- Menubar renders a navigation landmark, a root menubar, nested menu submenus, and menuitem controls. Submenu triggers expose expanded state and controls relationships.
+- Menubar renders a navigation landmark, a root menubar, nested menu submenus, and menuitem controls. Submenu triggers expose expanded state and controls relationships. Set an item's active property to expose aria-current="page", or use ariaCurrent for another supported current-item value.
 
 ### Keyboard support
 

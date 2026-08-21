@@ -1,4 +1,10 @@
 import { Component, signal } from '@angular/core';
+import {
+  AerisChartModule,
+  type AerisChartData,
+  type AerisChartOptions,
+} from '@aeris-ui/core/chart';
+import { AerisInputText } from '@aeris-ui/core/input-text';
 import { AerisTabsModule, type AerisTabChangeEvent } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -20,6 +26,8 @@ interface ApiRow {
 @Component({
   selector: 'app-tabs-page',
   imports: [
+    AerisChartModule,
+    AerisInputText,
     AerisTabsModule,
     CodeBlockComponent,
     ComponentPageHeaderComponent,
@@ -35,9 +43,35 @@ export class TabsPage {
   protected readonly manualTab = signal('overview');
   protected readonly lastChange = signal('No tab change yet');
 
+  protected readonly trafficData: AerisChartData = {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    datasets: [
+      {
+        label: 'Sessions',
+        data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],
+        tension: 0.35,
+        fill: true,
+      },
+    ],
+  };
+
+  protected readonly conversionData: AerisChartData = {
+    labels: ['Direct', 'Search', 'Social', 'Referral'],
+    datasets: [{ label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 }],
+  };
+
+  protected readonly statisticsOptions: AerisChartOptions = {
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: { legend: { position: 'bottom' } },
+  };
+
   protected readonly featureLinks: readonly PageTocLink[] = [
+    { id: 'tabs-rendering', label: 'Rendering behavior' },
     { id: 'tabs-basic', label: 'Basic' },
     { id: 'tabs-controlled', label: 'Controlled state' },
+    { id: 'tabs-lazy', label: 'Deferred and preserved' },
+    { id: 'tabs-active-content', label: 'Active-only content' },
     { id: 'tabs-disabled', label: 'Disabled tabs' },
     { id: 'tabs-manual', label: 'Manual activation' },
     { id: 'tabs-vertical', label: 'Vertical tabs' },
@@ -52,6 +86,7 @@ export class TabsPage {
     { id: 'tabs-api-panel', label: 'Panel inputs' },
     { id: 'tabs-api-outputs', label: 'Outputs' },
     { id: 'tabs-api-templates', label: 'Templates' },
+    { id: 'tabs-api-template-inputs', label: 'Template inputs' },
     { id: 'tabs-api-methods', label: 'Methods' },
   ];
 
@@ -68,11 +103,86 @@ protected recordChange(event: AerisTabChangeEvent): void {
   );
 }`;
 
+  protected readonly lazyCode = `protected readonly trafficData: AerisChartData = {
+  labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  datasets: [
+    {
+      label: 'Sessions',
+      data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],
+      tension: 0.35,
+      fill: true,
+    },
+  ],
+};
+
+protected readonly conversionData: AerisChartData = {
+  labels: ['Direct', 'Search', 'Social', 'Referral'],
+  datasets: [
+    { label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 },
+  ],
+};
+
+protected readonly statisticsOptions: AerisChartOptions = {
+  maintainAspectRatio: false,
+  interaction: { mode: 'index', intersect: false },
+  plugins: { legend: { position: 'bottom' } },
+};`;
+
+  protected readonly lazyCss = `.statistics-summary {
+  min-height: 15rem;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  color: var(--aeris-text-2);
+  text-align: center;
+}
+
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.statistics-card {
+  min-width: 0;
+  padding: 1rem;
+  border-radius: var(--aeris-radius-container);
+  background: var(--aeris-surface-2);
+}
+
+.statistics-card h4 {
+  margin: 0 0 0.75rem;
+}
+
+@media (max-width: 44rem) {
+  .statistics-grid {
+    grid-template-columns: 1fr;
+  }
+}`;
+
+  protected readonly activeOnlyCss = `.active-only-panel {
+  min-height: 9rem;
+  display: grid;
+  align-content: center;
+  gap: 0.5rem;
+  padding: 1.25rem;
+}
+
+.active-only-panel label {
+  font-weight: 600;
+}
+
+.active-only-panel small {
+  color: var(--aeris-text-2);
+  line-height: 1.5;
+}`;
+
   protected readonly interfacesCode = `type AerisTabsOrientation = 'horizontal' | 'vertical';
 type AerisTabsActivationMode = 'automatic' | 'manual';
 type AerisTabsVariant = 'line' | 'pill';
 type AerisTabsSize = 'sm' | 'md' | 'lg';
 type AerisTabsJustify = 'start' | 'center' | 'end' | 'stretch';
+type AerisTabContentStrategy = 'preserve' | 'active';
 
 interface AerisTabChangeEvent {
   readonly originalEvent: Event | null;
@@ -141,6 +251,37 @@ interface AerisTabChangeEvent {
       type: '0 | -1',
       defaultValue: '0',
       description: 'Controls whether the active tabpanel is directly focusable.',
+    },
+  ];
+
+  protected readonly panelInputs: readonly ApiRow[] = [
+    {
+      name: 'value',
+      type: 'string, required',
+      defaultValue: 'required',
+      description: 'Stable selection identifier.',
+    },
+    {
+      name: 'label',
+      type: 'string, required',
+      defaultValue: 'required',
+      description: 'Default visible tab label.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables and removes the tab from keyboard navigation.',
+    },
+  ];
+
+  protected readonly contentTemplateInputs: readonly ApiRow[] = [
+    {
+      name: 'aerisTabContent',
+      type: 'preserve | active',
+      defaultValue: "'preserve'",
+      description:
+        'Controls deferred template lifetime. preserve creates content on first activation and keeps it mounted; active creates it on activation and destroys it on deactivation.',
     },
   ];
 

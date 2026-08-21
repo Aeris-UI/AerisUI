@@ -2,7 +2,7 @@
 
 > Compact status, count, and overlay indicator with severity, size, shape, and accessible semantics.
 
-Aeris 22.0.0-alpha.4 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.5 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/badge`
 - Human-readable documentation: [https://aeris-ui.dev/components/badge](https://aeris-ui.dev/components/badge)
@@ -47,7 +47,7 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string &#124; number &#124; null &#124; undefined` | `undefined` | Text or number rendered in the visual overlay badge. |
+| `value` | `string &#124; number &#124; null &#124; undefined` | `undefined` | Text or number rendered in the visual overlay badge. Short values remain circular; longer values expand inline to fit their content. |
 | `severity` | `AerisBadgeSeverity` | `'primary'` | Sets the overlay badge color accent. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
 | `size` | `AerisBadgeSize` | `'md'` | Controls overlay badge size. Options: 'sm', 'md', 'lg'. |
 | `variant` | `AerisBadgeVariant` | `'solid'` | Sets solid, soft, or outline treatment. |

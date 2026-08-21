@@ -246,13 +246,18 @@ type AerisAvatarGroupOverlap = 'subtle' | 'default' | 'strong';`;
   protected readonly tokens: readonly TokenRow[] = [
     {
       name: '--aeris-avatar-size',
-      purpose: 'Default avatar size.',
-      fallback: '--aeris-control-height',
+      purpose: 'Final per-instance size override for every semantic size.',
+      fallback: 'semantic size token',
     },
     {
       name: '--aeris-avatar-sm-size',
       purpose: 'Small avatar size.',
       fallback: 'control height − 0.625rem',
+    },
+    {
+      name: '--aeris-avatar-md-size',
+      purpose: 'Medium avatar size used when no general override is set.',
+      fallback: '--aeris-control-height',
     },
     {
       name: '--aeris-avatar-lg-size',

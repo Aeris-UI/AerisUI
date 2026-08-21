@@ -1,0 +1,88 @@
+.aeris-form-field {
+  min-inline-size: 0;
+  display: grid;
+  align-content: start;
+  grid-auto-rows: max-content;
+  gap: var(--aeris-form-field-gap, 0.45rem);
+  color: var(--aeris-form-field-color, var(--aeris-text, #222222));
+}
+
+.aeris-form-field[data-fluid] {
+  inline-size: 100%;
+}
+
+.aeris-form-field__label {
+  inline-size: max-content;
+  max-inline-size: 100%;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--aeris-form-field-indicator-gap, 0.25rem);
+  color: var(--aeris-form-field-label-color, var(--aeris-text, #222222));
+  font-size: var(--aeris-form-field-label-font-size, 0.875rem);
+  font-weight: var(--aeris-form-field-label-font-weight, 700);
+  line-height: 1.35;
+}
+
+.aeris-form-field__label[data-required]::after {
+  color: var(--aeris-form-field-required-color, var(--aeris-danger, #c81e2a));
+  content: '*';
+}
+
+.aeris-form-field__label[data-optional]::after {
+  color: var(--aeris-form-field-optional-color, var(--aeris-text-2, #555555));
+  content: '(' attr(data-optional-text) ')';
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.aeris-form-field__control,
+.aeris-form-field__support {
+  min-inline-size: 0;
+}
+
+.aeris-form-field__control {
+  display: block;
+}
+
+.aeris-form-field__native-control[data-fluid] {
+  inline-size: 100%;
+}
+
+.aeris-form-field__support {
+  display: grid;
+  align-content: start;
+  grid-auto-rows: max-content;
+  gap: var(--aeris-form-field-message-gap, 0.25rem);
+}
+
+.aeris-form-field__support:empty {
+  display: none;
+}
+
+.aeris-form-field[data-reserve-message-space] .aeris-form-field__support {
+  min-block-size: var(--aeris-form-field-message-space, 1.2rem);
+}
+
+.aeris-form-field__hint,
+.aeris-form-field__error {
+  margin: 0;
+  font-size: var(--aeris-form-field-message-font-size, 0.8125rem);
+  line-height: 1.45;
+}
+
+.aeris-form-field__hint {
+  color: var(--aeris-form-field-hint-color, var(--aeris-text-2, #555555));
+}
+
+.aeris-form-field__error {
+  color: var(--aeris-form-field-error-color, var(--aeris-danger-text, #a31722));
+  font-weight: 650;
+}
+
+.aeris-form-field__error[hidden] {
+  display: none;
+}
+
+.aeris-form-field[data-disabled] :is(.aeris-form-field__label, .aeris-form-field__hint) {
+  opacity: var(--aeris-form-field-disabled-opacity, 0.52);
+}

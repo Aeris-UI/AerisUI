@@ -241,6 +241,7 @@ let nextContextMenuId = 0;
           [style.top.px]="coordinates().y"
           [style.--aeris-context-menu-width]="width() || null"
           [style.--aeris-context-menu-max-width]="maxWidth() || null"
+          (mouseleave)="handlePanelMouseLeave()"
         >
           <ng-container
             [ngTemplateOutlet]="menuList"
@@ -296,6 +297,7 @@ export class AerisContextMenu<T = unknown> {
   readonly viewportMargin = input(8);
   readonly hideOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly hideOnScroll = input(false, { transform: booleanAttribute });
+  readonly closeOnMouseLeave = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly autoFocus = input(true, { transform: booleanAttribute });
   readonly restoreFocus = input(true, { transform: booleanAttribute });
@@ -474,6 +476,10 @@ export class AerisContextMenu<T = unknown> {
     if (entry.disabled || entry.separator) return;
     this.activePathKey.set(entry.pathKey);
     this.openPathKey.set(entry.children.length ? entry.pathKey : entry.parentPathKey);
+  }
+
+  protected handlePanelMouseLeave(): void {
+    if (this.closeOnMouseLeave()) this.openPathKey.set('');
   }
 
   protected activateEntry(
