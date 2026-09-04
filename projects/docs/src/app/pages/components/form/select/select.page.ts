@@ -346,6 +346,13 @@ interface AerisSelectLazyLoadEvent {
       description: 'Fills the available inline width.',
     },
     {
+      name: 'minWidth',
+      type: 'string',
+      defaultValue: "''",
+      description:
+        'Optional CSS minimum inline size. The control can shrink to zero when this is omitted.',
+    },
+    {
       name: 'checkmark',
       type: 'boolean',
       defaultValue: 'true',

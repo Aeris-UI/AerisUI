@@ -26,6 +26,7 @@ export interface AerisInternalAnchoredOverlayPositionOptions {
   readonly viewportLeft?: number;
   readonly viewportTop?: number;
   readonly collisionPadding?: number | AerisOverlayCollisionPadding;
+  readonly tetherToAnchor?: boolean;
 }
 
 export interface AerisInternalAnchoredOverlayPosition extends AerisInternalOverlayPoint {
@@ -63,19 +64,32 @@ export function aerisInternalPositionAnchoredOverlay(
   const bounds = resolveBounds(options);
   const placement = resolvePlacement(options, bounds);
   const point = rawPosition(placement, options);
+  const clampedPoint = aerisInternalClampOverlayPoint(
+    point,
+    options.width,
+    options.height,
+    bounds.right - bounds.left,
+    bounds.bottom - bounds.top,
+    0,
+    bounds.left,
+    bounds.top,
+  );
   return {
     placement,
-    ...aerisInternalClampOverlayPoint(
-      point,
-      options.width,
-      options.height,
-      bounds.right - bounds.left,
-      bounds.bottom - bounds.top,
-      0,
-      bounds.left,
-      bounds.top,
-    ),
+    ...(options.tetherToAnchor
+      ? tetheredPoint(placement, point, clampedPoint)
+      : clampedPoint),
   };
+}
+
+function tetheredPoint(
+  placement: AerisInternalOverlayPlacement,
+  point: AerisInternalOverlayPoint,
+  clampedPoint: AerisInternalOverlayPoint,
+): AerisInternalOverlayPoint {
+  return placement === 'top' || placement === 'bottom'
+    ? { x: clampedPoint.x, y: point.y }
+    : { x: point.x, y: clampedPoint.y };
 }
 
 function resolvePlacement(
@@ -89,7 +103,7 @@ function resolvePlacement(
     left: options.target.left - bounds.left - options.offset,
   };
   const preferred = options.placement === 'auto' ? 'bottom' : options.placement;
-  const candidates = placementCandidates(preferred);
+  const candidates = placementCandidates(preferred, options.tetherToAnchor ?? false);
   const fitting = candidates.find(
     (placement) =>
       spaces[placement] >=
@@ -137,7 +151,14 @@ function normalizePadding(
 
 function placementCandidates(
   preferred: AerisInternalOverlayPlacement,
+  preserveAxis: boolean,
 ): readonly AerisInternalOverlayPlacement[] {
+  if (preserveAxis) {
+    if (preferred === 'top') return ['top', 'bottom'];
+    if (preferred === 'bottom') return ['bottom', 'top'];
+    if (preferred === 'right') return ['right', 'left'];
+    return ['left', 'right'];
+  }
   switch (preferred) {
     case 'top':
       return ['top', 'bottom', 'right', 'left'];

@@ -419,6 +419,7 @@ let nextSelectId = 0;
     '[attr.data-open]': 'open() || null',
     '[attr.data-disabled]': 'effectiveDisabled() || null',
     '[attr.data-fluid]': 'fluid() || null',
+    '[style.--aeris-select-min-width]': 'minWidth() || null',
   },
 })
 export class AerisSelectComponent implements ControlValueAccessor {
@@ -438,6 +439,7 @@ export class AerisSelectComponent implements ControlValueAccessor {
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
   readonly fluid = input(false, { transform: booleanAttribute });
+  readonly minWidth = input('');
   readonly checkmark = input(true, { transform: booleanAttribute });
   readonly editable = input(false, { transform: booleanAttribute });
   readonly filter = input(false, { transform: booleanAttribute });

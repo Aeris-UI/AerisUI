@@ -71,6 +71,23 @@ describe('Aeris internal layout utilities', () => {
     expect(position).toEqual({ placement: 'top', x: 220, y: 282 });
   });
 
+  it('keeps tethered overlays attached when their anchor scrolls beyond the viewport', () => {
+    const position = aerisInternalPositionAnchoredOverlay({
+      target: { top: -100, right: 160, bottom: -60, left: 80, width: 80, height: 40 },
+      width: 180,
+      height: 120,
+      placement: 'auto',
+      alignment: 'start',
+      offset: 8,
+      margin: 8,
+      viewportWidth: 360,
+      viewportHeight: 640,
+      tetherToAnchor: true,
+    });
+
+    expect(position).toEqual({ placement: 'bottom', x: 80, y: -52 });
+  });
+
   it('keeps paired column resizing within the configured minimum', () => {
     const delta = aerisInternalClampColumnResizeDelta(100, 160, 120, 96);
     const columns = aerisInternalSetColumnPairWidths(

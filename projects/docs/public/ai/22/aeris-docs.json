@@ -11886,6 +11886,12 @@
               "description": "Fills the available inline width."
             },
             {
+              "name": "minWidth",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Optional CSS minimum inline size. The control can shrink to zero when this is omitted."
+            },
+            {
               "name": "checkmark",
               "type": "boolean",
               "defaultValue": "true",
@@ -12221,6 +12227,12 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Selected value text."
+        },
+        {
+          "name": "--aeris-select-min-width",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Minimum inline size of the control."
         },
         {
           "name": "--aeris-select-border",

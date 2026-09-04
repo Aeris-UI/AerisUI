@@ -7,8 +7,8 @@
   );
 
   display: inline-block;
-  min-width: 12rem;
-  max-width: 100%;
+  min-inline-size: var(--aeris-select-min-width, 0);
+  max-inline-size: 100%;
   color: var(--aeris-select-text, var(--aeris-text, #222222));
   font: inherit;
 }

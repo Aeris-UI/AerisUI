@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { AERIS_OVERLAY_APPEND_TO } from '@aeris-ui/core';
+import { vi } from 'vitest';
 
 import {
   AerisSelect,
@@ -8,6 +9,19 @@ import {
   type AerisSelectLazyLoadEvent,
   type AerisSelectOption,
 } from '../../../select/aeris-select';
+
+const rect = (left: number, top: number, width: number, height: number): DOMRect =>
+  ({
+    left,
+    top,
+    width,
+    height,
+    right: left + width,
+    bottom: top + height,
+    x: left,
+    y: top,
+    toJSON: () => undefined,
+  }) as DOMRect;
 
 @Component({
   imports: [AerisSelect],
@@ -22,6 +36,7 @@ import {
       clearable
       required
       invalid
+      [minWidth]="minimumWidth()"
       ariaDescribedby="role-error"
       (changed)="lastChange.set($event)"
     />
@@ -29,6 +44,7 @@ import {
 })
 class SelectTestHost {
   readonly role = signal<string | null>('designer');
+  readonly minimumWidth = signal('');
   readonly lastChange = signal<AerisSelectChangeEvent | null>(null);
   readonly options: readonly AerisSelectOption[] = [
     { label: 'Product designer', value: 'designer', group: 'Product' },
@@ -117,7 +133,22 @@ class SelectAppendToTestHost {
 
 describe('AerisSelect', () => {
   afterEach(() => {
+    vi.restoreAllMocks();
     document.querySelectorAll('[data-aeris-append-to]').forEach((element) => element.remove());
+  });
+
+  it('shrinks in compact layouts and supports an explicit minimum width', async () => {
+    const fixture = TestBed.createComponent(SelectTestHost);
+    await fixture.whenStable();
+
+    const select = fixture.nativeElement.querySelector('aeris-select') as HTMLElement;
+    expect(getComputedStyle(select).minInlineSize).toContain('--aeris-select-min-width');
+    expect(select.style.getPropertyValue('--aeris-select-min-width')).toBe('');
+
+    fixture.componentInstance.minimumWidth.set('8rem');
+    fixture.detectChanges();
+
+    expect(select.style.getPropertyValue('--aeris-select-min-width')).toBe('8rem');
   });
 
   it('exposes combobox relationships and form semantics', async () => {
@@ -403,6 +434,40 @@ describe('AerisSelect', () => {
       '.aeris-select__panel[data-aeris-append-to="body"]',
     ) as HTMLElement;
     expect(panel).toBeTruthy();
+  });
+
+  it('keeps a body-mounted panel tethered to its control while the page scrolls', async () => {
+    const fixture = TestBed.createComponent(SelectAppendToTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#body-select') as HTMLButtonElement;
+    const control = trigger.closest('.aeris-select__control') as HTMLElement;
+    const controlRect = vi.spyOn(control, 'getBoundingClientRect');
+    controlRect.mockReturnValue(rect(80, 120, 180, 40));
+    trigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await new Promise((resolve) => setTimeout(resolve, 32));
+
+    const panel = document.body.querySelector(
+      '.aeris-select__panel[data-aeris-append-to="body"]',
+    ) as HTMLElement;
+    const initialTop = Number.parseFloat(panel.style.top);
+    let reposition: FrameRequestCallback | undefined;
+    const requestFrame = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      reposition = callback;
+      return 1;
+    });
+
+    controlRect.mockReturnValue(rect(80, -100, 180, 40));
+    document.dispatchEvent(new Event('scroll'));
+    document.dispatchEvent(new Event('scroll'));
+    document.dispatchEvent(new Event('scroll'));
+    expect(requestFrame).toHaveBeenCalledOnce();
+    reposition?.(16);
+
+    expect(Number.parseFloat(panel.style.top)).toBeLessThan(0);
+    expect(Number.parseFloat(panel.style.top)).toBeLessThan(initialTop);
   });
 
   it('mounts its panel into an HTMLElement target', async () => {

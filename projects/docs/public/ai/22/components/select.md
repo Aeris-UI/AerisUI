@@ -46,6 +46,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 | `required` | `boolean` | `false` | Exposes aria-required for validation. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
 | `fluid` | `boolean` | `false` | Fills the available inline width. |
+| `minWidth` | `string` | `''` | Optional CSS minimum inline size. The control can shrink to zero when this is omitted. |
 | `checkmark` | `boolean` | `true` | Shows a selection mark beside the selected option. |
 | `editable` | `boolean` | `false` | Allows free-form values in addition to listed options. |
 | `filter` | `boolean` | `false` | Adds an accessible search field to the options panel. |
@@ -158,6 +159,7 @@ interface AerisSelectLazyLoadEvent {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-select-text` | `CSS custom property` | — | Selected value text. |
+| `--aeris-select-min-width` | `CSS custom property` | — | Minimum inline size of the control. |
 | `--aeris-select-border` | `CSS custom property` | — | Outlined trigger border. |
 | `--aeris-select-background` | `CSS custom property` | — | Trigger and filter background. |
 | `--aeris-select-filled-background` | `CSS custom property` | — | Filled appearance background. |

@@ -164,8 +164,7 @@ export class ɵAerisAppendTo {
   }
 
   private schedulePosition(anchor: HTMLElement | null, target: HTMLElement): void {
-    if (!anchor) return;
-    this.cancelFrame();
+    if (!anchor || this.frame !== null) return;
     const view = this.document.defaultView;
     if (!view) return;
     this.frame = view.requestAnimationFrame(() => {
@@ -248,6 +247,7 @@ export class ɵAerisAppendTo {
       viewportLeft,
       viewportTop,
       collisionPadding,
+      tetherToAnchor: true,
     });
 
     if (target === this.document.body) {
