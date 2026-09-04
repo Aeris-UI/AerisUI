@@ -49545,6 +49545,7 @@ import {
 | `limit` | `number &#124; undefined` | `undefined` | Compatibility alias that overrides visibleCount when provided. |
 | `newestOnTop` | `boolean` | `true` | Shows the newest message as the primary toast. Set false to keep the oldest message on top. |
 | `pauseOnHover` | `boolean` | `true` | Pauses auto-dismiss timers while the toast region is hovered or focused. |
+| `showIcon` | `boolean` | `true` | Shows the default or projected icon for each message. |
 | `showClose` | `boolean` | `true` | Shows close buttons for closable messages. |
 | `swipeDirection` | `AerisToastSwipeDirection &#124; readonly AerisToastSwipeDirection[]` | `['down', 'right']` | Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping. Options: 'up', 'down', 'left', 'right'. |
 | `swipeThreshold` | `number` | `40` | Sets the required swipe displacement in pixels before dismissal. |
@@ -49598,13 +49599,14 @@ type AerisToastPosition =
   | 'center';
 
 type AerisToastSeverity =
-  | 'info'
+  | 'primary'
+  | 'secondary'
+  | 'contrast'
   | 'success'
+  | 'info'
   | 'warning'
   | 'error'
-  | 'neutral'
-  | 'secondary'
-  | 'contrast';
+  | 'neutral';
 
 type AerisToastMode = 'stacked' | 'expanded';
 type AerisToastSwipeDirection = 'up' | 'down' | 'left' | 'right';
@@ -49661,22 +49663,26 @@ interface AerisToastTemplateContext<TData = unknown> {
 | --- | --- | --- | --- |
 | `--aeris-z-toast` | `CSS custom property` | — | Toast viewport stacking layer. |
 | `--aeris-toast-width` | `CSS custom property` | — | Maximum notification width. |
-| `--aeris-toast-offset` | `CSS custom property` | — | Distance from viewport edges. |
+| `--aeris-toast-min-width` | `CSS custom property` | — | Minimum notification width before viewport constraints. |
+| `--aeris-toast-offset` | `CSS custom property` | — | Distance beyond the viewport safe area. |
+| `--aeris-toast-mobile-offset` | `CSS custom property` | — | Distance beyond the safe area on narrow viewports. |
 | `--aeris-toast-gap` | `CSS custom property` | — | Space between expanded messages. |
 | `--aeris-toast-stack-peek` | `CSS custom property` | — | Visible sliver height for stacked messages under the primary toast. |
 | `--aeris-toast-icon-size` | `CSS custom property` | — | Default icon box size. |
+| `--aeris-toast-severity-tint` | `CSS custom property` | — | Severity color mixed into the notification surface. |
+| `--aeris-toast-background` | `CSS custom property` | — | Overrides the severity-tinted notification surface. |
+| `--aeris-toast-border-color` | `CSS custom property` | — | Overrides the severity-colored notification border. |
 | `--aeris-success` | `CSS custom property` | — | Success accent. |
 | `--aeris-info` | `CSS custom property` | — | Info accent. |
 | `--aeris-warning` | `CSS custom property` | — | Warning accent. |
 | `--aeris-danger` | `CSS custom property` | — | Error accent. |
 | `--aeris-surface` | `CSS custom property` | — | Notification surface. |
-| `--aeris-border` | `CSS custom property` | — | Notification border. |
 
 #### Examples
 
 ##### Basic
 
-Add a message through AerisToastService and render it with a Toast region.
+Show a plain detail-only notification without an icon or explicit severity.
 
 ###### TS
 
@@ -49693,7 +49699,7 @@ import { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';
       <div>
         <button aerisButton type="button" (click)="showBasicToast()">Show toast</button>
       </div>
-      <aeris-toast group="basic" />
+      <aeris-toast group="basic" [showIcon]="false" />
     </div>
   `
 })
@@ -49703,8 +49709,6 @@ export class ToastBasicBasicDemo {
   protected showBasicToast(): void {
     this.toast.show({
       group: 'basic',
-      severity: 'info',
-      summary: 'Workspace saved',
       detail: 'Your notification preferences were updated.',
     });
   }
@@ -49713,7 +49717,7 @@ export class ToastBasicBasicDemo {
 
 ##### Severity
 
-Use severity to communicate outcome while Toast assigns matching live-region politeness by default.
+Use theme-aware primary and secondary treatments, high-contrast monochrome, or semantic status colors.
 
 ###### TS
 
@@ -49732,7 +49736,12 @@ import { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';
           Show severities
         </button>
       </div>
-      <aeris-toast group="severity" position="top-left" mode="expanded" />
+      <aeris-toast
+        group="severity"
+        position="top-left"
+        mode="expanded"
+        [visibleCount]="8"
+      />
     </div>
   `
 })
@@ -49741,10 +49750,14 @@ export class ToastSeveritySeverityDemo {
 
   protected showSeverityToasts(): void {
     this.toast.showAll([
+      { group: 'severity', severity: 'primary', summary: 'Primary', detail: 'Uses the theme primary color.' },
+      { group: 'severity', severity: 'secondary', summary: 'Secondary', detail: 'Uses the theme secondary color.' },
+      { group: 'severity', severity: 'contrast', summary: 'Contrast', detail: 'Uses a high-contrast monochrome surface.' },
       { group: 'severity', severity: 'success', summary: 'Published', detail: 'The release notes are live.' },
       { group: 'severity', severity: 'info', summary: 'Sync running', detail: 'Assets are being checked.' },
       { group: 'severity', severity: 'warning', summary: 'Review needed', detail: 'One token changed contrast.' },
       { group: 'severity', severity: 'error', summary: 'Build failed', detail: 'Fix the failing test before release.' },
+      { group: 'severity', severity: 'neutral', summary: 'Neutral', detail: 'Provides supporting information without emphasis.' },
     ]);
   }
 }
@@ -50190,7 +50203,7 @@ export class ToastLoadingLoadingPatternDemo {
 #### Accessibility
 
 - Toast renders a named notification region only while matching messages are active.
-- Success, info, neutral, secondary, and contrast messages default to role="status" and aria-live="polite".
+- Primary, secondary, contrast, success, info, and neutral messages default to role="status" and aria-live="polite".
 - Warning and error messages default to role="alert" and aria-live="assertive".
 - Each message uses aria-atomic="true" so summary and detail are announced together.
 - Close controls are native buttons with configurable accessible labels.

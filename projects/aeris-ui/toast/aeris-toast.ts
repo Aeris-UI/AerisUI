@@ -29,7 +29,7 @@ export type AerisToastPosition =
   | 'center';
 
 export type AerisToastSeverity =
-  'info' | 'success' | 'warning' | 'error' | 'neutral' | 'secondary' | 'contrast';
+  'primary' | 'secondary' | 'contrast' | 'success' | 'info' | 'warning' | 'error' | 'neutral';
 
 export type AerisToastMode = 'stacked' | 'expanded';
 export type AerisToastSwipeDirection = 'up' | 'down' | 'left' | 'right';
@@ -274,7 +274,7 @@ export class AerisToastService {
   }
 
   private resolveMessage<TData>(input: AerisToastMessageInput<TData>): AerisToastMessage<TData> {
-    const severity = input.severity ?? 'info';
+    const severity = input.severity ?? 'neutral';
     const role =
       input.role ?? (severity === 'error' || severity === 'warning' ? 'alert' : 'status');
     return {
@@ -348,18 +348,23 @@ export class AerisToastService {
               #toastMessage
               class="aeris-toast__body"
               [attr.data-behind]="!item.primary || null"
+              [attr.data-icon-hidden]="!showIcon() || null"
+              [attr.data-has-summary]="item.message.summary ? true : null"
+              [attr.data-custom-content]="contentTemplate() ? true : null"
               [attr.data-toast-id]="item.message.id"
             >
-              <div class="aeris-toast__icon" aria-hidden="true">
-                @if (iconTemplate(); as icon) {
-                  <ng-container
-                    [ngTemplateOutlet]="icon.template"
-                    [ngTemplateOutletContext]="templateContexts()[item.message.id]"
-                  />
-                } @else {
-                  <span class="aeris-toast__default-icon"></span>
-                }
-              </div>
+              @if (showIcon()) {
+                <div class="aeris-toast__icon" aria-hidden="true">
+                  @if (iconTemplate(); as icon) {
+                    <ng-container
+                      [ngTemplateOutlet]="icon.template"
+                      [ngTemplateOutletContext]="templateContexts()[item.message.id]"
+                    />
+                  } @else {
+                    <span class="aeris-toast__default-icon"></span>
+                  }
+                </div>
+              }
 
               <div class="aeris-toast__content">
                 @if (contentTemplate(); as content) {
@@ -435,6 +440,7 @@ export class AerisToast {
   readonly limit = input<number | undefined>(undefined, { transform: numberAttribute });
   readonly newestOnTop = input(true, { transform: booleanAttribute });
   readonly pauseOnHover = input(true, { transform: booleanAttribute });
+  readonly showIcon = input(true, { transform: booleanAttribute });
   readonly showClose = input(true, { transform: booleanAttribute });
   readonly swipeDirection = input<AerisToastSwipeDirection | readonly AerisToastSwipeDirection[]>([
     'down',

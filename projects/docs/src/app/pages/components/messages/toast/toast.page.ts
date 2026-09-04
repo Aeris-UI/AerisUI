@@ -98,8 +98,6 @@ private readonly toast = inject(AerisToastService);
 protected showBasicToast(): void {
   this.toast.show({
     group: 'basic',
-    severity: 'info',
-    summary: 'Workspace saved',
     detail: 'Your notification preferences were updated.',
   });
 }`;
@@ -111,10 +109,14 @@ private readonly toast = inject(AerisToastService);
 
 protected showSeverityToasts(): void {
   this.toast.showAll([
+    { group: 'severity', severity: 'primary', summary: 'Primary', detail: 'Uses the theme primary color.' },
+    { group: 'severity', severity: 'secondary', summary: 'Secondary', detail: 'Uses the theme secondary color.' },
+    { group: 'severity', severity: 'contrast', summary: 'Contrast', detail: 'Uses a high-contrast monochrome surface.' },
     { group: 'severity', severity: 'success', summary: 'Published', detail: 'The release notes are live.' },
     { group: 'severity', severity: 'info', summary: 'Sync running', detail: 'Assets are being checked.' },
     { group: 'severity', severity: 'warning', summary: 'Review needed', detail: 'One token changed contrast.' },
     { group: 'severity', severity: 'error', summary: 'Build failed', detail: 'Fix the failing test before release.' },
+    { group: 'severity', severity: 'neutral', summary: 'Neutral', detail: 'Provides supporting information without emphasis.' },
   ]);
 }`;
 
@@ -267,13 +269,14 @@ protected startUpload(): void {
   | 'center';
 
 type AerisToastSeverity =
-  | 'info'
+  | 'primary'
+  | 'secondary'
+  | 'contrast'
   | 'success'
+  | 'info'
   | 'warning'
   | 'error'
-  | 'neutral'
-  | 'secondary'
-  | 'contrast';
+  | 'neutral';
 
 type AerisToastMode = 'stacked' | 'expanded';
 type AerisToastSwipeDirection = 'up' | 'down' | 'left' | 'right';
@@ -368,6 +371,12 @@ interface AerisToastTemplateContext<TData = unknown> {
       type: 'boolean',
       defaultValue: 'true',
       description: 'Pauses auto-dismiss timers while the toast region is hovered or focused.',
+    },
+    {
+      name: 'showIcon',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows the default or projected icon for each message.',
     },
     {
       name: 'showClose',
@@ -490,14 +499,30 @@ interface AerisToastTemplateContext<TData = unknown> {
   protected showBasicToast(): void {
     this.toast.show({
       group: 'basic',
-      severity: 'info',
-      summary: 'Workspace saved',
       detail: 'Your notification preferences were updated.',
     });
   }
 
   protected showSeverityToasts(): void {
     this.toast.showAll([
+      {
+        group: 'severity',
+        severity: 'primary',
+        summary: 'Primary',
+        detail: 'Uses the theme primary color.',
+      },
+      {
+        group: 'severity',
+        severity: 'secondary',
+        summary: 'Secondary',
+        detail: 'Uses the theme secondary color.',
+      },
+      {
+        group: 'severity',
+        severity: 'contrast',
+        summary: 'Contrast',
+        detail: 'Uses a high-contrast monochrome surface.',
+      },
       {
         group: 'severity',
         severity: 'success',
@@ -521,6 +546,12 @@ interface AerisToastTemplateContext<TData = unknown> {
         severity: 'error',
         summary: 'Build failed',
         detail: 'Fix the failing test before release.',
+      },
+      {
+        group: 'severity',
+        severity: 'neutral',
+        summary: 'Neutral',
+        detail: 'Provides supporting information without emphasis.',
       },
     ]);
   }

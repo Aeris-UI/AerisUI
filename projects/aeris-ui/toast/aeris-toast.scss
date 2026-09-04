@@ -7,30 +7,39 @@
 .aeris-toast__region {
   --_stack-gap: var(--aeris-toast-gap, 0.75rem);
   --_stack-peek: var(--aeris-toast-stack-peek, 0.75rem);
+  --_edge-offset: var(--aeris-toast-offset, 1rem);
 
   position: fixed;
   z-index: var(--aeris-z-toast, 1200);
   isolation: isolate;
-  width: min(var(--aeris-toast-width, 24rem), calc(100vw - 2rem));
+  width: min(
+    var(--aeris-toast-width, 24rem),
+    calc(
+      100vw - var(--_edge-offset) - var(--_edge-offset) - env(safe-area-inset-left, 0px) - env(
+          safe-area-inset-right,
+          0px
+        )
+    )
+  );
   height: 0;
   pointer-events: none;
   outline: none;
 }
 
 .aeris-toast__region[data-position^='top'] {
-  top: var(--aeris-toast-offset, 1rem);
+  top: calc(var(--_edge-offset) + env(safe-area-inset-top, 0px));
 }
 
 .aeris-toast__region[data-position^='bottom'] {
-  bottom: var(--aeris-toast-offset, 1rem);
+  bottom: calc(var(--_edge-offset) + env(safe-area-inset-bottom, 0px));
 }
 
 .aeris-toast__region[data-position$='left'] {
-  left: var(--aeris-toast-offset, 1rem);
+  left: calc(var(--_edge-offset) + env(safe-area-inset-left, 0px));
 }
 
 .aeris-toast__region[data-position$='right'] {
-  right: var(--aeris-toast-offset, 1rem);
+  right: calc(var(--_edge-offset) + env(safe-area-inset-right, 0px));
 }
 
 .aeris-toast__region[data-position$='center'],
@@ -55,6 +64,7 @@
   inset-inline: 0;
   z-index: calc(var(--aeris-toast-stack-size, 1) - var(--aeris-toast-stack-index, 0));
   box-sizing: border-box;
+  display: flex;
   height: var(--aeris-toast-front-height, var(--aeris-toast-height, 4.5rem));
   min-width: 0;
   opacity: 1;
@@ -68,6 +78,19 @@
     transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
     opacity 500ms,
     height 150ms;
+}
+
+.aeris-toast__region[data-position$='left'] .aeris-toast__item {
+  justify-content: flex-start;
+}
+
+.aeris-toast__region[data-position$='right'] .aeris-toast__item {
+  justify-content: flex-end;
+}
+
+.aeris-toast__region[data-position$='center'] .aeris-toast__item,
+.aeris-toast__region[data-position='center'] .aeris-toast__item {
+  justify-content: center;
 }
 
 .aeris-toast__item::after {
@@ -206,21 +229,26 @@
 
 .aeris-toast__message {
   --_accent: var(--aeris-primary, #{aeris-fallbacks.$primary});
-  --_accent-soft: color-mix(in srgb, var(--_accent) 14%, transparent);
   --_icon-color: var(--_accent);
+  --_toast-surface: color-mix(
+    in srgb,
+    var(--_accent) var(--aeris-toast-severity-tint, 9%),
+    var(--aeris-surface, #fff)
+  );
+  --_toast-text: var(--aeris-text, #222222);
+  --_toast-detail: var(--aeris-text-2, #555555);
 
   position: relative;
   box-sizing: border-box;
-  width: 100%;
+  width: fit-content;
+  min-width: min(var(--aeris-toast-min-width, 12rem), 100%);
+  max-width: 100%;
   height: 100%;
   min-width: 0;
-  border: 1px solid var(--aeris-border);
-  border-left: 0.25rem solid var(--_accent);
+  border: 1px solid var(--aeris-toast-border-color, var(--_accent));
   border-radius: var(--aeris-radius-md, 0.75rem);
-  background:
-    linear-gradient(90deg, var(--_accent-soft), transparent 32%),
-    color-mix(in srgb, var(--aeris-surface, #fff) 96%, transparent);
-  color: var(--aeris-text, #222222);
+  background: var(--aeris-toast-background, var(--_toast-surface));
+  color: var(--_toast-text);
   box-shadow: var(--aeris-shadow-lg, 0 18px 44px rgb(31 35 27 / 14%));
   overflow: hidden;
   pointer-events: auto;
@@ -239,10 +267,44 @@
   transition: opacity 250ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.aeris-toast__body[data-icon-hidden] {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.aeris-toast__body[data-icon-hidden]:not([data-has-summary]):not([data-custom-content]) {
+  position: relative;
+  min-height: 3rem;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  padding: 0.5rem 3rem 0.5rem 0.875rem;
+}
+
+.aeris-toast__body[data-icon-hidden]:not([data-has-summary]):not([data-custom-content])
+  .aeris-toast__content {
+  text-align: start;
+}
+
+.aeris-toast__body[data-icon-hidden]:not([data-has-summary]):not([data-custom-content])
+  .aeris-toast__close {
+  position: absolute;
+  top: 50%;
+  inset-inline-end: 0.5rem;
+  margin: 0;
+  transform: translateY(-50%);
+}
+
 .aeris-toast__message:hover,
 .aeris-toast__message:focus-within {
-  border-color: color-mix(in srgb, var(--_accent) 28%, var(--aeris-border, #deddd7));
+  border-color: var(--aeris-toast-border-color, var(--_accent));
   box-shadow: 0 14px 34px color-mix(in srgb, var(--aeris-text, #222222) 10%, transparent);
+}
+
+.aeris-toast__message[data-severity='primary'] {
+  --_accent: var(--aeris-primary, #{aeris-fallbacks.$primary});
+}
+
+.aeris-toast__message[data-severity='secondary'] {
+  --_accent: var(--aeris-secondary, #{aeris-fallbacks.$secondary});
 }
 
 .aeris-toast__message[data-severity='success'] {
@@ -261,13 +323,16 @@
   --_accent: var(--aeris-danger, #c81e2a);
 }
 
-.aeris-toast__message[data-severity='neutral'],
-.aeris-toast__message[data-severity='secondary'] {
+.aeris-toast__message[data-severity='neutral'] {
   --_accent: var(--aeris-text-2, #555555);
 }
 
 .aeris-toast__message[data-severity='contrast'] {
   --_accent: var(--aeris-text, #222222);
+  --_icon-color: var(--aeris-surface, #ffffff);
+  --_toast-surface: var(--aeris-text, #222222);
+  --_toast-text: var(--aeris-surface, #ffffff);
+  --_toast-detail: var(--aeris-surface, #ffffff);
 }
 
 .aeris-toast__icon {
@@ -363,14 +428,14 @@
 }
 
 .aeris-toast__summary {
-  color: var(--aeris-text, #222222);
+  color: var(--_toast-text);
   font-size: 0.875rem;
   font-weight: 800;
   line-height: 1.35;
 }
 
 .aeris-toast__detail {
-  color: var(--aeris-text-2, #555555);
+  color: var(--_toast-detail);
   font-size: 0.8125rem;
   line-height: 1.5;
 }
@@ -384,7 +449,7 @@
   border: 0;
   border-radius: var(--aeris-radius-sm, 0.5rem);
   background: transparent;
-  color: var(--aeris-text-2, #555555);
+  color: var(--_toast-detail);
   cursor: pointer;
   transition:
     background-color 160ms ease,
@@ -392,8 +457,8 @@
 }
 
 .aeris-toast__close:hover {
-  background: color-mix(in srgb, var(--aeris-text, #222222) 8%, transparent);
-  color: var(--aeris-text, #222222);
+  background: color-mix(in srgb, var(--_toast-text) 10%, transparent);
+  color: var(--_toast-text);
 }
 
 .aeris-toast__close:focus-visible {
@@ -477,22 +542,23 @@
 
 @media (max-width: 36rem) {
   .aeris-toast__region {
-    width: calc(100vw - 1rem);
+    --_edge-offset: var(--aeris-toast-mobile-offset, 0.5rem);
   }
 
   .aeris-toast__region[data-position] {
-    right: 0.5rem;
-    left: 0.5rem;
+    right: calc(var(--_edge-offset) + env(safe-area-inset-right, 0px));
+    left: calc(var(--_edge-offset) + env(safe-area-inset-left, 0px));
+    width: auto;
     transform: none;
   }
 
   .aeris-toast__region[data-position^='top'],
   .aeris-toast__region[data-position='center'] {
-    top: 0.5rem;
+    top: calc(var(--_edge-offset) + env(safe-area-inset-top, 0px));
   }
 
   .aeris-toast__region[data-position^='bottom'] {
-    bottom: 0.5rem;
+    bottom: calc(var(--_edge-offset) + env(safe-area-inset-bottom, 0px));
   }
 }
 

@@ -62,6 +62,14 @@ class OldestFirstStackedToastHost {
   readonly service = inject(AerisToastService);
 }
 
+@Component({
+  imports: [AerisToastModule],
+  template: `<aeris-toast group="iconless" [showIcon]="false" />`,
+})
+class IconlessToastHost {
+  readonly service = inject(AerisToastService);
+}
+
 describe('AerisToast', () => {
   let service: AerisToastService;
 
@@ -115,6 +123,12 @@ describe('AerisToast', () => {
     expect(messages[1].getAttribute('role')).toBe('status');
     expect(messages[1].textContent).toContain('Saved');
     expect(closeButton.getAttribute('aria-label')).toBe('Close notification');
+
+    const errorStyle = getComputedStyle(messages[0] as HTMLElement);
+    expect(errorStyle.borderRightWidth).toBe(errorStyle.borderTopWidth);
+    expect(errorStyle.borderBottomWidth).toBe(errorStyle.borderTopWidth);
+    expect(errorStyle.borderLeftWidth).toBe(errorStyle.borderTopWidth);
+    expect(errorStyle.backgroundImage).toBe('none');
   });
 
   it('closes from the close button and emits a close event', () => {
@@ -199,6 +213,26 @@ describe('AerisToast', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('.aeris-toast__message')).toBeNull();
+  });
+
+  it('can hide the icon without hiding message content', () => {
+    const fixture = TestBed.createComponent(IconlessToastHost);
+    fixture.detectChanges();
+    service.show({ group: 'iconless', detail: 'Saved without an icon', sticky: true });
+    fixture.detectChanges();
+
+    const body = fixture.nativeElement.querySelector('.aeris-toast__body') as HTMLElement;
+    const content = fixture.nativeElement.querySelector('.aeris-toast__content') as HTMLElement;
+    const close = fixture.nativeElement.querySelector('.aeris-toast__close') as HTMLElement;
+
+    expect(fixture.nativeElement.querySelector('.aeris-toast__icon')).toBeNull();
+    expect(body.hasAttribute('data-icon-hidden')).toBe(true);
+    expect(body.hasAttribute('data-has-summary')).toBe(false);
+    expect(body.hasAttribute('data-custom-content')).toBe(false);
+    expect(body.closest('.aeris-toast__message')?.getAttribute('data-severity')).toBe('neutral');
+    expect(getComputedStyle(content).textAlign).toBe('start');
+    expect(getComputedStyle(close).position).toBe('absolute');
+    expect(fixture.nativeElement.textContent).toContain('Saved without an icon');
   });
 
   it('renders a stacked preview with four visible messages by default and reveals queued messages', () => {
