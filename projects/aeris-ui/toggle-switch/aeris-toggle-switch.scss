@@ -131,13 +131,15 @@
   outline-offset: 2px;
 }
 
-.aeris-toggle-switch[data-invalid] .aeris-toggle-switch__control {
+.aeris-toggle-switch[data-invalid] .aeris-toggle-switch__control,
+.aeris-toggle-switch__input:user-invalid + .aeris-toggle-switch__control {
   border-color: var(--aeris-danger, #c81e2a);
 }
 
 .aeris-toggle-switch[data-invalid]
   .aeris-toggle-switch__input:focus-visible
-  + .aeris-toggle-switch__control {
+  + .aeris-toggle-switch__control,
+.aeris-toggle-switch__input:user-invalid:focus-visible + .aeris-toggle-switch__control {
   outline-color: color-mix(
     in srgb,
     var(--aeris-danger, #c81e2a) 42%,

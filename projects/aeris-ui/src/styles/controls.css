@@ -5,6 +5,7 @@
   color: var(--aeris-text, #222222);
   font: inherit;
   font-size: 0.875rem;
+  box-shadow: none;
   transition:
     border-color 150ms,
     background-color 150ms,
@@ -72,13 +73,19 @@
 
 .aeris-input-text--invalid,
 .aeris-input-text--invalid:hover,
+.aeris-input-text:user-invalid,
+.aeris-input-text:user-invalid:hover,
 .aeris-textarea--invalid,
-.aeris-textarea--invalid:hover {
+.aeris-textarea--invalid:hover,
+.aeris-textarea:user-invalid,
+.aeris-textarea:user-invalid:hover {
   border-color: var(--aeris-danger, #c81e2a);
 }
 
 .aeris-input-text--invalid:focus,
-.aeris-textarea--invalid:focus {
+.aeris-input-text:user-invalid:focus,
+.aeris-textarea--invalid:focus,
+.aeris-textarea:user-invalid:focus {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-danger, #c81e2a) 18%, transparent);
 }
 

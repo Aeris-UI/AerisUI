@@ -598,6 +598,10 @@ export class ProfileForm {
 
 #### Keep validation state synchronized
 
+Native Aeris inputs use the browser interaction-aware :user-invalid state for constraint validation. A required field therefore keeps its normal appearance while pristine and receives invalid styling only after the browser has attempted validation through user interaction or form submission.
+
+The invalid input remains the explicit application-controlled state. Use it for Angular validators, server errors, composite controls, or any workflow where the application decides when an error should become visible.
+
 - Let Angular validators determine whether the value is valid.
 - Show errors after an intentional trigger such as blur or submit instead of while the user is still entering the first character.
 - Bind the Aeris invalid input to the same condition used to show the visible error.

@@ -64,6 +64,7 @@
   font-size: var(--aeris-auto-complete-font-size);
   line-height: 1.35;
   outline: 0;
+  box-shadow: none;
   transition:
     border-color 150ms ease,
     background-color 150ms ease,
@@ -110,11 +111,13 @@
     );
 }
 
-.aeris-auto-complete[data-invalid] .aeris-auto-complete__input {
+.aeris-auto-complete[data-invalid] .aeris-auto-complete__input,
+.aeris-auto-complete__input:user-invalid {
   border-color: var(--aeris-danger, #c81e2a);
 }
 
-.aeris-auto-complete[data-invalid] .aeris-auto-complete__input:focus-visible {
+.aeris-auto-complete[data-invalid] .aeris-auto-complete__input:focus-visible,
+.aeris-auto-complete__input:user-invalid:focus-visible {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-danger, #c81e2a) 20%, transparent);
 }
 

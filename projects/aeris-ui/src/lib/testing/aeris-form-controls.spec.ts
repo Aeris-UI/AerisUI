@@ -25,6 +25,11 @@ import { AerisToggleSwitch } from '../../../toggle-switch/aeris-toggle-switch';
       fluid
       aria-label="Name"
     />
+    <form id="native-validation-form">
+      <label for="pristine-required">Required value</label>
+      <input id="pristine-required" aerisInputText required />
+    </form>
+    <input id="optional-control" aerisInputText aria-label="Optional value" />
     <aeris-input-text
       inputId="search"
       ariaLabel="Search"
@@ -66,6 +71,20 @@ describe('Aeris form controls', () => {
     expect(input.classList).toContain('aeris-input-text--fluid');
     expect(input.getAttribute('aria-invalid')).toBe('true');
     expect(textarea.classList).toContain('aeris-textarea');
+  });
+
+  it('does not style a native required control as invalid while it is pristine', async () => {
+    const fixture = TestBed.createComponent(FormControlsTestHost);
+    await fixture.whenStable();
+
+    const input = fixture.nativeElement.querySelector('#pristine-required') as HTMLInputElement;
+    const optional = fixture.nativeElement.querySelector('#optional-control') as HTMLInputElement;
+
+    expect(input.matches(':invalid')).toBe(true);
+    expect(input.matches(':user-invalid')).toBe(false);
+    expect(input.classList).not.toContain('aeris-input-text--invalid');
+    expect(input.getAttribute('aria-invalid')).toBeNull();
+    expect(getComputedStyle(input).borderColor).toBe(getComputedStyle(optional).borderColor);
   });
 
   it('updates checkbox, radio, and switch models', async () => {

@@ -69,11 +69,14 @@
 }
 
 .aeris-input-number[data-invalid] .aeris-input-number__field,
-.aeris-input-number[data-invalid] .aeris-input-number__field:hover {
+.aeris-input-number[data-invalid] .aeris-input-number__field:hover,
+.aeris-input-number__field:has(.aeris-input-number__input:user-invalid),
+.aeris-input-number__field:has(.aeris-input-number__input:user-invalid):hover {
   border-color: var(--aeris-danger, #c81e2a);
 }
 
-.aeris-input-number[data-invalid] .aeris-input-number__field:focus-within {
+.aeris-input-number[data-invalid] .aeris-input-number__field:focus-within,
+.aeris-input-number__field:has(.aeris-input-number__input:user-invalid):focus-within {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-danger, #c81e2a) 18%, transparent);
 }
 
@@ -96,6 +99,7 @@
   padding: 0;
   border: 0;
   outline: 0;
+  box-shadow: none;
   background: transparent;
   color: inherit;
   font: inherit;

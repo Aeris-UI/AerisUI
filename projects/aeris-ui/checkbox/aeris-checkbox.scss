@@ -120,11 +120,13 @@
   outline-offset: 2px;
 }
 
-.aeris-checkbox[data-invalid] .aeris-checkbox__control {
+.aeris-checkbox[data-invalid] .aeris-checkbox__control,
+.aeris-checkbox input:user-invalid + .aeris-checkbox__control {
   border-color: var(--aeris-danger, #c81e2a);
 }
 
-.aeris-checkbox[data-invalid] input:focus-visible + .aeris-checkbox__control {
+.aeris-checkbox[data-invalid] input:focus-visible + .aeris-checkbox__control,
+.aeris-checkbox input:user-invalid:focus-visible + .aeris-checkbox__control {
   outline-color: color-mix(in srgb, var(--aeris-danger, #c81e2a) 42%, transparent);
 }
 

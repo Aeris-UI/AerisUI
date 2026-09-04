@@ -153,6 +153,7 @@
   width: 100%;
   min-width: 0;
   padding: 0 0.75rem;
+  box-shadow: none;
 }
 
 .aeris-color-picker__text::placeholder,
@@ -502,6 +503,7 @@
 
 .aeris-color-picker[data-invalid] .aeris-color-picker__trigger,
 .aeris-color-picker[data-invalid] .aeris-color-picker__text,
+.aeris-color-picker__text:user-invalid,
 .aeris-color-picker__text[aria-invalid='true'],
 .aeris-color-picker__panel-value input[aria-invalid='true'] {
   border-color: var(--aeris-danger, #c81e2a);

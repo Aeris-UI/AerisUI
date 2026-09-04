@@ -138,7 +138,8 @@
   outline-offset: 2px;
 }
 
-.aeris-radio[data-invalid='true'] .aeris-radio__control {
+.aeris-radio[data-invalid='true'] .aeris-radio__control,
+.aeris-radio__input:user-invalid + .aeris-radio__control {
   border-color: var(--aeris-danger, #c81e2a);
 }
 
