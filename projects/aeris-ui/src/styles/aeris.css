@@ -132,14 +132,43 @@
 :where(.aeris-button) > .aeris-button__content > :where(svg, img, [data-aeris-button-icon]) {
   display: inline-block;
   flex: 0 0 auto;
-  inline-size: var(--aeris-button-icon-size, var(--aeris-icon-size, 1rem));
-  block-size: var(--aeris-button-icon-size, var(--aeris-icon-size, 1rem));
+  inline-size: var(
+    --aeris-button-icon-size,
+    var(--aeris-action-icon-size, var(--aeris-icon-size, 1rem))
+  );
+  block-size: var(
+    --aeris-button-icon-size,
+    var(--aeris-action-icon-size, var(--aeris-icon-size, 1rem))
+  );
   max-inline-size: none;
   line-height: 1;
   object-fit: contain;
 }
 
 :where(.aeris-button) > .aeris-button__content > [data-aeris-button-icon] > svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+/*
+ * Menubar templates may project icons from any icon library. Keep them on the
+ * same geometry as Button icons without requiring library-specific selectors.
+ */
+:where(.aeris-menubar__item) :where(svg, [data-aeris-menubar-icon]) {
+  inline-size: var(
+    --aeris-menubar-icon-size,
+    var(--aeris-action-icon-size, var(--aeris-icon-size, 1rem))
+  );
+  block-size: var(
+    --aeris-menubar-icon-size,
+    var(--aeris-action-icon-size, var(--aeris-icon-size, 1rem))
+  );
+  flex: 0 0 auto;
+  line-height: 1;
+}
+
+:where(.aeris-menubar__item) [data-aeris-menubar-icon] > svg {
   display: block;
   inline-size: 100%;
   block-size: 100%;
@@ -267,6 +296,12 @@
   --aeris-checkbox-radius: 0.3125rem;
   --aeris-control-height: 2.625rem;
   --aeris-control-padding-x: 0.75rem;
+  --aeris-action-height: var(--aeris-control-height);
+  --aeris-action-padding-inline: calc(var(--aeris-control-padding-x) + 0.3125rem);
+  --aeris-action-gap: var(--aeris-density-gap);
+  --aeris-action-font-size: 0.8125rem;
+  --aeris-action-font-weight: 600;
+  --aeris-action-icon-size: var(--aeris-icon-size);
   --aeris-item-height: 2.5rem;
   --aeris-item-padding-y: 0.5rem;
   --aeris-item-padding-x: 0.75rem;

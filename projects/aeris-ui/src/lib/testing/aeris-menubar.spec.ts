@@ -7,6 +7,7 @@ import {
   type AerisMenubarItem,
   type AerisMenubarItemEvent,
 } from '../../../menubar/aeris-menubar';
+import { AerisButton } from '../../../button/aeris-button';
 
 const items: readonly AerisMenubarItem[] = [
   {
@@ -121,6 +122,17 @@ class MenubarAppearanceHost {
       ],
     },
   ];
+}
+
+@Component({
+  imports: [AerisButton, AerisMenubarModule],
+  template: `
+    <aeris-menubar [model]="items" rootItemVariant="ghost" />
+    <button aerisButton variant="ghost" type="button">Reference</button>
+  `,
+})
+class MenubarButtonGeometryHost {
+  readonly items: readonly AerisMenubarItem[] = [{ id: 'reference-item', label: 'Reference' }];
 }
 
 describe('AerisMenubar', () => {
@@ -275,6 +287,8 @@ describe('AerisMenubar', () => {
     expect(overview.dataset['variant']).toBe('ghost');
     expect(overview.dataset['severity']).toBe('info');
     expect(overview.getAttribute('aria-current')).toBe('page');
+    expect(getComputedStyle(overview).display).toBe('flex');
+    expect(getComputedStyle(overview).alignItems).toBe('center');
     expect(overview.closest('.aeris-menubar__item-shell')?.getAttribute('data-current')).toBe(
       'true',
     );
@@ -296,6 +310,25 @@ describe('AerisMenubar', () => {
     expect(remove.querySelector('.appearance-content')?.getAttribute('data-item-current')).toBe(
       'true',
     );
+  });
+
+  it('matches the geometry of an Aeris ghost button', () => {
+    const fixture = TestBed.createComponent(MenubarButtonGeometryHost);
+    fixture.detectChanges();
+
+    const item = fixture.nativeElement.querySelector('#reference-item') as HTMLButtonElement;
+    const button = fixture.nativeElement.querySelector('button[aerisButton]') as HTMLButtonElement;
+    const styleText = Array.from(document.querySelectorAll('style'))
+      .map((style) => style.textContent ?? '')
+      .join('\n');
+
+    expect(item.dataset['variant']).toBe('ghost');
+    expect(button.classList).toContain('aeris-button--ghost');
+    expect(styleText).toContain('--aeris-action-height');
+    expect(styleText).toContain('--aeris-action-padding-inline');
+    expect(styleText).toContain('--aeris-action-font-size');
+    expect(styleText).toContain('--aeris-action-font-weight');
+    expect(styleText).toContain('--aeris-action-icon-size');
   });
 
   it('opens and closes through the public API', async () => {

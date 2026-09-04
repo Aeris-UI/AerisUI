@@ -1,7 +1,7 @@
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
-  --_height: var(--aeris-control-height, 2.625rem);
+  --_height: var(--aeris-action-height, var(--aeris-control-height, 2.625rem));
   --_aeris-button-fill: var(--aeris-primary, #{aeris-fallbacks.$primary});
   --_aeris-button-boundary: var(--aeris-primary-boundary, var(--_aeris-button-fill));
   --_aeris-button-hover-fill: var(--aeris-primary-hover, #{aeris-fallbacks.$primary-hover});
@@ -20,13 +20,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding-inline: 1.0625rem;
+  gap: var(--aeris-action-gap, var(--aeris-density-gap, 0.5rem));
+  padding-inline: var(--aeris-action-padding-inline, 1.0625rem);
   border: 1px solid transparent;
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--aeris-action-font-size, 0.8125rem);
+  font-weight: var(--aeris-action-font-weight, 600);
   text-decoration: none;
   cursor: pointer;
   transition:
