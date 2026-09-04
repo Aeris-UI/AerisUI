@@ -1,10 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { Component, ViewEncapsulation, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { AerisButton } from '../../../button/aeris-button';
 
 @Component({
   imports: [AerisButton],
+  styleUrl: '../../styles/aeris.css',
+  encapsulation: ViewEncapsulation.None,
   template: `
     <button
       aerisButton
@@ -21,7 +23,7 @@ import { AerisButton } from '../../../button/aeris-button';
     <button aerisButton iconOnly aria-label="Add item">+</button>
     <button aerisButton iconPosition="right">
       Continue
-      <svg data-testid="right-icon"></svg>
+      <svg data-testid="right-icon" width="24" height="24"></svg>
     </button>
     <button aerisButton loading [showSpinner]="false">Quiet loading</button>
     <button aerisButton text outlined link>Compatibility</button>
@@ -201,6 +203,22 @@ describe('AerisButton', () => {
 
     expect(content.textContent).toContain('Continue');
     expect(content.lastElementChild?.getAttribute('data-testid')).toBe('right-icon');
+  });
+
+  it('normalizes projected SVG icons with a customizable shared size', async () => {
+    const fixture = TestBed.createComponent(ButtonTestHost);
+    await fixture.whenStable();
+
+    const icon = fixture.nativeElement.querySelector('[data-testid="right-icon"]') as SVGElement;
+    const button = icon.closest('button') as HTMLButtonElement;
+    button.style.setProperty('--aeris-button-icon-size', '18px');
+
+    const styleText = Array.from(document.querySelectorAll('style'))
+      .map((style) => style.textContent ?? '')
+      .join('\n');
+
+    expect(icon.matches('.aeris-button > .aeris-button__content > svg')).toBe(true);
+    expect(styleText).toContain('--aeris-button-icon-size');
   });
 
   it('applies compatibility variant flags with documented precedence', async () => {

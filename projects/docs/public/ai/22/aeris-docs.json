@@ -14920,6 +14920,12 @@
           "description": "Medium control height and density anchor."
         },
         {
+          "name": "--aeris-button-icon-size",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Projected SVG, image, or marked custom icon size."
+        },
+        {
           "name": "--aeris-radius-control",
           "type": "CSS custom property",
           "defaultValue": "",
@@ -14996,7 +15002,7 @@
         {
           "id": "feature-icons",
           "title": "Icons and positions",
-          "description": "Project icons as normal button content and control whether the icon appears before, after, or without visible text.",
+          "description": "Project icons as normal button content and control whether the icon appears before, after, or without visible text. Aeris normalizes projected SVG icons to its shared icon size.",
           "sources": [
             {
               "language": "TypeScript",

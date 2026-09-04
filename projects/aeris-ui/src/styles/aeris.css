@@ -124,6 +124,27 @@
   block-size: auto;
 }
 
+/*
+ * Projected button icons live outside the Button component's style scope.
+ * Keep common icon elements aligned with Aeris-owned icons while allowing
+ * consumer classes to override these zero-specificity defaults.
+ */
+:where(.aeris-button) > .aeris-button__content > :where(svg, img, [data-aeris-button-icon]) {
+  display: inline-block;
+  flex: 0 0 auto;
+  inline-size: var(--aeris-button-icon-size, var(--aeris-icon-size, 1rem));
+  block-size: var(--aeris-button-icon-size, var(--aeris-icon-size, 1rem));
+  max-inline-size: none;
+  line-height: 1;
+  object-fit: contain;
+}
+
+:where(.aeris-button) > .aeris-button__content > [data-aeris-button-icon] > svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
 :root {
   --aeris-palette-surface: #f6f3e8;
   --aeris-palette-primary: #5f6f36;

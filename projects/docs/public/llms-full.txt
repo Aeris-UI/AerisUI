@@ -22861,6 +22861,7 @@ interface AerisButtonContentTemplateContext {
 | `--aeris-on-primary-soft` | `CSS custom property` | — | Readable foreground on the primary soft background. |
 | `--aeris-success-* / --aeris-info-* / ...` | `CSS custom property` | — | The same state roles are available for secondary, success, info, warning, danger, and contrast. |
 | `--aeris-control-height` | `CSS custom property` | — | Medium control height and density anchor. |
+| `--aeris-button-icon-size` | `CSS custom property` | — | Projected SVG, image, or marked custom icon size. |
 | `--aeris-radius-control` | `CSS custom property` | — | Default button radius. |
 | `--aeris-focus` | `CSS custom property` | — | Visible focus indicator. |
 
@@ -23109,7 +23110,7 @@ export class FeatureSizesSizesDemo {
 
 ##### Icons and positions
 
-Project icons as normal button content and control whether the icon appears before, after, or without visible text.
+Project icons as normal button content and control whether the icon appears before, after, or without visible text. Aeris normalizes projected SVG icons to its shared icon size.
 
 ###### TS
 
