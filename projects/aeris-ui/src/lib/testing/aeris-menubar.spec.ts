@@ -205,6 +205,24 @@ describe('AerisMenubar', () => {
     expect(fixture.nativeElement.querySelector('#file-submenu')).not.toBeNull();
   });
 
+  it('does not retain hover styling after a pointer leaves a link item', () => {
+    const fixture = TestBed.createComponent(MenubarHost);
+    fixture.detectChanges();
+
+    const docs = fixture.nativeElement.querySelector('#docs') as HTMLAnchorElement;
+    const shell = docs.closest('.aeris-menubar__item-shell') as HTMLElement;
+    const backgroundBeforeHover = getComputedStyle(docs).backgroundColor;
+
+    docs.dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    expect(shell.dataset['active']).toBe('true');
+
+    docs.dispatchEvent(new MouseEvent('mouseleave'));
+    fixture.detectChanges();
+
+    expect(getComputedStyle(docs).backgroundColor).toBe(backgroundBeforeHover);
+  });
+
   it('supports keyboard navigation and closes submenu focus back to root', async () => {
     const fixture = TestBed.createComponent(MenubarHost);
     fixture.detectChanges();
