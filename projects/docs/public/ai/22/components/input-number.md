@@ -37,7 +37,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when a visible label cannot be associated. |
 | `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
 | `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
-| `locale` | `string` | `'en-US'` | BCP 47 locale used by Intl.NumberFormat. |
+| `locale` | `string` | `'en-US'` | BCP 47 locale used for formatting and accepted decimal, grouping, minus, and digit symbols. |
 | `mode` | `'decimal' &#124; 'currency'` | `'decimal'` | Number formatting mode. |
 | `currency` | `string` | `'USD'` | ISO 4217 currency code used in currency mode. |
 | `currencyDisplay` | `AerisInputNumberCurrencyDisplay` | `'symbol'` | Currency label style. Options: 'symbol', 'narrowSymbol', 'code', 'name'. |
@@ -1173,6 +1173,7 @@ export class NumberAngularFormsReactiveAndTemplateDrivenFormsDemo {
 - Arrow Up and Arrow Down step the value. Home and End use configured bounds.
 - Associate a visible label through inputId, or provide ariaLabel when no visible label exists.
 - Connect help and error messages through ariaDescribedby. The invalid input synchronizes aria-invalid.
+- Unsupported characters, duplicate decimal separators, and misplaced signs are removed consistently. A sign, the locale decimal separator, or their combination remains available while the user continues typing.
 - Increment and decrement controls use SVG icons with configurable accessible names and are excluded from the default tab order.
 - The clear button has a configurable accessible name, appears only when usable, and restores focus after clearing.
 - ControlValueAccessor support synchronizes values, touched state, and disabled state with Reactive Forms and template-driven forms.
