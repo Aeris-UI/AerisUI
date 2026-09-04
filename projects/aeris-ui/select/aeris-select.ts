@@ -158,7 +158,7 @@ let nextSelectId = 0;
         <input type="hidden" [name]="name()" [value]="value()" />
       }
 
-      <div class="aeris-select__control">
+      <div #control class="aeris-select__control">
         @if (editable()) {
           <input
             #trigger
@@ -236,7 +236,11 @@ let nextSelectId = 0;
             }
           </button>
         }
-        <span class="aeris-select__actions">
+        <span
+          class="aeris-select__actions"
+          (pointerdown)="$event.preventDefault()"
+          (click)="handleDropdownClick($event)"
+        >
           @if (loading()) {
             @if (loadingIconTemplate(); as loadingIcon) {
               <ng-container [ngTemplateOutlet]="loadingIcon.template" />
@@ -253,19 +257,11 @@ let nextSelectId = 0;
       </div>
 
       @if (open()) {
-        <button
-          class="aeris-select__dismiss"
-          type="button"
-          tabindex="-1"
-          aria-label="Close options"
-          (click)="closePanel(true)"
-        ></button>
-
         <div
           #optionsPanel
           class="aeris-select__panel"
           [aerisInternalAppendTo]="appendTo()"
-          [aerisInternalAppendToAnchor]="this.trigger()?.nativeElement ?? null"
+          [aerisInternalAppendToAnchor]="this.control()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel(false)"
@@ -370,7 +366,7 @@ let nextSelectId = 0;
                       [class.aeris-select__option--selected]="value() === option.value"
                       [class.aeris-select__option--disabled]="option.disabled"
                       (mouseenter)="activate(option)"
-                      (mousedown)="$event.preventDefault()"
+                      (pointerdown)="$event.preventDefault()"
                       (click)="select(option, $event)"
                     >
                       <span class="aeris-select__option-content">
@@ -543,6 +539,7 @@ export class AerisSelectComponent implements ControlValueAccessor {
   protected readonly resolvedInputId = computed(() => this.inputId() || `${this.panelId}-trigger`);
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected readonly control = viewChild<ElementRef<HTMLElement>>('control');
   protected readonly trigger = viewChild<ElementRef<HTMLElement>>('trigger');
   private readonly optionsPanel = viewChild<ElementRef<HTMLElement>>('optionsPanel');
   private readonly panelPortal = viewChild(ɵAerisAppendTo);
@@ -666,6 +663,12 @@ export class AerisSelectComponent implements ControlValueAccessor {
     event.preventDefault();
     event.stopPropagation();
     this.clear();
+  }
+
+  protected handleDropdownClick(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.toggle();
   }
 
   protected handleTriggerKeydown(event: KeyboardEvent): void {

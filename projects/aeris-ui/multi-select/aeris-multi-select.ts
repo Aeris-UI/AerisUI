@@ -111,7 +111,7 @@ let multiSelectId = 0;
         <input type="hidden" [name]="name()" [value]="value().join(valueSeparator())" />
       }
 
-      <div class="aeris-multi-select__control">
+      <div #control class="aeris-multi-select__control">
         <div
           #trigger
           class="aeris-multi-select__trigger"
@@ -186,19 +186,11 @@ let multiSelectId = 0;
       </div>
 
       @if (open()) {
-        <button
-          class="aeris-multi-select__dismiss"
-          type="button"
-          tabindex="-1"
-          aria-label="Close options"
-          (click)="closePanel(true)"
-        ></button>
-
         <div
           #optionsPanel
           class="aeris-multi-select__panel"
           [aerisInternalAppendTo]="appendTo()"
-          [aerisInternalAppendToAnchor]="this.trigger()?.nativeElement ?? null"
+          [aerisInternalAppendToAnchor]="this.control()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel(false)"
@@ -303,7 +295,7 @@ let multiSelectId = 0;
                       [attr.data-selected]="isSelected(option) || null"
                       [attr.data-disabled]="optionUnavailable(option) || null"
                       (mouseenter)="activate(option)"
-                      (mousedown)="$event.preventDefault()"
+                      (pointerdown)="$event.preventDefault()"
                       (click)="toggleOption(option, $event)"
                     >
                       <span
@@ -524,6 +516,7 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
   protected readonly resolvedInputId = computed(() => this.inputId() || `${this.panelId}-trigger`);
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected readonly control = viewChild<ElementRef<HTMLElement>>('control');
   protected readonly trigger = viewChild<ElementRef<HTMLElement>>('trigger');
   private readonly optionsPanel = viewChild<ElementRef<HTMLElement>>('optionsPanel');
   private readonly panelPortal = viewChild(ɵAerisAppendTo);

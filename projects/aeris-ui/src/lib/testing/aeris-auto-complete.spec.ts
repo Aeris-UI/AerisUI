@@ -104,6 +104,31 @@ describe('AerisAutoComplete', () => {
     expect(options.length).toBe(1);
     expect(options[0]?.textContent).toContain('TypeScript');
     expect(getComputedStyle(options.item(0)).borderRadius).toContain('--aeris-radius-item');
+    expect(fixture.nativeElement.querySelector('.aeris-auto-complete__dismiss')).toBeNull();
+  });
+
+  it('selects from touch without an overlay intercepting the option', async () => {
+    const fixture = TestBed.createComponent(AutoCompleteHost);
+    await fixture.whenStable();
+
+    const input = fixture.nativeElement.querySelector('#skill') as HTMLInputElement;
+    input.value = 'type';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+
+    const option = fixture.nativeElement.querySelector('[role="option"]') as HTMLElement;
+    const pointerdown = new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      pointerType: 'touch',
+    });
+    option.dispatchEvent(pointerdown);
+    option.click();
+    fixture.detectChanges();
+
+    expect(pointerdown.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.value()).toBe('TypeScript');
+    expect(input.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('navigates enabled suggestions and selects through the keyboard', async () => {

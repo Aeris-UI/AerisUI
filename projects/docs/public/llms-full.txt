@@ -4682,7 +4682,6 @@ interface AerisColorPickerChangeEvent {
 | `--aeris-color-picker-panel-shadow` | `CSS custom property` | — | Picker panel elevation. |
 | `--aeris-color-picker-panel-padding` | `CSS custom property` | — | Internal panel spacing. |
 | `--aeris-color-picker-panel-z-index` | `CSS custom property` | — | Picker panel stacking level. |
-| `--aeris-color-picker-dismiss-z-index` | `CSS custom property` | — | Outside-dismiss layer stacking level. |
 | `--aeris-icon-eyedropper` | `CSS custom property` | — | Shared mask used by the optional screen-sampling action. |
 
 #### Examples

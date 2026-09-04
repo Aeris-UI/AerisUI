@@ -200,19 +200,6 @@
   mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
 }
 
-.aeris-cascade-select__dismiss {
-  position: fixed;
-  z-index: 89;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: default;
-}
-
 .aeris-cascade-select__panel {
   position: absolute;
   z-index: 90;

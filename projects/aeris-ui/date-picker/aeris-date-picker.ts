@@ -16,7 +16,11 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵAerisAppendTo, type AerisAppendTo, type AerisOverlayCollisionPadding } from '@aeris-ui/core';
+import {
+  ɵAerisAppendTo,
+  type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
+} from '@aeris-ui/core';
 
 import {
   addDays,
@@ -46,11 +50,7 @@ export interface AerisDateRange {
   readonly end: Date | null;
 }
 
-export type AerisDatePickerValue =
-  | Date
-  | readonly Date[]
-  | AerisDateRange
-  | null;
+export type AerisDatePickerValue = Date | readonly Date[] | AerisDateRange | null;
 
 export interface AerisDatePickerChangeEvent {
   readonly originalEvent: Event;
@@ -105,7 +105,7 @@ let datePickerId = 0;
       }
 
       @if (!inline()) {
-        <div class="aeris-date-picker__control">
+        <div #control class="aeris-date-picker__control">
           <button
             #trigger
             class="aeris-date-picker__trigger"
@@ -129,7 +129,8 @@ let datePickerId = 0;
             <span
               class="aeris-date-picker__value"
               [class.aeris-date-picker__placeholder]="!displayValue()"
-            >{{ displayValue() || placeholder() }}</span>
+              >{{ displayValue() || placeholder() }}</span
+            >
           </button>
 
           @if (showClearButton()) {
@@ -154,20 +155,10 @@ let datePickerId = 0;
       }
 
       @if (panelVisible()) {
-        @if (!inline()) {
-          <button
-            class="aeris-date-picker__dismiss"
-            type="button"
-            tabindex="-1"
-            aria-label="Close calendar"
-            (click)="close(true)"
-          ></button>
-        }
-
         <div
           class="aeris-date-picker__panel"
           [aerisInternalAppendTo]="inline() ? 'self' : appendTo()"
-          [aerisInternalAppendToAnchor]="this.trigger()?.nativeElement ?? null"
+          [aerisInternalAppendToAnchor]="this.control()?.nativeElement ?? null"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="close(false)"
           [id]="panelId"
@@ -177,130 +168,137 @@ let datePickerId = 0;
           (keydown)="handlePanelKeydown($event)"
         >
           @if (!timeOnly()) {
-          <div class="aeris-date-picker__header">
-            <button
-              class="aeris-date-picker__nav aeris-date-picker__nav--previous"
-              type="button"
-              [attr.aria-label]="previousButtonAriaLabel()"
-              [disabled]="previousDisabled()"
-              (click)="navigate(-1)"
-            ><span aria-hidden="true"></span></button>
+            <div class="aeris-date-picker__header">
+              <button
+                class="aeris-date-picker__nav aeris-date-picker__nav--previous"
+                type="button"
+                [attr.aria-label]="previousButtonAriaLabel()"
+                [disabled]="previousDisabled()"
+                (click)="navigate(-1)"
+              >
+                <span aria-hidden="true"></span>
+              </button>
 
-            <div class="aeris-date-picker__heading">
-              @if (panelView() === 'day') {
-                <button type="button" (click)="showMonthView()">
-                  {{ visibleMonthLabel() }}
-                </button>
-                <button type="button" (click)="showYearView()">
-                  {{ visibleYear() }}
-                </button>
-              } @else if (panelView() === 'month') {
-                <span>{{ visibleYear() }}</span>
-              } @else {
-                <span>{{ yearRangeLabel() }}</span>
-              }
+              <div class="aeris-date-picker__heading">
+                @if (panelView() === 'day') {
+                  <button type="button" (click)="showMonthView()">
+                    {{ visibleMonthLabel() }}
+                  </button>
+                  <button type="button" (click)="showYearView()">
+                    {{ visibleYear() }}
+                  </button>
+                } @else if (panelView() === 'month') {
+                  <span>{{ visibleYear() }}</span>
+                } @else {
+                  <span>{{ yearRangeLabel() }}</span>
+                }
+              </div>
+
+              <button
+                class="aeris-date-picker__nav aeris-date-picker__nav--next"
+                type="button"
+                [attr.aria-label]="nextButtonAriaLabel()"
+                [disabled]="nextDisabled()"
+                (click)="navigate(1)"
+              >
+                <span aria-hidden="true"></span>
+              </button>
             </div>
 
-            <button
-              class="aeris-date-picker__nav aeris-date-picker__nav--next"
-              type="button"
-              [attr.aria-label]="nextButtonAriaLabel()"
-              [disabled]="nextDisabled()"
-              (click)="navigate(1)"
-            ><span aria-hidden="true"></span></button>
-          </div>
-
-          @if (panelView() === 'day') {
-            <div
-              class="aeris-date-picker__months"
-              [style.--aeris-date-picker-month-count]="visibleMonthCount()"
-            >
-              @for (month of renderedMonths(); track month.key) {
-                <section class="aeris-date-picker__month" [attr.aria-label]="month.label">
-                  @if (visibleMonthCount() > 1) {
-                    <h3>{{ month.label }}</h3>
-                  }
-                  <div class="aeris-date-picker__weekdays" aria-hidden="true">
-                    @if (showWeekNumbers()) {
-                      <span class="aeris-date-picker__week-label">Wk</span>
+            @if (panelView() === 'day') {
+              <div
+                class="aeris-date-picker__months"
+                [style.--aeris-date-picker-month-count]="visibleMonthCount()"
+              >
+                @for (month of renderedMonths(); track month.key) {
+                  <section class="aeris-date-picker__month" [attr.aria-label]="month.label">
+                    @if (visibleMonthCount() > 1) {
+                      <h3>{{ month.label }}</h3>
                     }
-                    @for (weekday of weekdays(); track $index) {
-                      <span>{{ weekday }}</span>
-                    }
-                  </div>
-                  <div class="aeris-date-picker__calendar" role="grid">
-                    @for (week of [0, 1, 2, 3, 4, 5]; track week) {
-                      <div class="aeris-date-picker__week" role="row">
-                        @if (showWeekNumbers()) {
-                          <span class="aeris-date-picker__week-number" role="rowheader">
-                            {{ month.weeks[week] }}
-                          </span>
-                        }
-                        @for (
-                          day of month.days.slice(week * 7, week * 7 + 7);
-                          track day.key
-                        ) {
-                          <button
-                            #dayButton
-                            class="aeris-date-picker__day"
-                            type="button"
-                            role="gridcell"
-                            [attr.data-date]="day.key"
-                            [attr.aria-label]="day.label"
-                            [attr.aria-selected]="day.selected"
-                            [attr.aria-current]="day.today ? 'date' : null"
-                            [attr.data-other-month]="!day.currentMonth || null"
-                            [attr.data-selected]="day.selected || null"
-                            [attr.data-range-start]="day.rangeStart || null"
-                            [attr.data-range-end]="day.rangeEnd || null"
-                            [attr.data-in-range]="day.inRange || null"
-                            [attr.data-today]="day.today || null"
-                            [disabled]="day.disabled"
-                            [tabindex]="sameActiveDate(day.date) ? 0 : -1"
-                            (click)="selectDay(day, $event)"
-                            (focus)="activeDate.set(day.date)"
-                            (keydown)="handleDayKeydown($event, day.date)"
-                          >{{ day.day }}</button>
-                        }
-                      </div>
-                    }
-                  </div>
-                </section>
-              }
-            </div>
-          } @else if (panelView() === 'month') {
-            <div class="aeris-date-picker__choice-grid" role="listbox" aria-label="Choose month">
-              @for (month of monthChoices(); track month.value; let index = $index) {
-                <button
-                  #choiceButton
-                  type="button"
-                  role="option"
-                  [attr.aria-selected]="month.selected"
-                  [attr.data-selected]="month.selected || null"
-                  [disabled]="month.disabled"
-                  [tabindex]="choiceIndex() === index ? 0 : -1"
-                  (click)="selectMonth(month.value, $event)"
-                  (keydown)="handleChoiceKeydown($event, index)"
-                >{{ month.label }}</button>
-              }
-            </div>
-          } @else {
-            <div class="aeris-date-picker__choice-grid" role="listbox" aria-label="Choose year">
-              @for (year of yearChoices(); track year.value; let index = $index) {
-                <button
-                  #choiceButton
-                  type="button"
-                  role="option"
-                  [attr.aria-selected]="year.selected"
-                  [attr.data-selected]="year.selected || null"
-                  [disabled]="year.disabled"
-                  [tabindex]="choiceIndex() === index ? 0 : -1"
-                  (click)="selectYear(year.value, $event)"
-                  (keydown)="handleChoiceKeydown($event, index)"
-                >{{ year.value }}</button>
-              }
-            </div>
-          }
+                    <div class="aeris-date-picker__weekdays" aria-hidden="true">
+                      @if (showWeekNumbers()) {
+                        <span class="aeris-date-picker__week-label">Wk</span>
+                      }
+                      @for (weekday of weekdays(); track $index) {
+                        <span>{{ weekday }}</span>
+                      }
+                    </div>
+                    <div class="aeris-date-picker__calendar" role="grid">
+                      @for (week of [0, 1, 2, 3, 4, 5]; track week) {
+                        <div class="aeris-date-picker__week" role="row">
+                          @if (showWeekNumbers()) {
+                            <span class="aeris-date-picker__week-number" role="rowheader">
+                              {{ month.weeks[week] }}
+                            </span>
+                          }
+                          @for (day of month.days.slice(week * 7, week * 7 + 7); track day.key) {
+                            <button
+                              #dayButton
+                              class="aeris-date-picker__day"
+                              type="button"
+                              role="gridcell"
+                              [attr.data-date]="day.key"
+                              [attr.aria-label]="day.label"
+                              [attr.aria-selected]="day.selected"
+                              [attr.aria-current]="day.today ? 'date' : null"
+                              [attr.data-other-month]="!day.currentMonth || null"
+                              [attr.data-selected]="day.selected || null"
+                              [attr.data-range-start]="day.rangeStart || null"
+                              [attr.data-range-end]="day.rangeEnd || null"
+                              [attr.data-in-range]="day.inRange || null"
+                              [attr.data-today]="day.today || null"
+                              [disabled]="day.disabled"
+                              [tabindex]="sameActiveDate(day.date) ? 0 : -1"
+                              (click)="selectDay(day, $event)"
+                              (focus)="activeDate.set(day.date)"
+                              (keydown)="handleDayKeydown($event, day.date)"
+                            >
+                              {{ day.day }}
+                            </button>
+                          }
+                        </div>
+                      }
+                    </div>
+                  </section>
+                }
+              </div>
+            } @else if (panelView() === 'month') {
+              <div class="aeris-date-picker__choice-grid" role="listbox" aria-label="Choose month">
+                @for (month of monthChoices(); track month.value; let index = $index) {
+                  <button
+                    #choiceButton
+                    type="button"
+                    role="option"
+                    [attr.aria-selected]="month.selected"
+                    [attr.data-selected]="month.selected || null"
+                    [disabled]="month.disabled"
+                    [tabindex]="choiceIndex() === index ? 0 : -1"
+                    (click)="selectMonth(month.value, $event)"
+                    (keydown)="handleChoiceKeydown($event, index)"
+                  >
+                    {{ month.label }}
+                  </button>
+                }
+              </div>
+            } @else {
+              <div class="aeris-date-picker__choice-grid" role="listbox" aria-label="Choose year">
+                @for (year of yearChoices(); track year.value; let index = $index) {
+                  <button
+                    #choiceButton
+                    type="button"
+                    role="option"
+                    [attr.aria-selected]="year.selected"
+                    [attr.data-selected]="year.selected || null"
+                    [disabled]="year.disabled"
+                    [tabindex]="choiceIndex() === index ? 0 : -1"
+                    (click)="selectYear(year.value, $event)"
+                    (keydown)="handleChoiceKeydown($event, index)"
+                  >
+                    {{ year.value }}
+                  </button>
+                }
+              </div>
+            }
           }
 
           @if (showsTimeControls()) {
@@ -470,14 +468,14 @@ export class AerisDatePicker implements ControlValueAccessor {
 
   protected readonly open = signal(false);
   protected readonly formDisabled = signal(false);
-  protected readonly visibleDate = signal(new Date(new Date().getFullYear(), new Date().getMonth(), 1));
+  protected readonly visibleDate = signal(
+    new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+  );
   protected readonly activeDate = signal(dateAtMidnight(new Date()));
   protected readonly panelView = signal<AerisDatePickerView>('day');
   protected readonly choiceIndex = signal(0);
   private readonly fallbackTime = signal<AerisTimeValue>(this.timeFromDate(new Date()));
-  protected readonly effectiveDisabled = computed(
-    () => this.disabled() || this.formDisabled(),
-  );
+  protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
   protected readonly panelVisible = computed(() => this.inline() || this.open());
   protected readonly timeOnly = computed(() => this.mode() === 'time');
   protected readonly showsTimeControls = computed(() => this.mode() !== 'date');
@@ -496,11 +494,9 @@ export class AerisDatePicker implements ControlValueAccessor {
   protected readonly renderedMonths = computed<readonly AerisRenderedMonth[]>(() =>
     Array.from({ length: this.visibleMonthCount() }, (_, index) => {
       const monthDate = addMonths(this.visibleDate(), index);
-      const days = calendarCells(
-        monthDate,
-        this.resolvedFirstDay(),
-        this.locale(),
-      ).map((cell) => this.renderDay(cell));
+      const days = calendarCells(monthDate, this.resolvedFirstDay(), this.locale()).map((cell) =>
+        this.renderDay(cell),
+      );
       return {
         key: `${monthDate.getFullYear()}-${monthDate.getMonth()}`,
         label: new Intl.DateTimeFormat(this.locale(), {
@@ -515,14 +511,10 @@ export class AerisDatePicker implements ControlValueAccessor {
     }),
   );
   protected readonly visibleMonthLabel = computed(() =>
-    new Intl.DateTimeFormat(this.locale(), { month: 'long' }).format(
-      this.visibleDate(),
-    ),
+    new Intl.DateTimeFormat(this.locale(), { month: 'long' }).format(this.visibleDate()),
   );
   protected readonly visibleYear = computed(() => this.visibleDate().getFullYear());
-  protected readonly yearRangeStart = computed(
-    () => Math.floor(this.visibleYear() / 12) * 12,
-  );
+  protected readonly yearRangeStart = computed(() => Math.floor(this.visibleYear() / 12) * 12);
   protected readonly yearRangeLabel = computed(
     () => `${this.yearRangeStart()}–${this.yearRangeStart() + 11}`,
   );
@@ -535,8 +527,7 @@ export class AerisDatePicker implements ControlValueAccessor {
         label: formatter.format(date),
         selected: this.selectedDates().some(
           (selected) =>
-            selected.getFullYear() === date.getFullYear() &&
-            selected.getMonth() === month,
+            selected.getFullYear() === date.getFullYear() && selected.getMonth() === month,
         ),
         disabled: !this.periodHasEnabledDate(date, 'month'),
       };
@@ -547,19 +538,13 @@ export class AerisDatePicker implements ControlValueAccessor {
       const value = this.yearRangeStart() + index;
       return {
         value,
-        selected: this.selectedDates().some(
-          (selected) => selected.getFullYear() === value,
-        ),
+        selected: this.selectedDates().some((selected) => selected.getFullYear() === value),
         disabled: !this.periodHasEnabledDate(new Date(value, 0, 1), 'year'),
       };
     }),
   );
-  protected readonly previousDisabled = computed(() =>
-    this.timeOnly() || !this.canNavigate(-1),
-  );
-  protected readonly nextDisabled = computed(() =>
-    this.timeOnly() || !this.canNavigate(1),
-  );
+  protected readonly previousDisabled = computed(() => this.timeOnly() || !this.canNavigate(-1));
+  protected readonly nextDisabled = computed(() => this.timeOnly() || !this.canNavigate(1));
   protected readonly hasValue = computed(() => this.selectedDates().length > 0);
   protected readonly showClearButton = computed(
     () => this.clearable() && this.hasValue() && !this.effectiveDisabled(),
@@ -567,26 +552,18 @@ export class AerisDatePicker implements ControlValueAccessor {
   protected readonly todayDisabled = computed(() => this.isDisabled(new Date()));
   protected readonly displayValue = computed(() => this.formatValue(this.value()));
   protected readonly serializedValue = computed(() => this.serializeValue(this.value()));
-  protected readonly normalizedMinuteStep = computed(() =>
-    this.normalizeStep(this.minuteStep()),
-  );
-  protected readonly normalizedSecondStep = computed(() =>
-    this.normalizeStep(this.secondStep()),
-  );
-  protected readonly hourMinimum = computed(() => this.hourCycle() === '12' ? 1 : 0);
-  protected readonly hourMaximum = computed(() => this.hourCycle() === '12' ? 12 : 23);
+  protected readonly normalizedMinuteStep = computed(() => this.normalizeStep(this.minuteStep()));
+  protected readonly normalizedSecondStep = computed(() => this.normalizeStep(this.secondStep()));
+  protected readonly hourMinimum = computed(() => (this.hourCycle() === '12' ? 1 : 0));
+  protected readonly hourMaximum = computed(() => (this.hourCycle() === '12' ? 12 : 23));
   protected readonly timeValue = computed(() => {
     const value = this.value();
     return isValidDate(value) ? this.timeFromDate(value) : this.fallbackTime();
   });
-  protected readonly timePeriod = computed(() =>
-    this.timeValue().hours >= 12 ? 'PM' : 'AM',
-  );
+  protected readonly timePeriod = computed(() => (this.timeValue().hours >= 12 ? 'PM' : 'AM'));
   protected readonly timeDisplayParts = computed(() => {
     const time = this.timeValue();
-    const hour = this.hourCycle() === '12'
-      ? this.toTwelveHour(time.hours)
-      : time.hours;
+    const hour = this.hourCycle() === '12' ? this.toTwelveHour(time.hours) : time.hours;
     return {
       hour: String(hour).padStart(2, '0'),
       minute: String(time.minutes).padStart(2, '0'),
@@ -595,17 +572,14 @@ export class AerisDatePicker implements ControlValueAccessor {
   });
 
   protected readonly panelId = `aeris-date-picker-panel-${++datePickerId}`;
-  protected readonly resolvedInputId = computed(
-    () => this.inputId() || `${this.panelId}-trigger`,
-  );
+  protected readonly resolvedInputId = computed(() => this.inputId() || `${this.panelId}-trigger`);
 
+  protected readonly control = viewChild<ElementRef<HTMLElement>>('control');
   protected readonly trigger = viewChild<ElementRef<HTMLButtonElement>>('trigger');
   private readonly panelPortal = viewChild(ɵAerisAppendTo);
   private readonly hourInput = viewChild<ElementRef<HTMLInputElement>>('hourInput');
-  private readonly dayButtons =
-    viewChildren<ElementRef<HTMLButtonElement>>('dayButton');
-  private readonly choiceButtons =
-    viewChildren<ElementRef<HTMLButtonElement>>('choiceButton');
+  private readonly dayButtons = viewChildren<ElementRef<HTMLButtonElement>>('dayButton');
+  private readonly choiceButtons = viewChildren<ElementRef<HTMLButtonElement>>('choiceButton');
   private readonly injector = inject(Injector);
   private onChange: (value: AerisDatePickerValue) => void = () => undefined;
   private onTouched: () => void = () => undefined;
@@ -636,7 +610,8 @@ export class AerisDatePicker implements ControlValueAccessor {
 
   openPanel(): void {
     if (this.effectiveDisabled() || this.inline() || this.open()) return;
-    const initial = this.selectedDates()[0] ?? clampDate(new Date(), this.minDate(), this.maxDate());
+    const initial =
+      this.selectedDates()[0] ?? clampDate(new Date(), this.minDate(), this.maxDate());
     this.activeDate.set(initial);
     this.syncVisibleDate(initial);
     const initialView = this.timeOnly() ? 'day' : this.view();
@@ -744,11 +719,7 @@ export class AerisDatePicker implements ControlValueAccessor {
   }
 
   protected handleTriggerKeydown(event: KeyboardEvent): void {
-    if (
-      event.key === 'Enter' ||
-      event.key === ' ' ||
-      event.key === 'ArrowDown'
-    ) {
+    if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown') {
       event.preventDefault();
       this.openPanel();
     } else if (event.key === 'Escape') {
@@ -790,10 +761,7 @@ export class AerisDatePicker implements ControlValueAccessor {
     this.moveActiveDate(target);
   }
 
-  protected handleChoiceKeydown(
-    event: KeyboardEvent,
-    currentIndex: number,
-  ): void {
+  protected handleChoiceKeydown(event: KeyboardEvent, currentIndex: number): void {
     let targetIndex: number | null = null;
     if (event.key === 'ArrowLeft') targetIndex = currentIndex - 1;
     else if (event.key === 'ArrowRight') targetIndex = currentIndex + 1;
@@ -819,33 +787,22 @@ export class AerisDatePicker implements ControlValueAccessor {
   protected handleHourInput(event: Event): void {
     const rawValue = this.numberFromEvent(event);
     if (rawValue === null) return;
-    const displayHour = this.clamp(
-      rawValue,
-      this.hourMinimum(),
-      this.hourMaximum(),
-    );
-    const hours = this.hourCycle() === '12'
-      ? this.fromTwelveHour(displayHour, this.timePeriod())
-      : displayHour;
+    const displayHour = this.clamp(rawValue, this.hourMinimum(), this.hourMaximum());
+    const hours =
+      this.hourCycle() === '12' ? this.fromTwelveHour(displayHour, this.timePeriod()) : displayHour;
     this.updateTime({ ...this.timeValue(), hours }, event);
   }
 
   protected handleMinuteInput(event: Event): void {
     const rawValue = this.numberFromEvent(event);
     if (rawValue === null) return;
-    this.updateTime(
-      { ...this.timeValue(), minutes: this.clamp(rawValue, 0, 59) },
-      event,
-    );
+    this.updateTime({ ...this.timeValue(), minutes: this.clamp(rawValue, 0, 59) }, event);
   }
 
   protected handleSecondInput(event: Event): void {
     const rawValue = this.numberFromEvent(event);
     if (rawValue === null) return;
-    this.updateTime(
-      { ...this.timeValue(), seconds: this.clamp(rawValue, 0, 59) },
-      event,
-    );
+    this.updateTime({ ...this.timeValue(), seconds: this.clamp(rawValue, 0, 59) }, event);
   }
 
   protected handlePeriodChange(event: Event): void {
@@ -884,9 +841,7 @@ export class AerisDatePicker implements ControlValueAccessor {
         next = { start: range.start, end: normalized };
       }
     } else {
-      next = this.mode() === 'dateTime'
-        ? this.withTime(normalized, this.timeValue())
-        : normalized;
+      next = this.mode() === 'dateTime' ? this.withTime(normalized, this.timeValue()) : normalized;
     }
 
     this.activeDate.set(normalized);
@@ -961,9 +916,7 @@ export class AerisDatePicker implements ControlValueAccessor {
     return null;
   }
 
-  private renderDay(
-    cell: ReturnType<typeof calendarCells>[number],
-  ): AerisRenderedDay {
+  private renderDay(cell: ReturnType<typeof calendarCells>[number]): AerisRenderedDay {
     const range = this.rangeValue();
     const selected = this.selectedDates().some((date) => sameDate(date, cell.date));
     const visible = cell.currentMonth || this.showOtherMonths();
@@ -974,9 +927,7 @@ export class AerisDatePicker implements ControlValueAccessor {
       rangeEnd: sameDate(range.end, cell.date),
       inRange: isDateBetween(cell.date, range.start, range.end),
       disabled:
-        !visible ||
-        (!cell.currentMonth && !this.selectOtherMonths()) ||
-        this.isDisabled(cell.date),
+        !visible || (!cell.currentMonth && !this.selectOtherMonths()) || this.isDisabled(cell.date),
       today: sameDate(new Date(), cell.date),
     };
   }
@@ -995,12 +946,14 @@ export class AerisDatePicker implements ControlValueAccessor {
   }
 
   private periodHasEnabledDate(date: Date, period: 'month' | 'year'): boolean {
-    const start = period === 'year'
-      ? new Date(date.getFullYear(), 0, 1)
-      : new Date(date.getFullYear(), date.getMonth(), 1);
-    const end = period === 'year'
-      ? new Date(date.getFullYear(), 11, 31)
-      : new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    const start =
+      period === 'year'
+        ? new Date(date.getFullYear(), 0, 1)
+        : new Date(date.getFullYear(), date.getMonth(), 1);
+    const end =
+      period === 'year'
+        ? new Date(date.getFullYear(), 11, 31)
+        : new Date(date.getFullYear(), date.getMonth() + 1, 0);
     const min = this.minDate() ? dateAtMidnight(this.minDate()!) : null;
     const max = this.maxDate() ? dateAtMidnight(this.maxDate()!) : null;
     return !(max && start > max) && !(min && end < min);
@@ -1023,7 +976,11 @@ export class AerisDatePicker implements ControlValueAccessor {
       }
       return dateFormatter.format(value);
     }
-    if (Array.isArray(value)) return value.filter(isValidDate).map((date) => dateFormatter.format(date)).join(', ');
+    if (Array.isArray(value))
+      return value
+        .filter(isValidDate)
+        .map((date) => dateFormatter.format(date))
+        .join(', ');
     if (this.isRange(value)) {
       if (!value.start) return '';
       return value.end
@@ -1158,9 +1115,7 @@ export class AerisDatePicker implements ControlValueAccessor {
     const key = dateKey(this.activeDate());
     this.dayButtons()
       .find(
-        (button) =>
-          button.nativeElement.dataset['date'] === key &&
-          !button.nativeElement.disabled,
+        (button) => button.nativeElement.dataset['date'] === key && !button.nativeElement.disabled,
       )
       ?.nativeElement.focus();
   }
@@ -1170,17 +1125,12 @@ export class AerisDatePicker implements ControlValueAccessor {
   }
 
   private scheduleTimeFocus(): void {
-    afterNextRender(
-      () => this.hourInput()?.nativeElement.focus(),
-      { injector: this.injector },
-    );
+    afterNextRender(() => this.hourInput()?.nativeElement.focus(), { injector: this.injector });
   }
 
   private prepareChoiceFocus(view: 'month' | 'year'): void {
     this.choiceIndex.set(
-      view === 'month'
-        ? this.visibleDate().getMonth()
-        : this.visibleYear() - this.yearRangeStart(),
+      view === 'month' ? this.visibleDate().getMonth() : this.visibleYear() - this.yearRangeStart(),
     );
     this.scheduleChoiceFocus();
   }
@@ -1202,9 +1152,6 @@ export class AerisDatePicker implements ControlValueAccessor {
   }
 
   private scheduleChoiceFocus(): void {
-    afterNextRender(
-      () => this.moveChoiceFocus(this.choiceIndex()),
-      { injector: this.injector },
-    );
+    afterNextRender(() => this.moveChoiceFocus(this.choiceIndex()), { injector: this.injector });
   }
 }

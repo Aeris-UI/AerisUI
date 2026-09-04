@@ -4676,12 +4676,6 @@
           "description": "Picker panel stacking level."
         },
         {
-          "name": "--aeris-color-picker-dismiss-z-index",
-          "type": "CSS custom property",
-          "defaultValue": "",
-          "description": "Outside-dismiss layer stacking level."
-        },
-        {
           "name": "--aeris-icon-eyedropper",
           "type": "CSS custom property",
           "defaultValue": "",

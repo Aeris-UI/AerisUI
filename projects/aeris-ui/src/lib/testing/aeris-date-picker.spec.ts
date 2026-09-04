@@ -40,12 +40,7 @@ class DatePickerTestHost {
 @Component({
   imports: [AerisDatePicker],
   template: `
-    <aeris-date-picker
-      #picker
-      selectionMode="range"
-      [inline]="true"
-      [(value)]="range"
-    />
+    <aeris-date-picker #picker selectionMode="range" [inline]="true" [(value)]="range" />
   `,
 })
 class DatePickerRangeTestHost {
@@ -55,13 +50,7 @@ class DatePickerRangeTestHost {
 
 @Component({
   imports: [AerisDatePicker],
-  template: `
-    <aeris-date-picker
-      #picker
-      inputId="keyboard-date"
-      [(value)]="date"
-    />
-  `,
+  template: ` <aeris-date-picker #picker inputId="keyboard-date" [(value)]="date" /> `,
 })
 class DatePickerKeyboardTestHost {
   readonly picker = viewChild.required<AerisDatePicker>('picker');
@@ -70,14 +59,7 @@ class DatePickerKeyboardTestHost {
 
 @Component({
   imports: [AerisDatePicker],
-  template: `
-    <aeris-date-picker
-      #picker
-      inputId="month-date"
-      view="month"
-      [(value)]="date"
-    />
-  `,
+  template: ` <aeris-date-picker #picker inputId="month-date" view="month" [(value)]="date" /> `,
 })
 class DatePickerMonthTestHost {
   readonly picker = viewChild.required<AerisDatePicker>('picker');
@@ -131,9 +113,7 @@ describe('AerisDatePicker', () => {
     const fixture = TestBed.createComponent(DatePickerTestHost);
     await fixture.whenStable();
 
-    const trigger = fixture.nativeElement.querySelector(
-      '#delivery-date',
-    ) as HTMLButtonElement;
+    const trigger = fixture.nativeElement.querySelector('#delivery-date') as HTMLButtonElement;
     const hiddenInput = fixture.nativeElement.querySelector(
       'input[type="hidden"]',
     ) as HTMLInputElement;
@@ -151,13 +131,12 @@ describe('AerisDatePicker', () => {
     const fixture = TestBed.createComponent(DatePickerTestHost);
     await fixture.whenStable();
 
-    const trigger = fixture.nativeElement.querySelector(
-      '#delivery-date',
-    ) as HTMLButtonElement;
+    const trigger = fixture.nativeElement.querySelector('#delivery-date') as HTMLButtonElement;
     trigger.click();
     fixture.detectChanges();
 
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    expect(fixture.nativeElement.querySelector('.aeris-date-picker__dismiss')).toBeNull();
     const day = fixture.nativeElement.querySelector(
       '[data-date="2026-06-12"]',
     ) as HTMLButtonElement;
@@ -165,9 +144,7 @@ describe('AerisDatePicker', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.date()?.getDate()).toBe(12);
-    expect(
-      (fixture.componentInstance.lastChange()?.value as Date).getDate(),
-    ).toBe(12);
+    expect((fixture.componentInstance.lastChange()?.value as Date).getDate()).toBe(12);
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
@@ -175,19 +152,13 @@ describe('AerisDatePicker', () => {
     const fixture = TestBed.createComponent(DatePickerTestHost);
     await fixture.whenStable();
 
-    const trigger = fixture.nativeElement.querySelector(
-      '#delivery-date',
-    ) as HTMLButtonElement;
-    trigger.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
-    );
+    const trigger = fixture.nativeElement.querySelector('#delivery-date') as HTMLButtonElement;
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
     fixture.detectChanges();
     await fixture.whenStable();
 
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
-    expect((document.activeElement as HTMLElement).dataset['date']).toBe(
-      '2026-06-11',
-    );
+    expect((document.activeElement as HTMLElement).dataset['date']).toBe('2026-06-11');
   });
 
   it('supports arrow, Home, End, Page Up, and Page Down navigation', async () => {
@@ -223,9 +194,7 @@ describe('AerisDatePicker', () => {
     const fixture = TestBed.createComponent(DatePickerTestHost);
     await fixture.whenStable();
 
-    const trigger = fixture.nativeElement.querySelector(
-      '#delivery-date',
-    ) as HTMLButtonElement;
+    const trigger = fixture.nativeElement.querySelector('#delivery-date') as HTMLButtonElement;
     fixture.componentInstance.picker().openPanel();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -256,9 +225,7 @@ describe('AerisDatePicker', () => {
     const fixture = TestBed.createComponent(DatePickerKeyboardTestHost);
     await fixture.whenStable();
 
-    const trigger = fixture.nativeElement.querySelector(
-      '#keyboard-date',
-    ) as HTMLButtonElement;
+    const trigger = fixture.nativeElement.querySelector('#keyboard-date') as HTMLButtonElement;
     fixture.componentInstance.picker().openPanel();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -289,15 +256,13 @@ describe('AerisDatePicker', () => {
     expect(document.activeElement).toBe(options.item(5));
     expect(options.item(5).tabIndex).toBe(0);
 
-    options.item(5).dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
-    );
+    options
+      .item(5)
+      .dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
     fixture.detectChanges();
     expect(document.activeElement).toBe(options.item(8));
 
-    options.item(8).dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Home', bubbles: true }),
-    );
+    options.item(8).dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
     fixture.detectChanges();
     expect(document.activeElement).toBe(options.item(0));
   });
@@ -352,9 +317,7 @@ describe('AerisDatePicker', () => {
     expect(value?.getHours()).toBe(3);
     expect(value?.getMinutes()).toBe(45);
     expect(value?.getSeconds()).toBe(20);
-    expect(
-      (fixture.componentInstance.lastChange()?.value as Date).getMinutes(),
-    ).toBe(45);
+    expect((fixture.componentInstance.lastChange()?.value as Date).getMinutes()).toBe(45);
   });
 
   it('supports time-only mode without rendering a calendar grid', async () => {
@@ -365,12 +328,8 @@ describe('AerisDatePicker', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(
-      fixture.nativeElement.querySelector('.aeris-date-picker__calendar'),
-    ).toBeNull();
-    expect(
-      fixture.nativeElement.querySelector('.aeris-date-picker__time'),
-    ).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('.aeris-date-picker__calendar')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.aeris-date-picker__time')).not.toBeNull();
     expect((document.activeElement as HTMLInputElement).id).toBe('');
 
     const hiddenInput = fixture.nativeElement.querySelector(
@@ -401,9 +360,7 @@ describe('AerisDatePicker', () => {
     const value = fixture.componentInstance.time();
     expect(value?.getHours()).toBe(18);
     expect(value?.getMinutes()).toBe(45);
-    expect(
-      (fixture.componentInstance.lastChange()?.value as Date).getHours(),
-    ).toBe(18);
+    expect((fixture.componentInstance.lastChange()?.value as Date).getHours()).toBe(18);
 
     const hiddenInput = fixture.nativeElement.querySelector(
       'input[type="hidden"]',

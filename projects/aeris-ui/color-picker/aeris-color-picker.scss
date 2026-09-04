@@ -205,20 +205,6 @@
   mask: var(--_aeris-color-picker-eyedropper-mask) center / 100% 100% no-repeat;
 }
 
-.aeris-color-picker__dismiss {
-  position: fixed;
-  z-index: var(--aeris-color-picker-dismiss-z-index, 999);
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  cursor: default;
-}
-
 .aeris-color-picker__panel {
   position: fixed;
   z-index: var(--aeris-color-picker-panel-z-index, 1000);

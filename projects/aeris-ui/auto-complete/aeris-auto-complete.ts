@@ -16,15 +16,15 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵAerisAppendTo, type AerisAppendTo, type AerisOverlayCollisionPadding } from '@aeris-ui/core';
+import {
+  ɵAerisAppendTo,
+  type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
+} from '@aeris-ui/core';
 
 export type AerisAutoCompleteSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisAutoCompleteAppearance = 'outline' | 'filled';
-export type AerisAutoCompleteFilterMatchMode =
-  | 'contains'
-  | 'startsWith'
-  | 'endsWith'
-  | 'equals';
+export type AerisAutoCompleteFilterMatchMode = 'contains' | 'startsWith' | 'endsWith' | 'equals';
 
 export interface AerisAutoCompleteOption {
   readonly label: string;
@@ -116,7 +116,7 @@ let nextAutoCompleteId = 0;
         <input type="hidden" [name]="name()" [value]="value()" />
       }
 
-      <div class="aeris-auto-complete__control">
+      <div #control class="aeris-auto-complete__control">
         <input
           #textInput
           class="aeris-auto-complete__input"
@@ -173,19 +173,11 @@ let nextAutoCompleteId = 0;
       </div>
 
       @if (open()) {
-        <button
-          type="button"
-          class="aeris-auto-complete__dismiss"
-          tabindex="-1"
-          aria-hidden="true"
-          (click)="closePanel()"
-        ></button>
-
         <div
           #suggestionsPanel
           class="aeris-auto-complete__panel"
           [aerisInternalAppendTo]="appendTo()"
-          [aerisInternalAppendToAnchor]="inputElement()?.nativeElement ?? null"
+          [aerisInternalAppendToAnchor]="controlElement()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel()"
@@ -231,12 +223,17 @@ let nextAutoCompleteId = 0;
                   [disabled]="option.disabled"
                   [attr.aria-selected]="isSelected(option)"
                   [attr.data-active]="isActive(option) || null"
-                  (mousedown)="$event.preventDefault()"
+                  (pointerdown)="$event.preventDefault()"
                   (click)="selectOption(option, $event)"
                 >
                   <ng-container
                     [ngTemplateOutlet]="optionContent"
-                    [ngTemplateOutletContext]="{ $implicit: option, option, selected: isSelected(option), active: isActive(option) }"
+                    [ngTemplateOutletContext]="{
+                      $implicit: option,
+                      option,
+                      selected: isSelected(option),
+                      active: isActive(option),
+                    }"
                   />
                 </button>
               }
@@ -251,12 +248,17 @@ let nextAutoCompleteId = 0;
                 [disabled]="option.disabled"
                 [attr.aria-selected]="isSelected(option)"
                 [attr.data-active]="isActive(option) || null"
-                (mousedown)="$event.preventDefault()"
+                (pointerdown)="$event.preventDefault()"
                 (click)="selectOption(option, $event)"
               >
                 <ng-container
                   [ngTemplateOutlet]="optionContent"
-                  [ngTemplateOutletContext]="{ $implicit: option, option, selected: isSelected(option), active: isActive(option) }"
+                  [ngTemplateOutletContext]="{
+                    $implicit: option,
+                    option,
+                    selected: isSelected(option),
+                    active: isActive(option),
+                  }"
                 />
               </button>
             }
@@ -292,6 +294,7 @@ let nextAutoCompleteId = 0;
   },
 })
 export class AerisAutoComplete implements ControlValueAccessor {
+  protected readonly controlElement = viewChild<ElementRef<HTMLElement>>('control');
   protected readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('textInput');
   private readonly suggestionsPanel = viewChild<ElementRef<HTMLElement>>('suggestionsPanel');
   private readonly panelPortal = viewChild(ɵAerisAppendTo);
@@ -357,10 +360,7 @@ export class AerisAutoComplete implements ControlValueAccessor {
   protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
   protected readonly showClearButton = computed(
     () =>
-      this.clearable() &&
-      this.value().length > 0 &&
-      !this.effectiveDisabled() &&
-      !this.readonly(),
+      this.clearable() && this.value().length > 0 && !this.effectiveDisabled() && !this.readonly(),
   );
   protected readonly filteredOptions = computed(() => {
     const query = this.value().trim();
@@ -513,7 +513,9 @@ export class AerisAutoComplete implements ControlValueAccessor {
       case 'Enter':
         if (this.panelOpen() && this.activeValue()) {
           event.preventDefault();
-          const active = this.enabledOptions().find((option) => option.value === this.activeValue());
+          const active = this.enabledOptions().find(
+            (option) => option.value === this.activeValue(),
+          );
           if (active) this.selectOption(active, event);
         }
         break;
@@ -592,18 +594,17 @@ export class AerisAutoComplete implements ControlValueAccessor {
   private setBoundaryActive(boundary: 'first' | 'last'): void {
     const options = this.enabledOptions();
     this.activeValue.set(
-      boundary === 'first'
-        ? options[0]?.value ?? null
-        : options.at(-1)?.value ?? null,
+      boundary === 'first' ? (options[0]?.value ?? null) : (options.at(-1)?.value ?? null),
     );
   }
 
   private matchesOption(option: AerisAutoCompleteOption, query: string): boolean {
     if (query.length === 0) return true;
 
-    const candidate = `${option.label} ${option.value} ${option.description ?? ''} ${option.group ?? ''}`
-      .trim()
-      .toLocaleLowerCase();
+    const candidate =
+      `${option.label} ${option.value} ${option.description ?? ''} ${option.group ?? ''}`
+        .trim()
+        .toLocaleLowerCase();
     const normalizedQuery = query.toLocaleLowerCase();
 
     switch (this.filterMatchMode()) {

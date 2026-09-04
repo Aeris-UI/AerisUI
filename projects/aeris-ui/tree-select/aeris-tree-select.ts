@@ -16,7 +16,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵAerisAppendTo, type AerisAppendTo, type AerisOverlayCollisionPadding } from '@aeris-ui/core';
+import {
+  ɵAerisAppendTo,
+  type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
+} from '@aeris-ui/core';
 
 export type AerisTreeSelectSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisTreeSelectAppearance = 'outline' | 'filled';
@@ -112,7 +116,7 @@ let treeSelectId = 0;
         <input type="hidden" [name]="name()" [value]="serializedValue()" />
       }
 
-      <div class="aeris-tree-select__control">
+      <div #control class="aeris-tree-select__control">
         <button
           #trigger
           class="aeris-tree-select__trigger"
@@ -144,7 +148,7 @@ let treeSelectId = 0;
                   [ngTemplateOutletContext]="{
                     $implicit: selectedNodes(),
                     nodes: selectedNodes(),
-                    value: value()
+                    value: value(),
                   }"
                 />
               } @else {
@@ -162,25 +166,19 @@ let treeSelectId = 0;
             type="button"
             [attr.aria-label]="clearButtonAriaLabel()"
             (click)="handleClearClick($event)"
-          ><span aria-hidden="true"></span></button>
+          >
+            <span aria-hidden="true"></span>
+          </button>
         }
         <span class="aeris-tree-select__chevron" aria-hidden="true"></span>
       </div>
 
       @if (open()) {
-        <button
-          class="aeris-tree-select__dismiss"
-          type="button"
-          tabindex="-1"
-          aria-label="Close tree"
-          (click)="closePanel(true)"
-        ></button>
-
         <div
           #optionsPanel
           class="aeris-tree-select__panel"
           [aerisInternalAppendTo]="appendTo()"
-          [aerisInternalAppendToAnchor]="this.trigger()?.nativeElement ?? null"
+          [aerisInternalAppendToAnchor]="this.control()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel(false)"
@@ -216,7 +214,9 @@ let treeSelectId = 0;
                   type="button"
                   [attr.aria-label]="filterClearAriaLabel()"
                   (click)="clearFilter()"
-                ><span aria-hidden="true"></span></button>
+                >
+                  <span aria-hidden="true"></span>
+                </button>
               }
             </div>
           }
@@ -245,21 +245,29 @@ let treeSelectId = 0;
                   [id]="nodeId(item.node)"
                   [attr.aria-level]="item.level + 1"
                   [attr.aria-expanded]="hasChildren(item.node) ? isExpanded(item.node) : null"
-                  [attr.aria-selected]="selectionMode() === 'checkbox' ? null : isSelected(item.node)"
-                  [attr.aria-checked]="selectionMode() === 'checkbox' ? checkboxState(item.node) : null"
+                  [attr.aria-selected]="
+                    selectionMode() === 'checkbox' ? null : isSelected(item.node)
+                  "
+                  [attr.aria-checked]="
+                    selectionMode() === 'checkbox' ? checkboxState(item.node) : null
+                  "
                   [attr.aria-disabled]="nodeUnavailable(item.node) || null"
                   [attr.data-active]="activeValue() === item.node.value || null"
                   [attr.data-selected]="isSelected(item.node) || null"
                   [attr.data-disabled]="nodeUnavailable(item.node) || null"
                   [style.--aeris-tree-select-level]="item.level"
                   (mouseenter)="activate(item.node)"
-                  (mousedown)="$event.preventDefault()"
+                  (pointerdown)="$event.preventDefault()"
                   (click)="selectNode(item.node, $event)"
                 >
                   <button
                     class="aeris-tree-select__toggle"
                     type="button"
-                    [attr.aria-label]="isExpanded(item.node) ? 'Collapse ' + item.node.label : 'Expand ' + item.node.label"
+                    [attr.aria-label]="
+                      isExpanded(item.node)
+                        ? 'Collapse ' + item.node.label
+                        : 'Expand ' + item.node.label
+                    "
                     [attr.aria-hidden]="hasChildren(item.node) ? null : true"
                     [attr.tabindex]="-1"
                     [disabled]="!hasChildren(item.node)"
@@ -272,9 +280,12 @@ let treeSelectId = 0;
                     <span
                       class="aeris-tree-select__box"
                       [attr.data-checked]="isSelected(item.node) || null"
-                      [attr.data-mixed]="selectionMode() === 'checkbox' && isPartiallySelected(item.node) || null"
+                      [attr.data-mixed]="
+                        (selectionMode() === 'checkbox' && isPartiallySelected(item.node)) || null
+                      "
                       aria-hidden="true"
-                    ><span></span></span>
+                      ><span></span
+                    ></span>
                   }
 
                   <span class="aeris-tree-select__node-content">
@@ -287,7 +298,7 @@ let treeSelectId = 0;
                           level: item.level,
                           selected: isSelected(item.node),
                           expanded: isExpanded(item.node),
-                          active: activeValue() === item.node.value
+                          active: activeValue() === item.node.value,
                         }"
                       />
                     } @else {
@@ -374,9 +385,7 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   private readonly expansionInitialized = signal(false);
   protected readonly activeValue = signal<string | null>(null);
   protected readonly formDisabled = signal(false);
-  protected readonly effectiveDisabled = computed(
-    () => this.disabled() || this.formDisabled(),
-  );
+  protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
   protected readonly allNodes = computed(() => flattenAll(this.nodes()));
   protected readonly selectedValues = computed(() => {
     const value = this.value();
@@ -387,7 +396,9 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   );
   protected readonly selectedNodes = computed(() => {
     const values = this.selectedValues();
-    return this.allNodes().filter((item) => values.has(item.node.value)).map((item) => item.node);
+    return this.allNodes()
+      .filter((item) => values.has(item.node.value))
+      .map((item) => item.node);
   });
   protected readonly valueLabel = computed(() => {
     const selected = this.selectedNodes();
@@ -418,11 +429,10 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
 
   protected readonly panelId = `aeris-tree-select-panel-${++treeSelectId}`;
   protected readonly treeId = `${this.panelId}-tree`;
-  protected readonly resolvedInputId = computed(
-    () => this.inputId() || `${this.panelId}-trigger`,
-  );
+  protected readonly resolvedInputId = computed(() => this.inputId() || `${this.panelId}-trigger`);
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected readonly control = viewChild<ElementRef<HTMLElement>>('control');
   protected readonly trigger = viewChild<ElementRef<HTMLButtonElement>>('trigger');
   private readonly optionsPanel = viewChild<ElementRef<HTMLElement>>('optionsPanel');
   private readonly panelPortal = viewChild(ɵAerisAppendTo);
@@ -501,7 +511,13 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
 
   expandAll(): void {
     this.expansionInitialized.set(true);
-    this.expandedValues.set(new Set(this.allNodes().filter((item) => this.hasChildren(item.node)).map((item) => item.node.value)));
+    this.expandedValues.set(
+      new Set(
+        this.allNodes()
+          .filter((item) => this.hasChildren(item.node))
+          .map((item) => item.node.value),
+      ),
+    );
   }
 
   collapseAll(): void {
@@ -547,9 +563,10 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
 
   protected selectNode(node: AerisTreeNode, event: Event): void {
     if (this.nodeUnavailable(node) || !this.nodeSelectable(node)) return;
-    const selected = this.selectionMode() === 'checkbox'
-      ? this.checkboxState(node) === 'true'
-      : this.isSelected(node);
+    const selected =
+      this.selectionMode() === 'checkbox'
+        ? this.checkboxState(node) === 'true'
+        : this.isSelected(node);
     if (this.selectionMode() === 'single') {
       this.setValue(node.value);
       this.changed.emit({ originalEvent: event, value: node.value, node, selected: true });
@@ -558,9 +575,12 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
     }
 
     const next = new Set(this.selectedValues());
-    const targets = this.selectionMode() === 'checkbox' && this.propagateSelection()
-      ? [node, ...flattenAll(node.children ?? []).map((item) => item.node)].filter((item) => this.nodeSelectable(item) && !item.disabled)
-      : [node];
+    const targets =
+      this.selectionMode() === 'checkbox' && this.propagateSelection()
+        ? [node, ...flattenAll(node.children ?? []).map((item) => item.node)].filter(
+            (item) => this.nodeSelectable(item) && !item.disabled,
+          )
+        : [node];
 
     for (const target of targets) {
       if (selected) next.delete(target.value);
@@ -632,7 +652,9 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
     } else if (event.key === 'Home' || event.key === 'End') {
       event.preventDefault();
       const nodes = this.availableNodes();
-      this.activeValue.set(event.key === 'Home' ? nodes[0]?.node.value ?? null : nodes.at(-1)?.node.value ?? null);
+      this.activeValue.set(
+        event.key === 'Home' ? (nodes[0]?.node.value ?? null) : (nodes.at(-1)?.node.value ?? null),
+      );
     } else if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.selectActive(event);
@@ -750,7 +772,9 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   }
 
   private initialActiveValue(): string | null {
-    const selected = this.visibleNodes().find((item) => this.isSelected(item.node) && !this.nodeUnavailable(item.node));
+    const selected = this.visibleNodes().find(
+      (item) => this.isSelected(item.node) && !this.nodeUnavailable(item.node),
+    );
     return selected?.node.value ?? this.availableNodes()[0]?.node.value ?? null;
   }
 
@@ -790,21 +814,37 @@ function initialExpandedValues(nodes: readonly AerisTreeNode[]): readonly string
   return values;
 }
 
-function flattenAll(nodes: readonly AerisTreeNode[], level = 0, parent: AerisTreeNode | null = null): readonly FlatTreeNode[] {
+function flattenAll(
+  nodes: readonly AerisTreeNode[],
+  level = 0,
+  parent: AerisTreeNode | null = null,
+): readonly FlatTreeNode[] {
   return nodes.flatMap((node) => [
     { node, level, parent },
     ...flattenAll(node.children ?? [], level + 1, node),
   ]);
 }
 
-function flattenVisible(nodes: readonly AerisTreeNode[], expanded: ReadonlySet<string>, level = 0, parent: AerisTreeNode | null = null): readonly FlatTreeNode[] {
+function flattenVisible(
+  nodes: readonly AerisTreeNode[],
+  expanded: ReadonlySet<string>,
+  level = 0,
+  parent: AerisTreeNode | null = null,
+): readonly FlatTreeNode[] {
   return nodes.flatMap((node) => [
     { node, level, parent },
-    ...(expanded.has(node.value) ? flattenVisible(node.children ?? [], expanded, level + 1, node) : []),
+    ...(expanded.has(node.value)
+      ? flattenVisible(node.children ?? [], expanded, level + 1, node)
+      : []),
   ]);
 }
 
-function flattenFiltered(nodes: readonly AerisTreeNode[], query: string, level = 0, parent: AerisTreeNode | null = null): readonly FlatTreeNode[] {
+function flattenFiltered(
+  nodes: readonly AerisTreeNode[],
+  query: string,
+  level = 0,
+  parent: AerisTreeNode | null = null,
+): readonly FlatTreeNode[] {
   const result: FlatTreeNode[] = [];
   for (const node of nodes) {
     const children = flattenFiltered(node.children ?? [], query, level + 1, node);

@@ -183,6 +183,43 @@ describe('AerisSelect', () => {
     expect(fixture.nativeElement.querySelector('[role="listbox"]')).toBeNull();
   });
 
+  it('toggles from the chevron touch target and closes after touch selection', async () => {
+    const fixture = TestBed.createComponent(SelectTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#role') as HTMLButtonElement;
+    const actions = fixture.nativeElement.querySelector('.aeris-select__actions') as HTMLElement;
+
+    actions.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true }));
+    actions.click();
+    fixture.detectChanges();
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+
+    actions.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true }));
+    actions.click();
+    fixture.detectChanges();
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+
+    actions.click();
+    fixture.detectChanges();
+    const option = Array.from<HTMLElement>(
+      fixture.nativeElement.querySelectorAll('[role="option"]'),
+    ).find((element) => element.textContent?.includes('Product manager'));
+    const pointerdown = new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      pointerType: 'touch',
+    });
+    option?.dispatchEvent(pointerdown);
+    option?.click();
+    fixture.detectChanges();
+
+    expect(pointerdown.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.role()).toBe('manager');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    expect(fixture.nativeElement.querySelector('[role="listbox"]')).toBeNull();
+  });
+
   it('supports reverse navigation, boundaries, and Tab dismissal', async () => {
     const fixture = TestBed.createComponent(SelectTestHost);
     await fixture.whenStable();
@@ -290,6 +327,32 @@ describe('AerisSelect', () => {
 
     expect(fixture.componentInstance.customValue()).toBe('Research specialist');
     expect(editable.getAttribute('role')).toBe('combobox');
+  });
+
+  it('closes an editable Select from its chevron touch target', async () => {
+    const fixture = TestBed.createComponent(SelectAdvancedTestHost);
+    await fixture.whenStable();
+
+    const editableSelect = fixture.nativeElement.querySelector('aeris-select') as HTMLElement;
+    const editable = editableSelect.querySelector('#editable') as HTMLInputElement;
+    const actions = editableSelect.querySelector('.aeris-select__actions') as HTMLElement;
+
+    editable.click();
+    fixture.detectChanges();
+    expect(editable.getAttribute('aria-expanded')).toBe('true');
+
+    actions.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        bubbles: true,
+        cancelable: true,
+        pointerType: 'touch',
+      }),
+    );
+    actions.click();
+    fixture.detectChanges();
+
+    expect(editable.getAttribute('aria-expanded')).toBe('false');
+    expect(editableSelect.querySelector('[role="listbox"]')).toBeNull();
   });
 
   it('virtualizes large lists and emits lazy viewport ranges', async () => {

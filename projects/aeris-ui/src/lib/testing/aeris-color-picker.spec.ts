@@ -87,7 +87,22 @@ describe('AerisColorPicker', () => {
     expect(formats.length).toBe(3);
     expect(presets.length).toBe(3);
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    expect(fixture.nativeElement.querySelector('.aeris-color-picker__dismiss')).toBeNull();
     expect(fixture.componentInstance.openCount()).toBe(1);
+  });
+
+  it('closes when its trigger is pressed again', async () => {
+    const fixture = TestBed.createComponent(ColorPickerHost);
+    await openPicker(fixture);
+
+    const trigger = fixture.nativeElement.querySelector(
+      '.aeris-color-picker__trigger',
+    ) as HTMLButtonElement;
+    trigger.click();
+    fixture.detectChanges();
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    expect(fixture.nativeElement.querySelector('.aeris-color-picker__panel')).toBeNull();
   });
 
   it('anchors the panel to its trigger after the panel has rendered', async () => {

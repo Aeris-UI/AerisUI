@@ -147,13 +147,6 @@ let colorPickerId = 0;
       }
 
       @if (isOpen()) {
-        <button
-          class="aeris-color-picker__dismiss"
-          type="button"
-          tabindex="-1"
-          [attr.aria-label]="closeButtonAriaLabel()"
-          (click)="close(true)"
-        ></button>
         <section
           #pickerPanel
           class="aeris-color-picker__panel"
