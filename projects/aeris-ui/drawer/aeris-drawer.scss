@@ -230,6 +230,16 @@
   border-top: 1px solid var(--aeris-drawer-border, var(--aeris-border));
 }
 
+.aeris-drawer__footer[data-footer-layout='responsive'],
+.aeris-drawer__footer[data-footer-layout='wrap'] {
+  flex-wrap: wrap;
+}
+
+.aeris-drawer__footer[data-footer-layout='stack'] {
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .aeris-drawer__title {
   min-width: 0;
   flex: 1 1 auto;
@@ -340,6 +350,11 @@
   .aeris-drawer__header,
   .aeris-drawer__footer {
     padding-inline: 0.875rem;
+  }
+
+  .aeris-drawer__footer[data-footer-layout='responsive'] {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .aeris-drawer__body {

@@ -41,6 +41,7 @@ export type AerisDialogPosition =
   | 'bottom-left'
   | 'bottom-right';
 export type AerisDialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';
+export type AerisDialogFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
 
 export interface AerisDialogVisibilityChangeEvent {
   readonly originalEvent: Event | null;
@@ -187,7 +188,7 @@ const DIALOG_FOCUS_OPTIONS = {
             </div>
 
             @if (footerTemplate(); as footerTemplateRef) {
-              <footer class="aeris-dialog__footer">
+              <footer class="aeris-dialog__footer" [attr.data-footer-layout]="footerLayout()">
                 <ng-container
                   [ngTemplateOutlet]="footerTemplateRef.template"
                   [ngTemplateOutletContext]="templateContext()"
@@ -273,6 +274,7 @@ export class AerisDialog {
   readonly height = input('');
   readonly maxHeight = input('');
   readonly mobileWidth = input('');
+  readonly footerLayout = input<AerisDialogFooterLayout>('responsive');
   readonly closeAriaLabel = input('Close dialog');
   readonly ariaLabel = input('');
   readonly ariaLabelledBy = input('');

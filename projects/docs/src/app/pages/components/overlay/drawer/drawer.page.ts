@@ -301,6 +301,7 @@ protected readonly filterGroups = [
   protected readonly interfacesCode = `type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';
 type AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 type AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';
+type AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
 
 interface AerisDrawerVisibilityChangeEvent {
   readonly originalEvent: Event | null;
@@ -457,6 +458,13 @@ interface AerisDrawerTemplateContext {
       type: 'boolean',
       defaultValue: 'false',
       description: 'Makes the drawer full viewport below the built-in narrow breakpoint.',
+    },
+    {
+      name: 'footerLayout',
+      type: 'AerisDrawerFooterLayout',
+      defaultValue: "'responsive'",
+      description:
+        "Controls projected footer actions. Responsive wraps when needed and stacks on narrow screens. Options: 'responsive', 'wrap', 'stack', 'inline'.",
     },
     {
       name: 'closeAriaLabel',

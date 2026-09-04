@@ -53,6 +53,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 | `mobileWidth` | `string` | `''` | Width used by side drawers on narrow viewports. |
 | `mobileHeight` | `string` | `''` | Height used by top or bottom drawers on narrow viewports. |
 | `mobileFullScreen` | `boolean` | `false` | Makes the drawer full viewport below the built-in narrow breakpoint. |
+| `footerLayout` | `AerisDrawerFooterLayout` | `'responsive'` | Controls projected footer actions. Responsive wraps when needed and stacks on narrow screens. Options: 'responsive', 'wrap', 'stack', 'inline'. |
 | `closeAriaLabel` | `string` | `'Close drawer'` | Accessible label for the built-in close button. |
 | `ariaLabel` | `string` | `''` | Accessible name used when no visible header labels the drawer. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the drawer. |
@@ -102,6 +103,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';
 type AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 type AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';
+type AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
 
 interface AerisDrawerVisibilityChangeEvent {
   readonly originalEvent: Event | null;

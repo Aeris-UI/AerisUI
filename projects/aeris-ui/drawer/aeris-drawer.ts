@@ -31,6 +31,7 @@ import {
 export type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';
 export type AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 export type AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';
+export type AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
 
 export interface AerisDrawerVisibilityChangeEvent {
   readonly originalEvent: Event | null;
@@ -178,7 +179,7 @@ const DRAWER_FOCUS_OPTIONS = {
             </div>
 
             @if (footerTemplate(); as footerTemplateRef) {
-              <footer class="aeris-drawer__footer">
+              <footer class="aeris-drawer__footer" [attr.data-footer-layout]="footerLayout()">
                 <ng-container
                   [ngTemplateOutlet]="footerTemplateRef.template"
                   [ngTemplateOutletContext]="templateContext()"
@@ -259,6 +260,7 @@ export class AerisDrawer {
   readonly mobileWidth = input('');
   readonly mobileHeight = input('');
   readonly mobileFullScreen = input(false, { transform: booleanAttribute });
+  readonly footerLayout = input<AerisDrawerFooterLayout>('responsive');
   readonly closeAriaLabel = input('Close drawer');
   readonly ariaLabel = input('');
   readonly ariaLabelledBy = input('');

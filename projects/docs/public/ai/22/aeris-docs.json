@@ -26240,6 +26240,12 @@
               "description": "Width used by the built-in narrow viewport media query."
             },
             {
+              "name": "footerLayout",
+              "type": "AerisDialogFooterLayout",
+              "defaultValue": "'responsive'",
+              "description": "Controls projected footer actions. Responsive wraps when needed and stacks on narrow screens. Options: 'responsive', 'wrap', 'stack', 'inline'."
+            },
+            {
               "name": "closeAriaLabel",
               "type": "string",
               "defaultValue": "'Close dialog'",
@@ -26408,7 +26414,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisDialogCloseReason = 'api' | 'close-button' | 'escape' | 'mask';\ntype AerisDialogPosition =\n  | 'center'\n  | 'top'\n  | 'bottom'\n  | 'left'\n  | 'right'\n  | 'top-left'\n  | 'top-right'\n  | 'bottom-left'\n  | 'bottom-right';\ntype AerisDialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';\ntype AerisDialogRole = 'dialog' | 'alertdialog';\n\ninterface AerisDialogVisibilityChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly visible: boolean;\n  readonly reason: AerisDialogCloseReason;\n}\n\ninterface AerisDialogTemplateContext {\n  readonly $implicit: AerisDialog;\n  readonly close: (event?: Event) => void;\n  readonly maximized: boolean;\n}"
+          "code": "type AerisDialogCloseReason = 'api' | 'close-button' | 'escape' | 'mask';\ntype AerisDialogPosition =\n  | 'center'\n  | 'top'\n  | 'bottom'\n  | 'left'\n  | 'right'\n  | 'top-left'\n  | 'top-right'\n  | 'bottom-left'\n  | 'bottom-right';\ntype AerisDialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';\ntype AerisDialogFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';\ntype AerisDialogRole = 'dialog' | 'alertdialog';\n\ninterface AerisDialogVisibilityChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly visible: boolean;\n  readonly reason: AerisDialogCloseReason;\n}\n\ninterface AerisDialogTemplateContext {\n  readonly $implicit: AerisDialog;\n  readonly close: (event?: Event) => void;\n  readonly maximized: boolean;\n}"
         }
       ],
       "designTokens": [
@@ -26942,6 +26948,12 @@
               "description": "Makes the drawer full viewport below the built-in narrow breakpoint."
             },
             {
+              "name": "footerLayout",
+              "type": "AerisDrawerFooterLayout",
+              "defaultValue": "'responsive'",
+              "description": "Controls projected footer actions. Responsive wraps when needed and stacks on narrow screens. Options: 'responsive', 'wrap', 'stack', 'inline'."
+            },
+            {
               "name": "closeAriaLabel",
               "type": "string",
               "defaultValue": "'Close drawer'",
@@ -27092,7 +27104,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';\ntype AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';\ntype AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';\n\ninterface AerisDrawerVisibilityChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly visible: boolean;\n  readonly reason: AerisDrawerCloseReason;\n}\n\ninterface AerisDrawerTemplateContext {\n  readonly $implicit: AerisDrawer;\n  readonly close: (event?: Event) => void;\n  readonly position: AerisDrawerPosition;\n  readonly maximized: boolean;\n}"
+          "code": "type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';\ntype AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';\ntype AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';\ntype AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';\n\ninterface AerisDrawerVisibilityChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly visible: boolean;\n  readonly reason: AerisDrawerCloseReason;\n}\n\ninterface AerisDrawerTemplateContext {\n  readonly $implicit: AerisDrawer;\n  readonly close: (event?: Event) => void;\n  readonly position: AerisDrawerPosition;\n  readonly maximized: boolean;\n}"
         }
       ],
       "designTokens": [

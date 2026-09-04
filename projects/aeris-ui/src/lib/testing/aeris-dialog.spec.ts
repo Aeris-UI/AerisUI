@@ -51,6 +51,7 @@ class BasicDialogHost {
       height="24rem"
       maxHeight="80vh"
       mobileWidth="calc(100vw - 1rem)"
+      [footerLayout]="footerLayout()"
       dismissibleMask
       maximizable
       draggable
@@ -76,6 +77,7 @@ class TemplatedDialogHost {
   readonly dialog = viewChild.required<AerisDialog>('dialog');
   readonly open = signal(true);
   readonly maximized = signal(false);
+  readonly footerLayout = signal<'responsive' | 'wrap' | 'stack' | 'inline'>('stack');
   readonly events = signal<readonly AerisDialogVisibilityChangeEvent[]>([]);
 }
 
@@ -203,8 +205,17 @@ describe('AerisDialog', () => {
     expect(dialog.style.getPropertyValue('--aeris-dialog-height')).toBe('24rem');
     expect(dialog.style.getPropertyValue('--aeris-dialog-max-height')).toBe('80vh');
     expect(dialog.style.getPropertyValue('--aeris-dialog-mobile-width')).toBe('calc(100vw - 1rem)');
+    const footer = fixture.nativeElement.querySelector('.aeris-dialog__footer') as HTMLElement;
+    expect(footer.getAttribute('data-footer-layout')).toBe('stack');
+    expect(getComputedStyle(footer).flexDirection).toBe('column');
+    expect(getComputedStyle(footer).alignItems).toBe('stretch');
     expect(title.textContent).toContain('Template header normal');
     expect(fixture.nativeElement.querySelector('.custom-close')?.textContent).toContain('close');
+
+    fixture.componentInstance.footerLayout.set('wrap');
+    fixture.detectChanges();
+    expect(footer.getAttribute('data-footer-layout')).toBe('wrap');
+    expect(getComputedStyle(footer).flexWrap).toBe('wrap');
 
     maximize.click();
     fixture.detectChanges();

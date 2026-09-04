@@ -53,6 +53,7 @@ class BasicDrawerHost {
       mobileWidth="100vw"
       mobileHeight="100vh"
       mobileFullScreen
+      [footerLayout]="footerLayout()"
       maximizable
       dismissibleMask
       [(visible)]="open"
@@ -76,6 +77,7 @@ class TemplatedDrawerHost {
   readonly drawer = viewChild.required<AerisDrawer>('drawer');
   readonly open = signal(true);
   readonly maximized = signal(false);
+  readonly footerLayout = signal<'responsive' | 'wrap' | 'stack' | 'inline'>('stack');
   readonly events = signal<readonly AerisDrawerVisibilityChangeEvent[]>([]);
 }
 
@@ -214,8 +216,17 @@ describe('AerisDrawer', () => {
     expect(drawer.style.getPropertyValue('--aeris-drawer-max-height')).toBe('80vh');
     expect(drawer.style.getPropertyValue('--aeris-drawer-mobile-width')).toBe('100vw');
     expect(drawer.style.getPropertyValue('--aeris-drawer-mobile-height')).toBe('100vh');
+    const footer = document.querySelector('.aeris-drawer__footer') as HTMLElement;
+    expect(footer.getAttribute('data-footer-layout')).toBe('stack');
+    expect(getComputedStyle(footer).flexDirection).toBe('column');
+    expect(getComputedStyle(footer).alignItems).toBe('stretch');
     expect(title.textContent).toContain('Template header left normal');
     expect(document.querySelector('.custom-close')?.textContent).toContain('close');
+
+    fixture.componentInstance.footerLayout.set('wrap');
+    fixture.detectChanges();
+    expect(footer.getAttribute('data-footer-layout')).toBe('wrap');
+    expect(getComputedStyle(footer).flexWrap).toBe('wrap');
 
     maximize.click();
     fixture.detectChanges();
