@@ -89,7 +89,7 @@ const DRAWER_FOCUS_OPTIONS = {
         [attr.data-state]="animationState()"
         [attr.aria-hidden]="visible() ? null : 'true'"
         [attr.inert]="visible() ? null : ''"
-        (pointerdown)="handleOverlayPointerdown($event)"
+        (click)="handleOverlayClick($event)"
       >
         <aside
           #drawerPanel
@@ -357,9 +357,12 @@ export class AerisDrawer {
     this.hide(event, 'escape');
   }
 
-  protected handleOverlayPointerdown(event: PointerEvent): void {
+  protected handleOverlayClick(event: MouseEvent): void {
     if (!this.visible()) return;
-    if (!this.dismissibleMask() || event.target !== event.currentTarget) return;
+    if (event.target !== event.currentTarget) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (!this.dismissibleMask()) return;
     this.hide(event, 'mask');
   }
 

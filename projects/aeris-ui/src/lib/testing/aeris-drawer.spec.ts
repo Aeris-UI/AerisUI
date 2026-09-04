@@ -169,7 +169,9 @@ describe('AerisDrawer', () => {
 
     expect(fixture.componentInstance.open()).toBe(false);
     expect(drawer.getAttribute('data-state')).toBe('closed');
-    expect(document.querySelector('.aeris-drawer__overlay')?.getAttribute('aria-hidden')).toBe('true');
+    expect(document.querySelector('.aeris-drawer__overlay')?.getAttribute('aria-hidden')).toBe(
+      'true',
+    );
     expect(document.querySelector('.aeris-drawer__overlay')?.hasAttribute('inert')).toBe(true);
     expect(fixture.componentInstance.lastHidden()?.reason).toBe('close-button');
     expect(document.activeElement).toBe(launcher);
@@ -246,9 +248,16 @@ describe('AerisDrawer', () => {
     await settle();
 
     const overlay = document.querySelector('.aeris-drawer__overlay') as HTMLElement;
-    overlay.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    overlay.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
     fixture.detectChanges();
 
+    expect(fixture.componentInstance.open()).toBe(true);
+
+    const click = new MouseEvent('click', { bubbles: true, cancelable: true });
+    overlay.dispatchEvent(click);
+    fixture.detectChanges();
+
+    expect(click.defaultPrevented).toBe(true);
     expect(fixture.componentInstance.open()).toBe(false);
     expect(fixture.componentInstance.events().at(-1)?.reason).toBe('mask');
   });
@@ -269,7 +278,9 @@ describe('AerisDrawer', () => {
     fixture.detectChanges();
     expect(document.activeElement).toBe(close);
 
-    close.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true }));
+    close.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true }),
+    );
     fixture.detectChanges();
     expect(document.activeElement).toBe(second);
   });
@@ -290,9 +301,7 @@ describe('AerisDrawer', () => {
     drawer.focus();
     await settle();
     expect(
-      (document.querySelector('[role="dialog"]') as HTMLElement).contains(
-        document.activeElement,
-      ),
+      (document.querySelector('[role="dialog"]') as HTMLElement).contains(document.activeElement),
     ).toBe(true);
 
     drawer.maximize();
@@ -323,9 +332,7 @@ describe('AerisDrawer', () => {
     expect(drawer.getAttribute('aria-label')).toBe('Headless drawer');
     expect(drawer.getAttribute('aria-labelledby')).toBeNull();
     expect(document.querySelector('.aeris-drawer__header')).toBeNull();
-    expect(document.querySelector('.headless-shell')?.textContent).toContain(
-      'Headless content',
-    );
+    expect(document.querySelector('.headless-shell')?.textContent).toContain('Headless content');
 
     vi.useFakeTimers();
     close.click();

@@ -236,9 +236,16 @@ describe('AerisDialog', () => {
     await settle();
 
     const overlay = fixture.nativeElement.querySelector('.aeris-dialog__overlay') as HTMLElement;
-    overlay.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    overlay.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
     fixture.detectChanges();
 
+    expect(fixture.componentInstance.open()).toBe(true);
+
+    const click = new MouseEvent('click', { bubbles: true, cancelable: true });
+    overlay.dispatchEvent(click);
+    fixture.detectChanges();
+
+    expect(click.defaultPrevented).toBe(true);
     expect(fixture.componentInstance.open()).toBe(false);
     expect(fixture.componentInstance.events().at(-1)?.reason).toBe('mask');
   });
@@ -259,7 +266,9 @@ describe('AerisDialog', () => {
     fixture.detectChanges();
     expect(document.activeElement).toBe(close);
 
-    close.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true }));
+    close.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true }),
+    );
     fixture.detectChanges();
     expect(document.activeElement).toBe(second);
   });

@@ -94,7 +94,7 @@ const DIALOG_FOCUS_OPTIONS = {
         [style.--aeris-dialog-backdrop-blur]="backdropBlurAmount() || null"
         [attr.data-position]="position()"
         [attr.data-maximized]="maximized() || null"
-        (pointerdown)="handleOverlayPointerdown($event)"
+        (click)="handleOverlayClick($event)"
       >
         <section
           #dialogPanel
@@ -384,8 +384,11 @@ export class AerisDialog {
     this.hide(event, 'escape');
   }
 
-  protected handleOverlayPointerdown(event: PointerEvent): void {
-    if (!this.dismissibleMask() || event.target !== event.currentTarget) return;
+  protected handleOverlayClick(event: MouseEvent): void {
+    if (event.target !== event.currentTarget) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (!this.dismissibleMask()) return;
     this.hide(event, 'mask');
   }
 

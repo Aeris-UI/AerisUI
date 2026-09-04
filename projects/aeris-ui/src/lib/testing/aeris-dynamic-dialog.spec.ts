@@ -183,8 +183,8 @@ describe('AerisDynamicDialogService', () => {
     maskRef.closed.subscribe((event) => maskEvents.push(event));
     await settle();
 
-    const overlay = document.body.querySelector('.aeris-dialog__overlay') as HTMLElement;
-    overlay.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    const overlay = document.body.querySelector('[role="dialog"]')?.parentElement as HTMLElement;
+    overlay.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
     appRef.tick();
     await settle();
     await settle();
