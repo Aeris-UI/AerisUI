@@ -166,6 +166,7 @@ let datePickerId = 0;
           aria-modal="false"
           [attr.aria-label]="panelAriaLabel()"
           (keydown)="handlePanelKeydown($event)"
+          (focusout)="handlePanelFocusOut($event)"
         >
           @if (!timeOnly()) {
             <div class="aeris-date-picker__header">
@@ -723,17 +724,29 @@ export class AerisDatePicker implements ControlValueAccessor {
       event.preventDefault();
       this.openPanel();
     } else if (event.key === 'Escape') {
-      this.close(false);
+      if (this.open()) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.close(false);
+      }
     }
   }
 
   protected handlePanelKeydown(event: KeyboardEvent): void {
     if (event.key === 'Escape' && !this.inline()) {
       event.preventDefault();
+      event.stopPropagation();
       this.close(true);
-    } else if (event.key === 'Tab' && !this.inline()) {
-      this.close(false);
     }
+  }
+
+  protected handlePanelFocusOut(event: FocusEvent): void {
+    if (this.inline()) return;
+    const nextTarget = event.relatedTarget;
+    if (nextTarget instanceof Node && (event.currentTarget as HTMLElement).contains(nextTarget)) {
+      return;
+    }
+    this.close(false);
   }
 
   protected handleDayKeydown(event: KeyboardEvent, date: Date): void {

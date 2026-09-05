@@ -5758,7 +5758,7 @@
           },
           {
             "keys": "Tab",
-            "behavior": "Moves to the next focusable control and closes a popup calendar."
+            "behavior": "Moves through the popup controls. The popup closes after focus leaves it."
           }
         ]
       }

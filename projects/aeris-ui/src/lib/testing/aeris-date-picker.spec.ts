@@ -79,6 +79,7 @@ class DatePickerMonthTestHost {
       [(value)]="date"
       (changed)="lastChange.set($event)"
     />
+    <button id="after-date-time" type="button">After date and time</button>
   `,
 })
 class DatePickerDateTimeTestHost {
@@ -221,25 +222,39 @@ describe('AerisDatePicker', () => {
     expect(document.activeElement).toBe(trigger);
   });
 
-  it('closes on Tab without preventing normal focus navigation', async () => {
-    const fixture = TestBed.createComponent(DatePickerKeyboardTestHost);
+  it('keeps the panel open while tabbing within it and closes after focus leaves', async () => {
+    const fixture = TestBed.createComponent(DatePickerDateTimeTestHost);
     await fixture.whenStable();
 
-    const trigger = fixture.nativeElement.querySelector('#keyboard-date') as HTMLButtonElement;
+    const trigger = fixture.nativeElement.querySelector('#meeting-date') as HTMLButtonElement;
     fixture.componentInstance.picker().openPanel();
     fixture.detectChanges();
     await fixture.whenStable();
 
+    const panel = fixture.nativeElement.querySelector('.aeris-date-picker__panel') as HTMLElement;
+    const timeInputs = panel.querySelectorAll(
+      '.aeris-date-picker__time input',
+    ) as NodeListOf<HTMLInputElement>;
+    const hour = timeInputs.item(0);
+    const minute = timeInputs.item(1);
+    hour.focus();
     const event = new KeyboardEvent('keydown', {
       key: 'Tab',
       bubbles: true,
       cancelable: true,
     });
-    document.activeElement?.dispatchEvent(event);
+    hour.dispatchEvent(event);
+    hour.dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: minute }));
+    fixture.detectChanges();
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    expect(event.defaultPrevented).toBe(false);
+
+    const after = fixture.nativeElement.querySelector('#after-date-time') as HTMLButtonElement;
+    minute.dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: after }));
     fixture.detectChanges();
 
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
-    expect(event.defaultPrevented).toBe(false);
   });
 
   it('uses roving arrow navigation in month selection view', async () => {

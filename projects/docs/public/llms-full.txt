@@ -6652,7 +6652,7 @@ export class DatePickerFormsReactiveAndTemplateDrivenFormsDemo {
 | `Home / End in month or year view` | Moves to the first or last option in the visible period. |
 | `Native input keys in time fields` | Edit hours, minutes, seconds, or AM/PM using browser-native number and select behavior. |
 | `Escape` | Closes a popup calendar and restores focus to its trigger. |
-| `Tab` | Moves to the next focusable control and closes a popup calendar. |
+| `Tab` | Moves through the popup controls. The popup closes after focus leaves it. |
 
 ### Editor
 

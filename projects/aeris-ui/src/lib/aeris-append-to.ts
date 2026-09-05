@@ -53,6 +53,8 @@ export class ɵAerisAppendTo {
   private originCaptured = false;
   private originParent: Node | null = null;
   private originNextSibling: Node | null = null;
+  private unconstrainedPanelWidth = 0;
+  private unconstrainedPanelHeight = 0;
 
   readonly aerisInternalAppendTo = input<AerisAppendTo>();
   readonly aerisInternalAppendToAnchor = input<HTMLElement | null>(null);
@@ -220,24 +222,28 @@ export class ɵAerisAppendTo {
         (collisionPadding.bottom ?? 0),
     );
     let panelRect = this.element.getBoundingClientRect();
-    if (panelRect.width > availableWidth && availableWidth > 0) {
+    const wasWidthConstrained = this.element.hasAttribute('data-viewport-constrained-width');
+    const naturalWidth = wasWidthConstrained
+      ? Math.max(this.unconstrainedPanelWidth, this.element.scrollWidth)
+      : panelRect.width;
+    this.unconstrainedPanelWidth = naturalWidth;
+    if (naturalWidth > availableWidth && availableWidth > 0) {
       this.element.style.maxWidth = `${availableWidth}px`;
       this.element.style.overflowX = 'auto';
       this.element.style.overscrollBehavior = 'contain';
       this.element.setAttribute('data-viewport-constrained-width', 'true');
       panelRect = this.element.getBoundingClientRect();
-    } else if (this.element.hasAttribute('data-viewport-constrained-width')) {
+    } else if (wasWidthConstrained) {
       this.element.style.removeProperty('max-width');
       this.element.style.removeProperty('overflow-x');
       this.element.removeAttribute('data-viewport-constrained-width');
       panelRect = this.element.getBoundingClientRect();
     }
-    if (this.element.hasAttribute('data-viewport-constrained')) {
-      this.element.style.removeProperty('max-height');
-      this.element.style.removeProperty('overflow-y');
-      this.element.removeAttribute('data-viewport-constrained');
-      panelRect = this.element.getBoundingClientRect();
-    }
+    const wasHeightConstrained = this.element.hasAttribute('data-viewport-constrained');
+    const naturalHeight = wasHeightConstrained
+      ? Math.max(this.unconstrainedPanelHeight, this.element.scrollHeight)
+      : panelRect.height;
+    this.unconstrainedPanelHeight = naturalHeight;
     const direction = view.getComputedStyle(anchor).direction;
     const configuredAlignment = this.aerisInternalAppendToAlignment();
     const alignment =
@@ -246,11 +252,11 @@ export class ɵAerisAppendTo {
           ? 'end'
           : 'start'
         : configuredAlignment;
-    const position = () =>
+    const position = (height = panelRect.height || this.element.offsetHeight) =>
       aerisInternalPositionAnchoredOverlay({
         target: anchorRect,
         width: panelRect.width || this.element.offsetWidth || anchorRect.width,
-        height: panelRect.height || this.element.offsetHeight,
+        height,
         placement: this.aerisInternalAppendToPlacement(),
         alignment,
         offset: this.aerisInternalAppendToOffset(),
@@ -262,7 +268,7 @@ export class ɵAerisAppendTo {
         collisionPadding,
         tetherToAnchor: true,
       });
-    let point = position();
+    let point = position(naturalHeight);
     const viewportBounds = {
       top: viewportTop + (collisionPadding.top ?? 0),
       bottom:
@@ -279,14 +285,23 @@ export class ɵAerisAppendTo {
           ? anchorRect.top - viewportBounds.top - this.aerisInternalAppendToOffset()
           : availableHeight;
     const constrainedHeight = Math.max(0, Math.min(availableHeight, placementHeight));
-    if (panelRect.height > constrainedHeight && constrainedHeight > 0) {
+    if (naturalHeight > constrainedHeight && constrainedHeight > 0) {
       this.element.style.maxHeight = `${Math.floor(constrainedHeight)}px`;
       this.element.style.overflowY = 'auto';
       this.element.style.overscrollBehavior = 'contain';
       this.element.setAttribute('data-viewport-constrained', 'true');
       panelRect = this.element.getBoundingClientRect();
-      point = position();
-    } else if (!this.element.hasAttribute('data-viewport-constrained-width')) {
+    } else if (wasHeightConstrained) {
+      this.element.style.removeProperty('max-height');
+      this.element.style.removeProperty('overflow-y');
+      this.element.removeAttribute('data-viewport-constrained');
+      panelRect = this.element.getBoundingClientRect();
+    }
+    point = position();
+    if (
+      !this.element.hasAttribute('data-viewport-constrained') &&
+      !this.element.hasAttribute('data-viewport-constrained-width')
+    ) {
       this.element.style.removeProperty('overscroll-behavior');
     }
 

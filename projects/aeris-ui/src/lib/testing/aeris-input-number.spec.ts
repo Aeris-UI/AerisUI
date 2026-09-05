@@ -155,6 +155,22 @@ describe('AerisInputNumber', () => {
     expect(fixture.componentInstance.localizedAmount()).toBe(1234.56);
   });
 
+  it('rejects scientific notation instead of converting it to another value', async () => {
+    const fixture = TestBed.createComponent(InputNumberTestHost);
+    await fixture.whenStable();
+
+    const input = fixture.nativeElement.querySelector('#quantity') as HTMLInputElement;
+    input.dispatchEvent(new FocusEvent('focus'));
+    input.value = '1e3';
+    input.dispatchEvent(
+      new InputEvent('input', { bubbles: true, inputType: 'insertFromPaste' }),
+    );
+    fixture.detectChanges();
+
+    expect(input.value).toBe('2');
+    expect(fixture.componentInstance.quantity()).toBe(2);
+  });
+
   it('clears the value and restores focus through the suffix button', async () => {
     const fixture = TestBed.createComponent(InputNumberTestHost);
     await fixture.whenStable();

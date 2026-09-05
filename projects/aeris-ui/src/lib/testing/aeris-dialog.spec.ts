@@ -7,6 +7,10 @@ import {
   type AerisDialogVisibilityChangeEvent,
 } from '../../../dialog/aeris-dialog';
 import { AerisDatePicker } from '../../../date-picker/aeris-date-picker';
+import {
+  AerisSelect,
+  type AerisSelectOption,
+} from '../../../select/aeris-select';
 
 const settle = () => new Promise<void>((resolve) => queueMicrotask(resolve));
 
@@ -120,14 +124,21 @@ class InvalidFocusDialogHost {}
 class HeadlessDialogHost {}
 
 @Component({
-  imports: [AerisDialogModule, AerisDatePicker],
+  imports: [AerisDialogModule, AerisDatePicker, AerisSelect],
   template: `
-    <aeris-dialog header="Schedule delivery" [visible]="true">
+    <aeris-dialog header="Schedule delivery" [(visible)]="visible">
       <aeris-date-picker inputId="dialog-date" ariaLabel="Delivery date" />
+      <aeris-select inputId="dialog-role" ariaLabel="Role" [options]="options" />
     </aeris-dialog>
   `,
 })
-class DialogWithDatePickerHost {}
+class DialogWithDatePickerHost {
+  readonly visible = signal(true);
+  readonly options: readonly AerisSelectOption[] = [
+    { label: 'Designer', value: 'designer' },
+    { label: 'Engineer', value: 'engineer' },
+  ];
+}
 
 describe('AerisDialog', () => {
   afterEach(() => {
@@ -198,6 +209,36 @@ describe('AerisDialog', () => {
     expect(calendar).toBeTruthy();
     expect(calendar.getAttribute('data-aeris-append-to')).toBe('body');
     expect(fixture.nativeElement.contains(calendar)).toBe(false);
+  });
+
+  it('closes a nested popup with Escape without closing its parent dialog', async () => {
+    const fixture = TestBed.createComponent(DialogWithDatePickerHost);
+    await fixture.whenStable();
+    await settle();
+
+    const dateTrigger = fixture.nativeElement.querySelector('#dialog-date') as HTMLButtonElement;
+    dateTrigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    document.activeElement?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+    );
+    fixture.detectChanges();
+
+    expect(dateTrigger.getAttribute('aria-expanded')).toBe('false');
+    expect(fixture.componentInstance.visible()).toBe(true);
+
+    const selectTrigger = fixture.nativeElement.querySelector('#dialog-role') as HTMLButtonElement;
+    selectTrigger.click();
+    fixture.detectChanges();
+    selectTrigger.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+    );
+    fixture.detectChanges();
+
+    expect(selectTrigger.getAttribute('aria-expanded')).toBe('false');
+    expect(fixture.componentInstance.visible()).toBe(true);
+    expect(fixture.nativeElement.querySelector('[role="dialog"]')).toBeTruthy();
   });
 
   it('falls back safely when initialFocus is not a valid selector', async () => {

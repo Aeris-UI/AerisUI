@@ -6,6 +6,7 @@ import {
   aerisInternalSetColumnPairWidths,
 } from '../aeris-column-resize';
 import { aerisInternalCreateFrameScheduler } from '../aeris-frame-scheduler';
+import { aerisInternalFocusableElements } from '../aeris-focus';
 import { aerisInternalPositionAnchoredOverlay } from '../aeris-overlay-position';
 
 describe('Aeris internal layout utilities', () => {
@@ -125,5 +126,33 @@ describe('Aeris internal layout utilities', () => {
 
     frameCallback?.(16);
     expect(callback).toHaveBeenCalledOnce();
+  });
+
+  it('excludes hidden, inert, disabled, and negative-tabindex controls from focus order', () => {
+    const root = document.createElement('div');
+    root.innerHTML = `
+      <button id="normal">Normal</button>
+      <button id="later" tabindex="2">Later</button>
+      <button id="first" tabindex="1">First</button>
+      <button id="negative" tabindex="-1">Negative</button>
+      <button id="hidden" hidden>Hidden</button>
+      <button id="disabled" disabled>Disabled</button>
+      <input id="hidden-input" type="hidden">
+      <div inert><button id="inert-child">Inert child</button></div>
+      <div aria-hidden="true"><button id="aria-hidden-child">Hidden child</button></div>
+      <div style="display: none"><button id="display-none-child">Display none child</button></div>
+      <details><button id="closed-details-child">Closed details child</button></details>
+    `;
+    document.body.append(root);
+
+    try {
+      expect(
+        aerisInternalFocusableElements(root, { checkComputedVisibility: true }).map(
+          (element) => element.id,
+        ),
+      ).toEqual(['first', 'later', 'normal']);
+    } finally {
+      root.remove();
+    }
   });
 });

@@ -8,6 +8,7 @@ import {
   booleanAttribute,
   computed,
   contentChild,
+  effect,
   forwardRef,
   inject,
   input,
@@ -563,6 +564,9 @@ export class AerisSelectComponent implements ControlValueAccessor {
   private typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
 
   constructor() {
+    effect(() => {
+      if (this.effectiveDisabled()) this.closePanel(false);
+    });
     this.destroyRef.onDestroy(() => {
       if (this.typeaheadTimer) clearTimeout(this.typeaheadTimer);
     });
@@ -681,6 +685,7 @@ export class AerisSelectComponent implements ControlValueAccessor {
     if (event.key === 'Escape') {
       if (this.open()) {
         event.preventDefault();
+        event.stopPropagation();
         this.closePanel(false);
       }
       return;
@@ -735,6 +740,7 @@ export class AerisSelectComponent implements ControlValueAccessor {
   protected handleFilterKeydown(event: KeyboardEvent): void {
     if (event.key === 'Escape') {
       event.preventDefault();
+      event.stopPropagation();
       this.closePanel(true);
       return;
     }
@@ -825,7 +831,7 @@ export class AerisSelectComponent implements ControlValueAccessor {
   }
 
   protected select(option: AerisSelectOption, event: Event): void {
-    if (option.disabled) {
+    if (option.disabled || this.effectiveDisabled()) {
       return;
     }
 

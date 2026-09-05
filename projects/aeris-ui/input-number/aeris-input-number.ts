@@ -304,6 +304,11 @@ export class AerisInputNumber implements ControlValueAccessor {
   protected handleInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     const rawValue = input.value;
+    if (/\d[eE][+-]?\d*/.test(rawValue)) {
+      input.value = this.editValue();
+      input.setSelectionRange(input.value.length, input.value.length);
+      return;
+    }
     const selectionStart = input.selectionStart ?? rawValue.length;
     const sanitizedValue = this.sanitize(rawValue);
     const sanitizedSelectionStart = this.sanitize(rawValue.slice(0, selectionStart)).length;
