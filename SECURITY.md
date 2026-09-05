@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Aeris UI `22.0.0-alpha.5` is an evaluation prerelease and does not carry a production support
+Aeris UI `22.0.0-alpha.6` is an evaluation prerelease and does not carry a production support
 commitment. Stable release lines and end-of-support dates will be listed here when applicable.
 
 ## Reporting a vulnerability

@@ -7,7 +7,46 @@ release line.
 
 ## [Unreleased]
 
-No consumer-visible changes have been recorded since 22.0.0-alpha.5.
+No consumer-visible changes have been recorded since 22.0.0-alpha.6.
+
+## [22.0.0-alpha.6] - 2026-09-05
+
+### Added
+
+- Add theme-aware `primary`, `secondary`, and high-contrast Toast severities, optional Toast icons,
+  configurable Select minimum width, and responsive Dialog and Drawer footer layouts.
+- Automatically move floating panels outside clipping ancestors while retaining explicit
+  `appendTo` control and viewport-aware placement.
+
+### Changed
+
+- Use neutral styling as the default Toast presentation and refine severity borders, background
+  tints, compact content sizing, stacking, and mobile safe-area positioning.
+- Align Menubar item sizing, spacing, icon geometry, and interaction states with Aeris buttons.
+- Show native required-field invalid styling only after user interaction or an explicit invalid
+  state instead of marking pristine controls immediately.
+- Refresh the Angular 22 toolchain and compatible development dependencies.
+
+### Fixed
+
+- Clear Menubar hover backgrounds when the pointer leaves an item.
+- Restore reliable Select and related dropdown interactions on touch devices, including chevron
+  dismissal, option selection, compact layouts, and dynamic disabled state changes.
+- Prevent Dialog and Drawer backdrop dismissal from activating content beneath the overlay.
+- Keep appended dropdowns anchored during scrolling and constrain oversized overlays without
+  unstable width or height oscillation.
+- Normalize projected SVG icon dimensions in buttons regardless of the consumer's icon library.
+- Sanitize InputNumber typing and pasted values without corrupting scientific notation into an
+  unrelated number.
+- Keep nested popup Escape handling from closing its parent Dialog, preserve DatePicker focus while
+  tabbing through time controls, and exclude unavailable elements from focus traps.
+
+### Migration from alpha.5
+
+- Toasts without an explicit `severity` now use `neutral`; set `severity="primary"` to preserve an
+  emphasized theme-colored presentation.
+- Overlays now escape detected clipping ancestors automatically. Set `appendTo="self"` when an
+  overlay must remain inside its local container.
 
 ## [22.0.0-alpha.5] - 2026-08-21
 
@@ -136,7 +175,8 @@ No consumer-visible changes have been recorded since 22.0.0-alpha.5.
 - Align the published Lexical peer range with the version Aeris uses and declare the required
   Angular platform-browser and RxJS peers.
 
-[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.5...HEAD
+[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.6...HEAD
+[22.0.0-alpha.6]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.5...v22.0.0-alpha.6
 [22.0.0-alpha.5]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.4...v22.0.0-alpha.5
 [22.0.0-alpha.4]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.3...v22.0.0-alpha.4
 [22.0.0-alpha.3]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.2...v22.0.0-alpha.3
