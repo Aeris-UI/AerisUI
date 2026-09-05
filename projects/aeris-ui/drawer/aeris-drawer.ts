@@ -31,6 +31,7 @@ import {
 export type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';
 export type AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 export type AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';
+export type AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
 
 export interface AerisDrawerVisibilityChangeEvent {
   readonly originalEvent: Event | null;
@@ -89,7 +90,7 @@ const DRAWER_FOCUS_OPTIONS = {
         [attr.data-state]="animationState()"
         [attr.aria-hidden]="visible() ? null : 'true'"
         [attr.inert]="visible() ? null : ''"
-        (pointerdown)="handleOverlayPointerdown($event)"
+        (click)="handleOverlayClick($event)"
       >
         <aside
           #drawerPanel
@@ -178,7 +179,7 @@ const DRAWER_FOCUS_OPTIONS = {
             </div>
 
             @if (footerTemplate(); as footerTemplateRef) {
-              <footer class="aeris-drawer__footer">
+              <footer class="aeris-drawer__footer" [attr.data-footer-layout]="footerLayout()">
                 <ng-container
                   [ngTemplateOutlet]="footerTemplateRef.template"
                   [ngTemplateOutletContext]="templateContext()"
@@ -259,6 +260,7 @@ export class AerisDrawer {
   readonly mobileWidth = input('');
   readonly mobileHeight = input('');
   readonly mobileFullScreen = input(false, { transform: booleanAttribute });
+  readonly footerLayout = input<AerisDrawerFooterLayout>('responsive');
   readonly closeAriaLabel = input('Close drawer');
   readonly ariaLabel = input('');
   readonly ariaLabelledBy = input('');
@@ -357,9 +359,12 @@ export class AerisDrawer {
     this.hide(event, 'escape');
   }
 
-  protected handleOverlayPointerdown(event: PointerEvent): void {
+  protected handleOverlayClick(event: MouseEvent): void {
     if (!this.visible()) return;
-    if (!this.dismissibleMask() || event.target !== event.currentTarget) return;
+    if (event.target !== event.currentTarget) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (!this.dismissibleMask()) return;
     this.hide(event, 'mask');
   }
 

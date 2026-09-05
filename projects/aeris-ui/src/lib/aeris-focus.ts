@@ -5,23 +5,56 @@ export interface AerisInternalFocusableOptions {
 
 const BASE_FOCUSABLE_SELECTORS = [
   'a[href]',
-  'button:not([disabled])',
-  'input:not([disabled])',
-  'select:not([disabled])',
-  'textarea:not([disabled])',
-  '[tabindex]:not([tabindex="-1"])',
+  'area[href]',
+  'button',
+  'input',
+  'select',
+  'textarea',
+  'iframe',
+  'object',
+  'embed',
+  'audio[controls]',
+  'video[controls]',
+  'summary',
+  '[tabindex]',
 ] as const;
 
 export function aerisInternalIsFocusable(
   element: HTMLElement | null,
   options: AerisInternalFocusableOptions = {},
 ): element is HTMLElement {
-  if (!element || element.hasAttribute('disabled') || element.getAttribute('aria-hidden') === 'true') {
+  if (
+    !element ||
+    element.tabIndex < 0 ||
+    element.matches(':disabled') ||
+    element.hidden ||
+    element.inert ||
+    element.closest('[hidden], [inert], [aria-hidden="true"]')
+  ) {
     return false;
   }
+  if (element instanceof HTMLInputElement && element.type === 'hidden') return false;
+
+  const closedDetails = element.closest('details:not([open])');
+  if (closedDetails) {
+    const summary = Array.from(closedDetails.children).find(
+      (child): child is HTMLElement => child instanceof HTMLElement && child.tagName === 'SUMMARY',
+    );
+    if (!summary?.contains(element)) return false;
+  }
   if (!options.checkComputedVisibility) return true;
-  const style = element.ownerDocument.defaultView?.getComputedStyle(element);
-  return style?.visibility !== 'hidden' && style?.display !== 'none';
+  const view = element.ownerDocument.defaultView;
+  for (let current: HTMLElement | null = element; current; current = current.parentElement) {
+    const style = view?.getComputedStyle(current);
+    if (
+      style?.visibility === 'hidden' ||
+      style?.visibility === 'collapse' ||
+      style?.display === 'none'
+    ) {
+      return false;
+    }
+  }
+  return true;
 }
 
 export function aerisInternalFocusableElements(
@@ -29,11 +62,15 @@ export function aerisInternalFocusableElements(
   options: AerisInternalFocusableOptions = {},
 ): readonly HTMLElement[] {
   const selectors = options.includeContentEditable
-    ? [...BASE_FOCUSABLE_SELECTORS, '[contenteditable="true"]']
+    ? [...BASE_FOCUSABLE_SELECTORS, '[contenteditable]:not([contenteditable="false"])']
     : BASE_FOCUSABLE_SELECTORS;
-  return Array.from(root.querySelectorAll<HTMLElement>(selectors.join(','))).filter((element) =>
-    aerisInternalIsFocusable(element, options),
-  );
+  return Array.from(root.querySelectorAll<HTMLElement>(selectors.join(',')))
+    .filter((element) => aerisInternalIsFocusable(element, options))
+    .sort((left, right) => {
+      const leftOrder = left.tabIndex > 0 ? left.tabIndex : Number.MAX_SAFE_INTEGER;
+      const rightOrder = right.tabIndex > 0 ? right.tabIndex : Number.MAX_SAFE_INTEGER;
+      return leftOrder - rightOrder;
+    });
 }
 
 export function aerisInternalFocusInitialElement(

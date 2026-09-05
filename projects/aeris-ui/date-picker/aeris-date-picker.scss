@@ -216,19 +216,6 @@
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
 }
 
-.aeris-date-picker__dismiss {
-  position: fixed;
-  z-index: 89;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: default;
-}
-
 .aeris-date-picker__panel {
   position: absolute;
   z-index: 90;

@@ -29,6 +29,7 @@
   color: var(--aeris-text, #222222);
   font: inherit;
   font-size: 0.875rem;
+  box-shadow: none;
   transition:
     border-color 150ms,
     background-color 150ms,
@@ -65,11 +66,14 @@
 }
 
 .aeris-input-mask[data-invalid] .aeris-input-mask__input,
-.aeris-input-mask[data-invalid] .aeris-input-mask__input:hover {
+.aeris-input-mask[data-invalid] .aeris-input-mask__input:hover,
+.aeris-input-mask__input:user-invalid,
+.aeris-input-mask__input:user-invalid:hover {
   border-color: var(--aeris-danger, #c81e2a);
 }
 
-.aeris-input-mask[data-invalid] .aeris-input-mask__input:focus {
+.aeris-input-mask[data-invalid] .aeris-input-mask__input:focus,
+.aeris-input-mask__input:user-invalid:focus {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-danger, #c81e2a) 18%, transparent);
 }
 

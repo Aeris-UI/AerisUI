@@ -55,6 +55,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
 | `height` | `string` | `''` | Custom dialog height. |
 | `maxHeight` | `string` | `''` | Custom maximum dialog height. |
 | `mobileWidth` | `string` | `''` | Width used by the built-in narrow viewport media query. |
+| `footerLayout` | `AerisDialogFooterLayout` | `'responsive'` | Controls projected footer actions. Responsive wraps when needed and stacks on narrow screens. Options: 'responsive', 'wrap', 'stack', 'inline'. |
 | `closeAriaLabel` | `string` | `'Close dialog'` | Accessible label for the close button. |
 | `ariaLabel` | `string` | `''` | Accessible name when no visible title should label the dialog. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the dialog. |
@@ -116,6 +117,7 @@ type AerisDialogPosition =
   | 'bottom-left'
   | 'bottom-right';
 type AerisDialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';
+type AerisDialogFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
 type AerisDialogRole = 'dialog' | 'alertdialog';
 
 interface AerisDialogVisibilityChangeEvent {

@@ -865,8 +865,8 @@ interface AerisMenubarItemTemplateContext<T = unknown> {
     {
       name: '--aeris-menubar-item-height',
       type: 'length',
-      defaultValue: '--aeris-item-height',
-      description: 'Minimum item height.',
+      defaultValue: '--aeris-action-height',
+      description: 'Minimum item height, aligned with the corresponding Aeris Button size.',
     },
     {
       name: '--aeris-menubar-item-hover-background',
@@ -895,8 +895,8 @@ interface AerisMenubarItemTemplateContext<T = unknown> {
     {
       name: '--aeris-menubar-icon-size',
       type: 'length',
-      defaultValue: '1.125rem',
-      description: 'Default icon and chevron size.',
+      defaultValue: '--aeris-action-icon-size',
+      description: 'Default icon and chevron size, aligned with Aeris Button icons.',
     },
   ];
 

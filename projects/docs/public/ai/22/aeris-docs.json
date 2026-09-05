@@ -544,7 +544,7 @@
           "id": "overlay-mounting",
           "title": "Overlay mounting",
           "paragraphs": [
-            "Overlay-producing components render beside their trigger by default. Set overlayAppendTo: 'body' globally when application containers frequently clip floating panels, or set appendTo on one component for a local exception.",
+            "Anchored overlays render beside their trigger by default and automatically move to document.body when an overflow, clipping, or paint-containment ancestor would cut them off. Set appendTo to 'self', 'body', or a target element on one component to override detection, or use overlayAppendTo to choose an application-wide default.",
             "Use 'self' to keep an overlay in its component, 'body' to mount it under document.body, or supply an HTMLElement, ElementRef<HTMLElement>, or TemplateRef target. Tooltip safely resolves 'self' to body because a directive host may be a void or interactive element that cannot contain generated overlay markup. null and undefined use the global setting. Aeris keeps the overlay aligned to its trigger and repositions it during scrolling and viewport changes."
           ],
           "note": "Prefer the default 'self' mode unless an ancestor clips or constrains the overlay. Portaling to body changes the overlay's DOM ancestry, although Aeris carries its theme variables and reading direction with it."
@@ -708,6 +708,10 @@
         {
           "id": "validation-contract",
           "title": "Keep validation state synchronized",
+          "paragraphs": [
+            "Native Aeris inputs use the browser interaction-aware :user-invalid state for constraint validation. A required field therefore keeps its normal appearance while pristine and receives invalid styling only after the browser has attempted validation through user interaction or form submission.",
+            "The invalid input remains the explicit application-controlled state. Use it for Angular validators, server errors, composite controls, or any workflow where the application decides when an error should become visible."
+          ],
           "bullets": [
             "Let Angular validators determine whether the value is valid.",
             "Show errors after an intentional trigger such as blur or submit instead of while the user is still entering the first character.",
@@ -2715,7 +2719,7 @@
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
-              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+              "description": "Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection."
             },
             {
               "name": "viewportMargin",
@@ -3353,7 +3357,7 @@
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
-              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+              "description": "Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection."
             },
             {
               "name": "viewportMargin",
@@ -4260,7 +4264,7 @@
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
-              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+              "description": "Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection."
             },
             {
               "name": "viewportMargin",
@@ -4676,12 +4680,6 @@
           "description": "Picker panel stacking level."
         },
         {
-          "name": "--aeris-color-picker-dismiss-z-index",
-          "type": "CSS custom property",
-          "defaultValue": "",
-          "description": "Outside-dismiss layer stacking level."
-        },
-        {
           "name": "--aeris-icon-eyedropper",
           "type": "CSS custom property",
           "defaultValue": "",
@@ -4949,7 +4947,7 @@
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
-              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+              "description": "Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection."
             },
             {
               "name": "viewportMargin",
@@ -5760,7 +5758,7 @@
           },
           {
             "keys": "Tab",
-            "behavior": "Moves to the next focusable control and closes a popup calendar."
+            "behavior": "Moves through the popup controls. The popup closes after focus leaves it."
           }
         ]
       }
@@ -7983,7 +7981,7 @@
               "name": "locale",
               "type": "string",
               "defaultValue": "'en-US'",
-              "description": "BCP 47 locale used by Intl.NumberFormat."
+              "description": "BCP 47 locale used for formatting and accepted decimal, grouping, minus, and digit symbols."
             },
             {
               "name": "mode",
@@ -8501,6 +8499,7 @@
           "Arrow Up and Arrow Down step the value. Home and End use configured bounds.",
           "Associate a visible label through inputId, or provide ariaLabel when no visible label exists.",
           "Connect help and error messages through ariaDescribedby. The invalid input synchronizes aria-invalid.",
+          "Unsupported characters, duplicate decimal separators, and misplaced signs are removed consistently. A sign, the locale decimal separator, or their combination remains available while the user continues typing.",
           "Increment and decrement controls use SVG icons with configurable accessible names and are excluded from the default tab order.",
           "The clear button has a configurable accessible name, appears only when usable, and restores focus after clearing.",
           "ControlValueAccessor support synchronizes values, touched state, and disabled state with Reactive Forms and template-driven forms.",
@@ -9764,7 +9763,7 @@
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
-              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+              "description": "Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection."
             },
             {
               "name": "viewportMargin",
@@ -10455,8 +10454,8 @@
             {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-              "defaultValue": "'self'",
-              "description": "Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target."
+              "defaultValue": "'self' (global)",
+              "description": "Mounts the feedback overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection."
             },
             {
               "name": "viewportMargin",
@@ -11793,7 +11792,7 @@
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
-              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+              "description": "Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection."
             },
             {
               "name": "viewportMargin",
@@ -11890,6 +11889,12 @@
               "type": "boolean",
               "defaultValue": "false",
               "description": "Fills the available inline width."
+            },
+            {
+              "name": "minWidth",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Optional CSS minimum inline size. The control can shrink to zero when this is omitted."
             },
             {
               "name": "checkmark",
@@ -12227,6 +12232,12 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Selected value text."
+        },
+        {
+          "name": "--aeris-select-min-width",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Minimum inline size of the control."
         },
         {
           "name": "--aeris-select-border",
@@ -14175,7 +14186,7 @@
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
-              "description": "Mounts the overlay locally, in document.body, or in the supplied DOM/template target."
+              "description": "Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection."
             },
             {
               "name": "viewportMargin",
@@ -14926,6 +14937,12 @@
           "description": "Medium control height and density anchor."
         },
         {
+          "name": "--aeris-button-icon-size",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Projected SVG, image, or marked custom icon size."
+        },
+        {
           "name": "--aeris-radius-control",
           "type": "CSS custom property",
           "defaultValue": "",
@@ -15002,7 +15019,7 @@
         {
           "id": "feature-icons",
           "title": "Icons and positions",
-          "description": "Project icons as normal button content and control whether the icon appears before, after, or without visible text.",
+          "description": "Project icons as normal button content and control whether the icon appears before, after, or without visible text. Aeris normalizes projected SVG icons to its shared icon size.",
           "sources": [
             {
               "language": "TypeScript",
@@ -15780,7 +15797,7 @@
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
-              "description": "Mounts the action menu locally, in document.body, or in the supplied DOM/template target."
+              "description": "Mounts the action menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection."
             },
             {
               "name": "viewportMargin",
@@ -16933,7 +16950,7 @@
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
-              "description": "Mounts the rows-per-page menu locally, in document.body, or in the supplied DOM/template target."
+              "description": "Mounts the rows-per-page menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection."
             },
             {
               "name": "viewportMargin",
@@ -26223,6 +26240,12 @@
               "description": "Width used by the built-in narrow viewport media query."
             },
             {
+              "name": "footerLayout",
+              "type": "AerisDialogFooterLayout",
+              "defaultValue": "'responsive'",
+              "description": "Controls projected footer actions. Responsive wraps when needed and stacks on narrow screens. Options: 'responsive', 'wrap', 'stack', 'inline'."
+            },
+            {
               "name": "closeAriaLabel",
               "type": "string",
               "defaultValue": "'Close dialog'",
@@ -26391,7 +26414,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisDialogCloseReason = 'api' | 'close-button' | 'escape' | 'mask';\ntype AerisDialogPosition =\n  | 'center'\n  | 'top'\n  | 'bottom'\n  | 'left'\n  | 'right'\n  | 'top-left'\n  | 'top-right'\n  | 'bottom-left'\n  | 'bottom-right';\ntype AerisDialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';\ntype AerisDialogRole = 'dialog' | 'alertdialog';\n\ninterface AerisDialogVisibilityChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly visible: boolean;\n  readonly reason: AerisDialogCloseReason;\n}\n\ninterface AerisDialogTemplateContext {\n  readonly $implicit: AerisDialog;\n  readonly close: (event?: Event) => void;\n  readonly maximized: boolean;\n}"
+          "code": "type AerisDialogCloseReason = 'api' | 'close-button' | 'escape' | 'mask';\ntype AerisDialogPosition =\n  | 'center'\n  | 'top'\n  | 'bottom'\n  | 'left'\n  | 'right'\n  | 'top-left'\n  | 'top-right'\n  | 'bottom-left'\n  | 'bottom-right';\ntype AerisDialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';\ntype AerisDialogFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';\ntype AerisDialogRole = 'dialog' | 'alertdialog';\n\ninterface AerisDialogVisibilityChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly visible: boolean;\n  readonly reason: AerisDialogCloseReason;\n}\n\ninterface AerisDialogTemplateContext {\n  readonly $implicit: AerisDialog;\n  readonly close: (event?: Event) => void;\n  readonly maximized: boolean;\n}"
         }
       ],
       "designTokens": [
@@ -26925,6 +26948,12 @@
               "description": "Makes the drawer full viewport below the built-in narrow breakpoint."
             },
             {
+              "name": "footerLayout",
+              "type": "AerisDrawerFooterLayout",
+              "defaultValue": "'responsive'",
+              "description": "Controls projected footer actions. Responsive wraps when needed and stacks on narrow screens. Options: 'responsive', 'wrap', 'stack', 'inline'."
+            },
+            {
               "name": "closeAriaLabel",
               "type": "string",
               "defaultValue": "'Close drawer'",
@@ -27075,7 +27104,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';\ntype AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';\ntype AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';\n\ninterface AerisDrawerVisibilityChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly visible: boolean;\n  readonly reason: AerisDrawerCloseReason;\n}\n\ninterface AerisDrawerTemplateContext {\n  readonly $implicit: AerisDrawer;\n  readonly close: (event?: Event) => void;\n  readonly position: AerisDrawerPosition;\n  readonly maximized: boolean;\n}"
+          "code": "type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';\ntype AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';\ntype AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';\ntype AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';\n\ninterface AerisDrawerVisibilityChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly visible: boolean;\n  readonly reason: AerisDrawerCloseReason;\n}\n\ninterface AerisDrawerTemplateContext {\n  readonly $implicit: AerisDrawer;\n  readonly close: (event?: Event) => void;\n  readonly position: AerisDrawerPosition;\n  readonly maximized: boolean;\n}"
         }
       ],
       "designTokens": [
@@ -30532,7 +30561,7 @@
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
-              "description": "Mounts the panel target when popup is enabled; inline menus remain local."
+              "description": "Mounts popup menus locally by default and automatically moves them to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection; inline menus remain local."
             },
             {
               "name": "viewportMargin",
@@ -31286,8 +31315,8 @@
         {
           "name": "--aeris-menubar-item-height",
           "type": "length",
-          "defaultValue": "--aeris-item-height",
-          "description": "Minimum item height."
+          "defaultValue": "--aeris-action-height",
+          "description": "Minimum item height, aligned with the corresponding Aeris Button size."
         },
         {
           "name": "--aeris-menubar-item-hover-background",
@@ -31316,8 +31345,8 @@
         {
           "name": "--aeris-menubar-icon-size",
           "type": "length",
-          "defaultValue": "1.125rem",
-          "description": "Default icon and chevron size."
+          "defaultValue": "--aeris-action-icon-size",
+          "description": "Default icon and chevron size, aligned with Aeris Button icons."
         }
       ],
       "examples": [
@@ -31522,7 +31551,7 @@
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "'self' (global)",
-              "description": "Mounts the panel target when popup is enabled; inline menus remain local."
+              "description": "Mounts popup menus locally by default and automatically moves them to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection; inline menus remain local."
             },
             {
               "name": "viewportMargin",
@@ -32784,6 +32813,12 @@
               "description": "Pauses auto-dismiss timers while the toast region is hovered or focused."
             },
             {
+              "name": "showIcon",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Shows the default or projected icon for each message."
+            },
+            {
               "name": "showClose",
               "type": "boolean",
               "defaultValue": "true",
@@ -32916,7 +32951,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisToastPosition =\n  | 'top-left'\n  | 'top-center'\n  | 'top-right'\n  | 'bottom-left'\n  | 'bottom-center'\n  | 'bottom-right'\n  | 'center';\n\ntype AerisToastSeverity =\n  | 'info'\n  | 'success'\n  | 'warning'\n  | 'error'\n  | 'neutral'\n  | 'secondary'\n  | 'contrast';\n\ntype AerisToastMode = 'stacked' | 'expanded';\ntype AerisToastSwipeDirection = 'up' | 'down' | 'left' | 'right';\ntype AerisToastCloseReason = 'timeout' | 'close-button' | 'swipe' | 'api' | 'clear';\ntype AerisToastLive = 'polite' | 'assertive';\ntype AerisToastRole = 'status' | 'alert';\n\ninterface AerisToastMessageInput<TData = unknown> {\n  readonly id?: string;\n  readonly group?: string;\n  readonly severity?: AerisToastSeverity;\n  readonly summary?: string;\n  readonly detail?: string;\n  readonly life?: number;\n  readonly sticky?: boolean;\n  readonly closable?: boolean;\n  readonly data?: TData;\n  readonly ariaLabel?: string;\n  readonly ariaLive?: AerisToastLive;\n  readonly role?: AerisToastRole;\n}\n\ninterface AerisToastMessage<TData = unknown> {\n  readonly id: string;\n  readonly group: string;\n  readonly severity: AerisToastSeverity;\n  readonly summary: string;\n  readonly detail: string;\n  readonly life: number;\n  readonly sticky: boolean;\n  readonly closable: boolean;\n  readonly data: TData | undefined;\n  readonly ariaLabel: string;\n  readonly ariaLive: AerisToastLive;\n  readonly role: AerisToastRole;\n  readonly createdAt: number;\n}\n\ninterface AerisToastCloseEvent<TData = unknown> {\n  readonly message: AerisToastMessage<TData>;\n  readonly reason: AerisToastCloseReason;\n}\n\ninterface AerisToastTemplateContext<TData = unknown> {\n  readonly $implicit: AerisToastMessage<TData>;\n  readonly message: AerisToastMessage<TData>;\n  readonly close: () => void;\n}"
+          "code": "type AerisToastPosition =\n  | 'top-left'\n  | 'top-center'\n  | 'top-right'\n  | 'bottom-left'\n  | 'bottom-center'\n  | 'bottom-right'\n  | 'center';\n\ntype AerisToastSeverity =\n  | 'primary'\n  | 'secondary'\n  | 'contrast'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'error'\n  | 'neutral';\n\ntype AerisToastMode = 'stacked' | 'expanded';\ntype AerisToastSwipeDirection = 'up' | 'down' | 'left' | 'right';\ntype AerisToastCloseReason = 'timeout' | 'close-button' | 'swipe' | 'api' | 'clear';\ntype AerisToastLive = 'polite' | 'assertive';\ntype AerisToastRole = 'status' | 'alert';\n\ninterface AerisToastMessageInput<TData = unknown> {\n  readonly id?: string;\n  readonly group?: string;\n  readonly severity?: AerisToastSeverity;\n  readonly summary?: string;\n  readonly detail?: string;\n  readonly life?: number;\n  readonly sticky?: boolean;\n  readonly closable?: boolean;\n  readonly data?: TData;\n  readonly ariaLabel?: string;\n  readonly ariaLive?: AerisToastLive;\n  readonly role?: AerisToastRole;\n}\n\ninterface AerisToastMessage<TData = unknown> {\n  readonly id: string;\n  readonly group: string;\n  readonly severity: AerisToastSeverity;\n  readonly summary: string;\n  readonly detail: string;\n  readonly life: number;\n  readonly sticky: boolean;\n  readonly closable: boolean;\n  readonly data: TData | undefined;\n  readonly ariaLabel: string;\n  readonly ariaLive: AerisToastLive;\n  readonly role: AerisToastRole;\n  readonly createdAt: number;\n}\n\ninterface AerisToastCloseEvent<TData = unknown> {\n  readonly message: AerisToastMessage<TData>;\n  readonly reason: AerisToastCloseReason;\n}\n\ninterface AerisToastTemplateContext<TData = unknown> {\n  readonly $implicit: AerisToastMessage<TData>;\n  readonly message: AerisToastMessage<TData>;\n  readonly close: () => void;\n}"
         }
       ],
       "designTokens": [
@@ -32933,10 +32968,22 @@
           "description": "Maximum notification width."
         },
         {
+          "name": "--aeris-toast-min-width",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Minimum notification width before viewport constraints."
+        },
+        {
           "name": "--aeris-toast-offset",
           "type": "CSS custom property",
           "defaultValue": "",
-          "description": "Distance from viewport edges."
+          "description": "Distance beyond the viewport safe area."
+        },
+        {
+          "name": "--aeris-toast-mobile-offset",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Distance beyond the safe area on narrow viewports."
         },
         {
           "name": "--aeris-toast-gap",
@@ -32955,6 +33002,24 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Default icon box size."
+        },
+        {
+          "name": "--aeris-toast-severity-tint",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Severity color mixed into the notification surface."
+        },
+        {
+          "name": "--aeris-toast-background",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Overrides the severity-tinted notification surface."
+        },
+        {
+          "name": "--aeris-toast-border-color",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Overrides the severity-colored notification border."
         },
         {
           "name": "--aeris-success",
@@ -32985,36 +33050,30 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Notification surface."
-        },
-        {
-          "name": "--aeris-border",
-          "type": "CSS custom property",
-          "defaultValue": "",
-          "description": "Notification border."
         }
       ],
       "examples": [
         {
           "id": "toast-basic",
           "title": "Basic",
-          "description": "Add a message through AerisToastService and render it with a Toast region.",
+          "description": "Show a plain detail-only notification without an icon or explicit severity.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, inject } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';\n\n@Component({\n  selector: 'app-toast-basic-demo',\n  imports: [AerisButton, AerisToastModule],\n  template: `\n    <div>\n      <div>\n        <button aerisButton type=\"button\" (click)=\"showBasicToast()\">Show toast</button>\n      </div>\n      <aeris-toast group=\"basic\" />\n    </div>\n  `\n})\nexport class ToastBasicBasicDemo {\n  private readonly toast = inject(AerisToastService);\n\n  protected showBasicToast(): void {\n    this.toast.show({\n      group: 'basic',\n      severity: 'info',\n      summary: 'Workspace saved',\n      detail: 'Your notification preferences were updated.',\n    });\n  }\n}\n"
+              "code": "import { Component, inject } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';\n\n@Component({\n  selector: 'app-toast-basic-demo',\n  imports: [AerisButton, AerisToastModule],\n  template: `\n    <div>\n      <div>\n        <button aerisButton type=\"button\" (click)=\"showBasicToast()\">Show toast</button>\n      </div>\n      <aeris-toast group=\"basic\" [showIcon]=\"false\" />\n    </div>\n  `\n})\nexport class ToastBasicBasicDemo {\n  private readonly toast = inject(AerisToastService);\n\n  protected showBasicToast(): void {\n    this.toast.show({\n      group: 'basic',\n      detail: 'Your notification preferences were updated.',\n    });\n  }\n}\n"
             }
           ]
         },
         {
           "id": "toast-severity",
           "title": "Severity",
-          "description": "Use severity to communicate outcome while Toast assigns matching live-region politeness by default.",
+          "description": "Use theme-aware primary and secondary treatments, high-contrast monochrome, or semantic status colors.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, inject } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';\n\n@Component({\n  selector: 'app-toast-severity-demo',\n  imports: [AerisButton, AerisToastModule],\n  template: `\n    <div>\n      <div>\n        <button aerisButton type=\"button\" (click)=\"showSeverityToasts()\">\n          Show severities\n        </button>\n      </div>\n      <aeris-toast group=\"severity\" position=\"top-left\" mode=\"expanded\" />\n    </div>\n  `\n})\nexport class ToastSeveritySeverityDemo {\n  private readonly toast = inject(AerisToastService);\n\n  protected showSeverityToasts(): void {\n    this.toast.showAll([\n      { group: 'severity', severity: 'success', summary: 'Published', detail: 'The release notes are live.' },\n      { group: 'severity', severity: 'info', summary: 'Sync running', detail: 'Assets are being checked.' },\n      { group: 'severity', severity: 'warning', summary: 'Review needed', detail: 'One token changed contrast.' },\n      { group: 'severity', severity: 'error', summary: 'Build failed', detail: 'Fix the failing test before release.' },\n    ]);\n  }\n}\n"
+              "code": "import { Component, inject } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';\n\n@Component({\n  selector: 'app-toast-severity-demo',\n  imports: [AerisButton, AerisToastModule],\n  template: `\n    <div>\n      <div>\n        <button aerisButton type=\"button\" (click)=\"showSeverityToasts()\">\n          Show severities\n        </button>\n      </div>\n      <aeris-toast\n        group=\"severity\"\n        position=\"top-left\"\n        mode=\"expanded\"\n        [visibleCount]=\"8\"\n      />\n    </div>\n  `\n})\nexport class ToastSeveritySeverityDemo {\n  private readonly toast = inject(AerisToastService);\n\n  protected showSeverityToasts(): void {\n    this.toast.showAll([\n      { group: 'severity', severity: 'primary', summary: 'Primary', detail: 'Uses the theme primary color.' },\n      { group: 'severity', severity: 'secondary', summary: 'Secondary', detail: 'Uses the theme secondary color.' },\n      { group: 'severity', severity: 'contrast', summary: 'Contrast', detail: 'Uses a high-contrast monochrome surface.' },\n      { group: 'severity', severity: 'success', summary: 'Published', detail: 'The release notes are live.' },\n      { group: 'severity', severity: 'info', summary: 'Sync running', detail: 'Assets are being checked.' },\n      { group: 'severity', severity: 'warning', summary: 'Review needed', detail: 'One token changed contrast.' },\n      { group: 'severity', severity: 'error', summary: 'Build failed', detail: 'Fix the failing test before release.' },\n      { group: 'severity', severity: 'neutral', summary: 'Neutral', detail: 'Provides supporting information without emphasis.' },\n    ]);\n  }\n}\n"
             }
           ]
         },
@@ -33136,7 +33195,7 @@
       "accessibility": {
         "guidance": [
           "Toast renders a named notification region only while matching messages are active.",
-          "Success, info, neutral, secondary, and contrast messages default to role=\"status\" and aria-live=\"polite\".",
+          "Primary, secondary, contrast, success, info, and neutral messages default to role=\"status\" and aria-live=\"polite\".",
           "Warning and error messages default to role=\"alert\" and aria-live=\"assertive\".",
           "Each message uses aria-atomic=\"true\" so summary and detail are announced together.",
           "Close controls are native buttons with configurable accessible labels.",

@@ -53,6 +53,7 @@ class BasicDrawerHost {
       mobileWidth="100vw"
       mobileHeight="100vh"
       mobileFullScreen
+      [footerLayout]="footerLayout()"
       maximizable
       dismissibleMask
       [(visible)]="open"
@@ -76,6 +77,7 @@ class TemplatedDrawerHost {
   readonly drawer = viewChild.required<AerisDrawer>('drawer');
   readonly open = signal(true);
   readonly maximized = signal(false);
+  readonly footerLayout = signal<'responsive' | 'wrap' | 'stack' | 'inline'>('stack');
   readonly events = signal<readonly AerisDrawerVisibilityChangeEvent[]>([]);
 }
 
@@ -169,7 +171,9 @@ describe('AerisDrawer', () => {
 
     expect(fixture.componentInstance.open()).toBe(false);
     expect(drawer.getAttribute('data-state')).toBe('closed');
-    expect(document.querySelector('.aeris-drawer__overlay')?.getAttribute('aria-hidden')).toBe('true');
+    expect(document.querySelector('.aeris-drawer__overlay')?.getAttribute('aria-hidden')).toBe(
+      'true',
+    );
     expect(document.querySelector('.aeris-drawer__overlay')?.hasAttribute('inert')).toBe(true);
     expect(fixture.componentInstance.lastHidden()?.reason).toBe('close-button');
     expect(document.activeElement).toBe(launcher);
@@ -212,8 +216,17 @@ describe('AerisDrawer', () => {
     expect(drawer.style.getPropertyValue('--aeris-drawer-max-height')).toBe('80vh');
     expect(drawer.style.getPropertyValue('--aeris-drawer-mobile-width')).toBe('100vw');
     expect(drawer.style.getPropertyValue('--aeris-drawer-mobile-height')).toBe('100vh');
+    const footer = document.querySelector('.aeris-drawer__footer') as HTMLElement;
+    expect(footer.getAttribute('data-footer-layout')).toBe('stack');
+    expect(getComputedStyle(footer).flexDirection).toBe('column');
+    expect(getComputedStyle(footer).alignItems).toBe('stretch');
     expect(title.textContent).toContain('Template header left normal');
     expect(document.querySelector('.custom-close')?.textContent).toContain('close');
+
+    fixture.componentInstance.footerLayout.set('wrap');
+    fixture.detectChanges();
+    expect(footer.getAttribute('data-footer-layout')).toBe('wrap');
+    expect(getComputedStyle(footer).flexWrap).toBe('wrap');
 
     maximize.click();
     fixture.detectChanges();
@@ -246,9 +259,16 @@ describe('AerisDrawer', () => {
     await settle();
 
     const overlay = document.querySelector('.aeris-drawer__overlay') as HTMLElement;
-    overlay.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    overlay.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
     fixture.detectChanges();
 
+    expect(fixture.componentInstance.open()).toBe(true);
+
+    const click = new MouseEvent('click', { bubbles: true, cancelable: true });
+    overlay.dispatchEvent(click);
+    fixture.detectChanges();
+
+    expect(click.defaultPrevented).toBe(true);
     expect(fixture.componentInstance.open()).toBe(false);
     expect(fixture.componentInstance.events().at(-1)?.reason).toBe('mask');
   });
@@ -269,7 +289,9 @@ describe('AerisDrawer', () => {
     fixture.detectChanges();
     expect(document.activeElement).toBe(close);
 
-    close.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true }));
+    close.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true }),
+    );
     fixture.detectChanges();
     expect(document.activeElement).toBe(second);
   });
@@ -290,9 +312,7 @@ describe('AerisDrawer', () => {
     drawer.focus();
     await settle();
     expect(
-      (document.querySelector('[role="dialog"]') as HTMLElement).contains(
-        document.activeElement,
-      ),
+      (document.querySelector('[role="dialog"]') as HTMLElement).contains(document.activeElement),
     ).toBe(true);
 
     drawer.maximize();
@@ -323,9 +343,7 @@ describe('AerisDrawer', () => {
     expect(drawer.getAttribute('aria-label')).toBe('Headless drawer');
     expect(drawer.getAttribute('aria-labelledby')).toBeNull();
     expect(document.querySelector('.aeris-drawer__header')).toBeNull();
-    expect(document.querySelector('.headless-shell')?.textContent).toContain(
-      'Headless content',
-    );
+    expect(document.querySelector('.headless-shell')?.textContent).toContain('Headless content');
 
     vi.useFakeTimers();
     close.click();

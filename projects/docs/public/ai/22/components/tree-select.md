@@ -29,7 +29,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the tree panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `nodes` | `readonly AerisTreeNode[]` | `required` | Tree data rendered recursively in source order. Nesting depth is not limited by the component API. |
 | `value` | `AerisTreeSelectValue (model)` | `null` | Selected value for single mode or selected value array for multiple and checkbox modes. |

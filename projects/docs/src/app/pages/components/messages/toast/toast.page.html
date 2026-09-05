@@ -24,27 +24,27 @@
             <app-form-demo
               id="toast-basic"
               title="Basic"
-              description="Add a message through AerisToastService and render it with a Toast region."
+              description="Show a plain detail-only notification without an icon or explicit severity."
               [tsCode]="basicTsCode"
             >
               <div preview>
                 <div>
                   <button aerisButton type="button" (click)="showBasicToast()">Show toast</button>
                 </div>
-                <aeris-toast group="basic" />
+                <aeris-toast group="basic" [showIcon]="false" />
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div&gt;
     &lt;button aerisButton type="button" (click)="showBasicToast()"&gt;Show toast&lt;/button&gt;
   &lt;/div&gt;
-  &lt;aeris-toast group="basic" /&gt;
+  &lt;aeris-toast group="basic" [showIcon]="false" /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
             <app-form-demo
               id="toast-severity"
               title="Severity"
-              description="Use severity to communicate outcome while Toast assigns matching live-region politeness by default."
+              description="Use theme-aware primary and secondary treatments, high-contrast monochrome, or semantic status colors."
               [tsCode]="severityTsCode"
             >
               <div preview>
@@ -53,7 +53,12 @@
                     Show severities
                   </button>
                 </div>
-                <aeris-toast group="severity" position="top-left" mode="expanded" />
+                <aeris-toast
+                  group="severity"
+                  position="top-left"
+                  mode="expanded"
+                  [visibleCount]="8"
+                />
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div&gt;
@@ -61,7 +66,12 @@
       Show severities
     &lt;/button&gt;
   &lt;/div&gt;
-  &lt;aeris-toast group="severity" position="top-left" mode="expanded" /&gt;
+  &lt;aeris-toast
+    group="severity"
+    position="top-left"
+    mode="expanded"
+    [visibleCount]="8"
+  /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -489,7 +499,8 @@
         <h2>Interfaces</h2>
         <p>
           Toast exposes string unions for placement, severity, live-region behavior, and close
-          reasons, plus message and template context interfaces.
+          reasons, plus message and template context interfaces. Omitting
+          <code>severity</code> uses the neutral treatment.
         </p>
         <app-code-block [code]="interfacesCode" language="TypeScript" />
       </section>
@@ -517,8 +528,19 @@
             ><span role="cell">Maximum notification width.</span><code role="cell">24rem</code>
           </div>
           <div role="row">
+            <code role="cell">--aeris-toast-min-width</code
+            ><span role="cell">Minimum notification width before viewport constraints.</span
+            ><code role="cell">12rem</code>
+          </div>
+          <div role="row">
             <code role="cell">--aeris-toast-offset</code
-            ><span role="cell">Distance from viewport edges.</span><code role="cell">1rem</code>
+            ><span role="cell">Distance beyond the viewport safe area.</span
+            ><code role="cell">1rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-toast-mobile-offset</code
+            ><span role="cell">Distance beyond the safe area on narrow viewports.</span
+            ><code role="cell">0.5rem</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-toast-gap</code
@@ -534,6 +556,21 @@
           <div role="row">
             <code role="cell">--aeris-toast-icon-size</code
             ><span role="cell">Default icon box size.</span><code role="cell">1.25rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-toast-severity-tint</code
+            ><span role="cell">Severity color mixed into the notification surface.</span
+            ><code role="cell">9%</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-toast-background</code
+            ><span role="cell">Overrides the severity-tinted notification surface.</span
+            ><code role="cell">color-mix(...)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-toast-border-color</code
+            ><span role="cell">Overrides the severity-colored notification border.</span
+            ><code role="cell">severity color</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-success</code><span role="cell">Success accent.</span
@@ -555,10 +592,6 @@
             <code role="cell">--aeris-surface</code><span role="cell">Notification surface.</span
             ><code role="cell">#fff</code>
           </div>
-          <div role="row">
-            <code role="cell">--aeris-border</code><span role="cell">Notification border.</span
-            ><code role="cell">#deddd7</code>
-          </div>
         </div>
       </section>
     </aeris-tab-panel>
@@ -571,7 +604,7 @@
             Toast renders a named notification region only while matching messages are active.
           </li>
           <li>
-            Success, info, neutral, secondary, and contrast messages default to
+            Primary, secondary, contrast, success, info, and neutral messages default to
             <code>role="status"</code> and <code>aria-live="polite"</code>.
           </li>
           <li>

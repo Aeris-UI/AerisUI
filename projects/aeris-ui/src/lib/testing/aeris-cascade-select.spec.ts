@@ -70,12 +70,7 @@ class CascadeSelectHost {
 @Component({
   imports: [AerisCascadeSelect],
   template: `
-    <aeris-cascade-select
-      ariaLabel="Region"
-      [(value)]="value"
-      [options]="options"
-      selectBranches
-    />
+    <aeris-cascade-select ariaLabel="Region" [(value)]="value" [options]="options" selectBranches />
   `,
 })
 class CascadeSelectBranchesHost {
@@ -121,21 +116,33 @@ describe('AerisCascadeSelect', () => {
     trigger.click();
     fixture.detectChanges();
 
-    const northAmerica = [...fixture.nativeElement.querySelectorAll('[role="option"]')]
-      .find((option) => option.textContent.includes('North America')) as HTMLButtonElement;
+    expect(fixture.nativeElement.querySelector('.aeris-cascade-select__dismiss')).toBeNull();
+
+    const northAmerica = [...fixture.nativeElement.querySelectorAll('[role="option"]')].find(
+      (option) => option.textContent.includes('North America'),
+    ) as HTMLButtonElement;
     northAmerica.click();
     fixture.detectChanges();
 
-    const unitedStates = [...fixture.nativeElement.querySelectorAll('[role="option"]')]
-      .find((option) => option.textContent.includes('United States')) as HTMLButtonElement;
+    const unitedStates = [...fixture.nativeElement.querySelectorAll('[role="option"]')].find(
+      (option) => option.textContent.includes('United States'),
+    ) as HTMLButtonElement;
     unitedStates.click();
     fixture.detectChanges();
 
-    const austin = [...fixture.nativeElement.querySelectorAll('[role="option"]')]
-      .find((option) => option.textContent.includes('Austin')) as HTMLButtonElement;
+    const austin = [...fixture.nativeElement.querySelectorAll('[role="option"]')].find((option) =>
+      option.textContent.includes('Austin'),
+    ) as HTMLButtonElement;
+    const pointerdown = new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      pointerType: 'touch',
+    });
+    austin.dispatchEvent(pointerdown);
     austin.click();
     fixture.detectChanges();
 
+    expect(pointerdown.defaultPrevented).toBe(true);
     expect(fixture.componentInstance.value()).toBe('austin');
     expect(fixture.componentInstance.lastChange()?.path.map((option) => option.value)).toEqual([
       'north-america',
@@ -187,8 +194,9 @@ describe('AerisCascadeSelect', () => {
 
     expect(fixture.nativeElement.querySelectorAll('.aeris-cascade-select__column').length).toBe(1);
 
-    const europe = [...fixture.nativeElement.querySelectorAll('[role="option"]')]
-      .find((option) => option.textContent.includes('Europe')) as HTMLButtonElement;
+    const europe = [...fixture.nativeElement.querySelectorAll('[role="option"]')].find((option) =>
+      option.textContent.includes('Europe'),
+    ) as HTMLButtonElement;
     europe.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
     fixture.detectChanges();
 
@@ -224,8 +232,9 @@ describe('AerisCascadeSelect', () => {
     trigger.click();
     fixture.detectChanges();
 
-    const europe = [...fixture.nativeElement.querySelectorAll('[role="option"]')]
-      .find((option) => option.textContent.includes('Europe')) as HTMLButtonElement;
+    const europe = [...fixture.nativeElement.querySelectorAll('[role="option"]')].find((option) =>
+      option.textContent.includes('Europe'),
+    ) as HTMLButtonElement;
     europe.click();
     fixture.detectChanges();
 
@@ -259,18 +268,21 @@ describe('AerisCascadeSelect', () => {
     trigger.click();
     fixture.detectChanges();
 
-    const europe = [...fixture.nativeElement.querySelectorAll('[role="option"]')]
-      .find((option) => option.textContent.includes('Europe')) as HTMLButtonElement;
+    const europe = [...fixture.nativeElement.querySelectorAll('[role="option"]')].find((option) =>
+      option.textContent.includes('Europe'),
+    ) as HTMLButtonElement;
     europe.click();
     fixture.detectChanges();
 
-    const serbia = [...fixture.nativeElement.querySelectorAll('[role="option"]')]
-      .find((option) => option.textContent.includes('Serbia')) as HTMLButtonElement;
+    const serbia = [...fixture.nativeElement.querySelectorAll('[role="option"]')].find((option) =>
+      option.textContent.includes('Serbia'),
+    ) as HTMLButtonElement;
     serbia.click();
     fixture.detectChanges();
 
-    const belgrade = [...fixture.nativeElement.querySelectorAll('[role="option"]')]
-      .find((option) => option.textContent.includes('Belgrade')) as HTMLButtonElement;
+    const belgrade = [...fixture.nativeElement.querySelectorAll('[role="option"]')].find((option) =>
+      option.textContent.includes('Belgrade'),
+    ) as HTMLButtonElement;
     belgrade.click();
     fixture.detectChanges();
 

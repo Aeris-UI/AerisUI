@@ -50,9 +50,35 @@ describe('AerisMultiSelect', () => {
     expect(hidden.value).toBe('design');
     trigger.click();
     fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.aeris-multi-select__dismiss')).toBeNull();
     expect(
       fixture.nativeElement.querySelector('[role=listbox]').getAttribute('aria-multiselectable'),
     ).toBe('true');
+  });
+
+  it('toggles a touch-selected option while keeping the panel open', async () => {
+    const fixture = TestBed.createComponent(MultiSelectTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#skills') as HTMLElement;
+    trigger.click();
+    fixture.detectChanges();
+
+    const option = Array.from<HTMLElement>(
+      fixture.nativeElement.querySelectorAll('[role=option]'),
+    ).find((element) => element.textContent?.includes('Engineering')) as HTMLElement;
+    const pointerdown = new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      pointerType: 'touch',
+    });
+    option.dispatchEvent(pointerdown);
+    option.click();
+    fixture.detectChanges();
+
+    expect(pointerdown.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.skills()).toEqual(['design', 'engineering']);
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
   });
 
   it('keeps the panel open while toggling options with the keyboard', async () => {

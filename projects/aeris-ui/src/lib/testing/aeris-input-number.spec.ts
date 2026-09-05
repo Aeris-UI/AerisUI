@@ -19,10 +19,17 @@ import { AerisInputNumber } from '../../../input-number/aeris-input-number';
       [(value)]="quantity"
       (valueInput)="lastInput.set($event)"
     />
+    <aeris-input-number
+      inputId="localized"
+      ariaLabel="Localized amount"
+      locale="de-DE"
+      [(value)]="localizedAmount"
+    />
   `,
 })
 class InputNumberTestHost {
   readonly quantity = signal<number | null>(2);
+  readonly localizedAmount = signal<number | null>(null);
   readonly lastInput = signal<number | null>(null);
 }
 
@@ -101,6 +108,67 @@ describe('AerisInputNumber', () => {
     input.dispatchEvent(new Event('input', { bubbles: true }));
     fixture.detectChanges();
     expect(fixture.componentInstance.quantity()).toBeNull();
+  });
+
+  it('sanitizes malformed typed input while preserving intermediate values', async () => {
+    const fixture = TestBed.createComponent(InputNumberTestHost);
+    await fixture.whenStable();
+
+    const input = fixture.nativeElement.querySelector('#quantity') as HTMLInputElement;
+    input.dispatchEvent(new FocusEvent('focus'));
+    input.value = '7x.5.9';
+    input.setSelectionRange(input.value.length, input.value.length);
+    input.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText' }));
+    fixture.detectChanges();
+
+    expect(input.value).toBe('7.59');
+    expect(input.selectionStart).toBe(4);
+    expect(fixture.componentInstance.quantity()).toBe(7.59);
+
+    input.value = '-';
+    input.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText' }));
+    fixture.detectChanges();
+    expect(input.value).toBe('-');
+    expect(fixture.componentInstance.quantity()).toBe(7.59);
+
+    input.value = '-.';
+    input.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText' }));
+    fixture.detectChanges();
+    expect(input.value).toBe('-.');
+    expect(fixture.componentInstance.quantity()).toBe(7.59);
+  });
+
+  it('sanitizes pasted values with locale-aware separators', async () => {
+    const fixture = TestBed.createComponent(InputNumberTestHost);
+    await fixture.whenStable();
+
+    const input = fixture.nativeElement.querySelector('#localized') as HTMLInputElement;
+    input.dispatchEvent(new FocusEvent('focus'));
+    input.value = 'EUR 1.234,5.6';
+    input.setSelectionRange(input.value.length, input.value.length);
+    input.dispatchEvent(
+      new InputEvent('input', { bubbles: true, inputType: 'insertFromPaste' }),
+    );
+    fixture.detectChanges();
+
+    expect(input.value).toBe('1234,56');
+    expect(fixture.componentInstance.localizedAmount()).toBe(1234.56);
+  });
+
+  it('rejects scientific notation instead of converting it to another value', async () => {
+    const fixture = TestBed.createComponent(InputNumberTestHost);
+    await fixture.whenStable();
+
+    const input = fixture.nativeElement.querySelector('#quantity') as HTMLInputElement;
+    input.dispatchEvent(new FocusEvent('focus'));
+    input.value = '1e3';
+    input.dispatchEvent(
+      new InputEvent('input', { bubbles: true, inputType: 'insertFromPaste' }),
+    );
+    fixture.detectChanges();
+
+    expect(input.value).toBe('2');
+    expect(fixture.componentInstance.quantity()).toBe(2);
   });
 
   it('clears the value and restores focus through the suffix button', async () => {

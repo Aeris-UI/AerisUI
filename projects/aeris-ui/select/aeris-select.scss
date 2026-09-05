@@ -7,8 +7,8 @@
   );
 
   display: inline-block;
-  min-width: 12rem;
-  max-width: 100%;
+  min-inline-size: var(--aeris-select-min-width, 0);
+  max-inline-size: 100%;
   color: var(--aeris-select-text, var(--aeris-text, #222222));
   font: inherit;
 }
@@ -155,14 +155,18 @@
   position: absolute;
   z-index: 1;
   top: 50%;
-  right: var(--aeris-select-padding);
+  right: 0;
+  width: 2.75rem;
+  height: 100%;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--aeris-select-density-gap);
   flex: 0 0 auto;
   color: var(--aeris-select-icon, var(--aeris-text-2, #555555));
   transform: translateY(-50%);
-  pointer-events: none;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .aeris-select__chevron {
@@ -191,8 +195,9 @@
 
 .aeris-select__clear {
   position: absolute;
+  z-index: 2;
   top: 50%;
-  right: 2.125rem;
+  right: 2.75rem;
   width: 1.5rem;
   height: 1.5rem;
   display: grid;
@@ -225,19 +230,6 @@
   background: currentColor;
   -webkit-mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
   mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
-}
-
-.aeris-select__dismiss {
-  position: fixed;
-  z-index: 89;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: default;
 }
 
 .aeris-select__panel {

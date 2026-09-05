@@ -16,7 +16,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵAerisAppendTo, type AerisAppendTo, type AerisOverlayCollisionPadding } from '@aeris-ui/core';
+import {
+  ɵAerisAppendTo,
+  type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
+} from '@aeris-ui/core';
 
 export type AerisCascadeSelectSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisCascadeSelectAppearance = 'outline' | 'filled';
@@ -87,7 +91,7 @@ let nextCascadeSelectId = 0;
         <input type="hidden" [name]="name()" [value]="value()" />
       }
 
-      <div class="aeris-cascade-select__control">
+      <div #control class="aeris-cascade-select__control">
         <button
           #trigger
           class="aeris-cascade-select__trigger"
@@ -136,19 +140,11 @@ let nextCascadeSelectId = 0;
       </div>
 
       @if (open()) {
-        <button
-          type="button"
-          class="aeris-cascade-select__dismiss"
-          tabindex="-1"
-          aria-hidden="true"
-          (click)="closePanel()"
-        ></button>
-
         <div
           #optionsPanel
           class="aeris-cascade-select__panel"
           [aerisInternalAppendTo]="appendTo()"
-          [aerisInternalAppendToAnchor]="triggerElement()?.nativeElement ?? null"
+          [aerisInternalAppendToAnchor]="controlElement()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel()"
@@ -183,6 +179,7 @@ let nextCascadeSelectId = 0;
                     [attr.data-has-children]="hasChildren(option) || null"
                     (mouseenter)="activateOption(level, option)"
                     (focus)="activateOption(level, option)"
+                    (pointerdown)="$event.preventDefault()"
                     (click)="handleOptionClick(level, option, $event)"
                   >
                     @if (optionTemplate(); as template) {
@@ -194,7 +191,7 @@ let nextCascadeSelectId = 0;
                           active: isActive(level, option),
                           selected: isSelected(option),
                           level,
-                          hasChildren: hasChildren(option)
+                          hasChildren: hasChildren(option),
                         }"
                       />
                     } @else {
@@ -205,7 +202,10 @@ let nextCascadeSelectId = 0;
                         }
                       </span>
                       @if (hasChildren(option)) {
-                        <span class="aeris-cascade-select__option-chevron" aria-hidden="true"></span>
+                        <span
+                          class="aeris-cascade-select__option-chevron"
+                          aria-hidden="true"
+                        ></span>
                       }
                     }
                   </button>
@@ -230,6 +230,7 @@ let nextCascadeSelectId = 0;
   },
 })
 export class AerisCascadeSelect implements ControlValueAccessor {
+  protected readonly controlElement = viewChild<ElementRef<HTMLElement>>('control');
   protected readonly triggerElement = viewChild<ElementRef<HTMLButtonElement>>('trigger');
   private readonly optionsPanel = viewChild<ElementRef<HTMLElement>>('optionsPanel');
   private readonly panelPortal = viewChild(ɵAerisAppendTo);
@@ -280,7 +281,9 @@ export class AerisCascadeSelect implements ControlValueAccessor {
   protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
   protected readonly selectedPath = computed(() => this.findPathByValue(this.value()));
   protected readonly displayValue = computed(() =>
-    this.selectedPath().map((option) => option.label).join(this.separator()),
+    this.selectedPath()
+      .map((option) => option.label)
+      .join(this.separator()),
   );
   protected readonly showClearButton = computed(
     () => this.clearable() && this.value() !== null && !this.effectiveDisabled(),
@@ -377,7 +380,8 @@ export class AerisCascadeSelect implements ControlValueAccessor {
     const currentTarget = event.currentTarget as HTMLElement;
     if (
       !nextTarget ||
-      (!currentTarget.contains(nextTarget) && !this.optionsPanel()?.nativeElement.contains(nextTarget))
+      (!currentTarget.contains(nextTarget) &&
+        !this.optionsPanel()?.nativeElement.contains(nextTarget))
     ) {
       this.closePanel();
     }
@@ -444,11 +448,7 @@ export class AerisCascadeSelect implements ControlValueAccessor {
     this.activePath.update((path) => [...path.slice(0, level), option]);
   }
 
-  protected handleOptionClick(
-    level: number,
-    option: AerisCascadeSelectOption,
-    event: Event,
-  ): void {
+  protected handleOptionClick(level: number, option: AerisCascadeSelectOption, event: Event): void {
     if (option.disabled) return;
     this.activateOption(level, option);
     if (this.hasChildren(option) && !this.selectBranches()) return;
@@ -557,7 +557,9 @@ export class AerisCascadeSelect implements ControlValueAccessor {
     return (this.columns()[level]?.options ?? []).filter((option) => !option.disabled);
   }
 
-  private firstEnabled(options: readonly AerisCascadeSelectOption[]): AerisCascadeSelectOption | null {
+  private firstEnabled(
+    options: readonly AerisCascadeSelectOption[],
+  ): AerisCascadeSelectOption | null {
     return options.find((option) => !option.disabled) ?? null;
   }
 
@@ -566,9 +568,7 @@ export class AerisCascadeSelect implements ControlValueAccessor {
     return this.findPath(this.options(), value) ?? [];
   }
 
-  private resolveOption(
-    option: AerisCascadeSelectOption | null,
-  ): AerisCascadeSelectOption | null {
+  private resolveOption(option: AerisCascadeSelectOption | null): AerisCascadeSelectOption | null {
     if (!option) return null;
     return this.findPathByValue(option.value).at(-1) ?? option;
   }

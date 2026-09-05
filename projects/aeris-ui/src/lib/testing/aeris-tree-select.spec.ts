@@ -66,6 +66,7 @@ describe('AerisTreeSelect', () => {
     fixture.detectChanges();
 
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    expect(fixture.nativeElement.querySelector('.aeris-tree-select__dismiss')).toBeNull();
 
     trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
     trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
@@ -73,6 +74,31 @@ describe('AerisTreeSelect', () => {
 
     expect(fixture.componentInstance.value()).toBe('beta');
     expect(fixture.componentInstance.lastChange()?.node?.label).toBe('Beta');
+  });
+
+  it('selects a tree item from touch and closes single-selection mode', async () => {
+    const fixture = TestBed.createComponent(TreeSelectHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('[role="combobox"]') as HTMLButtonElement;
+    trigger.click();
+    fixture.detectChanges();
+
+    const beta = Array.from<HTMLElement>(
+      fixture.nativeElement.querySelectorAll('[role="treeitem"]'),
+    ).find((element) => element.textContent?.includes('Beta')) as HTMLElement;
+    const pointerdown = new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      pointerType: 'touch',
+    });
+    beta.dispatchEvent(pointerdown);
+    beta.click();
+    fixture.detectChanges();
+
+    expect(pointerdown.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.value()).toBe('beta');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('supports checkbox mode, clearing, and disabled forms state', async () => {
@@ -186,9 +212,7 @@ describe('AerisTreeSelect', () => {
     expect(fixture.componentInstance.value()).toEqual(['beta']);
     expect(items[0]?.getAttribute('aria-checked')).toBe('mixed');
 
-    items = fixture.nativeElement.querySelectorAll(
-      '[role="treeitem"]',
-    ) as NodeListOf<HTMLElement>;
+    items = fixture.nativeElement.querySelectorAll('[role="treeitem"]') as NodeListOf<HTMLElement>;
     items[2]?.click();
     fixture.detectChanges();
     expect(fixture.componentInstance.value()).toEqual([]);

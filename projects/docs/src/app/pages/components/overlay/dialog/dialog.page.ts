@@ -240,6 +240,7 @@ type AerisDialogPosition =
   | 'bottom-left'
   | 'bottom-right';
 type AerisDialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';
+type AerisDialogFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
 type AerisDialogRole = 'dialog' | 'alertdialog';
 
 interface AerisDialogVisibilityChangeEvent {
@@ -410,6 +411,13 @@ interface AerisDialogTemplateContext {
       type: 'string',
       defaultValue: "''",
       description: 'Width used by the built-in narrow viewport media query.',
+    },
+    {
+      name: 'footerLayout',
+      type: 'AerisDialogFooterLayout',
+      defaultValue: "'responsive'",
+      description:
+        "Controls projected footer actions. Responsive wraps when needed and stacks on narrow screens. Options: 'responsive', 'wrap', 'stack', 'inline'.",
     },
     {
       name: 'closeAriaLabel',

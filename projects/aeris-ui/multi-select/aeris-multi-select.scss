@@ -177,17 +177,6 @@
 .aeris-multi-select[data-open] .aeris-multi-select__chevron:before {
   transform: translate(-50%, -50%) rotate(180deg);
 }
-.aeris-multi-select__dismiss {
-  position: fixed;
-  z-index: 89;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
 .aeris-multi-select__panel {
   position: absolute;
   z-index: 90;

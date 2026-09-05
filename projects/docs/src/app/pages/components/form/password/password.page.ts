@@ -143,9 +143,9 @@ type AerisPasswordStrengthEvaluator = (
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'self'",
+      defaultValue: "'self' (global)",
       description:
-        'Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target.',
+        "Mounts the feedback overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection.",
     },
     {
       name: 'viewportMargin',

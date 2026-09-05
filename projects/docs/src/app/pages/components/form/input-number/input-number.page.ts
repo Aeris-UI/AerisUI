@@ -134,7 +134,8 @@ type AerisInputNumberCurrencyDisplay =
       name: 'locale',
       type: 'string',
       defaultValue: "'en-US'",
-      description: 'BCP 47 locale used by Intl.NumberFormat.',
+      description:
+        'BCP 47 locale used for formatting and accepted decimal, grouping, minus, and digit symbols.',
     },
     {
       name: 'mode',

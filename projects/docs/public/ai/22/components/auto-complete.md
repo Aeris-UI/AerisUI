@@ -29,7 +29,7 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Use per-edge values to reserve fixed headers, navigation, or other exclusion zones. |
 | `value` | `string (model)` | `''` | Current text value with two-way binding and Forms support. |
 | `suggestions` | `readonly AerisAutoCompleteOption[]` | `[]` | Suggestion records used by local filtering and option rendering. |

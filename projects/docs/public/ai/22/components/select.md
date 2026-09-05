@@ -29,7 +29,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the options panel inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
@@ -46,6 +46,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 | `required` | `boolean` | `false` | Exposes aria-required for validation. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
 | `fluid` | `boolean` | `false` | Fills the available inline width. |
+| `minWidth` | `string` | `''` | Optional CSS minimum inline size. The control can shrink to zero when this is omitted. |
 | `checkmark` | `boolean` | `true` | Shows a selection mark beside the selected option. |
 | `editable` | `boolean` | `false` | Allows free-form values in addition to listed options. |
 | `filter` | `boolean` | `false` | Adds an accessible search field to the options panel. |
@@ -158,6 +159,7 @@ interface AerisSelectLazyLoadEvent {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-select-text` | `CSS custom property` | — | Selected value text. |
+| `--aeris-select-min-width` | `CSS custom property` | — | Minimum inline size of the control. |
 | `--aeris-select-border` | `CSS custom property` | — | Outlined trigger border. |
 | `--aeris-select-background` | `CSS custom property` | — | Trigger and filter background. |
 | `--aeris-select-filled-background` | `CSS custom property` | — | Filled appearance background. |

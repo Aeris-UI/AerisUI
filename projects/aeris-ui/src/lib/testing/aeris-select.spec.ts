@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { AERIS_OVERLAY_APPEND_TO } from '@aeris-ui/core';
+import { vi } from 'vitest';
 
 import {
   AerisSelect,
@@ -8,6 +9,19 @@ import {
   type AerisSelectLazyLoadEvent,
   type AerisSelectOption,
 } from '../../../select/aeris-select';
+
+const rect = (left: number, top: number, width: number, height: number): DOMRect =>
+  ({
+    left,
+    top,
+    width,
+    height,
+    right: left + width,
+    bottom: top + height,
+    x: left,
+    y: top,
+    toJSON: () => undefined,
+  }) as DOMRect;
 
 @Component({
   imports: [AerisSelect],
@@ -22,6 +36,8 @@ import {
       clearable
       required
       invalid
+      [disabled]="disabled()"
+      [minWidth]="minimumWidth()"
       ariaDescribedby="role-error"
       (changed)="lastChange.set($event)"
     />
@@ -29,6 +45,8 @@ import {
 })
 class SelectTestHost {
   readonly role = signal<string | null>('designer');
+  readonly minimumWidth = signal('');
+  readonly disabled = signal(false);
   readonly lastChange = signal<AerisSelectChangeEvent | null>(null);
   readonly options: readonly AerisSelectOption[] = [
     { label: 'Product designer', value: 'designer', group: 'Product' },
@@ -115,9 +133,70 @@ class SelectAppendToTestHost {
   ];
 }
 
+@Component({
+  imports: [AerisSelect],
+  template: `
+    <div style="overflow: hidden">
+      <aeris-select
+        inputId="auto-portal-select"
+        ariaLabel="Automatically portaled select"
+        [options]="options"
+      />
+      <aeris-select
+        inputId="local-select"
+        ariaLabel="Explicitly local select"
+        [options]="options"
+        appendTo="self"
+      />
+    </div>
+  `,
+})
+class SelectClippingBoundaryTestHost {
+  readonly options: readonly AerisSelectOption[] = [
+    { label: 'Designer', value: 'designer' },
+    { label: 'Engineer', value: 'engineer' },
+  ];
+}
+
 describe('AerisSelect', () => {
+  it('closes immediately and rejects stale option events when disabled dynamically', async () => {
+    const fixture = TestBed.createComponent(SelectTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#role') as HTMLButtonElement;
+    trigger.click();
+    fixture.detectChanges();
+    const option = fixture.nativeElement.querySelectorAll(
+      '[role="option"]',
+    )[2] as HTMLButtonElement;
+
+    fixture.componentInstance.disabled.set(true);
+    fixture.detectChanges();
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    expect(fixture.nativeElement.querySelector('[role="listbox"]')).toBeNull();
+    option.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.role()).toBe('designer');
+  });
+
   afterEach(() => {
+    vi.restoreAllMocks();
     document.querySelectorAll('[data-aeris-append-to]').forEach((element) => element.remove());
+  });
+
+  it('shrinks in compact layouts and supports an explicit minimum width', async () => {
+    const fixture = TestBed.createComponent(SelectTestHost);
+    await fixture.whenStable();
+
+    const select = fixture.nativeElement.querySelector('aeris-select') as HTMLElement;
+    expect(getComputedStyle(select).minInlineSize).toContain('--aeris-select-min-width');
+    expect(select.style.getPropertyValue('--aeris-select-min-width')).toBe('');
+
+    fixture.componentInstance.minimumWidth.set('8rem');
+    fixture.detectChanges();
+
+    expect(select.style.getPropertyValue('--aeris-select-min-width')).toBe('8rem');
   });
 
   it('exposes combobox relationships and form semantics', async () => {
@@ -178,6 +257,43 @@ describe('AerisSelect', () => {
     option?.click();
     fixture.detectChanges();
 
+    expect(fixture.componentInstance.role()).toBe('manager');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    expect(fixture.nativeElement.querySelector('[role="listbox"]')).toBeNull();
+  });
+
+  it('toggles from the chevron touch target and closes after touch selection', async () => {
+    const fixture = TestBed.createComponent(SelectTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#role') as HTMLButtonElement;
+    const actions = fixture.nativeElement.querySelector('.aeris-select__actions') as HTMLElement;
+
+    actions.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true }));
+    actions.click();
+    fixture.detectChanges();
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+
+    actions.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true }));
+    actions.click();
+    fixture.detectChanges();
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+
+    actions.click();
+    fixture.detectChanges();
+    const option = Array.from<HTMLElement>(
+      fixture.nativeElement.querySelectorAll('[role="option"]'),
+    ).find((element) => element.textContent?.includes('Product manager'));
+    const pointerdown = new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      pointerType: 'touch',
+    });
+    option?.dispatchEvent(pointerdown);
+    option?.click();
+    fixture.detectChanges();
+
+    expect(pointerdown.defaultPrevented).toBe(true);
     expect(fixture.componentInstance.role()).toBe('manager');
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
     expect(fixture.nativeElement.querySelector('[role="listbox"]')).toBeNull();
@@ -292,6 +408,32 @@ describe('AerisSelect', () => {
     expect(editable.getAttribute('role')).toBe('combobox');
   });
 
+  it('closes an editable Select from its chevron touch target', async () => {
+    const fixture = TestBed.createComponent(SelectAdvancedTestHost);
+    await fixture.whenStable();
+
+    const editableSelect = fixture.nativeElement.querySelector('aeris-select') as HTMLElement;
+    const editable = editableSelect.querySelector('#editable') as HTMLInputElement;
+    const actions = editableSelect.querySelector('.aeris-select__actions') as HTMLElement;
+
+    editable.click();
+    fixture.detectChanges();
+    expect(editable.getAttribute('aria-expanded')).toBe('true');
+
+    actions.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        bubbles: true,
+        cancelable: true,
+        pointerType: 'touch',
+      }),
+    );
+    actions.click();
+    fixture.detectChanges();
+
+    expect(editable.getAttribute('aria-expanded')).toBe('false');
+    expect(editableSelect.querySelector('[role="listbox"]')).toBeNull();
+  });
+
   it('virtualizes large lists and emits lazy viewport ranges', async () => {
     const fixture = TestBed.createComponent(SelectAdvancedTestHost);
     await fixture.whenStable();
@@ -340,6 +482,139 @@ describe('AerisSelect', () => {
       '.aeris-select__panel[data-aeris-append-to="body"]',
     ) as HTMLElement;
     expect(panel).toBeTruthy();
+  });
+
+  it('automatically escapes clipping ancestors while respecting explicit self mounting', async () => {
+    const fixture = TestBed.createComponent(SelectClippingBoundaryTestHost);
+    await fixture.whenStable();
+
+    const automaticTrigger = fixture.nativeElement.querySelector(
+      '#auto-portal-select',
+    ) as HTMLButtonElement;
+    automaticTrigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const automaticPanel = document.body.querySelector(
+      '.aeris-select__panel[data-aeris-auto-portaled="true"]',
+    ) as HTMLElement;
+    expect(automaticPanel).toBeTruthy();
+    expect(automaticPanel.getAttribute('data-aeris-append-to')).toBe('body');
+
+    (automaticPanel.querySelector('[role="option"]') as HTMLButtonElement).click();
+    fixture.detectChanges();
+
+    const localTrigger = fixture.nativeElement.querySelector('#local-select') as HTMLButtonElement;
+    localTrigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const localPanel = fixture.nativeElement.querySelector(
+      '.aeris-select__panel:not([data-aeris-append-to])',
+    ) as HTMLElement;
+    expect(localPanel).toBeTruthy();
+    expect(document.body.querySelector('[data-aeris-auto-portaled]')).toBeNull();
+  });
+
+  it('keeps a body-mounted panel tethered to its control while the page scrolls', async () => {
+    const fixture = TestBed.createComponent(SelectAppendToTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#body-select') as HTMLButtonElement;
+    const control = trigger.closest('.aeris-select__control') as HTMLElement;
+    const controlRect = vi.spyOn(control, 'getBoundingClientRect');
+    controlRect.mockReturnValue(rect(80, 120, 180, 40));
+    trigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await new Promise((resolve) => setTimeout(resolve, 32));
+
+    const panel = document.body.querySelector(
+      '.aeris-select__panel[data-aeris-append-to="body"]',
+    ) as HTMLElement;
+    const initialTop = Number.parseFloat(panel.style.top);
+    let reposition: FrameRequestCallback | undefined;
+    const requestFrame = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      reposition = callback;
+      return 1;
+    });
+
+    controlRect.mockReturnValue(rect(80, -100, 180, 40));
+    document.dispatchEvent(new Event('scroll'));
+    document.dispatchEvent(new Event('scroll'));
+    document.dispatchEvent(new Event('scroll'));
+    expect(requestFrame).toHaveBeenCalledOnce();
+    reposition?.(16);
+
+    expect(Number.parseFloat(panel.style.top)).toBeLessThan(0);
+    expect(Number.parseFloat(panel.style.top)).toBeLessThan(initialTop);
+  });
+
+  it('limits an anchored panel to the available side of the visual viewport', async () => {
+    const fixture = TestBed.createComponent(SelectAppendToTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#body-select') as HTMLButtonElement;
+    const control = trigger.closest('.aeris-select__control') as HTMLElement;
+    vi.spyOn(control, 'getBoundingClientRect').mockReturnValue(rect(80, 380, 180, 40));
+    trigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const panel = document.body.querySelector(
+      '.aeris-select__panel[data-aeris-append-to="body"]',
+    ) as HTMLElement;
+    vi.spyOn(panel, 'getBoundingClientRect').mockReturnValue(rect(0, 0, 220, 600));
+    let reposition: FrameRequestCallback | undefined;
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      reposition = callback;
+      return 1;
+    });
+
+    document.dispatchEvent(new Event('scroll'));
+    reposition?.(16);
+
+    expect(panel.getAttribute('data-placement')).toBe('top');
+    expect(panel.getAttribute('data-viewport-constrained')).toBe('true');
+    expect(Number.parseFloat(panel.style.maxHeight)).toBeLessThan(380);
+    expect(panel.style.overflowY).toBe('auto');
+  });
+
+  it('keeps viewport width constraints stable across repeated repositioning', async () => {
+    const fixture = TestBed.createComponent(SelectAppendToTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#body-select') as HTMLButtonElement;
+    const control = trigger.closest('.aeris-select__control') as HTMLElement;
+    vi.spyOn(control, 'getBoundingClientRect').mockReturnValue(rect(8, 120, 180, 40));
+    trigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const panel = document.body.querySelector(
+      '.aeris-select__panel[data-aeris-append-to="body"]',
+    ) as HTMLElement;
+    vi.spyOn(panel, 'getBoundingClientRect').mockImplementation(() =>
+      panel.hasAttribute('data-viewport-constrained-width')
+        ? rect(0, 0, 900, 240)
+        : rect(0, 0, 1400, 240),
+    );
+    const frames: FrameRequestCallback[] = [];
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      frames.push(callback);
+      return frames.length;
+    });
+
+    document.dispatchEvent(new Event('scroll'));
+    frames.shift()?.(16);
+    const constrainedWidth = panel.style.maxWidth;
+    expect(panel.getAttribute('data-viewport-constrained-width')).toBe('true');
+
+    document.dispatchEvent(new Event('scroll'));
+    frames.shift()?.(32);
+
+    expect(panel.getAttribute('data-viewport-constrained-width')).toBe('true');
+    expect(panel.style.maxWidth).toBe(constrainedWidth);
   });
 
   it('mounts its panel into an HTMLElement target', async () => {

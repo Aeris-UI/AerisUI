@@ -41,6 +41,7 @@ export type AerisDialogPosition =
   | 'bottom-left'
   | 'bottom-right';
 export type AerisDialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';
+export type AerisDialogFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
 
 export interface AerisDialogVisibilityChangeEvent {
   readonly originalEvent: Event | null;
@@ -94,7 +95,7 @@ const DIALOG_FOCUS_OPTIONS = {
         [style.--aeris-dialog-backdrop-blur]="backdropBlurAmount() || null"
         [attr.data-position]="position()"
         [attr.data-maximized]="maximized() || null"
-        (pointerdown)="handleOverlayPointerdown($event)"
+        (click)="handleOverlayClick($event)"
       >
         <section
           #dialogPanel
@@ -187,7 +188,7 @@ const DIALOG_FOCUS_OPTIONS = {
             </div>
 
             @if (footerTemplate(); as footerTemplateRef) {
-              <footer class="aeris-dialog__footer">
+              <footer class="aeris-dialog__footer" [attr.data-footer-layout]="footerLayout()">
                 <ng-container
                   [ngTemplateOutlet]="footerTemplateRef.template"
                   [ngTemplateOutletContext]="templateContext()"
@@ -273,6 +274,7 @@ export class AerisDialog {
   readonly height = input('');
   readonly maxHeight = input('');
   readonly mobileWidth = input('');
+  readonly footerLayout = input<AerisDialogFooterLayout>('responsive');
   readonly closeAriaLabel = input('Close dialog');
   readonly ariaLabel = input('');
   readonly ariaLabelledBy = input('');
@@ -384,8 +386,11 @@ export class AerisDialog {
     this.hide(event, 'escape');
   }
 
-  protected handleOverlayPointerdown(event: PointerEvent): void {
-    if (!this.dismissibleMask() || event.target !== event.currentTarget) return;
+  protected handleOverlayClick(event: MouseEvent): void {
+    if (event.target !== event.currentTarget) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (!this.dismissibleMask()) return;
     this.hide(event, 'mask');
   }
 

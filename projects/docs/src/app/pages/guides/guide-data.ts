@@ -535,7 +535,7 @@ export const appConfig: ApplicationConfig = {
         id: 'overlay-mounting',
         title: 'Overlay mounting',
         paragraphs: [
-          "Overlay-producing components render beside their trigger by default. Set overlayAppendTo: 'body' globally when application containers frequently clip floating panels, or set appendTo on one component for a local exception.",
+          "Anchored overlays render beside their trigger by default and automatically move to document.body when an overflow, clipping, or paint-containment ancestor would cut them off. Set appendTo to 'self', 'body', or a target element on one component to override detection, or use overlayAppendTo to choose an application-wide default.",
           "Use 'self' to keep an overlay in its component, 'body' to mount it under document.body, or supply an HTMLElement, ElementRef<HTMLElement>, or TemplateRef target. Tooltip safely resolves 'self' to body because a directive host may be a void or interactive element that cannot contain generated overlay markup. null and undefined use the global setting. Aeris keeps the overlay aligned to its trigger and repositions it during scrolling and viewport changes.",
         ],
         note: "Prefer the default 'self' mode unless an ancestor clips or constrains the overlay. Portaling to body changes the overlay's DOM ancestry, although Aeris carries its theme variables and reading direction with it.",
@@ -767,6 +767,10 @@ export class ProfileForm {
       {
         id: 'validation-contract',
         title: 'Keep validation state synchronized',
+        paragraphs: [
+          'Native Aeris inputs use the browser interaction-aware :user-invalid state for constraint validation. A required field therefore keeps its normal appearance while pristine and receives invalid styling only after the browser has attempted validation through user interaction or form submission.',
+          'The invalid input remains the explicit application-controlled state. Use it for Angular validators, server errors, composite controls, or any workflow where the application decides when an error should become visible.',
+        ],
         bullets: [
           'Let Angular validators determine whether the value is valid.',
           'Show errors after an intentional trigger such as blur or submit instead of while the user is still entering the first character.',

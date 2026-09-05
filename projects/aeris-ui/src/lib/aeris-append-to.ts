@@ -53,6 +53,8 @@ export class ɵAerisAppendTo {
   private originCaptured = false;
   private originParent: Node | null = null;
   private originNextSibling: Node | null = null;
+  private unconstrainedPanelWidth = 0;
+  private unconstrainedPanelHeight = 0;
 
   readonly aerisInternalAppendTo = input<AerisAppendTo>();
   readonly aerisInternalAppendToAnchor = input<HTMLElement | null>(null);
@@ -71,14 +73,25 @@ export class ɵAerisAppendTo {
         this.document,
       );
       const anchor = this.aerisInternalAppendToAnchor();
+      const automaticallyPortaled =
+        this.aerisInternalAppendTo() === undefined &&
+        target === 'self' &&
+        !!anchor &&
+        this.hasClippingAncestor(anchor);
+      const effectiveTarget = automaticallyPortaled ? this.document.body : target;
       this.captureOrigin();
 
-      if (target === 'self') this.restoreToOrigin();
-      if (target === 'self' && (!anchor || !this.aerisInternalAppendToPositionSelf())) {
+      if (effectiveTarget === 'self') this.restoreToOrigin();
+      if (
+        effectiveTarget === 'self' &&
+        (!anchor || !this.aerisInternalAppendToPositionSelf())
+      ) {
         this.element.removeAttribute('data-aeris-append-to');
+        this.element.removeAttribute('data-aeris-auto-portaled');
         return;
       }
-      const positioningTarget = target === 'self' ? this.element.parentElement : target;
+      const positioningTarget =
+        effectiveTarget === 'self' ? this.element.parentElement : effectiveTarget;
       if (!positioningTarget) return;
 
       const inheritedStyles = this.preserveInheritedStyles();
@@ -100,17 +113,23 @@ export class ɵAerisAppendTo {
         'z-index',
       ]);
       const targetPosition = this.ensurePositionedTarget(positioningTarget);
-      if (target !== 'self') {
-        this.renderer.appendChild(target, this.element);
+      if (effectiveTarget !== 'self') {
+        this.renderer.appendChild(effectiveTarget, this.element);
         this.applyInheritedStyles(inheritedStyles);
         this.renderer.setAttribute(
           this.element,
           'data-aeris-append-to',
-          target === this.document.body ? 'body' : 'target',
+          effectiveTarget === this.document.body ? 'body' : 'target',
         );
+        if (automaticallyPortaled) {
+          this.renderer.setAttribute(this.element, 'data-aeris-auto-portaled', 'true');
+        } else {
+          this.element.removeAttribute('data-aeris-auto-portaled');
+        }
         this.bringToFront();
       } else {
         this.element.removeAttribute('data-aeris-append-to');
+        this.element.removeAttribute('data-aeris-auto-portaled');
       }
 
       const reposition = () => this.schedulePosition(anchor, positioningTarget);
@@ -149,7 +168,8 @@ export class ɵAerisAppendTo {
         this.restoreInheritedStyles(inheritedStyles);
         targetPosition.restore();
         this.element.removeAttribute('data-aeris-append-to');
-        if (target !== 'self') this.element.remove();
+        this.element.removeAttribute('data-aeris-auto-portaled');
+        if (effectiveTarget !== 'self') this.element.remove();
       });
     });
 
@@ -164,8 +184,7 @@ export class ɵAerisAppendTo {
   }
 
   private schedulePosition(anchor: HTMLElement | null, target: HTMLElement): void {
-    if (!anchor) return;
-    this.cancelFrame();
+    if (!anchor || this.frame !== null) return;
     const view = this.document.defaultView;
     if (!view) return;
     this.frame = view.requestAnimationFrame(() => {
@@ -203,52 +222,88 @@ export class ɵAerisAppendTo {
         (collisionPadding.bottom ?? 0),
     );
     let panelRect = this.element.getBoundingClientRect();
-    if (panelRect.width > availableWidth && availableWidth > 0) {
+    const wasWidthConstrained = this.element.hasAttribute('data-viewport-constrained-width');
+    const naturalWidth = wasWidthConstrained
+      ? Math.max(this.unconstrainedPanelWidth, this.element.scrollWidth)
+      : panelRect.width;
+    this.unconstrainedPanelWidth = naturalWidth;
+    if (naturalWidth > availableWidth && availableWidth > 0) {
       this.element.style.maxWidth = `${availableWidth}px`;
       this.element.style.overflowX = 'auto';
       this.element.style.overscrollBehavior = 'contain';
       this.element.setAttribute('data-viewport-constrained-width', 'true');
       panelRect = this.element.getBoundingClientRect();
-    } else if (this.element.hasAttribute('data-viewport-constrained-width')) {
+    } else if (wasWidthConstrained) {
       this.element.style.removeProperty('max-width');
       this.element.style.removeProperty('overflow-x');
       this.element.removeAttribute('data-viewport-constrained-width');
       panelRect = this.element.getBoundingClientRect();
     }
-    if (panelRect.height > availableHeight && availableHeight > 0) {
-      this.element.style.maxHeight = `${availableHeight}px`;
+    const wasHeightConstrained = this.element.hasAttribute('data-viewport-constrained');
+    const naturalHeight = wasHeightConstrained
+      ? Math.max(this.unconstrainedPanelHeight, this.element.scrollHeight)
+      : panelRect.height;
+    this.unconstrainedPanelHeight = naturalHeight;
+    const direction = view.getComputedStyle(anchor).direction;
+    const configuredAlignment = this.aerisInternalAppendToAlignment();
+    const alignment =
+      configuredAlignment === 'auto'
+        ? direction === 'rtl'
+          ? 'end'
+          : 'start'
+        : configuredAlignment;
+    const position = (height = panelRect.height || this.element.offsetHeight) =>
+      aerisInternalPositionAnchoredOverlay({
+        target: anchorRect,
+        width: panelRect.width || this.element.offsetWidth || anchorRect.width,
+        height,
+        placement: this.aerisInternalAppendToPlacement(),
+        alignment,
+        offset: this.aerisInternalAppendToOffset(),
+        margin: 8,
+        viewportWidth: viewport?.width ?? view.innerWidth,
+        viewportHeight: viewport?.height ?? view.innerHeight,
+        viewportLeft,
+        viewportTop,
+        collisionPadding,
+        tetherToAnchor: true,
+      });
+    let point = position(naturalHeight);
+    const viewportBounds = {
+      top: viewportTop + (collisionPadding.top ?? 0),
+      bottom:
+        viewportTop +
+        (viewport?.height ?? view.innerHeight) -
+        (collisionPadding.bottom ?? 0),
+    };
+    const anchorIntersectsViewport =
+      anchorRect.bottom > viewportBounds.top && anchorRect.top < viewportBounds.bottom;
+    const placementHeight =
+      anchorIntersectsViewport && point.placement === 'bottom'
+        ? viewportBounds.bottom - anchorRect.bottom - this.aerisInternalAppendToOffset()
+        : anchorIntersectsViewport && point.placement === 'top'
+          ? anchorRect.top - viewportBounds.top - this.aerisInternalAppendToOffset()
+          : availableHeight;
+    const constrainedHeight = Math.max(0, Math.min(availableHeight, placementHeight));
+    if (naturalHeight > constrainedHeight && constrainedHeight > 0) {
+      this.element.style.maxHeight = `${Math.floor(constrainedHeight)}px`;
       this.element.style.overflowY = 'auto';
       this.element.style.overscrollBehavior = 'contain';
       this.element.setAttribute('data-viewport-constrained', 'true');
       panelRect = this.element.getBoundingClientRect();
-    } else if (this.element.hasAttribute('data-viewport-constrained')) {
+    } else if (wasHeightConstrained) {
       this.element.style.removeProperty('max-height');
       this.element.style.removeProperty('overflow-y');
-      this.element.style.removeProperty('overscroll-behavior');
       this.element.removeAttribute('data-viewport-constrained');
       panelRect = this.element.getBoundingClientRect();
     }
-    const direction = view.getComputedStyle(anchor).direction;
-    const configuredAlignment = this.aerisInternalAppendToAlignment();
-    const point = aerisInternalPositionAnchoredOverlay({
-      target: anchorRect,
-      width: panelRect.width || this.element.offsetWidth || anchorRect.width,
-      height: panelRect.height || this.element.offsetHeight,
-      placement: this.aerisInternalAppendToPlacement(),
-      alignment:
-        configuredAlignment === 'auto'
-          ? direction === 'rtl'
-            ? 'end'
-            : 'start'
-          : configuredAlignment,
-      offset: this.aerisInternalAppendToOffset(),
-      margin: 8,
-      viewportWidth: viewport?.width ?? view.innerWidth,
-      viewportHeight: viewport?.height ?? view.innerHeight,
-      viewportLeft,
-      viewportTop,
-      collisionPadding,
-    });
+    point = position();
+    if (
+      !this.element.hasAttribute('data-viewport-constrained') &&
+      !this.element.hasAttribute('data-viewport-constrained-width')
+    ) {
+      this.element.style.removeProperty('overscroll-behavior');
+    }
 
     if (target === this.document.body) {
       this.element.style.left = `${point.x}px`;
@@ -382,6 +437,30 @@ export class ɵAerisAppendTo {
     positionedTargets.delete(target);
   }
 
+  private hasClippingAncestor(anchor: HTMLElement): boolean {
+    const view = this.document.defaultView;
+    if (!view) return false;
+    let ancestor = anchor.parentElement;
+    while (
+      ancestor &&
+      ancestor !== this.document.body &&
+      ancestor !== this.document.documentElement
+    ) {
+      const style = view.getComputedStyle(ancestor);
+      if (
+        isClippingOverflow(style.overflow) ||
+        isClippingOverflow(style.overflowX) ||
+        isClippingOverflow(style.overflowY) ||
+        hasPaintContainment(style.contain) ||
+        (style.clipPath && style.clipPath !== 'none')
+      ) {
+        return true;
+      }
+      ancestor = ancestor.parentElement;
+    }
+    return false;
+  }
+
   private cancelFrame(): void {
     if (this.frame === null) return;
     this.document.defaultView?.cancelAnimationFrame(this.frame);
@@ -425,4 +504,15 @@ function isHtmlElement(value: unknown): value is HTMLElement {
 
 function isDomNode(value: unknown): value is Node {
   return typeof value === 'object' && value !== null && 'nodeType' in value;
+}
+
+function isClippingOverflow(value: string): boolean {
+  return /^(auto|clip|hidden|overlay|scroll)$/.test(value.trim());
+}
+
+function hasPaintContainment(value: string): boolean {
+  return value
+    .trim()
+    .split(/\s+/)
+    .some((token) => token === 'paint' || token === 'content' || token === 'strict');
 }

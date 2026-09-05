@@ -116,7 +116,7 @@
             <app-button-demo
               id="feature-icons"
               title="Icons and positions"
-              description="Project icons as normal button content and control whether the icon appears before, after, or without visible text."
+              description="Project icons as normal button content and control whether the icon appears before, after, or without visible text. Aeris normalizes projected SVG icons to its shared icon size."
             >
               <div preview class="wrap align">
                 <button aerisButton><svg [lucideIcon]="icons.Plus"></svg>Add item</button>
@@ -440,6 +440,11 @@
             <code role="cell">--aeris-control-height</code
             ><span role="cell">Medium control height and density anchor.</span
             ><code role="cell">2.625rem</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-button-icon-size</code
+            ><span role="cell">Projected SVG, image, or marked custom icon size.</span
+            ><code role="cell">--aeris-icon-size</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-radius-control</code

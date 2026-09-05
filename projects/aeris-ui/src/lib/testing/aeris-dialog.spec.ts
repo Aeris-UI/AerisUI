@@ -6,6 +6,11 @@ import {
   AerisDialogModule,
   type AerisDialogVisibilityChangeEvent,
 } from '../../../dialog/aeris-dialog';
+import { AerisDatePicker } from '../../../date-picker/aeris-date-picker';
+import {
+  AerisSelect,
+  type AerisSelectOption,
+} from '../../../select/aeris-select';
 
 const settle = () => new Promise<void>((resolve) => queueMicrotask(resolve));
 
@@ -51,6 +56,7 @@ class BasicDialogHost {
       height="24rem"
       maxHeight="80vh"
       mobileWidth="calc(100vw - 1rem)"
+      [footerLayout]="footerLayout()"
       dismissibleMask
       maximizable
       draggable
@@ -76,6 +82,7 @@ class TemplatedDialogHost {
   readonly dialog = viewChild.required<AerisDialog>('dialog');
   readonly open = signal(true);
   readonly maximized = signal(false);
+  readonly footerLayout = signal<'responsive' | 'wrap' | 'stack' | 'inline'>('stack');
   readonly events = signal<readonly AerisDialogVisibilityChangeEvent[]>([]);
 }
 
@@ -115,6 +122,23 @@ class InvalidFocusDialogHost {}
   `,
 })
 class HeadlessDialogHost {}
+
+@Component({
+  imports: [AerisDialogModule, AerisDatePicker, AerisSelect],
+  template: `
+    <aeris-dialog header="Schedule delivery" [(visible)]="visible">
+      <aeris-date-picker inputId="dialog-date" ariaLabel="Delivery date" />
+      <aeris-select inputId="dialog-role" ariaLabel="Role" [options]="options" />
+    </aeris-dialog>
+  `,
+})
+class DialogWithDatePickerHost {
+  readonly visible = signal(true);
+  readonly options: readonly AerisSelectOption[] = [
+    { label: 'Designer', value: 'designer' },
+    { label: 'Engineer', value: 'engineer' },
+  ];
+}
 
 describe('AerisDialog', () => {
   afterEach(() => {
@@ -169,6 +193,54 @@ describe('AerisDialog', () => {
     expect(document.body.style.paddingInlineEnd).toBe('4px');
   });
 
+  it('lets anchored overlays escape the dialog clipping boundary automatically', async () => {
+    const fixture = TestBed.createComponent(DialogWithDatePickerHost);
+    await fixture.whenStable();
+    await settle();
+
+    const trigger = fixture.nativeElement.querySelector('#dialog-date') as HTMLButtonElement;
+    trigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const calendar = document.body.querySelector(
+      '.aeris-date-picker__panel[data-aeris-auto-portaled="true"]',
+    ) as HTMLElement;
+    expect(calendar).toBeTruthy();
+    expect(calendar.getAttribute('data-aeris-append-to')).toBe('body');
+    expect(fixture.nativeElement.contains(calendar)).toBe(false);
+  });
+
+  it('closes a nested popup with Escape without closing its parent dialog', async () => {
+    const fixture = TestBed.createComponent(DialogWithDatePickerHost);
+    await fixture.whenStable();
+    await settle();
+
+    const dateTrigger = fixture.nativeElement.querySelector('#dialog-date') as HTMLButtonElement;
+    dateTrigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    document.activeElement?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+    );
+    fixture.detectChanges();
+
+    expect(dateTrigger.getAttribute('aria-expanded')).toBe('false');
+    expect(fixture.componentInstance.visible()).toBe(true);
+
+    const selectTrigger = fixture.nativeElement.querySelector('#dialog-role') as HTMLButtonElement;
+    selectTrigger.click();
+    fixture.detectChanges();
+    selectTrigger.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+    );
+    fixture.detectChanges();
+
+    expect(selectTrigger.getAttribute('aria-expanded')).toBe('false');
+    expect(fixture.componentInstance.visible()).toBe(true);
+    expect(fixture.nativeElement.querySelector('[role="dialog"]')).toBeTruthy();
+  });
+
   it('falls back safely when initialFocus is not a valid selector', async () => {
     const fixture = TestBed.createComponent(InvalidFocusDialogHost);
     await fixture.whenStable();
@@ -203,8 +275,17 @@ describe('AerisDialog', () => {
     expect(dialog.style.getPropertyValue('--aeris-dialog-height')).toBe('24rem');
     expect(dialog.style.getPropertyValue('--aeris-dialog-max-height')).toBe('80vh');
     expect(dialog.style.getPropertyValue('--aeris-dialog-mobile-width')).toBe('calc(100vw - 1rem)');
+    const footer = fixture.nativeElement.querySelector('.aeris-dialog__footer') as HTMLElement;
+    expect(footer.getAttribute('data-footer-layout')).toBe('stack');
+    expect(getComputedStyle(footer).flexDirection).toBe('column');
+    expect(getComputedStyle(footer).alignItems).toBe('stretch');
     expect(title.textContent).toContain('Template header normal');
     expect(fixture.nativeElement.querySelector('.custom-close')?.textContent).toContain('close');
+
+    fixture.componentInstance.footerLayout.set('wrap');
+    fixture.detectChanges();
+    expect(footer.getAttribute('data-footer-layout')).toBe('wrap');
+    expect(getComputedStyle(footer).flexWrap).toBe('wrap');
 
     maximize.click();
     fixture.detectChanges();
@@ -236,9 +317,16 @@ describe('AerisDialog', () => {
     await settle();
 
     const overlay = fixture.nativeElement.querySelector('.aeris-dialog__overlay') as HTMLElement;
-    overlay.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    overlay.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
     fixture.detectChanges();
 
+    expect(fixture.componentInstance.open()).toBe(true);
+
+    const click = new MouseEvent('click', { bubbles: true, cancelable: true });
+    overlay.dispatchEvent(click);
+    fixture.detectChanges();
+
+    expect(click.defaultPrevented).toBe(true);
     expect(fixture.componentInstance.open()).toBe(false);
     expect(fixture.componentInstance.events().at(-1)?.reason).toBe('mask');
   });
@@ -259,7 +347,9 @@ describe('AerisDialog', () => {
     fixture.detectChanges();
     expect(document.activeElement).toBe(close);
 
-    close.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true }));
+    close.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true }),
+    );
     fixture.detectChanges();
     expect(document.activeElement).toBe(second);
   });

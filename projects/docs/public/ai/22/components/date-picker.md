@@ -29,7 +29,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the calendar inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `value` | `AerisDatePickerValue (model)` | `null` | Selected Date, date array, or range according to selectionMode. |
 | `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. Options: 'single', 'multiple', 'range'. |
@@ -1169,4 +1169,4 @@ export class DatePickerFormsReactiveAndTemplateDrivenFormsDemo {
 | `Home / End in month or year view` | Moves to the first or last option in the visible period. |
 | `Native input keys in time fields` | Edit hours, minutes, seconds, or AM/PM using browser-native number and select behavior. |
 | `Escape` | Closes a popup calendar and restores focus to its trigger. |
-| `Tab` | Moves to the next focusable control and closes a popup calendar. |
+| `Tab` | Moves through the popup controls. The popup closes after focus leaves it. |

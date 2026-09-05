@@ -19,6 +19,13 @@ export type AerisInputNumberMode = 'decimal' | 'currency';
 export type AerisInputNumberButtonLayout = 'stacked' | 'horizontal' | 'vertical';
 export type AerisInputNumberCurrencyDisplay = 'symbol' | 'narrowSymbol' | 'code' | 'name';
 
+interface AerisInputNumberSymbols {
+  readonly decimal: string;
+  readonly group: string | undefined;
+  readonly minus: string;
+  readonly digits: ReadonlyMap<string, string>;
+}
+
 let inputNumberId = 0;
 
 @Component({
@@ -209,6 +216,29 @@ export class AerisInputNumber implements ControlValueAccessor {
         maximumFractionDigits: this.maxFractionDigits(),
       }),
   );
+  private readonly numberSymbols = computed<AerisInputNumberSymbols>(() => {
+    const formatter = new Intl.NumberFormat(this.locale(), { useGrouping: true });
+    const parts = formatter.formatToParts(-12345.6);
+    const digitFormatter = new Intl.NumberFormat(this.locale(), {
+      useGrouping: false,
+      maximumFractionDigits: 0,
+    });
+    return {
+      decimal: parts.find((part) => part.type === 'decimal')?.value ?? '.',
+      group: parts.find((part) => part.type === 'group')?.value,
+      minus: parts.find((part) => part.type === 'minusSign')?.value ?? '-',
+      digits: new Map(
+        Array.from({ length: 10 }, (_, digit) => [
+          digitFormatter
+            .formatToParts(digit)
+            .filter((part) => part.type === 'integer')
+            .map((part) => part.value)
+            .join(''),
+          String(digit),
+        ]),
+      ),
+    };
+  });
   protected readonly formattedValue = computed(() => {
     const value = this.value();
     return value === null ? '' : this.numberFormat().format(value);
@@ -272,9 +302,22 @@ export class AerisInputNumber implements ControlValueAccessor {
   }
 
   protected handleInput(event: Event): void {
-    const rawValue = (event.target as HTMLInputElement).value;
-    this.editValue.set(rawValue);
-    const parsed = this.parse(rawValue);
+    const input = event.target as HTMLInputElement;
+    const rawValue = input.value;
+    if (/\d[eE][+-]?\d*/.test(rawValue)) {
+      input.value = this.editValue();
+      input.setSelectionRange(input.value.length, input.value.length);
+      return;
+    }
+    const selectionStart = input.selectionStart ?? rawValue.length;
+    const sanitizedValue = this.sanitize(rawValue);
+    const sanitizedSelectionStart = this.sanitize(rawValue.slice(0, selectionStart)).length;
+    if (sanitizedValue !== rawValue) {
+      input.value = sanitizedValue;
+      input.setSelectionRange(sanitizedSelectionStart, sanitizedSelectionStart);
+    }
+    this.editValue.set(sanitizedValue);
+    const parsed = this.parse(sanitizedValue);
     if (parsed !== undefined) this.setValue(parsed);
   }
 
@@ -350,23 +393,47 @@ export class AerisInputNumber implements ControlValueAccessor {
     const trimmed = rawValue.trim();
     if (!trimmed) return this.allowEmpty() ? null : this.value();
 
-    const parts = this.numberFormat().formatToParts(-12345.6);
-    const group = parts.find((part) => part.type === 'group')?.value;
-    const decimal = parts.find((part) => part.type === 'decimal')?.value ?? '.';
-    const minus = parts.find((part) => part.type === 'minusSign')?.value ?? '-';
-
-    let normalized = trimmed;
-    if (group) normalized = normalized.split(group).join('');
-    normalized = normalized.split('\u00a0').join('').split('\u202f').join('');
-    normalized = normalized.replaceAll(decimal, '.').replaceAll(minus, '-');
-    normalized = normalized.replace(/[^\d+\-.]/g, '');
-
-    if (!normalized || normalized === '-' || normalized === '+' || normalized === '.') {
+    const { decimal, minus } = this.numberSymbols();
+    const normalized = trimmed.replaceAll(decimal, '.').replaceAll(minus, '-');
+    if (
+      normalized === '-' ||
+      normalized === '+' ||
+      normalized === '.' ||
+      normalized === '-.' ||
+      normalized === '+.'
+    ) {
       return undefined;
     }
+    if (!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(normalized)) return undefined;
 
     const parsed = Number(normalized);
     return Number.isFinite(parsed) ? parsed : undefined;
+  }
+
+  private sanitize(rawValue: string): string {
+    const { decimal, group, minus, digits } = this.numberSymbols();
+    let sanitized = '';
+    let hasDecimal = false;
+
+    for (const character of rawValue.normalize('NFKC')) {
+      const digit = /\d/.test(character) ? character : digits.get(character);
+      if (digit !== undefined) {
+        sanitized += digit;
+        continue;
+      }
+      if (character === decimal && !hasDecimal) {
+        sanitized += decimal;
+        hasDecimal = true;
+        continue;
+      }
+      if ((character === minus || character === '-' || character === '+') && !sanitized) {
+        sanitized = character === '+' ? '+' : minus;
+        continue;
+      }
+      if (character === group || /\s/.test(character)) continue;
+    }
+
+    return sanitized;
   }
 
   private constrain(value: number): number {
@@ -376,11 +443,7 @@ export class AerisInputNumber implements ControlValueAccessor {
   }
 
   private decimalSeparator(): string {
-    return (
-      this.numberFormat()
-        .formatToParts(1.1)
-        .find((part) => part.type === 'decimal')?.value ?? '.'
-    );
+    return this.numberSymbols().decimal;
   }
 }
 
