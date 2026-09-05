@@ -6,6 +6,7 @@ import {
   AerisDialogModule,
   type AerisDialogVisibilityChangeEvent,
 } from '../../../dialog/aeris-dialog';
+import { AerisDatePicker } from '../../../date-picker/aeris-date-picker';
 
 const settle = () => new Promise<void>((resolve) => queueMicrotask(resolve));
 
@@ -118,6 +119,16 @@ class InvalidFocusDialogHost {}
 })
 class HeadlessDialogHost {}
 
+@Component({
+  imports: [AerisDialogModule, AerisDatePicker],
+  template: `
+    <aeris-dialog header="Schedule delivery" [visible]="true">
+      <aeris-date-picker inputId="dialog-date" ariaLabel="Delivery date" />
+    </aeris-dialog>
+  `,
+})
+class DialogWithDatePickerHost {}
+
 describe('AerisDialog', () => {
   afterEach(() => {
     vi.restoreAllMocks();
@@ -169,6 +180,24 @@ describe('AerisDialog', () => {
     expect(document.activeElement).toBe(launcher);
     expect(document.body.style.overflow).toBe('');
     expect(document.body.style.paddingInlineEnd).toBe('4px');
+  });
+
+  it('lets anchored overlays escape the dialog clipping boundary automatically', async () => {
+    const fixture = TestBed.createComponent(DialogWithDatePickerHost);
+    await fixture.whenStable();
+    await settle();
+
+    const trigger = fixture.nativeElement.querySelector('#dialog-date') as HTMLButtonElement;
+    trigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const calendar = document.body.querySelector(
+      '.aeris-date-picker__panel[data-aeris-auto-portaled="true"]',
+    ) as HTMLElement;
+    expect(calendar).toBeTruthy();
+    expect(calendar.getAttribute('data-aeris-append-to')).toBe('body');
+    expect(fixture.nativeElement.contains(calendar)).toBe(false);
   });
 
   it('falls back safely when initialFocus is not a valid selector', async () => {

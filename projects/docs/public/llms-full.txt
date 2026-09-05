@@ -409,7 +409,7 @@ export const appConfig: ApplicationConfig = {
 
 #### Overlay mounting
 
-Overlay-producing components render beside their trigger by default. Set overlayAppendTo: 'body' globally when application containers frequently clip floating panels, or set appendTo on one component for a local exception.
+Anchored overlays render beside their trigger by default and automatically move to document.body when an overflow, clipping, or paint-containment ancestor would cut them off. Set appendTo to 'self', 'body', or a target element on one component to override detection, or use overlayAppendTo to choose an application-wide default.
 
 Use 'self' to keep an overlay in its component, 'body' to mount it under document.body, or supply an HTMLElement, ElementRef<HTMLElement>, or TemplateRef target. Tooltip safely resolves 'self' to body because a directive host may be a void or interactive element that cannot contain generated overlay markup. null and undefined use the global setting. Aeris keeps the overlay aligned to its trigger and repositions it during scrolling and viewport changes.
 
@@ -2122,7 +2122,7 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Use per-edge values to reserve fixed headers, navigation, or other exclusion zones. |
 | `value` | `string (model)` | `''` | Current text value with two-way binding and Forms support. |
 | `suggestions` | `readonly AerisAutoCompleteOption[]` | `[]` | Suggestion records used by local filtering and option rendering. |
@@ -3164,7 +3164,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
 | `options` | `readonly AerisCascadeSelectOption[]` | `[]` | Hierarchical option tree rendered by the cascading columns. |
@@ -4589,7 +4589,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `'#5f6f36'` | Current color value with two-way binding and Forms support. |
 | `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. Options: 'hex', 'rgb', 'hsl'. |
@@ -5512,7 +5512,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the calendar inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `value` | `AerisDatePickerValue (model)` | `null` | Selected Date, date array, or range according to selectionMode. |
 | `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. Options: 'single', 'multiple', 'range'. |
@@ -14537,7 +14537,7 @@ import { AerisMultiSelect, type AerisSelectOption } from '@aeris-ui/core/multi-s
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `readonly string[] (model)` | `[]` | Selected option values with two-way binding and Forms support. |
@@ -15632,7 +15632,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self'` | Mounts the feedback overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the feedback overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the feedback panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `''` | Password value with two-way binding and Forms support. |
 | `visible` | `boolean (model)` | `false` | Controls whether the value is masked. |
@@ -18110,7 +18110,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the options panel inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
@@ -21950,7 +21950,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the tree panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `nodes` | `readonly AerisTreeNode[]` | `required` | Tree data rendered recursively in source order. Nesting depth is not limited by the component API. |
 | `value` | `AerisTreeSelectValue (model)` | `null` | Selected value for single mode or selected value array for multiple and checkbox modes. |
@@ -24958,7 +24958,7 @@ from '@aeris-ui/core/split-button';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the action menu locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the action menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the action menu inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `navigationHandler` | `AerisSplitButtonNavigationHandler &#124; undefined` | `undefined` | Optional framework-routing bridge for routerLink items. Native href navigation is used otherwise. |
 | `id` | `string` | `generated` | Stable base ID for the popup relationship and menu items. |
@@ -26735,7 +26735,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the rows-per-page menu locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the rows-per-page menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the rows menu inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `first` | `number (model)` | `0` | Index of the first record in the current page. |
 | `rows` | `number (model)` | `10` | Number of records shown per page. |
@@ -45141,7 +45141,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the panel target when popup is enabled; inline menus remain local. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts popup menus locally by default and automatically moves them to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection; inline menus remain local. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `id` | `string` | `generated` | ID for the root panel. |
 | `model` | `readonly AerisMenuItem&lt;T&gt;[]` | `[]` | Menu item model with groups, separators, commands, links, and nested items. |
@@ -47423,7 +47423,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the panel target when popup is enabled; inline menus remain local. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts popup menus locally by default and automatically moves them to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection; inline menus remain local. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `id` | `string` | `generated id` | Panel ID used for menu and submenu relationships. |
 | `model` | `readonly AerisTieredMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |

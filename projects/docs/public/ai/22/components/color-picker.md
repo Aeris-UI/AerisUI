@@ -29,7 +29,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `'#5f6f36'` | Current color value with two-way binding and Forms support. |
 | `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. Options: 'hex', 'rgb', 'hsl'. |

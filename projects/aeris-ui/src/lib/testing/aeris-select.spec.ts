@@ -131,6 +131,31 @@ class SelectAppendToTestHost {
   ];
 }
 
+@Component({
+  imports: [AerisSelect],
+  template: `
+    <div style="overflow: hidden">
+      <aeris-select
+        inputId="auto-portal-select"
+        ariaLabel="Automatically portaled select"
+        [options]="options"
+      />
+      <aeris-select
+        inputId="local-select"
+        ariaLabel="Explicitly local select"
+        [options]="options"
+        appendTo="self"
+      />
+    </div>
+  `,
+})
+class SelectClippingBoundaryTestHost {
+  readonly options: readonly AerisSelectOption[] = [
+    { label: 'Designer', value: 'designer' },
+    { label: 'Engineer', value: 'engineer' },
+  ];
+}
+
 describe('AerisSelect', () => {
   afterEach(() => {
     vi.restoreAllMocks();
@@ -436,6 +461,38 @@ describe('AerisSelect', () => {
     expect(panel).toBeTruthy();
   });
 
+  it('automatically escapes clipping ancestors while respecting explicit self mounting', async () => {
+    const fixture = TestBed.createComponent(SelectClippingBoundaryTestHost);
+    await fixture.whenStable();
+
+    const automaticTrigger = fixture.nativeElement.querySelector(
+      '#auto-portal-select',
+    ) as HTMLButtonElement;
+    automaticTrigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const automaticPanel = document.body.querySelector(
+      '.aeris-select__panel[data-aeris-auto-portaled="true"]',
+    ) as HTMLElement;
+    expect(automaticPanel).toBeTruthy();
+    expect(automaticPanel.getAttribute('data-aeris-append-to')).toBe('body');
+
+    (automaticPanel.querySelector('[role="option"]') as HTMLButtonElement).click();
+    fixture.detectChanges();
+
+    const localTrigger = fixture.nativeElement.querySelector('#local-select') as HTMLButtonElement;
+    localTrigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const localPanel = fixture.nativeElement.querySelector(
+      '.aeris-select__panel:not([data-aeris-append-to])',
+    ) as HTMLElement;
+    expect(localPanel).toBeTruthy();
+    expect(document.body.querySelector('[data-aeris-auto-portaled]')).toBeNull();
+  });
+
   it('keeps a body-mounted panel tethered to its control while the page scrolls', async () => {
     const fixture = TestBed.createComponent(SelectAppendToTestHost);
     await fixture.whenStable();
@@ -468,6 +525,36 @@ describe('AerisSelect', () => {
 
     expect(Number.parseFloat(panel.style.top)).toBeLessThan(0);
     expect(Number.parseFloat(panel.style.top)).toBeLessThan(initialTop);
+  });
+
+  it('limits an anchored panel to the available side of the visual viewport', async () => {
+    const fixture = TestBed.createComponent(SelectAppendToTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#body-select') as HTMLButtonElement;
+    const control = trigger.closest('.aeris-select__control') as HTMLElement;
+    vi.spyOn(control, 'getBoundingClientRect').mockReturnValue(rect(80, 380, 180, 40));
+    trigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const panel = document.body.querySelector(
+      '.aeris-select__panel[data-aeris-append-to="body"]',
+    ) as HTMLElement;
+    vi.spyOn(panel, 'getBoundingClientRect').mockReturnValue(rect(0, 0, 220, 600));
+    let reposition: FrameRequestCallback | undefined;
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      reposition = callback;
+      return 1;
+    });
+
+    document.dispatchEvent(new Event('scroll'));
+    reposition?.(16);
+
+    expect(panel.getAttribute('data-placement')).toBe('top');
+    expect(panel.getAttribute('data-viewport-constrained')).toBe('true');
+    expect(Number.parseFloat(panel.style.maxHeight)).toBeLessThan(380);
+    expect(panel.style.overflowY).toBe('auto');
   });
 
   it('mounts its panel into an HTMLElement target', async () => {

@@ -146,7 +146,7 @@ interface AerisSplitButtonProps {
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
       defaultValue: "'self' (global)",
       description:
-        'Mounts the action menu locally, in document.body, or in the supplied DOM/template target.',
+        "Mounts the action menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection.",
     },
     {
       name: 'viewportMargin',

@@ -70,7 +70,7 @@ protected handlePage(event: AerisPaginatorPageEvent): void {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Mounts the rows-per-page menu locally, in document.body, or in the supplied DOM/template target.' },
+    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: "Mounts the rows-per-page menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection." },
     { name: 'viewportMargin', type: 'number | AerisOverlayCollisionPadding', defaultValue: '8', description: 'Keeps the rows menu inside the visual viewport. Per-edge values reserve fixed interface regions.' },
     { name: 'first', type: 'number (model)', defaultValue: '0', description: 'Index of the first record in the current page.' },
     { name: 'rows', type: 'number (model)', defaultValue: '10', description: 'Number of records shown per page.' },

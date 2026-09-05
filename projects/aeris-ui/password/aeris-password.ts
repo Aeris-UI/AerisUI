@@ -243,7 +243,7 @@ export class AerisPasswordComponent implements ControlValueAccessor {
 
   readonly value = model('');
   readonly visible = model(false);
-  readonly appendTo = input<AerisAppendTo>('self');
+  readonly appendTo = input<AerisAppendTo>();
   readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly inputId = input('');
   readonly name = input('');
