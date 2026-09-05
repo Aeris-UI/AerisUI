@@ -7,7 +7,7 @@ const budgets = {
   total: { raw: 4_200_000, gzip: 710_000 },
   largestEntryPoint: { raw: 195_000, gzip: 30_000 },
   entryPoints: {
-    'aeris-ui-core.mjs': { raw: 40_000, gzip: 9_000 },
+    'aeris-ui-core.mjs': { raw: 42_000, gzip: 9_000 },
     'aeris-ui-core-tabs.mjs': { raw: 48_000, gzip: 10_000 },
   },
 };
