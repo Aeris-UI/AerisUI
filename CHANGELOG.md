@@ -42,6 +42,8 @@ No consumer-visible changes have been recorded since 22.0.0-alpha.7.
 
 - Generate stable, collision-safe option IDs for AutoComplete and CascadeSelect across case,
   punctuation, whitespace, Unicode, filtering, rerendering, and server rendering.
+- Keep every visible notification in a Toast stack the same width while preserving compact,
+  content-sized presentation for individual toasts.
 
 ### Migration from alpha.6
 

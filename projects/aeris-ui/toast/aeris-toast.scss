@@ -257,6 +257,10 @@
     border-color 160ms ease;
 }
 
+.aeris-toast__region[data-stack-width] .aeris-toast__message {
+  width: 100%;
+}
+
 .aeris-toast__body {
   min-width: 0;
   display: grid;

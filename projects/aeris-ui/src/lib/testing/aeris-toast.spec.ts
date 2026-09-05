@@ -260,6 +260,7 @@ describe('AerisToast', () => {
     ] as HTMLElement[];
 
     expect(region.dataset['position']).toBe('bottom-right');
+    expect(region.hasAttribute('data-stack-width')).toBe(true);
     expect(messages.length).toBe(4);
     expect(stackItems.length).toBe(4);
     expect(stackItems[0].dataset['stackIndex']).toBe('0');
@@ -270,6 +271,7 @@ describe('AerisToast', () => {
     expect(messages[0].getAttribute('data-primary')).toBe('true');
     expect(bodies[0].hasAttribute('data-behind')).toBe(false);
     expect(bodies.slice(1).every((body) => body.hasAttribute('data-behind'))).toBe(true);
+    expect(messages.every((message) => getComputedStyle(message).width === '100%')).toBe(true);
     expect(messages.map((message) => message.textContent?.trim())).toEqual([
       'Five',
       'Four',
@@ -292,6 +294,42 @@ describe('AerisToast', () => {
       'One',
     ]);
     expect(fixture.nativeElement.querySelector('.aeris-toast__overflow')).toBeNull();
+  });
+
+  it('keeps stack width until the batch empties and resets for a new single toast', () => {
+    const fixture = TestBed.createComponent(StackedToastHost);
+    fixture.detectChanges();
+    service.showAll([
+      { group: 'stack', detail: 'First', sticky: true },
+      { group: 'stack', detail: 'Second with longer content', sticky: true },
+    ]);
+    fixture.detectChanges();
+
+    const region = fixture.nativeElement.querySelector('.aeris-toast__region') as HTMLElement;
+    let messages = [
+      ...fixture.nativeElement.querySelectorAll('.aeris-toast__message'),
+    ] as HTMLElement[];
+
+    expect(region.hasAttribute('data-stack-width')).toBe(true);
+    expect(messages.every((message) => getComputedStyle(message).width === '100%')).toBe(true);
+
+    (messages[0].querySelector('.aeris-toast__close') as HTMLButtonElement).click();
+    fixture.detectChanges();
+
+    let message = fixture.nativeElement.querySelector('.aeris-toast__message') as HTMLElement;
+    expect(region.hasAttribute('data-stack-width')).toBe(true);
+    expect(getComputedStyle(message).width).toBe('100%');
+
+    (message.querySelector('.aeris-toast__close') as HTMLButtonElement).click();
+    fixture.detectChanges();
+    expect(region.hasAttribute('data-stack-width')).toBe(false);
+
+    service.show({ group: 'stack', detail: 'Compact', sticky: true });
+    fixture.detectChanges();
+    message = fixture.nativeElement.querySelector('.aeris-toast__message') as HTMLElement;
+
+    expect(region.hasAttribute('data-stack-width')).toBe(false);
+    expect(getComputedStyle(message).width).toBe('fit-content');
   });
 
   it('can keep the oldest toast as the primary stacked message', () => {

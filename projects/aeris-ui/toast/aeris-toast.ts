@@ -307,6 +307,7 @@ export class AerisToastService {
       [attr.data-mode]="mode()"
       [attr.data-newest-on-top]="newestOnTop() || null"
       [attr.data-overflow]="hiddenCount() > 0 || null"
+      [attr.data-stack-width]="stackWidthLocked() || null"
       [style.--aeris-toast-stack-size]="visibleStackSize()"
       (pointerenter)="pauseVisible()"
       (pointerleave)="resumeVisible()"
@@ -493,6 +494,7 @@ export class AerisToast {
 
   protected readonly visibleStackSize = computed(() => `${this.visibleMessages().length}`);
   protected readonly hasVisibleMessages = computed(() => this.visibleMessages().length > 0);
+  protected readonly stackWidthLocked = signal(false);
 
   protected readonly visibleStack = computed<readonly AerisToastStackItem[]>(() => {
     const messages = this.visibleMessages();
@@ -539,6 +541,12 @@ export class AerisToast {
   });
 
   constructor() {
+    effect(() => {
+      const visibleCount = this.visibleMessages().length;
+      if (visibleCount > 1) this.stackWidthLocked.set(true);
+      else if (visibleCount === 0) this.stackWidthLocked.set(false);
+    });
+
     effect((onCleanup) => {
       const elements = this.messageElements().map((element) => element.nativeElement);
       this.measureFrame.schedule();
