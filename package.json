@@ -73,7 +73,7 @@
     "prettier": "^3.9.6",
     "typescript": "~6.0.3",
     "vitest": "^4.1.11",
-    "zod": "^4.4.3"
+    "zod": "^4.5.4"
   },
   "overrides": {
     "@babel/core": "7.29.7",
