@@ -62,6 +62,7 @@ pnpm-debug.log*
 testem.log
 /typings
 __screenshots__/
+aeris-update-plan.md
 
 # End-to-end test output
 /playwright-report/
