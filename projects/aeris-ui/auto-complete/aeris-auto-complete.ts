@@ -223,7 +223,7 @@ let nextAutoCompleteId = 0;
                   [disabled]="option.disabled"
                   [attr.aria-selected]="isSelected(option)"
                   [attr.data-active]="isActive(option) || null"
-                  (pointerdown)="$event.preventDefault()"
+                  (pointerdown)="preservePointerFocus($event)"
                   (click)="selectOption(option, $event)"
                 >
                   <ng-container
@@ -248,7 +248,7 @@ let nextAutoCompleteId = 0;
                 [disabled]="option.disabled"
                 [attr.aria-selected]="isSelected(option)"
                 [attr.data-active]="isActive(option) || null"
-                (pointerdown)="$event.preventDefault()"
+                (pointerdown)="preservePointerFocus($event)"
                 (click)="selectOption(option, $event)"
               >
                 <ng-container
@@ -644,5 +644,9 @@ export class AerisAutoComplete implements ControlValueAccessor {
       (character.codePointAt(0) ?? 0).toString(16),
     ).join('-');
     return `${readable || 'option'}--${exact || 'empty'}`;
+  }
+
+  protected preservePointerFocus(event: PointerEvent): void {
+    if (event.pointerType === 'mouse') event.preventDefault();
   }
 }

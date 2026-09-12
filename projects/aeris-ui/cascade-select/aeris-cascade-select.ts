@@ -179,7 +179,7 @@ let nextCascadeSelectId = 0;
                     [attr.data-has-children]="hasChildren(option) || null"
                     (mouseenter)="activateOption(level, option)"
                     (focus)="activateOption(level, option)"
-                    (pointerdown)="$event.preventDefault()"
+                    (pointerdown)="preservePointerFocus($event)"
                     (click)="handleOptionClick(level, option, $event)"
                   >
                     @if (optionTemplate(); as template) {
@@ -593,5 +593,9 @@ export class AerisCascadeSelect implements ControlValueAccessor {
       (character.codePointAt(0) ?? 0).toString(16),
     ).join('-');
     return `${readable || 'option'}--${exact || 'empty'}`;
+  }
+
+  protected preservePointerFocus(event: PointerEvent): void {
+    if (event.pointerType === 'mouse') event.preventDefault();
   }
 }

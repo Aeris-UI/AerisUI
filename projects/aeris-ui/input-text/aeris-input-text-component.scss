@@ -29,8 +29,8 @@
   position: absolute;
   top: 50%;
   right: 0.4375rem;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
   display: grid;
   place-items: center;
   padding: 0;
@@ -42,7 +42,8 @@
   transform: translateY(-50%);
 }
 
-.aeris-input-text-component__clear:hover {
+.aeris-input-text-component__clear:hover,
+.aeris-input-text-component__clear:focus-visible {
   background: var(--aeris-surface-2, #f2f0ec);
   color: var(--aeris-text, #222222);
 }

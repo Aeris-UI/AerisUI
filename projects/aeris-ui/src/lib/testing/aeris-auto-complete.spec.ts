@@ -148,7 +148,7 @@ describe('AerisAutoComplete', () => {
     option.click();
     fixture.detectChanges();
 
-    expect(pointerdown.defaultPrevented).toBe(true);
+    expect(pointerdown.defaultPrevented).toBe(false);
     expect(fixture.componentInstance.value()).toBe('TypeScript');
     expect(input.getAttribute('aria-expanded')).toBe('false');
   });

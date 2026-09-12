@@ -173,7 +173,9 @@
 }
 
 .aeris-tree-select__clear:hover,
-.aeris-tree-select__filter-clear:hover {
+.aeris-tree-select__clear:focus-visible,
+.aeris-tree-select__filter-clear:hover,
+.aeris-tree-select__filter-clear:focus-visible {
   background: var(--aeris-surface-2, #f2f0ec);
   color: var(--aeris-text, #222222);
 }

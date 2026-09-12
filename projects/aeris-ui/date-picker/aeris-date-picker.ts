@@ -630,8 +630,8 @@ export class AerisDatePicker implements ControlValueAccessor {
 
   close(restoreFocus = false): void {
     if (!this.open()) return;
-    this.panelPortal()?.restore();
     this.open.set(false);
+    this.panelPortal()?.restore();
     this.closed.emit();
     if (restoreFocus) queueMicrotask(() => this.focus());
   }

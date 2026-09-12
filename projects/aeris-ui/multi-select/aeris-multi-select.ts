@@ -295,7 +295,7 @@ let multiSelectId = 0;
                       [attr.data-selected]="isSelected(option) || null"
                       [attr.data-disabled]="optionUnavailable(option) || null"
                       (mouseenter)="activate(option)"
-                      (pointerdown)="$event.preventDefault()"
+                      (pointerdown)="preservePointerFocus($event)"
                       (click)="toggleOption(option, $event)"
                     >
                       <span
@@ -619,6 +619,10 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
     this.setValue(next);
     this.changed.emit({ originalEvent: event, value: next, option, selected: !selected });
     if (this.closeOnSelect()) this.closePanel(true);
+  }
+
+  protected preservePointerFocus(event: PointerEvent): void {
+    if (event.pointerType === 'mouse') event.preventDefault();
   }
 
   protected toggleSelectAll(event: Event): void {

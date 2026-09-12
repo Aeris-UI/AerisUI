@@ -53,6 +53,7 @@ export class ɵAerisAppendTo {
   private originCaptured = false;
   private originParent: Node | null = null;
   private originNextSibling: Node | null = null;
+  private restoringToOrigin = false;
   private unconstrainedPanelWidth = 0;
   private unconstrainedPanelHeight = 0;
 
@@ -475,12 +476,24 @@ export class ɵAerisAppendTo {
   }
 
   private restoreToOrigin(): void {
-    if (!this.originParent || this.element.parentNode === this.originParent) return;
-    this.renderer.insertBefore(
-      this.originParent,
-      this.element,
-      this.originNextSibling?.parentNode === this.originParent ? this.originNextSibling : null,
-    );
+    if (
+      this.restoringToOrigin ||
+      !this.originParent ||
+      this.element.parentNode === this.originParent
+    )
+      return;
+
+    // Reparenting a focused panel can synchronously dispatch blur/focusout and close it again.
+    this.restoringToOrigin = true;
+    try {
+      this.renderer.insertBefore(
+        this.originParent,
+        this.element,
+        this.originNextSibling?.parentNode === this.originParent ? this.originNextSibling : null,
+      );
+    } finally {
+      this.restoringToOrigin = false;
+    }
   }
 }
 

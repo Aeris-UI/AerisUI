@@ -130,8 +130,8 @@
 }
 
 .aeris-input-number__clear {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
   display: grid;
   place-items: center;
   flex: 0 0 auto;
@@ -144,7 +144,8 @@
   cursor: pointer;
 }
 
-.aeris-input-number__clear:hover {
+.aeris-input-number__clear:hover,
+.aeris-input-number__clear:focus-visible {
   background: var(--aeris-surface-2, #f2f0ec);
   color: var(--aeris-text, #222222);
 }

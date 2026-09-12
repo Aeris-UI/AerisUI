@@ -239,7 +239,7 @@ let nextSelectId = 0;
         }
         <span
           class="aeris-select__actions"
-          (pointerdown)="$event.preventDefault()"
+          (pointerdown)="preservePointerFocus($event)"
           (click)="handleDropdownClick($event)"
         >
           @if (loading()) {
@@ -367,7 +367,7 @@ let nextSelectId = 0;
                       [class.aeris-select__option--selected]="value() === option.value"
                       [class.aeris-select__option--disabled]="option.disabled"
                       (mouseenter)="activate(option)"
-                      (pointerdown)="$event.preventDefault()"
+                      (pointerdown)="preservePointerFocus($event)"
                       (click)="select(option, $event)"
                     >
                       <span class="aeris-select__option-content">
@@ -675,6 +675,10 @@ export class AerisSelectComponent implements ControlValueAccessor {
     event.preventDefault();
     event.stopPropagation();
     this.toggle();
+  }
+
+  protected preservePointerFocus(event: PointerEvent): void {
+    if (event.pointerType === 'mouse') event.preventDefault();
   }
 
   protected handleTriggerKeydown(event: KeyboardEvent): void {

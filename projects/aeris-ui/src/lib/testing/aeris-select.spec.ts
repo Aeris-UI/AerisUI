@@ -293,10 +293,37 @@ describe('AerisSelect', () => {
     option?.click();
     fixture.detectChanges();
 
-    expect(pointerdown.defaultPrevented).toBe(true);
+    expect(pointerdown.defaultPrevented).toBe(false);
     expect(fixture.componentInstance.role()).toBe('manager');
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
     expect(fixture.nativeElement.querySelector('[role="listbox"]')).toBeNull();
+  });
+
+  it('preserves focus for mouse option presses without cancelling touch presses', async () => {
+    const fixture = TestBed.createComponent(SelectTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#role') as HTMLButtonElement;
+    trigger.click();
+    fixture.detectChanges();
+
+    const option = fixture.nativeElement.querySelector('[role="option"]') as HTMLElement;
+    const mousePointerdown = new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      pointerType: 'mouse',
+    });
+    option.dispatchEvent(mousePointerdown);
+
+    const touchPointerdown = new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      pointerType: 'touch',
+    });
+    option.dispatchEvent(touchPointerdown);
+
+    expect(mousePointerdown.defaultPrevented).toBe(true);
+    expect(touchPointerdown.defaultPrevented).toBe(false);
   });
 
   it('supports reverse navigation, boundaries, and Tab dismissal', async () => {

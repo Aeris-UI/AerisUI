@@ -330,7 +330,10 @@ export class AerisDialog {
 
   show(originalEvent: Event | null = null): void {
     if (this.visible()) return;
-    this.previouslyFocused.set(this.activeHtmlElement());
+    const eventTarget = originalEvent?.currentTarget;
+    this.previouslyFocused.set(
+      eventTarget instanceof HTMLElement ? eventTarget : this.activeHtmlElement(),
+    );
     this.pendingOriginalEvent = originalEvent;
     this.visible.set(true);
   }
@@ -422,7 +425,7 @@ export class AerisDialog {
   }
 
   private handleShown(): void {
-    this.previouslyFocused.set(this.activeHtmlElement());
+    if (!this.previouslyFocused()) this.previouslyFocused.set(this.activeHtmlElement());
     ɵregisterAerisOverlay(this.document, this.overlayToken);
     this.lockScroll();
     const event = this.visibilityEvent(true, 'api', this.pendingOriginalEvent);
@@ -444,8 +447,10 @@ export class AerisDialog {
     this.pendingCloseReason = 'api';
     this.hidden.emit(event);
     this.visibilityChanged.emit(event);
+    const previouslyFocused = this.previouslyFocused();
+    this.previouslyFocused.set(null);
     if (!this.restoreFocus() || !restoreFocus) return;
-    queueMicrotask(() => this.previouslyFocused()?.focus());
+    queueMicrotask(() => previouslyFocused?.focus());
   }
 
   private lockScroll(): void {

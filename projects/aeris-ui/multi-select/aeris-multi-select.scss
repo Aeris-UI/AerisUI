@@ -143,7 +143,7 @@
   place-items: center;
   padding: 0;
   border: 0;
-  border-radius: var(--aeris-radius-sm, 0.4375rem);
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: var(--aeris-text-2, #555555);
   transform: translateY(-50%);
@@ -151,6 +151,13 @@
 }
 .aeris-multi-select__clear:hover {
   background: var(--aeris-surface-2, #f2f0ec);
+  color: var(--aeris-text, #222222);
+}
+.aeris-multi-select__clear:focus-visible {
+  background: var(--aeris-surface-2, #f2f0ec);
+  color: var(--aeris-text, #222222);
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline-offset: 1px;
 }
 .aeris-multi-select__chevron {
   position: absolute;
@@ -260,6 +267,10 @@
   color: inherit;
   font: inherit;
 }
+.aeris-multi-select__filter::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
 .aeris-multi-select__filter-clear {
   position: absolute;
   top: 50%;
@@ -270,9 +281,20 @@
   place-items: center;
   padding: 0;
   border: 0;
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: var(--aeris-text-2, #555555);
   transform: translateY(-50%);
+  cursor: pointer;
+}
+.aeris-multi-select__filter-clear:hover,
+.aeris-multi-select__filter-clear:focus-visible {
+  background: var(--aeris-surface-2, #f2f0ec);
+  color: var(--aeris-text, #222222);
+}
+.aeris-multi-select__filter-clear:focus-visible {
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline-offset: 1px;
 }
 .aeris-multi-select__list {
   max-height: var(--aeris-multi-select-panel-max-height, 18rem);

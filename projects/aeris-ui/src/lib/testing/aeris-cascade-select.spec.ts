@@ -123,7 +123,7 @@ describe('AerisCascadeSelect', () => {
     expect(hiddenInput.value).toBe('lisbon');
   });
 
-  it('opens columns and selects a leaf option with the mouse', async () => {
+  it('opens columns and selects a leaf option with touch', async () => {
     const fixture = TestBed.createComponent(CascadeSelectHost);
     await fixture.whenStable();
 
@@ -157,7 +157,7 @@ describe('AerisCascadeSelect', () => {
     austin.click();
     fixture.detectChanges();
 
-    expect(pointerdown.defaultPrevented).toBe(true);
+    expect(pointerdown.defaultPrevented).toBe(false);
     expect(fixture.componentInstance.value()).toBe('austin');
     expect(fixture.componentInstance.lastChange()?.path.map((option) => option.value)).toEqual([
       'north-america',

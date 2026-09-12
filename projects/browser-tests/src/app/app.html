@@ -1,0 +1,180 @@
+<main>
+  <header>
+    <p>Aeris UI</p>
+    <h1>Browser regression fixtures</h1>
+  </header>
+
+  <section data-fixture="forms" aria-labelledby="forms-title">
+    <h2 id="forms-title">Forms</h2>
+    <div class="fixture-grid">
+      <label class="field">
+        <span>Required name</span>
+        <input
+          aerisInputText
+          required
+          [invalid]="invalid() && touched()"
+          aria-describedby="name-error"
+          (blur)="markTouched()"
+        />
+        @if (invalid() && touched()) {
+          <small id="name-error">Enter a name.</small>
+        }
+      </label>
+
+      <div class="field">
+        <label for="role">Role</label>
+        <aeris-select
+          inputId="role"
+          [options]="roles"
+          [(value)]="role"
+          placeholder="Choose a role"
+          fluid
+        />
+      </div>
+
+      <div class="field">
+        <label for="deadline">Deadline</label>
+        <aeris-date-picker inputId="deadline" [(value)]="date" placeholder="Choose a date" />
+      </div>
+
+      <label class="field">
+        <span>Notes</span>
+        <textarea aerisTextarea readonly>Read-only fixture</textarea>
+      </label>
+
+      <aeris-checkbox label="Include research" [(checked)]="checked" />
+      <aeris-toggle-switch label="Enable alerts" [(checked)]="toggled" />
+      <button aerisButton type="button" (click)="clearValidation()">Make valid</button>
+      <button aerisButton type="button" disabled>Disabled action</button>
+    </div>
+  </section>
+
+  <section data-fixture="overlays" aria-labelledby="overlays-title">
+    <h2 id="overlays-title">Overlays</h2>
+    <div class="actions">
+      <button aerisButton type="button" (click)="dialog.show($event)">Open dialog</button>
+      <button aerisButton type="button" (click)="drawerOpen.set(true)">Open drawer</button>
+      <button aerisButton type="button" aerisTooltip="Attached tooltip" aerisTooltipEvent="both">
+        Tooltip target
+      </button>
+      <button
+        class="underlay-target"
+        aerisButton
+        type="button"
+        (click)="underlyingClicks.update((count) => count + 1)"
+      >
+        Underlay target
+      </button>
+      <output aria-label="Underlay click count">{{ underlyingClicks() }}</output>
+    </div>
+
+    <aeris-dialog
+      #dialog
+      header="Create project"
+      [(visible)]="dialogOpen"
+      footerLayout="responsive"
+      dismissibleMask
+      initialFocus=".dialog-content input"
+    >
+      <div class="dialog-content">
+        <label class="field">
+          <span>Project name</span>
+          <input aerisInputText />
+        </label>
+        <div class="field">
+          <label for="dialog-role">Owner role</label>
+          <aeris-select inputId="dialog-role" [options]="roles" appendTo="body" fluid />
+        </div>
+      </div>
+      <ng-template aerisDialogFooter let-close="close">
+        <button aerisButton type="button" variant="secondary" (click)="close($event)">
+          Cancel changes
+        </button>
+        <button aerisButton type="button" (click)="close($event)">Create project</button>
+      </ng-template>
+    </aeris-dialog>
+
+    <aeris-drawer
+      header="Filters"
+      position="bottom"
+      [(visible)]="drawerOpen"
+      footerLayout="responsive"
+      dismissibleMask
+    >
+      <p>Drawer content</p>
+      <ng-template aerisDrawerFooter let-close="close">
+        <button aerisButton type="button" variant="secondary" (click)="close($event)">
+          Reset all filters
+        </button>
+        <button aerisButton type="button" (click)="close($event)">Apply filters</button>
+      </ng-template>
+    </aeris-drawer>
+  </section>
+
+  <section class="tall-fixture" data-fixture="menu" aria-labelledby="menu-title">
+    <h2 id="menu-title">Menu</h2>
+    <button aerisButton type="button" (click)="popupMenu.toggle($event)">Open popup menu</button>
+    <aeris-menu #popupMenu popup [model]="menuItems" ariaLabel="Fixture actions" appendTo="body" />
+    <button aerisButton type="button" (click)="tieredMenu.toggle($event)">Open tiered menu</button>
+    <aeris-tiered-menu
+      #tieredMenu
+      popup
+      [model]="tieredMenuItems"
+      ariaLabel="Tiered fixture actions"
+      appendTo="body"
+    />
+  </section>
+
+  <section class="narrow-fixture" data-fixture="tabs" aria-labelledby="tabs-title">
+    <h2 id="tabs-title">Tabs</h2>
+    <aeris-tabs [(value)]="activeTab" ariaLabel="Fixture tabs" scrollable>
+      <aeris-tab-panel value="overview" label="Overview">Overview content</aeris-tab-panel>
+      <aeris-tab-panel value="activity" label="Recent activity">Activity content</aeris-tab-panel>
+      <aeris-tab-panel value="members" label="Project members">Members content</aeris-tab-panel>
+      <aeris-tab-panel value="permissions" label="Permissions">Permissions content</aeris-tab-panel>
+      <aeris-tab-panel value="billing" label="Billing">Billing content</aeris-tab-panel>
+      <aeris-tab-panel value="deferred" label="Deferred report">
+        <ng-template aerisTabContent>
+          <p data-deferred-content>Deferred content</p>
+        </ng-template>
+      </aeris-tab-panel>
+    </aeris-tabs>
+  </section>
+
+  <section data-fixture="data" aria-labelledby="data-title">
+    <h2 id="data-title">Data</h2>
+    <div class="table-frame">
+      <aeris-table
+        caption="Team members"
+        [data]="rows"
+        [(columns)]="tableColumns"
+        resizableColumns
+        reorderableColumns
+        scrollable
+        scrollHeight="12rem"
+        gridlines
+      />
+    </div>
+  </section>
+
+  <section data-fixture="notifications" aria-labelledby="notifications-title">
+    <h2 id="notifications-title">Notifications</h2>
+    <div class="actions">
+      <button aerisButton type="button" (click)="showToast()">Show toast</button>
+      <button aerisButton type="button" (click)="showRapidToasts()">Show five toasts</button>
+    </div>
+    <aeris-toast group="browser" position="bottom-right" [visibleCount]="4" />
+  </section>
+
+  <section data-fixture="layout" aria-labelledby="layout-title">
+    <h2 id="layout-title">Layout</h2>
+    <div class="actions">
+      <button aerisButton type="button" (click)="setDirection('ltr')">LTR</button>
+      <button aerisButton type="button" (click)="setDirection('rtl')">RTL</button>
+      <button aerisButton type="button" (click)="setDensity('compact')">Compact</button>
+      <button aerisButton type="button" (click)="setDensity('comfortable')">Comfortable</button>
+      <button aerisButton type="button" (click)="setRadius('soft')">Soft</button>
+      <button aerisButton type="button" (click)="setRadius('rounded')">Rounded</button>
+    </div>
+  </section>
+</main>

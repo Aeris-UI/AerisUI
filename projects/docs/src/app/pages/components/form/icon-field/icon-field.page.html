@@ -29,19 +29,19 @@
             <app-form-demo
               id="icon-field-basic"
               title="Basic"
-              description="Project an icon and a native input into the field shell. Decorative icons are hidden from assistive technology by default."
+              description="Project an icon and an Aeris input into the field shell. The clearable input provides a consistent clear button; decorative icons are hidden from assistive technology."
               [tsCode]="searchCode"
             >
               <div preview class="field">
                 <label for="site-search">Search</label>
                 <aeris-icon-field fluid>
                   <svg aerisIcon [lucideIcon]="icons.Search"></svg>
-                  <input
-                    aerisInputText
-                    id="site-search"
+                  <aeris-input-text
+                    inputId="site-search"
                     type="search"
                     placeholder="Search documentation"
                     [(ngModel)]="search"
+                    clearable
                     fluid
                   />
                 </aeris-icon-field>
@@ -51,12 +51,12 @@
   &lt;label for="site-search"&gt;Search&lt;/label&gt;
   &lt;aeris-icon-field fluid&gt;
     &lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg&gt;
-    &lt;input
-      aerisInputText
-      id="site-search"
+    &lt;aeris-input-text
+      inputId="site-search"
       type="search"
       placeholder="Search documentation"
       [(ngModel)]="search"
+      clearable
       fluid
     /&gt;
   &lt;/aeris-icon-field&gt;

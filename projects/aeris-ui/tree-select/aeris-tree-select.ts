@@ -257,7 +257,7 @@ let treeSelectId = 0;
                   [attr.data-disabled]="nodeUnavailable(item.node) || null"
                   [style.--aeris-tree-select-level]="item.level"
                   (mouseenter)="activate(item.node)"
-                  (pointerdown)="$event.preventDefault()"
+                  (pointerdown)="preservePointerFocus($event)"
                   (click)="selectNode(item.node, $event)"
                 >
                   <button
@@ -594,6 +594,10 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
     const value = [...next];
     this.setValue(value);
     this.changed.emit({ originalEvent: event, value, node, selected: !selected });
+  }
+
+  protected preservePointerFocus(event: PointerEvent): void {
+    if (event.pointerType === 'mouse') event.preventDefault();
   }
 
   protected handleToggleClick(node: AerisTreeNode, event: MouseEvent): void {

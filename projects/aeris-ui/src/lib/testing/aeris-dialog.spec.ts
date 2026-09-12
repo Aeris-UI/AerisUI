@@ -17,8 +17,9 @@ const settle = () => new Promise<void>((resolve) => queueMicrotask(resolve));
 @Component({
   imports: [AerisDialogModule],
   template: `
-    <button type="button" id="launcher" (click)="open.set(true)">Open</button>
+    <button type="button" id="launcher" (click)="dialog.show($event)">Open</button>
     <aeris-dialog
+      #dialog
       header="Project details"
       ariaDescribedBy="dialog-description"
       [backdropBlur]="blur()"

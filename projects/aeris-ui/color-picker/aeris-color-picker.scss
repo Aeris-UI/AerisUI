@@ -175,9 +175,11 @@
 }
 
 .aeris-color-picker__clear {
-  width: var(--aeris-color-picker-height);
-  height: var(--aeris-color-picker-height);
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.5rem));
+  background: transparent;
 }
 
 .aeris-color-picker__close,
@@ -464,9 +466,19 @@
 }
 
 .aeris-color-picker__trigger:hover,
-.aeris-color-picker__clear:hover,
 .aeris-color-picker__panel-value input:hover {
   border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
+}
+
+.aeris-color-picker__clear:hover,
+.aeris-color-picker__clear:focus-visible {
+  background: var(--aeris-surface-2, #f2f0ec);
+  color: var(--aeris-text, #222222);
+}
+
+.aeris-color-picker__clear:focus-visible {
+  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline-offset: 1px;
 }
 
 .aeris-color-picker__presets button:hover {
@@ -482,7 +494,6 @@
 
 .aeris-color-picker__trigger:focus-visible,
 .aeris-color-picker__text:focus,
-.aeris-color-picker__clear:focus-visible,
 .aeris-color-picker__close:focus-visible,
 .aeris-color-picker__eyedropper:focus-visible,
 .aeris-color-picker__formats button:focus-visible,

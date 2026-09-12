@@ -179,11 +179,9 @@
   cursor: pointer;
 }
 
-.aeris-cascade-select__clear:hover {
-  background: var(
-    --aeris-cascade-select-option-hover,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
-  );
+.aeris-cascade-select__clear:hover,
+.aeris-cascade-select__clear:focus-visible {
+  background: var(--aeris-surface-2, #f2f0ec);
   color: var(--aeris-text, #222222);
 }
 
