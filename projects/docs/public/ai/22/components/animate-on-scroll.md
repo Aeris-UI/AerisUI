@@ -468,7 +468,7 @@ import { AerisAnimateOnScrollModule } from '@aeris-ui/core/animate-on-scroll';
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.875rem;
     }
-    
+
     .stagger-grid article {
       min-width: 0;
       padding: 1rem;
@@ -476,17 +476,17 @@ import { AerisAnimateOnScrollModule } from '@aeris-ui/core/animate-on-scroll';
       border-radius: var(--aeris-radius-lg);
       background: var(--aeris-surface-2);
     }
-    
+
     .stagger-grid strong,
     .stagger-grid span {
       display: block;
     }
-    
+
     .stagger-grid span {
       margin-top: 0.25rem;
       color: var(--aeris-text-2);
     }
-    
+
     @media (max-width: 36rem) {
       .stagger-grid {
         grid-template-columns: 1fr;

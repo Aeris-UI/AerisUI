@@ -288,14 +288,14 @@ import { AerisConfirmPopupService } from '@aeris-ui/core/confirm-popup';
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .placement-grid {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 0.5rem;
       max-width: 34rem;
     }
-    
+
     .demo-status {
       width: 100%;
       margin: 0.875rem 0 0;
@@ -811,14 +811,14 @@ import { AerisConfirmPopupService } from '@aeris-ui/core/confirm-popup';
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .placement-grid {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 0.5rem;
       max-width: 34rem;
     }
-    
+
     .demo-status {
       width: 100%;
       margin: 0.875rem 0 0;

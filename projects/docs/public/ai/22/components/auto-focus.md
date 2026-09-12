@@ -166,12 +166,13 @@ Bind the directive to application state and re-enable it only when focus should 
 
 ```ts
 import { Component, signal } from '@angular/core';
+import { AerisAutoFocusModule } from '@aeris-ui/core/auto-focus';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 
 @Component({
   selector: 'app-auto-focus-controlled-demo',
-  imports: [AerisButton, AerisInputText],
+  imports: [AerisAutoFocusModule, AerisButton, AerisInputText],
   templateUrl: './auto-focus-controlled.demo.html',
   styleUrl: './auto-focus-controlled.demo.scss'
 })
@@ -258,12 +259,13 @@ Export the directive to focus its host manually with native FocusOptions.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisAutoFocusModule } from '@aeris-ui/core/auto-focus';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisTextarea } from '@aeris-ui/core/textarea';
 
 @Component({
   selector: 'app-auto-focus-method-demo',
-  imports: [AerisButton, AerisTextarea],
+  imports: [AerisAutoFocusModule, AerisButton, AerisTextarea],
   templateUrl: './auto-focus-method.demo.html',
   styleUrl: './auto-focus-method.demo.scss'
 })

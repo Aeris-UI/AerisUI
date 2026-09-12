@@ -146,7 +146,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -154,17 +154,17 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .mask-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -198,7 +198,7 @@ import { Component } from '@angular/core';
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 0.75rem;
     }
-    
+
     .mask-token-list div {
       display: grid;
       gap: 0.25rem;
@@ -207,19 +207,19 @@ import { Component } from '@angular/core';
       border-radius: 0.625rem;
       background: var(--aeris-surface-2);
     }
-    
+
     .mask-token-list code {
       color: var(--aeris-primary-text);
       font-size: 1rem;
       font-weight: 700;
     }
-    
+
     .mask-token-list span {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     @media (max-width: 42rem) {
       .mask-token-list {
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -357,7 +357,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -365,17 +365,17 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .mask-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -422,7 +422,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -430,17 +430,17 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .mask-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -493,7 +493,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -501,13 +501,13 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -553,7 +553,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -561,17 +561,17 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .mask-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -818,7 +818,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -826,13 +826,13 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -874,7 +874,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -882,13 +882,13 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

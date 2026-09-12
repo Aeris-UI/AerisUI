@@ -373,18 +373,18 @@ import { AerisMessageModule, type AerisMessageCloseEvent } from '@aeris-ui/core/
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .message-status {
       margin: 0;
       color: var(--aeris-text-2);
       font-size: 0.875rem;
     }
-    
+
     .message-stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .message-status {
       margin: 0;
       color: var(--text-2);

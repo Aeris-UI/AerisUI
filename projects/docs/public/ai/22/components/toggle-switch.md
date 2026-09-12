@@ -156,7 +156,7 @@ import { AerisToggleSwitch, type AerisToggleSwitchChangeEvent } from '@aeris-ui/
       display: grid;
       gap: 0.875rem;
     }
-    
+
     .switch-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -206,7 +206,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
@@ -247,7 +247,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
@@ -287,11 +287,11 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
       display: inline-grid;
       gap: 0.15rem;
     }
-    
+
     .switch-rich-label strong {
       color: var(--aeris-text);
     }
-    
+
     .switch-rich-label small {
       color: var(--aeris-text-2);
       font-size: 0.75rem;

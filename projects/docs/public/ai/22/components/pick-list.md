@@ -207,7 +207,7 @@ interface Product {
     .pick-list-demo {
       width: 100%;
     }
-    
+
     .pick-list-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -261,7 +261,7 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
     .pick-list-demo {
       width: 100%;
     }
-    
+
     .pick-list-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -301,7 +301,7 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
     .pick-list-demo {
       width: 100%;
     }
-    
+
     .pick-list-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -402,7 +402,7 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
     .pick-list-demo {
       width: 100%;
     }
-    
+
     .pick-list-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -442,12 +442,12 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
     .pick-list-demo {
       width: 100%;
     }
-    
+
     .pick-list-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
     }
-    
+
     .compact-pick-list {
       --aeris-pick-list-max-height: 17rem;
     }
@@ -568,12 +568,12 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
     .pick-list-demo {
       width: 100%;
     }
-    
+
     .pick-list-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .pick-list-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;

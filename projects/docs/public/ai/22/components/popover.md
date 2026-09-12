@@ -549,16 +549,16 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
       gap: 0.75rem;
       min-width: 16rem;
     }
-    
+
     .headless-popover strong {
       color: var(--text);
     }
-    
+
     .headless-popover p {
       margin: 0;
       color: var(--text-2);
     }
-    
+
     .headless-popover .aeris-button {
       justify-self: end;
     }

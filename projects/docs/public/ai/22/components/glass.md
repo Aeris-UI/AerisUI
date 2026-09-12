@@ -79,7 +79,7 @@ import { AerisGlassModule } from '@aeris-ui/core/glass';
       border-radius: var(--aeris-radius-xl);
       background: url('/abstract.jpg') center / cover no-repeat;
     }
-    
+
     .glass-surface {
       width: min(100%, 30rem);
       padding: 1.5rem;

@@ -387,7 +387,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
       align-items: center;
       gap: 0.875rem;
     }
-    
+
     .avatar-fallback-demo p {
       margin: 0;
     }

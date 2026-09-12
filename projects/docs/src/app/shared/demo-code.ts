@@ -42,10 +42,10 @@ const AERIS_IMPORTS: readonly AerisImportRule[] = [
     /\saerisAccordion(?:Header|ToggleIcon)\b/,
   ),
   rule('AerisAnimateOnScrollModule', 'animate-on-scroll', /\saerisAnimateOnScroll\b/),
-  rule('AerisAutoFocusModule', 'auto-focus', /\saerisAutoFocus\b/),
-  rule('AerisClassNamesModule', 'class-names', /\saerisClassNames\b/),
-  rule('AerisFocusTrapModule', 'focus-trap', /\saerisFocusTrap\b/),
-  rule('AerisStyleClassModule', 'style-class', /\saerisStyleClass\b/),
+  rule('AerisAutoFocusModule', 'auto-focus', /[\s[]aerisAutoFocus\b/),
+  rule('AerisClassNamesModule', 'class-names', /[\s[]aerisClassNames\b/),
+  rule('AerisFocusTrapModule', 'focus-trap', /[\s[]aerisFocusTrap\b/),
+  rule('AerisStyleClassModule', 'style-class', /[\s[]aerisStyleClass\b/),
   rule('AerisGlassModule', 'glass', /\s\[?aerisGlass\]?(?:\s|=|>)/),
   rule('AerisAvatarModule', 'avatar', /<aeris-avatar\b/, /<aeris-avatar-group\b/),
   rule(
@@ -81,6 +81,7 @@ const AERIS_IMPORTS: readonly AerisImportRule[] = [
   rule('AerisChipModule', 'chip', /<aeris-chip\b/, /\saerisChip(?:Leading|RemoveIcon)\b/),
   rule('AerisCheckbox', 'checkbox', /<aeris-checkbox\b/),
   rule('AerisColorPicker', 'color-picker', /<aeris-color-picker\b/),
+  rule('AerisCompareModule', 'compare', /<aeris-compare\b/, /\saerisCompare[A-Z]\w*/),
   rule(
     'AerisConfirmDialogModule',
     'confirm-dialog',
@@ -137,7 +138,7 @@ const AERIS_IMPORTS: readonly AerisImportRule[] = [
   rule('AerisInputOtp', 'input-otp', /<aeris-input-otp\b/, /\saerisInputOtpSeparator\b/),
   rule('AerisInputText', 'input-text', /<aeris-input-text\b/, /\saerisInputText\b/),
   rule('AerisInplaceModule', 'inplace', /<aeris-inplace\b/, /\saerisInplace(?:Display|Content)\b/),
-  rule('AerisKeyFilter', 'key-filter', /\saerisKeyFilter\b/),
+  rule('AerisKeyFilter', 'key-filter', /[\s[]aerisKeyFilter\b/),
   rule('AerisMessageModule', 'message', /<aeris-message\b/, /\saerisMessage(?:Icon|Content)\b/),
   rule(
     'AerisMeterGroupModule',
@@ -206,7 +207,7 @@ const AERIS_IMPORTS: readonly AerisImportRule[] = [
     /<aeris-toolbar\b/,
     /\saerisToolbar(?:Start|Center|End|Group|Spacer)\b/,
   ),
-  rule('AerisTooltipModule', 'tooltip', /\saerisTooltip\b/),
+  rule('AerisTooltipModule', 'tooltip', /[\s[]aerisTooltip\b/),
   rule('AerisToastModule', 'toast', /<aeris-toast\b/, /\saerisToast(?:Content|Icon)\b/),
   rule('AerisToggleSwitch', 'toggle-switch', /<aeris-toggle-switch\b/),
   rule('AerisTreeModule', 'tree', /<aeris-tree\b/, /\saerisTreeNode\b/),
@@ -235,6 +236,7 @@ const AERIS_TYPE_PREFIXES: readonly [prefix: string, secondary: string][] = [
   ['AerisChip', 'chip'],
   ['AerisCheckbox', 'checkbox'],
   ['AerisColor', 'color-picker'],
+  ['AerisCompare', 'compare'],
   ['AerisConfirmDialog', 'confirm-dialog'],
   ['AerisConfirmPopup', 'confirm-popup'],
   ['AerisContextMenu', 'context-menu'],
@@ -283,6 +285,7 @@ const AERIS_TYPE_PREFIXES: readonly [prefix: string, secondary: string][] = [
   ['AerisStepper', 'stepper'],
   ['AerisTable', 'table'],
   ['AerisTabs', 'tabs'],
+  ['AerisTab', 'tabs'],
   ['AerisTextarea', 'textarea'],
   ['AerisTimeline', 'timeline'],
   ['AerisToolbar', 'toolbar'],
@@ -307,14 +310,21 @@ export function buildAngularDemoSources(options: DemoCodeOptions): readonly Code
 
 function buildAngularDemoCode(options: DemoCodeOptions): BuiltDemoCode {
   const template = normalizeCode(options.template);
-  const splitCode = splitClassCode(normalizeCode(options.classCode ?? ''));
-  const classCode = splitCode.classBody
-    .replace(/^\s*protected readonly icons = DOC_ICONS;\s*$/m, '')
-    .trim();
+  const suppliedClassCode = normalizeCode(options.classCode ?? '');
   const cssCode = normalizeCode(
     [sharedLayoutCss(template), options.cssCode].filter(Boolean).join('\n\n'),
   );
-
+  if (/@Component\s*\(/.test(suppliedClassCode) && /\bexport\s+class\s+/.test(suppliedClassCode)) {
+    return {
+      ts: suppliedClassCode,
+      ...(/\btemplateUrl\s*:/.test(suppliedClassCode) ? { html: template } : {}),
+      ...(/\bstyleUrl\s*:/.test(suppliedClassCode) && cssCode ? { css: cssCode } : {}),
+    };
+  }
+  const splitCode = splitClassCode(suppliedClassCode);
+  const classCode = splitCode.classBody
+    .replace(/^\s*protected readonly icons = DOC_ICONS;\s*$/m, '')
+    .trim();
   if (!template && !splitCode.prelude && !classCode && !cssCode) return { ts: '' };
 
   const groups = new Map<string, ImportGroup>();
@@ -325,7 +335,7 @@ function buildAngularDemoCode(options: DemoCodeOptions): BuiltDemoCode {
   for (const importBlock of splitCode.imports) addImportBlock(groups, importBlock);
 
   addAngularCoreImports(angularCore, body, cssCode);
-  addAerisImports(groups, componentImports, body, classCode);
+  addAerisImports(groups, componentImports, body, `${splitCode.prelude}\n${classCode}`);
   addAngularFormsImports(groups, componentImports, body, classCode);
 
   const lucideIcons = iconNames(template);
@@ -381,14 +391,14 @@ function rule(symbol: string, secondary: string, ...tests: readonly RegExp[]): A
 
 function addAngularCoreImports(core: Set<string>, body: string, cssCode: string): void {
   const checks: readonly [string, RegExp][] = [
-    ['computed', /\bcomputed\s*\(/],
+    ['computed', /\bcomputed\s*(?:<[^>]+>)?\s*\(/],
     ['effect', /\beffect\s*\(/],
     ['input', /\binput(?:\.\w+)?\s*\(/],
     ['model', /\bmodel\s*\(/],
     ['output', /\boutput\s*\(/],
     ['signal', /\bsignal\s*(?:<|\()/],
-    ['viewChild', /\bviewChild(?:\.\w+)?\s*\(/],
-    ['viewChildren', /\bviewChildren\s*\(/],
+    ['viewChild', /\bviewChild(?:\.\w+)?\s*(?:<[^;]+>)?\s*\(/],
+    ['viewChildren', /\bviewChildren\s*(?:<[^;]+>)?\s*\(/],
   ];
   for (const [symbol, pattern] of checks) {
     if (pattern.test(body)) core.add(symbol);
@@ -422,10 +432,27 @@ function addAerisImports(
 
   for (const token of classCode.match(/\bAeris[A-Za-z0-9]+\b/g) ?? []) {
     if ([...componentImports].includes(token)) continue;
-    const secondary = AERIS_TYPE_PREFIXES.find(([prefix]) => token.startsWith(prefix))?.[1];
+    const secondary =
+      treeTypeEntryPoint(token, body) ??
+      AERIS_TYPE_PREFIXES.find(([prefix]) => token.startsWith(prefix))?.[1];
     if (!secondary) continue;
     addGroup(groups, `@aeris-ui/core/${secondary}`).types.add(token);
   }
+}
+
+function treeTypeEntryPoint(token: string, body: string): string | undefined {
+  if (token === 'AerisTreeNode') {
+    return /<aeris-tree-select\b/.test(body) ? 'tree-select' : 'tree';
+  }
+  if (
+    token === 'AerisTreeSelectionEvent' ||
+    token === 'AerisTreeNodeEvent' ||
+    token === 'AerisTreeDropEvent' ||
+    token === 'AerisTreeFilterEvent'
+  ) {
+    return 'tree';
+  }
+  return undefined;
 }
 
 function addAngularFormsImports(
@@ -470,7 +497,7 @@ function addImportBlock(groups: Map<string, ImportGroup>, importBlock: string): 
     const name = rawName.trim();
     if (!name) continue;
     if (isTypeOnly || name.startsWith('type ')) {
-      group.types.add(name.slice(5).trim());
+      group.types.add(isTypeOnly ? name : name.slice(5).trim());
     } else {
       group.values.add(name);
     }
@@ -649,25 +676,35 @@ function splitClassCode(code: string): SplitClassCode {
   const imports: string[] = [];
   const prelude: string[] = [];
   const classBody: string[] = [];
-  const lines = code.split('\n');
-  let index = 0;
+  const sourceLines = code.split('\n');
+  const lines: string[] = [];
 
-  while (index < lines.length) {
-    const line = lines[index] ?? '';
-    if (!line.trim()) {
-      index += 1;
+  for (let sourceIndex = 0; sourceIndex < sourceLines.length; sourceIndex += 1) {
+    const line = sourceLines[sourceIndex] ?? '';
+    const trimmed = line.trimStart();
+    const isImport = trimmed.startsWith('import ');
+    const isPrelude = /^(?:interface|type|enum|const|let|function)\s/.test(line);
+    if (!isImport && !isPrelude) {
+      lines.push(line);
       continue;
     }
-    if (!line.trimStart().startsWith('import ')) break;
-    const block: string[] = [];
-    while (index < lines.length) {
-      const current = lines[index] ?? '';
+
+    const block = [line];
+    const depths = { brace: 0, bracket: 0, parenthesis: 0 };
+    updateDeclarationDepths(line, depths);
+    while (
+      !declarationBlockComplete(block.at(-1) ?? '', depths, isImport) &&
+      sourceIndex + 1 < sourceLines.length
+    ) {
+      sourceIndex += 1;
+      const current = sourceLines[sourceIndex] ?? '';
       block.push(current);
-      index += 1;
-      if (current.includes(';')) break;
+      updateDeclarationDepths(current, depths);
     }
-    imports.push(block.join('\n'));
+    (isImport ? imports : prelude).push(block.join('\n'));
   }
+
+  let index = 0;
 
   while (index < lines.length) {
     const line = lines[index] ?? '';
@@ -736,6 +773,34 @@ function splitClassCode(code: string): SplitClassCode {
     prelude: prelude.join('\n\n').trim(),
     classBody: classBody.join('\n').trim(),
   };
+}
+
+function updateDeclarationDepths(
+  line: string,
+  depths: { brace: number; bracket: number; parenthesis: number },
+): void {
+  for (const character of line.replace(/(['"`]).*?\1/g, '')) {
+    if (character === '{') depths.brace += 1;
+    else if (character === '}') depths.brace -= 1;
+    else if (character === '[') depths.bracket += 1;
+    else if (character === ']') depths.bracket -= 1;
+    else if (character === '(') depths.parenthesis += 1;
+    else if (character === ')') depths.parenthesis -= 1;
+  }
+}
+
+function declarationBlockComplete(
+  line: string,
+  depths: { brace: number; bracket: number; parenthesis: number },
+  isImport: boolean,
+): boolean {
+  if (isImport) return line.includes(';');
+  return (
+    depths.brace <= 0 &&
+    depths.bracket <= 0 &&
+    depths.parenthesis <= 0 &&
+    (line.trimEnd().endsWith(';') || line.trimEnd().endsWith('}'))
+  );
 }
 
 function componentClassName(anchor: string, title: string): string {

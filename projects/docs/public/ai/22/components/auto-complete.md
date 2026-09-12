@@ -179,7 +179,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -187,13 +187,13 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -245,7 +245,7 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -253,13 +253,13 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -304,7 +304,7 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -312,13 +312,13 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -364,7 +364,7 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -372,13 +372,13 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -422,7 +422,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -430,13 +430,13 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -485,7 +485,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -493,13 +493,13 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -661,7 +661,7 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -669,13 +669,13 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -1002,7 +1002,7 @@ import { AerisAutoComplete, type AerisAutoCompleteCompleteEvent, type AerisAutoC
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -1010,13 +1010,13 @@ import { AerisAutoComplete, type AerisAutoCompleteCompleteEvent, type AerisAutoC
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

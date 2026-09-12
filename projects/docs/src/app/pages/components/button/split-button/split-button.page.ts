@@ -79,15 +79,16 @@ export class SplitButtonPage {
   ];
 
   protected readonly importCode = `import { AerisSplitButton, type AerisSplitButtonItem }\n  from '@aeris-ui/core/split-button';`;
-  protected readonly modelCode = `protected readonly items: readonly AerisSplitButtonItem[] = [
-  { label: 'Save draft', icon: 'save', command: () => saveDraft() },
-  { label: 'Save a copy', icon: 'copy', command: () => saveCopy() },
+  protected readonly modelCode = `protected readonly lastAction = signal('None');
+protected readonly items: readonly AerisSplitButtonItem[] = [
+  { label: 'Save draft', icon: 'save', command: () => this.lastAction.set('Save draft') },
+  { label: 'Save a copy', icon: 'copy', command: () => this.lastAction.set('Save a copy') },
   { separator: true },
-  { label: 'Export', icon: 'export', command: () => exportFile() },
+  { label: 'Export', icon: 'export', command: () => this.lastAction.set('Export') },
 ];
 
 protected save(): void {
-  // Run the primary action.
+  this.lastAction.set('Save');
 }`;
   protected readonly controlledCode = `protected readonly open = signal(false);
 

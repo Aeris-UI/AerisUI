@@ -202,7 +202,7 @@ import { AerisDatePicker, type AerisDatePickerChangeEvent, type AerisDatePickerV
       display: grid;
       gap: 1rem;
     }
-    
+
     .field {
       min-width: 0;
       display: grid;
@@ -210,7 +210,7 @@ import { AerisDatePicker, type AerisDatePickerChangeEvent, type AerisDatePickerV
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -218,13 +218,13 @@ import { AerisDatePicker, type AerisDatePickerChangeEvent, type AerisDatePickerV
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -650,7 +650,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
     .inline-calendar-demo {
       width: 100%;
     }
-    
+
     .wide-calendar-demo aeris-date-picker,
     .inline-calendar-demo aeris-date-picker {
       max-width: 100%;
@@ -770,7 +770,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
     .inline-calendar-demo {
       width: 100%;
     }
-    
+
     .wide-calendar-demo aeris-date-picker,
     .inline-calendar-demo aeris-date-picker {
       max-width: 100%;
@@ -901,7 +901,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
@@ -945,7 +945,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.25rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-grid {
         grid-template-columns: 1fr;

@@ -184,7 +184,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
       align-items: stretch;
       gap: 1rem;
     }
-    
+
     .vertical-panel {
       min-width: 0;
       flex: 1;

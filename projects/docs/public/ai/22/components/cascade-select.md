@@ -157,7 +157,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -165,13 +165,13 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -231,7 +231,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -239,13 +239,13 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -290,7 +290,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -298,13 +298,13 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -468,7 +468,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -476,13 +476,13 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -765,7 +765,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectChangeEvent } from '@aeris-u
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -773,13 +773,13 @@ import { AerisCascadeSelect, type AerisCascadeSelectChangeEvent } from '@aeris-u
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

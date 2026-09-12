@@ -177,26 +177,46 @@ protected handleFilter(event: AerisTreeFilterEvent): void {
   this.eventText.set(event.value ? \`Filtering by “\${event.value}”.\` : 'Filter cleared.');
 }`;
 
-  protected readonly lazyTsCode = `protected readonly lazyNodes = signal<readonly AerisTreeNode<FileDetails>[]>([
+  protected readonly lazyTsCode = `import { LucideFileText, LucideFolder } from '@lucide/angular';
+
+protected readonly lazyNodes = signal<readonly AerisTreeNode<FileDetails>[]>([
   {
     key: 'remote',
     label: 'Remote workspace',
     leaf: false,
-    data: { type: 'folder', detail: 'Load on expansion' },
+    data: { type: 'folder', detail: 'Load on expansion', icon: LucideFolder },
   },
 ]);
 protected readonly lazyLoadingKeys = signal<readonly string[]>([]);
 protected readonly lazyExpanded = signal<readonly string[]>([]);
 
 protected handleLazyExpand(event: AerisTreeNodeEvent<FileDetails>): void {
-  if (event.node.children || event.node.leaf !== false) return;
+  if (
+    event.node.children ||
+    event.node.leaf !== false ||
+    this.lazyLoadingKeys().includes(event.key)
+  ) return;
   this.lazyLoadingKeys.set([event.key]);
-  loadRemoteNodes(event.key).then((children) => {
+  globalThis.setTimeout(() => {
+    const children: readonly AerisTreeNode<FileDetails>[] = [
+      {
+        key: 'remote-components',
+        label: 'Components',
+        leaf: true,
+        data: { type: 'folder', detail: '24 items', icon: LucideFolder },
+      },
+      {
+        key: 'remote-config',
+        label: 'workspace.json',
+        leaf: true,
+        data: { type: 'document', detail: '3 KB', icon: LucideFileText },
+      },
+    ];
     this.lazyNodes.update((nodes) => nodes.map((node) =>
       node.key === event.key ? { ...node, children } : node,
     ));
     this.lazyLoadingKeys.set([]);
-  });
+  }, 650);
 }`;
 
   protected readonly dragDropTsCode = `protected readonly dragFiles = signal<readonly AerisTreeNode<FileDetails>[]>(

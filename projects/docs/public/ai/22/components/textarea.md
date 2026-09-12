@@ -169,7 +169,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -177,13 +177,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -221,7 +221,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -229,13 +229,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -280,7 +280,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -288,13 +288,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -337,7 +337,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -345,13 +345,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -394,7 +394,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -402,13 +402,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -449,7 +449,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       gap: 1rem;
       align-items: start;
     }
-    
+
     .textarea-size-grid label {
       display: grid;
       gap: 0.4rem;
@@ -457,7 +457,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-size: 0.875rem;
       font-weight: 600;
     }
-    
+
     @media (max-width: 42rem) {
       .textarea-size-grid {
           grid-template-columns: 1fr;
@@ -682,7 +682,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.25rem;
     }
-    
+
     .field {
       min-width: 0;
       display: grid;
@@ -690,7 +690,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -698,17 +698,17 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     @media (max-width: 42rem) {
       .field-grid {
         grid-template-columns: 1fr;
@@ -836,7 +836,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -844,13 +844,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -892,7 +892,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -900,13 +900,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

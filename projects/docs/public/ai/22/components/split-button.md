@@ -129,81 +129,140 @@ The main segment runs the default action while the toggle exposes alternatives.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisSplitButton, type AerisSplitButtonItem } from '@aeris-ui/core/split-button';
+import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, LucideSave, LucideTrash2 } from '@lucide/angular';
 
 @Component({
   selector: 'app-split-basic-demo',
-  imports: [AerisSplitButton],
-  template: `
-    <div class="split-stage split-stage--status aeris-example-row">
-      <aeris-split-button
-        label="Save"
-        [model]="items"
-        [iconTemplate]="primaryIcon"
-        [itemTemplate]="itemIcon"
-        (clicked)="save()"
-      />
-      <span class="split-result" role="status" aria-live="polite"
-        >Last action: {{ lastAction() }}</span
-      >
-    </div>
-  `,
-  styles: `
-    .aeris-example-row {
-      display: flex;
-      gap: 0.5625rem;
-      min-width: 0;
-    }
-    
-    @media (max-width: 42rem) {
-      .aeris-example-row {
-        max-width: 100%;
-        flex-wrap: wrap;
-      }
-    }
-    
-    .split-stage {
-      width: 100%;
-      min-height: 13rem;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 0.75rem;
-      padding: 1rem;
-    }
-    
-    .split-stage--status {
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    
-    .split-result {
-      color: var(--aeris-text-2);
-      font-size: 0.8125rem;
-      text-align: center;
-    }
-    
-    @media (max-width: 40rem) {
-      .split-stage {
-          min-height: 14rem;
-          flex-wrap: wrap;
-        }
-    }
-  `
+  imports: [AerisSplitButton, LucideDynamicIcon],
+  templateUrl: './split-basic.demo.html',
+  styleUrl: './split-basic.demo.scss'
 })
 export class SplitBasicBasicDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
+
+  protected readonly lastAction = signal('None');
   protected readonly items: readonly AerisSplitButtonItem[] = [
-    { label: 'Save draft', icon: 'save', command: () => saveDraft() },
-    { label: 'Save a copy', icon: 'copy', command: () => saveCopy() },
+    { label: 'Save draft', icon: 'save', command: () => this.lastAction.set('Save draft') },
+    { label: 'Save a copy', icon: 'copy', command: () => this.lastAction.set('Save a copy') },
     { separator: true },
-    { label: 'Export', icon: 'export', command: () => exportFile() },
+    { label: 'Export', icon: 'export', command: () => this.lastAction.set('Export') },
   ];
 
   protected save(): void {
-    // Run the primary action.
+    this.lastAction.set('Save');
   }
+}
+```
+
+#### HTML
+
+```html
+<ng-template #primaryIcon>
+  <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+</ng-template>
+
+<ng-template #itemIcon let-action>
+  @switch (action.icon) {
+    @case ('save') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('copy') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Copy"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('export') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Download"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('edit') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Edit"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('delete') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Trash2"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('github') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Github"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @default {
+      <span>{{ action.label }}</span>
+    }
+  }
+</ng-template>
+
+<div class="split-stage split-stage--status aeris-example-row">
+  <aeris-split-button
+    label="Save"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+    (clicked)="save()"
+  />
+  <span class="split-result" role="status" aria-live="polite"
+    >Last action: {{ lastAction() }}</span
+  >
+</div>
+```
+
+#### CSS
+
+```css
+.aeris-example-row {
+  display: flex;
+  gap: 0.5625rem;
+  min-width: 0;
+}
+
+@media (max-width: 42rem) {
+  .aeris-example-row {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.split-stage {
+  width: 100%;
+  min-height: 13rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.split-stage--status {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.split-result {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+.split-template-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 40rem) {
+  .split-stage {
+      min-height: 14rem;
+      flex-wrap: wrap;
+    }
 }
 ```
 
@@ -216,20 +275,59 @@ Semantic severities apply consistently to both connected segments.
 ```ts
 import { Component } from '@angular/core';
 import { AerisSplitButton } from '@aeris-ui/core/split-button';
+import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, LucideSave, LucideTrash2 } from '@lucide/angular';
 
 @Component({
   selector: 'app-split-severity-demo',
-  imports: [AerisSplitButton],
+  imports: [AerisSplitButton, LucideDynamicIcon],
   templateUrl: './split-severity.demo.html',
   styleUrl: './split-severity.demo.scss'
 })
 export class SplitSeveritySeverityDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 }
 ```
 
 #### HTML
 
 ```html
+<ng-template #primaryIcon>
+  <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+</ng-template>
+
+<ng-template #itemIcon let-action>
+  @switch (action.icon) {
+    @case ('save') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('copy') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Copy"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('export') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Download"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('edit') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Edit"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('delete') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Trash2"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('github') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Github"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @default {
+      <span>{{ action.label }}</span>
+    }
+  }
+</ng-template>
+
 <div class="split-stage wrap aeris-example-row">
   <aeris-split-button
     label="Success"
@@ -301,6 +399,16 @@ export class SplitSeveritySeverityDemo {
   padding: 1rem;
 }
 
+.split-template-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (max-width: 40rem) {
   .split-stage {
       min-height: 14rem;
@@ -318,20 +426,59 @@ Outlined, text, and plain treatments reuse the Button visual contract.
 ```ts
 import { Component } from '@angular/core';
 import { AerisSplitButton } from '@aeris-ui/core/split-button';
+import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, LucideSave, LucideTrash2 } from '@lucide/angular';
 
 @Component({
   selector: 'app-split-variants-demo',
-  imports: [AerisSplitButton],
+  imports: [AerisSplitButton, LucideDynamicIcon],
   templateUrl: './split-variants.demo.html',
   styleUrl: './split-variants.demo.scss'
 })
 export class SplitVariantsVariantsDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 }
 ```
 
 #### HTML
 
 ```html
+<ng-template #primaryIcon>
+  <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+</ng-template>
+
+<ng-template #itemIcon let-action>
+  @switch (action.icon) {
+    @case ('save') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('copy') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Copy"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('export') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Download"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('edit') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Edit"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('delete') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Trash2"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('github') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Github"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @default {
+      <span>{{ action.label }}</span>
+    }
+  }
+</ng-template>
+
 <div class="split-stage wrap aeris-example-row">
   <aeris-split-button
     label="Default"
@@ -395,6 +542,16 @@ export class SplitVariantsVariantsDemo {
   padding: 1rem;
 }
 
+.split-template-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (max-width: 40rem) {
   .split-stage {
       min-height: 14rem;
@@ -412,20 +569,59 @@ All Button sizes are available without changing popup interaction.
 ```ts
 import { Component } from '@angular/core';
 import { AerisSplitButton } from '@aeris-ui/core/split-button';
+import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, LucideSave, LucideTrash2 } from '@lucide/angular';
 
 @Component({
   selector: 'app-split-sizes-demo',
-  imports: [AerisSplitButton],
+  imports: [AerisSplitButton, LucideDynamicIcon],
   templateUrl: './split-sizes.demo.html',
   styleUrl: './split-sizes.demo.scss'
 })
 export class SplitSizesSizesDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 }
 ```
 
 #### HTML
 
 ```html
+<ng-template #primaryIcon>
+  <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+</ng-template>
+
+<ng-template #itemIcon let-action>
+  @switch (action.icon) {
+    @case ('save') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('copy') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Copy"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('export') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Download"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('edit') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Edit"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('delete') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Trash2"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('github') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Github"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @default {
+      <span>{{ action.label }}</span>
+    }
+  }
+</ng-template>
+
 <div class="split-stage wrap aeris-example-row">
   <aeris-split-button
     label="Extra small"
@@ -489,6 +685,16 @@ export class SplitSizesSizesDemo {
   padding: 1rem;
 }
 
+.split-template-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (max-width: 40rem) {
   .split-stage {
       min-height: 14rem;
@@ -506,20 +712,59 @@ Shape and layout modifiers preserve the connected control geometry.
 ```ts
 import { Component } from '@angular/core';
 import { AerisSplitButton } from '@aeris-ui/core/split-button';
+import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, LucideSave, LucideTrash2 } from '@lucide/angular';
 
 @Component({
   selector: 'app-split-shape-demo',
-  imports: [AerisSplitButton],
+  imports: [AerisSplitButton, LucideDynamicIcon],
   templateUrl: './split-shape.demo.html',
   styleUrl: './split-shape.demo.scss'
 })
 export class SplitShapeRaisedRoundedAndFluidDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 }
 ```
 
 #### HTML
 
 ```html
+<ng-template #primaryIcon>
+  <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+</ng-template>
+
+<ng-template #itemIcon let-action>
+  @switch (action.icon) {
+    @case ('save') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('copy') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Copy"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('export') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Download"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('edit') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Edit"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('delete') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Trash2"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('github') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Github"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @default {
+      <span>{{ action.label }}</span>
+    }
+  }
+</ng-template>
+
 <div class="split-stage split-stage--fluid aeris-example-row">
   <div class="wrap">
     <aeris-split-button
@@ -584,6 +829,16 @@ export class SplitShapeRaisedRoundedAndFluidDemo {
   justify-content: initial;
 }
 
+.split-template-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (max-width: 40rem) {
   .split-stage {
       min-height: 14rem;
@@ -601,20 +856,59 @@ Loading disables both segments to prevent duplicate primary or menu actions.
 ```ts
 import { Component } from '@angular/core';
 import { AerisSplitButton } from '@aeris-ui/core/split-button';
+import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, LucideSave, LucideTrash2 } from '@lucide/angular';
 
 @Component({
   selector: 'app-split-states-demo',
-  imports: [AerisSplitButton],
+  imports: [AerisSplitButton, LucideDynamicIcon],
   templateUrl: './split-states.demo.html',
   styleUrl: './split-states.demo.scss'
 })
 export class SplitStatesLoadingAndDisabledDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 }
 ```
 
 #### HTML
 
 ```html
+<ng-template #primaryIcon>
+  <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+</ng-template>
+
+<ng-template #itemIcon let-action>
+  @switch (action.icon) {
+    @case ('save') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('copy') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Copy"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('export') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Download"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('edit') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Edit"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('delete') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Trash2"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('github') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Github"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @default {
+      <span>{{ action.label }}</span>
+    }
+  }
+</ng-template>
+
 <div class="split-stage aeris-example-row">
   <aeris-split-button
     label="Save"
@@ -660,6 +954,16 @@ export class SplitStatesLoadingAndDisabledDemo {
   padding: 1rem;
 }
 
+.split-template-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (max-width: 40rem) {
   .split-stage {
       min-height: 14rem;
@@ -677,66 +981,124 @@ Use two-way binding when application state owns popup visibility.
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisSplitButton } from '@aeris-ui/core/split-button';
+import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, LucideSave, LucideTrash2 } from '@lucide/angular';
 
 @Component({
   selector: 'app-split-controlled-demo',
-  imports: [AerisSplitButton],
-  template: `
-    <div class="split-stage aeris-example-row">
-      <aeris-split-button
-        label="Controlled"
-        [model]="items"
-        [iconTemplate]="primaryIcon"
-        [itemTemplate]="itemIcon"
-        [(open)]="open"
-      />
-      <span class="split-result">Open: {{ open() }}</span>
-    </div>
-  `,
-  styles: `
-    .aeris-example-row {
-      display: flex;
-      gap: 0.5625rem;
-      min-width: 0;
-    }
-    
-    @media (max-width: 42rem) {
-      .aeris-example-row {
-        max-width: 100%;
-        flex-wrap: wrap;
-      }
-    }
-    
-    .split-stage {
-      width: 100%;
-      min-height: 13rem;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 0.75rem;
-      padding: 1rem;
-    }
-    
-    .split-result {
-      color: var(--aeris-text-2);
-      font-size: 0.8125rem;
-      text-align: center;
-    }
-    
-    @media (max-width: 40rem) {
-      .split-stage {
-          min-height: 14rem;
-          flex-wrap: wrap;
-        }
-    }
-  `
+  imports: [AerisSplitButton, LucideDynamicIcon],
+  templateUrl: './split-controlled.demo.html',
+  styleUrl: './split-controlled.demo.scss'
 })
 export class SplitControlledControlledPopupDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
+
   protected readonly open = signal(false);
 
   protected closeMenu(): void {
     this.open.set(false);
   }
+}
+```
+
+#### HTML
+
+```html
+<ng-template #primaryIcon>
+  <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+</ng-template>
+
+<ng-template #itemIcon let-action>
+  @switch (action.icon) {
+    @case ('save') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('copy') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Copy"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('export') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Download"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('edit') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Edit"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('delete') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Trash2"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('github') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Github"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @default {
+      <span>{{ action.label }}</span>
+    }
+  }
+</ng-template>
+
+<div class="split-stage aeris-example-row">
+  <aeris-split-button
+    label="Controlled"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+    [(open)]="open"
+  />
+  <span class="split-result">Open: {{ open() }}</span>
+</div>
+```
+
+#### CSS
+
+```css
+.aeris-example-row {
+  display: flex;
+  gap: 0.5625rem;
+  min-width: 0;
+}
+
+@media (max-width: 42rem) {
+  .aeris-example-row {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.split-stage {
+  width: 100%;
+  min-height: 13rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.split-result {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+.split-template-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 40rem) {
+  .split-stage {
+      min-height: 14rem;
+      flex-wrap: wrap;
+    }
 }
 ```
 
@@ -749,53 +1111,18 @@ Items support commands, separators, disabled and hidden states, external URLs, a
 ```ts
 import { Component } from '@angular/core';
 import { AerisSplitButton, type AerisSplitButtonItem } from '@aeris-ui/core/split-button';
+import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, LucideSave, LucideTrash2 } from '@lucide/angular';
 
 @Component({
   selector: 'app-split-menu-items-demo',
-  imports: [AerisSplitButton],
-  template: `
-    <div class="split-stage aeris-example-row">
-      <aeris-split-button
-        label="Manage"
-        [model]="stateItems"
-        [iconTemplate]="primaryIcon"
-        [itemTemplate]="itemIcon"
-      />
-    </div>
-  `,
-  styles: `
-    .aeris-example-row {
-      display: flex;
-      gap: 0.5625rem;
-      min-width: 0;
-    }
-    
-    @media (max-width: 42rem) {
-      .aeris-example-row {
-        max-width: 100%;
-        flex-wrap: wrap;
-      }
-    }
-    
-    .split-stage {
-      width: 100%;
-      min-height: 13rem;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 0.75rem;
-      padding: 1rem;
-    }
-    
-    @media (max-width: 40rem) {
-      .split-stage {
-          min-height: 14rem;
-          flex-wrap: wrap;
-        }
-    }
-  `
+  imports: [AerisSplitButton, LucideDynamicIcon],
+  templateUrl: './split-menu-items.demo.html',
+  styleUrl: './split-menu-items.demo.scss'
 })
 export class SplitMenuItemsMenuItemStatesDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
+
   protected readonly stateItems:
     readonly AerisSplitButtonItem[] = [
       { label: 'Edit', icon: 'edit' },
@@ -813,6 +1140,99 @@ export class SplitMenuItemsMenuItemStatesDemo {
 }
 ```
 
+#### HTML
+
+```html
+<ng-template #primaryIcon>
+  <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+</ng-template>
+
+<ng-template #itemIcon let-action>
+  @switch (action.icon) {
+    @case ('save') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('copy') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Copy"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('export') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Download"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('edit') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Edit"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('delete') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Trash2"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('github') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Github"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @default {
+      <span>{{ action.label }}</span>
+    }
+  }
+</ng-template>
+
+<div class="split-stage aeris-example-row">
+  <aeris-split-button
+    label="Manage"
+    [model]="stateItems"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+  />
+</div>
+```
+
+#### CSS
+
+```css
+.aeris-example-row {
+  display: flex;
+  gap: 0.5625rem;
+  min-width: 0;
+}
+
+@media (max-width: 42rem) {
+  .aeris-example-row {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.split-stage {
+  width: 100%;
+  min-height: 13rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.split-template-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 40rem) {
+  .split-stage {
+      min-height: 14rem;
+      flex-wrap: wrap;
+    }
+}
+```
+
 ### Button properties
 
 Forward accessible labels, titles, and tabindex values to either segment independently.
@@ -822,58 +1242,115 @@ Forward accessible labels, titles, and tabindex values to either segment indepen
 ```ts
 import { Component } from '@angular/core';
 import { AerisSplitButton } from '@aeris-ui/core/split-button';
+import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, LucideSave, LucideTrash2 } from '@lucide/angular';
 
 @Component({
   selector: 'app-split-props-demo',
-  imports: [AerisSplitButton],
-  template: `
-    <div class="split-stage aeris-example-row">
-      <aeris-split-button
-        label="Deploy"
-        [model]="items"
-        [iconTemplate]="primaryIcon"
-        [itemTemplate]="itemIcon"
-        [buttonProps]="{ title: 'Deploy current build' }"
-        [menuButtonProps]="{
-          ariaLabel: 'Choose deployment action',
-          title: 'More deployment actions',
-        }"
-      />
-    </div>
-  `,
-  styles: `
-    .aeris-example-row {
-      display: flex;
-      gap: 0.5625rem;
-      min-width: 0;
-    }
-    
-    @media (max-width: 42rem) {
-      .aeris-example-row {
-        max-width: 100%;
-        flex-wrap: wrap;
-      }
-    }
-    
-    .split-stage {
-      width: 100%;
-      min-height: 13rem;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 0.75rem;
-      padding: 1rem;
-    }
-    
-    @media (max-width: 40rem) {
-      .split-stage {
-          min-height: 14rem;
-          flex-wrap: wrap;
-        }
-    }
-  `
+  imports: [AerisSplitButton, LucideDynamicIcon],
+  templateUrl: './split-props.demo.html',
+  styleUrl: './split-props.demo.scss'
 })
 export class SplitPropsButtonPropertiesDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
+}
+```
+
+#### HTML
+
+```html
+<ng-template #primaryIcon>
+  <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+</ng-template>
+
+<ng-template #itemIcon let-action>
+  @switch (action.icon) {
+    @case ('save') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('copy') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Copy"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('export') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Download"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('edit') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Edit"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('delete') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Trash2"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('github') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Github"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @default {
+      <span>{{ action.label }}</span>
+    }
+  }
+</ng-template>
+
+<div class="split-stage aeris-example-row">
+  <aeris-split-button
+    label="Deploy"
+    [model]="items"
+    [iconTemplate]="primaryIcon"
+    [itemTemplate]="itemIcon"
+    [buttonProps]="{ title: 'Deploy current build' }"
+    [menuButtonProps]="{
+      ariaLabel: 'Choose deployment action',
+      title: 'More deployment actions',
+    }"
+  />
+</div>
+```
+
+#### CSS
+
+```css
+.aeris-example-row {
+  display: flex;
+  gap: 0.5625rem;
+  min-width: 0;
+}
+
+@media (max-width: 42rem) {
+  .aeris-example-row {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.split-stage {
+  width: 100%;
+  min-height: 13rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.split-template-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 40rem) {
+  .split-stage {
+      min-height: 14rem;
+      flex-wrap: wrap;
+    }
 }
 ```
 
@@ -886,7 +1363,7 @@ Typed templates customize primary content, icons, loading, dropdown, and menu it
 ```ts
 import { Component } from '@angular/core';
 import { AerisSplitButton } from '@aeris-ui/core/split-button';
-import { LucideDynamicIcon, LucideMenu, LucideSave } from '@lucide/angular';
+import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, LucideMenu, LucideSave, LucideTrash2 } from '@lucide/angular';
 
 @Component({
   selector: 'app-split-templates-demo',
@@ -896,13 +1373,45 @@ import { LucideDynamicIcon, LucideMenu, LucideSave } from '@lucide/angular';
 })
 export class SplitTemplatesTemplatesDemo {
 
-  protected readonly icons = { Menu: LucideMenu, Save: LucideSave };
+  protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Menu: LucideMenu, Save: LucideSave, Trash2: LucideTrash2 };
 }
 ```
 
 #### HTML
 
 ```html
+<ng-template #itemIcon let-action>
+  @switch (action.icon) {
+    @case ('save') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('copy') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Copy"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('export') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Download"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('edit') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Edit"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('delete') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Trash2"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @case ('github') {
+      <svg class="split-template-icon" [lucideIcon]="icons.Github"></svg>
+      <span>{{ action.label }}</span>
+    }
+    @default {
+      <span>{{ action.label }}</span>
+    }
+  }
+</ng-template>
+
 <div class="split-stage aeris-example-row">
   <ng-template #saveIcon>
     <svg class="split-template-icon" [lucideIcon]="icons.Save"></svg>

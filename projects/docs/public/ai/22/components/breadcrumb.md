@@ -411,7 +411,7 @@ import { AerisBreadcrumbModule, type AerisBreadcrumbItem } from '@aeris-ui/core/
       align-items: center;
       gap: 0.375rem;
     }
-    
+
     .breadcrumb-count {
       min-width: 1.375rem;
       padding: 0.125rem 0.375rem;

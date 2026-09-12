@@ -580,7 +580,7 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
       margin: 0;
       color: var(--aeris-text-2);
     }
-    
+
     .custom-inplace {
       --aeris-inplace-radius: 1rem;
       --aeris-inplace-display-hover: color-mix(

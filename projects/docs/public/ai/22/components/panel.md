@@ -417,7 +417,7 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
       width: 1rem;
       height: 1rem;
     }
-    
+
     .panel-plus-icon::before,
     .panel-plus-icon::after {
       position: absolute;
@@ -429,12 +429,12 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
       content: "";
       transform: translate(-50%, -50%);
     }
-    
+
     .panel-plus-icon::after {
       transform: translate(-50%, -50%) rotate(90deg);
       transition: transform 160ms ease;
     }
-    
+
     .panel-plus-icon[data-collapsed="false"]::after {
       transform: translate(-50%, -50%) rotate(0deg);
     }

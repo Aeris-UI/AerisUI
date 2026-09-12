@@ -3,6 +3,7 @@ import { AerisCardModule } from '@aeris-ui/core/card';
 
 import { CodeBlockComponent, type CodeSource } from '../../../../shared/code-block.component';
 import { buildAngularDemoSources } from '../../../../shared/demo-code';
+import { DOC_EXAMPLE_CODE } from '../../../../shared/generated-example-code';
 import { DOC_EXAMPLE_STYLES } from '../../../../shared/generated-example-styles';
 import { ProjectedCode } from '../../../../shared/projected-code.directive';
 
@@ -115,7 +116,7 @@ export class FormDemoComponent {
       anchor: this.anchor(),
       title: this.title(),
       template: this.htmlCode() || this.code()?.text() || '',
-      classCode: this.tsCode(),
+      classCode: [DOC_EXAMPLE_CODE[this.anchor()], this.tsCode()].filter(Boolean).join('\n\n'),
       cssCode: [DOC_EXAMPLE_STYLES[this.anchor()], this.cssCode()].filter(Boolean).join('\n\n'),
     }),
   );

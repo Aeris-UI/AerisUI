@@ -474,13 +474,13 @@ import { AerisContextMenuModule, type AerisContextMenuItem, type AerisContextMen
       font-weight: 700;
       text-align: center;
     }
-    
+
     .context-menu-status {
       margin: 0.75rem 0 0;
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
     }
-    
+
     .context-menu-target {
       display: grid;
       gap: 0.75rem;
@@ -493,7 +493,7 @@ import { AerisContextMenuModule, type AerisContextMenuItem, type AerisContextMen
       font-weight: 700;
       text-align: center;
     }
-    
+
     .context-menu-status {
       margin: 0.75rem 0 0;
       color: var(--text-2);

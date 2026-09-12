@@ -211,7 +211,11 @@ protected readonly members: readonly AerisTableData[] = [
 ];`;
 
   protected readonly editCode = `protected readonly editableMembers =
-  signal<readonly AerisTableData[]>(members);
+  signal<readonly AerisTableData[]>([
+    { id: '1', name: 'Maya Chen', team: 'Design', status: 'Active' },
+    { id: '2', name: 'Noah Williams', team: 'Engineering', status: 'Invited' },
+    { id: '3', name: 'Sofia Rossi', team: 'Research', status: 'Offline' },
+  ]);
 
 protected handleCellEdit(event: AerisTableCellEditEvent): void {
   this.editableMembers.update((rows) =>

@@ -1146,7 +1146,10 @@ function markdownLanguage(language) {
 }
 
 function normalizeGeneratedText(value) {
-  return `${value.replace(/\r\n?/g, '\n').trim()}\n`;
+  return `${value
+    .replace(/\r\n?/g, '\n')
+    .replace(/[ \t]+$/gm, '')
+    .trim()}\n`;
 }
 
 function validateMarkdownOutputs(documentation, outputs, major) {

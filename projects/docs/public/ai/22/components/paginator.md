@@ -91,7 +91,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
     .paginator-demo {
       width: 100%;
     }
-    
+
     .paginator-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -128,7 +128,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
     .paginator-demo {
       width: 100%;
     }
-    
+
     .paginator-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -169,12 +169,12 @@ import { AerisPaginator, type AerisPaginatorPageEvent } from '@aeris-ui/core/pag
     .paginator-demo {
       width: 100%;
     }
-    
+
     .paginator-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .paginator-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -219,7 +219,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
     .paginator-demo {
       width: 100%;
     }
-    
+
     .paginator-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;

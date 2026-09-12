@@ -217,7 +217,7 @@ class AuditDialogContent {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .dynamic-dialog-status {
       margin-top: 0.875rem;
       color: var(--text-3);
@@ -315,7 +315,7 @@ class ReleaseDialogContent {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .dynamic-dialog-status {
       margin-top: 0.875rem;
       color: var(--text-3);
@@ -422,7 +422,7 @@ class ReleaseDialogContent {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .dynamic-dialog-status {
       margin-top: 0.875rem;
       color: var(--text-3);
@@ -530,7 +530,7 @@ class AuditDialogContent {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .dynamic-dialog-status {
       margin-top: 0.875rem;
       color: var(--text-3);
@@ -616,7 +616,7 @@ class ManageDialogContent {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .dynamic-dialog-status {
       margin-top: 0.875rem;
       color: var(--text-3);

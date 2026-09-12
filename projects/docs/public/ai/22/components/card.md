@@ -176,18 +176,18 @@ import { AerisCardModule } from '@aeris-ui/core/card';
     .card-demo {
       width: 100%;
     }
-    
+
     .card-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1rem;
       align-items: stretch;
     }
-    
+
     .card-grid aeris-card {
       height: 100%;
     }
-    
+
     @media (max-width: 52rem) {
       .card-grid {
           grid-template-columns: 1fr;
@@ -557,12 +557,12 @@ import { AerisCardModule } from '@aeris-ui/core/card';
     .card-demo {
       width: 100%;
     }
-    
+
     .card-demo--single {
       max-width: 31rem;
       margin-inline: auto;
     }
-    
+
     .brand-card {
       --aeris-card-background: color-mix(
         in srgb,

@@ -148,7 +148,7 @@ Compare related values with a responsive bar chart and an accessible description
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisChartModule, type AerisChartData, type AerisChartOptions, type ChartData, type ChartOptions } from '@aeris-ui/core/chart';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 
 @Component({
   selector: 'app-chart-basic-demo',
@@ -191,7 +191,7 @@ Use a line chart to show change across an ordered sequence.
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisChartModule, type AerisChartData, type AerisChartOptions, type ChartData, type ChartOptions } from '@aeris-ui/core/chart';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 
 @Component({
   selector: 'app-chart-line-demo',
@@ -230,7 +230,7 @@ Pie and doughnut variants present proportional parts of a whole.
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisChartModule, type AerisChartData, type AerisChartOptions, type ChartData, type ChartOptions } from '@aeris-ui/core/chart';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 
 @Component({
   selector: 'app-chart-circular-demo',
@@ -298,7 +298,7 @@ Radar, scatter, bubble, and polar area data use the same declarative component A
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisChartModule, type AerisChartData, type AerisChartOptions, type ChartData, type ChartOptions } from '@aeris-ui/core/chart';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 
 @Component({
   selector: 'app-chart-types-demo',
@@ -403,7 +403,7 @@ Replace chart data immutably to update the existing renderer.
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisChartModule, type AerisChartData, type AerisChartOptions, type ChartData, type ChartOptions } from '@aeris-ui/core/chart';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 
 @Component({
   selector: 'app-chart-dynamic-demo',
@@ -428,7 +428,7 @@ import { AerisChartModule, type AerisChartData, type AerisChartOptions, type Cha
       gap: 0.5rem;
       margin-top: 0.875rem;
     }
-    
+
     .chart-actions { display: flex; gap: 0.5rem; margin-top: 0.875rem; } .chart-actions button { min-height: 2.25rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border); border-radius: var(--aeris-radius-control); background: var(--surface); color: var(--text); font: inherit; font-weight: 700; cursor: pointer; } .chart-actions button:hover { background: var(--surface-2); } .chart-actions button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
   `
 })
@@ -465,7 +465,7 @@ Pass Chart.js plugins through the plugins input for chart-specific drawing behav
 ```ts
 import { Component } from '@angular/core';
 import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
-import { type n } from 'chart.js';
+import { type Plugin } from 'chart.js';
 
 @Component({
   selector: 'app-chart-plugin-demo',

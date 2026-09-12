@@ -132,14 +132,14 @@ import { AerisTooltipModule, type AerisTooltipVisibilityEvent } from '@aeris-ui/
       align-items: center;
       gap: 0.5rem;
     }
-    
+
     .position-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 0.5rem;
       width: min(100%, 34rem);
     }
-    
+
     .demo-status {
       width: 100%;
       margin: 0.875rem 0 0;
@@ -474,10 +474,11 @@ Provide a template when the advisory content needs stronger structure.
 ```ts
 import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
 
 @Component({
   selector: 'app-tooltip-template-demo',
-  imports: [AerisButton],
+  imports: [AerisButton, AerisTooltipModule],
   templateUrl: './tooltip-template.demo.html',
   styleUrl: './tooltip-template.demo.scss'
 })
@@ -592,14 +593,14 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
       align-items: center;
       gap: 0.5rem;
     }
-    
+
     .position-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 0.5rem;
       width: min(100%, 34rem);
     }
-    
+
     .demo-status {
       width: 100%;
       margin: 0.875rem 0 0;

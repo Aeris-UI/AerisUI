@@ -147,8 +147,8 @@ Bind a single node value. Expandable parent categories can be selected the same 
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTreeModule, type AerisTreeNode } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeModule } from '@aeris-ui/core/tree';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-basic-demo',
@@ -177,7 +177,7 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -185,13 +185,13 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -264,7 +264,7 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -272,13 +272,13 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -326,7 +326,7 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -334,13 +334,13 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -358,8 +358,8 @@ Customize node rows and selected value display without replacing selection or ke
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTreeModule, type AerisTreeNode } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeModule } from '@aeris-ui/core/tree';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-templates-demo',

@@ -201,7 +201,7 @@ interface FileDetails {
       max-width: 40rem;
       margin-inline: auto;
     }
-    
+
     .tree-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -268,17 +268,17 @@ import { AerisTreeModule } from '@aeris-ui/core/tree';
       max-width: 40rem;
       margin-inline: auto;
     }
-    
+
     .tree-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .tree-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
     }
-    
+
     .tree-controls {
       display: flex;
       flex-wrap: wrap;
@@ -308,8 +308,7 @@ Single selection keeps one selected key and emits a typed event for selection an
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { type AerisTreeSelectionEvent } from '@aeris-ui/core/tree-select';
+import { AerisTreeModule, type AerisTreeSelectionEvent } from '@aeris-ui/core/tree';
 
 @Component({
   selector: 'app-tree-single-selection-demo',
@@ -333,12 +332,12 @@ import { type AerisTreeSelectionEvent } from '@aeris-ui/core/tree-select';
       max-width: 40rem;
       margin-inline: auto;
     }
-    
+
     .tree-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .tree-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -391,7 +390,7 @@ import { AerisTreeModule } from '@aeris-ui/core/tree';
       max-width: 40rem;
       margin-inline: auto;
     }
-    
+
     .tree-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -435,7 +434,7 @@ import { AerisTreeModule } from '@aeris-ui/core/tree';
       max-width: 40rem;
       margin-inline: auto;
     }
-    
+
     .tree-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -481,12 +480,12 @@ import { AerisTreeModule, type AerisTreeFilterEvent } from '@aeris-ui/core/tree'
       max-width: 40rem;
       margin-inline: auto;
     }
-    
+
     .tree-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .tree-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -513,6 +512,7 @@ Mark an unloaded branch with leaf: false, respond to nodeExpanded, and identify 
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule, type AerisTreeNode, type AerisTreeNodeEvent } from '@aeris-ui/core/tree';
+import { LucideFileText, LucideFolder } from '@lucide/angular';
 
 @Component({
   selector: 'app-tree-lazy-demo',
@@ -534,7 +534,7 @@ import { AerisTreeModule, type AerisTreeNode, type AerisTreeNodeEvent } from '@a
       max-width: 40rem;
       margin-inline: auto;
     }
-    
+
     .tree-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -547,21 +547,39 @@ export class TreeLazyLazyLoadingDemo {
       key: 'remote',
       label: 'Remote workspace',
       leaf: false,
-      data: { type: 'folder', detail: 'Load on expansion' },
+      data: { type: 'folder', detail: 'Load on expansion', icon: LucideFolder },
     },
   ]);
   protected readonly lazyLoadingKeys = signal<readonly string[]>([]);
   protected readonly lazyExpanded = signal<readonly string[]>([]);
 
   protected handleLazyExpand(event: AerisTreeNodeEvent<FileDetails>): void {
-    if (event.node.children || event.node.leaf !== false) return;
+    if (
+      event.node.children ||
+      event.node.leaf !== false ||
+      this.lazyLoadingKeys().includes(event.key)
+    ) return;
     this.lazyLoadingKeys.set([event.key]);
-    loadRemoteNodes(event.key).then((children) => {
+    globalThis.setTimeout(() => {
+      const children: readonly AerisTreeNode<FileDetails>[] = [
+        {
+          key: 'remote-components',
+          label: 'Components',
+          leaf: true,
+          data: { type: 'folder', detail: '24 items', icon: LucideFolder },
+        },
+        {
+          key: 'remote-config',
+          label: 'workspace.json',
+          leaf: true,
+          data: { type: 'document', detail: '3 KB', icon: LucideFileText },
+        },
+      ];
       this.lazyNodes.update((nodes) => nodes.map((node) =>
         node.key === event.key ? { ...node, children } : node,
       ));
       this.lazyLoadingKeys.set([]);
-    });
+    }, 650);
   }
 }
 ```
@@ -597,12 +615,12 @@ import { AerisTreeModule, type AerisTreeDropEvent, type AerisTreeNode } from '@a
       max-width: 40rem;
       margin-inline: auto;
     }
-    
+
     .tree-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .tree-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -790,8 +808,7 @@ Typed outputs report selection, expansion, collapse, filtering, and drops while 
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTreeModule, type AerisTreeFilterEvent, type AerisTreeNodeEvent } from '@aeris-ui/core/tree';
-import { type AerisTreeSelectionEvent } from '@aeris-ui/core/tree-select';
+import { AerisTreeModule, type AerisTreeFilterEvent, type AerisTreeNodeEvent, type AerisTreeSelectionEvent } from '@aeris-ui/core/tree';
 
 @Component({
   selector: 'app-tree-events-demo',
@@ -818,12 +835,12 @@ import { type AerisTreeSelectionEvent } from '@aeris-ui/core/tree-select';
       max-width: 40rem;
       margin-inline: auto;
     }
-    
+
     .tree-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .tree-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;

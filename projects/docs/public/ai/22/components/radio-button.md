@@ -128,14 +128,14 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .radio-group,
     .radio-card-group {
       margin: 0;
       padding: 0;
       border: 0;
     }
-    
+
     .radio-group legend,
     .radio-card-group legend,
     .radio-group > strong {
@@ -398,7 +398,7 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
@@ -445,7 +445,7 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
@@ -585,14 +585,14 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .radio-group,
     .radio-card-group {
       margin: 0;
       padding: 0;
       border: 0;
     }
-    
+
     .radio-group legend,
     .radio-card-group legend,
     .radio-group > strong {

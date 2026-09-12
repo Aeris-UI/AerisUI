@@ -286,7 +286,7 @@ import { LucideDynamicIcon, LucidePackage, LucideSearch } from '@lucide/angular'
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -294,13 +294,13 @@ import { LucideDynamicIcon, LucidePackage, LucideSearch } from '@lucide/angular'
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -349,7 +349,7 @@ import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -357,13 +357,13 @@ import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -622,7 +622,7 @@ import { LucideDynamicIcon, LucideEdit } from '@lucide/angular';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -630,13 +630,13 @@ import { LucideDynamicIcon, LucideEdit } from '@lucide/angular';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

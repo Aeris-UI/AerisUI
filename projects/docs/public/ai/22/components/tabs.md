@@ -172,7 +172,7 @@ Bind the active value and consume typed change metadata when application state n
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTabsModule } from '@aeris-ui/core/tabs';
+import { AerisTabsModule, type AerisTabChangeEvent } from '@aeris-ui/core/tabs';
 
 @Component({
   selector: 'app-tabs-controlled-demo',

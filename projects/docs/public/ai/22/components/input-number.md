@@ -146,7 +146,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -154,17 +154,17 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .number-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -651,7 +651,7 @@ export class NumberButtonsButtonLayoutsDemo {
   .number-button-layouts {
       grid-template-columns: 1fr;
     }
-  
+
   .number-button-layouts .field {
       justify-items: stretch;
     }
@@ -693,7 +693,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -701,13 +701,13 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -753,7 +753,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -761,13 +761,13 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -992,7 +992,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -1000,13 +1000,13 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -1044,7 +1044,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -1052,13 +1052,13 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

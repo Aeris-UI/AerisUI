@@ -76,12 +76,13 @@ export class SpeedDialPage {
   ];
 
   protected readonly importCode = `import { AerisSpeedDial, type AerisSpeedDialItem }\n  from '@aeris-ui/core/speed-dial';`;
-  protected readonly modelTsCode = `protected readonly actions: readonly AerisSpeedDialItem[] = [
-  { label: 'Edit', icon: 'edit', command: () => edit() },
-  { label: 'Delete', icon: 'delete', command: () => remove() },
-  { label: 'Save', icon: 'save', command: () => save() },
-  { label: 'Copy', icon: 'copy', command: () => copy() },
-  { label: 'Upload', icon: 'upload', command: () => upload() },
+  protected readonly modelTsCode = `protected readonly lastAction = signal('None');
+protected readonly actions: readonly AerisSpeedDialItem[] = [
+  { label: 'Edit', icon: 'edit', command: () => this.lastAction.set('Edit') },
+  { label: 'Delete', icon: 'delete', command: () => this.lastAction.set('Delete') },
+  { label: 'Save', icon: 'save', command: () => this.lastAction.set('Save') },
+  { label: 'Copy', icon: 'copy', command: () => this.lastAction.set('Copy') },
+  { label: 'Upload', icon: 'upload', command: () => this.lastAction.set('Upload') },
 ];`;
   protected readonly controlledTsCode = `protected readonly open = signal(false);
 

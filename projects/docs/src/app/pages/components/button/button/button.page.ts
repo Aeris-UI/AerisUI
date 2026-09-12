@@ -71,15 +71,11 @@ protected createProject(event: MouseEvent): void {
   'danger',
   'contrast',
 ];`;
-  protected readonly loadingTsCode = `protected readonly saving = signal(false);
+  protected readonly loadingTsCode = `protected readonly loading = signal(false);
 
-protected save(): void {
-  this.saving.set(true);
-
-  this.projectService.save().subscribe({
-    complete: () => this.saving.set(false),
-    error: () => this.saving.set(false),
-  });
+protected toggleLoading(): void {
+  this.loading.set(true);
+  globalThis.setTimeout(() => this.loading.set(false), 1600);
 }`;
   protected readonly interfacesCode = `type AerisButtonVariant =
   | 'primary' | 'secondary' | 'outline'

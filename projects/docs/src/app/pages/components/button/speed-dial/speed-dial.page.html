@@ -84,7 +84,30 @@
                   direction="right"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="placement-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #actionIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('edit') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('save') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('upload') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Upload"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="placement-stage aeris-example-row"&gt;
   &lt;aeris-speed-dial
     class="dial-position dial-position--top"
     ariaLabel="Actions opening down"
@@ -160,7 +183,30 @@
                   [radius]="86"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="placement-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #actionIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('edit') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('save') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('upload') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Upload"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="placement-stage aeris-example-row"&gt;
   &lt;aeris-speed-dial
     class="dial-position dial-position--top"
     ariaLabel="Semi-circle opening down"
@@ -244,7 +290,30 @@
                   [radius]="90"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="placement-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #actionIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('edit') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('save') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('upload') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Upload"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="placement-stage aeris-example-row"&gt;
   &lt;aeris-speed-dial
     class="dial-position dial-position--top-left"
     ariaLabel="Top-left corner actions"
@@ -298,7 +367,30 @@
                   [radius]="88"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="placement-stage placement-stage--centered aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #actionIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('edit') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('save') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('upload') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Upload"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="placement-stage placement-stage--centered aeris-example-row"&gt;
   &lt;aeris-speed-dial
     ariaLabel="Circular actions"
     [model]="actions"
@@ -326,7 +418,30 @@
                 />
                 <span class="status-line">Open: {{ controlledOpen() }}</span>
               </div>
-              <pre code><code ngNonBindable>&lt;div class="dial-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #actionIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('edit') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('save') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('upload') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Upload"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="dial-stage aeris-example-row"&gt;
   &lt;aeris-speed-dial
     ariaLabel="Controlled actions"
     [model]="actions"
@@ -354,7 +469,30 @@
                   mask
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="dial-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #actionIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('edit') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('save') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('upload') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Upload"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="dial-stage aeris-example-row"&gt;
   &lt;aeris-speed-dial
     ariaLabel="Masked actions"
     [model]="actions"
@@ -381,7 +519,30 @@
                   [radius]="72"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="dial-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #actionIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('edit') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('save') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('upload') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Upload"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="dial-stage aeris-example-row"&gt;
   &lt;aeris-speed-dial
     ariaLabel="Record actions"
     [model]="stateActions"
@@ -410,7 +571,30 @@
                   [itemTemplate]="actionIcon"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="dial-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #actionIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('edit') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('save') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('upload') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Upload"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="dial-stage aeris-example-row"&gt;
   &lt;ng-template #icon let-open="open"
     &gt;&lt;span aria-hidden="true"&gt;&#123;&#123; open ? 'X' : '...' &#125;&#125;&lt;/span&gt;&lt;/ng-template
   &gt;
@@ -440,7 +624,30 @@
                   [transitionDelay]="70"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="dial-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #actionIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('edit') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('save') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;case ('upload') &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Upload"&gt;&lt;/svg&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;svg class="speed-dial-icon" [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="dial-stage aeris-example-row"&gt;
   &lt;aeris-speed-dial
     ariaLabel="Animated actions"
     [model]="actions"

@@ -300,14 +300,14 @@ import { AerisConfirmDialogService } from '@aeris-ui/core/confirm-dialog';
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .position-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.5rem;
       max-width: 28rem;
     }
-    
+
     .demo-status {
       margin: 0.875rem 0 0;
       color: var(--text-3);
@@ -744,14 +744,14 @@ import { AerisConfirmDialogService } from '@aeris-ui/core/confirm-dialog';
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .position-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.5rem;
       max-width: 28rem;
     }
-    
+
     .demo-status {
       margin: 0.875rem 0 0;
       color: var(--text-3);

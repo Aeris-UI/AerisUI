@@ -129,7 +129,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -137,13 +137,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -186,7 +186,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -194,13 +194,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -243,7 +243,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -251,13 +251,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -294,7 +294,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -302,13 +302,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -355,7 +355,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -363,17 +363,17 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .otp-separator {
       color: var(--text-2);
       font-weight: 700;
@@ -416,7 +416,7 @@ import { AerisInputOtp, type AerisInputOtpCompleteEvent } from '@aeris-ui/core/i
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -424,13 +424,13 @@ import { AerisInputOtp, type AerisInputOtpCompleteEvent } from '@aeris-ui/core/i
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -482,7 +482,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.25rem;
     }
-    
+
     .field {
       min-width: 0;
       display: grid;
@@ -490,7 +490,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -498,17 +498,17 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     @media (max-width: 42rem) {
       .field-grid {
         grid-template-columns: 1fr;
@@ -794,7 +794,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -802,13 +802,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

@@ -122,7 +122,7 @@ import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -130,13 +130,13 @@ import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -359,10 +359,11 @@ Pass a RegExp when the allowed value shape is application-specific.
 ```ts
 import { Component } from '@angular/core';
 import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
 
 @Component({
   selector: 'app-key-filter-custom-demo',
-  imports: [AerisInputText],
+  imports: [AerisInputText, AerisKeyFilter],
   template: `
     <div class="field">
       <label for="key-filter-uppercase">Uppercase code</label>
@@ -383,7 +384,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -391,13 +392,13 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -447,7 +448,7 @@ import { AerisKeyFilter, type AerisKeyFilterRejectEvent } from '@aeris-ui/core/k
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -455,13 +456,13 @@ import { AerisKeyFilter, type AerisKeyFilterRejectEvent } from '@aeris-ui/core/k
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -511,7 +512,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -519,13 +520,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

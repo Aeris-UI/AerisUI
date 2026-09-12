@@ -132,7 +132,7 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -172,14 +172,14 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
         flex-wrap: wrap;
       }
     }
-    
+
     .result {
       align-self: center;
       color: var(--aeris-text-3);
@@ -226,13 +226,13 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -271,13 +271,13 @@ import { AerisButton, type AerisButtonSeverity } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -325,17 +325,17 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     .align {
       align-items: center;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -379,17 +379,17 @@ import { LucideChevronRight, LucideDynamicIcon, LucidePlus } from '@lucide/angul
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     .align {
       align-items: center;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -436,13 +436,13 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -452,15 +452,11 @@ import { AerisButton } from '@aeris-ui/core/button';
   `
 })
 export class FeatureLoadingLoadingDemo {
-  protected readonly saving = signal(false);
+  protected readonly loading = signal(false);
 
-  protected save(): void {
-    this.saving.set(true);
-
-    this.projectService.save().subscribe({
-      complete: () => this.saving.set(false),
-      error: () => this.saving.set(false),
-    });
+  protected toggleLoading(): void {
+    this.loading.set(true);
+    globalThis.setTimeout(() => this.loading.set(false), 1600);
   }
 }
 ```
@@ -494,19 +490,19 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     .stack {
       width: 100%;
       display: grid;
       gap: 0.75rem;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -548,13 +544,13 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -594,7 +590,7 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -638,7 +634,7 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;

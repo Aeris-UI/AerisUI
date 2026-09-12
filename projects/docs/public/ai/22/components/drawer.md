@@ -1043,16 +1043,16 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
         var(--surface);
       color: var(--text);
     }
-    
+
     .headless-drawer h3,
     .headless-drawer p {
       margin: 0;
     }
-    
+
     .headless-drawer p {
       color: var(--text-2);
     }
-    
+
     .headless-drawer .aeris-button {
       justify-self: start;
     }

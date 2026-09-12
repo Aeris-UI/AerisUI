@@ -254,11 +254,11 @@ import { AerisMegaMenuModule, type AerisMegaMenuItem } from '@aeris-ui/core/mega
       display: grid;
       gap: 0.125rem;
     }
-    
+
     .mega-menu-template-item strong {
       font-weight: 850;
     }
-    
+
     .mega-menu-template-item small {
       color: var(--text-2);
     }

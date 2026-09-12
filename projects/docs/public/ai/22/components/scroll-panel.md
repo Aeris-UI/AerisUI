@@ -154,7 +154,7 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
       padding: 0;
       list-style: none;
     }
-    
+
     .brand-list li {
       display: flex;
       justify-content: space-between;
@@ -348,7 +348,7 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
       padding: 0;
       list-style: none;
     }
-    
+
     .brand-list li {
       display: flex;
       justify-content: space-between;

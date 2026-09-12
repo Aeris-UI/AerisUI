@@ -151,7 +151,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       display: grid;
       gap: 0.875rem;
     }
-    
+
     .checkbox-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -196,7 +196,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       display: grid;
       gap: 0.875rem;
     }
-    
+
     .checkbox-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -349,7 +349,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
@@ -390,13 +390,13 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
       }
     }
-    
+
     .checkbox-label-position {
       align-items: center;
     }
@@ -434,11 +434,11 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       display: inline-grid;
       gap: 0.15rem;
     }
-    
+
     .checkbox-rich-label strong {
       color: var(--aeris-text);
     }
-    
+
     .checkbox-rich-label small {
       color: var(--aeris-text-2);
       font-size: 0.75rem;
@@ -573,7 +573,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.25rem;
     }
-    
+
     .field {
       min-width: 0;
       display: grid;
@@ -581,7 +581,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -589,17 +589,17 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     @media (max-width: 42rem) {
       .field-grid {
         grid-template-columns: 1fr;

@@ -742,7 +742,11 @@ import { AerisTableModule, type AerisTableCellEditEvent, type AerisTableData } f
 })
 export class TableEditingInCellEditingDemo {
   protected readonly editableMembers =
-    signal<readonly AerisTableData[]>(members);
+    signal<readonly AerisTableData[]>([
+      { id: '1', name: 'Maya Chen', team: 'Design', status: 'Active' },
+      { id: '2', name: 'Noah Williams', team: 'Engineering', status: 'Invited' },
+      { id: '3', name: 'Sofia Rossi', team: 'Research', status: 'Offline' },
+    ]);
 
   protected handleCellEdit(event: AerisTableCellEditEvent): void {
     this.editableMembers.update((rows) =>
@@ -937,7 +941,7 @@ import { AerisTableModule, type AerisTable } from '@aeris-ui/core/table';
       display: grid;
       gap: 1rem;
     }
-    
+
     .table-state-grid > .aeris-button {
       justify-self: start;
     }
@@ -988,7 +992,7 @@ import { AerisTableModule } from '@aeris-ui/core/table';
       display: grid;
       gap: 1rem;
     }
-    
+
     .table-state-grid > .aeris-button {
       justify-self: start;
     }

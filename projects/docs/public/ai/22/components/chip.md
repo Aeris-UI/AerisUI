@@ -290,7 +290,7 @@ import { AerisChipModule, type AerisChipRemoveEvent } from '@aeris-ui/core/chip'
       justify-items: start;
       gap: 0.875rem;
     }
-    
+
     .chip-removable-demo p {
       margin: 0;
       color: var(--aeris-text-2);

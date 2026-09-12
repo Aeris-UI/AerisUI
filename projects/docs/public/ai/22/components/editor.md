@@ -212,7 +212,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -220,17 +220,17 @@ import { AerisEditor } from '@aeris-ui/core/editor';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .editor-field {
       align-items: stretch;
     }
@@ -275,7 +275,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -283,17 +283,17 @@ import { AerisEditor } from '@aeris-ui/core/editor';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .editor-field {
       align-items: stretch;
     }
@@ -336,7 +336,7 @@ import { AERIS_EDITOR_ALL_FORMATS, AerisEditor } from '@aeris-ui/core/editor';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -344,21 +344,21 @@ import { AERIS_EDITOR_ALL_FORMATS, AerisEditor } from '@aeris-ui/core/editor';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .editor-field {
       align-items: stretch;
     }
-    
+
     .editor-comprehensive {
       width: min(100%, 56rem);
     }
@@ -406,7 +406,7 @@ import { $getRoot } from 'lexical';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -414,17 +414,17 @@ import { $getRoot } from 'lexical';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .editor-field {
       align-items: stretch;
     }
@@ -485,7 +485,7 @@ import { AerisEditor, type AerisEditorFormat } from '@aeris-ui/core/editor';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -493,17 +493,17 @@ import { AerisEditor, type AerisEditorFormat } from '@aeris-ui/core/editor';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .editor-field {
       align-items: stretch;
     }

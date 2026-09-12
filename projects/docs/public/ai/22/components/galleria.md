@@ -306,8 +306,6 @@ export class GalleriaPositionsThumbnailPositionsDemo {
     }),
   );
 
-  import { signal } from '@angular/core';
-  import { type AerisGalleriaThumbnailPosition } from '@aeris-ui/core/galleria';
 
   protected readonly thumbnailPosition = signal<AerisGalleriaThumbnailPosition>('bottom');
 
@@ -425,7 +423,6 @@ export class GalleriaResponsiveResponsiveDemo {
     }),
   );
 
-  import { type AerisGalleriaResponsiveOption } from '@aeris-ui/core/galleria';
 
   protected readonly responsiveOptions: readonly AerisGalleriaResponsiveOption[] = [
     { breakpoint: '52rem', thumbnailPosition: 'bottom' },
@@ -490,11 +487,6 @@ export class GalleriaToolbarImageToolbarDemo {
     }),
   );
 
-  import { signal } from '@angular/core';
-  import {
-    type AerisGalleriaDownloadEvent,
-    type AerisGalleriaTransformState,
-  } from '@aeris-ui/core/galleria';
 
   protected readonly toolbarStatus = signal('Image transform: 0°, 100% zoom.');
 
@@ -655,9 +647,9 @@ Bind the active index, call public navigation methods, and react to detailed cha
 #### TS
 
 ```ts
-import { Component, signal } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisGalleriaModule, type AerisGalleria, type AerisGalleriaImage, type AerisGalleriaIndexChangeEvent } from '@aeris-ui/core/galleria';
+import { AerisGalleria, AerisGalleriaModule, type AerisGalleriaImage, type AerisGalleriaIndexChangeEvent } from '@aeris-ui/core/galleria';
 
 @Component({
   selector: 'app-galleria-controlled-demo',
@@ -682,11 +674,6 @@ export class GalleriaControlledControlledDemo {
     }),
   );
 
-  import { signal, viewChild } from '@angular/core';
-  import {
-    AerisGalleria,
-    type AerisGalleriaIndexChangeEvent,
-  } from '@aeris-ui/core/galleria';
 
   protected readonly controlledIndex = signal(0);
   protected readonly controlledStatus = signal('Showing Milo, item 1 of 30.');

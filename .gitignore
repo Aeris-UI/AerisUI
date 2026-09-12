@@ -49,6 +49,7 @@ pnpm-debug.log*
 
 # Miscellaneous
 /.angular/
+/.aeris-doc-examples-*/
 /.cache/
 /.nx/
 /.turbo/

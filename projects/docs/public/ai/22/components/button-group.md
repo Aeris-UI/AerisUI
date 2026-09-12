@@ -90,7 +90,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -132,7 +132,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -174,7 +174,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -222,7 +222,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -264,7 +264,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -306,13 +306,13 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .stack {
       width: 100%;
       display: grid;
       gap: 0.75rem;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -354,13 +354,13 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .stack {
       width: 100%;
       display: grid;
       gap: 0.75rem;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -402,7 +402,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -450,7 +450,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;

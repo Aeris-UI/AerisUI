@@ -644,13 +644,13 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .dialog-actions {
       display: flex;
       justify-content: flex-end;
       gap: 0.5rem;
     }
-    
+
     .dialog-status {
       margin-top: 0.875rem;
       color: var(--text-3);
