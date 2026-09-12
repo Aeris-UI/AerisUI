@@ -588,7 +588,10 @@ export class AerisCascadeSelect implements ControlValueAccessor {
   }
 
   private sanitizeId(value: string): string {
-    const sanitized = value.toLocaleLowerCase().replace(/[^a-z0-9_-]+/g, '-');
-    return sanitized || 'option';
+    const readable = value.toLowerCase().replace(/[^a-z0-9_-]+/g, '-');
+    const exact = Array.from(value, (character) =>
+      (character.codePointAt(0) ?? 0).toString(16),
+    ).join('-');
+    return `${readable || 'option'}--${exact || 'empty'}`;
   }
 }

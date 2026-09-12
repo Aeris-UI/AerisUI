@@ -69,6 +69,28 @@ class AutoCompleteFormsHost {
   ];
 }
 
+@Component({
+  imports: [AerisAutoComplete],
+  template: `
+    <aeris-auto-complete
+      ariaLabel="Collision-safe suggestions"
+      [suggestions]="options"
+      completeOnFocus
+      dropdown
+    />
+  `,
+})
+class AutoCompleteIdHost {
+  readonly options: readonly AerisAutoCompleteOption[] = [
+    { label: 'Uppercase', value: 'A' },
+    { label: 'Lowercase', value: 'a' },
+    { label: 'Whitespace', value: 'a b' },
+    { label: 'Punctuation', value: 'a@b' },
+    { label: 'Unicode', value: '中文' },
+    { label: 'Empty', value: '' },
+  ];
+}
+
 describe('AerisAutoComplete', () => {
   it('exposes combobox relationships and form semantics', async () => {
     const fixture = TestBed.createComponent(AutoCompleteHost);
@@ -176,6 +198,41 @@ describe('AerisAutoComplete', () => {
     fixture.detectChanges();
 
     expect(input.getAttribute('aria-activedescendant')).toContain('angular');
+  });
+
+  it('creates stable unique option IDs and a valid active descendant for distinct values', async () => {
+    const fixture = TestBed.createComponent(AutoCompleteIdHost);
+    await fixture.whenStable();
+
+    const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+    input.click();
+    fixture.detectChanges();
+
+    const options = [
+      ...(fixture.nativeElement.querySelectorAll('[role="option"]') as NodeListOf<HTMLElement>),
+    ];
+    const initialIds = options.map((option) => option.id);
+    expect(initialIds).toHaveLength(6);
+    expect(new Set(initialIds).size).toBe(initialIds.length);
+
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+    fixture.detectChanges();
+
+    const activeId = input.getAttribute('aria-activedescendant');
+    expect(activeId).toBeTruthy();
+    expect(fixture.nativeElement.querySelector(`[id="${activeId}"]`)).not.toBeNull();
+
+    input.value = 'a';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+    input.value = '';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+
+    const restoredIds = [
+      ...(fixture.nativeElement.querySelectorAll('[role="option"]') as NodeListOf<HTMLElement>),
+    ].map((option) => option.id);
+    expect(restoredIds).toEqual(initialIds);
   });
 
   it('clears the value and restores focus', async () => {
