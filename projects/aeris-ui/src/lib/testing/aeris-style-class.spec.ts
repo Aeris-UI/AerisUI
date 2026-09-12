@@ -1,5 +1,6 @@
 import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import {
   AerisStyleClassDirective,
@@ -169,26 +170,44 @@ describe('AerisStyleClass', () => {
     await fixture.whenStable();
     const target = fixture.nativeElement.querySelector('#animated-target') as HTMLElement;
     const controller = fixture.componentInstance.controller();
+    const view = target.ownerDocument.defaultView;
+    if (!view) throw new Error('Animation test requires a document window.');
+    const scheduledFrames: FrameRequestCallback[] = [];
+    const requestAnimationFrame = vi
+      .spyOn(view, 'requestAnimationFrame')
+      .mockImplementation((callback) => {
+        scheduledFrames.push(callback);
+        return scheduledFrames.length;
+      });
+    const flushScheduledFrames = async (): Promise<void> => {
+      expect(scheduledFrames.length).toBeGreaterThan(0);
+      for (const callback of scheduledFrames.splice(0)) callback(0);
+      await Promise.resolve();
+    };
 
-    expect(target.hidden).toBe(true);
-    expect(controller.show()).toBe(true);
-    expect(controller.state()).toBe('entering');
-    expect(target.hidden).toBe(false);
-    expect(target.classList.contains('enter-from')).toBe(true);
-    expect(target.classList.contains('enter-active')).toBe(true);
+    try {
+      expect(target.hidden).toBe(true);
+      expect(controller.show()).toBe(true);
+      expect(controller.state()).toBe('entering');
+      expect(target.hidden).toBe(false);
+      expect(target.classList.contains('enter-from')).toBe(true);
+      expect(target.classList.contains('enter-active')).toBe(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 40));
-    expect(controller.state()).toBe('shown');
-    expect(target.classList.contains('enter-from')).toBe(false);
-    expect(target.classList.contains('enter-active')).toBe(false);
+      await flushScheduledFrames();
+      expect(controller.state()).toBe('shown');
+      expect(target.classList.contains('enter-from')).toBe(false);
+      expect(target.classList.contains('enter-active')).toBe(false);
 
-    expect(controller.hide()).toBe(true);
-    expect(target.classList.contains('leave-from')).toBe(true);
-    expect(target.classList.contains('leave-active')).toBe(true);
-    await new Promise((resolve) => setTimeout(resolve, 40));
-    expect(controller.state()).toBe('hidden');
-    expect(target.hidden).toBe(true);
-    expect(fixture.componentInstance.lastHidden()?.reason).toBe('api');
+      expect(controller.hide()).toBe(true);
+      expect(target.classList.contains('leave-from')).toBe(true);
+      expect(target.classList.contains('leave-active')).toBe(true);
+      await flushScheduledFrames();
+      expect(controller.state()).toBe('hidden');
+      expect(target.hidden).toBe(true);
+      expect(fixture.componentInstance.lastHidden()?.reason).toBe('api');
+    } finally {
+      requestAnimationFrame.mockRestore();
+    }
   });
 
   it('dismisses a shown target on outside pointer input', async () => {
