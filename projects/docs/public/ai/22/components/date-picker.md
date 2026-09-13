@@ -29,7 +29,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the calendar inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `value` | `AerisDatePickerValue (model)` | `null` | Selected Date, date array, or range according to selectionMode. |
 | `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. Options: 'single', 'multiple', 'range'. |
@@ -39,8 +39,8 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | `name` | `string` | `''` | Native hidden field name. Values are serialized as local date, date-time, time, range, or list strings. |
 | `placeholder` | `string` | `'Choose a date'` | Text shown while no value is selected. |
 | `ariaLabel` | `string` | `''` | Accessible trigger name when no external label is used. |
-| `ariaLabelledby` | `string` | `''` | IDs of elements that label the trigger. |
-| `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string` | `''` | IDs of elements that label the trigger. |
+| `ariaDescribedBy` | `string` | `''` | IDs of help and validation messages. |
 | `calendarAriaLabel` | `string` | `'Choose a date'` | Accessible name for the calendar dialog. |
 | `size` | `AerisDatePickerSize` | `'md'` | Control density from extra small through large. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisDatePickerAppearance` | `'outline'` | Outlined or filled field treatment. Options: 'outline', 'filled'. |
@@ -67,6 +67,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | `disabled` | `boolean` | `false` | Disables trigger, calendar interaction, and form updates. |
 | `required` | `boolean` | `false` | Synchronizes required semantics to the trigger. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Expands the popup trigger to its container width. |
 | `closeOnSelect` | `boolean` | `true` | Closes popup single selection and completed ranges. |
 | `todayLabel` | `string` | `'Today'` | Localized Today action label. |
@@ -85,7 +86,6 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `valueChange` | `AerisDatePickerValue` | `-` | Emitted automatically by the value model. |
-| `valueInput` | `AerisDatePickerValue` | `-` | Emitted when user interaction or a public method changes value. |
 | `changed` | `AerisDatePickerChangeEvent` | `-` | Provides the original event and complete selected value. |
 | `opened` | `void` | `-` | Emitted after the popup calendar opens. |
 | `closed` | `void` | `-` | Emitted after the popup calendar closes. |
@@ -994,7 +994,7 @@ export class DatePickerValidationValidationDemo {
     inputId="required-date"
     required
     [invalid]="validationInvalid()"
-    ariaDescribedby="required-date-message"
+    ariaDescribedBy="required-date-message"
     [(value)]="validationDate"
     (blurred)="validationTouched.set(true)"
     fluid
@@ -1144,8 +1144,8 @@ export class DatePickerFormsReactiveAndTemplateDrivenFormsDemo {
 - Selected dates use aria-selected, today uses aria-current="date", and unavailable dates use native disabled behavior.
 - Every date receives a complete locale-formatted accessible name rather than exposing only its day number.
 - Date-time mode keeps the calendar semantics and adds labelled native time fields. Time-only mode removes the calendar grid and focuses the hour field when opened.
-- Visible labels should use inputId. Otherwise provide ariaLabel or ariaLabelledby.
-- Use ariaDescribedby for help and validation messages. Required and invalid state are synchronized with ARIA.
+- Visible labels should use inputId. Otherwise provide ariaLabel or ariaLabelledBy.
+- Use ariaDescribedBy for help and validation messages. Required and invalid state are synchronized with ARIA.
 - Multiple-month layouts collapse on narrow screens and all pointer targets retain clear focus indicators.
 - DatePicker uses native Date values with Reactive Forms and template-driven forms.
 

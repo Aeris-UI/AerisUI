@@ -7,14 +7,9 @@ import { AerisButtonGroup } from '../../../button-group/aeris-button-group';
   imports: [AerisButtonGroup],
   template: `
     <h2 id="actions-title">Actions</h2>
-    <aeris-button-group
-      ariaLabelledBy="actions-title"
-      orientation="vertical"
-      fluid
-      responsive
-    >
+    <aeris-button-group ariaLabelledBy="actions-title" orientation="vertical" fluid responsive>
       <button aerisButton>Save</button>
-      <aeris-button label="Preview" variant="secondary" />
+      <aeris-button label="Preview" severity="secondary" />
       <a aerisButton href="/cancel" variant="outline">Cancel</a>
     </aeris-button-group>
   `,
@@ -26,9 +21,7 @@ describe('AerisButtonGroup', () => {
     const fixture = TestBed.createComponent(ButtonGroupTestHost);
     await fixture.whenStable();
 
-    const group = fixture.nativeElement.querySelector(
-      'aeris-button-group',
-    ) as HTMLElement;
+    const group = fixture.nativeElement.querySelector('aeris-button-group') as HTMLElement;
 
     expect(group.getAttribute('role')).toBe('group');
     expect(group.getAttribute('aria-labelledby')).toBe('actions-title');
@@ -41,9 +34,7 @@ describe('AerisButtonGroup', () => {
     const fixture = TestBed.createComponent(ButtonGroupTestHost);
     await fixture.whenStable();
 
-    const group = fixture.nativeElement.querySelector(
-      'aeris-button-group',
-    ) as HTMLElement;
+    const group = fixture.nativeElement.querySelector('aeris-button-group') as HTMLElement;
     const buttons = group.querySelectorAll('button');
     const link = group.querySelector('a') as HTMLAnchorElement;
 

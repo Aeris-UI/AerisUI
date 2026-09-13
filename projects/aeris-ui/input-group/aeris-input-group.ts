@@ -3,8 +3,10 @@ import {
   Directive,
   ViewEncapsulation,
   booleanAttribute,
+  computed,
   input,
 } from '@angular/core';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisInputGroupSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisInputGroupAppearance = 'outline' | 'filled';
@@ -63,14 +65,14 @@ export class AerisInputGroupAddonStackComponent {}
     '[class.aeris-input-group--lg]': 'size() === "lg"',
     '[class.aeris-input-group--filled]': 'appearance() === "filled"',
     '[class.aeris-input-group--embedded]': 'mode() === "embedded"',
-    '[class.aeris-input-group--invalid]': 'invalid()',
+    '[class.aeris-input-group--invalid]': 'displayInvalid()',
     '[class.aeris-input-group--disabled]': 'disabled()',
     '[class.aeris-input-group--fluid]': 'fluid()',
     '[class.aeris-input-group--vertical]': 'orientation() === "vertical"',
     '[attr.data-fluid]': 'fluid() || null',
-    '[attr.data-invalid]': 'invalid() || null',
+    '[attr.data-invalid]': 'displayInvalid() || null',
     '[attr.data-disabled]': 'disabled() || null',
-    '[attr.aria-invalid]': 'invalid() || null',
+    '[attr.aria-invalid]': 'displayInvalid() || null',
   },
 })
 export class AerisInputGroupComponent {
@@ -79,8 +81,12 @@ export class AerisInputGroupComponent {
   readonly mode = input<AerisInputGroupMode>('attached');
   readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly fluid = input(false, { transform: booleanAttribute });
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
 }
 
 export const AerisInputGroup = [

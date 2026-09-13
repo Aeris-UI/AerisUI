@@ -237,7 +237,7 @@ interface AerisSpeedDialCommandEvent<T = unknown> {
       description: 'Disables the trigger.',
     },
     {
-      name: 'hideOnClickOutside',
+      name: 'closeOnOutsideClick',
       type: 'boolean',
       defaultValue: 'true',
       description: 'Closes when focus is not required and a pointer clicks elsewhere.',

@@ -39,7 +39,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a specific template host. Omit it for service-created dialogs. |
 | `header` | `string` | `'Confirm action'` | Visible title for declarative usage. |
 | `message` | `string` | `''` | Default confirmation message. |
@@ -59,7 +59,7 @@ import {
 | `backdrop` | `boolean` | `true` | Shows the modal backdrop. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur to the backdrop. |
 | `backdropBlurAmount` | `string` | `''` | Overrides the backdrop blur radius with a CSS length. |
-| `dismissibleMask` | `boolean` | `false` | Allows clicking the mask to dismiss. |
+| `closeOnBackdropClick` | `boolean` | `false` | Allows clicking the mask to dismiss. |
 | `closeOnEscape` | `boolean` | `true` | Allows Escape to dismiss. |
 | `closable` | `boolean` | `true` | Shows the header close action. |
 | `blockScroll` | `boolean` | `true` | Locks page scrolling while modal. |
@@ -88,7 +88,7 @@ import {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `visibleChange` | `boolean` | `-` | Emitted by the visible model. |
-| `shown` | `AerisConfirmDialogActionEvent` | `-` | Emitted after the confirmation opens. |
+| `opened` | `AerisConfirmDialogActionEvent` | `-` | Emitted after the confirmation opens. |
 | `accepted` | `AerisConfirmDialogActionEvent` | `-` | Emitted when the accept action runs. |
 | `rejected` | `AerisConfirmDialogActionEvent` | `-` | Emitted when the reject action runs. |
 | `closed` | `AerisConfirmDialogCloseEvent` | `-` | Emitted for accept, reject, and dismiss closes. |
@@ -116,7 +116,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a specific template host. Omit it for service-created dialogs. |
 | `header` | `string` | `'Confirm action'` | Visible title for declarative usage. |
 | `message` | `string` | `''` | Default confirmation message. |
@@ -136,7 +136,7 @@ import {
 | `backdrop` | `boolean` | `true` | Shows the modal backdrop. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur to the backdrop. |
 | `backdropBlurAmount` | `string` | `''` | Overrides the backdrop blur radius with a CSS length. |
-| `dismissibleMask` | `boolean` | `false` | Allows clicking the mask to dismiss. |
+| `closeOnBackdropClick` | `boolean` | `false` | Allows clicking the mask to dismiss. |
 | `closeOnEscape` | `boolean` | `true` | Allows Escape to dismiss. |
 | `closable` | `boolean` | `true` | Shows the header close action. |
 | `blockScroll` | `boolean` | `true` | Locks page scrolling while modal. |
@@ -167,7 +167,7 @@ import {
 | `accepted` | `Subscribable&lt;AerisConfirmDialogActionEvent&gt;` | `-` | Subscribe to accept actions. |
 | `rejected` | `Subscribable&lt;AerisConfirmDialogActionEvent&gt;` | `-` | Subscribe to reject actions. |
 | `closed` | `Subscribable&lt;AerisConfirmDialogCloseEvent&gt;` | `-` | Subscribe to the final close result. |
-| `shown` | `Subscribable&lt;AerisConfirmDialogActionEvent&gt;` | `-` | Subscribe after the dialog opens. |
+| `opened` | `Subscribable&lt;AerisConfirmDialogActionEvent&gt;` | `-` | Subscribe after the dialog opens. |
 
 ## Interfaces and types
 
@@ -225,7 +225,7 @@ interface AerisConfirmDialogConfig<TData = unknown> {
   readonly backdrop?: boolean;
   readonly backdropBlur?: boolean;
   readonly backdropBlurAmount?: string;
-  readonly dismissibleMask?: boolean;
+  readonly closeOnBackdropClick?: boolean;
   readonly position?: AerisDialogPosition;
   readonly width?: string;
   readonly blockScroll?: boolean;
@@ -656,7 +656,8 @@ export class ConfirmDialogTemplatesTemplatesDemo {
       <div class="confirm-footer">
         <button
           aerisButton
-          variant="secondary"
+          variant="solid"
+          severity="secondary"
           type="button"
           (click)="reject($event)"
         >
@@ -778,7 +779,7 @@ export class ConfirmDialogOptionsOptionsDemo {
     this.confirmations.confirm({
       header: 'Dismissible mask',
       message: 'Click outside the confirmation to dismiss without choosing an action.',
-      dismissibleMask: true,
+      closeOnBackdropClick: true,
       acceptLabel: 'Continue',
       rejectLabel: 'Cancel',
     });
@@ -793,7 +794,7 @@ export class ConfirmDialogOptionsOptionsDemo {
 - The message is connected as the dialog description unless ariaDescribedBy is provided.
 - Focus moves to the configured defaultFocus. Use reject for destructive actions when the safest action should be first.
 - Tab navigation is trapped while focusTrap is enabled, and focus returns to the launcher after close when restoreFocus is enabled.
-- Escape dismissal is enabled by default. Mask dismissal is opt-in through dismissibleMask.
+- Escape dismissal is enabled by default. Mask dismissal is opt-in through closeOnBackdropClick.
 - Use clear button labels that describe the consequence of accepting or rejecting.
 
 ### Keyboard support

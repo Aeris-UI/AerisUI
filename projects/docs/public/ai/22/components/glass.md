@@ -283,7 +283,8 @@ export class GlassControlledControlledDemo {
     <button
       aerisButton
       type="button"
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       [attr.aria-pressed]="glassEnabled()"
       (click)="glassEnabled.update((enabled) => !enabled)"
     >

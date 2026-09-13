@@ -43,7 +43,7 @@ from '@aeris-ui/core/speed-dial';
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur when the mask is visible. |
 | `backdropBlurAmount` | `string` | `''` | Overrides the mask blur radius with a CSS length. |
 | `disabled` | `boolean` | `false` | Disables the trigger. |
-| `hideOnClickOutside` | `boolean` | `true` | Closes when focus is not required and a pointer clicks elsewhere. |
+| `closeOnOutsideClick` | `boolean` | `true` | Closes when focus is not required and a pointer clicks elsewhere. |
 | `showIcon` | `string` | `'+'` | Default closed trigger glyph. |
 | `hideIcon` | `string` | `''` | Optional open trigger glyph. |
 | `rotateAnimation` | `boolean` | `true` | Rotates the show glyph when no hide glyph is supplied. |
@@ -62,8 +62,8 @@ from '@aeris-ui/core/speed-dial';
 | --- | --- | --- |
 | visibleChange | boolean | Emitted by the visible model whenever open state changes. |
 | clicked | MouseEvent | Emitted when the default trigger is activated. |
-| shown | Event | Emitted after the menu opens. |
-| hidden | Event | Emitted after the menu closes. |
+| opened | Event | Emitted after the menu opens. |
+| closed | Event | Emitted after the menu closes. |
 | itemSelected | AerisSpeedDialCommandEvent | Emitted when an enabled action is selected. |
 
 ## Interfaces and types

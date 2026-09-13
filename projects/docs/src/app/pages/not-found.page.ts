@@ -11,13 +11,10 @@ import { AerisButton } from '@aeris-ui/core/button';
         <span class="not-found-code" aria-hidden="true">404</span>
         <p class="page-kicker">Page not found</p>
         <h1 id="not-found-title">This page does not exist</h1>
-        <p>
-          The route may have moved, been removed, or never existed in the Aeris
-          documentation.
-        </p>
+        <p>The route may have moved, been removed, or never existed in the Aeris documentation.</p>
         <div class="not-found-actions">
           <a aerisButton routerLink="/components">Browse components</a>
-          <a aerisButton variant="secondary" routerLink="/">Go home</a>
+          <a aerisButton variant="solid" severity="secondary" routerLink="/">Go home</a>
         </div>
       </section>
     </main>
@@ -40,7 +37,11 @@ import { AerisButton } from '@aeris-ui/core/button';
       border: 1px solid var(--border);
       border-radius: 1.25rem;
       background:
-        radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--primary) 18%, transparent), transparent 34%),
+        radial-gradient(
+          circle at 20% 0%,
+          color-mix(in srgb, var(--primary) 18%, transparent),
+          transparent 34%
+        ),
         linear-gradient(135deg, var(--surface), var(--surface-2));
       box-shadow: var(--shadow-md);
       overflow: hidden;

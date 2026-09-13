@@ -31,8 +31,8 @@ const items: readonly AerisContextMenuItem[] = [
       [model]="items"
       [closeOnMouseLeave]="closeOnMouseLeave()"
       ariaLabel="Target actions"
-      (shown)="shownEvents.push($event)"
-      (hidden)="hiddenEvents.push($event)"
+      (opened)="shownEvents.push($event)"
+      (closed)="hiddenEvents.push($event)"
       (itemSelected)="selectedEvents.push($event)"
     />
   `,
@@ -52,7 +52,7 @@ class TargetContextMenuHost {
       global
       [model]="items"
       [hideOnScroll]="true"
-      (hidden)="hiddenEvents.push($event)"
+      (closed)="hiddenEvents.push($event)"
     />
   `,
 })

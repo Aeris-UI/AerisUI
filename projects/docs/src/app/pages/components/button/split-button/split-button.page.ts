@@ -139,13 +139,19 @@ interface AerisSplitButtonProps {
   readonly ariaLabel?: string;
   readonly title?: string;
   readonly tabIndex?: number;
-}`;
+}
+
+type AerisSplitButtonVariant = 'solid' | 'outline' | 'ghost' | 'link';
+
+type AerisSplitButtonSeverity =
+  | 'primary' | 'secondary' | 'success' | 'info'
+  | 'warning' | 'danger' | 'neutral' | 'contrast';`;
 
   protected readonly inputs: readonly ApiRow[] = [
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'self' (global)",
+      defaultValue: "global config or 'self'",
       description:
         "Mounts the action menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection.",
     },
@@ -197,16 +203,16 @@ interface AerisSplitButtonProps {
     {
       name: 'variant',
       type: 'AerisSplitButtonVariant',
-      defaultValue: "'primary'",
+      defaultValue: "'solid'",
       description:
-        "Visual treatment shared by both button segments. Options: 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'.",
+        "Presentation treatment shared by both segments and independent of color. Options: 'solid', 'outline', 'ghost', 'link'.",
     },
     {
       name: 'severity',
       type: 'AerisSplitButtonSeverity',
       defaultValue: "'primary'",
       description:
-        "Semantic color shared by both segments. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'.",
+        "Semantic color shared by both segments. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'.",
     },
     {
       name: 'size',
@@ -226,6 +232,12 @@ interface AerisSplitButtonProps {
       defaultValue: 'false',
       description: 'Shows primary progress and disables both segments.',
     },
+    {
+      name: 'showSpinner',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Controls the built-in loading spinner without changing loading semantics.',
+    },
     { name: 'raised', type: 'boolean', defaultValue: 'false', description: 'Adds elevation.' },
     {
       name: 'rounded',
@@ -234,31 +246,13 @@ interface AerisSplitButtonProps {
       description: 'Uses connected pill-shaped corners.',
     },
     {
-      name: 'outlined',
-      type: 'boolean',
-      defaultValue: 'false',
-      description: 'Uses the outlined Button treatment.',
-    },
-    {
-      name: 'text',
-      type: 'boolean',
-      defaultValue: 'false',
-      description: 'Uses the ghost Button treatment.',
-    },
-    {
-      name: 'plain',
-      type: 'boolean',
-      defaultValue: 'false',
-      description: 'Uses a neutral treatment.',
-    },
-    {
       name: 'fluid',
       type: 'boolean',
       defaultValue: 'false',
       description: 'Fills the available inline width.',
     },
     {
-      name: 'hideOnClickOutside',
+      name: 'closeOnOutsideClick',
       type: 'boolean',
       defaultValue: 'true',
       description: 'Closes when a pointer clicks outside the component.',

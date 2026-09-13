@@ -169,7 +169,8 @@ export class ProgressSpinnerDynamicDynamicDemo {
     <div class="spinner-actions">
       <button
         aerisButton
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         type="button"
         (click)="decreaseProgress()"
       >

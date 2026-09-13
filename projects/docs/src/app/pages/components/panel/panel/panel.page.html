@@ -129,7 +129,8 @@
                     aerisButton
                     type="button"
                     size="sm"
-                    variant="secondary"
+                    variant="solid"
+                    severity="secondary"
                     (click)="closePanel()"
                   >
                     Close
@@ -166,7 +167,8 @@
       aerisButton
       type="button"
       size="sm"
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       (click)="closePanel()"
     &gt;
       Close
@@ -206,7 +208,15 @@
               <div preview>
                 <aeris-panel header="Team activity">
                   <div aerisPanelHeaderActions>
-                    <button aerisButton type="button" size="sm" variant="secondary">Refresh</button>
+                    <button
+                      aerisButton
+                      type="button"
+                      size="sm"
+                      variant="solid"
+                      severity="secondary"
+                    >
+                      Refresh
+                    </button>
                   </div>
                   <p>Seven updates were added since the last review.</p>
                 </aeris-panel>
@@ -214,7 +224,15 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;aeris-panel header="Team activity"&gt;
     &lt;div aerisPanelHeaderActions&gt;
-      &lt;button aerisButton type="button" size="sm" variant="secondary"&gt;Refresh&lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        size="sm"
+        variant="solid"
+        severity="secondary"
+      &gt;
+        Refresh
+      &lt;/button&gt;
     &lt;/div&gt;
     &lt;p&gt;Seven updates were added since the last review.&lt;/p&gt;
   &lt;/aeris-panel&gt;
@@ -268,7 +286,15 @@
                   </p>
                   <div aerisPanelFooter>
                     <button aerisButton type="button" size="sm">View profile</button>
-                    <button aerisButton type="button" size="sm" variant="secondary">Message</button>
+                    <button
+                      aerisButton
+                      type="button"
+                      size="sm"
+                      variant="solid"
+                      severity="secondary"
+                    >
+                      Message
+                    </button>
                   </div>
                 </aeris-panel>
               </div>
@@ -289,7 +315,15 @@
     &lt;/p&gt;
     &lt;div aerisPanelFooter&gt;
       &lt;button aerisButton type="button" size="sm"&gt;View profile&lt;/button&gt;
-      &lt;button aerisButton type="button" size="sm" variant="secondary"&gt;Message&lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        size="sm"
+        variant="solid"
+        severity="secondary"
+      &gt;
+        Message
+      &lt;/button&gt;
     &lt;/div&gt;
   &lt;/aeris-panel&gt;
 &lt;/div&gt;</code></pre>

@@ -12,12 +12,9 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
-import {
-  alignSliderValue,
-  normalizeSliderRange,
-  sliderPercentage,
-} from './aeris-slider.utils';
+import { alignSliderValue, normalizeSliderRange, sliderPercentage } from './aeris-slider.utils';
 
 export type AerisSliderSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisSliderOrientation = 'horizontal' | 'vertical';
@@ -49,7 +46,7 @@ let sliderId = 0;
       [attr.data-reversed]="reversed() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-readonly]="readonly() || null"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
       [style.--aeris-slider-start]="startPercentage() + '%'"
       [style.--aeris-slider-end]="endPercentage() + '%'"
       [style.--aeris-slider-single]="singlePercentage() + '%'"
@@ -101,13 +98,13 @@ let sliderId = 0;
             [id]="lowerThumbId()"
             [attr.aria-label]="lowerAriaLabel()"
             [attr.aria-labelledby]="lowerAriaLabelledby() || null"
-            [attr.aria-describedby]="ariaDescribedby() || null"
+            [attr.aria-describedby]="ariaDescribedBy() || null"
             [attr.aria-valuemin]="min()"
             [attr.aria-valuemax]="upperValue() - effectiveMinRange()"
             [attr.aria-valuenow]="lowerValue()"
             [attr.aria-valuetext]="formattedLowerValue()"
             [attr.aria-orientation]="orientation()"
-            [attr.aria-invalid]="invalid() || null"
+            [attr.aria-invalid]="displayInvalid() || null"
             [attr.aria-readonly]="readonly() || null"
             [disabled]="effectiveDisabled()"
             [attr.data-active]="activeThumb() === 'lower' || null"
@@ -129,13 +126,13 @@ let sliderId = 0;
             [id]="upperThumbId()"
             [attr.aria-label]="upperAriaLabel()"
             [attr.aria-labelledby]="upperAriaLabelledby() || null"
-            [attr.aria-describedby]="ariaDescribedby() || null"
+            [attr.aria-describedby]="ariaDescribedBy() || null"
             [attr.aria-valuemin]="lowerValue() + effectiveMinRange()"
             [attr.aria-valuemax]="max()"
             [attr.aria-valuenow]="upperValue()"
             [attr.aria-valuetext]="formattedUpperValue()"
             [attr.aria-orientation]="orientation()"
-            [attr.aria-invalid]="invalid() || null"
+            [attr.aria-invalid]="displayInvalid() || null"
             [attr.aria-readonly]="readonly() || null"
             [disabled]="effectiveDisabled()"
             [attr.data-active]="activeThumb() === 'upper' || null"
@@ -157,14 +154,14 @@ let sliderId = 0;
             role="slider"
             [id]="singleThumbId()"
             [attr.aria-label]="ariaLabel()"
-            [attr.aria-labelledby]="ariaLabelledby() || null"
-            [attr.aria-describedby]="ariaDescribedby() || null"
+            [attr.aria-labelledby]="ariaLabelledBy() || null"
+            [attr.aria-describedby]="ariaDescribedBy() || null"
             [attr.aria-valuemin]="min()"
             [attr.aria-valuemax]="max()"
             [attr.aria-valuenow]="singleValue()"
             [attr.aria-valuetext]="formattedSingleValue()"
             [attr.aria-orientation]="orientation()"
-            [attr.aria-invalid]="invalid() || null"
+            [attr.aria-invalid]="displayInvalid() || null"
             [attr.aria-readonly]="readonly() || null"
             [disabled]="effectiveDisabled()"
             [attr.data-active]="activeThumb() === 'single' || null"
@@ -219,8 +216,8 @@ export class AerisSlider implements ControlValueAccessor {
   readonly name = input('');
   readonly inputId = input('');
   readonly ariaLabel = input('Value');
-  readonly ariaLabelledby = input('');
-  readonly ariaDescribedby = input('');
+  readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly lowerAriaLabel = input('Minimum value');
   readonly upperAriaLabel = input('Maximum value');
   readonly lowerAriaLabelledby = input('');
@@ -234,9 +231,12 @@ export class AerisSlider implements ControlValueAccessor {
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly fluid = input(false, { transform: booleanAttribute });
 
-  readonly valueInput = output<AerisSliderValue>();
   readonly sliding = output<AerisSliderInputEvent>();
   readonly changed = output<AerisSliderChangeEvent>();
   readonly focused = output<FocusEvent>();
@@ -245,17 +245,10 @@ export class AerisSlider implements ControlValueAccessor {
 
   protected readonly formDisabled = signal(false);
   protected readonly activeThumb = signal<AerisSliderThumb | null>(null);
-  protected readonly effectiveDisabled = computed(
-    () => this.disabled() || this.formDisabled(),
-  );
-  protected readonly effectiveStep = computed(() =>
-    this.step() > 0 ? this.step() : 1,
-  );
+  protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
+  protected readonly effectiveStep = computed(() => (this.step() > 0 ? this.step() : 1));
   protected readonly effectiveMinRange = computed(() =>
-    Math.min(
-      this.normalizedMax() - this.normalizedMin(),
-      Math.max(0, this.minRange()),
-    ),
+    Math.min(this.normalizedMax() - this.normalizedMin(), Math.max(0, this.minRange())),
   );
   protected readonly normalizedValue = computed<AerisSliderValue>(() => {
     const min = this.normalizedMin();
@@ -294,9 +287,7 @@ export class AerisSlider implements ControlValueAccessor {
     return Array.isArray(value) ? value[1] : this.singleValue();
   });
   protected readonly startPercentage = computed(() => {
-    const percentage = this.range()
-      ? this.percentage(this.lowerValue())
-      : 0;
+    const percentage = this.range() ? this.percentage(this.lowerValue()) : 0;
     return this.reversed() ? 100 - this.endBasePercentage() : percentage;
   });
   protected readonly endPercentage = computed(() => {
@@ -305,34 +296,18 @@ export class AerisSlider implements ControlValueAccessor {
       ? 100 - (this.range() ? this.percentage(this.lowerValue()) : 0)
       : percentage;
   });
-  protected readonly singlePercentage = computed(() =>
-    this.visualPercentage(this.singleValue()),
-  );
-  protected readonly lowerPercentage = computed(() =>
-    this.visualPercentage(this.lowerValue()),
-  );
-  protected readonly upperPercentage = computed(() =>
-    this.visualPercentage(this.upperValue()),
-  );
-  protected readonly formattedSingleValue = computed(() =>
-    this.formatValue(this.singleValue()),
-  );
-  protected readonly formattedLowerValue = computed(() =>
-    this.formatValue(this.lowerValue()),
-  );
-  protected readonly formattedUpperValue = computed(() =>
-    this.formatValue(this.upperValue()),
-  );
+  protected readonly singlePercentage = computed(() => this.visualPercentage(this.singleValue()));
+  protected readonly lowerPercentage = computed(() => this.visualPercentage(this.lowerValue()));
+  protected readonly upperPercentage = computed(() => this.visualPercentage(this.upperValue()));
+  protected readonly formattedSingleValue = computed(() => this.formatValue(this.singleValue()));
+  protected readonly formattedLowerValue = computed(() => this.formatValue(this.lowerValue()));
+  protected readonly formattedUpperValue = computed(() => this.formatValue(this.upperValue()));
   protected readonly serializedValue = computed(() =>
-    this.range()
-      ? `${this.lowerValue()},${this.upperValue()}`
-      : String(this.singleValue()),
+    this.range() ? `${this.lowerValue()},${this.upperValue()}` : String(this.singleValue()),
   );
   protected readonly ticks = computed(() => {
     const count =
-      Math.floor(
-        (this.normalizedMax() - this.normalizedMin()) / this.effectiveStep(),
-      ) + 1;
+      Math.floor((this.normalizedMax() - this.normalizedMin()) / this.effectiveStep()) + 1;
     if (!this.showTicks() || count > Math.max(2, this.maxTicks())) return [];
     return Array.from({ length: count }, (_, index) => {
       const value = alignSliderValue(
@@ -353,18 +328,11 @@ export class AerisSlider implements ControlValueAccessor {
   });
 
   private readonly generatedId = `aeris-slider-${++sliderId}`;
-  protected readonly singleThumbId = computed(
-    () => this.inputId() || this.generatedId,
-  );
-  protected readonly lowerThumbId = computed(
-    () => `${this.inputId() || this.generatedId}-lower`,
-  );
-  protected readonly upperThumbId = computed(
-    () => `${this.inputId() || this.generatedId}-upper`,
-  );
+  protected readonly singleThumbId = computed(() => this.inputId() || this.generatedId);
+  protected readonly lowerThumbId = computed(() => `${this.inputId() || this.generatedId}-lower`);
+  protected readonly upperThumbId = computed(() => `${this.inputId() || this.generatedId}-upper`);
 
-  private readonly thumbButtons =
-    viewChildren<ElementRef<HTMLButtonElement>>('thumbButton');
+  private readonly thumbButtons = viewChildren<ElementRef<HTMLButtonElement>>('thumbButton');
   private dragThumb: AerisSliderThumb | null = null;
   private dragChanged = false;
   private onChange: (value: AerisSliderValue) => void = () => undefined;
@@ -391,7 +359,9 @@ export class AerisSlider implements ControlValueAccessor {
   }
 
   reset(): void {
-    this.setValue(this.range() ? [this.normalizedMin(), this.normalizedMax()] : this.normalizedMin());
+    this.setValue(
+      this.range() ? [this.normalizedMin(), this.normalizedMax()] : this.normalizedMin(),
+    );
   }
 
   protected formatValue(value: number): string {
@@ -399,11 +369,7 @@ export class AerisSlider implements ControlValueAccessor {
   }
 
   protected handleTrackPointerDown(event: PointerEvent): void {
-    if (
-      this.effectiveDisabled() ||
-      this.readonly() ||
-      event.button !== 0
-    ) {
+    if (this.effectiveDisabled() || this.readonly() || event.button !== 0) {
       return;
     }
 
@@ -421,12 +387,7 @@ export class AerisSlider implements ControlValueAccessor {
   protected handleTrackPointerMove(event: PointerEvent): void {
     if (!this.dragThumb) return;
     const track = event.currentTarget as HTMLElement;
-    this.updateThumb(
-      this.dragThumb,
-      this.pointerValue(event, track),
-      event,
-      true,
-    );
+    this.updateThumb(this.dragThumb, this.pointerValue(event, track), event, true);
   }
 
   protected handleTrackPointerUp(event: PointerEvent): void {
@@ -443,10 +404,7 @@ export class AerisSlider implements ControlValueAccessor {
     }
   }
 
-  protected handleThumbKeydown(
-    event: KeyboardEvent,
-    thumb: AerisSliderThumb,
-  ): void {
+  protected handleThumbKeydown(event: KeyboardEvent, thumb: AerisSliderThumb): void {
     if (this.effectiveDisabled() || this.readonly()) return;
 
     const direction = this.keyDirection(event.key);
@@ -459,9 +417,11 @@ export class AerisSlider implements ControlValueAccessor {
     } else if (event.key === 'PageDown') {
       next = current - this.resolvedPageStep();
     } else if (event.key === 'Home') {
-      next = thumb === 'upper' ? this.lowerValue() + this.effectiveMinRange() : this.normalizedMin();
+      next =
+        thumb === 'upper' ? this.lowerValue() + this.effectiveMinRange() : this.normalizedMin();
     } else if (event.key === 'End') {
-      next = thumb === 'lower' ? this.upperValue() - this.effectiveMinRange() : this.normalizedMax();
+      next =
+        thumb === 'lower' ? this.upperValue() - this.effectiveMinRange() : this.normalizedMax();
     }
 
     if (next === null) return;
@@ -499,15 +459,9 @@ export class AerisSlider implements ControlValueAccessor {
     if (!this.range() || thumb === 'single') {
       next = aligned;
     } else if (thumb === 'lower') {
-      next = [
-        Math.min(aligned, this.upperValue() - this.effectiveMinRange()),
-        this.upperValue(),
-      ];
+      next = [Math.min(aligned, this.upperValue() - this.effectiveMinRange()), this.upperValue()];
     } else {
-      next = [
-        this.lowerValue(),
-        Math.max(aligned, this.lowerValue() + this.effectiveMinRange()),
-      ];
+      next = [this.lowerValue(), Math.max(aligned, this.lowerValue() + this.effectiveMinRange())];
     }
 
     const changed = !sameSliderValue(this.normalizedValue(), next);
@@ -523,7 +477,6 @@ export class AerisSlider implements ControlValueAccessor {
 
   private setValue(value: AerisSliderValue): void {
     this.value.set(value);
-    this.valueInput.emit(value);
     this.onChange(value);
   }
 
@@ -543,8 +496,7 @@ export class AerisSlider implements ControlValueAccessor {
     const normalizedRatio = this.reversed() ? 1 - ratio : ratio;
     return (
       this.normalizedMin() +
-      Math.min(1, Math.max(0, normalizedRatio)) *
-        (this.normalizedMax() - this.normalizedMin())
+      Math.min(1, Math.max(0, normalizedRatio)) * (this.normalizedMax() - this.normalizedMin())
     );
   }
 
@@ -561,10 +513,7 @@ export class AerisSlider implements ControlValueAccessor {
   private resolvedPageStep(): number {
     return (
       this.pageStep() ??
-      Math.max(
-        this.effectiveStep(),
-        (this.normalizedMax() - this.normalizedMin()) / 10,
-      )
+      Math.max(this.effectiveStep(), (this.normalizedMax() - this.normalizedMin()) / 10)
     );
   }
 
@@ -621,15 +570,12 @@ export class AerisSlider implements ControlValueAccessor {
       return [this.normalizedMin(), this.normalizedMax()];
     }
     return alignSliderValue(
-      typeof value === 'number' && Number.isFinite(value)
-        ? value
-        : this.normalizedMin(),
+      typeof value === 'number' && Number.isFinite(value) ? value : this.normalizedMin(),
       this.normalizedMin(),
       this.normalizedMax(),
       this.effectiveStep(),
     );
   }
-
 }
 
 function optionalNumber(value: unknown): number | undefined {

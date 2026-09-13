@@ -17,14 +17,7 @@ import { AerisToggleSwitch } from '../../../toggle-switch/aeris-toggle-switch';
     AerisToggleSwitch,
   ],
   template: `
-    <input
-      aerisInputText
-      size="lg"
-      appearance="filled"
-      invalid
-      fluid
-      aria-label="Name"
-    />
+    <input aerisInputText size="lg" appearance="filled" invalid fluid aria-label="Name" />
     <form id="native-validation-form">
       <label for="pristine-required">Required value</label>
       <input id="pristine-required" aerisInputText required />
@@ -35,7 +28,7 @@ import { AerisToggleSwitch } from '../../../toggle-switch/aeris-toggle-switch';
       ariaLabel="Search"
       clearable
       [(value)]="search"
-      (valueInput)="lastTextInput.set($event)"
+      (valueChange)="lastTextInput.set($event)"
     />
     <textarea aerisTextarea aria-label="Notes"></textarea>
     <aeris-checkbox [(checked)]="checked">Updates</aeris-checkbox>
@@ -93,9 +86,7 @@ describe('Aeris form controls', () => {
 
     (fixture.nativeElement.querySelector('aeris-checkbox input') as HTMLInputElement).click();
     (fixture.nativeElement.querySelector('aeris-radio-button input') as HTMLInputElement).click();
-    (fixture.nativeElement.querySelector(
-      'aeris-toggle-switch input',
-    ) as HTMLInputElement).click();
+    (fixture.nativeElement.querySelector('aeris-toggle-switch input') as HTMLInputElement).click();
     fixture.detectChanges();
 
     expect(fixture.componentInstance.checked()).toBe(true);

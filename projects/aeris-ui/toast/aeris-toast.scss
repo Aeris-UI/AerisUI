@@ -319,7 +319,7 @@
   --_accent: var(--aeris-warning, #c38600);
 }
 
-.aeris-toast__message[data-severity='error'] {
+.aeris-toast__message[data-severity='danger'] {
   --_accent: var(--aeris-danger, #c81e2a);
 }
 
@@ -399,8 +399,8 @@
   display: none;
 }
 
-.aeris-toast__message[data-severity='error'] .aeris-toast__default-icon::before,
-.aeris-toast__message[data-severity='error'] .aeris-toast__default-icon::after {
+.aeris-toast__message[data-severity='danger'] .aeris-toast__default-icon::before,
+.aeris-toast__message[data-severity='danger'] .aeris-toast__default-icon::after {
   width: 0.6875rem;
   height: 0.125rem;
   top: 50%;
@@ -408,11 +408,11 @@
   border-radius: 999px;
 }
 
-.aeris-toast__message[data-severity='error'] .aeris-toast__default-icon::before {
+.aeris-toast__message[data-severity='danger'] .aeris-toast__default-icon::before {
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.aeris-toast__message[data-severity='error'] .aeris-toast__default-icon::after {
+.aeris-toast__message[data-severity='danger'] .aeris-toast__default-icon::after {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 

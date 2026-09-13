@@ -93,7 +93,7 @@
                     aerisButton
                     type="button"
                     size="sm"
-                    [variant]="selectedMode() === 'starts-with' ? 'primary' : 'outline'"
+                    [variant]="selectedMode() === 'starts-with' ? 'solid' : 'outline'"
                     (click)="selectedMode.set('starts-with')"
                   >
                     Starts with
@@ -102,7 +102,7 @@
                     aerisButton
                     type="button"
                     size="sm"
-                    [variant]="selectedMode() === 'contains' ? 'primary' : 'outline'"
+                    [variant]="selectedMode() === 'contains' ? 'solid' : 'outline'"
                     (click)="selectedMode.set('contains')"
                   >
                     Contains
@@ -111,7 +111,7 @@
                     aerisButton
                     type="button"
                     size="sm"
-                    [variant]="selectedMode() === 'ends-with' ? 'primary' : 'outline'"
+                    [variant]="selectedMode() === 'ends-with' ? 'solid' : 'outline'"
                     (click)="selectedMode.set('ends-with')"
                   >
                     Ends with
@@ -146,7 +146,7 @@
       aerisButton
       type="button"
       size="sm"
-      [variant]="selectedMode() === 'starts-with' ? 'primary' : 'outline'"
+      [variant]="selectedMode() === 'starts-with' ? 'solid' : 'outline'"
       (click)="selectedMode.set('starts-with')"
     &gt;
       Starts with
@@ -155,7 +155,7 @@
       aerisButton
       type="button"
       size="sm"
-      [variant]="selectedMode() === 'contains' ? 'primary' : 'outline'"
+      [variant]="selectedMode() === 'contains' ? 'solid' : 'outline'"
       (click)="selectedMode.set('contains')"
     &gt;
       Contains
@@ -164,7 +164,7 @@
       aerisButton
       type="button"
       size="sm"
-      [variant]="selectedMode() === 'ends-with' ? 'primary' : 'outline'"
+      [variant]="selectedMode() === 'ends-with' ? 'solid' : 'outline'"
       (click)="selectedMode.set('ends-with')"
     &gt;
       Ends with
@@ -342,7 +342,7 @@
                     aerisButton
                     type="button"
                     size="sm"
-                    [variant]="fieldOperator() === 'or' ? 'primary' : 'outline'"
+                    [variant]="fieldOperator() === 'or' ? 'solid' : 'outline'"
                     (click)="fieldOperator.set('or')"
                   >
                     Match any field
@@ -351,7 +351,7 @@
                     aerisButton
                     type="button"
                     size="sm"
-                    [variant]="fieldOperator() === 'and' ? 'primary' : 'outline'"
+                    [variant]="fieldOperator() === 'and' ? 'solid' : 'outline'"
                     (click)="fieldOperator.set('and')"
                   >
                     Match every field
@@ -392,7 +392,7 @@
       aerisButton
       type="button"
       size="sm"
-      [variant]="fieldOperator() === 'or' ? 'primary' : 'outline'"
+      [variant]="fieldOperator() === 'or' ? 'solid' : 'outline'"
       (click)="fieldOperator.set('or')"
     &gt;
       Match any field
@@ -401,7 +401,7 @@
       aerisButton
       type="button"
       size="sm"
-      [variant]="fieldOperator() === 'and' ? 'primary' : 'outline'"
+      [variant]="fieldOperator() === 'and' ? 'solid' : 'outline'"
       (click)="fieldOperator.set('and')"
     &gt;
       Match every field

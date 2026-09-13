@@ -13,9 +13,7 @@ const settle = () => new Promise<void>((resolve) => queueMicrotask(resolve));
 
 @Component({
   imports: [AerisConfirmDialogModule],
-  template: `
-    <button type="button" id="launcher" (click)="confirmDelete()">Delete</button>
-  `,
+  template: ` <button type="button" id="launcher" (click)="confirmDelete()">Delete</button> `,
 })
 class ServiceConfirmDialogHost {
   private readonly confirmations = inject(AerisConfirmDialogService);
@@ -147,7 +145,7 @@ describe('AerisConfirmDialog', () => {
     expect(accept.classList.contains('aeris-button')).toBe(true);
     expect(accept.classList.contains('aeris-button--severity-danger')).toBe(true);
     expect(reject.textContent).toContain('Keep project');
-    expect(reject.classList.contains('aeris-button--secondary')).toBe(true);
+    expect(reject.classList.contains('aeris-button--severity-secondary')).toBe(true);
     expect(document.activeElement).toBe(reject);
     expect(document.body.style.overflow).toBe('hidden');
     expect(document.body.style.paddingInlineEnd).toBe('21px');
@@ -172,9 +170,7 @@ describe('AerisConfirmDialog', () => {
     await fixture.whenStable();
     await settle();
 
-    const accept = document.querySelector(
-      '.aeris-confirm-dialog__accept',
-    ) as HTMLButtonElement;
+    const accept = document.querySelector('.aeris-confirm-dialog__accept') as HTMLButtonElement;
 
     expect(document.activeElement).toBe(accept);
     expect(
@@ -210,9 +206,7 @@ describe('AerisConfirmDialog', () => {
     await fixture.whenStable();
 
     expect(document.querySelector('.custom-icon')?.textContent).toContain('!');
-    expect(document.querySelector('.custom-message')?.textContent).toContain(
-      'Template message',
-    );
+    expect(document.querySelector('.custom-message')?.textContent).toContain('Template message');
     expect(document.querySelector('#template-reject')).toBeTruthy();
     expect(document.querySelector('#template-accept')).toBeTruthy();
   });

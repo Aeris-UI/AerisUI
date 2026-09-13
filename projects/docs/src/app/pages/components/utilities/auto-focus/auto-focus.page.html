@@ -48,7 +48,13 @@
             >
               <div preview>
                 <div class="conditional-demo">
-                  <button aerisButton type="button" variant="secondary" (click)="toggleForm()">
+                  <button
+                    aerisButton
+                    type="button"
+                    variant="solid"
+                    severity="secondary"
+                    (click)="toggleForm()"
+                  >
                     {{ formVisible() ? 'Remove account form' : 'Add account form' }}
                   </button>
                   @if (formVisible()) {
@@ -75,7 +81,13 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="conditional-demo"&gt;
-    &lt;button aerisButton type="button" variant="secondary" (click)="toggleForm()"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      variant="solid"
+      severity="secondary"
+      (click)="toggleForm()"
+    &gt;
       &#123;&#123; formVisible() ? 'Remove account form' : 'Add account form' &#125;&#125;
     &lt;/button&gt;
     &#64;if (formVisible()) &#123;
@@ -116,7 +128,8 @@
                     <button
                       aerisButton
                       type="button"
-                      variant="secondary"
+                      variant="solid"
+                      severity="secondary"
                       (click)="disableControlledFocus()"
                     >
                       Disable automatic focus
@@ -139,7 +152,8 @@
       &lt;button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         (click)="disableControlledFocus()"
       &gt;
         Disable automatic focus

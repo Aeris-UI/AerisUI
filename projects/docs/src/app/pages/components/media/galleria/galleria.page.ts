@@ -459,7 +459,7 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
       description: 'Shows the built-in fullscreen toggle.',
     },
     {
-      name: 'dismissibleBackdrop',
+      name: 'closeOnBackdropClick',
       type: 'boolean',
       defaultValue: 'true',
       description: 'Allows the fullscreen backdrop to close the gallery.',

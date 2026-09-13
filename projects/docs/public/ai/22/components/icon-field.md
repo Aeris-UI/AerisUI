@@ -34,6 +34,7 @@ import { AerisIconField } from '@aeris-ui/core/icon-field';
 | `appearance` | `AerisIconFieldAppearance` | `'outline'` | Outlined or filled field surface. Options: 'outline', 'filled'. |
 | `density` | `AerisIconFieldDensity` | `'comfortable'` | Adjusts spacing between icon and control. Options: 'comfortable', 'compact'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid to the field wrapper. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `disabled` | `boolean` | `false` | Applies disabled field styling. Keep the projected control disabled as well. |
 | `readonly` | `boolean` | `false` | Applies read-only field styling. Keep the projected control read-only as well. |
 | `fluid` | `boolean` | `false` | Expands the field to fill the available inline space. |

@@ -111,7 +111,9 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
       <aeris-toolbar ariaLabel="Editor actions">
         <div aerisToolbarStart>
           <div class="toolbar-actions">
-            <button aerisButton type="button" variant="secondary">Cancel</button>
+            <button aerisButton type="button" variant="solid" severity="secondary">
+              Cancel
+            </button>
             <button aerisButton type="button">Save</button>
           </div>
         </div>
@@ -166,7 +168,15 @@ export class ToolbarSectionsSectionsDemo {
       <span class="toolbar-status">Review mode</span>
     </div>
     <div aerisToolbarEnd>
-      <button aerisButton type="button" size="sm" variant="secondary">Preview</button>
+      <button
+        aerisButton
+        type="button"
+        size="sm"
+        variant="solid"
+        severity="secondary"
+      >
+        Preview
+      </button>
       <button aerisButton type="button" size="sm">Publish</button>
     </div>
   </aeris-toolbar>
@@ -226,11 +236,33 @@ export class ToolbarGroupsGroupsDemo {
   <aeris-toolbar ariaLabel="Formatting toolbar">
     <div aerisToolbarStart>
       <div aerisToolbarGroup aria-label="Text style">
-        <button aerisButton type="button" size="sm" variant="secondary">Bold</button>
-        <button aerisButton type="button" size="sm" variant="secondary">
+        <button
+          aerisButton
+          type="button"
+          size="sm"
+          variant="solid"
+          severity="secondary"
+        >
+          Bold
+        </button>
+        <button
+          aerisButton
+          type="button"
+          size="sm"
+          variant="solid"
+          severity="secondary"
+        >
           Italic
         </button>
-        <button aerisButton type="button" size="sm" variant="secondary">Link</button>
+        <button
+          aerisButton
+          type="button"
+          size="sm"
+          variant="solid"
+          severity="secondary"
+        >
+          Link
+        </button>
       </div>
       <span aerisToolbarSpacer></span>
       <input
@@ -297,7 +329,8 @@ export class ToolbarWrappingWrappingDemo {
         aerisButton
         type="button"
         size="sm"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
       >
         Dashboard
       </button>
@@ -306,7 +339,8 @@ export class ToolbarWrappingWrappingDemo {
         aerisButton
         type="button"
         size="sm"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
       >
         Reports
       </button>
@@ -315,7 +349,8 @@ export class ToolbarWrappingWrappingDemo {
         aerisButton
         type="button"
         size="sm"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
       >
         Automation
       </button>
@@ -363,10 +398,24 @@ export class ToolbarVerticalVerticalDemo {
   <div class="vertical-toolbar-demo">
     <aeris-toolbar orientation="vertical" [fluid]="false" ariaLabel="Canvas tools">
       <div aerisToolbarStart>
-        <button aerisButton type="button" size="sm" variant="secondary">
+        <button
+          aerisButton
+          type="button"
+          size="sm"
+          variant="solid"
+          severity="secondary"
+        >
           Select
         </button>
-        <button aerisButton type="button" size="sm" variant="secondary">Move</button>
+        <button
+          aerisButton
+          type="button"
+          size="sm"
+          variant="solid"
+          severity="secondary"
+        >
+          Move
+        </button>
         <button aerisButton type="button" size="sm">Export</button>
       </div>
     </aeris-toolbar>
@@ -486,32 +535,48 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 @Component({
   selector: 'app-toolbar-custom-demo',
   imports: [AerisButton, AerisToolbarModule],
-  template: `
-    <div>
-      <aeris-toolbar class="brand-toolbar" ariaLabel="Custom toolbar">
-        <div aerisToolbarStart>
-          <button aerisButton type="button" size="sm" variant="secondary">Archive</button>
-        </div>
-        <div aerisToolbarEnd>
-          <button aerisButton type="button" size="sm">Share</button>
-        </div>
-      </aeris-toolbar>
-    </div>
-  `,
-  styles: `
-    .brand-toolbar {
-      --aeris-toolbar-background: color-mix(in srgb, var(--aeris-primary) 10%, var(--surface));
-      --aeris-toolbar-border-width: 2px;
-      --aeris-toolbar-border: color-mix(in srgb, var(--aeris-primary) 72%, var(--border));
-      --aeris-toolbar-radius: 1.5rem;
-      --aeris-toolbar-gap: 1rem;
-      --aeris-toolbar-section-gap: 0.75rem;
-      --aeris-toolbar-padding-block: 1rem;
-      --aeris-toolbar-padding-inline: 1.125rem;
-    }
-  `
+  templateUrl: './toolbar-custom.demo.html',
+  styleUrl: './toolbar-custom.demo.scss'
 })
 export class ToolbarCustomTokenCustomizationDemo {
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <aeris-toolbar class="brand-toolbar" ariaLabel="Custom toolbar">
+    <div aerisToolbarStart>
+      <button
+        aerisButton
+        type="button"
+        size="sm"
+        variant="solid"
+        severity="secondary"
+      >
+        Archive
+      </button>
+    </div>
+    <div aerisToolbarEnd>
+      <button aerisButton type="button" size="sm">Share</button>
+    </div>
+  </aeris-toolbar>
+</div>
+```
+
+#### CSS
+
+```css
+.brand-toolbar {
+  --aeris-toolbar-background: color-mix(in srgb, var(--aeris-primary) 10%, var(--surface));
+  --aeris-toolbar-border-width: 2px;
+  --aeris-toolbar-border: color-mix(in srgb, var(--aeris-primary) 72%, var(--border));
+  --aeris-toolbar-radius: 1.5rem;
+  --aeris-toolbar-gap: 1rem;
+  --aeris-toolbar-section-gap: 0.75rem;
+  --aeris-toolbar-padding-block: 1rem;
+  --aeris-toolbar-padding-inline: 1.125rem;
 }
 ```
 

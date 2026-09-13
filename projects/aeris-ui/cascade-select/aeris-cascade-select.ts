@@ -16,6 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   ɵAerisAppendTo,
   type AerisAppendTo,
@@ -82,7 +83,7 @@ let nextCascadeSelectId = 0;
       [attr.data-size]="size()"
       [attr.data-appearance]="appearance()"
       [attr.data-open]="open() || null"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-fluid]="fluid() || null"
       (focusout)="handleFocusOut($event)"
@@ -103,9 +104,9 @@ let nextCascadeSelectId = 0;
           [attr.aria-controls]="panelId"
           [attr.aria-activedescendant]="open() ? activeOptionId() : null"
           [attr.aria-label]="ariaLabel() || null"
-          [attr.aria-labelledby]="ariaLabelledby() || null"
-          [attr.aria-describedby]="ariaDescribedby() || null"
-          [attr.aria-invalid]="invalid() || null"
+          [attr.aria-labelledby]="ariaLabelledBy() || null"
+          [attr.aria-describedby]="ariaDescribedBy() || null"
+          [attr.aria-invalid]="displayInvalid() || null"
           [attr.aria-required]="required() || null"
           [disabled]="effectiveDisabled()"
           (click)="toggle()"
@@ -248,8 +249,8 @@ export class AerisCascadeSelect implements ControlValueAccessor {
   readonly name = input('');
   readonly placeholder = input('Select an option');
   readonly ariaLabel = input<string>();
-  readonly ariaLabelledby = input<string>();
-  readonly ariaDescribedby = input<string>();
+  readonly ariaLabelledBy = input<string>();
+  readonly ariaDescribedBy = input<string>();
   readonly clearButtonAriaLabel = input('Clear value');
   readonly emptyMessage = input('No options available');
   readonly size = input<AerisCascadeSelectSize>('md');
@@ -259,6 +260,10 @@ export class AerisCascadeSelect implements ControlValueAccessor {
   readonly appendTo = input<AerisAppendTo>();
   readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly fluid = input(false, { transform: booleanAttribute });

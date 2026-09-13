@@ -1,8 +1,5 @@
 import { Component, signal } from '@angular/core';
-import {
-  AerisPaginator,
-  type AerisPaginatorPageEvent,
-} from '@aeris-ui/core/paginator';
+import { AerisPaginator, type AerisPaginatorPageEvent } from '@aeris-ui/core/paginator';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
@@ -70,19 +67,71 @@ protected handlePage(event: AerisPaginatorPageEvent): void {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'appendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: "Mounts the rows-per-page menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection." },
-    { name: 'viewportMargin', type: 'number | AerisOverlayCollisionPadding', defaultValue: '8', description: 'Keeps the rows menu inside the visual viewport. Per-edge values reserve fixed interface regions.' },
-    { name: 'first', type: 'number (model)', defaultValue: '0', description: 'Index of the first record in the current page.' },
-    { name: 'rows', type: 'number (model)', defaultValue: '10', description: 'Number of records shown per page.' },
-    { name: 'totalRecords', type: 'number', defaultValue: '0', description: 'Total number of records available for pagination.' },
-    { name: 'pageLinkSize', type: 'number', defaultValue: '5', description: 'Maximum number of page number buttons shown at once.' },
-    { name: 'rowsPerPageOptions', type: 'readonly number[]', defaultValue: '[]', description: 'Rows-per-page options. When empty, the menu is hidden.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Pagination'", description: 'Accessible name for the paginator navigation landmark.' },
-    { name: 'rowsPerPageLabel', type: 'string', defaultValue: "'Rows per page'", description: 'Visible and accessible label for the rows menu.' },
+    {
+      name: 'appendTo',
+      type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+      defaultValue: "global config or 'self'",
+      description:
+        "Mounts the rows-per-page menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection.",
+    },
+    {
+      name: 'viewportMargin',
+      type: 'number | AerisOverlayCollisionPadding',
+      defaultValue: '8',
+      description:
+        'Keeps the rows menu inside the visual viewport. Per-edge values reserve fixed interface regions.',
+    },
+    {
+      name: 'first',
+      type: 'number (model)',
+      defaultValue: '0',
+      description: 'Index of the first record in the current page.',
+    },
+    {
+      name: 'rows',
+      type: 'number (model)',
+      defaultValue: '10',
+      description: 'Number of records shown per page.',
+    },
+    {
+      name: 'totalRecords',
+      type: 'number',
+      defaultValue: '0',
+      description: 'Total number of records available for pagination.',
+    },
+    {
+      name: 'pageLinkSize',
+      type: 'number',
+      defaultValue: '5',
+      description: 'Maximum number of page number buttons shown at once.',
+    },
+    {
+      name: 'rowsPerPageOptions',
+      type: 'readonly number[]',
+      defaultValue: '[]',
+      description: 'Rows-per-page options. When empty, the menu is hidden.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Pagination'",
+      description: 'Accessible name for the paginator navigation landmark.',
+    },
+    {
+      name: 'rowsPerPageLabel',
+      type: 'string',
+      defaultValue: "'Rows per page'",
+      description: 'Visible and accessible label for the rows menu.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'page', type: 'AerisPaginatorPageEvent', defaultValue: '-', description: 'Emitted when the user changes page or row count.' },
+    {
+      name: 'page',
+      type: 'AerisPaginatorPageEvent',
+      defaultValue: '-',
+      description: 'Emitted when the user changes page or row count.',
+    },
   ];
 
   protected handlePage(event: AerisPaginatorPageEvent): void {

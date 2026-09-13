@@ -33,6 +33,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 | `appearance` | `AerisTextareaAppearance` | `'outline'` | Selects the outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `resize` | `AerisTextareaResize` | `'vertical'` | Controls the native browser resize handle. Options: 'none', 'vertical', 'horizontal', 'both'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Expands the textarea to its container width. |
 
 ### Wrapper Inputs
@@ -50,12 +51,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 | `minLength` | `number &#124; undefined` | `undefined` | Native minimum character constraint. |
 | `maxLength` | `number &#124; undefined` | `undefined` | Native maximum character constraint. |
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label is available. |
-| `ariaLabelledby` | `string` | `''` | IDs of elements that label the textarea. |
-| `ariaDescribedby` | `string` | `''` | IDs of help or validation messages. |
+| `ariaLabelledBy` | `string` | `''` | IDs of elements that label the textarea. |
+| `ariaDescribedBy` | `string` | `''` | IDs of help or validation messages. |
 | `size` | `AerisTextareaSize` | `'md'` | Sets the padding, font size, and minimum height. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisTextareaAppearance` | `'outline'` | Selects the outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `resize` | `AerisTextareaResize` | `'vertical'` | Controls the native browser resize handle. Options: 'none', 'vertical', 'horizontal', 'both'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Expands the textarea to its container width. |
 | `disabled` | `boolean` | `false` | Disables editing and the clear action. |
 | `readonly` | `boolean` | `false` | Allows focus and selection without editing. |
@@ -73,7 +75,6 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `valueChange` | `string` | `-` | Emits for two-way value model changes. |
-| `valueInput` | `string` | `-` | Emits whenever user input changes the value. |
 | `focused` | `FocusEvent` | `-` | Emits when the internal textarea receives focus. |
 | `blurred` | `FocusEvent` | `-` | Emits when the internal textarea loses focus. |
 | `scrolled` | `Event` | `-` | Emits when textarea content scrolls. |

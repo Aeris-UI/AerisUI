@@ -434,7 +434,7 @@
                   inputId="required-date"
                   required
                   [invalid]="validationInvalid()"
-                  ariaDescribedby="required-date-message"
+                  ariaDescribedBy="required-date-message"
                   [(value)]="validationDate"
                   (blurred)="validationTouched.set(true)"
                   fluid
@@ -455,7 +455,7 @@
     inputId="required-date"
     required
     [invalid]="validationInvalid()"
-    ariaDescribedby="required-date-message"
+    ariaDescribedBy="required-date-message"
     [(value)]="validationDate"
     (blurred)="validationTouched.set(true)"
     fluid
@@ -684,10 +684,10 @@
           </li>
           <li>
             Visible labels should use <code>inputId</code>. Otherwise provide
-            <code>ariaLabel</code> or <code>ariaLabelledby</code>.
+            <code>ariaLabel</code> or <code>ariaLabelledBy</code>.
           </li>
           <li>
-            Use <code>ariaDescribedby</code> for help and validation messages. Required and invalid
+            Use <code>ariaDescribedBy</code> for help and validation messages. Required and invalid
             state are synchronized with ARIA.
           </li>
           <li>

@@ -133,13 +133,13 @@ type AerisInputMaskAppearance = 'outline' | 'filled';
       description: 'Accessible name when no visible label is associated.',
     },
     {
-      name: 'ariaLabelledby',
+      name: 'ariaLabelledBy',
       type: 'string | undefined',
       defaultValue: 'undefined',
       description: 'IDs of elements that label the input.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string | undefined',
       defaultValue: 'undefined',
       description: 'IDs of help and validation messages.',
@@ -215,6 +215,13 @@ type AerisInputMaskAppearance = 'outline' | 'filled';
       type: 'boolean',
       defaultValue: 'false',
       description: 'Applies invalid styling and aria-invalid.',
+    },
+    {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it.',
     },
     {
       name: 'fluid',

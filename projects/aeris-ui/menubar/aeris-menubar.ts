@@ -349,7 +349,7 @@ export class AerisMenubar<T = unknown> {
   readonly openOnHover = input(true, { transform: booleanAttribute });
   readonly closeOnMouseLeave = input(true, { transform: booleanAttribute });
   readonly closeOnSelect = input(true, { transform: booleanAttribute });
-  readonly hideOnOutsideClick = input(true, { transform: booleanAttribute });
+  readonly closeOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly collapsible = input(true, { transform: booleanAttribute });
   readonly ariaLabel = input('Menubar');
@@ -542,7 +542,7 @@ export class AerisMenubar<T = unknown> {
   }
 
   protected handleDocumentPointerdown(event: PointerEvent): void {
-    if (!this.hideOnOutsideClick() || (!this.openPath() && !this.mobileOpen())) return;
+    if (!this.closeOnOutsideClick() || (!this.openPath() && !this.mobileOpen())) return;
     const target = event.target;
     if (target instanceof Node && this.host.nativeElement.contains(target)) return;
     this.mobileOpen.set(false);

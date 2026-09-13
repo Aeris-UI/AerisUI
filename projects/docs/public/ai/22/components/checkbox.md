@@ -36,14 +36,15 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 | `value` | `string` | `'on'` | Value submitted by a native form when checked. |
 | `label` | `string` | `''` | Optional text label. Projected label content is also supported. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name for a checkbox without visible label content. |
-| `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of external labeling elements. |
-| `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of external labeling elements. |
+| `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
 | `size` | `AerisCheckboxSize` | `'md'` | Control and label size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `labelPosition` | `AerisCheckboxLabelPosition` | `'end'` | Places the visible label before or after the control. Options: 'start', 'end'. |
 | `tabIndex` | `number` | `0` | Native tab order value for composite widgets that manage focus. |
 | `disabled` | `boolean` | `false` | Disables native interaction and form submission. |
 | `required` | `boolean` | `false` | Exposes native required validation semantics. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 
 ### Checkbox outputs
 
@@ -51,7 +52,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 | --- | --- | --- |
 | checkedChange | boolean | Emitted automatically by the checked model. |
 | indeterminateChange | boolean | Emitted automatically by the indeterminate model. |
-| checkedInput | boolean | Emitted when user or public method interaction changes checked state. |
+| checkedChange | boolean | Emitted when user or public method interaction changes checked state. |
 | changed | AerisCheckboxChangeEvent | Native event, checked state, mixed state, and submitted value. |
 | focused | FocusEvent | Emitted when the native checkbox receives focus. |
 | blurred | FocusEvent | Emitted when the native checkbox loses focus. |
@@ -477,7 +478,7 @@ export class CheckboxStatesRequiredInvalidAndDisabledDemo {
     inputId="required-terms"
     required
     invalid
-    ariaDescribedby="required-terms-error"
+    ariaDescribedBy="required-terms-error"
   >
     Accept terms
   </aeris-checkbox>
@@ -621,8 +622,8 @@ export class CheckboxAngularFormsReactiveAndTemplateDrivenFormsDemo {
 - Projected content and the label input are wrapped in one native label, expanding the pointer target.
 - Space toggles the focused checkbox. Native tab order and disabled behavior are preserved.
 - Mixed state is applied through the native indeterminate property and announced as partially checked by supporting screen readers.
-- Use a visible label whenever possible. For icon-only or externally labeled controls, use ariaLabel or ariaLabelledby.
-- Connect help and error text through ariaDescribedby. The invalid input synchronizes aria-invalid.
+- Use a visible label whenever possible. For icon-only or externally labeled controls, use ariaLabel or ariaLabelledBy.
+- Connect help and error text through ariaDescribedBy. The invalid input synchronizes aria-invalid.
 - Selection groups should use a fieldset and legend to communicate their shared question.
 - ControlValueAccessor support synchronizes checked, touched, and disabled state with Reactive Forms and template-driven forms.
 - Focus indicators meet the WCAG 2.2 target and animations respect reduced-motion preferences.

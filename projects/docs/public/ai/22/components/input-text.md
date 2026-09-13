@@ -32,6 +32,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 | `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Expands the native input to fill its available inline space. |
 
 ### Component Inputs
@@ -45,11 +46,12 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 | `placeholder` | `string` | `''` | Native placeholder text. |
 | `autocomplete` | `string` | `'off'` | Native autocomplete hint. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label is associated. |
-| `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
-| `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help or validation messages. |
+| `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
+| `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help or validation messages. |
 | `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Expands the native input to fill its available inline space. |
 | `disabled` | `boolean` | `false` | Disables the input and clear action. |
 | `readonly` | `boolean` | `false` | Allows focus and selection without editing. |

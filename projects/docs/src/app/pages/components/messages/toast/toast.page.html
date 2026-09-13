@@ -89,7 +89,8 @@
                   </button>
                   <button
                     aerisButton
-                    variant="secondary"
+                    variant="solid"
+                    severity="secondary"
                     type="button"
                     (click)="clearStickyToasts()"
                   >
@@ -110,7 +111,8 @@
     &lt;/button&gt;
     &lt;button
       aerisButton
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       type="button"
       (click)="clearStickyToasts()"
     &gt;
@@ -167,7 +169,8 @@
                         <button
                           aerisButton
                           size="sm"
-                          variant="secondary"
+                          variant="solid"
+                          severity="secondary"
                           type="button"
                           (click)="close()"
                         >
@@ -212,7 +215,8 @@
           &lt;button
             aerisButton
             size="sm"
-            variant="secondary"
+            variant="solid"
+            severity="secondary"
             type="button"
             (click)="close()"
           &gt;
@@ -608,7 +612,7 @@
             <code>role="status"</code> and <code>aria-live="polite"</code>.
           </li>
           <li>
-            Warning and error messages default to <code>role="alert"</code> and
+            Warning and danger toasts default to <code>role="alert"</code> and
             <code>aria-live="assertive"</code>.
           </li>
           <li>

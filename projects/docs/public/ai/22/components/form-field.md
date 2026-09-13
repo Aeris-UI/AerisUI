@@ -31,13 +31,14 @@ import { AerisFormField } from '@aeris-ui/core/form-field';
 | --- | --- | --- | --- |
 | `controlId` | `string` | `generated` | ID shared by the label and control. Exposed as a signal for Aeris controls. |
 | `invalid` | `boolean` | `false` | Shows the error, applies invalid presentation, and includes its ID in describedBy(). |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `disabled` | `boolean` | `false` | Applies disabled field presentation. Disable the projected control separately. |
 | `required` | `boolean` | `false` | Shows the required indicator and sets aria-required on native aerisFormControl elements. |
 | `optional` | `boolean` | `false` | Shows an optional indicator unless required is also true. |
 | `optionalText` | `string` | `'Optional'` | Text displayed by the optional indicator for localization. |
 | `fluid` | `boolean` | `false` | Makes the field and native aerisFormControl element fill available inline space. |
 | `reserveMessageSpace` | `boolean` | `false` | Reserves one message line so adjacent grid fields remain visually stable. |
-| `ariaDescribedby` | `string` | `''` | Additional description IDs merged into the generated describedBy() value. |
+| `ariaDescribedBy` | `string` | `''` | Additional description IDs merged into the generated describedBy() value. |
 | `errorLive` | `AerisFormErrorLive` | `'polite'` | Default error announcement behavior. Options: 'off', 'polite', 'assertive'. |
 
 ### Directive Inputs
@@ -47,7 +48,7 @@ import { AerisFormField } from '@aeris-ui/core/form-field';
 | `id` | `string` | `''` | Overrides the generated label ID. |
 | `for` | `string` | `''` | Overrides the generated label target. The TypeScript property name is forId. |
 | `id` | `string` | `''` | Overrides the generated native or host-semantic control ID. |
-| `aria-describedby` | `string` | `''` | Additional description IDs merged with the FormField IDs. The TypeScript property name is ariaDescribedby. |
+| `aria-describedby` | `string` | `''` | Additional description IDs merged with the FormField IDs. The TypeScript property name is ariaDescribedBy. |
 | `id` | `string` | `''` | Overrides the generated hint ID. |
 | `id` | `string` | `''` | Overrides the generated error ID. |
 | `hideWhenValid` | `boolean` | `true` | Hides the projected error while FormField invalid is false. |
@@ -57,7 +58,7 @@ import { AerisFormField } from '@aeris-ui/core/form-field';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `labelId` | `Signal&lt;string&gt;` | `derived` | Generated label ID for ariaLabelledby on Aeris or custom controls. |
+| `labelId` | `Signal&lt;string&gt;` | `derived` | Generated label ID for ariaLabelledBy on Aeris or custom controls. |
 | `hintId` | `Signal&lt;string&gt;` | `derived` | Generated default hint ID. |
 | `errorId` | `Signal&lt;string&gt;` | `derived` | Generated default error ID. |
 | `describedBy` | `Signal&lt;string&gt;` | `derived` | Deduplicated hint, active error, and external description IDs for control binding. |
@@ -200,8 +201,8 @@ export class FormFieldProfileResponsiveProfileFormDemo {
     <label aerisFormLabel>Birth date</label>
     <aeris-date-picker
       [inputId]="birthField.controlId()"
-      [ariaLabelledby]="birthField.labelId()"
-      [ariaDescribedby]="birthField.describedBy()"
+      [ariaLabelledBy]="birthField.labelId()"
+      [ariaDescribedBy]="birthField.describedBy()"
       [(value)]="birthDate"
       fluid
     />
@@ -212,8 +213,8 @@ export class FormFieldProfileResponsiveProfileFormDemo {
     <label aerisFormLabel>Height</label>
     <aeris-input-number
       [inputId]="heightField.controlId()"
-      [ariaLabelledby]="heightField.labelId()"
-      [ariaDescribedby]="heightField.describedBy()"
+      [ariaLabelledBy]="heightField.labelId()"
+      [ariaDescribedBy]="heightField.describedBy()"
       [(value)]="height"
       suffix=" cm"
       [min]="80"
@@ -227,8 +228,8 @@ export class FormFieldProfileResponsiveProfileFormDemo {
     <label aerisFormLabel>Role</label>
     <aeris-select
       [inputId]="roleField.controlId()"
-      [ariaLabelledby]="roleField.labelId()"
-      [ariaDescribedby]="roleField.describedBy()"
+      [ariaLabelledBy]="roleField.labelId()"
+      [ariaDescribedBy]="roleField.describedBy()"
       [options]="roleOptions"
       [(value)]="role"
       placeholder="Choose a role"
@@ -242,8 +243,8 @@ export class FormFieldProfileResponsiveProfileFormDemo {
     <label aerisFormLabel>Biography</label>
     <aeris-textarea
       [inputId]="bioField.controlId()"
-      [ariaLabelledby]="bioField.labelId()"
-      [ariaDescribedby]="bioField.describedBy()"
+      [ariaLabelledBy]="bioField.labelId()"
+      [ariaDescribedBy]="bioField.describedBy()"
       [(value)]="biography"
       [rows]="3"
       fluid
@@ -342,7 +343,13 @@ export class FormFieldValidationValidationAndAlignmentDemo {
 
   <div class="validation-actions">
     <button aerisButton type="button" (click)="validateEmail()">Check email</button>
-    <button aerisButton type="button" variant="secondary" (click)="resetValidation()">
+    <button
+      aerisButton
+      type="button"
+      variant="solid"
+      severity="secondary"
+      (click)="resetValidation()"
+    >
       Reset
     </button>
   </div>
@@ -408,8 +415,8 @@ export class FormFieldStatesRequiredOptionalAndDisabledDemo {
     <label aerisFormLabel>Workspace notifications</label>
     <aeris-toggle-switch
       [inputId]="notificationField.controlId()"
-      [ariaLabelledby]="notificationField.labelId()"
-      [ariaDescribedby]="notificationField.describedBy()"
+      [ariaLabelledBy]="notificationField.labelId()"
+      [ariaDescribedBy]="notificationField.describedBy()"
       [(checked)]="notifications"
       required
     />

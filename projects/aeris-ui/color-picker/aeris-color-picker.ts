@@ -15,6 +15,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   aerisInternalClampOverlayPoint,
   aerisInternalCreateFrameScheduler,
@@ -72,7 +73,7 @@ let colorPickerId = 0;
       [attr.data-appearance]="appearance()"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-readonly]="readonly() || null"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
       [attr.data-fluid]="fluid() || null"
       [attr.data-open]="isOpen() || null"
       (focusout)="handleFocusOut($event)"
@@ -88,9 +89,9 @@ let colorPickerId = 0;
         [id]="resolvedInputId()"
         [disabled]="effectiveDisabled() || readonly()"
         [attr.aria-label]="ariaLabel() || triggerAriaLabel()"
-        [attr.aria-labelledby]="ariaLabelledby()"
-        [attr.aria-describedby]="ariaDescribedby()"
-        [attr.aria-invalid]="invalid() || null"
+        [attr.aria-labelledby]="ariaLabelledBy()"
+        [attr.aria-describedby]="ariaDescribedBy()"
+        [attr.aria-invalid]="displayInvalid() || null"
         [attr.aria-required]="required() || null"
         [attr.aria-expanded]="isOpen()"
         [attr.aria-controls]="panelId"
@@ -122,8 +123,8 @@ let colorPickerId = 0;
           [readOnly]="readonly()"
           [required]="required()"
           [attr.aria-label]="textAriaLabel()"
-          [attr.aria-describedby]="ariaDescribedby()"
-          [attr.aria-invalid]="invalid() || textInvalid() || null"
+          [attr.aria-describedby]="ariaDescribedBy()"
+          [attr.aria-invalid]="displayInvalid() || textInvalid() || null"
           autocomplete="off"
           spellcheck="false"
           (input)="handleTextInput($event)"
@@ -343,8 +344,8 @@ export class AerisColorPicker implements ControlValueAccessor {
   readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly placeholder = input('Enter color');
   readonly ariaLabel = input<string>();
-  readonly ariaLabelledby = input<string>();
-  readonly ariaDescribedby = input<string>();
+  readonly ariaLabelledBy = input<string>();
+  readonly ariaDescribedBy = input<string>();
   readonly triggerAriaLabel = input('Choose color');
   /** @deprecated Use panelAriaLabel instead. */
   readonly nativeAriaLabel = input('Color picker');
@@ -371,9 +372,12 @@ export class AerisColorPicker implements ControlValueAccessor {
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly fluid = input(false, { transform: booleanAttribute });
 
-  readonly valueInput = output<string>();
   readonly changed = output<AerisColorPickerChangeEvent>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
@@ -770,7 +774,6 @@ export class AerisColorPicker implements ControlValueAccessor {
   private setValue(value: string): void {
     if (this.value() === value) return;
     this.value.set(value);
-    this.valueInput.emit(value);
     this.onChange(value);
   }
 

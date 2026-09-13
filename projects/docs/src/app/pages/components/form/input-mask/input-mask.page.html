@@ -233,7 +233,7 @@
                   inputId="mask-auto-clear-field"
                   mask="999-999"
                   autoClear
-                  ariaDescribedby="mask-auto-clear-help"
+                  ariaDescribedBy="mask-auto-clear-help"
                   fluid
                 />
                 <small id="mask-auto-clear-help"
@@ -246,7 +246,7 @@
     inputId="mask-auto-clear-field"
     mask="999-999"
     autoClear
-    ariaDescribedby="mask-auto-clear-help"
+    ariaDescribedBy="mask-auto-clear-help"
     fluid
   /&gt;
   &lt;small id="mask-auto-clear-help"
@@ -378,7 +378,7 @@
                     mask="999-999"
                     [value]="'123'"
                     invalid
-                    ariaDescribedby="mask-error"
+                    ariaDescribedBy="mask-error"
                     fluid
                   /><small id="mask-error" class="error">Enter the complete code.</small>
                 </div>
@@ -421,7 +421,7 @@
       mask="999-999"
       [value]="'123'"
       invalid
-      ariaDescribedby="mask-error"
+      ariaDescribedBy="mask-error"
       fluid
     /&gt;&lt;small id="mask-error" class="error"&gt;Enter the complete code.&lt;/small&gt;
   &lt;/div&gt;
@@ -594,7 +594,7 @@
                 ><span role="cell">Emitted automatically by the value model.</span>
               </div>
               <div role="row">
-                <code role="cell">valueInput</code><span role="cell">string</span
+                <code role="cell">valueChange</code><span role="cell">string</span
                 ><span role="cell">Emitted when user interaction changes the value.</span>
               </div>
               <div role="row">
@@ -705,8 +705,8 @@
             ><code role="cell">#f2f0ec</code>
           </div>
           <div role="row">
-            <code role="cell">--aeris-border</code
-            ><span role="cell">Default field border.</span><code role="cell">#c7c9c0</code>
+            <code role="cell">--aeris-border</code><span role="cell">Default field border.</span
+            ><code role="cell">#c7c9c0</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-focus</code><span role="cell">Focus border and ring.</span
@@ -734,7 +734,7 @@
           </li>
           <li>
             Describe the expected format in visible help text connected through
-            <code>ariaDescribedby</code>; do not rely on the mask alone.
+            <code>ariaDescribedBy</code>; do not rely on the mask alone.
           </li>
           <li>
             The <code>invalid</code> input synchronizes visual state with <code>aria-invalid</code>.

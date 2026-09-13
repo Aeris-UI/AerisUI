@@ -479,7 +479,7 @@ interface AerisMenuVisibilityEvent {
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'self' (global)",
+      defaultValue: "global config or 'self'",
       description:
         "Mounts popup menus locally by default and automatically moves them to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection; inline menus remain local.",
     },
@@ -551,7 +551,7 @@ interface AerisMenuVisibilityEvent {
       description: 'Minimum popup distance from viewport edges.',
     },
     {
-      name: 'hideOnOutsideClick',
+      name: 'closeOnOutsideClick',
       type: 'boolean',
       defaultValue: 'true',
       description: 'Closes popup menus when pointer interaction starts outside the panel.',
@@ -620,22 +620,16 @@ interface AerisMenuVisibilityEvent {
       description: 'Emitted automatically by the open model.',
     },
     {
-      name: 'shown',
+      name: 'opened',
       type: 'AerisMenuVisibilityEvent',
       defaultValue: '-',
       description: 'Emitted after popup opening is requested.',
     },
     {
-      name: 'hidden',
+      name: 'closed',
       type: 'AerisMenuVisibilityEvent',
       defaultValue: '-',
       description: 'Emitted after popup close.',
-    },
-    {
-      name: 'visibilityChanged',
-      type: 'AerisMenuVisibilityEvent',
-      defaultValue: '-',
-      description: 'Emitted for both popup show and hide transitions.',
     },
     {
       name: 'itemSelected',

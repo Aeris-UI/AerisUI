@@ -89,6 +89,7 @@ const DIALOG_FOCUS_OPTIONS = {
       <div
         class="aeris-dialog__overlay"
         [aerisInternalAppendTo]="appendTo()"
+        aerisInternalAppendToDefault="body"
         [attr.data-modal]="modal() || null"
         [attr.data-backdrop]="backdrop() || null"
         [attr.data-backdrop-blur]="backdrop() && backdropBlur() ? true : null"
@@ -255,7 +256,7 @@ export class AerisDialog {
   readonly backdrop = input(true, { transform: booleanAttribute });
   readonly backdropBlur = input(true, { transform: booleanAttribute });
   readonly backdropBlurAmount = input('');
-  readonly dismissibleMask = input(false, { transform: booleanAttribute });
+  readonly closeOnBackdropClick = input(false, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly closable = input(true, { transform: booleanAttribute });
   readonly maximizable = input(false, { transform: booleanAttribute });
@@ -280,9 +281,8 @@ export class AerisDialog {
   readonly ariaLabelledBy = input('');
   readonly ariaDescribedBy = input('');
 
-  readonly shown = output<AerisDialogVisibilityChangeEvent>();
-  readonly hidden = output<AerisDialogVisibilityChangeEvent>();
-  readonly visibilityChanged = output<AerisDialogVisibilityChangeEvent>();
+  readonly opened = output<AerisDialogVisibilityChangeEvent>();
+  readonly closed = output<AerisDialogVisibilityChangeEvent>();
 
   readonly id = `aeris-dialog-${nextDialogId++}`;
   readonly titleId = `${this.id}-title`;
@@ -393,7 +393,7 @@ export class AerisDialog {
     if (event.target !== event.currentTarget) return;
     event.preventDefault();
     event.stopPropagation();
-    if (!this.dismissibleMask()) return;
+    if (!this.closeOnBackdropClick()) return;
     this.hide(event, 'mask');
   }
 
@@ -430,8 +430,7 @@ export class AerisDialog {
     this.lockScroll();
     const event = this.visibilityEvent(true, 'api', this.pendingOriginalEvent);
     this.pendingOriginalEvent = null;
-    this.shown.emit(event);
-    this.visibilityChanged.emit(event);
+    this.opened.emit(event);
     if (!this.autoFocus()) return;
     queueMicrotask(() => this.focusInitial());
   }
@@ -445,8 +444,7 @@ export class AerisDialog {
     const event = this.visibilityEvent(false, this.pendingCloseReason, this.pendingOriginalEvent);
     this.pendingOriginalEvent = null;
     this.pendingCloseReason = 'api';
-    this.hidden.emit(event);
-    this.visibilityChanged.emit(event);
+    this.closed.emit(event);
     const previouslyFocused = this.previouslyFocused();
     this.previouslyFocused.set(null);
     if (!this.restoreFocus() || !restoreFocus) return;

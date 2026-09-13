@@ -29,14 +29,14 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the dialog overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the dialog overlay locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Default dialog title rendered in the header. |
 | `role` | `AerisDialogRole` | `'dialog'` | Dialog landmark role. Use alertdialog only for interruptive confirmation-style surfaces. |
 | `modal` | `boolean` | `true` | Enables modal semantics, focus handling, and optional scroll blocking. |
 | `backdrop` | `boolean` | `true` | Shows the modal backdrop. Set false for a modal dialog without the visual mask. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur to the visible backdrop. |
 | `backdropBlurAmount` | `string` | `''` | Overrides the backdrop blur radius for this dialog with a CSS length. |
-| `dismissibleMask` | `boolean` | `false` | Closes the dialog when the mask itself is pressed. |
+| `closeOnBackdropClick` | `boolean` | `false` | Closes the dialog when the mask itself is pressed. |
 | `closeOnEscape` | `boolean` | `true` | Closes the dialog when Escape is pressed. |
 | `closable` | `boolean` | `true` | Shows the close button in the header. |
 | `maximizable` | `boolean` | `false` | Shows a header action that toggles maximized layout. |
@@ -74,9 +74,8 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
 | --- | --- | --- | --- |
 | `visibleChange` | `boolean` | `-` | Emitted by the visible model. |
 | `maximizedChange` | `boolean` | `-` | Emitted by the maximized model. |
-| `shown` | `AerisDialogVisibilityChangeEvent` | `-` | Emitted after the dialog opens. |
-| `hidden` | `AerisDialogVisibilityChangeEvent` | `-` | Emitted after the dialog closes. |
-| `visibilityChanged` | `AerisDialogVisibilityChangeEvent` | `-` | Emitted after either open or close. |
+| `opened` | `AerisDialogVisibilityChangeEvent` | `-` | Emitted after the dialog opens. |
+| `closed` | `AerisDialogVisibilityChangeEvent` | `-` | Emitted after the dialog closes. |
 
 ### Templates
 
@@ -233,7 +232,8 @@ export class DialogControlledControlledStateDemo {
                 <aeris-dialog
                   header="Edit workspace"
                   [(visible)]="controlledOpen"
-                  (visibilityChanged)="recordDialogEvent($event)"
+                  (opened)="recordDialogEvent($event)"
+                  (closed)="recordDialogEvent($event)"
                 >
                   <form class="dialog-form">
                     <label>
@@ -406,7 +406,7 @@ export class DialogDismissalDismissalAndBackdropDemo {
   </div>
   <aeris-dialog
     header="Dismissible dialog"
-    dismissibleMask
+    closeOnBackdropClick
     backdropBlurAmount="1rem"
     [(visible)]="dismissalOpen"
   >

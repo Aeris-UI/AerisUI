@@ -1,5 +1,8 @@
 export const AERIS_UI_VERSION = '22.0.0-alpha.6';
 
+export type { AerisSeverity } from './lib/aeris-severity';
+export { aerisInternalDisplayInvalid as ɵaerisDisplayInvalid } from './lib/aeris-validation-state';
+
 export {
   AERIS_OVERLAY_APPEND_TO,
   aerisInternalResolveAppendTo as ɵaerisResolveAppendTo,

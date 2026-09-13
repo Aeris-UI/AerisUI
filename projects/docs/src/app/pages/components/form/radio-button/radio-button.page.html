@@ -256,7 +256,7 @@
                     value="standard"
                     required
                     invalid
-                    ariaDescribedby="delivery-error"
+                    ariaDescribedBy="delivery-error"
                     >Standard</aeris-radio-button
                   >
                   <aeris-radio-button
@@ -264,7 +264,7 @@
                     value="express"
                     required
                     invalid
-                    ariaDescribedby="delivery-error"
+                    ariaDescribedBy="delivery-error"
                     >Express</aeris-radio-button
                   >
                 </fieldset>
@@ -288,7 +288,7 @@
       value="standard"
       required
       invalid
-      ariaDescribedby="delivery-error"
+      ariaDescribedBy="delivery-error"
       &gt;Standard&lt;/aeris-radio-button
     &gt;
     &lt;aeris-radio-button
@@ -296,7 +296,7 @@
       value="express"
       required
       invalid
-      ariaDescribedby="delivery-error"
+      ariaDescribedBy="delivery-error"
       &gt;Express&lt;/aeris-radio-button
     &gt;
   &lt;/fieldset&gt;
@@ -453,7 +453,7 @@
                 ><span role="cell">Emitted automatically by the selected model.</span>
               </div>
               <div role="row">
-                <code role="cell">selectedInput</code><span role="cell">string</span
+                <code role="cell">selectedChange</code><span role="cell">string</span
                 ><span role="cell"
                   >Emitted when user or public method interaction selects this option.</span
                 >
@@ -580,10 +580,10 @@
           </li>
           <li>
             Use visible option text whenever possible. Use <code>ariaLabel</code> or
-            <code>ariaLabelledby</code> only when native visible labeling is unavailable.
+            <code>ariaLabelledBy</code> only when native visible labeling is unavailable.
           </li>
           <li>
-            Connect instructions and errors with <code>ariaDescribedby</code>. The invalid input
+            Connect instructions and errors with <code>ariaDescribedBy</code>. The invalid input
             synchronizes <code>aria-invalid</code>.
           </li>
           <li>

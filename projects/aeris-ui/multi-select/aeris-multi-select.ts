@@ -17,6 +17,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   boundarySelectValue,
   filterSelectOptions,
@@ -102,7 +103,7 @@ let multiSelectId = 0;
       [attr.data-size]="size()"
       [attr.data-appearance]="appearance()"
       [attr.data-open]="open() || null"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-fluid]="fluid() || null"
       (focusout)="handleFocusOut($event)"
@@ -123,9 +124,9 @@ let multiSelectId = 0;
           [attr.aria-controls]="panelId"
           [attr.aria-activedescendant]="open() ? activeOptionId() : null"
           [attr.aria-label]="ariaLabel() || null"
-          [attr.aria-labelledby]="ariaLabelledby() || null"
-          [attr.aria-describedby]="ariaDescribedby() || null"
-          [attr.aria-invalid]="invalid() || null"
+          [attr.aria-labelledby]="ariaLabelledBy() || null"
+          [attr.aria-describedby]="ariaDescribedBy() || null"
+          [attr.aria-invalid]="displayInvalid() || null"
           [attr.aria-required]="required() || null"
           [attr.aria-disabled]="effectiveDisabled() || null"
           (click)="toggle()"
@@ -365,8 +366,8 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
   readonly valueSeparator = input(',');
   readonly placeholder = input('Select options');
   readonly ariaLabel = input('');
-  readonly ariaLabelledby = input('');
-  readonly ariaDescribedby = input('');
+  readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly listboxAriaLabel = input('Options');
   readonly size = input<AerisMultiSelectSize>('md');
   readonly appearance = input<AerisMultiSelectAppearance>('outline');
@@ -406,9 +407,12 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly fluid = input(false, { transform: booleanAttribute });
 
-  readonly valueInput = output<readonly string[]>();
   readonly changed = output<AerisMultiSelectChangeEvent>();
   readonly filterChanged = output<AerisMultiSelectFilterEvent>();
   readonly lazyLoad = output<AerisMultiSelectLazyLoadEvent>();
@@ -777,7 +781,6 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
   private setValue(value: readonly string[]): void {
     const unique = [...new Set(value)];
     this.value.set(unique);
-    this.valueInput.emit(unique);
     this.onChange(unique);
   }
 

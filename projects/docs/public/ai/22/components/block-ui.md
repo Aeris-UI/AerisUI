@@ -96,7 +96,8 @@ export class BlockUiElementElementDemo {
     </button>
     <button
       aerisButton
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       type="button"
       (click)="elementBlocked.set(false)"
     >

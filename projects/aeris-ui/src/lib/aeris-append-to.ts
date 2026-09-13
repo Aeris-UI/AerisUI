@@ -27,7 +27,7 @@ export type AerisAppendTo =
 
 export const AERIS_OVERLAY_APPEND_TO = new InjectionToken<AerisAppendTo>(
   'AERIS_OVERLAY_APPEND_TO',
-  { factory: () => 'self' },
+  { factory: () => undefined },
 );
 
 export function aerisInternalResolveAppendTo(
@@ -58,6 +58,7 @@ export class ɵAerisAppendTo {
   private unconstrainedPanelHeight = 0;
 
   readonly aerisInternalAppendTo = input<AerisAppendTo>();
+  readonly aerisInternalAppendToDefault = input<AerisAppendTo>('self');
   readonly aerisInternalAppendToAnchor = input<HTMLElement | null>(null);
   readonly aerisInternalAppendToOffset = input(7);
   readonly aerisInternalAppendToMatchWidth = input(false);
@@ -70,7 +71,7 @@ export class ɵAerisAppendTo {
   constructor() {
     effect((onCleanup) => {
       const target = aerisInternalResolveAppendTo(
-        this.aerisInternalAppendTo() ?? this.defaultAppendTo,
+        this.aerisInternalAppendTo() ?? this.defaultAppendTo ?? this.aerisInternalAppendToDefault(),
         this.document,
       );
       const anchor = this.aerisInternalAppendToAnchor();
@@ -83,10 +84,7 @@ export class ɵAerisAppendTo {
       this.captureOrigin();
 
       if (effectiveTarget === 'self') this.restoreToOrigin();
-      if (
-        effectiveTarget === 'self' &&
-        (!anchor || !this.aerisInternalAppendToPositionSelf())
-      ) {
+      if (effectiveTarget === 'self' && (!anchor || !this.aerisInternalAppendToPositionSelf())) {
         this.element.removeAttribute('data-aeris-append-to');
         this.element.removeAttribute('data-aeris-auto-portaled');
         return;
@@ -272,10 +270,7 @@ export class ɵAerisAppendTo {
     let point = position(naturalHeight);
     const viewportBounds = {
       top: viewportTop + (collisionPadding.top ?? 0),
-      bottom:
-        viewportTop +
-        (viewport?.height ?? view.innerHeight) -
-        (collisionPadding.bottom ?? 0),
+      bottom: viewportTop + (viewport?.height ?? view.innerHeight) - (collisionPadding.bottom ?? 0),
     };
     const anchorIntersectsViewport =
       anchorRect.bottom > viewportBounds.top && anchorRect.top < viewportBounds.bottom;

@@ -15,7 +15,7 @@ import {
     <aeris-input-otp
       inputId="verification-code"
       name="otp"
-      ariaLabelledby="otp-label"
+      ariaLabelledBy="otp-label"
       [formControl]="code"
       (completed)="lastComplete.set($event)"
     />
@@ -31,18 +31,24 @@ describe('AerisInputOtp', () => {
     const fixture = TestBed.createComponent(InputOtpTestHost);
     await fixture.whenStable();
     const group = fixture.nativeElement.querySelector('[role=group]') as HTMLElement;
-    const inputs = fixture.nativeElement.querySelectorAll('.aeris-input-otp__slot') as NodeListOf<HTMLInputElement>;
+    const inputs = fixture.nativeElement.querySelectorAll(
+      '.aeris-input-otp__slot',
+    ) as NodeListOf<HTMLInputElement>;
     expect(group.getAttribute('aria-labelledby')).toBe('otp-label');
     expect(inputs.length).toBe(4);
     expect(inputs[0]?.id).toBe('verification-code');
     expect(inputs[0]?.getAttribute('aria-label')).toBe('Character 1 of 4');
-    expect((fixture.nativeElement.querySelector('input[type=hidden]') as HTMLInputElement).name).toBe('otp');
+    expect(
+      (fixture.nativeElement.querySelector('input[type=hidden]') as HTMLInputElement).name,
+    ).toBe('otp');
   });
 
   it('accepts numeric input and advances focus', async () => {
     const fixture = TestBed.createComponent(InputOtpTestHost);
     await fixture.whenStable();
-    const inputs = fixture.nativeElement.querySelectorAll('.aeris-input-otp__slot') as NodeListOf<HTMLInputElement>;
+    const inputs = fixture.nativeElement.querySelectorAll(
+      '.aeris-input-otp__slot',
+    ) as NodeListOf<HTMLInputElement>;
     const first = inputs[0] as HTMLInputElement;
     first.value = '5';
     first.dispatchEvent(new Event('input', { bubbles: true }));
@@ -71,7 +77,9 @@ describe('AerisInputOtp', () => {
     fixture.componentInstance.code.setValue('1234');
     await fixture.whenStable();
     fixture.detectChanges();
-    const inputs = fixture.nativeElement.querySelectorAll('.aeris-input-otp__slot') as NodeListOf<HTMLInputElement>;
+    const inputs = fixture.nativeElement.querySelectorAll(
+      '.aeris-input-otp__slot',
+    ) as NodeListOf<HTMLInputElement>;
     inputs[2]?.focus();
     inputs[2]?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
     expect(document.activeElement).toBe(inputs[1]);
@@ -87,7 +95,9 @@ describe('AerisInputOtp', () => {
     direct.componentRef.setInput('value', 'A2B4');
     direct.detectChanges();
     await direct.whenStable();
-    const inputs = direct.nativeElement.querySelectorAll('.aeris-input-otp__slot') as NodeListOf<HTMLInputElement>;
+    const inputs = direct.nativeElement.querySelectorAll(
+      '.aeris-input-otp__slot',
+    ) as NodeListOf<HTMLInputElement>;
     expect(inputs[0]?.type).toBe('password');
     expect(inputs[0]?.value).toBe('A');
   });

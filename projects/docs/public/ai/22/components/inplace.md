@@ -228,7 +228,8 @@ export class InplaceControlledControlledDemo {
       </button>
       <button
         aerisButton
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         type="button"
         (click)="deactivateControlled()"
       >
@@ -342,7 +343,8 @@ export class InplaceInputInlineEditingDemo {
           <button aerisButton type="button" (click)="saveName(close)">Save</button>
           <button
             aerisButton
-            variant="secondary"
+            variant="solid"
+            severity="secondary"
             type="button"
             (click)="cancelName(close)"
           >

@@ -21,7 +21,7 @@ import {
       clearable
       required
       invalid
-      ariaDescribedby="skills-help"
+      ariaDescribedBy="skills-help"
       (changed)="lastChange.set($event)"
     />
   `,

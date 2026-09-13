@@ -423,7 +423,7 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
     {
       name: 'paginatorDropdownAppendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'self' (global)",
+      defaultValue: "global config or 'self'",
       description: 'Forwards the mounting target to the paginator rows-per-page menu.',
     },
     {

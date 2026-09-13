@@ -52,8 +52,8 @@ class StaticTieredMenuHost {
       popup
       [model]="items"
       [autoFocus]="true"
-      (shown)="shownEvents.push($event)"
-      (hidden)="hiddenEvents.push($event)"
+      (opened)="shownEvents.push($event)"
+      (closed)="hiddenEvents.push($event)"
     />
   `,
 })

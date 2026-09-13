@@ -14,7 +14,7 @@ import { AerisInputMask } from '../../../input-mask/aeris-input-mask';
       clearable
       [(value)]="phone"
       (completed)="completedValue.set($event)"
-      (valueInput)="lastInput.set($event)"
+      (valueChange)="lastInput.set($event)"
     />
   `,
 })
@@ -27,13 +27,7 @@ class InputMaskTestHost {
 @Component({
   imports: [AerisInputMask],
   template: `
-    <aeris-input-mask
-      mask="aa-999"
-      unmask
-      autoClear
-      showMask
-      [(value)]="code"
-    />
+    <aeris-input-mask mask="aa-999" unmask autoClear showMask [(value)]="code" />
     <aeris-input-mask mask="\\9-99" [value]="'912'" ariaLabel="Escaped mask" />
   `,
 })

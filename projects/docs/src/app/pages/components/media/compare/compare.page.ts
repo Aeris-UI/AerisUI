@@ -470,16 +470,16 @@ export class CompareFormsDemo {
       name: 'ariaLabel',
       type: 'string',
       defaultValue: "'Comparison position'",
-      description: 'Accessible name when ariaLabelledby is not used.',
+      description: 'Accessible name when ariaLabelledBy is not used.',
     },
     {
-      name: 'ariaLabelledby',
+      name: 'ariaLabelledBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of elements that label the range.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of elements that describe the range.',
@@ -501,10 +501,10 @@ export class CompareFormsDemo {
   ];
   protected readonly outputs: readonly ApiRow[] = [
     {
-      name: 'valueInput',
-      type: 'AerisCompareInputEvent',
+      name: 'valueChange',
+      type: 'number',
       defaultValue: '—',
-      description: 'Emits during drag, hover, or keyboard updates.',
+      description: 'Emitted by the value model during drag, hover, keyboard, and API updates.',
     },
     {
       name: 'changed',

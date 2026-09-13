@@ -1,24 +1,13 @@
 import { Component, booleanAttribute, computed, input } from '@angular/core';
+import type { AerisSeverity } from '@aeris-ui/core';
 
-export type AerisBadgeSeverity =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'danger'
-  | 'neutral'
-  | 'contrast';
+export type AerisBadgeSeverity = AerisSeverity;
 
 export type AerisBadgeSize = 'sm' | 'md' | 'lg';
 export type AerisBadgeVariant = 'solid' | 'soft' | 'outline';
 export type AerisBadgeShape = 'pill' | 'rounded';
 export type AerisBadgeRole = 'status' | 'note' | '';
-export type AerisBadgeOverlayPosition =
-  | 'top-right'
-  | 'top-left'
-  | 'bottom-right'
-  | 'bottom-left';
+export type AerisBadgeOverlayPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
 
 const nullableNumberAttribute = (value: unknown): number | null => {
   if (value === null || value === undefined || value === '') return null;

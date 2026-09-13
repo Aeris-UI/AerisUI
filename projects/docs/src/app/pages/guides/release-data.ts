@@ -27,7 +27,12 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
     version: 'Unreleased',
     date: 'In development',
     status: 'Next release',
-    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.6.'],
+    changes: [
+      'Add touched-aware invalid presentation for Angular Signal Forms while preserving manual validation behavior.',
+      'Separate Button presentation variants from shared semantic severity colors and remove redundant aliases.',
+      'Standardize ARIA input casing, model change outputs, overlay lifecycle events, and dismissal input names.',
+      'Use explicit anchored and viewport overlay family defaults while honoring global appendTo configuration.',
+    ],
   },
   {
     version: '22.0.0-alpha.6',

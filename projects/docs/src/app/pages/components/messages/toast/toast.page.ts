@@ -115,7 +115,7 @@ protected showSeverityToasts(): void {
     { group: 'severity', severity: 'success', summary: 'Published', detail: 'The release notes are live.' },
     { group: 'severity', severity: 'info', summary: 'Sync running', detail: 'Assets are being checked.' },
     { group: 'severity', severity: 'warning', summary: 'Review needed', detail: 'One token changed contrast.' },
-    { group: 'severity', severity: 'error', summary: 'Build failed', detail: 'Fix the failing test before release.' },
+    { group: 'severity', severity: 'danger', summary: 'Build failed', detail: 'Fix the failing test before release.' },
     { group: 'severity', severity: 'neutral', summary: 'Neutral', detail: 'Provides supporting information without emphasis.' },
   ]);
 }`;
@@ -196,7 +196,7 @@ protected showStackedToasts(): void {
     { group: 'stacked', severity: 'info', summary: 'Queued', detail: 'A preview build is waiting.' },
     { group: 'stacked', severity: 'warning', summary: 'Review', detail: 'A token needs contrast review.' },
     { group: 'stacked', severity: 'neutral', summary: 'Synced', detail: 'Design assets are current.' },
-    { group: 'stacked', severity: 'error', summary: 'Failed', detail: 'One job needs attention.' },
+    { group: 'stacked', severity: 'danger', summary: 'Failed', detail: 'One job needs attention.' },
     { group: 'stacked', severity: 'info', summary: 'Assigned', detail: 'A reviewer was notified.' },
   ]);
 }`;
@@ -227,7 +227,7 @@ protected showExpandedStack(): void {
     { group: 'expanded', severity: 'info', summary: 'Step 2 running', detail: 'Preview assets are uploading.' },
     { group: 'expanded', severity: 'warning', summary: 'Step 3 queued', detail: 'A reviewer must approve deployment.' },
     { group: 'expanded', severity: 'neutral', summary: 'Step 4 waiting', detail: 'Release notes are being generated.' },
-    { group: 'expanded', severity: 'error', summary: 'Step 5 blocked', detail: 'A required owner is missing.' },
+    { group: 'expanded', severity: 'danger', summary: 'Step 5 blocked', detail: 'A required owner is missing.' },
   ]);
 }`;
 
@@ -275,7 +275,7 @@ type AerisToastSeverity =
   | 'success'
   | 'info'
   | 'warning'
-  | 'error'
+  | 'danger'
   | 'neutral';
 
 type AerisToastMode = 'stacked' | 'expanded';
@@ -543,7 +543,7 @@ interface AerisToastTemplateContext<TData = unknown> {
       },
       {
         group: 'severity',
-        severity: 'error',
+        severity: 'danger',
         summary: 'Build failed',
         detail: 'Fix the failing test before release.',
       },
@@ -632,7 +632,7 @@ interface AerisToastTemplateContext<TData = unknown> {
       },
       {
         group: 'stacked',
-        severity: 'error',
+        severity: 'danger',
         summary: 'Failed',
         detail: 'One job needs attention.',
       },
@@ -683,7 +683,7 @@ interface AerisToastTemplateContext<TData = unknown> {
       },
       {
         group: 'expanded',
-        severity: 'error',
+        severity: 'danger',
         summary: 'Step 5 blocked',
         detail: 'A required owner is missing.',
       },

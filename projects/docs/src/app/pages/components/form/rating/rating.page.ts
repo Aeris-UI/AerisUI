@@ -185,13 +185,13 @@ interface RatingIconContext {
       description: 'Accessible name when no external label is used.',
     },
     {
-      name: 'ariaLabelledby',
+      name: 'ariaLabelledBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of external label elements.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of help text or validation messages.',
@@ -210,12 +210,6 @@ interface RatingIconContext {
       type: 'number',
       defaultValue: '-',
       description: 'Emitted automatically by the value model.',
-    },
-    {
-      name: 'valueInput',
-      type: 'number',
-      defaultValue: '-',
-      description: 'Emitted whenever interaction updates the value.',
     },
     {
       name: 'changed',

@@ -31,7 +31,7 @@
             Try the alpha
             <svg [lucideIcon]="icons.ChevronRight" aria-hidden="true"></svg>
           </a>
-          <a aerisButton size="lg" variant="secondary" routerLink="/components">
+          <a aerisButton size="lg" variant="solid" severity="secondary" routerLink="/components">
             Explore components
           </a>
         </div>
@@ -66,6 +66,8 @@
               <span>Workspace type</span>
               <aeris-select
                 fluid
+                appendTo="self"
+                panelClass="home-workspace-select-panel"
                 ariaLabel="Workspace type"
                 [options]="workspaceTypes"
                 [(value)]="workspaceType"
@@ -127,7 +129,8 @@
       <div class="home-open-source__actions">
         <a
           aerisButton
-          variant="secondary"
+          variant="solid"
+          severity="secondary"
           href="https://github.com/Aeris-UI/AerisUI"
           target="_blank"
           rel="noopener noreferrer"
@@ -240,7 +243,9 @@
       </div>
       <div class="home-actions">
         <a aerisButton size="lg" routerLink="/guides/installation">Read alpha guidance</a>
-        <a aerisButton size="lg" variant="secondary" routerLink="/guides/theming">Theme Aeris</a>
+        <a aerisButton size="lg" variant="solid" severity="secondary" routerLink="/guides/theming"
+          >Theme Aeris</a
+        >
       </div>
     </section>
   </main>

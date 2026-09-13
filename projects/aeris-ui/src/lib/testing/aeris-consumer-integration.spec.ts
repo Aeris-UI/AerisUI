@@ -43,8 +43,8 @@ class ConsumerStatistics {
         <label aerisFormLabel>Height</label>
         <aeris-input-number
           [inputId]="heightField.controlId()"
-          [ariaLabelledby]="heightField.labelId()"
-          [ariaDescribedby]="heightField.describedBy()"
+          [ariaLabelledBy]="heightField.labelId()"
+          [ariaDescribedBy]="heightField.describedBy()"
         />
       </aeris-form-field>
     </form>

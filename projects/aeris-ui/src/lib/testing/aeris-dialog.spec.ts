@@ -7,10 +7,7 @@ import {
   type AerisDialogVisibilityChangeEvent,
 } from '../../../dialog/aeris-dialog';
 import { AerisDatePicker } from '../../../date-picker/aeris-date-picker';
-import {
-  AerisSelect,
-  type AerisSelectOption,
-} from '../../../select/aeris-select';
+import { AerisSelect, type AerisSelectOption } from '../../../select/aeris-select';
 
 const settle = () => new Promise<void>((resolve) => queueMicrotask(resolve));
 
@@ -25,8 +22,8 @@ const settle = () => new Promise<void>((resolve) => queueMicrotask(resolve));
       [backdropBlur]="blur()"
       backdropBlurAmount="1.25rem"
       [(visible)]="open"
-      (shown)="shownCount.update((count) => count + 1)"
-      (hidden)="lastHidden.set($event)"
+      (opened)="shownCount.update((count) => count + 1)"
+      (closed)="lastHidden.set($event)"
     >
       <p id="dialog-description">Review the project before publishing.</p>
       <button type="button" id="first-action">First action</button>
@@ -58,13 +55,14 @@ class BasicDialogHost {
       maxHeight="80vh"
       mobileWidth="calc(100vw - 1rem)"
       [footerLayout]="footerLayout()"
-      dismissibleMask
+      closeOnBackdropClick
       maximizable
       draggable
       resizable
       [(visible)]="open"
       [(maximized)]="maximized"
-      (visibilityChanged)="events.update((items) => [...items, $event])"
+      (opened)="events.update((items) => [...items, $event])"
+      (closed)="events.update((items) => [...items, $event])"
     >
       <ng-template aerisDialogHeader let-maximized="maximized">
         Template header {{ maximized ? 'maximized' : 'normal' }}
@@ -162,11 +160,12 @@ describe('AerisDialog', () => {
     fixture.detectChanges();
     await settle();
 
-    const dialog = fixture.nativeElement.querySelector('[role="dialog"]') as HTMLElement;
-    const title = fixture.nativeElement.querySelector('.aeris-dialog__title') as HTMLElement;
-    const close = fixture.nativeElement.querySelector('.aeris-dialog__action') as HTMLButtonElement;
+    const dialog = document.querySelector('[role="dialog"]') as HTMLElement;
+    const title = document.querySelector('.aeris-dialog__title') as HTMLElement;
+    const close = document.querySelector('.aeris-dialog__action') as HTMLButtonElement;
 
-    const overlay = fixture.nativeElement.querySelector('.aeris-dialog__overlay') as HTMLElement;
+    const overlay = document.querySelector('.aeris-dialog__overlay') as HTMLElement;
+    expect(overlay.parentElement).toBe(document.body);
     expect(overlay.getAttribute('data-backdrop')).toBe('true');
     expect(overlay.getAttribute('data-backdrop-blur')).toBe('true');
     expect(overlay.style.getPropertyValue('--aeris-dialog-backdrop-blur')).toBe('1.25rem');
@@ -199,7 +198,7 @@ describe('AerisDialog', () => {
     await fixture.whenStable();
     await settle();
 
-    const trigger = fixture.nativeElement.querySelector('#dialog-date') as HTMLButtonElement;
+    const trigger = document.querySelector('#dialog-date') as HTMLButtonElement;
     trigger.click();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -217,7 +216,7 @@ describe('AerisDialog', () => {
     await fixture.whenStable();
     await settle();
 
-    const dateTrigger = fixture.nativeElement.querySelector('#dialog-date') as HTMLButtonElement;
+    const dateTrigger = document.querySelector('#dialog-date') as HTMLButtonElement;
     dateTrigger.click();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -229,7 +228,7 @@ describe('AerisDialog', () => {
     expect(dateTrigger.getAttribute('aria-expanded')).toBe('false');
     expect(fixture.componentInstance.visible()).toBe(true);
 
-    const selectTrigger = fixture.nativeElement.querySelector('#dialog-role') as HTMLButtonElement;
+    const selectTrigger = document.querySelector('#dialog-role') as HTMLButtonElement;
     selectTrigger.click();
     fixture.detectChanges();
     selectTrigger.dispatchEvent(
@@ -239,7 +238,7 @@ describe('AerisDialog', () => {
 
     expect(selectTrigger.getAttribute('aria-expanded')).toBe('false');
     expect(fixture.componentInstance.visible()).toBe(true);
-    expect(fixture.nativeElement.querySelector('[role="dialog"]')).toBeTruthy();
+    expect(document.querySelector('[role="dialog"]')).toBeTruthy();
   });
 
   it('falls back safely when initialFocus is not a valid selector', async () => {
@@ -247,7 +246,7 @@ describe('AerisDialog', () => {
     await fixture.whenStable();
     await settle();
 
-    const panel = fixture.nativeElement.querySelector('[role="dialog"]') as HTMLElement;
+    const panel = document.querySelector('[role="dialog"]') as HTMLElement;
     expect(panel.contains(document.activeElement)).toBe(true);
   });
 
@@ -255,10 +254,10 @@ describe('AerisDialog', () => {
     const fixture = TestBed.createComponent(TemplatedDialogHost);
     await fixture.whenStable();
 
-    const overlay = fixture.nativeElement.querySelector('.aeris-dialog__overlay') as HTMLElement;
-    const dialog = fixture.nativeElement.querySelector('[role="dialog"]') as HTMLElement;
-    const title = fixture.nativeElement.querySelector('.aeris-dialog__title') as HTMLElement;
-    const maximize = fixture.nativeElement.querySelector(
+    const overlay = document.querySelector('.aeris-dialog__overlay') as HTMLElement;
+    const dialog = document.querySelector('[role="dialog"]') as HTMLElement;
+    const title = document.querySelector('.aeris-dialog__title') as HTMLElement;
+    const maximize = document.querySelector(
       '.aeris-dialog__action[aria-pressed]',
     ) as HTMLButtonElement;
 
@@ -276,12 +275,12 @@ describe('AerisDialog', () => {
     expect(dialog.style.getPropertyValue('--aeris-dialog-height')).toBe('24rem');
     expect(dialog.style.getPropertyValue('--aeris-dialog-max-height')).toBe('80vh');
     expect(dialog.style.getPropertyValue('--aeris-dialog-mobile-width')).toBe('calc(100vw - 1rem)');
-    const footer = fixture.nativeElement.querySelector('.aeris-dialog__footer') as HTMLElement;
+    const footer = document.querySelector('.aeris-dialog__footer') as HTMLElement;
     expect(footer.getAttribute('data-footer-layout')).toBe('stack');
     expect(getComputedStyle(footer).flexDirection).toBe('column');
     expect(getComputedStyle(footer).alignItems).toBe('stretch');
     expect(title.textContent).toContain('Template header normal');
-    expect(fixture.nativeElement.querySelector('.custom-close')?.textContent).toContain('close');
+    expect(document.querySelector('.custom-close')?.textContent).toContain('close');
 
     fixture.componentInstance.footerLayout.set('wrap');
     fixture.detectChanges();
@@ -295,7 +294,7 @@ describe('AerisDialog', () => {
     expect(overlay.getAttribute('data-maximized')).toBe('true');
     expect(title.textContent).toContain('Template header maximized');
 
-    const footerClose = fixture.nativeElement.querySelector('#footer-close') as HTMLButtonElement;
+    const footerClose = document.querySelector('#footer-close') as HTMLButtonElement;
     footerClose.click();
     fixture.detectChanges();
 
@@ -317,7 +316,7 @@ describe('AerisDialog', () => {
     fixture.detectChanges();
     await settle();
 
-    const overlay = fixture.nativeElement.querySelector('.aeris-dialog__overlay') as HTMLElement;
+    const overlay = document.querySelector('.aeris-dialog__overlay') as HTMLElement;
     overlay.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
     fixture.detectChanges();
 
@@ -337,9 +336,9 @@ describe('AerisDialog', () => {
     await fixture.whenStable();
     await settle();
 
-    const target = fixture.nativeElement.querySelector('#target') as HTMLButtonElement;
-    const second = fixture.nativeElement.querySelector('#second') as HTMLButtonElement;
-    const close = fixture.nativeElement.querySelector('.aeris-dialog__action') as HTMLButtonElement;
+    const target = document.querySelector('#target') as HTMLButtonElement;
+    const second = document.querySelector('#second') as HTMLButtonElement;
+    const close = document.querySelector('.aeris-dialog__action') as HTMLButtonElement;
 
     expect(document.activeElement).toBe(target);
 
@@ -377,9 +376,7 @@ describe('AerisDialog', () => {
     dialog.focus();
     await settle();
     expect(
-      (fixture.nativeElement.querySelector('[role="dialog"]') as HTMLElement).contains(
-        document.activeElement,
-      ),
+      (document.querySelector('[role="dialog"]') as HTMLElement).contains(document.activeElement),
     ).toBe(true);
 
     dialog.toggle();
@@ -391,20 +388,18 @@ describe('AerisDialog', () => {
     const fixture = TestBed.createComponent(HeadlessDialogHost);
     await fixture.whenStable();
 
-    const dialog = fixture.nativeElement.querySelector('[role="dialog"]') as HTMLElement;
-    const close = fixture.nativeElement.querySelector('#headless-close') as HTMLButtonElement;
+    const dialog = document.querySelector('[role="dialog"]') as HTMLElement;
+    const close = document.querySelector('#headless-close') as HTMLButtonElement;
 
     expect(dialog.getAttribute('data-headless')).toBe('true');
     expect(dialog.getAttribute('aria-label')).toBe('Headless dialog');
     expect(dialog.getAttribute('aria-labelledby')).toBeNull();
-    expect(fixture.nativeElement.querySelector('.aeris-dialog__header')).toBeNull();
-    expect(fixture.nativeElement.querySelector('.headless-shell')?.textContent).toContain(
-      'Headless content',
-    );
+    expect(document.querySelector('.aeris-dialog__header')).toBeNull();
+    expect(document.querySelector('.headless-shell')?.textContent).toContain('Headless content');
 
     close.click();
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('[role="dialog"]')).toBeNull();
+    expect(document.querySelector('[role="dialog"]')).toBeNull();
   });
 });

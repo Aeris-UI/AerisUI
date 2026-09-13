@@ -65,7 +65,7 @@ export interface AerisConfirmPopupConfig<TData = unknown> {
   readonly maxWidth?: string;
   readonly offset?: number;
   readonly viewportMargin?: number;
-  readonly dismissible?: boolean;
+  readonly closeOnOutsideClick?: boolean;
   readonly closeOnEscape?: boolean;
   readonly focusTrap?: boolean;
   readonly restoreFocus?: boolean;
@@ -103,7 +103,7 @@ export interface AerisConfirmPopupResolvedConfig<TData = unknown> {
   readonly maxWidth: string;
   readonly offset: number;
   readonly viewportMargin: number;
-  readonly dismissible: boolean;
+  readonly closeOnOutsideClick: boolean;
   readonly closeOnEscape: boolean;
   readonly focusTrap: boolean;
   readonly restoreFocus: boolean;
@@ -216,7 +216,7 @@ export class AerisConfirmPopupRef<TData = unknown> {
   private readonly closedStream = new AerisConfirmPopupEventStream<
     AerisConfirmPopupCloseEvent<TData>
   >();
-  private readonly shownStream = new AerisConfirmPopupEventStream<
+  private readonly openedStream = new AerisConfirmPopupEventStream<
     AerisConfirmPopupActionEvent<TData>
   >();
   private controller: AerisConfirmPopupRefController | null = null;
@@ -228,8 +228,8 @@ export class AerisConfirmPopupRef<TData = unknown> {
     this.rejectedStream;
   readonly closed: AerisConfirmPopupSubscribable<AerisConfirmPopupCloseEvent<TData>> =
     this.closedStream;
-  readonly shown: AerisConfirmPopupSubscribable<AerisConfirmPopupActionEvent<TData>> =
-    this.shownStream;
+  readonly opened: AerisConfirmPopupSubscribable<AerisConfirmPopupActionEvent<TData>> =
+    this.openedStream;
 
   accept(originalEvent: Event | null = null): void {
     if (this.closedOnce) return;
@@ -258,9 +258,9 @@ export class AerisConfirmPopupRef<TData = unknown> {
     this.controller = controller;
   }
 
-  notifyShown(event: AerisConfirmPopupActionEvent<TData>): void {
+  notifyOpened(event: AerisConfirmPopupActionEvent<TData>): void {
     if (this.closedOnce) return;
-    this.shownStream.next(event);
+    this.openedStream.next(event);
   }
 
   notifyAccepted(event: AerisConfirmPopupActionEvent<TData>): void {
@@ -280,7 +280,7 @@ export class AerisConfirmPopupRef<TData = unknown> {
     this.acceptedStream.complete();
     this.rejectedStream.complete();
     this.closedStream.complete();
-    this.shownStream.complete();
+    this.openedStream.complete();
     this.controller = null;
   }
 }
@@ -375,7 +375,7 @@ export class AerisConfirmPopupService {
     return {
       key: config.key ?? '',
       target: this.resolveTarget(config.target),
-      appendTo: config.appendTo ?? 'body',
+      appendTo: config.appendTo,
       header: config.header ?? 'Confirm action',
       message: config.message ?? '',
       data: config.data,
@@ -396,7 +396,7 @@ export class AerisConfirmPopupService {
       maxWidth: config.maxWidth ?? '',
       offset: config.offset ?? 10,
       viewportMargin: config.viewportMargin ?? 8,
-      dismissible: config.dismissible ?? true,
+      closeOnOutsideClick: config.closeOnOutsideClick ?? true,
       closeOnEscape: config.closeOnEscape ?? true,
       focusTrap: config.focusTrap ?? true,
       restoreFocus: config.restoreFocus ?? true,
@@ -438,6 +438,7 @@ let nextPopupId = 0;
       <div
         class="aeris-confirm-popup__layer"
         [aerisInternalAppendTo]="settings().appendTo"
+        aerisInternalAppendToDefault="body"
         [attr.data-positioned]="positioned() || null"
       >
         <section
@@ -543,7 +544,8 @@ let nextPopupId = 0;
                   <button
                     aerisButton
                     type="button"
-                    variant="secondary"
+                    variant="solid"
+                    severity="secondary"
                     class="aeris-confirm-popup__button aeris-confirm-popup__reject"
                     [disabled]="settings().rejectDisabled"
                     [attr.aria-label]="settings().rejectAriaLabel"
@@ -610,7 +612,7 @@ export class AerisConfirmPopup {
     maxWidth: this.maxWidth(),
     offset: this.offset(),
     viewportMargin: this.viewportMargin(),
-    dismissible: this.dismissible(),
+    closeOnOutsideClick: this.closeOnOutsideClick(),
     closeOnEscape: this.closeOnEscape(),
     focusTrap: this.focusTrap(),
     restoreFocus: this.restoreFocus(),
@@ -691,7 +693,7 @@ export class AerisConfirmPopup {
   readonly visible = model(false);
 
   readonly key = input('');
-  readonly appendTo = input<AerisAppendTo>('body');
+  readonly appendTo = input<AerisAppendTo>();
   readonly header = input('Confirm action');
   readonly message = input('');
   readonly data = input<unknown>();
@@ -712,7 +714,7 @@ export class AerisConfirmPopup {
   readonly maxWidth = input('');
   readonly offset = input(10);
   readonly viewportMargin = input(8);
-  readonly dismissible = input(true, { transform: booleanAttribute });
+  readonly closeOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly focusTrap = input(true, { transform: booleanAttribute });
   readonly restoreFocus = input(true, { transform: booleanAttribute });
@@ -723,7 +725,7 @@ export class AerisConfirmPopup {
   readonly ariaLabelledBy = input('');
   readonly ariaDescribedBy = input('');
 
-  readonly shown = output<AerisConfirmPopupActionEvent>();
+  readonly opened = output<AerisConfirmPopupActionEvent>();
   readonly accepted = output<AerisConfirmPopupActionEvent>();
   readonly rejected = output<AerisConfirmPopupActionEvent>();
   readonly closed = output<AerisConfirmPopupCloseEvent>();
@@ -752,7 +754,7 @@ export class AerisConfirmPopup {
       const visible = this.visible();
       if (visible === this.previousVisible) return;
       if (visible) {
-        this.handleShown();
+        this.handleOpened();
       } else {
         this.handleHidden();
       }
@@ -864,7 +866,7 @@ export class AerisConfirmPopup {
   }
 
   protected handleDocumentPointerdown(event: PointerEvent): void {
-    if (!this.visible() || !this.settings().dismissible) return;
+    if (!this.visible() || !this.settings().closeOnOutsideClick) return;
     const target = event.target;
     if (!(target instanceof Node)) return;
     const panel = this.popupPanel()?.nativeElement;
@@ -872,12 +874,12 @@ export class AerisConfirmPopup {
     this.closeWithResult('dismiss', 'outside', event);
   }
 
-  private handleShown(): void {
+  private handleOpened(): void {
     this.positioned.set(false);
     this.updateTriggerAttributes(true);
     const event = this.actionEvent(null);
-    this.shown.emit(event);
-    this.activeRequest()?.ref.notifyShown(event);
+    this.opened.emit(event);
+    this.activeRequest()?.ref.notifyOpened(event);
     queueMicrotask(() => {
       this.reposition();
       if (this.autoFocusTarget()) this.focusInitial();

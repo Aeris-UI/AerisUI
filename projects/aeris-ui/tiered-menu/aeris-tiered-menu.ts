@@ -303,7 +303,7 @@ export class AerisTieredMenu<T = unknown> {
   readonly width = input('');
   readonly maxWidth = input('');
   readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
-  readonly hideOnOutsideClick = input(true, { transform: booleanAttribute });
+  readonly closeOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly closeOnMouseLeave = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly closeOnSelect = input(true, { transform: booleanAttribute });
@@ -314,9 +314,8 @@ export class AerisTieredMenu<T = unknown> {
   readonly panelStyleClass = input('');
   readonly navigationHandler = input<AerisTieredMenuNavigationHandler>();
 
-  readonly shown = output<AerisTieredMenuVisibilityEvent>();
-  readonly hidden = output<AerisTieredMenuVisibilityEvent>();
-  readonly visibilityChanged = output<AerisTieredMenuVisibilityEvent>();
+  readonly opened = output<AerisTieredMenuVisibilityEvent>();
+  readonly closed = output<AerisTieredMenuVisibilityEvent>();
   readonly itemSelected = output<AerisTieredMenuItemEvent<T>>();
 
   constructor() {
@@ -367,8 +366,7 @@ export class AerisTieredMenu<T = unknown> {
     this.positioned.set(false);
     const event = this.visibilityEvent(false, reason, originalEvent);
     const target = this.activeTarget();
-    this.hidden.emit(event);
-    this.visibilityChanged.emit(event);
+    this.closed.emit(event);
     this.activeTarget.set(null);
     if (restoreFocus && target instanceof HTMLElement) queueMicrotask(() => target.focus());
   }
@@ -518,7 +516,7 @@ export class AerisTieredMenu<T = unknown> {
   }
 
   protected handleDocumentPointerdown(event: PointerEvent): void {
-    if (!this.panelVisible() || !this.hideOnOutsideClick()) return;
+    if (!this.panelVisible() || !this.closeOnOutsideClick()) return;
     const target = event.target;
     const panel = this.panel()?.nativeElement;
     if (
@@ -560,8 +558,7 @@ export class AerisTieredMenu<T = unknown> {
     this.startScrollTracking();
     this.openInitialItem();
     const event = this.visibilityEvent(true, 'api', originalEvent);
-    this.shown.emit(event);
-    this.visibilityChanged.emit(event);
+    this.opened.emit(event);
     afterNextRender(
       () => {
         this.reposition();

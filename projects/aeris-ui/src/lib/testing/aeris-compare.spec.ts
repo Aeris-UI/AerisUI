@@ -22,7 +22,7 @@ import {
       [orientation]="orientation()"
       [slideOnHover]="slideOnHover()"
       [readonly]="readonly()"
-      (valueInput)="lastInput.set($event)"
+      (valueChange)="lastInput.set($event)"
       (changed)="lastChange.set($event)"
     />
   `,
@@ -32,7 +32,7 @@ class CompareHost {
   readonly orientation = signal<'horizontal' | 'vertical'>('horizontal');
   readonly slideOnHover = signal(false);
   readonly readonly = signal(false);
-  readonly lastInput = signal<AerisCompareInputEvent | null>(null);
+  readonly lastInput = signal<number | null>(null);
   readonly lastChange = signal<AerisCompareInputEvent | null>(null);
 }
 
@@ -97,7 +97,7 @@ describe('AerisCompare', () => {
     input.dispatchEvent(new Event('input', { bubbles: true }));
     fixture.detectChanges();
     expect(fixture.componentInstance.value()).toBe(68);
-    expect(fixture.componentInstance.lastInput()?.value).toBe(68);
+    expect(fixture.componentInstance.lastInput()).toBe(68);
 
     input.dispatchEvent(new Event('change', { bubbles: true }));
     fixture.detectChanges();

@@ -273,10 +273,22 @@
             >
               <div preview class="menubar-controlled">
                 <div class="menubar-actions">
-                  <button aerisButton type="button" variant="secondary" (click)="openWorkspace()">
+                  <button
+                    aerisButton
+                    type="button"
+                    variant="solid"
+                    severity="secondary"
+                    (click)="openWorkspace()"
+                  >
                     Open Workspace
                   </button>
-                  <button aerisButton type="button" variant="secondary" (click)="closeMenubar()">
+                  <button
+                    aerisButton
+                    type="button"
+                    variant="solid"
+                    severity="secondary"
+                    (click)="closeMenubar()"
+                  >
                     Close all
                   </button>
                 </div>
@@ -315,10 +327,22 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="menubar-controlled"&gt;
   &lt;div class="menubar-actions"&gt;
-    &lt;button aerisButton type="button" variant="secondary" (click)="openWorkspace()"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      variant="solid"
+      severity="secondary"
+      (click)="openWorkspace()"
+    &gt;
       Open Workspace
     &lt;/button&gt;
-    &lt;button aerisButton type="button" variant="secondary" (click)="closeMenubar()"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      variant="solid"
+      severity="secondary"
+      (click)="closeMenubar()"
+    &gt;
       Close all
     &lt;/button&gt;
   &lt;/div&gt;

@@ -40,8 +40,8 @@ import { AerisRating } from '@aeris-ui/core/rating';
 | `name` | `string` | `''` | Hidden native form field name. |
 | `inputId` | `string` | `generated` | ID applied to the focusable rating control. |
 | `ariaLabel` | `string` | `'Rating'` | Accessible name when no external label is used. |
-| `ariaLabelledby` | `string` | `''` | IDs of external label elements. |
-| `ariaDescribedby` | `string` | `''` | IDs of help text or validation messages. |
+| `ariaLabelledBy` | `string` | `''` | IDs of external label elements. |
+| `ariaDescribedBy` | `string` | `''` | IDs of help text or validation messages. |
 | `valueText` | `((value: number, max: number) =&gt; string) &#124; null` | `null` | Formats visible value text and aria-valuetext. |
 
 ### Outputs
@@ -49,7 +49,6 @@ import { AerisRating } from '@aeris-ui/core/rating';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `valueChange` | `number` | `-` | Emitted automatically by the value model. |
-| `valueInput` | `number` | `-` | Emitted whenever interaction updates the value. |
 | `changed` | `AerisRatingChangeEvent` | `-` | Committed keyboard or pointer value change. |
 | `focused` | `FocusEvent` | `-` | Emitted when the rating receives focus. |
 | `blurred` | `FocusEvent` | `-` | Emitted when the rating loses focus. |
@@ -121,7 +120,7 @@ import { AerisRating } from '@aeris-ui/core/rating';
   template: `
     <div class="field">
       <span id="rating-quality-label">Quality</span>
-      <aeris-rating ariaLabelledby="rating-quality-label" [(value)]="quality" />
+      <aeris-rating ariaLabelledBy="rating-quality-label" [(value)]="quality" />
     </div>
   `,
   styles: `
@@ -174,7 +173,7 @@ import { AerisRating } from '@aeris-ui/core/rating';
     <div class="field">
       <span id="rating-half-label">Detailed score</span>
       <aeris-rating
-        ariaLabelledby="rating-half-label"
+        ariaLabelledBy="rating-half-label"
         allowHalf
         showValue
         [(value)]="halfRating"
@@ -399,7 +398,7 @@ export class RatingIconsCustomIconsDemo {
     <span id="rating-mood-label">Whole value</span>
     <aeris-rating
       class="mood-rating"
-      ariaLabelledby="rating-mood-label"
+      ariaLabelledBy="rating-mood-label"
       [value]="3"
       [max]="5"
     >
@@ -422,7 +421,7 @@ export class RatingIconsCustomIconsDemo {
     <span id="rating-half-mood-label">Half value</span>
     <aeris-rating
       class="mood-rating"
-      ariaLabelledby="rating-half-mood-label"
+      ariaLabelledBy="rating-half-mood-label"
       [value]="3.5"
       [max]="5"
       allowHalf
@@ -522,7 +521,7 @@ import { AerisRating } from '@aeris-ui/core/rating';
     <div class="field">
       <span id="rating-score-label">Score</span>
       <aeris-rating
-        ariaLabelledby="rating-score-label"
+        ariaLabelledBy="rating-score-label"
         [value]="4"
         [max]="10"
         [valueText]="formatScore"
@@ -582,7 +581,7 @@ import { AerisRating } from '@aeris-ui/core/rating';
   template: `
     <div class="field">
       <span id="rating-disabled-label">Locked score</span>
-      <aeris-rating ariaLabelledby="rating-disabled-label" [value]="3" disabled />
+      <aeris-rating ariaLabelledBy="rating-disabled-label" [value]="3" disabled />
     </div>
   `,
   styles: `
@@ -709,7 +708,7 @@ export class RatingFormsReactiveAndTemplateDrivenFormsDemo {
   <div class="rating-card">
     <span id="rating-reactive-label">Reactive Forms</span>
     <aeris-rating
-      ariaLabelledby="rating-reactive-label"
+      ariaLabelledBy="rating-reactive-label"
       [formControl]="reactiveValue"
     />
     <small>Value: {{ reactiveValue.value }}</small>
@@ -717,7 +716,7 @@ export class RatingFormsReactiveAndTemplateDrivenFormsDemo {
   <div class="rating-card">
     <span id="rating-template-label">Template-driven forms</span>
     <aeris-rating
-      ariaLabelledby="rating-template-label"
+      ariaLabelledBy="rating-template-label"
       name="templateRating"
       allowHalf
       [(ngModel)]="templateValue"
@@ -772,9 +771,9 @@ export class RatingFormsReactiveAndTemplateDrivenFormsDemo {
 ## Accessibility
 
 - Rating uses role="slider" with synchronized aria-valuemin, aria-valuemax, aria-valuenow, and aria-valuetext.
-- Provide a visible label with ariaLabelledby or a concise ariaLabel.
+- Provide a visible label with ariaLabelledBy or a concise ariaLabel.
 - Use valueText when the default value text is not descriptive enough for the product context.
-- Use ariaDescribedby for help text and validation messages.
+- Use ariaDescribedBy for help text and validation messages.
 - Disabled ratings are removed from pointer, keyboard, and form interaction.
 
 ### Keyboard support

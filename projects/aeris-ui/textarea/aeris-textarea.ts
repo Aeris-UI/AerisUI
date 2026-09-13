@@ -12,6 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisTextareaSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisTextareaAppearance = 'outline' | 'filled';
@@ -26,10 +27,10 @@ export type AerisTextareaResize = 'none' | 'vertical' | 'horizontal' | 'both';
     '[class.aeris-textarea--md]': 'size() === "md"',
     '[class.aeris-textarea--lg]': 'size() === "lg"',
     '[class.aeris-textarea--filled]': 'appearance() === "filled"',
-    '[class.aeris-textarea--invalid]': 'invalid()',
+    '[class.aeris-textarea--invalid]': 'displayInvalid()',
     '[class.aeris-textarea--fluid]': 'fluid()',
     '[attr.data-resize]': 'resize()',
-    '[attr.aria-invalid]': 'invalid() || null',
+    '[attr.aria-invalid]': 'displayInvalid() || null',
   },
 })
 export class AerisTextareaDirective {
@@ -37,7 +38,11 @@ export class AerisTextareaDirective {
   readonly appearance = input<AerisTextareaAppearance>('outline');
   readonly resize = input<AerisTextareaResize>('vertical');
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
   readonly fluid = input(false, { transform: booleanAttribute });
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
 }
 
 let textareaId = 0;
@@ -51,7 +56,7 @@ let textareaId = 0;
       [attr.data-size]="size()"
       [attr.data-fluid]="fluid() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
     >
       <span class="aeris-textarea-component__field">
         <textarea
@@ -69,6 +74,7 @@ let textareaId = 0;
           [appearance]="appearance()"
           [resize]="autoResize() ? 'none' : resize()"
           [invalid]="invalid()"
+          [touched]="touched()"
           [disabled]="effectiveDisabled()"
           [readOnly]="readonly()"
           [required]="required()"
@@ -76,8 +82,8 @@ let textareaId = 0;
           [attr.minlength]="minLength() ?? null"
           [attr.maxlength]="maxLength() ?? null"
           [attr.aria-label]="ariaLabel() || null"
-          [attr.aria-labelledby]="ariaLabelledby() || null"
-          [attr.aria-describedby]="ariaDescribedby() || null"
+          [attr.aria-labelledby]="ariaLabelledBy() || null"
+          [attr.aria-describedby]="ariaDescribedBy() || null"
           [attr.aria-required]="required() || null"
           [style.height.px]="autoResize() ? autoHeight() : null"
           [style.overflow-y]="autoResize() && atMaximumHeight() ? 'auto' : null"
@@ -137,8 +143,8 @@ export class AerisTextareaComponent implements ControlValueAccessor {
   readonly minLength = input<number>();
   readonly maxLength = input<number>();
   readonly ariaLabel = input('');
-  readonly ariaLabelledby = input('');
-  readonly ariaDescribedby = input('');
+  readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly size = input<AerisTextareaSize>('md');
   readonly appearance = input<AerisTextareaAppearance>('outline');
   readonly resize = input<AerisTextareaResize>('vertical');
@@ -146,6 +152,7 @@ export class AerisTextareaComponent implements ControlValueAccessor {
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
   readonly fluid = input(false, { transform: booleanAttribute });
   readonly autoResize = input(false, { transform: booleanAttribute });
   readonly minRows = input(3);
@@ -155,7 +162,6 @@ export class AerisTextareaComponent implements ControlValueAccessor {
   readonly clearable = input(false, { transform: booleanAttribute });
   readonly clearButtonAriaLabel = input('Clear text');
 
-  readonly valueInput = output<string>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
   readonly scrolled = output<Event>();
@@ -165,26 +171,19 @@ export class AerisTextareaComponent implements ControlValueAccessor {
   protected readonly formDisabled = signal(false);
   protected readonly autoHeight = signal<number | null>(null);
   protected readonly atMaximumHeight = signal(false);
-  protected readonly effectiveDisabled = computed(
-    () => this.disabled() || this.formDisabled(),
+  protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
   );
   private readonly generatedId = `aeris-textarea-${++textareaId}`;
-  protected readonly resolvedInputId = computed(
-    () => this.inputId() || this.generatedId,
-  );
-  protected readonly characterCount = computed(() =>
-    Array.from(this.value()).length,
-  );
+  protected readonly resolvedInputId = computed(() => this.inputId() || this.generatedId);
+  protected readonly characterCount = computed(() => Array.from(this.value()).length);
   protected readonly showClearButton = computed(
     () =>
-      this.clearable() &&
-      this.value().length > 0 &&
-      !this.effectiveDisabled() &&
-      !this.readonly(),
+      this.clearable() && this.value().length > 0 && !this.effectiveDisabled() && !this.readonly(),
   );
 
-  private readonly textarea =
-    viewChild<ElementRef<HTMLTextAreaElement>>('textarea');
+  private readonly textarea = viewChild<ElementRef<HTMLTextAreaElement>>('textarea');
   private onChange: (value: string) => void = () => undefined;
   private onTouched: () => void = () => undefined;
 
@@ -228,29 +227,18 @@ export class AerisTextareaComponent implements ControlValueAccessor {
     if (!element) return;
 
     const styles = getComputedStyle(element);
-    const rowHeight = cssPixelValue(
-      styles,
-      '--aeris-textarea-row-height',
-      21,
-    );
-    const verticalPadding = cssPixelValue(
-      styles,
-      '--aeris-textarea-vertical-padding',
-      20,
-    );
+    const rowHeight = cssPixelValue(styles, '--aeris-textarea-row-height', 21);
+    const verticalPadding = cssPixelValue(styles, '--aeris-textarea-vertical-padding', 20);
     const minimum = Math.max(1, this.minRows()) * rowHeight + verticalPadding;
     const maximumRows = this.maxRows();
     const maximum =
       maximumRows === undefined
         ? Number.POSITIVE_INFINITY
-        : Math.max(this.minRows(), maximumRows) * rowHeight +
-          verticalPadding;
+        : Math.max(this.minRows(), maximumRows) * rowHeight + verticalPadding;
     const height = Math.min(maximum, Math.max(minimum, element.scrollHeight));
 
     this.autoHeight.set(height);
-    this.atMaximumHeight.set(
-      Number.isFinite(maximum) && element.scrollHeight > maximum,
-    );
+    this.atMaximumHeight.set(Number.isFinite(maximum) && element.scrollHeight > maximum);
   }
 
   protected handleInput(event: Event): void {
@@ -267,7 +255,6 @@ export class AerisTextareaComponent implements ControlValueAccessor {
   private setValue(value: string): void {
     if (this.value() === value) return;
     this.value.set(value);
-    this.valueInput.emit(value);
     this.onChange(value);
   }
 
@@ -276,19 +263,11 @@ export class AerisTextareaComponent implements ControlValueAccessor {
       queueMicrotask(() => this.resizeToContent());
     }
   }
-
 }
 
-export const AerisTextarea = [
-  AerisTextareaDirective,
-  AerisTextareaComponent,
-] as const;
+export const AerisTextarea = [AerisTextareaDirective, AerisTextareaComponent] as const;
 
-function cssPixelValue(
-  styles: CSSStyleDeclaration,
-  property: string,
-  fallback: number,
-): number {
+function cssPixelValue(styles: CSSStyleDeclaration, property: string, fallback: number): number {
   const value = Number.parseFloat(styles.getPropertyValue(property));
   return Number.isFinite(value) ? value : fallback;
 }

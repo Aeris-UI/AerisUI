@@ -15,20 +15,9 @@ import {
 } from '@angular/core';
 
 export type AerisSpeedDialDirection =
-  | 'up'
-  | 'down'
-  | 'left'
-  | 'right'
-  | 'up-left'
-  | 'up-right'
-  | 'down-left'
-  | 'down-right';
+  'up' | 'down' | 'left' | 'right' | 'up-left' | 'up-right' | 'down-left' | 'down-right';
 
-export type AerisSpeedDialType =
-  | 'linear'
-  | 'circle'
-  | 'semi-circle'
-  | 'quarter-circle';
+export type AerisSpeedDialType = 'linear' | 'circle' | 'semi-circle' | 'quarter-circle';
 
 export const AERIS_SPEED_DIAL_ITEM_LIMITS: Readonly<Record<AerisSpeedDialType, number>> = {
   linear: 5,
@@ -140,10 +129,17 @@ let speedDialId = 0;
                 [attr.id]="positioned.id"
                 [attr.href]="positioned.item.disabled ? null : positioned.href"
                 [attr.target]="positioned.item.target"
-                [attr.rel]="positioned.item.rel || (positioned.item.target === '_blank' ? 'noopener noreferrer' : null)"
+                [attr.rel]="
+                  positioned.item.rel ||
+                  (positioned.item.target === '_blank' ? 'noopener noreferrer' : null)
+                "
                 [attr.aria-label]="positioned.item.ariaLabel ?? positioned.item.label"
                 [attr.aria-disabled]="positioned.item.disabled || null"
-                [attr.tabindex]="visible() && focusedIndex() === positioned.index && !positioned.item.disabled ? 0 : -1"
+                [attr.tabindex]="
+                  visible() && focusedIndex() === positioned.index && !positioned.item.disabled
+                    ? 0
+                    : -1
+                "
                 (click)="activate($event, positioned)"
                 (focus)="focusedIndex.set(positioned.index)"
               >
@@ -166,7 +162,11 @@ let speedDialId = 0;
                 [attr.id]="positioned.id"
                 [attr.aria-label]="positioned.item.ariaLabel ?? positioned.item.label"
                 [disabled]="positioned.item.disabled"
-                [attr.tabindex]="visible() && focusedIndex() === positioned.index && !positioned.item.disabled ? 0 : -1"
+                [attr.tabindex]="
+                  visible() && focusedIndex() === positioned.index && !positioned.item.disabled
+                    ? 0
+                    : -1
+                "
                 (click)="activate($event, positioned)"
                 (focus)="focusedIndex.set(positioned.index)"
               >
@@ -181,7 +181,6 @@ let speedDialId = 0;
                 }
               </button>
             }
-
           </li>
         }
       </ul>
@@ -218,7 +217,8 @@ let speedDialId = 0;
               class="aeris-speed-dial__trigger-icon"
               [attr.data-rotate]="rotateAnimation() && !hideIcon() ? true : null"
               aria-hidden="true"
-            >{{ visible() && hideIcon() ? hideIcon() : showIcon() }}</span>
+              >{{ visible() && hideIcon() ? hideIcon() : showIcon() }}</span
+            >
           }
         </button>
       }
@@ -254,7 +254,7 @@ export class AerisSpeedDial<T = unknown> {
   readonly backdropBlur = input(true, { transform: booleanAttribute });
   readonly backdropBlurAmount = input('');
   readonly disabled = input(false, { transform: booleanAttribute });
-  readonly hideOnClickOutside = input(true, { transform: booleanAttribute });
+  readonly closeOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly buttonClass = input('');
   readonly maskClass = input('');
   readonly showIcon = input('+');
@@ -269,8 +269,8 @@ export class AerisSpeedDial<T = unknown> {
   readonly navigationHandler = input<AerisSpeedDialNavigationHandler>();
 
   readonly clicked = output<MouseEvent>();
-  readonly shown = output<Event>();
-  readonly hidden = output<Event>();
+  readonly opened = output<Event>();
+  readonly closed = output<Event>();
   readonly itemSelected = output<AerisSpeedDialCommandEvent<T>>();
 
   protected readonly projectedButtonTemplate =
@@ -346,14 +346,14 @@ export class AerisSpeedDial<T = unknown> {
     this.visible.set(true);
     const index = this.firstEnabledIndex();
     this.focusedIndex.set(index);
-    this.shown.emit(event);
+    this.opened.emit(event);
   }
 
   protected hide(event: Event, restoreFocus = false): void {
     if (!this.visible()) return;
     this.visible.set(false);
     this.focusedIndex.set(-1);
-    this.hidden.emit(event);
+    this.closed.emit(event);
     if (restoreFocus) {
       queueMicrotask(() => this.trigger().at(0)?.nativeElement.focus());
     }
@@ -422,7 +422,7 @@ export class AerisSpeedDial<T = unknown> {
     const host = this.host.nativeElement;
     if (
       this.visible() &&
-      this.hideOnClickOutside() &&
+      this.closeOnOutsideClick() &&
       target instanceof Node &&
       host &&
       !host.contains(target)
@@ -435,9 +435,12 @@ export class AerisSpeedDial<T = unknown> {
     const enabled = this.enabledIndexes();
     if (!enabled.length) return;
     const current = enabled.indexOf(this.focusedIndex());
-    const next = current < 0
-      ? (step === 1 ? 0 : enabled.length - 1)
-      : (current + step + enabled.length) % enabled.length;
+    const next =
+      current < 0
+        ? step === 1
+          ? 0
+          : enabled.length - 1
+        : (current + step + enabled.length) % enabled.length;
     this.focusedIndex.set(enabled[next]);
     this.focusActiveItem();
   }
@@ -447,7 +450,7 @@ export class AerisSpeedDial<T = unknown> {
   }
 
   private enabledIndexes(): number[] {
-    return this.visibleItems().flatMap((item, index) => item.disabled ? [] : [index]);
+    return this.visibleItems().flatMap((item, index) => (item.disabled ? [] : [index]));
   }
 
   private firstEnabledIndex(): number {

@@ -29,7 +29,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `'#5f6f36'` | Current color value with two-way binding and Forms support. |
 | `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. Options: 'hex', 'rgb', 'hsl'. |
@@ -38,8 +38,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | `formats` | `readonly AerisColorFormat[]` | `['hex', 'rgb', 'hsl']` | Formats offered by the panel format selector. Options: 'hex', 'rgb', 'hsl'. |
 | `placeholder` | `string` | `'Enter color'` | Placeholder for the optional text input. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name for the visible trigger when no visible label is available. |
-| `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of visible elements that label the trigger. |
-| `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of visible elements that label the trigger. |
+| `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
 | `triggerAriaLabel` | `string` | `'Choose color'` | Accessible name for the visible trigger button. |
 | `nativeAriaLabel` | `string` | `'Color picker'` | Deprecated compatibility alias used when panelAriaLabel is empty. |
 | `panelAriaLabel` | `string` | `''` | Accessible name for the custom picker dialog. |
@@ -65,6 +65,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | `readonly` | `boolean` | `false` | Allows the value to be read without editing. |
 | `required` | `boolean` | `false` | Exposes native required validation semantics. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Fills the available inline space. |
 
 ### Outputs
@@ -73,7 +74,6 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | --- | --- | --- | --- |
 | `valueChange` | `string` | `-` | Emitted automatically by the value model. |
 | `formatChange` | `AerisColorFormat` | `-` | Emitted automatically when the format model changes. Options: 'hex', 'rgb', 'hsl'. |
-| `valueInput` | `string` | `-` | Emitted when user interaction changes the value. |
 | `changed` | `AerisColorPickerChangeEvent` | `-` | Emitted when the user commits a plane, hue, format, text, preset, or screen-sampled change. |
 | `focused` | `FocusEvent` | `-` | Emitted when an editable picker control receives focus. |
 | `blurred` | `FocusEvent` | `-` | Emitted when an editable picker control loses focus. |
@@ -148,7 +148,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
       <label for="color-basic">Brand color</label>
       <aeris-color-picker
         inputId="color-basic"
-        ariaDescribedby="color-basic-help"
+        ariaDescribedBy="color-basic-help"
         value="#5f6f36"
       />
       <small id="color-basic-help">Choose the primary color for your interface.</small>
@@ -711,7 +711,7 @@ export class ColorPickerValidationValidationDemo {
     [invalid]="invalid()"
     required
     clearable
-    ariaDescribedby="color-validation-message"
+    ariaDescribedBy="color-validation-message"
     (blurred)="touched.set(true)"
   />
   <small
@@ -912,7 +912,7 @@ export class ColorPickerEventsEventsDemo {
 ## Accessibility
 
 - The trigger exposes aria-haspopup="dialog", expanded state, and a stable relationship to the custom picker panel.
-- Use a visible label and connect it with inputId. Use ariaDescribedby for help and validation text.
+- Use a visible label and connect it with inputId. Use ariaDescribedBy for help and validation text.
 - Text entry accepts hex, rgb(), and hsl() strings so color can be edited without pointer interaction.
 - The color plane reports saturation and brightness through slider semantics and supports full keyboard adjustment.
 - Hue uses a native range input. Format choices and preset colors are native buttons with pressed state.

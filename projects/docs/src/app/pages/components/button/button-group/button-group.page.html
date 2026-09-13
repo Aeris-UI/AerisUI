@@ -28,16 +28,16 @@
             >
               <div preview>
                 <aeris-button-group ariaLabel="Document actions">
-                  <button aerisButton variant="secondary">Save</button>
-                  <button aerisButton variant="secondary">Preview</button>
-                  <button aerisButton variant="secondary">Publish</button>
+                  <button aerisButton variant="solid" severity="secondary">Save</button>
+                  <button aerisButton variant="solid" severity="secondary">Preview</button>
+                  <button aerisButton variant="solid" severity="secondary">Publish</button>
                 </aeris-button-group>
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
   &lt;aeris-button-group ariaLabel="Document actions"&gt;
-    &lt;button aerisButton variant="secondary"&gt;Save&lt;/button&gt;
-    &lt;button aerisButton variant="secondary"&gt;Preview&lt;/button&gt;
-    &lt;button aerisButton variant="secondary"&gt;Publish&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Save&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Preview&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Publish&lt;/button&gt;
   &lt;/aeris-button-group&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -50,15 +50,15 @@
               <div preview>
                 <aeris-button-group ariaLabel="Record actions">
                   <aeris-button label="Create" />
-                  <aeris-button label="Duplicate" variant="secondary" />
-                  <aeris-button label="Archive" variant="secondary" />
+                  <aeris-button label="Duplicate" variant="solid" severity="secondary" />
+                  <aeris-button label="Archive" variant="solid" severity="secondary" />
                 </aeris-button-group>
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
   &lt;aeris-button-group ariaLabel="Record actions"&gt;
     &lt;aeris-button label="Create" /&gt;
-    &lt;aeris-button label="Duplicate" variant="secondary" /&gt;
-    &lt;aeris-button label="Archive" variant="secondary" /&gt;
+    &lt;aeris-button label="Duplicate" variant="solid" severity="secondary" /&gt;
+    &lt;aeris-button label="Archive" variant="solid" severity="secondary" /&gt;
   &lt;/aeris-button-group&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -71,14 +71,14 @@
               <div preview>
                 <aeris-button-group ariaLabel="Approval actions">
                   <button aerisButton severity="success">Approve</button>
-                  <button aerisButton variant="secondary">Review</button>
+                  <button aerisButton variant="solid" severity="secondary">Review</button>
                   <button aerisButton severity="danger">Reject</button>
                 </aeris-button-group>
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
   &lt;aeris-button-group ariaLabel="Approval actions"&gt;
     &lt;button aerisButton severity="success"&gt;Approve&lt;/button&gt;
-    &lt;button aerisButton variant="secondary"&gt;Review&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Review&lt;/button&gt;
     &lt;button aerisButton severity="danger"&gt;Reject&lt;/button&gt;
   &lt;/aeris-button-group&gt;
 &lt;/div&gt;</code></pre>
@@ -91,26 +91,62 @@
             >
               <div preview>
                 <aeris-button-group ariaLabel="Text alignment">
-                  <button aerisButton variant="secondary" iconOnly aria-label="Align left">
+                  <button
+                    aerisButton
+                    variant="solid"
+                    severity="secondary"
+                    iconOnly
+                    aria-label="Align left"
+                  >
                     <span aria-hidden="true">L</span>
                   </button>
-                  <button aerisButton variant="secondary" iconOnly aria-label="Align center">
+                  <button
+                    aerisButton
+                    variant="solid"
+                    severity="secondary"
+                    iconOnly
+                    aria-label="Align center"
+                  >
                     <span aria-hidden="true">C</span>
                   </button>
-                  <button aerisButton variant="secondary" iconOnly aria-label="Align right">
+                  <button
+                    aerisButton
+                    variant="solid"
+                    severity="secondary"
+                    iconOnly
+                    aria-label="Align right"
+                  >
                     <span aria-hidden="true">R</span>
                   </button>
                 </aeris-button-group>
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
   &lt;aeris-button-group ariaLabel="Text alignment"&gt;
-    &lt;button aerisButton variant="secondary" iconOnly aria-label="Align left"&gt;
+    &lt;button
+      aerisButton
+      variant="solid"
+      severity="secondary"
+      iconOnly
+      aria-label="Align left"
+    &gt;
       &lt;span aria-hidden="true"&gt;L&lt;/span&gt;
     &lt;/button&gt;
-    &lt;button aerisButton variant="secondary" iconOnly aria-label="Align center"&gt;
+    &lt;button
+      aerisButton
+      variant="solid"
+      severity="secondary"
+      iconOnly
+      aria-label="Align center"
+    &gt;
       &lt;span aria-hidden="true"&gt;C&lt;/span&gt;
     &lt;/button&gt;
-    &lt;button aerisButton variant="secondary" iconOnly aria-label="Align right"&gt;
+    &lt;button
+      aerisButton
+      variant="solid"
+      severity="secondary"
+      iconOnly
+      aria-label="Align right"
+    &gt;
       &lt;span aria-hidden="true"&gt;R&lt;/span&gt;
     &lt;/button&gt;
   &lt;/aeris-button-group&gt;
@@ -124,16 +160,16 @@
             >
               <div preview>
                 <aeris-button-group ariaLabel="View options" orientation="vertical">
-                  <button aerisButton variant="secondary">List view</button>
-                  <button aerisButton variant="secondary">Board view</button>
-                  <button aerisButton variant="secondary">Timeline view</button>
+                  <button aerisButton variant="solid" severity="secondary">List view</button>
+                  <button aerisButton variant="solid" severity="secondary">Board view</button>
+                  <button aerisButton variant="solid" severity="secondary">Timeline view</button>
                 </aeris-button-group>
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
   &lt;aeris-button-group ariaLabel="View options" orientation="vertical"&gt;
-    &lt;button aerisButton variant="secondary"&gt;List view&lt;/button&gt;
-    &lt;button aerisButton variant="secondary"&gt;Board view&lt;/button&gt;
-    &lt;button aerisButton variant="secondary"&gt;Timeline view&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;List view&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Board view&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Timeline view&lt;/button&gt;
   &lt;/aeris-button-group&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -145,16 +181,16 @@
             >
               <div preview class="stack">
                 <aeris-button-group ariaLabel="Editor mode" fluid>
-                  <button aerisButton variant="secondary">Write</button>
-                  <button aerisButton variant="secondary">Preview</button>
-                  <button aerisButton variant="secondary">Compare</button>
+                  <button aerisButton variant="solid" severity="secondary">Write</button>
+                  <button aerisButton variant="solid" severity="secondary">Preview</button>
+                  <button aerisButton variant="solid" severity="secondary">Compare</button>
                 </aeris-button-group>
               </div>
               <pre code><code ngNonBindable>&lt;div class="stack aeris-example-row"&gt;
   &lt;aeris-button-group ariaLabel="Editor mode" fluid&gt;
-    &lt;button aerisButton variant="secondary"&gt;Write&lt;/button&gt;
-    &lt;button aerisButton variant="secondary"&gt;Preview&lt;/button&gt;
-    &lt;button aerisButton variant="secondary"&gt;Compare&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Write&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Preview&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Compare&lt;/button&gt;
   &lt;/aeris-button-group&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -166,16 +202,16 @@
             >
               <div preview class="stack">
                 <aeris-button-group ariaLabel="Export formats" responsive>
-                  <button aerisButton variant="secondary">Export PDF</button>
-                  <button aerisButton variant="secondary">Export CSV</button>
-                  <button aerisButton variant="secondary">Export JSON</button>
+                  <button aerisButton variant="solid" severity="secondary">Export PDF</button>
+                  <button aerisButton variant="solid" severity="secondary">Export CSV</button>
+                  <button aerisButton variant="solid" severity="secondary">Export JSON</button>
                 </aeris-button-group>
               </div>
               <pre code><code ngNonBindable>&lt;div class="stack aeris-example-row"&gt;
   &lt;aeris-button-group ariaLabel="Export formats" responsive&gt;
-    &lt;button aerisButton variant="secondary"&gt;Export PDF&lt;/button&gt;
-    &lt;button aerisButton variant="secondary"&gt;Export CSV&lt;/button&gt;
-    &lt;button aerisButton variant="secondary"&gt;Export JSON&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Export PDF&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Export CSV&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Export JSON&lt;/button&gt;
   &lt;/aeris-button-group&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -187,16 +223,20 @@
             >
               <div preview>
                 <aeris-button-group ariaLabel="Synchronization actions">
-                  <button aerisButton variant="secondary" loading disabled>Sync</button>
-                  <button aerisButton variant="secondary">Retry</button>
-                  <button aerisButton variant="secondary" disabled>Cancel</button>
+                  <button aerisButton variant="solid" severity="secondary" loading disabled>
+                    Sync
+                  </button>
+                  <button aerisButton variant="solid" severity="secondary">Retry</button>
+                  <button aerisButton variant="solid" severity="secondary" disabled>Cancel</button>
                 </aeris-button-group>
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
   &lt;aeris-button-group ariaLabel="Synchronization actions"&gt;
-    &lt;button aerisButton variant="secondary" loading disabled&gt;Sync&lt;/button&gt;
-    &lt;button aerisButton variant="secondary"&gt;Retry&lt;/button&gt;
-    &lt;button aerisButton variant="secondary" disabled&gt;Cancel&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary" loading disabled&gt;
+      Sync
+    &lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Retry&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary" disabled&gt;Cancel&lt;/button&gt;
   &lt;/aeris-button-group&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -208,10 +248,11 @@
             >
               <div preview>
                 <aeris-button-group ariaLabel="Documentation actions">
-                  <button aerisButton variant="secondary">Copy link</button>
+                  <button aerisButton variant="solid" severity="secondary">Copy link</button>
                   <a
                     aerisButton
-                    variant="secondary"
+                    variant="solid"
+                    severity="secondary"
                     href="https://github.com"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -221,10 +262,11 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
   &lt;aeris-button-group ariaLabel="Documentation actions"&gt;
-    &lt;button aerisButton variant="secondary"&gt;Copy link&lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="secondary"&gt;Copy link&lt;/button&gt;
     &lt;a
       aerisButton
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       href="https://github.com"
       target="_blank"
       rel="noopener noreferrer"

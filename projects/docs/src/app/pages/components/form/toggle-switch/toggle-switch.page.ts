@@ -135,13 +135,13 @@ interface AerisToggleSwitchChangeEvent {
       description: 'Accessible name when no visible label content exists.',
     },
     {
-      name: 'ariaLabelledby',
+      name: 'ariaLabelledBy',
       type: 'string | undefined',
       defaultValue: 'undefined',
       description: 'IDs of external elements that label the switch.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string | undefined',
       defaultValue: 'undefined',
       description: 'IDs of help and validation messages.',
@@ -177,6 +177,13 @@ interface AerisToggleSwitchChangeEvent {
       defaultValue: 'false',
       description: 'Applies invalid styling and synchronizes aria-invalid.',
     },
+    {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
@@ -185,12 +192,6 @@ interface AerisToggleSwitchChangeEvent {
       type: 'boolean',
       defaultValue: '-',
       description: 'Emitted automatically by the checked model.',
-    },
-    {
-      name: 'checkedInput',
-      type: 'boolean',
-      defaultValue: '-',
-      description: 'Emitted when user interaction or a public method changes state.',
     },
     {
       name: 'changed',

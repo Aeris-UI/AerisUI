@@ -47,8 +47,8 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aerisTooltipShown` | `AerisTooltipVisibilityEvent` | `-` | Emitted after the tooltip becomes visible. |
-| `aerisTooltipHidden` | `AerisTooltipVisibilityEvent` | `-` | Emitted after the tooltip closes. |
+| `aerisTooltipOpened` | `AerisTooltipVisibilityEvent` | `-` | Emitted after the tooltip becomes visible. |
+| `aerisTooltipClosed` | `AerisTooltipVisibilityEvent` | `-` | Emitted after the tooltip closes. |
 
 ### Methods
 
@@ -117,8 +117,8 @@ import { AerisTooltipModule, type AerisTooltipVisibilityEvent } from '@aeris-ui/
         aerisButton
         type="button"
         aerisTooltip="Saves the current workspace."
-        (aerisTooltipShown)="recordTooltip($event)"
-        (aerisTooltipHidden)="recordTooltip($event)"
+        (aerisTooltipOpened)="recordTooltip($event)"
+        (aerisTooltipClosed)="recordTooltip($event)"
       >
         Save changes
       </button>

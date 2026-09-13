@@ -29,7 +29,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the menu overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the menu overlay locally, in document.body, or in the supplied DOM/template target. |
 | `id` | `string` | `generated id` | Root menu ID used for menu and submenu relationships. |
 | `model` | `readonly AerisContextMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |
 | `open` | `ModelSignal&lt;boolean&gt;` | `false` | Controlled visibility state. |
@@ -40,7 +40,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 | `width` | `string` | `''` | CSS width for the root menu panel. |
 | `maxWidth` | `string` | `''` | CSS max-width for the root menu panel. |
 | `viewportMargin` | `number` | `8` | Minimum spacing from viewport edges when positioning. |
-| `hideOnOutsideClick` | `boolean` | `true` | Closes the menu when pointerdown occurs outside the panel. |
+| `closeOnOutsideClick` | `boolean` | `true` | Closes the menu when pointerdown occurs outside the panel. |
 | `hideOnScroll` | `boolean` | `false` | Closes on window scroll instead of repositioning. |
 | `closeOnMouseLeave` | `boolean` | `true` | Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open. |
 | `closeOnEscape` | `boolean` | `true` | Closes the menu when Escape is pressed. |
@@ -56,9 +56,8 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `shown` | `AerisContextMenuVisibilityEvent` | `-` | Emitted after the menu is requested open. |
-| `hidden` | `AerisContextMenuVisibilityEvent` | `-` | Emitted after the menu closes. |
-| `visibilityChanged` | `AerisContextMenuVisibilityEvent` | `-` | Emitted for both show and hide transitions. |
+| `opened` | `AerisContextMenuVisibilityEvent` | `-` | Emitted after the menu is requested open. |
+| `closed` | `AerisContextMenuVisibilityEvent` | `-` | Emitted after the menu closes. |
 | `itemSelected` | `AerisContextMenuItemEvent&lt;T&gt;` | `-` | Emitted when an enabled leaf item is activated. |
 
 ### Templates

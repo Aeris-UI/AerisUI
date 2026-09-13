@@ -124,7 +124,9 @@ export class CardBasicBasicDemo {
     </p>
     <footer aerisCardFooter>
       <button aerisButton size="sm">Open project</button>
-      <button aerisButton size="sm" variant="secondary">Share</button>
+      <button aerisButton size="sm" variant="solid" severity="secondary">
+        Share
+      </button>
     </footer>
   </aeris-card>
 </div>
@@ -407,7 +409,9 @@ export class CardHorizontalResponsiveHorizontalCardDemo {
       visual consistency.
     </p>
     <footer aerisCardFooter>
-      <button aerisButton size="sm" variant="secondary">Read guide</button>
+      <button aerisButton size="sm" variant="solid" severity="secondary">
+        Read guide
+      </button>
     </footer>
   </aeris-card>
 </div>

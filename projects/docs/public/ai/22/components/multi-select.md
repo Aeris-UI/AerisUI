@@ -29,7 +29,7 @@ import { AerisMultiSelect, type AerisSelectOption } from '@aeris-ui/core/multi-s
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `readonly string[] (model)` | `[]` | Selected option values with two-way binding and Forms support. |
@@ -38,8 +38,8 @@ import { AerisMultiSelect, type AerisSelectOption } from '@aeris-ui/core/multi-s
 | `valueSeparator` | `string` | `','` | Separator used by the hidden HTML form value. |
 | `placeholder` | `string` | `'Select options'` | Text displayed when no option is selected. |
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label exists. |
-| `ariaLabelledby` | `string` | `''` | IDs of visible elements that label the field. |
-| `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string` | `''` | IDs of visible elements that label the field. |
+| `ariaDescribedBy` | `string` | `''` | IDs of help and validation messages. |
 | `listboxAriaLabel` | `string` | `'Options'` | Accessible name for the multi-select listbox. |
 | `size` | `AerisMultiSelectSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisMultiSelectAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
@@ -75,13 +75,14 @@ import { AerisMultiSelect, type AerisSelectOption } from '@aeris-ui/core/multi-s
 | `disabled` | `boolean` | `false` | Disables interaction and native form submission. |
 | `required` | `boolean` | `false` | Exposes native required validation semantics. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Fills the available inline space. |
 
 ### MultiSelect outputs
 
 | Name | Type | Description |
 | --- | --- | --- |
-| valueChange / valueInput | readonly string[] | Model and explicit value-change notifications. |
+| valueChange / valueChange | readonly string[] | Model and explicit value-change notifications. |
 | changed | AerisMultiSelectChangeEvent | Option metadata and whether it was selected or removed. |
 | filterChanged | AerisMultiSelectFilterEvent | Current filter query and native event. |
 | lazyLoad | AerisMultiSelectLazyLoadEvent | Requested virtual range and query. |
@@ -907,7 +908,7 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
       [(value)]="invalidValues"
       required
       [invalid]="invalidValues().length === 0"
-      ariaDescribedby="skills-error"
+      ariaDescribedBy="skills-error"
       fluid
     />
     @if (invalidValues().length === 0) {
@@ -1092,7 +1093,7 @@ export class MultiSelectFormsReactiveAndTemplateDrivenFormsDemo {
 - The focusable trigger follows the ARIA combobox pattern and controls a separate multi-select listbox.
 - Options expose aria-selected; disabled options expose aria-disabled and are skipped during navigation.
 - Use inputId with a visible label, or provide ariaLabel when no visible label exists.
-- Connect help and validation text with ariaDescribedby. Required and invalid state are synchronized with ARIA.
+- Connect help and validation text with ariaDescribedBy. Required and invalid state are synchronized with ARIA.
 - Chip remove and clear actions are native buttons with configurable accessible names.
 - Filtering uses a labeled search field. Loading, empty, and selection-limit messages use status semantics.
 - ControlValueAccessor synchronizes value, touched, and disabled state with Reactive Forms and template-driven forms.

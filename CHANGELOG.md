@@ -7,7 +7,36 @@ release line.
 
 ## [Unreleased]
 
-No consumer-visible changes have been recorded since 22.0.0-alpha.6.
+### Added
+
+- Add nullable `touched` inputs to validation-aware controls so Angular Signal Forms can defer
+  visible errors until interaction while preserving immediate manual `invalid` behavior.
+- Add a shared `AerisSeverity` contract across Button, SplitButton, Badge, Message, and Toast.
+
+### Changed
+
+- Separate Button and SplitButton presentation (`solid`, `outline`, `ghost`, `link`) from semantic
+  color, remove redundant appearance aliases, and make loading suppress native activation whether
+  or not the built-in spinner is shown.
+- Standardize semantic severity terminology on `danger`, ARIA input casing on `ariaLabelledBy` and
+  `ariaDescribedBy`, and model notifications on their implicit `valueChange`, `checkedChange`, or
+  `selectedChange` outputs.
+- Standardize overlay lifecycle events on `opened` and `closed`, dismissal inputs on
+  `closeOnBackdropClick` or `closeOnOutsideClick`, and honor global `appendTo` configuration before
+  family defaults. Anchored panels default to local mounting while viewport overlays default to
+  `body`.
+
+### Migration from alpha.6
+
+- Replace Button color variants with `variant="solid"` plus `severity`; replace `text` with
+  `variant="ghost"`, `outlined` with `variant="outline"`, and remove `plain` in favor of
+  `severity="neutral"`.
+- Replace the `error` severity with `danger`, old camel-cased ARIA inputs with `ariaLabelledBy` and
+  `ariaDescribedBy`, and redundant `valueInput`, `checkedInput`, or `selectedInput` listeners with
+  the corresponding model change output.
+- Replace overlay `shown`, `hidden`, and `visibilityChanged` listeners with `opened` and `closed`;
+  replace legacy backdrop or outside-dismissal input names with `closeOnBackdropClick` or
+  `closeOnOutsideClick`.
 
 ## [22.0.0-alpha.6] - 2026-09-05
 

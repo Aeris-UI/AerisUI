@@ -10,13 +10,13 @@ import { AerisButton } from '../../../button/aeris-button';
   template: `
     <button
       aerisButton
-      variant="secondary"
       severity="success"
       size="lg"
       raised
       rounded
       fluid
       loading
+      (click)="nativeLoadingClicks.update((value) => value + 1)"
     >
       Save
     </button>
@@ -26,7 +26,7 @@ import { AerisButton } from '../../../button/aeris-button';
       <svg data-testid="right-icon" width="24" height="24"></svg>
     </button>
     <button aerisButton loading [showSpinner]="false">Quiet loading</button>
-    <button aerisButton text outlined link>Compatibility</button>
+    <button variant="link" aerisButton>Compatibility</button>
     <a aerisButton variant="outline" href="/guide">Guide</a>
     <button aerisButton severity="info" data-testid="info-severity">Info</button>
     <button aerisButton variant="outline" severity="warning" data-testid="warning-outline">
@@ -58,7 +58,6 @@ import { AerisButton } from '../../../button/aeris-button';
       size="sm"
       iconPosition="top"
       disabled
-      plain
       fluid
     />
 
@@ -81,6 +80,7 @@ import { AerisButton } from '../../../button/aeris-button';
 })
 class ButtonTestHost {
   readonly clicks = signal(0);
+  readonly nativeLoadingClicks = signal(0);
   readonly focuses = signal(0);
   readonly blurs = signal(0);
 }
@@ -92,7 +92,7 @@ describe('AerisButton', () => {
 
     const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
 
-    expect(button.classList).toContain('aeris-button--secondary');
+    expect(button.classList).toContain('aeris-button--solid');
     expect(button.classList).toContain('aeris-button--severity-success');
     expect(button.classList).toContain('aeris-button--lg');
     expect(button.getAttribute('data-raised')).toBe('true');
@@ -132,7 +132,7 @@ describe('AerisButton', () => {
       .map((style) => style.textContent ?? '')
       .join('\n');
     const hoverMedia = styleText.search(/@media\s*\(hover:\s*hover\)\s*and\s*\(pointer:\s*fine\)/);
-    const primaryHover = styleText.search(/\.aeris-button--primary[^{,]*:hover/);
+    const primaryHover = styleText.search(/\.aeris-button--solid[^{,]*:hover/);
 
     expect(hoverMedia).toBeGreaterThanOrEqual(0);
     expect(primaryHover).toBeGreaterThan(hoverMedia);
@@ -175,9 +175,14 @@ describe('AerisButton', () => {
     const quietLoadingButton = buttons.item(3);
 
     expect(loadingButton.getAttribute('aria-busy')).toBe('true');
+    expect(loadingButton.getAttribute('aria-disabled')).toBe('true');
     expect(loadingButton.querySelector('.aeris-button__spinner')).not.toBeNull();
     expect(quietLoadingButton.getAttribute('aria-busy')).toBe('true');
     expect(quietLoadingButton.querySelector('.aeris-button__spinner')).toBeNull();
+
+    loadingButton.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.nativeLoadingClicks()).toBe(0);
   });
 
   it('supports icon-only buttons with an accessible name', async () => {
@@ -221,7 +226,7 @@ describe('AerisButton', () => {
     expect(styleText).toContain('--aeris-button-icon-size');
   });
 
-  it('applies compatibility variant flags with documented precedence', async () => {
+  it('applies the link presentation variant', async () => {
     const fixture = TestBed.createComponent(ButtonTestHost);
     await fixture.whenStable();
 
@@ -297,7 +302,6 @@ describe('AerisButton', () => {
     expect(button.classList).toContain('aeris-button--severity-info');
     expect(button.classList).toContain('aeris-button--sm');
     expect(button.classList).toContain('aeris-button--icon-top');
-    expect(button.getAttribute('data-plain')).toBe('true');
     expect(button.getAttribute('data-fluid')).toBe('true');
     expect(wrapper.getAttribute('data-fluid')).toBe('true');
   });

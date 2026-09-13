@@ -48,9 +48,9 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
 | `loading` | `'eager' &#124; 'lazy'` | `'lazy'` | Loading behavior for built-in images. |
 | `name` | `string` | `''` | Native range name for form submission. |
 | `inputId` | `string` | `Generated` | ID assigned to the native range input. |
-| `ariaLabel` | `string` | `'Comparison position'` | Accessible name when ariaLabelledby is not used. |
-| `ariaLabelledby` | `string` | `''` | IDs of elements that label the range. |
-| `ariaDescribedby` | `string` | `''` | IDs of elements that describe the range. |
+| `ariaLabel` | `string` | `'Comparison position'` | Accessible name when ariaLabelledBy is not used. |
+| `ariaLabelledBy` | `string` | `''` | IDs of elements that label the range. |
+| `ariaDescribedBy` | `string` | `''` | IDs of elements that describe the range. |
 | `valueText` | `((value: number) =&gt; string) &#124; null` | `null` | Formats the announced aria-valuetext. |
 
 ### Models
@@ -63,7 +63,7 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `valueInput` | `AerisCompareInputEvent` | `—` | Emits during drag, hover, or keyboard updates. |
+| `valueChange` | `number` | `—` | Emitted by the value model during drag, hover, keyboard, and API updates. |
 | `changed` | `AerisCompareInputEvent` | `—` | Emits when a native change commits, a keyboard command runs, or setValue emits. |
 | `focused` | `FocusEvent` | `—` | Emits when the native range receives focus. |
 | `blurred` | `FocusEvent` | `—` | Emits when the native range loses focus. |
@@ -535,7 +535,7 @@ export class CompareFormsDemo {
 ## Accessibility
 
 - Compare uses a native input[type='range'] for pointer, touch, form, and assistive-technology support. The visible handle follows that control.
-- Provide ariaLabel or ariaLabelledby and meaningful alt text for informative built-in images. Use empty alt text only for decorative images.
+- Provide ariaLabel or ariaLabelledBy and meaningful alt text for informative built-in images. Use empty alt text only for decorative images.
 - aria-valuemin, aria-valuemax, and aria-valuenow come from the native range. Use valueText when a percentage does not describe the comparison clearly.
 - Hover mode is supplementary. Drag, touch, and complete keyboard interaction remain available, and touch movement never depends on hover.
 - Readonly comparisons remain focusable and expose aria-readonly while preventing changes. Disabled comparisons use the native disabled state.

@@ -11,6 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisToggleSwitchSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisToggleSwitchLabelPosition = 'start' | 'end';
@@ -32,7 +33,7 @@ let toggleSwitchId = 0;
       [attr.data-label-position]="labelPosition()"
       [attr.data-checked]="checked() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
     >
       <input
         #switchInput
@@ -46,9 +47,9 @@ let toggleSwitchId = 0;
         [disabled]="effectiveDisabled()"
         [required]="required()"
         [attr.aria-label]="ariaLabel()"
-        [attr.aria-labelledby]="ariaLabelledby()"
-        [attr.aria-describedby]="ariaDescribedby()"
-        [attr.aria-invalid]="invalid() || null"
+        [attr.aria-labelledby]="ariaLabelledBy()"
+        [attr.aria-describedby]="ariaDescribedBy()"
+        [attr.aria-invalid]="displayInvalid() || null"
         [attr.aria-required]="required() || null"
         (change)="handleChange($event)"
         (focus)="focused.emit($event)"
@@ -79,8 +80,7 @@ let toggleSwitchId = 0;
   },
 })
 export class AerisToggleSwitch implements ControlValueAccessor {
-  private readonly inputElement =
-    viewChild<ElementRef<HTMLInputElement>>('switchInput');
+  private readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('switchInput');
   private readonly generatedId = `aeris-toggle-switch-${++toggleSwitchId}`;
   private readonly formDisabled = signal(false);
   private onChange: (value: boolean) => void = () => undefined;
@@ -92,26 +92,25 @@ export class AerisToggleSwitch implements ControlValueAccessor {
   readonly value = input('on');
   readonly label = input('');
   readonly ariaLabel = input<string>();
-  readonly ariaLabelledby = input<string>();
-  readonly ariaDescribedby = input<string>();
+  readonly ariaLabelledBy = input<string>();
+  readonly ariaDescribedBy = input<string>();
   readonly size = input<AerisToggleSwitchSize>('md');
   readonly labelPosition = input<AerisToggleSwitchLabelPosition>('end');
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
 
-  readonly checkedInput = output<boolean>();
   readonly changed = output<AerisToggleSwitchChangeEvent>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
   readonly touch = output<void>();
 
-  protected readonly resolvedInputId = computed(
-    () => this.inputId() || this.generatedId,
-  );
-  protected readonly effectiveDisabled = computed(
-    () => this.disabled() || this.formDisabled(),
-  );
+  protected readonly resolvedInputId = computed(() => this.inputId() || this.generatedId);
+  protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
 
   writeValue(value: unknown): void {
     this.checked.set(Boolean(value));
@@ -172,7 +171,6 @@ export class AerisToggleSwitch implements ControlValueAccessor {
     }
 
     this.checked.set(checked);
-    this.checkedInput.emit(checked);
     this.onChange(checked);
   }
 }

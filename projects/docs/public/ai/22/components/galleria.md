@@ -60,7 +60,7 @@ import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
 | `autoplayInterval` | `number` | `0` | Milliseconds between automatic changes, with a 500ms minimum; zero disables autoplay and reduced motion always pauses it. |
 | `pauseOnHover` | `boolean` | `true` | Pauses autoplay while hover or focus is within the gallery. |
 | `allowFullscreen` | `boolean` | `false` | Shows the built-in fullscreen toggle. |
-| `dismissibleBackdrop` | `boolean` | `true` | Allows the fullscreen backdrop to close the gallery. |
+| `closeOnBackdropClick` | `boolean` | `true` | Allows the fullscreen backdrop to close the gallery. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur in fullscreen mode. |
 | `backdropBlurAmount` | `string` | `''` | Overrides the fullscreen backdrop blur radius with a CSS length. |
 | `closeOnEscape` | `boolean` | `true` | Allows Escape to close fullscreen presentation. |
@@ -323,7 +323,8 @@ export class GalleriaPositionsThumbnailPositionsDemo {
     <button
       aerisButton
       type="button"
-      [variant]="thumbnailPosition() === 'top' ? 'primary' : 'secondary'"
+      variant="solid"
+      [severity]="thumbnailPosition() === 'top' ? 'primary' : 'secondary'"
       [attr.aria-pressed]="thumbnailPosition() === 'top'"
       (click)="setThumbnailPosition('top')"
     >
@@ -332,7 +333,8 @@ export class GalleriaPositionsThumbnailPositionsDemo {
     <button
       aerisButton
       type="button"
-      [variant]="thumbnailPosition() === 'bottom' ? 'primary' : 'secondary'"
+      variant="solid"
+      [severity]="thumbnailPosition() === 'bottom' ? 'primary' : 'secondary'"
       [attr.aria-pressed]="thumbnailPosition() === 'bottom'"
       (click)="setThumbnailPosition('bottom')"
     >
@@ -341,7 +343,8 @@ export class GalleriaPositionsThumbnailPositionsDemo {
     <button
       aerisButton
       type="button"
-      [variant]="thumbnailPosition() === 'start' ? 'primary' : 'secondary'"
+      variant="solid"
+      [severity]="thumbnailPosition() === 'start' ? 'primary' : 'secondary'"
       [attr.aria-pressed]="thumbnailPosition() === 'start'"
       (click)="setThumbnailPosition('start')"
     >
@@ -350,7 +353,8 @@ export class GalleriaPositionsThumbnailPositionsDemo {
     <button
       aerisButton
       type="button"
-      [variant]="thumbnailPosition() === 'end' ? 'primary' : 'secondary'"
+      variant="solid"
+      [severity]="thumbnailPosition() === 'end' ? 'primary' : 'secondary'"
       [attr.aria-pressed]="thumbnailPosition() === 'end'"
       (click)="setThumbnailPosition('end')"
     >

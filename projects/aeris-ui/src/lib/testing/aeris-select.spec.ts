@@ -38,7 +38,7 @@ const rect = (left: number, top: number, width: number, height: number): DOMRect
       invalid
       [disabled]="disabled()"
       [minWidth]="minimumWidth()"
-      ariaDescribedby="role-error"
+      ariaDescribedBy="role-error"
       (changed)="lastChange.set($event)"
     />
   `,
@@ -561,10 +561,12 @@ describe('AerisSelect', () => {
     ) as HTMLElement;
     const initialTop = Number.parseFloat(panel.style.top);
     let reposition: FrameRequestCallback | undefined;
-    const requestFrame = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
-      reposition = callback;
-      return 1;
-    });
+    const requestFrame = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation((callback) => {
+        reposition = callback;
+        return 1;
+      });
 
     controlRect.mockReturnValue(rect(80, -100, 180, 40));
     document.dispatchEvent(new Event('scroll'));

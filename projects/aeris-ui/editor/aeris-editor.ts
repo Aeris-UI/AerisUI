@@ -16,6 +16,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import {
   $createParagraphNode,
@@ -181,7 +182,7 @@ let editorId = 0;
       class="aeris-editor"
       [attr.data-size]="size()"
       [attr.data-appearance]="appearance()"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-readonly]="readonly() || null"
       [attr.data-fluid]="fluid() || null"
@@ -644,9 +645,9 @@ let editorId = 0;
           [id]="resolvedInputId()"
           [attr.contenteditable]="editable()"
           [attr.aria-label]="ariaLabel() || null"
-          [attr.aria-labelledby]="ariaLabelledby() || null"
-          [attr.aria-describedby]="ariaDescribedby() || null"
-          [attr.aria-invalid]="invalid() || null"
+          [attr.aria-labelledby]="ariaLabelledBy() || null"
+          [attr.aria-describedby]="ariaDescribedBy() || null"
+          [attr.aria-invalid]="displayInvalid() || null"
           [attr.aria-required]="required() || null"
           [attr.aria-placeholder]="placeholder() || null"
           [attr.tabindex]="effectiveDisabled() ? -1 : 0"
@@ -685,8 +686,8 @@ export class AerisEditorComponent implements ControlValueAccessor {
   readonly name = input('');
   readonly placeholder = input('Write something...');
   readonly ariaLabel = input('');
-  readonly ariaLabelledby = input('');
-  readonly ariaDescribedby = input('');
+  readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly toolbarAriaLabel = input('Formatting tools');
   readonly size = input<AerisEditorSize>('md');
   readonly appearance = input<AerisEditorAppearance>('outline');
@@ -700,10 +701,13 @@ export class AerisEditorComponent implements ControlValueAccessor {
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly fluid = input(false, { transform: booleanAttribute });
   readonly showToolbar = input(true, { transform: booleanAttribute });
 
-  readonly valueInput = output<string>();
   readonly changed = output<AerisEditorChangeEvent>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
@@ -1116,7 +1120,6 @@ export class AerisEditorComponent implements ControlValueAccessor {
 
     this.lastSyncedValue = value;
     this.value.set(value);
-    this.valueInput.emit(value);
     this.changed.emit({ value, textContent });
     this.onChange(value);
   }

@@ -244,7 +244,7 @@ interface AerisSelectLazyLoadEvent {
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'self' (global)",
+      defaultValue: "global config or 'self'",
       description:
         "Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection.",
     },
@@ -292,13 +292,13 @@ interface AerisSelectLazyLoadEvent {
       description: 'Accessible name when no visible label is associated.',
     },
     {
-      name: 'ariaLabelledby',
+      name: 'ariaLabelledBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of elements that label the combobox.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of help and validation messages.',
@@ -338,6 +338,13 @@ interface AerisSelectLazyLoadEvent {
       type: 'boolean',
       defaultValue: 'false',
       description: 'Applies invalid styling and aria-invalid.',
+    },
+    {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it.',
     },
     {
       name: 'fluid',

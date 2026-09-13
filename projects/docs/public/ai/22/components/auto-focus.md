@@ -107,7 +107,13 @@ export class AutoFocusConditionalConditionalContentDemo {
 ```html
 <div>
   <div class="conditional-demo">
-    <button aerisButton type="button" variant="secondary" (click)="toggleForm()">
+    <button
+      aerisButton
+      type="button"
+      variant="solid"
+      severity="secondary"
+      (click)="toggleForm()"
+    >
       {{ formVisible() ? 'Remove account form' : 'Add account form' }}
     </button>
     @if (formVisible()) {
@@ -207,7 +213,8 @@ export class AutoFocusControlledControlledDemo {
       <button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         (click)="disableControlledFocus()"
       >
         Disable automatic focus

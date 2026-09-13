@@ -18,6 +18,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import { aerisInternalCreateFrameScheduler } from '@aeris-ui/core';
+import type { AerisSeverity } from '@aeris-ui/core';
 
 export type AerisToastPosition =
   | 'top-left'
@@ -28,8 +29,7 @@ export type AerisToastPosition =
   | 'bottom-right'
   | 'center';
 
-export type AerisToastSeverity =
-  'primary' | 'secondary' | 'contrast' | 'success' | 'info' | 'warning' | 'error' | 'neutral';
+export type AerisToastSeverity = AerisSeverity;
 
 export type AerisToastMode = 'stacked' | 'expanded';
 export type AerisToastSwipeDirection = 'up' | 'down' | 'left' | 'right';
@@ -276,7 +276,7 @@ export class AerisToastService {
   private resolveMessage<TData>(input: AerisToastMessageInput<TData>): AerisToastMessage<TData> {
     const severity = input.severity ?? 'neutral';
     const role =
-      input.role ?? (severity === 'error' || severity === 'warning' ? 'alert' : 'status');
+      input.role ?? (severity === 'danger' || severity === 'warning' ? 'alert' : 'status');
     return {
       id: input.id ?? `aeris-toast-${++nextToastId}`,
       group: input.group ?? '',

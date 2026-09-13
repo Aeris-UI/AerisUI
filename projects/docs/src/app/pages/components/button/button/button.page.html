@@ -27,11 +27,11 @@
             >
               <div preview>
                 <button aerisButton>Save changes</button
-                ><button aerisButton variant="secondary">Cancel</button>
+                ><button aerisButton variant="solid" severity="secondary">Cancel</button>
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
   &lt;button aerisButton&gt;Save changes&lt;/button
-  &gt;&lt;button aerisButton variant="secondary"&gt;Cancel&lt;/button&gt;
+  &gt;&lt;button aerisButton variant="solid" severity="secondary"&gt;Cancel&lt;/button&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
 
@@ -62,18 +62,18 @@
             >
               <div preview class="wrap">
                 <button aerisButton>Primary</button
-                ><button aerisButton variant="secondary">Secondary</button
+                ><button aerisButton variant="solid" severity="secondary">Secondary</button
                 ><button aerisButton variant="outline">Outline</button
                 ><button aerisButton variant="ghost">Ghost</button
-                ><button aerisButton variant="danger">Danger</button
+                ><button aerisButton variant="solid" severity="danger">Danger</button
                 ><button aerisButton variant="link">Link</button>
               </div>
               <pre code><code ngNonBindable>&lt;div class="wrap aeris-example-row"&gt;
   &lt;button aerisButton&gt;Primary&lt;/button
-  &gt;&lt;button aerisButton variant="secondary"&gt;Secondary&lt;/button
+  &gt;&lt;button aerisButton variant="solid" severity="secondary"&gt;Secondary&lt;/button
   &gt;&lt;button aerisButton variant="outline"&gt;Outline&lt;/button
   &gt;&lt;button aerisButton variant="ghost"&gt;Ghost&lt;/button
-  &gt;&lt;button aerisButton variant="danger"&gt;Danger&lt;/button
+  &gt;&lt;button aerisButton variant="solid" severity="danger"&gt;Danger&lt;/button
   &gt;&lt;button aerisButton variant="link"&gt;Link&lt;/button&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -147,7 +147,8 @@
               <div preview class="wrap">
                 <button
                   aerisButton
-                  variant="secondary"
+                  variant="solid"
+                  severity="secondary"
                   [loading]="loading()"
                   [disabled]="loading()"
                   (click)="toggleLoading()"
@@ -158,7 +159,8 @@
               <pre code><code ngNonBindable>&lt;div class="wrap aeris-example-row"&gt;
   &lt;button
     aerisButton
-    variant="secondary"
+    variant="solid"
+    severity="secondary"
     [loading]="loading()"
     [disabled]="loading()"
     (click)="toggleLoading()"
@@ -201,7 +203,8 @@
                   label="Tasks"
                   badge="3"
                   badgeSeverity="success"
-                  variant="secondary"
+                  variant="solid"
+                  severity="secondary"
                 />
               </div>
               <pre code><code ngNonBindable>&lt;div class="wrap aeris-example-row"&gt;
@@ -209,7 +212,8 @@
     label="Tasks"
     badge="3"
     badgeSeverity="success"
-    variant="secondary"
+    variant="solid"
+    severity="secondary"
   /&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>

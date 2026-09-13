@@ -571,7 +571,8 @@ export class ScrollPanelMethodsEventsAndMethodsDemo {
       aerisButton
       type="button"
       size="sm"
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       (click)="methodPanel.scrollToBottom({ behavior: 'smooth' })"
     >
       Bottom

@@ -15,14 +15,14 @@ import {
       name="preferences"
       value="updates"
       label="Automatic updates"
-      ariaDescribedby="updates-help"
+      ariaDescribedBy="updates-help"
       size="lg"
       labelPosition="start"
       required
       invalid
       [(checked)]="checked"
       (changed)="lastChange.set($event)"
-      (touch)="touches.update(count => count + 1)"
+      (touch)="touches.update((count) => count + 1)"
     />
   `,
 })

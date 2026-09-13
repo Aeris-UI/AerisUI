@@ -374,7 +374,8 @@
         aerisButton
         class="docs-sidebar__support"
         size="sm"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         routerLink="/support"
         (click)="closeNavigation()"
       >
@@ -407,7 +408,7 @@
     [position]="activeDirectionId() === 'rtl' ? 'right' : 'left'"
     width="17.5rem"
     mobileWidth="min(19rem, calc(100vw - 2rem))"
-    [dismissibleMask]="true"
+    [closeOnBackdropClick]="true"
     closeAriaLabel="Close documentation navigation"
   >
     <ng-container
@@ -438,7 +439,7 @@
   initialFocus="input[type=search]"
   ariaLabel="Search documentation"
   [closable]="false"
-  [dismissibleMask]="true"
+  [closeOnBackdropClick]="true"
 >
   <ng-template aerisDialogHeadless>
     <div class="docs-command">

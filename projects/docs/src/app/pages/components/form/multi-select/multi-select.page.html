@@ -432,7 +432,7 @@
                     [(value)]="invalidValues"
                     required
                     [invalid]="invalidValues().length === 0"
-                    ariaDescribedby="skills-error"
+                    ariaDescribedBy="skills-error"
                     fluid
                   />
                   @if (invalidValues().length === 0) {
@@ -482,7 +482,7 @@
       [(value)]="invalidValues"
       required
       [invalid]="invalidValues().length === 0"
-      ariaDescribedby="skills-error"
+      ariaDescribedBy="skills-error"
       fluid
     /&gt;
     &#64;if (invalidValues().length === 0) &#123;
@@ -611,7 +611,7 @@
                 ><b role="columnheader">Description</b>
               </div>
               <div role="row">
-                <code role="cell">valueChange / valueInput</code
+                <code role="cell">valueChange / valueChange</code
                 ><span role="cell">readonly string[]</span
                 ><span role="cell">Model and explicit value-change notifications.</span>
               </div>
@@ -785,7 +785,7 @@
             visible label exists.
           </li>
           <li>
-            Connect help and validation text with <code>ariaDescribedby</code>. Required and invalid
+            Connect help and validation text with <code>ariaDescribedBy</code>. Required and invalid
             state are synchronized with ARIA.
           </li>
           <li>

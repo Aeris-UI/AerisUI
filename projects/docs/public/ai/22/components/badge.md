@@ -312,7 +312,13 @@ export class BadgeDynamicDynamicValueDemo {
   <div class="badge-dynamic-demo">
     <div class="badge-actions">
       <button aerisButton type="button" (click)="addUnread()">Add unread</button>
-      <button aerisButton variant="secondary" type="button" (click)="clearUnread()">
+      <button
+        aerisButton
+        variant="solid"
+        severity="secondary"
+        type="button"
+        (click)="clearUnread()"
+      >
         Clear
       </button>
     </div>
@@ -387,7 +393,9 @@ export class BadgeOverlayOverlayDemo {
       variant="soft"
       position="top-left"
     >
-      <button aerisButton variant="secondary" type="button">Preview</button>
+      <button aerisButton variant="solid" severity="secondary" type="button">
+        Preview
+      </button>
     </aeris-badge-overlay>
   </div>
 </div>

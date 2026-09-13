@@ -30,7 +30,7 @@ class NativeInputGroupHost {
     <aeris-input-group size="lg" appearance="filled" invalid disabled>
       <span aerisInputGroupAddon decorative>!</span>
       <input aerisInputText aria-label="Search" disabled />
-      <button aerisButton type="button" variant="secondary">Search</button>
+      <button aerisButton type="button" severity="secondary">Search</button>
     </aeris-input-group>
   `,
 })
@@ -89,7 +89,9 @@ describe('AerisInputGroup', () => {
 
     const group = fixture.nativeElement.querySelector('aeris-input-group') as HTMLElement;
     const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
-    const addons = [...fixture.nativeElement.querySelectorAll('.aeris-input-group__addon')] as HTMLElement[];
+    const addons = [
+      ...fixture.nativeElement.querySelectorAll('.aeris-input-group__addon'),
+    ] as HTMLElement[];
 
     expect(group.classList.contains('aeris-input-group--fluid')).toBe(true);
     expect(input.id).toBe('domain');
@@ -141,7 +143,11 @@ describe('AerisInputGroup', () => {
 
     expect(fixture.nativeElement.querySelector('aeris-checkbox')).not.toBeNull();
     expect(fixture.nativeElement.querySelector('aeris-radio-button')).not.toBeNull();
-    expect((fixture.nativeElement.querySelector('button') as HTMLButtonElement).classList.contains('aeris-button')).toBe(true);
+    expect(
+      (fixture.nativeElement.querySelector('button') as HTMLButtonElement).classList.contains(
+        'aeris-button',
+      ),
+    ).toBe(true);
     expect(fixture.nativeElement.querySelectorAll('.aeris-input-group__addon').length).toBe(2);
   });
 

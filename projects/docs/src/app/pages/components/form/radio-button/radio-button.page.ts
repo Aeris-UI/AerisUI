@@ -175,19 +175,26 @@ interface AerisRadioButtonChangeEvent {
       description: 'Applies invalid styling and aria-invalid.',
     },
     {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it.',
+    },
+    {
       name: 'ariaLabel',
       type: 'string',
       defaultValue: "''",
       description: 'Accessible name for an option without visible label content.',
     },
     {
-      name: 'ariaLabelledby',
+      name: 'ariaLabelledBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of external labeling elements.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of help and validation messages.',

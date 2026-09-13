@@ -29,7 +29,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts popup menus locally by default and automatically moves them to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection; inline menus remain local. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts popup menus locally by default and automatically moves them to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection; inline menus remain local. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `id` | `string` | `generated` | ID for the root panel. |
 | `model` | `readonly AerisMenuItem&lt;T&gt;[]` | `[]` | Menu item model with groups, separators, commands, links, and nested items. |
@@ -41,7 +41,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 | `width` | `string` | `''` | Sets --aeris-menu-width on the panel. |
 | `maxHeight` | `string` | `''` | Sets --aeris-menu-max-height on the panel. |
 | `viewportMargin` | `number` | `8` | Minimum popup distance from viewport edges. |
-| `hideOnOutsideClick` | `boolean` | `true` | Closes popup menus when pointer interaction starts outside the panel. |
+| `closeOnOutsideClick` | `boolean` | `true` | Closes popup menus when pointer interaction starts outside the panel. |
 | `closeOnEscape` | `boolean` | `true` | Closes popup menus when Escape is pressed. |
 | `closeOnSelect` | `boolean` | `true` | Closes popup menus after an enabled leaf item is activated. |
 | `autoFocus` | `boolean` | `true` | Moves focus to the first enabled item when a popup opens. |
@@ -57,9 +57,8 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 | --- | --- | --- | --- |
 | `expandedKeysChange` | `AerisMenuExpandedKeys` | `-` | Emitted automatically by the expandedKeys model. |
 | `openChange` | `boolean` | `-` | Emitted automatically by the open model. |
-| `shown` | `AerisMenuVisibilityEvent` | `-` | Emitted after popup opening is requested. |
-| `hidden` | `AerisMenuVisibilityEvent` | `-` | Emitted after popup close. |
-| `visibilityChanged` | `AerisMenuVisibilityEvent` | `-` | Emitted for both popup show and hide transitions. |
+| `opened` | `AerisMenuVisibilityEvent` | `-` | Emitted after popup opening is requested. |
+| `closed` | `AerisMenuVisibilityEvent` | `-` | Emitted after popup close. |
 | `itemSelected` | `AerisMenuItemEvent&lt;T&gt;` | `-` | Emitted when an enabled leaf item is activated. |
 
 ### Templates
@@ -550,7 +549,8 @@ export class MenuControlledControlledDemo {
     <button
       aerisButton
       type="button"
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       (click)="expandControlled()"
     >
       Expand all
@@ -558,7 +558,8 @@ export class MenuControlledControlledDemo {
     <button
       aerisButton
       type="button"
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       (click)="collapseControlled()"
     >
       Collapse all

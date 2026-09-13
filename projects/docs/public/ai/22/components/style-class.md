@@ -313,7 +313,8 @@ export class StyleClassSelectorsTargetSelectorsDemo {
       <button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         aerisStyleClass="@next"
         aerisStyleClassToggle="style-selector-target--selected"
       >
@@ -326,7 +327,8 @@ export class StyleClassSelectorsTargetSelectorsDemo {
       <button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         aerisStyleClass="@previous"
         aerisStyleClassToggle="style-selector-target--selected"
       >
@@ -337,7 +339,8 @@ export class StyleClassSelectorsTargetSelectorsDemo {
       <button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         aerisStyleClass="@parent"
         aerisStyleClassToggle="style-selector-target--selected"
       >
@@ -348,7 +351,8 @@ export class StyleClassSelectorsTargetSelectorsDemo {
       <button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         aerisStyleClass="#style-remote-target"
         aerisStyleClassToggle="style-selector-target--selected"
       >
@@ -517,14 +521,16 @@ export class StyleClassMethodsMethodsAndEventsDemo {
       ><button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         (click)="methodController.show()"
       >
         Show</button
       ><button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         (click)="methodController.hide()"
       >
         Hide

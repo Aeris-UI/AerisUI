@@ -191,7 +191,13 @@ export class ClassNamesConditionalConditionalMapDemo {
     <div class="class-names-actions">
       <button aerisButton type="button" (click)="toggleSelected()">
         Toggle selected</button
-      ><button aerisButton type="button" variant="secondary" (click)="toggleBusy()">
+      ><button
+        aerisButton
+        type="button"
+        variant="solid"
+        severity="secondary"
+        (click)="toggleBusy()"
+      >
         Toggle busy</button
       ><button
         aerisButton

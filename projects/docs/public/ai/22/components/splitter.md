@@ -415,7 +415,8 @@ export class SplitterControlledControlledDemo {
       aerisButton
       type="button"
       size="sm"
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       (click)="setFocusLayout()"
     >
       Focus content

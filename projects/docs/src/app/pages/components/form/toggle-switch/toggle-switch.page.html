@@ -162,7 +162,7 @@
                   inputId="toggle-consent"
                   required
                   [invalid]="consentInvalid()"
-                  ariaDescribedby="toggle-consent-message"
+                  ariaDescribedBy="toggle-consent-message"
                   [(checked)]="consent"
                   (blurred)="consentTouched.set(true)"
                 >
@@ -185,7 +185,7 @@
     inputId="toggle-consent"
     required
     [invalid]="consentInvalid()"
-    ariaDescribedby="toggle-consent-message"
+    ariaDescribedBy="toggle-consent-message"
     [(checked)]="consent"
     (blurred)="consentTouched.set(true)"
   &gt;
@@ -412,10 +412,10 @@
           </li>
           <li>
             Use visible label content whenever possible. Otherwise provide <code>ariaLabel</code> or
-            <code>ariaLabelledby</code>.
+            <code>ariaLabelledBy</code>.
           </li>
           <li>
-            Connect instructions and errors with <code>ariaDescribedby</code>. Required and invalid
+            Connect instructions and errors with <code>ariaDescribedBy</code>. Required and invalid
             state are synchronized with ARIA.
           </li>
           <li>

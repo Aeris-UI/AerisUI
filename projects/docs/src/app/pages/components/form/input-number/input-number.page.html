@@ -466,7 +466,7 @@
                     inputId="number-invalid"
                     [value]="150"
                     invalid
-                    ariaDescribedby="number-error"
+                    ariaDescribedBy="number-error"
                     fluid
                   /><small id="number-error" class="error">Value must be 100 or less.</small>
                 </div>
@@ -501,7 +501,7 @@
       inputId="number-invalid"
       [value]="150"
       invalid
-      ariaDescribedby="number-error"
+      ariaDescribedBy="number-error"
       fluid
     /&gt;&lt;small id="number-error" class="error"&gt;Value must be 100 or less.&lt;/small&gt;
   &lt;/div&gt;
@@ -665,7 +665,7 @@
                 >
               </div>
               <div role="row">
-                <code role="cell">valueInput</code><span role="cell">number | null</span
+                <code role="cell">valueChange</code><span role="cell">number | null</span
                 ><span role="cell"
                   >Emitted when user interaction changes the parsed numeric value.</span
                 >
@@ -757,8 +757,8 @@
             ><code role="cell">#f2f0ec</code>
           </div>
           <div role="row">
-            <code role="cell">--aeris-border</code
-            ><span role="cell">Field and button border.</span><code role="cell">#c7c9c0</code>
+            <code role="cell">--aeris-border</code><span role="cell">Field and button border.</span
+            ><code role="cell">#c7c9c0</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-focus</code
@@ -793,7 +793,7 @@
             <code>ariaLabel</code> when no visible label exists.
           </li>
           <li>
-            Connect help and error messages through <code>ariaDescribedby</code>. The invalid input
+            Connect help and error messages through <code>ariaDescribedBy</code>. The invalid input
             synchronizes <code>aria-invalid</code>.
           </li>
           <li>

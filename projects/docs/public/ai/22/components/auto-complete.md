@@ -29,7 +29,7 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Use per-edge values to reserve fixed headers, navigation, or other exclusion zones. |
 | `value` | `string (model)` | `''` | Current text value with two-way binding and Forms support. |
 | `suggestions` | `readonly AerisAutoCompleteOption[]` | `[]` | Suggestion records used by local filtering and option rendering. |
@@ -38,8 +38,8 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
 | `placeholder` | `string` | `''` | Placeholder text shown while the value is empty. |
 | `autocomplete` | `string` | `'off'` | Native browser autocomplete hint for the input. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label is available. |
-| `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of visible elements that label the input. |
-| `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of visible elements that label the input. |
+| `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
 | `listboxAriaLabel` | `string` | `'Suggestions'` | Accessible name for the suggestion listbox. |
 | `dropdownAriaLabel` | `string` | `'Show suggestions'` | Accessible name for the optional dropdown trigger. |
 | `clearButtonAriaLabel` | `string` | `'Clear value'` | Accessible name for the clear button. |
@@ -51,6 +51,7 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
 | `minLength` | `number` | `1` | Minimum query length before suggestions are shown unless completeOnFocus is enabled. |
 | `panelMaxHeight` | `string` | `'16rem'` | Maximum dropdown panel height. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `disabled` | `boolean` | `false` | Disables interaction and form submission. |
 | `readonly` | `boolean` | `false` | Allows reading the value without editing. |
 | `required` | `boolean` | `false` | Exposes required semantics to forms and assistive technology. |
@@ -68,7 +69,6 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `valueChange` | `string` | `-` | Emitted automatically by the value model. |
-| `valueInput` | `string` | `-` | Emitted when user input changes the text value. |
 | `completed` | `AerisAutoCompleteCompleteEvent` | `-` | Emitted when a query should be completed by local or remote suggestions. |
 | `selected` | `AerisAutoCompleteSelectEvent` | `-` | Emitted after the user selects a suggestion. |
 | `cleared` | `void` | `-` | Emitted after the clear action succeeds. |
@@ -165,7 +165,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
         inputId="autocomplete-basic-input"
         [suggestions]="frameworks"
         placeholder="Start typing a framework"
-        ariaDescribedby="autocomplete-basic-help"
+        ariaDescribedBy="autocomplete-basic-help"
         fluid
       />
       <small id="autocomplete-basic-help">Try typing “an” or “vue”.</small>
@@ -733,7 +733,7 @@ export class AutocompleteStatesAppearancesAndStatesDemo {
       [invalid]="invalid()"
       required
       clearable
-      ariaDescribedby="autocomplete-invalid-message"
+      ariaDescribedBy="autocomplete-invalid-message"
       (blurred)="touched.set(true)"
       fluid
     />
@@ -1040,7 +1040,7 @@ export class AutocompleteEventsEventsDemo {
 - The input uses role="combobox", aria-expanded, aria-controls, and aria-activedescendant while the panel uses role="listbox".
 - Suggestions expose role="option" and aria-selected; disabled suggestions are skipped by keyboard navigation.
 - Use a visible label with inputId, or provide ariaLabel when a visible label is not possible.
-- Validation messages should be connected with ariaDescribedby and updated with live-region text when the error changes.
+- Validation messages should be connected with ariaDescribedBy and updated with live-region text when the error changes.
 - Reduced motion preferences are respected by removing transition timing from the control.
 
 ### Keyboard support

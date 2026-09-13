@@ -16,6 +16,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   ɵAerisAppendTo,
   type AerisAppendTo,
@@ -96,7 +97,7 @@ let datePickerId = 0;
       [attr.data-appearance]="appearance()"
       [attr.data-open]="panelVisible() || null"
       [attr.data-inline]="inline() || null"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-fluid]="fluid() || null"
     >
@@ -116,9 +117,9 @@ let datePickerId = 0;
             [attr.aria-expanded]="open()"
             [attr.aria-controls]="panelId"
             [attr.aria-label]="ariaLabel() || null"
-            [attr.aria-labelledby]="ariaLabelledby() || null"
-            [attr.aria-describedby]="ariaDescribedby() || null"
-            [attr.aria-invalid]="invalid() || null"
+            [attr.aria-labelledby]="ariaLabelledBy() || null"
+            [attr.aria-describedby]="ariaDescribedBy() || null"
+            [attr.aria-invalid]="displayInvalid() || null"
             [attr.aria-required]="required() || null"
             [disabled]="effectiveDisabled()"
             (click)="toggle()"
@@ -414,8 +415,8 @@ export class AerisDatePicker implements ControlValueAccessor {
   readonly name = input('');
   readonly placeholder = input('Choose a date');
   readonly ariaLabel = input('');
-  readonly ariaLabelledby = input('');
-  readonly ariaDescribedby = input('');
+  readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly calendarAriaLabel = input('Choose a date');
   readonly timeAriaLabel = input('Choose a time');
   readonly size = input<AerisDatePickerSize>('md');
@@ -445,6 +446,10 @@ export class AerisDatePicker implements ControlValueAccessor {
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly fluid = input(false, { transform: booleanAttribute });
   readonly closeOnSelect = input(true, { transform: booleanAttribute });
   readonly todayLabel = input('Today');
@@ -457,7 +462,6 @@ export class AerisDatePicker implements ControlValueAccessor {
   readonly previousButtonAriaLabel = input('Previous period');
   readonly nextButtonAriaLabel = input('Next period');
 
-  readonly valueInput = output<AerisDatePickerValue>();
   readonly changed = output<AerisDatePickerChangeEvent>();
   readonly opened = output<void>();
   readonly closed = output<void>();
@@ -877,7 +881,6 @@ export class AerisDatePicker implements ControlValueAccessor {
 
   private setValue(value: AerisDatePickerValue): void {
     this.value.set(value);
-    this.valueInput.emit(value);
     this.onChange(value);
   }
 

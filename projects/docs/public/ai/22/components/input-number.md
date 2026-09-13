@@ -35,8 +35,8 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
 | `placeholder` | `string` | `''` | Native placeholder text. |
 | `autocomplete` | `string` | `'off'` | Native autocomplete hint. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when a visible label cannot be associated. |
-| `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
-| `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
+| `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
 | `locale` | `string` | `'en-US'` | BCP 47 locale used for formatting and accepted decimal, grouping, minus, and digit symbols. |
 | `mode` | `'decimal' &#124; 'currency'` | `'decimal'` | Number formatting mode. |
 | `currency` | `string` | `'USD'` | ISO 4217 currency code used in currency mode. |
@@ -63,6 +63,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
 | `readonly` | `boolean` | `false` | Allows focus and selection without editing. |
 | `required` | `boolean` | `false` | Exposes required semantics. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Fills the available inline width. |
 
 ### InputNumber outputs
@@ -70,7 +71,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
 | Name | Type | Description |
 | --- | --- | --- |
 | valueChange | number &#124; null | Emitted automatically by the value model for two-way binding. |
-| valueInput | number &#124; null | Emitted when user interaction changes the parsed numeric value. |
+| valueChange | number &#124; null | Emitted when user interaction changes the parsed numeric value. |
 | focused | FocusEvent | Emitted when the internal input receives focus. |
 | blurred | FocusEvent | Emitted after blur normalization and constraint handling. |
 | touch | void | Emitted on blur for Angular Signal Forms integration. |
@@ -891,7 +892,7 @@ export class NumberStatesAppearancesAndStatesDemo {
       inputId="number-invalid"
       [value]="150"
       invalid
-      ariaDescribedby="number-error"
+      ariaDescribedBy="number-error"
       fluid
     /><small id="number-error" class="error">Value must be 100 or less.</small>
   </div>
@@ -1172,7 +1173,7 @@ export class NumberAngularFormsReactiveAndTemplateDrivenFormsDemo {
 - aria-valuenow, aria-valuemin, aria-valuemax, and localized aria-valuetext describe numeric state.
 - Arrow Up and Arrow Down step the value. Home and End use configured bounds.
 - Associate a visible label through inputId, or provide ariaLabel when no visible label exists.
-- Connect help and error messages through ariaDescribedby. The invalid input synchronizes aria-invalid.
+- Connect help and error messages through ariaDescribedBy. The invalid input synchronizes aria-invalid.
 - Unsupported characters, duplicate decimal separators, and misplaced signs are removed consistently. A sign, the locale decimal separator, or their combination remains available while the user continues typing.
 - Increment and decrement controls use SVG icons with configurable accessible names and are excluded from the default tab order.
 - The clear button has a configurable accessible name, appears only when usable, and restores focus after clearing.

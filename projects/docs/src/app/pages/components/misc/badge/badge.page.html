@@ -143,7 +143,13 @@
                 <div class="badge-dynamic-demo">
                   <div class="badge-actions">
                     <button aerisButton type="button" (click)="addUnread()">Add unread</button>
-                    <button aerisButton variant="secondary" type="button" (click)="clearUnread()">
+                    <button
+                      aerisButton
+                      variant="solid"
+                      severity="secondary"
+                      type="button"
+                      (click)="clearUnread()"
+                    >
                       Clear
                     </button>
                   </div>
@@ -160,7 +166,13 @@
   &lt;div class="badge-dynamic-demo"&gt;
     &lt;div class="badge-actions"&gt;
       &lt;button aerisButton type="button" (click)="addUnread()"&gt;Add unread&lt;/button&gt;
-      &lt;button aerisButton variant="secondary" type="button" (click)="clearUnread()"&gt;
+      &lt;button
+        aerisButton
+        variant="solid"
+        severity="secondary"
+        type="button"
+        (click)="clearUnread()"
+      &gt;
         Clear
       &lt;/button&gt;
     &lt;/div&gt;
@@ -198,7 +210,9 @@
                     variant="soft"
                     position="top-left"
                   >
-                    <button aerisButton variant="secondary" type="button">Preview</button>
+                    <button aerisButton variant="solid" severity="secondary" type="button">
+                      Preview
+                    </button>
                   </aeris-badge-overlay>
                 </div>
               </div>
@@ -218,7 +232,9 @@
       variant="soft"
       position="top-left"
     &gt;
-      &lt;button aerisButton variant="secondary" type="button"&gt;Preview&lt;/button&gt;
+      &lt;button aerisButton variant="solid" severity="secondary" type="button"&gt;
+        Preview
+      &lt;/button&gt;
     &lt;/aeris-badge-overlay&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>

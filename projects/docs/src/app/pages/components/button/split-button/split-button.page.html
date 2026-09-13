@@ -247,7 +247,7 @@
             <app-button-demo
               id="split-variants"
               title="Variants"
-              description="Outlined, text, and plain treatments reuse the Button visual contract."
+              description="Solid, outline, ghost, and link treatments reuse the Button presentation contract independently of severity color."
             >
               <div preview class="split-stage wrap">
                 <aeris-split-button
@@ -257,22 +257,22 @@
                   [itemTemplate]="itemIcon"
                 />
                 <aeris-split-button
+                  variant="outline"
                   label="Outlined"
-                  outlined
                   [model]="items"
                   [iconTemplate]="primaryIcon"
                   [itemTemplate]="itemIcon"
                 />
                 <aeris-split-button
+                  variant="ghost"
                   label="Text"
-                  text
                   [model]="items"
                   [iconTemplate]="primaryIcon"
                   [itemTemplate]="itemIcon"
                 />
                 <aeris-split-button
+                  severity="neutral"
                   label="Plain"
-                  plain
                   [model]="items"
                   [iconTemplate]="primaryIcon"
                   [itemTemplate]="itemIcon"
@@ -322,22 +322,22 @@
     [itemTemplate]="itemIcon"
   /&gt;
   &lt;aeris-split-button
+    variant="outline"
     label="Outlined"
-    outlined
     [model]="items"
     [iconTemplate]="primaryIcon"
     [itemTemplate]="itemIcon"
   /&gt;
   &lt;aeris-split-button
+    variant="ghost"
     label="Text"
-    text
     [model]="items"
     [iconTemplate]="primaryIcon"
     [itemTemplate]="itemIcon"
   /&gt;
   &lt;aeris-split-button
+    severity="neutral"
     label="Plain"
-    plain
     [model]="items"
     [iconTemplate]="primaryIcon"
     [itemTemplate]="itemIcon"
@@ -932,11 +932,11 @@
                 ><span role="cell">Emitted when the popup trigger is activated.</span>
               </div>
               <div role="row">
-                <code role="cell">shown</code><span role="cell">Event</span
+                <code role="cell">opened</code><span role="cell">Event</span
                 ><span role="cell">Emitted after the popup opens.</span>
               </div>
               <div role="row">
-                <code role="cell">hidden</code><span role="cell">Event</span
+                <code role="cell">closed</code><span role="cell">Event</span
                 ><span role="cell">Emitted after the popup closes.</span>
               </div>
               <div role="row">

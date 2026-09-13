@@ -47,7 +47,8 @@
                   <button
                     aerisButton
                     type="button"
-                    [variant]="thumbnailPosition() === 'top' ? 'primary' : 'secondary'"
+                    variant="solid"
+                    [severity]="thumbnailPosition() === 'top' ? 'primary' : 'secondary'"
                     [attr.aria-pressed]="thumbnailPosition() === 'top'"
                     (click)="setThumbnailPosition('top')"
                   >
@@ -56,7 +57,8 @@
                   <button
                     aerisButton
                     type="button"
-                    [variant]="thumbnailPosition() === 'bottom' ? 'primary' : 'secondary'"
+                    variant="solid"
+                    [severity]="thumbnailPosition() === 'bottom' ? 'primary' : 'secondary'"
                     [attr.aria-pressed]="thumbnailPosition() === 'bottom'"
                     (click)="setThumbnailPosition('bottom')"
                   >
@@ -65,7 +67,8 @@
                   <button
                     aerisButton
                     type="button"
-                    [variant]="thumbnailPosition() === 'start' ? 'primary' : 'secondary'"
+                    variant="solid"
+                    [severity]="thumbnailPosition() === 'start' ? 'primary' : 'secondary'"
                     [attr.aria-pressed]="thumbnailPosition() === 'start'"
                     (click)="setThumbnailPosition('start')"
                   >
@@ -74,7 +77,8 @@
                   <button
                     aerisButton
                     type="button"
-                    [variant]="thumbnailPosition() === 'end' ? 'primary' : 'secondary'"
+                    variant="solid"
+                    [severity]="thumbnailPosition() === 'end' ? 'primary' : 'secondary'"
                     [attr.aria-pressed]="thumbnailPosition() === 'end'"
                     (click)="setThumbnailPosition('end')"
                   >
@@ -92,7 +96,8 @@
     &lt;button
       aerisButton
       type="button"
-      [variant]="thumbnailPosition() === 'top' ? 'primary' : 'secondary'"
+      variant="solid"
+      [severity]="thumbnailPosition() === 'top' ? 'primary' : 'secondary'"
       [attr.aria-pressed]="thumbnailPosition() === 'top'"
       (click)="setThumbnailPosition('top')"
     &gt;
@@ -101,7 +106,8 @@
     &lt;button
       aerisButton
       type="button"
-      [variant]="thumbnailPosition() === 'bottom' ? 'primary' : 'secondary'"
+      variant="solid"
+      [severity]="thumbnailPosition() === 'bottom' ? 'primary' : 'secondary'"
       [attr.aria-pressed]="thumbnailPosition() === 'bottom'"
       (click)="setThumbnailPosition('bottom')"
     &gt;
@@ -110,7 +116,8 @@
     &lt;button
       aerisButton
       type="button"
-      [variant]="thumbnailPosition() === 'start' ? 'primary' : 'secondary'"
+      variant="solid"
+      [severity]="thumbnailPosition() === 'start' ? 'primary' : 'secondary'"
       [attr.aria-pressed]="thumbnailPosition() === 'start'"
       (click)="setThumbnailPosition('start')"
     &gt;
@@ -119,7 +126,8 @@
     &lt;button
       aerisButton
       type="button"
-      [variant]="thumbnailPosition() === 'end' ? 'primary' : 'secondary'"
+      variant="solid"
+      [severity]="thumbnailPosition() === 'end' ? 'primary' : 'secondary'"
       [attr.aria-pressed]="thumbnailPosition() === 'end'"
       (click)="setThumbnailPosition('end')"
     &gt;

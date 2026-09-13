@@ -7,12 +7,7 @@ import {
   type AerisTooltipVisibilityEvent,
 } from '../../../tooltip/aeris-tooltip';
 
-const rect = (
-  left: number,
-  top: number,
-  width: number,
-  height: number,
-): DOMRect =>
+const rect = (left: number, top: number, width: number, height: number): DOMRect =>
   ({
     left,
     top,
@@ -34,8 +29,8 @@ const rect = (
       aria-describedby="persistent-help"
       aerisTooltip="Save changes"
       aerisTooltipPosition="bottom"
-      (aerisTooltipShown)="lastShown.set($event)"
-      (aerisTooltipHidden)="lastHidden.set($event)"
+      (aerisTooltipOpened)="lastShown.set($event)"
+      (aerisTooltipClosed)="lastHidden.set($event)"
     >
       Save
     </button>
@@ -66,7 +61,12 @@ class DelayedTooltipHost {}
 @Component({
   imports: [AerisTooltipModule],
   template: `
-    <button id="tracked-target" type="button" aerisTooltip="Tracked tooltip" [aerisTooltipHideDelay]="800">
+    <button
+      id="tracked-target"
+      type="button"
+      aerisTooltip="Tracked tooltip"
+      [aerisTooltipHideDelay]="800"
+    >
       Tracked target
     </button>
   `,
@@ -76,9 +76,7 @@ class TrackedTooltipHost {}
 @Component({
   imports: [AerisTooltipModule],
   template: `
-    <button id="disabled" type="button" aerisTooltip="Hidden" aerisTooltipDisabled>
-      Disabled
-    </button>
+    <button id="disabled" type="button" aerisTooltip="Hidden" aerisTooltipDisabled>Disabled</button>
     <button id="custom" type="button" [aerisTooltip]="tip" [aerisTooltipAutoHide]="false">
       Custom
     </button>

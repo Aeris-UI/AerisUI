@@ -73,7 +73,7 @@
       header="Create project"
       [(visible)]="dialogOpen"
       footerLayout="responsive"
-      dismissibleMask
+      closeOnBackdropClick
       initialFocus=".dialog-content input"
     >
       <div class="dialog-content">
@@ -87,7 +87,13 @@
         </div>
       </div>
       <ng-template aerisDialogFooter let-close="close">
-        <button aerisButton type="button" variant="secondary" (click)="close($event)">
+        <button
+          aerisButton
+          type="button"
+          variant="solid"
+          severity="secondary"
+          (click)="close($event)"
+        >
           Cancel changes
         </button>
         <button aerisButton type="button" (click)="close($event)">Create project</button>
@@ -99,11 +105,17 @@
       position="bottom"
       [(visible)]="drawerOpen"
       footerLayout="responsive"
-      dismissibleMask
+      closeOnBackdropClick
     >
       <p>Drawer content</p>
       <ng-template aerisDrawerFooter let-close="close">
-        <button aerisButton type="button" variant="secondary" (click)="close($event)">
+        <button
+          aerisButton
+          type="button"
+          variant="solid"
+          severity="secondary"
+          (click)="close($event)"
+        >
           Reset all filters
         </button>
         <button aerisButton type="button" (click)="close($event)">Apply filters</button>
@@ -183,7 +195,9 @@
       <aeris-card variant="filled">
         <h3 aerisCardTitle>Project summary</h3>
         <p>A shared surface with ordinary text and an action.</p>
-        <button aerisButton type="button" variant="secondary">Review project</button>
+        <button aerisButton type="button" variant="solid" severity="secondary">
+          Review project
+        </button>
       </aeris-card>
       <aeris-panel header="Project details" toggleable>
         <p>Collapsible content remains readable across every preset.</p>

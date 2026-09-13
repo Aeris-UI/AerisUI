@@ -29,7 +29,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the options panel inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
@@ -37,14 +37,15 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 | `name` | `string` | `''` | Creates a hidden native form value when a selection exists. |
 | `placeholder` | `string` | `'Select an option'` | Text displayed without a selection. |
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label is associated. |
-| `ariaLabelledby` | `string` | `''` | IDs of elements that label the combobox. |
-| `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string` | `''` | IDs of elements that label the combobox. |
+| `ariaDescribedBy` | `string` | `''` | IDs of help and validation messages. |
 | `listboxAriaLabel` | `string` | `'Options'` | Accessible name for the options list. |
 | `size` | `AerisSelectSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisSelectAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `disabled` | `boolean` | `false` | Disables opening, selection, clearing, and Forms interaction. |
 | `required` | `boolean` | `false` | Exposes aria-required for validation. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Fills the available inline width. |
 | `minWidth` | `string` | `''` | Optional CSS minimum inline size. The control can shrink to zero when this is omitted. |
 | `checkmark` | `boolean` | `true` | Shows a selection mark beside the selected option. |
@@ -82,7 +83,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 | Name | Type | Description |
 | --- | --- | --- |
 | valueChange | string &#124; null | Emitted automatically by the value model. |
-| valueInput | string &#124; null | Emitted when selection, clear, or public methods change the value. |
+| valueChange | string &#124; null | Emitted when selection, clear, or public methods change the value. |
 | changed | AerisSelectChangeEvent | Native event, selected value, and option metadata. |
 | filterChanged | AerisSelectFilterEvent | Emitted whenever the filter query changes. |
 | lazyLoad | AerisSelectLazyLoadEvent | Requested virtual viewport range and active query. |
@@ -1137,7 +1138,7 @@ export class SelectStatesAppearancesAndStatesDemo {
       [(value)]="invalidRole"
       required
       [invalid]="roleInvalid()"
-      ariaDescribedby="select-error"
+      ariaDescribedBy="select-error"
       fluid
     />
     @if (roleInvalid()) {
@@ -1458,7 +1459,7 @@ export class SelectAngularFormsReactiveAndTemplateDrivenFormsDemo {
 - Without filtering, printable characters provide typeahead selection. With filtering, focus moves to a labeled search field.
 - Disabled options expose aria-disabled and are skipped by keyboard navigation.
 - Associate visible labels through inputId, or use ariaLabel only when no visible label exists.
-- Connect help and error messages through ariaDescribedby. Required and invalid state are synchronized with ARIA.
+- Connect help and error messages through ariaDescribedBy. Required and invalid state are synchronized with ARIA.
 - The clear action is a separate native button with a configurable accessible name and focus restoration.
 - ControlValueAccessor synchronizes value, touched, and disabled state with Reactive Forms and template-driven forms.
 - Loading and empty messages use status semantics, focus remains predictable, and motion respects reduced-motion preferences.

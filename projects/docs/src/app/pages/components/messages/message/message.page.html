@@ -43,7 +43,7 @@
                   <aeris-message severity="success" text="Your account is now ready." />
                   <aeris-message severity="info" text="Upgrade now and save 5%." />
                   <aeris-message severity="warning" text="Your subscription is about to expire." />
-                  <aeris-message severity="error" text="Something went wrong." />
+                  <aeris-message severity="danger" text="Something went wrong." />
                   <aeris-message severity="neutral" text="Processing may take a few moments." />
                   <aeris-message severity="contrast" text="You're currently in offline mode." />
                 </div>
@@ -53,7 +53,7 @@
     &lt;aeris-message severity="success" text="Your account is now ready." /&gt;
     &lt;aeris-message severity="info" text="Upgrade now and save 5%." /&gt;
     &lt;aeris-message severity="warning" text="Your subscription is about to expire." /&gt;
-    &lt;aeris-message severity="error" text="Something went wrong." /&gt;
+    &lt;aeris-message severity="danger" text="Something went wrong." /&gt;
     &lt;aeris-message severity="neutral" text="Processing may take a few moments." /&gt;
     &lt;aeris-message severity="contrast" text="You're currently in offline mode." /&gt;
   &lt;/div&gt;
@@ -301,7 +301,7 @@
                   <button aerisButton type="submit">Validate</button>
                   <div id="form-errors" class="message-stack" aria-live="polite">
                     @for (error of formErrors(); track error) {
-                      <aeris-message severity="error" variant="outlined" [text]="error" />
+                      <aeris-message severity="danger" variant="outlined" [text]="error" />
                     }
                   </div>
                 </form>
@@ -333,7 +333,7 @@
     &lt;button aerisButton type="submit"&gt;Validate&lt;/button&gt;
     &lt;div id="form-errors" class="message-stack" aria-live="polite"&gt;
       &#64;for (error of formErrors(); track error) &#123;
-        &lt;aeris-message severity="error" variant="outlined" [text]="error" /&gt;
+        &lt;aeris-message severity="danger" variant="outlined" [text]="error" /&gt;
       &#125;
     &lt;/div&gt;
   &lt;/form&gt;
@@ -524,7 +524,7 @@
             for non-critical feedback.
           </li>
           <li>
-            Warning and error severities default to <code>role="alert"</code> and
+            Warning and danger severities default to <code>role="alert"</code> and
             <code>aria-live="assertive"</code>.
           </li>
           <li>

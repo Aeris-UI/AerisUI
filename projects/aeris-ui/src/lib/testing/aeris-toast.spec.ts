@@ -98,7 +98,7 @@ describe('AerisToast', () => {
     });
     service.show({
       group: 'workspace',
-      severity: 'error',
+      severity: 'danger',
       summary: 'Failed',
       detail: 'Try again.',
       sticky: true,
@@ -116,7 +116,7 @@ describe('AerisToast', () => {
     expect(region.dataset['position']).toBe('bottom-left');
     expect(region.dataset['mode']).toBe('expanded');
     expect(messages.length).toBe(2);
-    expect(messages[0].getAttribute('data-severity')).toBe('error');
+    expect(messages[0].getAttribute('data-severity')).toBe('danger');
     expect(messages[0].getAttribute('role')).toBe('alert');
     expect(messages[0].getAttribute('aria-live')).toBe('assertive');
     expect(messages[1].getAttribute('data-severity')).toBe('success');

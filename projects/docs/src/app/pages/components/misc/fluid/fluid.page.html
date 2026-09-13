@@ -153,7 +153,13 @@
               <div preview>
                 <div class="fluid-controlled">
                   <div class="fluid-controlled__actions">
-                    <button aerisButton variant="secondary" type="button" (click)="toggleFluid()">
+                    <button
+                      aerisButton
+                      variant="solid"
+                      severity="secondary"
+                      type="button"
+                      (click)="toggleFluid()"
+                    >
                       {{ fluidEnabled() ? 'Use natural width' : 'Use fluid width' }}
                     </button>
                     <span aria-live="polite">
@@ -168,7 +174,13 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="fluid-controlled"&gt;
     &lt;div class="fluid-controlled__actions"&gt;
-      &lt;button aerisButton variant="secondary" type="button" (click)="toggleFluid()"&gt;
+      &lt;button
+        aerisButton
+        variant="solid"
+        severity="secondary"
+        type="button"
+        (click)="toggleFluid()"
+      &gt;
         &#123;&#123; fluidEnabled() ? 'Use natural width' : 'Use fluid width' &#125;&#125;
       &lt;/button&gt;
       &lt;span aria-live="polite"&gt;

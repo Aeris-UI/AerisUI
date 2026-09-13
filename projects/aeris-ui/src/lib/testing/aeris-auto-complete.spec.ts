@@ -22,7 +22,7 @@ import {
       completeOnFocus
       required
       invalid
-      ariaDescribedby="skill-error"
+      ariaDescribedBy="skill-error"
       (selected)="lastSelection.set($event)"
     />
   `,

@@ -158,13 +158,13 @@ interface AerisCheckboxChangeEvent {
       description: 'Accessible name for a checkbox without visible label content.',
     },
     {
-      name: 'ariaLabelledby',
+      name: 'ariaLabelledBy',
       type: 'string | undefined',
       defaultValue: 'undefined',
       description: 'IDs of external labeling elements.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string | undefined',
       defaultValue: 'undefined',
       description: 'IDs of help and validation messages.',
@@ -204,6 +204,13 @@ interface AerisCheckboxChangeEvent {
       type: 'boolean',
       defaultValue: 'false',
       description: 'Applies invalid styling and aria-invalid.',
+    },
+    {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it.',
     },
   ];
 

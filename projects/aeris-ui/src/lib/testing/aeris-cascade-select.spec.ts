@@ -56,7 +56,7 @@ const options: readonly AerisCascadeSelectOption[] = [
       clearable
       required
       invalid
-      ariaDescribedby="location-error"
+      ariaDescribedBy="location-error"
       (changed)="lastChange.set($event)"
     />
   `,

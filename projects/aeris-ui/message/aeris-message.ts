@@ -13,15 +13,9 @@ import {
   numberAttribute,
   output,
 } from '@angular/core';
+import type { AerisSeverity } from '@aeris-ui/core';
 
-export type AerisMessageSeverity =
-  | 'info'
-  | 'success'
-  | 'warning'
-  | 'error'
-  | 'neutral'
-  | 'secondary'
-  | 'contrast';
+export type AerisMessageSeverity = AerisSeverity;
 
 export type AerisMessageVariant = 'filled' | 'outlined' | 'simple';
 export type AerisMessageSize = 'sm' | 'md' | 'lg';
@@ -141,7 +135,7 @@ export class AerisMessage {
   protected readonly resolvedRole = computed<AerisMessageRole>(() => {
     const role = this.role();
     if (role) return role;
-    return this.severity() === 'error' || this.severity() === 'warning' ? 'alert' : 'status';
+    return this.severity() === 'danger' || this.severity() === 'warning' ? 'alert' : 'status';
   });
 
   protected readonly resolvedLive = computed<AerisMessageLive>(() => {

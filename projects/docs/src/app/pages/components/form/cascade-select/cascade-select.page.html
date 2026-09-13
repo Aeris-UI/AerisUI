@@ -35,7 +35,7 @@
                   inputId="cascade-basic-input"
                   [options]="locations"
                   placeholder="Choose a location"
-                  ariaDescribedby="cascade-basic-help"
+                  ariaDescribedBy="cascade-basic-help"
                   fluid
                 />
                 <small id="cascade-basic-help"
@@ -48,7 +48,7 @@
     inputId="cascade-basic-input"
     [options]="locations"
     placeholder="Choose a location"
-    ariaDescribedby="cascade-basic-help"
+    ariaDescribedBy="cascade-basic-help"
     fluid
   /&gt;
   &lt;small id="cascade-basic-help"
@@ -207,7 +207,7 @@
                     [options]="locations"
                     [invalid]="invalid()"
                     required
-                    ariaDescribedby="cascade-invalid-message"
+                    ariaDescribedBy="cascade-invalid-message"
                     (blurred)="touched.set(true)"
                     fluid
                   />
@@ -244,7 +244,7 @@
       [options]="locations"
       [invalid]="invalid()"
       required
-      ariaDescribedby="cascade-invalid-message"
+      ariaDescribedBy="cascade-invalid-message"
       (blurred)="touched.set(true)"
       fluid
     /&gt;
@@ -536,7 +536,7 @@
             visible label is not possible.
           </li>
           <li>
-            Validation messages should be connected with <code>ariaDescribedby</code> and should not
+            Validation messages should be connected with <code>ariaDescribedBy</code> and should not
             rely on color alone.
           </li>
         </ul>

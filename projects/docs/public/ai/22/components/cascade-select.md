@@ -29,7 +29,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
 | `options` | `readonly AerisCascadeSelectOption[]` | `[]` | Hierarchical option tree rendered by the cascading columns. |
@@ -37,8 +37,8 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 | `name` | `string` | `''` | Native form field name submitted through a hidden input when a value is selected. |
 | `placeholder` | `string` | `'Select an option'` | Text shown while no value is selected. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label is available. |
-| `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of visible elements that label the trigger. |
-| `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of visible elements that label the trigger. |
+| `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
 | `clearButtonAriaLabel` | `string` | `'Clear value'` | Accessible name for the clear button. |
 | `emptyMessage` | `string` | `'No options available'` | Message shown when the options tree is empty. |
 | `size` | `AerisCascadeSelectSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
@@ -46,6 +46,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 | `separator` | `string` | `' / '` | Text used between labels in the selected path. |
 | `panelMaxHeight` | `string` | `'18rem'` | Maximum dropdown panel height. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `disabled` | `boolean` | `false` | Disables interaction and form submission. |
 | `required` | `boolean` | `false` | Exposes required semantics to forms and assistive technology. |
 | `fluid` | `boolean` | `false` | Fills the available inline space. |
@@ -141,7 +142,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
         inputId="cascade-basic-input"
         [options]="locations"
         placeholder="Choose a location"
-        ariaDescribedby="cascade-basic-help"
+        ariaDescribedBy="cascade-basic-help"
         fluid
       />
       <small id="cascade-basic-help"
@@ -538,7 +539,7 @@ export class CascadeStatesAppearancesAndStatesDemo {
       [options]="locations"
       [invalid]="invalid()"
       required
-      ariaDescribedby="cascade-invalid-message"
+      ariaDescribedBy="cascade-invalid-message"
       (blurred)="touched.set(true)"
       fluid
     />
@@ -801,7 +802,7 @@ export class CascadeEventsEventsDemo {
 - Each hierarchy column uses role="listbox"; each option uses role="option" and disabled options are skipped by keyboard movement.
 - Branch options expose aria-expanded while their child column is active.
 - Use a visible label with inputId, or provide ariaLabel when a visible label is not possible.
-- Validation messages should be connected with ariaDescribedby and should not rely on color alone.
+- Validation messages should be connected with ariaDescribedBy and should not rely on color alone.
 
 ### Keyboard support
 

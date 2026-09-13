@@ -125,6 +125,13 @@ type AerisIconFieldDensity = 'comfortable' | 'compact';`;
       description: 'Applies invalid styling and aria-invalid to the field wrapper.',
     },
     {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it.',
+    },
+    {
       name: 'disabled',
       type: 'boolean',
       defaultValue: 'false',

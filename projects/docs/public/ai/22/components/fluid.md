@@ -221,7 +221,13 @@ export class FluidControlledControlledDemo {
 <div>
   <div class="fluid-controlled">
     <div class="fluid-controlled__actions">
-      <button aerisButton variant="secondary" type="button" (click)="toggleFluid()">
+      <button
+        aerisButton
+        variant="solid"
+        severity="secondary"
+        type="button"
+        (click)="toggleFluid()"
+      >
         {{ fluidEnabled() ? 'Use natural width' : 'Use fluid width' }}
       </button>
       <span aria-live="polite">

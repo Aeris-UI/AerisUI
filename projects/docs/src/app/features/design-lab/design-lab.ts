@@ -321,7 +321,7 @@ export class DesignLab {
   });
   protected readonly contrastMessageSeverity = computed<AerisMessageSeverity>(() => {
     const report = this.selectedContrastReport();
-    if (report.failed > 0) return 'error';
+    if (report.failed > 0) return 'danger';
     if (report.unresolved > 0) return 'warning';
     return 'success';
   });

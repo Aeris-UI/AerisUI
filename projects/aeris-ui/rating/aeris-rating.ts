@@ -48,8 +48,8 @@ let ratingId = 0;
         role="slider"
         [id]="resolvedInputId()"
         [attr.aria-label]="ariaLabel()"
-        [attr.aria-labelledby]="ariaLabelledby() || null"
-        [attr.aria-describedby]="ariaDescribedby() || null"
+        [attr.aria-labelledby]="ariaLabelledBy() || null"
+        [attr.aria-describedby]="ariaDescribedBy() || null"
         [attr.aria-valuemin]="allowClear() ? 0 : effectiveStep()"
         [attr.aria-valuemax]="maxStars()"
         [attr.aria-valuenow]="normalizedValue()"
@@ -135,11 +135,10 @@ export class AerisRating implements ControlValueAccessor {
   readonly name = input('');
   readonly inputId = input('');
   readonly ariaLabel = input('Rating');
-  readonly ariaLabelledby = input('');
-  readonly ariaDescribedby = input('');
+  readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly valueText = input<((value: number, max: number) => string) | null>(null);
 
-  readonly valueInput = output<number>();
   readonly changed = output<AerisRatingChangeEvent>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
@@ -148,42 +147,28 @@ export class AerisRating implements ControlValueAccessor {
   protected readonly formDisabled = signal(false);
   protected readonly previewValue = signal<number | null>(null);
   protected readonly focusedState = signal(false);
-  protected readonly effectiveDisabled = computed(
-    () => this.disabled() || this.formDisabled(),
-  );
-  protected readonly maxStars = computed(() =>
-    Math.max(1, Math.floor(this.max())),
-  );
+  protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
+  protected readonly maxStars = computed(() => Math.max(1, Math.floor(this.max())));
   protected readonly effectiveStep = computed(() => (this.allowHalf() ? 0.5 : 1));
-  protected readonly normalizedValue = computed(() =>
-    this.normalizeValue(this.value()),
-  );
-  protected readonly visualValue = computed(
-    () => this.previewValue() ?? this.normalizedValue(),
-  );
-  protected readonly visualFillWidth = computed(() =>
-    this.fillWidth(this.visualValue()),
-  );
-  protected readonly formattedValue = computed(() =>
-    this.valueText()?.(this.normalizedValue(), this.maxStars()) ??
-    `${this.normalizedValue()} of ${this.maxStars()}`,
+  protected readonly normalizedValue = computed(() => this.normalizeValue(this.value()));
+  protected readonly visualValue = computed(() => this.previewValue() ?? this.normalizedValue());
+  protected readonly visualFillWidth = computed(() => this.fillWidth(this.visualValue()));
+  protected readonly formattedValue = computed(
+    () =>
+      this.valueText()?.(this.normalizedValue(), this.maxStars()) ??
+      `${this.normalizedValue()} of ${this.maxStars()}`,
   );
   protected readonly stars = computed(() =>
     Array.from({ length: this.maxStars() }, (_, index) => index + 1),
   );
 
-  private readonly control =
-    viewChild<ElementRef<HTMLButtonElement>>('ratingControl');
-  protected readonly activeIconTemplate = contentChild<TemplateRef<RatingIconContext>>(
-    'activeIcon',
-  );
-  protected readonly inactiveIconTemplate = contentChild<TemplateRef<RatingIconContext>>(
-    'inactiveIcon',
-  );
+  private readonly control = viewChild<ElementRef<HTMLButtonElement>>('ratingControl');
+  protected readonly activeIconTemplate =
+    contentChild<TemplateRef<RatingIconContext>>('activeIcon');
+  protected readonly inactiveIconTemplate =
+    contentChild<TemplateRef<RatingIconContext>>('inactiveIcon');
   private readonly generatedId = `aeris-rating-${++ratingId}`;
-  protected readonly resolvedInputId = computed(
-    () => this.inputId() || this.generatedId,
-  );
+  protected readonly resolvedInputId = computed(() => this.inputId() || this.generatedId);
 
   private onChange: (value: number) => void = () => undefined;
   private onTouched: () => void = () => undefined;
@@ -287,10 +272,7 @@ export class AerisRating implements ControlValueAccessor {
   private valueFromPointer(event: PointerEvent): number {
     const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
-    const ratio = Math.min(
-      1,
-      Math.max(0, (event.clientX - rect.left) / Math.max(1, rect.width)),
-    );
+    const ratio = Math.min(1, Math.max(0, (event.clientX - rect.left) / Math.max(1, rect.width)));
     const raw = ratio * this.maxStars();
     if (this.allowHalf()) {
       return this.normalizeValue(raw);
@@ -302,7 +284,6 @@ export class AerisRating implements ControlValueAccessor {
     const next = this.normalizeValue(value);
     if (next === this.normalizedValue()) return false;
     this.value.set(next);
-    this.valueInput.emit(next);
     this.onChange(next);
     return true;
   }
@@ -314,8 +295,7 @@ export class AerisRating implements ControlValueAccessor {
     const fullStars = Math.floor(normalized);
     const partialStar = Number((normalized - fullStars).toFixed(1));
     const starUnits = partialStar > 0 ? fullStars + partialStar : fullStars;
-    const gapUnits =
-      partialStar > 0 ? fullStars : Math.max(0, fullStars - 1);
+    const gapUnits = partialStar > 0 ? fullStars : Math.max(0, fullStars - 1);
 
     return `calc(${starUnits} * var(--_star-size) + ${gapUnits} * var(--_gap))`;
   }

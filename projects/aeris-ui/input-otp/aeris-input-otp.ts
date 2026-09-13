@@ -18,6 +18,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisInputOtpSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisInputOtpAppearance = 'outline' | 'filled';
@@ -60,14 +61,14 @@ let inputOtpId = 0;
       role="group"
       [attr.data-size]="size()"
       [attr.data-appearance]="appearance()"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-readonly]="readonly() || null"
       [attr.data-fluid]="fluid() || null"
       [attr.aria-label]="ariaLabel() || null"
-      [attr.aria-labelledby]="ariaLabelledby() || null"
-      [attr.aria-describedby]="ariaDescribedby() || null"
-      [attr.aria-invalid]="invalid() || null"
+      [attr.aria-labelledby]="ariaLabelledBy() || null"
+      [attr.aria-describedby]="ariaDescribedBy() || null"
+      [attr.aria-invalid]="displayInvalid() || null"
       [attr.aria-required]="required() || null"
       (focusout)="handleFocusOut($event)"
     >
@@ -88,7 +89,7 @@ let inputOtpId = 0;
           [disabled]="effectiveDisabled()"
           [readOnly]="readonly()"
           [attr.aria-label]="slot.ariaLabel"
-          [attr.aria-invalid]="invalid() || null"
+          [attr.aria-invalid]="displayInvalid() || null"
           (beforeinput)="handleBeforeInput($event, slot.index)"
           (input)="handleInput($event, slot.index)"
           (keydown)="handleKeydown($event, slot.index)"
@@ -135,8 +136,8 @@ export class AerisInputOtpComponent implements ControlValueAccessor {
   readonly name = input('');
   readonly autocomplete = input('one-time-code');
   readonly ariaLabel = input('');
-  readonly ariaLabelledby = input('');
-  readonly ariaDescribedby = input('');
+  readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly slotAriaLabel = input('Character {0} of {1}');
   readonly size = input<AerisInputOtpSize>('md');
   readonly appearance = input<AerisInputOtpAppearance>('outline');
@@ -147,9 +148,12 @@ export class AerisInputOtpComponent implements ControlValueAccessor {
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly fluid = input(false, { transform: booleanAttribute });
 
-  readonly valueInput = output<string>();
   readonly completed = output<AerisInputOtpCompleteEvent>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
@@ -292,8 +296,9 @@ export class AerisInputOtpComponent implements ControlValueAccessor {
   }
 
   private insertCharacters(characters: string, index: number, event: Event): void {
-    const slots = Array.from({ length: this.length() }, (_, slotIndex) =>
-      this.normalizedValue()[slotIndex] ?? '',
+    const slots = Array.from(
+      { length: this.length() },
+      (_, slotIndex) => this.normalizedValue()[slotIndex] ?? '',
     );
     let nextIndex = index;
     for (const character of characters) {
@@ -307,8 +312,9 @@ export class AerisInputOtpComponent implements ControlValueAccessor {
   }
 
   private removeAt(index: number, event: Event): void {
-    const slots = Array.from({ length: this.length() }, (_, slotIndex) =>
-      this.normalizedValue()[slotIndex] ?? '',
+    const slots = Array.from(
+      { length: this.length() },
+      (_, slotIndex) => this.normalizedValue()[slotIndex] ?? '',
     );
     slots[index] = '';
     this.commit(slots.join(''), event);
@@ -319,7 +325,6 @@ export class AerisInputOtpComponent implements ControlValueAccessor {
     const wasComplete = this.normalizedValue().length === this.length();
     if (this.value() !== nextValue) {
       this.value.set(nextValue);
-      this.valueInput.emit(nextValue);
       this.onChange(nextValue);
     }
     if (!wasComplete && nextValue.length === this.length()) {
@@ -333,7 +338,4 @@ export class AerisInputOtpComponent implements ControlValueAccessor {
   }
 }
 
-export const AerisInputOtp = [
-  AerisInputOtpComponent,
-  AerisInputOtpSeparatorTemplate,
-] as const;
+export const AerisInputOtp = [AerisInputOtpComponent, AerisInputOtpSeparatorTemplate] as const;

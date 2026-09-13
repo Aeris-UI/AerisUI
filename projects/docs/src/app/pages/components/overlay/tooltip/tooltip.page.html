@@ -31,8 +31,8 @@
                   aerisButton
                   type="button"
                   aerisTooltip="Saves the current workspace."
-                  (aerisTooltipShown)="recordTooltip($event)"
-                  (aerisTooltipHidden)="recordTooltip($event)"
+                  (aerisTooltipOpened)="recordTooltip($event)"
+                  (aerisTooltipClosed)="recordTooltip($event)"
                 >
                   Save changes
                 </button>
@@ -43,8 +43,8 @@
     aerisButton
     type="button"
     aerisTooltip="Saves the current workspace."
-    (aerisTooltipShown)="recordTooltip($event)"
-    (aerisTooltipHidden)="recordTooltip($event)"
+    (aerisTooltipOpened)="recordTooltip($event)"
+    (aerisTooltipClosed)="recordTooltip($event)"
   &gt;
     Save changes
   &lt;/button&gt;

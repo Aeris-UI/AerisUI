@@ -62,7 +62,8 @@
                 <aeris-drawer
                   header="Workspace settings"
                   [(visible)]="controlledOpen"
-                  (visibilityChanged)="recordDrawerEvent($event)"
+                  (opened)="recordDrawerEvent($event)"
+                  (closed)="recordDrawerEvent($event)"
                 >
                   <form class="drawer-form">
                     <label>
@@ -91,7 +92,8 @@ Shared component planning and release notes.</textarea>
                 &lt;aeris-drawer
                   header="Workspace settings"
                   [(visible)]="controlledOpen"
-                  (visibilityChanged)="recordDrawerEvent($event)"
+                  (opened)="recordDrawerEvent($event)"
+                  (closed)="recordDrawerEvent($event)"
                 &gt;
                   &lt;form class="drawer-form"&gt;
                     &lt;label&gt;
@@ -175,7 +177,7 @@ Shared component planning and release notes.&lt;/textarea&gt;
                 </div>
                 <aeris-drawer
                   header="Dismissible drawer"
-                  dismissibleMask
+                  closeOnBackdropClick
                   [(visible)]="dismissibleOpen"
                 >
                   <p>Press Escape, use the close button, or press the mask outside the panel.</p>
@@ -205,7 +207,7 @@ Shared component planning and release notes.&lt;/textarea&gt;
   &lt;/div&gt;
   &lt;aeris-drawer
     header="Dismissible drawer"
-    dismissibleMask
+    closeOnBackdropClick
     [(visible)]="dismissibleOpen"
   &gt;
     &lt;p&gt;Press Escape, use the close button, or press the mask outside the panel.&lt;/p&gt;
@@ -763,8 +765,8 @@ Shared component planning and release notes.&lt;/textarea&gt;
           </li>
           <li>The close control is a native button with a configurable accessible label.</li>
           <li>
-            Use <code>dismissibleMask</code> only when closing from outside the drawer cannot cause
-            data loss.
+            Use <code>closeOnBackdropClick</code> only when closing from outside the drawer cannot
+            cause data loss.
           </li>
           <li>
             Use <code>maximizable</code> or bind <code>maximized</code> when the drawer should

@@ -1,10 +1,7 @@
 import { Component, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import {
-  AerisRating,
-  type AerisRatingChangeEvent,
-} from '../../../rating/aeris-rating';
+import { AerisRating, type AerisRatingChangeEvent } from '../../../rating/aeris-rating';
 
 @Component({
   imports: [AerisRating],
@@ -14,7 +11,7 @@ import {
       inputId="quality"
       name="quality"
       ariaLabel="Quality"
-      ariaDescribedby="quality-help"
+      ariaDescribedBy="quality-help"
       [max]="10"
       allowHalf
       [(value)]="value"
@@ -33,12 +30,8 @@ describe('AerisRating', () => {
     const fixture = TestBed.createComponent(RatingTestHost);
     await fixture.whenStable();
 
-    const control = fixture.nativeElement.querySelector(
-      '[role="slider"]',
-    ) as HTMLButtonElement;
-    const hidden = fixture.nativeElement.querySelector(
-      'input[type="hidden"]',
-    ) as HTMLInputElement;
+    const control = fixture.nativeElement.querySelector('[role="slider"]') as HTMLButtonElement;
+    const hidden = fixture.nativeElement.querySelector('input[type="hidden"]') as HTMLInputElement;
 
     expect(control.id).toBe('quality');
     expect(control.getAttribute('aria-label')).toBe('Quality');
@@ -54,13 +47,9 @@ describe('AerisRating', () => {
     const fixture = TestBed.createComponent(RatingTestHost);
     await fixture.whenStable();
 
-    const control = fixture.nativeElement.querySelector(
-      '[role="slider"]',
-    ) as HTMLButtonElement;
+    const control = fixture.nativeElement.querySelector('[role="slider"]') as HTMLButtonElement;
     const press = (key: string): void => {
-      control.dispatchEvent(
-        new KeyboardEvent('keydown', { key, bubbles: true }),
-      );
+      control.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
       fixture.detectChanges();
     };
 
@@ -89,9 +78,7 @@ describe('AerisRating', () => {
     fixture.detectChanges();
     expect(rating.value()).toBe(7.25);
     expect(
-      fixture.nativeElement
-        .querySelector('[role="slider"]')
-        .getAttribute('aria-valuenow'),
+      fixture.nativeElement.querySelector('[role="slider"]').getAttribute('aria-valuenow'),
     ).toBe('7.5');
 
     rating.clear();
@@ -105,9 +92,7 @@ describe('AerisRating', () => {
 
     rating.setDisabledState(true);
     fixture.detectChanges();
-    const control = fixture.nativeElement.querySelector(
-      '[role="slider"]',
-    ) as HTMLButtonElement;
+    const control = fixture.nativeElement.querySelector('[role="slider"]') as HTMLButtonElement;
     expect(control.disabled).toBe(true);
   });
 
@@ -118,9 +103,7 @@ describe('AerisRating', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const control = fixture.nativeElement.querySelector(
-      '[role="slider"]',
-    ) as HTMLButtonElement;
+    const control = fixture.nativeElement.querySelector('[role="slider"]') as HTMLButtonElement;
     expect(control.getAttribute('aria-valuemin')).toBe('1');
     expect(control.getAttribute('aria-valuenow')).toBe('1');
   });
@@ -131,9 +114,7 @@ describe('AerisRating', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const control = fixture.nativeElement.querySelector(
-      '[role="slider"]',
-    ) as HTMLButtonElement;
+    const control = fixture.nativeElement.querySelector('[role="slider"]') as HTMLButtonElement;
     control.getBoundingClientRect = () =>
       ({
         left: 0,
@@ -147,9 +128,7 @@ describe('AerisRating', () => {
         toJSON: () => undefined,
       }) as DOMRect;
 
-    control.dispatchEvent(
-      new PointerEvent('pointerdown', { clientX: 2, bubbles: true }),
-    );
+    control.dispatchEvent(new PointerEvent('pointerdown', { clientX: 2, bubbles: true }));
     fixture.detectChanges();
 
     expect(fixture.componentInstance.value()).toBe(1);

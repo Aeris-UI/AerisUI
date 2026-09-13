@@ -10,7 +10,7 @@ import { AerisInputNumber } from '../../../input-number/aeris-input-number';
     <div class="profile-grid">
       <aeris-form-field
         #nameField
-        ariaDescribedby="profile-context"
+        ariaDescribedBy="profile-context"
         required
         fluid
         reserveMessageSpace
@@ -26,8 +26,8 @@ import { AerisInputNumber } from '../../../input-number/aeris-input-number';
         <label aerisFormLabel>Height</label>
         <aeris-input-number
           [inputId]="heightField.controlId()"
-          [ariaLabelledby]="heightField.labelId()"
-          [ariaDescribedby]="heightField.describedBy()"
+          [ariaLabelledBy]="heightField.labelId()"
+          [ariaDescribedBy]="heightField.describedBy()"
           fluid
         />
         <small aerisFormHint>Used to calculate BMI.</small>

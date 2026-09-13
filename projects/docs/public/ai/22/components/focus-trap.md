@@ -197,7 +197,13 @@ export class FocusTrapControlledControlledDemo {
 ```html
 <div>
   <div class="controlled-trap-demo">
-    <button aerisButton type="button" variant="secondary" (click)="toggleTrap()">
+    <button
+      aerisButton
+      type="button"
+      variant="solid"
+      severity="secondary"
+      (click)="toggleTrap()"
+    >
       {{ trapEnabled() ? 'Disable focus trap' : 'Enable focus trap' }}
     </button>
     <section
@@ -373,7 +379,8 @@ export class FocusTrapDynamicDynamicContentDemo {
       <button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         (click)="toggleSecondaryField()"
       >
         {{ secondaryFieldVisible() ? 'Remove role field' : 'Add role field' }}

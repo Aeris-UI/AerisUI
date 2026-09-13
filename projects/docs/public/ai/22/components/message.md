@@ -30,7 +30,7 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `id` | `string` | `generated id` | Sets the host element id. |
-| `severity` | `AerisMessageSeverity` | `'info'` | Sets visual tone and default live-region behavior. Options: 'info', 'success', 'warning', 'error', 'neutral', 'secondary', 'contrast'. |
+| `severity` | `AerisMessageSeverity` | `'info'` | Sets visual tone and default live-region behavior. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
 | `variant` | `AerisMessageVariant` | `'filled'` | Sets filled, outlined, or simple presentation. |
 | `size` | `AerisMessageSize` | `'md'` | Sets compact, default, or large spacing and type scale. Options: 'sm', 'md', 'lg'. |
 | `text` | `string` | `''` | Renders plain message text when no content template is provided. |
@@ -78,12 +78,13 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
 
 ```ts
 type AerisMessageSeverity =
+  | 'primary'
+  | 'secondary'
   | 'info'
   | 'success'
   | 'warning'
-  | 'error'
+  | 'danger'
   | 'neutral'
-  | 'secondary'
   | 'contrast';
 
 type AerisMessageVariant = 'filled' | 'outlined' | 'simple';
@@ -164,7 +165,7 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
         <aeris-message severity="success" text="Your account is now ready." />
         <aeris-message severity="info" text="Upgrade now and save 5%." />
         <aeris-message severity="warning" text="Your subscription is about to expire." />
-        <aeris-message severity="error" text="Something went wrong." />
+        <aeris-message severity="danger" text="Something went wrong." />
         <aeris-message severity="neutral" text="Processing may take a few moments." />
         <aeris-message severity="contrast" text="You're currently in offline mode." />
       </div>
@@ -637,7 +638,7 @@ export class MessageFormsFormsDemo {
     <button aerisButton type="submit">Validate</button>
     <div id="form-errors" class="message-stack" aria-live="polite">
       @for (error of formErrors(); track error) {
-        <aeris-message severity="error" variant="outlined" [text]="error" />
+        <aeris-message severity="danger" variant="outlined" [text]="error" />
       }
     </div>
   </form>
@@ -719,7 +720,7 @@ export class MessageFormsFormsDemo {
 ## Accessibility
 
 - Message uses role="status" and aria-live="polite" by default for non-critical feedback.
-- Warning and error severities default to role="alert" and aria-live="assertive".
+- Warning and danger severities default to role="alert" and aria-live="assertive".
 - Every visible message sets aria-atomic="true" so the whole message is announced together.
 - Use role and ariaLive to override announcement behavior when the surrounding page already manages announcements.
 - The close control is a native button with a configurable accessible label.

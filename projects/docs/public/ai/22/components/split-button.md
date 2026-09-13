@@ -30,7 +30,7 @@ from '@aeris-ui/core/split-button';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the action menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the action menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the action menu inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `navigationHandler` | `AerisSplitButtonNavigationHandler &#124; undefined` | `undefined` | Optional framework-routing bridge for routerLink items. Native href navigation is used otherwise. |
 | `id` | `string` | `generated` | Stable base ID for the popup relationship and menu items. |
@@ -39,18 +39,16 @@ from '@aeris-ui/core/split-button';
 | `model` | `readonly AerisSplitButtonItem&lt;T&gt;[]` | `[]` | Popup menu commands, links, separators, and item states. |
 | `open` | `boolean (model)` | `false` | Controls popup visibility and supports two-way binding. |
 | `type` | `'button' &#124; 'submit' &#124; 'reset'` | `'button'` | Native primary button type. |
-| `variant` | `AerisSplitButtonVariant` | `'primary'` | Visual treatment shared by both button segments. Options: 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. |
-| `severity` | `AerisSplitButtonSeverity` | `'primary'` | Semantic color shared by both segments. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. |
+| `variant` | `AerisSplitButtonVariant` | `'solid'` | Presentation treatment shared by both segments and independent of color. Options: 'solid', 'outline', 'ghost', 'link'. |
+| `severity` | `AerisSplitButtonSeverity` | `'primary'` | Semantic color shared by both segments. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
 | `size` | `AerisSplitButtonSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `disabled` | `boolean` | `false` | Disables the primary action and popup trigger. |
 | `loading` | `boolean` | `false` | Shows primary progress and disables both segments. |
+| `showSpinner` | `boolean` | `true` | Controls the built-in loading spinner without changing loading semantics. |
 | `raised` | `boolean` | `false` | Adds elevation. |
 | `rounded` | `boolean` | `false` | Uses connected pill-shaped corners. |
-| `outlined` | `boolean` | `false` | Uses the outlined Button treatment. |
-| `text` | `boolean` | `false` | Uses the ghost Button treatment. |
-| `plain` | `boolean` | `false` | Uses a neutral treatment. |
 | `fluid` | `boolean` | `false` | Fills the available inline width. |
-| `hideOnClickOutside` | `boolean` | `true` | Closes when a pointer clicks outside the component. |
+| `closeOnOutsideClick` | `boolean` | `true` | Closes when a pointer clicks outside the component. |
 | `menuAriaLabel` | `string` | `'Additional actions'` | Accessible name for the popup menu. |
 | `menuStyleClass` | `string` | `''` | Additional popup menu class. |
 | `buttonProps` | `AerisSplitButtonProps` | `undefined` | Primary button ARIA label, title, and tabindex. |
@@ -68,8 +66,8 @@ from '@aeris-ui/core/split-button';
 | openChange | boolean | Emitted by the open model whenever popup state changes. |
 | clicked | MouseEvent | Emitted by the primary action. |
 | dropdownClicked | MouseEvent | Emitted when the popup trigger is activated. |
-| shown | Event | Emitted after the popup opens. |
-| hidden | Event | Emitted after the popup closes. |
+| opened | Event | Emitted after the popup opens. |
+| closed | Event | Emitted after the popup closes. |
 | itemSelected | AerisSplitButtonCommandEvent | Emitted when an enabled menu item is selected. |
 
 ## Interfaces and types
@@ -108,6 +106,12 @@ interface AerisSplitButtonProps {
   readonly title?: string;
   readonly tabIndex?: number;
 }
+
+type AerisSplitButtonVariant = 'solid' | 'outline' | 'ghost' | 'link';
+
+type AerisSplitButtonSeverity =
+  | 'primary' | 'secondary' | 'success' | 'info'
+  | 'warning' | 'danger' | 'neutral' | 'contrast';
 ```
 
 ## Design tokens
@@ -419,7 +423,7 @@ export class SplitSeveritySeverityDemo {
 
 ### Variants
 
-Outlined, text, and plain treatments reuse the Button visual contract.
+Solid, outline, ghost, and link treatments reuse the Button presentation contract independently of severity color.
 
 #### TS
 
@@ -487,22 +491,22 @@ export class SplitVariantsVariantsDemo {
     [itemTemplate]="itemIcon"
   />
   <aeris-split-button
+    variant="outline"
     label="Outlined"
-    outlined
     [model]="items"
     [iconTemplate]="primaryIcon"
     [itemTemplate]="itemIcon"
   />
   <aeris-split-button
+    variant="ghost"
     label="Text"
-    text
     [model]="items"
     [iconTemplate]="primaryIcon"
     [itemTemplate]="itemIcon"
   />
   <aeris-split-button
+    severity="neutral"
     label="Plain"
-    plain
     [model]="items"
     [iconTemplate]="primaryIcon"
     [itemTemplate]="itemIcon"

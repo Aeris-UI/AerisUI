@@ -26,16 +26,16 @@
             <app-form-demo
               id="slider-basic"
               title="Basic"
-              description="Bind a numeric signal and associate a visible label through ariaLabelledby."
+              description="Bind a numeric signal and associate a visible label through ariaLabelledBy."
               [tsCode]="basicCode"
             >
               <div preview class="field">
                 <span id="volume-label">Volume</span>
-                <aeris-slider ariaLabelledby="volume-label" [(value)]="volume" showValue fluid />
+                <aeris-slider ariaLabelledBy="volume-label" [(value)]="volume" showValue fluid />
               </div>
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="volume-label"&gt;Volume&lt;/span&gt;
-  &lt;aeris-slider ariaLabelledby="volume-label" [(value)]="volume" showValue fluid /&gt;
+  &lt;aeris-slider ariaLabelledBy="volume-label" [(value)]="volume" showValue fluid /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -87,7 +87,7 @@
               <div preview class="field">
                 <span id="rating-label">Rating</span>
                 <aeris-slider
-                  ariaLabelledby="rating-label"
+                  ariaLabelledBy="rating-label"
                   [value]="6"
                   [min]="0"
                   [max]="10"
@@ -100,7 +100,7 @@
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="rating-label"&gt;Rating&lt;/span&gt;
   &lt;aeris-slider
-    ariaLabelledby="rating-label"
+    ariaLabelledBy="rating-label"
     [value]="6"
     [min]="0"
     [max]="10"
@@ -121,7 +121,7 @@
               <div preview class="field">
                 <span id="budget-label">Monthly budget</span>
                 <aeris-slider
-                  ariaLabelledby="budget-label"
+                  ariaLabelledBy="budget-label"
                   [value]="65"
                   [min]="0"
                   [max]="100"
@@ -136,7 +136,7 @@
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="budget-label"&gt;Monthly budget&lt;/span&gt;
   &lt;aeris-slider
-    ariaLabelledby="budget-label"
+    ariaLabelledBy="budget-label"
     [value]="65"
     [min]="0"
     [max]="100"
@@ -160,7 +160,7 @@
                   <span id="temperature-label">Temperature</span>
                   <aeris-slider
                     orientation="vertical"
-                    ariaLabelledby="temperature-label"
+                    ariaLabelledBy="temperature-label"
                     [min]="0"
                     [max]="40"
                     [(value)]="temperature"
@@ -185,7 +185,7 @@
     &lt;span id="temperature-label"&gt;Temperature&lt;/span&gt;
     &lt;aeris-slider
       orientation="vertical"
-      ariaLabelledby="temperature-label"
+      ariaLabelledBy="temperature-label"
       [min]="0"
       [max]="40"
       [(value)]="temperature"
@@ -215,7 +215,7 @@
               <div preview class="field">
                 <span id="priority-label">Descending priority</span>
                 <aeris-slider
-                  ariaLabelledby="priority-label"
+                  ariaLabelledBy="priority-label"
                   [value]="30"
                   reversed
                   showValue
@@ -226,7 +226,7 @@
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="priority-label"&gt;Descending priority&lt;/span&gt;
   &lt;aeris-slider
-    ariaLabelledby="priority-label"
+    ariaLabelledBy="priority-label"
     [value]="30"
     reversed
     showValue
@@ -264,7 +264,7 @@
                 <div class="field">
                   <span id="readonly-slider-label">Read-only</span>
                   <aeris-slider
-                    ariaLabelledby="readonly-slider-label"
+                    ariaLabelledBy="readonly-slider-label"
                     [value]="35"
                     readonly
                     fluid
@@ -273,7 +273,7 @@
                 <div class="field">
                   <span id="disabled-slider-label">Disabled</span>
                   <aeris-slider
-                    ariaLabelledby="disabled-slider-label"
+                    ariaLabelledBy="disabled-slider-label"
                     [value]="50"
                     disabled
                     fluid
@@ -282,8 +282,8 @@
                 <div class="field">
                   <span id="invalid-slider-label">Invalid</span>
                   <aeris-slider
-                    ariaLabelledby="invalid-slider-label"
-                    ariaDescribedby="slider-error"
+                    ariaLabelledBy="invalid-slider-label"
+                    ariaDescribedBy="slider-error"
                     [value]="90"
                     invalid
                     fluid
@@ -295,7 +295,7 @@
   &lt;div class="field"&gt;
     &lt;span id="readonly-slider-label"&gt;Read-only&lt;/span&gt;
     &lt;aeris-slider
-      ariaLabelledby="readonly-slider-label"
+      ariaLabelledBy="readonly-slider-label"
       [value]="35"
       readonly
       fluid
@@ -304,7 +304,7 @@
   &lt;div class="field"&gt;
     &lt;span id="disabled-slider-label"&gt;Disabled&lt;/span&gt;
     &lt;aeris-slider
-      ariaLabelledby="disabled-slider-label"
+      ariaLabelledBy="disabled-slider-label"
       [value]="50"
       disabled
       fluid
@@ -313,8 +313,8 @@
   &lt;div class="field"&gt;
     &lt;span id="invalid-slider-label"&gt;Invalid&lt;/span&gt;
     &lt;aeris-slider
-      ariaLabelledby="invalid-slider-label"
-      ariaDescribedby="slider-error"
+      ariaLabelledBy="invalid-slider-label"
+      ariaDescribedBy="slider-error"
       [value]="90"
       invalid
       fluid
@@ -364,7 +364,7 @@
                 <div class="field">
                   <span id="reactive-slider-label">Reactive Forms</span>
                   <aeris-slider
-                    ariaLabelledby="reactive-slider-label"
+                    ariaLabelledBy="reactive-slider-label"
                     [formControl]="reactiveValue"
                     showValue
                     fluid
@@ -387,7 +387,7 @@
   &lt;div class="field"&gt;
     &lt;span id="reactive-slider-label"&gt;Reactive Forms&lt;/span&gt;
     &lt;aeris-slider
-      ariaLabelledby="reactive-slider-label"
+      ariaLabelledBy="reactive-slider-label"
       [formControl]="reactiveValue"
       showValue
       fluid
@@ -550,7 +550,7 @@
             permitted interval.
           </li>
           <li>
-            Use <code>ariaLabelledby</code> with a visible label for single sliders. Use the lower
+            Use <code>ariaLabelledBy</code> with a visible label for single sliders. Use the lower
             and upper label inputs for range sliders.
           </li>
           <li>

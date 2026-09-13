@@ -29,7 +29,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Default drawer title rendered in the header. |
 | `position` | `AerisDrawerPosition` | `'right'` | Anchors the drawer to the left, right, top, or bottom viewport edge. |
 | `size` | `AerisDrawerSize` | `'md'` | Applies preset width or height based on position. Options: 'sm', 'md', 'lg', 'full'. |
@@ -37,7 +37,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 | `backdrop` | `boolean` | `true` | Shows the modal backdrop. Set false for a modal drawer without the visual mask. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur to the visible backdrop. |
 | `backdropBlurAmount` | `string` | `''` | Overrides the backdrop blur radius for this drawer with a CSS length. |
-| `dismissibleMask` | `boolean` | `false` | Closes the drawer when the mask itself is pressed. |
+| `closeOnBackdropClick` | `boolean` | `false` | Closes the drawer when the mask itself is pressed. |
 | `closeOnEscape` | `boolean` | `true` | Closes the drawer when Escape is pressed. |
 | `closable` | `boolean` | `true` | Shows the close button in the header. |
 | `maximizable` | `boolean` | `false` | Shows a header action that toggles full-screen drawer layout. |
@@ -70,9 +70,8 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `shown` | `AerisDrawerVisibilityChangeEvent` | `-` | Emits after the drawer becomes visible. |
-| `hidden` | `AerisDrawerVisibilityChangeEvent` | `-` | Emits after the drawer is hidden. |
-| `visibilityChanged` | `AerisDrawerVisibilityChangeEvent` | `-` | Emits for both open and close transitions. |
+| `opened` | `AerisDrawerVisibilityChangeEvent` | `-` | Emits after the drawer becomes visible. |
+| `closed` | `AerisDrawerVisibilityChangeEvent` | `-` | Emits after the drawer closes. |
 
 ### Templates
 
@@ -218,7 +217,8 @@ export class DrawerControlledControlledStateDemo {
                 <aeris-drawer
                   header="Workspace settings"
                   [(visible)]="controlledOpen"
-                  (visibilityChanged)="recordDrawerEvent($event)"
+                  (opened)="recordDrawerEvent($event)"
+                  (closed)="recordDrawerEvent($event)"
                 >
                   <form class="drawer-form">
                     <label>
@@ -459,7 +459,7 @@ export class DrawerDismissalDismissalAndBackdropDemo {
   </div>
   <aeris-drawer
     header="Dismissible drawer"
-    dismissibleMask
+    closeOnBackdropClick
     [(visible)]="dismissibleOpen"
   >
     <p>Press Escape, use the close button, or press the mask outside the panel.</p>
@@ -1070,7 +1070,7 @@ export class DrawerHeadlessHeadlessDemo {
 - When opened, Drawer focuses initialFocus, then the first focusable element, then the drawer panel.
 - Focus is trapped by default and returns to the previously focused element when the drawer closes.
 - The close control is a native button with a configurable accessible label.
-- Use dismissibleMask only when closing from outside the drawer cannot cause data loss.
+- Use closeOnBackdropClick only when closing from outside the drawer cannot cause data loss.
 - Use maximizable or bind maximized when the drawer should support full-screen workflows.
 - Set mobileFullScreen for complex workflows that need more space on narrow screens.
 - Drawer motion is disabled for users who request reduced motion.

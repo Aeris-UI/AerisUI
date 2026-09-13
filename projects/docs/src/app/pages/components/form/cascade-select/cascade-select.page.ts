@@ -176,7 +176,7 @@ interface AerisCascadeSelectChangeEvent {
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'self' (global)",
+      defaultValue: "global config or 'self'",
       description:
         "Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection.",
     },
@@ -225,13 +225,13 @@ interface AerisCascadeSelectChangeEvent {
       description: 'Accessible name when no visible label is available.',
     },
     {
-      name: 'ariaLabelledby',
+      name: 'ariaLabelledBy',
       type: 'string | undefined',
       defaultValue: 'undefined',
       description: 'IDs of visible elements that label the trigger.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string | undefined',
       defaultValue: 'undefined',
       description: 'IDs of help and validation messages.',
@@ -277,6 +277,13 @@ interface AerisCascadeSelectChangeEvent {
       type: 'boolean',
       defaultValue: 'false',
       description: 'Applies invalid styling and synchronizes aria-invalid.',
+    },
+    {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it.',
     },
     {
       name: 'disabled',

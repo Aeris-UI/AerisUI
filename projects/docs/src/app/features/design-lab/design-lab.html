@@ -17,7 +17,14 @@
         <p>Theme controls</p>
         <h2 id="theme-controls-title">Make the system yours.</h2>
       </div>
-      <button aerisButton type="button" size="sm" variant="secondary" (click)="resetTheme()">
+      <button
+        aerisButton
+        type="button"
+        size="sm"
+        variant="solid"
+        severity="secondary"
+        (click)="resetTheme()"
+      >
         Reset theme
       </button>
     </header>
@@ -88,7 +95,8 @@
                   aerisButton
                   type="button"
                   size="sm"
-                  [variant]="mode() === item ? 'secondary' : 'ghost'"
+                  [variant]="mode() === item ? 'solid' : 'ghost'"
+                  [severity]="mode() === item ? 'secondary' : 'primary'"
                   [attr.aria-pressed]="mode() === item"
                   (click)="setMode(item)"
                 >
@@ -109,7 +117,8 @@
                   aerisButton
                   type="button"
                   size="sm"
-                  [variant]="density() === item ? 'secondary' : 'ghost'"
+                  [variant]="density() === item ? 'solid' : 'ghost'"
+                  [severity]="density() === item ? 'secondary' : 'primary'"
                   [attr.aria-pressed]="density() === item"
                   (click)="setDensity(item)"
                 >
@@ -130,7 +139,8 @@
                   aerisButton
                   type="button"
                   size="sm"
-                  [variant]="radius() === item ? 'secondary' : 'ghost'"
+                  [variant]="radius() === item ? 'solid' : 'ghost'"
+                  [severity]="radius() === item ? 'secondary' : 'primary'"
                   [attr.aria-pressed]="radius() === item"
                   (click)="setRadius(item)"
                 >
@@ -170,7 +180,8 @@
           aerisButton
           type="button"
           size="sm"
-          variant="secondary"
+          variant="solid"
+          severity="secondary"
           (click)="resetSemanticTones()"
         >
           Use automatic tones
@@ -255,7 +266,8 @@
                 aerisButton
                 type="button"
                 size="sm"
-                [variant]="contrastMode() === report.mode ? 'secondary' : 'ghost'"
+                [variant]="contrastMode() === report.mode ? 'solid' : 'ghost'"
+                [severity]="contrastMode() === report.mode ? 'secondary' : 'primary'"
                 [attr.aria-pressed]="contrastMode() === report.mode"
                 (click)="setContrastMode(report.mode)"
               >
