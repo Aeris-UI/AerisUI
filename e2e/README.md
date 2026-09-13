@@ -22,3 +22,16 @@ a small consumer application on:
 
 Use a keyboard on each desktop engine to smoke-test menu traversal, tab activation, Escape
 dismissal, focus restoration, and table resize/reorder controls.
+
+## Accessibility and visual verification
+
+The `accessibility` project runs automated WCAG A/AA checks against every shipped palette in light
+and dark mode, with density, radius, and direction varied across a deliberate matrix. It also scans
+representative open Select, Menu, Dialog, and Toast states. Visual-consistency tests retain fixture
+screenshots in the Playwright report and assert shared radius, target-size, hover, clipping, zoom,
+reflow, focus, validation, and reduced-motion invariants.
+
+Automation is evidence, not a universal WCAG-conformance claim. Before a release, manually verify
+keyboard order and visible focus at 100% and 200% zoom, high-contrast/forced-colors presentation,
+and representative workflows with current VoiceOver/Safari and NVDA/Firefox. Record the assistive
+technology, browser, operating-system version, and any untested combination in the release review.

@@ -20,17 +20,32 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-      testIgnore: ['**/component-pages.spec.ts', '**/mobile.spec.ts'],
+      testIgnore: [
+        '**/component-pages.spec.ts',
+        '**/mobile.spec.ts',
+        '**/accessibility.spec.ts',
+        '**/visual-consistency.spec.ts',
+      ],
     },
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
-      testIgnore: ['**/component-pages.spec.ts', '**/mobile.spec.ts'],
+      testIgnore: [
+        '**/component-pages.spec.ts',
+        '**/mobile.spec.ts',
+        '**/accessibility.spec.ts',
+        '**/visual-consistency.spec.ts',
+      ],
     },
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-      testIgnore: ['**/component-pages.spec.ts', '**/mobile.spec.ts'],
+      testIgnore: [
+        '**/component-pages.spec.ts',
+        '**/mobile.spec.ts',
+        '**/accessibility.spec.ts',
+        '**/visual-consistency.spec.ts',
+      ],
     },
     {
       name: 'component-smoke',
@@ -46,6 +61,11 @@ export default defineConfig({
       name: 'mobile-webkit',
       use: { ...devices['iPhone 15'] },
       testMatch: '**/mobile.spec.ts',
+    },
+    {
+      name: 'accessibility',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: ['**/accessibility.spec.ts', '**/visual-consistency.spec.ts'],
     },
   ],
   webServer: [

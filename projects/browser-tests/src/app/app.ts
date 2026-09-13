@@ -1,5 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisCardModule } from '@aeris-ui/core/card';
+import { AerisPanelModule } from '@aeris-ui/core/panel';
+import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 import { AerisDialogModule } from '@aeris-ui/core/dialog';
@@ -20,6 +23,9 @@ import { AerisThemeService } from '@aeris-ui/core/theming';
   selector: 'app-root',
   imports: [
     AerisButton,
+    AerisCardModule,
+    AerisPanelModule,
+    AerisScrollPanelModule,
     AerisCheckbox,
     AerisDatePicker,
     AerisDialogModule,

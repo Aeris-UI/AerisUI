@@ -3,6 +3,43 @@ export interface AerisInternalResizableColumn {
   readonly width?: string;
 }
 
+export interface AerisInternalSeparatorValue {
+  readonly min: number;
+  readonly max: number;
+  readonly now: number;
+}
+
+export function aerisInternalColumnSeparatorValues(
+  widths: readonly (string | undefined)[],
+  minColumnWidth: number,
+): readonly AerisInternalSeparatorValue[] {
+  const percentages = widths.map((width) =>
+    width?.trim().endsWith('%') ? Number.parseFloat(width) : Number.NaN,
+  );
+  if (percentages.every(Number.isFinite)) {
+    let position = 0;
+    return percentages.slice(0, -1).map((width) => {
+      position += width;
+      return { min: 0, max: 100, now: Math.min(100, Math.max(0, position)) };
+    });
+  }
+
+  const pixels = widths.map(aerisInternalColumnWidthPixels);
+  const total = pixels.reduce((sum, width) => sum + width, 0);
+  let position = 0;
+  return pixels.slice(0, -1).map((width, index) => {
+    position += width;
+    return {
+      min: minColumnWidth * (index + 1),
+      max: Math.max(
+        minColumnWidth * (index + 1),
+        total - minColumnWidth * (pixels.length - index - 1),
+      ),
+      now: position,
+    };
+  });
+}
+
 export function aerisInternalPixelWidth(width: number): string {
   return `${Math.round(width * 100) / 100}px`;
 }
@@ -42,7 +79,9 @@ export function aerisInternalSetColumnPairWidths<TColumn extends AerisInternalRe
   });
 }
 
-export function aerisInternalMeasureColumnWidths(header: HTMLElement | null): ReadonlyMap<string, number> {
+export function aerisInternalMeasureColumnWidths(
+  header: HTMLElement | null,
+): ReadonlyMap<string, number> {
   const widths = new Map<string, number>();
   const row = header?.closest('tr');
   if (!row) return widths;
@@ -54,10 +93,9 @@ export function aerisInternalMeasureColumnWidths(header: HTMLElement | null): Re
   return widths;
 }
 
-export function aerisInternalApplyMeasuredColumnWidths<TColumn extends AerisInternalResizableColumn>(
-  columns: readonly TColumn[],
-  widths: ReadonlyMap<string, number>,
-): readonly TColumn[] {
+export function aerisInternalApplyMeasuredColumnWidths<
+  TColumn extends AerisInternalResizableColumn,
+>(columns: readonly TColumn[], widths: ReadonlyMap<string, number>): readonly TColumn[] {
   return columns.map((column) => {
     const width = widths.get(column.field);
     return width == null ? column : { ...column, width: aerisInternalPixelWidth(width) };

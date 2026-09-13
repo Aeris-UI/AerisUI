@@ -240,6 +240,9 @@ describe('AerisTable', () => {
     const separator = fixture.nativeElement.querySelector('.aeris-table__resize') as HTMLElement;
     expect(separator.getAttribute('role')).toBe('separator');
     expect(separator.getAttribute('aria-label')).toBe('Resize Name column');
+    expect(separator.getAttribute('aria-valuemin')).toBe('80');
+    expect(separator.getAttribute('aria-valuemax')).toBe('260');
+    expect(separator.getAttribute('aria-valuenow')).toBe('180');
 
     separator.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     fixture.detectChanges();

@@ -168,7 +168,7 @@ Select Custom in the wizard to enter surface, primary, secondary, accent, and co
 ##### Terminal
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.6 --project=web --surface="#eef3f5" --primary="#357a9e" --secondary="#347b73" --accent="#d46f58" --contrast="#163e54" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
+ng add @aeris-ui/core@22.0.0-alpha.6 --project=web --surface="#eef3f5" --primary="#33789b" --secondary="#347b73" --accent="#d46f58" --contrast="#163e54" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
 ```
 
 ##### aeris.setup.json
@@ -179,7 +179,7 @@ ng add @aeris-ui/core@22.0.0-alpha.6 --project=web --surface="#eef3f5" --primary
   "theme": {
     "seeds": {
       "surface": "#eef3f5",
-      "primary": "#357a9e",
+      "primary": "#33789b",
       "secondary": "#347b73",
       "accent": "#d46f58",
       "contrast": "#163e54"
@@ -722,7 +722,7 @@ export const appConfig: ApplicationConfig = {
       theme: {
         palette: {
           surface: '#eef3f5',
-          primary: '#357a9e',
+          primary: '#33789b',
           secondary: '#347b73',
           accent: '#d46f58',
           contrast: '#163e54',
@@ -807,7 +807,7 @@ import type { AerisThemeOverride } from '@aeris-ui/core/theming';
 export const productTheme: AerisThemeOverride = {
   palette: {
     surface: '#eef3f5',
-    primary: '#357a9e',
+    primary: '#33789b',
     secondary: '#347b73',
     accent: '#d46f58',
     contrast: '#163e54',
@@ -1734,6 +1734,12 @@ Every component page includes an Accessibility tab with semantics, naming requir
 | Screen reader | Names, roles, states, reading order, announcements, and error relationships |
 | Visual | AA contrast, 200% text resize, reflow at 320 CSS pixels, focus visibility, target size, forced colors, and reduced motion |
 | Automation | AXE checks plus unit assertions for semantics and state changes |
+
+#### What Aeris verifies
+
+Aeris runs automated WCAG A and AA scans against representative controls and open overlays across every shipped palette in light and dark mode. Its browser suite also checks keyboard operation, focus restoration, validation relationships, reduced motion, 320 CSS pixel reflow, target geometry, direction, density, and corner presets.
+
+Automated coverage does not replace testing the finished application. Aeris does not claim that every component and assistive-technology combination has been certified. Application teams should test their content and workflows with current browser and screen-reader combinations before release.
 
 #### Related guides
 
@@ -8010,7 +8016,7 @@ type AerisIconFieldDensity = 'comfortable' | 'compact';
 
 ##### Basic
 
-Project an icon and a native input into the field shell. Decorative icons are hidden from assistive technology by default.
+Project an icon and an Aeris input into the field shell. The clearable input provides a consistent clear button; decorative icons are hidden from assistive technology.
 
 ###### TS
 
@@ -8042,12 +8048,12 @@ export class IconFieldBasicBasicDemo {
   <label for="site-search">Search</label>
   <aeris-icon-field fluid>
     <svg aerisIcon [lucideIcon]="icons.Search"></svg>
-    <input
-      aerisInputText
-      id="site-search"
+    <aeris-input-text
+      inputId="site-search"
       type="search"
       placeholder="Search documentation"
       [(ngModel)]="search"
+      clearable
       fluid
     />
   </aeris-icon-field>

@@ -48,12 +48,14 @@ export {
   aerisInternalApplyMeasuredColumnWidths,
   aerisInternalClampColumnResizeDelta,
   aerisInternalColumnResizeDirection,
+  aerisInternalColumnSeparatorValues,
   aerisInternalColumnWidthPixels,
   aerisInternalListenForColumnResize,
   aerisInternalMeasureColumnWidths,
   aerisInternalPixelWidth,
   aerisInternalSetColumnPairWidths,
   type AerisInternalResizableColumn,
+  type AerisInternalSeparatorValue,
 } from './lib/aeris-column-resize';
 export {
   aerisInternalCreateFrameScheduler,

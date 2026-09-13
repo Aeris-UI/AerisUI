@@ -72,7 +72,7 @@ type AerisIconFieldDensity = 'comfortable' | 'compact';
 
 ### Basic
 
-Project an icon and a native input into the field shell. Decorative icons are hidden from assistive technology by default.
+Project an icon and an Aeris input into the field shell. The clearable input provides a consistent clear button; decorative icons are hidden from assistive technology.
 
 #### TS
 
@@ -104,12 +104,12 @@ export class IconFieldBasicBasicDemo {
   <label for="site-search">Search</label>
   <aeris-icon-field fluid>
     <svg aerisIcon [lucideIcon]="icons.Search"></svg>
-    <input
-      aerisInputText
-      id="site-search"
+    <aeris-input-text
+      inputId="site-search"
       type="search"
       placeholder="Search documentation"
       [(ngModel)]="search"
+      clearable
       fluid
     />
   </aeris-icon-field>

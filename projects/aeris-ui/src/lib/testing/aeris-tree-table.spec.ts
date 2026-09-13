@@ -443,6 +443,9 @@ describe('AerisTreeTable', () => {
       'th[data-field="name"] [role="separator"]',
     ) as HTMLElement;
     expect(fixture.nativeElement.querySelectorAll('[role="separator"]').length).toBe(2);
+    expect(separator.getAttribute('aria-valuemin')).toBe('96');
+    expect(separator.getAttribute('aria-valuemax')).toBe('272');
+    expect(separator.getAttribute('aria-valuenow')).toBe('192');
     keydown(separator, 'ArrowRight');
     fixture.detectChanges();
     expect(fixture.componentInstance.columns()[0]?.width).toBe('208px');

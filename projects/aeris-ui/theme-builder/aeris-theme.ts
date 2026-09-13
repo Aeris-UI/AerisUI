@@ -316,7 +316,7 @@ export const AERIS_THEME_PRESETS = {
   coastal: {
     palette: {
       surface: '#eef3f5',
-      primary: '#357a9e',
+      primary: '#33789b',
       secondary: '#347b73',
       accent: '#d46f58',
       contrast: '#163e54',

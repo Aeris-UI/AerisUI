@@ -17,27 +17,27 @@ interface ColorStabilityFixture {
 const COLOR_STABILITY_FIXTURES: Readonly<Record<string, ColorStabilityFixture>> = {
   earth: {
     input: AERIS_THEME_PRESETS.earth,
-      light: 'cf76d8b1679cac49',
-      dark: 'e15b95020408fc7d',
-      tokenCount: 99,
+    light: 'cf76d8b1679cac49',
+    dark: 'e15b95020408fc7d',
+    tokenCount: 99,
   },
   coastal: {
     input: AERIS_THEME_PRESETS.coastal,
-      light: '7c635afef3087c0b',
-      dark: 'ed1c0168a791edc7',
-      tokenCount: 99,
+    light: '3352d7ed676f9827',
+    dark: 'b3025b12c53456da',
+    tokenCount: 99,
   },
   orchid: {
     input: AERIS_THEME_PRESETS.orchid,
-      light: 'b15d6fd0508d72aa',
-      dark: 'cfa23ee739c5693d',
-      tokenCount: 99,
+    light: 'b15d6fd0508d72aa',
+    dark: 'cfa23ee739c5693d',
+    tokenCount: 99,
   },
   monochrome: {
     input: AERIS_THEME_PRESETS.monochrome,
-      light: 'fddbb1091ffebc75',
-      dark: '1d03f9ab6c11bf2c',
-      tokenCount: 99,
+    light: 'fddbb1091ffebc75',
+    dark: '1d03f9ab6c11bf2c',
+    tokenCount: 99,
   },
   customOcean: {
     input: {
@@ -49,9 +49,9 @@ const COLOR_STABILITY_FIXTURES: Readonly<Record<string, ColorStabilityFixture>> 
         contrast: '#173a4a',
       },
     },
-      light: '2d12d685313b5ff2',
-      dark: '9029f0c9d42a7b05',
-      tokenCount: 99,
+    light: '2d12d685313b5ff2',
+    dark: '9029f0c9d42a7b05',
+    tokenCount: 99,
   },
   customWarm: {
     input: {
@@ -63,9 +63,9 @@ const COLOR_STABILITY_FIXTURES: Readonly<Record<string, ColorStabilityFixture>> 
         contrast: '#34221d',
       },
     },
-      light: '468c26584772ea4f',
-      dark: '45e2ce0a23cad4aa',
-      tokenCount: 99,
+    light: '468c26584772ea4f',
+    dark: '45e2ce0a23cad4aa',
+    tokenCount: 99,
   },
 };
 

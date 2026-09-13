@@ -213,7 +213,7 @@ export class App {}`,
           source(
             'Terminal',
             'Shell',
-            `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION} --project=web --surface="#eef3f5" --primary="#357a9e" --secondary="#347b73" --accent="#d46f58" --contrast="#163e54" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts`,
+            `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION} --project=web --surface="#eef3f5" --primary="#33789b" --secondary="#347b73" --accent="#d46f58" --contrast="#163e54" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts`,
           ),
           source(
             'aeris.setup.json',
@@ -223,7 +223,7 @@ export class App {}`,
   "theme": {
     "seeds": {
       "surface": "#eef3f5",
-      "primary": "#357a9e",
+      "primary": "#33789b",
       "secondary": "#347b73",
       "accent": "#d46f58",
       "contrast": "#163e54"
@@ -920,7 +920,7 @@ export const appConfig: ApplicationConfig = {
       theme: {
         palette: {
           surface: '#eef3f5',
-          primary: '#357a9e',
+          primary: '#33789b',
           secondary: '#347b73',
           accent: '#d46f58',
           contrast: '#163e54',
@@ -1025,7 +1025,7 @@ export const appConfig: ApplicationConfig = {
 export const productTheme: AerisThemeOverride = {
   palette: {
     surface: '#eef3f5',
-    primary: '#357a9e',
+    primary: '#33789b',
     secondary: '#347b73',
     accent: '#d46f58',
     contrast: '#163e54',
@@ -2220,6 +2220,14 @@ export class ProjectDetails {
           ],
         },
         note: 'Aeris targets WCAG 2.2 AA; this is not a certification of the consuming application. Automated checks find only part of WCAG failures, so keyboard and assistive-technology review remain necessary for complex flows.',
+      },
+      {
+        id: 'verification-scope',
+        title: 'What Aeris verifies',
+        paragraphs: [
+          'Aeris runs automated WCAG A and AA scans against representative controls and open overlays across every shipped palette in light and dark mode. Its browser suite also checks keyboard operation, focus restoration, validation relationships, reduced motion, 320 CSS pixel reflow, target geometry, direction, density, and corner presets.',
+          'Automated coverage does not replace testing the finished application. Aeris does not claim that every component and assistive-technology combination has been certified. Application teams should test their content and workflows with current browser and screen-reader combinations before release.',
+        ],
       },
     ],
     related: ['icons', 'rtl', 'theming'],
