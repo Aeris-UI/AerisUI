@@ -1,4 +1,4 @@
-export const AERIS_UI_VERSION = '22.0.0-alpha.6';
+export const AERIS_UI_VERSION = '22.0.0-alpha.7';
 
 export type { AerisSeverity } from './lib/aeris-severity';
 export { aerisInternalDisplayInvalid as ɵaerisDisplayInvalid } from './lib/aeris-validation-state';

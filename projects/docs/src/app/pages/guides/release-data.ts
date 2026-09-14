@@ -27,11 +27,19 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
     version: 'Unreleased',
     date: 'In development',
     status: 'Next release',
+    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.7.'],
+  },
+  {
+    version: '22.0.0-alpha.7',
+    date: '14 September 2026',
+    status: 'Alpha patch',
     changes: [
-      'Add touched-aware invalid presentation for Angular Signal Forms while preserving manual validation behavior.',
-      'Separate Button presentation variants from shared semantic severity colors and remove redundant aliases.',
-      'Standardize ARIA input casing, model change outputs, overlay lifecycle events, and dismissal input names.',
-      'Use explicit anchored and viewport overlay family defaults while honoring global appendTo configuration.',
+      'Add touched-aware invalid presentation for Angular Signal Forms while preserving explicit manual validation.',
+      'Generate stable collision-safe option IDs for AutoComplete and CascadeSelect across filtering and server rendering.',
+      'Separate Button presentation from semantic severity and standardize ARIA, model, overlay lifecycle, dismissal, and appendTo APIs.',
+      'Compile every displayed example as an isolated Angular consumer and keep generated AI documentation synchronized.',
+      'Add deterministic Chromium, Firefox, WebKit, mobile-emulation, accessibility, visual, and component-page regression coverage.',
+      'Measure production consumer overhead, enforce tree shaking and optional dependency isolation, and budget documentation payloads.',
     ],
   },
   {

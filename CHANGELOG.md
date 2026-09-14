@@ -7,6 +7,10 @@ release line.
 
 ## [Unreleased]
 
+No consumer-visible changes have been recorded since 22.0.0-alpha.7.
+
+## [22.0.0-alpha.7] - 2026-09-14
+
 ### Added
 
 - Add deterministic cross-browser, mobile-emulation, accessibility, visual-consistency, and
@@ -217,7 +221,8 @@ release line.
 - Align the published Lexical peer range with the version Aeris uses and declare the required
   Angular platform-browser and RxJS peers.
 
-[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.6...HEAD
+[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.7...HEAD
+[22.0.0-alpha.7]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.6...v22.0.0-alpha.7
 [22.0.0-alpha.6]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.5...v22.0.0-alpha.6
 [22.0.0-alpha.5]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.4...v22.0.0-alpha.5
 [22.0.0-alpha.4]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.3...v22.0.0-alpha.4
