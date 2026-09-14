@@ -66,11 +66,19 @@ npm run build:lib
 npm run build:mcp
 npm run check:package
 npm run check:mcp-package
+npm run check:bundle-size
+npm run check:consumer-performance
 npm run test:lib
 npm run test:mcp
 npm run check:ai-docs
 npm run build:docs
 ```
+
+`check:consumer-performance` builds isolated production consumers and compares their JavaScript
+cost with a plain Angular application. It also verifies that Chart.js, Lexical, and unrelated Aeris
+entry points are not pulled into core scenarios. Run `npm run benchmark:consumer-performance` when
+changing Table filtering or overlay interaction hot paths; its browser timings are diagnostic and
+are not used as environment-sensitive CI limits.
 
 Pull requests should not weaken tests, suppress legitimate warnings, introduce undocumented
 dependencies, or leave development servers running.

@@ -9,6 +9,8 @@ release line.
 
 ### Added
 
+- Add reproducible production-consumer bundle checks for core controls, forms, data overlays, Chart,
+  and Editor, including optional-dependency isolation and documentation payload budgets.
 - Add nullable `touched` inputs to validation-aware controls so Angular Signal Forms can defer
   visible errors until interaction while preserving immediate manual `invalid` behavior.
 - Add a shared `AerisSeverity` contract across Button, SplitButton, Badge, Message, and Toast.

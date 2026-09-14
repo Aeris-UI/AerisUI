@@ -51,6 +51,9 @@ jobs:
       - name: Check library bundle size
         run: npm run check:bundle-size
 
+      - name: Check production consumer bundles
+        run: npm run check:consumer-performance
+
       - name: Test packed library installation
         run: npm run check:packed-install
 
