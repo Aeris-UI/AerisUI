@@ -235,8 +235,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
     <div class="field-row">
       <aeris-toggle-switch [checked]="true">Label at end</aeris-toggle-switch>
       <aeris-toggle-switch [checked]="true" labelPosition="start"
-        >Label at start</aeris-toggle-switch
-      >
+        >Label at start</aeris-toggle-switch>
     </div>
   `,
   styles: `
@@ -321,8 +320,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
       <aeris-toggle-switch [checked]="true">Checked</aeris-toggle-switch>
       <aeris-toggle-switch disabled>Disabled</aeris-toggle-switch>
       <aeris-toggle-switch [checked]="true" disabled
-        >Checked and disabled</aeris-toggle-switch
-      >
+        >Checked and disabled</aeris-toggle-switch>
     </div>
   `,
   styles: `
@@ -385,8 +383,7 @@ export class ToggleSwitchValidationValidationDemo {
       consentInvalid()
         ? 'Enable this setting to continue.'
         : 'This setting is required.'
-    }}</small
-  >
+    }}</small>
 </div>
 ```
 

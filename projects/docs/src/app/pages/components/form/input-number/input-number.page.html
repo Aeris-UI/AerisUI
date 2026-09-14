@@ -40,8 +40,7 @@
   &lt;label for="quantity"&gt;Quantity&lt;/label&gt;
   &lt;aeris-input-number inputId="quantity" [(value)]="quantity" /&gt;
   &lt;small class="number-result" aria-live="polite"
-    &gt;Value: &#123;&#123; quantity() ?? 'Empty' &#125;&#125;&lt;/small
-  &gt;
+    &gt;Value: &#123;&#123; quantity() ?? 'Empty' &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -428,19 +427,19 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-row"&gt;
   &lt;label class="size-sample"
-    &gt;&lt;span&gt;Extra small&lt;/span
-    &gt;&lt;aeris-input-number ariaLabel="Extra small number" size="xs" [value]="12"
+    &gt;&lt;span&gt;Extra small&lt;/span&gt;
+    &lt;aeris-input-number ariaLabel="Extra small number" size="xs" [value]="12"
   /&gt;&lt;/label&gt;
   &lt;label class="size-sample"
-    &gt;&lt;span&gt;Small&lt;/span
-    &gt;&lt;aeris-input-number ariaLabel="Small number" size="sm" [value]="12"
+    &gt;&lt;span&gt;Small&lt;/span&gt;
+    &lt;aeris-input-number ariaLabel="Small number" size="sm" [value]="12"
   /&gt;&lt;/label&gt;
   &lt;label class="size-sample"
     &gt;&lt;span&gt;Medium&lt;/span&gt;&lt;aeris-input-number ariaLabel="Medium number" [value]="12"
   /&gt;&lt;/label&gt;
   &lt;label class="size-sample"
-    &gt;&lt;span&gt;Large&lt;/span
-    &gt;&lt;aeris-input-number ariaLabel="Large number" size="lg" [value]="12"
+    &gt;&lt;span&gt;Large&lt;/span&gt;
+    &lt;aeris-input-number ariaLabel="Large number" size="lg" [value]="12"
   /&gt;&lt;/label&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -487,8 +486,8 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;div class="field"&gt;
-    &lt;label for="number-filled"&gt;Filled&lt;/label
-    &gt;&lt;aeris-input-number
+    &lt;label for="number-filled"&gt;Filled&lt;/label&gt;
+    &lt;aeris-input-number
       inputId="number-filled"
       appearance="filled"
       [value]="42"
@@ -496,8 +495,8 @@
     /&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;label for="number-invalid"&gt;Invalid&lt;/label
-    &gt;&lt;aeris-input-number
+    &lt;label for="number-invalid"&gt;Invalid&lt;/label&gt;
+    &lt;aeris-input-number
       inputId="number-invalid"
       [value]="150"
       invalid
@@ -506,12 +505,12 @@
     /&gt;&lt;small id="number-error" class="error"&gt;Value must be 100 or less.&lt;/small&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;label for="number-readonly"&gt;Read-only&lt;/label
-    &gt;&lt;aeris-input-number inputId="number-readonly" [value]="2026" readonly fluid /&gt;
+    &lt;label for="number-readonly"&gt;Read-only&lt;/label&gt;
+    &lt;aeris-input-number inputId="number-readonly" [value]="2026" readonly fluid /&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;label for="number-disabled"&gt;Disabled&lt;/label
-    &gt;&lt;aeris-input-number
+    &lt;label for="number-disabled"&gt;Disabled&lt;/label&gt;
+    &lt;aeris-input-number
       inputId="number-disabled"
       [value]="8"
       disabled

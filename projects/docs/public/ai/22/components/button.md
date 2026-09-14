@@ -118,8 +118,8 @@ import { AerisButton } from '@aeris-ui/core/button';
   imports: [AerisButton],
   template: `
     <div class="aeris-example-row">
-      <button aerisButton>Save changes</button
-      ><button aerisButton variant="solid" severity="secondary">Cancel</button>
+      <button aerisButton>Save changes</button>
+      <button aerisButton variant="solid" severity="secondary">Cancel</button>
     </div>
   `,
   styles: `
@@ -158,8 +158,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     <div class="aeris-example-row">
       <aeris-button label="Create project" (clicked)="createProject($event)" /><span
         class="result"
-        >Clicked {{ clickCount() }} times</span
-      >
+        >Clicked {{ clickCount() }} times</span>
     </div>
   `,
   styles: `
@@ -208,12 +207,12 @@ import { AerisButton } from '@aeris-ui/core/button';
   imports: [AerisButton],
   template: `
     <div class="wrap aeris-example-row">
-      <button aerisButton>Primary</button
-      ><button aerisButton variant="solid" severity="secondary">Secondary</button
-      ><button aerisButton variant="outline">Outline</button
-      ><button aerisButton variant="ghost">Ghost</button
-      ><button aerisButton variant="solid" severity="danger">Danger</button
-      ><button aerisButton variant="link">Link</button>
+      <button aerisButton>Primary</button>
+      <button aerisButton variant="solid" severity="secondary">Secondary</button>
+      <button aerisButton variant="outline">Outline</button>
+      <button aerisButton variant="ghost">Ghost</button>
+      <button aerisButton variant="solid" severity="danger">Danger</button>
+      <button aerisButton variant="link">Link</button>
     </div>
   `,
   styles: `
@@ -310,9 +309,9 @@ import { AerisButton } from '@aeris-ui/core/button';
   imports: [AerisButton],
   template: `
     <div class="wrap align aeris-example-row">
-      <button aerisButton size="xs">Extra small</button
-      ><button aerisButton size="sm">Small</button><button aerisButton>Medium</button
-      ><button aerisButton size="lg">Large</button>
+      <button aerisButton size="xs">Extra small</button>
+      <button aerisButton size="sm">Small</button><button aerisButton>Medium</button>
+      <button aerisButton size="lg">Large</button>
     </div>
   `,
   styles: `
@@ -423,8 +422,8 @@ import { AerisButton } from '@aeris-ui/core/button';
         [disabled]="loading()"
         (click)="toggleLoading()"
       >
-        Save asynchronously</button
-      ><aeris-button label="Processing" loading />
+        Save asynchronously</button>
+        <aeris-button label="Processing" loading />
     </div>
   `,
   styles: `
@@ -474,9 +473,9 @@ import { AerisButton } from '@aeris-ui/core/button';
   template: `
     <div class="stack aeris-example-row">
       <div class="wrap">
-        <button aerisButton raised>Raised</button
-        ><button aerisButton rounded>Rounded</button
-        ><button aerisButton rounded iconOnly aria-label="Favorite">★</button>
+        <button aerisButton raised>Raised</button>
+        <button aerisButton rounded>Rounded</button>
+        <button aerisButton rounded iconOnly aria-label="Favorite">★</button>
       </div>
       <button aerisButton fluid>Full width</button>
     </div>
@@ -577,8 +576,7 @@ import { AerisButton } from '@aeris-ui/core/button';
   template: `
     <div class="aeris-example-row">
       <ng-template #rocket let-loading="loading"
-        ><span aria-hidden="true">{{ loading ? '…' : '↑' }}</span></ng-template
-      >
+        ><span aria-hidden="true">{{ loading ? '…' : '↑' }}</span></ng-template>
       <aeris-button label="Deploy" [iconTemplate]="rocket" iconPosition="right" />
     </div>
   `,
@@ -622,8 +620,7 @@ import { AerisButton } from '@aeris-ui/core/button';
         href="https://github.com"
         target="_blank"
         rel="noopener noreferrer"
-        >Open GitHub</a
-      >
+        >Open GitHub</a>
     </div>
   `,
   styles: `

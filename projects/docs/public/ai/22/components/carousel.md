@@ -158,20 +158,19 @@ export class CarouselBasicBasicDemo {
   <aeris-carousel [value]="destinations" [numVisible]="3" ariaLabel="Meet the puppies"
     ><ng-template aerisCarouselHeader
       ><div class="carousel-title">
-        <strong>Meet the puppies</strong
-        ><span>Five playful friends with big personalities.</span>
-      </div></ng-template
-    ><ng-template aerisCarouselItem let-item
+        <strong>Meet the puppies</strong>
+        <span>Five playful friends with big personalities.</span>
+      </div></ng-template>
+      <ng-template aerisCarouselItem let-item
       ><article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong
-        ><span>{{ $any(item).detail }}</span>
-      </article></ng-template
-    ><ng-template aerisCarouselFooter
+        <strong>{{ $any(item).name }}</strong>
+        <span>{{ $any(item).detail }}</span>
+      </article></ng-template>
+      <ng-template aerisCarouselFooter
       ><small class="carousel-footer"
-        >Curated for unhurried weekends.</small
-      ></ng-template
-    ></aeris-carousel
-  >
+        >Curated for unhurried weekends.</small>
+        </ng-template>
+      </aeris-carousel>
 </div>
 ```
 
@@ -247,11 +246,10 @@ import { AerisCarouselModule, type AerisCarouselResponsiveOption } from '@aeris-
         ariaLabel="Responsive puppies"
         ><ng-template aerisCarouselItem let-item
           ><article class="destination-card" [attr.data-tone]="$any(item).tone">
-            <strong>{{ $any(item).name }}</strong
-            ><span>{{ $any(item).detail }}</span>
-          </article></ng-template
-        ></aeris-carousel
-      >
+            <strong>{{ $any(item).name }}</strong>
+            <span>{{ $any(item).detail }}</span>
+          </article></ng-template>
+          </aeris-carousel>
     </div>
   `,
   styles: `
@@ -333,8 +331,8 @@ export class CarouselControlledControlledDemo {
 ```html
 <div>
   <div class="carousel-actions">
-    <button aerisButton type="button" (click)="showFirst()">First slide</button
-    ><span aria-live="polite">{{ pageMessage() }}</span>
+    <button aerisButton type="button" (click)="showFirst()">First slide</button>
+    <span aria-live="polite">{{ pageMessage() }}</span>
   </div>
   <aeris-carousel
     [value]="destinations"
@@ -344,11 +342,10 @@ export class CarouselControlledControlledDemo {
     ariaLabel="Controlled puppy carousel"
     ><ng-template aerisCarouselItem let-item
       ><article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong
-        ><span>{{ $any(item).detail }}</span>
-      </article></ng-template
-    ></aeris-carousel
-  >
+        <strong>{{ $any(item).name }}</strong>
+        <span>{{ $any(item).detail }}</span>
+      </article></ng-template>
+      </aeris-carousel>
 </div>
 ```
 
@@ -420,8 +417,55 @@ interface Destination {
 @Component({
   selector: 'app-carousel-circular-demo',
   imports: [AerisCarouselModule],
-  templateUrl: './carousel-circular.demo.html',
-  styleUrl: './carousel-circular.demo.scss'
+  template: `
+    <div>
+      <aeris-carousel
+        [value]="destinations"
+        [numVisible]="2"
+        circular
+        [autoplayInterval]="2200"
+        ariaLabel="Autoplay puppies"
+        ><ng-template aerisCarouselItem let-item
+          ><article class="destination-card" [attr.data-tone]="$any(item).tone">
+            <strong>{{ $any(item).name }}</strong>
+            <span>{{ $any(item).detail }}</span>
+          </article></ng-template>
+          </aeris-carousel>
+    </div>
+  `,
+  styles: `
+    .destination-card {
+      position: relative;
+      display: grid;
+      align-content: end;
+      min-height: 19rem;
+      padding: 1.25rem;
+      border-radius: var(--aeris-radius-lg);
+      background-color: var(--surface-2);
+      background-position: center;
+      background-size: cover;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .destination-card::before {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%));
+      content: '';
+    }
+
+    .destination-card strong,
+    .destination-card span { position: relative; display: block; }
+    .destination-card strong { font-size: 1.25rem; }
+    .destination-card span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }
+
+    .destination-card[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }
+    .destination-card[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }
+    .destination-card[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }
+    .destination-card[data-tone='rose'] { background-image: url('/puppies/puppy4.jpg'); }
+    .destination-card[data-tone='sky'] { background-image: url('/puppies/puppy5.jpg'); }
+  `
 })
 export class CarouselCircularCircularAndAutoplayDemo {
   protected readonly destinations: readonly Destination[] = [
@@ -432,62 +476,6 @@ export class CarouselCircularCircularAndAutoplayDemo {
     { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },
   ];
 }
-```
-
-#### HTML
-
-```html
-<div>
-  <aeris-carousel
-    [value]="destinations"
-    [numVisible]="2"
-    circular
-    [autoplayInterval]="2200"
-    ariaLabel="Autoplay puppies"
-    ><ng-template aerisCarouselItem let-item
-      ><article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong
-        ><span>{{ $any(item).detail }}</span>
-      </article></ng-template
-    ></aeris-carousel
-  >
-</div>
-```
-
-#### CSS
-
-```css
-.destination-card {
-  position: relative;
-  display: grid;
-  align-content: end;
-  min-height: 19rem;
-  padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
-  background-color: var(--surface-2);
-  background-position: center;
-  background-size: cover;
-  color: #fff;
-  overflow: hidden;
-}
-
-.destination-card::before {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%));
-  content: '';
-}
-
-.destination-card strong,
-.destination-card span { position: relative; display: block; }
-.destination-card strong { font-size: 1.25rem; }
-.destination-card span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }
-
-.destination-card[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }
-.destination-card[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }
-.destination-card[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }
-.destination-card[data-tone='rose'] { background-image: url('/puppies/puppy4.jpg'); }
-.destination-card[data-tone='sky'] { background-image: url('/puppies/puppy5.jpg'); }
 ```
 
 ### Vertical
@@ -518,11 +506,10 @@ interface Destination {
         ariaLabel="Vertical puppy carousel"
         ><ng-template aerisCarouselItem let-item
           ><article class="destination-card" [attr.data-tone]="$any(item).tone">
-            <strong>{{ $any(item).name }}</strong
-            ><span>{{ $any(item).detail }}</span>
-          </article></ng-template
-        ></aeris-carousel
-      >
+            <strong>{{ $any(item).name }}</strong>
+            <span>{{ $any(item).detail }}</span>
+          </article></ng-template>
+          </aeris-carousel>
     </div>
   `,
   styles: `
@@ -589,8 +576,55 @@ interface Destination {
 @Component({
   selector: 'app-carousel-minimal-demo',
   imports: [AerisCarouselModule],
-  templateUrl: './carousel-minimal.demo.html',
-  styleUrl: './carousel-minimal.demo.scss'
+  template: `
+    <div>
+      <aeris-carousel
+        [value]="destinations"
+        [numVisible]="2"
+        [showNavigators]="false"
+        [showIndicators]="false"
+        ariaLabel="Minimal destinations"
+        ><ng-template aerisCarouselItem let-item
+          ><article class="destination-card" [attr.data-tone]="$any(item).tone">
+            <strong>{{ $any(item).name }}</strong>
+            <span>{{ $any(item).detail }}</span>
+          </article></ng-template>
+          </aeris-carousel>
+    </div>
+  `,
+  styles: `
+    .destination-card {
+      position: relative;
+      display: grid;
+      align-content: end;
+      min-height: 19rem;
+      padding: 1.25rem;
+      border-radius: var(--aeris-radius-lg);
+      background-color: var(--surface-2);
+      background-position: center;
+      background-size: cover;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .destination-card::before {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%));
+      content: '';
+    }
+
+    .destination-card strong,
+    .destination-card span { position: relative; display: block; }
+    .destination-card strong { font-size: 1.25rem; }
+    .destination-card span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }
+
+    .destination-card[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }
+    .destination-card[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }
+    .destination-card[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }
+    .destination-card[data-tone='rose'] { background-image: url('/puppies/puppy4.jpg'); }
+    .destination-card[data-tone='sky'] { background-image: url('/puppies/puppy5.jpg'); }
+  `
 })
 export class CarouselMinimalMinimalDemo {
   protected readonly destinations: readonly Destination[] = [
@@ -601,62 +635,6 @@ export class CarouselMinimalMinimalDemo {
     { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },
   ];
 }
-```
-
-#### HTML
-
-```html
-<div>
-  <aeris-carousel
-    [value]="destinations"
-    [numVisible]="2"
-    [showNavigators]="false"
-    [showIndicators]="false"
-    ariaLabel="Minimal destinations"
-    ><ng-template aerisCarouselItem let-item
-      ><article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong
-        ><span>{{ $any(item).detail }}</span>
-      </article></ng-template
-    ></aeris-carousel
-  >
-</div>
-```
-
-#### CSS
-
-```css
-.destination-card {
-  position: relative;
-  display: grid;
-  align-content: end;
-  min-height: 19rem;
-  padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
-  background-color: var(--surface-2);
-  background-position: center;
-  background-size: cover;
-  color: #fff;
-  overflow: hidden;
-}
-
-.destination-card::before {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%));
-  content: '';
-}
-
-.destination-card strong,
-.destination-card span { position: relative; display: block; }
-.destination-card strong { font-size: 1.25rem; }
-.destination-card span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }
-
-.destination-card[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }
-.destination-card[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }
-.destination-card[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }
-.destination-card[data-tone='rose'] { background-image: url('/puppies/puppy4.jpg'); }
-.destination-card[data-tone='sky'] { background-image: url('/puppies/puppy5.jpg'); }
 ```
 
 ## Accessibility

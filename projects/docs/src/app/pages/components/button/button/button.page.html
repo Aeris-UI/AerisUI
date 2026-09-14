@@ -30,8 +30,8 @@
                 ><button aerisButton variant="solid" severity="secondary">Cancel</button>
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
-  &lt;button aerisButton&gt;Save changes&lt;/button
-  &gt;&lt;button aerisButton variant="solid" severity="secondary"&gt;Cancel&lt;/button&gt;
+  &lt;button aerisButton&gt;Save changes&lt;/button&gt;
+  &lt;button aerisButton variant="solid" severity="secondary"&gt;Cancel&lt;/button&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
 
@@ -50,8 +50,7 @@
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
   &lt;aeris-button label="Create project" (clicked)="createProject($event)" /&gt;&lt;span
     class="result"
-    &gt;Clicked &#123;&#123; clickCount() &#125;&#125; times&lt;/span
-  &gt;
+    &gt;Clicked &#123;&#123; clickCount() &#125;&#125; times&lt;/span&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
 
@@ -69,12 +68,12 @@
                 ><button aerisButton variant="link">Link</button>
               </div>
               <pre code><code ngNonBindable>&lt;div class="wrap aeris-example-row"&gt;
-  &lt;button aerisButton&gt;Primary&lt;/button
-  &gt;&lt;button aerisButton variant="solid" severity="secondary"&gt;Secondary&lt;/button
-  &gt;&lt;button aerisButton variant="outline"&gt;Outline&lt;/button
-  &gt;&lt;button aerisButton variant="ghost"&gt;Ghost&lt;/button
-  &gt;&lt;button aerisButton variant="solid" severity="danger"&gt;Danger&lt;/button
-  &gt;&lt;button aerisButton variant="link"&gt;Link&lt;/button&gt;
+  &lt;button aerisButton&gt;Primary&lt;/button&gt;
+  &lt;button aerisButton variant="solid" severity="secondary"&gt;Secondary&lt;/button&gt;
+  &lt;button aerisButton variant="outline"&gt;Outline&lt;/button&gt;
+  &lt;button aerisButton variant="ghost"&gt;Ghost&lt;/button&gt;
+  &lt;button aerisButton variant="solid" severity="danger"&gt;Danger&lt;/button&gt;
+  &lt;button aerisButton variant="link"&gt;Link&lt;/button&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
 
@@ -107,9 +106,9 @@
                 ><button aerisButton size="lg">Large</button>
               </div>
               <pre code><code ngNonBindable>&lt;div class="wrap align aeris-example-row"&gt;
-  &lt;button aerisButton size="xs"&gt;Extra small&lt;/button
-  &gt;&lt;button aerisButton size="sm"&gt;Small&lt;/button&gt;&lt;button aerisButton&gt;Medium&lt;/button
-  &gt;&lt;button aerisButton size="lg"&gt;Large&lt;/button&gt;
+  &lt;button aerisButton size="xs"&gt;Extra small&lt;/button&gt;
+  &lt;button aerisButton size="sm"&gt;Small&lt;/button&gt;&lt;button aerisButton&gt;Medium&lt;/button&gt;
+  &lt;button aerisButton size="lg"&gt;Large&lt;/button&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
 
@@ -165,8 +164,8 @@
     [disabled]="loading()"
     (click)="toggleLoading()"
   &gt;
-    Save asynchronously&lt;/button
-  &gt;&lt;aeris-button label="Processing" loading /&gt;
+    Save asynchronously&lt;/button&gt;
+    &lt;aeris-button label="Processing" loading /&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
 
@@ -185,9 +184,9 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="stack aeris-example-row"&gt;
   &lt;div class="wrap"&gt;
-    &lt;button aerisButton raised&gt;Raised&lt;/button
-    &gt;&lt;button aerisButton rounded&gt;Rounded&lt;/button
-    &gt;&lt;button aerisButton rounded iconOnly aria-label="Favorite"&gt;★&lt;/button&gt;
+    &lt;button aerisButton raised&gt;Raised&lt;/button&gt;
+    &lt;button aerisButton rounded&gt;Rounded&lt;/button&gt;
+    &lt;button aerisButton rounded iconOnly aria-label="Favorite"&gt;★&lt;/button&gt;
   &lt;/div&gt;
   &lt;button aerisButton fluid&gt;Full width&lt;/button&gt;
 &lt;/div&gt;</code></pre>
@@ -231,8 +230,7 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
   &lt;ng-template #rocket let-loading="loading"
-    &gt;&lt;span aria-hidden="true"&gt;&#123;&#123; loading ? '…' : '↑' &#125;&#125;&lt;/span&gt;&lt;/ng-template
-  &gt;
+    &gt;&lt;span aria-hidden="true"&gt;&#123;&#123; loading ? '…' : '↑' &#125;&#125;&lt;/span&gt;&lt;/ng-template&gt;
   &lt;aeris-button label="Deploy" [iconTemplate]="rocket" iconPosition="right" /&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -259,8 +257,7 @@
     href="https://github.com"
     target="_blank"
     rel="noopener noreferrer"
-    &gt;Open GitHub&lt;/a
-  &gt;
+    &gt;Open GitHub&lt;/a&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
           </div>

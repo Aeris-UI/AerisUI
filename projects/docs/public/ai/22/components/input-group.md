@@ -621,44 +621,44 @@ export class InputGroupSizesSizesDemo {
 ```html
 <div class="size-grid">
   <label
-    ><span>Extra small</span
-    ><aeris-input-group size="xs"
-      ><span aerisInputGroupAddon>$</span
-      ><input
+    ><span>Extra small</span>
+    <aeris-input-group size="xs"
+      ><span aerisInputGroupAddon>$</span>
+      <input
         aerisInputText
         size="xs"
         aria-label="Extra small amount"
-        value="12" /></aeris-input-group
-  ></label>
+        value="12" /></aeris-input-group>
+        </label>
   <label
-    ><span>Small</span
-    ><aeris-input-group size="sm"
-      ><span aerisInputGroupAddon>$</span
-      ><input
+    ><span>Small</span>
+    <aeris-input-group size="sm"
+      ><span aerisInputGroupAddon>$</span>
+      <input
         aerisInputText
         size="sm"
         aria-label="Small amount"
-        value="24" /></aeris-input-group
-  ></label>
+        value="24" /></aeris-input-group>
+        </label>
   <label
-    ><span>Medium</span
-    ><aeris-input-group
-      ><span aerisInputGroupAddon>$</span
-      ><input
+    ><span>Medium</span>
+    <aeris-input-group
+      ><span aerisInputGroupAddon>$</span>
+      <input
         aerisInputText
         aria-label="Medium amount"
-        value="48" /></aeris-input-group
-  ></label>
+        value="48" /></aeris-input-group>
+        </label>
   <label
-    ><span>Large</span
-    ><aeris-input-group size="lg"
-      ><span aerisInputGroupAddon>$</span
-      ><input
+    ><span>Large</span>
+    <aeris-input-group size="lg"
+      ><span aerisInputGroupAddon>$</span>
+      <input
         aerisInputText
         size="lg"
         aria-label="Large amount"
-        value="96" /></aeris-input-group
-  ></label>
+        value="96" /></aeris-input-group>
+        </label>
 </div>
 ```
 
@@ -734,8 +734,8 @@ export class InputGroupStatesAppearancesAndStatesDemo {
   <div class="field">
     <span>Invalid</span>
     <aeris-input-group invalid fluid
-      ><span aerisInputGroupAddon>!</span
-      ><input
+      ><span aerisInputGroupAddon>!</span>
+      <input
         aerisInputText
         aria-label="Invalid value"
         value="alex@"
@@ -746,15 +746,15 @@ export class InputGroupStatesAppearancesAndStatesDemo {
   <div class="field">
     <span>Disabled</span>
     <aeris-input-group disabled fluid
-      ><span aerisInputGroupAddon>$</span
-      ><input aerisInputText aria-label="Disabled amount" value="120" disabled fluid
+      ><span aerisInputGroupAddon>$</span>
+      <input aerisInputText aria-label="Disabled amount" value="120" disabled fluid
     /></aeris-input-group>
   </div>
   <div class="field">
     <span>Native input</span>
     <aeris-input-group fluid
-      ><span aerisInputGroupAddon>#</span
-      ><input aria-label="Native issue number" placeholder="Issue number"
+      ><span aerisInputGroupAddon>#</span>
+      <input aria-label="Native issue number" placeholder="Issue number"
     /></aeris-input-group>
   </div>
 </div>
@@ -915,8 +915,7 @@ export class InputGroupValidationValidationDemo {
   </aeris-input-group>
   @if (emailInvalid()) {
     <small id="group-email-message" class="error state-message"
-      >Enter a valid email address.</small
-    >
+      >Enter a valid email address.</small>
   } @else {
     <small id="group-email-message" class="state-message">Use your work email.</small>
   }

@@ -1237,8 +1237,7 @@ export class SpeedDialTemplatesTemplatesDemo {
 
 <div class="dial-stage aeris-example-row">
   <ng-template #icon let-open="open"
-    ><span aria-hidden="true">{{ open ? 'X' : '...' }}</span></ng-template
-  >
+    ><span aria-hidden="true">{{ open ? 'X' : '...' }}</span></ng-template>
   <aeris-speed-dial
     ariaLabel="Templated actions"
     [model]="actions"

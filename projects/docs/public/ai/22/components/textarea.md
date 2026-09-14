@@ -771,8 +771,7 @@ export class TextareaValidationValidationDemo {
     aria-live="polite"
     >{{
       feedbackInvalid() ? 'Enter at least 10 characters.' : 'Minimum 10 characters.'
-    }}</small
-  >
+    }}</small>
 </div>
 ```
 

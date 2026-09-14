@@ -135,8 +135,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       <label for="quantity">Quantity</label>
       <aeris-input-number inputId="quantity" [(value)]="quantity" />
       <small class="number-result" aria-live="polite"
-        >Value: {{ quantity() ?? 'Empty' }}</small
-      >
+        >Value: {{ quantity() ?? 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -803,19 +802,19 @@ export class NumberSizesSizesDemo {
 ```html
 <div class="field-row">
   <label class="size-sample"
-    ><span>Extra small</span
-    ><aeris-input-number ariaLabel="Extra small number" size="xs" [value]="12"
+    ><span>Extra small</span>
+    <aeris-input-number ariaLabel="Extra small number" size="xs" [value]="12"
   /></label>
   <label class="size-sample"
-    ><span>Small</span
-    ><aeris-input-number ariaLabel="Small number" size="sm" [value]="12"
+    ><span>Small</span>
+    <aeris-input-number ariaLabel="Small number" size="sm" [value]="12"
   /></label>
   <label class="size-sample"
     ><span>Medium</span><aeris-input-number ariaLabel="Medium number" [value]="12"
   /></label>
   <label class="size-sample"
-    ><span>Large</span
-    ><aeris-input-number ariaLabel="Large number" size="lg" [value]="12"
+    ><span>Large</span>
+    <aeris-input-number ariaLabel="Large number" size="lg" [value]="12"
   /></label>
 </div>
 ```
@@ -878,8 +877,8 @@ export class NumberStatesAppearancesAndStatesDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <label for="number-filled">Filled</label
-    ><aeris-input-number
+    <label for="number-filled">Filled</label>
+    <aeris-input-number
       inputId="number-filled"
       appearance="filled"
       [value]="42"
@@ -887,8 +886,8 @@ export class NumberStatesAppearancesAndStatesDemo {
     />
   </div>
   <div class="field">
-    <label for="number-invalid">Invalid</label
-    ><aeris-input-number
+    <label for="number-invalid">Invalid</label>
+    <aeris-input-number
       inputId="number-invalid"
       [value]="150"
       invalid
@@ -897,12 +896,12 @@ export class NumberStatesAppearancesAndStatesDemo {
     /><small id="number-error" class="error">Value must be 100 or less.</small>
   </div>
   <div class="field">
-    <label for="number-readonly">Read-only</label
-    ><aeris-input-number inputId="number-readonly" [value]="2026" readonly fluid />
+    <label for="number-readonly">Read-only</label>
+    <aeris-input-number inputId="number-readonly" [value]="2026" readonly fluid />
   </div>
   <div class="field">
-    <label for="number-disabled">Disabled</label
-    ><aeris-input-number
+    <label for="number-disabled">Disabled</label>
+    <aeris-input-number
       inputId="number-disabled"
       [value]="8"
       disabled

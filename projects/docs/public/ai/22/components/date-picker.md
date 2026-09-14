@@ -1006,8 +1006,7 @@ export class DatePickerValidationValidationDemo {
     aria-live="polite"
     >{{
       validationInvalid() ? 'Choose a milestone date.' : 'A date is required.'
-    }}</small
-  >
+    }}</small>
 </div>
 ```
 

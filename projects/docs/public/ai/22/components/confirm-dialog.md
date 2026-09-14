@@ -648,8 +648,7 @@ export class ConfirmDialogTemplatesTemplatesDemo {
         <strong>{{ data }}</strong>
         <span
           >Confirm that release notes, accessibility checks, and package metadata are
-          ready.</span
-        >
+          ready.</span>
       </span>
     </ng-template>
     <ng-template aerisConfirmDialogFooter let-accept="accept" let-reject="reject">

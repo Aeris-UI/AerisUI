@@ -1048,8 +1048,7 @@ export class MenubarTemplateTemplateDemo {
   <aeris-menubar [model]="templateItems" ariaLabel="Template menubar">
     <ng-template aerisMenubarStart>
       <span class="menubar-brand"
-        ><svg [lucideIcon]="icons['Package']" aria-hidden="true"></svg>Aeris</span
-      >
+        ><svg [lucideIcon]="icons['Package']" aria-hidden="true"></svg>Aeris</span>
     </ng-template>
     <ng-template
       aerisMenubarItem
@@ -1089,8 +1088,7 @@ export class MenubarTemplateTemplateDemo {
     </ng-template>
     <ng-template aerisMenubarEnd>
       <span class="menubar-user"
-        ><svg [lucideIcon]="icons['User']" aria-hidden="true"></svg>Admin</span
-      >
+        ><svg [lucideIcon]="icons['User']" aria-hidden="true"></svg>Admin</span>
     </ng-template>
   </aeris-menubar>
 </div>

@@ -209,8 +209,7 @@ export class SplitBasicBasicDemo {
     (clicked)="save()"
   />
   <span class="split-result" role="status" aria-live="polite"
-    >Last action: {{ lastAction() }}</span
-  >
+    >Last action: {{ lastAction() }}</span>
 </div>
 ```
 

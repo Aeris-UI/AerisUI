@@ -636,8 +636,7 @@ export class ConfirmPopupTemplatesTemplatesDemo {
         <strong>{{ data }}</strong>
         <span
           >Confirm that release notes, accessibility checks, and package metadata are
-          ready.</span
-        >
+          ready.</span>
       </span>
     </ng-template>
     <ng-template aerisConfirmPopupFooter let-accept="accept" let-reject="reject">

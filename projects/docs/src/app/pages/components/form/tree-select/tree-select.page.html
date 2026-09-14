@@ -54,8 +54,7 @@
     (changed)="recordChange($event)"
   /&gt;
   &lt;small aria-live="polite"
-    &gt;&#123;&#123; lastChange() &#125;&#125;. Value: &#123;&#123; workspace() || 'None' &#125;&#125;&lt;/small
-  &gt;
+    &gt;&#123;&#123; lastChange() &#125;&#125;. Value: &#123;&#123; workspace() || 'None' &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -180,11 +179,9 @@
       &lt;/span&gt;
     &lt;/ng-template&gt;
     &lt;ng-template aerisTreeSelectHeader
-      &gt;&lt;strong&gt;Choose destination&lt;/strong&gt;&lt;/ng-template
-    &gt;
+      &gt;&lt;strong&gt;Choose destination&lt;/strong&gt;&lt;/ng-template&gt;
     &lt;ng-template aerisTreeSelectFooter
-      &gt;&lt;small&gt;Disabled nodes remain visible but unavailable.&lt;/small&gt;&lt;/ng-template
-    &gt;
+      &gt;&lt;small&gt;Disabled nodes remain visible but unavailable.&lt;/small&gt;&lt;/ng-template&gt;
   &lt;/aeris-tree-select&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -229,31 +226,31 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="tree-size-grid"&gt;
   &lt;label
-    &gt;&lt;span&gt;Extra small&lt;/span
-    &gt;&lt;aeris-tree-select
+    &gt;&lt;span&gt;Extra small&lt;/span&gt;
+    &lt;aeris-tree-select
       ariaLabel="Extra small tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
       size="xs"
   /&gt;&lt;/label&gt;
   &lt;label
-    &gt;&lt;span&gt;Small&lt;/span
-    &gt;&lt;aeris-tree-select
+    &gt;&lt;span&gt;Small&lt;/span&gt;
+    &lt;aeris-tree-select
       ariaLabel="Small tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
       size="sm"
   /&gt;&lt;/label&gt;
   &lt;label
-    &gt;&lt;span&gt;Medium&lt;/span
-    &gt;&lt;aeris-tree-select
+    &gt;&lt;span&gt;Medium&lt;/span&gt;
+    &lt;aeris-tree-select
       ariaLabel="Medium tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
   /&gt;&lt;/label&gt;
   &lt;label
-    &gt;&lt;span&gt;Large&lt;/span
-    &gt;&lt;aeris-tree-select
+    &gt;&lt;span&gt;Large&lt;/span&gt;
+    &lt;aeris-tree-select
       ariaLabel="Large tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
@@ -317,8 +314,8 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="tree-state-grid"&gt;
   &lt;div class="field"&gt;
-    &lt;span&gt;Filled&lt;/span
-    &gt;&lt;aeris-tree-select
+    &lt;span&gt;Filled&lt;/span&gt;
+    &lt;aeris-tree-select
       ariaLabel="Filled tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
@@ -327,8 +324,8 @@
     /&gt;&lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;label for="tree-invalid"&gt;Required&lt;/label
-    &gt;&lt;aeris-tree-select
+    &lt;label for="tree-invalid"&gt;Required&lt;/label&gt;
+    &lt;aeris-tree-select
       inputId="tree-invalid"
       [nodes]="nodes"
       [(value)]="invalidValue"
@@ -344,8 +341,8 @@
     &#125;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;span&gt;Disabled&lt;/span
-    &gt;&lt;aeris-tree-select
+    &lt;span&gt;Disabled&lt;/span&gt;
+    &lt;aeris-tree-select
       ariaLabel="Disabled tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
@@ -354,8 +351,8 @@
     /&gt;&lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;span&gt;Empty&lt;/span
-    &gt;&lt;aeris-tree-select
+    &lt;span&gt;Empty&lt;/span&gt;
+    &lt;aeris-tree-select
       ariaLabel="Empty tree select"
       [nodes]="[]"
       emptyMessage="No destinations yet"

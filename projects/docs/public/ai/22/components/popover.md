@@ -454,9 +454,8 @@ export class PopoverTemplatesTemplatesDemo {
   <aeris-popover #templatePopover closable>
     <ng-template aerisPopoverHeader>
       <span class="popover-header"
-        ><span class="popover-dot" aria-hidden="true"></span
-        >{{ selectedFlight() }}</span
-      >
+        ><span class="popover-dot" aria-hidden="true"></span>
+        {{ selectedFlight() }}</span>
     </ng-template>
     <ng-template aerisPopoverCloseIcon>
       <span aria-hidden="true">Ã—</span>

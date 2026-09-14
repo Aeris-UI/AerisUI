@@ -190,16 +190,16 @@ export class ClassNamesConditionalConditionalMapDemo {
   <div class="class-names-demo">
     <div class="class-names-actions">
       <button aerisButton type="button" (click)="toggleSelected()">
-        Toggle selected</button
-      ><button
+        Toggle selected</button>
+        <button
         aerisButton
         type="button"
         variant="solid"
         severity="secondary"
         (click)="toggleBusy()"
       >
-        Toggle busy</button
-      ><button
+        Toggle busy</button>
+        <button
         aerisButton
         type="button"
         variant="outline"
@@ -335,8 +335,8 @@ import { AerisClassNamesModule } from '@aeris-ui/core/class-names';
     <div>
       <div class="framework-example">
         <span [aerisClassNames]="['utility-surface', { 'utility-accent': true }]"
-          >Application utility classes</span
-        ><span class="utility-surface">Static classes remain untouched</span>
+          >Application utility classes</span>
+          <span class="utility-surface">Static classes remain untouched</span>
       </div>
     </div>
   `,

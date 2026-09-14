@@ -389,69 +389,60 @@ import { AerisPassword } from '@aeris-ui/core/password';
 @Component({
   selector: 'app-password-templates-demo',
   imports: [AerisPassword],
-  templateUrl: './password-templates.demo.html',
-  styleUrl: './password-templates.demo.scss'
+  template: `
+    <div class="field">
+      <label for="template-password">API password</label>
+      <aeris-password inputId="template-password" autocomplete="new-password" fluid>
+        <ng-template aerisPasswordHeader><strong>Password quality</strong></ng-template>
+        <ng-template aerisPasswordFeedback let-result>
+          <span class="custom-feedback">
+            <strong>{{ result.label }}</strong>
+            <span>Strength score: {{ result.score }} of 3</span>
+          </span>
+        </ng-template>
+        <ng-template aerisPasswordFooter
+          ><small>Never reuse a production credential.</small></ng-template>
+      </aeris-password>
+    </div>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+
+    .custom-feedback {
+      display: grid;
+      gap: 0.375rem;
+    }
+
+    .custom-feedback strong {
+      color: var(--primary-text);
+    }
+  `
 })
 export class PasswordTemplatesFeedbackTemplatesDemo {
-}
-```
-
-#### HTML
-
-```html
-<div class="field">
-  <label for="template-password">API password</label>
-  <aeris-password inputId="template-password" autocomplete="new-password" fluid>
-    <ng-template aerisPasswordHeader><strong>Password quality</strong></ng-template>
-    <ng-template aerisPasswordFeedback let-result>
-      <span class="custom-feedback">
-        <strong>{{ result.label }}</strong>
-        <span>Strength score: {{ result.score }} of 3</span>
-      </span>
-    </ng-template>
-    <ng-template aerisPasswordFooter
-      ><small>Never reuse a production credential.</small></ng-template
-    >
-  </aeris-password>
-</div>
-```
-
-#### CSS
-
-```css
-.field {
-  min-width: 0;
-  display: grid;
-  align-content: start;
-  grid-auto-rows: max-content;
-  gap: 0.45rem;
-}
-
-.field > label,
-.field > span:first-child {
-  color: var(--aeris-text);
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.field small {
-  color: var(--aeris-text-2);
-  font-size: 0.8125rem;
-  line-height: 1.5;
-}
-
-.field small.error {
-  color: var(--aeris-danger);
-}
-
-.custom-feedback {
-  display: grid;
-  gap: 0.375rem;
-}
-
-.custom-feedback strong {
-  color: var(--primary-text);
 }
 ```
 
@@ -479,8 +470,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
         fluid
       />
       <small aria-live="polite"
-        >Value: {{ clearablePassword() ? 'Present' : 'Empty' }}</small
-      >
+        >Value: {{ clearablePassword() ? 'Present' : 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -540,8 +530,8 @@ export class PasswordAutocompletePasswordManagerAutocompleteDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <label for="current-password">Current password</label
-    ><aeris-password
+    <label for="current-password">Current password</label>
+    <aeris-password
       inputId="current-password"
       autocomplete="current-password"
       [feedback]="false"
@@ -549,8 +539,8 @@ export class PasswordAutocompletePasswordManagerAutocompleteDemo {
     />
   </div>
   <div class="field">
-    <label for="new-password">New password</label
-    ><aeris-password inputId="new-password" autocomplete="new-password" fluid />
+    <label for="new-password">New password</label>
+    <aeris-password inputId="new-password" autocomplete="new-password" fluid />
   </div>
 </div>
 ```
@@ -623,31 +613,31 @@ export class PasswordSizesSizesDemo {
 ```html
 <div class="password-size-grid">
   <label
-    ><span>Extra small</span
-    ><aeris-password
+    ><span>Extra small</span>
+    <aeris-password
       ariaLabel="Extra small password"
       value="Password1!"
       size="xs"
       [feedback]="false"
   /></label>
   <label
-    ><span>Small</span
-    ><aeris-password
+    ><span>Small</span>
+    <aeris-password
       ariaLabel="Small password"
       value="Password1!"
       size="sm"
       [feedback]="false"
   /></label>
   <label
-    ><span>Medium</span
-    ><aeris-password
+    ><span>Medium</span>
+    <aeris-password
       ariaLabel="Medium password"
       value="Password1!"
       [feedback]="false"
   /></label>
   <label
-    ><span>Large</span
-    ><aeris-password
+    ><span>Large</span>
+    <aeris-password
       ariaLabel="Large password"
       value="Password1!"
       size="lg"
@@ -709,8 +699,8 @@ export class PasswordStatesAppearancesAndStatesDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <span>Filled</span
-    ><aeris-password
+    <span>Filled</span>
+    <aeris-password
       ariaLabel="Filled password"
       value="Password1!"
       appearance="filled"
@@ -719,8 +709,8 @@ export class PasswordStatesAppearancesAndStatesDemo {
     />
   </div>
   <div class="field">
-    <span>Disabled</span
-    ><aeris-password
+    <span>Disabled</span>
+    <aeris-password
       ariaLabel="Disabled password"
       value="Password1!"
       disabled
@@ -729,8 +719,8 @@ export class PasswordStatesAppearancesAndStatesDemo {
     />
   </div>
   <div class="field">
-    <span>Read-only</span
-    ><aeris-password
+    <span>Read-only</span>
+    <aeris-password
       ariaLabel="Read-only password"
       value="Password1!"
       readonly
@@ -739,8 +729,8 @@ export class PasswordStatesAppearancesAndStatesDemo {
     />
   </div>
   <div class="field">
-    <span>Without visibility action</span
-    ><aeris-password
+    <span>Without visibility action</span>
+    <aeris-password
       ariaLabel="Password without visibility action"
       value="Password1!"
       [toggleMask]="false"
@@ -839,12 +829,10 @@ export class PasswordValidationValidationDemo {
   />
   @if (validationInvalid()) {
     <small id="validated-password-message" class="error state-message"
-      >Use at least 12 characters.</small
-    >
+      >Use at least 12 characters.</small>
   } @else {
     <small id="validated-password-message" class="state-message"
-      >Use at least 12 characters.</small
-    >
+      >Use at least 12 characters.</small>
   }
 </div>
 ```

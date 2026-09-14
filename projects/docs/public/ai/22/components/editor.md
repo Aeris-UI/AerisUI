@@ -678,12 +678,10 @@ export class EditorValidationValidationDemo {
   />
   @if (validationInvalid()) {
     <small id="validated-editor-message" class="error state-message"
-      >Article body is required.</small
-    >
+      >Article body is required.</small>
   } @else {
     <small id="validated-editor-message" class="state-message"
-      >Use clear headings and concise paragraphs.</small
-    >
+      >Use clear headings and concise paragraphs.</small>
   }
 </div>
 ```

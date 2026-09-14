@@ -557,47 +557,35 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
 @Component({
   selector: 'app-panel-variants-demo',
   imports: [AerisPanelModule],
-  templateUrl: './panel-variants.demo.html',
-  styleUrl: './panel-variants.demo.scss'
+  template: `
+    <div>
+      <div class="panel-grid">
+        <aeris-panel header="Outlined" variant="outlined" size="sm"
+          ><p>Quiet bordered surface.</p></aeris-panel>
+        <aeris-panel header="Elevated" variant="elevated"
+          ><p>Raised container for prominence.</p></aeris-panel>
+        <aeris-panel header="Filled" variant="filled"
+          ><p>Soft background grouping.</p></aeris-panel>
+        <aeris-panel header="Plain" variant="plain" size="lg"
+          ><p>Header and content without an outer card.</p></aeris-panel>
+      </div>
+    </div>
+  `,
+  styles: `
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    @media (max-width: 42rem) {
+      .panel-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  `
 })
 export class PanelVariantsVariantsDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <div class="panel-grid">
-    <aeris-panel header="Outlined" variant="outlined" size="sm"
-      ><p>Quiet bordered surface.</p></aeris-panel
-    >
-    <aeris-panel header="Elevated" variant="elevated"
-      ><p>Raised container for prominence.</p></aeris-panel
-    >
-    <aeris-panel header="Filled" variant="filled"
-      ><p>Soft background grouping.</p></aeris-panel
-    >
-    <aeris-panel header="Plain" variant="plain" size="lg"
-      ><p>Header and content without an outer card.</p></aeris-panel
-    >
-  </div>
-</div>
-```
-
-#### CSS
-
-```css
-.panel-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-@media (max-width: 42rem) {
-  .panel-grid {
-    grid-template-columns: 1fr;
-  }
 }
 ```
 

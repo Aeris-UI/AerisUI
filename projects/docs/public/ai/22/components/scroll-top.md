@@ -258,23 +258,20 @@ export class ScrollTopSizesSizesDemo {
       strategy="absolute"
       size="sm"
       ariaLabel="Small scroll top"
-    />Small</span
-  >
+    />Small</span>
   <span
     ><aeris-scroll-top
       alwaysVisible
       strategy="absolute"
       ariaLabel="Medium scroll top"
-    />Medium</span
-  >
+    />Medium</span>
   <span
     ><aeris-scroll-top
       alwaysVisible
       strategy="absolute"
       size="lg"
       ariaLabel="Large scroll top"
-    />Large</span
-  >
+    />Large</span>
 </div>
 ```
 

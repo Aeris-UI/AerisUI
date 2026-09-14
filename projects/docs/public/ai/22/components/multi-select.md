@@ -184,8 +184,7 @@ import { type AerisSelectOption } from '@aeris-ui/core/select';
         (changed)="recordChange($event)"
       />
       <small aria-live="polite"
-        >{{ lastChange() }}. Values: {{ skills().join(', ') || 'None' }}</small
-      >
+        >{{ lastChange() }}. Values: {{ skills().join(', ') || 'None' }}</small>
     </div>
   `,
   styles: `
@@ -524,17 +523,14 @@ export class MultiSelectTemplatesOptionAndChipTemplatesDemo {
   >
     <ng-template aerisMultiSelectOption let-option>
       <span class="team-option"
-        ><strong>{{ option.label }}</strong
-        ><small>{{ option.description }}</small></span
-      >
+        ><strong>{{ option.label }}</strong>
+        <small>{{ option.description }}</small></span>
     </ng-template>
     <ng-template aerisMultiSelectChip let-option>{{ option.label }}</ng-template>
     <ng-template aerisMultiSelectHeader
-      ><strong>Product organization</strong></ng-template
-    >
+      ><strong>Product organization</strong></ng-template>
     <ng-template aerisMultiSelectFooter
-      ><small>Choose every team that should be notified.</small></ng-template
-    >
+      ><small>Choose every team that should be notified.</small></ng-template>
   </aeris-multi-select>
 </div>
 ```
@@ -805,31 +801,31 @@ export class MultiSelectSizesSizesDemo {
 ```html
 <div class="multi-select-size-grid">
   <label
-    ><span>Extra small</span
-    ><aeris-multi-select
+    ><span>Extra small</span>
+    <aeris-multi-select
       ariaLabel="Extra small skills"
       [options]="skillOptions"
       [value]="['angular']"
       size="xs"
   /></label>
   <label
-    ><span>Small</span
-    ><aeris-multi-select
+    ><span>Small</span>
+    <aeris-multi-select
       ariaLabel="Small skills"
       [options]="skillOptions"
       [value]="['angular']"
       size="sm"
   /></label>
   <label
-    ><span>Medium</span
-    ><aeris-multi-select
+    ><span>Medium</span>
+    <aeris-multi-select
       ariaLabel="Medium skills"
       [options]="skillOptions"
       [value]="['angular']"
   /></label>
   <label
-    ><span>Large</span
-    ><aeris-multi-select
+    ><span>Large</span>
+    <aeris-multi-select
       ariaLabel="Large skills"
       [options]="skillOptions"
       [value]="['angular']"
@@ -891,8 +887,8 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <span>Filled</span
-    ><aeris-multi-select
+    <span>Filled</span>
+    <aeris-multi-select
       ariaLabel="Filled skills"
       [options]="skillOptions"
       [value]="['angular']"
@@ -901,8 +897,8 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
     /><small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
-    <label for="skills-invalid">Required</label
-    ><aeris-multi-select
+    <label for="skills-invalid">Required</label>
+    <aeris-multi-select
       inputId="skills-invalid"
       [options]="skillOptions"
       [(value)]="invalidValues"
@@ -913,15 +909,14 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
     />
     @if (invalidValues().length === 0) {
       <small id="skills-error" class="error state-message"
-        >Choose at least one skill.</small
-      >
+        >Choose at least one skill.</small>
     } @else {
       <small class="state-message" aria-hidden="true">&nbsp;</small>
     }
   </div>
   <div class="field">
-    <span>Disabled</span
-    ><aeris-multi-select
+    <span>Disabled</span>
+    <aeris-multi-select
       ariaLabel="Disabled skills"
       [options]="skillOptions"
       [value]="['angular']"
@@ -930,8 +925,8 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
     /><small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
-    <span>Loading</span
-    ><aeris-multi-select
+    <span>Loading</span>
+    <aeris-multi-select
       ariaLabel="Loading skills"
       [options]="skillOptions"
       loading

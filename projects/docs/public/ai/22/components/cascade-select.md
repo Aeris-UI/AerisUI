@@ -146,8 +146,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
         fluid
       />
       <small id="cascade-basic-help"
-        >Open the panel, then move across the location hierarchy.</small
-      >
+        >Open the panel, then move across the location hierarchy.</small>
     </div>
   `,
   styles: `

@@ -321,8 +321,8 @@ export class SelectCheckmarkSelectionMarkDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <span>With mark</span
-    ><aeris-select
+    <span>With mark</span>
+    <aeris-select
       ariaLabel="Role with selection mark"
       [options]="roles"
       value="engineer"
@@ -330,8 +330,8 @@ export class SelectCheckmarkSelectionMarkDemo {
     />
   </div>
   <div class="field">
-    <span>Without mark</span
-    ><aeris-select
+    <span>Without mark</span>
+    <aeris-select
       ariaLabel="Role without selection mark"
       [options]="roles"
       value="engineer"
@@ -813,11 +813,9 @@ import { AerisSelect } from '@aeris-ui/core/select';
       <aeris-select inputId="panel-content" [options]="countries" filter fluid>
         <ng-template aerisSelectHeader><strong>Available regions</strong></ng-template>
         <ng-template aerisSelectGroup let-group
-          ><span>{{ group }}</span></ng-template
-        >
+          ><span>{{ group }}</span></ng-template>
         <ng-template aerisSelectFooter
-          ><small>Use search to narrow the list.</small></ng-template
-        >
+          ><small>Use search to narrow the list.</small></ng-template>
         <ng-template aerisSelectEmpty>No countries are configured.</ng-template>
         <ng-template aerisSelectEmptyFilter>No countries match this search.</ng-template>
       </aeris-select>
@@ -1023,28 +1021,28 @@ export class SelectSizesSizesDemo {
 ```html
 <div class="select-size-grid">
   <label
-    ><span>Extra small</span
-    ><aeris-select
+    ><span>Extra small</span>
+    <aeris-select
       ariaLabel="Extra small role"
       [options]="roles"
       value="designer"
       size="xs"
   /></label>
   <label
-    ><span>Small</span
-    ><aeris-select
+    ><span>Small</span>
+    <aeris-select
       ariaLabel="Small role"
       [options]="roles"
       value="designer"
       size="sm"
   /></label>
   <label
-    ><span>Medium</span
-    ><aeris-select ariaLabel="Medium role" [options]="roles" value="designer"
+    ><span>Medium</span>
+    <aeris-select ariaLabel="Medium role" [options]="roles" value="designer"
   /></label>
   <label
-    ><span>Large</span
-    ><aeris-select
+    ><span>Large</span>
+    <aeris-select
       ariaLabel="Large role"
       [options]="roles"
       value="designer"
@@ -1112,8 +1110,8 @@ export class SelectStatesAppearancesAndStatesDemo {
 ```html
 <div class="field-grid select-state-grid">
   <div class="field">
-    <label for="select-outline">Outlined</label
-    ><aeris-select
+    <label for="select-outline">Outlined</label>
+    <aeris-select
       inputId="select-outline"
       [options]="roles"
       value="designer"
@@ -1121,8 +1119,8 @@ export class SelectStatesAppearancesAndStatesDemo {
     /><small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
-    <label for="select-filled">Filled</label
-    ><aeris-select
+    <label for="select-filled">Filled</label>
+    <aeris-select
       inputId="select-filled"
       [options]="roles"
       value="engineer"
@@ -1131,8 +1129,8 @@ export class SelectStatesAppearancesAndStatesDemo {
     /><small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
-    <label for="select-invalid">Required</label
-    ><aeris-select
+    <label for="select-invalid">Required</label>
+    <aeris-select
       inputId="select-invalid"
       [options]="roles"
       [(value)]="invalidRole"
@@ -1148,8 +1146,8 @@ export class SelectStatesAppearancesAndStatesDemo {
     }
   </div>
   <div class="field">
-    <label for="select-disabled">Disabled</label
-    ><aeris-select
+    <label for="select-disabled">Disabled</label>
+    <aeris-select
       inputId="select-disabled"
       [options]="roles"
       value="manager"
@@ -1240,12 +1238,12 @@ export class SelectFeedbackLoadingAndEmptyStatesDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <span>Loading</span
-    ><aeris-select ariaLabel="Loading roles" [options]="roles" loading fluid />
+    <span>Loading</span>
+    <aeris-select ariaLabel="Loading roles" [options]="roles" loading fluid />
   </div>
   <div class="field">
-    <span>Empty</span
-    ><aeris-select
+    <span>Empty</span>
+    <aeris-select
       ariaLabel="Empty role list"
       [options]="[]"
       emptyMessage="No roles have been created"

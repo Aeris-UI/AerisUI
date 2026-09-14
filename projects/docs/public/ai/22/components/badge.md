@@ -229,46 +229,35 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
 @Component({
   selector: 'app-badge-dot-demo',
   imports: [AerisBadgeModule],
-  templateUrl: './badge-dot.demo.html',
-  styleUrl: './badge-dot.demo.scss'
+  template: `
+    <div>
+      <div class="badge-status-grid">
+        <span class="badge-status-item"
+          ><aeris-badge dot severity="success" role="status" ariaLabel="Online" />
+          Online</span>
+        <span class="badge-status-item"
+          ><aeris-badge dot severity="warning" role="status" ariaLabel="Away" />
+          Away</span>
+        <span class="badge-status-item"
+          ><aeris-badge dot severity="danger" role="status" ariaLabel="Offline" />
+          Offline</span>
+      </div>
+    </div>
+  `,
+  styles: `
+    .badge-status-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .badge-status-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  `
 })
 export class BadgeDotDotDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <div class="badge-status-grid">
-    <span class="badge-status-item"
-      ><aeris-badge dot severity="success" role="status" ariaLabel="Online" />
-      Online</span
-    >
-    <span class="badge-status-item"
-      ><aeris-badge dot severity="warning" role="status" ariaLabel="Away" />
-      Away</span
-    >
-    <span class="badge-status-item"
-      ><aeris-badge dot severity="danger" role="status" ariaLabel="Offline" />
-      Offline</span
-    >
-  </div>
-</div>
-```
-
-#### CSS
-
-```css
-.badge-status-grid {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.badge-status-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 ```
 

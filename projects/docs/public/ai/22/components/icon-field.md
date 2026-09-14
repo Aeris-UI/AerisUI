@@ -405,44 +405,44 @@ export class IconFieldSizesSizesDemo {
 ```html
 <div class="size-grid">
   <label
-    ><span>Extra small</span
-    ><aeris-icon-field size="xs"
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg
-      ><input
+    ><span>Extra small</span>
+    <aeris-icon-field size="xs"
+      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input
         aerisInputText
         size="xs"
         aria-label="Extra small search"
-        placeholder="Search" /></aeris-icon-field
-  ></label>
+        placeholder="Search" /></aeris-icon-field>
+        </label>
   <label
-    ><span>Small</span
-    ><aeris-icon-field size="sm"
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg
-      ><input
+    ><span>Small</span>
+    <aeris-icon-field size="sm"
+      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input
         aerisInputText
         size="sm"
         aria-label="Small search"
-        placeholder="Search" /></aeris-icon-field
-  ></label>
+        placeholder="Search" /></aeris-icon-field>
+        </label>
   <label
-    ><span>Medium</span
-    ><aeris-icon-field
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg
-      ><input
+    ><span>Medium</span>
+    <aeris-icon-field
+      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input
         aerisInputText
         aria-label="Medium search"
-        placeholder="Search" /></aeris-icon-field
-  ></label>
+        placeholder="Search" /></aeris-icon-field>
+        </label>
   <label
-    ><span>Large</span
-    ><aeris-icon-field size="lg"
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg
-      ><input
+    ><span>Large</span>
+    <aeris-icon-field size="lg"
+      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input
         aerisInputText
         size="lg"
         aria-label="Large search"
-        placeholder="Search" /></aeris-icon-field
-  ></label>
+        placeholder="Search" /></aeris-icon-field>
+        </label>
 </div>
 ```
 
@@ -505,22 +505,22 @@ export class IconFieldStatesAppearancesAndStatesDemo {
   <div class="field">
     <span>Filled</span>
     <aeris-icon-field appearance="filled" fluid
-      ><svg aerisIcon [lucideIcon]="icons.Mail"></svg
-      ><input aerisInputText aria-label="Filled email" placeholder="Email" fluid
+      ><svg aerisIcon [lucideIcon]="icons.Mail"></svg>
+      <input aerisInputText aria-label="Filled email" placeholder="Email" fluid
     /></aeris-icon-field>
   </div>
   <div class="field">
     <span>Compact</span>
     <aeris-icon-field density="compact" fluid
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg
-      ><input aerisInputText aria-label="Compact search" placeholder="Search" fluid
+      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input aerisInputText aria-label="Compact search" placeholder="Search" fluid
     /></aeris-icon-field>
   </div>
   <div class="field">
     <span>Disabled</span>
     <aeris-icon-field disabled fluid
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg
-      ><input
+      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input
         aerisInputText
         aria-label="Disabled search"
         placeholder="Search"
@@ -531,8 +531,8 @@ export class IconFieldStatesAppearancesAndStatesDemo {
   <div class="field">
     <span>Invalid</span>
     <aeris-icon-field invalid fluid
-      ><svg aerisIcon [lucideIcon]="icons.AlertTriangle"></svg
-      ><input
+      ><svg aerisIcon [lucideIcon]="icons.AlertTriangle"></svg>
+      <input
         aerisInputText
         aria-label="Invalid email"
         value="alex@"
@@ -702,8 +702,7 @@ export class IconFieldValidationValidationDemo {
   </aeris-icon-field>
   @if (emailInvalid()) {
     <small id="icon-email-message" class="error state-message"
-      >Enter a valid email address.</small
-    >
+      >Enter a valid email address.</small>
   } @else {
     <small id="icon-email-message" class="state-message">Use your work email.</small>
   }

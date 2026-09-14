@@ -468,8 +468,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
           href="https://github.com"
           target="_blank"
           rel="noopener noreferrer"
-          >Open GitHub</a
-        >
+          >Open GitHub</a>
       </aeris-button-group>
     </div>
   `,
