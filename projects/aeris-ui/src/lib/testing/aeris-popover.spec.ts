@@ -9,12 +9,7 @@ import {
 
 const settle = () => new Promise<void>((resolve) => queueMicrotask(resolve));
 
-const rect = (
-  left: number,
-  top: number,
-  width: number,
-  height: number,
-): DOMRect =>
+const rect = (left: number, top: number, width: number, height: number): DOMRect =>
   ({
     left,
     top,
@@ -37,8 +32,8 @@ const rect = (
       placement="bottom"
       initialFocus="#first-action"
       closable
-      (shown)="shownCount.update((count) => count + 1)"
-      (hidden)="lastHidden.set($event)"
+      (opened)="shownCount.update((count) => count + 1)"
+      (closed)="lastHidden.set($event)"
     >
       <p id="copy">Track flight progress and gate changes.</p>
       <button type="button" id="first-action">Track flight</button>
@@ -60,7 +55,7 @@ class BasicPopoverHost {
       [target]="target"
       header="Controlled"
       [(visible)]="open"
-      (hidden)="lastHidden.set($event)"
+      (closed)="lastHidden.set($event)"
     >
       <button type="button" id="controlled-action">Action</button>
     </aeris-popover>
@@ -183,7 +178,7 @@ describe('AerisPopover', () => {
     expect(fixture.componentInstance.open()).toBe(false);
   });
 
-  it('dismisses on outside pointerdown when dismissible', async () => {
+  it('dismisses on outside pointerdown when closeOnOutsideClick', async () => {
     const fixture = TestBed.createComponent(BasicPopoverHost);
     await fixture.whenStable();
 
@@ -208,9 +203,7 @@ describe('AerisPopover', () => {
     fixture.detectChanges();
     await settle();
 
-    expect(document.querySelector('.custom-header')?.textContent).toContain(
-      'Template header',
-    );
+    expect(document.querySelector('.custom-header')?.textContent).toContain('Template header');
     expect(document.querySelector('.custom-close')?.textContent).toContain('x');
     expect(document.querySelector('#template-close')).toBeTruthy();
   });
@@ -224,9 +217,7 @@ describe('AerisPopover', () => {
     fixture.detectChanges();
     await settle();
 
-    expect(document.querySelector('.headless-shell')?.textContent).toContain(
-      'Headless content',
-    );
+    expect(document.querySelector('.headless-shell')?.textContent).toContain('Headless content');
     expect(document.querySelector('#headless-close')).toBeTruthy();
   });
 });

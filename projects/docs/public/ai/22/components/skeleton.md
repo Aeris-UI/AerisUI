@@ -2,7 +2,7 @@
 
 > Compose responsive loading placeholders with text, rectangle, and circle shapes plus motion-safe animations.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/skeleton`
 - Human-readable documentation: [https://aeris-ui.dev/components/skeleton](https://aeris-ui.dev/components/skeleton)
@@ -351,7 +351,7 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
       gap: 1rem;
     }
-    
+
     .skeleton-grid__card {
       min-width: 0;
       display: grid;
@@ -403,7 +403,7 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
       padding: 0;
       list-style: none;
     }
-    
+
     .skeleton-list li {
       min-width: 0;
       display: grid;
@@ -413,7 +413,7 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
       padding: 0.875rem 0;
       border-bottom: 1px solid var(--aeris-border);
     }
-    
+
     .skeleton-list__lines {
       min-width: 0;
       display: grid;

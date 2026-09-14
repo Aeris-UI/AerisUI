@@ -2,7 +2,7 @@
 
 > Floating action that returns long pages to the top with accessible controls.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/scroll-top`
 - Human-readable documentation: [https://aeris-ui.dev/components/scroll-top](https://aeris-ui.dev/components/scroll-top)
@@ -116,7 +116,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
       background: var(--aeris-surface-2);
       overflow: hidden;
     }
-    
+
     .scroll-top-preview aeris-scroll-top,
     .scroll-top-position-grid aeris-scroll-top,
     .scroll-top-size-row aeris-scroll-top {
@@ -349,7 +349,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -357,13 +357,13 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

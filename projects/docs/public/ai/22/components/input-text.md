@@ -2,7 +2,7 @@
 
 > Single-line text input with validation, adornments, and Signal Forms support.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/input-text`
 - Human-readable documentation: [https://aeris-ui.dev/components/input-text](https://aeris-ui.dev/components/input-text)
@@ -32,6 +32,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 | `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Expands the native input to fill its available inline space. |
 
 ### Component Inputs
@@ -45,11 +46,12 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 | `placeholder` | `string` | `''` | Native placeholder text. |
 | `autocomplete` | `string` | `'off'` | Native autocomplete hint. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label is associated. |
-| `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
-| `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help or validation messages. |
+| `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
+| `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help or validation messages. |
 | `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Expands the native input to fill its available inline space. |
 | `disabled` | `boolean` | `false` | Disables the input and clear action. |
 | `readonly` | `boolean` | `false` | Allows focus and selection without editing. |
@@ -126,7 +128,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -134,13 +136,13 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -448,7 +450,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.25rem;
     }
-    
+
     .field {
       min-width: 0;
       display: grid;
@@ -456,7 +458,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -464,17 +466,17 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     @media (max-width: 42rem) {
       .field-grid {
         grid-template-columns: 1fr;
@@ -600,7 +602,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -608,13 +610,13 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -761,7 +763,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -769,13 +771,13 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -826,7 +828,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -834,13 +836,13 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

@@ -2,7 +2,7 @@
 
 > Single and range value selection with pointer, touch, and complete keyboard support.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/slider`
 - Human-readable documentation: [https://aeris-ui.dev/components/slider](https://aeris-ui.dev/components/slider)
@@ -42,8 +42,8 @@ import { AerisSlider } from '@aeris-ui/core/slider';
 | `name` | `string` | `''` | Hidden native form field name. |
 | `inputId` | `string` | `generated` | Single-thumb ID or base ID for range thumbs. |
 | `ariaLabel` | `string` | `'Value'` | Accessible name for a single slider thumb. |
-| `ariaLabelledby` | `string` | `''` | IDs of external elements labelling a single thumb. |
-| `ariaDescribedby` | `string` | `''` | IDs of shared instructions and validation messages. |
+| `ariaLabelledBy` | `string` | `''` | IDs of external elements labelling a single thumb. |
+| `ariaDescribedBy` | `string` | `''` | IDs of shared instructions and validation messages. |
 | `lowerAriaLabel` | `string` | `'Minimum value'` | Accessible name for the lower range thumb. |
 | `upperAriaLabel` | `string` | `'Maximum value'` | Accessible name for the upper range thumb. |
 | `lowerAriaLabelledby` | `string` | `''` | External label IDs for the lower thumb. |
@@ -57,6 +57,7 @@ import { AerisSlider } from '@aeris-ui/core/slider';
 | `disabled` | `boolean` | `false` | Disables pointer, keyboard, and form interaction. |
 | `readonly` | `boolean` | `false` | Keeps thumbs focusable while preventing changes. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Expands a horizontal slider to available width. |
 
 ### Outputs
@@ -64,7 +65,6 @@ import { AerisSlider } from '@aeris-ui/core/slider';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `valueChange` | `AerisSliderValue` | `-` | Emitted automatically by the value model. |
-| `valueInput` | `AerisSliderValue` | `-` | Emitted whenever interaction updates the value. |
 | `sliding` | `AerisSliderInputEvent` | `-` | Continuous pointer and keyboard value updates. |
 | `changed` | `AerisSliderChangeEvent` | `-` | Committed keyboard update or completed pointer drag. |
 | `focused` | `FocusEvent` | `-` | Emitted when either thumb receives focus. |
@@ -132,7 +132,7 @@ interface AerisSliderChangeEvent {
 
 ### Basic
 
-Bind a numeric signal and associate a visible label through ariaLabelledby.
+Bind a numeric signal and associate a visible label through ariaLabelledBy.
 
 #### TS
 
@@ -146,7 +146,7 @@ import { AerisSlider, type AerisSliderValue } from '@aeris-ui/core/slider';
   template: `
     <div class="field">
       <span id="volume-label">Volume</span>
-      <aeris-slider ariaLabelledby="volume-label" [(value)]="volume" showValue fluid />
+      <aeris-slider ariaLabelledBy="volume-label" [(value)]="volume" showValue fluid />
     </div>
   `,
   styles: `
@@ -157,7 +157,7 @@ import { AerisSlider, type AerisSliderValue } from '@aeris-ui/core/slider';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -165,13 +165,13 @@ import { AerisSlider, type AerisSliderValue } from '@aeris-ui/core/slider';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -273,7 +273,7 @@ import { AerisSlider } from '@aeris-ui/core/slider';
     <div class="field">
       <span id="rating-label">Rating</span>
       <aeris-slider
-        ariaLabelledby="rating-label"
+        ariaLabelledBy="rating-label"
         [value]="6"
         [min]="0"
         [max]="10"
@@ -292,7 +292,7 @@ import { AerisSlider } from '@aeris-ui/core/slider';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -300,13 +300,13 @@ import { AerisSlider } from '@aeris-ui/core/slider';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -345,7 +345,7 @@ export class SliderValuesFormattedValuesAndTooltipsDemo {
 <div class="field">
   <span id="budget-label">Monthly budget</span>
   <aeris-slider
-    ariaLabelledby="budget-label"
+    ariaLabelledBy="budget-label"
     [value]="65"
     [min]="0"
     [max]="100"
@@ -417,7 +417,7 @@ export class SliderOrientationOrientationDemo {
     <span id="temperature-label">Temperature</span>
     <aeris-slider
       orientation="vertical"
-      ariaLabelledby="temperature-label"
+      ariaLabelledBy="temperature-label"
       [min]="0"
       [max]="40"
       [(value)]="temperature"
@@ -504,7 +504,7 @@ import { AerisSlider } from '@aeris-ui/core/slider';
     <div class="field">
       <span id="priority-label">Descending priority</span>
       <aeris-slider
-        ariaLabelledby="priority-label"
+        ariaLabelledBy="priority-label"
         [value]="30"
         reversed
         showValue
@@ -521,7 +521,7 @@ import { AerisSlider } from '@aeris-ui/core/slider';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -529,13 +529,13 @@ import { AerisSlider } from '@aeris-ui/core/slider';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -605,7 +605,7 @@ export class SliderStatesStatesDemo {
   <div class="field">
     <span id="readonly-slider-label">Read-only</span>
     <aeris-slider
-      ariaLabelledby="readonly-slider-label"
+      ariaLabelledBy="readonly-slider-label"
       [value]="35"
       readonly
       fluid
@@ -614,7 +614,7 @@ export class SliderStatesStatesDemo {
   <div class="field">
     <span id="disabled-slider-label">Disabled</span>
     <aeris-slider
-      ariaLabelledby="disabled-slider-label"
+      ariaLabelledBy="disabled-slider-label"
       [value]="50"
       disabled
       fluid
@@ -623,8 +623,8 @@ export class SliderStatesStatesDemo {
   <div class="field">
     <span id="invalid-slider-label">Invalid</span>
     <aeris-slider
-      ariaLabelledby="invalid-slider-label"
-      ariaDescribedby="slider-error"
+      ariaLabelledBy="invalid-slider-label"
+      ariaDescribedBy="slider-error"
       [value]="90"
       invalid
       fluid
@@ -760,7 +760,7 @@ export class SliderFormsReactiveAndTemplateDrivenFormsDemo {
   <div class="field">
     <span id="reactive-slider-label">Reactive Forms</span>
     <aeris-slider
-      ariaLabelledby="reactive-slider-label"
+      ariaLabelledBy="reactive-slider-label"
       [formControl]="reactiveValue"
       showValue
       fluid
@@ -828,7 +828,7 @@ export class SliderFormsReactiveAndTemplateDrivenFormsDemo {
 
 - Each thumb exposes role="slider", orientation, current value, bounds, and formatted value text.
 - Range thumbs receive independent accessible names and dynamic bounds that describe the permitted interval.
-- Use ariaLabelledby with a visible label for single sliders. Use the lower and upper label inputs for range sliders.
+- Use ariaLabelledBy with a visible label for single sliders. Use the lower and upper label inputs for range sliders.
 - valueText keeps visible formatting and aria-valuetext synchronized for units such as currency or temperature.
 - Pointer dragging uses capture, supports touch input, and aligns every value to the configured step.
 - Read-only thumbs remain focusable and expose their value. Disabled thumbs use native disabled behavior.

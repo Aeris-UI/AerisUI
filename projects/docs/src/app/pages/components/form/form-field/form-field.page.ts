@@ -201,6 +201,13 @@ protected readonly validationInvalid = computed(
         'Shows the error, applies invalid presentation, and includes its ID in describedBy().',
     },
     {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it.',
+    },
+    {
       name: 'disabled',
       type: 'boolean',
       defaultValue: 'false',
@@ -239,7 +246,7 @@ protected readonly validationInvalid = computed(
       description: 'Reserves one message line so adjacent grid fields remain visually stable.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string',
       defaultValue: "''",
       description: 'Additional description IDs merged into the generated describedBy() value.',
@@ -280,7 +287,7 @@ protected readonly validationInvalid = computed(
       type: 'string',
       defaultValue: "''",
       description:
-        'Additional description IDs merged with the FormField IDs. The TypeScript property name is ariaDescribedby.',
+        'Additional description IDs merged with the FormField IDs. The TypeScript property name is ariaDescribedBy.',
     },
     {
       owner: 'aerisFormHint',
@@ -318,7 +325,7 @@ protected readonly validationInvalid = computed(
       name: 'labelId',
       type: 'Signal<string>',
       defaultValue: 'derived',
-      description: 'Generated label ID for ariaLabelledby on Aeris or custom controls.',
+      description: 'Generated label ID for ariaLabelledBy on Aeris or custom controls.',
     },
     {
       name: 'hintId',

@@ -28,7 +28,8 @@ import {
 
 export type AerisTooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 export type AerisTooltipEvent = 'hover' | 'focus' | 'both';
-export type AerisTooltipContent = string | TemplateRef<AerisTooltipTemplateContext> | null | undefined;
+export type AerisTooltipContent =
+  string | TemplateRef<AerisTooltipTemplateContext> | null | undefined;
 export type AerisTooltipCloseReason = 'api' | 'escape' | 'blur' | 'pointerleave' | 'disabled';
 
 export interface AerisTooltipTemplateContext {
@@ -59,10 +60,7 @@ let nextTooltipId = 0;
     >
       <span class="aeris-tooltip__arrow" aria-hidden="true"></span>
       @if (templateContent(); as template) {
-        <ng-container
-          [ngTemplateOutlet]="template"
-          [ngTemplateOutletContext]="templateContext()"
-        />
+        <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="templateContext()" />
       } @else {
         {{ text() }}
       }
@@ -133,8 +131,8 @@ export class AerisTooltip {
     transform: booleanAttribute,
   });
 
-  readonly shown = output<AerisTooltipVisibilityEvent>({ alias: 'aerisTooltipShown' });
-  readonly hidden = output<AerisTooltipVisibilityEvent>({ alias: 'aerisTooltipHidden' });
+  readonly opened = output<AerisTooltipVisibilityEvent>({ alias: 'aerisTooltipOpened' });
+  readonly closed = output<AerisTooltipVisibilityEvent>({ alias: 'aerisTooltipClosed' });
 
   constructor() {
     this.destroyRef.onDestroy(() => {
@@ -162,10 +160,7 @@ export class AerisTooltip {
     }
   }
 
-  hide(
-    originalEvent: Event | null = null,
-    reason: AerisTooltipCloseReason = 'api',
-  ): void {
+  hide(originalEvent: Event | null = null, reason: AerisTooltipCloseReason = 'api'): void {
     this.clearShowTimer();
     this.clearHideTimer();
     const delay = Math.max(0, this.hideDelay());
@@ -228,7 +223,7 @@ export class AerisTooltip {
 
     if (!this.visible) {
       this.visible = true;
-      this.shown.emit({ originalEvent, visible: true, reason: 'show' });
+      this.opened.emit({ originalEvent, visible: true, reason: 'show' });
     }
   }
 
@@ -238,7 +233,7 @@ export class AerisTooltip {
     this.destroyOverlay();
     if (!this.visible) return;
     this.visible = false;
-    this.hidden.emit({ originalEvent, visible: false, reason });
+    this.closed.emit({ originalEvent, visible: false, reason });
   }
 
   private ensureOverlay(): ComponentRef<AerisTooltipOverlay> {
@@ -249,10 +244,7 @@ export class AerisTooltip {
     });
     this.overlayRef = overlayRef;
     this.appRef.attachView(overlayRef.hostView);
-    const target = ɵaerisResolveAppendTo(
-      this.appendTo() ?? this.defaultAppendTo,
-      this.document,
-    );
+    const target = ɵaerisResolveAppendTo(this.appendTo() ?? this.defaultAppendTo, this.document);
     // A tooltip directive can be hosted by void or interactive elements such as inputs and
     // buttons. Appending generated content inside those hosts is invalid or not rendered, so
     // Tooltip's natural `self` layer is the document body. Explicit DOM targets remain supported.
@@ -359,7 +351,9 @@ export class AerisTooltip {
 
   private addTooltipDescription(): void {
     const host = this.host.nativeElement;
-    const ids = new Set((host.getAttribute('aria-describedby') ?? '').split(/\s+/u).filter(Boolean));
+    const ids = new Set(
+      (host.getAttribute('aria-describedby') ?? '').split(/\s+/u).filter(Boolean),
+    );
     ids.add(this.tooltipId);
     host.setAttribute('aria-describedby', [...ids].join(' '));
   }

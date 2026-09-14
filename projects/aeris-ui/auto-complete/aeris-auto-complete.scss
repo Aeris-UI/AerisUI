@@ -157,11 +157,9 @@
 }
 
 .aeris-auto-complete__clear:hover,
+.aeris-auto-complete__clear:focus-visible,
 .aeris-auto-complete__dropdown:hover {
-  background: var(
-    --aeris-auto-complete-option-hover,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
-  );
+  background: var(--aeris-surface-2, #f2f0ec);
   color: var(--aeris-text, #222222);
 }
 

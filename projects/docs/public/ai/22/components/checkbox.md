@@ -2,7 +2,7 @@
 
 > Binary and mixed-state selection with native form semantics.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/checkbox`
 - Human-readable documentation: [https://aeris-ui.dev/components/checkbox](https://aeris-ui.dev/components/checkbox)
@@ -36,14 +36,15 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 | `value` | `string` | `'on'` | Value submitted by a native form when checked. |
 | `label` | `string` | `''` | Optional text label. Projected label content is also supported. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name for a checkbox without visible label content. |
-| `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of external labeling elements. |
-| `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of external labeling elements. |
+| `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
 | `size` | `AerisCheckboxSize` | `'md'` | Control and label size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `labelPosition` | `AerisCheckboxLabelPosition` | `'end'` | Places the visible label before or after the control. Options: 'start', 'end'. |
 | `tabIndex` | `number` | `0` | Native tab order value for composite widgets that manage focus. |
 | `disabled` | `boolean` | `false` | Disables native interaction and form submission. |
 | `required` | `boolean` | `false` | Exposes native required validation semantics. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 
 ### Checkbox outputs
 
@@ -51,7 +52,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 | --- | --- | --- |
 | checkedChange | boolean | Emitted automatically by the checked model. |
 | indeterminateChange | boolean | Emitted automatically by the indeterminate model. |
-| checkedInput | boolean | Emitted when user or public method interaction changes checked state. |
+| checkedChange | boolean | Emitted when user or public method interaction changes checked state. |
 | changed | AerisCheckboxChangeEvent | Native event, checked state, mixed state, and submitted value. |
 | focused | FocusEvent | Emitted when the native checkbox receives focus. |
 | blurred | FocusEvent | Emitted when the native checkbox loses focus. |
@@ -151,7 +152,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       display: grid;
       gap: 0.875rem;
     }
-    
+
     .checkbox-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -196,7 +197,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       display: grid;
       gap: 0.875rem;
     }
-    
+
     .checkbox-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -349,7 +350,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
@@ -390,13 +391,13 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
       }
     }
-    
+
     .checkbox-label-position {
       align-items: center;
     }
@@ -434,11 +435,11 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       display: inline-grid;
       gap: 0.15rem;
     }
-    
+
     .checkbox-rich-label strong {
       color: var(--aeris-text);
     }
-    
+
     .checkbox-rich-label small {
       color: var(--aeris-text-2);
       font-size: 0.75rem;
@@ -477,7 +478,7 @@ export class CheckboxStatesRequiredInvalidAndDisabledDemo {
     inputId="required-terms"
     required
     invalid
-    ariaDescribedby="required-terms-error"
+    ariaDescribedBy="required-terms-error"
   >
     Accept terms
   </aeris-checkbox>
@@ -573,7 +574,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.25rem;
     }
-    
+
     .field {
       min-width: 0;
       display: grid;
@@ -581,7 +582,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -589,17 +590,17 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     @media (max-width: 42rem) {
       .field-grid {
         grid-template-columns: 1fr;
@@ -621,8 +622,8 @@ export class CheckboxAngularFormsReactiveAndTemplateDrivenFormsDemo {
 - Projected content and the label input are wrapped in one native label, expanding the pointer target.
 - Space toggles the focused checkbox. Native tab order and disabled behavior are preserved.
 - Mixed state is applied through the native indeterminate property and announced as partially checked by supporting screen readers.
-- Use a visible label whenever possible. For icon-only or externally labeled controls, use ariaLabel or ariaLabelledby.
-- Connect help and error text through ariaDescribedby. The invalid input synchronizes aria-invalid.
+- Use a visible label whenever possible. For icon-only or externally labeled controls, use ariaLabel or ariaLabelledBy.
+- Connect help and error text through ariaDescribedBy. The invalid input synchronizes aria-invalid.
 - Selection groups should use a fieldset and legend to communicate their shared question.
 - ControlValueAccessor support synchronizes checked, touched, and disabled state with Reactive Forms and template-driven forms.
 - Focus indicators meet the WCAG 2.2 target and animations respect reduced-motion preferences.

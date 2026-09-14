@@ -2,7 +2,7 @@
 
 > Accessible toggleswitch component for Angular.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/toggle-switch`
 - Human-readable documentation: [https://aeris-ui.dev/components/toggle-switch](https://aeris-ui.dev/components/toggle-switch)
@@ -35,20 +35,20 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
 | `value` | `string` | `'on'` | Value submitted by a native form while checked. |
 | `label` | `string` | `''` | Optional visible text label. Projected label content is also supported. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label content exists. |
-| `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of external elements that label the switch. |
-| `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of external elements that label the switch. |
+| `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
 | `size` | `AerisToggleSwitchSize` | `'md'` | Track, thumb, gap, and label size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `labelPosition` | `AerisToggleSwitchLabelPosition` | `'end'` | Places visible label content before or after the control. Options: 'start', 'end'. |
 | `disabled` | `boolean` | `false` | Disables interaction and native form submission. |
 | `required` | `boolean` | `false` | Exposes native required validation semantics. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 
 ### Outputs
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `checkedChange` | `boolean` | `-` | Emitted automatically by the checked model. |
-| `checkedInput` | `boolean` | `-` | Emitted when user interaction or a public method changes state. |
 | `changed` | `AerisToggleSwitchChangeEvent` | `-` | Provides the native event, checked state, and submitted value. |
 | `focused` | `FocusEvent` | `-` | Emitted when the native switch receives focus. |
 | `blurred` | `FocusEvent` | `-` | Emitted when the native switch loses focus. |
@@ -156,7 +156,7 @@ import { AerisToggleSwitch, type AerisToggleSwitchChangeEvent } from '@aeris-ui/
       display: grid;
       gap: 0.875rem;
     }
-    
+
     .switch-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -206,7 +206,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
@@ -247,7 +247,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
@@ -287,11 +287,11 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
       display: inline-grid;
       gap: 0.15rem;
     }
-    
+
     .switch-rich-label strong {
       color: var(--aeris-text);
     }
-    
+
     .switch-rich-label small {
       color: var(--aeris-text-2);
       font-size: 0.75rem;
@@ -370,7 +370,7 @@ export class ToggleSwitchValidationValidationDemo {
     inputId="toggle-consent"
     required
     [invalid]="consentInvalid()"
-    ariaDescribedby="toggle-consent-message"
+    ariaDescribedBy="toggle-consent-message"
     [(checked)]="consent"
     (blurred)="consentTouched.set(true)"
   >
@@ -523,8 +523,8 @@ export class ToggleSwitchAngularFormsReactiveAndTemplateDrivenFormsDemo {
 - ToggleSwitch uses a native input type="checkbox" with role="switch", preserving browser form behavior while exposing switch semantics.
 - Projected content and the label input form a native clickable label and enlarge the pointer target.
 - Use ToggleSwitch for settings that take effect immediately. Use Checkbox for selections that are submitted together.
-- Use visible label content whenever possible. Otherwise provide ariaLabel or ariaLabelledby.
-- Connect instructions and errors with ariaDescribedby. Required and invalid state are synchronized with ARIA.
+- Use visible label content whenever possible. Otherwise provide ariaLabel or ariaLabelledBy.
+- Connect instructions and errors with ariaDescribedBy. Required and invalid state are synchronized with ARIA.
 - ControlValueAccessor synchronizes checked, touched, and disabled state with Reactive Forms and template-driven forms.
 - Focus indicators meet WCAG 2.2 requirements and thumb motion respects reduced-motion preferences.
 

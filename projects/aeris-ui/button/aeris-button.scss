@@ -38,7 +38,8 @@
 }
 
 :host(:focus-visible) {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 44%, transparent);
+  outline: 3px solid
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 44%, transparent);
   outline-offset: 2px;
 }
 
@@ -48,18 +49,11 @@
   cursor: not-allowed;
 }
 
-:host(.aeris-button--primary) {
+:host(.aeris-button--solid) {
   border-color: var(--_aeris-button-boundary);
   background: var(--_aeris-button-fill);
   color: var(--_aeris-button-on-fill);
   box-shadow: 0 1px 2px color-mix(in srgb, var(--_aeris-button-fill) 40%, transparent);
-}
-
-:host(.aeris-button--secondary) {
-  border-color: var(--aeris-border, #deddd7);
-  background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
-  box-shadow: var(--aeris-shadow-sm, 0 1px 2px rgb(31 35 27 / 6%));
 }
 
 :host(.aeris-button--outline) {
@@ -73,24 +67,14 @@
   color: var(--_aeris-button-text);
 }
 
-:host(.aeris-button--danger) {
-  background: color-mix(in srgb, var(--aeris-danger, #c81e2a) 12%, transparent);
-  color: var(--aeris-danger, #c81e2a);
-}
-
 @media (hover: hover) and (pointer: fine) {
   :host(:hover:not(:disabled)) {
     transform: translateY(-1px);
   }
 
-  :host(.aeris-button--primary:hover:not(:disabled)) {
+  :host(.aeris-button--solid:hover:not(:disabled)) {
     background: var(--_aeris-button-hover-fill);
     color: var(--_aeris-button-on-hover);
-  }
-
-  :host(.aeris-button--secondary:hover:not(:disabled)) {
-    border-color: var(--aeris-border, #deddd7);
-    background: var(--aeris-surface-2, #f2f0ec);
   }
 
   :host(.aeris-button--outline:hover:not(:disabled)) {
@@ -103,17 +87,13 @@
     background: var(--_aeris-button-soft);
     color: var(--_aeris-button-on-soft);
   }
-
-  :host(.aeris-button--danger:hover:not(:disabled)) {
-    background: color-mix(in srgb, var(--aeris-danger, #c81e2a) 20%, transparent);
-  }
 }
 
 :host(:active:not(:disabled)) {
   transform: translateY(0);
 }
 
-:host(.aeris-button--primary:active:not(:disabled)) {
+:host(.aeris-button--solid:active:not(:disabled)) {
   background: var(--_aeris-button-active-fill);
   color: var(--_aeris-button-on-active);
 }
@@ -267,7 +247,7 @@
   --_aeris-button-on-soft: var(--aeris-on-secondary-soft, var(--_aeris-button-text));
 }
 
-:host([data-plain='true']) {
+:host(.aeris-button--severity-neutral) {
   --_aeris-button-fill: var(--aeris-text-2, #555555);
   --_aeris-button-boundary: var(--_aeris-button-fill);
   --_aeris-button-hover-fill: var(--aeris-text, #222222);

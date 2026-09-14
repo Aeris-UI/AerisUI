@@ -36,7 +36,7 @@ export interface AerisDynamicDialogConfig<TData = unknown> {
   readonly backdrop?: boolean;
   readonly backdropBlur?: boolean;
   readonly backdropBlurAmount?: string;
-  readonly dismissibleMask?: boolean;
+  readonly closeOnBackdropClick?: boolean;
   readonly closeOnEscape?: boolean;
   readonly closable?: boolean;
   readonly maximizable?: boolean;
@@ -71,7 +71,7 @@ export interface AerisDynamicDialogResolvedConfig<TData = unknown> {
   readonly backdrop: boolean;
   readonly backdropBlur: boolean;
   readonly backdropBlurAmount: string;
-  readonly dismissibleMask: boolean;
+  readonly closeOnBackdropClick: boolean;
   readonly closeOnEscape: boolean;
   readonly closable: boolean;
   readonly maximizable: boolean;
@@ -97,7 +97,7 @@ export interface AerisDynamicDialogResolvedConfig<TData = unknown> {
   readonly ariaDescribedBy: string;
 }
 
-export interface AerisDynamicDialogShowEvent {
+export interface AerisDynamicDialogOpenEvent {
   readonly originalEvent: Event | null;
 }
 
@@ -115,13 +115,11 @@ export interface AerisDynamicDialogSubscribable<T> {
   subscribe(next: (event: T) => void): AerisDynamicDialogSubscription;
 }
 
-export const AERIS_DYNAMIC_DIALOG_CONFIG = new InjectionToken<
-  AerisDynamicDialogResolvedConfig
->('AERIS_DYNAMIC_DIALOG_CONFIG');
-
-export const AERIS_DYNAMIC_DIALOG_DATA = new InjectionToken<unknown>(
-  'AERIS_DYNAMIC_DIALOG_DATA',
+export const AERIS_DYNAMIC_DIALOG_CONFIG = new InjectionToken<AerisDynamicDialogResolvedConfig>(
+  'AERIS_DYNAMIC_DIALOG_CONFIG',
 );
+
+export const AERIS_DYNAMIC_DIALOG_DATA = new InjectionToken<unknown>('AERIS_DYNAMIC_DIALOG_DATA');
 
 interface AerisDynamicDialogRefController<TResult> {
   readonly close: (result: TResult | undefined, originalEvent: Event | null) => void;
@@ -161,13 +159,13 @@ export class AerisDynamicDialogRef<TResult = unknown> {
   private readonly closedStream = new AerisDynamicDialogEventStream<
     AerisDynamicDialogCloseEvent<TResult>
   >();
-  private readonly shownStream = new AerisDynamicDialogEventStream<AerisDynamicDialogShowEvent>();
+  private readonly openedStream = new AerisDynamicDialogEventStream<AerisDynamicDialogOpenEvent>();
   private controller: AerisDynamicDialogRefController<TResult> | null = null;
   private closedOnce = false;
 
   readonly closed: AerisDynamicDialogSubscribable<AerisDynamicDialogCloseEvent<TResult>> =
     this.closedStream;
-  readonly shown: AerisDynamicDialogSubscribable<AerisDynamicDialogShowEvent> = this.shownStream;
+  readonly opened: AerisDynamicDialogSubscribable<AerisDynamicDialogOpenEvent> = this.openedStream;
 
   close(result?: TResult, originalEvent: Event | null = null): void {
     if (this.closedOnce) return;
@@ -179,7 +177,7 @@ export class AerisDynamicDialogRef<TResult = unknown> {
     this.closedOnce = true;
     this.controller?.destroy();
     this.closedStream.complete();
-    this.shownStream.complete();
+    this.openedStream.complete();
     this.controller = null;
   }
 
@@ -203,9 +201,9 @@ export class AerisDynamicDialogRef<TResult = unknown> {
     this.controller = controller;
   }
 
-  notifyShown(event: AerisDynamicDialogShowEvent): void {
+  notifyOpened(event: AerisDynamicDialogOpenEvent): void {
     if (this.closedOnce) return;
-    this.shownStream.next(event);
+    this.openedStream.next(event);
   }
 
   notifyClosed(event: AerisDynamicDialogCloseEvent<TResult>): void {
@@ -213,7 +211,7 @@ export class AerisDynamicDialogRef<TResult = unknown> {
     this.closedOnce = true;
     this.closedStream.next(event);
     this.closedStream.complete();
-    this.shownStream.complete();
+    this.openedStream.complete();
     this.controller = null;
   }
 }
@@ -230,7 +228,7 @@ export class AerisDynamicDialogRef<TResult = unknown> {
       [backdrop]="settings().backdrop"
       [backdropBlur]="settings().backdropBlur"
       [backdropBlurAmount]="settings().backdropBlurAmount"
-      [dismissibleMask]="settings().dismissibleMask"
+      [closeOnBackdropClick]="settings().closeOnBackdropClick"
       [closeOnEscape]="settings().closeOnEscape"
       [closable]="settings().closable"
       [maximizable]="settings().maximizable"
@@ -255,8 +253,8 @@ export class AerisDynamicDialogRef<TResult = unknown> {
       [ariaLabelledBy]="settings().ariaLabelledBy"
       [ariaDescribedBy]="settings().ariaDescribedBy"
       [visible]="visible()"
-      (shown)="handleShown($event)"
-      (hidden)="handleHidden($event)"
+      (opened)="handleOpened($event)"
+      (closed)="handleHidden($event)"
     >
       <ng-container
         [ngComponentOutlet]="componentType()"
@@ -302,8 +300,8 @@ export class AerisDynamicDialogHost {
     this.dialog()?.toggleMaximized();
   }
 
-  protected handleShown(event: AerisDialogVisibilityChangeEvent): void {
-    queueMicrotask(() => this.dialogRef().notifyShown({ originalEvent: event.originalEvent }));
+  protected handleOpened(event: AerisDialogVisibilityChangeEvent): void {
+    queueMicrotask(() => this.dialogRef().notifyOpened({ originalEvent: event.originalEvent }));
   }
 
   protected handleHidden(event: AerisDialogVisibilityChangeEvent): void {
@@ -384,14 +382,14 @@ export class AerisDynamicDialogService {
   ): AerisDynamicDialogResolvedConfig<TData> {
     return {
       header: config.header ?? '',
-      appendTo: config.appendTo ?? 'body',
+      appendTo: config.appendTo,
       data: config.data,
       inputValues: config.inputValues ?? {},
       modal: config.modal ?? true,
       backdrop: config.backdrop ?? true,
       backdropBlur: config.backdropBlur ?? true,
       backdropBlurAmount: config.backdropBlurAmount ?? '',
-      dismissibleMask: config.dismissibleMask ?? false,
+      closeOnBackdropClick: config.closeOnBackdropClick ?? false,
       closeOnEscape: config.closeOnEscape ?? true,
       closable: config.closable ?? true,
       maximizable: config.maximizable ?? false,

@@ -5,8 +5,11 @@ import { HtmlParser } from '@angular/compiler';
 import * as sass from 'sass';
 import ts from 'typescript';
 
+import { readPageExampleContext } from './doc-example-context.mjs';
+
 const ROOT = 'projects/docs/src/app/pages/components';
 const GENERATED_STYLES = 'projects/docs/src/app/shared/generated-example-styles.ts';
+const GENERATED_CODE = 'projects/docs/src/app/shared/generated-example-code.ts';
 const SHARED_LAYOUT_CLASSES = new Set([
   'aeris-example-row',
   'align',
@@ -28,11 +31,13 @@ let changedFiles = 0;
 const diagnostics = [];
 const uncoveredStyles = [];
 const generatedStyles = {};
+const generatedCode = {};
 
 for (const path of files) {
   const source = await readFile(path, 'utf8');
   const pageStyles = await compilePageStyles(path);
   const cssProperties = await readCssProperties(path);
+  const pageContext = await readPageExampleContext(path.replace(/\.html$/, '.ts'));
   // Block syntax remains plain text here so copied object literals and control-flow
   // braces inside ngNonBindable code elements cannot be mistaken for live blocks.
   const parsed = parser.parse(source, path, { tokenizeBlocks: false });
@@ -41,8 +46,18 @@ for (const path of files) {
   }
 
   const demos = [];
+  const namedTemplates = new Map();
   visit(parsed.rootNodes, (node) => {
     if (node.name === 'app-form-demo' || node.name === 'app-button-demo') demos.push(node);
+    if (node.name === 'ng-template') {
+      const reference = node.attrs?.find((attribute) => attribute.name.startsWith('#'));
+      if (reference) {
+        namedTemplates.set(
+          reference.name.slice(1),
+          normalizeCode(source.slice(node.sourceSpan.start.offset, node.sourceSpan.end.offset)),
+        );
+      }
+    }
   });
 
   const replacements = [];
@@ -62,12 +77,18 @@ for (const path of files) {
       preview.sourceSpan.start.offset,
       preview.sourceSpan.end.offset,
     );
-    const expected = normalizeCode(
+    const previewMarkup = normalizeCode(
       normalizePreviewSource(previewSource, demo.name === 'app-button-demo'),
     );
+    const expected = includeReferencedTemplates(previewMarkup, namedTemplates);
+    const anchor = attributeValue(demo, 'id') ?? 'unknown';
+    const explicitCode = pageContext.resolveString(attributeValue(demo, '[tsCode]') ?? '');
+    const isCompleteComponent =
+      /@Component\s*\(/.test(explicitCode) && /\bexport\s+class\s+/.test(explicitCode);
+    const missingCode = isCompleteComponent ? '' : pageContext.missingCode(expected, explicitCode);
+    if (missingCode) generatedCode[anchor] = missingCode;
     const customClasses = classNames(expected).filter((name) => !SHARED_LAYOUT_CLASSES.has(name));
     if (customClasses.length) {
-      const anchor = attributeValue(demo, 'id') ?? 'unknown';
       const cssExpression =
         attributeValue(demo, '[cssCode]') ?? attributeValue(demo, 'cssCode') ?? '';
       const explicitCss = cssProperties[cssExpression.replace(/^this\./, '')] ?? '';
@@ -128,9 +149,15 @@ for (const path of files) {
 
 const generatedStyleSource = renderGeneratedStyles(generatedStyles);
 const currentGeneratedStyles = await readFile(GENERATED_STYLES, 'utf8').catch(() => '');
-const generatedStylesDiffer = currentGeneratedStyles !== generatedStyleSource;
+const generatedStylesDiffer = currentGeneratedStyles.replace(/\r\n/g, '\n') !== generatedStyleSource;
 if (write && generatedStylesDiffer) {
   await writeFile(GENERATED_STYLES, generatedStyleSource, 'utf8');
+}
+const generatedCodeSource = renderGeneratedCode(generatedCode);
+const currentGeneratedCode = await readFile(GENERATED_CODE, 'utf8').catch(() => '');
+const generatedCodeDiffer = currentGeneratedCode.replace(/\r\n/g, '\n') !== generatedCodeSource;
+if (write && generatedCodeDiffer) {
+  await writeFile(GENERATED_CODE, generatedCodeSource, 'utf8');
 }
 
 if (reportStyles) {
@@ -141,11 +168,17 @@ if (reportStyles) {
 } else if (write) {
   process.stdout.write(
     `Synchronized ${mismatches} of ${examples} documentation examples across ${changedFiles} files${
-      generatedStylesDiffer ? ' and refreshed example styles' : ''
+      generatedStylesDiffer || generatedCodeDiffer ? ' and refreshed generated metadata' : ''
     }.\n`,
   );
-} else if (diagnostics.length || generatedStylesDiffer || uncoveredStyles.length) {
+} else if (
+  diagnostics.length ||
+  generatedStylesDiffer ||
+  generatedCodeDiffer ||
+  uncoveredStyles.length
+) {
   if (generatedStylesDiffer) diagnostics.push(`${GENERATED_STYLES} is out of date.`);
+  if (generatedCodeDiffer) diagnostics.push(`${GENERATED_CODE} is out of date.`);
   diagnostics.push(...uncoveredStyles.map((item) => `${item} has no reproducible CSS.`));
   process.stderr.write(`${diagnostics.slice(0, 80).join('\n')}\n`);
   if (diagnostics.length > 80) {
@@ -192,6 +225,15 @@ function hasAttribute(node, name) {
 
 function attributeValue(node, name) {
   return node.attrs?.find((attribute) => attribute.name === name)?.value;
+}
+
+function includeReferencedTemplates(preview, templates) {
+  const dependencies = [];
+  for (const [name, template] of templates) {
+    const reference = new RegExp(`(?:=|\\()\\s*["']?${escapeRegExp(name)}(?:["')]|\\s|$)`);
+    if (reference.test(preview) && !preview.includes(`#${name}`)) dependencies.push(template);
+  }
+  return normalizeCode([...dependencies, preview].join('\n\n'));
 }
 
 function textContent(node) {
@@ -283,7 +325,7 @@ async function compilePageStyles(htmlPath) {
 
 async function readCssProperties(htmlPath) {
   const path = htmlPath.replace(/\.html$/, '.ts');
-  const source = await readFile(path, 'utf8').catch(() => '');
+  const source = (await readFile(path, 'utf8').catch(() => '')).replace(/\r\n/g, '\n');
   const file = ts.createSourceFile(path, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
   const declarations = new Map();
   const visitNode = (node) => {
@@ -401,6 +443,14 @@ function renderGeneratedStyles(styles) {
     .map(([anchor, css]) => `  ${JSON.stringify(anchor)}: ${JSON.stringify(css)},`)
     .join('\n');
   return `// Generated by tools/sync-doc-examples.mjs. Do not edit manually.\nexport const DOC_EXAMPLE_STYLES: Readonly<Record<string, string>> = {\n${entries}\n};\n`;
+}
+
+function renderGeneratedCode(code) {
+  const entries = Object.entries(code)
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([anchor, value]) => `  ${JSON.stringify(anchor)}: ${JSON.stringify(value)},`)
+    .join('\n');
+  return `// Generated by tools/sync-doc-examples.mjs. Do not edit manually.\nexport const DOC_EXAMPLE_CODE: Readonly<Record<string, string>> = {\n${entries}\n};\n`;
 }
 
 function indent(value, spaces) {

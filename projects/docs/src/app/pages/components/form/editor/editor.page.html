@@ -318,7 +318,7 @@
                   [(value)]="validationContent"
                   required
                   [invalid]="validationInvalid()"
-                  ariaDescribedby="validated-editor-message"
+                  ariaDescribedBy="validated-editor-message"
                   (blurred)="validationTouched.set(true)"
                   fluid
                 />
@@ -339,7 +339,7 @@
     [(value)]="validationContent"
     required
     [invalid]="validationInvalid()"
-    ariaDescribedby="validated-editor-message"
+    ariaDescribedBy="validated-editor-message"
     (blurred)="validationTouched.set(true)"
     fluid
   /&gt;
@@ -446,7 +446,7 @@
                 ><span role="cell">Model output emitted by two-way binding.</span>
               </div>
               <div role="row">
-                <code role="cell">valueInput</code><span role="cell">string</span
+                <code role="cell">valueChange</code><span role="cell">string</span
                 ><span role="cell">Emits the current HTML value after editor updates.</span>
               </div>
               <div role="row">
@@ -638,7 +638,7 @@
             management, and announcements of any custom nodes or controls they register.
           </li>
           <li>
-            Use <code>ariaDescribedby</code> for help and validation messages. Required and invalid
+            Use <code>ariaDescribedBy</code> for help and validation messages. Required and invalid
             state are reflected with ARIA attributes.
           </li>
           <li>

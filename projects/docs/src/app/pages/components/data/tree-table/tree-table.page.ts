@@ -244,15 +244,32 @@ protected readonly lazyRows = signal<readonly AerisTreeTableNode<FileRecord>[]>(
 protected readonly lazyLoadingKeys = signal<readonly string[]>([]);
 
 protected handleLazyLoad(event: AerisTreeTableLazyLoadEvent): void {
-  requestPage(event).then((nodes) => this.lazyRows.set(nodes));
+  this.eventText.set(
+    'Requested roots ' + (event.first + 1) + '–' + (event.first + event.rows) + '.',
+  );
 }
 
 protected handleLazyExpand(event: AerisTreeTableNodeEvent<FileRecord>): void {
+  if (event.node.children || event.node.leaf !== false) return;
   this.lazyLoadingKeys.set([event.key]);
-  requestChildren(event.key).then((children) => {
-    this.lazyRows.update((nodes) => attachChildren(nodes, event.key, children));
+  globalThis.setTimeout(() => {
+    const children: readonly AerisTreeTableNode<FileRecord>[] = [
+      {
+        key: event.key + '-source',
+        data: { name: 'Remote source', size: 12, type: 'folder', modified: 'Today', status: 'active' },
+        leaf: true,
+      },
+      {
+        key: event.key + '-readme',
+        data: { name: 'REMOTE.md', size: 4, type: 'document', modified: 'Today', status: 'review' },
+        leaf: true,
+      },
+    ];
+    this.lazyRows.update((nodes) => nodes.map((node) =>
+      node.key === event.key ? { ...node, children } : node,
+    ));
     this.lazyLoadingKeys.set([]);
-  });
+  }, 500);
 }`;
   protected readonly templateHtmlCode = `<aeris-tree-table
   ariaLabel="Project review hierarchy"
@@ -403,7 +420,12 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'paginatorDropdownAppendTo', type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined", defaultValue: "'self' (global)", description: 'Forwards the mounting target to the paginator rows-per-page menu.' },
+    {
+      name: 'paginatorDropdownAppendTo',
+      type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+      defaultValue: "global config or 'self'",
+      description: 'Forwards the mounting target to the paginator rows-per-page menu.',
+    },
     {
       name: 'treeColumn',
       type: 'string',
@@ -621,7 +643,8 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
       name: 'showOverflowTooltip',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'Shows an Aeris Tooltip for truncated header and cell values only when ellipsis is active.',
+      description:
+        'Shows an Aeris Tooltip for truncated header and cell values only when ellipsis is active.',
     },
     {
       name: 'expandAriaLabel',

@@ -35,6 +35,19 @@ describe('AerisPassword', () => {
     expect(input.required).toBe(true);
     expect(input.autocomplete).toBe('current-password');
     expect(input.value).toBe('Secret1!');
+    expect(input.hasAttribute('maxlength')).toBe(false);
+    expect(input.maxLength).toBe(-1);
+  });
+
+  it('applies an optional maximum length without writing an invalid default', async () => {
+    const fixture = TestBed.createComponent(AerisPasswordComponent);
+    fixture.componentRef.setInput('maxLength', 24);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+    expect(input.getAttribute('maxlength')).toBe('24');
+    expect(input.maxLength).toBe(24);
   });
 
   it('toggles visibility and restores input focus', async () => {

@@ -96,7 +96,7 @@ describe('AerisTreeSelect', () => {
     beta.click();
     fixture.detectChanges();
 
-    expect(pointerdown.defaultPrevented).toBe(true);
+    expect(pointerdown.defaultPrevented).toBe(false);
     expect(fixture.componentInstance.value()).toBe('beta');
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });

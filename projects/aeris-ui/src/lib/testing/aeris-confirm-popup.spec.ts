@@ -11,12 +11,7 @@ import {
 
 const settle = () => new Promise<void>((resolve) => queueMicrotask(resolve));
 
-const rect = (
-  left: number,
-  top: number,
-  width: number,
-  height: number,
-): DOMRect =>
+const rect = (left: number, top: number, width: number, height: number): DOMRect =>
   ({
     left,
     top,
@@ -31,9 +26,7 @@ const rect = (
 
 @Component({
   imports: [AerisConfirmPopupModule],
-  template: `
-    <button type="button" id="launcher" (click)="confirmDelete($event)">Delete</button>
-  `,
+  template: ` <button type="button" id="launcher" (click)="confirmDelete($event)">Delete</button> `,
 })
 class ServiceConfirmPopupHost {
   private readonly confirmations = inject(AerisConfirmPopupService);
@@ -182,7 +175,7 @@ describe('AerisConfirmPopup', () => {
     );
     expect(accept.classList.contains('aeris-button')).toBe(true);
     expect(accept.classList.contains('aeris-button--severity-danger')).toBe(true);
-    expect(reject.classList.contains('aeris-button--secondary')).toBe(true);
+    expect(reject.classList.contains('aeris-button--severity-secondary')).toBe(true);
     expect(launcher.getAttribute('aria-haspopup')).toBe('dialog');
     expect(launcher.getAttribute('aria-expanded')).toBe('true');
     expect(launcher.getAttribute('aria-controls')).toBe(popup.id);
@@ -211,9 +204,7 @@ describe('AerisConfirmPopup', () => {
     await settle();
     await settle();
 
-    const accept = document.querySelector(
-      '.aeris-confirm-popup__accept',
-    ) as HTMLButtonElement;
+    const accept = document.querySelector('.aeris-confirm-popup__accept') as HTMLButtonElement;
 
     expect(document.activeElement).toBe(accept);
 
@@ -234,7 +225,7 @@ describe('AerisConfirmPopup', () => {
     expect(fixture.componentInstance.closed()?.reason).toBe('escape');
   });
 
-  it('dismisses on outside pointerdown when dismissible', async () => {
+  it('dismisses on outside pointerdown when closeOnOutsideClick', async () => {
     const fixture = TestBed.createComponent(ServiceConfirmPopupHost);
     await fixture.whenStable();
 
@@ -261,9 +252,7 @@ describe('AerisConfirmPopup', () => {
     await settle();
 
     expect(document.querySelector('.custom-icon')?.textContent).toContain('!');
-    expect(document.querySelector('.custom-message')?.textContent).toContain(
-      'release',
-    );
+    expect(document.querySelector('.custom-message')?.textContent).toContain('release');
     expect(document.querySelector('#template-reject')).toBeTruthy();
     expect(document.querySelector('#template-accept')).toBeTruthy();
   });

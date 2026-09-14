@@ -510,7 +510,7 @@ protected openTwoDialogs(): void {
   readonly backdrop?: boolean;
   readonly backdropBlur?: boolean;
   readonly backdropBlurAmount?: string;
-  readonly dismissibleMask?: boolean;
+  readonly closeOnBackdropClick?: boolean;
   readonly closeOnEscape?: boolean;
   readonly closable?: boolean;
   readonly maximizable?: boolean;
@@ -542,7 +542,7 @@ interface AerisDynamicDialogCloseEvent<TResult = unknown> {
   readonly result: TResult | undefined;
 }
 
-interface AerisDynamicDialogShowEvent {
+interface AerisDynamicDialogOpenEvent {
   readonly originalEvent: Event | null;
 }
 
@@ -576,7 +576,7 @@ interface AerisDynamicDialogSubscribable<T> {
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'body'",
+      defaultValue: "global config or 'body'",
       description:
         'Mounts the dialog locally, in document.body, or in the supplied DOM/template target.',
     },
@@ -623,7 +623,7 @@ interface AerisDynamicDialogSubscribable<T> {
       description: 'Overrides the backdrop blur radius with a CSS length.',
     },
     {
-      name: 'dismissibleMask',
+      name: 'closeOnBackdropClick',
       type: 'boolean',
       defaultValue: 'false',
       description: 'Closes when the mask itself is pressed.',
@@ -757,8 +757,8 @@ interface AerisDynamicDialogSubscribable<T> {
       description: 'Emits once when the dialog closes through the normal lifecycle.',
     },
     {
-      name: 'shown',
-      type: 'AerisDynamicDialogSubscribable<AerisDynamicDialogShowEvent>',
+      name: 'opened',
+      type: 'AerisDynamicDialogSubscribable<AerisDynamicDialogOpenEvent>',
       defaultValue: '-',
       description: 'Emits after the dialog opens.',
     },

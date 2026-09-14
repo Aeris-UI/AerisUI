@@ -16,6 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   ɵAerisAppendTo,
   type AerisAppendTo,
@@ -107,7 +108,7 @@ let nextAutoCompleteId = 0;
       [attr.data-size]="size()"
       [attr.data-appearance]="appearance()"
       [attr.data-open]="open() || null"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-fluid]="fluid() || null"
       (focusout)="handleFocusOut($event)"
@@ -135,9 +136,9 @@ let nextAutoCompleteId = 0;
           [attr.aria-controls]="panelId"
           [attr.aria-activedescendant]="open() ? activeOptionId() : null"
           [attr.aria-label]="ariaLabel() || null"
-          [attr.aria-labelledby]="ariaLabelledby() || null"
-          [attr.aria-describedby]="ariaDescribedby() || null"
-          [attr.aria-invalid]="invalid() || null"
+          [attr.aria-labelledby]="ariaLabelledBy() || null"
+          [attr.aria-describedby]="ariaDescribedBy() || null"
+          [attr.aria-invalid]="displayInvalid() || null"
           [attr.aria-required]="required() || null"
           (click)="handleInputClick()"
           (input)="handleInput($event)"
@@ -223,7 +224,7 @@ let nextAutoCompleteId = 0;
                   [disabled]="option.disabled"
                   [attr.aria-selected]="isSelected(option)"
                   [attr.data-active]="isActive(option) || null"
-                  (pointerdown)="$event.preventDefault()"
+                  (pointerdown)="preservePointerFocus($event)"
                   (click)="selectOption(option, $event)"
                 >
                   <ng-container
@@ -248,7 +249,7 @@ let nextAutoCompleteId = 0;
                 [disabled]="option.disabled"
                 [attr.aria-selected]="isSelected(option)"
                 [attr.data-active]="isActive(option) || null"
-                (pointerdown)="$event.preventDefault()"
+                (pointerdown)="preservePointerFocus($event)"
                 (click)="selectOption(option, $event)"
               >
                 <ng-container
@@ -313,8 +314,8 @@ export class AerisAutoComplete implements ControlValueAccessor {
   readonly placeholder = input('');
   readonly autocomplete = input('off');
   readonly ariaLabel = input<string>();
-  readonly ariaLabelledby = input<string>();
-  readonly ariaDescribedby = input<string>();
+  readonly ariaLabelledBy = input<string>();
+  readonly ariaDescribedBy = input<string>();
   readonly listboxAriaLabel = input('Suggestions');
   readonly dropdownAriaLabel = input('Show suggestions');
   readonly clearButtonAriaLabel = input('Clear value');
@@ -328,6 +329,10 @@ export class AerisAutoComplete implements ControlValueAccessor {
   readonly appendTo = input<AerisAppendTo>();
   readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
@@ -340,7 +345,6 @@ export class AerisAutoComplete implements ControlValueAccessor {
   readonly grouped = input(false, { transform: booleanAttribute });
   readonly loading = input(false, { transform: booleanAttribute });
 
-  readonly valueInput = output<string>();
   readonly completed = output<AerisAutoCompleteCompleteEvent>();
   readonly selected = output<AerisAutoCompleteSelectEvent>();
   readonly cleared = output<void>();
@@ -554,7 +558,6 @@ export class AerisAutoComplete implements ControlValueAccessor {
   private setValue(value: string): void {
     if (this.value() === value) return;
     this.value.set(value);
-    this.valueInput.emit(value);
     this.onChange(value);
   }
 
@@ -639,7 +642,14 @@ export class AerisAutoComplete implements ControlValueAccessor {
   }
 
   private sanitizeId(value: string): string {
-    const sanitized = value.toLocaleLowerCase().replace(/[^a-z0-9_-]+/g, '-');
-    return sanitized || 'option';
+    const readable = value.toLowerCase().replace(/[^a-z0-9_-]+/g, '-');
+    const exact = Array.from(value, (character) =>
+      (character.codePointAt(0) ?? 0).toString(16),
+    ).join('-');
+    return `${readable || 'option'}--${exact || 'empty'}`;
+  }
+
+  protected preservePointerFocus(event: PointerEvent): void {
+    if (event.pointerType === 'mouse') event.preventDefault();
   }
 }

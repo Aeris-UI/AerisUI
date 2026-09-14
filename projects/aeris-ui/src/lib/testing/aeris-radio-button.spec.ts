@@ -14,7 +14,7 @@ import {
       name="plan"
       value="starter"
       required
-      ariaDescribedby="plan-help"
+      ariaDescribedBy="plan-help"
       [(selected)]="plan"
       (changed)="lastChange.set($event)"
     >

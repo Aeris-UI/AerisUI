@@ -11,6 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisCheckboxSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisCheckboxLabelPosition = 'start' | 'end';
@@ -32,7 +33,7 @@ let checkboxId = 0;
       [attr.data-size]="size()"
       [attr.data-label-position]="labelPosition()"
       [attr.data-disabled]="effectiveDisabled() || null"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
     >
       <input
         #checkboxInput
@@ -46,9 +47,9 @@ let checkboxId = 0;
         [required]="required()"
         [attr.tabindex]="tabIndex()"
         [attr.aria-label]="ariaLabel()"
-        [attr.aria-labelledby]="ariaLabelledby()"
-        [attr.aria-describedby]="ariaDescribedby()"
-        [attr.aria-invalid]="invalid() || null"
+        [attr.aria-labelledby]="ariaLabelledBy()"
+        [attr.aria-describedby]="ariaDescribedBy()"
+        [attr.aria-invalid]="displayInvalid() || null"
         [attr.aria-required]="required() || null"
         (change)="handleChange($event)"
         (focus)="focused.emit($event)"
@@ -99,16 +100,19 @@ export class AerisCheckbox implements ControlValueAccessor {
   readonly value = input('on');
   readonly label = input('');
   readonly ariaLabel = input<string>();
-  readonly ariaLabelledby = input<string>();
-  readonly ariaDescribedby = input<string>();
+  readonly ariaLabelledBy = input<string>();
+  readonly ariaDescribedBy = input<string>();
   readonly size = input<AerisCheckboxSize>('md');
   readonly labelPosition = input<AerisCheckboxLabelPosition>('end');
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly tabIndex = input(0);
 
-  readonly checkedInput = output<boolean>();
   readonly changed = output<AerisCheckboxChangeEvent>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
@@ -171,7 +175,6 @@ export class AerisCheckbox implements ControlValueAccessor {
   private setChecked(checked: boolean): void {
     if (this.checked() === checked) return;
     this.checked.set(checked);
-    this.checkedInput.emit(checked);
     this.onChange(checked);
   }
 }

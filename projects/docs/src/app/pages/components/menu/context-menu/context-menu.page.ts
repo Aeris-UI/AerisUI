@@ -308,7 +308,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'self' (global)",
+      defaultValue: "global config or 'self'",
       description:
         'Mounts the menu overlay locally, in document.body, or in the supplied DOM/template target.',
     },
@@ -374,7 +374,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
       description: 'Minimum spacing from viewport edges when positioning.',
     },
     {
-      name: 'hideOnOutsideClick',
+      name: 'closeOnOutsideClick',
       type: 'boolean',
       defaultValue: 'true',
       description: 'Closes the menu when pointerdown occurs outside the panel.',
@@ -444,22 +444,16 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 
   protected readonly outputs: readonly ApiRow[] = [
     {
-      name: 'shown',
+      name: 'opened',
       type: 'AerisContextMenuVisibilityEvent',
       defaultValue: '-',
       description: 'Emitted after the menu is requested open.',
     },
     {
-      name: 'hidden',
+      name: 'closed',
       type: 'AerisContextMenuVisibilityEvent',
       defaultValue: '-',
       description: 'Emitted after the menu closes.',
-    },
-    {
-      name: 'visibilityChanged',
-      type: 'AerisContextMenuVisibilityEvent',
-      defaultValue: '-',
-      description: 'Emitted for both show and hide transitions.',
     },
     {
       name: 'itemSelected',

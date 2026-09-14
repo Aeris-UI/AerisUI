@@ -7,7 +7,58 @@ release line.
 
 ## [Unreleased]
 
-No consumer-visible changes have been recorded since 22.0.0-alpha.6.
+No consumer-visible changes have been recorded since 22.0.0-alpha.7.
+
+## [22.0.0-alpha.7] - 2026-09-14
+
+### Added
+
+- Add deterministic cross-browser, mobile-emulation, accessibility, visual-consistency, and
+  component-page browser regression coverage with documented physical-device checks.
+- Add strict isolated compilation for every generated documentation example and run all existing
+  library, documentation, and MCP test suites in CI.
+- Add reproducible production-consumer bundle checks for core controls, forms, data overlays, Chart,
+  and Editor, including optional-dependency isolation and documentation payload budgets.
+- Add nullable `touched` inputs to validation-aware controls so Angular Signal Forms can defer
+  visible errors until interaction while preserving immediate manual `invalid` behavior.
+- Add a shared `AerisSeverity` contract across Button, SplitButton, Badge, Message, and Toast.
+
+### Changed
+
+- Generate displayed examples from verified documentation sources and include the imports,
+  providers, component state, handlers, and styling required by a clean consumer application.
+- Separate Button and SplitButton presentation (`solid`, `outline`, `ghost`, `link`) from semantic
+  color, remove redundant appearance aliases, and make loading suppress native activation whether
+  or not the built-in spinner is shown.
+- Standardize semantic severity terminology on `danger`, ARIA input casing on `ariaLabelledBy` and
+  `ariaDescribedBy`, and model notifications on their implicit `valueChange`, `checkedChange`, or
+  `selectedChange` outputs.
+- Standardize overlay lifecycle events on `opened` and `closed`, dismissal inputs on
+  `closeOnBackdropClick` or `closeOnOutsideClick`, and honor global `appendTo` configuration before
+  family defaults. Anchored panels default to local mounting while viewport overlays default to
+  `body`.
+
+### Fixed
+
+- Generate stable, collision-safe option IDs for AutoComplete and CascadeSelect across case,
+  punctuation, whitespace, Unicode, filtering, rerendering, and server rendering.
+- Keep every visible notification in a Toast stack the same width while preserving compact,
+  content-sized presentation for individual toasts.
+- Keep pointer-swipe regression coverage inside the browser viewport across engines.
+- Keep Select options focusable during touch interaction so Mobile WebKit can complete selection
+  before blur handling closes the panel.
+
+### Migration from alpha.6
+
+- Replace Button color variants with `variant="solid"` plus `severity`; replace `text` with
+  `variant="ghost"`, `outlined` with `variant="outline"`, and remove `plain` in favor of
+  `severity="neutral"`.
+- Replace the `error` severity with `danger`, old camel-cased ARIA inputs with `ariaLabelledBy` and
+  `ariaDescribedBy`, and redundant `valueInput`, `checkedInput`, or `selectedInput` listeners with
+  the corresponding model change output.
+- Replace overlay `shown`, `hidden`, and `visibilityChanged` listeners with `opened` and `closed`;
+  replace legacy backdrop or outside-dismissal input names with `closeOnBackdropClick` or
+  `closeOnOutsideClick`.
 
 ## [22.0.0-alpha.6] - 2026-09-05
 
@@ -175,7 +226,8 @@ No consumer-visible changes have been recorded since 22.0.0-alpha.6.
 - Align the published Lexical peer range with the version Aeris uses and declare the required
   Angular platform-browser and RxJS peers.
 
-[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.6...HEAD
+[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.7...HEAD
+[22.0.0-alpha.7]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.6...v22.0.0-alpha.7
 [22.0.0-alpha.6]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.5...v22.0.0-alpha.6
 [22.0.0-alpha.5]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.4...v22.0.0-alpha.5
 [22.0.0-alpha.4]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.3...v22.0.0-alpha.4

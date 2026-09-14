@@ -18,6 +18,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import { aerisInternalCreateFrameScheduler } from '@aeris-ui/core';
+import type { AerisSeverity } from '@aeris-ui/core';
 
 export type AerisToastPosition =
   | 'top-left'
@@ -28,8 +29,7 @@ export type AerisToastPosition =
   | 'bottom-right'
   | 'center';
 
-export type AerisToastSeverity =
-  'primary' | 'secondary' | 'contrast' | 'success' | 'info' | 'warning' | 'error' | 'neutral';
+export type AerisToastSeverity = AerisSeverity;
 
 export type AerisToastMode = 'stacked' | 'expanded';
 export type AerisToastSwipeDirection = 'up' | 'down' | 'left' | 'right';
@@ -276,7 +276,7 @@ export class AerisToastService {
   private resolveMessage<TData>(input: AerisToastMessageInput<TData>): AerisToastMessage<TData> {
     const severity = input.severity ?? 'neutral';
     const role =
-      input.role ?? (severity === 'error' || severity === 'warning' ? 'alert' : 'status');
+      input.role ?? (severity === 'danger' || severity === 'warning' ? 'alert' : 'status');
     return {
       id: input.id ?? `aeris-toast-${++nextToastId}`,
       group: input.group ?? '',
@@ -307,6 +307,7 @@ export class AerisToastService {
       [attr.data-mode]="mode()"
       [attr.data-newest-on-top]="newestOnTop() || null"
       [attr.data-overflow]="hiddenCount() > 0 || null"
+      [attr.data-stack-width]="stackWidthLocked() || null"
       [style.--aeris-toast-stack-size]="visibleStackSize()"
       (pointerenter)="pauseVisible()"
       (pointerleave)="resumeVisible()"
@@ -493,6 +494,7 @@ export class AerisToast {
 
   protected readonly visibleStackSize = computed(() => `${this.visibleMessages().length}`);
   protected readonly hasVisibleMessages = computed(() => this.visibleMessages().length > 0);
+  protected readonly stackWidthLocked = signal(false);
 
   protected readonly visibleStack = computed<readonly AerisToastStackItem[]>(() => {
     const messages = this.visibleMessages();
@@ -539,6 +541,12 @@ export class AerisToast {
   });
 
   constructor() {
+    effect(() => {
+      const visibleCount = this.visibleMessages().length;
+      if (visibleCount > 1) this.stackWidthLocked.set(true);
+      else if (visibleCount === 0) this.stackWidthLocked.set(false);
+    });
+
     effect((onCleanup) => {
       const elements = this.messageElements().map((element) => element.nativeElement);
       this.measureFrame.schedule();

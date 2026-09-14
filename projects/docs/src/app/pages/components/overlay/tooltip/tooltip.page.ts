@@ -209,13 +209,13 @@ interface AerisTooltipVisibilityEvent {
 
   protected readonly outputs: readonly ApiRow[] = [
     {
-      name: 'aerisTooltipShown',
+      name: 'aerisTooltipOpened',
       type: 'AerisTooltipVisibilityEvent',
       defaultValue: '-',
       description: 'Emitted after the tooltip becomes visible.',
     },
     {
-      name: 'aerisTooltipHidden',
+      name: 'aerisTooltipClosed',
       type: 'AerisTooltipVisibilityEvent',
       defaultValue: '-',
       description: 'Emitted after the tooltip closes.',

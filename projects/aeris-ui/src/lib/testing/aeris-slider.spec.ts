@@ -15,7 +15,7 @@ import {
       inputId="volume"
       name="volume"
       ariaLabel="Volume"
-      ariaDescribedby="volume-help"
+      ariaDescribedBy="volume-help"
       [min]="0"
       [max]="10"
       [step]="0.5"
@@ -61,12 +61,8 @@ describe('AerisSlider', () => {
     const fixture = TestBed.createComponent(SliderTestHost);
     await fixture.whenStable();
 
-    const thumb = fixture.nativeElement.querySelector(
-      '[role="slider"]',
-    ) as HTMLButtonElement;
-    const hidden = fixture.nativeElement.querySelector(
-      'input[type="hidden"]',
-    ) as HTMLInputElement;
+    const thumb = fixture.nativeElement.querySelector('[role="slider"]') as HTMLButtonElement;
+    const hidden = fixture.nativeElement.querySelector('input[type="hidden"]') as HTMLInputElement;
 
     expect(thumb.id).toBe('volume');
     expect(thumb.getAttribute('aria-label')).toBe('Volume');
@@ -82,13 +78,9 @@ describe('AerisSlider', () => {
     const fixture = TestBed.createComponent(SliderTestHost);
     await fixture.whenStable();
 
-    const thumb = fixture.nativeElement.querySelector(
-      '[role="slider"]',
-    ) as HTMLButtonElement;
+    const thumb = fixture.nativeElement.querySelector('[role="slider"]') as HTMLButtonElement;
     const press = (key: string): void => {
-      thumb.dispatchEvent(
-        new KeyboardEvent('keydown', { key, bubbles: true }),
-      );
+      thumb.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
       fixture.detectChanges();
     };
 
@@ -120,15 +112,11 @@ describe('AerisSlider', () => {
     expect(lower.getAttribute('aria-valuemax')).toBe('70');
     expect(upper.getAttribute('aria-valuemin')).toBe('30');
 
-    lower.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'End', bubbles: true }),
-    );
+    lower.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }));
     fixture.detectChanges();
     expect(fixture.componentInstance.price()).toEqual([70, 80]);
 
-    upper.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Home', bubbles: true }),
-    );
+    upper.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
     fixture.detectChanges();
     expect(fixture.componentInstance.price()).toEqual([70, 80]);
   });
@@ -164,12 +152,8 @@ describe('AerisSlider', () => {
     singleFixture.detectChanges();
     await singleFixture.whenStable();
 
-    const singleRoot = singleFixture.nativeElement.querySelector(
-      '.aeris-slider',
-    ) as HTMLElement;
-    expect(singleRoot.style.getPropertyValue('--aeris-slider-single')).toBe(
-      '70%',
-    );
+    const singleRoot = singleFixture.nativeElement.querySelector('.aeris-slider') as HTMLElement;
+    expect(singleRoot.style.getPropertyValue('--aeris-slider-single')).toBe('70%');
 
     const rangeFixture = TestBed.createComponent(AerisSlider);
     rangeFixture.componentRef.setInput('range', true);
@@ -178,14 +162,8 @@ describe('AerisSlider', () => {
     rangeFixture.detectChanges();
     await rangeFixture.whenStable();
 
-    const rangeRoot = rangeFixture.nativeElement.querySelector(
-      '.aeris-slider',
-    ) as HTMLElement;
-    expect(rangeRoot.style.getPropertyValue('--aeris-slider-lower')).toBe(
-      '80%',
-    );
-    expect(rangeRoot.style.getPropertyValue('--aeris-slider-upper')).toBe(
-      '20%',
-    );
+    const rangeRoot = rangeFixture.nativeElement.querySelector('.aeris-slider') as HTMLElement;
+    expect(rangeRoot.style.getPropertyValue('--aeris-slider-lower')).toBe('80%');
+    expect(rangeRoot.style.getPropertyValue('--aeris-slider-upper')).toBe('20%');
   });
 });

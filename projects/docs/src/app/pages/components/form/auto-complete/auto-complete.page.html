@@ -35,7 +35,7 @@
                   inputId="autocomplete-basic-input"
                   [suggestions]="frameworks"
                   placeholder="Start typing a framework"
-                  ariaDescribedby="autocomplete-basic-help"
+                  ariaDescribedBy="autocomplete-basic-help"
                   fluid
                 />
                 <small id="autocomplete-basic-help">Try typing “an” or “vue”.</small>
@@ -46,7 +46,7 @@
     inputId="autocomplete-basic-input"
     [suggestions]="frameworks"
     placeholder="Start typing a framework"
-    ariaDescribedby="autocomplete-basic-help"
+    ariaDescribedBy="autocomplete-basic-help"
     fluid
   /&gt;
   &lt;small id="autocomplete-basic-help"&gt;Try typing “an” or “vue”.&lt;/small&gt;
@@ -326,7 +326,7 @@
                     [invalid]="invalid()"
                     required
                     clearable
-                    ariaDescribedby="autocomplete-invalid-message"
+                    ariaDescribedBy="autocomplete-invalid-message"
                     (blurred)="touched.set(true)"
                     fluid
                   />
@@ -379,7 +379,7 @@
       [invalid]="invalid()"
       required
       clearable
-      ariaDescribedby="autocomplete-invalid-message"
+      ariaDescribedBy="autocomplete-invalid-message"
       (blurred)="touched.set(true)"
       fluid
     /&gt;
@@ -737,7 +737,7 @@
             visible label is not possible.
           </li>
           <li>
-            Validation messages should be connected with <code>ariaDescribedby</code> and updated
+            Validation messages should be connected with <code>ariaDescribedBy</code> and updated
             with live-region text when the error changes.
           </li>
           <li>

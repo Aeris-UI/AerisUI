@@ -17,7 +17,7 @@ export const AERIS_DEFAULT_CONFIG: AerisConfig = {
   theme: AERIS_DEFAULT_THEME,
   themeModeStorageKey: 'aeris-theme-mode',
   themeValidation: true,
-  overlayAppendTo: 'self',
+  overlayAppendTo: undefined,
 };
 
 export const AERIS_CONFIG = new InjectionToken<AerisConfig>('AERIS_CONFIG', {

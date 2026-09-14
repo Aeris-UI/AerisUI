@@ -17,7 +17,7 @@ import { AerisInputNumber } from '../../../input-number/aeris-input-number';
       showButtons
       clearable
       [(value)]="quantity"
-      (valueInput)="lastInput.set($event)"
+      (valueChange)="lastInput.set($event)"
     />
     <aeris-input-number
       inputId="localized"
@@ -146,9 +146,7 @@ describe('AerisInputNumber', () => {
     input.dispatchEvent(new FocusEvent('focus'));
     input.value = 'EUR 1.234,5.6';
     input.setSelectionRange(input.value.length, input.value.length);
-    input.dispatchEvent(
-      new InputEvent('input', { bubbles: true, inputType: 'insertFromPaste' }),
-    );
+    input.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertFromPaste' }));
     fixture.detectChanges();
 
     expect(input.value).toBe('1234,56');
@@ -162,9 +160,7 @@ describe('AerisInputNumber', () => {
     const input = fixture.nativeElement.querySelector('#quantity') as HTMLInputElement;
     input.dispatchEvent(new FocusEvent('focus'));
     input.value = '1e3';
-    input.dispatchEvent(
-      new InputEvent('input', { bubbles: true, inputType: 'insertFromPaste' }),
-    );
+    input.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertFromPaste' }));
     fixture.detectChanges();
 
     expect(input.value).toBe('2');

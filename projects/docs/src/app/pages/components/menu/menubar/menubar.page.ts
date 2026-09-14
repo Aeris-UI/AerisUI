@@ -657,28 +657,28 @@ interface AerisMenubarItemTemplateContext<T = unknown> {
       type: 'AerisMenubarItemVariant',
       defaultValue: "'default'",
       description:
-        "Default appearance for root items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'.",
+        "Default appearance for root items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. Options: 'default', 'solid', 'outline', 'ghost', 'link'.",
     },
     {
       name: 'submenuItemVariant',
       type: 'AerisMenubarItemVariant',
       defaultValue: "'default'",
       description:
-        "Default appearance for submenu items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'.",
+        "Default appearance for submenu items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. Options: 'default', 'solid', 'outline', 'ghost', 'link'.",
     },
     {
       name: 'rootItemSeverity',
       type: 'AerisButtonSeverity',
       defaultValue: "'primary'",
       description:
-        "Default root-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'.",
+        "Default root-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'.",
     },
     {
       name: 'submenuItemSeverity',
       type: 'AerisButtonSeverity',
       defaultValue: "'primary'",
       description:
-        "Default submenu-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'.",
+        "Default submenu-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'.",
     },
     {
       name: 'disabled',
@@ -706,7 +706,7 @@ interface AerisMenubarItemTemplateContext<T = unknown> {
       description: 'Closes open menus after a leaf item is activated.',
     },
     {
-      name: 'hideOnOutsideClick',
+      name: 'closeOnOutsideClick',
       type: 'boolean',
       defaultValue: 'true',
       description: 'Closes menus when pointer interaction starts outside the component.',

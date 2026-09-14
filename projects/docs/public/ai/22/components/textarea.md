@@ -2,7 +2,7 @@
 
 > Accessible textarea component for Angular.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/textarea`
 - Human-readable documentation: [https://aeris-ui.dev/components/textarea](https://aeris-ui.dev/components/textarea)
@@ -33,6 +33,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 | `appearance` | `AerisTextareaAppearance` | `'outline'` | Selects the outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `resize` | `AerisTextareaResize` | `'vertical'` | Controls the native browser resize handle. Options: 'none', 'vertical', 'horizontal', 'both'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Expands the textarea to its container width. |
 
 ### Wrapper Inputs
@@ -50,12 +51,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 | `minLength` | `number &#124; undefined` | `undefined` | Native minimum character constraint. |
 | `maxLength` | `number &#124; undefined` | `undefined` | Native maximum character constraint. |
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label is available. |
-| `ariaLabelledby` | `string` | `''` | IDs of elements that label the textarea. |
-| `ariaDescribedby` | `string` | `''` | IDs of help or validation messages. |
+| `ariaLabelledBy` | `string` | `''` | IDs of elements that label the textarea. |
+| `ariaDescribedBy` | `string` | `''` | IDs of help or validation messages. |
 | `size` | `AerisTextareaSize` | `'md'` | Sets the padding, font size, and minimum height. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisTextareaAppearance` | `'outline'` | Selects the outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `resize` | `AerisTextareaResize` | `'vertical'` | Controls the native browser resize handle. Options: 'none', 'vertical', 'horizontal', 'both'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Expands the textarea to its container width. |
 | `disabled` | `boolean` | `false` | Disables editing and the clear action. |
 | `readonly` | `boolean` | `false` | Allows focus and selection without editing. |
@@ -73,7 +75,6 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `valueChange` | `string` | `-` | Emits for two-way value model changes. |
-| `valueInput` | `string` | `-` | Emits whenever user input changes the value. |
 | `focused` | `FocusEvent` | `-` | Emits when the internal textarea receives focus. |
 | `blurred` | `FocusEvent` | `-` | Emits when the internal textarea loses focus. |
 | `scrolled` | `Event` | `-` | Emits when textarea content scrolls. |
@@ -169,7 +170,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -177,13 +178,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -221,7 +222,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -229,13 +230,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -280,7 +281,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -288,13 +289,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -337,7 +338,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -345,13 +346,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -394,7 +395,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -402,13 +403,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -449,7 +450,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       gap: 1rem;
       align-items: start;
     }
-    
+
     .textarea-size-grid label {
       display: grid;
       gap: 0.4rem;
@@ -457,7 +458,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-size: 0.875rem;
       font-weight: 600;
     }
-    
+
     @media (max-width: 42rem) {
       .textarea-size-grid {
           grid-template-columns: 1fr;
@@ -682,7 +683,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.25rem;
     }
-    
+
     .field {
       min-width: 0;
       display: grid;
@@ -690,7 +691,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -698,17 +699,17 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     @media (max-width: 42rem) {
       .field-grid {
         grid-template-columns: 1fr;
@@ -836,7 +837,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -844,13 +845,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -892,7 +893,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -900,13 +901,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

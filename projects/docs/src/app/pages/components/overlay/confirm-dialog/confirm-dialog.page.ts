@@ -245,7 +245,7 @@ protected confirmDismissibleMask(): void {
   this.confirmations.confirm({
     header: 'Dismissible mask',
     message: 'Click outside the confirmation to dismiss without choosing an action.',
-    dismissibleMask: true,
+    closeOnBackdropClick: true,
     acceptLabel: 'Continue',
     rejectLabel: 'Cancel',
   });
@@ -302,7 +302,7 @@ interface AerisConfirmDialogConfig<TData = unknown> {
   readonly backdrop?: boolean;
   readonly backdropBlur?: boolean;
   readonly backdropBlurAmount?: string;
-  readonly dismissibleMask?: boolean;
+  readonly closeOnBackdropClick?: boolean;
   readonly position?: AerisDialogPosition;
   readonly width?: string;
   readonly blockScroll?: boolean;
@@ -351,7 +351,7 @@ interface AerisConfirmDialogTemplateContext<TData = unknown> {
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'body'",
+      defaultValue: "global config or 'body'",
       description:
         'Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target.',
     },
@@ -474,7 +474,7 @@ interface AerisConfirmDialogTemplateContext<TData = unknown> {
       description: 'Overrides the backdrop blur radius with a CSS length.',
     },
     {
-      name: 'dismissibleMask',
+      name: 'closeOnBackdropClick',
       type: 'boolean',
       defaultValue: 'false',
       description: 'Allows clicking the mask to dismiss.',
@@ -585,7 +585,7 @@ interface AerisConfirmDialogTemplateContext<TData = unknown> {
       description: 'Emitted by the visible model.',
     },
     {
-      name: 'shown',
+      name: 'opened',
       type: 'AerisConfirmDialogActionEvent',
       defaultValue: '-',
       description: 'Emitted after the confirmation opens.',
@@ -730,7 +730,7 @@ interface AerisConfirmDialogTemplateContext<TData = unknown> {
       description: 'Subscribe to the final close result.',
     },
     {
-      name: 'shown',
+      name: 'opened',
       type: 'Subscribable<AerisConfirmDialogActionEvent>',
       defaultValue: '-',
       description: 'Subscribe after the dialog opens.',
@@ -825,7 +825,7 @@ interface AerisConfirmDialogTemplateContext<TData = unknown> {
     this.confirmations.confirm({
       header: 'Dismissible mask',
       message: 'Click outside the confirmation to dismiss without choosing an action.',
-      dismissibleMask: true,
+      closeOnBackdropClick: true,
       acceptLabel: 'Continue',
       rejectLabel: 'Cancel',
     });

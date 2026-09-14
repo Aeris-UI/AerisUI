@@ -2,7 +2,7 @@
 
 > Apply configurable, theme-aware translucent backgrounds and backdrop blur to compatible surfaces.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/glass`
 - Human-readable documentation: [https://aeris-ui.dev/components/glass](https://aeris-ui.dev/components/glass)
@@ -79,7 +79,7 @@ import { AerisGlassModule } from '@aeris-ui/core/glass';
       border-radius: var(--aeris-radius-xl);
       background: url('/abstract.jpg') center / cover no-repeat;
     }
-    
+
     .glass-surface {
       width: min(100%, 30rem);
       padding: 1.5rem;
@@ -283,7 +283,8 @@ export class GlassControlledControlledDemo {
     <button
       aerisButton
       type="button"
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       [attr.aria-pressed]="glassEnabled()"
       (click)="glassEnabled.update((enabled) => !enabled)"
     >

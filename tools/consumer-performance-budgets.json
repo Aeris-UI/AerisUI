@@ -1,0 +1,10 @@
+{
+  "sharedCssGzip": 6144,
+  "scenarios": {
+    "basic": { "raw": 45000, "gzip": 12288 },
+    "forms": { "raw": 180000, "gzip": 47104 },
+    "data-overlays": { "raw": 235000, "gzip": 57344 },
+    "chart": { "raw": 315000, "gzip": 104448 },
+    "editor": { "raw": 410000, "gzip": 126976 }
+  }
+}

@@ -2,7 +2,7 @@
 
 > Target-anchored overlay content with controlled visibility, templates, focus management, and responsive placement.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/popover`
 - Human-readable documentation: [https://aeris-ui.dev/components/popover](https://aeris-ui.dev/components/popover)
@@ -29,7 +29,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target. |
 | `target` | `AerisPopoverTarget` | `null` | Element or trigger event used when visible is controlled directly. |
 | `header` | `string` | `''` | Visible popover title. |
 | `placement` | `AerisPopoverPlacement` | `'auto'` | Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'. |
@@ -38,7 +38,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 | `maxWidth` | `string` | `''` | Custom maximum width. |
 | `offset` | `number` | `10` | Distance between target and popover in pixels. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Minimum visual viewport gap. Per-edge values reserve fixed interface regions; preferred placements flip when they do not fit. |
-| `dismissible` | `boolean` | `true` | Allows outside pointerdown to close. |
+| `closeOnOutsideClick` | `boolean` | `true` | Allows outside pointerdown to close. |
 | `closeOnEscape` | `boolean` | `true` | Allows Escape to close. |
 | `closable` | `boolean` | `false` | Shows the built-in close button. |
 | `focusTrap` | `boolean` | `true` | Keeps Tab navigation inside the popover. |
@@ -62,9 +62,8 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `visibleChange` | `boolean` | `-` | Emitted by the visible model. |
-| `shown` | `AerisPopoverVisibilityChangeEvent` | `-` | Emitted after the popover opens. |
-| `hidden` | `AerisPopoverVisibilityChangeEvent` | `-` | Emitted after the popover closes. |
-| `visibilityChanged` | `AerisPopoverVisibilityChangeEvent` | `-` | Emitted after either open or close. |
+| `opened` | `AerisPopoverVisibilityChangeEvent` | `-` | Emitted after the popover opens. |
+| `closed` | `AerisPopoverVisibilityChangeEvent` | `-` | Emitted after the popover closes. |
 
 ### Templates
 
@@ -254,7 +253,8 @@ export class PopoverControlledControlledDemo {
     [target]="controlledTarget()"
     header="Controlled popover"
     [(visible)]="controlledOpen"
-    (visibilityChanged)="recordEvent($event)"
+    (opened)="recordEvent($event)"
+    (closed)="recordEvent($event)"
   >
     <div class="popover-card">
       <strong>External state</strong>
@@ -549,16 +549,16 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
       gap: 0.75rem;
       min-width: 16rem;
     }
-    
+
     .headless-popover strong {
       color: var(--text);
     }
-    
+
     .headless-popover p {
       margin: 0;
       color: var(--text-2);
     }
-    
+
     .headless-popover .aeris-button {
       justify-self: end;
     }
@@ -600,7 +600,7 @@ export class PopoverOptionsOptionsDemo {
     #optionsPopover
     header="Pinned details"
     width="18rem"
-    [dismissible]="false"
+    [closeOnOutsideClick]="false"
     [showArrow]="false"
     closable
   >

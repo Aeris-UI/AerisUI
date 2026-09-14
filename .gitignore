@@ -49,6 +49,7 @@ pnpm-debug.log*
 
 # Miscellaneous
 /.angular/
+/.aeris-doc-examples-*/
 /.cache/
 /.nx/
 /.turbo/
@@ -62,6 +63,7 @@ pnpm-debug.log*
 testem.log
 /typings
 __screenshots__/
+aeris-update-plan.md
 
 # End-to-end test output
 /playwright-report/

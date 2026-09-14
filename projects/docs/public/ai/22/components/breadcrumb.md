@@ -2,7 +2,7 @@
 
 > Hierarchical navigation trail with links, actions, current-page semantics, templates, separators, and ellipsis collapsing.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/breadcrumb`
 - Human-readable documentation: [https://aeris-ui.dev/components/breadcrumb](https://aeris-ui.dev/components/breadcrumb)
@@ -411,7 +411,7 @@ import { AerisBreadcrumbModule, type AerisBreadcrumbItem } from '@aeris-ui/core/
       align-items: center;
       gap: 0.375rem;
     }
-    
+
     .breadcrumb-count {
       min-width: 1.375rem;
       padding: 0.125rem 0.375rem;

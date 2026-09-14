@@ -2,7 +2,7 @@
 
 > Toggle application classes and coordinate enter or leave transitions declaratively.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/style-class`
 - Human-readable documentation: [https://aeris-ui.dev/components/style-class](https://aeris-ui.dev/components/style-class)
@@ -313,7 +313,8 @@ export class StyleClassSelectorsTargetSelectorsDemo {
       <button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         aerisStyleClass="@next"
         aerisStyleClassToggle="style-selector-target--selected"
       >
@@ -326,7 +327,8 @@ export class StyleClassSelectorsTargetSelectorsDemo {
       <button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         aerisStyleClass="@previous"
         aerisStyleClassToggle="style-selector-target--selected"
       >
@@ -337,7 +339,8 @@ export class StyleClassSelectorsTargetSelectorsDemo {
       <button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         aerisStyleClass="@parent"
         aerisStyleClassToggle="style-selector-target--selected"
       >
@@ -348,7 +351,8 @@ export class StyleClassSelectorsTargetSelectorsDemo {
       <button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         aerisStyleClass="#style-remote-target"
         aerisStyleClassToggle="style-selector-target--selected"
       >
@@ -517,14 +521,16 @@ export class StyleClassMethodsMethodsAndEventsDemo {
       ><button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         (click)="methodController.show()"
       >
         Show</button
       ><button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         (click)="methodController.hide()"
       >
         Hide

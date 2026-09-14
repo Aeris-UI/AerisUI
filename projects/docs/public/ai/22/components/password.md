@@ -2,7 +2,7 @@
 
 > Password entry with visibility controls, strength feedback, and secure autofill semantics.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/password`
 - Human-readable documentation: [https://aeris-ui.dev/components/password](https://aeris-ui.dev/components/password)
@@ -29,7 +29,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the feedback overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the feedback overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the feedback panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `''` | Password value with two-way binding and Forms support. |
 | `visible` | `boolean (model)` | `false` | Controls whether the value is masked. |
@@ -38,8 +38,8 @@ import { AerisPassword } from '@aeris-ui/core/password';
 | `placeholder` | `string` | `''` | Native placeholder text. |
 | `autocomplete` | `string` | `'current-password'` | Password-manager and browser autofill hint. |
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label exists. |
-| `ariaLabelledby` | `string` | `''` | IDs of visible elements that label the field. |
-| `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string` | `''` | IDs of visible elements that label the field. |
+| `ariaDescribedBy` | `string` | `''` | IDs of help and validation messages. |
 | `size` | `AerisPasswordSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisPasswordAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `minLength` | `number` | `8` | Native minimum length and default feedback requirement. |
@@ -56,13 +56,14 @@ import { AerisPassword } from '@aeris-ui/core/password';
 | `readonly` | `boolean` | `false` | Makes the native input read-only. |
 | `required` | `boolean` | `false` | Exposes native required validation semantics. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Fills the available inline space. |
 
 ### Password outputs
 
 | Name | Type | Description |
 | --- | --- | --- |
-| valueChange / valueInput | string | Model and explicit value-change notifications. |
+| valueChange / valueChange | string | Model and explicit value-change notifications. |
 | visibleChange / visibilityChanged | boolean | Model and explicit visibility notifications. |
 | focused / blurred | FocusEvent | Native input focus lifecycle events. |
 | touch | void | Emitted when focus leaves the complete component. |
@@ -158,7 +159,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -166,13 +167,13 @@ import { AerisPassword } from '@aeris-ui/core/password';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -216,7 +217,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -224,13 +225,13 @@ import { AerisPassword } from '@aeris-ui/core/password';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -274,7 +275,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -282,13 +283,13 @@ import { AerisPassword } from '@aeris-ui/core/password';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -332,7 +333,7 @@ import { AerisPassword, type AerisPasswordStrengthResult } from '@aeris-ui/core/
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -340,13 +341,13 @@ import { AerisPassword, type AerisPasswordStrengthResult } from '@aeris-ui/core/
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -490,7 +491,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -498,13 +499,13 @@ import { AerisPassword } from '@aeris-ui/core/password';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -832,7 +833,7 @@ export class PasswordValidationValidationDemo {
     [minLength]="12"
     required
     [invalid]="validationInvalid()"
-    ariaDescribedby="validated-password-message"
+    ariaDescribedBy="validated-password-message"
     (blurred)="validationTouched.set(true)"
     fluid
   />
@@ -988,7 +989,7 @@ export class PasswordFormsReactiveAndTemplateDrivenFormsDemo {
 - Associate a visible label through inputId, or provide ariaLabel only when no visible label exists.
 - The visibility control is a native toggle button with a changing accessible name and synchronized aria-pressed.
 - Feedback is connected through aria-describedby and announced politely without repeating or exposing the password value.
-- Use ariaDescribedby for application help and errors. Required and invalid state are synchronized with native and ARIA semantics.
+- Use ariaDescribedBy for application help and errors. Required and invalid state are synchronized with native and ARIA semantics.
 - Strength feedback is advisory. Authentication rules and compromised-password checks must also run on a trusted server.
 - Disabled, read-only, touched, and value state synchronize with Reactive Forms and template-driven forms.
 - Visible focus meets WCAG 2.2 AA expectations and transitions respect reduced-motion preferences.

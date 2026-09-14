@@ -87,8 +87,8 @@
                   <label aerisFormLabel>Birth date</label>
                   <aeris-date-picker
                     [inputId]="birthField.controlId()"
-                    [ariaLabelledby]="birthField.labelId()"
-                    [ariaDescribedby]="birthField.describedBy()"
+                    [ariaLabelledBy]="birthField.labelId()"
+                    [ariaDescribedBy]="birthField.describedBy()"
                     [(value)]="birthDate"
                     fluid
                   />
@@ -99,8 +99,8 @@
                   <label aerisFormLabel>Height</label>
                   <aeris-input-number
                     [inputId]="heightField.controlId()"
-                    [ariaLabelledby]="heightField.labelId()"
-                    [ariaDescribedby]="heightField.describedBy()"
+                    [ariaLabelledBy]="heightField.labelId()"
+                    [ariaDescribedBy]="heightField.describedBy()"
                     [(value)]="height"
                     suffix=" cm"
                     [min]="80"
@@ -114,8 +114,8 @@
                   <label aerisFormLabel>Role</label>
                   <aeris-select
                     [inputId]="roleField.controlId()"
-                    [ariaLabelledby]="roleField.labelId()"
-                    [ariaDescribedby]="roleField.describedBy()"
+                    [ariaLabelledBy]="roleField.labelId()"
+                    [ariaDescribedBy]="roleField.describedBy()"
                     [options]="roleOptions"
                     [(value)]="role"
                     placeholder="Choose a role"
@@ -129,8 +129,8 @@
                   <label aerisFormLabel>Biography</label>
                   <aeris-textarea
                     [inputId]="bioField.controlId()"
-                    [ariaLabelledby]="bioField.labelId()"
-                    [ariaDescribedby]="bioField.describedBy()"
+                    [ariaLabelledBy]="bioField.labelId()"
+                    [ariaDescribedBy]="bioField.describedBy()"
                     [(value)]="biography"
                     [rows]="3"
                     fluid
@@ -156,8 +156,8 @@
     &lt;label aerisFormLabel&gt;Birth date&lt;/label&gt;
     &lt;aeris-date-picker
       [inputId]="birthField.controlId()"
-      [ariaLabelledby]="birthField.labelId()"
-      [ariaDescribedby]="birthField.describedBy()"
+      [ariaLabelledBy]="birthField.labelId()"
+      [ariaDescribedBy]="birthField.describedBy()"
       [(value)]="birthDate"
       fluid
     /&gt;
@@ -168,8 +168,8 @@
     &lt;label aerisFormLabel&gt;Height&lt;/label&gt;
     &lt;aeris-input-number
       [inputId]="heightField.controlId()"
-      [ariaLabelledby]="heightField.labelId()"
-      [ariaDescribedby]="heightField.describedBy()"
+      [ariaLabelledBy]="heightField.labelId()"
+      [ariaDescribedBy]="heightField.describedBy()"
       [(value)]="height"
       suffix=" cm"
       [min]="80"
@@ -183,8 +183,8 @@
     &lt;label aerisFormLabel&gt;Role&lt;/label&gt;
     &lt;aeris-select
       [inputId]="roleField.controlId()"
-      [ariaLabelledby]="roleField.labelId()"
-      [ariaDescribedby]="roleField.describedBy()"
+      [ariaLabelledBy]="roleField.labelId()"
+      [ariaDescribedBy]="roleField.describedBy()"
       [options]="roleOptions"
       [(value)]="role"
       placeholder="Choose a role"
@@ -198,8 +198,8 @@
     &lt;label aerisFormLabel&gt;Biography&lt;/label&gt;
     &lt;aeris-textarea
       [inputId]="bioField.controlId()"
-      [ariaLabelledby]="bioField.labelId()"
-      [ariaDescribedby]="bioField.describedBy()"
+      [ariaLabelledBy]="bioField.labelId()"
+      [ariaDescribedBy]="bioField.describedBy()"
       [(value)]="biography"
       [rows]="3"
       fluid
@@ -247,7 +247,13 @@
 
                 <div class="validation-actions">
                   <button aerisButton type="button" (click)="validateEmail()">Check email</button>
-                  <button aerisButton type="button" variant="secondary" (click)="resetValidation()">
+                  <button
+                    aerisButton
+                    type="button"
+                    variant="solid"
+                    severity="secondary"
+                    (click)="resetValidation()"
+                  >
                     Reset
                   </button>
                 </div>
@@ -283,7 +289,13 @@
 
   &lt;div class="validation-actions"&gt;
     &lt;button aerisButton type="button" (click)="validateEmail()"&gt;Check email&lt;/button&gt;
-    &lt;button aerisButton type="button" variant="secondary" (click)="resetValidation()"&gt;
+    &lt;button
+      aerisButton
+      type="button"
+      variant="solid"
+      severity="secondary"
+      (click)="resetValidation()"
+    &gt;
       Reset
     &lt;/button&gt;
   &lt;/div&gt;
@@ -302,8 +314,8 @@
                   <label aerisFormLabel>Workspace notifications</label>
                   <aeris-toggle-switch
                     [inputId]="notificationField.controlId()"
-                    [ariaLabelledby]="notificationField.labelId()"
-                    [ariaDescribedby]="notificationField.describedBy()"
+                    [ariaLabelledBy]="notificationField.labelId()"
+                    [ariaDescribedBy]="notificationField.describedBy()"
                     [(checked)]="notifications"
                     required
                   />
@@ -326,8 +338,8 @@
     &lt;label aerisFormLabel&gt;Workspace notifications&lt;/label&gt;
     &lt;aeris-toggle-switch
       [inputId]="notificationField.controlId()"
-      [ariaLabelledby]="notificationField.labelId()"
-      [ariaDescribedby]="notificationField.describedBy()"
+      [ariaLabelledBy]="notificationField.labelId()"
+      [ariaDescribedBy]="notificationField.describedBy()"
       [(checked)]="notifications"
       required
     /&gt;

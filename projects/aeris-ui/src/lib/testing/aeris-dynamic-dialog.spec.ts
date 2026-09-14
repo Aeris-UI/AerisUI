@@ -8,7 +8,7 @@ import {
   AerisDynamicDialogService,
   type AerisDynamicDialogCloseEvent,
   type AerisDynamicDialogResolvedConfig,
-  type AerisDynamicDialogShowEvent,
+  type AerisDynamicDialogOpenEvent,
 } from '../../../dynamic-dialog/aeris-dynamic-dialog';
 
 const settle = () => new Promise<void>((resolve) => queueMicrotask(resolve));
@@ -72,7 +72,7 @@ describe('AerisDynamicDialogService', () => {
 
   it('creates a dialog with dynamic component content, data, inputs, and close results', async () => {
     let closeEvent: AerisDynamicDialogCloseEvent<AssignmentResult> | undefined;
-    let showEvent: AerisDynamicDialogShowEvent | undefined;
+    let showEvent: AerisDynamicDialogOpenEvent | undefined;
 
     const ref = service.open<AssignmentDialogContent, AssignmentData, AssignmentResult>(
       AssignmentDialogContent,
@@ -86,7 +86,7 @@ describe('AerisDynamicDialogService', () => {
         width: '34rem',
       },
     );
-    ref.shown.subscribe((event) => {
+    ref.opened.subscribe((event) => {
       showEvent = event;
     });
     ref.closed.subscribe((event) => {
@@ -178,7 +178,7 @@ describe('AerisDynamicDialogService', () => {
 
     const maskEvents: AerisDynamicDialogCloseEvent<string>[] = [];
     const maskRef = service.open<SimpleDialogContent, unknown, string>(SimpleDialogContent, {
-      dismissibleMask: true,
+      closeOnBackdropClick: true,
     });
     maskRef.closed.subscribe((event) => maskEvents.push(event));
     await settle();

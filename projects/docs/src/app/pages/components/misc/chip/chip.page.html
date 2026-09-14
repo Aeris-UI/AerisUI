@@ -148,7 +148,13 @@
                     [(visible)]="removableVisible"
                     (removed)="recordRemoval($event)"
                   />
-                  <button aerisButton variant="secondary" type="button" (click)="restoreChip()">
+                  <button
+                    aerisButton
+                    variant="solid"
+                    severity="secondary"
+                    type="button"
+                    (click)="restoreChip()"
+                  >
                     Restore chip
                   </button>
                   <p aria-live="polite">{{ removalStatus() }}</p>
@@ -162,7 +168,13 @@
       [(visible)]="removableVisible"
       (removed)="recordRemoval($event)"
     /&gt;
-    &lt;button aerisButton variant="secondary" type="button" (click)="restoreChip()"&gt;
+    &lt;button
+      aerisButton
+      variant="solid"
+      severity="secondary"
+      type="button"
+      (click)="restoreChip()"
+    &gt;
       Restore chip
     &lt;/button&gt;
     &lt;p aria-live="polite"&gt;&#123;&#123; removalStatus() &#125;&#125;&lt;/p&gt;

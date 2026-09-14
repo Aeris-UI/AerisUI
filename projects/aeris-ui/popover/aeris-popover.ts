@@ -74,6 +74,7 @@ let nextPopoverId = 0;
       <div
         class="aeris-popover__layer"
         [aerisInternalAppendTo]="appendTo()"
+        aerisInternalAppendToDefault="body"
         [attr.data-positioned]="positioned() || null"
       >
         <section
@@ -200,7 +201,7 @@ export class AerisPopover {
   }));
 
   readonly visible = model(false);
-  readonly appendTo = input<AerisAppendTo>('body');
+  readonly appendTo = input<AerisAppendTo>();
   readonly target = input<AerisPopoverTarget>(null);
   readonly header = input('');
   readonly placement = input<AerisPopoverPlacement>('auto');
@@ -209,7 +210,7 @@ export class AerisPopover {
   readonly maxWidth = input('');
   readonly offset = input(10);
   readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
-  readonly dismissible = input(true, { transform: booleanAttribute });
+  readonly closeOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly closable = input(false, { transform: booleanAttribute });
   readonly focusTrap = input(true, { transform: booleanAttribute });
@@ -222,9 +223,8 @@ export class AerisPopover {
   readonly ariaLabelledBy = input('');
   readonly ariaDescribedBy = input('');
 
-  readonly shown = output<AerisPopoverVisibilityChangeEvent>();
-  readonly hidden = output<AerisPopoverVisibilityChangeEvent>();
-  readonly visibilityChanged = output<AerisPopoverVisibilityChangeEvent>();
+  readonly opened = output<AerisPopoverVisibilityChangeEvent>();
+  readonly closed = output<AerisPopoverVisibilityChangeEvent>();
 
   readonly popoverId = `aeris-popover-${nextPopoverId++}`;
   readonly titleId = `${this.popoverId}-title`;
@@ -347,7 +347,7 @@ export class AerisPopover {
   }
 
   protected handleDocumentPointerdown(event: PointerEvent): void {
-    if (!this.visible() || !this.dismissible()) return;
+    if (!this.visible() || !this.closeOnOutsideClick()) return;
     const target = event.target;
     if (!(target instanceof Node)) return;
     const panel = this.popoverPanel()?.nativeElement;
@@ -371,8 +371,7 @@ export class AerisPopover {
     this.updateTriggerAttributes(true);
     const event = this.visibilityEvent(true, 'api', this.pendingOriginalEvent, target);
     this.pendingOriginalEvent = null;
-    this.shown.emit(event);
-    this.visibilityChanged.emit(event);
+    this.opened.emit(event);
     queueMicrotask(() => {
       this.reposition();
       if (this.autoFocus()) this.focusInitial();
@@ -394,8 +393,7 @@ export class AerisPopover {
     this.pendingOriginalEvent = null;
     this.pendingCloseReason = 'api';
     this.activeTarget.set(null);
-    this.hidden.emit(event);
-    this.visibilityChanged.emit(event);
+    this.closed.emit(event);
 
     if (shouldRestoreFocus && target instanceof HTMLElement) {
       queueMicrotask(() => target.focus());

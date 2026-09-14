@@ -12,6 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisInputNumberSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisInputNumberAppearance = 'outline' | 'filled';
@@ -38,7 +39,7 @@ let inputNumberId = 0;
       [attr.data-button-layout]="showButtons() ? buttonLayout() : null"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-readonly]="readonly() || null"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
     >
       @if (showButtons() && buttonLayout() !== 'stacked') {
         <button
@@ -72,9 +73,9 @@ let inputNumberId = 0;
           [readOnly]="readonly()"
           [required]="required()"
           [attr.aria-label]="ariaLabel()"
-          [attr.aria-labelledby]="ariaLabelledby()"
-          [attr.aria-describedby]="ariaDescribedby()"
-          [attr.aria-invalid]="invalid() || null"
+          [attr.aria-labelledby]="ariaLabelledBy()"
+          [attr.aria-describedby]="ariaDescribedBy()"
+          [attr.aria-invalid]="displayInvalid() || null"
           [attr.aria-required]="required() || null"
           [attr.aria-valuemin]="min()"
           [attr.aria-valuemax]="max()"
@@ -110,7 +111,10 @@ let inputNumberId = 0;
             [attr.tabindex]="buttonTabIndex()"
             (click)="stepBy(1)"
           >
-            <span class="aeris-input-number__chevron aeris-input-number__chevron--up" aria-hidden="true"></span>
+            <span
+              class="aeris-input-number__chevron aeris-input-number__chevron--up"
+              aria-hidden="true"
+            ></span>
           </button>
           <button
             type="button"
@@ -120,7 +124,10 @@ let inputNumberId = 0;
             [attr.tabindex]="buttonTabIndex()"
             (click)="stepBy(-1)"
           >
-            <span class="aeris-input-number__chevron aeris-input-number__chevron--down" aria-hidden="true"></span>
+            <span
+              class="aeris-input-number__chevron aeris-input-number__chevron--down"
+              aria-hidden="true"
+            ></span>
           </button>
         </span>
       } @else if (showButtons()) {
@@ -164,8 +171,8 @@ export class AerisInputNumber implements ControlValueAccessor {
   readonly placeholder = input('');
   readonly autocomplete = input('off');
   readonly ariaLabel = input<string>();
-  readonly ariaLabelledby = input<string>();
-  readonly ariaDescribedby = input<string>();
+  readonly ariaLabelledBy = input<string>();
+  readonly ariaDescribedBy = input<string>();
   readonly locale = input('en-US');
   readonly mode = input<AerisInputNumberMode>('decimal');
   readonly currency = input('USD');
@@ -196,9 +203,12 @@ export class AerisInputNumber implements ControlValueAccessor {
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly fluid = input(false, { transform: booleanAttribute });
 
-  readonly valueInput = output<number | null>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
   readonly touch = output<void>();
@@ -260,16 +270,11 @@ export class AerisInputNumber implements ControlValueAccessor {
   );
   protected readonly showClearButton = computed(
     () =>
-      this.clearable() &&
-      this.value() !== null &&
-      !this.effectiveDisabled() &&
-      !this.readonly(),
+      this.clearable() && this.value() !== null && !this.effectiveDisabled() && !this.readonly(),
   );
 
   writeValue(value: unknown): void {
-    this.value.set(
-      typeof value === 'number' && Number.isFinite(value) ? value : null,
-    );
+    this.value.set(typeof value === 'number' && Number.isFinite(value) ? value : null);
     this.editValue.set(this.editableValue());
   }
 
@@ -374,7 +379,6 @@ export class AerisInputNumber implements ControlValueAccessor {
   private setValue(value: number | null): void {
     if (Object.is(this.value(), value)) return;
     this.value.set(value);
-    this.valueInput.emit(value);
     this.onChange(value);
   }
 
@@ -439,7 +443,10 @@ export class AerisInputNumber implements ControlValueAccessor {
   private constrain(value: number): number {
     const min = this.min();
     const max = this.max();
-    return Math.min(max ?? Number.POSITIVE_INFINITY, Math.max(min ?? Number.NEGATIVE_INFINITY, value));
+    return Math.min(
+      max ?? Number.POSITIVE_INFINITY,
+      Math.max(min ?? Number.NEGATIVE_INFINITY, value),
+    );
   }
 
   private decimalSeparator(): string {

@@ -2,7 +2,7 @@
 
 > Trigger actions with clear hierarchy, sizes, loading states, and icon support.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/button`
 - Human-readable documentation: [https://aeris-ui.dev/components/button](https://aeris-ui.dev/components/button)
@@ -29,20 +29,17 @@ import { AerisButton } from '@aeris-ui/core/button';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `variant` | `AerisButtonVariant` | `'primary'` | Visual treatment of the button. Options: 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. |
-| `severity` | `AerisButtonSeverity` | `'primary'` | Semantic color applied to the selected variant. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. |
+| `variant` | `AerisButtonVariant` | `'solid'` | Presentation treatment independent of color. Options: 'solid', 'outline', 'ghost', 'link'. |
+| `severity` | `AerisButtonSeverity` | `'primary'` | Semantic color applied to the selected variant. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
 | `size` | `AerisButtonSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `iconPosition` | `AerisButtonIconPosition` | `'left'` | Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically. Options: 'left', 'right', 'top', 'bottom'. |
 | `loading` | `boolean` | `false` | Displays progress and exposes aria-busy. |
+| `disabled` | `boolean` | `false` | Disables native button activation or marks an anchor as unavailable. |
 | `showSpinner` | `boolean` | `true` | Controls the built-in loading spinner. |
 | `iconOnly` | `boolean` | `false` | Creates a square icon button. Requires an accessible name. |
 | `raised` | `boolean` | `false` | Adds elevation. |
 | `rounded` | `boolean` | `false` | Uses a pill-shaped radius. |
 | `fluid` | `boolean` | `false` | Fills the available inline width. |
-| `plain` | `boolean` | `false` | Overrides semantic colors with a neutral treatment. |
-| `text` | `boolean` | `false` | Compatibility alias for variant='ghost'. |
-| `outlined` | `boolean` | `false` | Compatibility alias for variant='outline'. |
-| `link` | `boolean` | `false` | Compatibility alias for variant='link'. |
 
 ### Button emitters
 
@@ -66,12 +63,11 @@ import { AerisButton } from '@aeris-ui/core/button';
 
 ```ts
 type AerisButtonVariant =
-  | 'primary' | 'secondary' | 'outline'
-  | 'ghost' | 'danger' | 'link';
+  | 'solid' | 'outline' | 'ghost' | 'link';
 
 type AerisButtonSeverity =
   | 'primary' | 'secondary' | 'success' | 'info'
-  | 'warning' | 'danger' | 'contrast';
+  | 'warning' | 'danger' | 'neutral' | 'contrast';
 
 type AerisButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 type AerisButtonIconPosition = 'left' | 'right' | 'top' | 'bottom';
@@ -123,7 +119,7 @@ import { AerisButton } from '@aeris-ui/core/button';
   template: `
     <div class="aeris-example-row">
       <button aerisButton>Save changes</button
-      ><button aerisButton variant="secondary">Cancel</button>
+      ><button aerisButton variant="solid" severity="secondary">Cancel</button>
     </div>
   `,
   styles: `
@@ -132,7 +128,7 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -172,14 +168,14 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
         flex-wrap: wrap;
       }
     }
-    
+
     .result {
       align-self: center;
       color: var(--aeris-text-3);
@@ -213,10 +209,10 @@ import { AerisButton } from '@aeris-ui/core/button';
   template: `
     <div class="wrap aeris-example-row">
       <button aerisButton>Primary</button
-      ><button aerisButton variant="secondary">Secondary</button
+      ><button aerisButton variant="solid" severity="secondary">Secondary</button
       ><button aerisButton variant="outline">Outline</button
       ><button aerisButton variant="ghost">Ghost</button
-      ><button aerisButton variant="danger">Danger</button
+      ><button aerisButton variant="solid" severity="danger">Danger</button
       ><button aerisButton variant="link">Link</button>
     </div>
   `,
@@ -226,13 +222,13 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -271,13 +267,13 @@ import { AerisButton, type AerisButtonSeverity } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -325,17 +321,17 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     .align {
       align-items: center;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -379,17 +375,17 @@ import { LucideChevronRight, LucideDynamicIcon, LucidePlus } from '@lucide/angul
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     .align {
       align-items: center;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -421,7 +417,8 @@ import { AerisButton } from '@aeris-ui/core/button';
     <div class="wrap aeris-example-row">
       <button
         aerisButton
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         [loading]="loading()"
         [disabled]="loading()"
         (click)="toggleLoading()"
@@ -436,13 +433,13 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -452,15 +449,11 @@ import { AerisButton } from '@aeris-ui/core/button';
   `
 })
 export class FeatureLoadingLoadingDemo {
-  protected readonly saving = signal(false);
+  protected readonly loading = signal(false);
 
-  protected save(): void {
-    this.saving.set(true);
-
-    this.projectService.save().subscribe({
-      complete: () => this.saving.set(false),
-      error: () => this.saving.set(false),
-    });
+  protected toggleLoading(): void {
+    this.loading.set(true);
+    globalThis.setTimeout(() => this.loading.set(false), 1600);
   }
 }
 ```
@@ -494,19 +487,19 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     .stack {
       width: 100%;
       display: grid;
       gap: 0.75rem;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -538,7 +531,8 @@ import { AerisButton } from '@aeris-ui/core/button';
         label="Tasks"
         badge="3"
         badgeSeverity="success"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
       />
     </div>
   `,
@@ -548,13 +542,13 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     .wrap {
       display: flex;
       gap: 0.5625rem;
       flex-wrap: wrap;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -594,7 +588,7 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -638,7 +632,7 @@ import { AerisButton } from '@aeris-ui/core/button';
       gap: 0.5625rem;
       min-width: 0;
     }
-    
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;

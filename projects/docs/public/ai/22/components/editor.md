@@ -2,7 +2,7 @@
 
 > Rich text editing with optional Lexical peers, accessible toolbar controls, and Forms support.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/editor`
 - Human-readable documentation: [https://aeris-ui.dev/components/editor](https://aeris-ui.dev/components/editor)
@@ -36,8 +36,8 @@ import { AerisEditor } from '@aeris-ui/core/editor';
 | `name` | `string` | `''` | Adds a hidden input for native form submission of the HTML value. |
 | `placeholder` | `string` | `'Write something...'` | Placeholder text shown while the editor is empty and not focused. |
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label exists. |
-| `ariaLabelledby` | `string` | `''` | IDs of visible elements that label the editor. |
-| `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string` | `''` | IDs of visible elements that label the editor. |
+| `ariaDescribedBy` | `string` | `''` | IDs of help and validation messages. |
 | `toolbarAriaLabel` | `string` | `'Formatting tools'` | Accessible name for the toolbar. |
 | `size` | `AerisEditorSize` | `'md'` | Controls editor typography and padding. Options: 'sm', 'md', 'lg'. |
 | `appearance` | `AerisEditorAppearance` | `'outline'` | Outlined or filled surface treatment. Options: 'outline', 'filled'. |
@@ -52,6 +52,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
 | `readonly` | `boolean` | `false` | Prevents editing while keeping the content readable. |
 | `required` | `boolean` | `false` | Adds required semantics for assistive technology. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Fills the available inline space. |
 
 ### Editor outputs
@@ -59,7 +60,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
 | Name | Type | Description |
 | --- | --- | --- |
 | valueChange | string | Model output emitted by two-way binding. |
-| valueInput | string | Emits the current HTML value after editor updates. |
+| valueChange | string | Emits the current HTML value after editor updates. |
 | changed | AerisEditorChangeEvent | Emits HTML and plain text content after editor updates. |
 | focused | FocusEvent | Emits when the editable textbox receives focus. |
 | blurred | FocusEvent | Emits when the editable textbox loses focus. |
@@ -212,7 +213,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -220,17 +221,17 @@ import { AerisEditor } from '@aeris-ui/core/editor';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .editor-field {
       align-items: stretch;
     }
@@ -275,7 +276,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -283,17 +284,17 @@ import { AerisEditor } from '@aeris-ui/core/editor';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .editor-field {
       align-items: stretch;
     }
@@ -336,7 +337,7 @@ import { AERIS_EDITOR_ALL_FORMATS, AerisEditor } from '@aeris-ui/core/editor';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -344,21 +345,21 @@ import { AERIS_EDITOR_ALL_FORMATS, AerisEditor } from '@aeris-ui/core/editor';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .editor-field {
       align-items: stretch;
     }
-    
+
     .editor-comprehensive {
       width: min(100%, 56rem);
     }
@@ -406,7 +407,7 @@ import { $getRoot } from 'lexical';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -414,17 +415,17 @@ import { $getRoot } from 'lexical';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .editor-field {
       align-items: stretch;
     }
@@ -485,7 +486,7 @@ import { AerisEditor, type AerisEditorFormat } from '@aeris-ui/core/editor';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -493,17 +494,17 @@ import { AerisEditor, type AerisEditorFormat } from '@aeris-ui/core/editor';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .editor-field {
       align-items: stretch;
     }
@@ -671,7 +672,7 @@ export class EditorValidationValidationDemo {
     [(value)]="validationContent"
     required
     [invalid]="validationInvalid()"
-    ariaDescribedby="validated-editor-message"
+    ariaDescribedBy="validated-editor-message"
     (blurred)="validationTouched.set(true)"
     fluid
   />
@@ -834,7 +835,7 @@ export class EditorFormsReactiveAndTemplateDrivenFormsDemo {
 - The toolbar uses native buttons inside a labeled role="toolbar"; active inline formats expose aria-pressed.
 - Checklist items expose Lexical's checkbox semantics and can be operated with a pointer or keyboard while editing.
 - Consumer extensions are responsible for the semantics, keyboard behavior, focus management, and announcements of any custom nodes or controls they register.
-- Use ariaDescribedby for help and validation messages. Required and invalid state are reflected with ARIA attributes.
+- Use ariaDescribedBy for help and validation messages. Required and invalid state are reflected with ARIA attributes.
 - Disabled and read-only states prevent editing and keep the content understandable to assistive technology.
 - Incoming HTML passes through Angular's HTML sanitizer before it is imported. Treat emitted HTML as untrusted again when it crosses a server or storage boundary.
 - Visible focus states meet WCAG 2.2 AA expectations and transitions respect reduced-motion preferences.

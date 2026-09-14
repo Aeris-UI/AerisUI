@@ -254,7 +254,8 @@
                     <div class="confirm-footer">
                       <button
                         aerisButton
-                        variant="secondary"
+                        variant="solid"
+                        severity="secondary"
                         type="button"
                         (click)="reject($event)"
                       >
@@ -288,7 +289,8 @@
       &lt;div class="confirm-footer"&gt;
         &lt;button
           aerisButton
-          variant="secondary"
+          variant="solid"
+          severity="secondary"
           type="button"
           (click)="reject($event)"
         &gt;
@@ -584,7 +586,7 @@
           </li>
           <li>
             Escape dismissal is enabled by default. Mask dismissal is opt-in through
-            <code>dismissibleMask</code>.
+            <code>closeOnBackdropClick</code>.
           </li>
           <li>Use clear button labels that describe the consequence of accepting or rejecting.</li>
         </ul>

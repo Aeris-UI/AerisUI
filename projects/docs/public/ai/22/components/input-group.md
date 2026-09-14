@@ -2,7 +2,7 @@
 
 > Continuous grouped inputs with text addons, icon addons, and action buttons.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/input-group`
 - Human-readable documentation: [https://aeris-ui.dev/components/input-group](https://aeris-ui.dev/components/input-group)
@@ -34,6 +34,7 @@ import { AerisInputGroup } from '@aeris-ui/core/input-group';
 | `mode` | `AerisInputGroupMode` | `'attached'` | Attached creates shared-addon groups. Embedded positions icon addons inside a normal-looking input. |
 | `orientation` | `'horizontal' &#124; 'vertical'` | `'horizontal'` | Stacks group items vertically when horizontal space is constrained or the design needs stacked controls. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid to the group wrapper. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `disabled` | `boolean` | `false` | Applies disabled group styling. Keep projected controls disabled as well. |
 | `fluid` | `boolean` | `false` | Expands the group to fill available inline space. |
 
@@ -109,7 +110,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -117,13 +118,13 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -167,7 +168,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -175,13 +176,13 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -300,50 +301,60 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 @Component({
   selector: 'app-input-group-button-demo',
   imports: [AerisButton, AerisInputGroup, AerisInputText],
-  template: `
-    <div class="field">
-      <label for="docs-search">Documentation search</label>
-      <aeris-input-group fluid>
-        <input
-          aerisInputText
-          id="docs-search"
-          type="search"
-          placeholder="Search components"
-          fluid
-        />
-        <button aerisButton type="button" variant="secondary">Search</button>
-      </aeris-input-group>
-    </div>
-  `,
-  styles: `
-    .field {
-      min-width: 0;
-      display: grid;
-      align-content: start;
-      grid-auto-rows: max-content;
-      gap: 0.45rem;
-    }
-    
-    .field > label,
-    .field > span:first-child {
-      color: var(--aeris-text);
-      font-size: 0.875rem;
-      font-weight: 600;
-      line-height: 1.4;
-    }
-    
-    .field small {
-      color: var(--aeris-text-2);
-      font-size: 0.8125rem;
-      line-height: 1.5;
-    }
-    
-    .field small.error {
-      color: var(--aeris-danger);
-    }
-  `
+  templateUrl: './input-group-button.demo.html',
+  styleUrl: './input-group-button.demo.scss'
 })
 export class InputGroupButtonButtonActionDemo {
+}
+```
+
+#### HTML
+
+```html
+<div class="field">
+  <label for="docs-search">Documentation search</label>
+  <aeris-input-group fluid>
+    <input
+      aerisInputText
+      id="docs-search"
+      type="search"
+      placeholder="Search components"
+      fluid
+    />
+    <button aerisButton type="button" variant="solid" severity="secondary">
+      Search
+    </button>
+  </aeris-input-group>
+</div>
+```
+
+#### CSS
+
+```css
+.field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  grid-auto-rows: max-content;
+  gap: 0.45rem;
+}
+
+.field > label,
+.field > span:first-child {
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.field small {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.field small.error {
+  color: var(--aeris-danger);
 }
 ```
 
@@ -382,7 +393,9 @@ export class InputGroupSelectionSelectionAddonsDemo {
         <aeris-checkbox ariaLabel="Include archived" [(checked)]="includeArchived" />
       </aeris-input-group-addon>
       <input aerisInputText placeholder="Search records" fluid />
-      <button aerisButton type="button" variant="secondary">Apply</button>
+      <button aerisButton type="button" variant="solid" severity="secondary">
+        Apply
+      </button>
     </aeris-input-group>
   </div>
   <div class="field">
@@ -466,53 +479,63 @@ import { LucideDynamicIcon, LucidePackage } from '@lucide/angular';
 @Component({
   selector: 'app-input-group-stacked-demo',
   imports: [AerisButton, AerisInputGroup, AerisInputText, LucideDynamicIcon],
-  template: `
-    <div class="field">
-      <label for="stacked-addons">Repository</label>
-      <aeris-input-group fluid>
-        <aeris-input-group-addon-stack>
-          <svg aerisInputGroupAddon decorative [lucideIcon]="icons.Package"></svg>
-          <span aerisInputGroupAddon>repo</span>
-        </aeris-input-group-addon-stack>
-        <input aerisInputText id="stacked-addons" placeholder="aeris-ui" fluid />
-        <aeris-input-group-addon-stack>
-          <span aerisInputGroupAddon>.dev</span>
-          <button aerisButton type="button" variant="secondary">Open</button>
-        </aeris-input-group-addon-stack>
-      </aeris-input-group>
-    </div>
-  `,
-  styles: `
-    .field {
-      min-width: 0;
-      display: grid;
-      align-content: start;
-      grid-auto-rows: max-content;
-      gap: 0.45rem;
-    }
-    
-    .field > label,
-    .field > span:first-child {
-      color: var(--aeris-text);
-      font-size: 0.875rem;
-      font-weight: 600;
-      line-height: 1.4;
-    }
-    
-    .field small {
-      color: var(--aeris-text-2);
-      font-size: 0.8125rem;
-      line-height: 1.5;
-    }
-    
-    .field small.error {
-      color: var(--aeris-danger);
-    }
-  `
+  templateUrl: './input-group-stacked.demo.html',
+  styleUrl: './input-group-stacked.demo.scss'
 })
 export class InputGroupStackedStackedAddonsDemo {
 
   protected readonly icons = { Package: LucidePackage };
+}
+```
+
+#### HTML
+
+```html
+<div class="field">
+  <label for="stacked-addons">Repository</label>
+  <aeris-input-group fluid>
+    <aeris-input-group-addon-stack>
+      <svg aerisInputGroupAddon decorative [lucideIcon]="icons.Package"></svg>
+      <span aerisInputGroupAddon>repo</span>
+    </aeris-input-group-addon-stack>
+    <input aerisInputText id="stacked-addons" placeholder="aeris-ui" fluid />
+    <aeris-input-group-addon-stack>
+      <span aerisInputGroupAddon>.dev</span>
+      <button aerisButton type="button" variant="solid" severity="secondary">
+        Open
+      </button>
+    </aeris-input-group-addon-stack>
+  </aeris-input-group>
+</div>
+```
+
+#### CSS
+
+```css
+.field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  grid-auto-rows: max-content;
+  gap: 0.45rem;
+}
+
+.field > label,
+.field > span:first-child {
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.field small {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.field small.error {
+  color: var(--aeris-danger);
 }
 ```
 
@@ -548,7 +571,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -556,13 +579,13 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -703,7 +726,9 @@ export class InputGroupStatesAppearancesAndStatesDemo {
         placeholder="username"
         fluid
       />
-      <button aerisButton type="button" variant="secondary">Save</button>
+      <button aerisButton type="button" variant="solid" severity="secondary">
+        Save
+      </button>
     </aeris-input-group>
   </div>
   <div class="field">
@@ -799,7 +824,9 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       <aeris-input-group orientation="vertical" fluid>
         <span aerisInputGroupAddon>Region</span>
         <input aerisInputText aria-label="Region" value="eu-central" fluid />
-        <button aerisButton type="button" variant="secondary">Validate</button>
+        <button aerisButton type="button" variant="solid" severity="secondary">
+          Validate
+        </button>
       </aeris-input-group>
     </div>
   `,
@@ -811,7 +838,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -819,13 +846,13 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

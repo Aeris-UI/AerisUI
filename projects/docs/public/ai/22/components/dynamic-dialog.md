@@ -2,7 +2,7 @@
 
 > Service-created dialog shell that renders any Angular component as dynamic content.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/dynamic-dialog`
 - Human-readable documentation: [https://aeris-ui.dev/components/dynamic-dialog](https://aeris-ui.dev/components/dynamic-dialog)
@@ -42,7 +42,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the dialog locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the dialog locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Dialog title rendered by the shell. |
 | `data` | `TData` | `undefined` | Typed payload available through AERIS_DYNAMIC_DIALOG_DATA. |
 | `inputValues` | `Record&lt;string, unknown&gt;` | `{}` | Input values applied to the dynamic content component. |
@@ -50,7 +50,7 @@ import {
 | `backdrop` | `boolean` | `true` | Shows the visual backdrop. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur to the backdrop. |
 | `backdropBlurAmount` | `string` | `''` | Overrides the backdrop blur radius with a CSS length. |
-| `dismissibleMask` | `boolean` | `false` | Closes when the mask itself is pressed. |
+| `closeOnBackdropClick` | `boolean` | `false` | Closes when the mask itself is pressed. |
 | `closeOnEscape` | `boolean` | `true` | Closes when Escape is pressed. |
 | `closable` | `boolean` | `true` | Shows the shell close button. |
 | `maximizable` | `boolean` | `false` | Shows the maximize action. |
@@ -80,7 +80,7 @@ import {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `closed` | `AerisDynamicDialogSubscribable&lt;AerisDynamicDialogCloseEvent&lt;TResult&gt;&gt;` | `-` | Emits once when the dialog closes through the normal lifecycle. |
-| `shown` | `AerisDynamicDialogSubscribable&lt;AerisDynamicDialogShowEvent&gt;` | `-` | Emits after the dialog opens. |
+| `opened` | `AerisDynamicDialogSubscribable&lt;AerisDynamicDialogOpenEvent&gt;` | `-` | Emits after the dialog opens. |
 | `close(result?, event?)` | `(TResult &#124; undefined, Event &#124; null) =&gt; void` | `-` | Closes the dialog and emits an optional result. |
 | `destroy()` | `() =&gt; void` | `-` | Immediately removes the dialog without emitting a close result. |
 | `focus(options?)` | `(FocusOptions) =&gt; void` | `-` | Moves focus to the shell initial focus target. |
@@ -102,7 +102,7 @@ interface AerisDynamicDialogConfig<TData = unknown> {
   readonly backdrop?: boolean;
   readonly backdropBlur?: boolean;
   readonly backdropBlurAmount?: string;
-  readonly dismissibleMask?: boolean;
+  readonly closeOnBackdropClick?: boolean;
   readonly closeOnEscape?: boolean;
   readonly closable?: boolean;
   readonly maximizable?: boolean;
@@ -134,7 +134,7 @@ interface AerisDynamicDialogCloseEvent<TResult = unknown> {
   readonly result: TResult | undefined;
 }
 
-interface AerisDynamicDialogShowEvent {
+interface AerisDynamicDialogOpenEvent {
   readonly originalEvent: Event | null;
 }
 
@@ -217,7 +217,7 @@ class AuditDialogContent {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .dynamic-dialog-status {
       margin-top: 0.875rem;
       color: var(--text-3);
@@ -315,7 +315,7 @@ class ReleaseDialogContent {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .dynamic-dialog-status {
       margin-top: 0.875rem;
       color: var(--text-3);
@@ -422,7 +422,7 @@ class ReleaseDialogContent {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .dynamic-dialog-status {
       margin-top: 0.875rem;
       color: var(--text-3);
@@ -530,7 +530,7 @@ class AuditDialogContent {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .dynamic-dialog-status {
       margin-top: 0.875rem;
       color: var(--text-3);
@@ -616,7 +616,7 @@ class ManageDialogContent {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .dynamic-dialog-status {
       margin-top: 0.875rem;
       color: var(--text-3);
@@ -649,7 +649,7 @@ export class DynamicDialogManageManageReferencesDemo {
 - Use ariaDescribedBy when dynamic content includes explanatory text that should describe the dialog.
 - Use initialFocus to place focus on the safest first action for confirmations and forms.
 - The dynamic content component is responsible for semantic headings, form labels, validation messages, and any custom keyboard behavior it introduces.
-- Escape dismissal is enabled by default. Mask dismissal is opt-in through dismissibleMask.
+- Escape dismissal is enabled by default. Mask dismissal is opt-in through closeOnBackdropClick.
 
 ### Keyboard support
 

@@ -130,7 +130,7 @@ import { ComponentPageHeaderComponent } from '../shared/documentation/component-
           </p>
           <div>
             <a aerisButton routerLink="/components">Browse components</a>
-            <a aerisButton variant="secondary" routerLink="/">Go home</a>
+            <a aerisButton variant="solid" severity="secondary" routerLink="/">Go home</a>
           </div>
         </section>
       </main>

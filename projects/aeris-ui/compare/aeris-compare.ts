@@ -162,8 +162,8 @@ let compareId = 0;
         [value]="normalizedValue()"
         [disabled]="effectiveDisabled()"
         [attr.aria-label]="ariaLabel() || null"
-        [attr.aria-labelledby]="ariaLabelledby() || null"
-        [attr.aria-describedby]="ariaDescribedby() || null"
+        [attr.aria-labelledby]="ariaLabelledBy() || null"
+        [attr.aria-describedby]="ariaDescribedBy() || null"
         [attr.aria-valuetext]="resolvedValueText()"
         [attr.aria-orientation]="orientation()"
         [attr.aria-readonly]="readonly() || null"
@@ -218,11 +218,10 @@ export class AerisCompare implements ControlValueAccessor {
   readonly name = input('');
   readonly inputId = input('');
   readonly ariaLabel = input('Comparison position');
-  readonly ariaLabelledby = input('');
-  readonly ariaDescribedby = input('');
+  readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly valueText = input<((value: number) => string) | null>(null);
 
-  readonly valueInput = output<AerisCompareInputEvent>();
   readonly changed = output<AerisCompareInputEvent>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
@@ -303,7 +302,6 @@ export class AerisCompare implements ControlValueAccessor {
     }
     const next = this.alignValue(input.valueAsNumber);
     this.updateValue(next);
-    this.valueInput.emit({ originalEvent: event, value: next });
   }
 
   protected handleKeydown(event: KeyboardEvent): void {
@@ -340,7 +338,6 @@ export class AerisCompare implements ControlValueAccessor {
     if (aligned === this.normalizedValue()) return;
     this.updateValue(aligned);
     const detail = { originalEvent: event, value: aligned };
-    this.valueInput.emit(detail);
     this.changed.emit(detail);
   }
 
@@ -378,7 +375,6 @@ export class AerisCompare implements ControlValueAccessor {
     );
     if (next === this.normalizedValue()) return;
     this.updateValue(next);
-    this.valueInput.emit({ originalEvent: event, value: next });
   }
 
   protected handleBlur(event: FocusEvent): void {

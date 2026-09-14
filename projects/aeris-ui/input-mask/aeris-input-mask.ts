@@ -11,6 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisInputMaskSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisInputMaskAppearance = 'outline' | 'filled';
@@ -28,7 +29,7 @@ let inputMaskId = 0;
       class="aeris-input-mask"
       [attr.data-size]="size()"
       [attr.data-appearance]="appearance()"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-readonly]="readonly() || null"
     >
@@ -46,9 +47,9 @@ let inputMaskId = 0;
         [readOnly]="readonly()"
         [required]="required()"
         [attr.aria-label]="ariaLabel()"
-        [attr.aria-labelledby]="ariaLabelledby()"
-        [attr.aria-describedby]="ariaDescribedby()"
-        [attr.aria-invalid]="invalid() || null"
+        [attr.aria-labelledby]="ariaLabelledBy()"
+        [attr.aria-describedby]="ariaDescribedBy()"
+        [attr.aria-invalid]="displayInvalid() || null"
         [attr.aria-required]="required() || null"
         (input)="handleInput($event)"
         (focus)="focused.emit($event)"
@@ -93,8 +94,8 @@ export class AerisInputMask implements ControlValueAccessor {
   readonly autocomplete = input('off');
   readonly inputMode = input<'text' | 'numeric' | 'tel' | 'email' | 'url' | 'search'>('text');
   readonly ariaLabel = input<string>();
-  readonly ariaLabelledby = input<string>();
-  readonly ariaDescribedby = input<string>();
+  readonly ariaLabelledBy = input<string>();
+  readonly ariaDescribedBy = input<string>();
   readonly slotChar = input('_');
   readonly showMask = input(false, { transform: booleanAttribute });
   readonly unmask = input(false, { transform: booleanAttribute });
@@ -107,9 +108,12 @@ export class AerisInputMask implements ControlValueAccessor {
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly fluid = input(false, { transform: booleanAttribute });
 
-  readonly valueInput = output<string>();
   readonly completed = output<string>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
@@ -180,7 +184,9 @@ export class AerisInputMask implements ControlValueAccessor {
     const raw = extractRaw(inputElement.value, this.tokens());
     this.commitRaw(raw);
     inputElement.value = formatRaw(raw, this.tokens(), this.slotChar(), this.showMask());
-    queueMicrotask(() => inputElement.setSelectionRange(inputElement.value.length, inputElement.value.length));
+    queueMicrotask(() =>
+      inputElement.setSelectionRange(inputElement.value.length, inputElement.value.length),
+    );
   }
 
   protected handleBlur(event: FocusEvent): void {
@@ -200,7 +206,6 @@ export class AerisInputMask implements ControlValueAccessor {
   private setValue(value: string): void {
     if (this.value() === value) return;
     this.value.set(value);
-    this.valueInput.emit(value);
     this.onChange(value);
   }
 }
@@ -299,9 +304,7 @@ function formatRaw(
 }
 
 function maskPlaceholder(tokens: readonly MaskToken[], slotChar: string): string {
-  return tokens
-    .map((token) => (token.kind === 'literal' ? token.value : slotChar))
-    .join('');
+  return tokens.map((token) => (token.kind === 'literal' ? token.value : slotChar)).join('');
 }
 
 function matchesSlot(character: string, symbol: '9' | 'a' | '*'): boolean {

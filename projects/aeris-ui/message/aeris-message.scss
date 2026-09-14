@@ -16,9 +16,7 @@
   padding: 0.625rem 0.75rem;
   border: 1px solid var(--_accent-border);
   border-radius: var(--aeris-radius-md, 0.75rem);
-  background:
-    linear-gradient(90deg, var(--_accent-soft), transparent 42%),
-    var(--_surface);
+  background: linear-gradient(90deg, var(--_accent-soft), transparent 42%), var(--_surface);
   color: var(--_text);
   box-shadow: var(--aeris-shadow-sm, 0 1px 2px rgb(31 35 27 / 6%));
   font-size: 0.875rem;
@@ -48,7 +46,7 @@
   --_accent: var(--aeris-warning, #c38600);
 }
 
-:host([data-severity='error']) {
+:host([data-severity='danger']) {
   --_accent: var(--aeris-danger, #c81e2a);
 }
 
@@ -156,16 +154,18 @@
   height: 100%;
   background: currentColor;
   transform: none;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.25 8.25 6.6 11.6 12.8 4.8' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.25 8.25 6.6 11.6 12.8 4.8' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.25 8.25 6.6 11.6 12.8 4.8' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.25 8.25 6.6 11.6 12.8 4.8' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
 }
 
 :host([data-severity='success']) .aeris-message__default-icon::after {
   display: none;
 }
 
-:host([data-severity='error']) .aeris-message__default-icon::before,
-:host([data-severity='error']) .aeris-message__default-icon::after {
+:host([data-severity='danger']) .aeris-message__default-icon::before,
+:host([data-severity='danger']) .aeris-message__default-icon::after {
   width: 0.65rem;
   height: 0.125rem;
   top: 50%;
@@ -173,11 +173,11 @@
   border-radius: 999px;
 }
 
-:host([data-severity='error']) .aeris-message__default-icon::before {
+:host([data-severity='danger']) .aeris-message__default-icon::before {
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
-:host([data-severity='error']) .aeris-message__default-icon::after {
+:host([data-severity='danger']) .aeris-message__default-icon::after {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 

@@ -28,12 +28,12 @@
             >
               <div preview class="field">
                 <span id="basic-otp-label">Verification code</span>
-                <aeris-input-otp ariaLabelledby="basic-otp-label" [(value)]="code" />
+                <aeris-input-otp ariaLabelledBy="basic-otp-label" [(value)]="code" />
                 <small aria-live="polite">Value: {{ code() || 'Empty' }}</small>
               </div>
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="basic-otp-label"&gt;Verification code&lt;/span&gt;
-  &lt;aeris-input-otp ariaLabelledby="basic-otp-label" [(value)]="code" /&gt;
+  &lt;aeris-input-otp ariaLabelledBy="basic-otp-label" [(value)]="code" /&gt;
   &lt;small aria-live="polite"&gt;Value: &#123;&#123; code() || 'Empty' &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -46,7 +46,7 @@
               <div preview class="field">
                 <span id="six-digit-label">Six-digit security code</span>
                 <aeris-input-otp
-                  ariaLabelledby="six-digit-label"
+                  ariaLabelledBy="six-digit-label"
                   [length]="6"
                   [(value)]="sixDigitCode"
                 />
@@ -55,7 +55,7 @@
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="six-digit-label"&gt;Six-digit security code&lt;/span&gt;
   &lt;aeris-input-otp
-    ariaLabelledby="six-digit-label"
+    ariaLabelledBy="six-digit-label"
     [length]="6"
     [(value)]="sixDigitCode"
   /&gt;
@@ -71,7 +71,7 @@
               <div preview class="field">
                 <span id="alpha-otp-label">Recovery code</span>
                 <aeris-input-otp
-                  ariaLabelledby="alpha-otp-label"
+                  ariaLabelledBy="alpha-otp-label"
                   mode="alphanumeric"
                   [length]="6"
                   [(value)]="alphanumericCode"
@@ -81,7 +81,7 @@
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="alpha-otp-label"&gt;Recovery code&lt;/span&gt;
   &lt;aeris-input-otp
-    ariaLabelledby="alpha-otp-label"
+    ariaLabelledBy="alpha-otp-label"
     mode="alphanumeric"
     [length]="6"
     [(value)]="alphanumericCode"
@@ -97,11 +97,11 @@
             >
               <div preview class="field">
                 <span id="masked-otp-label">Private access code</span>
-                <aeris-input-otp ariaLabelledby="masked-otp-label" mask [(value)]="maskedCode" />
+                <aeris-input-otp ariaLabelledBy="masked-otp-label" mask [(value)]="maskedCode" />
               </div>
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="masked-otp-label"&gt;Private access code&lt;/span&gt;
-  &lt;aeris-input-otp ariaLabelledby="masked-otp-label" mask [(value)]="maskedCode" /&gt;
+  &lt;aeris-input-otp ariaLabelledBy="masked-otp-label" mask [(value)]="maskedCode" /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -114,7 +114,7 @@
               <div preview class="field">
                 <span id="grouped-otp-label">Eight-digit backup code</span>
                 <aeris-input-otp
-                  ariaLabelledby="grouped-otp-label"
+                  ariaLabelledBy="grouped-otp-label"
                   [length]="8"
                   [(value)]="groupedCode"
                 >
@@ -128,7 +128,7 @@
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="grouped-otp-label"&gt;Eight-digit backup code&lt;/span&gt;
   &lt;aeris-input-otp
-    ariaLabelledby="grouped-otp-label"
+    ariaLabelledBy="grouped-otp-label"
     [length]="8"
     [(value)]="groupedCode"
   &gt;
@@ -150,7 +150,7 @@
               <div preview class="field">
                 <span id="paste-otp-label">Email code</span>
                 <aeris-input-otp
-                  ariaLabelledby="paste-otp-label"
+                  ariaLabelledBy="paste-otp-label"
                   [length]="6"
                   (completed)="handleComplete($event)"
                 />
@@ -159,7 +159,7 @@
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="paste-otp-label"&gt;Email code&lt;/span&gt;
   &lt;aeris-input-otp
-    ariaLabelledby="paste-otp-label"
+    ariaLabelledBy="paste-otp-label"
     [length]="6"
     (completed)="handleComplete($event)"
   /&gt;
@@ -175,12 +175,12 @@
               <div preview class="field-grid">
                 <div class="field">
                   <span id="select-focus-label">Select on focus</span>
-                  <aeris-input-otp ariaLabelledby="select-focus-label" value="1234" />
+                  <aeris-input-otp ariaLabelledBy="select-focus-label" value="1234" />
                 </div>
                 <div class="field">
                   <span id="caret-focus-label">Keep caret behavior</span>
                   <aeris-input-otp
-                    ariaLabelledby="caret-focus-label"
+                    ariaLabelledBy="caret-focus-label"
                     value="5678"
                     [selectOnFocus]="false"
                   />
@@ -189,12 +189,12 @@
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;div class="field"&gt;
     &lt;span id="select-focus-label"&gt;Select on focus&lt;/span&gt;
-    &lt;aeris-input-otp ariaLabelledby="select-focus-label" value="1234" /&gt;
+    &lt;aeris-input-otp ariaLabelledBy="select-focus-label" value="1234" /&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
     &lt;span id="caret-focus-label"&gt;Keep caret behavior&lt;/span&gt;
     &lt;aeris-input-otp
-      ariaLabelledby="caret-focus-label"
+      ariaLabelledBy="caret-focus-label"
       value="5678"
       [selectOnFocus]="false"
     /&gt;
@@ -293,8 +293,8 @@
               <div preview class="field">
                 <span id="invalid-otp-label">Confirmation code</span>
                 <aeris-input-otp
-                  ariaLabelledby="invalid-otp-label"
-                  ariaDescribedby="invalid-otp-message"
+                  ariaLabelledBy="invalid-otp-label"
+                  ariaDescribedBy="invalid-otp-message"
                   [(value)]="invalidCode"
                   required
                   [invalid]="codeInvalid()"
@@ -313,8 +313,8 @@
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="invalid-otp-label"&gt;Confirmation code&lt;/span&gt;
   &lt;aeris-input-otp
-    ariaLabelledby="invalid-otp-label"
-    ariaDescribedby="invalid-otp-message"
+    ariaLabelledBy="invalid-otp-label"
+    ariaDescribedBy="invalid-otp-message"
     [(value)]="invalidCode"
     required
     [invalid]="codeInvalid()"
@@ -340,7 +340,7 @@
               <div preview class="field">
                 <span id="native-otp-label">Authorization code</span>
                 <aeris-input-otp
-                  ariaLabelledby="native-otp-label"
+                  ariaLabelledBy="native-otp-label"
                   name="authorizationCode"
                   value="1234"
                 />
@@ -348,7 +348,7 @@
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="native-otp-label"&gt;Authorization code&lt;/span&gt;
   &lt;aeris-input-otp
-    ariaLabelledby="native-otp-label"
+    ariaLabelledBy="native-otp-label"
     name="authorizationCode"
     value="1234"
   /&gt;
@@ -365,7 +365,7 @@
                 <div class="field">
                   <span id="reactive-otp-label">Reactive Forms</span>
                   <aeris-input-otp
-                    ariaLabelledby="reactive-otp-label"
+                    ariaLabelledBy="reactive-otp-label"
                     [formControl]="reactiveCode"
                   />
                   <small>Value: {{ reactiveCode.value || 'Empty' }}</small>
@@ -373,7 +373,7 @@
                 <div class="field">
                   <span id="template-otp-label">Template-driven forms</span>
                   <aeris-input-otp
-                    ariaLabelledby="template-otp-label"
+                    ariaLabelledBy="template-otp-label"
                     name="templateCode"
                     [(ngModel)]="templateCode"
                   />
@@ -384,7 +384,7 @@
   &lt;div class="field"&gt;
     &lt;span id="reactive-otp-label"&gt;Reactive Forms&lt;/span&gt;
     &lt;aeris-input-otp
-      ariaLabelledby="reactive-otp-label"
+      ariaLabelledBy="reactive-otp-label"
       [formControl]="reactiveCode"
     /&gt;
     &lt;small&gt;Value: &#123;&#123; reactiveCode.value || 'Empty' &#125;&#125;&lt;/small&gt;
@@ -392,7 +392,7 @@
   &lt;div class="field"&gt;
     &lt;span id="template-otp-label"&gt;Template-driven forms&lt;/span&gt;
     &lt;aeris-input-otp
-      ariaLabelledby="template-otp-label"
+      ariaLabelledBy="template-otp-label"
       name="templateCode"
       [(ngModel)]="templateCode"
     /&gt;
@@ -438,7 +438,7 @@
                 ><b role="columnheader">Description</b>
               </div>
               <div role="row">
-                <code role="cell">valueChange / valueInput</code><span role="cell">string</span
+                <code role="cell">valueChange / valueChange</code><span role="cell">string</span
                 ><span role="cell">Model and explicit user value notifications.</span>
               </div>
               <div role="row">
@@ -559,11 +559,11 @@
         <ul>
           <li>The slots are native single-character inputs contained by one named group.</li>
           <li>
-            Use <code>ariaLabelledby</code> to connect a visible label to the complete group. Each
+            Use <code>ariaLabelledBy</code> to connect a visible label to the complete group. Each
             slot receives a localized position label.
           </li>
           <li>
-            Connect format help and errors through <code>ariaDescribedby</code>. Required and
+            Connect format help and errors through <code>ariaDescribedBy</code>. Required and
             invalid state are exposed on the group and slots.
           </li>
           <li>

@@ -29,7 +29,9 @@
                 <aeris-toolbar ariaLabel="Editor actions">
                   <div aerisToolbarStart>
                     <div class="toolbar-actions">
-                      <button aerisButton type="button" variant="secondary">Cancel</button>
+                      <button aerisButton type="button" variant="solid" severity="secondary">
+                        Cancel
+                      </button>
                       <button aerisButton type="button">Save</button>
                     </div>
                   </div>
@@ -39,7 +41,9 @@
   &lt;aeris-toolbar ariaLabel="Editor actions"&gt;
     &lt;div aerisToolbarStart&gt;
       &lt;div class="toolbar-actions"&gt;
-        &lt;button aerisButton type="button" variant="secondary"&gt;Cancel&lt;/button&gt;
+        &lt;button aerisButton type="button" variant="solid" severity="secondary"&gt;
+          Cancel
+        &lt;/button&gt;
         &lt;button aerisButton type="button"&gt;Save&lt;/button&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -65,7 +69,15 @@
                     <span class="toolbar-status">Review mode</span>
                   </div>
                   <div aerisToolbarEnd>
-                    <button aerisButton type="button" size="sm" variant="secondary">Preview</button>
+                    <button
+                      aerisButton
+                      type="button"
+                      size="sm"
+                      variant="solid"
+                      severity="secondary"
+                    >
+                      Preview
+                    </button>
                     <button aerisButton type="button" size="sm">Publish</button>
                   </div>
                 </aeris-toolbar>
@@ -82,7 +94,15 @@
       &lt;span class="toolbar-status"&gt;Review mode&lt;/span&gt;
     &lt;/div&gt;
     &lt;div aerisToolbarEnd&gt;
-      &lt;button aerisButton type="button" size="sm" variant="secondary"&gt;Preview&lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        size="sm"
+        variant="solid"
+        severity="secondary"
+      &gt;
+        Preview
+      &lt;/button&gt;
       &lt;button aerisButton type="button" size="sm"&gt;Publish&lt;/button&gt;
     &lt;/div&gt;
   &lt;/aeris-toolbar&gt;
@@ -99,11 +119,33 @@
                 <aeris-toolbar ariaLabel="Formatting toolbar">
                   <div aerisToolbarStart>
                     <div aerisToolbarGroup aria-label="Text style">
-                      <button aerisButton type="button" size="sm" variant="secondary">Bold</button>
-                      <button aerisButton type="button" size="sm" variant="secondary">
+                      <button
+                        aerisButton
+                        type="button"
+                        size="sm"
+                        variant="solid"
+                        severity="secondary"
+                      >
+                        Bold
+                      </button>
+                      <button
+                        aerisButton
+                        type="button"
+                        size="sm"
+                        variant="solid"
+                        severity="secondary"
+                      >
                         Italic
                       </button>
-                      <button aerisButton type="button" size="sm" variant="secondary">Link</button>
+                      <button
+                        aerisButton
+                        type="button"
+                        size="sm"
+                        variant="solid"
+                        severity="secondary"
+                      >
+                        Link
+                      </button>
                     </div>
                     <span aerisToolbarSpacer></span>
                     <input
@@ -120,11 +162,33 @@
   &lt;aeris-toolbar ariaLabel="Formatting toolbar"&gt;
     &lt;div aerisToolbarStart&gt;
       &lt;div aerisToolbarGroup aria-label="Text style"&gt;
-        &lt;button aerisButton type="button" size="sm" variant="secondary"&gt;Bold&lt;/button&gt;
-        &lt;button aerisButton type="button" size="sm" variant="secondary"&gt;
+        &lt;button
+          aerisButton
+          type="button"
+          size="sm"
+          variant="solid"
+          severity="secondary"
+        &gt;
+          Bold
+        &lt;/button&gt;
+        &lt;button
+          aerisButton
+          type="button"
+          size="sm"
+          variant="solid"
+          severity="secondary"
+        &gt;
           Italic
         &lt;/button&gt;
-        &lt;button aerisButton type="button" size="sm" variant="secondary"&gt;Link&lt;/button&gt;
+        &lt;button
+          aerisButton
+          type="button"
+          size="sm"
+          variant="solid"
+          severity="secondary"
+        &gt;
+          Link
+        &lt;/button&gt;
       &lt;/div&gt;
       &lt;span aerisToolbarSpacer&gt;&lt;/span&gt;
       &lt;input
@@ -153,7 +217,8 @@
                       aerisButton
                       type="button"
                       size="sm"
-                      variant="secondary"
+                      variant="solid"
+                      severity="secondary"
                     >
                       Dashboard
                     </button>
@@ -162,7 +227,8 @@
                       aerisButton
                       type="button"
                       size="sm"
-                      variant="secondary"
+                      variant="solid"
+                      severity="secondary"
                     >
                       Reports
                     </button>
@@ -171,7 +237,8 @@
                       aerisButton
                       type="button"
                       size="sm"
-                      variant="secondary"
+                      variant="solid"
+                      severity="secondary"
                     >
                       Automation
                     </button>
@@ -189,7 +256,8 @@
         aerisButton
         type="button"
         size="sm"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
       &gt;
         Dashboard
       &lt;/button&gt;
@@ -198,7 +266,8 @@
         aerisButton
         type="button"
         size="sm"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
       &gt;
         Reports
       &lt;/button&gt;
@@ -207,7 +276,8 @@
         aerisButton
         type="button"
         size="sm"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
       &gt;
         Automation
       &lt;/button&gt;
@@ -229,10 +299,24 @@
                 <div class="vertical-toolbar-demo">
                   <aeris-toolbar orientation="vertical" [fluid]="false" ariaLabel="Canvas tools">
                     <div aerisToolbarStart>
-                      <button aerisButton type="button" size="sm" variant="secondary">
+                      <button
+                        aerisButton
+                        type="button"
+                        size="sm"
+                        variant="solid"
+                        severity="secondary"
+                      >
                         Select
                       </button>
-                      <button aerisButton type="button" size="sm" variant="secondary">Move</button>
+                      <button
+                        aerisButton
+                        type="button"
+                        size="sm"
+                        variant="solid"
+                        severity="secondary"
+                      >
+                        Move
+                      </button>
                       <button aerisButton type="button" size="sm">Export</button>
                     </div>
                   </aeris-toolbar>
@@ -246,10 +330,24 @@
   &lt;div class="vertical-toolbar-demo"&gt;
     &lt;aeris-toolbar orientation="vertical" [fluid]="false" ariaLabel="Canvas tools"&gt;
       &lt;div aerisToolbarStart&gt;
-        &lt;button aerisButton type="button" size="sm" variant="secondary"&gt;
+        &lt;button
+          aerisButton
+          type="button"
+          size="sm"
+          variant="solid"
+          severity="secondary"
+        &gt;
           Select
         &lt;/button&gt;
-        &lt;button aerisButton type="button" size="sm" variant="secondary"&gt;Move&lt;/button&gt;
+        &lt;button
+          aerisButton
+          type="button"
+          size="sm"
+          variant="solid"
+          severity="secondary"
+        &gt;
+          Move
+        &lt;/button&gt;
         &lt;button aerisButton type="button" size="sm"&gt;Export&lt;/button&gt;
       &lt;/div&gt;
     &lt;/aeris-toolbar&gt;
@@ -326,7 +424,15 @@
               <div preview>
                 <aeris-toolbar class="brand-toolbar" ariaLabel="Custom toolbar">
                   <div aerisToolbarStart>
-                    <button aerisButton type="button" size="sm" variant="secondary">Archive</button>
+                    <button
+                      aerisButton
+                      type="button"
+                      size="sm"
+                      variant="solid"
+                      severity="secondary"
+                    >
+                      Archive
+                    </button>
                   </div>
                   <div aerisToolbarEnd>
                     <button aerisButton type="button" size="sm">Share</button>
@@ -336,7 +442,15 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;aeris-toolbar class="brand-toolbar" ariaLabel="Custom toolbar"&gt;
     &lt;div aerisToolbarStart&gt;
-      &lt;button aerisButton type="button" size="sm" variant="secondary"&gt;Archive&lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        size="sm"
+        variant="solid"
+        severity="secondary"
+      &gt;
+        Archive
+      &lt;/button&gt;
     &lt;/div&gt;
     &lt;div aerisToolbarEnd&gt;
       &lt;button aerisButton type="button" size="sm"&gt;Share&lt;/button&gt;

@@ -2,7 +2,7 @@
 
 > Segmented one-time-code entry with paste, masking, and complete keyboard navigation.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/input-otp`
 - Human-readable documentation: [https://aeris-ui.dev/components/input-otp](https://aeris-ui.dev/components/input-otp)
@@ -36,8 +36,8 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 | `name` | `string` | `''` | Creates a hidden native form value containing the complete current string. |
 | `autocomplete` | `string` | `'one-time-code'` | Autocomplete hint applied to the first slot. |
 | `ariaLabel` | `string` | `''` | Accessible group name when no visible label exists. |
-| `ariaLabelledby` | `string` | `''` | IDs of visible elements that label the complete group. |
-| `ariaDescribedby` | `string` | `''` | IDs of help and validation messages for the group. |
+| `ariaLabelledBy` | `string` | `''` | IDs of visible elements that label the complete group. |
+| `ariaDescribedBy` | `string` | `''` | IDs of help and validation messages for the group. |
 | `slotAriaLabel` | `string` | `'Character {0} of {1}'` | Localized accessible label pattern for each slot. |
 | `size` | `AerisInputOtpSize` | `'md'` | Slot dimensions and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisInputOtpAppearance` | `'outline'` | Outlined or filled slot treatment. Options: 'outline', 'filled'. |
@@ -48,13 +48,14 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 | `readonly` | `boolean` | `false` | Makes the slots read-only. |
 | `required` | `boolean` | `false` | Exposes native required validation semantics. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Fills the available inline space. |
 
 ### InputOtp outputs
 
 | Name | Type | Description |
 | --- | --- | --- |
-| valueChange / valueInput | string | Model and explicit user value notifications. |
+| valueChange / valueChange | string | Model and explicit user value notifications. |
 | completed | AerisInputOtpCompleteEvent | Emitted when every slot first becomes populated. |
 | focused / blurred | FocusEvent | Individual slot focus lifecycle events. |
 | touch | void | Emitted when focus leaves the complete group. |
@@ -117,7 +118,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
   template: `
     <div class="field">
       <span id="basic-otp-label">Verification code</span>
-      <aeris-input-otp ariaLabelledby="basic-otp-label" [(value)]="code" />
+      <aeris-input-otp ariaLabelledBy="basic-otp-label" [(value)]="code" />
       <small aria-live="polite">Value: {{ code() || 'Empty' }}</small>
     </div>
   `,
@@ -129,7 +130,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -137,13 +138,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -171,7 +172,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
     <div class="field">
       <span id="six-digit-label">Six-digit security code</span>
       <aeris-input-otp
-        ariaLabelledby="six-digit-label"
+        ariaLabelledBy="six-digit-label"
         [length]="6"
         [(value)]="sixDigitCode"
       />
@@ -186,7 +187,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -194,13 +195,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -227,7 +228,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
     <div class="field">
       <span id="alpha-otp-label">Recovery code</span>
       <aeris-input-otp
-        ariaLabelledby="alpha-otp-label"
+        ariaLabelledBy="alpha-otp-label"
         mode="alphanumeric"
         [length]="6"
         [(value)]="alphanumericCode"
@@ -243,7 +244,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -251,13 +252,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -283,7 +284,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
   template: `
     <div class="field">
       <span id="masked-otp-label">Private access code</span>
-      <aeris-input-otp ariaLabelledby="masked-otp-label" mask [(value)]="maskedCode" />
+      <aeris-input-otp ariaLabelledBy="masked-otp-label" mask [(value)]="maskedCode" />
     </div>
   `,
   styles: `
@@ -294,7 +295,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -302,13 +303,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -335,7 +336,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
     <div class="field">
       <span id="grouped-otp-label">Eight-digit backup code</span>
       <aeris-input-otp
-        ariaLabelledby="grouped-otp-label"
+        ariaLabelledBy="grouped-otp-label"
         [length]="8"
         [(value)]="groupedCode"
       >
@@ -355,7 +356,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -363,17 +364,17 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .otp-separator {
       color: var(--text-2);
       font-weight: 700;
@@ -401,7 +402,7 @@ import { AerisInputOtp, type AerisInputOtpCompleteEvent } from '@aeris-ui/core/i
     <div class="field">
       <span id="paste-otp-label">Email code</span>
       <aeris-input-otp
-        ariaLabelledby="paste-otp-label"
+        ariaLabelledBy="paste-otp-label"
         [length]="6"
         (completed)="handleComplete($event)"
       />
@@ -416,7 +417,7 @@ import { AerisInputOtp, type AerisInputOtpCompleteEvent } from '@aeris-ui/core/i
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -424,13 +425,13 @@ import { AerisInputOtp, type AerisInputOtpCompleteEvent } from '@aeris-ui/core/i
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -463,12 +464,12 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
     <div class="field-grid">
       <div class="field">
         <span id="select-focus-label">Select on focus</span>
-        <aeris-input-otp ariaLabelledby="select-focus-label" value="1234" />
+        <aeris-input-otp ariaLabelledBy="select-focus-label" value="1234" />
       </div>
       <div class="field">
         <span id="caret-focus-label">Keep caret behavior</span>
         <aeris-input-otp
-          ariaLabelledby="caret-focus-label"
+          ariaLabelledBy="caret-focus-label"
           value="5678"
           [selectOnFocus]="false"
         />
@@ -482,7 +483,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.25rem;
     }
-    
+
     .field {
       min-width: 0;
       display: grid;
@@ -490,7 +491,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -498,17 +499,17 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     @media (max-width: 42rem) {
       .field-grid {
         grid-template-columns: 1fr;
@@ -706,8 +707,8 @@ export class OtpValidationValidationDemo {
 <div class="field">
   <span id="invalid-otp-label">Confirmation code</span>
   <aeris-input-otp
-    ariaLabelledby="invalid-otp-label"
-    ariaDescribedby="invalid-otp-message"
+    ariaLabelledBy="invalid-otp-label"
+    ariaDescribedBy="invalid-otp-message"
     [(value)]="invalidCode"
     required
     [invalid]="codeInvalid()"
@@ -780,7 +781,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
     <div class="field">
       <span id="native-otp-label">Authorization code</span>
       <aeris-input-otp
-        ariaLabelledby="native-otp-label"
+        ariaLabelledBy="native-otp-label"
         name="authorizationCode"
         value="1234"
       />
@@ -794,7 +795,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -802,13 +803,13 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -850,7 +851,7 @@ export class OtpFormsReactiveAndTemplateDrivenFormsDemo {
   <div class="field">
     <span id="reactive-otp-label">Reactive Forms</span>
     <aeris-input-otp
-      ariaLabelledby="reactive-otp-label"
+      ariaLabelledBy="reactive-otp-label"
       [formControl]="reactiveCode"
     />
     <small>Value: {{ reactiveCode.value || 'Empty' }}</small>
@@ -858,7 +859,7 @@ export class OtpFormsReactiveAndTemplateDrivenFormsDemo {
   <div class="field">
     <span id="template-otp-label">Template-driven forms</span>
     <aeris-input-otp
-      ariaLabelledby="template-otp-label"
+      ariaLabelledBy="template-otp-label"
       name="templateCode"
       [(ngModel)]="templateCode"
     />
@@ -913,8 +914,8 @@ export class OtpFormsReactiveAndTemplateDrivenFormsDemo {
 ## Accessibility
 
 - The slots are native single-character inputs contained by one named group.
-- Use ariaLabelledby to connect a visible label to the complete group. Each slot receives a localized position label.
-- Connect format help and errors through ariaDescribedby. Required and invalid state are exposed on the group and slots.
+- Use ariaLabelledBy to connect a visible label to the complete group. Each slot receives a localized position label.
+- Connect format help and errors through ariaDescribedBy. Required and invalid state are exposed on the group and slots.
 - The first slot uses autocomplete="one-time-code" by default so supported browsers can offer received codes.
 - Numeric mode requests a numeric mobile keyboard without preventing paste or assistive input.
 - Masked mode hides visual characters but does not change storage or transport security.

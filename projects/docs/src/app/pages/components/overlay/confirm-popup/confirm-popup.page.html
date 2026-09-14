@@ -258,7 +258,8 @@
                     <div class="confirm-popup-footer">
                       <button
                         aerisButton
-                        variant="secondary"
+                        variant="solid"
+                        severity="secondary"
                         type="button"
                         (click)="reject($event)"
                       >
@@ -292,7 +293,8 @@
       &lt;div class="confirm-popup-footer"&gt;
         &lt;button
           aerisButton
-          variant="secondary"
+          variant="solid"
+          severity="secondary"
           type="button"
           (click)="reject($event)"
         &gt;
@@ -326,7 +328,8 @@
                       <div class="headless-popup-actions">
                         <button
                           aerisButton
-                          variant="secondary"
+                          variant="solid"
+                          severity="secondary"
                           type="button"
                           (click)="close($event)"
                         >
@@ -350,7 +353,8 @@
         &lt;div class="headless-popup-actions"&gt;
           &lt;button
             aerisButton
-            variant="secondary"
+            variant="solid"
+            severity="secondary"
             type="button"
             (click)="close($event)"
           &gt;
@@ -635,7 +639,7 @@
             trigger when closed.
           </li>
           <li>
-            Outside dismissal is enabled by default through <code>dismissible</code>. Escape
+            Outside dismissal is enabled by default through <code>closeOnOutsideClick</code>. Escape
             dismissal is enabled by default through <code>closeOnEscape</code>.
           </li>
           <li>Use a native button or another keyboard-focusable element as the target.</li>

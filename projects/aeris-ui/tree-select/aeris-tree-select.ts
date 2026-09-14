@@ -16,6 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   ɵAerisAppendTo,
   type AerisAppendTo,
@@ -107,7 +108,7 @@ let treeSelectId = 0;
       [attr.data-size]="size()"
       [attr.data-appearance]="appearance()"
       [attr.data-open]="open() || null"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-fluid]="fluid() || null"
       (focusout)="handleFocusOut($event)"
@@ -128,10 +129,10 @@ let treeSelectId = 0;
           [attr.aria-controls]="panelId"
           [attr.aria-activedescendant]="open() ? activeNodeId() : null"
           [attr.aria-label]="ariaLabel() || null"
-          [attr.aria-labelledby]="ariaLabelledby() || null"
-          [attr.aria-describedby]="ariaDescribedby() || null"
+          [attr.aria-labelledby]="ariaLabelledBy() || null"
+          [attr.aria-describedby]="ariaDescribedBy() || null"
           [attr.aria-required]="required() || null"
-          [attr.aria-invalid]="invalid() || null"
+          [attr.aria-invalid]="displayInvalid() || null"
           [disabled]="effectiveDisabled()"
           (click)="toggle()"
           (keydown)="handleTriggerKeydown($event)"
@@ -257,7 +258,7 @@ let treeSelectId = 0;
                   [attr.data-disabled]="nodeUnavailable(item.node) || null"
                   [style.--aeris-tree-select-level]="item.level"
                   (mouseenter)="activate(item.node)"
-                  (pointerdown)="$event.preventDefault()"
+                  (pointerdown)="preservePointerFocus($event)"
                   (click)="selectNode(item.node, $event)"
                 >
                   <button
@@ -342,14 +343,18 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   readonly valueSeparator = input(',');
   readonly placeholder = input('Select item');
   readonly ariaLabel = input('');
-  readonly ariaLabelledby = input('');
-  readonly ariaDescribedby = input('');
+  readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly treeAriaLabel = input('Tree options');
   readonly size = input<AerisTreeSelectSize>('md');
   readonly appearance = input<AerisTreeSelectAppearance>('outline');
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly fluid = input(false, { transform: booleanAttribute });
   readonly clearable = input(false, { transform: booleanAttribute });
   readonly clearButtonAriaLabel = input('Clear selection');
@@ -368,7 +373,6 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   readonly propagateSelection = input(true, { transform: booleanAttribute });
   readonly expandOnFilter = input(true, { transform: booleanAttribute });
 
-  readonly valueInput = output<AerisTreeSelectValue>();
   readonly changed = output<AerisTreeSelectChangeEvent>();
   readonly filterChanged = output<AerisTreeSelectFilterEvent>();
   readonly opened = output<void>();
@@ -596,6 +600,10 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
     this.changed.emit({ originalEvent: event, value, node, selected: !selected });
   }
 
+  protected preservePointerFocus(event: PointerEvent): void {
+    if (event.pointerType === 'mouse') event.preventDefault();
+  }
+
   protected handleToggleClick(node: AerisTreeNode, event: MouseEvent): void {
     event.preventDefault();
     event.stopPropagation();
@@ -785,7 +793,6 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   private setValue(value: AerisTreeSelectValue): void {
     const normalized = Array.isArray(value) ? [...new Set(value)] : value;
     this.value.set(normalized);
-    this.valueInput.emit(normalized);
     this.onChange(normalized);
   }
 

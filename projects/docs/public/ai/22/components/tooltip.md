@@ -2,7 +2,7 @@
 
 > Advisory target text with hover, focus, delays, templates, and accessible tooltip semantics.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tooltip`
 - Human-readable documentation: [https://aeris-ui.dev/components/tooltip](https://aeris-ui.dev/components/tooltip)
@@ -47,8 +47,8 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aerisTooltipShown` | `AerisTooltipVisibilityEvent` | `-` | Emitted after the tooltip becomes visible. |
-| `aerisTooltipHidden` | `AerisTooltipVisibilityEvent` | `-` | Emitted after the tooltip closes. |
+| `aerisTooltipOpened` | `AerisTooltipVisibilityEvent` | `-` | Emitted after the tooltip becomes visible. |
+| `aerisTooltipClosed` | `AerisTooltipVisibilityEvent` | `-` | Emitted after the tooltip closes. |
 
 ### Methods
 
@@ -117,8 +117,8 @@ import { AerisTooltipModule, type AerisTooltipVisibilityEvent } from '@aeris-ui/
         aerisButton
         type="button"
         aerisTooltip="Saves the current workspace."
-        (aerisTooltipShown)="recordTooltip($event)"
-        (aerisTooltipHidden)="recordTooltip($event)"
+        (aerisTooltipOpened)="recordTooltip($event)"
+        (aerisTooltipClosed)="recordTooltip($event)"
       >
         Save changes
       </button>
@@ -132,14 +132,14 @@ import { AerisTooltipModule, type AerisTooltipVisibilityEvent } from '@aeris-ui/
       align-items: center;
       gap: 0.5rem;
     }
-    
+
     .position-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 0.5rem;
       width: min(100%, 34rem);
     }
-    
+
     .demo-status {
       width: 100%;
       margin: 0.875rem 0 0;
@@ -474,10 +474,11 @@ Provide a template when the advisory content needs stronger structure.
 ```ts
 import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
 
 @Component({
   selector: 'app-tooltip-template-demo',
-  imports: [AerisButton],
+  imports: [AerisButton, AerisTooltipModule],
   templateUrl: './tooltip-template.demo.html',
   styleUrl: './tooltip-template.demo.scss'
 })
@@ -592,14 +593,14 @@ import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
       align-items: center;
       gap: 0.5rem;
     }
-    
+
     .position-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 0.5rem;
       width: min(100%, 34rem);
     }
-    
+
     .demo-status {
       width: 100%;
       margin: 0.875rem 0 0;

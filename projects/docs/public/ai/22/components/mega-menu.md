@@ -2,7 +2,7 @@
 
 > Large navigation menu with grouped panels, horizontal or vertical orientation, templates, commands, and keyboard support.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/mega-menu`
 - Human-readable documentation: [https://aeris-ui.dev/components/mega-menu](https://aeris-ui.dev/components/mega-menu)
@@ -254,11 +254,11 @@ import { AerisMegaMenuModule, type AerisMegaMenuItem } from '@aeris-ui/core/mega
       display: grid;
       gap: 0.125rem;
     }
-    
+
     .mega-menu-template-item strong {
       font-weight: 850;
     }
-    
+
     .mega-menu-template-item small {
       color: var(--text-2);
     }

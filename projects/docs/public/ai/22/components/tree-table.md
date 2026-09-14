@@ -2,7 +2,7 @@
 
 > Hierarchical tabular data with controlled expansion, sorting, filtering, selection, editing, pagination, and lazy loading.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tree-table`
 - Human-readable documentation: [https://aeris-ui.dev/components/tree-table](https://aeris-ui.dev/components/tree-table)
@@ -29,7 +29,7 @@ import { AerisTreeTableModule } from '@aeris-ui/core/tree-table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Forwards the mounting target to the paginator rows-per-page menu. |
+| `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Forwards the mounting target to the paginator rows-per-page menu. |
 | `treeColumn` | `string` | `''` | Column field that owns indentation, toggles, and checkbox controls. Defaults to the first column. |
 | `caption` | `string` | `''` | Native table caption. |
 | `ariaLabel` | `string` | `'Tree table'` | Accessible name for the treegrid. |
@@ -272,7 +272,7 @@ Dynamic columns render hierarchical records while expandedKeys controls which de
 import { Component } from '@angular/core';
 import { type AerisBadgeSeverity } from '@aeris-ui/core/badge';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -299,7 +299,7 @@ type FileRecord = AerisTreeTableData & {
     .tree-table-demo {
       width: 100%;
     }
-    
+
     .tree-table-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -352,7 +352,7 @@ Replace the controlled key collection to expand or collapse every known branch.
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -383,17 +383,17 @@ type FileRecord = AerisTreeTableData & {
     .tree-table-demo {
       width: 100%;
     }
-    
+
     .tree-table-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .tree-table-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
     }
-    
+
     .tree-table-controls {
       display: flex;
       flex-wrap: wrap;
@@ -448,7 +448,7 @@ Sortable headers cycle through ascending, descending, and cleared state. Multipl
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNode, type AerisTreeTableSort } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode, type AerisTreeTableSort } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -477,7 +477,7 @@ type FileRecord = AerisTreeTableData & {
     .tree-table-demo {
       width: 100%;
     }
-    
+
     .tree-table-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -523,7 +523,7 @@ Search every filterable column or narrow individual fields. Enable gridlines whe
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableFilterEvent, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableFilterEvent, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -555,12 +555,12 @@ type FileRecord = AerisTreeTableData & {
     .tree-table-demo {
       width: 100%;
     }
-    
+
     .tree-table-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .tree-table-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -611,7 +611,7 @@ Single mode keeps one selected row key and reports selection changes with the co
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNode, type AerisTreeTableSelectionEvent } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode, type AerisTreeTableSelectionEvent } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -642,12 +642,12 @@ type FileRecord = AerisTreeTableData & {
     .tree-table-demo {
       width: 100%;
     }
-    
+
     .tree-table-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .tree-table-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -697,7 +697,7 @@ Multiple mode toggles independent rows with selected-row styling and no checkbox
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -726,7 +726,7 @@ type FileRecord = AerisTreeTableData & {
     .tree-table-demo {
       width: 100%;
     }
-    
+
     .tree-table-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -772,7 +772,7 @@ Checkbox mode cascades selection through descendants and exposes mixed state on 
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -801,7 +801,7 @@ type FileRecord = AerisTreeTableData & {
     .tree-table-demo {
       width: 100%;
     }
-    
+
     .tree-table-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -847,7 +847,7 @@ Pagination counts root nodes while descendants remain attached to their parent p
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -877,7 +877,7 @@ type FileRecord = AerisTreeTableData & {
     .tree-table-demo {
       width: 100%;
     }
-    
+
     .tree-table-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -924,7 +924,7 @@ Editable cells are visually indicated. Double-click one, press Enter or move foc
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableCellEditEvent, type AerisTreeTableColumn, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableCellEditEvent, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -954,12 +954,12 @@ type FileRecord = AerisTreeTableData & {
     .tree-table-demo {
       width: 100%;
     }
-    
+
     .tree-table-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .tree-table-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -1009,7 +1009,7 @@ Resize separators support pointer dragging and Arrow keys. Resizing adjusts the 
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableColumnReorderEvent, type AerisTreeTableColumnResizeEvent, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableColumnReorderEvent, type AerisTreeTableColumnResizeEvent, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -1112,7 +1112,7 @@ Frozen columns remain visible during horizontal scrolling. Stack mode replaces o
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -1224,7 +1224,7 @@ Lazy mode reports paging, sorting, and filtering state while branch expansion re
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableLazyLoadEvent, type AerisTreeTableNode, type AerisTreeTableNodeEvent } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableLazyLoadEvent, type AerisTreeTableNode, type AerisTreeTableNodeEvent } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -1272,15 +1272,32 @@ export class TreeTableLazyLazyLoadingDemo {
   protected readonly lazyLoadingKeys = signal<readonly string[]>([]);
 
   protected handleLazyLoad(event: AerisTreeTableLazyLoadEvent): void {
-    requestPage(event).then((nodes) => this.lazyRows.set(nodes));
+    this.eventText.set(
+      'Requested roots ' + (event.first + 1) + '–' + (event.first + event.rows) + '.',
+    );
   }
 
   protected handleLazyExpand(event: AerisTreeTableNodeEvent<FileRecord>): void {
+    if (event.node.children || event.node.leaf !== false) return;
     this.lazyLoadingKeys.set([event.key]);
-    requestChildren(event.key).then((children) => {
-      this.lazyRows.update((nodes) => attachChildren(nodes, event.key, children));
+    globalThis.setTimeout(() => {
+      const children: readonly AerisTreeTableNode<FileRecord>[] = [
+        {
+          key: event.key + '-source',
+          data: { name: 'Remote source', size: 12, type: 'folder', modified: 'Today', status: 'active' },
+          leaf: true,
+        },
+        {
+          key: event.key + '-readme',
+          data: { name: 'REMOTE.md', size: 4, type: 'document', modified: 'Today', status: 'review' },
+          leaf: true,
+        },
+      ];
+      this.lazyRows.update((nodes) => nodes.map((node) =>
+        node.key === event.key ? { ...node, children } : node,
+      ));
       this.lazyLoadingKeys.set([]);
-    });
+    }, 500);
   }
 }
 ```
@@ -1335,7 +1352,7 @@ Typed templates customize content while Aeris retains treegrid structure, sortin
 import { Component, signal } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -1424,7 +1441,7 @@ Loading and empty states stay inside the named treegrid and expose polite status
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;

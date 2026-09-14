@@ -2,7 +2,7 @@
 
 > Right-click action menu with target or global triggers, nested submenus, templates, commands, and keyboard navigation.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/context-menu`
 - Human-readable documentation: [https://aeris-ui.dev/components/context-menu](https://aeris-ui.dev/components/context-menu)
@@ -29,7 +29,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the menu overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the menu overlay locally, in document.body, or in the supplied DOM/template target. |
 | `id` | `string` | `generated id` | Root menu ID used for menu and submenu relationships. |
 | `model` | `readonly AerisContextMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |
 | `open` | `ModelSignal&lt;boolean&gt;` | `false` | Controlled visibility state. |
@@ -40,7 +40,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 | `width` | `string` | `''` | CSS width for the root menu panel. |
 | `maxWidth` | `string` | `''` | CSS max-width for the root menu panel. |
 | `viewportMargin` | `number` | `8` | Minimum spacing from viewport edges when positioning. |
-| `hideOnOutsideClick` | `boolean` | `true` | Closes the menu when pointerdown occurs outside the panel. |
+| `closeOnOutsideClick` | `boolean` | `true` | Closes the menu when pointerdown occurs outside the panel. |
 | `hideOnScroll` | `boolean` | `false` | Closes on window scroll instead of repositioning. |
 | `closeOnMouseLeave` | `boolean` | `true` | Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open. |
 | `closeOnEscape` | `boolean` | `true` | Closes the menu when Escape is pressed. |
@@ -56,9 +56,8 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `shown` | `AerisContextMenuVisibilityEvent` | `-` | Emitted after the menu is requested open. |
-| `hidden` | `AerisContextMenuVisibilityEvent` | `-` | Emitted after the menu closes. |
-| `visibilityChanged` | `AerisContextMenuVisibilityEvent` | `-` | Emitted for both show and hide transitions. |
+| `opened` | `AerisContextMenuVisibilityEvent` | `-` | Emitted after the menu is requested open. |
+| `closed` | `AerisContextMenuVisibilityEvent` | `-` | Emitted after the menu closes. |
 | `itemSelected` | `AerisContextMenuItemEvent&lt;T&gt;` | `-` | Emitted when an enabled leaf item is activated. |
 
 ### Templates
@@ -474,13 +473,13 @@ import { AerisContextMenuModule, type AerisContextMenuItem, type AerisContextMen
       font-weight: 700;
       text-align: center;
     }
-    
+
     .context-menu-status {
       margin: 0.75rem 0 0;
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
     }
-    
+
     .context-menu-target {
       display: grid;
       gap: 0.75rem;
@@ -493,7 +492,7 @@ import { AerisContextMenuModule, type AerisContextMenuItem, type AerisContextMen
       font-weight: 700;
       text-align: center;
     }
-    
+
     .context-menu-status {
       margin: 0.75rem 0 0;
       color: var(--text-2);

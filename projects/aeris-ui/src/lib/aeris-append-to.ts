@@ -27,7 +27,7 @@ export type AerisAppendTo =
 
 export const AERIS_OVERLAY_APPEND_TO = new InjectionToken<AerisAppendTo>(
   'AERIS_OVERLAY_APPEND_TO',
-  { factory: () => 'self' },
+  { factory: () => undefined },
 );
 
 export function aerisInternalResolveAppendTo(
@@ -53,10 +53,12 @@ export class ɵAerisAppendTo {
   private originCaptured = false;
   private originParent: Node | null = null;
   private originNextSibling: Node | null = null;
+  private restoringToOrigin = false;
   private unconstrainedPanelWidth = 0;
   private unconstrainedPanelHeight = 0;
 
   readonly aerisInternalAppendTo = input<AerisAppendTo>();
+  readonly aerisInternalAppendToDefault = input<AerisAppendTo>('self');
   readonly aerisInternalAppendToAnchor = input<HTMLElement | null>(null);
   readonly aerisInternalAppendToOffset = input(7);
   readonly aerisInternalAppendToMatchWidth = input(false);
@@ -69,7 +71,7 @@ export class ɵAerisAppendTo {
   constructor() {
     effect((onCleanup) => {
       const target = aerisInternalResolveAppendTo(
-        this.aerisInternalAppendTo() ?? this.defaultAppendTo,
+        this.aerisInternalAppendTo() ?? this.defaultAppendTo ?? this.aerisInternalAppendToDefault(),
         this.document,
       );
       const anchor = this.aerisInternalAppendToAnchor();
@@ -82,10 +84,7 @@ export class ɵAerisAppendTo {
       this.captureOrigin();
 
       if (effectiveTarget === 'self') this.restoreToOrigin();
-      if (
-        effectiveTarget === 'self' &&
-        (!anchor || !this.aerisInternalAppendToPositionSelf())
-      ) {
+      if (effectiveTarget === 'self' && (!anchor || !this.aerisInternalAppendToPositionSelf())) {
         this.element.removeAttribute('data-aeris-append-to');
         this.element.removeAttribute('data-aeris-auto-portaled');
         return;
@@ -271,10 +270,7 @@ export class ɵAerisAppendTo {
     let point = position(naturalHeight);
     const viewportBounds = {
       top: viewportTop + (collisionPadding.top ?? 0),
-      bottom:
-        viewportTop +
-        (viewport?.height ?? view.innerHeight) -
-        (collisionPadding.bottom ?? 0),
+      bottom: viewportTop + (viewport?.height ?? view.innerHeight) - (collisionPadding.bottom ?? 0),
     };
     const anchorIntersectsViewport =
       anchorRect.bottom > viewportBounds.top && anchorRect.top < viewportBounds.bottom;
@@ -475,12 +471,24 @@ export class ɵAerisAppendTo {
   }
 
   private restoreToOrigin(): void {
-    if (!this.originParent || this.element.parentNode === this.originParent) return;
-    this.renderer.insertBefore(
-      this.originParent,
-      this.element,
-      this.originNextSibling?.parentNode === this.originParent ? this.originNextSibling : null,
-    );
+    if (
+      this.restoringToOrigin ||
+      !this.originParent ||
+      this.element.parentNode === this.originParent
+    )
+      return;
+
+    // Reparenting a focused panel can synchronously dispatch blur/focusout and close it again.
+    this.restoringToOrigin = true;
+    try {
+      this.renderer.insertBefore(
+        this.originParent,
+        this.element,
+        this.originNextSibling?.parentNode === this.originParent ? this.originNextSibling : null,
+      );
+    } finally {
+      this.restoringToOrigin = false;
+    }
   }
 }
 

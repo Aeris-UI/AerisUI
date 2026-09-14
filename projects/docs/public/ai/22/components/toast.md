@@ -2,7 +2,7 @@
 
 > Service-managed transient notifications with timing, grouping, positions, templates, and live-region semantics.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/toast`
 - Human-readable documentation: [https://aeris-ui.dev/components/toast](https://aeris-ui.dev/components/toast)
@@ -99,7 +99,7 @@ type AerisToastSeverity =
   | 'success'
   | 'info'
   | 'warning'
-  | 'error'
+  | 'danger'
   | 'neutral';
 
 type AerisToastMode = 'stacked' | 'expanded';
@@ -250,7 +250,7 @@ export class ToastSeveritySeverityDemo {
       { group: 'severity', severity: 'success', summary: 'Published', detail: 'The release notes are live.' },
       { group: 'severity', severity: 'info', summary: 'Sync running', detail: 'Assets are being checked.' },
       { group: 'severity', severity: 'warning', summary: 'Review needed', detail: 'One token changed contrast.' },
-      { group: 'severity', severity: 'error', summary: 'Build failed', detail: 'Fix the failing test before release.' },
+      { group: 'severity', severity: 'danger', summary: 'Build failed', detail: 'Fix the failing test before release.' },
       { group: 'severity', severity: 'neutral', summary: 'Neutral', detail: 'Provides supporting information without emphasis.' },
     ]);
   }
@@ -308,7 +308,8 @@ export class ToastStickyStickyAndClearDemo {
     </button>
     <button
       aerisButton
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       type="button"
       (click)="clearStickyToasts()"
     >
@@ -413,7 +414,8 @@ export class ToastCustomCustomContentDemo {
           <button
             aerisButton
             size="sm"
-            variant="secondary"
+            variant="solid"
+            severity="secondary"
             type="button"
             (click)="close()"
           >
@@ -479,7 +481,7 @@ export class ToastStackedStackedPreviewDemo {
       { group: 'stacked', severity: 'info', summary: 'Queued', detail: 'A preview build is waiting.' },
       { group: 'stacked', severity: 'warning', summary: 'Review', detail: 'A token needs contrast review.' },
       { group: 'stacked', severity: 'neutral', summary: 'Synced', detail: 'Design assets are current.' },
-      { group: 'stacked', severity: 'error', summary: 'Failed', detail: 'One job needs attention.' },
+      { group: 'stacked', severity: 'danger', summary: 'Failed', detail: 'One job needs attention.' },
       { group: 'stacked', severity: 'info', summary: 'Assigned', detail: 'A reviewer was notified.' },
     ]);
   }
@@ -637,7 +639,7 @@ export class ToastExpandedExpandedStackDemo {
       { group: 'expanded', severity: 'info', summary: 'Step 2 running', detail: 'Preview assets are uploading.' },
       { group: 'expanded', severity: 'warning', summary: 'Step 3 queued', detail: 'A reviewer must approve deployment.' },
       { group: 'expanded', severity: 'neutral', summary: 'Step 4 waiting', detail: 'Release notes are being generated.' },
-      { group: 'expanded', severity: 'error', summary: 'Step 5 blocked', detail: 'A required owner is missing.' },
+      { group: 'expanded', severity: 'danger', summary: 'Step 5 blocked', detail: 'A required owner is missing.' },
     ]);
   }
 }
@@ -698,7 +700,7 @@ export class ToastLoadingLoadingPatternDemo {
 
 - Toast renders a named notification region only while matching messages are active.
 - Primary, secondary, contrast, success, info, and neutral messages default to role="status" and aria-live="polite".
-- Warning and error messages default to role="alert" and aria-live="assertive".
+- Warning and danger toasts default to role="alert" and aria-live="assertive".
 - Each message uses aria-atomic="true" so summary and detail are announced together.
 - Close controls are native buttons with configurable accessible labels.
 - Stacked mode renders a limited visible window. Messages outside that window remain queued and appear as visible messages are dismissed.

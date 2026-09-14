@@ -22,7 +22,7 @@ import {
       clearable
       required
       invalid
-      ariaDescribedby="delivery-help"
+      ariaDescribedBy="delivery-help"
       [(value)]="date"
       (changed)="lastChange.set($event)"
     />

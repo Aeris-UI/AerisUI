@@ -76,7 +76,8 @@
                   [target]="controlledTarget()"
                   header="Controlled popover"
                   [(visible)]="controlledOpen"
-                  (visibilityChanged)="recordEvent($event)"
+                  (opened)="recordEvent($event)"
+                  (closed)="recordEvent($event)"
                 >
                   <div class="popover-card">
                     <strong>External state</strong>
@@ -93,7 +94,8 @@
     [target]="controlledTarget()"
     header="Controlled popover"
     [(visible)]="controlledOpen"
-    (visibilityChanged)="recordEvent($event)"
+    (opened)="recordEvent($event)"
+    (closed)="recordEvent($event)"
   &gt;
     &lt;div class="popover-card"&gt;
       &lt;strong&gt;External state&lt;/strong&gt;
@@ -312,7 +314,7 @@
                   #optionsPopover
                   header="Pinned details"
                   width="18rem"
-                  [dismissible]="false"
+                  [closeOnOutsideClick]="false"
                   [showArrow]="false"
                   closable
                 >
@@ -330,7 +332,7 @@
     #optionsPopover
     header="Pinned details"
     width="18rem"
-    [dismissible]="false"
+    [closeOnOutsideClick]="false"
     [showArrow]="false"
     closable
   &gt;

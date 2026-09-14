@@ -2,7 +2,7 @@
 
 > Single-choice control designed for accessible grouped selection.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/radio-button`
 - Human-readable documentation: [https://aeris-ui.dev/components/radio-button](https://aeris-ui.dev/components/radio-button)
@@ -39,16 +39,17 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
 | `disabled` | `boolean` | `false` | Disables native interaction and form participation. |
 | `required` | `boolean` | `false` | Applies native required validation to the group. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `ariaLabel` | `string` | `''` | Accessible name for an option without visible label content. |
-| `ariaLabelledby` | `string` | `''` | IDs of external labeling elements. |
-| `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string` | `''` | IDs of external labeling elements. |
+| `ariaDescribedBy` | `string` | `''` | IDs of help and validation messages. |
 
 ### Radio Button outputs
 
 | Name | Type | Description |
 | --- | --- | --- |
 | selectedChange | string &#124; null | Emitted automatically by the selected model. |
-| selectedInput | string | Emitted when user or public method interaction selects this option. |
+| selectedChange | string | Emitted when user or public method interaction selects this option. |
 | changed | AerisRadioButtonChangeEvent | Native change event and the selected value. |
 | focused | FocusEvent | Emitted when the native radio receives focus. |
 | blurred | FocusEvent | Emitted when the native radio loses focus. |
@@ -128,14 +129,14 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .radio-group,
     .radio-card-group {
       margin: 0;
       padding: 0;
       border: 0;
     }
-    
+
     .radio-group legend,
     .radio-card-group legend,
     .radio-group > strong {
@@ -398,7 +399,7 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
@@ -445,7 +446,7 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       align-items: end;
       gap: 1rem;
     }
-    
+
     @media (max-width: 42rem) {
       .field-row {
         align-items: stretch;
@@ -488,7 +489,7 @@ export class RadioStatesRequiredInvalidAndDisabledDemo {
       value="standard"
       required
       invalid
-      ariaDescribedby="delivery-error"
+      ariaDescribedBy="delivery-error"
       >Standard</aeris-radio-button
     >
     <aeris-radio-button
@@ -496,7 +497,7 @@ export class RadioStatesRequiredInvalidAndDisabledDemo {
       value="express"
       required
       invalid
-      ariaDescribedby="delivery-error"
+      ariaDescribedBy="delivery-error"
       >Express</aeris-radio-button
     >
   </fieldset>
@@ -585,14 +586,14 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .radio-group,
     .radio-card-group {
       margin: 0;
       padding: 0;
       border: 0;
     }
-    
+
     .radio-group legend,
     .radio-card-group legend,
     .radio-group > strong {
@@ -712,8 +713,8 @@ export class RadioAngularFormsReactiveAndTemplateDrivenFormsDemo {
 - Wrap related options in a fieldset with a legend, and give every option the same name.
 - Tab enters or leaves a group. Arrow keys move and select within it, and Space selects the focused option.
 - Projected content and the label input create a native clickable label with a larger pointer target.
-- Use visible option text whenever possible. Use ariaLabel or ariaLabelledby only when native visible labeling is unavailable.
-- Connect instructions and errors with ariaDescribedby. The invalid input synchronizes aria-invalid.
+- Use visible option text whenever possible. Use ariaLabel or ariaLabelledBy only when native visible labeling is unavailable.
+- Connect instructions and errors with ariaDescribedBy. The invalid input synchronizes aria-invalid.
 - ControlValueAccessor support synchronizes value, touched, and disabled state with Reactive Forms and template-driven forms.
 - Focus indicators meet WCAG 2.2 requirements and selection animation respects reduced-motion preferences.
 

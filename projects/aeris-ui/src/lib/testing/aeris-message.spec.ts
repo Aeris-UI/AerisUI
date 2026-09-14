@@ -32,12 +32,7 @@ class MessageHost {
 @Component({
   imports: [AerisMessage],
   template: `
-    <aeris-message
-      severity="success"
-      ariaLabel="Saved notification"
-      role="note"
-      ariaLive="polite"
-    >
+    <aeris-message severity="success" ariaLabel="Saved notification" role="note" ariaLive="polite">
       <strong>Saved</strong>
     </aeris-message>
   `,
@@ -47,7 +42,7 @@ class ProjectedMessageHost {}
 @Component({
   imports: [AerisMessageModule],
   template: `
-    <aeris-message severity="error">
+    <aeris-message severity="danger">
       <ng-template aerisMessageIcon let-severity="severity">
         <span class="custom-icon">{{ severity }}</span>
       </ng-template>
@@ -142,7 +137,7 @@ describe('AerisMessage', () => {
     const content = fixture.nativeElement.querySelector('#custom-content') as HTMLElement;
     const close = fixture.nativeElement.querySelector('#custom-close') as HTMLButtonElement;
 
-    expect(icon.textContent).toContain('error');
+    expect(icon.textContent).toContain('danger');
     expect(content.textContent).toBe('Custom content');
 
     close.click();

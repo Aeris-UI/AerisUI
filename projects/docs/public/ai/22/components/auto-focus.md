@@ -2,7 +2,7 @@
 
 > Move focus to newly rendered native controls with controlled activation and scroll-safe defaults.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/auto-focus`
 - Human-readable documentation: [https://aeris-ui.dev/components/auto-focus](https://aeris-ui.dev/components/auto-focus)
@@ -107,7 +107,13 @@ export class AutoFocusConditionalConditionalContentDemo {
 ```html
 <div>
   <div class="conditional-demo">
-    <button aerisButton type="button" variant="secondary" (click)="toggleForm()">
+    <button
+      aerisButton
+      type="button"
+      variant="solid"
+      severity="secondary"
+      (click)="toggleForm()"
+    >
       {{ formVisible() ? 'Remove account form' : 'Add account form' }}
     </button>
     @if (formVisible()) {
@@ -166,12 +172,13 @@ Bind the directive to application state and re-enable it only when focus should 
 
 ```ts
 import { Component, signal } from '@angular/core';
+import { AerisAutoFocusModule } from '@aeris-ui/core/auto-focus';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 
 @Component({
   selector: 'app-auto-focus-controlled-demo',
-  imports: [AerisButton, AerisInputText],
+  imports: [AerisAutoFocusModule, AerisButton, AerisInputText],
   templateUrl: './auto-focus-controlled.demo.html',
   styleUrl: './auto-focus-controlled.demo.scss'
 })
@@ -206,7 +213,8 @@ export class AutoFocusControlledControlledDemo {
       <button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         (click)="disableControlledFocus()"
       >
         Disable automatic focus
@@ -258,12 +266,13 @@ Export the directive to focus its host manually with native FocusOptions.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisAutoFocusModule } from '@aeris-ui/core/auto-focus';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisTextarea } from '@aeris-ui/core/textarea';
 
 @Component({
   selector: 'app-auto-focus-method-demo',
-  imports: [AerisButton, AerisTextarea],
+  imports: [AerisAutoFocusModule, AerisButton, AerisTextarea],
   templateUrl: './auto-focus-method.demo.html',
   styleUrl: './auto-focus-method.demo.scss'
 })

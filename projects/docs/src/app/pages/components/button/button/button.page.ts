@@ -71,23 +71,18 @@ protected createProject(event: MouseEvent): void {
   'danger',
   'contrast',
 ];`;
-  protected readonly loadingTsCode = `protected readonly saving = signal(false);
+  protected readonly loadingTsCode = `protected readonly loading = signal(false);
 
-protected save(): void {
-  this.saving.set(true);
-
-  this.projectService.save().subscribe({
-    complete: () => this.saving.set(false),
-    error: () => this.saving.set(false),
-  });
+protected toggleLoading(): void {
+  this.loading.set(true);
+  globalThis.setTimeout(() => this.loading.set(false), 1600);
 }`;
   protected readonly interfacesCode = `type AerisButtonVariant =
-  | 'primary' | 'secondary' | 'outline'
-  | 'ghost' | 'danger' | 'link';
+  | 'solid' | 'outline' | 'ghost' | 'link';
 
 type AerisButtonSeverity =
   | 'primary' | 'secondary' | 'success' | 'info'
-  | 'warning' | 'danger' | 'contrast';
+  | 'warning' | 'danger' | 'neutral' | 'contrast';
 
 type AerisButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 type AerisButtonIconPosition = 'left' | 'right' | 'top' | 'bottom';
@@ -109,6 +104,7 @@ interface AerisButtonContentTemplateContext {
     'info',
     'warning',
     'danger',
+    'neutral',
     'contrast',
   ];
 
@@ -116,16 +112,16 @@ interface AerisButtonContentTemplateContext {
     {
       name: 'variant',
       type: 'AerisButtonVariant',
-      defaultValue: "'primary'",
+      defaultValue: "'solid'",
       description:
-        "Visual treatment of the button. Options: 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'.",
+        "Presentation treatment independent of color. Options: 'solid', 'outline', 'ghost', 'link'.",
     },
     {
       name: 'severity',
       type: 'AerisButtonSeverity',
       defaultValue: "'primary'",
       description:
-        "Semantic color applied to the selected variant. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'.",
+        "Semantic color applied to the selected variant. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'.",
     },
     {
       name: 'size',
@@ -145,6 +141,12 @@ interface AerisButtonContentTemplateContext {
       type: 'boolean',
       defaultValue: 'false',
       description: 'Displays progress and exposes aria-busy.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables native button activation or marks an anchor as unavailable.',
     },
     {
       name: 'showSpinner',
@@ -170,30 +172,6 @@ interface AerisButtonContentTemplateContext {
       type: 'boolean',
       defaultValue: 'false',
       description: 'Fills the available inline width.',
-    },
-    {
-      name: 'plain',
-      type: 'boolean',
-      defaultValue: 'false',
-      description: 'Overrides semantic colors with a neutral treatment.',
-    },
-    {
-      name: 'text',
-      type: 'boolean',
-      defaultValue: 'false',
-      description: "Compatibility alias for variant='ghost'.",
-    },
-    {
-      name: 'outlined',
-      type: 'boolean',
-      defaultValue: 'false',
-      description: "Compatibility alias for variant='outline'.",
-    },
-    {
-      name: 'link',
-      type: 'boolean',
-      defaultValue: 'false',
-      description: "Compatibility alias for variant='link'.",
     },
   ];
 
@@ -221,7 +199,7 @@ interface AerisButtonContentTemplateContext {
       type: 'AerisButtonSeverity',
       defaultValue: "'secondary'",
       description:
-        "Semantic badge color. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'.",
+        "Semantic badge color. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'.",
     },
     {
       name: 'ariaLabel',
@@ -247,7 +225,7 @@ interface AerisButtonContentTemplateContext {
       defaultValue: 'false',
       description: 'Disables interaction.',
     },
-    ...this.directiveInputs.filter((row) => row.name !== 'showSpinner'),
+    ...this.directiveInputs.filter((row) => row.name !== 'disabled'),
     {
       name: 'contentTemplate',
       type: 'TemplateRef<AerisButtonContentTemplateContext>',

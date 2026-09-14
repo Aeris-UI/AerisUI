@@ -34,20 +34,9 @@ import { AerisButtonDirective, type AerisButtonSeverity } from '@aeris-ui/core/b
 import type { AerisAppendTo } from '@aeris-ui/core';
 
 export type AerisConfirmDialogSeverity =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'danger'
-  | 'neutral';
+  'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'neutral';
 export type AerisConfirmDialogIcon =
-  | 'question'
-  | 'info'
-  | 'warning'
-  | 'danger'
-  | 'success'
-  | 'none';
+  'question' | 'info' | 'warning' | 'danger' | 'success' | 'none';
 export type AerisConfirmDialogDefaultFocus = 'accept' | 'reject' | 'close' | 'dialog' | 'none';
 export type AerisConfirmDialogResult = 'accept' | 'reject' | 'dismiss';
 
@@ -72,7 +61,7 @@ export interface AerisConfirmDialogConfig<TData = unknown> {
   readonly backdrop?: boolean;
   readonly backdropBlur?: boolean;
   readonly backdropBlurAmount?: string;
-  readonly dismissibleMask?: boolean;
+  readonly closeOnBackdropClick?: boolean;
   readonly closeOnEscape?: boolean;
   readonly closable?: boolean;
   readonly blockScroll?: boolean;
@@ -114,7 +103,7 @@ export interface AerisConfirmDialogResolvedConfig<TData = unknown> {
   readonly backdrop: boolean;
   readonly backdropBlur: boolean;
   readonly backdropBlurAmount: string;
-  readonly dismissibleMask: boolean;
+  readonly closeOnBackdropClick: boolean;
   readonly closeOnEscape: boolean;
   readonly closable: boolean;
   readonly blockScroll: boolean;
@@ -141,8 +130,9 @@ export interface AerisConfirmDialogActionEvent<TData = unknown> {
   readonly config: AerisConfirmDialogResolvedConfig<TData>;
 }
 
-export interface AerisConfirmDialogCloseEvent<TData = unknown>
-  extends AerisConfirmDialogActionEvent<TData> {
+export interface AerisConfirmDialogCloseEvent<
+  TData = unknown,
+> extends AerisConfirmDialogActionEvent<TData> {
   readonly result: AerisConfirmDialogResult;
   readonly reason: AerisDialogCloseReason | 'accept' | 'reject';
 }
@@ -223,14 +213,18 @@ export class AerisConfirmDialogHeadlessTemplate {
 }
 
 export class AerisConfirmDialogRef<TData = unknown> {
-  private readonly acceptedStream =
-    new AerisConfirmDialogEventStream<AerisConfirmDialogActionEvent<TData>>();
-  private readonly rejectedStream =
-    new AerisConfirmDialogEventStream<AerisConfirmDialogActionEvent<TData>>();
-  private readonly closedStream =
-    new AerisConfirmDialogEventStream<AerisConfirmDialogCloseEvent<TData>>();
-  private readonly shownStream =
-    new AerisConfirmDialogEventStream<AerisConfirmDialogActionEvent<TData>>();
+  private readonly acceptedStream = new AerisConfirmDialogEventStream<
+    AerisConfirmDialogActionEvent<TData>
+  >();
+  private readonly rejectedStream = new AerisConfirmDialogEventStream<
+    AerisConfirmDialogActionEvent<TData>
+  >();
+  private readonly closedStream = new AerisConfirmDialogEventStream<
+    AerisConfirmDialogCloseEvent<TData>
+  >();
+  private readonly openedStream = new AerisConfirmDialogEventStream<
+    AerisConfirmDialogActionEvent<TData>
+  >();
   private controller: AerisConfirmDialogRefController | null = null;
   private closedOnce = false;
 
@@ -240,8 +234,8 @@ export class AerisConfirmDialogRef<TData = unknown> {
     this.rejectedStream;
   readonly closed: AerisConfirmDialogSubscribable<AerisConfirmDialogCloseEvent<TData>> =
     this.closedStream;
-  readonly shown: AerisConfirmDialogSubscribable<AerisConfirmDialogActionEvent<TData>> =
-    this.shownStream;
+  readonly opened: AerisConfirmDialogSubscribable<AerisConfirmDialogActionEvent<TData>> =
+    this.openedStream;
 
   accept(originalEvent: Event | null = null): void {
     if (this.closedOnce) return;
@@ -266,9 +260,9 @@ export class AerisConfirmDialogRef<TData = unknown> {
     this.controller = controller;
   }
 
-  notifyShown(event: AerisConfirmDialogActionEvent<TData>): void {
+  notifyOpened(event: AerisConfirmDialogActionEvent<TData>): void {
     if (this.closedOnce) return;
-    this.shownStream.next(event);
+    this.openedStream.next(event);
   }
 
   notifyAccepted(event: AerisConfirmDialogActionEvent<TData>): void {
@@ -288,7 +282,7 @@ export class AerisConfirmDialogRef<TData = unknown> {
     this.acceptedStream.complete();
     this.rejectedStream.complete();
     this.closedStream.complete();
-    this.shownStream.complete();
+    this.openedStream.complete();
     this.controller = null;
   }
 }
@@ -301,15 +295,16 @@ export class AerisConfirmDialogService {
   private readonly requestState = signal<AerisConfirmDialogRequest | null>(null);
   private readonly closeState = signal(0);
   private readonly activeRefs = new Set<AerisConfirmDialogRef>();
-  private readonly dynamicHosts = new Map<AerisConfirmDialogRef, ComponentRef<AerisConfirmDialog>>();
+  private readonly dynamicHosts = new Map<
+    AerisConfirmDialogRef,
+    ComponentRef<AerisConfirmDialog>
+  >();
   private nextId = 0;
 
   readonly request = this.requestState.asReadonly();
   readonly closeSignal = this.closeState.asReadonly();
 
-  confirm<TData = unknown>(
-    config: AerisConfirmDialogConfig<TData>,
-  ): AerisConfirmDialogRef<TData> {
+  confirm<TData = unknown>(config: AerisConfirmDialogConfig<TData>): AerisConfirmDialogRef<TData> {
     const ref = new AerisConfirmDialogRef<TData>();
     const resolvedConfig = this.resolveConfig(config);
 
@@ -383,7 +378,7 @@ export class AerisConfirmDialogService {
   ): AerisConfirmDialogResolvedConfig<TData> {
     return {
       key: config.key ?? '',
-      appendTo: config.appendTo ?? 'body',
+      appendTo: config.appendTo,
       header: config.header ?? 'Confirm action',
       message: config.message ?? '',
       data: config.data,
@@ -402,7 +397,7 @@ export class AerisConfirmDialogService {
       backdrop: config.backdrop ?? true,
       backdropBlur: config.backdropBlur ?? true,
       backdropBlurAmount: config.backdropBlurAmount ?? '',
-      dismissibleMask: config.dismissibleMask ?? false,
+      closeOnBackdropClick: config.closeOnBackdropClick ?? false,
       closeOnEscape: config.closeOnEscape ?? true,
       closable: config.closable ?? true,
       blockScroll: config.blockScroll ?? true,
@@ -444,7 +439,7 @@ export class AerisConfirmDialogService {
       [backdrop]="settings().backdrop"
       [backdropBlur]="settings().backdropBlur"
       [backdropBlurAmount]="settings().backdropBlurAmount"
-      [dismissibleMask]="settings().dismissibleMask"
+      [closeOnBackdropClick]="settings().closeOnBackdropClick"
       [closeOnEscape]="settings().closeOnEscape"
       [closable]="settings().closable"
       [blockScroll]="settings().blockScroll"
@@ -462,8 +457,8 @@ export class AerisConfirmDialogService {
       [ariaLabelledBy]="settings().ariaLabelledBy"
       [ariaDescribedBy]="computedAriaDescribedBy()"
       [visible]="visible()"
-      (shown)="handleShown($event)"
-      (hidden)="handleHidden($event)"
+      (opened)="handleOpened($event)"
+      (closed)="handleHidden($event)"
     >
       @if (headlessTemplate(); as headlessTemplateRef) {
         <ng-template aerisDialogHeadless>
@@ -541,7 +536,8 @@ export class AerisConfirmDialogService {
                 <button
                   aerisButton
                   type="button"
-                  variant="secondary"
+                  variant="solid"
+                  severity="secondary"
                   class="aeris-confirm-dialog__button aeris-confirm-dialog__reject"
                   [disabled]="settings().rejectDisabled"
                   [attr.aria-label]="settings().rejectAriaLabel"
@@ -601,7 +597,7 @@ export class AerisConfirmDialog {
     backdrop: this.backdrop(),
     backdropBlur: this.backdropBlur(),
     backdropBlurAmount: this.backdropBlurAmount(),
-    dismissibleMask: this.dismissibleMask(),
+    closeOnBackdropClick: this.closeOnBackdropClick(),
     closeOnEscape: this.closeOnEscape(),
     closable: this.closable(),
     blockScroll: this.blockScroll(),
@@ -673,7 +669,7 @@ export class AerisConfirmDialog {
   readonly visible = model(false);
 
   readonly key = input('');
-  readonly appendTo = input<AerisAppendTo>('body');
+  readonly appendTo = input<AerisAppendTo>();
   readonly header = input('Confirm action');
   readonly message = input('');
   readonly data = input<unknown>();
@@ -692,7 +688,7 @@ export class AerisConfirmDialog {
   readonly backdrop = input(true, { transform: booleanAttribute });
   readonly backdropBlur = input(true, { transform: booleanAttribute });
   readonly backdropBlurAmount = input('');
-  readonly dismissibleMask = input(false, { transform: booleanAttribute });
+  readonly closeOnBackdropClick = input(false, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly closable = input(true, { transform: booleanAttribute });
   readonly blockScroll = input(true, { transform: booleanAttribute });
@@ -710,7 +706,7 @@ export class AerisConfirmDialog {
   readonly ariaLabelledBy = input('');
   readonly ariaDescribedBy = input('');
 
-  readonly shown = output<AerisConfirmDialogActionEvent>();
+  readonly opened = output<AerisConfirmDialogActionEvent>();
   readonly accepted = output<AerisConfirmDialogActionEvent>();
   readonly rejected = output<AerisConfirmDialogActionEvent>();
   readonly closed = output<AerisConfirmDialogCloseEvent>();
@@ -774,10 +770,10 @@ export class AerisConfirmDialog {
     this.dialog()?.focus(options);
   }
 
-  protected handleShown(event: AerisDialogVisibilityChangeEvent): void {
+  protected handleOpened(event: AerisDialogVisibilityChangeEvent): void {
     const shownEvent = this.actionEvent(event.originalEvent);
-    this.shown.emit(shownEvent);
-    this.activeRequest()?.ref.notifyShown(shownEvent);
+    this.opened.emit(shownEvent);
+    this.activeRequest()?.ref.notifyOpened(shownEvent);
   }
 
   protected handleHidden(event: AerisDialogVisibilityChangeEvent): void {

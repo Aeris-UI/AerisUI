@@ -1,10 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import {
-  AerisCheckbox,
-  type AerisCheckboxChangeEvent,
-} from '../../../checkbox/aeris-checkbox';
+import { AerisCheckbox, type AerisCheckboxChangeEvent } from '../../../checkbox/aeris-checkbox';
 
 @Component({
   imports: [AerisCheckbox],
@@ -14,7 +11,7 @@ import {
       name="terms"
       value="accepted"
       label="Accept terms"
-      ariaDescribedby="terms-help"
+      ariaDescribedBy="terms-help"
       size="lg"
       labelPosition="start"
       [tabIndex]="-1"
@@ -23,7 +20,7 @@ import {
       [(checked)]="checked"
       [(indeterminate)]="indeterminate"
       (changed)="lastChange.set($event)"
-      (touch)="touches.update(count => count + 1)"
+      (touch)="touches.update((count) => count + 1)"
     />
   `,
 })

@@ -363,7 +363,7 @@ export class AerisMenu<T = unknown> {
   readonly width = input('');
   readonly maxHeight = input('');
   readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
-  readonly hideOnOutsideClick = input(true, { transform: booleanAttribute });
+  readonly closeOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly closeOnSelect = input(true, { transform: booleanAttribute });
   readonly autoFocus = input(true, { transform: booleanAttribute });
@@ -373,9 +373,8 @@ export class AerisMenu<T = unknown> {
   readonly panelStyleClass = input('');
   readonly navigationHandler = input<AerisMenuNavigationHandler>();
 
-  readonly shown = output<AerisMenuVisibilityEvent>();
-  readonly hidden = output<AerisMenuVisibilityEvent>();
-  readonly visibilityChanged = output<AerisMenuVisibilityEvent>();
+  readonly opened = output<AerisMenuVisibilityEvent>();
+  readonly closed = output<AerisMenuVisibilityEvent>();
   readonly itemSelected = output<AerisMenuItemEvent<T>>();
 
   constructor() {
@@ -427,8 +426,7 @@ export class AerisMenu<T = unknown> {
     this.positioned.set(false);
     const event = this.visibilityEvent(false, reason, originalEvent);
     const target = this.activeTarget();
-    this.hidden.emit(event);
-    this.visibilityChanged.emit(event);
+    this.closed.emit(event);
     this.activeTarget.set(null);
     if (restoreFocus && target instanceof HTMLElement) queueMicrotask(() => target.focus());
   }
@@ -569,7 +567,7 @@ export class AerisMenu<T = unknown> {
   }
 
   protected handleDocumentPointerdown(event: PointerEvent): void {
-    if (!this.popup() || !this.open() || !this.hideOnOutsideClick()) return;
+    if (!this.popup() || !this.open() || !this.closeOnOutsideClick()) return;
     const target = event.target;
     const panel = this.panel()?.nativeElement;
     if (target instanceof Node && panel?.contains(target)) return;
@@ -615,8 +613,7 @@ export class AerisMenu<T = unknown> {
     this.open.set(true);
     this.openInitialItem();
     const event = this.visibilityEvent(true, 'api', originalEvent);
-    this.shown.emit(event);
-    this.visibilityChanged.emit(event);
+    this.opened.emit(event);
     afterNextRender(
       () => {
         this.reposition();

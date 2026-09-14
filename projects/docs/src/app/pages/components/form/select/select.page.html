@@ -527,7 +527,7 @@
                     [(value)]="invalidRole"
                     required
                     [invalid]="roleInvalid()"
-                    ariaDescribedby="select-error"
+                    ariaDescribedBy="select-error"
                     fluid
                   />
                   @if (roleInvalid()) {
@@ -575,7 +575,7 @@
       [(value)]="invalidRole"
       required
       [invalid]="roleInvalid()"
-      ariaDescribedby="select-error"
+      ariaDescribedBy="select-error"
       fluid
     /&gt;
     &#64;if (roleInvalid()) &#123;
@@ -756,7 +756,7 @@
                 ><span role="cell">Emitted automatically by the value model.</span>
               </div>
               <div role="row">
-                <code role="cell">valueInput</code><span role="cell">string | null</span
+                <code role="cell">valueChange</code><span role="cell">string | null</span
                 ><span role="cell"
                   >Emitted when selection, clear, or public methods change the value.</span
                 >
@@ -973,7 +973,7 @@
             <code>ariaLabel</code> only when no visible label exists.
           </li>
           <li>
-            Connect help and error messages through <code>ariaDescribedby</code>. Required and
+            Connect help and error messages through <code>ariaDescribedBy</code>. Required and
             invalid state are synchronized with ARIA.
           </li>
           <li>

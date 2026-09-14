@@ -320,7 +320,7 @@ interface AerisDrawerTemplateContext {
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'body'",
+      defaultValue: "global config or 'body'",
       description:
         'Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target.',
     },
@@ -369,7 +369,7 @@ interface AerisDrawerTemplateContext {
       description: 'Overrides the backdrop blur radius for this drawer with a CSS length.',
     },
     {
-      name: 'dismissibleMask',
+      name: 'closeOnBackdropClick',
       type: 'boolean',
       defaultValue: 'false',
       description: 'Closes the drawer when the mask itself is pressed.',
@@ -509,22 +509,16 @@ interface AerisDrawerTemplateContext {
 
   protected readonly outputs: readonly ApiRow[] = [
     {
-      name: 'shown',
+      name: 'opened',
       type: 'AerisDrawerVisibilityChangeEvent',
       defaultValue: '-',
       description: 'Emits after the drawer becomes visible.',
     },
     {
-      name: 'hidden',
+      name: 'closed',
       type: 'AerisDrawerVisibilityChangeEvent',
       defaultValue: '-',
-      description: 'Emits after the drawer is hidden.',
-    },
-    {
-      name: 'visibilityChanged',
-      type: 'AerisDrawerVisibilityChangeEvent',
-      defaultValue: '-',
-      description: 'Emits for both open and close transitions.',
+      description: 'Emits after the drawer closes.',
     },
   ];
 

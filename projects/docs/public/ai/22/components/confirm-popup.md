@@ -2,7 +2,7 @@
 
 > Target-relative confirmation popup with service prompts, trigger ARIA state, templates, and explicit outcomes.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/confirm-popup`
 - Human-readable documentation: [https://aeris-ui.dev/components/confirm-popup](https://aeris-ui.dev/components/confirm-popup)
@@ -39,7 +39,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a template host. |
 | `target` | `AerisConfirmPopupTarget` | `required` | Element or trigger event used for positioning and trigger ARIA state. |
 | `header` | `string` | `'Confirm action'` | Visible popup title. |
@@ -62,7 +62,7 @@ import {
 | `maxWidth` | `string` | `''` | Custom maximum popup width. |
 | `offset` | `number` | `10` | Distance between target and popup in pixels. |
 | `viewportMargin` | `number` | `8` | Minimum viewport edge gap in pixels. |
-| `dismissible` | `boolean` | `true` | Allows outside pointerdown to dismiss. |
+| `closeOnOutsideClick` | `boolean` | `true` | Allows outside pointerdown to dismiss. |
 | `closeOnEscape` | `boolean` | `true` | Allows Escape to dismiss. |
 | `focusTrap` | `boolean` | `true` | Keeps Tab navigation inside the popup. |
 | `restoreFocus` | `boolean` | `true` | Returns focus to the trigger after close. |
@@ -84,7 +84,7 @@ import {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `visibleChange` | `boolean` | `-` | Emitted by the visible model. |
-| `shown` | `AerisConfirmPopupActionEvent` | `-` | Emitted after the popup opens. |
+| `opened` | `AerisConfirmPopupActionEvent` | `-` | Emitted after the popup opens. |
 | `accepted` | `AerisConfirmPopupActionEvent` | `-` | Emitted when the accept action runs. |
 | `rejected` | `AerisConfirmPopupActionEvent` | `-` | Emitted when the reject action runs. |
 | `closed` | `AerisConfirmPopupCloseEvent` | `-` | Emitted for accept, reject, and dismiss closes. |
@@ -113,7 +113,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a template host. |
 | `target` | `AerisConfirmPopupTarget` | `required` | Element or trigger event used for positioning and trigger ARIA state. |
 | `header` | `string` | `'Confirm action'` | Visible popup title. |
@@ -136,7 +136,7 @@ import {
 | `maxWidth` | `string` | `''` | Custom maximum popup width. |
 | `offset` | `number` | `10` | Distance between target and popup in pixels. |
 | `viewportMargin` | `number` | `8` | Minimum viewport edge gap in pixels. |
-| `dismissible` | `boolean` | `true` | Allows outside pointerdown to dismiss. |
+| `closeOnOutsideClick` | `boolean` | `true` | Allows outside pointerdown to dismiss. |
 | `closeOnEscape` | `boolean` | `true` | Allows Escape to dismiss. |
 | `focusTrap` | `boolean` | `true` | Keeps Tab navigation inside the popup. |
 | `restoreFocus` | `boolean` | `true` | Returns focus to the trigger after close. |
@@ -161,7 +161,7 @@ import {
 | `accepted` | `Subscribable&lt;AerisConfirmPopupActionEvent&gt;` | `-` | Subscribe to accept actions. |
 | `rejected` | `Subscribable&lt;AerisConfirmPopupActionEvent&gt;` | `-` | Subscribe to reject actions. |
 | `closed` | `Subscribable&lt;AerisConfirmPopupCloseEvent&gt;` | `-` | Subscribe to the final close result. |
-| `shown` | `Subscribable&lt;AerisConfirmPopupActionEvent&gt;` | `-` | Subscribe after the popup opens. |
+| `opened` | `Subscribable&lt;AerisConfirmPopupActionEvent&gt;` | `-` | Subscribe after the popup opens. |
 
 ## Interfaces and types
 
@@ -206,7 +206,7 @@ interface AerisConfirmPopupConfig<TData = unknown> {
   readonly defaultFocus?: AerisConfirmPopupDefaultFocus;
   readonly placement?: AerisConfirmPopupPlacement;
   readonly alignment?: AerisConfirmPopupAlignment;
-  readonly dismissible?: boolean;
+  readonly closeOnOutsideClick?: boolean;
   readonly closeOnEscape?: boolean;
   readonly focusTrap?: boolean;
   readonly restoreFocus?: boolean;
@@ -288,14 +288,14 @@ import { AerisConfirmPopupService } from '@aeris-ui/core/confirm-popup';
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .placement-grid {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 0.5rem;
       max-width: 34rem;
     }
-    
+
     .demo-status {
       width: 100%;
       margin: 0.875rem 0 0;
@@ -644,7 +644,8 @@ export class ConfirmPopupTemplatesTemplatesDemo {
       <div class="confirm-popup-footer">
         <button
           aerisButton
-          variant="secondary"
+          variant="solid"
+          severity="secondary"
           type="button"
           (click)="reject($event)"
         >
@@ -745,7 +746,8 @@ export class ConfirmPopupHeadlessHeadlessDemo {
         <div class="headless-popup-actions">
           <button
             aerisButton
-            variant="secondary"
+            variant="solid"
+            severity="secondary"
             type="button"
             (click)="close($event)"
           >
@@ -811,14 +813,14 @@ import { AerisConfirmPopupService } from '@aeris-ui/core/confirm-popup';
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    
+
     .placement-grid {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 0.5rem;
       max-width: 34rem;
     }
-    
+
     .demo-status {
       width: 100%;
       margin: 0.875rem 0 0;
@@ -835,7 +837,7 @@ export class ConfirmPopupOptionsOptionsDemo {
       target: event,
       header: 'Pinned confirmation',
       message: 'Outside clicks are ignored; use an action or Escape.',
-      dismissible: false,
+      closeOnOutsideClick: false,
       showArrow: false,
       width: '18rem',
       acceptLabel: 'Confirm',
@@ -850,7 +852,7 @@ export class ConfirmPopupOptionsOptionsDemo {
 - The popup uses role="alertdialog" because it asks for an explicit confirmation.
 - The trigger receives aria-haspopup="dialog", aria-expanded, and aria-controls while the popup is open, then its previous values are restored.
 - Focus moves into the popup by default, remains trapped while open, and returns to the trigger when closed.
-- Outside dismissal is enabled by default through dismissible. Escape dismissal is enabled by default through closeOnEscape.
+- Outside dismissal is enabled by default through closeOnOutsideClick. Escape dismissal is enabled by default through closeOnEscape.
 - Use a native button or another keyboard-focusable element as the target.
 
 ### Keyboard support

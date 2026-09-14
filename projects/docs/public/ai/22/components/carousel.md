@@ -2,7 +2,7 @@
 
 > Responsive item carousel with controlled paging, templates, autoplay, swipe, and keyboard navigation.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/carousel`
 - Human-readable documentation: [https://aeris-ui.dev/components/carousel](https://aeris-ui.dev/components/carousel)
@@ -268,19 +268,19 @@ import { AerisCarouselModule, type AerisCarouselResponsiveOption } from '@aeris-
       color: #fff;
       overflow: hidden;
     }
-    
+
     .destination-card::before {
       position: absolute;
       inset: 0;
       background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%));
       content: '';
     }
-    
+
     .destination-card strong,
     .destination-card span { position: relative; display: block; }
     .destination-card strong { font-size: 1.25rem; }
     .destination-card span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }
-    
+
     .destination-card[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }
     .destination-card[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }
     .destination-card[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }
@@ -539,19 +539,19 @@ interface Destination {
       color: #fff;
       overflow: hidden;
     }
-    
+
     .destination-card::before {
       position: absolute;
       inset: 0;
       background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%));
       content: '';
     }
-    
+
     .destination-card strong,
     .destination-card span { position: relative; display: block; }
     .destination-card strong { font-size: 1.25rem; }
     .destination-card span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }
-    
+
     .destination-card[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }
     .destination-card[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }
     .destination-card[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }

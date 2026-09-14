@@ -2,7 +2,7 @@
 
 > Navigate large record sets with page links, row count selection, and controlled state.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/paginator`
 - Human-readable documentation: [https://aeris-ui.dev/components/paginator](https://aeris-ui.dev/components/paginator)
@@ -29,7 +29,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the rows-per-page menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the rows-per-page menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the rows menu inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `first` | `number (model)` | `0` | Index of the first record in the current page. |
 | `rows` | `number (model)` | `10` | Number of records shown per page. |
@@ -91,7 +91,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
     .paginator-demo {
       width: 100%;
     }
-    
+
     .paginator-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -128,7 +128,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
     .paginator-demo {
       width: 100%;
     }
-    
+
     .paginator-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -169,12 +169,12 @@ import { AerisPaginator, type AerisPaginatorPageEvent } from '@aeris-ui/core/pag
     .paginator-demo {
       width: 100%;
     }
-    
+
     .paginator-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .paginator-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -219,7 +219,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
     .paginator-demo {
       width: 100%;
     }
-    
+
     .paginator-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;

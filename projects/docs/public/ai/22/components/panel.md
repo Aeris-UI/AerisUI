@@ -2,7 +2,7 @@
 
 > Composable content container with optional collapse behavior, templates, actions, and accessible disclosure semantics.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/panel`
 - Human-readable documentation: [https://aeris-ui.dev/components/panel](https://aeris-ui.dev/components/panel)
@@ -309,7 +309,8 @@ export class PanelControlledControlledDemo {
       aerisButton
       type="button"
       size="sm"
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       (click)="closePanel()"
     >
       Close
@@ -372,19 +373,31 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
 @Component({
   selector: 'app-panel-actions-demo',
   imports: [AerisButton, AerisPanelModule],
-  template: `
-    <div>
-      <aeris-panel header="Team activity">
-        <div aerisPanelHeaderActions>
-          <button aerisButton type="button" size="sm" variant="secondary">Refresh</button>
-        </div>
-        <p>Seven updates were added since the last review.</p>
-      </aeris-panel>
-    </div>
-  `
+  templateUrl: './panel-actions.demo.html'
 })
 export class PanelActionsHeaderActionsDemo {
 }
+```
+
+#### HTML
+
+```html
+<div>
+  <aeris-panel header="Team activity">
+    <div aerisPanelHeaderActions>
+      <button
+        aerisButton
+        type="button"
+        size="sm"
+        variant="solid"
+        severity="secondary"
+      >
+        Refresh
+      </button>
+    </div>
+    <p>Seven updates were added since the last review.</p>
+  </aeris-panel>
+</div>
 ```
 
 ### Indicator
@@ -417,7 +430,7 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
       width: 1rem;
       height: 1rem;
     }
-    
+
     .panel-plus-icon::before,
     .panel-plus-icon::after {
       position: absolute;
@@ -429,12 +442,12 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
       content: "";
       transform: translate(-50%, -50%);
     }
-    
+
     .panel-plus-icon::after {
       transform: translate(-50%, -50%) rotate(90deg);
       transition: transform 160ms ease;
     }
-    
+
     .panel-plus-icon[data-collapsed="false"]::after {
       transform: translate(-50%, -50%) rotate(0deg);
     }
@@ -485,7 +498,15 @@ export class PanelTemplateTemplateDemo {
     </p>
     <div aerisPanelFooter>
       <button aerisButton type="button" size="sm">View profile</button>
-      <button aerisButton type="button" size="sm" variant="secondary">Message</button>
+      <button
+        aerisButton
+        type="button"
+        size="sm"
+        variant="solid"
+        severity="secondary"
+      >
+        Message
+      </button>
     </div>
   </aeris-panel>
 </div>

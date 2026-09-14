@@ -213,7 +213,7 @@ export class App {}`,
           source(
             'Terminal',
             'Shell',
-            `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION} --project=web --surface="#eef3f5" --primary="#357a9e" --secondary="#347b73" --accent="#d46f58" --contrast="#163e54" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts`,
+            `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION} --project=web --surface="#eef3f5" --primary="#33789b" --secondary="#347b73" --accent="#d46f58" --contrast="#163e54" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts`,
           ),
           source(
             'aeris.setup.json',
@@ -223,7 +223,7 @@ export class App {}`,
   "theme": {
     "seeds": {
       "surface": "#eef3f5",
-      "primary": "#357a9e",
+      "primary": "#33789b",
       "secondary": "#347b73",
       "accent": "#d46f58",
       "contrast": "#163e54"
@@ -535,10 +535,10 @@ export const appConfig: ApplicationConfig = {
         id: 'overlay-mounting',
         title: 'Overlay mounting',
         paragraphs: [
-          "Anchored overlays render beside their trigger by default and automatically move to document.body when an overflow, clipping, or paint-containment ancestor would cut them off. Set appendTo to 'self', 'body', or a target element on one component to override detection, or use overlayAppendTo to choose an application-wide default.",
+          "Anchored overlays render beside their trigger by default and automatically move to document.body when an overflow, clipping, or paint-containment ancestor would cut them off. Viewport overlays such as Dialog and Drawer mount under document.body by default. Set appendTo to 'self', 'body', or a target element on one component to override its family default, or use overlayAppendTo to choose an application-wide default.",
           "Use 'self' to keep an overlay in its component, 'body' to mount it under document.body, or supply an HTMLElement, ElementRef<HTMLElement>, or TemplateRef target. Tooltip safely resolves 'self' to body because a directive host may be a void or interactive element that cannot contain generated overlay markup. null and undefined use the global setting. Aeris keeps the overlay aligned to its trigger and repositions it during scrolling and viewport changes.",
         ],
-        note: "Prefer the default 'self' mode unless an ancestor clips or constrains the overlay. Portaling to body changes the overlay's DOM ancestry, although Aeris carries its theme variables and reading direction with it.",
+        note: 'Keep anchored overlays local unless an ancestor clips or constrains them. Viewport overlays use body so they cover the viewport independently of component overflow. Portaling changes DOM ancestry, although Aeris carries theme variables and reading direction with the overlay.',
       },
       {
         id: 'runtime',
@@ -722,7 +722,7 @@ export class ProfileForm {
       autocomplete="email"
       [formControl]="email"
       [invalid]="submitted() && email.invalid"
-      ariaDescribedby="profile-email-help profile-email-error"
+      ariaDescribedBy="profile-email-help profile-email-error"
       required
       fluid
     />
@@ -765,17 +765,75 @@ export class ProfileForm {
         ],
       },
       {
+        id: 'signal-forms-validation',
+        title: 'Use touched-aware validation with Signal Forms',
+        paragraphs: [
+          'Angular Signal Forms automatically supplies value, required, invalid, and touched state to matching Aeris control inputs. Aeris keeps a logically invalid required field visually neutral while touched is false, then synchronizes its invalid styling and aria-invalid value after blur or an unsuccessful submission.',
+          'The visible error uses the same touched and invalid field state. No application-level CSS workaround or duplicate invalid binding is required.',
+        ],
+        code: [
+          source(
+            'src/app/signal-profile-form.ts',
+            'TypeScript',
+            `import { Component, signal } from '@angular/core';
+import { FormField, form, required, submit } from '@angular/forms/signals';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+
+@Component({
+  selector: 'app-signal-profile-form',
+  imports: [AerisButton, AerisInputText, FormField],
+  templateUrl: './signal-profile-form.html',
+})
+export class SignalProfileForm {
+  protected readonly profile = signal({ name: '' });
+  protected readonly profileForm = form(this.profile, (path) => {
+    required(path.name);
+  });
+
+  protected async save(event: SubmitEvent): Promise<void> {
+    event.preventDefault();
+    await submit(this.profileForm, async () => {
+      // Persist this.profile() here.
+    });
+  }
+}`,
+          ),
+          source(
+            'src/app/signal-profile-form.html',
+            'HTML',
+            `<form (submit)="save($event)" novalidate>
+  <label for="profile-name">Name</label>
+  <input
+    id="profile-name"
+    aerisInputText
+    [formField]="profileForm.name"
+    aria-describedby="profile-name-error"
+  />
+
+  <small id="profile-name-error" aria-live="polite">
+    @if (profileForm.name().touched() && profileForm.name().invalid()) {
+      Enter your name.
+    }
+  </small>
+
+  <button aerisButton type="submit">Save profile</button>
+</form>`,
+          ),
+        ],
+      },
+      {
         id: 'validation-contract',
         title: 'Keep validation state synchronized',
         paragraphs: [
           'Native Aeris inputs use the browser interaction-aware :user-invalid state for constraint validation. A required field therefore keeps its normal appearance while pristine and receives invalid styling only after the browser has attempted validation through user interaction or form submission.',
-          'The invalid input remains the explicit application-controlled state. Use it for Angular validators, server errors, composite controls, or any workflow where the application decides when an error should become visible.',
+          'The invalid input remains the explicit application-controlled state. For example, [invalid]="emailInvalid()" displays immediately when touched is omitted. Bind [touched]="false" when an application intentionally needs to defer that manual invalid presentation.',
         ],
         bullets: [
           'Let Angular validators determine whether the value is valid.',
           'Show errors after an intentional trigger such as blur or submit instead of while the user is still entering the first character.',
           'Bind the Aeris invalid input to the same condition used to show the visible error.',
-          'Connect help and error text through ariaDescribedby or native aria-describedby, as documented by the control.',
+          'Connect help and error text through ariaDescribedBy or native aria-describedby, as documented by the control.',
           'Reserve message space when changing text would otherwise cause distracting layout movement.',
           'Do not rely on color alone; write a concise message that explains how to correct the value.',
         ],
@@ -792,7 +850,7 @@ export class ProfileForm {
         id: 'component-support',
         title: 'Check the component contract',
         paragraphs: [
-          'Every form component page documents its value type, Angular Forms behavior, invalid input, naming inputs, and touched or blur events. Some controls use a native input while composite controls expose camel-cased ARIA inputs such as ariaDescribedby; copy the spelling shown on that component page.',
+          'Every form component page documents its value type, Angular Forms behavior, invalid input, naming inputs, and touched or blur events. Some controls use a native input while composite controls expose camel-cased ARIA inputs such as ariaDescribedBy; copy the spelling shown on that component page.',
         ],
         links: [
           { label: 'InputText forms examples', href: '/components/input-text' },
@@ -920,7 +978,7 @@ export const appConfig: ApplicationConfig = {
       theme: {
         palette: {
           surface: '#eef3f5',
-          primary: '#357a9e',
+          primary: '#33789b',
           secondary: '#347b73',
           accent: '#d46f58',
           contrast: '#163e54',
@@ -1025,7 +1083,7 @@ export const appConfig: ApplicationConfig = {
 export const productTheme: AerisThemeOverride = {
   palette: {
     surface: '#eef3f5',
-    primary: '#357a9e',
+    primary: '#33789b',
     secondary: '#347b73',
     accent: '#d46f58',
     contrast: '#163e54',
@@ -2220,6 +2278,14 @@ export class ProjectDetails {
           ],
         },
         note: 'Aeris targets WCAG 2.2 AA; this is not a certification of the consuming application. Automated checks find only part of WCAG failures, so keyboard and assistive-technology review remain necessary for complex flows.',
+      },
+      {
+        id: 'verification-scope',
+        title: 'What Aeris verifies',
+        paragraphs: [
+          'Aeris runs automated WCAG A and AA scans against representative controls and open overlays across every shipped palette in light and dark mode. Its browser suite also checks keyboard operation, focus restoration, validation relationships, reduced motion, 320 CSS pixel reflow, target geometry, direction, density, and corner presets.',
+          'Automated coverage does not replace testing the finished application. Aeris does not claim that every component and assistive-technology combination has been certified. Application teams should test their content and workflows with current browser and screen-reader combinations before release.',
+        ],
       },
     ],
     related: ['icons', 'rtl', 'theming'],

@@ -21,7 +21,7 @@ import {
       clearable
       required
       invalid
-      ariaDescribedby="skills-help"
+      ariaDescribedBy="skills-help"
       (changed)="lastChange.set($event)"
     />
   `,
@@ -76,7 +76,7 @@ describe('AerisMultiSelect', () => {
     option.click();
     fixture.detectChanges();
 
-    expect(pointerdown.defaultPrevented).toBe(true);
+    expect(pointerdown.defaultPrevented).toBe(false);
     expect(fixture.componentInstance.skills()).toEqual(['design', 'engineering']);
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
   });

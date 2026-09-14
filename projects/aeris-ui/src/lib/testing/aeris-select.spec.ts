@@ -38,7 +38,7 @@ const rect = (left: number, top: number, width: number, height: number): DOMRect
       invalid
       [disabled]="disabled()"
       [minWidth]="minimumWidth()"
-      ariaDescribedby="role-error"
+      ariaDescribedBy="role-error"
       (changed)="lastChange.set($event)"
     />
   `,
@@ -293,10 +293,59 @@ describe('AerisSelect', () => {
     option?.click();
     fixture.detectChanges();
 
-    expect(pointerdown.defaultPrevented).toBe(true);
+    expect(pointerdown.defaultPrevented).toBe(false);
     expect(fixture.componentInstance.role()).toBe('manager');
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
     expect(fixture.nativeElement.querySelector('[role="listbox"]')).toBeNull();
+  });
+
+  it('preserves focus for mouse option presses without cancelling touch presses', async () => {
+    const fixture = TestBed.createComponent(SelectTestHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('#role') as HTMLButtonElement;
+    trigger.click();
+    fixture.detectChanges();
+
+    const option = fixture.nativeElement.querySelector('[role="option"]') as HTMLElement;
+    const mousePointerdown = new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      pointerType: 'mouse',
+    });
+    option.dispatchEvent(mousePointerdown);
+
+    const touchPointerdown = new PointerEvent('pointerdown', {
+      bubbles: true,
+      cancelable: true,
+      pointerType: 'touch',
+    });
+    option.dispatchEvent(touchPointerdown);
+
+    expect(mousePointerdown.defaultPrevented).toBe(true);
+    expect(touchPointerdown.defaultPrevented).toBe(false);
+  });
+
+  it('keeps touch-focused options open until selection completes', async () => {
+    const fixture = TestBed.createComponent(SelectTestHost);
+    await fixture.whenStable();
+    const trigger = fixture.nativeElement.querySelector('#role') as HTMLButtonElement;
+    trigger.click();
+    fixture.detectChanges();
+    const option = Array.from(
+      fixture.nativeElement.querySelectorAll('[role="option"]') as NodeListOf<HTMLElement>,
+    ).find((element) => element.textContent?.includes('Software engineer'));
+    expect(option).toBeDefined();
+    if (!option) return;
+
+    expect(option.tabIndex).toBe(-1);
+    trigger.dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: option }));
+    fixture.detectChanges();
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    option.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.role()).toBe('engineer');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('supports reverse navigation, boundaries, and Tab dismissal', async () => {
@@ -534,10 +583,12 @@ describe('AerisSelect', () => {
     ) as HTMLElement;
     const initialTop = Number.parseFloat(panel.style.top);
     let reposition: FrameRequestCallback | undefined;
-    const requestFrame = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
-      reposition = callback;
-      return 1;
-    });
+    const requestFrame = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation((callback) => {
+        reposition = callback;
+        return 1;
+      });
 
     controlRect.mockReturnValue(rect(80, -100, 180, 40));
     document.dispatchEvent(new Event('scroll'));

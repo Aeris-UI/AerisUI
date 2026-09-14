@@ -134,6 +134,13 @@ type AerisTextareaResize =
       description: 'Applies invalid styling and synchronizes aria-invalid.',
     },
     {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it.',
+    },
+    {
       name: 'fluid',
       type: 'boolean',
       defaultValue: 'false',
@@ -209,13 +216,13 @@ type AerisTextareaResize =
       description: 'Accessible name when no visible label is available.',
     },
     {
-      name: 'ariaLabelledby',
+      name: 'ariaLabelledBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of elements that label the textarea.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of help or validation messages.',
@@ -289,12 +296,6 @@ type AerisTextareaResize =
       type: 'string',
       defaultValue: '-',
       description: 'Emits for two-way value model changes.',
-    },
-    {
-      name: 'valueInput',
-      type: 'string',
-      defaultValue: '-',
-      description: 'Emits whenever user input changes the value.',
     },
     {
       name: 'focused',

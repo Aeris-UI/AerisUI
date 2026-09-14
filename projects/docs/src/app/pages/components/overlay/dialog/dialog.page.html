@@ -56,7 +56,8 @@
                 <aeris-dialog
                   header="Edit workspace"
                   [(visible)]="controlledOpen"
-                  (visibilityChanged)="recordDialogEvent($event)"
+                  (opened)="recordDialogEvent($event)"
+                  (closed)="recordDialogEvent($event)"
                 >
                   <form class="dialog-form">
                     <label>
@@ -85,7 +86,8 @@ Shared component planning and release notes.</textarea>
                 &lt;aeris-dialog
                   header="Edit workspace"
                   [(visible)]="controlledOpen"
-                  (visibilityChanged)="recordDialogEvent($event)"
+                  (opened)="recordDialogEvent($event)"
+                  (closed)="recordDialogEvent($event)"
                 &gt;
                   &lt;form class="dialog-form"&gt;
                     &lt;label&gt;
@@ -130,7 +132,7 @@ Shared component planning and release notes.&lt;/textarea&gt;
                 </div>
                 <aeris-dialog
                   header="Dismissible dialog"
-                  dismissibleMask
+                  closeOnBackdropClick
                   backdropBlurAmount="1rem"
                   [(visible)]="dismissalOpen"
                 >
@@ -161,7 +163,7 @@ Shared component planning and release notes.&lt;/textarea&gt;
   &lt;/div&gt;
   &lt;aeris-dialog
     header="Dismissible dialog"
-    dismissibleMask
+    closeOnBackdropClick
     backdropBlurAmount="1rem"
     [(visible)]="dismissalOpen"
   &gt;

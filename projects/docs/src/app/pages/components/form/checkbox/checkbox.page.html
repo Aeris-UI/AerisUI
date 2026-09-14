@@ -214,7 +214,7 @@
                   inputId="required-terms"
                   required
                   invalid
-                  ariaDescribedby="required-terms-error"
+                  ariaDescribedBy="required-terms-error"
                 >
                   Accept terms
                 </aeris-checkbox>
@@ -229,7 +229,7 @@
     inputId="required-terms"
     required
     invalid
-    ariaDescribedby="required-terms-error"
+    ariaDescribedBy="required-terms-error"
   &gt;
     Accept terms
   &lt;/aeris-checkbox&gt;
@@ -341,7 +341,7 @@
                 ><span role="cell">Emitted automatically by the indeterminate model.</span>
               </div>
               <div role="row">
-                <code role="cell">checkedInput</code><span role="cell">boolean</span
+                <code role="cell">checkedChange</code><span role="cell">boolean</span
                 ><span role="cell"
                   >Emitted when user or public method interaction changes checked state.</span
                 >
@@ -468,10 +468,10 @@
           </li>
           <li>
             Use a visible label whenever possible. For icon-only or externally labeled controls, use
-            <code>ariaLabel</code> or <code>ariaLabelledby</code>.
+            <code>ariaLabel</code> or <code>ariaLabelledBy</code>.
           </li>
           <li>
-            Connect help and error text through <code>ariaDescribedby</code>. The invalid input
+            Connect help and error text through <code>ariaDescribedBy</code>. The invalid input
             synchronizes <code>aria-invalid</code>.
           </li>
           <li>

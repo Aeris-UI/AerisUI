@@ -2,7 +2,7 @@
 
 > Composable field shell for placing icons around native and Aeris form controls.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/icon-field`
 - Human-readable documentation: [https://aeris-ui.dev/components/icon-field](https://aeris-ui.dev/components/icon-field)
@@ -34,6 +34,7 @@ import { AerisIconField } from '@aeris-ui/core/icon-field';
 | `appearance` | `AerisIconFieldAppearance` | `'outline'` | Outlined or filled field surface. Options: 'outline', 'filled'. |
 | `density` | `AerisIconFieldDensity` | `'comfortable'` | Adjusts spacing between icon and control. Options: 'comfortable', 'compact'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid to the field wrapper. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `disabled` | `boolean` | `false` | Applies disabled field styling. Keep the projected control disabled as well. |
 | `readonly` | `boolean` | `false` | Applies read-only field styling. Keep the projected control read-only as well. |
 | `fluid` | `boolean` | `false` | Expands the field to fill the available inline space. |
@@ -72,7 +73,7 @@ type AerisIconFieldDensity = 'comfortable' | 'compact';
 
 ### Basic
 
-Project an icon and a native input into the field shell. Decorative icons are hidden from assistive technology by default.
+Project an icon and an Aeris input into the field shell. The clearable input provides a consistent clear button; decorative icons are hidden from assistive technology.
 
 #### TS
 
@@ -104,12 +105,12 @@ export class IconFieldBasicBasicDemo {
   <label for="site-search">Search</label>
   <aeris-icon-field fluid>
     <svg aerisIcon [lucideIcon]="icons.Search"></svg>
-    <input
-      aerisInputText
-      id="site-search"
+    <aeris-input-text
+      inputId="site-search"
       type="search"
       placeholder="Search documentation"
       [(ngModel)]="search"
+      clearable
       fluid
     />
   </aeris-icon-field>
@@ -286,7 +287,7 @@ import { LucideDynamicIcon, LucidePackage, LucideSearch } from '@lucide/angular'
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -294,13 +295,13 @@ import { LucideDynamicIcon, LucidePackage, LucideSearch } from '@lucide/angular'
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -349,7 +350,7 @@ import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -357,13 +358,13 @@ import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -622,7 +623,7 @@ import { LucideDynamicIcon, LucideEdit } from '@lucide/angular';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -630,13 +631,13 @@ import { LucideDynamicIcon, LucideEdit } from '@lucide/angular';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }

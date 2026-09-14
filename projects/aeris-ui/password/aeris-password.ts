@@ -16,7 +16,12 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵAerisAppendTo, type AerisAppendTo, type AerisOverlayCollisionPadding } from '@aeris-ui/core';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import {
+  ɵAerisAppendTo,
+  type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
+} from '@aeris-ui/core';
 
 export type AerisPasswordSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisPasswordAppearance = 'outline' | 'filled';
@@ -66,10 +71,7 @@ const scoreFor = (metCount: number): 0 | 1 | 2 | 3 => {
   return 3;
 };
 
-export const evaluateAerisPassword: AerisPasswordStrengthEvaluator = (
-  value,
-  minLength,
-) => {
+export const evaluateAerisPassword: AerisPasswordStrengthEvaluator = (value, minLength) => {
   const requirements: readonly AerisPasswordRequirement[] = [
     { label: `At least ${minLength} characters`, met: value.length >= minLength },
     { label: 'One uppercase letter', met: /[A-Z]/.test(value) },
@@ -84,7 +86,12 @@ export const evaluateAerisPassword: AerisPasswordStrengthEvaluator = (
 
   const score = scoreFor(requirements.filter((requirement) => requirement.met).length);
   const strength = score === 1 ? 'weak' : score === 2 ? 'medium' : 'strong';
-  const label = strength === 'weak' ? 'Weak password' : strength === 'medium' ? 'Medium password' : 'Strong password';
+  const label =
+    strength === 'weak'
+      ? 'Weak password'
+      : strength === 'medium'
+        ? 'Medium password'
+        : 'Strong password';
   return { score, strength, label, requirements };
 };
 
@@ -98,7 +105,7 @@ let passwordId = 0;
       class="aeris-password"
       [attr.data-size]="size()"
       [attr.data-appearance]="appearance()"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-readonly]="readonly() || null"
       [attr.data-fluid]="fluid() || null"
@@ -114,14 +121,14 @@ let passwordId = 0;
           [placeholder]="placeholder()"
           [autocomplete]="autocomplete()"
           [minLength]="minLength()"
-          [maxLength]="maxLength() ?? null"
+          [attr.maxlength]="maxLength() ?? null"
           [disabled]="effectiveDisabled()"
           [readOnly]="readonly()"
           [required]="required()"
           [attr.aria-label]="ariaLabel() || null"
-          [attr.aria-labelledby]="ariaLabelledby() || null"
+          [attr.aria-labelledby]="ariaLabelledBy() || null"
           [attr.aria-describedby]="resolvedAriaDescribedby()"
-          [attr.aria-invalid]="invalid() || null"
+          [attr.aria-invalid]="displayInvalid() || null"
           (input)="handleInput($event)"
           (focus)="handleFocus($event)"
           (blur)="handleInputBlur($event)"
@@ -134,7 +141,9 @@ let passwordId = 0;
               class="aeris-password__action aeris-password__clear"
               [attr.aria-label]="clearButtonAriaLabel()"
               (click)="clear()"
-            ><span aria-hidden="true"></span></button>
+            >
+              <span aria-hidden="true"></span>
+            </button>
           }
           @if (toggleMask()) {
             <button
@@ -184,7 +193,7 @@ let passwordId = 0;
               [ngTemplateOutletContext]="{
                 $implicit: strengthResult(),
                 result: strengthResult(),
-                value: value()
+                value: value(),
               }"
             />
           } @else {
@@ -196,7 +205,8 @@ let passwordId = 0;
               class="aeris-password__meter"
               [attr.data-strength]="strengthResult().strength"
               aria-hidden="true"
-            ><span></span><span></span><span></span></span>
+              ><span></span><span></span><span></span
+            ></span>
 
             @if (showRequirements()) {
               <span class="aeris-password__requirements">
@@ -250,8 +260,8 @@ export class AerisPasswordComponent implements ControlValueAccessor {
   readonly placeholder = input('');
   readonly autocomplete = input('current-password');
   readonly ariaLabel = input('');
-  readonly ariaLabelledby = input('');
-  readonly ariaDescribedby = input('');
+  readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly size = input<AerisPasswordSize>('md');
   readonly appearance = input<AerisPasswordAppearance>('outline');
   readonly minLength = input(8);
@@ -260,6 +270,10 @@ export class AerisPasswordComponent implements ControlValueAccessor {
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly fluid = input(false, { transform: booleanAttribute });
   readonly toggleMask = input(true, { transform: booleanAttribute });
   readonly feedback = input(true, { transform: booleanAttribute });
@@ -270,7 +284,6 @@ export class AerisPasswordComponent implements ControlValueAccessor {
   readonly hidePasswordAriaLabel = input('Hide password');
   readonly strengthEvaluator = input<AerisPasswordStrengthEvaluator>(evaluateAerisPassword);
 
-  readonly valueInput = output<string>();
   readonly visibilityChanged = output<boolean>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
@@ -290,16 +303,12 @@ export class AerisPasswordComponent implements ControlValueAccessor {
   );
   protected readonly showClearButton = computed(
     () =>
-      this.clearable() &&
-      this.value().length > 0 &&
-      !this.effectiveDisabled() &&
-      !this.readonly(),
+      this.clearable() && this.value().length > 0 && !this.effectiveDisabled() && !this.readonly(),
   );
   protected readonly resolvedAriaDescribedby = computed(() => {
-    const ids = [
-      this.ariaDescribedby(),
-      this.feedbackVisible() ? this.feedbackId : '',
-    ].filter(Boolean);
+    const ids = [this.ariaDescribedBy(), this.feedbackVisible() ? this.feedbackId : ''].filter(
+      Boolean,
+    );
     return ids.length ? ids.join(' ') : null;
   });
 
@@ -362,7 +371,8 @@ export class AerisPasswordComponent implements ControlValueAccessor {
       nextTarget instanceof Node &&
       (this.host.nativeElement.contains(nextTarget) ||
         this.feedbackPanel()?.nativeElement.contains(nextTarget))
-    ) return;
+    )
+      return;
     this.feedbackPortal()?.restore();
     this.hasFocus.set(false);
     this.touch.emit();
@@ -372,7 +382,6 @@ export class AerisPasswordComponent implements ControlValueAccessor {
   private setValue(value: string): void {
     if (this.value() === value) return;
     this.value.set(value);
-    this.valueInput.emit(value);
     this.onChange(value);
   }
 

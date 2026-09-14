@@ -2,7 +2,7 @@
 
 > Reorder a single item collection with accessible selection and templates.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/order-list`
 - Human-readable documentation: [https://aeris-ui.dev/components/order-list](https://aeris-ui.dev/components/order-list)
@@ -143,7 +143,7 @@ interface Product {
     .order-list-states {
       width: 100%;
     }
-    
+
     .order-list-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -188,7 +188,7 @@ import { AerisOrderListModule } from '@aeris-ui/core/order-list';
     .order-list-states {
       width: 100%;
     }
-    
+
     .order-list-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -233,7 +233,7 @@ import { AerisOrderListModule } from '@aeris-ui/core/order-list';
       display: grid;
       gap: 0.2rem;
     }
-    
+
     .product-row small {
       color: var(--text-3);
     }
@@ -272,12 +272,12 @@ import { AerisOrderListModule } from '@aeris-ui/core/order-list';
     .order-list-states {
       width: 100%;
     }
-    
+
     .order-list-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
     }
-    
+
     .scrolling-order-list {
       --aeris-order-list-max-height: 18rem;
     }
@@ -316,13 +316,13 @@ import { AerisOrderListModule } from '@aeris-ui/core/order-list';
     .order-list-states {
       width: 100%;
     }
-    
+
     .order-list-states {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1rem;
     }
-    
+
     @media (max-width: 54rem) {
       .order-list-states {
           grid-template-columns: 1fr;
@@ -364,12 +364,12 @@ import { AerisOrderListModule, type AerisOrderListReorderEvent, type AerisOrderL
     .order-list-states {
       width: 100%;
     }
-    
+
     .order-list-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .order-list-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;

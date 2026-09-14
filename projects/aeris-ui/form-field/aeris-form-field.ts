@@ -8,6 +8,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisFormErrorLive = 'off' | 'polite' | 'assertive';
 
@@ -26,7 +27,7 @@ let nextFormFieldId = 0;
   encapsulation: ViewEncapsulation.None,
   host: {
     class: 'aeris-form-field',
-    '[attr.data-invalid]': 'invalid() || null',
+    '[attr.data-invalid]': 'displayInvalid() || null',
     '[attr.data-disabled]': 'disabled() || null',
     '[attr.data-required]': 'required() || null',
     '[attr.data-optional]': 'showOptionalIndicator() || null',
@@ -42,24 +43,26 @@ export class AerisFormFieldComponent {
 
   readonly controlId = input(this.generatedControlId);
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly optional = input(false, { transform: booleanAttribute });
   readonly optionalText = input('Optional');
   readonly fluid = input(false, { transform: booleanAttribute });
   readonly reserveMessageSpace = input(false, { transform: booleanAttribute });
-  readonly ariaDescribedby = input('');
+  readonly ariaDescribedBy = input('');
   readonly errorLive = input<AerisFormErrorLive>('polite');
 
   readonly labelId = computed(() => `${this.controlId()}-label`);
   readonly hintId = computed(() => `${this.controlId()}-hint`);
   readonly errorId = computed(() => `${this.controlId()}-error`);
   readonly showOptionalIndicator = computed(() => this.optional() && !this.required());
+  readonly displayInvalid = computed(() => ɵaerisDisplayInvalid(this.invalid(), this.touched()));
   readonly describedBy = computed(() =>
     uniqueIds([
-      this.ariaDescribedby(),
+      this.ariaDescribedBy(),
       this.hint()?.resolvedId() ?? '',
-      this.invalid() ? (this.error()?.resolvedId() ?? '') : '',
+      this.displayInvalid() ? (this.error()?.resolvedId() ?? '') : '',
     ]),
   );
 }
@@ -91,7 +94,7 @@ export class AerisFormLabelDirective {
     class: 'aeris-form-field__native-control',
     '[attr.id]': 'resolvedId()',
     '[attr.aria-describedby]': 'resolvedDescribedBy() || null',
-    '[attr.aria-invalid]': 'field.invalid() || null',
+    '[attr.aria-invalid]': 'field.displayInvalid() || null',
     '[attr.aria-required]': 'field.required() || null',
     '[attr.data-fluid]': 'field.fluid() || null',
   },
@@ -100,11 +103,11 @@ export class AerisFormControlDirective {
   protected readonly field = inject(AerisFormFieldComponent, { host: true });
 
   readonly id = input('', { alias: 'id' });
-  readonly ariaDescribedby = input('', { alias: 'aria-describedby' });
+  readonly ariaDescribedBy = input('', { alias: 'aria-describedby' });
 
   readonly resolvedId = computed(() => this.id() || this.field.controlId());
   readonly resolvedDescribedBy = computed(() =>
-    uniqueIds([this.ariaDescribedby(), this.field.describedBy()]),
+    uniqueIds([this.ariaDescribedBy(), this.field.describedBy()]),
   );
 }
 
@@ -127,7 +130,7 @@ export class AerisFormHintDirective {
   host: {
     class: 'aeris-form-field__error',
     '[attr.id]': 'resolvedId()',
-    '[hidden]': 'hideWhenValid() && !field.invalid()',
+    '[hidden]': 'hideWhenValid() && !field.displayInvalid()',
     '[attr.aria-live]': 'resolvedLive()',
     '[attr.aria-atomic]': 'resolvedLive() ? "true" : null',
   },

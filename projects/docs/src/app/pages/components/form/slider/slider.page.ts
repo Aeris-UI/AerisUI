@@ -202,13 +202,13 @@ interface AerisSliderChangeEvent {
       description: 'Accessible name for a single slider thumb.',
     },
     {
-      name: 'ariaLabelledby',
+      name: 'ariaLabelledBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of external elements labelling a single thumb.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of shared instructions and validation messages.',
@@ -292,6 +292,13 @@ interface AerisSliderChangeEvent {
       description: 'Applies invalid styling and aria-invalid.',
     },
     {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it.',
+    },
+    {
       name: 'fluid',
       type: 'boolean',
       defaultValue: 'false',
@@ -305,12 +312,6 @@ interface AerisSliderChangeEvent {
       type: 'AerisSliderValue',
       defaultValue: '-',
       description: 'Emitted automatically by the value model.',
-    },
-    {
-      name: 'valueInput',
-      type: 'AerisSliderValue',
-      defaultValue: '-',
-      description: 'Emitted whenever interaction updates the value.',
     },
     {
       name: 'sliding',

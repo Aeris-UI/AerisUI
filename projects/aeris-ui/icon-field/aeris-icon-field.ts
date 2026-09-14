@@ -2,9 +2,11 @@ import {
   Component,
   Directive,
   booleanAttribute,
+  computed,
   input,
   ViewEncapsulation,
 } from '@angular/core';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisIconFieldSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisIconFieldAppearance = 'outline' | 'filled';
@@ -62,7 +64,7 @@ export class AerisIconEndDirective {
     '[class.aeris-icon-field--md]': 'size() === "md"',
     '[class.aeris-icon-field--lg]': 'size() === "lg"',
     '[class.aeris-icon-field--filled]': 'appearance() === "filled"',
-    '[class.aeris-icon-field--invalid]': 'invalid()',
+    '[class.aeris-icon-field--invalid]': 'displayInvalid()',
     '[class.aeris-icon-field--disabled]': 'disabled()',
     '[class.aeris-icon-field--readonly]': 'readonly()',
     '[class.aeris-icon-field--compact]': 'density() === "compact"',
@@ -71,8 +73,8 @@ export class AerisIconEndDirective {
     '[class.aeris-icon-field--right]': 'iconPosition() === "right"',
     '[attr.data-fluid]': 'fluid() || null',
     '[attr.data-disabled]': 'disabled() || null',
-    '[attr.data-invalid]': 'invalid() || null',
-    '[attr.aria-invalid]': 'invalid() || null',
+    '[attr.data-invalid]': 'displayInvalid() || null',
+    '[attr.aria-invalid]': 'displayInvalid() || null',
   },
 })
 export class AerisIconFieldComponent {
@@ -81,9 +83,13 @@ export class AerisIconFieldComponent {
   readonly appearance = input<AerisIconFieldAppearance>('outline');
   readonly density = input<AerisIconFieldDensity>('comfortable');
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly fluid = input(false, { transform: booleanAttribute });
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
 }
 
 export const AerisIconField = [

@@ -2,7 +2,7 @@
 
 > Compose strings, nested arrays, and conditional maps into one reactive set of application classes.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/class-names`
 - Human-readable documentation: [https://aeris-ui.dev/components/class-names](https://aeris-ui.dev/components/class-names)
@@ -77,11 +77,11 @@ import { AerisClassNamesModule } from '@aeris-ui/core/class-names';
       border: 1px solid var(--aeris-border);
       border-radius: var(--aeris-radius-lg);
     }
-    
+
     .string-card--surface {
       background: var(--aeris-surface-2);
     }
-    
+
     .string-card--raised {
       box-shadow: var(--aeris-shadow-md);
     }
@@ -99,10 +99,11 @@ Group reusable class strings and individual tokens in one array.
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisClassNamesModule } from '@aeris-ui/core/class-names';
 
 @Component({
   selector: 'app-class-names-array-demo',
-  imports: [],
+  imports: [AerisClassNamesModule],
   template: `
     <div>
       <article
@@ -122,15 +123,15 @@ import { Component } from '@angular/core';
       padding: 1.25rem;
       border-radius: var(--aeris-radius-xl);
     }
-    
+
     .array-card--surface {
       background: var(--aeris-primary-soft);
     }
-    
+
     .array-card--accent {
       border-inline-start: 0.25rem solid var(--aeris-primary);
     }
-    
+
     .array-card--compact {
       line-height: 1.45;
     }
@@ -147,13 +148,13 @@ Drive individual class groups from signals without constructing class strings ma
 #### TS
 
 ```ts
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { type AerisClassNamesValue } from '@aeris-ui/core/class-names';
+import { AerisClassNamesModule, type AerisClassNamesValue } from '@aeris-ui/core/class-names';
 
 @Component({
   selector: 'app-class-names-conditional-demo',
-  imports: [AerisButton],
+  imports: [AerisButton, AerisClassNamesModule],
   templateUrl: './class-names-conditional.demo.html',
   styleUrl: './class-names-conditional.demo.scss'
 })
@@ -190,7 +191,13 @@ export class ClassNamesConditionalConditionalMapDemo {
     <div class="class-names-actions">
       <button aerisButton type="button" (click)="toggleSelected()">
         Toggle selected</button
-      ><button aerisButton type="button" variant="secondary" (click)="toggleBusy()">
+      ><button
+        aerisButton
+        type="button"
+        variant="solid"
+        severity="secondary"
+        (click)="toggleBusy()"
+      >
         Toggle busy</button
       ><button
         aerisButton
@@ -258,11 +265,11 @@ Flatten strings, arrays at any depth, and conditional maps into one deduplicated
 
 ```ts
 import { Component } from '@angular/core';
-import { type AerisClassNamesValue } from '@aeris-ui/core/class-names';
+import { AerisClassNamesModule, type AerisClassNamesValue } from '@aeris-ui/core/class-names';
 
 @Component({
   selector: 'app-class-names-nested-demo',
-  imports: [],
+  imports: [AerisClassNamesModule],
   template: `
     <div>
       <article [aerisClassNames]="composedClasses">
@@ -276,24 +283,24 @@ import { type AerisClassNamesValue } from '@aeris-ui/core/class-names';
       border: 1px solid var(--aeris-border);
       border-radius: var(--aeris-radius-xl);
     }
-    
+
     .composed-card--surface {
       background: var(--aeris-surface-2);
     }
-    
+
     .composed-card--spacious {
       padding: 1.5rem;
     }
-    
+
     .composed-card--interactive {
       transition: transform 160ms ease, border-color 160ms ease;
     }
-    
+
     .composed-card--interactive:hover {
       border-color: var(--aeris-primary);
       transform: translateY(-0.125rem);
     }
-    
+
     .composed-card--accent {
       color: var(--aeris-primary-text);
     }
@@ -319,10 +326,11 @@ ClassNames only manages tokens on its host, so application utilities from curren
 
 ```ts
 import { Component } from '@angular/core';
+import { AerisClassNamesModule } from '@aeris-ui/core/class-names';
 
 @Component({
   selector: 'app-class-names-frameworks-demo',
-  imports: [],
+  imports: [AerisClassNamesModule],
   template: `
     <div>
       <div class="framework-example">
@@ -338,13 +346,13 @@ import { Component } from '@angular/core';
       flex-wrap: wrap;
       gap: 0.75rem;
     }
-    
+
     .utility-surface {
       padding: 0.75rem 1rem;
       border-radius: var(--aeris-radius-lg);
       background: var(--aeris-surface-2);
     }
-    
+
     .utility-accent {
       color: var(--aeris-primary-text);
       border: 1px solid var(--aeris-primary);

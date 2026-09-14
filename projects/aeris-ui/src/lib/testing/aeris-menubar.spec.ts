@@ -115,7 +115,7 @@ class MenubarAppearanceHost {
         {
           id: 'remove',
           label: 'Remove',
-          variant: 'danger',
+          variant: 'solid',
           severity: 'danger',
           ariaCurrent: 'step',
         },
@@ -304,7 +304,7 @@ describe('AerisMenubar', () => {
 
     expect(projects.dataset['variant']).toBe('outline');
     expect(projects.dataset['severity']).toBe('secondary');
-    expect(remove.dataset['variant']).toBe('danger');
+    expect(remove.dataset['variant']).toBe('solid');
     expect(remove.dataset['severity']).toBe('danger');
     expect(remove.getAttribute('aria-current')).toBe('step');
     expect(remove.querySelector('.appearance-content')?.getAttribute('data-item-current')).toBe(

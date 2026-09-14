@@ -318,13 +318,13 @@ interface AerisEditorChangeEvent {
       description: 'Accessible name when no visible label exists.',
     },
     {
-      name: 'ariaLabelledby',
+      name: 'ariaLabelledBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of visible elements that label the editor.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of help and validation messages.',
@@ -415,6 +415,13 @@ interface AerisEditorChangeEvent {
       type: 'boolean',
       defaultValue: 'false',
       description: 'Applies invalid styling and synchronizes aria-invalid.',
+    },
+    {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it.',
     },
     {
       name: 'fluid',

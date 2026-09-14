@@ -81,6 +81,7 @@ const DRAWER_FOCUS_OPTIONS = {
       <div
         class="aeris-drawer__overlay"
         [aerisInternalAppendTo]="appendTo()"
+        aerisInternalAppendToDefault="body"
         [attr.data-modal]="modal() || null"
         [attr.data-backdrop]="backdrop() || null"
         [attr.data-backdrop-blur]="backdrop() && backdropBlur() ? true : null"
@@ -237,14 +238,14 @@ export class AerisDrawer {
   readonly maximized = model(false);
 
   readonly header = input('');
-  readonly appendTo = input<AerisAppendTo>('body');
+  readonly appendTo = input<AerisAppendTo>();
   readonly position = input<AerisDrawerPosition>('right');
   readonly size = input<AerisDrawerSize>('md');
   readonly modal = input(true, { transform: booleanAttribute });
   readonly backdrop = input(true, { transform: booleanAttribute });
   readonly backdropBlur = input(true, { transform: booleanAttribute });
   readonly backdropBlurAmount = input('');
-  readonly dismissibleMask = input(false, { transform: booleanAttribute });
+  readonly closeOnBackdropClick = input(false, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
   readonly closable = input(true, { transform: booleanAttribute });
   readonly maximizable = input(false, { transform: booleanAttribute });
@@ -266,9 +267,8 @@ export class AerisDrawer {
   readonly ariaLabelledBy = input('');
   readonly ariaDescribedBy = input('');
 
-  readonly shown = output<AerisDrawerVisibilityChangeEvent>();
-  readonly hidden = output<AerisDrawerVisibilityChangeEvent>();
-  readonly visibilityChanged = output<AerisDrawerVisibilityChangeEvent>();
+  readonly opened = output<AerisDrawerVisibilityChangeEvent>();
+  readonly closed = output<AerisDrawerVisibilityChangeEvent>();
 
   readonly id = `aeris-drawer-${nextDrawerId++}`;
   readonly titleId = `${this.id}-title`;
@@ -364,7 +364,7 @@ export class AerisDrawer {
     if (event.target !== event.currentTarget) return;
     event.preventDefault();
     event.stopPropagation();
-    if (!this.dismissibleMask()) return;
+    if (!this.closeOnBackdropClick()) return;
     this.hide(event, 'mask');
   }
 
@@ -391,8 +391,7 @@ export class AerisDrawer {
     this.lockScroll();
     const event = this.visibilityEvent(true, 'api', this.pendingOriginalEvent);
     this.pendingOriginalEvent = null;
-    this.shown.emit(event);
-    this.visibilityChanged.emit(event);
+    this.opened.emit(event);
     if (!this.autoFocus()) return;
     queueMicrotask(() => this.focusInitial());
   }
@@ -404,8 +403,7 @@ export class AerisDrawer {
     const event = this.visibilityEvent(false, this.pendingCloseReason, this.pendingOriginalEvent);
     this.pendingOriginalEvent = null;
     this.pendingCloseReason = 'api';
-    this.hidden.emit(event);
-    this.visibilityChanged.emit(event);
+    this.closed.emit(event);
     if (!this.restoreFocus() || !restoreFocus) return;
     queueMicrotask(() => this.previouslyFocused()?.focus());
   }

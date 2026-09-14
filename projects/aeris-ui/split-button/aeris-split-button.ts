@@ -14,24 +14,16 @@ import {
   viewChild,
   viewChildren,
 } from '@angular/core';
-import { ɵAerisAppendTo, type AerisAppendTo, type AerisOverlayCollisionPadding } from '@aeris-ui/core';
+import {
+  ɵAerisAppendTo,
+  type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
+} from '@aeris-ui/core';
+import type { AerisSeverity } from '@aeris-ui/core';
 
-export type AerisSplitButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'outline'
-  | 'ghost'
-  | 'danger'
-  | 'link';
+export type AerisSplitButtonVariant = 'solid' | 'outline' | 'ghost' | 'link';
 export type AerisSplitButtonSize = 'xs' | 'sm' | 'md' | 'lg';
-export type AerisSplitButtonSeverity =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'danger'
-  | 'contrast';
+export type AerisSplitButtonSeverity = AerisSeverity;
 
 export interface AerisSplitButtonCommandEvent<T = unknown> {
   readonly originalEvent: MouseEvent | KeyboardEvent;
@@ -101,7 +93,6 @@ let splitButtonId = 0;
         [attr.data-size]="size()"
         [attr.data-raised]="raised() || null"
         [attr.data-rounded]="rounded() || null"
-        [attr.data-plain]="plain() || null"
         [type]="type()"
         [disabled]="effectiveDisabled()"
         [attr.aria-busy]="loading() || null"
@@ -121,7 +112,7 @@ let splitButtonId = 0;
               [ngTemplateOutlet]="template"
               [ngTemplateOutletContext]="{ loading: true }"
             />
-          } @else if (loading()) {
+          } @else if (loading() && showSpinner()) {
             <span class="aeris-split-button__spinner" aria-hidden="true"></span>
           } @else if (iconContentTemplate(); as template) {
             <ng-container
@@ -144,7 +135,6 @@ let splitButtonId = 0;
         [attr.data-size]="size()"
         [attr.data-raised]="raised() || null"
         [attr.data-rounded]="rounded() || null"
-        [attr.data-plain]="plain() || null"
         [disabled]="effectiveDisabled()"
         [attr.aria-label]="menuButtonProps()?.ariaLabel ?? 'More actions'"
         [attr.title]="menuButtonProps()?.title"
@@ -191,7 +181,9 @@ let splitButtonId = 0;
               [attr.id]="entry.id"
               [attr.href]="entry.item.disabled ? null : entry.href"
               [attr.target]="entry.item.target"
-              [attr.rel]="entry.item.rel || (entry.item.target === '_blank' ? 'noopener noreferrer' : null)"
+              [attr.rel]="
+                entry.item.rel || (entry.item.target === '_blank' ? 'noopener noreferrer' : null)
+              "
               [attr.aria-label]="entry.item.ariaLabel ?? entry.item.label"
               [attr.aria-disabled]="entry.item.disabled || null"
               [attr.tabindex]="activeIndex() === entry.index && !entry.item.disabled ? 0 : -1"
@@ -204,7 +196,9 @@ let splitButtonId = 0;
               />
               @if (!itemContentTemplate()) {
                 @if (entry.item.icon) {
-                  <span class="aeris-split-button__item-icon" aria-hidden="true">{{ entry.item.icon }}</span>
+                  <span class="aeris-split-button__item-icon" aria-hidden="true">{{
+                    entry.item.icon
+                  }}</span>
                 }
                 <span>{{ entry.item.label }}</span>
               }
@@ -228,7 +222,9 @@ let splitButtonId = 0;
               />
               @if (!itemContentTemplate()) {
                 @if (entry.item.icon) {
-                  <span class="aeris-split-button__item-icon" aria-hidden="true">{{ entry.item.icon }}</span>
+                  <span class="aeris-split-button__item-icon" aria-hidden="true">{{
+                    entry.item.icon
+                  }}</span>
                 }
                 <span>{{ entry.item.label }}</span>
               }
@@ -249,8 +245,7 @@ let splitButtonId = 0;
 export class AerisSplitButton<T = unknown> {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly generatedId = `aeris-split-button-${++splitButtonId}`;
-  protected readonly toggleButton =
-    viewChild<ElementRef<HTMLButtonElement>>('toggle');
+  protected readonly toggleButton = viewChild<ElementRef<HTMLButtonElement>>('toggle');
   private readonly panelPortal = viewChild(ɵAerisAppendTo);
   private readonly menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
 
@@ -262,18 +257,16 @@ export class AerisSplitButton<T = unknown> {
   readonly appendTo = input<AerisAppendTo>();
   readonly viewportMargin = input<number | AerisOverlayCollisionPadding>(8);
   readonly type = input<'button' | 'submit' | 'reset'>('button');
-  readonly variant = input<AerisSplitButtonVariant>('primary');
+  readonly variant = input<AerisSplitButtonVariant>('solid');
   readonly severity = input<AerisSplitButtonSeverity>('primary');
   readonly size = input<AerisSplitButtonSize>('md');
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly loading = input(false, { transform: booleanAttribute });
   readonly raised = input(false, { transform: booleanAttribute });
   readonly rounded = input(false, { transform: booleanAttribute });
-  readonly outlined = input(false, { transform: booleanAttribute });
-  readonly text = input(false, { transform: booleanAttribute });
-  readonly plain = input(false, { transform: booleanAttribute });
+  readonly showSpinner = input(true, { transform: booleanAttribute });
   readonly fluid = input(false, { transform: booleanAttribute });
-  readonly hideOnClickOutside = input(true, { transform: booleanAttribute });
+  readonly closeOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly menuAriaLabel = input('Additional actions');
   readonly menuStyleClass = input('');
   readonly buttonProps = input<AerisSplitButtonProps>();
@@ -287,8 +280,8 @@ export class AerisSplitButton<T = unknown> {
 
   readonly clicked = output<MouseEvent>();
   readonly dropdownClicked = output<MouseEvent>();
-  readonly shown = output<Event>();
-  readonly hidden = output<Event>();
+  readonly opened = output<Event>();
+  readonly closed = output<Event>();
   readonly itemSelected = output<AerisSplitButtonCommandEvent<T>>();
 
   protected readonly projectedContentTemplate =
@@ -302,11 +295,7 @@ export class AerisSplitButton<T = unknown> {
   protected readonly projectedItemTemplate =
     contentChild<TemplateRef<AerisSplitButtonItemTemplateContext<T>>>('item');
   protected readonly effectiveDisabled = computed(() => this.disabled() || this.loading());
-  protected readonly effectiveVariant = computed<AerisSplitButtonVariant>(() => {
-    if (this.text()) return 'ghost';
-    if (this.outlined()) return 'outline';
-    return this.variant();
-  });
+  protected readonly effectiveVariant = this.variant;
   protected readonly menuId = computed(() => `${this.id()}-menu`);
   protected readonly visibleItems = computed<readonly VisibleSplitButtonItem<T>[]>(() =>
     this.model()
@@ -346,14 +335,14 @@ export class AerisSplitButton<T = unknown> {
   protected show(event: Event): void {
     if (this.effectiveDisabled() || this.open()) return;
     this.open.set(true);
-    this.shown.emit(event);
+    this.opened.emit(event);
   }
 
   protected hide(event: Event, restoreFocus = false): void {
     if (!this.open()) return;
     this.panelPortal()?.restore();
     this.open.set(false);
-    this.hidden.emit(event);
+    this.closed.emit(event);
     if (restoreFocus) {
       queueMicrotask(() => this.toggleButton()?.nativeElement.focus());
     }
@@ -377,9 +366,7 @@ export class AerisSplitButton<T = unknown> {
     this.hide(event, true);
   }
 
-  protected itemContext(
-    entry: VisibleSplitButtonItem<T>,
-  ): AerisSplitButtonItemTemplateContext<T> {
+  protected itemContext(entry: VisibleSplitButtonItem<T>): AerisSplitButtonItemTemplateContext<T> {
     return { $implicit: entry.item, item: entry.item, index: entry.index };
   }
 
@@ -427,7 +414,7 @@ export class AerisSplitButton<T = unknown> {
     const target = event.target;
     if (
       this.open() &&
-      this.hideOnClickOutside() &&
+      this.closeOnOutsideClick() &&
       target instanceof Node &&
       !this.host.nativeElement.contains(target)
     ) {
@@ -453,18 +440,19 @@ export class AerisSplitButton<T = unknown> {
     const enabled = this.enabledIndexes();
     if (!enabled.length) return;
     const current = enabled.indexOf(this.activeIndex());
-    const next = current < 0
-      ? (step === 1 ? 0 : enabled.length - 1)
-      : (current + step + enabled.length) % enabled.length;
+    const next =
+      current < 0
+        ? step === 1
+          ? 0
+          : enabled.length - 1
+        : (current + step + enabled.length) % enabled.length;
     this.activeIndex.set(enabled[next]);
     this.focusActiveItem();
   }
 
   private focusActiveItem(): void {
     queueMicrotask(() => {
-      const entry = this.visibleItems().find(
-        ({ index }) => index === this.activeIndex(),
-      );
+      const entry = this.visibleItems().find(({ index }) => index === this.activeIndex());
       if (!entry) return;
       this.menuItems()
         .find(({ nativeElement }) => nativeElement.id === entry.id)

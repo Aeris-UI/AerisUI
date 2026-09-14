@@ -219,7 +219,7 @@ interface AerisDatePickerChangeEvent {
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'self' (global)",
+      defaultValue: "global config or 'self'",
       description:
         "Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection.",
     },
@@ -282,13 +282,13 @@ interface AerisDatePickerChangeEvent {
       description: 'Accessible trigger name when no external label is used.',
     },
     {
-      name: 'ariaLabelledby',
+      name: 'ariaLabelledBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of elements that label the trigger.',
     },
     {
-      name: 'ariaDescribedby',
+      name: 'ariaDescribedBy',
       type: 'string',
       defaultValue: "''",
       description: 'IDs of help and validation messages.',
@@ -452,6 +452,13 @@ interface AerisDatePickerChangeEvent {
       description: 'Applies invalid styling and aria-invalid.',
     },
     {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it.',
+    },
+    {
       name: 'fluid',
       type: 'boolean',
       defaultValue: 'false',
@@ -531,12 +538,6 @@ interface AerisDatePickerChangeEvent {
       type: 'AerisDatePickerValue',
       defaultValue: '-',
       description: 'Emitted automatically by the value model.',
-    },
-    {
-      name: 'valueInput',
-      type: 'AerisDatePickerValue',
-      defaultValue: '-',
-      description: 'Emitted when user interaction or a public method changes value.',
     },
     {
       name: 'changed',

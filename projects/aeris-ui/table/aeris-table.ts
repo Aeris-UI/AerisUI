@@ -21,6 +21,7 @@ import {
   aerisInternalApplyMeasuredColumnWidths,
   aerisInternalClampColumnResizeDelta,
   aerisInternalColumnResizeDirection,
+  aerisInternalColumnSeparatorValues,
   aerisInternalColumnWidthPixels,
   aerisInternalListenForColumnResize,
   aerisInternalMeasureColumnWidths,
@@ -390,7 +391,9 @@ export class AerisTableLoadingTemplate {
                         tabindex="0"
                         aria-orientation="vertical"
                         [attr.aria-label]="'Resize ' + column.header + ' column'"
-                        [attr.aria-valuemin]="minColumnWidth()"
+                        [attr.aria-valuemin]="resizeHandleValues()[columnIndex]?.min"
+                        [attr.aria-valuemax]="resizeHandleValues()[columnIndex]?.max"
+                        [attr.aria-valuenow]="resizeHandleValues()[columnIndex]?.now"
                         [attr.aria-valuetext]="column.width || 'Automatic width'"
                         [attr.data-resizing]="resizingField() === column.field ? true : null"
                         (pointerdown)="handleResizeStart(column.field, columnIndex, $event)"
@@ -682,6 +685,12 @@ export class AerisTable {
   protected readonly editValue = signal('');
   private readonly resizeState = signal<TableResizeState | null>(null);
   protected readonly resizingField = computed(() => this.resizeState()?.field ?? null);
+  protected readonly resizeHandleValues = computed(() =>
+    aerisInternalColumnSeparatorValues(
+      this.columns().map((column) => column.width),
+      this.minColumnWidth(),
+    ),
+  );
   private readonly draggedColumn = signal<string | null>(null);
   private readonly rowIndexByIdentity = computed(() => {
     const indexes = new Map<AerisTableData, number>();
@@ -1169,23 +1178,12 @@ export class AerisTable {
     adjacentWidth: number,
   ): void {
     this.columns.set(
-      aerisInternalSetColumnPairWidths(
-        this.columns(),
-        field,
-        adjacentField,
-        width,
-        adjacentWidth,
-      ),
+      aerisInternalSetColumnPairWidths(this.columns(), field, adjacentField, width, adjacentWidth),
     );
   }
 
   private clampResizeDelta(delta: number, width: number, adjacentWidth: number): number {
-    return aerisInternalClampColumnResizeDelta(
-      delta,
-      width,
-      adjacentWidth,
-      this.minColumnWidth(),
-    );
+    return aerisInternalClampColumnResizeDelta(delta, width, adjacentWidth, this.minColumnWidth());
   }
 
   private columnWidthPixels(width: string | undefined): number {

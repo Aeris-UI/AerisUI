@@ -259,7 +259,7 @@ interface AerisDialogTemplateContext {
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'self' (global)",
+      defaultValue: "global config or 'self'",
       description:
         'Mounts the dialog overlay locally, in document.body, or in the supplied DOM/template target.',
     },
@@ -302,7 +302,7 @@ interface AerisDialogTemplateContext {
       description: 'Overrides the backdrop blur radius for this dialog with a CSS length.',
     },
     {
-      name: 'dismissibleMask',
+      name: 'closeOnBackdropClick',
       type: 'boolean',
       defaultValue: 'false',
       description: 'Closes the dialog when the mask itself is pressed.',
@@ -474,22 +474,16 @@ interface AerisDialogTemplateContext {
       description: 'Emitted by the maximized model.',
     },
     {
-      name: 'shown',
+      name: 'opened',
       type: 'AerisDialogVisibilityChangeEvent',
       defaultValue: '-',
       description: 'Emitted after the dialog opens.',
     },
     {
-      name: 'hidden',
+      name: 'closed',
       type: 'AerisDialogVisibilityChangeEvent',
       defaultValue: '-',
       description: 'Emitted after the dialog closes.',
-    },
-    {
-      name: 'visibilityChanged',
-      type: 'AerisDialogVisibilityChangeEvent',
-      defaultValue: '-',
-      description: 'Emitted after either open or close.',
     },
   ];
 

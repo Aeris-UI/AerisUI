@@ -9,7 +9,8 @@
         aerisButton
         type="button"
         size="sm"
-        [variant]="activeSection() === 'overview' ? 'secondary' : 'ghost'"
+        [variant]="activeSection() === 'overview' ? 'solid' : 'ghost'"
+        [severity]="activeSection() === 'overview' ? 'secondary' : 'primary'"
         aria-label="Open workspace overview"
         [attr.aria-current]="activeSection() === 'overview' ? 'page' : null"
         (click)="openSection('overview')"
@@ -21,7 +22,8 @@
         aerisButton
         type="button"
         size="sm"
-        [variant]="activeSection() === 'projects' ? 'secondary' : 'ghost'"
+        [variant]="activeSection() === 'projects' ? 'solid' : 'ghost'"
+        [severity]="activeSection() === 'projects' ? 'secondary' : 'primary'"
         aria-label="Open projects"
         [attr.aria-current]="activeSection() === 'projects' ? 'page' : null"
         (click)="openSection('projects')"
@@ -34,7 +36,8 @@
         aerisButton
         type="button"
         size="sm"
-        [variant]="activeSection() === 'team' ? 'secondary' : 'ghost'"
+        [variant]="activeSection() === 'team' ? 'solid' : 'ghost'"
+        [severity]="activeSection() === 'team' ? 'secondary' : 'primary'"
         aria-label="Open team"
         [attr.aria-current]="activeSection() === 'team' ? 'page' : null"
         (click)="openSection('team')"
@@ -47,7 +50,8 @@
         aerisButton
         type="button"
         size="sm"
-        [variant]="activeSection() === 'quality' ? 'secondary' : 'ghost'"
+        [variant]="activeSection() === 'quality' ? 'solid' : 'ghost'"
+        [severity]="activeSection() === 'quality' ? 'secondary' : 'primary'"
         aria-label="Open quality dashboard"
         [attr.aria-current]="activeSection() === 'quality' ? 'page' : null"
         (click)="openSection('quality')"
@@ -362,7 +366,13 @@ Validate the new table behavior at narrow widths and with keyboard navigation.</
                       />
                     </div>
                     <div class="app-showcase__form-actions">
-                      <button aerisButton type="button" variant="secondary" (click)="saveDraft()">
+                      <button
+                        aerisButton
+                        type="button"
+                        variant="solid"
+                        severity="secondary"
+                        (click)="saveDraft()"
+                      >
                         Save draft
                       </button>
                       <button aerisButton type="submit">Schedule cycle</button>
@@ -443,7 +453,8 @@ Validate the new table behavior at narrow widths and with keyboard navigation.</
                       <button
                         aerisButton
                         type="button"
-                        variant="secondary"
+                        variant="solid"
+                        severity="secondary"
                         (click)="restorePreferences()"
                       >
                         Restore defaults
@@ -508,7 +519,8 @@ Validate the new table behavior at narrow widths and with keyboard navigation.</
                     aerisButton
                     type="button"
                     size="sm"
-                    variant="secondary"
+                    variant="solid"
+                    severity="secondary"
                     (click)="openProject(project.name)"
                   >
                     Open project
@@ -651,7 +663,13 @@ Validate the new table behavior at narrow widths and with keyboard navigation.</
               </aeris-accordion>
               <div class="app-showcase__quality-actions">
                 <button aerisButton type="button" (click)="runAudit()">Run audit</button>
-                <button aerisButton type="button" variant="secondary" (click)="exportReport()">
+                <button
+                  aerisButton
+                  type="button"
+                  variant="solid"
+                  severity="secondary"
+                  (click)="exportReport()"
+                >
                   Export report
                 </button>
               </div>
@@ -689,7 +707,8 @@ Validate the new table behavior at narrow widths and with keyboard navigation.</
                           aerisButton
                           type="button"
                           size="sm"
-                          variant="secondary"
+                          variant="solid"
+                          severity="secondary"
                           (click)="removeProfileImage()"
                         >
                           Remove image
@@ -785,7 +804,13 @@ Validate the new table behavior at narrow widths and with keyboard navigation.</
     </div>
     <ng-template aerisDialogFooter>
       <div class="app-showcase__dialog-actions">
-        <button aerisButton type="button" variant="secondary" (click)="dialogOpen.set(false)">
+        <button
+          aerisButton
+          type="button"
+          variant="solid"
+          severity="secondary"
+          (click)="dialogOpen.set(false)"
+        >
           Cancel
         </button>
         <button aerisButton type="button" (click)="createProject()">Create project</button>

@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import {
   aerisInternalClampColumnResizeDelta,
+  aerisInternalColumnSeparatorValues,
   aerisInternalColumnWidthPixels,
   aerisInternalSetColumnPairWidths,
 } from '../aeris-column-resize';
@@ -105,6 +106,17 @@ describe('Aeris internal layout utilities', () => {
     expect(delta).toBe(24);
     expect(columns.map((column) => column.width)).toEqual(['184px', '96px']);
     expect(aerisInternalColumnWidthPixels('10rem')).toBe(160);
+  });
+
+  it('describes percentage and pixel column separator positions', () => {
+    expect(aerisInternalColumnSeparatorValues(['34%', '33%', '33%'], 96)).toEqual([
+      { min: 0, max: 100, now: 34 },
+      { min: 0, max: 100, now: 67 },
+    ]);
+    expect(aerisInternalColumnSeparatorValues(['160px', '120px', '120px'], 96)).toEqual([
+      { min: 96, max: 208, now: 160 },
+      { min: 192, max: 304, now: 280 },
+    ]);
   });
 
   it('coalesces repeated work into one animation frame', () => {

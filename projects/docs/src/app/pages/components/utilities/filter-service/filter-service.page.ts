@@ -208,6 +208,7 @@ export class FilterServicePage {
 import { AerisFilterService } from '@aeris-ui/core/filter-service';
 
 interface Product {
+  readonly id: number;
   readonly name: string;
   readonly category: string;
 }
@@ -215,10 +216,10 @@ interface Product {
 private readonly filterService = inject(AerisFilterService);
 
 protected readonly products: readonly Product[] = [
-  { name: 'Halo desk lamp', category: 'Lighting' },
-  { name: 'Mora wool throw', category: 'Textiles' },
-  { name: 'Arc pendant light', category: 'Lighting' },
-  { name: 'Luma side table', category: 'Furniture' },
+  { id: 1, name: 'Halo desk lamp', category: 'Lighting' },
+  { id: 2, name: 'Mora wool throw', category: 'Textiles' },
+  { id: 3, name: 'Arc pendant light', category: 'Lighting' },
+  { id: 4, name: 'Luma side table', category: 'Furniture' },
 ];
 protected readonly query = signal('light');
 protected readonly results = computed(() =>
@@ -281,16 +282,16 @@ import {
 
 private readonly filterService = inject(AerisFilterService);
 protected readonly selectedMode = signal<AerisFilterMode>('starts-with');
-protected readonly query = signal('lu');
+protected readonly modeQuery = signal('lu');
 protected readonly products = [
-  { name: 'Halo desk lamp' },
-  { name: 'Mora wool throw' },
-  { name: 'Arc pendant light' },
-  { name: 'Luma side table' },
+  { id: 1, name: 'Halo desk lamp' },
+  { id: 2, name: 'Mora wool throw' },
+  { id: 3, name: 'Arc pendant light' },
+  { id: 4, name: 'Luma side table' },
 ];
-protected readonly results = computed(() =>
+protected readonly modeResults = computed(() =>
   this.filterService.filter(this.products, {
-    query: this.query(),
+    query: this.modeQuery(),
     fields: ['name'],
     mode: this.selectedMode(),
   }),
@@ -333,21 +334,21 @@ import { AerisFilterService } from '@aeris-ui/core/filter-service';
 
 private readonly filterService = inject(AerisFilterService);
 protected readonly products = [
-  { name: 'Halo desk lamp', price: 68, added: '2026-01-12' },
-  { name: 'Mora wool throw', price: 120, added: '2026-02-08' },
-  { name: 'Arc pendant light', price: 210, added: '2026-03-03' },
-  { name: 'Luma side table', price: 185, added: '2026-03-18' },
+  { id: 1, name: 'Halo desk lamp', price: 68, added: '2026-01-12' },
+  { id: 2, name: 'Mora wool throw', price: 120, added: '2026-02-08' },
+  { id: 3, name: 'Arc pendant light', price: 210, added: '2026-03-03' },
+  { id: 4, name: 'Luma side table', price: 185, added: '2026-03-18' },
 ];
 protected readonly minimumPrice = signal<number | null>(150);
 protected readonly addedAfter = signal<AerisDatePickerValue>(new Date(2026, 2, 1));
-protected readonly premium = computed(() =>
+protected readonly comparisonResults = computed(() =>
   this.filterService.filter(this.products, {
     query: this.minimumPrice(),
     fields: [(product) => product.price],
     mode: 'greater-than-or-equal',
   }),
 );
-protected readonly recent = computed(() =>
+protected readonly dateResults = computed(() =>
   this.filterService.filter(this.products, {
     query: this.addedAfter(),
     fields: [(product) => product.added],
@@ -404,19 +405,19 @@ import {
 } from '@aeris-ui/core/filter-service';
 
 private readonly filterService = inject(AerisFilterService);
-protected readonly products = [
-  { name: 'Denmark desk lamp', supplier: { country: 'Denmark' } },
-  { name: 'Mora wool throw', supplier: { country: 'Iceland' } },
-  { name: 'Arc pendant light', supplier: { country: 'Sweden' } },
-  { name: 'Luma side table', supplier: { country: 'Denmark' } },
+protected readonly fieldProducts = [
+  { id: 1, name: 'Denmark desk lamp', category: 'Lighting', price: 68, added: '2026-01-12', supplier: { country: 'Denmark' } },
+  { id: 2, name: 'Mora wool throw', category: 'Textiles', price: 120, added: '2026-02-08', supplier: { country: 'Iceland' } },
+  { id: 3, name: 'Arc pendant light', category: 'Lighting', price: 210, added: '2026-03-03', supplier: { country: 'Sweden' } },
+  { id: 4, name: 'Luma side table', category: 'Furniture', price: 185, added: '2026-03-18', supplier: { country: 'Denmark' } },
 ];
-protected readonly query = signal('den');
-protected readonly operator = signal<AerisFilterFieldOperator>('or');
-protected readonly results = computed(() =>
-  this.filterService.filter(this.products, {
-    query: this.query(),
+protected readonly fieldQuery = signal('den');
+protected readonly fieldOperator = signal<AerisFilterFieldOperator>('or');
+protected readonly fieldResults = computed(() =>
+  this.filterService.filter(this.fieldProducts, {
+    query: this.fieldQuery(),
     fields: ['supplier.country', (product) => product.name],
-    fieldOperator: this.operator(),
+    fieldOperator: this.fieldOperator(),
   }),
 );`;
   protected readonly fieldsCssCode = `.filter-demo {

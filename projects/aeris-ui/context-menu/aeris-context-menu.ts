@@ -295,7 +295,7 @@ export class AerisContextMenu<T = unknown> {
   readonly width = input('');
   readonly maxWidth = input('');
   readonly viewportMargin = input(8);
-  readonly hideOnOutsideClick = input(true, { transform: booleanAttribute });
+  readonly closeOnOutsideClick = input(true, { transform: booleanAttribute });
   readonly hideOnScroll = input(false, { transform: booleanAttribute });
   readonly closeOnMouseLeave = input(true, { transform: booleanAttribute });
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
@@ -307,9 +307,8 @@ export class AerisContextMenu<T = unknown> {
   readonly panelStyleClass = input('');
   readonly navigationHandler = input<AerisContextMenuNavigationHandler>();
 
-  readonly shown = output<AerisContextMenuVisibilityEvent>();
-  readonly hidden = output<AerisContextMenuVisibilityEvent>();
-  readonly visibilityChanged = output<AerisContextMenuVisibilityEvent>();
+  readonly opened = output<AerisContextMenuVisibilityEvent>();
+  readonly closed = output<AerisContextMenuVisibilityEvent>();
   readonly itemSelected = output<AerisContextMenuItemEvent<T>>();
 
   protected readonly menuId = computed(() => this.id());
@@ -354,8 +353,7 @@ export class AerisContextMenu<T = unknown> {
     this.open.set(true);
     this.openInitialItem();
     const event = this.visibilityEvent(true, 'api', originalEvent);
-    this.shown.emit(event);
-    this.visibilityChanged.emit(event);
+    this.opened.emit(event);
     afterNextRender(
       () => {
         this.reposition();
@@ -380,8 +378,7 @@ export class AerisContextMenu<T = unknown> {
     this.openPathKey.set('');
     const event = this.visibilityEvent(false, reason, originalEvent);
     const target = this.activeTarget();
-    this.hidden.emit(event);
-    this.visibilityChanged.emit(event);
+    this.closed.emit(event);
     this.activeTarget.set(null);
     if (restoreFocus && target instanceof HTMLElement) {
       queueMicrotask(() => target.focus());
@@ -442,7 +439,7 @@ export class AerisContextMenu<T = unknown> {
   }
 
   protected handleDocumentPointerdown(event: PointerEvent): void {
-    if (!this.open() || !this.hideOnOutsideClick()) return;
+    if (!this.open() || !this.closeOnOutsideClick()) return;
     const target = event.target;
     const panel = this.panel()?.nativeElement;
     if (target instanceof Node && panel?.contains(target)) return;
@@ -717,7 +714,6 @@ export class AerisContextMenu<T = unknown> {
   private pathKey(path: readonly number[]): string {
     return path.join('.');
   }
-
 }
 
 export const AerisContextMenuModule = [AerisContextMenu, AerisContextMenuItemTemplate] as const;

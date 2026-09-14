@@ -17,10 +17,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import {
-  ɵlockAerisDocumentScroll,
-  ɵunlockAerisDocumentScroll,
-} from '@aeris-ui/core';
+import { ɵlockAerisDocumentScroll, ɵunlockAerisDocumentScroll } from '@aeris-ui/core';
 
 export type AerisGalleriaThumbnailPosition = 'top' | 'bottom' | 'start' | 'end';
 export type AerisGalleriaObjectFit = 'contain' | 'cover';
@@ -663,7 +660,7 @@ export class AerisGalleria<T = AerisGalleriaImage> {
   readonly autoplayInterval = input(0);
   readonly pauseOnHover = input(true, { transform: booleanAttribute });
   readonly allowFullscreen = input(false, { transform: booleanAttribute });
-  readonly dismissibleBackdrop = input(true, { transform: booleanAttribute });
+  readonly closeOnBackdropClick = input(true, { transform: booleanAttribute });
   readonly backdropBlur = input(true, { transform: booleanAttribute });
   readonly backdropBlurAmount = input('');
   readonly closeOnEscape = input(true, { transform: booleanAttribute });
@@ -1086,7 +1083,7 @@ export class AerisGalleria<T = AerisGalleriaImage> {
   }
 
   protected handleBackdropClick(event: MouseEvent): void {
-    if (!this.fullscreen() || !this.dismissibleBackdrop()) return;
+    if (!this.fullscreen() || !this.closeOnBackdropClick()) return;
     if ((event.target as HTMLElement).classList.contains('aeris-galleria--fullscreen')) {
       this.closeFullscreen('backdrop');
     }

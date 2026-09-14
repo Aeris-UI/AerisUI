@@ -20,8 +20,8 @@ const DRAWER_EXIT_DURATION_MS = 220;
       [backdropBlur]="blur()"
       backdropBlurAmount="1rem"
       [(visible)]="open"
-      (shown)="shownCount.update((count) => count + 1)"
-      (hidden)="lastHidden.set($event)"
+      (opened)="shownCount.update((count) => count + 1)"
+      (closed)="lastHidden.set($event)"
     >
       <p id="drawer-description">Choose a destination.</p>
       <button type="button" id="first-action">First action</button>
@@ -55,10 +55,11 @@ class BasicDrawerHost {
       mobileFullScreen
       [footerLayout]="footerLayout()"
       maximizable
-      dismissibleMask
+      closeOnBackdropClick
       [(visible)]="open"
       [(maximized)]="maximized"
-      (visibilityChanged)="events.update((items) => [...items, $event])"
+      (opened)="events.update((items) => [...items, $event])"
+      (closed)="events.update((items) => [...items, $event])"
     >
       <ng-template aerisDrawerHeader let-position="position" let-maximized="maximized">
         Template header {{ position }} {{ maximized ? 'maximized' : 'normal' }}

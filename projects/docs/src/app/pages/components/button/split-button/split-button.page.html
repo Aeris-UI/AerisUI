@@ -77,9 +77,43 @@
                   >Last action: {{ lastAction() }}</span
                 >
               </div>
-              <pre
-                code
-              ><code ngNonBindable>&lt;div class="split-stage split-stage--status aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #primaryIcon&gt;
+  &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #itemIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('save') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('export') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Download"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('edit') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('github') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Github"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="split-stage split-stage--status aeris-example-row"&gt;
   &lt;aeris-split-button
     label="Save"
     [model]="items"
@@ -135,7 +169,43 @@
                   [itemTemplate]="itemIcon"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="split-stage wrap aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #primaryIcon&gt;
+  &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #itemIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('save') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('export') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Download"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('edit') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('github') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Github"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="split-stage wrap aeris-example-row"&gt;
   &lt;aeris-split-button
     label="Success"
     severity="success"
@@ -177,7 +247,7 @@
             <app-button-demo
               id="split-variants"
               title="Variants"
-              description="Outlined, text, and plain treatments reuse the Button visual contract."
+              description="Solid, outline, ghost, and link treatments reuse the Button presentation contract independently of severity color."
             >
               <div preview class="split-stage wrap">
                 <aeris-split-button
@@ -187,28 +257,64 @@
                   [itemTemplate]="itemIcon"
                 />
                 <aeris-split-button
+                  variant="outline"
                   label="Outlined"
-                  outlined
                   [model]="items"
                   [iconTemplate]="primaryIcon"
                   [itemTemplate]="itemIcon"
                 />
                 <aeris-split-button
+                  variant="ghost"
                   label="Text"
-                  text
                   [model]="items"
                   [iconTemplate]="primaryIcon"
                   [itemTemplate]="itemIcon"
                 />
                 <aeris-split-button
+                  severity="neutral"
                   label="Plain"
-                  plain
                   [model]="items"
                   [iconTemplate]="primaryIcon"
                   [itemTemplate]="itemIcon"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="split-stage wrap aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #primaryIcon&gt;
+  &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #itemIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('save') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('export') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Download"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('edit') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('github') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Github"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="split-stage wrap aeris-example-row"&gt;
   &lt;aeris-split-button
     label="Default"
     [model]="items"
@@ -216,22 +322,22 @@
     [itemTemplate]="itemIcon"
   /&gt;
   &lt;aeris-split-button
+    variant="outline"
     label="Outlined"
-    outlined
     [model]="items"
     [iconTemplate]="primaryIcon"
     [itemTemplate]="itemIcon"
   /&gt;
   &lt;aeris-split-button
+    variant="ghost"
     label="Text"
-    text
     [model]="items"
     [iconTemplate]="primaryIcon"
     [itemTemplate]="itemIcon"
   /&gt;
   &lt;aeris-split-button
+    severity="neutral"
     label="Plain"
-    plain
     [model]="items"
     [iconTemplate]="primaryIcon"
     [itemTemplate]="itemIcon"
@@ -273,7 +379,43 @@
                   [itemTemplate]="itemIcon"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="split-stage wrap aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #primaryIcon&gt;
+  &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #itemIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('save') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('export') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Download"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('edit') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('github') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Github"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="split-stage wrap aeris-example-row"&gt;
   &lt;aeris-split-button
     label="Extra small"
     size="xs"
@@ -334,9 +476,43 @@
                   [itemTemplate]="itemIcon"
                 />
               </div>
-              <pre
-                code
-              ><code ngNonBindable>&lt;div class="split-stage split-stage--fluid aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #primaryIcon&gt;
+  &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #itemIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('save') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('export') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Download"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('edit') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('github') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Github"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="split-stage split-stage--fluid aeris-example-row"&gt;
   &lt;div class="wrap"&gt;
     &lt;aeris-split-button
       label="Raised"
@@ -385,7 +561,43 @@
                   disabled
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="split-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #primaryIcon&gt;
+  &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #itemIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('save') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('export') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Download"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('edit') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('github') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Github"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="split-stage aeris-example-row"&gt;
   &lt;aeris-split-button
     label="Save"
     [model]="items"
@@ -420,7 +632,43 @@
                 />
                 <span class="split-result">Open: {{ open() }}</span>
               </div>
-              <pre code><code ngNonBindable>&lt;div class="split-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #primaryIcon&gt;
+  &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #itemIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('save') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('export') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Download"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('edit') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('github') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Github"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="split-stage aeris-example-row"&gt;
   &lt;aeris-split-button
     label="Controlled"
     [model]="items"
@@ -446,7 +694,43 @@
                   [itemTemplate]="itemIcon"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="split-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #primaryIcon&gt;
+  &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #itemIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('save') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('export') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Download"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('edit') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('github') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Github"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="split-stage aeris-example-row"&gt;
   &lt;aeris-split-button
     label="Manage"
     [model]="stateItems"
@@ -474,7 +758,43 @@
                   }"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="split-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #primaryIcon&gt;
+  &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #itemIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('save') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('export') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Download"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('edit') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('github') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Github"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="split-stage aeris-example-row"&gt;
   &lt;aeris-split-button
     label="Deploy"
     [model]="items"
@@ -509,7 +829,39 @@
                   [itemTemplate]="itemIcon"
                 />
               </div>
-              <pre code><code ngNonBindable>&lt;div class="split-stage aeris-example-row"&gt;
+              <pre code><code ngNonBindable>&lt;ng-template #itemIcon let-action&gt;
+  &#64;switch (action.icon) &#123;
+    &#64;case ('save') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('copy') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Copy"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('export') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Download"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('edit') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Edit"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('delete') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Trash2"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;case ('github') &#123;
+      &lt;svg class="split-template-icon" [lucideIcon]="icons.Github"&gt;&lt;/svg&gt;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+    &#64;default &#123;
+      &lt;span&gt;&#123;&#123; action.label &#125;&#125;&lt;/span&gt;
+    &#125;
+  &#125;
+&lt;/ng-template&gt;
+
+&lt;div class="split-stage aeris-example-row"&gt;
   &lt;ng-template #saveIcon&gt;
     &lt;svg class="split-template-icon" [lucideIcon]="icons.Save"&gt;&lt;/svg&gt;
   &lt;/ng-template&gt;
@@ -580,11 +932,11 @@
                 ><span role="cell">Emitted when the popup trigger is activated.</span>
               </div>
               <div role="row">
-                <code role="cell">shown</code><span role="cell">Event</span
+                <code role="cell">opened</code><span role="cell">Event</span
                 ><span role="cell">Emitted after the popup opens.</span>
               </div>
               <div role="row">
-                <code role="cell">hidden</code><span role="cell">Event</span
+                <code role="cell">closed</code><span role="cell">Event</span
                 ><span role="cell">Emitted after the popup closes.</span>
               </div>
               <div role="row">

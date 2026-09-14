@@ -2,7 +2,7 @@
 
 > Reveal contextual actions in animated linear and radial layouts.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/speed-dial`
 - Human-readable documentation: [https://aeris-ui.dev/components/speed-dial](https://aeris-ui.dev/components/speed-dial)
@@ -43,7 +43,7 @@ from '@aeris-ui/core/speed-dial';
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur when the mask is visible. |
 | `backdropBlurAmount` | `string` | `''` | Overrides the mask blur radius with a CSS length. |
 | `disabled` | `boolean` | `false` | Disables the trigger. |
-| `hideOnClickOutside` | `boolean` | `true` | Closes when focus is not required and a pointer clicks elsewhere. |
+| `closeOnOutsideClick` | `boolean` | `true` | Closes when focus is not required and a pointer clicks elsewhere. |
 | `showIcon` | `string` | `'+'` | Default closed trigger glyph. |
 | `hideIcon` | `string` | `''` | Optional open trigger glyph. |
 | `rotateAnimation` | `boolean` | `true` | Rotates the show glyph when no hide glyph is supplied. |
@@ -62,8 +62,8 @@ from '@aeris-ui/core/speed-dial';
 | --- | --- | --- |
 | visibleChange | boolean | Emitted by the visible model whenever open state changes. |
 | clicked | MouseEvent | Emitted when the default trigger is activated. |
-| shown | Event | Emitted after the menu opens. |
-| hidden | Event | Emitted after the menu closes. |
+| opened | Event | Emitted after the menu opens. |
+| closed | Event | Emitted after the menu closes. |
 | itemSelected | AerisSpeedDialCommandEvent | Emitted when an enabled action is selected. |
 
 ## Interfaces and types
@@ -132,22 +132,27 @@ Place four Speed Dials at the edge centers so their actions open into the availa
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisSpeedDial, type AerisSpeedDialItem } from '@aeris-ui/core/speed-dial';
+import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
   selector: 'app-speed-dial-linear-demo',
-  imports: [AerisSpeedDial],
+  imports: [AerisSpeedDial, LucideDynamicIcon],
   templateUrl: './speed-dial-linear.demo.html',
   styleUrl: './speed-dial-linear.demo.scss'
 })
 export class SpeedDialLinearLinearDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+
+  protected readonly lastAction = signal('None');
   protected readonly actions: readonly AerisSpeedDialItem[] = [
-    { label: 'Edit', icon: 'edit', command: () => edit() },
-    { label: 'Delete', icon: 'delete', command: () => remove() },
-    { label: 'Save', icon: 'save', command: () => save() },
-    { label: 'Copy', icon: 'copy', command: () => copy() },
-    { label: 'Upload', icon: 'upload', command: () => upload() },
+    { label: 'Edit', icon: 'edit', command: () => this.lastAction.set('Edit') },
+    { label: 'Delete', icon: 'delete', command: () => this.lastAction.set('Delete') },
+    { label: 'Save', icon: 'save', command: () => this.lastAction.set('Save') },
+    { label: 'Copy', icon: 'copy', command: () => this.lastAction.set('Copy') },
+    { label: 'Upload', icon: 'upload', command: () => this.lastAction.set('Upload') },
   ];
 }
 ```
@@ -155,6 +160,29 @@ export class SpeedDialLinearLinearDemo {
 #### HTML
 
 ```html
+<ng-template #actionIcon let-action>
+  @switch (action.icon) {
+    @case ('edit') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Edit"></svg>
+    }
+    @case ('delete') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"></svg>
+    }
+    @case ('save') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Save"></svg>
+    }
+    @case ('copy') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Copy"></svg>
+    }
+    @case ('upload') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Upload"></svg>
+    }
+    @default {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Plus"></svg>
+    }
+  }
+</ng-template>
+
 <div class="placement-stage aeris-example-row">
   <aeris-speed-dial
     class="dial-position dial-position--top"
@@ -241,29 +269,39 @@ export class SpeedDialLinearLinearDemo {
   transform: translateY(-50%);
 }
 
+.speed-dial-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (max-width: 40rem) {
   .placement-stage {
       min-height: 27rem;
     }
-  
+
   .dial-position--top,
     .dial-position--top-left,
     .dial-position--top-right {
       top: 1rem;
     }
-  
+
   .dial-position--right,
     .dial-position--top-right,
     .dial-position--bottom-right {
       right: 1rem;
     }
-  
+
   .dial-position--bottom,
     .dial-position--bottom-right,
     .dial-position--bottom-left {
       bottom: 1rem;
     }
-  
+
   .dial-position--left,
     .dial-position--top-left,
     .dial-position--bottom-left {
@@ -296,20 +334,46 @@ The same four edge-center placements provide room for actions to fan inward arou
 ```ts
 import { Component } from '@angular/core';
 import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
   selector: 'app-speed-dial-semi-circle-demo',
-  imports: [AerisSpeedDial],
+  imports: [AerisSpeedDial, LucideDynamicIcon],
   templateUrl: './speed-dial-semi-circle.demo.html',
   styleUrl: './speed-dial-semi-circle.demo.scss'
 })
 export class SpeedDialSemiCircleSemiCircleDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
 }
 ```
 
 #### HTML
 
 ```html
+<ng-template #actionIcon let-action>
+  @switch (action.icon) {
+    @case ('edit') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Edit"></svg>
+    }
+    @case ('delete') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"></svg>
+    }
+    @case ('save') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Save"></svg>
+    }
+    @case ('copy') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Copy"></svg>
+    }
+    @case ('upload') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Upload"></svg>
+    }
+    @default {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Plus"></svg>
+    }
+  }
+</ng-template>
+
 <div class="placement-stage aeris-example-row">
   <aeris-speed-dial
     class="dial-position dial-position--top"
@@ -404,29 +468,39 @@ export class SpeedDialSemiCircleSemiCircleDemo {
   transform: translateY(-50%);
 }
 
+.speed-dial-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (max-width: 40rem) {
   .placement-stage {
       min-height: 27rem;
     }
-  
+
   .dial-position--top,
     .dial-position--top-left,
     .dial-position--top-right {
       top: 1rem;
     }
-  
+
   .dial-position--right,
     .dial-position--top-right,
     .dial-position--bottom-right {
       right: 1rem;
     }
-  
+
   .dial-position--bottom,
     .dial-position--bottom-right,
     .dial-position--bottom-left {
       bottom: 1rem;
     }
-  
+
   .dial-position--left,
     .dial-position--top-left,
     .dial-position--bottom-left {
@@ -459,20 +533,46 @@ Place one Speed Dial in every corner and direct each action arc toward the cente
 ```ts
 import { Component } from '@angular/core';
 import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
   selector: 'app-speed-dial-quarter-circle-demo',
-  imports: [AerisSpeedDial],
+  imports: [AerisSpeedDial, LucideDynamicIcon],
   templateUrl: './speed-dial-quarter-circle.demo.html',
   styleUrl: './speed-dial-quarter-circle.demo.scss'
 })
 export class SpeedDialQuarterCircleQuarterCircleDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
 }
 ```
 
 #### HTML
 
 ```html
+<ng-template #actionIcon let-action>
+  @switch (action.icon) {
+    @case ('edit') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Edit"></svg>
+    }
+    @case ('delete') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"></svg>
+    }
+    @case ('save') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Save"></svg>
+    }
+    @case ('copy') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Copy"></svg>
+    }
+    @case ('upload') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Upload"></svg>
+    }
+    @default {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Plus"></svg>
+    }
+  }
+</ng-template>
+
 <div class="placement-stage aeris-example-row">
   <aeris-speed-dial
     class="dial-position dial-position--top-left"
@@ -563,29 +663,39 @@ export class SpeedDialQuarterCircleQuarterCircleDemo {
   left: 1.75rem;
 }
 
+.speed-dial-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (max-width: 40rem) {
   .placement-stage {
       min-height: 27rem;
     }
-  
+
   .dial-position--top,
     .dial-position--top-left,
     .dial-position--top-right {
       top: 1rem;
     }
-  
+
   .dial-position--right,
     .dial-position--top-right,
     .dial-position--bottom-right {
       right: 1rem;
     }
-  
+
   .dial-position--bottom,
     .dial-position--bottom-right,
     .dial-position--bottom-left {
       bottom: 1rem;
     }
-  
+
   .dial-position--left,
     .dial-position--top-left,
     .dial-position--bottom-left {
@@ -618,63 +728,107 @@ A centered trigger distributes its actions evenly around the full circumference.
 ```ts
 import { Component } from '@angular/core';
 import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
   selector: 'app-speed-dial-circle-demo',
-  imports: [AerisSpeedDial],
-  template: `
-    <div class="placement-stage placement-stage--centered aeris-example-row">
-      <aeris-speed-dial
-        ariaLabel="Circular actions"
-        [model]="actions"
-        [itemTemplate]="actionIcon"
-        type="circle"
-        [radius]="88"
-      />
-    </div>
-  `,
-  styles: `
-    .aeris-example-row {
-      display: flex;
-      gap: 0.5625rem;
-      min-width: 0;
-    }
-    
-    @media (max-width: 42rem) {
-      .aeris-example-row {
-        max-width: 100%;
-        flex-wrap: wrap;
-      }
-    }
-    
-    .placement-stage {
-      position: relative;
-      width: 100%;
-      min-height: 31rem;
-      overflow: clip;
-      border: 1px solid var(--aeris-border);
-      border-radius: 0.75rem;
-      background: linear-gradient(90deg, transparent calc(50% - 0.5px), color-mix(in srgb, var(--aeris-border) 55%, transparent) 50%, transparent calc(50% + 0.5px)), linear-gradient(transparent calc(50% - 0.5px), color-mix(in srgb, var(--aeris-border) 55%, transparent) 50%, transparent calc(50% + 0.5px)), radial-gradient(circle at center, color-mix(in srgb, var(--aeris-primary) 8%, transparent), transparent 56%), var(--aeris-surface-2);
-    }
-    
-    .placement-stage--centered {
-      min-height: 24rem;
-    }
-    
-    .placement-stage--centered aeris-speed-dial {
-      position: absolute;
-      inset: 0;
-      margin: auto;
-    }
-    
-    @media (max-width: 40rem) {
-      .placement-stage {
-          min-height: 27rem;
-        }
-    }
-  `
+  imports: [AerisSpeedDial, LucideDynamicIcon],
+  templateUrl: './speed-dial-circle.demo.html',
+  styleUrl: './speed-dial-circle.demo.scss'
 })
 export class SpeedDialCircleCircleDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+}
+```
+
+#### HTML
+
+```html
+<ng-template #actionIcon let-action>
+  @switch (action.icon) {
+    @case ('edit') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Edit"></svg>
+    }
+    @case ('delete') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"></svg>
+    }
+    @case ('save') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Save"></svg>
+    }
+    @case ('copy') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Copy"></svg>
+    }
+    @case ('upload') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Upload"></svg>
+    }
+    @default {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Plus"></svg>
+    }
+  }
+</ng-template>
+
+<div class="placement-stage placement-stage--centered aeris-example-row">
+  <aeris-speed-dial
+    ariaLabel="Circular actions"
+    [model]="actions"
+    [itemTemplate]="actionIcon"
+    type="circle"
+    [radius]="88"
+  />
+</div>
+```
+
+#### CSS
+
+```css
+.aeris-example-row {
+  display: flex;
+  gap: 0.5625rem;
+  min-width: 0;
+}
+
+@media (max-width: 42rem) {
+  .aeris-example-row {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.placement-stage {
+  position: relative;
+  width: 100%;
+  min-height: 31rem;
+  overflow: clip;
+  border: 1px solid var(--aeris-border);
+  border-radius: 0.75rem;
+  background: linear-gradient(90deg, transparent calc(50% - 0.5px), color-mix(in srgb, var(--aeris-border) 55%, transparent) 50%, transparent calc(50% + 0.5px)), linear-gradient(transparent calc(50% - 0.5px), color-mix(in srgb, var(--aeris-border) 55%, transparent) 50%, transparent calc(50% + 0.5px)), radial-gradient(circle at center, color-mix(in srgb, var(--aeris-primary) 8%, transparent), transparent 56%), var(--aeris-surface-2);
+}
+
+.placement-stage--centered {
+  min-height: 24rem;
+}
+
+.placement-stage--centered aeris-speed-dial {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.speed-dial-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 40rem) {
+  .placement-stage {
+      min-height: 27rem;
+    }
 }
 ```
 
@@ -687,73 +841,118 @@ Use two-way model binding when application state controls whether the menu is op
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
   selector: 'app-speed-dial-controlled-demo',
-  imports: [AerisSpeedDial],
-  template: `
-    <div class="dial-stage aeris-example-row">
-      <aeris-speed-dial
-        ariaLabel="Controlled actions"
-        [model]="actions"
-        [itemTemplate]="actionIcon"
-        type="circle"
-        [radius]="78"
-        [(visible)]="controlledOpen"
-      />
-      <span class="status-line">Open: {{ controlledOpen() }}</span>
-    </div>
-  `,
-  styles: `
-    .aeris-example-row {
-      display: flex;
-      gap: 0.5625rem;
-      min-width: 0;
-    }
-    
-    @media (max-width: 42rem) {
-      .aeris-example-row {
-        max-width: 100%;
-        flex-wrap: wrap;
-      }
-    }
-    
-    .dial-stage {
-      position: relative;
-      width: 100%;
-      min-height: 20rem;
-      overflow: hidden;
-      border-radius: 0.75rem;
-      background: radial-gradient(circle at center, color-mix(in srgb, var(--aeris-primary) 9%, transparent), transparent 55%), var(--aeris-surface-2);
-    }
-    
-    .dial-stage > aeris-speed-dial {
-      position: absolute;
-      inset: 0;
-      margin: auto;
-    }
-    
-    .status-line {
-      position: absolute;
-      right: 1rem;
-      bottom: 1rem;
-      color: var(--aeris-text-2);
-      font-size: 0.875rem;
-    }
-    
-    @media (max-width: 40rem) {
-      .dial-stage {
-          min-height: 18rem;
-        }
-    }
-  `
+  imports: [AerisSpeedDial, LucideDynamicIcon],
+  templateUrl: './speed-dial-controlled.demo.html',
+  styleUrl: './speed-dial-controlled.demo.scss'
 })
 export class SpeedDialControlledControlledVisibilityDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+
   protected readonly open = signal(false);
 
   protected closeActions(): void {
     this.open.set(false);
   }
+}
+```
+
+#### HTML
+
+```html
+<ng-template #actionIcon let-action>
+  @switch (action.icon) {
+    @case ('edit') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Edit"></svg>
+    }
+    @case ('delete') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"></svg>
+    }
+    @case ('save') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Save"></svg>
+    }
+    @case ('copy') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Copy"></svg>
+    }
+    @case ('upload') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Upload"></svg>
+    }
+    @default {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Plus"></svg>
+    }
+  }
+</ng-template>
+
+<div class="dial-stage aeris-example-row">
+  <aeris-speed-dial
+    ariaLabel="Controlled actions"
+    [model]="actions"
+    [itemTemplate]="actionIcon"
+    type="circle"
+    [radius]="78"
+    [(visible)]="controlledOpen"
+  />
+  <span class="status-line">Open: {{ controlledOpen() }}</span>
+</div>
+```
+
+#### CSS
+
+```css
+.aeris-example-row {
+  display: flex;
+  gap: 0.5625rem;
+  min-width: 0;
+}
+
+@media (max-width: 42rem) {
+  .aeris-example-row {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.dial-stage {
+  position: relative;
+  width: 100%;
+  min-height: 20rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--aeris-primary) 9%, transparent), transparent 55%), var(--aeris-surface-2);
+}
+
+.dial-stage > aeris-speed-dial {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.status-line {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  color: var(--aeris-text-2);
+  font-size: 0.875rem;
+}
+
+.speed-dial-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 40rem) {
+  .dial-stage {
+      min-height: 18rem;
+    }
 }
 ```
 
@@ -766,59 +965,103 @@ A dismissible mask focuses attention on the available actions.
 ```ts
 import { Component } from '@angular/core';
 import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
   selector: 'app-speed-dial-mask-demo',
-  imports: [AerisSpeedDial],
-  template: `
-    <div class="dial-stage aeris-example-row">
-      <aeris-speed-dial
-        ariaLabel="Masked actions"
-        [model]="actions"
-        [itemTemplate]="actionIcon"
-        type="circle"
-        [radius]="84"
-        mask
-      />
-    </div>
-  `,
-  styles: `
-    .aeris-example-row {
-      display: flex;
-      gap: 0.5625rem;
-      min-width: 0;
-    }
-    
-    @media (max-width: 42rem) {
-      .aeris-example-row {
-        max-width: 100%;
-        flex-wrap: wrap;
-      }
-    }
-    
-    .dial-stage {
-      position: relative;
-      width: 100%;
-      min-height: 20rem;
-      overflow: hidden;
-      border-radius: 0.75rem;
-      background: radial-gradient(circle at center, color-mix(in srgb, var(--aeris-primary) 9%, transparent), transparent 55%), var(--aeris-surface-2);
-    }
-    
-    .dial-stage > aeris-speed-dial {
-      position: absolute;
-      inset: 0;
-      margin: auto;
-    }
-    
-    @media (max-width: 40rem) {
-      .dial-stage {
-          min-height: 18rem;
-        }
-    }
-  `
+  imports: [AerisSpeedDial, LucideDynamicIcon],
+  templateUrl: './speed-dial-mask.demo.html',
+  styleUrl: './speed-dial-mask.demo.scss'
 })
 export class SpeedDialMaskMaskDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+}
+```
+
+#### HTML
+
+```html
+<ng-template #actionIcon let-action>
+  @switch (action.icon) {
+    @case ('edit') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Edit"></svg>
+    }
+    @case ('delete') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"></svg>
+    }
+    @case ('save') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Save"></svg>
+    }
+    @case ('copy') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Copy"></svg>
+    }
+    @case ('upload') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Upload"></svg>
+    }
+    @default {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Plus"></svg>
+    }
+  }
+</ng-template>
+
+<div class="dial-stage aeris-example-row">
+  <aeris-speed-dial
+    ariaLabel="Masked actions"
+    [model]="actions"
+    [itemTemplate]="actionIcon"
+    type="circle"
+    [radius]="84"
+    mask
+  />
+</div>
+```
+
+#### CSS
+
+```css
+.aeris-example-row {
+  display: flex;
+  gap: 0.5625rem;
+  min-width: 0;
+}
+
+@media (max-width: 42rem) {
+  .aeris-example-row {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.dial-stage {
+  position: relative;
+  width: 100%;
+  min-height: 20rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--aeris-primary) 9%, transparent), transparent 55%), var(--aeris-surface-2);
+}
+
+.dial-stage > aeris-speed-dial {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.speed-dial-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 40rem) {
+  .dial-stage {
+      min-height: 18rem;
+    }
 }
 ```
 
@@ -831,58 +1074,18 @@ Items can be disabled, hidden, command-driven, externally linked, or routed.
 ```ts
 import { Component } from '@angular/core';
 import { AerisSpeedDial, type AerisSpeedDialItem } from '@aeris-ui/core/speed-dial';
+import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
   selector: 'app-speed-dial-states-demo',
-  imports: [AerisSpeedDial],
-  template: `
-    <div class="dial-stage aeris-example-row">
-      <aeris-speed-dial
-        ariaLabel="Record actions"
-        [model]="stateActions"
-        [itemTemplate]="actionIcon"
-        type="circle"
-        [radius]="72"
-      />
-    </div>
-  `,
-  styles: `
-    .aeris-example-row {
-      display: flex;
-      gap: 0.5625rem;
-      min-width: 0;
-    }
-    
-    @media (max-width: 42rem) {
-      .aeris-example-row {
-        max-width: 100%;
-        flex-wrap: wrap;
-      }
-    }
-    
-    .dial-stage {
-      position: relative;
-      width: 100%;
-      min-height: 20rem;
-      overflow: hidden;
-      border-radius: 0.75rem;
-      background: radial-gradient(circle at center, color-mix(in srgb, var(--aeris-primary) 9%, transparent), transparent 55%), var(--aeris-surface-2);
-    }
-    
-    .dial-stage > aeris-speed-dial {
-      position: absolute;
-      inset: 0;
-      margin: auto;
-    }
-    
-    @media (max-width: 40rem) {
-      .dial-stage {
-          min-height: 18rem;
-        }
-    }
-  `
+  imports: [AerisSpeedDial, LucideDynamicIcon],
+  templateUrl: './speed-dial-states.demo.html',
+  styleUrl: './speed-dial-states.demo.scss'
 })
 export class SpeedDialStatesStatesAndLinksDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+
   protected readonly stateActions:
     readonly AerisSpeedDialItem[] = [
       { label: 'Edit', icon: 'edit' },
@@ -898,6 +1101,91 @@ export class SpeedDialStatesStatesAndLinksDemo {
 }
 ```
 
+#### HTML
+
+```html
+<ng-template #actionIcon let-action>
+  @switch (action.icon) {
+    @case ('edit') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Edit"></svg>
+    }
+    @case ('delete') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"></svg>
+    }
+    @case ('save') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Save"></svg>
+    }
+    @case ('copy') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Copy"></svg>
+    }
+    @case ('upload') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Upload"></svg>
+    }
+    @default {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Plus"></svg>
+    }
+  }
+</ng-template>
+
+<div class="dial-stage aeris-example-row">
+  <aeris-speed-dial
+    ariaLabel="Record actions"
+    [model]="stateActions"
+    [itemTemplate]="actionIcon"
+    type="circle"
+    [radius]="72"
+  />
+</div>
+```
+
+#### CSS
+
+```css
+.aeris-example-row {
+  display: flex;
+  gap: 0.5625rem;
+  min-width: 0;
+}
+
+@media (max-width: 42rem) {
+  .aeris-example-row {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.dial-stage {
+  position: relative;
+  width: 100%;
+  min-height: 20rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--aeris-primary) 9%, transparent), transparent 55%), var(--aeris-surface-2);
+}
+
+.dial-stage > aeris-speed-dial {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.speed-dial-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 40rem) {
+  .dial-stage {
+      min-height: 18rem;
+    }
+}
+```
+
 ### Templates
 
 Customize the trigger icon or item content with typed template contexts.
@@ -907,62 +1195,106 @@ Customize the trigger icon or item content with typed template contexts.
 ```ts
 import { Component } from '@angular/core';
 import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
   selector: 'app-speed-dial-templates-demo',
-  imports: [AerisSpeedDial],
-  template: `
-    <div class="dial-stage aeris-example-row">
-      <ng-template #icon let-open="open"
-        ><span aria-hidden="true">{{ open ? 'X' : '...' }}</span></ng-template
-      >
-      <aeris-speed-dial
-        ariaLabel="Templated actions"
-        [model]="actions"
-        type="circle"
-        [radius]="78"
-        [iconTemplate]="icon"
-        [itemTemplate]="actionIcon"
-      />
-    </div>
-  `,
-  styles: `
-    .aeris-example-row {
-      display: flex;
-      gap: 0.5625rem;
-      min-width: 0;
-    }
-    
-    @media (max-width: 42rem) {
-      .aeris-example-row {
-        max-width: 100%;
-        flex-wrap: wrap;
-      }
-    }
-    
-    .dial-stage {
-      position: relative;
-      width: 100%;
-      min-height: 20rem;
-      overflow: hidden;
-      border-radius: 0.75rem;
-      background: radial-gradient(circle at center, color-mix(in srgb, var(--aeris-primary) 9%, transparent), transparent 55%), var(--aeris-surface-2);
-    }
-    
-    .dial-stage > aeris-speed-dial {
-      position: absolute;
-      inset: 0;
-      margin: auto;
-    }
-    
-    @media (max-width: 40rem) {
-      .dial-stage {
-          min-height: 18rem;
-        }
-    }
-  `
+  imports: [AerisSpeedDial, LucideDynamicIcon],
+  templateUrl: './speed-dial-templates.demo.html',
+  styleUrl: './speed-dial-templates.demo.scss'
 })
 export class SpeedDialTemplatesTemplatesDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+}
+```
+
+#### HTML
+
+```html
+<ng-template #actionIcon let-action>
+  @switch (action.icon) {
+    @case ('edit') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Edit"></svg>
+    }
+    @case ('delete') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"></svg>
+    }
+    @case ('save') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Save"></svg>
+    }
+    @case ('copy') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Copy"></svg>
+    }
+    @case ('upload') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Upload"></svg>
+    }
+    @default {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Plus"></svg>
+    }
+  }
+</ng-template>
+
+<div class="dial-stage aeris-example-row">
+  <ng-template #icon let-open="open"
+    ><span aria-hidden="true">{{ open ? 'X' : '...' }}</span></ng-template
+  >
+  <aeris-speed-dial
+    ariaLabel="Templated actions"
+    [model]="actions"
+    type="circle"
+    [radius]="78"
+    [iconTemplate]="icon"
+    [itemTemplate]="actionIcon"
+  />
+</div>
+```
+
+#### CSS
+
+```css
+.aeris-example-row {
+  display: flex;
+  gap: 0.5625rem;
+  min-width: 0;
+}
+
+@media (max-width: 42rem) {
+  .aeris-example-row {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.dial-stage {
+  position: relative;
+  width: 100%;
+  min-height: 20rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--aeris-primary) 9%, transparent), transparent 55%), var(--aeris-surface-2);
+}
+
+.dial-stage > aeris-speed-dial {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.speed-dial-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 40rem) {
+  .dial-stage {
+      min-height: 18rem;
+    }
 }
 ```
 
@@ -975,59 +1307,103 @@ Transition delay controls the stagger. Reduced-motion preferences remove the sta
 ```ts
 import { Component } from '@angular/core';
 import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
   selector: 'app-speed-dial-animation-demo',
-  imports: [AerisSpeedDial],
-  template: `
-    <div class="dial-stage aeris-example-row">
-      <aeris-speed-dial
-        ariaLabel="Animated actions"
-        [model]="actions"
-        [itemTemplate]="actionIcon"
-        type="circle"
-        [radius]="78"
-        [transitionDelay]="70"
-      />
-    </div>
-  `,
-  styles: `
-    .aeris-example-row {
-      display: flex;
-      gap: 0.5625rem;
-      min-width: 0;
-    }
-    
-    @media (max-width: 42rem) {
-      .aeris-example-row {
-        max-width: 100%;
-        flex-wrap: wrap;
-      }
-    }
-    
-    .dial-stage {
-      position: relative;
-      width: 100%;
-      min-height: 20rem;
-      overflow: hidden;
-      border-radius: 0.75rem;
-      background: radial-gradient(circle at center, color-mix(in srgb, var(--aeris-primary) 9%, transparent), transparent 55%), var(--aeris-surface-2);
-    }
-    
-    .dial-stage > aeris-speed-dial {
-      position: absolute;
-      inset: 0;
-      margin: auto;
-    }
-    
-    @media (max-width: 40rem) {
-      .dial-stage {
-          min-height: 18rem;
-        }
-    }
-  `
+  imports: [AerisSpeedDial, LucideDynamicIcon],
+  templateUrl: './speed-dial-animation.demo.html',
+  styleUrl: './speed-dial-animation.demo.scss'
 })
 export class SpeedDialAnimationAnimationDemo {
+
+  protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+}
+```
+
+#### HTML
+
+```html
+<ng-template #actionIcon let-action>
+  @switch (action.icon) {
+    @case ('edit') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Edit"></svg>
+    }
+    @case ('delete') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Trash2"></svg>
+    }
+    @case ('save') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Save"></svg>
+    }
+    @case ('copy') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Copy"></svg>
+    }
+    @case ('upload') {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Upload"></svg>
+    }
+    @default {
+      <svg class="speed-dial-icon" [lucideIcon]="icons.Plus"></svg>
+    }
+  }
+</ng-template>
+
+<div class="dial-stage aeris-example-row">
+  <aeris-speed-dial
+    ariaLabel="Animated actions"
+    [model]="actions"
+    [itemTemplate]="actionIcon"
+    type="circle"
+    [radius]="78"
+    [transitionDelay]="70"
+  />
+</div>
+```
+
+#### CSS
+
+```css
+.aeris-example-row {
+  display: flex;
+  gap: 0.5625rem;
+  min-width: 0;
+}
+
+@media (max-width: 42rem) {
+  .aeris-example-row {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+.dial-stage {
+  position: relative;
+  width: 100%;
+  min-height: 20rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--aeris-primary) 9%, transparent), transparent 55%), var(--aeris-surface-2);
+}
+
+.dial-stage > aeris-speed-dial {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.speed-dial-icon {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 40rem) {
+  .dial-stage {
+      min-height: 18rem;
+    }
 }
 ```
 

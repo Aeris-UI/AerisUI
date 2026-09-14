@@ -2,7 +2,7 @@
 
 > Hierarchical team chart with templates, selection, and collapsible branches.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/organization-chart`
 - Human-readable documentation: [https://aeris-ui.dev/components/organization-chart](https://aeris-ui.dev/components/organization-chart)
@@ -132,7 +132,7 @@ interface Person {
     .chart-demo {
       width: 100%;
     }
-    
+
     .chart-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -184,12 +184,12 @@ import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart'
     .chart-demo {
       width: 100%;
     }
-    
+
     .chart-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .chart-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -227,7 +227,7 @@ import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart'
     .chart-demo {
       width: 100%;
     }
-    
+
     .chart-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -266,12 +266,12 @@ import { AerisOrganizationChartModule, type AerisOrganizationChartNodeEvent, typ
     .chart-demo {
       width: 100%;
     }
-    
+
     .chart-demo--stack {
       display: grid;
       gap: 0.75rem;
     }
-    
+
     .chart-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
@@ -383,12 +383,12 @@ import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart'
     .chart-demo {
       width: 100%;
     }
-    
+
     .chart-demo small {
       color: var(--aeris-text-2);
       font-weight: 600;
     }
-    
+
     .wide-chart {
       --aeris-organization-chart-node-min-width: 9rem;
       --aeris-organization-chart-node-gap: 0.5rem;

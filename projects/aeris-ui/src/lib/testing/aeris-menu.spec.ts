@@ -71,8 +71,8 @@ class MenuDefaultExpandedHost {
       #menu
       popup
       [model]="items"
-      (hidden)="hiddenReason.set($event.reason)"
-      (shown)="shown.set(true)"
+      (closed)="hiddenReason.set($event.reason)"
+      (opened)="shown.set(true)"
       (itemSelected)="selected.set(true)"
     />
   `,
@@ -283,7 +283,9 @@ describe('AerisMenu', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const panel = fixture.nativeElement.querySelector('.aeris-menu__panel[data-popup]') as HTMLElement;
+    const panel = fixture.nativeElement.querySelector(
+      '.aeris-menu__panel[data-popup]',
+    ) as HTMLElement;
     expect(panel.hasAttribute('data-aeris-append-to')).toBe(false);
     expect(panel.style.left).toBe('120px');
     expect(panel.style.top).toBe('158px');

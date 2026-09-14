@@ -58,7 +58,8 @@ import { DOC_ICONS } from '../shared/documentation/doc-icons';
             aerisButton
             type="button"
             size="xs"
-            [variant]="category() === 'All' ? 'secondary' : 'ghost'"
+            [variant]="category() === 'All' ? 'solid' : 'ghost'"
+            [severity]="category() === 'All' ? 'secondary' : 'primary'"
             [attr.aria-pressed]="category() === 'All'"
             (click)="category.set('All')"
           >
@@ -69,7 +70,8 @@ import { DOC_ICONS } from '../shared/documentation/doc-icons';
               aerisButton
               type="button"
               size="xs"
-              [variant]="category() === item ? 'secondary' : 'ghost'"
+              [variant]="category() === item ? 'solid' : 'ghost'"
+              [severity]="category() === item ? 'secondary' : 'primary'"
               [attr.aria-pressed]="category() === item"
               (click)="category.set(item)"
             >

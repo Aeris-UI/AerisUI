@@ -2,7 +2,7 @@
 
 > Themeable native scroll container with styled scrollbars, overflow modes, fade masks, events, and scroll methods.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/scroll-panel`
 - Human-readable documentation: [https://aeris-ui.dev/components/scroll-panel](https://aeris-ui.dev/components/scroll-panel)
@@ -154,7 +154,7 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
       padding: 0;
       list-style: none;
     }
-    
+
     .brand-list li {
       display: flex;
       justify-content: space-between;
@@ -348,7 +348,7 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
       padding: 0;
       list-style: none;
     }
-    
+
     .brand-list li {
       display: flex;
       justify-content: space-between;
@@ -571,7 +571,8 @@ export class ScrollPanelMethodsEventsAndMethodsDemo {
       aerisButton
       type="button"
       size="sm"
-      variant="secondary"
+      variant="solid"
+      severity="secondary"
       (click)="methodPanel.scrollToBottom({ behavior: 'smooth' })"
     >
       Bottom

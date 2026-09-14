@@ -228,12 +228,13 @@ protected submitForm(): void {
 }`;
 
   protected readonly interfacesCode = `type AerisMessageSeverity =
+  | 'primary'
+  | 'secondary'
   | 'info'
   | 'success'
   | 'warning'
-  | 'error'
+  | 'danger'
   | 'neutral'
-  | 'secondary'
   | 'contrast';
 
 type AerisMessageVariant = 'filled' | 'outlined' | 'simple';
@@ -266,7 +267,7 @@ interface AerisMessageTemplateContext {
       type: 'AerisMessageSeverity',
       defaultValue: "'info'",
       description:
-        "Sets visual tone and default live-region behavior. Options: 'info', 'success', 'warning', 'error', 'neutral', 'secondary', 'contrast'.",
+        "Sets visual tone and default live-region behavior. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'.",
     },
     {
       name: 'variant',

@@ -1,4 +1,7 @@
-export const AERIS_UI_VERSION = '22.0.0-alpha.6';
+export const AERIS_UI_VERSION = '22.0.0-alpha.7';
+
+export type { AerisSeverity } from './lib/aeris-severity';
+export { aerisInternalDisplayInvalid as ɵaerisDisplayInvalid } from './lib/aeris-validation-state';
 
 export {
   AERIS_OVERLAY_APPEND_TO,
@@ -48,12 +51,14 @@ export {
   aerisInternalApplyMeasuredColumnWidths,
   aerisInternalClampColumnResizeDelta,
   aerisInternalColumnResizeDirection,
+  aerisInternalColumnSeparatorValues,
   aerisInternalColumnWidthPixels,
   aerisInternalListenForColumnResize,
   aerisInternalMeasureColumnWidths,
   aerisInternalPixelWidth,
   aerisInternalSetColumnPairWidths,
   type AerisInternalResizableColumn,
+  type AerisInternalSeparatorValue,
 } from './lib/aeris-column-resize';
 export {
   aerisInternalCreateFrameScheduler,

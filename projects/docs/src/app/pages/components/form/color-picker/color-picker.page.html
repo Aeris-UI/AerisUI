@@ -33,7 +33,7 @@
                 <label for="color-basic">Brand color</label>
                 <aeris-color-picker
                   inputId="color-basic"
-                  ariaDescribedby="color-basic-help"
+                  ariaDescribedBy="color-basic-help"
                   value="#5f6f36"
                 />
                 <small id="color-basic-help">Choose the primary color for your interface.</small>
@@ -42,7 +42,7 @@
   &lt;label for="color-basic"&gt;Brand color&lt;/label&gt;
   &lt;aeris-color-picker
     inputId="color-basic"
-    ariaDescribedby="color-basic-help"
+    ariaDescribedBy="color-basic-help"
     value="#5f6f36"
   /&gt;
   &lt;small id="color-basic-help"&gt;Choose the primary color for your interface.&lt;/small&gt;
@@ -277,7 +277,7 @@
                   [invalid]="invalid()"
                   required
                   clearable
-                  ariaDescribedby="color-validation-message"
+                  ariaDescribedBy="color-validation-message"
                   (blurred)="touched.set(true)"
                 />
                 <small
@@ -296,7 +296,7 @@
     [invalid]="invalid()"
     required
     clearable
-    ariaDescribedby="color-validation-message"
+    ariaDescribedBy="color-validation-message"
     (blurred)="touched.set(true)"
   /&gt;
   &lt;small
@@ -538,7 +538,7 @@
           </li>
           <li>
             Use a visible label and connect it with <code>inputId</code>. Use
-            <code>ariaDescribedby</code> for help and validation text.
+            <code>ariaDescribedBy</code> for help and validation text.
           </li>
           <li>
             Text entry accepts hex, <code>rgb()</code>, and <code>hsl()</code> strings so color can

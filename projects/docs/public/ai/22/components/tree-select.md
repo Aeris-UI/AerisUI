@@ -2,7 +2,7 @@
 
 > Hierarchical selection with filtering, templates, checkbox mode, and forms integration.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tree-select`
 - Human-readable documentation: [https://aeris-ui.dev/components/tree-select](https://aeris-ui.dev/components/tree-select)
@@ -29,7 +29,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the tree panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `nodes` | `readonly AerisTreeNode[]` | `required` | Tree data rendered recursively in source order. Nesting depth is not limited by the component API. |
 | `value` | `AerisTreeSelectValue (model)` | `null` | Selected value for single mode or selected value array for multiple and checkbox modes. |
@@ -39,14 +39,15 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
 | `valueSeparator` | `string` | `','` | Separator used for hidden native form values in multi-value modes. |
 | `placeholder` | `string` | `'Select item'` | Text displayed when no node is selected. |
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label is associated. |
-| `ariaLabelledby` | `string` | `''` | IDs of elements that label the combobox. |
-| `ariaDescribedby` | `string` | `''` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string` | `''` | IDs of elements that label the combobox. |
+| `ariaDescribedBy` | `string` | `''` | IDs of help and validation messages. |
 | `treeAriaLabel` | `string` | `'Tree options'` | Accessible name for the popup tree. |
 | `size` | `AerisTreeSelectSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisTreeSelectAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
 | `disabled` | `boolean` | `false` | Disables opening, selection, clearing, and forms interaction. |
 | `required` | `boolean` | `false` | Exposes aria-required for validation. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Fills the available inline width. |
 | `clearable` | `boolean` | `false` | Shows a suffix clear button when a selection exists. |
 | `filter` | `boolean` | `false` | Adds a search field to the panel. |
@@ -67,7 +68,6 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `valueChange` | `AerisTreeSelectValue` | `-` | Emitted automatically by the value model. |
-| `valueInput` | `AerisTreeSelectValue` | `-` | Explicit value-change notification. |
 | `changed` | `AerisTreeSelectChangeEvent` | `-` | Selection change with node metadata. |
 | `filterChanged` | `AerisTreeSelectFilterEvent` | `-` | Filter query changes. |
 | `opened / closed / cleared` | `void` | `-` | Panel and clear lifecycle events. |
@@ -147,8 +147,8 @@ Bind a single node value. Expandable parent categories can be selected the same 
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTreeModule, type AerisTreeNode } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeModule } from '@aeris-ui/core/tree';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-basic-demo',
@@ -177,7 +177,7 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -185,13 +185,13 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -264,7 +264,7 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -272,13 +272,13 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -326,7 +326,7 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -334,13 +334,13 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -358,8 +358,8 @@ Customize node rows and selected value display without replacing selection or ke
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTreeModule, type AerisTreeNode } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeModule } from '@aeris-ui/core/tree';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-templates-demo',
@@ -619,7 +619,7 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
       [(value)]="invalidValue"
       required
       [invalid]="invalidValue() === null"
-      ariaDescribedby="tree-error"
+      ariaDescribedBy="tree-error"
       fluid
     />
     @if (invalidValue() === null) {
@@ -845,7 +845,7 @@ export class TreeSelectFormsReactiveAndTemplateDrivenFormsDemo {
 - Tree rows use role="treeitem", aria-level, and aria-expanded for parent nodes.
 - Single and multiple modes expose aria-selected; checkbox mode exposes aria-checked, including mixed parent state.
 - Use inputId with a visible label, or provide ariaLabel when no visible label exists.
-- Connect help and validation text with ariaDescribedby. Required, invalid, disabled, and form disabled states are synchronized with ARIA and native form behavior.
+- Connect help and validation text with ariaDescribedBy. Required, invalid, disabled, and form disabled states are synchronized with ARIA and native form behavior.
 
 ### Keyboard support
 

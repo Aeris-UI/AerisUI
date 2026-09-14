@@ -2,7 +2,7 @@
 
 > Accessible automatic and manual tab navigation with responsive layouts and custom headers.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tabs`
 - Human-readable documentation: [https://aeris-ui.dev/components/tabs](https://aeris-ui.dev/components/tabs)
@@ -172,7 +172,7 @@ Bind the active value and consume typed change metadata when application state n
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTabsModule } from '@aeris-ui/core/tabs';
+import { AerisTabsModule, type AerisTabChangeEvent } from '@aeris-ui/core/tabs';
 
 @Component({
   selector: 'app-tabs-controlled-demo',

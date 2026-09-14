@@ -2,7 +2,7 @@
 
 > Accessible inputmask component for Angular.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/input-mask`
 - Human-readable documentation: [https://aeris-ui.dev/components/input-mask](https://aeris-ui.dev/components/input-mask)
@@ -37,8 +37,8 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
 | `autocomplete` | `string` | `'off'` | Native autocomplete hint. |
 | `inputMode` | `'text' &#124; 'numeric' &#124; 'tel' &#124; 'email' &#124; 'url' &#124; 'search'` | `'text'` | Virtual keyboard hint used to select an appropriate on-screen keyboard. |
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label is associated. |
-| `ariaLabelledby` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
-| `ariaDescribedby` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
+| `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
+| `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
 | `slotChar` | `string` | `'_'` | Character used for empty mask slots. |
 | `showMask` | `boolean` | `false` | Displays all literals and empty slots in the field. |
 | `unmask` | `boolean` | `false` | Stores only accepted slot characters in the value model. |
@@ -51,6 +51,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
 | `readonly` | `boolean` | `false` | Allows focus and selection without editing. |
 | `required` | `boolean` | `false` | Exposes native required semantics. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
+| `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Fills the available inline width. |
 
 ### InputMask outputs
@@ -58,7 +59,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
 | Name | Type | Description |
 | --- | --- | --- |
 | valueChange | string | Emitted automatically by the value model. |
-| valueInput | string | Emitted when user interaction changes the value. |
+| valueChange | string | Emitted when user interaction changes the value. |
 | completed | string | Emitted when every required mask slot becomes populated. |
 | focused | FocusEvent | Emitted when the internal input receives focus. |
 | blurred | FocusEvent | Emitted after optional auto-clear processing. |
@@ -146,7 +147,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -154,17 +155,17 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .mask-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -198,7 +199,7 @@ import { Component } from '@angular/core';
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 0.75rem;
     }
-    
+
     .mask-token-list div {
       display: grid;
       gap: 0.25rem;
@@ -207,19 +208,19 @@ import { Component } from '@angular/core';
       border-radius: 0.625rem;
       background: var(--aeris-surface-2);
     }
-    
+
     .mask-token-list code {
       color: var(--aeris-primary-text);
       font-size: 1rem;
       font-weight: 700;
     }
-    
+
     .mask-token-list span {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     @media (max-width: 42rem) {
       .mask-token-list {
           grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -357,7 +358,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -365,17 +366,17 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .mask-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -422,7 +423,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -430,17 +431,17 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .mask-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -477,7 +478,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         inputId="mask-auto-clear-field"
         mask="999-999"
         autoClear
-        ariaDescribedby="mask-auto-clear-help"
+        ariaDescribedBy="mask-auto-clear-help"
         fluid
       />
       <small id="mask-auto-clear-help"
@@ -493,7 +494,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -501,13 +502,13 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -553,7 +554,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -561,17 +562,17 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
-    
+
     .mask-result {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
@@ -712,7 +713,7 @@ export class MaskStatesAppearancesAndStatesDemo {
       mask="999-999"
       [value]="'123'"
       invalid
-      ariaDescribedby="mask-error"
+      ariaDescribedBy="mask-error"
       fluid
     /><small id="mask-error" class="error">Enter the complete code.</small>
   </div>
@@ -818,7 +819,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -826,13 +827,13 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -874,7 +875,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       grid-auto-rows: max-content;
       gap: 0.45rem;
     }
-    
+
     .field > label,
     .field > span:first-child {
       color: var(--aeris-text);
@@ -882,13 +883,13 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
       font-weight: 600;
       line-height: 1.4;
     }
-    
+
     .field small {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
       line-height: 1.5;
     }
-    
+
     .field small.error {
       color: var(--aeris-danger);
     }
@@ -1002,7 +1003,7 @@ export class MaskAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 - InputMask preserves native text-input semantics, keyboard editing, selection, paste, and autofill behavior.
 - Associate a visible label through inputId, or provide ariaLabel when no visible label exists.
-- Describe the expected format in visible help text connected through ariaDescribedby; do not rely on the mask alone.
+- Describe the expected format in visible help text connected through ariaDescribedBy; do not rely on the mask alone.
 - The invalid input synchronizes visual state with aria-invalid.
 - Choose an appropriate inputMode to provide a useful mobile keyboard without restricting assistive input.
 - The clear button has a configurable accessible name, appears only when usable, and restores focus after clearing.

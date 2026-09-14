@@ -2,7 +2,7 @@
 
 > High-performance data table with sorting, filtering, editing, and virtualization.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/table`
 - Human-readable documentation: [https://aeris-ui.dev/components/table](https://aeris-ui.dev/components/table)
@@ -29,7 +29,7 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Forwards the mounting target to the paginator rows-per-page menu. |
+| `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Forwards the mounting target to the paginator rows-per-page menu. |
 | `data` | `readonly AerisTableData[]` | `[]` | Rows rendered by the table. |
 | `columns` | `readonly AerisTableColumn[] (model)` | `[]` | Column definitions used for headers, cells, sorting, filtering, and controlled resized widths. |
 | `rowKeyField` | `string` | `'id'` | Row field used for selection, expansion, and tracking. |
@@ -742,7 +742,11 @@ import { AerisTableModule, type AerisTableCellEditEvent, type AerisTableData } f
 })
 export class TableEditingInCellEditingDemo {
   protected readonly editableMembers =
-    signal<readonly AerisTableData[]>(members);
+    signal<readonly AerisTableData[]>([
+      { id: '1', name: 'Maya Chen', team: 'Design', status: 'Active' },
+      { id: '2', name: 'Noah Williams', team: 'Engineering', status: 'Invited' },
+      { id: '3', name: 'Sofia Rossi', team: 'Research', status: 'Offline' },
+    ]);
 
   protected handleCellEdit(event: AerisTableCellEditEvent): void {
     this.editableMembers.update((rows) =>
@@ -937,7 +941,7 @@ import { AerisTableModule, type AerisTable } from '@aeris-ui/core/table';
       display: grid;
       gap: 1rem;
     }
-    
+
     .table-state-grid > .aeris-button {
       justify-self: start;
     }
@@ -988,7 +992,7 @@ import { AerisTableModule } from '@aeris-ui/core/table';
       display: grid;
       gap: 1rem;
     }
-    
+
     .table-state-grid > .aeris-button {
       justify-self: start;
     }

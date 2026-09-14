@@ -2,7 +2,7 @@
 
 > Immersive media gallery with image tools, responsive grid and single modes, compact thumbnails, fullscreen viewing, and touch gestures.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/galleria`
 - Human-readable documentation: [https://aeris-ui.dev/components/galleria](https://aeris-ui.dev/components/galleria)
@@ -60,7 +60,7 @@ import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
 | `autoplayInterval` | `number` | `0` | Milliseconds between automatic changes, with a 500ms minimum; zero disables autoplay and reduced motion always pauses it. |
 | `pauseOnHover` | `boolean` | `true` | Pauses autoplay while hover or focus is within the gallery. |
 | `allowFullscreen` | `boolean` | `false` | Shows the built-in fullscreen toggle. |
-| `dismissibleBackdrop` | `boolean` | `true` | Allows the fullscreen backdrop to close the gallery. |
+| `closeOnBackdropClick` | `boolean` | `true` | Allows the fullscreen backdrop to close the gallery. |
 | `backdropBlur` | `boolean` | `true` | Applies the default frosted-glass blur in fullscreen mode. |
 | `backdropBlurAmount` | `string` | `''` | Overrides the fullscreen backdrop blur radius with a CSS length. |
 | `closeOnEscape` | `boolean` | `true` | Allows Escape to close fullscreen presentation. |
@@ -306,8 +306,6 @@ export class GalleriaPositionsThumbnailPositionsDemo {
     }),
   );
 
-  import { signal } from '@angular/core';
-  import { type AerisGalleriaThumbnailPosition } from '@aeris-ui/core/galleria';
 
   protected readonly thumbnailPosition = signal<AerisGalleriaThumbnailPosition>('bottom');
 
@@ -325,7 +323,8 @@ export class GalleriaPositionsThumbnailPositionsDemo {
     <button
       aerisButton
       type="button"
-      [variant]="thumbnailPosition() === 'top' ? 'primary' : 'secondary'"
+      variant="solid"
+      [severity]="thumbnailPosition() === 'top' ? 'primary' : 'secondary'"
       [attr.aria-pressed]="thumbnailPosition() === 'top'"
       (click)="setThumbnailPosition('top')"
     >
@@ -334,7 +333,8 @@ export class GalleriaPositionsThumbnailPositionsDemo {
     <button
       aerisButton
       type="button"
-      [variant]="thumbnailPosition() === 'bottom' ? 'primary' : 'secondary'"
+      variant="solid"
+      [severity]="thumbnailPosition() === 'bottom' ? 'primary' : 'secondary'"
       [attr.aria-pressed]="thumbnailPosition() === 'bottom'"
       (click)="setThumbnailPosition('bottom')"
     >
@@ -343,7 +343,8 @@ export class GalleriaPositionsThumbnailPositionsDemo {
     <button
       aerisButton
       type="button"
-      [variant]="thumbnailPosition() === 'start' ? 'primary' : 'secondary'"
+      variant="solid"
+      [severity]="thumbnailPosition() === 'start' ? 'primary' : 'secondary'"
       [attr.aria-pressed]="thumbnailPosition() === 'start'"
       (click)="setThumbnailPosition('start')"
     >
@@ -352,7 +353,8 @@ export class GalleriaPositionsThumbnailPositionsDemo {
     <button
       aerisButton
       type="button"
-      [variant]="thumbnailPosition() === 'end' ? 'primary' : 'secondary'"
+      variant="solid"
+      [severity]="thumbnailPosition() === 'end' ? 'primary' : 'secondary'"
       [attr.aria-pressed]="thumbnailPosition() === 'end'"
       (click)="setThumbnailPosition('end')"
     >
@@ -425,7 +427,6 @@ export class GalleriaResponsiveResponsiveDemo {
     }),
   );
 
-  import { type AerisGalleriaResponsiveOption } from '@aeris-ui/core/galleria';
 
   protected readonly responsiveOptions: readonly AerisGalleriaResponsiveOption[] = [
     { breakpoint: '52rem', thumbnailPosition: 'bottom' },
@@ -490,11 +491,6 @@ export class GalleriaToolbarImageToolbarDemo {
     }),
   );
 
-  import { signal } from '@angular/core';
-  import {
-    type AerisGalleriaDownloadEvent,
-    type AerisGalleriaTransformState,
-  } from '@aeris-ui/core/galleria';
 
   protected readonly toolbarStatus = signal('Image transform: 0°, 100% zoom.');
 
@@ -655,9 +651,9 @@ Bind the active index, call public navigation methods, and react to detailed cha
 #### TS
 
 ```ts
-import { Component, signal } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisGalleriaModule, type AerisGalleria, type AerisGalleriaImage, type AerisGalleriaIndexChangeEvent } from '@aeris-ui/core/galleria';
+import { AerisGalleria, AerisGalleriaModule, type AerisGalleriaImage, type AerisGalleriaIndexChangeEvent } from '@aeris-ui/core/galleria';
 
 @Component({
   selector: 'app-galleria-controlled-demo',
@@ -682,11 +678,6 @@ export class GalleriaControlledControlledDemo {
     }),
   );
 
-  import { signal, viewChild } from '@angular/core';
-  import {
-    AerisGalleria,
-    type AerisGalleriaIndexChangeEvent,
-  } from '@aeris-ui/core/galleria';
 
   protected readonly controlledIndex = signal(0);
   protected readonly controlledStatus = signal('Showing Milo, item 1 of 30.');

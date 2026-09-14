@@ -11,6 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisRadioButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisRadioButtonLabelPosition = 'start' | 'end';
@@ -31,7 +32,7 @@ let nextRadioButtonId = 0;
       [attr.data-size]="size()"
       [attr.data-selected]="isSelected()"
       [attr.data-disabled]="effectiveDisabled()"
-      [attr.data-invalid]="invalid()"
+      [attr.data-invalid]="displayInvalid() || null"
     >
       <input
         #radioInput
@@ -44,9 +45,9 @@ let nextRadioButtonId = 0;
         [disabled]="effectiveDisabled()"
         [required]="required()"
         [attr.aria-label]="ariaLabel() || null"
-        [attr.aria-labelledby]="ariaLabelledby() || null"
-        [attr.aria-describedby]="ariaDescribedby() || null"
-        [attr.aria-invalid]="invalid() || null"
+        [attr.aria-labelledby]="ariaLabelledBy() || null"
+        [attr.aria-describedby]="ariaDescribedBy() || null"
+        [attr.aria-invalid]="displayInvalid() || null"
         [attr.aria-required]="required() || null"
         (change)="handleChange($event)"
         (focus)="focused.emit($event)"
@@ -88,11 +89,14 @@ export class AerisRadioButton implements ControlValueAccessor {
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly ariaLabel = input('');
-  readonly ariaLabelledby = input('');
-  readonly ariaDescribedby = input('');
+  readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
 
-  readonly selectedInput = output<string>();
   readonly changed = output<AerisRadioButtonChangeEvent>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
@@ -100,18 +104,11 @@ export class AerisRadioButton implements ControlValueAccessor {
 
   private readonly generatedId = `aeris-radio-${++nextRadioButtonId}`;
   protected readonly formDisabled = signal(false);
-  protected readonly resolvedInputId = computed(
-    () => this.inputId() || this.generatedId,
-  );
-  protected readonly effectiveDisabled = computed(
-    () => this.disabled() || this.formDisabled(),
-  );
-  protected readonly isSelected = computed(
-    () => this.selected() === this.value(),
-  );
+  protected readonly resolvedInputId = computed(() => this.inputId() || this.generatedId);
+  protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
+  protected readonly isSelected = computed(() => this.selected() === this.value());
 
-  private readonly radioInput =
-    viewChild<ElementRef<HTMLInputElement>>('radioInput');
+  private readonly radioInput = viewChild<ElementRef<HTMLInputElement>>('radioInput');
   private onChange: (value: string) => void = () => undefined;
   private onTouched: () => void = () => undefined;
 
@@ -162,7 +159,6 @@ export class AerisRadioButton implements ControlValueAccessor {
   private updateSelection(): void {
     const value = this.value();
     this.selected.set(value);
-    this.selectedInput.emit(value);
     this.onChange(value);
   }
 }

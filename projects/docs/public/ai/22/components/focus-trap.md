@@ -2,7 +2,7 @@
 
 > Contain forward and backward keyboard focus within dynamic interactive regions.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/focus-trap`
 - Human-readable documentation: [https://aeris-ui.dev/components/focus-trap](https://aeris-ui.dev/components/focus-trap)
@@ -79,12 +79,12 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       display: grid;
       gap: 0.875rem;
     }
-    
+
     .focus-trap-flow > button,
     .controlled-trap-demo > button {
       justify-self: start;
     }
-    
+
     .focus-trap-card {
       display: grid;
       gap: 0.875rem;
@@ -94,22 +94,22 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       border-radius: var(--aeris-radius-lg);
       background: var(--aeris-surface-2);
     }
-    
+
     .focus-trap-card:focus-within {
       border-color: var(--aeris-primary);
       box-shadow: 0 0 0 1px var(--aeris-primary-soft);
     }
-    
+
     .focus-trap-card label {
       display: grid;
       gap: 0.5rem;
     }
-    
+
     @media (max-width: 30rem) {
       .focus-trap-card {
           padding: 0.875rem;
         }
-      
+
       .focus-trap-flow > button,
         .controlled-trap-demo > button,
         .dynamic-trap-actions > button,
@@ -117,16 +117,16 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
           width: 100%;
         }
     }
-    
+
     .focus-trap-flow {
       display: grid;
       gap: 0.875rem;
     }
-    
+
     .focus-trap-flow > button {
       justify-self: start;
     }
-    
+
     .focus-trap-card {
       display: grid;
       gap: 0.875rem;
@@ -136,24 +136,24 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       border-radius: var(--aeris-radius-lg);
       background: var(--aeris-surface-2);
     }
-    
+
     .focus-trap-card:focus-within {
       border-color: var(--aeris-primary);
       box-shadow: 0 0 0 1px var(--aeris-primary-soft);
     }
-    
+
     .focus-trap-card label {
       display: grid;
       gap: 0.5rem;
     }
-    
+
     @media (max-width: 30rem) {
       .focus-trap-card {
         padding: 0.875rem;
       }
     }
-    
-    
+
+
     @media (max-width: 30rem) {
       .focus-trap-flow > button {
         width: 100%;
@@ -174,11 +174,12 @@ Disable the boundary when a workflow no longer needs to contain keyboard focus.
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisFocusTrapModule } from '@aeris-ui/core/focus-trap';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 
 @Component({
   selector: 'app-focus-trap-controlled-demo',
-  imports: [AerisButton, AerisInputText],
+  imports: [AerisButton, AerisFocusTrapModule, AerisInputText],
   templateUrl: './focus-trap-controlled.demo.html',
   styleUrl: './focus-trap-controlled.demo.scss'
 })
@@ -196,7 +197,13 @@ export class FocusTrapControlledControlledDemo {
 ```html
 <div>
   <div class="controlled-trap-demo">
-    <button aerisButton type="button" variant="secondary" (click)="toggleTrap()">
+    <button
+      aerisButton
+      type="button"
+      variant="solid"
+      severity="secondary"
+      (click)="toggleTrap()"
+    >
       {{ trapEnabled() ? 'Disable focus trap' : 'Enable focus trap' }}
     </button>
     <section
@@ -269,7 +276,7 @@ export class FocusTrapControlledControlledDemo {
   .focus-trap-card {
       padding: 0.875rem;
     }
-  
+
   .focus-trap-flow > button,
     .controlled-trap-demo > button,
     .dynamic-trap-actions > button,
@@ -372,7 +379,8 @@ export class FocusTrapDynamicDynamicContentDemo {
       <button
         aerisButton
         type="button"
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         (click)="toggleSecondaryField()"
       >
         {{ secondaryFieldVisible() ? 'Remove role field' : 'Add role field' }}
@@ -417,7 +425,7 @@ export class FocusTrapDynamicDynamicContentDemo {
   .focus-trap-card {
       padding: 0.875rem;
     }
-  
+
   .focus-trap-flow > button,
     .controlled-trap-demo > button,
     .dynamic-trap-actions > button,
@@ -571,7 +579,7 @@ export class FocusTrapMethodsFocusMethodsDemo {
   .focus-trap-card {
       padding: 0.875rem;
     }
-  
+
   .focus-trap-flow > button,
     .controlled-trap-demo > button,
     .dynamic-trap-actions > button,

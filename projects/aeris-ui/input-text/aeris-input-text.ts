@@ -12,6 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisInputTextSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisInputTextAppearance = 'outline' | 'filled';
@@ -28,16 +29,20 @@ export type AerisControlSize = AerisInputTextSize;
     '[class.aeris-input-text--md]': 'size() === "md"',
     '[class.aeris-input-text--lg]': 'size() === "lg"',
     '[class.aeris-input-text--filled]': 'appearance() === "filled"',
-    '[class.aeris-input-text--invalid]': 'invalid()',
+    '[class.aeris-input-text--invalid]': 'displayInvalid()',
     '[class.aeris-input-text--fluid]': 'fluid()',
-    '[attr.aria-invalid]': 'invalid() || null',
+    '[attr.aria-invalid]': 'displayInvalid() || null',
   },
 })
 export class AerisInputTextDirective {
   readonly size = input<AerisInputTextSize>('md');
   readonly appearance = input<AerisInputTextAppearance>('outline');
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
   readonly fluid = input(false, { transform: booleanAttribute });
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
 }
 
 let inputTextId = 0;
@@ -59,13 +64,14 @@ let inputTextId = 0;
         [size]="size()"
         [appearance]="appearance()"
         [invalid]="invalid()"
+        [touched]="touched()"
         [disabled]="effectiveDisabled()"
         [readOnly]="readonly()"
         [required]="required()"
         fluid
         [attr.aria-label]="ariaLabel()"
-        [attr.aria-labelledby]="ariaLabelledby()"
-        [attr.aria-describedby]="ariaDescribedby()"
+        [attr.aria-labelledby]="ariaLabelledBy()"
+        [attr.aria-describedby]="ariaDescribedBy()"
         (input)="handleInput($event)"
         (focus)="focused.emit($event)"
         (blur)="handleBlur($event)"
@@ -108,11 +114,12 @@ export class AerisInputTextComponent implements ControlValueAccessor {
   readonly placeholder = input('');
   readonly autocomplete = input('off');
   readonly ariaLabel = input<string>();
-  readonly ariaLabelledby = input<string>();
-  readonly ariaDescribedby = input<string>();
+  readonly ariaLabelledBy = input<string>();
+  readonly ariaDescribedBy = input<string>();
   readonly size = input<AerisInputTextSize>('md');
   readonly appearance = input<AerisInputTextAppearance>('outline');
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly readonly = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
@@ -120,7 +127,6 @@ export class AerisInputTextComponent implements ControlValueAccessor {
   readonly clearable = input(false, { transform: booleanAttribute });
   readonly clearButtonAriaLabel = input('Clear value');
 
-  readonly valueInput = output<string>();
   readonly focused = output<FocusEvent>();
   readonly blurred = output<FocusEvent>();
   readonly touch = output<void>();
@@ -129,10 +135,7 @@ export class AerisInputTextComponent implements ControlValueAccessor {
   protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
   protected readonly showClearButton = computed(
     () =>
-      this.clearable() &&
-      this.value().length > 0 &&
-      !this.effectiveDisabled() &&
-      !this.readonly(),
+      this.clearable() && this.value().length > 0 && !this.effectiveDisabled() && !this.readonly(),
   );
 
   writeValue(value: unknown): void {
@@ -178,12 +181,8 @@ export class AerisInputTextComponent implements ControlValueAccessor {
   private setValue(value: string): void {
     if (this.value() === value) return;
     this.value.set(value);
-    this.valueInput.emit(value);
     this.onChange(value);
   }
 }
 
-export const AerisInputText = [
-  AerisInputTextDirective,
-  AerisInputTextComponent,
-] as const;
+export const AerisInputText = [AerisInputTextDirective, AerisInputTextComponent] as const;

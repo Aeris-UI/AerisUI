@@ -31,11 +31,11 @@
             >
               <div preview class="field">
                 <span id="rating-quality-label">Quality</span>
-                <aeris-rating ariaLabelledby="rating-quality-label" [(value)]="quality" />
+                <aeris-rating ariaLabelledBy="rating-quality-label" [(value)]="quality" />
               </div>
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="rating-quality-label"&gt;Quality&lt;/span&gt;
-  &lt;aeris-rating ariaLabelledby="rating-quality-label" [(value)]="quality" /&gt;
+  &lt;aeris-rating ariaLabelledBy="rating-quality-label" [(value)]="quality" /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -48,7 +48,7 @@
               <div preview class="field">
                 <span id="rating-half-label">Detailed score</span>
                 <aeris-rating
-                  ariaLabelledby="rating-half-label"
+                  ariaLabelledBy="rating-half-label"
                   allowHalf
                   showValue
                   [(value)]="halfRating"
@@ -57,7 +57,7 @@
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="rating-half-label"&gt;Detailed score&lt;/span&gt;
   &lt;aeris-rating
-    ariaLabelledby="rating-half-label"
+    ariaLabelledBy="rating-half-label"
     allowHalf
     showValue
     [(value)]="halfRating"
@@ -153,7 +153,7 @@
                   <span id="rating-mood-label">Whole value</span>
                   <aeris-rating
                     class="mood-rating"
-                    ariaLabelledby="rating-mood-label"
+                    ariaLabelledBy="rating-mood-label"
                     [value]="3"
                     [max]="5"
                   >
@@ -176,7 +176,7 @@
                   <span id="rating-half-mood-label">Half value</span>
                   <aeris-rating
                     class="mood-rating"
-                    ariaLabelledby="rating-half-mood-label"
+                    ariaLabelledBy="rating-half-mood-label"
                     [value]="3.5"
                     [max]="5"
                     allowHalf
@@ -202,7 +202,7 @@
     &lt;span id="rating-mood-label"&gt;Whole value&lt;/span&gt;
     &lt;aeris-rating
       class="mood-rating"
-      ariaLabelledby="rating-mood-label"
+      ariaLabelledBy="rating-mood-label"
       [value]="3"
       [max]="5"
     &gt;
@@ -225,7 +225,7 @@
     &lt;span id="rating-half-mood-label"&gt;Half value&lt;/span&gt;
     &lt;aeris-rating
       class="mood-rating"
-      ariaLabelledby="rating-half-mood-label"
+      ariaLabelledBy="rating-half-mood-label"
       [value]="3.5"
       [max]="5"
       allowHalf
@@ -257,7 +257,7 @@
               <div preview class="field">
                 <span id="rating-score-label">Score</span>
                 <aeris-rating
-                  ariaLabelledby="rating-score-label"
+                  ariaLabelledBy="rating-score-label"
                   [value]="4"
                   [max]="10"
                   [valueText]="formatScore"
@@ -267,7 +267,7 @@
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="rating-score-label"&gt;Score&lt;/span&gt;
   &lt;aeris-rating
-    ariaLabelledby="rating-score-label"
+    ariaLabelledBy="rating-score-label"
     [value]="4"
     [max]="10"
     [valueText]="formatScore"
@@ -283,11 +283,11 @@
             >
               <div preview class="field">
                 <span id="rating-disabled-label">Locked score</span>
-                <aeris-rating ariaLabelledby="rating-disabled-label" [value]="3" disabled />
+                <aeris-rating ariaLabelledBy="rating-disabled-label" [value]="3" disabled />
               </div>
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;span id="rating-disabled-label"&gt;Locked score&lt;/span&gt;
-  &lt;aeris-rating ariaLabelledby="rating-disabled-label" [value]="3" disabled /&gt;
+  &lt;aeris-rating ariaLabelledBy="rating-disabled-label" [value]="3" disabled /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -325,7 +325,7 @@
                 <div class="rating-card">
                   <span id="rating-reactive-label">Reactive Forms</span>
                   <aeris-rating
-                    ariaLabelledby="rating-reactive-label"
+                    ariaLabelledBy="rating-reactive-label"
                     [formControl]="reactiveValue"
                   />
                   <small>Value: {{ reactiveValue.value }}</small>
@@ -333,7 +333,7 @@
                 <div class="rating-card">
                   <span id="rating-template-label">Template-driven forms</span>
                   <aeris-rating
-                    ariaLabelledby="rating-template-label"
+                    ariaLabelledBy="rating-template-label"
                     name="templateRating"
                     allowHalf
                     [(ngModel)]="templateValue"
@@ -345,7 +345,7 @@
   &lt;div class="rating-card"&gt;
     &lt;span id="rating-reactive-label"&gt;Reactive Forms&lt;/span&gt;
     &lt;aeris-rating
-      ariaLabelledby="rating-reactive-label"
+      ariaLabelledBy="rating-reactive-label"
       [formControl]="reactiveValue"
     /&gt;
     &lt;small&gt;Value: &#123;&#123; reactiveValue.value &#125;&#125;&lt;/small&gt;
@@ -353,7 +353,7 @@
   &lt;div class="rating-card"&gt;
     &lt;span id="rating-template-label"&gt;Template-driven forms&lt;/span&gt;
     &lt;aeris-rating
-      ariaLabelledby="rating-template-label"
+      ariaLabelledBy="rating-template-label"
       name="templateRating"
       allowHalf
       [(ngModel)]="templateValue"
@@ -488,14 +488,14 @@
             <code>aria-valuemax</code>, <code>aria-valuenow</code>, and <code>aria-valuetext</code>.
           </li>
           <li>
-            Provide a visible label with <code>ariaLabelledby</code> or a concise
+            Provide a visible label with <code>ariaLabelledBy</code> or a concise
             <code>ariaLabel</code>.
           </li>
           <li>
             Use <code>valueText</code> when the default value text is not descriptive enough for the
             product context.
           </li>
-          <li>Use <code>ariaDescribedby</code> for help text and validation messages.</li>
+          <li>Use <code>ariaDescribedBy</code> for help text and validation messages.</li>
           <li>Disabled ratings are removed from pointer, keyboard, and form interaction.</li>
         </ul>
         <h3>Keyboard support</h3>

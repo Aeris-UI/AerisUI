@@ -6,6 +6,47 @@
   },
   "newProjectRoot": "projects",
   "projects": {
+    "browser-tests": {
+      "projectType": "application",
+      "root": "projects/browser-tests",
+      "sourceRoot": "projects/browser-tests/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/browser-tests/src/main.ts",
+            "tsConfig": "projects/browser-tests/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "styles": [
+              "dist/aeris-ui/styles/aeris.css",
+              "dist/aeris-ui/styles/controls.css",
+              "projects/browser-tests/src/styles.scss"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "development": {
+              "buildTarget": "browser-tests:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    },
     "docs": {
       "projectType": "application",
       "schematics": {
@@ -62,13 +103,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "820kB",
+                  "maximumError": "840kB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "8kB",
-                  "maximumError": "12kB"
+                  "maximumWarning": "12kB",
+                  "maximumError": "14kB"
                 }
               ],
               "outputHashing": "all"

@@ -2,7 +2,7 @@
 
 > Reveal differences between images or custom content with controlled, touch, hover, vertical, and keyboard interaction.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/compare`
 - Human-readable documentation: [https://aeris-ui.dev/components/compare](https://aeris-ui.dev/components/compare)
@@ -48,9 +48,9 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
 | `loading` | `'eager' &#124; 'lazy'` | `'lazy'` | Loading behavior for built-in images. |
 | `name` | `string` | `''` | Native range name for form submission. |
 | `inputId` | `string` | `Generated` | ID assigned to the native range input. |
-| `ariaLabel` | `string` | `'Comparison position'` | Accessible name when ariaLabelledby is not used. |
-| `ariaLabelledby` | `string` | `''` | IDs of elements that label the range. |
-| `ariaDescribedby` | `string` | `''` | IDs of elements that describe the range. |
+| `ariaLabel` | `string` | `'Comparison position'` | Accessible name when ariaLabelledBy is not used. |
+| `ariaLabelledBy` | `string` | `''` | IDs of elements that label the range. |
+| `ariaDescribedBy` | `string` | `''` | IDs of elements that describe the range. |
 | `valueText` | `((value: number) =&gt; string) &#124; null` | `null` | Formats the announced aria-valuetext. |
 
 ### Models
@@ -63,7 +63,7 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `valueInput` | `AerisCompareInputEvent` | `—` | Emits during drag, hover, or keyboard updates. |
+| `valueChange` | `number` | `—` | Emitted by the value model during drag, hover, keyboard, and API updates. |
 | `changed` | `AerisCompareInputEvent` | `—` | Emits when a native change commits, a keyboard command runs, or setValue emits. |
 | `focused` | `FocusEvent` | `—` | Emits when the native range receives focus. |
 | `blurred` | `FocusEvent` | `—` | Emits when the native range loses focus. |
@@ -176,27 +176,6 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
   `,
 })
 export class BasicCompareDemo {}
-
-@Component({
-  selector: 'app-compare-basic-demo',
-  imports: [],
-  template: `
-    <div>
-      <aeris-compare
-        beforeSrc="/car-bw.jpg"
-        afterSrc="/car.jpg"
-        beforeAlt="Car photographed in black and white"
-        afterAlt="Car photographed in color"
-        beforeLabel="Black and white"
-        afterLabel="Color"
-        showLabels
-        ariaLabel="Car color comparison"
-      />
-    </div>
-  `
-})
-export class CompareBasicBasicDemo {
-}
 ```
 
 ### Controlled
@@ -208,7 +187,11 @@ Bind the position, react to committed changes, and move the divider through the 
 ```ts
 import { Component, signal, viewChild } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisCompare, AerisCompareModule, type AerisCompareInputEvent } from '@aeris-ui/core/compare';
+import {
+  AerisCompare,
+  AerisCompareModule,
+  type AerisCompareInputEvent,
+} from '@aeris-ui/core/compare';
 
 @Component({
   selector: 'app-controlled-compare-demo',
@@ -245,56 +228,6 @@ export class ControlledCompareDemo {
     this.controlledStatus.set(`Comparison position: ${event.value}%.`);
   }
 }
-
-@Component({
-  selector: 'app-compare-controlled-demo',
-  imports: [AerisButton],
-  templateUrl: './compare-controlled.demo.html',
-  styleUrl: './compare-controlled.demo.scss'
-})
-export class CompareControlledControlledDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <div class="compare-demo-controls" aria-label="Comparison presets">
-    <button aerisButton type="button" (click)="setControlledValue(25)">25%</button>
-    <button aerisButton type="button" (click)="setControlledValue(50)">50%</button>
-    <button aerisButton type="button" (click)="setControlledValue(75)">75%</button>
-  </div>
-  <aeris-compare
-    #controlledCompare
-    beforeSrc="/car-bw.jpg"
-    afterSrc="/car.jpg"
-    beforeAlt="Car photographed in black and white"
-    afterAlt="Car photographed in color"
-    [(value)]="controlledValue"
-    (changed)="recordControlledChange($event)"
-    ariaLabel="Controlled car comparison"
-  />
-  <p class="compare-demo-status" aria-live="polite">
-    {{ controlledStatus() }}
-  </p>
-</div>
-```
-
-#### CSS
-
-```css
-.compare-demo-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.625rem;
-  margin-bottom: 1rem;
-}
-
-.compare-demo-status {
-  margin: 0.75rem 0 0;
-  color: var(--aeris-text-2);
-}
 ```
 
 ### Hover
@@ -325,26 +258,6 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
 export class HoverCompareDemo {
   readonly hoverValue = signal(50);
 }
-
-@Component({
-  selector: 'app-compare-hover-demo',
-  imports: [],
-  template: `
-    <div>
-      <aeris-compare
-        beforeSrc="/car-bw.jpg"
-        afterSrc="/car.jpg"
-        beforeAlt="Car photographed in black and white"
-        afterAlt="Car photographed in color"
-        slideOnHover
-        [(value)]="hoverValue"
-        ariaLabel="Hover-controlled car comparison"
-      />
-    </div>
-  `
-})
-export class CompareHoverHoverDemo {
-}
 ```
 
 ### Vertical
@@ -374,33 +287,6 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
   `,
 })
 export class VerticalCompareDemo {}
-
-@Component({
-  selector: 'app-compare-vertical-demo',
-  imports: [],
-  template: `
-    <div>
-      <aeris-compare
-        class="compare-vertical"
-        orientation="vertical"
-        aspectRatio="4 / 5"
-        beforeSrc="/car-bw.jpg"
-        afterSrc="/car.jpg"
-        beforeAlt="Car photographed in black and white"
-        afterAlt="Car photographed in color"
-        ariaLabel="Vertical car comparison"
-      />
-    </div>
-  `,
-  styles: `
-    .compare-vertical {
-      width: min(100%, 28rem);
-      margin-inline: auto;
-    }
-  `
-})
-export class CompareVerticalVerticalDemo {
-}
 ```
 
 ### Custom handle
@@ -435,41 +321,6 @@ import { LucideDynamicIcon, LucideMoveHorizontal } from '@lucide/angular';
 export class CustomHandleCompareDemo {
   readonly moveHorizontalIcon = LucideMoveHorizontal;
 }
-
-@Component({
-  selector: 'app-compare-handle-demo',
-  imports: [LucideDynamicIcon],
-  template: `
-    <div>
-      <aeris-compare
-        class="compare-accent-handle"
-        beforeSrc="/car-bw.jpg"
-        afterSrc="/car.jpg"
-        beforeAlt="Car photographed in black and white"
-        afterAlt="Car photographed in color"
-        ariaLabel="Car comparison with custom handle"
-      >
-        <ng-template aerisCompareHandle>
-          <svg class="compare-handle-icon" [lucideIcon]="moveHorizontalIcon"></svg>
-        </ng-template>
-      </aeris-compare>
-    </div>
-  `,
-  styles: `
-    .compare-accent-handle {
-      --aeris-compare-handle-background: var(--aeris-primary);
-      --aeris-compare-handle-color: var(--aeris-primary-contrast);
-      --aeris-compare-handle-border: var(--aeris-surface);
-    }
-    
-    .compare-handle-icon {
-      width: 1.2rem;
-      height: 1.2rem;
-    }
-  `
-})
-export class CompareHandleCustomHandleDemo {
-}
 ```
 
 ### Templates
@@ -489,15 +340,6 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
   styleUrl: './template-compare-demo.css',
 })
 export class TemplateCompareDemo {}
-
-@Component({
-  selector: 'app-compare-template-demo',
-  imports: [],
-  templateUrl: './compare-template.demo.html',
-  styleUrl: './compare-template.demo.scss'
-})
-export class CompareTemplateTemplatesDemo {
-}
 ```
 
 #### HTML
@@ -608,15 +450,6 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
   styleUrl: './compare-states-demo.css',
 })
 export class CompareStatesDemo {}
-
-@Component({
-  selector: 'app-compare-states-demo',
-  imports: [],
-  templateUrl: './compare-states.demo.html',
-  styleUrl: './compare-states.demo.scss'
-})
-export class CompareStatesStatesDemo {
-}
 ```
 
 #### HTML
@@ -697,45 +530,12 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
 export class CompareFormsDemo {
   readonly formPosition = new FormControl(35, { nonNullable: true });
 }
-
-@Component({
-  selector: 'app-compare-forms-demo',
-  imports: [ReactiveFormsModule],
-  template: `
-    <div>
-      <aeris-compare
-        beforeSrc="/car-bw.jpg"
-        afterSrc="/car.jpg"
-        beforeAlt="Car photographed in black and white"
-        afterAlt="Car photographed in color"
-        [formControl]="formPosition"
-        ariaLabel="Form-controlled car comparison"
-      />
-      <p class="compare-demo-status">Form value: {{ formPosition.value }}%</p>
-    </div>
-  `,
-  styles: `
-    .compare-demo-controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.625rem;
-      margin-bottom: 1rem;
-    }
-    
-    .compare-demo-status {
-      margin: 0.75rem 0 0;
-      color: var(--aeris-text-2);
-    }
-  `
-})
-export class CompareFormsFormsDemo {
-}
 ```
 
 ## Accessibility
 
 - Compare uses a native input[type='range'] for pointer, touch, form, and assistive-technology support. The visible handle follows that control.
-- Provide ariaLabel or ariaLabelledby and meaningful alt text for informative built-in images. Use empty alt text only for decorative images.
+- Provide ariaLabel or ariaLabelledBy and meaningful alt text for informative built-in images. Use empty alt text only for decorative images.
 - aria-valuemin, aria-valuemax, and aria-valuenow come from the native range. Use valueText when a percentage does not describe the comparison clearly.
 - Hover mode is supplementary. Drag, touch, and complete keyboard interaction remain available, and touch movement never depends on hover.
 - Readonly comparisons remain focusable and expose aria-readonly while preventing changes. Disabled comparisons use the native disabled state.

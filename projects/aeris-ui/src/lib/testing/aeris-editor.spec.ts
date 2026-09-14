@@ -18,7 +18,7 @@ import {
       inputId="article-body"
       [formControl]="body"
       required
-      ariaDescribedby="article-help"
+      ariaDescribedBy="article-help"
       name="articleBody"
     />
     <small id="article-help">Use headings and short paragraphs.</small>

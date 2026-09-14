@@ -2,7 +2,7 @@
 
 > Compact status, count, and overlay indicator with severity, size, shape, and accessible semantics.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/badge`
 - Human-readable documentation: [https://aeris-ui.dev/components/badge](https://aeris-ui.dev/components/badge)
@@ -312,7 +312,13 @@ export class BadgeDynamicDynamicValueDemo {
   <div class="badge-dynamic-demo">
     <div class="badge-actions">
       <button aerisButton type="button" (click)="addUnread()">Add unread</button>
-      <button aerisButton variant="secondary" type="button" (click)="clearUnread()">
+      <button
+        aerisButton
+        variant="solid"
+        severity="secondary"
+        type="button"
+        (click)="clearUnread()"
+      >
         Clear
       </button>
     </div>
@@ -387,7 +393,9 @@ export class BadgeOverlayOverlayDemo {
       variant="soft"
       position="top-left"
     >
-      <button aerisButton variant="secondary" type="button">Preview</button>
+      <button aerisButton variant="solid" severity="secondary" type="button">
+        Preview
+      </button>
     </aeris-badge-overlay>
   </div>
 </div>

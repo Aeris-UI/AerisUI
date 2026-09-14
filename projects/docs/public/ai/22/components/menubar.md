@@ -2,7 +2,7 @@
 
 > Horizontal application menu with cascading submenus, templates, commands, links, and responsive collapse.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/menubar`
 - Human-readable documentation: [https://aeris-ui.dev/components/menubar](https://aeris-ui.dev/components/menubar)
@@ -34,15 +34,15 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 | `openPath` | `string (model)` | `''` | Controlled path key for the open submenu branch. |
 | `mobileOpen` | `boolean (model)` | `false` | Controlled responsive menu visibility. |
 | `size` | `AerisMenubarSize` | `'md'` | Adjusts item height, text, and icon sizing. Options: 'sm', 'md', 'lg'. |
-| `rootItemVariant` | `AerisMenubarItemVariant` | `'default'` | Default appearance for root items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. |
-| `submenuItemVariant` | `AerisMenubarItemVariant` | `'default'` | Default appearance for submenu items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. |
-| `rootItemSeverity` | `AerisButtonSeverity` | `'primary'` | Default root-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. |
-| `submenuItemSeverity` | `AerisButtonSeverity` | `'primary'` | Default submenu-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. |
+| `rootItemVariant` | `AerisMenubarItemVariant` | `'default'` | Default appearance for root items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. Options: 'default', 'solid', 'outline', 'ghost', 'link'. |
+| `submenuItemVariant` | `AerisMenubarItemVariant` | `'default'` | Default appearance for submenu items. Options: 'default', 'primary', 'secondary', 'outline', 'ghost', 'danger', 'link'. Options: 'default', 'solid', 'outline', 'ghost', 'link'. |
+| `rootItemSeverity` | `AerisButtonSeverity` | `'primary'` | Default root-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `submenuItemSeverity` | `AerisButtonSeverity` | `'primary'` | Default submenu-item color family for non-default appearances. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'contrast'. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
 | `disabled` | `boolean` | `false` | Prevents activation and submenu opening. |
 | `openOnHover` | `boolean` | `true` | Opens submenu branches when pointer users hover items. |
 | `closeOnMouseLeave` | `boolean` | `true` | Closes submenu branches when the pointer leaves the menubar. Set false to keep them open. |
 | `closeOnSelect` | `boolean` | `true` | Closes open menus after a leaf item is activated. |
-| `hideOnOutsideClick` | `boolean` | `true` | Closes menus when pointer interaction starts outside the component. |
+| `closeOnOutsideClick` | `boolean` | `true` | Closes menus when pointer interaction starts outside the component. |
 | `closeOnEscape` | `boolean` | `true` | Closes open menus when Escape is pressed. |
 | `collapsible` | `boolean` | `true` | Shows a responsive disclosure button at narrow widths. |
 | `ariaLabel` | `string` | `'Menubar'` | Accessible name for the menubar list. |
@@ -715,10 +715,22 @@ export class MenubarControlledControlledAndResponsiveDemo {
 ```html
 <div class="menubar-controlled">
   <div class="menubar-actions">
-    <button aerisButton type="button" variant="secondary" (click)="openWorkspace()">
+    <button
+      aerisButton
+      type="button"
+      variant="solid"
+      severity="secondary"
+      (click)="openWorkspace()"
+    >
       Open Workspace
     </button>
-    <button aerisButton type="button" variant="secondary" (click)="closeMenubar()">
+    <button
+      aerisButton
+      type="button"
+      variant="solid"
+      severity="secondary"
+      (click)="closeMenubar()"
+    >
       Close all
     </button>
   </div>

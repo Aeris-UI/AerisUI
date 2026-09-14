@@ -276,7 +276,7 @@ protected confirmSticky(event: MouseEvent): void {
     target: event,
     header: 'Pinned confirmation',
     message: 'Outside clicks are ignored; use an action or Escape.',
-    dismissible: false,
+    closeOnOutsideClick: false,
     showArrow: false,
     width: '18rem',
     acceptLabel: 'Confirm',
@@ -322,7 +322,7 @@ interface AerisConfirmPopupConfig<TData = unknown> {
   readonly defaultFocus?: AerisConfirmPopupDefaultFocus;
   readonly placement?: AerisConfirmPopupPlacement;
   readonly alignment?: AerisConfirmPopupAlignment;
-  readonly dismissible?: boolean;
+  readonly closeOnOutsideClick?: boolean;
   readonly closeOnEscape?: boolean;
   readonly focusTrap?: boolean;
   readonly restoreFocus?: boolean;
@@ -370,7 +370,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'body'",
+      defaultValue: "global config or 'body'",
       description:
         'Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target.',
     },
@@ -505,7 +505,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
       description: 'Minimum viewport edge gap in pixels.',
     },
     {
-      name: 'dismissible',
+      name: 'closeOnOutsideClick',
       type: 'boolean',
       defaultValue: 'true',
       description: 'Allows outside pointerdown to dismiss.',
@@ -583,7 +583,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
       description: 'Emitted by the visible model.',
     },
     {
-      name: 'shown',
+      name: 'opened',
       type: 'AerisConfirmPopupActionEvent',
       defaultValue: '-',
       description: 'Emitted after the popup opens.',
@@ -740,7 +740,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
       description: 'Subscribe to the final close result.',
     },
     {
-      name: 'shown',
+      name: 'opened',
       type: 'Subscribable<AerisConfirmPopupActionEvent>',
       defaultValue: '-',
       description: 'Subscribe after the popup opens.',
@@ -830,7 +830,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
       target: event,
       header: 'Pinned confirmation',
       message: 'Outside clicks are ignored; use an action or Escape.',
-      dismissible: false,
+      closeOnOutsideClick: false,
       showArrow: false,
       width: '18rem',
       acceptLabel: 'Confirm',

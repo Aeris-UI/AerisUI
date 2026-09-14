@@ -56,7 +56,7 @@ const options: readonly AerisCascadeSelectOption[] = [
       clearable
       required
       invalid
-      ariaDescribedby="location-error"
+      ariaDescribedBy="location-error"
       (changed)="lastChange.set($event)"
     />
   `,
@@ -87,6 +87,21 @@ class CascadeSelectFormsHost {
   readonly options = options;
 }
 
+@Component({
+  imports: [AerisCascadeSelect],
+  template: `<aeris-cascade-select ariaLabel="Collision-safe hierarchy" [options]="options" />`,
+})
+class CascadeSelectIdHost {
+  readonly options: readonly AerisCascadeSelectOption[] = [
+    { label: 'Uppercase', value: 'A' },
+    { label: 'Lowercase', value: 'a' },
+    { label: 'Whitespace', value: 'a b' },
+    { label: 'Punctuation', value: 'a@b' },
+    { label: 'Unicode', value: '中文' },
+    { label: 'Empty', value: '' },
+  ];
+}
+
 describe('AerisCascadeSelect', () => {
   it('exposes combobox relationships and form semantics', async () => {
     const fixture = TestBed.createComponent(CascadeSelectHost);
@@ -108,7 +123,7 @@ describe('AerisCascadeSelect', () => {
     expect(hiddenInput.value).toBe('lisbon');
   });
 
-  it('opens columns and selects a leaf option with the mouse', async () => {
+  it('opens columns and selects a leaf option with touch', async () => {
     const fixture = TestBed.createComponent(CascadeSelectHost);
     await fixture.whenStable();
 
@@ -142,7 +157,7 @@ describe('AerisCascadeSelect', () => {
     austin.click();
     fixture.detectChanges();
 
-    expect(pointerdown.defaultPrevented).toBe(true);
+    expect(pointerdown.defaultPrevented).toBe(false);
     expect(fixture.componentInstance.value()).toBe('austin');
     expect(fixture.componentInstance.lastChange()?.path.map((option) => option.value)).toEqual([
       'north-america',
@@ -222,6 +237,29 @@ describe('AerisCascadeSelect', () => {
     fixture.detectChanges();
 
     expect(trigger.getAttribute('aria-activedescendant')).toContain('europe');
+  });
+
+  it('creates unique option IDs and points to the active option for distinct values', async () => {
+    const fixture = TestBed.createComponent(CascadeSelectIdHost);
+    await fixture.whenStable();
+
+    const trigger = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    trigger.click();
+    fixture.detectChanges();
+
+    const renderedOptions = [
+      ...(fixture.nativeElement.querySelectorAll('[role="option"]') as NodeListOf<HTMLElement>),
+    ];
+    const ids = renderedOptions.map((option) => option.id);
+    expect(ids).toHaveLength(6);
+    expect(new Set(ids).size).toBe(ids.length);
+
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+    fixture.detectChanges();
+
+    const activeId = trigger.getAttribute('aria-activedescendant');
+    expect(activeId).toBeTruthy();
+    expect(fixture.nativeElement.querySelector(`[id="${activeId}"]`)).not.toBeNull();
   });
 
   it('can select branch options when enabled', async () => {

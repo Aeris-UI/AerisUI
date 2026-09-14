@@ -1,0 +1,15 @@
+html {
+  min-width: 20rem;
+  color: var(--aeris-text);
+  background: var(--aeris-page);
+  font-family: Inter, system-ui, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}

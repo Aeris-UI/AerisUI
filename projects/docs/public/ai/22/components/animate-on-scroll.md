@@ -2,7 +2,7 @@
 
 > Reveal content on viewport entry with motion-safe effects, replay controls, timing, and intersection events.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/animate-on-scroll`
 - Human-readable documentation: [https://aeris-ui.dev/components/animate-on-scroll](https://aeris-ui.dev/components/animate-on-scroll)
@@ -468,7 +468,7 @@ import { AerisAnimateOnScrollModule } from '@aeris-ui/core/animate-on-scroll';
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.875rem;
     }
-    
+
     .stagger-grid article {
       min-width: 0;
       padding: 1rem;
@@ -476,17 +476,17 @@ import { AerisAnimateOnScrollModule } from '@aeris-ui/core/animate-on-scroll';
       border-radius: var(--aeris-radius-lg);
       background: var(--aeris-surface-2);
     }
-    
+
     .stagger-grid strong,
     .stagger-grid span {
       display: block;
     }
-    
+
     .stagger-grid span {
       margin-top: 0.25rem;
       color: var(--aeris-text-2);
     }
-    
+
     @media (max-width: 36rem) {
       .stagger-grid {
         grid-template-columns: 1fr;

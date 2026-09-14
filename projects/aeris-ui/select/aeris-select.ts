@@ -18,6 +18,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   boundarySelectValue,
   filterSelectOptions,
@@ -150,7 +151,7 @@ let nextSelectId = 0;
       [attr.data-size]="size()"
       [attr.data-appearance]="appearance()"
       [attr.data-open]="open() || null"
-      [attr.data-invalid]="invalid() || null"
+      [attr.data-invalid]="displayInvalid() || null"
       [attr.data-disabled]="effectiveDisabled() || null"
       [attr.data-fluid]="fluid() || null"
       (focusout)="handleFocusOut($event)"
@@ -175,9 +176,9 @@ let nextSelectId = 0;
             [attr.aria-controls]="panelId"
             [attr.aria-activedescendant]="open() ? activeOptionId() : null"
             [attr.aria-label]="ariaLabel() || null"
-            [attr.aria-labelledby]="ariaLabelledby() || null"
-            [attr.aria-describedby]="ariaDescribedby() || null"
-            [attr.aria-invalid]="invalid() || null"
+            [attr.aria-labelledby]="ariaLabelledBy() || null"
+            [attr.aria-describedby]="ariaDescribedBy() || null"
+            [attr.aria-invalid]="displayInvalid() || null"
             [attr.aria-required]="required() || null"
             [disabled]="effectiveDisabled()"
             (click)="openPanel()"
@@ -197,9 +198,9 @@ let nextSelectId = 0;
             [attr.aria-controls]="panelId"
             [attr.aria-activedescendant]="open() ? activeOptionId() : null"
             [attr.aria-label]="ariaLabel() || null"
-            [attr.aria-labelledby]="ariaLabelledby() || null"
-            [attr.aria-describedby]="ariaDescribedby() || null"
-            [attr.aria-invalid]="invalid() || null"
+            [attr.aria-labelledby]="ariaLabelledBy() || null"
+            [attr.aria-describedby]="ariaDescribedBy() || null"
+            [attr.aria-invalid]="displayInvalid() || null"
             [attr.aria-required]="required() || null"
             [disabled]="effectiveDisabled()"
             (click)="toggle()"
@@ -239,7 +240,7 @@ let nextSelectId = 0;
         }
         <span
           class="aeris-select__actions"
-          (pointerdown)="$event.preventDefault()"
+          (pointerdown)="preservePointerFocus($event)"
           (click)="handleDropdownClick($event)"
         >
           @if (loading()) {
@@ -314,7 +315,7 @@ let nextSelectId = 0;
             [id]="listboxId"
             role="listbox"
             [attr.aria-label]="listboxAriaLabel()"
-            [attr.aria-labelledby]="listboxAriaLabel() ? null : ariaLabelledby() || null"
+            [attr.aria-labelledby]="listboxAriaLabel() ? null : ariaLabelledBy() || null"
             [attr.aria-busy]="loading() || null"
             (scroll)="handleListScroll($event)"
           >
@@ -360,6 +361,7 @@ let nextSelectId = 0;
                     <div
                       class="aeris-select__option"
                       role="option"
+                      tabindex="-1"
                       [id]="optionId(option)"
                       [attr.aria-selected]="value() === option.value"
                       [attr.aria-disabled]="option.disabled || null"
@@ -367,7 +369,7 @@ let nextSelectId = 0;
                       [class.aeris-select__option--selected]="value() === option.value"
                       [class.aeris-select__option--disabled]="option.disabled"
                       (mouseenter)="activate(option)"
-                      (pointerdown)="$event.preventDefault()"
+                      (pointerdown)="preservePointerFocus($event)"
                       (click)="select(option, $event)"
                     >
                       <span class="aeris-select__option-content">
@@ -431,14 +433,18 @@ export class AerisSelectComponent implements ControlValueAccessor {
   readonly name = input('');
   readonly placeholder = input('Select an option');
   readonly ariaLabel = input('');
-  readonly ariaLabelledby = input('');
-  readonly ariaDescribedby = input('');
+  readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly listboxAriaLabel = input('Options');
   readonly size = input<AerisSelectSize>('md');
   readonly appearance = input<AerisSelectAppearance>('outline');
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly invalid = input(false, { transform: booleanAttribute });
+  readonly touched = input<boolean | null>(null);
+  protected readonly displayInvalid = computed(() =>
+    ɵaerisDisplayInvalid(this.invalid(), this.touched()),
+  );
   readonly fluid = input(false, { transform: booleanAttribute });
   readonly minWidth = input('');
   readonly checkmark = input(true, { transform: booleanAttribute });
@@ -473,7 +479,6 @@ export class AerisSelectComponent implements ControlValueAccessor {
   readonly virtualBuffer = input(4);
   readonly lazy = input(false, { transform: booleanAttribute });
 
-  readonly valueInput = output<string | null>();
   readonly changed = output<AerisSelectChangeEvent>();
   readonly filterChanged = output<AerisSelectFilterEvent>();
   readonly lazyLoad = output<AerisSelectLazyLoadEvent>();
@@ -677,6 +682,10 @@ export class AerisSelectComponent implements ControlValueAccessor {
     this.toggle();
   }
 
+  protected preservePointerFocus(event: PointerEvent): void {
+    if (event.pointerType === 'mouse') event.preventDefault();
+  }
+
   protected handleTriggerKeydown(event: KeyboardEvent): void {
     if (this.effectiveDisabled()) {
       return;
@@ -855,7 +864,6 @@ export class AerisSelectComponent implements ControlValueAccessor {
     }
 
     this.value.set(value);
-    this.valueInput.emit(value);
     this.onChange(value);
   }
 

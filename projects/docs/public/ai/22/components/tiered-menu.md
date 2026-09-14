@@ -2,7 +2,7 @@
 
 > Vertical command menu with cascading submenu overlays, popup mode, templates, commands, links, and keyboard support.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tiered-menu`
 - Human-readable documentation: [https://aeris-ui.dev/components/tiered-menu](https://aeris-ui.dev/components/tiered-menu)
@@ -29,7 +29,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `'self' (global)` | Mounts popup menus locally by default and automatically moves them to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection; inline menus remain local. |
+| `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts popup menus locally by default and automatically moves them to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection; inline menus remain local. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `id` | `string` | `generated id` | Panel ID used for menu and submenu relationships. |
 | `model` | `readonly AerisTieredMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |
@@ -40,7 +40,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | `width` | `string` | `''` | Sets --aeris-tiered-menu-width on the panel. |
 | `maxWidth` | `string` | `''` | Sets --aeris-tiered-menu-max-width on the panel. |
 | `viewportMargin` | `number` | `8` | Minimum popup distance from viewport edges. |
-| `hideOnOutsideClick` | `boolean` | `true` | Closes open popup menus or visible submenus on outside pointer interaction. |
+| `closeOnOutsideClick` | `boolean` | `true` | Closes open popup menus or visible submenus on outside pointer interaction. |
 | `closeOnMouseLeave` | `boolean` | `true` | Closes hover-opened submenu branches when the pointer leaves the menu panel. Set false to keep them open. |
 | `closeOnEscape` | `boolean` | `true` | Closes open popup menus or visible submenus when Escape is pressed. |
 | `closeOnSelect` | `boolean` | `true` | Closes open overlays after an enabled leaf item is activated. |
@@ -56,9 +56,8 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `openChange` | `boolean` | `-` | Emitted automatically by the open model. |
-| `shown` | `AerisTieredMenuVisibilityEvent` | `-` | Emitted after popup opening is requested. |
-| `hidden` | `AerisTieredMenuVisibilityEvent` | `-` | Emitted after popup close. |
-| `visibilityChanged` | `AerisTieredMenuVisibilityEvent` | `-` | Emitted for both popup show and hide transitions. |
+| `opened` | `AerisTieredMenuVisibilityEvent` | `-` | Emitted after popup opening is requested. |
+| `closed` | `AerisTieredMenuVisibilityEvent` | `-` | Emitted after popup close. |
 | `itemSelected` | `AerisTieredMenuItemEvent&lt;T&gt;` | `-` | Emitted when an enabled leaf item is activated. |
 
 ### Templates

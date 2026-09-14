@@ -197,7 +197,7 @@ interface AerisPopoverTemplateContext {
     {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
-      defaultValue: "'body'",
+      defaultValue: "global config or 'body'",
       description:
         'Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target.',
     },
@@ -237,7 +237,7 @@ interface AerisPopoverTemplateContext {
         'Minimum visual viewport gap. Per-edge values reserve fixed interface regions; preferred placements flip when they do not fit.',
     },
     {
-      name: 'dismissible',
+      name: 'closeOnOutsideClick',
       type: 'boolean',
       defaultValue: 'true',
       description: 'Allows outside pointerdown to close.',
@@ -327,22 +327,16 @@ interface AerisPopoverTemplateContext {
       description: 'Emitted by the visible model.',
     },
     {
-      name: 'shown',
+      name: 'opened',
       type: 'AerisPopoverVisibilityChangeEvent',
       defaultValue: '-',
       description: 'Emitted after the popover opens.',
     },
     {
-      name: 'hidden',
+      name: 'closed',
       type: 'AerisPopoverVisibilityChangeEvent',
       defaultValue: '-',
       description: 'Emitted after the popover closes.',
-    },
-    {
-      name: 'visibilityChanged',
-      type: 'AerisPopoverVisibilityChangeEvent',
-      defaultValue: '-',
-      description: 'Emitted after either open or close.',
     },
   ];
 

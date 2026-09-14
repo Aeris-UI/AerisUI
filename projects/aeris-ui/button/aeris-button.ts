@@ -1,30 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  TemplateRef,
-  booleanAttribute,
-  computed,
-  input,
-  output,
-} from '@angular/core';
+import { Component, TemplateRef, booleanAttribute, computed, input, output } from '@angular/core';
+import type { AerisSeverity } from '@aeris-ui/core';
 
-export type AerisButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'outline'
-  | 'ghost'
-  | 'danger'
-  | 'link';
+export type AerisButtonVariant = 'solid' | 'outline' | 'ghost' | 'link';
 
 export type AerisButtonSize = 'xs' | 'sm' | 'md' | 'lg';
-export type AerisButtonSeverity =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'danger'
-  | 'contrast';
+export type AerisButtonSeverity = AerisSeverity;
 export type AerisButtonIconPosition = 'left' | 'right' | 'top' | 'bottom';
 
 export interface AerisButtonIconTemplateContext {
@@ -50,34 +31,34 @@ export interface AerisButtonContentTemplateContext {
     '[class]':
       '"aeris-button aeris-button--" + effectiveVariant() + " aeris-button--" + size() + " aeris-button--severity-" + severity() + " aeris-button--icon-" + iconPosition()',
     '[attr.aria-busy]': 'loading() || null',
+    '[attr.disabled]': 'effectiveDisabled() ? "" : null',
     '[attr.data-icon-only]': 'iconOnly() || null',
     '[attr.data-raised]': 'raised() || null',
     '[attr.data-rounded]': 'rounded() || null',
     '[attr.data-fluid]': 'fluid() || null',
-    '[attr.data-plain]': 'plain() || null',
+    '[attr.aria-disabled]': 'effectiveDisabled() ? "true" : null',
+    '(click)': 'preventLoadingActivation($event)',
   },
 })
 export class AerisButtonDirective {
-  readonly variant = input<AerisButtonVariant>('primary');
-  readonly text = input(false, { transform: booleanAttribute });
-  readonly outlined = input(false, { transform: booleanAttribute });
-  readonly link = input(false, { transform: booleanAttribute });
-  readonly plain = input(false, { transform: booleanAttribute });
+  readonly variant = input<AerisButtonVariant>('solid');
   readonly size = input<AerisButtonSize>('md');
   readonly severity = input<AerisButtonSeverity>('primary');
   readonly iconPosition = input<AerisButtonIconPosition>('left');
   readonly loading = input(false, { transform: booleanAttribute });
+  readonly disabled = input(false, { transform: booleanAttribute });
   readonly showSpinner = input(true, { transform: booleanAttribute });
   readonly iconOnly = input(false, { transform: booleanAttribute });
   readonly raised = input(false, { transform: booleanAttribute });
   readonly rounded = input(false, { transform: booleanAttribute });
   readonly fluid = input(false, { transform: booleanAttribute });
-  protected readonly effectiveVariant = computed<AerisButtonVariant>(() => {
-    if (this.link()) return 'link';
-    if (this.text()) return 'ghost';
-    if (this.outlined()) return 'outline';
-    return this.variant();
-  });
+  protected readonly effectiveVariant = this.variant;
+  protected readonly effectiveDisabled = computed(() => this.disabled() || this.loading());
+  protected preventLoadingActivation(event: Event): void {
+    if (!this.effectiveDisabled()) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
 }
 
 @Component({
@@ -88,20 +69,16 @@ export class AerisButtonDirective {
       aerisButton
       [type]="type()"
       [variant]="variant()"
-      [text]="text()"
-      [outlined]="outlined()"
-      [link]="link()"
-      [plain]="plain()"
       [severity]="severity()"
       [size]="size()"
       [loading]="loading()"
-      [showSpinner]="!loadingIconTemplate()"
+      [showSpinner]="showSpinner() && !loadingIconTemplate()"
       [iconOnly]="iconOnly()"
       [raised]="raised()"
       [rounded]="rounded()"
       [fluid]="fluid()"
       [iconPosition]="iconPosition()"
-      [disabled]="effectiveDisabled()"
+      [disabled]="disabled()"
       [attr.aria-label]="ariaLabel()"
       [attr.tabindex]="tabIndex()"
       [autofocus]="autofocus()"
@@ -136,10 +113,9 @@ export class AerisButtonDirective {
           }
         }
         @if (badge()) {
-          <span
-            class="aeris-button-component__badge"
-            [attr.data-severity]="badgeSeverity()"
-          >{{ badge() }}</span>
+          <span class="aeris-button-component__badge" [attr.data-severity]="badgeSeverity()">{{
+            badge()
+          }}</span>
         }
       }
     </button>
@@ -158,15 +134,12 @@ export class AerisButtonComponent {
   readonly tabIndex = input<number>();
   readonly autofocus = input(false, { transform: booleanAttribute });
   readonly disabled = input(false, { transform: booleanAttribute });
-  readonly variant = input<AerisButtonVariant>('primary');
-  readonly text = input(false, { transform: booleanAttribute });
-  readonly outlined = input(false, { transform: booleanAttribute });
-  readonly link = input(false, { transform: booleanAttribute });
-  readonly plain = input(false, { transform: booleanAttribute });
+  readonly variant = input<AerisButtonVariant>('solid');
   readonly severity = input<AerisButtonSeverity>('primary');
   readonly size = input<AerisButtonSize>('md');
   readonly iconPosition = input<AerisButtonIconPosition>('left');
   readonly loading = input(false, { transform: booleanAttribute });
+  readonly showSpinner = input(true, { transform: booleanAttribute });
   readonly iconOnly = input(false, { transform: booleanAttribute });
   readonly raised = input(false, { transform: booleanAttribute });
   readonly rounded = input(false, { transform: booleanAttribute });
@@ -174,12 +147,8 @@ export class AerisButtonComponent {
   readonly contentTemplate = input<TemplateRef<AerisButtonContentTemplateContext>>();
   readonly iconTemplate = input<TemplateRef<AerisButtonIconTemplateContext>>();
   readonly loadingIconTemplate = input<TemplateRef<AerisButtonIconTemplateContext>>();
-  protected readonly effectiveDisabled = computed(
-    () => this.disabled() || this.loading(),
-  );
-  protected readonly iconAfterLabel = computed(
-    () => this.iconPosition() === 'right',
-  );
+  protected readonly effectiveDisabled = computed(() => this.disabled() || this.loading());
+  protected readonly iconAfterLabel = computed(() => this.iconPosition() === 'right');
   protected readonly activeIconTemplate = computed(() =>
     this.loading() ? this.loadingIconTemplate() : this.iconTemplate(),
   );
@@ -189,7 +158,4 @@ export class AerisButtonComponent {
   readonly blurred = output<FocusEvent>();
 }
 
-export const AerisButton = [
-  AerisButtonDirective,
-  AerisButtonComponent,
-] as const;
+export const AerisButton = [AerisButtonDirective, AerisButtonComponent] as const;

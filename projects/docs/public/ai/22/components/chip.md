@@ -2,7 +2,7 @@
 
 > Represent compact entities with labels, images, consumer icons, custom content, and accessible removal.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/chip`
 - Human-readable documentation: [https://aeris-ui.dev/components/chip](https://aeris-ui.dev/components/chip)
@@ -268,34 +268,8 @@ import { AerisChipModule, type AerisChipRemoveEvent } from '@aeris-ui/core/chip'
 @Component({
   selector: 'app-chip-removable-demo',
   imports: [AerisButton, AerisChipModule],
-  template: `
-    <div>
-      <div class="chip-removable-demo">
-        <aeris-chip
-          label="Photography"
-          removable
-          [(visible)]="removableVisible"
-          (removed)="recordRemoval($event)"
-        />
-        <button aerisButton variant="secondary" type="button" (click)="restoreChip()">
-          Restore chip
-        </button>
-        <p aria-live="polite">{{ removalStatus() }}</p>
-      </div>
-    </div>
-  `,
-  styles: `
-    .chip-removable-demo {
-      display: grid;
-      justify-items: start;
-      gap: 0.875rem;
-    }
-    
-    .chip-removable-demo p {
-      margin: 0;
-      color: var(--aeris-text-2);
-    }
-  `
+  templateUrl: './chip-removable.demo.html',
+  styleUrl: './chip-removable.demo.scss'
 })
 export class ChipRemovableRemovableDemo {
   protected readonly removableVisible = signal(true);
@@ -309,6 +283,46 @@ export class ChipRemovableRemovableDemo {
     this.removableVisible.set(true);
     this.removalStatus.set('Photography is selected.');
   }
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <div class="chip-removable-demo">
+    <aeris-chip
+      label="Photography"
+      removable
+      [(visible)]="removableVisible"
+      (removed)="recordRemoval($event)"
+    />
+    <button
+      aerisButton
+      variant="solid"
+      severity="secondary"
+      type="button"
+      (click)="restoreChip()"
+    >
+      Restore chip
+    </button>
+    <p aria-live="polite">{{ removalStatus() }}</p>
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+.chip-removable-demo {
+  display: grid;
+  justify-items: start;
+  gap: 0.875rem;
+}
+
+.chip-removable-demo p {
+  margin: 0;
+  color: var(--aeris-text-2);
 }
 ```
 

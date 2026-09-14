@@ -2,7 +2,7 @@
 
 > Switch between a compact display and lazily rendered content with controlled state and accessible focus management.
 
-Aeris 22.0.0-alpha.6 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.7 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/inplace`
 - Human-readable documentation: [https://aeris-ui.dev/components/inplace](https://aeris-ui.dev/components/inplace)
@@ -228,7 +228,8 @@ export class InplaceControlledControlledDemo {
       </button>
       <button
         aerisButton
-        variant="secondary"
+        variant="solid"
+        severity="secondary"
         type="button"
         (click)="deactivateControlled()"
       >
@@ -342,7 +343,8 @@ export class InplaceInputInlineEditingDemo {
           <button aerisButton type="button" (click)="saveName(close)">Save</button>
           <button
             aerisButton
-            variant="secondary"
+            variant="solid"
+            severity="secondary"
             type="button"
             (click)="cancelName(close)"
           >
@@ -580,7 +582,7 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
       margin: 0;
       color: var(--aeris-text-2);
     }
-    
+
     .custom-inplace {
       --aeris-inplace-radius: 1rem;
       --aeris-inplace-display-hover: color-mix(
