@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import ts from 'typescript';
 
 export async function readPageExampleContext(path) {
-  const source = await readFile(path, 'utf8');
+  const source = (await readFile(path, 'utf8')).replace(/\r\n/g, '\n');
   const file = ts.createSourceFile(path, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
   const pageClass = file.statements.find(
     (statement) => ts.isClassDeclaration(statement) && statement.name?.text.endsWith('Page'),

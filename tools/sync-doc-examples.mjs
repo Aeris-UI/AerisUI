@@ -149,13 +149,13 @@ for (const path of files) {
 
 const generatedStyleSource = renderGeneratedStyles(generatedStyles);
 const currentGeneratedStyles = await readFile(GENERATED_STYLES, 'utf8').catch(() => '');
-const generatedStylesDiffer = currentGeneratedStyles !== generatedStyleSource;
+const generatedStylesDiffer = currentGeneratedStyles.replace(/\r\n/g, '\n') !== generatedStyleSource;
 if (write && generatedStylesDiffer) {
   await writeFile(GENERATED_STYLES, generatedStyleSource, 'utf8');
 }
 const generatedCodeSource = renderGeneratedCode(generatedCode);
 const currentGeneratedCode = await readFile(GENERATED_CODE, 'utf8').catch(() => '');
-const generatedCodeDiffer = currentGeneratedCode !== generatedCodeSource;
+const generatedCodeDiffer = currentGeneratedCode.replace(/\r\n/g, '\n') !== generatedCodeSource;
 if (write && generatedCodeDiffer) {
   await writeFile(GENERATED_CODE, generatedCodeSource, 'utf8');
 }
@@ -325,7 +325,7 @@ async function compilePageStyles(htmlPath) {
 
 async function readCssProperties(htmlPath) {
   const path = htmlPath.replace(/\.html$/, '.ts');
-  const source = await readFile(path, 'utf8').catch(() => '');
+  const source = (await readFile(path, 'utf8').catch(() => '')).replace(/\r\n/g, '\n');
   const file = ts.createSourceFile(path, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
   const declarations = new Map();
   const visitNode = (node) => {
