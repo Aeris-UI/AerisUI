@@ -351,7 +351,7 @@ export class ChipContentCustomContentDemo {
       </span>
     </span>
     <ng-template aerisChipRemoveIcon>
-      <svg [lucideIcon]="icons.XCircle" width="14" height="14"></svg>
+      <svg [lucideIcon]="icons.XCircle" [size]="14"></svg>
     </ng-template>
   </aeris-chip>
 </div>
