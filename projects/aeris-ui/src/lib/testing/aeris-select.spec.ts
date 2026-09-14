@@ -326,6 +326,28 @@ describe('AerisSelect', () => {
     expect(touchPointerdown.defaultPrevented).toBe(false);
   });
 
+  it('keeps touch-focused options open until selection completes', async () => {
+    const fixture = TestBed.createComponent(SelectTestHost);
+    await fixture.whenStable();
+    const trigger = fixture.nativeElement.querySelector('#role') as HTMLButtonElement;
+    trigger.click();
+    fixture.detectChanges();
+    const option = Array.from(
+      fixture.nativeElement.querySelectorAll('[role="option"]') as NodeListOf<HTMLElement>,
+    ).find((element) => element.textContent?.includes('Software engineer'));
+    expect(option).toBeDefined();
+    if (!option) return;
+
+    expect(option.tabIndex).toBe(-1);
+    trigger.dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: option }));
+    fixture.detectChanges();
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    option.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.role()).toBe('engineer');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+  });
+
   it('supports reverse navigation, boundaries, and Tab dismissal', async () => {
     const fixture = TestBed.createComponent(SelectTestHost);
     await fixture.whenStable();

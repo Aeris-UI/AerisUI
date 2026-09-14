@@ -361,6 +361,7 @@ let nextSelectId = 0;
                     <div
                       class="aeris-select__option"
                       role="option"
+                      tabindex="-1"
                       [id]="optionId(option)"
                       [attr.aria-selected]="value() === option.value"
                       [attr.aria-disabled]="option.disabled || null"

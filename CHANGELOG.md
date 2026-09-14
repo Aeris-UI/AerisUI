@@ -44,6 +44,9 @@ No consumer-visible changes have been recorded since 22.0.0-alpha.7.
   punctuation, whitespace, Unicode, filtering, rerendering, and server rendering.
 - Keep every visible notification in a Toast stack the same width while preserving compact,
   content-sized presentation for individual toasts.
+- Keep pointer-swipe regression coverage inside the browser viewport across engines.
+- Keep Select options focusable during touch interaction so Mobile WebKit can complete selection
+  before blur handling closes the panel.
 
 ### Migration from alpha.6
 

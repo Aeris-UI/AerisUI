@@ -27,13 +27,19 @@ test('toast supports pointer swipe dismissal', async ({ page }) => {
   await page.getByRole('button', { name: 'Show toast' }).click();
   const item = page.locator('.aeris-toast__item');
   await expect(item).toHaveCount(1);
+  await item.hover();
   const box = await item.boundingBox();
   expect(box).not.toBeNull();
   if (!box) return;
 
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
   await page.mouse.down();
-  await page.mouse.move(box.x + box.width + 80, box.y + box.height / 2, { steps: 4 });
+  const viewportWidth = await page.evaluate(() => window.innerWidth);
+  await page.mouse.move(
+    Math.min(box.x + box.width + 80, viewportWidth - 1),
+    box.y + box.height / 2,
+    { steps: 4 },
+  );
   await page.mouse.up();
   await expect(item).toHaveCount(0);
 });
