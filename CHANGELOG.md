@@ -9,6 +9,10 @@ release line.
 
 ### Added
 
+- Add deterministic cross-browser, mobile-emulation, accessibility, visual-consistency, and
+  component-page browser regression coverage with documented physical-device checks.
+- Add strict isolated compilation for every generated documentation example and run all existing
+  library, documentation, and MCP test suites in CI.
 - Add reproducible production-consumer bundle checks for core controls, forms, data overlays, Chart,
   and Editor, including optional-dependency isolation and documentation payload budgets.
 - Add nullable `touched` inputs to validation-aware controls so Angular Signal Forms can defer
@@ -17,6 +21,8 @@ release line.
 
 ### Changed
 
+- Generate displayed examples from verified documentation sources and include the imports,
+  providers, component state, handlers, and styling required by a clean consumer application.
 - Separate Button and SplitButton presentation (`solid`, `outline`, `ghost`, `link`) from semantic
   color, remove redundant appearance aliases, and make loading suppress native activation whether
   or not the built-in spinner is shown.
@@ -27,6 +33,11 @@ release line.
   `closeOnBackdropClick` or `closeOnOutsideClick`, and honor global `appendTo` configuration before
   family defaults. Anchored panels default to local mounting while viewport overlays default to
   `body`.
+
+### Fixed
+
+- Generate stable, collision-safe option IDs for AutoComplete and CascadeSelect across case,
+  punctuation, whitespace, Unicode, filtering, rerendering, and server rendering.
 
 ### Migration from alpha.6
 
