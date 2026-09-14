@@ -36574,7 +36574,7 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <aeris-chip\n    ariaLabel=\"Enterprise plan\"\n    removable\n    removeAriaLabel=\"Remove Enterprise plan\"\n  >\n    <span class=\"chip-plan\">\n      <span>\n        <strong>Enterprise</strong>\n        <small>Unlimited projects</small>\n      </span>\n    </span>\n    <ng-template aerisChipRemoveIcon>\n      <svg [lucideIcon]=\"icons.XCircle\" width=\"14\" height=\"14\"></svg>\n    </ng-template>\n  </aeris-chip>\n</div>"
+              "code": "<div>\n  <aeris-chip\n    ariaLabel=\"Enterprise plan\"\n    removable\n    removeAriaLabel=\"Remove Enterprise plan\"\n  >\n    <span class=\"chip-plan\">\n      <span>\n        <strong>Enterprise</strong>\n        <small>Unlimited projects</small>\n      </span>\n    </span>\n    <ng-template aerisChipRemoveIcon>\n      <svg [lucideIcon]=\"icons.XCircle\" [size]=\"14\"></svg>\n    </ng-template>\n  </aeris-chip>\n</div>"
             },
             {
               "language": "CSS",
