@@ -135,8 +135,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         fluid
       />
       <small class="mask-result" aria-live="polite"
-        >Value: {{ phone() || 'Empty' }}</small
-      >
+        >Value: {{ phone() || 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -257,8 +256,8 @@ export class MaskPlaceholderPlaceholderAndSlotsDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <label for="mask-placeholder-custom">Postal code</label
-    ><aeris-input-mask
+    <label for="mask-placeholder-custom">Postal code</label>
+    <aeris-input-mask
       inputId="mask-placeholder-custom"
       mask="99999"
       placeholder="Enter postal code"
@@ -266,8 +265,8 @@ export class MaskPlaceholderPlaceholderAndSlotsDemo {
     />
   </div>
   <div class="field">
-    <label for="mask-placeholder-slots">Account code</label
-    ><aeris-input-mask
+    <label for="mask-placeholder-slots">Account code</label>
+    <aeris-input-mask
       inputId="mask-placeholder-slots"
       mask="aa-9999"
       showMask
@@ -346,8 +345,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         fluid
       />
       <small class="mask-result" aria-live="polite"
-        >Raw value: {{ rawPhone() || 'Empty' }}</small
-      >
+        >Raw value: {{ rawPhone() || 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -411,8 +409,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         fluid
       />
       <small class="mask-result" aria-live="polite"
-        >Completed: {{ completedValue() }}</small
-      >
+        >Completed: {{ completedValue() }}</small>
     </div>
   `,
   styles: `
@@ -482,8 +479,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         fluid
       />
       <small id="mask-auto-clear-help"
-        >Enter all six digits before leaving the field.</small
-      >
+        >Enter all six digits before leaving the field.</small>
     </div>
   `,
   styles: `
@@ -542,8 +538,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         fluid
       />
       <small class="mask-result" aria-live="polite"
-        >Value: {{ serial() || 'Empty' }}</small
-      >
+        >Value: {{ serial() || 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -609,28 +604,28 @@ export class MaskSizesSizesDemo {
 ```html
 <div class="field-row">
   <label class="size-sample"
-    ><span>Extra small</span
-    ><aeris-input-mask
+    ><span>Extra small</span>
+    <aeris-input-mask
       ariaLabel="Extra small code"
       mask="999-999"
       size="xs"
       [value]="'123456'"
   /></label>
   <label class="size-sample"
-    ><span>Small</span
-    ><aeris-input-mask
+    ><span>Small</span>
+    <aeris-input-mask
       ariaLabel="Small code"
       mask="999-999"
       size="sm"
       [value]="'123456'"
   /></label>
   <label class="size-sample"
-    ><span>Medium</span
-    ><aeris-input-mask ariaLabel="Medium code" mask="999-999" [value]="'123456'"
+    ><span>Medium</span>
+    <aeris-input-mask ariaLabel="Medium code" mask="999-999" [value]="'123456'"
   /></label>
   <label class="size-sample"
-    ><span>Large</span
-    ><aeris-input-mask
+    ><span>Large</span>
+    <aeris-input-mask
       ariaLabel="Large code"
       mask="999-999"
       size="lg"
@@ -697,8 +692,8 @@ export class MaskStatesAppearancesAndStatesDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <label for="mask-filled">Filled</label
-    ><aeris-input-mask
+    <label for="mask-filled">Filled</label>
+    <aeris-input-mask
       inputId="mask-filled"
       mask="999-999"
       appearance="filled"
@@ -707,8 +702,8 @@ export class MaskStatesAppearancesAndStatesDemo {
     />
   </div>
   <div class="field">
-    <label for="mask-invalid">Invalid</label
-    ><aeris-input-mask
+    <label for="mask-invalid">Invalid</label>
+    <aeris-input-mask
       inputId="mask-invalid"
       mask="999-999"
       [value]="'123'"
@@ -718,8 +713,8 @@ export class MaskStatesAppearancesAndStatesDemo {
     /><small id="mask-error" class="error">Enter the complete code.</small>
   </div>
   <div class="field">
-    <label for="mask-readonly">Read-only</label
-    ><aeris-input-mask
+    <label for="mask-readonly">Read-only</label>
+    <aeris-input-mask
       inputId="mask-readonly"
       mask="aa-999"
       [value]="'AB123'"
@@ -728,8 +723,8 @@ export class MaskStatesAppearancesAndStatesDemo {
     />
   </div>
   <div class="field">
-    <label for="mask-disabled">Disabled</label
-    ><aeris-input-mask
+    <label for="mask-disabled">Disabled</label>
+    <aeris-input-mask
       inputId="mask-disabled"
       mask="aa-999"
       [value]="'AB123'"

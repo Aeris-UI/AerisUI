@@ -517,16 +517,16 @@ export class StyleClassMethodsMethodsAndEventsDemo {
         (shown)="recordMethodShown($event)"
         (hidden)="recordMethodHidden($event)"
       >
-        Toggle notice</button
-      ><button
+        Toggle notice</button>
+        <button
         aerisButton
         type="button"
         variant="solid"
         severity="secondary"
         (click)="methodController.show()"
       >
-        Show</button
-      ><button
+        Show</button>
+        <button
         aerisButton
         type="button"
         variant="solid"

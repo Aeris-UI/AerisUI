@@ -109,8 +109,8 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;div class="field"&gt;
-    &lt;span&gt;With mark&lt;/span
-    &gt;&lt;aeris-select
+    &lt;span&gt;With mark&lt;/span&gt;
+    &lt;aeris-select
       ariaLabel="Role with selection mark"
       [options]="roles"
       value="engineer"
@@ -118,8 +118,8 @@
     /&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;span&gt;Without mark&lt;/span
-    &gt;&lt;aeris-select
+    &lt;span&gt;Without mark&lt;/span&gt;
+    &lt;aeris-select
       ariaLabel="Role without selection mark"
       [options]="roles"
       value="engineer"
@@ -346,11 +346,9 @@
   &lt;aeris-select inputId="panel-content" [options]="countries" filter fluid&gt;
     &lt;ng-template aerisSelectHeader&gt;&lt;strong&gt;Available regions&lt;/strong&gt;&lt;/ng-template&gt;
     &lt;ng-template aerisSelectGroup let-group
-      &gt;&lt;span&gt;&#123;&#123; group &#125;&#125;&lt;/span&gt;&lt;/ng-template
-    &gt;
+      &gt;&lt;span&gt;&#123;&#123; group &#125;&#125;&lt;/span&gt;&lt;/ng-template&gt;
     &lt;ng-template aerisSelectFooter
-      &gt;&lt;small&gt;Use search to narrow the list.&lt;/small&gt;&lt;/ng-template
-    &gt;
+      &gt;&lt;small&gt;Use search to narrow the list.&lt;/small&gt;&lt;/ng-template&gt;
     &lt;ng-template aerisSelectEmpty&gt;No countries are configured.&lt;/ng-template&gt;
     &lt;ng-template aerisSelectEmptyFilter&gt;No countries match this search.&lt;/ng-template&gt;
   &lt;/aeris-select&gt;
@@ -463,28 +461,28 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="select-size-grid"&gt;
   &lt;label
-    &gt;&lt;span&gt;Extra small&lt;/span
-    &gt;&lt;aeris-select
+    &gt;&lt;span&gt;Extra small&lt;/span&gt;
+    &lt;aeris-select
       ariaLabel="Extra small role"
       [options]="roles"
       value="designer"
       size="xs"
   /&gt;&lt;/label&gt;
   &lt;label
-    &gt;&lt;span&gt;Small&lt;/span
-    &gt;&lt;aeris-select
+    &gt;&lt;span&gt;Small&lt;/span&gt;
+    &lt;aeris-select
       ariaLabel="Small role"
       [options]="roles"
       value="designer"
       size="sm"
   /&gt;&lt;/label&gt;
   &lt;label
-    &gt;&lt;span&gt;Medium&lt;/span
-    &gt;&lt;aeris-select ariaLabel="Medium role" [options]="roles" value="designer"
+    &gt;&lt;span&gt;Medium&lt;/span&gt;
+    &lt;aeris-select ariaLabel="Medium role" [options]="roles" value="designer"
   /&gt;&lt;/label&gt;
   &lt;label
-    &gt;&lt;span&gt;Large&lt;/span
-    &gt;&lt;aeris-select
+    &gt;&lt;span&gt;Large&lt;/span&gt;
+    &lt;aeris-select
       ariaLabel="Large role"
       [options]="roles"
       value="designer"
@@ -549,8 +547,8 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-grid select-state-grid"&gt;
   &lt;div class="field"&gt;
-    &lt;label for="select-outline"&gt;Outlined&lt;/label
-    &gt;&lt;aeris-select
+    &lt;label for="select-outline"&gt;Outlined&lt;/label&gt;
+    &lt;aeris-select
       inputId="select-outline"
       [options]="roles"
       value="designer"
@@ -558,8 +556,8 @@
     /&gt;&lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;label for="select-filled"&gt;Filled&lt;/label
-    &gt;&lt;aeris-select
+    &lt;label for="select-filled"&gt;Filled&lt;/label&gt;
+    &lt;aeris-select
       inputId="select-filled"
       [options]="roles"
       value="engineer"
@@ -568,8 +566,8 @@
     /&gt;&lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;label for="select-invalid"&gt;Required&lt;/label
-    &gt;&lt;aeris-select
+    &lt;label for="select-invalid"&gt;Required&lt;/label&gt;
+    &lt;aeris-select
       inputId="select-invalid"
       [options]="roles"
       [(value)]="invalidRole"
@@ -585,8 +583,8 @@
     &#125;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;label for="select-disabled"&gt;Disabled&lt;/label
-    &gt;&lt;aeris-select
+    &lt;label for="select-disabled"&gt;Disabled&lt;/label&gt;
+    &lt;aeris-select
       inputId="select-disabled"
       [options]="roles"
       value="manager"
@@ -619,12 +617,12 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;div class="field"&gt;
-    &lt;span&gt;Loading&lt;/span
-    &gt;&lt;aeris-select ariaLabel="Loading roles" [options]="roles" loading fluid /&gt;
+    &lt;span&gt;Loading&lt;/span&gt;
+    &lt;aeris-select ariaLabel="Loading roles" [options]="roles" loading fluid /&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;span&gt;Empty&lt;/span
-    &gt;&lt;aeris-select
+    &lt;span&gt;Empty&lt;/span&gt;
+    &lt;aeris-select
       ariaLabel="Empty role list"
       [options]="[]"
       emptyMessage="No roles have been created"

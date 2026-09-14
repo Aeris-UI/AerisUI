@@ -320,15 +320,15 @@ export class RatingSizesSizesDemo {
 ```html
 <div class="rating-row">
   <div class="rating-card">
-    <span>Extra small</span
-    ><aeris-rating size="xs" [value]="3" ariaLabel="Extra small rating" />
+    <span>Extra small</span>
+    <aeris-rating size="xs" [value]="3" ariaLabel="Extra small rating" />
   </div>
   <div class="rating-card">
     <span>Small</span><aeris-rating size="sm" [value]="3" ariaLabel="Small rating" />
   </div>
   <div class="rating-card">
-    <span>Medium</span
-    ><aeris-rating size="md" [value]="3" ariaLabel="Medium rating" />
+    <span>Medium</span>
+    <aeris-rating size="md" [value]="3" ariaLabel="Medium rating" />
   </div>
   <div class="rating-card">
     <span>Large</span><aeris-rating size="lg" [value]="3" ariaLabel="Large rating" />

@@ -322,8 +322,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
       />
       <small
         >Open the picker and use the pipette action when it is available in your
-        browser.</small
-      >
+        browser.</small>
     </div>
   `,
   styles: `
@@ -719,8 +718,7 @@ export class ColorPickerValidationValidationDemo {
     class="validation-message"
     [class.error]="invalid()"
     aria-live="polite"
-    >{{ invalid() ? 'Select a color.' : 'Required.' }}</small
-  >
+    >{{ invalid() ? 'Select a color.' : 'Required.' }}</small>
 </div>
 ```
 

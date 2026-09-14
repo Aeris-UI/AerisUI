@@ -3368,8 +3368,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
         fluid
       />
       <small id="cascade-basic-help"
-        >Open the panel, then move across the location hierarchy.</small
-      >
+        >Open the panel, then move across the location hierarchy.</small>
     </div>
   `,
   styles: `
@@ -4406,8 +4405,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
     <div class="field-row checkbox-label-position">
       <aeris-checkbox [checked]="true">Label at end</aeris-checkbox>
       <aeris-checkbox [checked]="true" labelPosition="start"
-        >Label at start</aeris-checkbox
-      >
+        >Label at start</aeris-checkbox>
     </div>
   `,
   styles: `
@@ -4490,44 +4488,35 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 @Component({
   selector: 'app-checkbox-states-demo',
   imports: [AerisCheckbox],
-  templateUrl: './checkbox-states.demo.html',
-  styleUrl: './checkbox-states.demo.scss'
+  template: `
+    <div class="checkbox-stack">
+      <aeris-checkbox
+        inputId="required-terms"
+        required
+        invalid
+        ariaDescribedBy="required-terms-error"
+      >
+        Accept terms
+      </aeris-checkbox>
+      <small id="required-terms-error" class="error"
+        >You must accept the terms to continue.</small>
+      <aeris-checkbox disabled>Unavailable option</aeris-checkbox>
+      <aeris-checkbox [checked]="true" disabled>Selected and unavailable</aeris-checkbox>
+    </div>
+  `,
+  styles: `
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+
+    .checkbox-stack {
+      width: 100%;
+      display: grid;
+      gap: 0.875rem;
+    }
+  `
 })
 export class CheckboxStatesRequiredInvalidAndDisabledDemo {
-}
-```
-
-###### HTML
-
-```html
-<div class="checkbox-stack">
-  <aeris-checkbox
-    inputId="required-terms"
-    required
-    invalid
-    ariaDescribedBy="required-terms-error"
-  >
-    Accept terms
-  </aeris-checkbox>
-  <small id="required-terms-error" class="error"
-    >You must accept the terms to continue.</small
-  >
-  <aeris-checkbox disabled>Unavailable option</aeris-checkbox>
-  <aeris-checkbox [checked]="true" disabled>Selected and unavailable</aeris-checkbox>
-</div>
-```
-
-###### CSS
-
-```css
-.field small.error {
-  color: var(--aeris-danger);
-}
-
-.checkbox-stack {
-  width: 100%;
-  display: grid;
-  gap: 0.875rem;
 }
 ```
 
@@ -4971,8 +4960,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
       />
       <small
         >Open the picker and use the pipette action when it is available in your
-        browser.</small
-      >
+        browser.</small>
     </div>
   `,
   styles: `
@@ -5368,8 +5356,7 @@ export class ColorPickerValidationValidationDemo {
     class="validation-message"
     [class.error]="invalid()"
     aria-live="polite"
-    >{{ invalid() ? 'Select a color.' : 'Required.' }}</small
-  >
+    >{{ invalid() ? 'Select a color.' : 'Required.' }}</small>
 </div>
 ```
 
@@ -6578,8 +6565,7 @@ export class DatePickerValidationValidationDemo {
     aria-live="polite"
     >{{
       validationInvalid() ? 'Choose a milestone date.' : 'A date is required.'
-    }}</small
-  >
+    }}</small>
 </div>
 ```
 
@@ -7408,12 +7394,10 @@ export class EditorValidationValidationDemo {
   />
   @if (validationInvalid()) {
     <small id="validated-editor-message" class="error state-message"
-      >Article body is required.</small
-    >
+      >Article body is required.</small>
   } @else {
     <small id="validated-editor-message" class="state-message"
-      >Use clear headings and concise paragraphs.</small
-    >
+      >Use clear headings and concise paragraphs.</small>
   }
 </div>
 ```
@@ -8426,44 +8410,44 @@ export class IconFieldSizesSizesDemo {
 ```html
 <div class="size-grid">
   <label
-    ><span>Extra small</span
-    ><aeris-icon-field size="xs"
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg
-      ><input
+    ><span>Extra small</span>
+    <aeris-icon-field size="xs"
+      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input
         aerisInputText
         size="xs"
         aria-label="Extra small search"
-        placeholder="Search" /></aeris-icon-field
-  ></label>
+        placeholder="Search" /></aeris-icon-field>
+        </label>
   <label
-    ><span>Small</span
-    ><aeris-icon-field size="sm"
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg
-      ><input
+    ><span>Small</span>
+    <aeris-icon-field size="sm"
+      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input
         aerisInputText
         size="sm"
         aria-label="Small search"
-        placeholder="Search" /></aeris-icon-field
-  ></label>
+        placeholder="Search" /></aeris-icon-field>
+        </label>
   <label
-    ><span>Medium</span
-    ><aeris-icon-field
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg
-      ><input
+    ><span>Medium</span>
+    <aeris-icon-field
+      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input
         aerisInputText
         aria-label="Medium search"
-        placeholder="Search" /></aeris-icon-field
-  ></label>
+        placeholder="Search" /></aeris-icon-field>
+        </label>
   <label
-    ><span>Large</span
-    ><aeris-icon-field size="lg"
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg
-      ><input
+    ><span>Large</span>
+    <aeris-icon-field size="lg"
+      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input
         aerisInputText
         size="lg"
         aria-label="Large search"
-        placeholder="Search" /></aeris-icon-field
-  ></label>
+        placeholder="Search" /></aeris-icon-field>
+        </label>
 </div>
 ```
 
@@ -8526,22 +8510,22 @@ export class IconFieldStatesAppearancesAndStatesDemo {
   <div class="field">
     <span>Filled</span>
     <aeris-icon-field appearance="filled" fluid
-      ><svg aerisIcon [lucideIcon]="icons.Mail"></svg
-      ><input aerisInputText aria-label="Filled email" placeholder="Email" fluid
+      ><svg aerisIcon [lucideIcon]="icons.Mail"></svg>
+      <input aerisInputText aria-label="Filled email" placeholder="Email" fluid
     /></aeris-icon-field>
   </div>
   <div class="field">
     <span>Compact</span>
     <aeris-icon-field density="compact" fluid
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg
-      ><input aerisInputText aria-label="Compact search" placeholder="Search" fluid
+      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input aerisInputText aria-label="Compact search" placeholder="Search" fluid
     /></aeris-icon-field>
   </div>
   <div class="field">
     <span>Disabled</span>
     <aeris-icon-field disabled fluid
-      ><svg aerisIcon [lucideIcon]="icons.Search"></svg
-      ><input
+      ><svg aerisIcon [lucideIcon]="icons.Search"></svg>
+      <input
         aerisInputText
         aria-label="Disabled search"
         placeholder="Search"
@@ -8552,8 +8536,8 @@ export class IconFieldStatesAppearancesAndStatesDemo {
   <div class="field">
     <span>Invalid</span>
     <aeris-icon-field invalid fluid
-      ><svg aerisIcon [lucideIcon]="icons.AlertTriangle"></svg
-      ><input
+      ><svg aerisIcon [lucideIcon]="icons.AlertTriangle"></svg>
+      <input
         aerisInputText
         aria-label="Invalid email"
         value="alex@"
@@ -8723,8 +8707,7 @@ export class IconFieldValidationValidationDemo {
   </aeris-icon-field>
   @if (emailInvalid()) {
     <small id="icon-email-message" class="error state-message"
-      >Enter a valid email address.</small
-    >
+      >Enter a valid email address.</small>
   } @else {
     <small id="icon-email-message" class="state-message">Use your work email.</small>
   }
@@ -9501,44 +9484,44 @@ export class InputGroupSizesSizesDemo {
 ```html
 <div class="size-grid">
   <label
-    ><span>Extra small</span
-    ><aeris-input-group size="xs"
-      ><span aerisInputGroupAddon>$</span
-      ><input
+    ><span>Extra small</span>
+    <aeris-input-group size="xs"
+      ><span aerisInputGroupAddon>$</span>
+      <input
         aerisInputText
         size="xs"
         aria-label="Extra small amount"
-        value="12" /></aeris-input-group
-  ></label>
+        value="12" /></aeris-input-group>
+        </label>
   <label
-    ><span>Small</span
-    ><aeris-input-group size="sm"
-      ><span aerisInputGroupAddon>$</span
-      ><input
+    ><span>Small</span>
+    <aeris-input-group size="sm"
+      ><span aerisInputGroupAddon>$</span>
+      <input
         aerisInputText
         size="sm"
         aria-label="Small amount"
-        value="24" /></aeris-input-group
-  ></label>
+        value="24" /></aeris-input-group>
+        </label>
   <label
-    ><span>Medium</span
-    ><aeris-input-group
-      ><span aerisInputGroupAddon>$</span
-      ><input
+    ><span>Medium</span>
+    <aeris-input-group
+      ><span aerisInputGroupAddon>$</span>
+      <input
         aerisInputText
         aria-label="Medium amount"
-        value="48" /></aeris-input-group
-  ></label>
+        value="48" /></aeris-input-group>
+        </label>
   <label
-    ><span>Large</span
-    ><aeris-input-group size="lg"
-      ><span aerisInputGroupAddon>$</span
-      ><input
+    ><span>Large</span>
+    <aeris-input-group size="lg"
+      ><span aerisInputGroupAddon>$</span>
+      <input
         aerisInputText
         size="lg"
         aria-label="Large amount"
-        value="96" /></aeris-input-group
-  ></label>
+        value="96" /></aeris-input-group>
+        </label>
 </div>
 ```
 
@@ -9614,8 +9597,8 @@ export class InputGroupStatesAppearancesAndStatesDemo {
   <div class="field">
     <span>Invalid</span>
     <aeris-input-group invalid fluid
-      ><span aerisInputGroupAddon>!</span
-      ><input
+      ><span aerisInputGroupAddon>!</span>
+      <input
         aerisInputText
         aria-label="Invalid value"
         value="alex@"
@@ -9626,15 +9609,15 @@ export class InputGroupStatesAppearancesAndStatesDemo {
   <div class="field">
     <span>Disabled</span>
     <aeris-input-group disabled fluid
-      ><span aerisInputGroupAddon>$</span
-      ><input aerisInputText aria-label="Disabled amount" value="120" disabled fluid
+      ><span aerisInputGroupAddon>$</span>
+      <input aerisInputText aria-label="Disabled amount" value="120" disabled fluid
     /></aeris-input-group>
   </div>
   <div class="field">
     <span>Native input</span>
     <aeris-input-group fluid
-      ><span aerisInputGroupAddon>#</span
-      ><input aria-label="Native issue number" placeholder="Issue number"
+      ><span aerisInputGroupAddon>#</span>
+      <input aria-label="Native issue number" placeholder="Issue number"
     /></aeris-input-group>
   </div>
 </div>
@@ -9795,8 +9778,7 @@ export class InputGroupValidationValidationDemo {
   </aeris-input-group>
   @if (emailInvalid()) {
     <small id="group-email-message" class="error state-message"
-      >Enter a valid email address.</small
-    >
+      >Enter a valid email address.</small>
   } @else {
     <small id="group-email-message" class="state-message">Use your work email.</small>
   }
@@ -10076,8 +10058,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         fluid
       />
       <small class="mask-result" aria-live="polite"
-        >Value: {{ phone() || 'Empty' }}</small
-      >
+        >Value: {{ phone() || 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -10198,8 +10179,8 @@ export class MaskPlaceholderPlaceholderAndSlotsDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <label for="mask-placeholder-custom">Postal code</label
-    ><aeris-input-mask
+    <label for="mask-placeholder-custom">Postal code</label>
+    <aeris-input-mask
       inputId="mask-placeholder-custom"
       mask="99999"
       placeholder="Enter postal code"
@@ -10207,8 +10188,8 @@ export class MaskPlaceholderPlaceholderAndSlotsDemo {
     />
   </div>
   <div class="field">
-    <label for="mask-placeholder-slots">Account code</label
-    ><aeris-input-mask
+    <label for="mask-placeholder-slots">Account code</label>
+    <aeris-input-mask
       inputId="mask-placeholder-slots"
       mask="aa-9999"
       showMask
@@ -10287,8 +10268,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         fluid
       />
       <small class="mask-result" aria-live="polite"
-        >Raw value: {{ rawPhone() || 'Empty' }}</small
-      >
+        >Raw value: {{ rawPhone() || 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -10352,8 +10332,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         fluid
       />
       <small class="mask-result" aria-live="polite"
-        >Completed: {{ completedValue() }}</small
-      >
+        >Completed: {{ completedValue() }}</small>
     </div>
   `,
   styles: `
@@ -10423,8 +10402,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         fluid
       />
       <small id="mask-auto-clear-help"
-        >Enter all six digits before leaving the field.</small
-      >
+        >Enter all six digits before leaving the field.</small>
     </div>
   `,
   styles: `
@@ -10483,8 +10461,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
         fluid
       />
       <small class="mask-result" aria-live="polite"
-        >Value: {{ serial() || 'Empty' }}</small
-      >
+        >Value: {{ serial() || 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -10550,28 +10527,28 @@ export class MaskSizesSizesDemo {
 ```html
 <div class="field-row">
   <label class="size-sample"
-    ><span>Extra small</span
-    ><aeris-input-mask
+    ><span>Extra small</span>
+    <aeris-input-mask
       ariaLabel="Extra small code"
       mask="999-999"
       size="xs"
       [value]="'123456'"
   /></label>
   <label class="size-sample"
-    ><span>Small</span
-    ><aeris-input-mask
+    ><span>Small</span>
+    <aeris-input-mask
       ariaLabel="Small code"
       mask="999-999"
       size="sm"
       [value]="'123456'"
   /></label>
   <label class="size-sample"
-    ><span>Medium</span
-    ><aeris-input-mask ariaLabel="Medium code" mask="999-999" [value]="'123456'"
+    ><span>Medium</span>
+    <aeris-input-mask ariaLabel="Medium code" mask="999-999" [value]="'123456'"
   /></label>
   <label class="size-sample"
-    ><span>Large</span
-    ><aeris-input-mask
+    ><span>Large</span>
+    <aeris-input-mask
       ariaLabel="Large code"
       mask="999-999"
       size="lg"
@@ -10638,8 +10615,8 @@ export class MaskStatesAppearancesAndStatesDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <label for="mask-filled">Filled</label
-    ><aeris-input-mask
+    <label for="mask-filled">Filled</label>
+    <aeris-input-mask
       inputId="mask-filled"
       mask="999-999"
       appearance="filled"
@@ -10648,8 +10625,8 @@ export class MaskStatesAppearancesAndStatesDemo {
     />
   </div>
   <div class="field">
-    <label for="mask-invalid">Invalid</label
-    ><aeris-input-mask
+    <label for="mask-invalid">Invalid</label>
+    <aeris-input-mask
       inputId="mask-invalid"
       mask="999-999"
       [value]="'123'"
@@ -10659,8 +10636,8 @@ export class MaskStatesAppearancesAndStatesDemo {
     /><small id="mask-error" class="error">Enter the complete code.</small>
   </div>
   <div class="field">
-    <label for="mask-readonly">Read-only</label
-    ><aeris-input-mask
+    <label for="mask-readonly">Read-only</label>
+    <aeris-input-mask
       inputId="mask-readonly"
       mask="aa-999"
       [value]="'AB123'"
@@ -10669,8 +10646,8 @@ export class MaskStatesAppearancesAndStatesDemo {
     />
   </div>
   <div class="field">
-    <label for="mask-disabled">Disabled</label
-    ><aeris-input-mask
+    <label for="mask-disabled">Disabled</label>
+    <aeris-input-mask
       inputId="mask-disabled"
       mask="aa-999"
       [value]="'AB123'"
@@ -11085,8 +11062,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
       <label for="quantity">Quantity</label>
       <aeris-input-number inputId="quantity" [(value)]="quantity" />
       <small class="number-result" aria-live="polite"
-        >Value: {{ quantity() ?? 'Empty' }}</small
-      >
+        >Value: {{ quantity() ?? 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -11753,19 +11729,19 @@ export class NumberSizesSizesDemo {
 ```html
 <div class="field-row">
   <label class="size-sample"
-    ><span>Extra small</span
-    ><aeris-input-number ariaLabel="Extra small number" size="xs" [value]="12"
+    ><span>Extra small</span>
+    <aeris-input-number ariaLabel="Extra small number" size="xs" [value]="12"
   /></label>
   <label class="size-sample"
-    ><span>Small</span
-    ><aeris-input-number ariaLabel="Small number" size="sm" [value]="12"
+    ><span>Small</span>
+    <aeris-input-number ariaLabel="Small number" size="sm" [value]="12"
   /></label>
   <label class="size-sample"
     ><span>Medium</span><aeris-input-number ariaLabel="Medium number" [value]="12"
   /></label>
   <label class="size-sample"
-    ><span>Large</span
-    ><aeris-input-number ariaLabel="Large number" size="lg" [value]="12"
+    ><span>Large</span>
+    <aeris-input-number ariaLabel="Large number" size="lg" [value]="12"
   /></label>
 </div>
 ```
@@ -11828,8 +11804,8 @@ export class NumberStatesAppearancesAndStatesDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <label for="number-filled">Filled</label
-    ><aeris-input-number
+    <label for="number-filled">Filled</label>
+    <aeris-input-number
       inputId="number-filled"
       appearance="filled"
       [value]="42"
@@ -11837,8 +11813,8 @@ export class NumberStatesAppearancesAndStatesDemo {
     />
   </div>
   <div class="field">
-    <label for="number-invalid">Invalid</label
-    ><aeris-input-number
+    <label for="number-invalid">Invalid</label>
+    <aeris-input-number
       inputId="number-invalid"
       [value]="150"
       invalid
@@ -11847,12 +11823,12 @@ export class NumberStatesAppearancesAndStatesDemo {
     /><small id="number-error" class="error">Value must be 100 or less.</small>
   </div>
   <div class="field">
-    <label for="number-readonly">Read-only</label
-    ><aeris-input-number inputId="number-readonly" [value]="2026" readonly fluid />
+    <label for="number-readonly">Read-only</label>
+    <aeris-input-number inputId="number-readonly" [value]="2026" readonly fluid />
   </div>
   <div class="field">
-    <label for="number-disabled">Disabled</label
-    ><aeris-input-number
+    <label for="number-disabled">Disabled</label>
+    <aeris-input-number
       inputId="number-disabled"
       [value]="8"
       disabled
@@ -12674,19 +12650,19 @@ export class OtpSizesSizesDemo {
 ```html
 <div class="otp-size-grid">
   <div>
-    <span>Extra small</span
-    ><aeris-input-otp ariaLabel="Extra small code" value="1234" size="xs" />
+    <span>Extra small</span>
+    <aeris-input-otp ariaLabel="Extra small code" value="1234" size="xs" />
   </div>
   <div>
-    <span>Small</span
-    ><aeris-input-otp ariaLabel="Small code" value="1234" size="sm" />
+    <span>Small</span>
+    <aeris-input-otp ariaLabel="Small code" value="1234" size="sm" />
   </div>
   <div>
     <span>Medium</span><aeris-input-otp ariaLabel="Medium code" value="1234" />
   </div>
   <div>
-    <span>Large</span
-    ><aeris-input-otp ariaLabel="Large code" value="1234" size="lg" />
+    <span>Large</span>
+    <aeris-input-otp ariaLabel="Large code" value="1234" size="lg" />
   </div>
 </div>
 ```
@@ -12744,16 +12720,16 @@ export class OtpStatesAppearancesAndStatesDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <span>Filled</span
-    ><aeris-input-otp ariaLabel="Filled code" value="1234" appearance="filled" />
+    <span>Filled</span>
+    <aeris-input-otp ariaLabel="Filled code" value="1234" appearance="filled" />
   </div>
   <div class="field">
-    <span>Disabled</span
-    ><aeris-input-otp ariaLabel="Disabled code" value="1234" disabled />
+    <span>Disabled</span>
+    <aeris-input-otp ariaLabel="Disabled code" value="1234" disabled />
   </div>
   <div class="field">
-    <span>Read-only</span
-    ><aeris-input-otp ariaLabel="Read-only code" value="1234" readonly />
+    <span>Read-only</span>
+    <aeris-input-otp ariaLabel="Read-only code" value="1234" readonly />
   </div>
   <div class="field">
     <span>Fluid</span><aeris-input-otp ariaLabel="Fluid code" value="1234" fluid />
@@ -12844,12 +12820,10 @@ export class OtpValidationValidationDemo {
   />
   @if (codeInvalid()) {
     <small id="invalid-otp-message" class="error state-message"
-      >Enter all four digits.</small
-    >
+      >Enter all four digits.</small>
   } @else {
     <small id="invalid-otp-message" class="state-message"
-      >Four digits required.</small
-    >
+      >Four digits required.</small>
   }
 </div>
 ```
@@ -14173,8 +14147,8 @@ export class KeyFilterPresetsPresetsDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <label for="key-filter-int">Integer</label
-    ><input
+    <label for="key-filter-int">Integer</label>
+    <input
       aerisInputText
       id="key-filter-int"
       aerisKeyFilter="int"
@@ -14183,8 +14157,8 @@ export class KeyFilterPresetsPresetsDemo {
     />
   </div>
   <div class="field">
-    <label for="key-filter-hex">Hex</label
-    ><input
+    <label for="key-filter-hex">Hex</label>
+    <input
       aerisInputText
       id="key-filter-hex"
       aerisKeyFilter="hex"
@@ -14193,8 +14167,8 @@ export class KeyFilterPresetsPresetsDemo {
     />
   </div>
   <div class="field">
-    <label for="key-filter-alpha">Letters</label
-    ><input
+    <label for="key-filter-alpha">Letters</label>
+    <input
       aerisInputText
       id="key-filter-alpha"
       aerisKeyFilter="alpha"
@@ -14203,8 +14177,8 @@ export class KeyFilterPresetsPresetsDemo {
     />
   </div>
   <div class="field">
-    <label for="key-filter-email">Email characters</label
-    ><input
+    <label for="key-filter-email">Email characters</label>
+    <input
       aerisInputText
       id="key-filter-email"
       aerisKeyFilter="email"
@@ -14284,8 +14258,8 @@ export class KeyFilterDecimalsNumbersDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <label for="key-filter-num">Signed decimal</label
-    ><input
+    <label for="key-filter-num">Signed decimal</label>
+    <input
       aerisInputText
       id="key-filter-num"
       aerisKeyFilter="num"
@@ -14295,8 +14269,8 @@ export class KeyFilterDecimalsNumbersDemo {
     />
   </div>
   <div class="field">
-    <label for="key-filter-pnum">Positive decimal</label
-    ><input
+    <label for="key-filter-pnum">Positive decimal</label>
+    <input
       aerisInputText
       id="key-filter-pnum"
       aerisKeyFilter="pnum"
@@ -14823,8 +14797,7 @@ import { type AerisSelectOption } from '@aeris-ui/core/select';
         (changed)="recordChange($event)"
       />
       <small aria-live="polite"
-        >{{ lastChange() }}. Values: {{ skills().join(', ') || 'None' }}</small
-      >
+        >{{ lastChange() }}. Values: {{ skills().join(', ') || 'None' }}</small>
     </div>
   `,
   styles: `
@@ -15163,17 +15136,14 @@ export class MultiSelectTemplatesOptionAndChipTemplatesDemo {
   >
     <ng-template aerisMultiSelectOption let-option>
       <span class="team-option"
-        ><strong>{{ option.label }}</strong
-        ><small>{{ option.description }}</small></span
-      >
+        ><strong>{{ option.label }}</strong>
+        <small>{{ option.description }}</small></span>
     </ng-template>
     <ng-template aerisMultiSelectChip let-option>{{ option.label }}</ng-template>
     <ng-template aerisMultiSelectHeader
-      ><strong>Product organization</strong></ng-template
-    >
+      ><strong>Product organization</strong></ng-template>
     <ng-template aerisMultiSelectFooter
-      ><small>Choose every team that should be notified.</small></ng-template
-    >
+      ><small>Choose every team that should be notified.</small></ng-template>
   </aeris-multi-select>
 </div>
 ```
@@ -15444,31 +15414,31 @@ export class MultiSelectSizesSizesDemo {
 ```html
 <div class="multi-select-size-grid">
   <label
-    ><span>Extra small</span
-    ><aeris-multi-select
+    ><span>Extra small</span>
+    <aeris-multi-select
       ariaLabel="Extra small skills"
       [options]="skillOptions"
       [value]="['angular']"
       size="xs"
   /></label>
   <label
-    ><span>Small</span
-    ><aeris-multi-select
+    ><span>Small</span>
+    <aeris-multi-select
       ariaLabel="Small skills"
       [options]="skillOptions"
       [value]="['angular']"
       size="sm"
   /></label>
   <label
-    ><span>Medium</span
-    ><aeris-multi-select
+    ><span>Medium</span>
+    <aeris-multi-select
       ariaLabel="Medium skills"
       [options]="skillOptions"
       [value]="['angular']"
   /></label>
   <label
-    ><span>Large</span
-    ><aeris-multi-select
+    ><span>Large</span>
+    <aeris-multi-select
       ariaLabel="Large skills"
       [options]="skillOptions"
       [value]="['angular']"
@@ -15530,8 +15500,8 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <span>Filled</span
-    ><aeris-multi-select
+    <span>Filled</span>
+    <aeris-multi-select
       ariaLabel="Filled skills"
       [options]="skillOptions"
       [value]="['angular']"
@@ -15540,8 +15510,8 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
     /><small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
-    <label for="skills-invalid">Required</label
-    ><aeris-multi-select
+    <label for="skills-invalid">Required</label>
+    <aeris-multi-select
       inputId="skills-invalid"
       [options]="skillOptions"
       [(value)]="invalidValues"
@@ -15552,15 +15522,14 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
     />
     @if (invalidValues().length === 0) {
       <small id="skills-error" class="error state-message"
-        >Choose at least one skill.</small
-      >
+        >Choose at least one skill.</small>
     } @else {
       <small class="state-message" aria-hidden="true">&nbsp;</small>
     }
   </div>
   <div class="field">
-    <span>Disabled</span
-    ><aeris-multi-select
+    <span>Disabled</span>
+    <aeris-multi-select
       ariaLabel="Disabled skills"
       [options]="skillOptions"
       [value]="['angular']"
@@ -15569,8 +15538,8 @@ export class MultiSelectStatesAppearancesAndStatesDemo {
     /><small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
-    <span>Loading</span
-    ><aeris-multi-select
+    <span>Loading</span>
+    <aeris-multi-select
       ariaLabel="Loading skills"
       [options]="skillOptions"
       loading
@@ -16124,69 +16093,60 @@ import { AerisPassword } from '@aeris-ui/core/password';
 @Component({
   selector: 'app-password-templates-demo',
   imports: [AerisPassword],
-  templateUrl: './password-templates.demo.html',
-  styleUrl: './password-templates.demo.scss'
+  template: `
+    <div class="field">
+      <label for="template-password">API password</label>
+      <aeris-password inputId="template-password" autocomplete="new-password" fluid>
+        <ng-template aerisPasswordHeader><strong>Password quality</strong></ng-template>
+        <ng-template aerisPasswordFeedback let-result>
+          <span class="custom-feedback">
+            <strong>{{ result.label }}</strong>
+            <span>Strength score: {{ result.score }} of 3</span>
+          </span>
+        </ng-template>
+        <ng-template aerisPasswordFooter
+          ><small>Never reuse a production credential.</small></ng-template>
+      </aeris-password>
+    </div>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+
+    .custom-feedback {
+      display: grid;
+      gap: 0.375rem;
+    }
+
+    .custom-feedback strong {
+      color: var(--primary-text);
+    }
+  `
 })
 export class PasswordTemplatesFeedbackTemplatesDemo {
-}
-```
-
-###### HTML
-
-```html
-<div class="field">
-  <label for="template-password">API password</label>
-  <aeris-password inputId="template-password" autocomplete="new-password" fluid>
-    <ng-template aerisPasswordHeader><strong>Password quality</strong></ng-template>
-    <ng-template aerisPasswordFeedback let-result>
-      <span class="custom-feedback">
-        <strong>{{ result.label }}</strong>
-        <span>Strength score: {{ result.score }} of 3</span>
-      </span>
-    </ng-template>
-    <ng-template aerisPasswordFooter
-      ><small>Never reuse a production credential.</small></ng-template
-    >
-  </aeris-password>
-</div>
-```
-
-###### CSS
-
-```css
-.field {
-  min-width: 0;
-  display: grid;
-  align-content: start;
-  grid-auto-rows: max-content;
-  gap: 0.45rem;
-}
-
-.field > label,
-.field > span:first-child {
-  color: var(--aeris-text);
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.field small {
-  color: var(--aeris-text-2);
-  font-size: 0.8125rem;
-  line-height: 1.5;
-}
-
-.field small.error {
-  color: var(--aeris-danger);
-}
-
-.custom-feedback {
-  display: grid;
-  gap: 0.375rem;
-}
-
-.custom-feedback strong {
-  color: var(--primary-text);
 }
 ```
 
@@ -16214,8 +16174,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
         fluid
       />
       <small aria-live="polite"
-        >Value: {{ clearablePassword() ? 'Present' : 'Empty' }}</small
-      >
+        >Value: {{ clearablePassword() ? 'Present' : 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -16275,8 +16234,8 @@ export class PasswordAutocompletePasswordManagerAutocompleteDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <label for="current-password">Current password</label
-    ><aeris-password
+    <label for="current-password">Current password</label>
+    <aeris-password
       inputId="current-password"
       autocomplete="current-password"
       [feedback]="false"
@@ -16284,8 +16243,8 @@ export class PasswordAutocompletePasswordManagerAutocompleteDemo {
     />
   </div>
   <div class="field">
-    <label for="new-password">New password</label
-    ><aeris-password inputId="new-password" autocomplete="new-password" fluid />
+    <label for="new-password">New password</label>
+    <aeris-password inputId="new-password" autocomplete="new-password" fluid />
   </div>
 </div>
 ```
@@ -16358,31 +16317,31 @@ export class PasswordSizesSizesDemo {
 ```html
 <div class="password-size-grid">
   <label
-    ><span>Extra small</span
-    ><aeris-password
+    ><span>Extra small</span>
+    <aeris-password
       ariaLabel="Extra small password"
       value="Password1!"
       size="xs"
       [feedback]="false"
   /></label>
   <label
-    ><span>Small</span
-    ><aeris-password
+    ><span>Small</span>
+    <aeris-password
       ariaLabel="Small password"
       value="Password1!"
       size="sm"
       [feedback]="false"
   /></label>
   <label
-    ><span>Medium</span
-    ><aeris-password
+    ><span>Medium</span>
+    <aeris-password
       ariaLabel="Medium password"
       value="Password1!"
       [feedback]="false"
   /></label>
   <label
-    ><span>Large</span
-    ><aeris-password
+    ><span>Large</span>
+    <aeris-password
       ariaLabel="Large password"
       value="Password1!"
       size="lg"
@@ -16444,8 +16403,8 @@ export class PasswordStatesAppearancesAndStatesDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <span>Filled</span
-    ><aeris-password
+    <span>Filled</span>
+    <aeris-password
       ariaLabel="Filled password"
       value="Password1!"
       appearance="filled"
@@ -16454,8 +16413,8 @@ export class PasswordStatesAppearancesAndStatesDemo {
     />
   </div>
   <div class="field">
-    <span>Disabled</span
-    ><aeris-password
+    <span>Disabled</span>
+    <aeris-password
       ariaLabel="Disabled password"
       value="Password1!"
       disabled
@@ -16464,8 +16423,8 @@ export class PasswordStatesAppearancesAndStatesDemo {
     />
   </div>
   <div class="field">
-    <span>Read-only</span
-    ><aeris-password
+    <span>Read-only</span>
+    <aeris-password
       ariaLabel="Read-only password"
       value="Password1!"
       readonly
@@ -16474,8 +16433,8 @@ export class PasswordStatesAppearancesAndStatesDemo {
     />
   </div>
   <div class="field">
-    <span>Without visibility action</span
-    ><aeris-password
+    <span>Without visibility action</span>
+    <aeris-password
       ariaLabel="Password without visibility action"
       value="Password1!"
       [toggleMask]="false"
@@ -16574,12 +16533,10 @@ export class PasswordValidationValidationDemo {
   />
   @if (validationInvalid()) {
     <small id="validated-password-message" class="error state-message"
-      >Use at least 12 characters.</small
-    >
+      >Use at least 12 characters.</small>
   } @else {
     <small id="validated-password-message" class="state-message"
-      >Use at least 12 characters.</small
-    >
+      >Use at least 12 characters.</small>
   }
 </div>
 ```
@@ -16837,14 +16794,11 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       <fieldset class="radio-group">
         <legend>Workspace visibility</legend>
         <aeris-radio-button name="visibility" value="private" [(selected)]="visibility"
-          >Private</aeris-radio-button
-        >
+          >Private</aeris-radio-button>
         <aeris-radio-button name="visibility" value="team" [(selected)]="visibility"
-          >Team members</aeris-radio-button
-        >
+          >Team members</aeris-radio-button>
         <aeris-radio-button name="visibility" value="public" [(selected)]="visibility"
-          >Public</aeris-radio-button
-        >
+          >Public</aeris-radio-button>
       </fieldset>
     </div>
   `,
@@ -16911,22 +16865,19 @@ export class RadioModelSignalModelDemo {
       value="email"
       [(selected)]="notificationChannel"
       (changed)="recordChange($event)"
-      >Email</aeris-radio-button
-    >
+      >Email</aeris-radio-button>
     <aeris-radio-button
       name="channel"
       value="push"
       [(selected)]="notificationChannel"
       (changed)="recordChange($event)"
-      >Push notification</aeris-radio-button
-    >
+      >Push notification</aeris-radio-button>
     <aeris-radio-button
       name="channel"
       value="none"
       [(selected)]="notificationChannel"
       (changed)="recordChange($event)"
-      >None</aeris-radio-button
-    >
+      >None</aeris-radio-button>
   </fieldset>
   <span class="radio-result" aria-live="polite">
     Value: {{ notificationChannel() }}. {{ lastChange() }}.
@@ -17105,17 +17056,13 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   template: `
     <div class="field-row">
       <aeris-radio-button name="size-xs" value="xs" selected="xs" size="xs"
-        >Extra small</aeris-radio-button
-      >
+        >Extra small</aeris-radio-button>
       <aeris-radio-button name="size-sm" value="sm" selected="sm" size="sm"
-        >Small</aeris-radio-button
-      >
+        >Small</aeris-radio-button>
       <aeris-radio-button name="size-md" value="md" selected="md"
-        >Medium</aeris-radio-button
-      >
+        >Medium</aeris-radio-button>
       <aeris-radio-button name="size-lg" value="lg" selected="lg" size="lg"
-        >Large</aeris-radio-button
-      >
+        >Large</aeris-radio-button>
     </div>
   `,
   styles: `
@@ -17154,15 +17101,13 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   template: `
     <div class="field-row">
       <aeris-radio-button name="label-end" value="end" selected="end"
-        >Label at end</aeris-radio-button
-      >
+        >Label at end</aeris-radio-button>
       <aeris-radio-button
         name="label-start"
         value="start"
         selected="start"
         labelPosition="start"
-        >Label at start</aeris-radio-button
-      >
+        >Label at start</aeris-radio-button>
     </div>
   `,
   styles: `
@@ -17217,28 +17162,24 @@ export class RadioStatesRequiredInvalidAndDisabledDemo {
       required
       invalid
       ariaDescribedBy="delivery-error"
-      >Standard</aeris-radio-button
-    >
+      >Standard</aeris-radio-button>
     <aeris-radio-button
       name="delivery"
       value="express"
       required
       invalid
       ariaDescribedBy="delivery-error"
-      >Express</aeris-radio-button
-    >
+      >Express</aeris-radio-button>
   </fieldset>
   <small id="delivery-error" class="error">Choose a delivery speed.</small>
   <aeris-radio-button name="disabled-demo" value="disabled" disabled
-    >Unavailable option</aeris-radio-button
-  >
+    >Unavailable option</aeris-radio-button>
   <aeris-radio-button
     name="disabled-selected"
     value="selected"
     selected="selected"
     disabled
-    >Selected and unavailable</aeris-radio-button
-  >
+    >Selected and unavailable</aeris-radio-button>
 </div>
 ```
 
@@ -17297,11 +17238,9 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       <form class="radio-group">
         <strong>Billing cycle</strong>
         <aeris-radio-button name="billing" value="monthly" selected="monthly"
-          >Monthly</aeris-radio-button
-        >
+          >Monthly</aeris-radio-button>
         <aeris-radio-button name="billing" value="annual" selected="monthly"
-          >Annual</aeris-radio-button
-        >
+          >Annual</aeris-radio-button>
       </form>
     </div>
   `,
@@ -17370,11 +17309,9 @@ export class RadioAngularFormsReactiveAndTemplateDrivenFormsDemo {
       name="reactive-plan"
       value="starter"
       [formControl]="reactivePlan"
-      >Starter</aeris-radio-button
-    >
+      >Starter</aeris-radio-button>
     <aeris-radio-button name="reactive-plan" value="team" [formControl]="reactivePlan"
-      >Team</aeris-radio-button
-    >
+      >Team</aeris-radio-button>
     <small>Value: {{ reactivePlan.value }}</small>
   </fieldset>
   <fieldset class="radio-group">
@@ -17383,11 +17320,9 @@ export class RadioAngularFormsReactiveAndTemplateDrivenFormsDemo {
       name="template-plan"
       value="starter"
       [(ngModel)]="templatePlan"
-      >Starter</aeris-radio-button
-    >
+      >Starter</aeris-radio-button>
     <aeris-radio-button name="template-plan" value="team" [(ngModel)]="templatePlan"
-      >Team</aeris-radio-button
-    >
+      >Team</aeris-radio-button>
     <small>Value: {{ templatePlan }}</small>
   </fieldset>
 </div>
@@ -17761,15 +17696,15 @@ export class RatingSizesSizesDemo {
 ```html
 <div class="rating-row">
   <div class="rating-card">
-    <span>Extra small</span
-    ><aeris-rating size="xs" [value]="3" ariaLabel="Extra small rating" />
+    <span>Extra small</span>
+    <aeris-rating size="xs" [value]="3" ariaLabel="Extra small rating" />
   </div>
   <div class="rating-card">
     <span>Small</span><aeris-rating size="sm" [value]="3" ariaLabel="Small rating" />
   </div>
   <div class="rating-card">
-    <span>Medium</span
-    ><aeris-rating size="md" [value]="3" ariaLabel="Medium rating" />
+    <span>Medium</span>
+    <aeris-rating size="md" [value]="3" ariaLabel="Medium rating" />
   </div>
   <div class="rating-card">
     <span>Large</span><aeris-rating size="lg" [value]="3" ariaLabel="Large rating" />
@@ -18535,8 +18470,8 @@ export class SelectCheckmarkSelectionMarkDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <span>With mark</span
-    ><aeris-select
+    <span>With mark</span>
+    <aeris-select
       ariaLabel="Role with selection mark"
       [options]="roles"
       value="engineer"
@@ -18544,8 +18479,8 @@ export class SelectCheckmarkSelectionMarkDemo {
     />
   </div>
   <div class="field">
-    <span>Without mark</span
-    ><aeris-select
+    <span>Without mark</span>
+    <aeris-select
       ariaLabel="Role without selection mark"
       [options]="roles"
       value="engineer"
@@ -19027,11 +18962,9 @@ import { AerisSelect } from '@aeris-ui/core/select';
       <aeris-select inputId="panel-content" [options]="countries" filter fluid>
         <ng-template aerisSelectHeader><strong>Available regions</strong></ng-template>
         <ng-template aerisSelectGroup let-group
-          ><span>{{ group }}</span></ng-template
-        >
+          ><span>{{ group }}</span></ng-template>
         <ng-template aerisSelectFooter
-          ><small>Use search to narrow the list.</small></ng-template
-        >
+          ><small>Use search to narrow the list.</small></ng-template>
         <ng-template aerisSelectEmpty>No countries are configured.</ng-template>
         <ng-template aerisSelectEmptyFilter>No countries match this search.</ng-template>
       </aeris-select>
@@ -19237,28 +19170,28 @@ export class SelectSizesSizesDemo {
 ```html
 <div class="select-size-grid">
   <label
-    ><span>Extra small</span
-    ><aeris-select
+    ><span>Extra small</span>
+    <aeris-select
       ariaLabel="Extra small role"
       [options]="roles"
       value="designer"
       size="xs"
   /></label>
   <label
-    ><span>Small</span
-    ><aeris-select
+    ><span>Small</span>
+    <aeris-select
       ariaLabel="Small role"
       [options]="roles"
       value="designer"
       size="sm"
   /></label>
   <label
-    ><span>Medium</span
-    ><aeris-select ariaLabel="Medium role" [options]="roles" value="designer"
+    ><span>Medium</span>
+    <aeris-select ariaLabel="Medium role" [options]="roles" value="designer"
   /></label>
   <label
-    ><span>Large</span
-    ><aeris-select
+    ><span>Large</span>
+    <aeris-select
       ariaLabel="Large role"
       [options]="roles"
       value="designer"
@@ -19326,8 +19259,8 @@ export class SelectStatesAppearancesAndStatesDemo {
 ```html
 <div class="field-grid select-state-grid">
   <div class="field">
-    <label for="select-outline">Outlined</label
-    ><aeris-select
+    <label for="select-outline">Outlined</label>
+    <aeris-select
       inputId="select-outline"
       [options]="roles"
       value="designer"
@@ -19335,8 +19268,8 @@ export class SelectStatesAppearancesAndStatesDemo {
     /><small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
-    <label for="select-filled">Filled</label
-    ><aeris-select
+    <label for="select-filled">Filled</label>
+    <aeris-select
       inputId="select-filled"
       [options]="roles"
       value="engineer"
@@ -19345,8 +19278,8 @@ export class SelectStatesAppearancesAndStatesDemo {
     /><small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
-    <label for="select-invalid">Required</label
-    ><aeris-select
+    <label for="select-invalid">Required</label>
+    <aeris-select
       inputId="select-invalid"
       [options]="roles"
       [(value)]="invalidRole"
@@ -19362,8 +19295,8 @@ export class SelectStatesAppearancesAndStatesDemo {
     }
   </div>
   <div class="field">
-    <label for="select-disabled">Disabled</label
-    ><aeris-select
+    <label for="select-disabled">Disabled</label>
+    <aeris-select
       inputId="select-disabled"
       [options]="roles"
       value="manager"
@@ -19454,12 +19387,12 @@ export class SelectFeedbackLoadingAndEmptyStatesDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <span>Loading</span
-    ><aeris-select ariaLabel="Loading roles" [options]="roles" loading fluid />
+    <span>Loading</span>
+    <aeris-select ariaLabel="Loading roles" [options]="roles" loading fluid />
   </div>
   <div class="field">
-    <span>Empty</span
-    ><aeris-select
+    <span>Empty</span>
+    <aeris-select
       ariaLabel="Empty role list"
       [options]="[]"
       emptyMessage="No roles have been created"
@@ -21283,8 +21216,7 @@ export class TextareaValidationValidationDemo {
     aria-live="polite"
     >{{
       feedbackInvalid() ? 'Enter at least 10 characters.' : 'Minimum 10 characters.'
-    }}</small
-  >
+    }}</small>
 </div>
 ```
 
@@ -21769,8 +21701,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
     <div class="field-row">
       <aeris-toggle-switch [checked]="true">Label at end</aeris-toggle-switch>
       <aeris-toggle-switch [checked]="true" labelPosition="start"
-        >Label at start</aeris-toggle-switch
-      >
+        >Label at start</aeris-toggle-switch>
     </div>
   `,
   styles: `
@@ -21855,8 +21786,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
       <aeris-toggle-switch [checked]="true">Checked</aeris-toggle-switch>
       <aeris-toggle-switch disabled>Disabled</aeris-toggle-switch>
       <aeris-toggle-switch [checked]="true" disabled
-        >Checked and disabled</aeris-toggle-switch
-      >
+        >Checked and disabled</aeris-toggle-switch>
     </div>
   `,
   styles: `
@@ -21919,8 +21849,7 @@ export class ToggleSwitchValidationValidationDemo {
       consentInvalid()
         ? 'Enable this setting to continue.'
         : 'This setting is required.'
-    }}</small
-  >
+    }}</small>
 </div>
 ```
 
@@ -22221,8 +22150,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
         (changed)="recordChange($event)"
       />
       <small aria-live="polite"
-        >{{ lastChange() }}. Value: {{ workspace() || 'None' }}</small
-      >
+        >{{ lastChange() }}. Value: {{ workspace() || 'None' }}</small>
     </div>
   `,
   styles: `
@@ -22479,11 +22407,9 @@ export class TreeSelectTemplatesTemplatesDemo {
       </span>
     </ng-template>
     <ng-template aerisTreeSelectHeader
-      ><strong>Choose destination</strong></ng-template
-    >
+      ><strong>Choose destination</strong></ng-template>
     <ng-template aerisTreeSelectFooter
-      ><small>Disabled nodes remain visible but unavailable.</small></ng-template
-    >
+      ><small>Disabled nodes remain visible but unavailable.</small></ng-template>
   </aeris-tree-select>
 </div>
 ```
@@ -22564,31 +22490,31 @@ export class TreeSelectSizesSizesDemo {
 ```html
 <div class="tree-size-grid">
   <label
-    ><span>Extra small</span
-    ><aeris-tree-select
+    ><span>Extra small</span>
+    <aeris-tree-select
       ariaLabel="Extra small tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
       size="xs"
   /></label>
   <label
-    ><span>Small</span
-    ><aeris-tree-select
+    ><span>Small</span>
+    <aeris-tree-select
       ariaLabel="Small tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
       size="sm"
   /></label>
   <label
-    ><span>Medium</span
-    ><aeris-tree-select
+    ><span>Medium</span>
+    <aeris-tree-select
       ariaLabel="Medium tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
   /></label>
   <label
-    ><span>Large</span
-    ><aeris-tree-select
+    ><span>Large</span>
+    <aeris-tree-select
       ariaLabel="Large tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
@@ -22658,8 +22584,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
 ```html
 <div class="tree-state-grid">
   <div class="field">
-    <span>Filled</span
-    ><aeris-tree-select
+    <span>Filled</span>
+    <aeris-tree-select
       ariaLabel="Filled tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
@@ -22668,8 +22594,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
     /><small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
-    <label for="tree-invalid">Required</label
-    ><aeris-tree-select
+    <label for="tree-invalid">Required</label>
+    <aeris-tree-select
       inputId="tree-invalid"
       [nodes]="nodes"
       [(value)]="invalidValue"
@@ -22685,8 +22611,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
     }
   </div>
   <div class="field">
-    <span>Disabled</span
-    ><aeris-tree-select
+    <span>Disabled</span>
+    <aeris-tree-select
       ariaLabel="Disabled tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
@@ -22695,8 +22621,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
     /><small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
-    <span>Empty</span
-    ><aeris-tree-select
+    <span>Empty</span>
+    <aeris-tree-select
       ariaLabel="Empty tree select"
       [nodes]="[]"
       emptyMessage="No destinations yet"
@@ -23020,8 +22946,8 @@ import { AerisButton } from '@aeris-ui/core/button';
   imports: [AerisButton],
   template: `
     <div class="aeris-example-row">
-      <button aerisButton>Save changes</button
-      ><button aerisButton variant="solid" severity="secondary">Cancel</button>
+      <button aerisButton>Save changes</button>
+      <button aerisButton variant="solid" severity="secondary">Cancel</button>
     </div>
   `,
   styles: `
@@ -23060,8 +22986,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     <div class="aeris-example-row">
       <aeris-button label="Create project" (clicked)="createProject($event)" /><span
         class="result"
-        >Clicked {{ clickCount() }} times</span
-      >
+        >Clicked {{ clickCount() }} times</span>
     </div>
   `,
   styles: `
@@ -23110,12 +23035,12 @@ import { AerisButton } from '@aeris-ui/core/button';
   imports: [AerisButton],
   template: `
     <div class="wrap aeris-example-row">
-      <button aerisButton>Primary</button
-      ><button aerisButton variant="solid" severity="secondary">Secondary</button
-      ><button aerisButton variant="outline">Outline</button
-      ><button aerisButton variant="ghost">Ghost</button
-      ><button aerisButton variant="solid" severity="danger">Danger</button
-      ><button aerisButton variant="link">Link</button>
+      <button aerisButton>Primary</button>
+      <button aerisButton variant="solid" severity="secondary">Secondary</button>
+      <button aerisButton variant="outline">Outline</button>
+      <button aerisButton variant="ghost">Ghost</button>
+      <button aerisButton variant="solid" severity="danger">Danger</button>
+      <button aerisButton variant="link">Link</button>
     </div>
   `,
   styles: `
@@ -23212,9 +23137,9 @@ import { AerisButton } from '@aeris-ui/core/button';
   imports: [AerisButton],
   template: `
     <div class="wrap align aeris-example-row">
-      <button aerisButton size="xs">Extra small</button
-      ><button aerisButton size="sm">Small</button><button aerisButton>Medium</button
-      ><button aerisButton size="lg">Large</button>
+      <button aerisButton size="xs">Extra small</button>
+      <button aerisButton size="sm">Small</button><button aerisButton>Medium</button>
+      <button aerisButton size="lg">Large</button>
     </div>
   `,
   styles: `
@@ -23325,8 +23250,8 @@ import { AerisButton } from '@aeris-ui/core/button';
         [disabled]="loading()"
         (click)="toggleLoading()"
       >
-        Save asynchronously</button
-      ><aeris-button label="Processing" loading />
+        Save asynchronously</button>
+        <aeris-button label="Processing" loading />
     </div>
   `,
   styles: `
@@ -23376,9 +23301,9 @@ import { AerisButton } from '@aeris-ui/core/button';
   template: `
     <div class="stack aeris-example-row">
       <div class="wrap">
-        <button aerisButton raised>Raised</button
-        ><button aerisButton rounded>Rounded</button
-        ><button aerisButton rounded iconOnly aria-label="Favorite">★</button>
+        <button aerisButton raised>Raised</button>
+        <button aerisButton rounded>Rounded</button>
+        <button aerisButton rounded iconOnly aria-label="Favorite">★</button>
       </div>
       <button aerisButton fluid>Full width</button>
     </div>
@@ -23479,8 +23404,7 @@ import { AerisButton } from '@aeris-ui/core/button';
   template: `
     <div class="aeris-example-row">
       <ng-template #rocket let-loading="loading"
-        ><span aria-hidden="true">{{ loading ? '…' : '↑' }}</span></ng-template
-      >
+        ><span aria-hidden="true">{{ loading ? '…' : '↑' }}</span></ng-template>
       <aeris-button label="Deploy" [iconTemplate]="rocket" iconPosition="right" />
     </div>
   `,
@@ -23524,8 +23448,7 @@ import { AerisButton } from '@aeris-ui/core/button';
         href="https://github.com"
         target="_blank"
         rel="noopener noreferrer"
-        >Open GitHub</a
-      >
+        >Open GitHub</a>
     </div>
   `,
   styles: `
@@ -24019,8 +23942,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
           href="https://github.com"
           target="_blank"
           rel="noopener noreferrer"
-          >Open GitHub</a
-        >
+          >Open GitHub</a>
       </aeris-button-group>
     </div>
   `,
@@ -25284,8 +25206,7 @@ export class SpeedDialTemplatesTemplatesDemo {
 
 <div class="dial-stage aeris-example-row">
   <ng-template #icon let-open="open"
-    ><span aria-hidden="true">{{ open ? 'X' : '...' }}</span></ng-template
-  >
+    ><span aria-hidden="true">{{ open ? 'X' : '...' }}</span></ng-template>
   <aeris-speed-dial
     ariaLabel="Templated actions"
     [model]="actions"
@@ -25671,8 +25592,7 @@ export class SplitBasicBasicDemo {
     (clicked)="save()"
   />
   <span class="split-result" role="status" aria-live="polite"
-    >Last action: {{ lastAction() }}</span
-  >
+    >Last action: {{ lastAction() }}</span>
 </div>
 ```
 
@@ -33547,16 +33467,13 @@ import { AerisCardModule } from '@aeris-ui/core/card';
     <div class="card-demo card-grid">
       <aeris-card variant="outlined"
         ><header aerisCardHeader><h3 aerisCardTitle>Outlined</h3></header>
-        <p>Clear boundaries for structured layouts.</p></aeris-card
-      >
+        <p>Clear boundaries for structured layouts.</p></aeris-card>
       <aeris-card variant="elevated"
         ><header aerisCardHeader><h3 aerisCardTitle>Elevated</h3></header>
-        <p>Depth for prominent or floating content.</p></aeris-card
-      >
+        <p>Depth for prominent or floating content.</p></aeris-card>
       <aeris-card variant="filled"
         ><header aerisCardHeader><h3 aerisCardTitle>Filled</h3></header>
-        <p>Subtle grouping on open page surfaces.</p></aeris-card
-      >
+        <p>Subtle grouping on open page surfaces.</p></aeris-card>
     </div>
   `,
   styles: `
@@ -33612,22 +33529,18 @@ export class CardPaddingPaddingDemo {
 <div class="card-demo card-grid card-grid--two">
   <aeris-card padding="sm"
     ><header aerisCardHeader><h3 aerisCardTitle>Small</h3></header>
-    <p>Compact supporting content.</p></aeris-card
-  >
+    <p>Compact supporting content.</p></aeris-card>
   <aeris-card padding="md"
     ><header aerisCardHeader><h3 aerisCardTitle>Medium</h3></header>
-    <p>The balanced default.</p></aeris-card
-  >
+    <p>The balanced default.</p></aeris-card>
   <aeris-card padding="lg"
     ><header aerisCardHeader><h3 aerisCardTitle>Large</h3></header>
-    <p>More room for featured content.</p></aeris-card
-  >
+    <p>More room for featured content.</p></aeris-card>
   <aeris-card padding="none"
     ><div class="custom-padding">
       <h3 aerisCardTitle>None</h3>
       <p>Bring your own internal layout.</p>
-    </div></aeris-card
-  >
+    </div></aeris-card>
 </div>
 ```
 
@@ -34111,8 +34024,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
   template: `
     <div>
       <aeris-divider align="start" ariaLabel="Start aligned metadata"
-        >Metadata</aeris-divider
-      >
+        >Metadata</aeris-divider>
       <aeris-divider align="center" ariaLabel="Centered metadata">Metadata</aeris-divider>
       <aeris-divider align="end" ariaLabel="End aligned metadata">Metadata</aeris-divider>
     </div>
@@ -34142,8 +34054,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
           <p>Draft</p>
         </section>
         <aeris-divider orientation="vertical" ariaLabel="Draft and published boundary"
-          >to</aeris-divider
-        >
+          >to</aeris-divider>
         <section class="vertical-panel" aria-label="Published">
           <p>Published</p>
         </section>
@@ -34190,11 +34101,9 @@ import { AerisDivider } from '@aeris-ui/core/divider';
       <div class="line-style-stack">
         <aeris-divider lineStyle="solid" ariaLabel="Solid separator">Solid</aeris-divider>
         <aeris-divider lineStyle="dashed" ariaLabel="Dashed separator"
-          >Dashed</aeris-divider
-        >
+          >Dashed</aeris-divider>
         <aeris-divider lineStyle="dotted" ariaLabel="Dotted separator"
-          >Dotted</aeris-divider
-        >
+          >Dotted</aeris-divider>
       </div>
     </div>
   `,
@@ -34261,8 +34170,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
         class="brand-divider"
         lineStyle="dashed"
         ariaLabel="Branded separator"
-        >Release gate</aeris-divider
-      >
+        >Release gate</aeris-divider>
     </div>
   `,
   styles: `
@@ -34841,47 +34749,35 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
 @Component({
   selector: 'app-panel-variants-demo',
   imports: [AerisPanelModule],
-  templateUrl: './panel-variants.demo.html',
-  styleUrl: './panel-variants.demo.scss'
+  template: `
+    <div>
+      <div class="panel-grid">
+        <aeris-panel header="Outlined" variant="outlined" size="sm"
+          ><p>Quiet bordered surface.</p></aeris-panel>
+        <aeris-panel header="Elevated" variant="elevated"
+          ><p>Raised container for prominence.</p></aeris-panel>
+        <aeris-panel header="Filled" variant="filled"
+          ><p>Soft background grouping.</p></aeris-panel>
+        <aeris-panel header="Plain" variant="plain" size="lg"
+          ><p>Header and content without an outer card.</p></aeris-panel>
+      </div>
+    </div>
+  `,
+  styles: `
+    .panel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    @media (max-width: 42rem) {
+      .panel-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  `
 })
 export class PanelVariantsVariantsDemo {
-}
-```
-
-###### HTML
-
-```html
-<div>
-  <div class="panel-grid">
-    <aeris-panel header="Outlined" variant="outlined" size="sm"
-      ><p>Quiet bordered surface.</p></aeris-panel
-    >
-    <aeris-panel header="Elevated" variant="elevated"
-      ><p>Raised container for prominence.</p></aeris-panel
-    >
-    <aeris-panel header="Filled" variant="filled"
-      ><p>Soft background grouping.</p></aeris-panel
-    >
-    <aeris-panel header="Plain" variant="plain" size="lg"
-      ><p>Header and content without an outer card.</p></aeris-panel
-    >
-  </div>
-</div>
-```
-
-###### CSS
-
-```css
-.panel-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-@media (max-width: 42rem) {
-  .panel-grid {
-    grid-template-columns: 1fr;
-  }
 }
 ```
 
@@ -35028,8 +34924,8 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
         <ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
-              <span>{{ brand.name }}</span
-              ><strong>{{ brand.count }}</strong>
+              <span>{{ brand.name }}</span>
+              <strong>{{ brand.count }}</strong>
             </li>
           }
         </ul>
@@ -35222,8 +35118,8 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
         <ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
-              <span>{{ brand.name }}</span
-              ><strong>{{ brand.count }}</strong>
+              <span>{{ brand.name }}</span>
+              <strong>{{ brand.count }}</strong>
             </li>
           }
         </ul>
@@ -35285,12 +35181,11 @@ export class ScrollPanelVariantsVariantsDemo {
         ><ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
-              <span>{{ brand.name }}</span
-              ><strong>{{ brand.count }}</strong>
+              <span>{{ brand.name }}</span>
+              <strong>{{ brand.count }}</strong>
             </li>
           }
-        </ul></aeris-scroll-panel
-      >
+        </ul></aeris-scroll-panel>
     </section>
     <section>
       <h4>Hover</h4>
@@ -35298,12 +35193,11 @@ export class ScrollPanelVariantsVariantsDemo {
         ><ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
-              <span>{{ brand.name }}</span
-              ><strong>{{ brand.count }}</strong>
+              <span>{{ brand.name }}</span>
+              <strong>{{ brand.count }}</strong>
             </li>
           }
-        </ul></aeris-scroll-panel
-      >
+        </ul></aeris-scroll-panel>
     </section>
     <section>
       <h4>Always</h4>
@@ -35314,12 +35208,11 @@ export class ScrollPanelVariantsVariantsDemo {
         ><ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
-              <span>{{ brand.name }}</span
-              ><strong>{{ brand.count }}</strong>
+              <span>{{ brand.name }}</span>
+              <strong>{{ brand.count }}</strong>
             </li>
           }
-        </ul></aeris-scroll-panel
-      >
+        </ul></aeris-scroll-panel>
     </section>
     <section>
       <h4>Hidden</h4>
@@ -35330,12 +35223,11 @@ export class ScrollPanelVariantsVariantsDemo {
         ><ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
-              <span>{{ brand.name }}</span
-              ><strong>{{ brand.count }}</strong>
+              <span>{{ brand.name }}</span>
+              <strong>{{ brand.count }}</strong>
             </li>
           }
-        </ul></aeris-scroll-panel
-      >
+        </ul></aeris-scroll-panel>
     </section>
   </div>
 </div>
@@ -35478,8 +35370,8 @@ export class ScrollPanelMethodsEventsAndMethodsDemo {
     <ul class="brand-list">
       @for (brand of brands; track brand.name) {
         <li>
-          <span>{{ brand.name }}</span
-          ><strong>{{ brand.count }}</strong>
+          <span>{{ brand.name }}</span>
+          <strong>{{ brand.count }}</strong>
         </li>
       }
     </ul>
@@ -35591,8 +35483,8 @@ export class ScrollPanelCustomTokenCustomizationDemo {
     <ul class="brand-list">
       @for (brand of brands; track brand.name) {
         <li>
-          <span>{{ brand.name }}</span
-          ><strong>{{ brand.count }}</strong>
+          <span>{{ brand.name }}</span>
+          <strong>{{ brand.count }}</strong>
         </li>
       }
     </ul>
@@ -35959,25 +35851,21 @@ export class SplitterDividerDividerDemo {
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Handle only</strong><span>Default minimal divider.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Panel</strong><span>Resize from the handle.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
     </aeris-splitter>
     <aeris-splitter height="10rem" divider="line" ariaLabel="Line splitter">
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Full line</strong><span>Divider line with centered handle.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Panel</strong><span>Useful for dense surfaces.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
     </aeris-splitter>
   </div>
 </div>
@@ -36351,14 +36239,14 @@ export class SplitterNestedNestedDemo {
       >
         <aeris-splitter-panel ariaLabel="Message body" [size]="64">
           <div class="mail-pane">
-            <strong>Message body</strong
-            ><span>Review the latest component audit and screenshots.</span>
+            <strong>Message body</strong>
+            <span>Review the latest component audit and screenshots.</span>
           </div>
         </aeris-splitter-panel>
         <aeris-splitter-panel ariaLabel="Thread notes" [size]="36">
           <div class="mail-pane">
-            <strong>Thread notes</strong
-            ><span>Three linked tasks and two approvals.</span>
+            <strong>Thread notes</strong>
+            <span>Three linked tasks and two approvals.</span>
           </div>
         </aeris-splitter-panel>
       </aeris-splitter>
@@ -36422,37 +36310,31 @@ export class SplitterVariantsVariantsDemo {
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Outlined</strong><span>Default border.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Panel</strong><span>Resizable.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
     </aeris-splitter>
     <aeris-splitter height="9rem" variant="filled" ariaLabel="Filled splitter">
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Filled</strong><span>Soft surface.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Panel</strong><span>Resizable.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
     </aeris-splitter>
     <aeris-splitter height="9rem" variant="plain" ariaLabel="Plain splitter">
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Plain</strong><span>No outer border.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Panel</strong><span>Resizable.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
     </aeris-splitter>
   </div>
 </div>
@@ -36546,14 +36428,14 @@ export class SplitterTokensTokenCustomizationDemo {
   >
     <aeris-splitter-panel ariaLabel="Primary panel" [size]="38">
       <div class="splitter-pane">
-        <strong>Branded surface</strong
-        ><span>Custom border, radius, and handle.</span>
+        <strong>Branded surface</strong>
+        <span>Custom border, radius, and handle.</span>
       </div>
     </aeris-splitter-panel>
     <aeris-splitter-panel ariaLabel="Secondary panel" [size]="62">
       <div class="splitter-pane">
-        <strong>Resizable panel</strong
-        ><span>The tokens follow palette and theme changes.</span>
+        <strong>Resizable panel</strong>
+        <span>The tokens follow palette and theme changes.</span>
       </div>
     </aeris-splitter-panel>
   </aeris-splitter>
@@ -37366,43 +37248,32 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-basic-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-basic.demo.html',
-  styleUrl: './tabs-basic.demo.scss'
+  template: `
+    <div>
+      <aeris-tabs ariaLabel="Project details">
+        <aeris-tab-panel value="summary" label="Summary"
+          ><div class="tabs-demo-panel">
+            Project summary and current status.
+          </div></aeris-tab-panel>
+        <aeris-tab-panel value="activity" label="Activity"
+          ><div class="tabs-demo-panel">Recent project activity.</div></aeris-tab-panel>
+        <aeris-tab-panel value="members" label="Members"
+          ><div class="tabs-demo-panel">
+            Project members and permissions.
+          </div></aeris-tab-panel>
+      </aeris-tabs>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+  `
 })
 export class TabsBasicBasicDemo {
-}
-```
-
-###### HTML
-
-```html
-<div>
-  <aeris-tabs ariaLabel="Project details">
-    <aeris-tab-panel value="summary" label="Summary"
-      ><div class="tabs-demo-panel">
-        Project summary and current status.
-      </div></aeris-tab-panel
-    >
-    <aeris-tab-panel value="activity" label="Activity"
-      ><div class="tabs-demo-panel">Recent project activity.</div></aeris-tab-panel
-    >
-    <aeris-tab-panel value="members" label="Members"
-      ><div class="tabs-demo-panel">
-        Project members and permissions.
-      </div></aeris-tab-panel
-    >
-  </aeris-tabs>
-</div>
-```
-
-###### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
 }
 ```
 
@@ -37419,8 +37290,29 @@ import { AerisTabsModule, type AerisTabChangeEvent } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-controlled-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-controlled.demo.html',
-  styleUrl: './tabs-controlled.demo.scss'
+  template: `
+    <div>
+      <aeris-tabs
+        ariaLabel="Account settings"
+        [(value)]="accountTab"
+        (changed)="recordChange($event)"
+      >
+        <aeris-tab-panel value="profile" label="Profile"
+          ><div class="tabs-demo-panel">Profile settings.</div></aeris-tab-panel>
+        <aeris-tab-panel value="security" label="Security"
+          ><div class="tabs-demo-panel">Security settings.</div></aeris-tab-panel>
+      </aeris-tabs>
+      <small aria-live="polite">{{ lastChange() }}</small>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+  `
 })
 export class TabsControlledControlledStateAndEventsDemo {
   protected readonly accountTab =
@@ -37433,37 +37325,6 @@ export class TabsControlledControlledStateAndEventsDemo {
       `Changed from ${event.previousValue} to ${event.value}`,
     );
   }
-}
-```
-
-###### HTML
-
-```html
-<div>
-  <aeris-tabs
-    ariaLabel="Account settings"
-    [(value)]="accountTab"
-    (changed)="recordChange($event)"
-  >
-    <aeris-tab-panel value="profile" label="Profile"
-      ><div class="tabs-demo-panel">Profile settings.</div></aeris-tab-panel
-    >
-    <aeris-tab-panel value="security" label="Security"
-      ><div class="tabs-demo-panel">Security settings.</div></aeris-tab-panel
-    >
-  </aeris-tabs>
-  <small aria-live="polite">{{ lastChange() }}</small>
-</div>
-```
-
-###### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
 }
 ```
 
@@ -37690,14 +37551,11 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
     <div>
       <aeris-tabs ariaLabel="Release stages">
         <aeris-tab-panel value="draft" label="Draft"
-          ><div class="tabs-demo-panel">Draft release.</div></aeris-tab-panel
-        >
+          ><div class="tabs-demo-panel">Draft release.</div></aeris-tab-panel>
         <aeris-tab-panel value="review" label="Review" disabled
-          ><div class="tabs-demo-panel">Review unavailable.</div></aeris-tab-panel
-        >
+          ><div class="tabs-demo-panel">Review unavailable.</div></aeris-tab-panel>
         <aeris-tab-panel value="published" label="Published"
-          ><div class="tabs-demo-panel">Published release.</div></aeris-tab-panel
-        >
+          ><div class="tabs-demo-panel">Published release.</div></aeris-tab-panel>
       </aeris-tabs>
     </div>
   `,
@@ -37727,42 +37585,32 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-manual-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-manual.demo.html',
-  styleUrl: './tabs-manual.demo.scss'
+  template: `
+    <div>
+      <aeris-tabs
+        ariaLabel="Manual activation example"
+        activationMode="manual"
+        [(value)]="manualTab"
+      >
+        <aeris-tab-panel value="overview" label="Overview"
+          ><div class="tabs-demo-panel">
+            Overview remains selected until activation.
+          </div></aeris-tab-panel>
+        <aeris-tab-panel value="metrics" label="Metrics"
+          ><div class="tabs-demo-panel">Metrics content.</div></aeris-tab-panel>
+      </aeris-tabs>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+  `
 })
 export class TabsManualManualActivationDemo {
-}
-```
-
-###### HTML
-
-```html
-<div>
-  <aeris-tabs
-    ariaLabel="Manual activation example"
-    activationMode="manual"
-    [(value)]="manualTab"
-  >
-    <aeris-tab-panel value="overview" label="Overview"
-      ><div class="tabs-demo-panel">
-        Overview remains selected until activation.
-      </div></aeris-tab-panel
-    >
-    <aeris-tab-panel value="metrics" label="Metrics"
-      ><div class="tabs-demo-panel">Metrics content.</div></aeris-tab-panel
-    >
-  </aeris-tabs>
-</div>
-```
-
-###### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
 }
 ```
 
@@ -37779,47 +37627,36 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-vertical-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-vertical.demo.html',
-  styleUrl: './tabs-vertical.demo.scss'
+  template: `
+    <div>
+      <aeris-tabs
+        class="vertical-demo"
+        ariaLabel="Workspace settings"
+        orientation="vertical"
+      >
+        <aeris-tab-panel value="general" label="General"
+          ><div class="tabs-demo-panel">General workspace settings.</div></aeris-tab-panel>
+        <aeris-tab-panel value="people" label="People"
+          ><div class="tabs-demo-panel">People and access settings.</div></aeris-tab-panel>
+        <aeris-tab-panel value="billing" label="Billing"
+          ><div class="tabs-demo-panel">Billing settings.</div></aeris-tab-panel>
+      </aeris-tabs>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+
+    .vertical-demo {
+      min-height: 12rem;
+    }
+  `
 })
 export class TabsVerticalVerticalTabsDemo {
-}
-```
-
-###### HTML
-
-```html
-<div>
-  <aeris-tabs
-    class="vertical-demo"
-    ariaLabel="Workspace settings"
-    orientation="vertical"
-  >
-    <aeris-tab-panel value="general" label="General"
-      ><div class="tabs-demo-panel">General workspace settings.</div></aeris-tab-panel
-    >
-    <aeris-tab-panel value="people" label="People"
-      ><div class="tabs-demo-panel">People and access settings.</div></aeris-tab-panel
-    >
-    <aeris-tab-panel value="billing" label="Billing"
-      ><div class="tabs-demo-panel">Billing settings.</div></aeris-tab-panel
-    >
-  </aeris-tabs>
-</div>
-```
-
-###### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
-}
-
-.vertical-demo {
-  min-height: 12rem;
 }
 ```
 
@@ -37836,48 +37673,38 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-variants-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-variants.demo.html',
-  styleUrl: './tabs-variants.demo.scss'
+  template: `
+    <div class="variant-stack">
+      <aeris-tabs ariaLabel="Line tabs" variant="line"
+        ><aeris-tab-panel value="one" label="Overview"
+          ><div class="tabs-demo-panel">Line variant.</div></aeris-tab-panel>
+          <aeris-tab-panel value="two" label="Details"
+          ><div class="tabs-demo-panel">Details.</div></aeris-tab-panel>
+          </aeris-tabs>
+      <aeris-tabs ariaLabel="Pill tabs" variant="pill"
+        ><aeris-tab-panel value="one" label="Monthly"
+          ><div class="tabs-demo-panel">Monthly data.</div></aeris-tab-panel>
+          <aeris-tab-panel value="two" label="Yearly"
+          ><div class="tabs-demo-panel">Yearly data.</div></aeris-tab-panel>
+          </aeris-tabs>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+
+    .variant-stack {
+      width: 100%;
+      display: grid;
+      gap: 2rem;
+    }
+  `
 })
 export class TabsVariantsLineAndPillVariantsDemo {
-}
-```
-
-###### HTML
-
-```html
-<div class="variant-stack">
-  <aeris-tabs ariaLabel="Line tabs" variant="line"
-    ><aeris-tab-panel value="one" label="Overview"
-      ><div class="tabs-demo-panel">Line variant.</div></aeris-tab-panel
-    ><aeris-tab-panel value="two" label="Details"
-      ><div class="tabs-demo-panel">Details.</div></aeris-tab-panel
-    ></aeris-tabs
-  >
-  <aeris-tabs ariaLabel="Pill tabs" variant="pill"
-    ><aeris-tab-panel value="one" label="Monthly"
-      ><div class="tabs-demo-panel">Monthly data.</div></aeris-tab-panel
-    ><aeris-tab-panel value="two" label="Yearly"
-      ><div class="tabs-demo-panel">Yearly data.</div></aeris-tab-panel
-    ></aeris-tabs
-  >
-</div>
-```
-
-###### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
-}
-
-.variant-stack {
-  width: 100%;
-  display: grid;
-  gap: 2rem;
 }
 ```
 
@@ -37894,59 +37721,49 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-headers-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-headers.demo.html',
-  styleUrl: './tabs-headers.demo.scss'
+  template: `
+    <div>
+      <aeris-tabs ariaLabel="Inbox sections">
+        <aeris-tab-panel value="inbox" label="Inbox">
+          <ng-template aerisTabHeader
+            ><span class="tab-header"
+              >Inbox <span class="tab-count">12</span></span>
+              </ng-template>
+          <div class="tabs-demo-panel">Unread messages.</div>
+        </aeris-tab-panel>
+        <aeris-tab-panel value="archive" label="Archive"
+          ><div class="tabs-demo-panel">Archived messages.</div></aeris-tab-panel>
+      </aeris-tabs>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+
+    .tab-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .tab-count {
+      min-width: 1.25rem;
+      min-height: 1.25rem;
+      display: inline-grid;
+      place-items: center;
+      padding-inline: 0.3rem;
+      border-radius: 99px;
+      background: var(--primary-soft);
+      color: var(--aeris-primary-text);
+      font-size: 0.6875rem;
+    }
+  `
 })
 export class TabsHeadersHeaderTemplatesDemo {
-}
-```
-
-###### HTML
-
-```html
-<div>
-  <aeris-tabs ariaLabel="Inbox sections">
-    <aeris-tab-panel value="inbox" label="Inbox">
-      <ng-template aerisTabHeader
-        ><span class="tab-header"
-          >Inbox <span class="tab-count">12</span></span
-        ></ng-template
-      >
-      <div class="tabs-demo-panel">Unread messages.</div>
-    </aeris-tab-panel>
-    <aeris-tab-panel value="archive" label="Archive"
-      ><div class="tabs-demo-panel">Archived messages.</div></aeris-tab-panel
-    >
-  </aeris-tabs>
-</div>
-```
-
-###### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
-}
-
-.tab-header {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-}
-
-.tab-count {
-  min-width: 1.25rem;
-  min-height: 1.25rem;
-  display: inline-grid;
-  place-items: center;
-  padding-inline: 0.3rem;
-  border-radius: 99px;
-  background: var(--primary-soft);
-  color: var(--aeris-primary-text);
-  font-size: 0.6875rem;
 }
 ```
 
@@ -37963,48 +37780,38 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-sizes-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-sizes.demo.html',
-  styleUrl: './tabs-sizes.demo.scss'
+  template: `
+    <div class="variant-stack">
+      <aeris-tabs ariaLabel="Small centered tabs" size="sm" justify="center"
+        ><aeris-tab-panel value="one" label="Small"
+          ><div class="tabs-demo-panel">Small centered tabs.</div></aeris-tab-panel>
+          <aeris-tab-panel value="two" label="Tabs"
+          ><div class="tabs-demo-panel">Second panel.</div></aeris-tab-panel>
+          </aeris-tabs>
+      <aeris-tabs ariaLabel="Stretched tabs" size="lg" justify="stretch"
+        ><aeris-tab-panel value="one" label="Overview"
+          ><div class="tabs-demo-panel">Large stretched tabs.</div></aeris-tab-panel>
+          <aeris-tab-panel value="two" label="Analytics"
+          ><div class="tabs-demo-panel">Analytics.</div></aeris-tab-panel>
+          </aeris-tabs>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+
+    .variant-stack {
+      width: 100%;
+      display: grid;
+      gap: 2rem;
+    }
+  `
 })
 export class TabsSizesSizesAndAlignmentDemo {
-}
-```
-
-###### HTML
-
-```html
-<div class="variant-stack">
-  <aeris-tabs ariaLabel="Small centered tabs" size="sm" justify="center"
-    ><aeris-tab-panel value="one" label="Small"
-      ><div class="tabs-demo-panel">Small centered tabs.</div></aeris-tab-panel
-    ><aeris-tab-panel value="two" label="Tabs"
-      ><div class="tabs-demo-panel">Second panel.</div></aeris-tab-panel
-    ></aeris-tabs
-  >
-  <aeris-tabs ariaLabel="Stretched tabs" size="lg" justify="stretch"
-    ><aeris-tab-panel value="one" label="Overview"
-      ><div class="tabs-demo-panel">Large stretched tabs.</div></aeris-tab-panel
-    ><aeris-tab-panel value="two" label="Analytics"
-      ><div class="tabs-demo-panel">Analytics.</div></aeris-tab-panel
-    ></aeris-tabs
-  >
-</div>
-```
-
-###### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
-}
-
-.variant-stack {
-  width: 100%;
-  display: grid;
-  gap: 2rem;
 }
 ```
 
@@ -38051,8 +37858,7 @@ export class TabsScrollableScrollableTabsDemo {
       track label
     ) {
       <aeris-tab-panel [value]="label" [label]="label"
-        ><div class="tabs-demo-panel">{{ label }} content.</div></aeris-tab-panel
-      >
+        ><div class="tabs-demo-panel">{{ label }} content.</div></aeris-tab-panel>
     }
   </aeris-tabs>
 </div>
@@ -39315,8 +39121,7 @@ export class ConfirmDialogTemplatesTemplatesDemo {
         <strong>{{ data }}</strong>
         <span
           >Confirm that release notes, accessibility checks, and package metadata are
-          ready.</span
-        >
+          ready.</span>
       </span>
     </ng-template>
     <ng-template aerisConfirmDialogFooter let-accept="accept" let-reject="reject">
@@ -40096,8 +39901,7 @@ export class ConfirmPopupTemplatesTemplatesDemo {
         <strong>{{ data }}</strong>
         <span
           >Confirm that release notes, accessibility checks, and package metadata are
-          ready.</span
-        >
+          ready.</span>
       </span>
     </ng-template>
     <ng-template aerisConfirmPopupFooter let-accept="accept" let-reject="reject">
@@ -43545,9 +43349,8 @@ export class PopoverTemplatesTemplatesDemo {
   <aeris-popover #templatePopover closable>
     <ng-template aerisPopoverHeader>
       <span class="popover-header"
-        ><span class="popover-dot" aria-hidden="true"></span
-        >{{ selectedFlight() }}</span
-      >
+        ><span class="popover-dot" aria-hidden="true"></span>
+        {{ selectedFlight() }}</span>
     </ng-template>
     <ng-template aerisPopoverCloseIcon>
       <span aria-hidden="true">Ã—</span>
@@ -48404,8 +48207,7 @@ export class MenubarTemplateTemplateDemo {
   <aeris-menubar [model]="templateItems" ariaLabel="Template menubar">
     <ng-template aerisMenubarStart>
       <span class="menubar-brand"
-        ><svg [lucideIcon]="icons['Package']" aria-hidden="true"></svg>Aeris</span
-      >
+        ><svg [lucideIcon]="icons['Package']" aria-hidden="true"></svg>Aeris</span>
     </ng-template>
     <ng-template
       aerisMenubarItem
@@ -48445,8 +48247,7 @@ export class MenubarTemplateTemplateDemo {
     </ng-template>
     <ng-template aerisMenubarEnd>
       <span class="menubar-user"
-        ><svg [lucideIcon]="icons['User']" aria-hidden="true"></svg>Admin</span
-      >
+        ><svg [lucideIcon]="icons['User']" aria-hidden="true"></svg>Admin</span>
     </ng-template>
   </aeris-menubar>
 </div>
@@ -51574,20 +51375,19 @@ export class CarouselBasicBasicDemo {
   <aeris-carousel [value]="destinations" [numVisible]="3" ariaLabel="Meet the puppies"
     ><ng-template aerisCarouselHeader
       ><div class="carousel-title">
-        <strong>Meet the puppies</strong
-        ><span>Five playful friends with big personalities.</span>
-      </div></ng-template
-    ><ng-template aerisCarouselItem let-item
+        <strong>Meet the puppies</strong>
+        <span>Five playful friends with big personalities.</span>
+      </div></ng-template>
+      <ng-template aerisCarouselItem let-item
       ><article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong
-        ><span>{{ $any(item).detail }}</span>
-      </article></ng-template
-    ><ng-template aerisCarouselFooter
+        <strong>{{ $any(item).name }}</strong>
+        <span>{{ $any(item).detail }}</span>
+      </article></ng-template>
+      <ng-template aerisCarouselFooter
       ><small class="carousel-footer"
-        >Curated for unhurried weekends.</small
-      ></ng-template
-    ></aeris-carousel
-  >
+        >Curated for unhurried weekends.</small>
+        </ng-template>
+      </aeris-carousel>
 </div>
 ```
 
@@ -51663,11 +51463,10 @@ import { AerisCarouselModule, type AerisCarouselResponsiveOption } from '@aeris-
         ariaLabel="Responsive puppies"
         ><ng-template aerisCarouselItem let-item
           ><article class="destination-card" [attr.data-tone]="$any(item).tone">
-            <strong>{{ $any(item).name }}</strong
-            ><span>{{ $any(item).detail }}</span>
-          </article></ng-template
-        ></aeris-carousel
-      >
+            <strong>{{ $any(item).name }}</strong>
+            <span>{{ $any(item).detail }}</span>
+          </article></ng-template>
+          </aeris-carousel>
     </div>
   `,
   styles: `
@@ -51749,8 +51548,8 @@ export class CarouselControlledControlledDemo {
 ```html
 <div>
   <div class="carousel-actions">
-    <button aerisButton type="button" (click)="showFirst()">First slide</button
-    ><span aria-live="polite">{{ pageMessage() }}</span>
+    <button aerisButton type="button" (click)="showFirst()">First slide</button>
+    <span aria-live="polite">{{ pageMessage() }}</span>
   </div>
   <aeris-carousel
     [value]="destinations"
@@ -51760,11 +51559,10 @@ export class CarouselControlledControlledDemo {
     ariaLabel="Controlled puppy carousel"
     ><ng-template aerisCarouselItem let-item
       ><article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong
-        ><span>{{ $any(item).detail }}</span>
-      </article></ng-template
-    ></aeris-carousel
-  >
+        <strong>{{ $any(item).name }}</strong>
+        <span>{{ $any(item).detail }}</span>
+      </article></ng-template>
+      </aeris-carousel>
 </div>
 ```
 
@@ -51836,8 +51634,55 @@ interface Destination {
 @Component({
   selector: 'app-carousel-circular-demo',
   imports: [AerisCarouselModule],
-  templateUrl: './carousel-circular.demo.html',
-  styleUrl: './carousel-circular.demo.scss'
+  template: `
+    <div>
+      <aeris-carousel
+        [value]="destinations"
+        [numVisible]="2"
+        circular
+        [autoplayInterval]="2200"
+        ariaLabel="Autoplay puppies"
+        ><ng-template aerisCarouselItem let-item
+          ><article class="destination-card" [attr.data-tone]="$any(item).tone">
+            <strong>{{ $any(item).name }}</strong>
+            <span>{{ $any(item).detail }}</span>
+          </article></ng-template>
+          </aeris-carousel>
+    </div>
+  `,
+  styles: `
+    .destination-card {
+      position: relative;
+      display: grid;
+      align-content: end;
+      min-height: 19rem;
+      padding: 1.25rem;
+      border-radius: var(--aeris-radius-lg);
+      background-color: var(--surface-2);
+      background-position: center;
+      background-size: cover;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .destination-card::before {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%));
+      content: '';
+    }
+
+    .destination-card strong,
+    .destination-card span { position: relative; display: block; }
+    .destination-card strong { font-size: 1.25rem; }
+    .destination-card span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }
+
+    .destination-card[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }
+    .destination-card[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }
+    .destination-card[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }
+    .destination-card[data-tone='rose'] { background-image: url('/puppies/puppy4.jpg'); }
+    .destination-card[data-tone='sky'] { background-image: url('/puppies/puppy5.jpg'); }
+  `
 })
 export class CarouselCircularCircularAndAutoplayDemo {
   protected readonly destinations: readonly Destination[] = [
@@ -51848,62 +51693,6 @@ export class CarouselCircularCircularAndAutoplayDemo {
     { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },
   ];
 }
-```
-
-###### HTML
-
-```html
-<div>
-  <aeris-carousel
-    [value]="destinations"
-    [numVisible]="2"
-    circular
-    [autoplayInterval]="2200"
-    ariaLabel="Autoplay puppies"
-    ><ng-template aerisCarouselItem let-item
-      ><article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong
-        ><span>{{ $any(item).detail }}</span>
-      </article></ng-template
-    ></aeris-carousel
-  >
-</div>
-```
-
-###### CSS
-
-```css
-.destination-card {
-  position: relative;
-  display: grid;
-  align-content: end;
-  min-height: 19rem;
-  padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
-  background-color: var(--surface-2);
-  background-position: center;
-  background-size: cover;
-  color: #fff;
-  overflow: hidden;
-}
-
-.destination-card::before {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%));
-  content: '';
-}
-
-.destination-card strong,
-.destination-card span { position: relative; display: block; }
-.destination-card strong { font-size: 1.25rem; }
-.destination-card span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }
-
-.destination-card[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }
-.destination-card[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }
-.destination-card[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }
-.destination-card[data-tone='rose'] { background-image: url('/puppies/puppy4.jpg'); }
-.destination-card[data-tone='sky'] { background-image: url('/puppies/puppy5.jpg'); }
 ```
 
 ##### Vertical
@@ -51934,11 +51723,10 @@ interface Destination {
         ariaLabel="Vertical puppy carousel"
         ><ng-template aerisCarouselItem let-item
           ><article class="destination-card" [attr.data-tone]="$any(item).tone">
-            <strong>{{ $any(item).name }}</strong
-            ><span>{{ $any(item).detail }}</span>
-          </article></ng-template
-        ></aeris-carousel
-      >
+            <strong>{{ $any(item).name }}</strong>
+            <span>{{ $any(item).detail }}</span>
+          </article></ng-template>
+          </aeris-carousel>
     </div>
   `,
   styles: `
@@ -52005,8 +51793,55 @@ interface Destination {
 @Component({
   selector: 'app-carousel-minimal-demo',
   imports: [AerisCarouselModule],
-  templateUrl: './carousel-minimal.demo.html',
-  styleUrl: './carousel-minimal.demo.scss'
+  template: `
+    <div>
+      <aeris-carousel
+        [value]="destinations"
+        [numVisible]="2"
+        [showNavigators]="false"
+        [showIndicators]="false"
+        ariaLabel="Minimal destinations"
+        ><ng-template aerisCarouselItem let-item
+          ><article class="destination-card" [attr.data-tone]="$any(item).tone">
+            <strong>{{ $any(item).name }}</strong>
+            <span>{{ $any(item).detail }}</span>
+          </article></ng-template>
+          </aeris-carousel>
+    </div>
+  `,
+  styles: `
+    .destination-card {
+      position: relative;
+      display: grid;
+      align-content: end;
+      min-height: 19rem;
+      padding: 1.25rem;
+      border-radius: var(--aeris-radius-lg);
+      background-color: var(--surface-2);
+      background-position: center;
+      background-size: cover;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .destination-card::before {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%));
+      content: '';
+    }
+
+    .destination-card strong,
+    .destination-card span { position: relative; display: block; }
+    .destination-card strong { font-size: 1.25rem; }
+    .destination-card span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }
+
+    .destination-card[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }
+    .destination-card[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }
+    .destination-card[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }
+    .destination-card[data-tone='rose'] { background-image: url('/puppies/puppy4.jpg'); }
+    .destination-card[data-tone='sky'] { background-image: url('/puppies/puppy5.jpg'); }
+  `
 })
 export class CarouselMinimalMinimalDemo {
   protected readonly destinations: readonly Destination[] = [
@@ -52017,62 +51852,6 @@ export class CarouselMinimalMinimalDemo {
     { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },
   ];
 }
-```
-
-###### HTML
-
-```html
-<div>
-  <aeris-carousel
-    [value]="destinations"
-    [numVisible]="2"
-    [showNavigators]="false"
-    [showIndicators]="false"
-    ariaLabel="Minimal destinations"
-    ><ng-template aerisCarouselItem let-item
-      ><article class="destination-card" [attr.data-tone]="$any(item).tone">
-        <strong>{{ $any(item).name }}</strong
-        ><span>{{ $any(item).detail }}</span>
-      </article></ng-template
-    ></aeris-carousel
-  >
-</div>
-```
-
-###### CSS
-
-```css
-.destination-card {
-  position: relative;
-  display: grid;
-  align-content: end;
-  min-height: 19rem;
-  padding: 1.25rem;
-  border-radius: var(--aeris-radius-lg);
-  background-color: var(--surface-2);
-  background-position: center;
-  background-size: cover;
-  color: #fff;
-  overflow: hidden;
-}
-
-.destination-card::before {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 28%, rgb(0 0 0 / 68%));
-  content: '';
-}
-
-.destination-card strong,
-.destination-card span { position: relative; display: block; }
-.destination-card strong { font-size: 1.25rem; }
-.destination-card span { margin-top: 0.35rem; color: rgb(255 255 255 / 86%); line-height: 1.5; }
-
-.destination-card[data-tone='sage'] { background-image: url('/puppies/puppy1.jpg'); }
-.destination-card[data-tone='blue'] { background-image: url('/puppies/puppy2.jpg'); }
-.destination-card[data-tone='gold'] { background-image: url('/puppies/puppy3.jpg'); }
-.destination-card[data-tone='rose'] { background-image: url('/puppies/puppy4.jpg'); }
-.destination-card[data-tone='sky'] { background-image: url('/puppies/puppy5.jpg'); }
 ```
 
 #### Accessibility
@@ -53453,8 +53232,8 @@ export class GalleriaTemplatesCustomMediaTemplatesDemo {
     </ng-template>
     <ng-template aerisGalleriaCaption let-photo let-index="index">
       <div class="galleria-custom-caption">
-        <strong>{{ $any(photo).title }}</strong
-        ><span>{{ index + 1 }} / {{ photos.length }}</span>
+        <strong>{{ $any(photo).title }}</strong>
+        <span>{{ index + 1 }} / {{ photos.length }}</span>
       </div>
     </ng-template>
   </aeris-galleria>
@@ -54182,46 +53961,35 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
 @Component({
   selector: 'app-badge-dot-demo',
   imports: [AerisBadgeModule],
-  templateUrl: './badge-dot.demo.html',
-  styleUrl: './badge-dot.demo.scss'
+  template: `
+    <div>
+      <div class="badge-status-grid">
+        <span class="badge-status-item"
+          ><aeris-badge dot severity="success" role="status" ariaLabel="Online" />
+          Online</span>
+        <span class="badge-status-item"
+          ><aeris-badge dot severity="warning" role="status" ariaLabel="Away" />
+          Away</span>
+        <span class="badge-status-item"
+          ><aeris-badge dot severity="danger" role="status" ariaLabel="Offline" />
+          Offline</span>
+      </div>
+    </div>
+  `,
+  styles: `
+    .badge-status-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .badge-status-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  `
 })
 export class BadgeDotDotDemo {
-}
-```
-
-###### HTML
-
-```html
-<div>
-  <div class="badge-status-grid">
-    <span class="badge-status-item"
-      ><aeris-badge dot severity="success" role="status" ariaLabel="Online" />
-      Online</span
-    >
-    <span class="badge-status-item"
-      ><aeris-badge dot severity="warning" role="status" ariaLabel="Away" />
-      Away</span
-    >
-    <span class="badge-status-item"
-      ><aeris-badge dot severity="danger" role="status" ariaLabel="Offline" />
-      Offline</span
-    >
-  </div>
-</div>
-```
-
-###### CSS
-
-```css
-.badge-status-grid {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.badge-status-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 ```
 
@@ -55694,8 +55462,7 @@ export class InplaceInputInlineEditingDemo {
   <aeris-inplace ariaLabel="Edit profile name">
     <ng-template aerisInplaceDisplay>
       <span
-        >Name: <strong>{{ savedName() }}</strong></span
-      >
+        >Name: <strong>{{ savedName() }}</strong></span>
     </ng-template>
     <ng-template aerisInplaceContent let-close="close">
       <div class="inplace-editor">
@@ -59100,16 +58867,16 @@ export class ClassNamesConditionalConditionalMapDemo {
   <div class="class-names-demo">
     <div class="class-names-actions">
       <button aerisButton type="button" (click)="toggleSelected()">
-        Toggle selected</button
-      ><button
+        Toggle selected</button>
+        <button
         aerisButton
         type="button"
         variant="solid"
         severity="secondary"
         (click)="toggleBusy()"
       >
-        Toggle busy</button
-      ><button
+        Toggle busy</button>
+        <button
         aerisButton
         type="button"
         variant="outline"
@@ -59245,8 +59012,8 @@ import { AerisClassNamesModule } from '@aeris-ui/core/class-names';
     <div>
       <div class="framework-example">
         <span [aerisClassNames]="['utility-surface', { 'utility-accent': true }]"
-          >Application utility classes</span
-        ><span class="utility-surface">Static classes remain untouched</span>
+          >Application utility classes</span>
+          <span class="utility-surface">Static classes remain untouched</span>
       </div>
     </div>
   `,
@@ -59409,8 +59176,8 @@ export class FilterServiceBasicCollectionFilteringDemo {
       <li>
         <aeris-card padding="sm" variant="filled">
           <div class="filter-result-row">
-            <strong>{{ product.name }}</strong
-            ><span>{{ product.category }}</span>
+            <strong>{{ product.name }}</strong>
+            <span>{{ product.category }}</span>
           </div>
         </aeris-card>
       </li>
@@ -61170,23 +60937,20 @@ export class ScrollTopSizesSizesDemo {
       strategy="absolute"
       size="sm"
       ariaLabel="Small scroll top"
-    />Small</span
-  >
+    />Small</span>
   <span
     ><aeris-scroll-top
       alwaysVisible
       strategy="absolute"
       ariaLabel="Medium scroll top"
-    />Medium</span
-  >
+    />Medium</span>
   <span
     ><aeris-scroll-top
       alwaysVisible
       strategy="absolute"
       size="lg"
       ariaLabel="Large scroll top"
-    />Large</span
-  >
+    />Large</span>
 </div>
 ```
 
@@ -61812,16 +61576,16 @@ export class StyleClassMethodsMethodsAndEventsDemo {
         (shown)="recordMethodShown($event)"
         (hidden)="recordMethodHidden($event)"
       >
-        Toggle notice</button
-      ><button
+        Toggle notice</button>
+        <button
         aerisButton
         type="button"
         variant="solid"
         severity="secondary"
         (click)="methodController.show()"
       >
-        Show</button
-      ><button
+        Show</button>
+        <button
         aerisButton
         type="button"
         variant="solid"

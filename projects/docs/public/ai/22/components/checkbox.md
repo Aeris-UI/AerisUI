@@ -379,8 +379,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
     <div class="field-row checkbox-label-position">
       <aeris-checkbox [checked]="true">Label at end</aeris-checkbox>
       <aeris-checkbox [checked]="true" labelPosition="start"
-        >Label at start</aeris-checkbox
-      >
+        >Label at start</aeris-checkbox>
     </div>
   `,
   styles: `
@@ -463,44 +462,35 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 @Component({
   selector: 'app-checkbox-states-demo',
   imports: [AerisCheckbox],
-  templateUrl: './checkbox-states.demo.html',
-  styleUrl: './checkbox-states.demo.scss'
+  template: `
+    <div class="checkbox-stack">
+      <aeris-checkbox
+        inputId="required-terms"
+        required
+        invalid
+        ariaDescribedBy="required-terms-error"
+      >
+        Accept terms
+      </aeris-checkbox>
+      <small id="required-terms-error" class="error"
+        >You must accept the terms to continue.</small>
+      <aeris-checkbox disabled>Unavailable option</aeris-checkbox>
+      <aeris-checkbox [checked]="true" disabled>Selected and unavailable</aeris-checkbox>
+    </div>
+  `,
+  styles: `
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+
+    .checkbox-stack {
+      width: 100%;
+      display: grid;
+      gap: 0.875rem;
+    }
+  `
 })
 export class CheckboxStatesRequiredInvalidAndDisabledDemo {
-}
-```
-
-#### HTML
-
-```html
-<div class="checkbox-stack">
-  <aeris-checkbox
-    inputId="required-terms"
-    required
-    invalid
-    ariaDescribedBy="required-terms-error"
-  >
-    Accept terms
-  </aeris-checkbox>
-  <small id="required-terms-error" class="error"
-    >You must accept the terms to continue.</small
-  >
-  <aeris-checkbox disabled>Unavailable option</aeris-checkbox>
-  <aeris-checkbox [checked]="true" disabled>Selected and unavailable</aeris-checkbox>
-</div>
-```
-
-#### CSS
-
-```css
-.field small.error {
-  color: var(--aeris-danger);
-}
-
-.checkbox-stack {
-  width: 100%;
-  display: grid;
-  gap: 0.875rem;
 }
 ```
 

@@ -46,20 +46,19 @@
   &lt;aeris-carousel [value]="destinations" [numVisible]="3" ariaLabel="Meet the puppies"
     &gt;&lt;ng-template aerisCarouselHeader
       &gt;&lt;div class="carousel-title"&gt;
-        &lt;strong&gt;Meet the puppies&lt;/strong
-        &gt;&lt;span&gt;Five playful friends with big personalities.&lt;/span&gt;
-      &lt;/div&gt;&lt;/ng-template
-    &gt;&lt;ng-template aerisCarouselItem let-item
+        &lt;strong&gt;Meet the puppies&lt;/strong&gt;
+        &lt;span&gt;Five playful friends with big personalities.&lt;/span&gt;
+      &lt;/div&gt;&lt;/ng-template&gt;
+      &lt;ng-template aerisCarouselItem let-item
       &gt;&lt;article class="destination-card" [attr.data-tone]="$any(item).tone"&gt;
-        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong
-        &gt;&lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
-      &lt;/article&gt;&lt;/ng-template
-    &gt;&lt;ng-template aerisCarouselFooter
+        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong&gt;
+        &lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
+      &lt;/article&gt;&lt;/ng-template&gt;
+      &lt;ng-template aerisCarouselFooter
       &gt;&lt;small class="carousel-footer"
-        &gt;Curated for unhurried weekends.&lt;/small
-      &gt;&lt;/ng-template
-    &gt;&lt;/aeris-carousel
-  &gt;
+        &gt;Curated for unhurried weekends.&lt;/small&gt;
+        &lt;/ng-template&gt;
+      &lt;/aeris-carousel&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
             <app-form-demo
@@ -90,11 +89,10 @@
     ariaLabel="Responsive puppies"
     &gt;&lt;ng-template aerisCarouselItem let-item
       &gt;&lt;article class="destination-card" [attr.data-tone]="$any(item).tone"&gt;
-        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong
-        &gt;&lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
-      &lt;/article&gt;&lt;/ng-template
-    &gt;&lt;/aeris-carousel
-  &gt;
+        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong&gt;
+        &lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
+      &lt;/article&gt;&lt;/ng-template&gt;
+      &lt;/aeris-carousel&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
             <app-form-demo
@@ -124,8 +122,8 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="carousel-actions"&gt;
-    &lt;button aerisButton type="button" (click)="showFirst()"&gt;First slide&lt;/button
-    &gt;&lt;span aria-live="polite"&gt;&#123;&#123; pageMessage() &#125;&#125;&lt;/span&gt;
+    &lt;button aerisButton type="button" (click)="showFirst()"&gt;First slide&lt;/button&gt;
+    &lt;span aria-live="polite"&gt;&#123;&#123; pageMessage() &#125;&#125;&lt;/span&gt;
   &lt;/div&gt;
   &lt;aeris-carousel
     [value]="destinations"
@@ -135,11 +133,10 @@
     ariaLabel="Controlled puppy carousel"
     &gt;&lt;ng-template aerisCarouselItem let-item
       &gt;&lt;article class="destination-card" [attr.data-tone]="$any(item).tone"&gt;
-        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong
-        &gt;&lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
-      &lt;/article&gt;&lt;/ng-template
-    &gt;&lt;/aeris-carousel
-  &gt;
+        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong&gt;
+        &lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
+      &lt;/article&gt;&lt;/ng-template&gt;
+      &lt;/aeris-carousel&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
             <app-form-demo
@@ -172,11 +169,10 @@
     ariaLabel="Autoplay puppies"
     &gt;&lt;ng-template aerisCarouselItem let-item
       &gt;&lt;article class="destination-card" [attr.data-tone]="$any(item).tone"&gt;
-        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong
-        &gt;&lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
-      &lt;/article&gt;&lt;/ng-template
-    &gt;&lt;/aeris-carousel
-  &gt;
+        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong&gt;
+        &lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
+      &lt;/article&gt;&lt;/ng-template&gt;
+      &lt;/aeris-carousel&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
             <app-form-demo
@@ -207,11 +203,10 @@
     ariaLabel="Vertical puppy carousel"
     &gt;&lt;ng-template aerisCarouselItem let-item
       &gt;&lt;article class="destination-card" [attr.data-tone]="$any(item).tone"&gt;
-        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong
-        &gt;&lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
-      &lt;/article&gt;&lt;/ng-template
-    &gt;&lt;/aeris-carousel
-  &gt;
+        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong&gt;
+        &lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
+      &lt;/article&gt;&lt;/ng-template&gt;
+      &lt;/aeris-carousel&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
             <app-form-demo
@@ -244,11 +239,10 @@
     ariaLabel="Minimal destinations"
     &gt;&lt;ng-template aerisCarouselItem let-item
       &gt;&lt;article class="destination-card" [attr.data-tone]="$any(item).tone"&gt;
-        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong
-        &gt;&lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
-      &lt;/article&gt;&lt;/ng-template
-    &gt;&lt;/aeris-carousel
-  &gt;
+        &lt;strong&gt;&#123;&#123; $any(item).name &#125;&#125;&lt;/strong&gt;
+        &lt;span&gt;&#123;&#123; $any(item).detail &#125;&#125;&lt;/span&gt;
+      &lt;/article&gt;&lt;/ng-template&gt;
+      &lt;/aeris-carousel&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
           </div>

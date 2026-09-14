@@ -546,19 +546,19 @@ export class OtpSizesSizesDemo {
 ```html
 <div class="otp-size-grid">
   <div>
-    <span>Extra small</span
-    ><aeris-input-otp ariaLabel="Extra small code" value="1234" size="xs" />
+    <span>Extra small</span>
+    <aeris-input-otp ariaLabel="Extra small code" value="1234" size="xs" />
   </div>
   <div>
-    <span>Small</span
-    ><aeris-input-otp ariaLabel="Small code" value="1234" size="sm" />
+    <span>Small</span>
+    <aeris-input-otp ariaLabel="Small code" value="1234" size="sm" />
   </div>
   <div>
     <span>Medium</span><aeris-input-otp ariaLabel="Medium code" value="1234" />
   </div>
   <div>
-    <span>Large</span
-    ><aeris-input-otp ariaLabel="Large code" value="1234" size="lg" />
+    <span>Large</span>
+    <aeris-input-otp ariaLabel="Large code" value="1234" size="lg" />
   </div>
 </div>
 ```
@@ -616,16 +616,16 @@ export class OtpStatesAppearancesAndStatesDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <span>Filled</span
-    ><aeris-input-otp ariaLabel="Filled code" value="1234" appearance="filled" />
+    <span>Filled</span>
+    <aeris-input-otp ariaLabel="Filled code" value="1234" appearance="filled" />
   </div>
   <div class="field">
-    <span>Disabled</span
-    ><aeris-input-otp ariaLabel="Disabled code" value="1234" disabled />
+    <span>Disabled</span>
+    <aeris-input-otp ariaLabel="Disabled code" value="1234" disabled />
   </div>
   <div class="field">
-    <span>Read-only</span
-    ><aeris-input-otp ariaLabel="Read-only code" value="1234" readonly />
+    <span>Read-only</span>
+    <aeris-input-otp ariaLabel="Read-only code" value="1234" readonly />
   </div>
   <div class="field">
     <span>Fluid</span><aeris-input-otp ariaLabel="Fluid code" value="1234" fluid />
@@ -716,12 +716,10 @@ export class OtpValidationValidationDemo {
   />
   @if (codeInvalid()) {
     <small id="invalid-otp-message" class="error state-message"
-      >Enter all four digits.</small
-    >
+      >Enter all four digits.</small>
   } @else {
     <small id="invalid-otp-message" class="state-message"
-      >Four digits required.</small
-    >
+      >Four digits required.</small>
   }
 </div>
 ```

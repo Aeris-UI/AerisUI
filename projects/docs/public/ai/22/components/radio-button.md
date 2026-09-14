@@ -110,14 +110,11 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       <fieldset class="radio-group">
         <legend>Workspace visibility</legend>
         <aeris-radio-button name="visibility" value="private" [(selected)]="visibility"
-          >Private</aeris-radio-button
-        >
+          >Private</aeris-radio-button>
         <aeris-radio-button name="visibility" value="team" [(selected)]="visibility"
-          >Team members</aeris-radio-button
-        >
+          >Team members</aeris-radio-button>
         <aeris-radio-button name="visibility" value="public" [(selected)]="visibility"
-          >Public</aeris-radio-button
-        >
+          >Public</aeris-radio-button>
       </fieldset>
     </div>
   `,
@@ -184,22 +181,19 @@ export class RadioModelSignalModelDemo {
       value="email"
       [(selected)]="notificationChannel"
       (changed)="recordChange($event)"
-      >Email</aeris-radio-button
-    >
+      >Email</aeris-radio-button>
     <aeris-radio-button
       name="channel"
       value="push"
       [(selected)]="notificationChannel"
       (changed)="recordChange($event)"
-      >Push notification</aeris-radio-button
-    >
+      >Push notification</aeris-radio-button>
     <aeris-radio-button
       name="channel"
       value="none"
       [(selected)]="notificationChannel"
       (changed)="recordChange($event)"
-      >None</aeris-radio-button
-    >
+      >None</aeris-radio-button>
   </fieldset>
   <span class="radio-result" aria-live="polite">
     Value: {{ notificationChannel() }}. {{ lastChange() }}.
@@ -378,17 +372,13 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   template: `
     <div class="field-row">
       <aeris-radio-button name="size-xs" value="xs" selected="xs" size="xs"
-        >Extra small</aeris-radio-button
-      >
+        >Extra small</aeris-radio-button>
       <aeris-radio-button name="size-sm" value="sm" selected="sm" size="sm"
-        >Small</aeris-radio-button
-      >
+        >Small</aeris-radio-button>
       <aeris-radio-button name="size-md" value="md" selected="md"
-        >Medium</aeris-radio-button
-      >
+        >Medium</aeris-radio-button>
       <aeris-radio-button name="size-lg" value="lg" selected="lg" size="lg"
-        >Large</aeris-radio-button
-      >
+        >Large</aeris-radio-button>
     </div>
   `,
   styles: `
@@ -427,15 +417,13 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   template: `
     <div class="field-row">
       <aeris-radio-button name="label-end" value="end" selected="end"
-        >Label at end</aeris-radio-button
-      >
+        >Label at end</aeris-radio-button>
       <aeris-radio-button
         name="label-start"
         value="start"
         selected="start"
         labelPosition="start"
-        >Label at start</aeris-radio-button
-      >
+        >Label at start</aeris-radio-button>
     </div>
   `,
   styles: `
@@ -490,28 +478,24 @@ export class RadioStatesRequiredInvalidAndDisabledDemo {
       required
       invalid
       ariaDescribedBy="delivery-error"
-      >Standard</aeris-radio-button
-    >
+      >Standard</aeris-radio-button>
     <aeris-radio-button
       name="delivery"
       value="express"
       required
       invalid
       ariaDescribedBy="delivery-error"
-      >Express</aeris-radio-button
-    >
+      >Express</aeris-radio-button>
   </fieldset>
   <small id="delivery-error" class="error">Choose a delivery speed.</small>
   <aeris-radio-button name="disabled-demo" value="disabled" disabled
-    >Unavailable option</aeris-radio-button
-  >
+    >Unavailable option</aeris-radio-button>
   <aeris-radio-button
     name="disabled-selected"
     value="selected"
     selected="selected"
     disabled
-    >Selected and unavailable</aeris-radio-button
-  >
+    >Selected and unavailable</aeris-radio-button>
 </div>
 ```
 
@@ -570,11 +554,9 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
       <form class="radio-group">
         <strong>Billing cycle</strong>
         <aeris-radio-button name="billing" value="monthly" selected="monthly"
-          >Monthly</aeris-radio-button
-        >
+          >Monthly</aeris-radio-button>
         <aeris-radio-button name="billing" value="annual" selected="monthly"
-          >Annual</aeris-radio-button
-        >
+          >Annual</aeris-radio-button>
       </form>
     </div>
   `,
@@ -643,11 +625,9 @@ export class RadioAngularFormsReactiveAndTemplateDrivenFormsDemo {
       name="reactive-plan"
       value="starter"
       [formControl]="reactivePlan"
-      >Starter</aeris-radio-button
-    >
+      >Starter</aeris-radio-button>
     <aeris-radio-button name="reactive-plan" value="team" [formControl]="reactivePlan"
-      >Team</aeris-radio-button
-    >
+      >Team</aeris-radio-button>
     <small>Value: {{ reactivePlan.value }}</small>
   </fieldset>
   <fieldset class="radio-group">
@@ -656,11 +636,9 @@ export class RadioAngularFormsReactiveAndTemplateDrivenFormsDemo {
       name="template-plan"
       value="starter"
       [(ngModel)]="templatePlan"
-      >Starter</aeris-radio-button
-    >
+      >Starter</aeris-radio-button>
     <aeris-radio-button name="template-plan" value="team" [(ngModel)]="templatePlan"
-      >Team</aeris-radio-button
-    >
+      >Team</aeris-radio-button>
     <small>Value: {{ templatePlan }}</small>
   </fieldset>
 </div>

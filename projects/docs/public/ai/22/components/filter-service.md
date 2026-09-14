@@ -135,8 +135,8 @@ export class FilterServiceBasicCollectionFilteringDemo {
       <li>
         <aeris-card padding="sm" variant="filled">
           <div class="filter-result-row">
-            <strong>{{ product.name }}</strong
-            ><span>{{ product.category }}</span>
+            <strong>{{ product.name }}</strong>
+            <span>{{ product.category }}</span>
           </div>
         </aeris-card>
       </li>

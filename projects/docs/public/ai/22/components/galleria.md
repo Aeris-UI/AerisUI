@@ -835,8 +835,8 @@ export class GalleriaTemplatesCustomMediaTemplatesDemo {
     </ng-template>
     <ng-template aerisGalleriaCaption let-photo let-index="index">
       <div class="galleria-custom-caption">
-        <strong>{{ $any(photo).title }}</strong
-        ><span>{{ index + 1 }} / {{ photos.length }}</span>
+        <strong>{{ $any(photo).title }}</strong>
+        <span>{{ index + 1 }} / {{ photos.length }}</span>
       </div>
     </ng-template>
   </aeris-galleria>

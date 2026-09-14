@@ -162,16 +162,13 @@ import { AerisCardModule } from '@aeris-ui/core/card';
     <div class="card-demo card-grid">
       <aeris-card variant="outlined"
         ><header aerisCardHeader><h3 aerisCardTitle>Outlined</h3></header>
-        <p>Clear boundaries for structured layouts.</p></aeris-card
-      >
+        <p>Clear boundaries for structured layouts.</p></aeris-card>
       <aeris-card variant="elevated"
         ><header aerisCardHeader><h3 aerisCardTitle>Elevated</h3></header>
-        <p>Depth for prominent or floating content.</p></aeris-card
-      >
+        <p>Depth for prominent or floating content.</p></aeris-card>
       <aeris-card variant="filled"
         ><header aerisCardHeader><h3 aerisCardTitle>Filled</h3></header>
-        <p>Subtle grouping on open page surfaces.</p></aeris-card
-      >
+        <p>Subtle grouping on open page surfaces.</p></aeris-card>
     </div>
   `,
   styles: `
@@ -227,22 +224,18 @@ export class CardPaddingPaddingDemo {
 <div class="card-demo card-grid card-grid--two">
   <aeris-card padding="sm"
     ><header aerisCardHeader><h3 aerisCardTitle>Small</h3></header>
-    <p>Compact supporting content.</p></aeris-card
-  >
+    <p>Compact supporting content.</p></aeris-card>
   <aeris-card padding="md"
     ><header aerisCardHeader><h3 aerisCardTitle>Medium</h3></header>
-    <p>The balanced default.</p></aeris-card
-  >
+    <p>The balanced default.</p></aeris-card>
   <aeris-card padding="lg"
     ><header aerisCardHeader><h3 aerisCardTitle>Large</h3></header>
-    <p>More room for featured content.</p></aeris-card
-  >
+    <p>More room for featured content.</p></aeris-card>
   <aeris-card padding="none"
     ><div class="custom-padding">
       <h3 aerisCardTitle>None</h3>
       <p>Bring your own internal layout.</p>
-    </div></aeris-card
-  >
+    </div></aeris-card>
 </div>
 ```
 

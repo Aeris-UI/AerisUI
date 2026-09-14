@@ -80,7 +80,9 @@ for (const path of files) {
     const previewMarkup = normalizeCode(
       normalizePreviewSource(previewSource, demo.name === 'app-button-demo'),
     );
-    const expected = includeReferencedTemplates(previewMarkup, namedTemplates);
+    const expected = normalizeExampleMarkup(
+      includeReferencedTemplates(previewMarkup, namedTemplates),
+    );
     const anchor = attributeValue(demo, 'id') ?? 'unknown';
     const explicitCode = pageContext.resolveString(attributeValue(demo, '[tsCode]') ?? '');
     const isCompleteComponent =
@@ -149,7 +151,8 @@ for (const path of files) {
 
 const generatedStyleSource = renderGeneratedStyles(generatedStyles);
 const currentGeneratedStyles = await readFile(GENERATED_STYLES, 'utf8').catch(() => '');
-const generatedStylesDiffer = currentGeneratedStyles.replace(/\r\n/g, '\n') !== generatedStyleSource;
+const generatedStylesDiffer =
+  currentGeneratedStyles.replace(/\r\n/g, '\n') !== generatedStyleSource;
 if (write && generatedStylesDiffer) {
   await writeFile(GENERATED_STYLES, generatedStyleSource, 'utf8');
 }
@@ -277,6 +280,22 @@ function normalizeCode(value) {
     .map((line, index) => (index === 0 ? line.trimStart() : line.slice(indent)))
     .join('\n')
     .trimEnd();
+}
+
+function normalizeExampleMarkup(value) {
+  return normalizeCode(
+    value.replace(/(<\/[A-Za-z][\w:-]*)[ \t]*\n[ \t]*>/g, (match, closingTag, offset) => {
+      const lineStart = value.lastIndexOf('\n', offset) + 1;
+      const indentation = value.slice(lineStart, offset).match(/^[ \t]*/)?.[0] ?? '';
+      const nextCharacter = value[offset + match.length];
+
+      if (nextCharacter === '\r' || nextCharacter === '\n' || nextCharacter === undefined) {
+        return `${closingTag}>`;
+      }
+
+      return `${closingTag}>\n${indentation}`;
+    }),
+  );
 }
 
 function escapeHtml(value) {

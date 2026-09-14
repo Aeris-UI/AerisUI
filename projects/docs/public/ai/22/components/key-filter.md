@@ -172,8 +172,8 @@ export class KeyFilterPresetsPresetsDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <label for="key-filter-int">Integer</label
-    ><input
+    <label for="key-filter-int">Integer</label>
+    <input
       aerisInputText
       id="key-filter-int"
       aerisKeyFilter="int"
@@ -182,8 +182,8 @@ export class KeyFilterPresetsPresetsDemo {
     />
   </div>
   <div class="field">
-    <label for="key-filter-hex">Hex</label
-    ><input
+    <label for="key-filter-hex">Hex</label>
+    <input
       aerisInputText
       id="key-filter-hex"
       aerisKeyFilter="hex"
@@ -192,8 +192,8 @@ export class KeyFilterPresetsPresetsDemo {
     />
   </div>
   <div class="field">
-    <label for="key-filter-alpha">Letters</label
-    ><input
+    <label for="key-filter-alpha">Letters</label>
+    <input
       aerisInputText
       id="key-filter-alpha"
       aerisKeyFilter="alpha"
@@ -202,8 +202,8 @@ export class KeyFilterPresetsPresetsDemo {
     />
   </div>
   <div class="field">
-    <label for="key-filter-email">Email characters</label
-    ><input
+    <label for="key-filter-email">Email characters</label>
+    <input
       aerisInputText
       id="key-filter-email"
       aerisKeyFilter="email"
@@ -283,8 +283,8 @@ export class KeyFilterDecimalsNumbersDemo {
 ```html
 <div class="field-grid">
   <div class="field">
-    <label for="key-filter-num">Signed decimal</label
-    ><input
+    <label for="key-filter-num">Signed decimal</label>
+    <input
       aerisInputText
       id="key-filter-num"
       aerisKeyFilter="num"
@@ -294,8 +294,8 @@ export class KeyFilterDecimalsNumbersDemo {
     />
   </div>
   <div class="field">
-    <label for="key-filter-pnum">Positive decimal</label
-    ><input
+    <label for="key-filter-pnum">Positive decimal</label>
+    <input
       aerisInputText
       id="key-filter-pnum"
       aerisKeyFilter="pnum"

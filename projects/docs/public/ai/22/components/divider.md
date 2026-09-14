@@ -138,8 +138,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
   template: `
     <div>
       <aeris-divider align="start" ariaLabel="Start aligned metadata"
-        >Metadata</aeris-divider
-      >
+        >Metadata</aeris-divider>
       <aeris-divider align="center" ariaLabel="Centered metadata">Metadata</aeris-divider>
       <aeris-divider align="end" ariaLabel="End aligned metadata">Metadata</aeris-divider>
     </div>
@@ -169,8 +168,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
           <p>Draft</p>
         </section>
         <aeris-divider orientation="vertical" ariaLabel="Draft and published boundary"
-          >to</aeris-divider
-        >
+          >to</aeris-divider>
         <section class="vertical-panel" aria-label="Published">
           <p>Published</p>
         </section>
@@ -217,11 +215,9 @@ import { AerisDivider } from '@aeris-ui/core/divider';
       <div class="line-style-stack">
         <aeris-divider lineStyle="solid" ariaLabel="Solid separator">Solid</aeris-divider>
         <aeris-divider lineStyle="dashed" ariaLabel="Dashed separator"
-          >Dashed</aeris-divider
-        >
+          >Dashed</aeris-divider>
         <aeris-divider lineStyle="dotted" ariaLabel="Dotted separator"
-          >Dotted</aeris-divider
-        >
+          >Dotted</aeris-divider>
       </div>
     </div>
   `,
@@ -288,8 +284,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
         class="brand-divider"
         lineStyle="dashed"
         ariaLabel="Branded separator"
-        >Release gate</aeris-divider
-      >
+        >Release gate</aeris-divider>
     </div>
   `,
   styles: `

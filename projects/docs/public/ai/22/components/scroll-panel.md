@@ -138,8 +138,8 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
         <ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
-              <span>{{ brand.name }}</span
-              ><strong>{{ brand.count }}</strong>
+              <span>{{ brand.name }}</span>
+              <strong>{{ brand.count }}</strong>
             </li>
           }
         </ul>
@@ -332,8 +332,8 @@ import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
         <ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
-              <span>{{ brand.name }}</span
-              ><strong>{{ brand.count }}</strong>
+              <span>{{ brand.name }}</span>
+              <strong>{{ brand.count }}</strong>
             </li>
           }
         </ul>
@@ -395,12 +395,11 @@ export class ScrollPanelVariantsVariantsDemo {
         ><ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
-              <span>{{ brand.name }}</span
-              ><strong>{{ brand.count }}</strong>
+              <span>{{ brand.name }}</span>
+              <strong>{{ brand.count }}</strong>
             </li>
           }
-        </ul></aeris-scroll-panel
-      >
+        </ul></aeris-scroll-panel>
     </section>
     <section>
       <h4>Hover</h4>
@@ -408,12 +407,11 @@ export class ScrollPanelVariantsVariantsDemo {
         ><ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
-              <span>{{ brand.name }}</span
-              ><strong>{{ brand.count }}</strong>
+              <span>{{ brand.name }}</span>
+              <strong>{{ brand.count }}</strong>
             </li>
           }
-        </ul></aeris-scroll-panel
-      >
+        </ul></aeris-scroll-panel>
     </section>
     <section>
       <h4>Always</h4>
@@ -424,12 +422,11 @@ export class ScrollPanelVariantsVariantsDemo {
         ><ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
-              <span>{{ brand.name }}</span
-              ><strong>{{ brand.count }}</strong>
+              <span>{{ brand.name }}</span>
+              <strong>{{ brand.count }}</strong>
             </li>
           }
-        </ul></aeris-scroll-panel
-      >
+        </ul></aeris-scroll-panel>
     </section>
     <section>
       <h4>Hidden</h4>
@@ -440,12 +437,11 @@ export class ScrollPanelVariantsVariantsDemo {
         ><ul class="brand-list">
           @for (brand of brands; track brand.name) {
             <li>
-              <span>{{ brand.name }}</span
-              ><strong>{{ brand.count }}</strong>
+              <span>{{ brand.name }}</span>
+              <strong>{{ brand.count }}</strong>
             </li>
           }
-        </ul></aeris-scroll-panel
-      >
+        </ul></aeris-scroll-panel>
     </section>
   </div>
 </div>
@@ -588,8 +584,8 @@ export class ScrollPanelMethodsEventsAndMethodsDemo {
     <ul class="brand-list">
       @for (brand of brands; track brand.name) {
         <li>
-          <span>{{ brand.name }}</span
-          ><strong>{{ brand.count }}</strong>
+          <span>{{ brand.name }}</span>
+          <strong>{{ brand.count }}</strong>
         </li>
       }
     </ul>
@@ -701,8 +697,8 @@ export class ScrollPanelCustomTokenCustomizationDemo {
     <ul class="brand-list">
       @for (brand of brands; track brand.name) {
         <li>
-          <span>{{ brand.name }}</span
-          ><strong>{{ brand.count }}</strong>
+          <span>{{ brand.name }}</span>
+          <strong>{{ brand.count }}</strong>
         </li>
       }
     </ul>

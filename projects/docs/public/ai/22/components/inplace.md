@@ -327,8 +327,7 @@ export class InplaceInputInlineEditingDemo {
   <aeris-inplace ariaLabel="Edit profile name">
     <ng-template aerisInplaceDisplay>
       <span
-        >Name: <strong>{{ savedName() }}</strong></span
-      >
+        >Name: <strong>{{ savedName() }}</strong></span>
     </ng-template>
     <ng-template aerisInplaceContent let-close="close">
       <div class="inplace-editor">

@@ -51,8 +51,7 @@
     (changed)="recordChange($event)"
   /&gt;
   &lt;small aria-live="polite"
-    &gt;&#123;&#123; lastChange() &#125;&#125;. Values: &#123;&#123; skills().join(', ') || 'None' &#125;&#125;&lt;/small
-  &gt;
+    &gt;&#123;&#123; lastChange() &#125;&#125;. Values: &#123;&#123; skills().join(', ') || 'None' &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -218,17 +217,14 @@
   &gt;
     &lt;ng-template aerisMultiSelectOption let-option&gt;
       &lt;span class="team-option"
-        &gt;&lt;strong&gt;&#123;&#123; option.label &#125;&#125;&lt;/strong
-        &gt;&lt;small&gt;&#123;&#123; option.description &#125;&#125;&lt;/small&gt;&lt;/span
-      &gt;
+        &gt;&lt;strong&gt;&#123;&#123; option.label &#125;&#125;&lt;/strong&gt;
+        &lt;small&gt;&#123;&#123; option.description &#125;&#125;&lt;/small&gt;&lt;/span&gt;
     &lt;/ng-template&gt;
     &lt;ng-template aerisMultiSelectChip let-option&gt;&#123;&#123; option.label &#125;&#125;&lt;/ng-template&gt;
     &lt;ng-template aerisMultiSelectHeader
-      &gt;&lt;strong&gt;Product organization&lt;/strong&gt;&lt;/ng-template
-    &gt;
+      &gt;&lt;strong&gt;Product organization&lt;/strong&gt;&lt;/ng-template&gt;
     &lt;ng-template aerisMultiSelectFooter
-      &gt;&lt;small&gt;Choose every team that should be notified.&lt;/small&gt;&lt;/ng-template
-    &gt;
+      &gt;&lt;small&gt;Choose every team that should be notified.&lt;/small&gt;&lt;/ng-template&gt;
   &lt;/aeris-multi-select&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -375,31 +371,31 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="multi-select-size-grid"&gt;
   &lt;label
-    &gt;&lt;span&gt;Extra small&lt;/span
-    &gt;&lt;aeris-multi-select
+    &gt;&lt;span&gt;Extra small&lt;/span&gt;
+    &lt;aeris-multi-select
       ariaLabel="Extra small skills"
       [options]="skillOptions"
       [value]="['angular']"
       size="xs"
   /&gt;&lt;/label&gt;
   &lt;label
-    &gt;&lt;span&gt;Small&lt;/span
-    &gt;&lt;aeris-multi-select
+    &gt;&lt;span&gt;Small&lt;/span&gt;
+    &lt;aeris-multi-select
       ariaLabel="Small skills"
       [options]="skillOptions"
       [value]="['angular']"
       size="sm"
   /&gt;&lt;/label&gt;
   &lt;label
-    &gt;&lt;span&gt;Medium&lt;/span
-    &gt;&lt;aeris-multi-select
+    &gt;&lt;span&gt;Medium&lt;/span&gt;
+    &lt;aeris-multi-select
       ariaLabel="Medium skills"
       [options]="skillOptions"
       [value]="['angular']"
   /&gt;&lt;/label&gt;
   &lt;label
-    &gt;&lt;span&gt;Large&lt;/span
-    &gt;&lt;aeris-multi-select
+    &gt;&lt;span&gt;Large&lt;/span&gt;
+    &lt;aeris-multi-select
       ariaLabel="Large skills"
       [options]="skillOptions"
       [value]="['angular']"
@@ -465,8 +461,8 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;div class="field"&gt;
-    &lt;span&gt;Filled&lt;/span
-    &gt;&lt;aeris-multi-select
+    &lt;span&gt;Filled&lt;/span&gt;
+    &lt;aeris-multi-select
       ariaLabel="Filled skills"
       [options]="skillOptions"
       [value]="['angular']"
@@ -475,8 +471,8 @@
     /&gt;&lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;label for="skills-invalid"&gt;Required&lt;/label
-    &gt;&lt;aeris-multi-select
+    &lt;label for="skills-invalid"&gt;Required&lt;/label&gt;
+    &lt;aeris-multi-select
       inputId="skills-invalid"
       [options]="skillOptions"
       [(value)]="invalidValues"
@@ -487,15 +483,14 @@
     /&gt;
     &#64;if (invalidValues().length === 0) &#123;
       &lt;small id="skills-error" class="error state-message"
-        &gt;Choose at least one skill.&lt;/small
-      &gt;
+        &gt;Choose at least one skill.&lt;/small&gt;
     &#125; &#64;else &#123;
       &lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
     &#125;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;span&gt;Disabled&lt;/span
-    &gt;&lt;aeris-multi-select
+    &lt;span&gt;Disabled&lt;/span&gt;
+    &lt;aeris-multi-select
       ariaLabel="Disabled skills"
       [options]="skillOptions"
       [value]="['angular']"
@@ -504,8 +499,8 @@
     /&gt;&lt;small class="state-message" aria-hidden="true"&gt;&amp;nbsp;&lt;/small&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;span&gt;Loading&lt;/span
-    &gt;&lt;aeris-multi-select
+    &lt;span&gt;Loading&lt;/span&gt;
+    &lt;aeris-multi-select
       ariaLabel="Loading skills"
       [options]="skillOptions"
       loading

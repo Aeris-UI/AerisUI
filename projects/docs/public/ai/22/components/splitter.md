@@ -287,25 +287,21 @@ export class SplitterDividerDividerDemo {
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Handle only</strong><span>Default minimal divider.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Panel</strong><span>Resize from the handle.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
     </aeris-splitter>
     <aeris-splitter height="10rem" divider="line" ariaLabel="Line splitter">
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Full line</strong><span>Divider line with centered handle.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Panel</strong><span>Useful for dense surfaces.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
     </aeris-splitter>
   </div>
 </div>
@@ -679,14 +675,14 @@ export class SplitterNestedNestedDemo {
       >
         <aeris-splitter-panel ariaLabel="Message body" [size]="64">
           <div class="mail-pane">
-            <strong>Message body</strong
-            ><span>Review the latest component audit and screenshots.</span>
+            <strong>Message body</strong>
+            <span>Review the latest component audit and screenshots.</span>
           </div>
         </aeris-splitter-panel>
         <aeris-splitter-panel ariaLabel="Thread notes" [size]="36">
           <div class="mail-pane">
-            <strong>Thread notes</strong
-            ><span>Three linked tasks and two approvals.</span>
+            <strong>Thread notes</strong>
+            <span>Three linked tasks and two approvals.</span>
           </div>
         </aeris-splitter-panel>
       </aeris-splitter>
@@ -750,37 +746,31 @@ export class SplitterVariantsVariantsDemo {
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Outlined</strong><span>Default border.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Panel</strong><span>Resizable.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
     </aeris-splitter>
     <aeris-splitter height="9rem" variant="filled" ariaLabel="Filled splitter">
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Filled</strong><span>Soft surface.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Panel</strong><span>Resizable.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
     </aeris-splitter>
     <aeris-splitter height="9rem" variant="plain" ariaLabel="Plain splitter">
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Plain</strong><span>No outer border.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
       <aeris-splitter-panel
         ><div class="splitter-pane">
           <strong>Panel</strong><span>Resizable.</span>
-        </div></aeris-splitter-panel
-      >
+        </div></aeris-splitter-panel>
     </aeris-splitter>
   </div>
 </div>
@@ -874,14 +864,14 @@ export class SplitterTokensTokenCustomizationDemo {
   >
     <aeris-splitter-panel ariaLabel="Primary panel" [size]="38">
       <div class="splitter-pane">
-        <strong>Branded surface</strong
-        ><span>Custom border, radius, and handle.</span>
+        <strong>Branded surface</strong>
+        <span>Custom border, radius, and handle.</span>
       </div>
     </aeris-splitter-panel>
     <aeris-splitter-panel ariaLabel="Secondary panel" [size]="62">
       <div class="splitter-pane">
-        <strong>Resizable panel</strong
-        ><span>The tokens follow palette and theme changes.</span>
+        <strong>Resizable panel</strong>
+        <span>The tokens follow palette and theme changes.</span>
       </div>
     </aeris-splitter-panel>
   </aeris-splitter>

@@ -165,8 +165,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
         (changed)="recordChange($event)"
       />
       <small aria-live="polite"
-        >{{ lastChange() }}. Value: {{ workspace() || 'None' }}</small
-      >
+        >{{ lastChange() }}. Value: {{ workspace() || 'None' }}</small>
     </div>
   `,
   styles: `
@@ -423,11 +422,9 @@ export class TreeSelectTemplatesTemplatesDemo {
       </span>
     </ng-template>
     <ng-template aerisTreeSelectHeader
-      ><strong>Choose destination</strong></ng-template
-    >
+      ><strong>Choose destination</strong></ng-template>
     <ng-template aerisTreeSelectFooter
-      ><small>Disabled nodes remain visible but unavailable.</small></ng-template
-    >
+      ><small>Disabled nodes remain visible but unavailable.</small></ng-template>
   </aeris-tree-select>
 </div>
 ```
@@ -508,31 +505,31 @@ export class TreeSelectSizesSizesDemo {
 ```html
 <div class="tree-size-grid">
   <label
-    ><span>Extra small</span
-    ><aeris-tree-select
+    ><span>Extra small</span>
+    <aeris-tree-select
       ariaLabel="Extra small tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
       size="xs"
   /></label>
   <label
-    ><span>Small</span
-    ><aeris-tree-select
+    ><span>Small</span>
+    <aeris-tree-select
       ariaLabel="Small tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
       size="sm"
   /></label>
   <label
-    ><span>Medium</span
-    ><aeris-tree-select
+    ><span>Medium</span>
+    <aeris-tree-select
       ariaLabel="Medium tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
   /></label>
   <label
-    ><span>Large</span
-    ><aeris-tree-select
+    ><span>Large</span>
+    <aeris-tree-select
       ariaLabel="Large tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
@@ -602,8 +599,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
 ```html
 <div class="tree-state-grid">
   <div class="field">
-    <span>Filled</span
-    ><aeris-tree-select
+    <span>Filled</span>
+    <aeris-tree-select
       ariaLabel="Filled tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
@@ -612,8 +609,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
     /><small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
-    <label for="tree-invalid">Required</label
-    ><aeris-tree-select
+    <label for="tree-invalid">Required</label>
+    <aeris-tree-select
       inputId="tree-invalid"
       [nodes]="nodes"
       [(value)]="invalidValue"
@@ -629,8 +626,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
     }
   </div>
   <div class="field">
-    <span>Disabled</span
-    ><aeris-tree-select
+    <span>Disabled</span>
+    <aeris-tree-select
       ariaLabel="Disabled tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
@@ -639,8 +636,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
     /><small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
-    <span>Empty</span
-    ><aeris-tree-select
+    <span>Empty</span>
+    <aeris-tree-select
       ariaLabel="Empty tree select"
       [nodes]="[]"
       emptyMessage="No destinations yet"

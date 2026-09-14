@@ -124,43 +124,32 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-basic-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-basic.demo.html',
-  styleUrl: './tabs-basic.demo.scss'
+  template: `
+    <div>
+      <aeris-tabs ariaLabel="Project details">
+        <aeris-tab-panel value="summary" label="Summary"
+          ><div class="tabs-demo-panel">
+            Project summary and current status.
+          </div></aeris-tab-panel>
+        <aeris-tab-panel value="activity" label="Activity"
+          ><div class="tabs-demo-panel">Recent project activity.</div></aeris-tab-panel>
+        <aeris-tab-panel value="members" label="Members"
+          ><div class="tabs-demo-panel">
+            Project members and permissions.
+          </div></aeris-tab-panel>
+      </aeris-tabs>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+  `
 })
 export class TabsBasicBasicDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <aeris-tabs ariaLabel="Project details">
-    <aeris-tab-panel value="summary" label="Summary"
-      ><div class="tabs-demo-panel">
-        Project summary and current status.
-      </div></aeris-tab-panel
-    >
-    <aeris-tab-panel value="activity" label="Activity"
-      ><div class="tabs-demo-panel">Recent project activity.</div></aeris-tab-panel
-    >
-    <aeris-tab-panel value="members" label="Members"
-      ><div class="tabs-demo-panel">
-        Project members and permissions.
-      </div></aeris-tab-panel
-    >
-  </aeris-tabs>
-</div>
-```
-
-#### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
 }
 ```
 
@@ -177,8 +166,29 @@ import { AerisTabsModule, type AerisTabChangeEvent } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-controlled-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-controlled.demo.html',
-  styleUrl: './tabs-controlled.demo.scss'
+  template: `
+    <div>
+      <aeris-tabs
+        ariaLabel="Account settings"
+        [(value)]="accountTab"
+        (changed)="recordChange($event)"
+      >
+        <aeris-tab-panel value="profile" label="Profile"
+          ><div class="tabs-demo-panel">Profile settings.</div></aeris-tab-panel>
+        <aeris-tab-panel value="security" label="Security"
+          ><div class="tabs-demo-panel">Security settings.</div></aeris-tab-panel>
+      </aeris-tabs>
+      <small aria-live="polite">{{ lastChange() }}</small>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+  `
 })
 export class TabsControlledControlledStateAndEventsDemo {
   protected readonly accountTab =
@@ -191,37 +201,6 @@ export class TabsControlledControlledStateAndEventsDemo {
       `Changed from ${event.previousValue} to ${event.value}`,
     );
   }
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <aeris-tabs
-    ariaLabel="Account settings"
-    [(value)]="accountTab"
-    (changed)="recordChange($event)"
-  >
-    <aeris-tab-panel value="profile" label="Profile"
-      ><div class="tabs-demo-panel">Profile settings.</div></aeris-tab-panel
-    >
-    <aeris-tab-panel value="security" label="Security"
-      ><div class="tabs-demo-panel">Security settings.</div></aeris-tab-panel
-    >
-  </aeris-tabs>
-  <small aria-live="polite">{{ lastChange() }}</small>
-</div>
-```
-
-#### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
 }
 ```
 
@@ -448,14 +427,11 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
     <div>
       <aeris-tabs ariaLabel="Release stages">
         <aeris-tab-panel value="draft" label="Draft"
-          ><div class="tabs-demo-panel">Draft release.</div></aeris-tab-panel
-        >
+          ><div class="tabs-demo-panel">Draft release.</div></aeris-tab-panel>
         <aeris-tab-panel value="review" label="Review" disabled
-          ><div class="tabs-demo-panel">Review unavailable.</div></aeris-tab-panel
-        >
+          ><div class="tabs-demo-panel">Review unavailable.</div></aeris-tab-panel>
         <aeris-tab-panel value="published" label="Published"
-          ><div class="tabs-demo-panel">Published release.</div></aeris-tab-panel
-        >
+          ><div class="tabs-demo-panel">Published release.</div></aeris-tab-panel>
       </aeris-tabs>
     </div>
   `,
@@ -485,42 +461,32 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-manual-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-manual.demo.html',
-  styleUrl: './tabs-manual.demo.scss'
+  template: `
+    <div>
+      <aeris-tabs
+        ariaLabel="Manual activation example"
+        activationMode="manual"
+        [(value)]="manualTab"
+      >
+        <aeris-tab-panel value="overview" label="Overview"
+          ><div class="tabs-demo-panel">
+            Overview remains selected until activation.
+          </div></aeris-tab-panel>
+        <aeris-tab-panel value="metrics" label="Metrics"
+          ><div class="tabs-demo-panel">Metrics content.</div></aeris-tab-panel>
+      </aeris-tabs>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+  `
 })
 export class TabsManualManualActivationDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <aeris-tabs
-    ariaLabel="Manual activation example"
-    activationMode="manual"
-    [(value)]="manualTab"
-  >
-    <aeris-tab-panel value="overview" label="Overview"
-      ><div class="tabs-demo-panel">
-        Overview remains selected until activation.
-      </div></aeris-tab-panel
-    >
-    <aeris-tab-panel value="metrics" label="Metrics"
-      ><div class="tabs-demo-panel">Metrics content.</div></aeris-tab-panel
-    >
-  </aeris-tabs>
-</div>
-```
-
-#### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
 }
 ```
 
@@ -537,47 +503,36 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-vertical-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-vertical.demo.html',
-  styleUrl: './tabs-vertical.demo.scss'
+  template: `
+    <div>
+      <aeris-tabs
+        class="vertical-demo"
+        ariaLabel="Workspace settings"
+        orientation="vertical"
+      >
+        <aeris-tab-panel value="general" label="General"
+          ><div class="tabs-demo-panel">General workspace settings.</div></aeris-tab-panel>
+        <aeris-tab-panel value="people" label="People"
+          ><div class="tabs-demo-panel">People and access settings.</div></aeris-tab-panel>
+        <aeris-tab-panel value="billing" label="Billing"
+          ><div class="tabs-demo-panel">Billing settings.</div></aeris-tab-panel>
+      </aeris-tabs>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+
+    .vertical-demo {
+      min-height: 12rem;
+    }
+  `
 })
 export class TabsVerticalVerticalTabsDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <aeris-tabs
-    class="vertical-demo"
-    ariaLabel="Workspace settings"
-    orientation="vertical"
-  >
-    <aeris-tab-panel value="general" label="General"
-      ><div class="tabs-demo-panel">General workspace settings.</div></aeris-tab-panel
-    >
-    <aeris-tab-panel value="people" label="People"
-      ><div class="tabs-demo-panel">People and access settings.</div></aeris-tab-panel
-    >
-    <aeris-tab-panel value="billing" label="Billing"
-      ><div class="tabs-demo-panel">Billing settings.</div></aeris-tab-panel
-    >
-  </aeris-tabs>
-</div>
-```
-
-#### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
-}
-
-.vertical-demo {
-  min-height: 12rem;
 }
 ```
 
@@ -594,48 +549,38 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-variants-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-variants.demo.html',
-  styleUrl: './tabs-variants.demo.scss'
+  template: `
+    <div class="variant-stack">
+      <aeris-tabs ariaLabel="Line tabs" variant="line"
+        ><aeris-tab-panel value="one" label="Overview"
+          ><div class="tabs-demo-panel">Line variant.</div></aeris-tab-panel>
+          <aeris-tab-panel value="two" label="Details"
+          ><div class="tabs-demo-panel">Details.</div></aeris-tab-panel>
+          </aeris-tabs>
+      <aeris-tabs ariaLabel="Pill tabs" variant="pill"
+        ><aeris-tab-panel value="one" label="Monthly"
+          ><div class="tabs-demo-panel">Monthly data.</div></aeris-tab-panel>
+          <aeris-tab-panel value="two" label="Yearly"
+          ><div class="tabs-demo-panel">Yearly data.</div></aeris-tab-panel>
+          </aeris-tabs>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+
+    .variant-stack {
+      width: 100%;
+      display: grid;
+      gap: 2rem;
+    }
+  `
 })
 export class TabsVariantsLineAndPillVariantsDemo {
-}
-```
-
-#### HTML
-
-```html
-<div class="variant-stack">
-  <aeris-tabs ariaLabel="Line tabs" variant="line"
-    ><aeris-tab-panel value="one" label="Overview"
-      ><div class="tabs-demo-panel">Line variant.</div></aeris-tab-panel
-    ><aeris-tab-panel value="two" label="Details"
-      ><div class="tabs-demo-panel">Details.</div></aeris-tab-panel
-    ></aeris-tabs
-  >
-  <aeris-tabs ariaLabel="Pill tabs" variant="pill"
-    ><aeris-tab-panel value="one" label="Monthly"
-      ><div class="tabs-demo-panel">Monthly data.</div></aeris-tab-panel
-    ><aeris-tab-panel value="two" label="Yearly"
-      ><div class="tabs-demo-panel">Yearly data.</div></aeris-tab-panel
-    ></aeris-tabs
-  >
-</div>
-```
-
-#### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
-}
-
-.variant-stack {
-  width: 100%;
-  display: grid;
-  gap: 2rem;
 }
 ```
 
@@ -652,59 +597,49 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-headers-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-headers.demo.html',
-  styleUrl: './tabs-headers.demo.scss'
+  template: `
+    <div>
+      <aeris-tabs ariaLabel="Inbox sections">
+        <aeris-tab-panel value="inbox" label="Inbox">
+          <ng-template aerisTabHeader
+            ><span class="tab-header"
+              >Inbox <span class="tab-count">12</span></span>
+              </ng-template>
+          <div class="tabs-demo-panel">Unread messages.</div>
+        </aeris-tab-panel>
+        <aeris-tab-panel value="archive" label="Archive"
+          ><div class="tabs-demo-panel">Archived messages.</div></aeris-tab-panel>
+      </aeris-tabs>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+
+    .tab-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .tab-count {
+      min-width: 1.25rem;
+      min-height: 1.25rem;
+      display: inline-grid;
+      place-items: center;
+      padding-inline: 0.3rem;
+      border-radius: 99px;
+      background: var(--primary-soft);
+      color: var(--aeris-primary-text);
+      font-size: 0.6875rem;
+    }
+  `
 })
 export class TabsHeadersHeaderTemplatesDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <aeris-tabs ariaLabel="Inbox sections">
-    <aeris-tab-panel value="inbox" label="Inbox">
-      <ng-template aerisTabHeader
-        ><span class="tab-header"
-          >Inbox <span class="tab-count">12</span></span
-        ></ng-template
-      >
-      <div class="tabs-demo-panel">Unread messages.</div>
-    </aeris-tab-panel>
-    <aeris-tab-panel value="archive" label="Archive"
-      ><div class="tabs-demo-panel">Archived messages.</div></aeris-tab-panel
-    >
-  </aeris-tabs>
-</div>
-```
-
-#### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
-}
-
-.tab-header {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-}
-
-.tab-count {
-  min-width: 1.25rem;
-  min-height: 1.25rem;
-  display: inline-grid;
-  place-items: center;
-  padding-inline: 0.3rem;
-  border-radius: 99px;
-  background: var(--primary-soft);
-  color: var(--aeris-primary-text);
-  font-size: 0.6875rem;
 }
 ```
 
@@ -721,48 +656,38 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 @Component({
   selector: 'app-tabs-sizes-demo',
   imports: [AerisTabsModule],
-  templateUrl: './tabs-sizes.demo.html',
-  styleUrl: './tabs-sizes.demo.scss'
+  template: `
+    <div class="variant-stack">
+      <aeris-tabs ariaLabel="Small centered tabs" size="sm" justify="center"
+        ><aeris-tab-panel value="one" label="Small"
+          ><div class="tabs-demo-panel">Small centered tabs.</div></aeris-tab-panel>
+          <aeris-tab-panel value="two" label="Tabs"
+          ><div class="tabs-demo-panel">Second panel.</div></aeris-tab-panel>
+          </aeris-tabs>
+      <aeris-tabs ariaLabel="Stretched tabs" size="lg" justify="stretch"
+        ><aeris-tab-panel value="one" label="Overview"
+          ><div class="tabs-demo-panel">Large stretched tabs.</div></aeris-tab-panel>
+          <aeris-tab-panel value="two" label="Analytics"
+          ><div class="tabs-demo-panel">Analytics.</div></aeris-tab-panel>
+          </aeris-tabs>
+    </div>
+  `,
+  styles: `
+    .tabs-demo-panel {
+      min-height: 6rem;
+      padding: 1.25rem;
+      color: var(--aeris-text-2);
+      line-height: 1.6;
+    }
+
+    .variant-stack {
+      width: 100%;
+      display: grid;
+      gap: 2rem;
+    }
+  `
 })
 export class TabsSizesSizesAndAlignmentDemo {
-}
-```
-
-#### HTML
-
-```html
-<div class="variant-stack">
-  <aeris-tabs ariaLabel="Small centered tabs" size="sm" justify="center"
-    ><aeris-tab-panel value="one" label="Small"
-      ><div class="tabs-demo-panel">Small centered tabs.</div></aeris-tab-panel
-    ><aeris-tab-panel value="two" label="Tabs"
-      ><div class="tabs-demo-panel">Second panel.</div></aeris-tab-panel
-    ></aeris-tabs
-  >
-  <aeris-tabs ariaLabel="Stretched tabs" size="lg" justify="stretch"
-    ><aeris-tab-panel value="one" label="Overview"
-      ><div class="tabs-demo-panel">Large stretched tabs.</div></aeris-tab-panel
-    ><aeris-tab-panel value="two" label="Analytics"
-      ><div class="tabs-demo-panel">Analytics.</div></aeris-tab-panel
-    ></aeris-tabs
-  >
-</div>
-```
-
-#### CSS
-
-```css
-.tabs-demo-panel {
-  min-height: 6rem;
-  padding: 1.25rem;
-  color: var(--aeris-text-2);
-  line-height: 1.6;
-}
-
-.variant-stack {
-  width: 100%;
-  display: grid;
-  gap: 2rem;
 }
 ```
 
@@ -809,8 +734,7 @@ export class TabsScrollableScrollableTabsDemo {
       track label
     ) {
       <aeris-tab-panel [value]="label" [label]="label"
-        ><div class="tabs-demo-panel">{{ label }} content.</div></aeris-tab-panel
-      >
+        ><div class="tabs-demo-panel">{{ label }} content.</div></aeris-tab-panel>
     }
   </aeris-tabs>
 </div>
