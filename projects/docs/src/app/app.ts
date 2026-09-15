@@ -37,6 +37,14 @@ import { AerisLogoMarkComponent } from './shared/branding/aeris-logo-mark.compon
 import { DOC_ICONS } from './shared/documentation/doc-icons';
 import { DocsSeoService } from './shared/seo/docs-seo.service';
 
+interface DocsSearchEntry {
+  readonly name: string;
+  readonly category: string;
+  readonly description: string;
+  readonly path: string;
+  readonly kind: 'guide' | 'component';
+}
+
 @Component({
   selector: 'app-root',
   imports: [
@@ -118,19 +126,21 @@ export class App {
     this.seo.initialize();
   }
 
-  protected readonly searchResults = computed(() => {
+  protected readonly searchResults = computed<readonly DocsSearchEntry[]>(() => {
     const query = this.query().trim().toLowerCase();
     const guides = GUIDE_SUMMARIES.map((guide) => ({
       name: guide.title,
       category: `Guide · ${guide.group}`,
       description: guide.description,
       path: guide.path,
+      kind: 'guide' as const,
     }));
     const components = COMPONENT_CATALOG.map((component) => ({
       name: component.name,
       category: component.category,
       description: component.description,
       path: `/components/${component.slug}`,
+      kind: 'component' as const,
     }));
     const entries = [...guides, ...components];
 

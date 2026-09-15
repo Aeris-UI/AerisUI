@@ -526,74 +526,72 @@ button[data-docs-menu] {
 .docs-command-dialog {
   --aeris-dialog-viewport-padding: 12vh 18px 18px;
   --aeris-dialog-z-index: 1000;
+  --aeris-dialog-body-padding: 0;
 }
 .docs-command {
-  width: 100%;
-  overflow: hidden;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
 }
-.docs-command__input {
+.docs-command__summary {
   display: flex;
   align-items: center;
-  gap: 11px;
-  padding: 10px;
-  border-bottom: 1px solid var(--border);
-}
-.docs-command__input aeris-icon-field {
-  flex: 1;
-}
-.docs-command__results {
-  max-height: 430px;
-  padding: 9px;
-  overflow-y: auto;
-}
-.docs-command__label {
-  display: block;
-  padding: 7px 9px;
+  justify-content: space-between;
   color: var(--text-3);
-  font-size: 9px;
+  font-size: 0.6875rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-.docs-command__results a {
-  display: flex;
+.docs-command__results {
+  display: grid;
+  gap: 0.125rem;
+  max-height: min(23rem, calc(100dvh - 15rem));
+  overflow-y: auto;
+}
+.docs-command__result {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 11px;
-  padding: 9px;
-  border-radius: 9px;
-  color: var(--text);
-  text-decoration: none;
+  gap: 0.75rem;
+  min-height: 3.25rem;
 }
-.docs-command__results a:hover {
-  background: var(--surface-2);
-}
-.docs-command__icon {
-  width: 32px;
-  height: 32px;
+.docs-command__result-icon {
+  width: 2rem;
+  height: 2rem;
   display: grid;
   place-items: center;
-  border-radius: 8px;
+  border-radius: var(--aeris-radius-control);
   background: var(--primary-soft);
   color: var(--primary-text);
-  font-weight: 700;
 }
-.docs-command__results a > span:nth-child(2) {
+.docs-command__result-copy {
+  min-width: 0;
   display: flex;
-  flex: 1;
   flex-direction: column;
+  text-align: start;
 }
-.docs-command__results strong {
-  font-size: 13px;
+.docs-command__result-copy strong,
+.docs-command__result-copy small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.docs-command__results small {
+.docs-command__result-copy strong {
+  font-size: 0.8125rem;
+}
+.docs-command__result-copy small {
   color: var(--text-3);
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
-.docs-command__results p {
-  padding: 28px;
+.docs-command__result-arrow {
+  color: var(--text-3);
+  font-size: 0.75rem;
+}
+.docs-command__empty {
+  margin: 0;
+  padding: 1.5rem;
   color: var(--text-3);
   text-align: center;
-  font-size: 11px;
 }
 @media (max-width: 960px) {
   .docs-header__nav a {

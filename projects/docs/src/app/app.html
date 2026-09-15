@@ -437,51 +437,61 @@
   width="min(38.75rem, calc(100vw - 2.25rem))"
   maxHeight="min(36rem, calc(100dvh - 2.25rem))"
   initialFocus="input[type=search]"
+  header="Search documentation"
   ariaLabel="Search documentation"
-  [closable]="false"
+  closeAriaLabel="Close documentation search"
   [closeOnBackdropClick]="true"
 >
-  <ng-template aerisDialogHeadless>
-    <div class="docs-command">
-      <div class="docs-command__input">
-        <aeris-icon-field size="lg" fluid>
-          <svg aerisIconStart [lucideIcon]="icons.Search"></svg>
-          <input
-            aerisInputText
-            size="lg"
-            fluid
-            type="search"
-            placeholder="Search guides and components..."
-            aria-label="Search guides and components"
-            [value]="query()"
-            (input)="query.set($any($event.target).value)"
-          />
-        </aeris-icon-field>
-        <button
+  <div class="docs-command">
+    <aeris-icon-field size="lg" fluid>
+      <svg aerisIconStart [lucideIcon]="icons.Search" aria-hidden="true"></svg>
+      <input
+        aerisInputText
+        size="lg"
+        fluid
+        type="search"
+        placeholder="Search guides and components..."
+        aria-label="Search guides and components"
+        [value]="query()"
+        (input)="query.set($any($event.target).value)"
+      />
+    </aeris-icon-field>
+
+    <div class="docs-command__summary">
+      <span>Guides and components</span>
+      <span>{{ searchResults().length }} shown</span>
+    </div>
+
+    <nav class="docs-command__results" aria-label="Documentation search results">
+      @for (item of searchResults(); track item.path) {
+        <a
           aerisButton
-          type="button"
+          class="docs-command__result"
           variant="ghost"
-          size="xs"
-          aria-label="Close search"
+          size="md"
+          [routerLink]="item.path"
           (click)="searchOpen.set(false)"
         >
-          Esc
-        </button>
-      </div>
-      <div class="docs-command__results">
-        <span class="docs-command__label">Guides and components</span>
-        @for (item of searchResults(); track item.path) {
-          <a [routerLink]="item.path" (click)="searchOpen.set(false)">
-            <span class="docs-command__icon">{{ item.name.slice(0, 1) }}</span>
-            <span
-              ><strong>{{ item.name }}</strong
-              ><small>{{ item.category }}</small></span
-            >
-          </a>
-        } @empty {
-          <p>No documentation matches “{{ query() }}”.</p>
-        }
-      </div>
-    </div>
-  </ng-template>
+          <span class="docs-command__result-icon" aria-hidden="true">
+            <svg
+              [lucideIcon]="item.kind === 'guide' ? icons.BookOpen : icons.Package"
+            ></svg>
+          </span>
+          <span class="docs-command__result-copy">
+            <strong>{{ item.name }}</strong>
+            <small>{{ item.category }}</small>
+          </span>
+          <svg
+            class="docs-command__result-arrow"
+            [lucideIcon]="icons.ChevronRight"
+            aria-hidden="true"
+          ></svg>
+        </a>
+      } @empty {
+        <p class="docs-command__empty" role="status">
+          No documentation matches “{{ query() }}”.
+        </p>
+      }
+    </nav>
+  </div>
 </aeris-dialog>
