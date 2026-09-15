@@ -175,11 +175,11 @@
 }
 
 :root {
-  --aeris-palette-surface: #f6f3e8;
-  --aeris-palette-primary: #5f6f36;
-  --aeris-palette-secondary: #b75e26;
-  --aeris-palette-accent: #d79a32;
-  --aeris-palette-contrast: #28351a;
+  --aeris-palette-surface: #f1f4f2;
+  --aeris-palette-primary: #2c694b;
+  --aeris-palette-secondary: #52685b;
+  --aeris-palette-accent: #a88245;
+  --aeris-palette-contrast: #343b37;
   --aeris-palette-mist: var(--aeris-palette-surface);
   --aeris-palette-sage: var(--aeris-palette-primary);
   --aeris-palette-cloud: var(--aeris-palette-secondary);
@@ -365,21 +365,17 @@
   --aeris-info-text: var(--aeris-info);
   --aeris-info-soft: color-mix(in srgb, var(--aeris-info) 20%, var(--aeris-surface));
 
-  --aeris-page: color-mix(in oklch, #090b0f 99.6%, var(--aeris-palette-surface));
-  --aeris-surface: color-mix(in oklch, #101318 99.4%, var(--aeris-palette-surface));
-  --aeris-surface-2: color-mix(in oklch, #171b22 99.2%, var(--aeris-palette-surface));
-  --aeris-surface-3: color-mix(in oklch, #202632 99%, var(--aeris-palette-surface));
-  --aeris-interactive-hover: color-mix(in oklch, var(--aeris-surface-2) 88%, var(--aeris-primary));
+  --aeris-page: #0c0c0c;
+  --aeris-surface: #121212;
+  --aeris-surface-2: #191919;
+  --aeris-surface-3: #232323;
+  --aeris-interactive-hover: #292929;
   --aeris-text: #f4f4f4;
   --aeris-text-2: #c5c5c5;
   --aeris-text-3: #9d9d9d;
   --aeris-text-muted: var(--aeris-text-2);
-  --aeris-border: color-mix(
-    in srgb,
-    var(--aeris-surface) 84%,
-    color-mix(in oklch, #70746d 65%, var(--aeris-palette-secondary))
-  );
-  --aeris-border-strong: color-mix(in oklch, #8d9289 70%, var(--aeris-palette-secondary));
+  --aeris-border: #292929;
+  --aeris-border-strong: #757575;
   --aeris-focus: color-mix(in oklch, #ffffff 44%, var(--aeris-palette-primary));
   --aeris-shadow-xs: 0 1px 2px rgb(0 0 0 / 24%);
   --aeris-shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);

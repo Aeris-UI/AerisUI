@@ -213,7 +213,7 @@ export class App {}`,
           source(
             'Terminal',
             'Shell',
-            `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION} --project=web --surface="#eef3f5" --primary="#33789b" --secondary="#347b73" --accent="#d46f58" --contrast="#163e54" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts`,
+            `ng add @aeris-ui/core@${AERIS_CURRENT_VERSION} --project=web --surface="#f1f4f8" --primary="#2d63a8" --secondary="#546b89" --accent="#368678" --contrast="#39404a" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts`,
           ),
           source(
             'aeris.setup.json',
@@ -222,11 +222,11 @@ export class App {}`,
   "$schema": "./node_modules/@aeris-ui/core/setup-config.schema.json",
   "theme": {
     "seeds": {
-      "surface": "#eef3f5",
-      "primary": "#33789b",
-      "secondary": "#347b73",
-      "accent": "#d46f58",
-      "contrast": "#163e54"
+      "surface": "#f1f4f8",
+      "primary": "#2d63a8",
+      "secondary": "#546b89",
+      "accent": "#368678",
+      "contrast": "#39404a"
     }
   }
 }`,
@@ -515,11 +515,11 @@ export const appConfig: ApplicationConfig = {
       themeModeStorageKey: 'my-app-color-mode',
       theme: {
         palette: {
-          surface: '#f6f3e8',
-          primary: '#5f6f36',
-          secondary: '#b75e26',
-          accent: '#d79a32',
-          contrast: '#28351a',
+          surface: '#f1f4f2',
+          primary: '#2c694b',
+          secondary: '#52685b',
+          accent: '#a88245',
+          contrast: '#343b37',
         },
         density: 'medium',
         radius: 'rounded',
@@ -914,6 +914,7 @@ export class SignalProfileForm {
         title: 'Start with an Aeris theme',
         paragraphs: [
           'Use one of the official presets when the application does not need a custom brand palette. Each preset passes the Aeris light and dark WCAG 2.2 AA contrast audit and can be combined with a density or corner choice through a normal theme override.',
+          'Earth, Coastal, and Orchid share an achromatic dark surface hierarchy so content remains calm while actions, focus, selection, and accents retain each theme’s identity. Every dark foundation value is a normal theme property that can be overridden after spreading the preset.',
         ],
         code: [
           source('Terminal', 'Shell', 'npm install @lucide/angular'),
@@ -977,16 +978,20 @@ export const appConfig: ApplicationConfig = {
     provideAeris({
       theme: {
         palette: {
-          surface: '#eef3f5',
-          primary: '#33789b',
-          secondary: '#347b73',
-          accent: '#d46f58',
-          contrast: '#163e54',
+          surface: '#f1f4f8',
+          primary: '#2d63a8',
+          secondary: '#546b89',
+          accent: '#368678',
+          contrast: '#39404a',
         },
         dark: {
-          page: '#090b0f',
-          surface: '#101318',
-          surface2: '#171b22',
+          page: '#0c0c0c',
+          surface: '#121212',
+          surface2: '#191919',
+          surface3: '#232323',
+          interactiveHover: '#292929',
+          border: '#292929',
+          borderStrong: '#757575',
         },
       },
     }),
@@ -1082,11 +1087,11 @@ export const appConfig: ApplicationConfig = {
 
 export const productTheme: AerisThemeOverride = {
   palette: {
-    surface: '#eef3f5',
-    primary: '#33789b',
-    secondary: '#347b73',
-    accent: '#d46f58',
-    contrast: '#163e54',
+    surface: '#f1f4f8',
+    primary: '#2d63a8',
+    secondary: '#546b89',
+    accent: '#368678',
+    contrast: '#39404a',
   },
   light: {
     tones: {
@@ -1257,7 +1262,7 @@ export function assertThemeContrast(theme: AerisTheme): void {
     "radius": "soft",
     "palette": {
       "primary": "#527da1",
-      "accent": "#d46f58"
+      "accent": "#368678"
     }
   }
 }`,
@@ -1620,11 +1625,11 @@ export const appConfig: ApplicationConfig = {
 
 export const productTheme: AerisThemeOverride = {
   palette: {
-    surface: '#f6f3e8',
-    primary: '#5f6f36',
-    secondary: '#b75e26',
-    accent: '#d79a32',
-    contrast: '#28351a',
+    surface: '#f1f4f2',
+    primary: '#2c694b',
+    secondary: '#52685b',
+    accent: '#a88245',
+    contrast: '#343b37',
   },
   density: 'medium',
   radius: 'rounded',
