@@ -1,6 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
+  Directive,
   ElementRef,
   TemplateRef,
   booleanAttribute,
@@ -19,11 +20,16 @@ import {
   type AerisAppendTo,
   type AerisOverlayCollisionPadding,
 } from '@aeris-ui/core';
-import type { AerisSeverity } from '@aeris-ui/core';
+import {
+  AerisButtonDirective,
+  type AerisButtonSeverity,
+  type AerisButtonSize,
+  type AerisButtonVariant,
+} from '@aeris-ui/core/button';
 
-export type AerisSplitButtonVariant = 'solid' | 'outline' | 'ghost' | 'link';
-export type AerisSplitButtonSize = 'xs' | 'sm' | 'md' | 'lg';
-export type AerisSplitButtonSeverity = AerisSeverity;
+export type AerisSplitButtonVariant = AerisButtonVariant;
+export type AerisSplitButtonSize = AerisButtonSize;
+export type AerisSplitButtonSeverity = AerisButtonSeverity;
 
 export interface AerisSplitButtonCommandEvent<T = unknown> {
   readonly originalEvent: MouseEvent | KeyboardEvent;
@@ -81,13 +87,33 @@ interface VisibleSplitButtonItem<T> {
 
 let splitButtonId = 0;
 
+@Directive({
+  selector: 'button[aerisSplitButtonToggleAnchor]',
+})
+class AerisSplitButtonToggleAnchor {
+  readonly elementRef = inject<ElementRef<HTMLButtonElement>>(ElementRef);
+}
+
 @Component({
   selector: 'aeris-split-button',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [
+    NgTemplateOutlet,
+    AerisButtonDirective,
+    AerisSplitButtonToggleAnchor,
+    ɵAerisAppendTo,
+  ],
   template: `
     <div class="aeris-split-button__control">
       <button
+        aerisButton
         class="aeris-split-button__primary"
+        [variant]="effectiveVariant()"
+        [severity]="severity()"
+        [size]="size()"
+        [loading]="loading()"
+        [showSpinner]="false"
+        [raised]="raised()"
+        [rounded]="rounded()"
         [attr.data-variant]="effectiveVariant()"
         [attr.data-severity]="severity()"
         [attr.data-size]="size()"
@@ -127,9 +153,18 @@ let splitButtonId = 0;
       </button>
 
       <button
-        #toggle
+        aerisButton
+        aerisSplitButtonToggleAnchor
         type="button"
         class="aeris-split-button__toggle"
+        [variant]="effectiveVariant()"
+        [severity]="severity()"
+        [size]="size()"
+        [loading]="loading()"
+        [showSpinner]="false"
+        [iconOnly]="true"
+        [raised]="raised()"
+        [rounded]="rounded()"
         [attr.data-variant]="effectiveVariant()"
         [attr.data-severity]="severity()"
         [attr.data-size]="size()"
@@ -161,7 +196,7 @@ let splitButtonId = 0;
         #menuPanel
         class="aeris-split-button__menu"
         [aerisInternalAppendTo]="appendTo()"
-        [aerisInternalAppendToAnchor]="toggleButton()?.nativeElement ?? null"
+        [aerisInternalAppendToAnchor]="toggleButton()?.elementRef.nativeElement ?? null"
         [aerisInternalAppendToCollisionPadding]="viewportMargin()"
         (aerisInternalAppendToOutside)="hide($event)"
         [class]="menuStyleClass()"
@@ -245,7 +280,7 @@ let splitButtonId = 0;
 export class AerisSplitButton<T = unknown> {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly generatedId = `aeris-split-button-${++splitButtonId}`;
-  protected readonly toggleButton = viewChild<ElementRef<HTMLButtonElement>>('toggle');
+  protected readonly toggleButton = viewChild(AerisSplitButtonToggleAnchor);
   private readonly panelPortal = viewChild(ɵAerisAppendTo);
   private readonly menuItems = viewChildren<ElementRef<HTMLElement>>('menuItem');
 
@@ -344,7 +379,7 @@ export class AerisSplitButton<T = unknown> {
     this.open.set(false);
     this.closed.emit(event);
     if (restoreFocus) {
-      queueMicrotask(() => this.toggleButton()?.nativeElement.focus());
+      queueMicrotask(() => this.toggleButton()?.elementRef.nativeElement.focus());
     }
   }
 
