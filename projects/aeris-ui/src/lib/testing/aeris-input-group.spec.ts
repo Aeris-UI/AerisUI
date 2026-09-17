@@ -122,6 +122,11 @@ describe('AerisInputGroup', () => {
     expect(addon.getAttribute('aria-hidden')).toBe('true');
     expect(input.disabled).toBe(true);
     expect(button.classList.contains('aeris-button')).toBe(true);
+
+    const inputStyles = getComputedStyle(input);
+    const buttonStyles = getComputedStyle(button);
+    expect(buttonStyles.boxShadow).toBe('none');
+    expect(buttonStyles.fontSize).toBe(inputStyles.fontSize);
   });
 
   it('supports embedded icon mode without attached addon semantics', async () => {
@@ -133,8 +138,14 @@ describe('AerisInputGroup', () => {
     const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
 
     expect(group.classList.contains('aeris-input-group--embedded')).toBe(true);
+    expect(addon.hasAttribute('data-aeris-input-group-addon')).toBe(true);
     expect(addon.getAttribute('aria-hidden')).toBe('true');
     expect(input.classList.contains('aeris-input-text')).toBe(true);
+
+    addon.setAttribute('class', 'third-party-icon');
+    expect(addon.classList.contains('aeris-input-group__addon')).toBe(false);
+    expect(getComputedStyle(addon).position).toBe('absolute');
+    expect(getComputedStyle(addon).top).toBe('50%');
   });
 
   it('supports custom addon content including checkbox, radio, and button', async () => {

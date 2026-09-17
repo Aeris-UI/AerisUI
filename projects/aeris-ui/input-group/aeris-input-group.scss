@@ -75,6 +75,10 @@
   white-space: nowrap;
 }
 
+[data-aeris-input-group-addon] {
+  @extend .aeris-input-group__addon;
+}
+
 svg.aeris-input-group__addon,
 .aeris-input-group__addon:has(> svg:only-child),
 .aeris-input-group__addon:has(> .aeris-checkbox:only-child),
@@ -197,27 +201,58 @@ svg.aeris-input-group__addon {
   flex: 1 1 auto;
 }
 
-.aeris-input-group > .aeris-button,
-.aeris-input-group__stack > .aeris-button,
-.aeris-input-group > button,
-.aeris-input-group__stack > button,
-.aeris-input-group > a {
+aeris-input-group.aeris-input-group > .aeris-button,
+aeris-input-group.aeris-input-group .aeris-input-group__stack > .aeris-button {
+  --_height: var(--aeris-input-group-height);
+
+  z-index: 2;
+  flex: 0 0 auto;
+  align-self: stretch;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: var(--aeris-input-group-font-size);
+}
+
+.aeris-input-group > button:not(.aeris-button),
+.aeris-input-group__stack > button:not(.aeris-button),
+.aeris-input-group > a:not(.aeris-button) {
   z-index: 2;
   flex: 0 0 auto;
   border-color: var(--aeris-border, #deddd7);
   border-radius: 0;
 }
 
-.aeris-input-group > .aeris-button.aeris-button--secondary,
-.aeris-input-group__stack > .aeris-button.aeris-button--secondary,
-.aeris-input-group > button.aeris-button--secondary,
-.aeris-input-group__stack > button.aeris-button--secondary {
-  border-color: var(--aeris-border, #deddd7);
+aeris-input-group.aeris-input-group .aeris-button:hover:not(:disabled),
+aeris-input-group.aeris-input-group button:hover:not(:disabled) {
+  transform: none;
 }
 
-.aeris-input-group .aeris-button:hover:not(:disabled),
-.aeris-input-group button:hover:not(:disabled) {
-  transform: none;
+@media (hover: hover) and (pointer: fine) {
+  aeris-input-group.aeris-input-group
+    > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):hover:not(:disabled),
+  aeris-input-group.aeris-input-group
+    .aeris-input-group__stack
+    > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):hover:not(:disabled) {
+    background:
+      linear-gradient(
+        color-mix(in srgb, var(--_aeris-button-on-hover) 8%, transparent),
+        color-mix(in srgb, var(--_aeris-button-on-hover) 8%, transparent)
+      ),
+      var(--_aeris-button-hover-fill);
+  }
+}
+
+aeris-input-group.aeris-input-group
+  > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):active:not(:disabled),
+aeris-input-group.aeris-input-group
+  .aeris-input-group__stack
+  > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):active:not(:disabled) {
+  background:
+    linear-gradient(
+      color-mix(in srgb, var(--_aeris-button-on-active) 12%, transparent),
+      color-mix(in srgb, var(--_aeris-button-on-active) 12%, transparent)
+    ),
+    var(--_aeris-button-active-fill);
 }
 
 .aeris-input-group > .aeris-checkbox,
@@ -249,20 +284,18 @@ svg.aeris-input-group__addon {
 .aeris-input-group--filled > .aeris-input-text,
 .aeris-input-group--filled > .aeris-textarea,
 .aeris-input-group--filled > .aeris-input-group__addon,
-.aeris-input-group--filled > .aeris-button,
-.aeris-input-group--filled > button,
+.aeris-input-group--filled > button:not(.aeris-button),
 .aeris-input-group--filled > .aeris-input-group__stack > .aeris-input-group__addon,
-.aeris-input-group--filled > .aeris-input-group__stack > .aeris-button,
-.aeris-input-group--filled > .aeris-input-group__stack > button {
+.aeris-input-group--filled > .aeris-input-group__stack > button:not(.aeris-button) {
   border-color: transparent;
   background: var(--aeris-surface-2, #f2f0ec);
   box-shadow: none;
 }
 
-.aeris-input-group--filled > .aeris-button:hover:not(:disabled),
-.aeris-input-group--filled > button:hover:not(:disabled),
-.aeris-input-group--filled > .aeris-input-group__stack > .aeris-button:hover:not(:disabled),
-.aeris-input-group--filled > .aeris-input-group__stack > button:hover:not(:disabled) {
+.aeris-input-group--filled > button:not(.aeris-button):hover:not(:disabled),
+.aeris-input-group--filled
+  > .aeris-input-group__stack
+  > button:not(.aeris-button):hover:not(:disabled) {
   background: color-mix(in srgb, var(--aeris-surface-2, #f2f0ec) 82%, var(--aeris-text, #222222));
 }
 
