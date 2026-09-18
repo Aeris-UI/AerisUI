@@ -31,7 +31,7 @@
       "Aeris is alpha software and is not production ready.",
       "Use Angular standalone APIs and import each component from its secondary entry point.",
       "Aeris supports any icon library; documentation examples use Lucide only as a consumer-provided icon library.",
-      "Aeris components are responsive, themeable, and designed to meet WCAG 2.2 AA.",
+      "Aeris components are responsive, themeable, and designed and tested to support WCAG 2.2 Level AA; final conformance depends on the complete application.",
       "Aeris coexists with current Tailwind CSS and Bootstrap without requiring either framework."
     ]
   },
