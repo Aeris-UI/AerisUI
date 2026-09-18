@@ -56,7 +56,7 @@
 
 .aeris-input-text:hover:not(:disabled):not([readonly]),
 .aeris-textarea:hover:not(:disabled):not([readonly]) {
-  border-color: var(--aeris-primary, #5f6f36);
+  border-color: var(--aeris-primary, #2c694b);
 }
 
 .aeris-input-text:focus,

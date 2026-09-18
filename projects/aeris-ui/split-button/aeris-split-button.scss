@@ -20,137 +20,11 @@
   width: 100%;
 }
 
-.aeris-split-button__primary,
-.aeris-split-button__toggle {
-  min-height: 2.625rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0 0.875rem;
-  border: 1px solid transparent;
-  background: var(--aeris-primary, #{aeris-fallbacks.$primary});
-  color: var(--aeris-on-primary, #{aeris-fallbacks.$on-primary});
-  font: inherit;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    background-color 160ms ease,
-    border-color 160ms ease,
-    box-shadow 160ms ease;
-}
-
-.aeris-split-button__toggle {
-  width: 2.625rem;
-  padding: 0;
-}
-
 .aeris-split-button__primary:hover:not(:disabled),
-.aeris-split-button__toggle:hover:not(:disabled) {
-  background: var(--aeris-primary-hover, #{aeris-fallbacks.$primary-hover});
-}
-
-.aeris-split-button__primary:focus-visible,
-.aeris-split-button__toggle:focus-visible {
-  position: relative;
-  z-index: 2;
-  outline: 3px solid
-    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
-  outline-offset: 2px;
-}
-
-.aeris-split-button__primary:disabled,
-.aeris-split-button__toggle:disabled {
-  opacity: 0.48;
-  cursor: not-allowed;
-}
-
-.aeris-split-button__primary[data-variant='outline'],
-.aeris-split-button__toggle[data-variant='outline'] {
-  border-color: currentColor;
-  background: transparent;
-  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
-}
-
-.aeris-split-button__primary[data-variant='ghost'],
-.aeris-split-button__toggle[data-variant='ghost'],
-.aeris-split-button__primary[data-variant='link'],
-.aeris-split-button__toggle[data-variant='link'] {
-  background: transparent;
-  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
-}
-
-.aeris-split-button__primary[data-severity='danger'],
-.aeris-split-button__toggle[data-severity='danger'] {
-  background: var(--aeris-danger, #c81e2a);
-  color: var(--aeris-on-danger, #fff);
-}
-
-.aeris-split-button__primary[data-severity='success'],
-.aeris-split-button__toggle[data-severity='success'] {
-  background: var(--aeris-success, #49753d);
-  color: var(--aeris-on-success, #fff);
-}
-
-.aeris-split-button__primary[data-severity='info'],
-.aeris-split-button__toggle[data-severity='info'] {
-  background: var(--aeris-info, #3f6f82);
-  color: var(--aeris-on-info, #fff);
-}
-
-.aeris-split-button__primary[data-severity='warning'],
-.aeris-split-button__toggle[data-severity='warning'] {
-  background: var(--aeris-warning, #c38600);
-  color: var(--aeris-on-warning, #211600);
-}
-
-.aeris-split-button__primary[data-severity='contrast'],
-.aeris-split-button__toggle[data-severity='contrast'] {
-  background: var(--aeris-text, #222222);
-  color: var(--aeris-surface, #fff);
-}
-
-.aeris-split-button__primary[data-severity='neutral'],
-.aeris-split-button__toggle[data-severity='neutral'] {
-  border-color: var(--aeris-border, #deddd7);
-  background: var(--aeris-surface-2, #f6f5f1);
-  color: var(--aeris-text, #222222);
-}
-
-.aeris-split-button__primary[data-size='xs'],
-.aeris-split-button__toggle[data-size='xs'] {
-  min-height: 1.875rem;
-  font-size: 0.75rem;
-}
-
-.aeris-split-button__toggle[data-size='xs'] {
-  width: 1.875rem;
-}
-
-.aeris-split-button__primary[data-size='sm'],
-.aeris-split-button__toggle[data-size='sm'] {
-  min-height: 2.25rem;
-  font-size: 0.8125rem;
-}
-
-.aeris-split-button__toggle[data-size='sm'] {
-  width: 2.25rem;
-}
-
-.aeris-split-button__primary[data-size='lg'],
-.aeris-split-button__toggle[data-size='lg'] {
-  min-height: 3rem;
-  font-size: 0.9375rem;
-}
-
-.aeris-split-button__toggle[data-size='lg'] {
-  width: 3rem;
-}
-
-.aeris-split-button__primary[data-raised],
-.aeris-split-button__toggle[data-raised] {
-  box-shadow: 0 0.35rem 0.9rem rgb(25 29 22 / 16%);
+.aeris-split-button__toggle:hover:not(:disabled),
+.aeris-split-button__primary:active:not(:disabled),
+.aeris-split-button__toggle:active:not(:disabled) {
+  transform: none;
 }
 
 .aeris-split-button__primary {
@@ -180,6 +54,11 @@
   ) !important;
   border-end-end-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem)) !important;
   border-end-start-radius: 0 !important;
+}
+
+.aeris-split-button__primary.aeris-button--link,
+.aeris-split-button__toggle.aeris-button--link {
+  min-height: var(--_height);
 }
 
 .aeris-split-button__primary[data-rounded],

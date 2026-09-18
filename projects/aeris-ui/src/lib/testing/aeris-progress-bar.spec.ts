@@ -130,6 +130,10 @@ describe('AerisProgressBar', () => {
     expect(steps[1]?.getAttribute('data-active')).toBe('true');
     expect(steps[0]?.getAttribute('data-complete')).toBe('true');
     expect(steps[2]?.getAttribute('data-complete')).toBeNull();
+    expect(steps[0]?.getAttribute('data-edge-start')).toBe('true');
+    expect(steps[1]?.getAttribute('data-edge-start')).toBeNull();
+    expect(steps[1]?.getAttribute('data-edge-end')).toBeNull();
+    expect(steps[2]?.getAttribute('data-edge-end')).toBe('true');
   });
 
   it('uses valueFormatter for aria-valuetext when no value template overrides visible text', () => {

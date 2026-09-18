@@ -1,6 +1,7 @@
 @use '../../form/shared/form-docs';
 
 .scroll-top-preview,
+.scroll-top-event-preview,
 .scroll-top-position-grid > div,
 .scroll-top-size-row > span {
   position: relative;
@@ -15,6 +16,7 @@
 }
 
 .scroll-top-preview aeris-scroll-top,
+.scroll-top-event-preview aeris-scroll-top,
 .scroll-top-position-grid aeris-scroll-top,
 .scroll-top-size-row aeris-scroll-top {
   --aeris-scroll-top-z-index: 1;

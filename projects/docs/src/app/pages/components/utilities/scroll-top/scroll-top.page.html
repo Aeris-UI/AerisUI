@@ -182,7 +182,7 @@
               description="Use visibilityChanged for analytics or to coordinate overlapping floating UI."
               [tsCode]="eventsCode"
             >
-              <div preview class="field">
+              <div preview class="field scroll-top-event-preview">
                 <aeris-scroll-top
                   alwaysVisible
                   strategy="absolute"
@@ -192,7 +192,7 @@
                 />
                 <small aria-live="polite">{{ visibilityLog() }}</small>
               </div>
-              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+              <pre code><code ngNonBindable>&lt;div class="field scroll-top-event-preview"&gt;
   &lt;aeris-scroll-top
     alwaysVisible
     strategy="absolute"

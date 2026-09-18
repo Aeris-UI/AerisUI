@@ -279,7 +279,7 @@ describe('AerisThemeService', () => {
     await TestBed.tick();
     expect(service.theme().palette.primary).toBe('#31536a');
     expect(service.theme().palette.sage).toBe('#31536a');
-    expect(service.theme().palette.surface).toBe('#f6f3e8');
+    expect(service.theme().palette.surface).toBe('#f1f4f2');
     expect(listeners.size).toBe(1);
 
     service.updateTheme({

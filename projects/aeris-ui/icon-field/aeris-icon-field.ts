@@ -16,6 +16,7 @@ export type AerisIconFieldDensity = 'comfortable' | 'compact';
   selector: '[aerisIcon]',
   host: {
     class: 'aeris-icon-field__icon',
+    'data-aeris-icon-field-slot': 'auto',
     '[attr.aria-hidden]': 'decorative() ? "true" : null',
   },
 })
@@ -27,6 +28,7 @@ export class AerisIconDirective {
   selector: '[aerisIconStart]',
   host: {
     class: 'aeris-icon-field__icon aeris-icon-field__icon--start',
+    'data-aeris-icon-field-slot': 'start',
     '[attr.aria-hidden]': 'decorative() ? "true" : null',
   },
 })
@@ -38,6 +40,7 @@ export class AerisIconStartDirective {
   selector: '[aerisIconEnd]',
   host: {
     class: 'aeris-icon-field__icon aeris-icon-field__icon--end',
+    'data-aeris-icon-field-slot': 'end',
     '[attr.aria-hidden]': 'decorative() ? "true" : null',
   },
 })

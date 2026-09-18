@@ -155,14 +155,31 @@ describe('Aeris theme contrast audit', () => {
     );
   });
 
-  it('keeps foundation text neutral while allowing monochrome to increase contrast', () => {
+  it('keeps foundation text neutral and colored dark surfaces achromatic', () => {
     for (const mode of ['light', 'dark'] as const) {
       const foundations = Object.values(AERIS_THEME_PRESETS).map((preset) =>
         resolveAerisFoundation(resolvePresetTheme(preset), mode),
       );
 
-      expect(new Set(foundations.map((foundation) => foundation.border)).size).toBe(4);
-      expect(new Set(foundations.map((foundation) => foundation.borderStrong)).size).toBe(4);
+      if (mode === 'light') {
+        expect(new Set(foundations.map((foundation) => foundation.border)).size).toBe(4);
+        expect(new Set(foundations.map((foundation) => foundation.borderStrong)).size).toBe(4);
+      } else {
+        const coloredFoundations = foundations.slice(0, 3);
+        for (const property of [
+          'page',
+          'surface',
+          'surface2',
+          'surface3',
+          'interactiveHover',
+          'border',
+          'borderStrong',
+        ] as const) {
+          const values = coloredFoundations.map((foundation) => foundation[property]);
+          expect(new Set(values).size, property).toBe(1);
+          expect(values.every(isAchromaticHex), property).toBe(true);
+        }
+      }
       expect(new Set(foundations.slice(0, 3).map((foundation) => foundation.text)).size).toBe(1);
       expect(new Set(foundations.slice(0, 3).map((foundation) => foundation.text2)).size).toBe(1);
       expect(new Set(foundations.slice(0, 3).map((foundation) => foundation.text3)).size).toBe(1);
@@ -172,10 +189,7 @@ describe('Aeris theme contrast audit', () => {
         expect(isAchromaticHex(foundation.text2)).toBe(true);
         expect(isAchromaticHex(foundation.text3)).toBe(true);
         const borderRatio = aerisContrastRatio(foundation.border, foundation.surface);
-        const strongBorderRatio = aerisContrastRatio(
-          foundation.borderStrong,
-          foundation.surface,
-        );
+        const strongBorderRatio = aerisContrastRatio(foundation.borderStrong, foundation.surface);
         if (borderRatio === null || strongBorderRatio === null) {
           throw new Error('Resolved foundation border colors must be measurable.');
         }

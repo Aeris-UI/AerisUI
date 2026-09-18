@@ -60,6 +60,7 @@ interface AerisProgressBarStepView {
   readonly index: number;
   readonly active: boolean;
   readonly complete: boolean;
+  readonly percentValue: number;
   readonly percent: string;
   readonly context: AerisProgressBarStepContext;
 }
@@ -93,6 +94,8 @@ let nextProgressBarId = 0;
             class="aeris-progress-bar__step"
             [attr.data-active]="item.active || null"
             [attr.data-complete]="item.complete || null"
+            [attr.data-edge-start]="item.percentValue === 0 || null"
+            [attr.data-edge-end]="item.percentValue === 100 || null"
             [style.--aeris-progress-bar-step-position]="item.percent"
           >
             <span class="aeris-progress-bar__step-marker"></span>
@@ -218,6 +221,7 @@ export class AerisProgressBar {
         index,
         active,
         complete,
+        percentValue: stepPercent,
         percent: `${stepPercent}%`,
         context: {
           $implicit: step,

@@ -168,7 +168,7 @@ Select Custom in the wizard to enter surface, primary, secondary, accent, and co
 ##### Terminal
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.7 --project=web --surface="#eef3f5" --primary="#33789b" --secondary="#347b73" --accent="#d46f58" --contrast="#163e54" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
+ng add @aeris-ui/core@22.0.0-alpha.7 --project=web --surface="#f1f4f8" --primary="#2d63a8" --secondary="#546b89" --accent="#368678" --contrast="#39404a" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts
 ```
 
 ##### aeris.setup.json
@@ -178,11 +178,11 @@ ng add @aeris-ui/core@22.0.0-alpha.7 --project=web --surface="#eef3f5" --primary
   "$schema": "./node_modules/@aeris-ui/core/setup-config.schema.json",
   "theme": {
     "seeds": {
-      "surface": "#eef3f5",
-      "primary": "#33789b",
-      "secondary": "#347b73",
-      "accent": "#d46f58",
-      "contrast": "#163e54"
+      "surface": "#f1f4f8",
+      "primary": "#2d63a8",
+      "secondary": "#546b89",
+      "accent": "#368678",
+      "contrast": "#39404a"
     }
   }
 }
@@ -304,9 +304,9 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-- **Aeris Earth:** Grounded olive, burnished copper, and warm amber on soft ivory.
-- **Coastal Glass:** Clear ocean blue, balanced teal, and a restrained coral accent.
-- **Orchid Dusk:** Confident violet, rich berry, and warm gold on pale lavender.
+- **Aeris Earth:** Signature forest green, quiet eucalyptus, and a restrained brass accent on clean neutrals.
+- **Coastal Glass:** Clear blue actions, quiet slate, and a restrained sea-glass accent on cool neutrals.
+- **Orchid Dusk:** Refined violet, quiet plum, and a restrained rose accent on soft neutrals.
 - **Aeris Monochrome:** Black-and-white interface colors with distinct neutral action tiers and restrained status accents.
 
 - [Create a custom theme](https://aeris-ui.dev/guides/theming)
@@ -392,11 +392,11 @@ export const appConfig: ApplicationConfig = {
       themeModeStorageKey: 'my-app-color-mode',
       theme: {
         palette: {
-          surface: '#f6f3e8',
-          primary: '#5f6f36',
-          secondary: '#b75e26',
-          accent: '#d79a32',
-          contrast: '#28351a',
+          surface: '#f1f4f2',
+          primary: '#2c694b',
+          secondary: '#52685b',
+          accent: '#a88245',
+          contrast: '#343b37',
         },
         density: 'medium',
         radius: 'rounded',
@@ -719,6 +719,8 @@ Start with the broadest decision and customize more narrowly only when the appli
 
 Use one of the official presets when the application does not need a custom brand palette. Each preset passes the Aeris light and dark WCAG 2.2 AA contrast audit and can be combined with a density or corner choice through a normal theme override.
 
+Earth, Coastal, and Orchid share an achromatic dark surface hierarchy so content remains calm while actions, focus, selection, and accents retain each theme’s identity. Every dark foundation value is a normal theme property that can be overridden after spreading the preset.
+
 > Note: Spread a preset before adding density, radius, or scheme overrides; do not mutate the exported preset object. Supply a custom palette instead when the brand seeds need to change.
 
 | Export | Type | Purpose |
@@ -777,16 +779,20 @@ export const appConfig: ApplicationConfig = {
     provideAeris({
       theme: {
         palette: {
-          surface: '#eef3f5',
-          primary: '#33789b',
-          secondary: '#347b73',
-          accent: '#d46f58',
-          contrast: '#163e54',
+          surface: '#f1f4f8',
+          primary: '#2d63a8',
+          secondary: '#546b89',
+          accent: '#368678',
+          contrast: '#39404a',
         },
         dark: {
-          page: '#090b0f',
-          surface: '#101318',
-          surface2: '#171b22',
+          page: '#0c0c0c',
+          surface: '#121212',
+          surface2: '#191919',
+          surface3: '#232323',
+          interactiveHover: '#292929',
+          border: '#292929',
+          borderStrong: '#757575',
         },
       },
     }),
@@ -862,11 +868,11 @@ import type { AerisThemeOverride } from '@aeris-ui/core/theming';
 
 export const productTheme: AerisThemeOverride = {
   palette: {
-    surface: '#eef3f5',
-    primary: '#33789b',
-    secondary: '#347b73',
-    accent: '#d46f58',
-    contrast: '#163e54',
+    surface: '#f1f4f8',
+    primary: '#2d63a8',
+    secondary: '#546b89',
+    accent: '#368678',
+    contrast: '#39404a',
   },
   light: {
     tones: {
@@ -996,7 +1002,7 @@ Create one JSON configuration, generate the CSS before the application build, an
     "radius": "soft",
     "palette": {
       "primary": "#527da1",
-      "accent": "#d46f58"
+      "accent": "#368678"
     }
   }
 }
@@ -1281,11 +1287,11 @@ import type { AerisThemeOverride } from '@aeris-ui/core/theming';
 
 export const productTheme: AerisThemeOverride = {
   palette: {
-    surface: '#f6f3e8',
-    primary: '#5f6f36',
-    secondary: '#b75e26',
-    accent: '#d79a32',
-    contrast: '#28351a',
+    surface: '#f1f4f2',
+    primary: '#2c694b',
+    secondary: '#52685b',
+    accent: '#a88245',
+    contrast: '#343b37',
   },
   density: 'medium',
   radius: 'rounded',
@@ -4669,7 +4675,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | --- | --- | --- | --- |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
-| `value` | `string (model)` | `'#5f6f36'` | Current color value with two-way binding and Forms support. |
+| `value` | `string (model)` | `'#2c694b'` | Current color value with two-way binding and Forms support. |
 | `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. Options: 'hex', 'rgb', 'hsl'. |
 | `inputId` | `string` | `generated` | ID assigned to the visible color-picker trigger for label association. |
 | `name` | `string` | `''` | Native form field name submitted through a hidden input. |
@@ -4787,7 +4793,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
       <aeris-color-picker
         inputId="color-basic"
         ariaDescribedBy="color-basic-help"
-        value="#5f6f36"
+        value="#2c694b"
       />
       <small id="color-basic-help">Choose the primary color for your interface.</small>
     </div>
@@ -4873,7 +4879,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   `
 })
 export class ColorPickerSignalSignalValueDemo {
-  protected readonly brandColor = signal('#5f6f36');
+  protected readonly brandColor = signal('#2c694b');
 }
 ```
 
@@ -4932,7 +4938,7 @@ import { AerisColorPicker, type AerisColorFormat } from '@aeris-ui/core/color-pi
   `
 })
 export class ColorPickerFormatsSelectableFormatsDemo {
-  protected readonly formatColor = signal('#5f6f36');
+  protected readonly formatColor = signal('#2c694b');
   protected readonly selectedFormat = signal<AerisColorFormat>('hex');
 }
 ```
@@ -5048,11 +5054,11 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 })
 export class ColorPickerPresetsPresetsDemo {
   protected readonly presets: readonly string[] = [
-    '#f6f3e8',
-    '#5f6f36',
-    '#b75e26',
-    '#d79a32',
-    '#28351a',
+    '#f1f4f2',
+    '#2c694b',
+    '#52685b',
+    '#a88245',
+    '#343b37',
   ];
 }
 ```
@@ -5085,7 +5091,7 @@ export class ColorPickerSwatchOnlySwatchOnlyDemo {
     <label for="color-swatch-only">Compact color</label>
     <aeris-color-picker
       inputId="color-swatch-only"
-      value="#5f6f36"
+      value="#2c694b"
       [showValue]="false"
       [showInput]="false"
       ariaLabel="Compact color"
@@ -5095,7 +5101,7 @@ export class ColorPickerSwatchOnlySwatchOnlyDemo {
     <label for="color-swatch-with-input">Swatch with input</label>
     <aeris-color-picker
       inputId="color-swatch-with-input"
-      value="#d79a32"
+      value="#a88245"
       [showValue]="false"
     />
   </div>
@@ -5160,10 +5166,10 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   imports: [AerisColorPicker],
   template: `
     <div class="field-grid">
-      <aeris-color-picker size="xs" value="#f6f3e8" />
-      <aeris-color-picker size="sm" value="#5f6f36" />
-      <aeris-color-picker size="md" value="#b75e26" />
-      <aeris-color-picker size="lg" value="#d79a32" />
+      <aeris-color-picker size="xs" value="#f1f4f2" />
+      <aeris-color-picker size="sm" value="#2c694b" />
+      <aeris-color-picker size="md" value="#52685b" />
+      <aeris-color-picker size="lg" value="#a88245" />
     </div>
   `,
   styles: `
@@ -5200,8 +5206,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   imports: [AerisColorPicker],
   template: `
     <div class="field-grid">
-      <aeris-color-picker appearance="outline" value="#5f6f36" />
-      <aeris-color-picker appearance="filled" value="#5f6f36" />
+      <aeris-color-picker appearance="outline" value="#2c694b" />
+      <aeris-color-picker appearance="filled" value="#2c694b" />
     </div>
   `,
   styles: `
@@ -5239,7 +5245,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   template: `
     <div class="field">
       <label for="color-clear">Optional accent</label>
-      <aeris-color-picker inputId="color-clear" value="#28351a" clearable />
+      <aeris-color-picker inputId="color-clear" value="#343b37" clearable />
     </div>
   `,
   styles: `
@@ -5289,8 +5295,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   imports: [AerisColorPicker],
   template: `
     <div class="field-grid">
-      <aeris-color-picker value="#5f6f36" disabled />
-      <aeris-color-picker value="#d79a32" readonly />
+      <aeris-color-picker value="#2c694b" disabled />
+      <aeris-color-picker value="#a88245" readonly />
     </div>
   `,
   styles: `
@@ -5414,9 +5420,9 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 })
 export class ColorPickerFormsReactiveAndTemplateDrivenFormsDemo {
   protected readonly reactiveColor =
-    new FormControl('#b75e26');
+    new FormControl('#52685b');
 
-  protected templateColor = '#28351a';
+  protected templateColor = '#343b37';
 }
 ```
 
@@ -5502,7 +5508,7 @@ import { AerisColorPicker, type AerisColorPickerChangeEvent } from '@aeris-ui/co
       <label for="color-events">Event color</label>
       <aeris-color-picker
         inputId="color-events"
-        value="#b75e26"
+        value="#52685b"
         (changed)="recordChange($event)"
       />
       <small aria-live="polite">{{ lastChange() }}</small>
@@ -18928,11 +18934,11 @@ export class SelectTemplatesOptionAndSelectedValueTemplatesDemo {
 }
 
 .team-mark[data-team='platform'] {
-  background: #b75e26;
+  background: #52685b;
 }
 
 .team-mark[data-team='a11y'] {
-  background: #28351a;
+  background: #343b37;
 }
 
 .selected-team,
@@ -44329,7 +44335,6 @@ interface AerisFileUploadEvent {
 | `--aeris-file-upload-shadow` | `CSS custom property` | `component shadow` | Surface elevation. |
 | `--aeris-file-upload-toolbar-padding` | `CSS custom property` | `0.875rem` | Toolbar padding. |
 | `--aeris-file-upload-dropzone-min-height` | `CSS custom property` | `10rem` | Dropzone minimum height. |
-| `--aeris-file-upload-primary-background` | `CSS custom property` | `var(--aeris-primary)` | Primary choose button background. |
 | `--aeris-file-upload-progress-background` | `CSS custom property` | `var(--aeris-primary)` | Progress fill. |
 | `--aeris-file-upload-focus` | `CSS custom property` | `var(--aeris-focus)` | Visible focus ring. |
 
@@ -60783,6 +60788,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
   `,
   styles: `
     .scroll-top-preview,
+    .scroll-top-event-preview,
     .scroll-top-position-grid > div,
     .scroll-top-size-row > span {
       position: relative;
@@ -60797,6 +60803,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
     }
 
     .scroll-top-preview aeris-scroll-top,
+    .scroll-top-event-preview aeris-scroll-top,
     .scroll-top-position-grid aeris-scroll-top,
     .scroll-top-size-row aeris-scroll-top {
       --aeris-scroll-top-z-index: 1;
@@ -60872,6 +60879,7 @@ export class ScrollTopPositionsPositionsDemo {
 
 ```css
 .scroll-top-preview,
+.scroll-top-event-preview,
 .scroll-top-position-grid > div,
 .scroll-top-size-row > span {
   position: relative;
@@ -60886,6 +60894,7 @@ export class ScrollTopPositionsPositionsDemo {
 }
 
 .scroll-top-preview aeris-scroll-top,
+.scroll-top-event-preview aeris-scroll-top,
 .scroll-top-position-grid aeris-scroll-top,
 .scroll-top-size-row aeris-scroll-top {
   --aeris-scroll-top-z-index: 1;
@@ -60958,6 +60967,7 @@ export class ScrollTopSizesSizesDemo {
 
 ```css
 .scroll-top-preview,
+.scroll-top-event-preview,
 .scroll-top-position-grid > div,
 .scroll-top-size-row > span {
   position: relative;
@@ -60972,6 +60982,7 @@ export class ScrollTopSizesSizesDemo {
 }
 
 .scroll-top-preview aeris-scroll-top,
+.scroll-top-event-preview aeris-scroll-top,
 .scroll-top-position-grid aeris-scroll-top,
 .scroll-top-size-row aeris-scroll-top {
   --aeris-scroll-top-z-index: 1;
@@ -61006,7 +61017,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
   selector: 'app-scroll-top-events-demo',
   imports: [AerisScrollTop],
   template: `
-    <div class="field">
+    <div class="field scroll-top-event-preview">
       <aeris-scroll-top
         alwaysVisible
         strategy="absolute"
@@ -61042,6 +61053,30 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
 
     .field small.error {
       color: var(--aeris-danger);
+    }
+
+    .scroll-top-preview,
+    .scroll-top-event-preview,
+    .scroll-top-position-grid > div,
+    .scroll-top-size-row > span {
+      position: relative;
+      min-height: 8rem;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      border: 1px solid var(--aeris-border);
+      border-radius: 0.875rem;
+      background: var(--aeris-surface-2);
+      overflow: hidden;
+    }
+
+    .scroll-top-preview aeris-scroll-top,
+    .scroll-top-event-preview aeris-scroll-top,
+    .scroll-top-position-grid aeris-scroll-top,
+    .scroll-top-size-row aeris-scroll-top {
+      --aeris-scroll-top-z-index: 1;
+      --aeris-scroll-top-offset-block: 0.875rem;
+      --aeris-scroll-top-offset-inline: 0.875rem;
     }
   `
 })

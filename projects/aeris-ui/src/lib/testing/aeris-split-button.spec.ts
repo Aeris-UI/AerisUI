@@ -37,6 +37,62 @@ class SplitButtonTestHost {
 }
 
 describe('AerisSplitButton', () => {
+  it('reuses Button severity and variant state tokens for both segments', async () => {
+    const fixture = TestBed.createComponent(AerisSplitButton);
+    fixture.componentRef.setInput('label', 'Delete');
+    fixture.componentRef.setInput('severity', 'danger');
+    fixture.componentRef.setInput('variant', 'outline');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.aeris-split-button__control button',
+    ) as NodeListOf<HTMLButtonElement>;
+
+    for (const button of buttons) {
+      const styles = getComputedStyle(button);
+      expect(button.classList).toContain('aeris-button');
+      expect(button.classList).toContain('aeris-button--severity-danger');
+      expect(button.classList).toContain('aeris-button--outline');
+      expect(styles.getPropertyValue('--_aeris-button-hover-fill').trim()).toContain(
+        '--aeris-danger-hover',
+      );
+      expect(styles.getPropertyValue('--_aeris-button-on-hover').trim()).toContain(
+        '--aeris-on-danger-hover',
+      );
+    }
+
+    fixture.componentRef.setInput('severity', 'warning');
+    fixture.componentRef.setInput('variant', 'ghost');
+    fixture.detectChanges();
+
+    for (const button of buttons) {
+      const styles = getComputedStyle(button);
+      expect(button.classList).toContain('aeris-button--severity-warning');
+      expect(button.classList).toContain('aeris-button--ghost');
+      expect(styles.getPropertyValue('--_aeris-button-soft').trim()).toContain(
+        '--aeris-warning-soft',
+      );
+      expect(styles.getPropertyValue('--_aeris-button-on-soft').trim()).toContain(
+        '--aeris-on-warning-soft',
+      );
+    }
+
+    fixture.componentRef.setInput('severity', 'neutral');
+    fixture.componentRef.setInput('variant', 'solid');
+    fixture.detectChanges();
+
+    for (const button of buttons) {
+      const styles = getComputedStyle(button);
+      expect(styles.getPropertyValue('--_aeris-button-fill').trim()).toContain(
+        '--aeris-text-2',
+      );
+      expect(styles.getPropertyValue('--_aeris-button-on-fill').trim()).toContain(
+        '--aeris-surface',
+      );
+    }
+  });
+
   it('keeps the primary action independent from the popup menu', async () => {
     const fixture = TestBed.createComponent(SplitButtonTestHost);
     await fixture.whenStable();

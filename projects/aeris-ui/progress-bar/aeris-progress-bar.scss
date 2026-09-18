@@ -139,12 +139,43 @@
   display: grid;
   justify-items: center;
   gap: 0.35rem;
-  max-inline-size: 8rem;
+  inline-size: max-content;
+  max-inline-size: min(8rem, 40vw);
   color: var(--aeris-progress-bar-step-text, var(--aeris-text-3, #6f7667));
   font-size: 0.75rem;
   font-weight: 700;
   text-align: center;
   transform: translateX(-50%);
+}
+
+.aeris-progress-bar__step[data-edge-start='true'] {
+  justify-items: start;
+  text-align: start;
+  transform: none;
+}
+
+.aeris-progress-bar__step[data-edge-end='true'] {
+  justify-items: end;
+  text-align: end;
+  transform: translateX(-100%);
+}
+
+.aeris-progress-bar__step-label {
+  max-inline-size: inherit;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+:host-context([dir='rtl']) .aeris-progress-bar__step {
+  transform: translateX(50%);
+}
+
+:host-context([dir='rtl']) .aeris-progress-bar__step[data-edge-start='true'] {
+  transform: none;
+}
+
+:host-context([dir='rtl']) .aeris-progress-bar__step[data-edge-end='true'] {
+  transform: translateX(100%);
 }
 
 .aeris-progress-bar__step-marker {

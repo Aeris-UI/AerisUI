@@ -50,58 +50,12 @@
   gap: 0.5rem;
 }
 
-.aeris-file-upload__button {
-  min-height: var(--aeris-file-upload-button-height, 2.375rem);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  padding: 0.5rem 0.875rem;
-  border: 1px solid var(--aeris-file-upload-button-border, var(--aeris-border, #d9ddcf));
-  border-radius: var(
-    --aeris-file-upload-button-radius,
-    var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem))
-  );
-  background: var(--aeris-file-upload-button-background, var(--aeris-surface, #fff));
-  color: var(--aeris-file-upload-button-text, var(--aeris-text, #222222));
-  font: inherit;
-  font-size: 0.875rem;
-  font-weight: 750;
-  cursor: pointer;
-  transition:
-    border-color 160ms ease,
-    background 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
-}
-
-.aeris-file-upload__button--primary {
-  border-color: transparent;
-  background: var(--aeris-file-upload-primary-background, var(--aeris-primary, #6f8f3d));
-  color: var(--aeris-file-upload-primary-text, var(--aeris-primary-contrast, #fff));
-}
-
-.aeris-file-upload__button:hover:not(:disabled) {
-  border-color: var(--aeris-file-upload-button-hover-border, var(--aeris-primary, #6f8f3d));
-  background: var(--aeris-file-upload-button-hover-background, var(--aeris-surface-2, #f6f7f2));
-}
-
-.aeris-file-upload__button--primary:hover:not(:disabled) {
-  background: var(
-    --aeris-file-upload-primary-hover-background,
-    var(--aeris-primary-strong, var(--aeris-primary, #6f8f3d))
-  );
-  color: var(--aeris-file-upload-primary-text, var(--aeris-primary-contrast, #fff));
-}
-
-.aeris-file-upload__button:focus-visible,
 .aeris-file-upload__dropzone:focus-visible,
 .aeris-file-upload__remove:focus-visible {
   outline: 2px solid var(--aeris-file-upload-focus, var(--aeris-focus, #7ca64f));
   outline-offset: 2px;
 }
 
-.aeris-file-upload__button:disabled,
 .aeris-file-upload__dropzone:disabled,
 .aeris-file-upload__remove:disabled {
   opacity: 0.56;
@@ -396,7 +350,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aeris-file-upload__button,
   .aeris-file-upload__dropzone,
   .aeris-file-upload__progress span {
     transition: none;

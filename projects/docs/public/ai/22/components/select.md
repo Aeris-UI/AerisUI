@@ -779,11 +779,11 @@ export class SelectTemplatesOptionAndSelectedValueTemplatesDemo {
 }
 
 .team-mark[data-team='platform'] {
-  background: #b75e26;
+  background: #52685b;
 }
 
 .team-mark[data-team='a11y'] {
-  background: #28351a;
+  background: #343b37;
 }
 
 .selected-team,

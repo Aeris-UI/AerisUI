@@ -30,7 +30,8 @@ export const DOCS_PALETTES: readonly DocsPalette[] = [
     id: 'earth',
     name: 'Aeris Earth',
     shortName: 'Earth',
-    description: 'Grounded olive, burnished copper, and warm amber on soft ivory.',
+    description:
+      'Signature forest green, quiet eucalyptus, and a restrained brass accent on clean neutrals.',
     theme: AERIS_THEME_PRESETS.earth,
     palette: AERIS_THEME_PRESETS.earth.palette,
     swatches: paletteSwatches(AERIS_THEME_PRESETS.earth.palette),
@@ -39,7 +40,8 @@ export const DOCS_PALETTES: readonly DocsPalette[] = [
     id: 'coastal',
     name: 'Coastal Glass',
     shortName: 'Coastal',
-    description: 'Clear ocean blue, balanced teal, and a restrained coral accent.',
+    description:
+      'Clear blue actions, quiet slate, and a restrained sea-glass accent on cool neutrals.',
     theme: AERIS_THEME_PRESETS.coastal,
     palette: AERIS_THEME_PRESETS.coastal.palette,
     swatches: paletteSwatches(AERIS_THEME_PRESETS.coastal.palette),
@@ -48,7 +50,7 @@ export const DOCS_PALETTES: readonly DocsPalette[] = [
     id: 'orchid',
     name: 'Orchid Dusk',
     shortName: 'Orchid',
-    description: 'Confident violet, rich berry, and warm gold on pale lavender.',
+    description: 'Refined violet, quiet plum, and a restrained rose accent on soft neutrals.',
     theme: AERIS_THEME_PRESETS.orchid,
     palette: AERIS_THEME_PRESETS.orchid.palette,
     swatches: paletteSwatches(AERIS_THEME_PRESETS.orchid.palette),
@@ -57,7 +59,8 @@ export const DOCS_PALETTES: readonly DocsPalette[] = [
     id: 'monochrome',
     name: 'Aeris Monochrome',
     shortName: 'Monochrome',
-    description: 'Black-and-white interface colors with distinct neutral action tiers and restrained status accents.',
+    description:
+      'Black-and-white interface colors with distinct neutral action tiers and restrained status accents.',
     theme: AERIS_THEME_PRESETS.monochrome,
     palette: AERIS_THEME_PRESETS.monochrome.palette,
     swatches: paletteSwatches(AERIS_THEME_PRESETS.monochrome.palette),

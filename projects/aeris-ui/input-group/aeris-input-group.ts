@@ -16,6 +16,7 @@ export type AerisInputGroupMode = 'attached' | 'embedded';
   selector: '[aerisInputGroupAddon]',
   host: {
     class: 'aeris-input-group__addon',
+    'data-aeris-input-group-addon': '',
     '[attr.aria-hidden]': 'decorative() ? "true" : null',
   },
 })
@@ -28,6 +29,7 @@ export class AerisInputGroupAddonDirective {
   template: `<ng-content />`,
   host: {
     class: 'aeris-input-group__addon',
+    'data-aeris-input-group-addon': '',
     '[attr.aria-hidden]': 'decorative() ? "true" : null',
   },
 })

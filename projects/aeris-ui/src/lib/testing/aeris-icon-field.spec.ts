@@ -10,7 +10,7 @@ import { AerisInputText } from '../../../input-text/aeris-input-text';
   template: `
     <label for="search">Search</label>
     <aeris-icon-field fluid>
-      <svg aerisIcon viewBox="0 0 24 24"><path d="M10 10h1" /></svg>
+      <svg aerisIconStart viewBox="0 0 24 24"><path d="M10 10h1" /></svg>
       <input id="search" type="search" [formControl]="search" aria-describedby="search-help" />
     </aeris-icon-field>
     <small id="search-help">Search documentation.</small>
@@ -41,6 +41,7 @@ describe('AerisIconField', () => {
     const icon = fixture.nativeElement.querySelector('.aeris-icon-field__icon') as HTMLElement;
 
     expect(host.classList.contains('aeris-icon-field--fluid')).toBe(true);
+    expect(icon.getAttribute('data-aeris-icon-field-slot')).toBe('start');
     expect(icon.getAttribute('aria-hidden')).toBe('true');
     expect(input.id).toBe('search');
     expect(input.type).toBe('search');
@@ -51,6 +52,11 @@ describe('AerisIconField', () => {
     input.dispatchEvent(new Event('input', { bubbles: true }));
     fixture.detectChanges();
     expect(fixture.componentInstance.search.value).toBe('Button');
+
+    icon.setAttribute('class', 'third-party-icon');
+    expect(icon.classList.contains('aeris-icon-field__icon')).toBe(false);
+    expect(getComputedStyle(icon).position).toBe('absolute');
+    expect(getComputedStyle(icon).top).toBe('50%');
   });
 
   it('applies visual state classes without hiding meaningful icons', async () => {

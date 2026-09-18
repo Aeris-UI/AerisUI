@@ -302,34 +302,47 @@ const AERIS_MONOCHROME_DARK_STATUS_TONES = {
   'success' | 'info' | 'warning' | 'danger'
 >;
 
+const AERIS_COLORED_DARK_SCHEME = {
+  page: '#0c0c0c',
+  surface: '#121212',
+  surface2: '#191919',
+  surface3: '#232323',
+  interactiveHover: '#292929',
+  border: '#292929',
+  borderStrong: '#757575',
+} as const satisfies AerisThemeScheme;
+
 /** Accessible Aeris starter themes that can be passed directly to provideAeris(). */
 export const AERIS_THEME_PRESETS = {
   earth: {
     palette: {
-      surface: '#f6f3e8',
-      primary: '#5f6f36',
-      secondary: '#b75e26',
-      accent: '#d79a32',
-      contrast: '#28351a',
+      surface: '#f1f4f2',
+      primary: '#2c694b',
+      secondary: '#52685b',
+      accent: '#a88245',
+      contrast: '#343b37',
     },
+    dark: AERIS_COLORED_DARK_SCHEME,
   },
   coastal: {
     palette: {
-      surface: '#eef3f5',
-      primary: '#33789b',
-      secondary: '#347b73',
-      accent: '#d46f58',
-      contrast: '#163e54',
+      surface: '#f1f4f8',
+      primary: '#2d63a8',
+      secondary: '#546b89',
+      accent: '#368678',
+      contrast: '#39404a',
     },
+    dark: AERIS_COLORED_DARK_SCHEME,
   },
   orchid: {
     palette: {
-      surface: '#f3eef5',
-      primary: '#7654ad',
-      secondary: '#a94f79',
-      accent: '#d59a36',
-      contrast: '#3a2949',
+      surface: '#f5f2f8',
+      primary: '#7551a8',
+      secondary: '#6f607f',
+      accent: '#a46b82',
+      contrast: '#453b4e',
     },
+    dark: AERIS_COLORED_DARK_SCHEME,
   },
   monochrome: {
     palette: {
@@ -456,7 +469,7 @@ export const AERIS_DEFAULT_THEME: AerisTheme = {
     umber: AERIS_THEME_PRESETS.earth.palette.contrast,
   },
   light: {},
-  dark: {},
+  dark: AERIS_COLORED_DARK_SCHEME,
   radius: 'rounded',
   radii: AERIS_RADIUS_PRESETS,
   density: 'medium',

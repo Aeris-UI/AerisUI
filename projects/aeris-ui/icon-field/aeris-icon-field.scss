@@ -41,7 +41,7 @@
   width: 100%;
 }
 
-.aeris-icon-field__icon {
+.aeris-icon-field [data-aeris-icon-field-slot] {
   position: absolute;
   top: 50%;
   z-index: 1;
@@ -57,21 +57,18 @@
   transform: translateY(-50%);
 }
 
-.aeris-icon-field__icon:not(.aeris-icon-field__icon--start):not(.aeris-icon-field__icon--end),
-.aeris-icon-field__icon--start {
+.aeris-icon-field [data-aeris-icon-field-slot='start'],
+.aeris-icon-field:not(.aeris-icon-field--right) [data-aeris-icon-field-slot='auto'] {
   inset-inline-start: var(--aeris-icon-field-icon-offset);
 }
 
-.aeris-icon-field--right
-  .aeris-icon-field__icon:not(.aeris-icon-field__icon--start):not(.aeris-icon-field__icon--end),
-.aeris-icon-field__icon--end {
+.aeris-icon-field [data-aeris-icon-field-slot='end'],
+.aeris-icon-field--right [data-aeris-icon-field-slot='auto'] {
   inset-inline: auto var(--aeris-icon-field-icon-offset);
 }
 
-.aeris-icon-field__icon svg,
-.aeris-icon-field__icon > svg,
-svg.aeris-icon-field__icon,
-svg.aeris-icon-field__icon > svg {
+.aeris-icon-field [data-aeris-icon-field-slot] svg,
+.aeris-icon-field svg[data-aeris-icon-field-slot] {
   display: block;
   width: var(--aeris-icon-field-icon-size) !important;
   height: var(--aeris-icon-field-icon-size) !important;
@@ -156,17 +153,17 @@ svg.aeris-icon-field__icon > svg {
   padding-inline-end: var(--aeris-icon-field-padding);
 }
 
-.aeris-icon-field:has(.aeris-icon-field__icon--start)
+.aeris-icon-field:has([data-aeris-icon-field-slot='start'])
   input:not([type='checkbox']):not([type='radio']),
-.aeris-icon-field:has(.aeris-icon-field__icon--start) select,
-.aeris-icon-field:has(.aeris-icon-field__icon--start) textarea {
+.aeris-icon-field:has([data-aeris-icon-field-slot='start']) select,
+.aeris-icon-field:has([data-aeris-icon-field-slot='start']) textarea {
   padding-inline-start: var(--aeris-icon-field-padding);
 }
 
-.aeris-icon-field:has(.aeris-icon-field__icon--end)
+.aeris-icon-field:has([data-aeris-icon-field-slot='end'])
   input:not([type='checkbox']):not([type='radio']),
-.aeris-icon-field:has(.aeris-icon-field__icon--end) select,
-.aeris-icon-field:has(.aeris-icon-field__icon--end) textarea {
+.aeris-icon-field:has([data-aeris-icon-field-slot='end']) select,
+.aeris-icon-field:has([data-aeris-icon-field-slot='end']) textarea {
   padding-inline-end: var(--aeris-icon-field-padding);
 }
 
