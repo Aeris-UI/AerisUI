@@ -7,7 +7,29 @@ release line.
 
 ## [Unreleased]
 
-No consumer-visible changes have been recorded since 22.0.0-alpha.7.
+No consumer-visible changes have been recorded since 22.0.0-alpha.8.
+
+## [22.0.0-alpha.8] - 2026-09-18
+
+### Changed
+
+- Refine the Sky, Earth, and Violet palettes with clearer visual identities while keeping dark-mode
+  surfaces neutral and maintaining WCAG AA contrast targets.
+- Build the documentation search experience from Aeris components and keep copied examples aligned
+  with their rendered output.
+- Reuse shared Button styling for SplitButton and FileUpload actions so variants, severities,
+  sizing, icon geometry, and interaction states remain consistent.
+
+### Fixed
+
+- Keep projected IconField and embedded InputGroup icons positioned inside their controls and align
+  attached InputGroup actions without doubled borders or mismatched heights.
+- Preserve SplitButton severity colors and readable foreground contrast across solid, outline,
+  ghost, and link variants and interaction states.
+- Keep ProgressBar edge-step labels readable and contained on narrow layouts, including RTL.
+- Keep the ScrollTop events example contained within its preview instead of rendering an extra
+  viewport-level button.
+- Normalize generated component example closing tags so copied templates remain clean and readable.
 
 ## [22.0.0-alpha.7] - 2026-09-14
 
@@ -226,7 +248,8 @@ No consumer-visible changes have been recorded since 22.0.0-alpha.7.
 - Align the published Lexical peer range with the version Aeris uses and declare the required
   Angular platform-browser and RxJS peers.
 
-[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.7...HEAD
+[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.8...HEAD
+[22.0.0-alpha.8]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.7...v22.0.0-alpha.8
 [22.0.0-alpha.7]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.6...v22.0.0-alpha.7
 [22.0.0-alpha.6]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.5...v22.0.0-alpha.6
 [22.0.0-alpha.5]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.4...v22.0.0-alpha.5
