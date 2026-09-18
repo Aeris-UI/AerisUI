@@ -104,6 +104,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
   `,
   styles: `
     .scroll-top-preview,
+    .scroll-top-event-preview,
     .scroll-top-position-grid > div,
     .scroll-top-size-row > span {
       position: relative;
@@ -118,6 +119,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
     }
 
     .scroll-top-preview aeris-scroll-top,
+    .scroll-top-event-preview aeris-scroll-top,
     .scroll-top-position-grid aeris-scroll-top,
     .scroll-top-size-row aeris-scroll-top {
       --aeris-scroll-top-z-index: 1;
@@ -193,6 +195,7 @@ export class ScrollTopPositionsPositionsDemo {
 
 ```css
 .scroll-top-preview,
+.scroll-top-event-preview,
 .scroll-top-position-grid > div,
 .scroll-top-size-row > span {
   position: relative;
@@ -207,6 +210,7 @@ export class ScrollTopPositionsPositionsDemo {
 }
 
 .scroll-top-preview aeris-scroll-top,
+.scroll-top-event-preview aeris-scroll-top,
 .scroll-top-position-grid aeris-scroll-top,
 .scroll-top-size-row aeris-scroll-top {
   --aeris-scroll-top-z-index: 1;
@@ -279,6 +283,7 @@ export class ScrollTopSizesSizesDemo {
 
 ```css
 .scroll-top-preview,
+.scroll-top-event-preview,
 .scroll-top-position-grid > div,
 .scroll-top-size-row > span {
   position: relative;
@@ -293,6 +298,7 @@ export class ScrollTopSizesSizesDemo {
 }
 
 .scroll-top-preview aeris-scroll-top,
+.scroll-top-event-preview aeris-scroll-top,
 .scroll-top-position-grid aeris-scroll-top,
 .scroll-top-size-row aeris-scroll-top {
   --aeris-scroll-top-z-index: 1;
@@ -327,7 +333,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
   selector: 'app-scroll-top-events-demo',
   imports: [AerisScrollTop],
   template: `
-    <div class="field">
+    <div class="field scroll-top-event-preview">
       <aeris-scroll-top
         alwaysVisible
         strategy="absolute"
@@ -363,6 +369,30 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
 
     .field small.error {
       color: var(--aeris-danger);
+    }
+
+    .scroll-top-preview,
+    .scroll-top-event-preview,
+    .scroll-top-position-grid > div,
+    .scroll-top-size-row > span {
+      position: relative;
+      min-height: 8rem;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      border: 1px solid var(--aeris-border);
+      border-radius: 0.875rem;
+      background: var(--aeris-surface-2);
+      overflow: hidden;
+    }
+
+    .scroll-top-preview aeris-scroll-top,
+    .scroll-top-event-preview aeris-scroll-top,
+    .scroll-top-position-grid aeris-scroll-top,
+    .scroll-top-size-row aeris-scroll-top {
+      --aeris-scroll-top-z-index: 1;
+      --aeris-scroll-top-offset-block: 0.875rem;
+      --aeris-scroll-top-offset-inline: 0.875rem;
     }
   `
 })
