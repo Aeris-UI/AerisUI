@@ -2,7 +2,7 @@
 
 > Aeris UI 22.0.0-alpha.8 is an accessible, responsive, themeable Angular 22 component library using standalone and signal-based APIs. It is currently alpha software and is not production ready.
 
-Use component secondary entry points and load both global Aeris styles once. Aeris has no required icon library; the documentation uses Lucide only to demonstrate consumer-provided icons. Components are designed for WCAG 2.2 AA, mobile layouts, light and dark themes, RTL, Tailwind CSS, and Bootstrap coexistence.
+Use component secondary entry points and load both global Aeris styles once. Aeris has no required icon library; the documentation uses Lucide only to demonstrate consumer-provided icons. Components are designed and tested to support WCAG 2.2 Level AA, mobile layouts, light and dark themes, RTL, Tailwind CSS, and Bootstrap coexistence; final accessibility conformance depends on the complete application.
 
 Prefer the component Markdown files for focused implementation context, `llms-full.txt` for one self-contained context file, and `aeris-docs.json` for structured retrieval or tooling.
 

@@ -1,9 +1,10 @@
 # Aeris UI
 
 Aeris UI is an original Angular component library for building minimal, responsive, themeable,
-high-performance, and WCAG 2.2 AA accessible interfaces. The repository contains the library,
-tests, documentation application, design lab, and release tooling so implementation and guidance
-evolve together.
+and high-performance interfaces. Its components are designed and tested to support WCAG 2.2
+Level AA, while final conformance depends on the complete application. The repository contains the
+library, tests, documentation application, design lab, and release tooling so implementation and
+guidance evolve together.
 
 > **Alpha software:** Aeris UI is under active development and is not production ready. The
 > current `22.0.0-alpha.8` version may introduce breaking API, styling, and behavior changes before
