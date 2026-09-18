@@ -1,28 +1,34 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { waitForPublishedPackage } from './release-publish-verification.mjs';
+import { waitForPublishedPackages } from './release-publish-verification.mjs';
 
-const name = '@aeris-ui/core';
+const names = ['@aeris-ui/core', '@aeris-ui/mcp'];
 const version = '22.0.0-alpha.2';
 const npmTag = 'next';
 
-test('retries until the published version and dist-tag have propagated', async () => {
-  let publishedChecks = 0;
+test('retries until every package version and dist-tag have propagated', async () => {
+  const publishedChecks = new Map(names.map((name) => [name, 0]));
   let waits = 0;
 
-  const result = await waitForPublishedPackage({
-    name,
+  const result = await waitForPublishedPackages({
+    names,
     version,
     npmTag,
     attempts: 4,
     delayMs: 0,
     viewVersion(specifier) {
+      const name = names.find((candidate) => specifier.startsWith(`${candidate}@`));
+      if (!name) return undefined;
+      const requiredChecks = name === '@aeris-ui/core' ? 2 : 4;
       if (specifier === `${name}@${version}`) {
-        publishedChecks += 1;
-        return publishedChecks >= 3 ? version : undefined;
+        const checks = (publishedChecks.get(name) ?? 0) + 1;
+        publishedChecks.set(name, checks);
+        return checks >= requiredChecks ? version : undefined;
       }
-      return publishedChecks >= 3 ? version : '22.0.0-alpha.1';
+      return (publishedChecks.get(name) ?? 0) >= requiredChecks
+        ? version
+        : '22.0.0-alpha.1';
     },
     wait() {
       waits += 1;
@@ -32,24 +38,28 @@ test('retries until the published version and dist-tag have propagated', async (
 
   assert.deepEqual(result, {
     verified: true,
-    attempts: 3,
-    publishedVersion: version,
-    taggedVersion: version,
+    attempts: 4,
+    packages: names.map((name) => ({
+      name,
+      verified: true,
+      publishedVersion: version,
+      taggedVersion: version,
+    })),
   });
-  assert.equal(waits, 2);
+  assert.equal(waits, 3);
 });
 
 test('returns the last observed registry state after bounded retries', async () => {
   let waits = 0;
 
-  const result = await waitForPublishedPackage({
-    name,
+  const result = await waitForPublishedPackages({
+    names,
     version,
     npmTag,
     attempts: 3,
     delayMs: 0,
     viewVersion(specifier) {
-      return specifier === `${name}@${npmTag}` ? '22.0.0-alpha.1' : undefined;
+      return specifier.endsWith(`@${npmTag}`) ? '22.0.0-alpha.1' : undefined;
     },
     wait() {
       waits += 1;
@@ -60,21 +70,37 @@ test('returns the last observed registry state after bounded retries', async () 
   assert.deepEqual(result, {
     verified: false,
     attempts: 3,
-    publishedVersion: undefined,
-    taggedVersion: '22.0.0-alpha.1',
+    packages: names.map((name) => ({
+      name,
+      verified: false,
+      publishedVersion: undefined,
+      taggedVersion: '22.0.0-alpha.1',
+    })),
   });
   assert.equal(waits, 2);
 });
 
 test('rejects invalid retry configuration', async () => {
   await assert.rejects(
-    waitForPublishedPackage({
-      name,
+    waitForPublishedPackages({
+      names,
       version,
       npmTag,
       attempts: 0,
       viewVersion: () => version,
     }),
     /positive integer/,
+  );
+});
+
+test('requires at least one package name', async () => {
+  await assert.rejects(
+    waitForPublishedPackages({
+      names: [],
+      version,
+      npmTag,
+      viewVersion: () => version,
+    }),
+    /at least one package name/,
   );
 });

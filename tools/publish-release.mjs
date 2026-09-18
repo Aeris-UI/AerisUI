@@ -2,7 +2,7 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 
-import { waitForPublishedPackage } from './release-publish-verification.mjs';
+import { waitForPublishedPackages } from './release-publish-verification.mjs';
 
 const REGISTRY = 'https://registry.npmjs.org';
 const arguments_ = parseArguments(process.argv.slice(2));
@@ -67,21 +67,30 @@ for (const package_ of packages) {
     'inherit',
   );
 
-  const verification = await waitForPublishedPackage({
-    name: package_.name,
-    version,
-    npmTag,
-    viewVersion,
-  });
-  if (!verification.verified) {
-    throw new Error(
-      `${package_.name}@${version} could not be verified after publishing. ` +
-        `Observed version ${verification.publishedVersion ?? 'nothing'} and tag ` +
-        `${npmTag}=${verification.taggedVersion ?? 'nothing'}.`,
-    );
-  }
+  process.stdout.write(`Submitted ${package_.name}@${version} with npm tag ${npmTag}.\n`);
+}
 
-  process.stdout.write(`Published ${package_.name}@${version} with npm tag ${npmTag}.\n`);
+const verification = await waitForPublishedPackages({
+  names: packages.map((package_) => package_.name),
+  version,
+  npmTag,
+  viewVersion,
+});
+if (!verification.verified) {
+  const observations = verification.packages
+    .map(
+      (package_) =>
+        `${package_.name}: version=${package_.publishedVersion ?? 'nothing'}, ` +
+        `${npmTag}=${package_.taggedVersion ?? 'nothing'}`,
+    )
+    .join('; ');
+  throw new Error(
+    `Published packages could not be verified after ${verification.attempts} attempts. ${observations}.`,
+  );
+}
+
+for (const package_ of verification.packages) {
+  process.stdout.write(`Verified ${package_.name}@${version} with npm tag ${npmTag}.\n`);
 }
 
 function packageVersionExists(name, packageVersion) {
