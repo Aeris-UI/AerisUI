@@ -29314,12 +29314,6 @@
           "description": "Dropzone minimum height."
         },
         {
-          "name": "--aeris-file-upload-primary-background",
-          "type": "CSS custom property",
-          "defaultValue": "var(--aeris-primary)",
-          "description": "Primary choose button background."
-        },
-        {
           "name": "--aeris-file-upload-progress-background",
           "type": "CSS custom property",
           "defaultValue": "var(--aeris-primary)",

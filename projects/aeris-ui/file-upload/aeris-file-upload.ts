@@ -17,6 +17,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { AerisButtonDirective } from '@aeris-ui/core/button';
 
 export type AerisFileUploadMode = 'basic' | 'advanced';
 export type AerisFileUploadStatus = 'ready' | 'uploading' | 'uploaded' | 'error';
@@ -142,7 +143,7 @@ let nextFileUploadId = 0;
 
 @Component({
   selector: 'aeris-file-upload',
-  imports: [NgTemplateOutlet],
+  imports: [AerisButtonDirective, NgTemplateOutlet],
   template: `
     <input
       #fileInput
@@ -160,8 +161,9 @@ let nextFileUploadId = 0;
     @if (mode() === 'basic') {
       <div class="aeris-file-upload__basic">
         <button
+          aerisButton
           type="button"
-          class="aeris-file-upload__button aeris-file-upload__button--primary"
+          class="aeris-file-upload__button"
           [disabled]="disabled()"
           (click)="choose($event)"
         >
@@ -180,8 +182,11 @@ let nextFileUploadId = 0;
         <span class="aeris-file-upload__summary" aria-live="polite">{{ summaryText() }}</span>
         @if (showUploadButton()) {
           <button
+            aerisButton
             type="button"
             class="aeris-file-upload__button"
+            variant="outline"
+            severity="secondary"
             [disabled]="!canUpload()"
             (click)="upload($event)"
           >
@@ -204,8 +209,9 @@ let nextFileUploadId = 0;
           } @else {
             <div class="aeris-file-upload__actions">
               <button
+                aerisButton
                 type="button"
-                class="aeris-file-upload__button aeris-file-upload__button--primary"
+                class="aeris-file-upload__button"
                 [disabled]="disabled()"
                 (click)="choose($event)"
               >
@@ -224,8 +230,11 @@ let nextFileUploadId = 0;
 
               @if (showUploadButton()) {
                 <button
+                  aerisButton
                   type="button"
                   class="aeris-file-upload__button"
+                  variant="outline"
+                  severity="secondary"
                   [disabled]="!canUpload()"
                   (click)="upload($event)"
                 >
@@ -245,8 +254,11 @@ let nextFileUploadId = 0;
 
               @if (showClearButton()) {
                 <button
+                  aerisButton
                   type="button"
                   class="aeris-file-upload__button"
+                  variant="outline"
+                  severity="secondary"
                   [disabled]="!canClear()"
                   (click)="clear($event, 'clear-button')"
                 >

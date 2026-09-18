@@ -122,6 +122,29 @@ describe('AerisFileUpload', () => {
     expect(dropzone.textContent).toContain('Images or PDF files only.');
   });
 
+  it('uses the shared Aeris button primitive for built-in actions', () => {
+    const fixture = TestBed.createComponent(FileUploadHost);
+    fixture.detectChanges();
+
+    const actions = [
+      ...(fixture.nativeElement.querySelectorAll(
+        '.aeris-file-upload__button',
+      ) as NodeListOf<HTMLButtonElement>),
+    ];
+    const choose = actions.find((button) => button.textContent?.includes('Choose'));
+    const upload = actions.find((button) => button.textContent?.includes('Upload'));
+    const clear = actions.find((button) => button.textContent?.includes('Clear'));
+
+    expect(choose?.classList.contains('aeris-button')).toBe(true);
+    expect(choose?.classList.contains('aeris-button--solid')).toBe(true);
+    expect(choose?.classList.contains('aeris-button--severity-primary')).toBe(true);
+    for (const action of [upload, clear]) {
+      expect(action?.classList.contains('aeris-button')).toBe(true);
+      expect(action?.classList.contains('aeris-button--outline')).toBe(true);
+      expect(action?.classList.contains('aeris-button--severity-secondary')).toBe(true);
+    }
+  });
+
   it('selects valid files, rejects invalid files, and enforces max file count', () => {
     const fixture = TestBed.createComponent(FileUploadHost);
     fixture.detectChanges();
