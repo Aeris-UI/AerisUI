@@ -27,7 +27,19 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
     version: 'Unreleased',
     date: 'In development',
     status: 'Next release',
-    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.7.'],
+    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.8.'],
+  },
+  {
+    version: '22.0.0-alpha.8',
+    date: '18 September 2026',
+    status: 'Alpha patch',
+    changes: [
+      'Refine the colored themes with distinct palettes, neutral dark surfaces, and verified accessible contrast.',
+      'Rebuild documentation search with Aeris components and normalize copied component example markup.',
+      'Keep projected IconField and embedded InputGroup icons correctly positioned and align attached actions.',
+      'Reuse shared Button styling across SplitButton and FileUpload actions for consistent geometry and interaction states.',
+      'Keep ProgressBar edge labels readable on narrow and RTL layouts and contain the ScrollTop events demo.',
+    ],
   },
   {
     version: '22.0.0-alpha.7',
