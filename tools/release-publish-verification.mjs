@@ -1,8 +1,8 @@
-const DEFAULT_ATTEMPTS = 12;
+const DEFAULT_ATTEMPTS = 61;
 const DEFAULT_DELAY_MS = 5_000;
 
-export async function waitForPublishedPackage({
-  name,
+export async function waitForPublishedPackages({
+  names,
   version,
   npmTag,
   viewVersion,
@@ -10,6 +10,9 @@ export async function waitForPublishedPackage({
   delayMs = DEFAULT_DELAY_MS,
   wait = delay,
 }) {
+  if (!Array.isArray(names) || names.length === 0 || names.some((name) => !name)) {
+    throw new Error('Publication verification requires at least one package name.');
+  }
   if (!Number.isInteger(attempts) || attempts < 1) {
     throw new Error('Publication verification attempts must be a positive integer.');
   }
@@ -17,19 +20,25 @@ export async function waitForPublishedPackage({
     throw new Error('Publication verification delay must be a non-negative number.');
   }
 
-  let publishedVersion;
-  let taggedVersion;
+  let packages = [];
 
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    publishedVersion = viewVersion(`${name}@${version}`);
-    taggedVersion = viewVersion(`${name}@${npmTag}`);
+    packages = names.map((name) => {
+      const publishedVersion = viewVersion(`${name}@${version}`);
+      const taggedVersion = viewVersion(`${name}@${npmTag}`);
+      return {
+        name,
+        verified: publishedVersion === version && taggedVersion === version,
+        publishedVersion,
+        taggedVersion,
+      };
+    });
 
-    if (publishedVersion === version && taggedVersion === version) {
+    if (packages.every((package_) => package_.verified)) {
       return {
         verified: true,
         attempts: attempt,
-        publishedVersion,
-        taggedVersion,
+        packages,
       };
     }
 
@@ -39,8 +48,7 @@ export async function waitForPublishedPackage({
   return {
     verified: false,
     attempts,
-    publishedVersion,
-    taggedVersion,
+    packages,
   };
 }
 
