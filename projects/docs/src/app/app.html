@@ -293,6 +293,9 @@
                       <a
                         [routerLink]="guide.path"
                         routerLinkActive="active"
+                        (pointerenter)="prefetchRoute(guide.path)"
+                        (pointerdown)="prefetchRoute(guide.path)"
+                        (focus)="prefetchRoute(guide.path)"
                         (click)="closeNavigation()"
                       >
                         {{ guide.title }}
@@ -338,6 +341,9 @@
                     <a
                       [routerLink]="['/components', item.slug]"
                       routerLinkActive="active"
+                      (pointerenter)="prefetchRoute('/components/' + item.slug)"
+                      (pointerdown)="prefetchRoute('/components/' + item.slug)"
+                      (focus)="prefetchRoute('/components/' + item.slug)"
                       (click)="closeNavigation()"
                     >
                       {{ item.name }}
@@ -470,12 +476,13 @@
           variant="ghost"
           size="md"
           [routerLink]="item.path"
+          (pointerenter)="prefetchRoute(item.path)"
+          (pointerdown)="prefetchRoute(item.path)"
+          (focus)="prefetchRoute(item.path)"
           (click)="searchOpen.set(false)"
         >
           <span class="docs-command__result-icon" aria-hidden="true">
-            <svg
-              [lucideIcon]="item.kind === 'guide' ? icons.BookOpen : icons.Package"
-            ></svg>
+            <svg [lucideIcon]="item.kind === 'guide' ? icons.BookOpen : icons.Package"></svg>
           </span>
           <span class="docs-command__result-copy">
             <strong>{{ item.name }}</strong>
@@ -488,9 +495,7 @@
           ></svg>
         </a>
       } @empty {
-        <p class="docs-command__empty" role="status">
-          No documentation matches “{{ query() }}”.
-        </p>
+        <p class="docs-command__empty" role="status">No documentation matches “{{ query() }}”.</p>
       }
     </nav>
   </div>

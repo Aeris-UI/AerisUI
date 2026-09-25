@@ -35,6 +35,7 @@ import {
 } from './shared/appearance/docs-appearance.service';
 import { AerisLogoMarkComponent } from './shared/branding/aeris-logo-mark.component';
 import { DOC_ICONS } from './shared/documentation/doc-icons';
+import { DocsRoutePrefetchService } from './shared/navigation/docs-route-prefetch.service';
 import { DocsSeoService } from './shared/seo/docs-seo.service';
 
 interface DocsSearchEntry {
@@ -77,6 +78,7 @@ export class App {
   protected readonly icons = DOC_ICONS;
   private readonly document = inject(DOCUMENT);
   private readonly router = inject(Router);
+  private readonly routePrefetcher = inject(DocsRoutePrefetchService);
   private readonly seo = inject(DocsSeoService);
   private readonly docsAppearance = inject(DocsAppearanceService);
   protected readonly themeService = inject(AerisThemeService);
@@ -221,6 +223,10 @@ export class App {
 
   protected closeNavigation(): void {
     this.sidebarOpen.set(false);
+  }
+
+  protected prefetchRoute(path: string): void {
+    this.routePrefetcher.prefetch(path);
   }
 
   protected toggleComponentGroup(category: ComponentCategory): void {
