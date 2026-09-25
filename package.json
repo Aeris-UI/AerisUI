@@ -49,12 +49,12 @@
   "private": true,
   "packageManager": "npm@11.19.0",
   "dependencies": {
-    "@angular/common": "^22.1.6",
-    "@angular/compiler": "^22.1.6",
-    "@angular/core": "^22.1.6",
-    "@angular/forms": "^22.1.6",
-    "@angular/platform-browser": "^22.1.6",
-    "@angular/router": "^22.1.6",
+    "@angular/common": "^22.1.7",
+    "@angular/compiler": "^22.1.7",
+    "@angular/core": "^22.1.7",
+    "@angular/forms": "^22.1.7",
+    "@angular/platform-browser": "^22.1.7",
+    "@angular/router": "^22.1.7",
     "@lexical/history": "^0.49.0",
     "@lexical/html": "^0.49.0",
     "@lexical/list": "^0.49.0",
@@ -70,8 +70,8 @@
     "@angular-devkit/schematics": "^22.1.8",
     "@angular/build": "^22.1.8",
     "@angular/cli": "^22.1.8",
-    "@angular/compiler-cli": "^22.1.6",
-    "@angular/platform-server": "^22.1.6",
+    "@angular/compiler-cli": "^22.1.7",
+    "@angular/platform-server": "^22.1.7",
     "@axe-core/playwright": "^4.13.0",
     "@lucide/angular": "^1.45.0",
     "@modelcontextprotocol/sdk": "^1.30.0",
@@ -83,7 +83,7 @@
     "prettier": "^3.9.8",
     "typescript": "~6.0.3",
     "vitest": "^4.1.11",
-    "zod": "^4.5.4"
+    "zod": "^4.6.5"
   },
   "overrides": {
     "@babel/core": "7.29.7",
