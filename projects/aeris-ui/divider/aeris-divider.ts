@@ -24,6 +24,7 @@ export type AerisDividerSpacing = 'none' | 'sm' | 'md' | 'lg';
     '[attr.data-align]': 'align()',
     '[attr.data-line-style]': 'lineStyle()',
     '[attr.data-spacing]': 'spacing()',
+    '[style.inline-size]': 'orientation() === "horizontal" ? width() : null',
   },
 })
 export class AerisDivider {
@@ -31,6 +32,7 @@ export class AerisDivider {
   readonly align = input<AerisDividerAlign>('center');
   readonly lineStyle = input<AerisDividerLineStyle>('solid');
   readonly spacing = input<AerisDividerSpacing>('md');
+  readonly width = input('100%');
   readonly decorative = input(false, { transform: booleanAttribute });
   readonly ariaLabel = input('');
   readonly ariaLabelledBy = input('');

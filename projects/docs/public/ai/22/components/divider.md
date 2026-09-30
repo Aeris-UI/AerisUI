@@ -33,6 +33,7 @@ import { AerisDivider } from '@aeris-ui/core/divider';
 | `align` | `AerisDividerAlign` | `'center'` | Places projected content near the start, center, or end of the separator. |
 | `lineStyle` | `AerisDividerLineStyle` | `'solid'` | Sets the separator line to solid, dashed, or dotted. |
 | `spacing` | `AerisDividerSpacing` | `'md'` | Controls outer spacing around the divider. Options: 'none', 'sm', 'md', 'lg'. |
+| `width` | `string` | `'100%'` | Sets the horizontal divider width using any valid CSS length or percentage. |
 | `decorative` | `boolean` | `false` | Removes separator semantics and hides the divider from assistive technology. |
 | `ariaLabel` | `string` | `''` | Accessible name for a meaningful separator without visible naming text. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that names a meaningful separator. |
@@ -94,6 +95,31 @@ import { AerisDivider } from '@aeris-ui/core/divider';
   `
 })
 export class DividerBasicBasicDemo {
+}
+```
+
+### Width
+
+Horizontal dividers fill their container by default. Set width to any CSS length or percentage when a shorter separator is needed.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisDivider } from '@aeris-ui/core/divider';
+
+@Component({
+  selector: 'app-divider-width-demo',
+  imports: [AerisDivider],
+  template: `
+    <div>
+      <aeris-divider ariaLabel="Full-width separator">Full width</aeris-divider>
+      <aeris-divider width="70%" ariaLabel="Seventy percent width separator"
+        >70% width</aeris-divider>
+    </div>
+  `
+})
+export class DividerWidthWidthDemo {
 }
 ```
 

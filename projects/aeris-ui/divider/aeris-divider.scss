@@ -14,7 +14,6 @@
 }
 
 :host([data-orientation='horizontal']) {
-  width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
@@ -113,13 +112,17 @@
 }
 
 :host(:has(.aeris-divider__content:empty)[data-orientation='horizontal']) {
-  grid-template-columns: minmax(0, 1fr) 0 minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 0;
 }
 
 :host(:has(.aeris-divider__content:empty)[data-orientation='vertical']) {
-  grid-template-rows: minmax(0, 1fr) 0 minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   gap: 0;
+}
+
+:host(:has(.aeris-divider__content:empty)) .aeris-divider__line:last-child {
+  display: none;
 }
 
 @media (max-width: 40rem) {
