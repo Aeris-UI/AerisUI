@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { resolve, relative, sep } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { gzipSync } from 'node:zlib';
@@ -135,7 +135,11 @@ bootstrapApplication(App).catch(console.error);
   if (build.status !== 0)
     throw new Error(`${scenario.name} build failed:\n${build.stdout}\n${build.stderr}`);
   const output = resolve(directory, 'output/browser');
-  const stats = JSON.parse(readFileSync(resolve(directory, 'output/stats.json'), 'utf8'));
+  const legacyStatsPath = resolve(directory, 'output/stats.json');
+  const statsPath = existsSync(legacyStatsPath)
+    ? legacyStatsPath
+    : resolve(directory, 'output/browser-stats.json');
+  const stats = JSON.parse(readFileSync(statsPath, 'utf8'));
   const inputs = Object.keys(stats.inputs);
   const optional = inputs.filter((name) =>
     /node_modules\/(?:chart\.js|(?:@lexical\/|lexical\/))/.test(name.replaceAll('\\', '/')),
