@@ -27,7 +27,20 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
     version: 'Unreleased',
     date: 'In development',
     status: 'Next release',
-    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.8.'],
+    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.9.'],
+  },
+  {
+    version: '22.0.0-alpha.9',
+    date: '5 October 2026',
+    status: 'Alpha patch',
+    changes: [
+      'Upgrade Angular and its development toolchain to the 22.2 release line and refresh audited dependencies.',
+      'Keep DatePicker open while selecting months and years so period selection completes in one interaction.',
+      'Make Divider full width by default and support explicit width customization.',
+      'Prefetch lazy documentation routes from navigation intent to improve first-time page transitions.',
+      'Keep production performance checks compatible with Angular 22.2 build statistics output.',
+      'Improve trusted npm publication verification while registry metadata propagates.',
+    ],
   },
   {
     version: '22.0.0-alpha.8',
