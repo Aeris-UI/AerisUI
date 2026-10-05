@@ -37,6 +37,24 @@
             </app-form-demo>
 
             <app-form-demo
+              id="divider-width"
+              title="Width"
+              description="Horizontal dividers fill their container by default. Set width to any CSS length or percentage when a shorter separator is needed."
+            >
+              <div preview>
+                <aeris-divider ariaLabel="Full-width separator">Full width</aeris-divider>
+                <aeris-divider width="70%" ariaLabel="Seventy percent width separator"
+                  >70% width</aeris-divider
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-divider ariaLabel="Full-width separator"&gt;Full width&lt;/aeris-divider&gt;
+  &lt;aeris-divider width="70%" ariaLabel="Seventy percent width separator"
+    &gt;70% width&lt;/aeris-divider&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
               id="divider-content"
               title="Content"
               description="Project a short label when the divider communicates a transition or alternative."

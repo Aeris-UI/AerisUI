@@ -21405,6 +21405,12 @@
               "description": "Controls outer spacing around the divider. Options: 'none', 'sm', 'md', 'lg'."
             },
             {
+              "name": "width",
+              "type": "string",
+              "defaultValue": "'100%'",
+              "description": "Sets the horizontal divider width using any valid CSS length or percentage."
+            },
+            {
               "name": "decorative",
               "type": "boolean",
               "defaultValue": "false",
@@ -21522,6 +21528,18 @@
               "language": "TypeScript",
               "label": "TS",
               "code": "import { Component } from '@angular/core';\nimport { AerisDivider } from '@aeris-ui/core/divider';\n\n@Component({\n  selector: 'app-divider-basic-demo',\n  imports: [AerisDivider],\n  template: `\n    <div>\n      <p>Account details</p>\n      <aeris-divider ariaLabel=\"Account and notification sections\" />\n      <p>Notification preferences</p>\n    </div>\n  `\n})\nexport class DividerBasicBasicDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "divider-width",
+          "title": "Width",
+          "description": "Horizontal dividers fill their container by default. Set width to any CSS length or percentage when a shorter separator is needed.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisDivider } from '@aeris-ui/core/divider';\n\n@Component({\n  selector: 'app-divider-width-demo',\n  imports: [AerisDivider],\n  template: `\n    <div>\n      <aeris-divider ariaLabel=\"Full-width separator\">Full width</aeris-divider>\n      <aeris-divider width=\"70%\" ariaLabel=\"Seventy percent width separator\"\n        >70% width</aeris-divider>\n    </div>\n  `\n})\nexport class DividerWidthWidthDemo {\n}\n"
             }
           ]
         },

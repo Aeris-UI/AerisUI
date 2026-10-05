@@ -746,11 +746,35 @@ export class AerisDatePicker implements ControlValueAccessor {
 
   protected handlePanelFocusOut(event: FocusEvent): void {
     if (this.inline()) return;
+    const panel = event.currentTarget as HTMLElement;
     const nextTarget = event.relatedTarget;
-    if (nextTarget instanceof Node && (event.currentTarget as HTMLElement).contains(nextTarget)) {
+    if (
+      nextTarget instanceof Node &&
+      (panel.contains(nextTarget) || this.trigger()?.nativeElement.contains(nextTarget))
+    ) {
       return;
     }
-    this.close(false);
+
+    // Switching between day, month, and year views removes the focused control before the
+    // replacement view receives focus. Browsers report that transient destination inconsistently
+    // as null or document.body, so verify the final focus location after the render completes.
+    afterNextRender(
+      () => {
+        panel.ownerDocument.defaultView?.requestAnimationFrame(() => {
+          if (!panel.isConnected || !this.open()) return;
+          const activeElement = panel.ownerDocument.activeElement;
+          if (
+            activeElement instanceof Node &&
+            (panel.contains(activeElement) ||
+              Boolean(this.trigger()?.nativeElement.contains(activeElement)))
+          ) {
+            return;
+          }
+          this.close(false);
+        });
+      },
+      { injector: this.injector },
+    );
   }
 
   protected handleDayKeydown(event: KeyboardEvent, date: Date): void {

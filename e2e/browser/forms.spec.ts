@@ -33,9 +33,21 @@ test('forms expose stable validation, selection, disabled, and read-only states'
 
   const datePicker = page.getByRole('combobox', { name: 'Deadline' });
   await datePicker.click();
-  await expect(page.locator('.aeris-date-picker__panel')).toBeVisible();
+  const datePickerPanel = page.locator('.aeris-date-picker__panel');
+  await expect(datePickerPanel).toBeVisible();
+  const yearToggle = datePickerPanel.locator('.aeris-date-picker__heading button').nth(1);
+  const displayedYear = (await yearToggle.textContent())?.trim() ?? '';
+  await yearToggle.click();
+  const yearList = page.getByRole('listbox', { name: 'Choose year' });
+  await expect(yearList).toBeVisible();
+  await yearList.getByRole('option', { name: displayedYear, exact: true }).click();
+  const monthList = page.getByRole('listbox', { name: 'Choose month' });
+  await expect(monthList).toBeVisible();
+  await monthList.getByRole('option').first().click();
+  await expect(datePickerPanel.getByRole('grid')).toBeVisible();
+  await expect(datePicker).toHaveAttribute('aria-expanded', 'true');
   await page.keyboard.press('Escape');
-  await expect(page.locator('.aeris-date-picker__panel')).toHaveCount(0);
+  await expect(datePickerPanel).toHaveCount(0);
 
   await expect(page.getByRole('button', { name: 'Disabled action' })).toBeDisabled();
   await expect(page.getByRole('textbox', { name: 'Notes' })).toHaveAttribute('readonly', '');

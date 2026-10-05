@@ -35,6 +35,7 @@ interface ApiRow {
 export class DividerPage {
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'divider-basic', label: 'Basic' },
+    { id: 'divider-width', label: 'Width' },
     { id: 'divider-content', label: 'Content' },
     { id: 'divider-alignment', label: 'Alignment' },
     { id: 'divider-vertical', label: 'Vertical' },
@@ -117,6 +118,12 @@ type AerisDividerSpacing = 'none' | 'sm' | 'md' | 'lg';`;
       type: 'AerisDividerSpacing',
       defaultValue: "'md'",
       description: "Controls outer spacing around the divider. Options: 'none', 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'width',
+      type: 'string',
+      defaultValue: "'100%'",
+      description: 'Sets the horizontal divider width using any valid CSS length or percentage.',
     },
     {
       name: 'decorative',

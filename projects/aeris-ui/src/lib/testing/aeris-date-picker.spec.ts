@@ -251,7 +251,9 @@ describe('AerisDatePicker', () => {
     expect(event.defaultPrevented).toBe(false);
 
     const after = fixture.nativeElement.querySelector('#after-date-time') as HTMLButtonElement;
-    minute.dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: after }));
+    after.focus();
+    fixture.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve, 32));
     fixture.detectChanges();
 
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
@@ -280,6 +282,60 @@ describe('AerisDatePicker', () => {
     options.item(8).dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
     fixture.detectChanges();
     expect(document.activeElement).toBe(options.item(0));
+  });
+
+  it('keeps the panel open while choosing a year and month from the header', async () => {
+    const fixture = TestBed.createComponent(DatePickerKeyboardTestHost);
+    await fixture.whenStable();
+    const trigger = fixture.nativeElement.querySelector('#keyboard-date') as HTMLButtonElement;
+
+    fixture.componentInstance.picker().openPanel();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const yearToggle = fixture.nativeElement.querySelectorAll(
+      '.aeris-date-picker__heading button',
+    )[1] as HTMLButtonElement;
+    yearToggle.focus();
+    yearToggle.click();
+    yearToggle.dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const yearOptions = fixture.nativeElement.querySelectorAll(
+      '[role="option"]',
+    ) as NodeListOf<HTMLButtonElement>;
+    expect(yearOptions.length).toBe(12);
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    expect(document.activeElement).toBe(
+      fixture.nativeElement.querySelector('[role="option"][aria-selected="true"]'),
+    );
+
+    const targetYear = Array.from(yearOptions).find(
+      (option) => option.textContent?.trim() === '2027',
+    );
+    if (!targetYear) throw new Error('Expected the year 2027 to be available.');
+    targetYear.click();
+    targetYear.dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const monthOptions = fixture.nativeElement.querySelectorAll(
+      '[role="option"]',
+    ) as NodeListOf<HTMLButtonElement>;
+    expect(monthOptions.length).toBe(12);
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+
+    monthOptions.item(0).click();
+    monthOptions
+      .item(0)
+      .dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    expect(fixture.nativeElement.querySelector('[role="grid"]')).not.toBeNull();
+    expect((document.activeElement as HTMLElement).dataset['date']).toBe('2027-01-01');
   });
 
   it('renders date and time controls and preserves time when selecting a date', async () => {

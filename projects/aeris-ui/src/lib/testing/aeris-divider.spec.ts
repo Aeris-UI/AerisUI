@@ -40,6 +40,14 @@ class VerticalDividerHost {}
 })
 class DecorativeDividerHost {}
 
+@Component({
+  imports: [AerisDivider],
+  template: `<aeris-divider [width]="dividerWidth" ariaLabel="Sized divider" />`,
+})
+class SizedDividerHost {
+  readonly dividerWidth = '62%';
+}
+
 describe('AerisDivider', () => {
   it('renders a named horizontal separator with projected content', () => {
     const fixture = TestBed.createComponent(LabelledDividerHost);
@@ -58,6 +66,7 @@ describe('AerisDivider', () => {
     expect(divider.dataset['spacing']).toBe('lg');
     expect(lines.length).toBe(2);
     expect(content.textContent).toContain('Details');
+    expect(divider.style.inlineSize).toBe('100%');
   });
 
   it('supports vertical orientation, alignment, line style, and labelledby', () => {
@@ -82,10 +91,24 @@ describe('AerisDivider', () => {
     fixture.detectChanges();
 
     const divider = fixture.nativeElement.querySelector('aeris-divider') as HTMLElement;
+    const lines = fixture.nativeElement.querySelectorAll(
+      '.aeris-divider__line',
+    ) as NodeListOf<HTMLElement>;
 
     expect(divider.getAttribute('role')).toBe('none');
     expect(divider.getAttribute('aria-hidden')).toBe('true');
     expect(divider.getAttribute('aria-orientation')).toBeNull();
     expect(divider.getAttribute('aria-label')).toBeNull();
+    expect(getComputedStyle(lines[0]).display).not.toBe('none');
+    expect(getComputedStyle(lines[1]).display).toBe('none');
+  });
+
+  it('supports a custom horizontal width', () => {
+    const fixture = TestBed.createComponent(SizedDividerHost);
+    fixture.detectChanges();
+
+    const divider = fixture.nativeElement.querySelector('aeris-divider') as HTMLElement;
+
+    expect(divider.style.inlineSize).toBe('62%');
   });
 });
