@@ -3,7 +3,10 @@ import { basename, resolve } from 'node:path';
 import { gzipSync } from 'node:zlib';
 
 const outputDirectory = resolve('dist/docs/browser');
-const statsPath = resolve('dist/docs/stats.json');
+const legacyStatsPath = resolve('dist/docs/stats.json');
+const statsPath = existsSync(legacyStatsPath)
+  ? legacyStatsPath
+  : resolve('dist/docs/browser-stats.json');
 const budgets = JSON.parse(readFileSync(resolve('tools/doc-performance-budgets.json'), 'utf8'));
 
 if (!existsSync(statsPath)) {
