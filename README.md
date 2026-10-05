@@ -147,8 +147,8 @@ import { AerisButton } from '@aeris-ui/core/button';
 import { AERIS_THEME_PRESETS, AerisThemeService, provideAeris } from '@aeris-ui/core/theming';
 ```
 
-Pass `AERIS_THEME_PRESETS.earth`, `.coastal`, `.orchid`, or `.monochrome` to `provideAeris({ theme })` to start
-with an official theme. Aeris Earth is used when no theme is supplied.
+Pass `AERIS_THEME_PRESETS.monochrome`, `.earth`, `.coastal`, or `.orchid` to `provideAeris({ theme })` to start
+with an official theme. Monochrome is used when no theme is supplied.
 
 For a fixed application theme, generate the resolved light and dark token stylesheet during the
 build. The published `aeris-theme` CLI uses a schema-backed JSON configuration, audits contrast,

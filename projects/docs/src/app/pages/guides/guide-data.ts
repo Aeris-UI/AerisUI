@@ -107,7 +107,7 @@ export const GUIDE_ARTICLES: readonly GuideArticle[] = [
           caption: 'Initializer decisions',
           columns: ['Decision', 'Choices', 'Recommended starting point'],
           rows: [
-            ['Theme', 'Earth, Coastal, Orchid, Monochrome, or five custom seeds', 'Earth'],
+            ['Theme', 'Monochrome, Earth, Coastal, Orchid, or five custom seeds', 'Monochrome'],
             ['Density', 'Compact, Medium, Comfortable', 'Medium for most applications'],
             ['Corners', 'Soft, Rounded, Pill', 'Rounded'],
             ['Schemes', 'Light and dark, light only, dark only', 'Light and dark'],
@@ -288,14 +288,14 @@ export const appConfig: ApplicationConfig = {
         id: 'starter-theme',
         title: 'Choose a starter theme',
         paragraphs: [
-          'Aeris includes four accessible starter themes. Earth is the default when theme is omitted; pass Coastal, Orchid, or Monochrome through the same theme option to change the visual direction without building a custom palette.',
+          'Aeris includes four accessible starter themes. Monochrome is the default when theme is omitted; pass Earth, Coastal, or Orchid through the same theme option to change the visual direction without building a custom palette.',
           'The presets contain palette seeds, so they continue to use the shared Aeris semantic derivation, light and dark modes, density scales, and corner styles.',
           'Monochrome keeps application chrome, actions, surfaces, and typography neutral while reserving restrained color for success, information, warning, and danger. Primary actions use the dominant foreground, secondary actions use a middle neutral, and contrast actions invert the surface with a strong boundary. Severity remains reinforced by component icons, labels, and accessibility semantics rather than color alone.',
         ],
         themePresets: DOCS_PALETTES,
         code: [
           source(
-            'Earth',
+            'Monochrome',
             'TypeScript',
             `import { ApplicationConfig } from '@angular/core';
 import { AERIS_THEME_PRESETS, provideAeris } from '@aeris-ui/core/theming';
@@ -304,7 +304,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideAeris({
       mode: 'system',
-      theme: AERIS_THEME_PRESETS.earth,
+      theme: AERIS_THEME_PRESETS.monochrome,
     }),
   ],
 };`,
@@ -340,7 +340,7 @@ export const appConfig: ApplicationConfig = {
 };`,
           ),
           source(
-            'Monochrome',
+            'Earth',
             'TypeScript',
             `import { ApplicationConfig } from '@angular/core';
 import { AERIS_THEME_PRESETS, provideAeris } from '@aeris-ui/core/theming';
@@ -349,13 +349,13 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideAeris({
       mode: 'system',
-      theme: AERIS_THEME_PRESETS.monochrome,
+      theme: AERIS_THEME_PRESETS.earth,
     }),
   ],
 };`,
           ),
         ],
-        note: 'Omit theme entirely to use Aeris Earth. There is no separate preset mode: starter and custom themes both use the existing theme configuration property.',
+        note: 'Omit theme entirely to use Monochrome. There is no separate preset mode: starter and custom themes both use the existing theme configuration property.',
         links: [{ label: 'Create a custom theme', href: '/guides/theming' }],
       },
       {
@@ -1288,7 +1288,7 @@ export function assertThemeContrast(theme: AerisTheme): void {
           caption: 'Build-time theme generator options',
           columns: ['Option or API', 'Default', 'Purpose'],
           rows: [
-            ['--preset', 'earth', 'Select earth, coastal, orchid, or monochrome as the base'],
+            ['--preset', 'monochrome', 'Select monochrome, earth, coastal, or orchid as the base'],
             ['--config', '-', 'Read a schema-backed JSON theme configuration'],
             [
               '--derivation-version',

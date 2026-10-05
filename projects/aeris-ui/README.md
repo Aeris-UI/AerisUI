@@ -54,7 +54,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-Choose `earth`, `coastal`, `orchid`, or `monochrome`. Omit `theme` to use Aeris Earth, the default starter
+Choose `monochrome`, `earth`, `coastal`, or `orchid`. Omit `theme` to use Monochrome, the default starter
 theme, or provide a custom `AerisThemeOverride` when the application needs its own palette.
 
 ```css

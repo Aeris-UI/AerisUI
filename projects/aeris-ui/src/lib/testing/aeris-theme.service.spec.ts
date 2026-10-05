@@ -50,6 +50,16 @@ describe('AerisThemeService', () => {
     });
   });
 
+  it('uses Monochrome when no theme is configured', () => {
+    TestBed.configureTestingModule({ providers: [provideAeris()] });
+
+    const service = TestBed.inject(AerisThemeService);
+
+    expect(service.theme().palette).toEqual(
+      expect.objectContaining(AERIS_THEME_PRESETS.monochrome.palette),
+    );
+  });
+
   it('reports invalid runtime themes once in development mode', async () => {
     const warning = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     TestBed.configureTestingModule({

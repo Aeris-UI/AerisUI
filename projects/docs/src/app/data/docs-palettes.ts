@@ -27,6 +27,16 @@ const paletteSwatches = (palette: AerisPaletteConfig): readonly string[] => [
 
 export const DOCS_PALETTES: readonly DocsPalette[] = [
   {
+    id: 'monochrome',
+    name: 'Aeris Monochrome',
+    shortName: 'Monochrome',
+    description:
+      'Black-and-white interface colors with distinct neutral action tiers and restrained status accents.',
+    theme: AERIS_THEME_PRESETS.monochrome,
+    palette: AERIS_THEME_PRESETS.monochrome.palette,
+    swatches: paletteSwatches(AERIS_THEME_PRESETS.monochrome.palette),
+  },
+  {
     id: 'earth',
     name: 'Aeris Earth',
     shortName: 'Earth',
@@ -54,15 +64,5 @@ export const DOCS_PALETTES: readonly DocsPalette[] = [
     theme: AERIS_THEME_PRESETS.orchid,
     palette: AERIS_THEME_PRESETS.orchid.palette,
     swatches: paletteSwatches(AERIS_THEME_PRESETS.orchid.palette),
-  },
-  {
-    id: 'monochrome',
-    name: 'Aeris Monochrome',
-    shortName: 'Monochrome',
-    description:
-      'Black-and-white interface colors with distinct neutral action tiers and restrained status accents.',
-    theme: AERIS_THEME_PRESETS.monochrome,
-    palette: AERIS_THEME_PRESETS.monochrome.palette,
-    swatches: paletteSwatches(AERIS_THEME_PRESETS.monochrome.palette),
   },
 ];

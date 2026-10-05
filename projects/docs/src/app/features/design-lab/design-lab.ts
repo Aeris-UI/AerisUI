@@ -7,6 +7,7 @@ import { AerisMessage, type AerisMessageSeverity } from '@aeris-ui/core/message'
 import { AerisProgressBar } from '@aeris-ui/core/progress-bar';
 import {
   AERIS_DEFAULT_THEME,
+  AERIS_THEME_PRESETS,
   AerisThemeService,
   auditAerisThemeContrast,
   type AerisContrastCategory,
@@ -417,7 +418,11 @@ export const appConfig: ApplicationConfig = {
     this.palette.set(palette);
     this.toneOverrides.set({ light: {}, dark: {} });
     this.aerisTheme.setMode('system');
-    this.aerisTheme.setTheme({ palette, density: 'medium', radius: 'rounded' });
+    this.aerisTheme.setTheme({
+      ...AERIS_DEFAULT_THEME,
+      density: 'medium',
+      radius: 'rounded',
+    });
   }
 
   protected updateColor(key: PaletteKey, value: string): void {

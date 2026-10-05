@@ -13,7 +13,8 @@
       "description": "Expected Aeris color derivation contract version. Generation stops when it does not match the installed package."
     },
     "preset": {
-      "enum": ["earth", "coastal", "orchid", "monochrome"]
+      "enum": ["earth", "coastal", "orchid", "monochrome"],
+      "default": "monochrome"
     },
     "output": { "type": "string", "minLength": 1 },
     "css": {

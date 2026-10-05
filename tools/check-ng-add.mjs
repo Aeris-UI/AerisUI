@@ -14,12 +14,33 @@ assert(
 assert(packageManifest.exports?.['./setup-config.schema.json'], 'Setup schema is not exported.');
 const runner = new SchematicTestRunner('@aeris-ui/core', collectionPath);
 
+await verifyDefaultSetup();
 await verifyRuntimeSetup();
 await verifyBuildTimeSetup();
 await verifySetupFile();
 await verifyValidation();
 
 process.stdout.write('Aeris ng add schematic smoke tests passed.\n');
+
+async function verifyDefaultSetup() {
+  const result = await runner.runSchematic(
+    'ng-add',
+    {
+      project: 'demo',
+      skipPrompts: true,
+    },
+    createWorkspace(),
+  );
+
+  const config = result.readContent('/src/app/aeris.config.ts');
+  assert(
+    config.includes('AERIS_THEME_PRESETS.monochrome'),
+    'Monochrome is not the non-interactive installer default.',
+  );
+  assert(config.includes("density: 'medium'"), 'Default density was not generated.');
+  assert(config.includes("radius: 'rounded'"), 'Default corners were not generated.');
+  assert(config.includes("mode: 'system'"), 'Default color mode was not generated.');
+}
 
 async function verifyRuntimeSetup() {
   const result = await runner.runSchematic(

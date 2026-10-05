@@ -72,6 +72,7 @@ const PALETTE_STORAGE_KEY = 'aeris-docs-palette';
 const DENSITY_STORAGE_KEY = 'aeris-docs-density';
 const RADIUS_STORAGE_KEY = 'aeris-docs-radius';
 const DIRECTION_STORAGE_KEY = 'aeris-docs-direction';
+const DEFAULT_PALETTE_ID: DocsPaletteId = 'monochrome';
 
 function palettesMatch(left: AerisPaletteConfig, right: AerisPaletteConfig): boolean {
   return (
@@ -137,7 +138,9 @@ export class DocsAppearanceService {
 
   constructor() {
     const palette =
-      this.palettes.find((preset) => preset.id === this.readStoredPalette()) ?? this.palettes[0];
+      this.palettes.find((preset) => preset.id === this.readStoredPalette()) ??
+      this.palettes.find((preset) => preset.id === DEFAULT_PALETTE_ID) ??
+      this.palettes[0];
     this.themeService.setTheme({
       ...palette.theme,
       density: this.readStoredDensity() satisfies AerisDensityName,
@@ -202,7 +205,7 @@ export class DocsAppearanceService {
       // Storage can be unavailable in privacy modes or non-browser environments.
     }
 
-    return 'earth';
+    return DEFAULT_PALETTE_ID;
   }
 
   private readStoredDensity(): DocsDensityId {

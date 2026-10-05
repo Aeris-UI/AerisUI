@@ -17,7 +17,7 @@ Usage:
   aeris-theme [options]
 
 Options:
-  --preset <name>    earth, coastal, orchid, or monochrome (default: earth)
+  --preset <name>    earth, coastal, orchid, or monochrome (default: monochrome)
   --config <path>    JSON configuration file
   --derivation-version <number>
                       Expected color derivation contract version
@@ -40,7 +40,7 @@ try {
     process.stdout.write(`${HELP}\n`);
   } else {
     const config = args.config ? await readConfiguration(args.config) : {};
-    const presetName = args.preset ?? config.preset ?? 'earth';
+    const presetName = args.preset ?? config.preset ?? 'monochrome';
     const preset = AERIS_THEME_PRESETS[presetName];
     if (!preset) {
       throw new Error(

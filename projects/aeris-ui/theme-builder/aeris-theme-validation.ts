@@ -78,9 +78,7 @@ const TONE_PROPERTIES = [
  * Errors identify values Aeris cannot safely apply or accessibility checks
  * known to fail. Warnings identify colors that require rendered/manual review.
  */
-export function validateAerisTheme(
-  themeOverride: AerisThemeOverride = {},
-): AerisThemeValidationReport {
+export function validateAerisTheme(themeOverride?: AerisThemeOverride): AerisThemeValidationReport {
   const theme = resolveAerisTheme(themeOverride);
   const issues: AerisThemeValidationIssue[] = [];
 
