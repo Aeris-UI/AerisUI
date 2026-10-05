@@ -7,7 +7,31 @@ release line.
 
 ## [Unreleased]
 
-No consumer-visible changes have been recorded since 22.0.0-alpha.8.
+No consumer-visible changes have been recorded since 22.0.0-alpha.9.
+
+## [22.0.0-alpha.9] - 2026-10-05
+
+### Changed
+
+- Upgrade the Angular framework and development toolchain to the 22.2 release line and refresh
+  routine project dependencies.
+- Prefetch lazy documentation routes from navigation intent so first-time component page visits
+  respond more quickly.
+- Keep production performance verification compatible with Angular's current build statistics
+  output while retaining support for the previous filename.
+
+### Fixed
+
+- Keep DatePicker open while choosing a month or year so period selection can be completed without
+  reopening the overlay.
+- Make horizontal Divider fill its available width by default and support explicit width
+  customization without truncating the rendered line.
+- Make trusted npm publishing verification tolerate registry propagation delays more reliably.
+
+### Security
+
+- Resolve audited Angular Router, Piscina, fast-uri, and undici advisories and restore a clean
+  moderate-or-higher dependency audit.
 
 ## [22.0.0-alpha.8] - 2026-09-18
 
@@ -248,7 +272,8 @@ No consumer-visible changes have been recorded since 22.0.0-alpha.8.
 - Align the published Lexical peer range with the version Aeris uses and declare the required
   Angular platform-browser and RxJS peers.
 
-[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.8...HEAD
+[Unreleased]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.9...HEAD
+[22.0.0-alpha.9]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.8...v22.0.0-alpha.9
 [22.0.0-alpha.8]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.7...v22.0.0-alpha.8
 [22.0.0-alpha.7]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.6...v22.0.0-alpha.7
 [22.0.0-alpha.6]: https://github.com/Aeris-UI/AerisUI/compare/v22.0.0-alpha.5...v22.0.0-alpha.6
