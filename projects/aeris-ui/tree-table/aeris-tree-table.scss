@@ -3,7 +3,7 @@
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
-    url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E")
+    url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E')
   );
 
   display: block;
@@ -30,7 +30,7 @@
 
   display: grid;
   gap: calc(var(--aeris-tree-table-density-gap) + 0.35rem);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
 }
 
 .aeris-tree-table[data-fluid='true'] {
@@ -38,27 +38,27 @@
 }
 
 .aeris-tree-table__caption {
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.875rem;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-lg, 0.875rem);
 }
 
 .aeris-tree-table__global-filter {
   width: min(100%, 22rem);
   display: grid;
   gap: calc(var(--aeris-tree-table-density-gap) * 0.7);
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.8125rem;
-  font-weight: 600;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-md, 0.8125rem);
+  font-weight: var(--aeris-font-weight-semibold, 600);
 }
 
 .aeris-tree-table__global-filter input {
   width: 100%;
   min-height: var(--aeris-tree-table-filter-height);
   padding: 0 var(--aeris-tree-table-filter-padding-x);
-  border: 1px solid var(--aeris-border, #deddd7);
-  border-radius: var(--aeris-radius-sm, 0.5rem);
+  border: 1px solid var(--aeris-border, #efefef);
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font: inherit;
 }
 
@@ -67,32 +67,29 @@
   width: 100%;
   min-height: var(--aeris-tree-table-editor-height);
   padding: 0 calc(var(--aeris-tree-table-filter-padding-x) * 0.75);
-  border: 1px solid var(--aeris-border, #deddd7);
-  border-radius: var(--aeris-radius-sm, 0.4375rem);
+  border: 1px solid var(--aeris-border, #efefef);
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font: inherit;
 }
 
 .aeris-tree-table__global-filter input:focus,
 .aeris-tree-table__filter-row input:focus,
 .aeris-tree-table__editor:focus {
-  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
-  outline: 2px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
-}
-
-.aeris-tree-table__global-filter input:focus {
-  outline-width: 3px;
+  border-color: var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  outline: 0;
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-focus-ring-color, var(--aeris-focus-ring-color, transparent));
 }
 
 .aeris-tree-table__frame {
   min-width: 0;
-  border: 1px solid
-    var(
-      --aeris-tree-table-border,
-      var(--aeris-border)
-    );
-  border-radius: var(--aeris-tree-table-radius, var(--aeris-radius-md, 0.75rem));
+  border: 1px solid var(--aeris-tree-table-border, var(--aeris-border));
+  border-radius: var(
+    --aeris-tree-table-radius,
+    var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+  );
   background: var(--aeris-tree-table-background, var(--aeris-surface, #fff));
   overflow: hidden;
 }
@@ -101,7 +98,7 @@
   min-width: 0;
   overflow: auto;
   overscroll-behavior: contain;
-  scrollbar-color: var(--aeris-border, #deddd7) transparent;
+  scrollbar-color: var(--aeris-border, #efefef) transparent;
   scrollbar-width: thin;
 }
 
@@ -110,8 +107,9 @@
 }
 
 .aeris-tree-table__frame:has(.aeris-tree-table__viewport:focus-visible) {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 34%, transparent);
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 34%, transparent);
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-tree-table__viewport:focus-visible {
@@ -131,12 +129,12 @@
 .aeris-tree-table__viewport::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-border, #deddd7);
+  background: var(--aeris-border, #efefef);
   background-clip: content-box;
 }
 
 .aeris-tree-table__viewport::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--aeris-text-2, #555555) 62%, transparent);
+  background: color-mix(in srgb, var(--aeris-text-2, #454545) 62%, transparent);
   background-clip: content-box;
 }
 
@@ -146,7 +144,7 @@ table {
   border-collapse: separate;
   border-spacing: 0;
   table-layout: fixed;
-  font-size: 0.875rem;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
 }
 
 caption {
@@ -176,10 +174,10 @@ th {
   position: sticky;
   z-index: 2;
   top: 0;
-  background: var(--aeris-tree-table-header-background, var(--aeris-surface-2, #f7f5f1));
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.75rem;
-  font-weight: 700;
+  background: var(--aeris-tree-table-header-background, var(--aeris-surface-2, #f3f3f3));
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -196,18 +194,18 @@ tbody tr:last-child td {
 }
 
 tbody tr:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: -2px;
 }
 
 .aeris-tree-table[data-striped='true'] tbody tr:nth-child(odd) td {
-  background: color-mix(in srgb, var(--aeris-surface-2, #f7f5f1) 55%, transparent);
+  background: color-mix(in srgb, var(--aeris-surface-2, #f3f3f3) 55%, transparent);
 }
 
 .aeris-tree-table[data-hoverable='true'] tbody tr:hover td {
   background: var(
     --aeris-tree-table-row-hover,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
+    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
 }
 
@@ -234,7 +232,7 @@ td[data-editable='true']::after {
   width: 0.8rem;
   height: 0.8rem;
   background: currentColor;
-  color: var(--aeris-text-3, var(--aeris-text-2, #555555));
+  color: var(--aeris-text-3, var(--aeris-text-2, #454545));
   content: '';
   opacity: 0.42;
   transform: translateY(-50%);
@@ -247,8 +245,13 @@ td[data-editable='true']::after {
 
 td[data-editable='true']:hover,
 td[data-editable='true']:focus-within {
-  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 7%, var(--aeris-surface, #fff));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 34%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aeris-primary, #{aeris-fallbacks.$primary}) 7%,
+    var(--aeris-surface, #fff)
+  );
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 34%, transparent);
 }
 
 td[data-editable='true']:hover::after,
@@ -258,7 +261,7 @@ td[data-editable='true']:focus-within::after {
 }
 
 tbody tr[data-disabled='true'] {
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   opacity: 0.65;
 }
 
@@ -283,16 +286,13 @@ tbody tr[data-disabled='true'] {
 
 .aeris-tree-table[data-size='sm'] th,
 .aeris-tree-table[data-size='sm'] td {
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-tree-table[data-size='lg'] {
   --aeris-tree-table-cell-padding-y: calc(var(--aeris-item-padding-y, 0.5rem) * 1.2);
   --aeris-tree-table-cell-padding-x: calc(var(--aeris-item-padding-x, 0.75rem) * 1.2);
-  --aeris-tree-table-action-size: max(
-    2rem,
-    calc(var(--aeris-control-height, 2.625rem) - 0.625rem)
-  );
+  --aeris-tree-table-action-size: max(2rem, calc(var(--aeris-control-height, 2.625rem) - 0.625rem));
 }
 
 th[data-align='center'],
@@ -314,7 +314,7 @@ td[data-frozen='true'] {
 
 th[data-frozen='true'] {
   z-index: 4;
-  background: var(--aeris-tree-table-header-background, var(--aeris-surface-2, #f7f5f1));
+  background: var(--aeris-tree-table-header-background, var(--aeris-surface-2, #f3f3f3));
 }
 
 td[data-frozen='true'] {
@@ -322,20 +322,24 @@ td[data-frozen='true'] {
 }
 
 .aeris-tree-table[data-striped='true'] tbody tr:nth-child(odd) td[data-frozen='true'] {
-  background: color-mix(in srgb, var(--aeris-surface-2, #f7f5f1) 55%, var(--aeris-surface, #fff));
+  background: color-mix(in srgb, var(--aeris-surface-2, #f3f3f3) 55%, var(--aeris-surface, #fff));
 }
 
 .aeris-tree-table[data-hoverable='true'] tbody tr:hover td[data-frozen='true'] {
   background: var(
     --aeris-tree-table-row-hover,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
+    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
 }
 
 tbody tr[data-selected='true'] td[data-frozen='true'] {
   background: var(
     --aeris-tree-table-row-selected,
-    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%, var(--aeris-surface, #fff))
+    color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%,
+      var(--aeris-surface, #fff)
+    )
   );
 }
 
@@ -369,8 +373,8 @@ tbody tr[data-selected='true'] td[data-frozen='true'] {
 .aeris-tree-table__header-label:focus-visible,
 .aeris-tree-table__resize:focus-visible,
 .aeris-tree-table__toggle:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-tree-table__header-label {
@@ -387,7 +391,7 @@ tbody tr[data-selected='true'] td[data-frozen='true'] {
   display: inline-grid;
   flex: 0 0 auto;
   place-items: center;
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   opacity: 0.55;
   position: relative;
 }
@@ -508,9 +512,9 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
   place-items: center;
   padding: 0;
   border: 1px solid transparent;
-  border-radius: var(--aeris-radius-sm, 0.4375rem);
+  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   cursor: pointer;
 }
 
@@ -578,7 +582,7 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
   align-items: center;
   justify-content: center;
   gap: var(--aeris-tree-table-density-gap);
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   text-align: center;
 }
 
@@ -623,7 +627,10 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
   .aeris-tree-table[data-responsive='stack'] tbody tr {
     display: grid;
     border: 1px solid var(--aeris-border);
-    border-radius: var(--aeris-tree-table-radius, var(--aeris-radius-md, 0.75rem));
+    border-radius: var(
+      --aeris-tree-table-radius,
+      var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
+    );
     background: var(--aeris-surface, #fff);
     overflow: hidden;
   }
@@ -651,9 +658,9 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
   }
 
   .aeris-tree-table[data-responsive='stack'] tbody tr td::before {
-    color: var(--aeris-text-2, #555555);
-    font-size: 0.75rem;
-    font-weight: 700;
+    color: var(--aeris-text-2, #454545);
+    font-size: var(--aeris-font-size-sm, 0.75rem);
+    font-weight: var(--aeris-font-weight-bold, 700);
     text-align: left;
     content: attr(data-label);
   }
@@ -680,7 +687,7 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
 
 @media (forced-colors: active) {
   tbody tr:focus-visible {
-    outline: 2px solid Highlight;
+    outline: var(--aeris-focus-ring-width, 3px) solid Highlight;
     outline-offset: -2px;
   }
 }

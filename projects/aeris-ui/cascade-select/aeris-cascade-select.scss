@@ -9,7 +9,7 @@
   display: inline-block;
   min-width: 14rem;
   max-width: 100%;
-  color: var(--aeris-cascade-select-text, var(--aeris-text, #222222));
+  color: var(--aeris-cascade-select-text, var(--aeris-text, #111111));
   font: inherit;
 }
 
@@ -19,7 +19,7 @@
 
 .aeris-cascade-select {
   --aeris-cascade-select-height: var(--aeris-control-height, 2.625rem);
-  --aeris-cascade-select-font-size: 0.875rem;
+  --aeris-cascade-select-font-size: var(--aeris-font-size-lg, 0.875rem);
   --aeris-cascade-select-padding: var(--aeris-control-padding-x, 0.75rem);
   --aeris-cascade-select-density-gap: var(--aeris-density-gap, 0.5rem);
 
@@ -29,19 +29,19 @@
 
 .aeris-cascade-select[data-size='xs'] {
   --aeris-cascade-select-height: 1.875rem;
-  --aeris-cascade-select-font-size: 0.75rem;
+  --aeris-cascade-select-font-size: var(--aeris-font-size-sm, 0.75rem);
   --aeris-cascade-select-padding: 0.5625rem;
 }
 
 .aeris-cascade-select[data-size='sm'] {
   --aeris-cascade-select-height: 2.25rem;
-  --aeris-cascade-select-font-size: 0.8125rem;
+  --aeris-cascade-select-font-size: var(--aeris-font-size-md, 0.8125rem);
   --aeris-cascade-select-padding: 0.6875rem;
 }
 
 .aeris-cascade-select[data-size='lg'] {
   --aeris-cascade-select-height: 3rem;
-  --aeris-cascade-select-font-size: 0.9375rem;
+  --aeris-cascade-select-font-size: var(--aeris-font-size-xl, 0.9375rem);
   --aeris-cascade-select-padding: 0.875rem;
 }
 
@@ -56,7 +56,7 @@
   align-items: center;
   gap: calc(var(--aeris-cascade-select-density-gap) + 0.25rem);
   padding: 0 2.75rem 0 var(--aeris-cascade-select-padding);
-  border: 1px solid var(--aeris-cascade-select-border, var(--aeris-border, #deddd7));
+  border: 1px solid var(--aeris-cascade-select-border, var(--aeris-border, #efefef));
   border-radius: var(
     --aeris-cascade-select-radius,
     var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem))
@@ -80,34 +80,34 @@
 
 .aeris-cascade-select[data-appearance='filled'] .aeris-cascade-select__trigger {
   border-color: transparent;
-  background: var(--aeris-cascade-select-filled-background, var(--aeris-surface-2, #f2f0ec));
+  background: var(--aeris-cascade-select-filled-background, var(--aeris-surface-2, #f3f3f3));
 }
 
 .aeris-cascade-select__trigger:hover,
 .aeris-cascade-select[data-open] .aeris-cascade-select__trigger {
   border-color: var(
     --aeris-cascade-select-hover-border,
-    var(--aeris-focus, #{aeris-fallbacks.$focus})
+    var(--aeris-control-hover-border, var(--aeris-primary, #{aeris-fallbacks.$primary}))
   );
 }
 
 .aeris-cascade-select__trigger:focus-visible {
   outline: 0;
-  border-color: var(--aeris-cascade-select-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
-  box-shadow: 0 0 0 3px
-    color-mix(
-      in srgb,
-      var(--aeris-cascade-select-focus, var(--aeris-focus, #{aeris-fallbacks.$focus})) 22%,
-      transparent
-    );
+  border-color: var(
+    --aeris-cascade-select-focus,
+    var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}))
+  );
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-focus-ring-color, var(--aeris-focus-ring-color, transparent));
 }
 
 .aeris-cascade-select[data-invalid] .aeris-cascade-select__trigger {
-  border-color: var(--aeris-danger, #c81e2a);
+  border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
 }
 
 .aeris-cascade-select[data-invalid] .aeris-cascade-select__trigger:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-danger, #c81e2a) 20%, transparent);
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-invalid-focus-ring-color, transparent);
 }
 
 .aeris-cascade-select[data-disabled] .aeris-cascade-select__trigger {
@@ -124,7 +124,7 @@
 }
 
 .aeris-cascade-select__placeholder {
-  color: var(--aeris-cascade-select-placeholder, var(--aeris-text-2, #555555));
+  color: var(--aeris-cascade-select-placeholder, var(--aeris-text-2, #454545));
 }
 
 .aeris-cascade-select__chevron,
@@ -138,7 +138,7 @@
   position: absolute;
   top: 50%;
   right: var(--aeris-cascade-select-padding);
-  color: var(--aeris-cascade-select-icon, var(--aeris-text-2, #555555));
+  color: var(--aeris-cascade-select-icon, var(--aeris-text-2, #454545));
   transform: translateY(-50%);
   pointer-events: none;
 }
@@ -174,19 +174,19 @@
   border: 0;
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-cascade-select-icon, var(--aeris-text-2, #555555));
+  color: var(--aeris-cascade-select-icon, var(--aeris-text-2, #454545));
   transform: translateY(-50%);
   cursor: pointer;
 }
 
 .aeris-cascade-select__clear:hover,
 .aeris-cascade-select__clear:focus-visible {
-  background: var(--aeris-surface-2, #f2f0ec);
-  color: var(--aeris-text, #222222);
+  background: var(--aeris-surface-2, #f3f3f3);
+  color: var(--aeris-text, #111111);
 }
 
 .aeris-cascade-select__clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
 }
 
@@ -206,7 +206,7 @@
   max-width: calc(100vw - 2rem);
   display: flex;
   overflow: auto;
-  scrollbar-color: var(--aeris-border, #deddd7) transparent;
+  scrollbar-color: var(--aeris-border, #efefef) transparent;
   scrollbar-width: thin;
   padding: calc(var(--aeris-cascade-select-density-gap) * 0.75);
   border: 1px solid var(--aeris-cascade-select-panel-border, var(--aeris-border));
@@ -215,7 +215,10 @@
     var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
   );
   background: var(--aeris-cascade-select-panel-background, var(--aeris-surface, #fff));
-  box-shadow: var(--aeris-cascade-select-panel-shadow, 0 1rem 2.5rem rgb(31 35 27 / 16%));
+  box-shadow: var(
+    --aeris-cascade-select-panel-shadow,
+    var(--aeris-overlay-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)))
+  );
 }
 
 .aeris-cascade-select__panel::-webkit-scrollbar {
@@ -231,7 +234,7 @@
 .aeris-cascade-select__panel::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-border, #deddd7);
+  background: var(--aeris-border, #efefef);
   background-clip: content-box;
 }
 
@@ -245,7 +248,7 @@
 .aeris-cascade-select__column + .aeris-cascade-select__column {
   margin-left: calc(var(--aeris-cascade-select-density-gap) * 0.75);
   padding-left: calc(var(--aeris-cascade-select-density-gap) * 0.75);
-  border-left: 1px solid var(--aeris-border, #deddd7);
+  border-left: 1px solid var(--aeris-border, #efefef);
 }
 
 .aeris-cascade-select__option {
@@ -261,7 +264,7 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: 0.875rem;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
   line-height: 1.35;
   text-align: left;
   cursor: pointer;
@@ -271,14 +274,14 @@
 .aeris-cascade-select__option[data-active] {
   background: var(
     --aeris-cascade-select-option-hover,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
+    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
 }
 
 .aeris-cascade-select__option[aria-selected='true'] {
   background: var(--aeris-cascade-select-option-selected, var(--aeris-primary-soft, #e7eddc));
-  color: var(--aeris-cascade-select-option-selected-text, var(--aeris-text, #222222));
-  font-weight: 650;
+  color: var(--aeris-cascade-select-option-selected-text, var(--aeris-text, #111111));
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-cascade-select__option:disabled {
@@ -299,13 +302,13 @@
 }
 
 .aeris-cascade-select__option-copy small {
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.75rem;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 .aeris-cascade-select__option-chevron {
   flex: 0 0 auto;
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
 }
 
 .aeris-cascade-select__option-chevron::before {
@@ -316,8 +319,8 @@
   min-width: 13rem;
   padding: calc(var(--aeris-item-padding-y, 0.5rem) * 1.75)
     calc(var(--aeris-item-padding-x, 0.75rem) * 1.15);
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.875rem;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-lg, 0.875rem);
 }
 
 @media (max-width: 36rem) {

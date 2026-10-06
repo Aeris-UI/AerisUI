@@ -17,8 +17,8 @@
   flex-wrap: wrap;
   gap: calc(var(--aeris-density-gap, 0.5rem) * 2);
   min-width: 0;
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.8125rem;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-paginator__pages {
@@ -33,10 +33,10 @@
 button,
 select {
   min-height: max(2rem, calc(var(--aeris-control-height, 2.625rem) - 0.5rem));
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font: inherit;
 }
 
@@ -44,7 +44,7 @@ button {
   min-width: max(2rem, calc(var(--aeris-control-height, 2.625rem) - 0.5rem));
   padding: 0 calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
   border-color: var(--aeris-border);
-  font-weight: 700;
+  font-weight: var(--aeris-font-weight-bold, 700);
   cursor: pointer;
   transition:
     border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
@@ -57,10 +57,10 @@ button:hover:not(:disabled) {
   border-color: color-mix(
     in srgb,
     var(--aeris-primary, #{aeris-fallbacks.$primary}) 58%,
-    var(--aeris-border, #deddd7)
+    var(--aeris-border, #efefef)
   );
-  background: var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec));
-  color: var(--aeris-text, #222222);
+  background: var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3));
+  color: var(--aeris-text, #111111);
   transform: translateY(-1px);
 }
 
@@ -89,8 +89,8 @@ button:disabled {
 
 button:focus-visible,
 .aeris-paginator__rows-trigger:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-paginator__page-icon {
@@ -204,7 +204,7 @@ button:focus-visible,
   border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem));
   background: var(--aeris-surface, #fff);
-  box-shadow: 0 1rem 2.5rem rgb(31 35 27 / 16%);
+  box-shadow: var(--aeris-overlay-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)));
 }
 
 .aeris-paginator__rows-panel button {
@@ -216,8 +216,8 @@ button:focus-visible,
   border: 0;
   border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-text-2, #555555);
-  font-weight: 600;
+  color: var(--aeris-text-2, #454545);
+  font-weight: var(--aeris-font-weight-semibold, 600);
   text-align: left;
 }
 
@@ -271,7 +271,7 @@ button:focus-visible,
 
 @media (max-width: 30rem) {
   .aeris-paginator {
-    font-size: 0.78125rem;
+    font-size: var(--aeris-font-size-md, 0.8125rem);
   }
 
   .aeris-paginator__pages {

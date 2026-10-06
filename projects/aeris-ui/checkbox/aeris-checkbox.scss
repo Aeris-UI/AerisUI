@@ -12,9 +12,9 @@
   align-items: flex-start;
   gap: 0.625rem;
   max-width: 100%;
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   font: inherit;
-  font-size: 0.875rem;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
   line-height: 1.45;
   cursor: pointer;
 }
@@ -48,7 +48,7 @@
   place-items: center;
   flex: 0 0 auto;
   margin-top: 0.0625rem;
-  border: 1.5px solid var(--aeris-border, #deddd7);
+  border: 1.5px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-checkbox-radius, 0.3125rem);
   background: var(--aeris-surface, #fff);
   color: var(--aeris-on-primary, #{aeris-fallbacks.$on-primary});
@@ -79,7 +79,9 @@
   height: 72%;
   opacity: 0;
   transform: scale(0.7);
-  transition: opacity var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease), transform var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
+  transition:
+    opacity var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-checkbox__check-mark {
@@ -95,7 +97,7 @@
 .aeris-checkbox__mixed-mark {
   width: 56%;
   height: 2px;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   background: currentColor;
 }
 
@@ -116,18 +118,18 @@
 }
 
 .aeris-checkbox input:focus-visible + .aeris-checkbox__control {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 44%, transparent);
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus-ring-color, transparent);
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-checkbox[data-invalid] .aeris-checkbox__control,
 .aeris-checkbox input:user-invalid + .aeris-checkbox__control {
-  border-color: var(--aeris-danger, #c81e2a);
+  border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
 }
 
 .aeris-checkbox[data-invalid] input:focus-visible + .aeris-checkbox__control,
 .aeris-checkbox input:user-invalid:focus-visible + .aeris-checkbox__control {
-  outline-color: color-mix(in srgb, var(--aeris-danger, #c81e2a) 42%, transparent);
+  outline-color: var(--aeris-control-invalid-focus-ring-color, transparent);
 }
 
 .aeris-checkbox[data-disabled] {
@@ -148,19 +150,19 @@
 .aeris-checkbox[data-size='xs'] {
   --_control-size: 0.875rem;
   gap: 0.45rem;
-  font-size: 0.75rem;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 .aeris-checkbox[data-size='sm'] {
   --_control-size: 1rem;
   gap: 0.5rem;
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-checkbox[data-size='lg'] {
   --_control-size: 1.375rem;
   gap: 0.7rem;
-  font-size: 0.9375rem;
+  font-size: var(--aeris-font-size-xl, 0.9375rem);
 }
 
 @media (prefers-reduced-motion: reduce) {

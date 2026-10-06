@@ -18,7 +18,7 @@ aeris-panel {
     var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
   );
   background: var(--aeris-panel-background, var(--aeris-surface, #fff));
-  color: var(--aeris-panel-color, var(--aeris-text, #222222));
+  color: var(--aeris-panel-color, var(--aeris-text, #111111));
   box-shadow: var(--aeris-panel-shadow, none);
 }
 
@@ -46,7 +46,7 @@ aeris-panel {
 
 .aeris-panel[data-variant='filled'] {
   border-color: var(--aeris-panel-filled-border, transparent);
-  background: var(--aeris-panel-filled-background, var(--aeris-surface-2, #f2f0ec));
+  background: var(--aeris-panel-filled-background, var(--aeris-surface-2, #f3f3f3));
 }
 
 .aeris-panel[data-variant='plain'] {
@@ -66,7 +66,7 @@ aeris-panel {
   border-block-end: 1px solid var(--aeris-panel-header-border, var(--aeris-border));
   background: var(
     --aeris-panel-header-background,
-    color-mix(in srgb, var(--aeris-surface-2, #f2f0ec) 58%, transparent)
+    color-mix(in srgb, var(--aeris-surface-2, #f3f3f3) 58%, transparent)
   );
 }
 
@@ -86,7 +86,7 @@ aeris-panel {
 
 .aeris-panel__title {
   min-inline-size: 0;
-  color: var(--aeris-panel-title-color, var(--aeris-text, #222222));
+  color: var(--aeris-panel-title-color, var(--aeris-text, #111111));
   font-size: var(--aeris-panel-title-size, var(--aeris-font-size-xl, 0.9375rem));
   font-weight: var(--aeris-font-weight-bold, 700);
   line-height: var(--aeris-line-height-tight, 1.25);
@@ -182,7 +182,7 @@ aeris-panel {
   min-block-size: 0;
   overflow: hidden;
   padding: var(--_padding-block) var(--_padding-inline);
-  color: var(--aeris-panel-content-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-panel-content-color, var(--aeris-text-2, #454545));
   font-size: var(--aeris-panel-content-size, var(--aeris-font-size-lg, 0.875rem));
   line-height: var(--aeris-line-height-relaxed, 1.65);
   visibility: visible;

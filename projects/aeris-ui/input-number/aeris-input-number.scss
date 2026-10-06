@@ -21,7 +21,7 @@
   max-width: 100%;
   display: inline-flex;
   align-items: stretch;
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font: inherit;
 }
 
@@ -37,7 +37,7 @@
   flex: 1 1 auto;
   gap: 0.375rem;
   padding-inline: 0.75rem;
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
   transition:
@@ -47,24 +47,27 @@
 }
 
 .aeris-input-number__field:hover {
-  border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
+  border-color: var(
+    --aeris-control-hover-border,
+    var(--aeris-primary, #{aeris-fallbacks.$primary})
+  );
 }
 
 .aeris-input-number__field:focus-within {
   position: relative;
   z-index: 2;
-  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
+  border-color: var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-focus-ring-color, var(--aeris-focus-ring-color, transparent));
 }
 
 .aeris-input-number[data-appearance='filled'] .aeris-input-number__field {
   border-color: transparent;
-  background: var(--aeris-surface-2, #f2f0ec);
+  background: var(--aeris-surface-2, #f3f3f3);
 }
 
 .aeris-input-number[data-appearance='filled'] .aeris-input-number__field:focus-within {
-  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+  border-color: var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   background: var(--aeris-surface, #fff);
 }
 
@@ -72,12 +75,13 @@
 .aeris-input-number[data-invalid] .aeris-input-number__field:hover,
 .aeris-input-number__field:has(.aeris-input-number__input:user-invalid),
 .aeris-input-number__field:has(.aeris-input-number__input:user-invalid):hover {
-  border-color: var(--aeris-danger, #c81e2a);
+  border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
 }
 
 .aeris-input-number[data-invalid] .aeris-input-number__field:focus-within,
 .aeris-input-number__field:has(.aeris-input-number__input:user-invalid):focus-within {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-danger, #c81e2a) 18%, transparent);
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-invalid-focus-ring-color, transparent);
 }
 
 .aeris-input-number[data-disabled],
@@ -87,7 +91,7 @@
 
 .aeris-input-number[data-disabled] .aeris-input-number__field,
 .aeris-input-number[data-readonly] .aeris-input-number__field {
-  background: var(--aeris-surface-2, #f2f0ec);
+  background: var(--aeris-surface-2, #f3f3f3);
 }
 
 .aeris-input-number__input {
@@ -103,13 +107,13 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: 0.875rem;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
   line-height: 1.35;
   text-align: inherit;
 }
 
 .aeris-input-number__input::placeholder {
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   opacity: 0.72;
 }
 
@@ -123,8 +127,8 @@
 
 .aeris-input-number__affix {
   flex: 0 0 auto;
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.8125rem;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-md, 0.8125rem);
   line-height: 1.35;
   white-space: nowrap;
 }
@@ -140,18 +144,18 @@
   border: 0;
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   cursor: pointer;
 }
 
 .aeris-input-number__clear:hover,
 .aeris-input-number__clear:focus-visible {
-  background: var(--aeris-surface-2, #f2f0ec);
-  color: var(--aeris-text, #222222);
+  background: var(--aeris-surface-2, #f3f3f3);
+  color: var(--aeris-text, #111111);
 }
 
 .aeris-input-number__clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
 }
 
@@ -170,9 +174,9 @@
   place-items: center;
   flex: 0 0 auto;
   padding: 0;
-  border: 1px solid var(--aeris-border, #deddd7);
-  background: var(--aeris-surface-2, #f2f0ec);
-  color: var(--aeris-text, #222222);
+  border: 1px solid var(--aeris-border, #efefef);
+  background: var(--aeris-surface-2, #f3f3f3);
+  color: var(--aeris-text, #111111);
   cursor: pointer;
   transition:
     background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
@@ -193,9 +197,9 @@
 .aeris-input-number__button:focus-visible {
   position: relative;
   z-index: 3;
-  outline: 3px solid
+  outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
-  outline-offset: 2px;
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-input-number__button:disabled {
@@ -219,7 +223,7 @@
   left: 15%;
   width: 70%;
   height: 2px;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   background: currentColor;
   content: '';
 }
@@ -331,15 +335,15 @@
 }
 
 .aeris-input-number[data-size='xs'] .aeris-input-number__input {
-  font-size: 0.75rem;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 .aeris-input-number[data-size='sm'] .aeris-input-number__input {
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-input-number[data-size='lg'] .aeris-input-number__input {
-  font-size: 0.9375rem;
+  font-size: var(--aeris-font-size-xl, 0.9375rem);
 }
 
 @media (prefers-reduced-motion: reduce) {

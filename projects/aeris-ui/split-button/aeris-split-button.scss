@@ -113,11 +113,12 @@
   display: grid;
   gap: 0.125rem;
   padding: 0.35rem;
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem));
   background: var(--aeris-surface, #fff);
-  box-shadow: 0 0.75rem 2rem rgb(25 29 22 / 18%);
-  animation: aeris-split-button-menu-in var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease) both;
+  box-shadow: var(--aeris-overlay-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)));
+  animation: aeris-split-button-menu-in var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-standard, ease) both;
 }
 
 .aeris-split-button__item {
@@ -130,9 +131,9 @@
   border: 0;
   border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   font: inherit;
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
   text-align: start;
   text-decoration: none;
   cursor: pointer;
@@ -146,11 +147,11 @@
     var(--aeris-primary, #{aeris-fallbacks.$primary}) 13%,
     transparent
   );
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
 }
 
 .aeris-split-button__item:focus-visible {
-  outline: 3px solid
+  outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 32%, transparent);
   outline-offset: -2px;
 }
@@ -169,7 +170,7 @@
 .aeris-split-button__separator {
   height: 1px;
   margin: 0.25rem 0.35rem;
-  background: var(--aeris-border, #deddd7);
+  background: var(--aeris-border, #efefef);
 }
 
 .aeris-split-button__spinner {

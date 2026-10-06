@@ -32,9 +32,7 @@
   -webkit-backdrop-filter: blur(
     var(--aeris-speed-dial-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem))
   );
-  backdrop-filter: blur(
-    var(--aeris-speed-dial-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem))
-  );
+  backdrop-filter: blur(var(--aeris-speed-dial-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem)));
 }
 
 .aeris-speed-dial__container {
@@ -57,12 +55,16 @@
   height: var(--aeris-speed-dial-size);
   display: grid;
   place-items: center;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   background: var(--aeris-primary, #{aeris-fallbacks.$primary});
-  box-shadow: 0 0.5rem 1.5rem color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 28%, transparent);
+  box-shadow: 0 0.5rem 1.5rem
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 28%, transparent);
   color: var(--aeris-on-primary, #{aeris-fallbacks.$on-primary});
   cursor: pointer;
-  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease), background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease), box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+  transition:
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-speed-dial__trigger[data-size='sm'] {
@@ -80,7 +82,8 @@
 
 .aeris-speed-dial__trigger:focus-visible,
 .aeris-speed-dial__action:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 48%, transparent);
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 48%, transparent);
   outline-offset: 3px;
 }
 
@@ -120,7 +123,8 @@
   pointer-events: none;
   transform: translate(-50%, -50%) scale(0.55);
   transition:
-    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease) var(--aeris-speed-dial-delay),
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease)
+      var(--aeris-speed-dial-delay),
     transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1.18) var(--aeris-speed-dial-delay);
 }
 
@@ -135,19 +139,26 @@
   height: 100%;
   display: grid;
   place-items: center;
-  border: 1px solid var(--aeris-border, #deddd7);
-  border-radius: 999px;
+  border: 1px solid var(--aeris-border, #efefef);
+  border-radius: var(--aeris-radius-pill, 999px);
   background: var(--aeris-surface, #fff);
   box-shadow: 0 0.4rem 1.1rem rgb(20 24 18 / 14%);
-  color: var(--aeris-text, #20231e);
+  color: var(--aeris-text, #111111);
   text-decoration: none;
   cursor: pointer;
-  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease), background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease), border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+  transition:
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-speed-dial__action:hover:not(:disabled):not(.aeris-speed-dial__action--disabled) {
   border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
-  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 10%, var(--aeris-surface, #fff));
+  background: color-mix(
+    in srgb,
+    var(--aeris-primary, #{aeris-fallbacks.$primary}) 10%,
+    var(--aeris-surface, #fff)
+  );
   transform: scale(1.08);
 }
 
@@ -163,7 +174,7 @@
   display: inline-grid;
   place-items: center;
   font-size: var(--aeris-icon-size, 1rem);
-  font-weight: 700;
+  font-weight: var(--aeris-font-weight-bold, 700);
   line-height: 1;
 }
 

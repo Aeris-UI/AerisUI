@@ -2,7 +2,7 @@
 
 :host {
   display: inline-block;
-  color: var(--aeris-rating-text, var(--aeris-text, #222222));
+  color: var(--aeris-rating-text, var(--aeris-text, #111111));
   font: inherit;
 }
 
@@ -33,11 +33,13 @@
 .aeris-rating__control {
   position: relative;
   display: block;
-  width: calc(var(--aeris-rating-max) * var(--_star-size) + (var(--aeris-rating-max) - 1) * var(--_gap));
+  width: calc(
+    var(--aeris-rating-max) * var(--_star-size) + (var(--aeris-rating-max) - 1) * var(--_gap)
+  );
   min-width: 0;
   padding: 0;
   border: 0;
-  border-radius: 0.5rem;
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: inherit;
   cursor: pointer;
@@ -86,7 +88,9 @@
 }
 
 .aeris-rating__layer-inner {
-  width: calc(var(--aeris-rating-max) * var(--_star-size) + (var(--aeris-rating-max) - 1) * var(--_gap));
+  width: calc(
+    var(--aeris-rating-max) * var(--_star-size) + (var(--aeris-rating-max) - 1) * var(--_gap)
+  );
 }
 
 .aeris-rating__star {
@@ -107,9 +111,9 @@
 }
 
 .aeris-rating__value {
-  color: var(--aeris-rating-value-text, var(--aeris-text-2, #555555));
-  font-size: 0.8125rem;
-  font-weight: 650;
+  color: var(--aeris-rating-value-text, var(--aeris-text-2, #454545));
+  font-size: var(--aeris-font-size-md, 0.8125rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   font-variant-numeric: tabular-nums;
 }
 

@@ -18,7 +18,7 @@
     var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
   );
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   overflow: hidden;
 }
 
@@ -32,10 +32,10 @@
     calc(var(--aeris-item-padding-y, 0.5rem) * 1.4) var(--aeris-item-padding-x, 0.75rem)
   );
   border-bottom: 1px solid var(--aeris-border);
-  background: var(--aeris-surface-2, #f2f0ec);
-  color: var(--aeris-text, #222222);
-  font-size: 0.875rem;
-  font-weight: 700;
+  background: var(--aeris-surface-2, #f3f3f3);
+  color: var(--aeris-text, #111111);
+  font-size: var(--aeris-font-size-lg, 0.875rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-order-list__body {
@@ -49,7 +49,7 @@
   gap: calc(var(--aeris-order-list-density-gap) * 0.75);
   padding: var(--aeris-order-list-controls-padding, var(--aeris-item-padding-x, 0.75rem));
   border-right: 1px solid var(--aeris-border);
-  background: color-mix(in srgb, var(--aeris-surface-2, #f2f0ec) 54%, transparent);
+  background: color-mix(in srgb, var(--aeris-surface-2, #f3f3f3) 54%, transparent);
 }
 
 .aeris-order-list__controls button {
@@ -58,16 +58,16 @@
   display: grid;
   place-items: center;
   padding: 0;
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   cursor: pointer;
 }
 
 .aeris-order-list__controls button:not(:disabled):hover {
   border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
-  background: var(--aeris-surface-2, #f2f0ec);
+  background: var(--aeris-surface-2, #f3f3f3);
 }
 
 .aeris-order-list__controls button:disabled {
@@ -148,21 +148,21 @@
     var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem))
   );
   background: transparent;
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font: inherit;
   text-align: left;
   cursor: pointer;
 }
 
 .aeris-order-list__item:hover {
-  background: var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec));
+  background: var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3));
 }
 
 .aeris-order-list__item[data-selected='true'] {
   border-color: color-mix(
     in srgb,
     var(--aeris-primary, #{aeris-fallbacks.$primary}) 44%,
-    var(--aeris-border, #deddd7)
+    var(--aeris-border, #efefef)
   );
   background: var(--aeris-primary-soft, #eef2e6);
   color: var(--aeris-primary-text, #{aeris-fallbacks.$focus});
@@ -173,7 +173,7 @@
   display: grid;
   place-items: center;
   color: var(--aeris-text-muted, #6d7068);
-  font-size: 0.875rem;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
   text-align: center;
 }
 

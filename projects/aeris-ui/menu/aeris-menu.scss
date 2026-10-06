@@ -4,7 +4,7 @@ aeris-menu,
 :host {
   display: inline-block;
   max-inline-size: 100%;
-  color: var(--aeris-menu-color, var(--aeris-text, #222222));
+  color: var(--aeris-menu-color, var(--aeris-text, #111111));
   font: inherit;
 }
 
@@ -22,7 +22,7 @@ aeris-menu,
   max-inline-size: var(--aeris-menu-max-width, min(24rem, 100%));
   max-block-size: var(--aeris-menu-max-height, none);
   overflow: auto;
-  scrollbar-color: var(--aeris-border, #deddd7) transparent;
+  scrollbar-color: var(--aeris-border, #efefef) transparent;
   scrollbar-width: thin;
   padding: var(--aeris-menu-padding, 0.375rem);
   border: var(--aeris-menu-border-width, 1px) solid var(--aeris-menu-border, var(--aeris-border));
@@ -31,7 +31,7 @@ aeris-menu,
     var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
   );
   background: var(--aeris-menu-background, var(--aeris-surface, #fff));
-  color: var(--aeris-menu-color, var(--aeris-text, #222222));
+  color: var(--aeris-menu-color, var(--aeris-text, #111111));
   box-shadow: var(--aeris-menu-shadow, var(--aeris-shadow-md, 0 8px 24px rgb(0 0 0 / 12%)));
 }
 
@@ -48,7 +48,7 @@ aeris-menu,
 .aeris-menu__panel::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-border, #deddd7);
+  background: var(--aeris-border, #efefef);
   background-clip: content-box;
 }
 
@@ -64,8 +64,8 @@ aeris-menu,
 }
 
 .aeris-menu__panel[data-positioned='true'] {
-  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms)
-    var(--aeris-ease-enter, ease-out) backwards;
+  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out)
+    backwards;
 }
 
 .aeris-menu__panel[data-placement='top'] {
@@ -128,9 +128,9 @@ aeris-menu,
 .aeris-menu__item-shell[data-active='true'] > .aeris-menu__item {
   background: var(
     --aeris-menu-item-hover-background,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
+    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
-  color: var(--aeris-menu-item-hover-color, var(--aeris-text, #222222));
+  color: var(--aeris-menu-item-hover-color, var(--aeris-text, #111111));
 }
 
 .aeris-menu__item:focus-visible {
@@ -153,7 +153,7 @@ aeris-menu,
   padding: calc(var(--aeris-menu-item-padding-block, 0.5rem) * 0.8)
     var(--aeris-menu-item-padding-inline, 0.75rem)
     calc(var(--aeris-menu-item-padding-block, 0.5rem) * 0.45);
-  color: var(--aeris-menu-header-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-menu-header-color, var(--aeris-text-2, #454545));
   font-size: var(--aeris-menu-header-font-size, var(--aeris-font-size-sm, 0.75rem));
   font-weight: var(--aeris-font-weight-bold, 700);
   letter-spacing: 0.04em;
@@ -197,7 +197,7 @@ aeris-menu,
 }
 
 .aeris-menu__description {
-  color: var(--aeris-menu-description-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-menu-description-color, var(--aeris-text-2, #454545));
   font-size: var(--aeris-font-size-sm, 0.75rem);
   font-weight: var(--aeris-font-weight-semibold, 600);
 }
@@ -226,7 +226,7 @@ aeris-menu,
   min-inline-size: 0;
   max-inline-size: var(--aeris-menu-shortcut-max-width, min(8rem, 38vw));
   justify-self: end;
-  color: var(--aeris-menu-shortcut-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-menu-shortcut-color, var(--aeris-text-2, #454545));
   font: inherit;
   font-size: var(--aeris-font-size-sm, 0.75rem);
   font-weight: var(--aeris-font-weight-semibold, 600);

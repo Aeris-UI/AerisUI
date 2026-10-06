@@ -26,7 +26,7 @@
     var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
   );
   background: var(--aeris-splitter-background, var(--aeris-surface, #fff));
-  color: var(--aeris-splitter-color, var(--aeris-text, #222222));
+  color: var(--aeris-splitter-color, var(--aeris-text, #111111));
   box-shadow: var(--aeris-splitter-shadow, none);
   overflow: hidden;
 }
@@ -43,7 +43,7 @@
 :host([data-variant='filled']) > .aeris-splitter__root {
   background: var(
     --aeris-splitter-filled-background,
-    color-mix(in srgb, var(--aeris-surface-2, #f6f4ee) 72%, var(--aeris-surface, #fff))
+    color-mix(in srgb, var(--aeris-surface-2, #f3f3f3) 72%, var(--aeris-surface, #fff))
   );
 }
 
@@ -61,7 +61,7 @@
   flex: 1 1 0;
   overflow: hidden;
   background: var(--aeris-splitter-panel-background, transparent);
-  color: var(--aeris-splitter-panel-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-splitter-panel-color, var(--aeris-text-2, #454545));
 }
 
 .aeris-splitter__panel-content {
@@ -110,10 +110,10 @@
   inset: 0;
   display: none;
   margin: auto;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   background: var(
     --aeris-splitter-divider-color,
-    var(--aeris-border, color-mix(in srgb, var(--aeris-border, #deddd7) 86%, transparent))
+    var(--aeris-border, color-mix(in srgb, var(--aeris-border, #efefef) 86%, transparent))
   );
   content: '';
 }
@@ -170,10 +170,10 @@
   position: relative;
   z-index: 1;
   display: block;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   background: var(
     --aeris-splitter-handle-color,
-    color-mix(in srgb, var(--aeris-text, #222222) 28%, transparent)
+    color-mix(in srgb, var(--aeris-text, #111111) 28%, transparent)
   );
   transition:
     background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),

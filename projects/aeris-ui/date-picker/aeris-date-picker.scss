@@ -9,7 +9,7 @@
   display: inline-block;
   min-width: 13rem;
   max-width: 100%;
-  color: var(--aeris-date-picker-text, var(--aeris-text, #222222));
+  color: var(--aeris-date-picker-text, var(--aeris-text, #111111));
   font: inherit;
 }
 
@@ -20,7 +20,7 @@
 
 .aeris-date-picker {
   --aeris-date-picker-height: var(--aeris-control-height, 2.625rem);
-  --aeris-date-picker-font-size: 0.875rem;
+  --aeris-date-picker-font-size: var(--aeris-font-size-lg, 0.875rem);
   --aeris-date-picker-padding: 0.75rem;
 
   position: relative;
@@ -29,19 +29,19 @@
 
 .aeris-date-picker[data-size='xs'] {
   --aeris-date-picker-height: 1.875rem;
-  --aeris-date-picker-font-size: 0.75rem;
+  --aeris-date-picker-font-size: var(--aeris-font-size-sm, 0.75rem);
   --aeris-date-picker-padding: 0.5625rem;
 }
 
 .aeris-date-picker[data-size='sm'] {
   --aeris-date-picker-height: 2.25rem;
-  --aeris-date-picker-font-size: 0.8125rem;
+  --aeris-date-picker-font-size: var(--aeris-font-size-md, 0.8125rem);
   --aeris-date-picker-padding: 0.6875rem;
 }
 
 .aeris-date-picker[data-size='lg'] {
   --aeris-date-picker-height: 3rem;
-  --aeris-date-picker-font-size: 0.9375rem;
+  --aeris-date-picker-font-size: var(--aeris-font-size-xl, 0.9375rem);
   --aeris-date-picker-padding: 0.875rem;
 }
 
@@ -55,7 +55,7 @@
   display: flex;
   align-items: center;
   padding: 0 3rem 0 var(--aeris-date-picker-padding);
-  border: 1px solid var(--aeris-date-picker-border, var(--aeris-border, #deddd7));
+  border: 1px solid var(--aeris-date-picker-border, var(--aeris-border, #efefef));
   border-radius: var(
     --aeris-date-picker-radius,
     var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem))
@@ -77,23 +77,34 @@
 
 .aeris-date-picker[data-appearance='filled'] .aeris-date-picker__trigger {
   border-color: transparent;
-  background: var(--aeris-date-picker-filled-background, var(--aeris-surface-2, #f2f0ec));
+  background: var(--aeris-date-picker-filled-background, var(--aeris-surface-2, #f3f3f3));
 }
 
 .aeris-date-picker__trigger:hover,
 .aeris-date-picker[data-open] .aeris-date-picker__trigger {
-  border-color: var(--aeris-date-picker-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  border-color: var(
+    --aeris-date-picker-hover-border,
+    var(--aeris-control-hover-border, var(--aeris-primary, #{aeris-fallbacks.$primary}))
+  );
 }
 
 .aeris-date-picker__trigger:focus-visible {
   outline: 0;
-  border-color: var(--aeris-date-picker-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 22%, transparent);
+  border-color: var(
+    --aeris-date-picker-focus,
+    var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}))
+  );
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-focus-ring-color, var(--aeris-focus-ring-color, transparent));
 }
 
 .aeris-date-picker[data-invalid] .aeris-date-picker__trigger {
-  border-color: var(--aeris-danger, #c81e2a);
+  border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
+}
+
+.aeris-date-picker[data-invalid] .aeris-date-picker__trigger:focus-visible {
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-invalid-focus-ring-color, transparent);
 }
 
 .aeris-date-picker[data-disabled] .aeris-date-picker__trigger {
@@ -109,7 +120,7 @@
 }
 
 .aeris-date-picker__placeholder {
-  color: var(--aeris-date-picker-placeholder, var(--aeris-text-2, #555555));
+  color: var(--aeris-date-picker-placeholder, var(--aeris-text-2, #454545));
 }
 
 .aeris-date-picker__clear {
@@ -125,19 +136,19 @@
   border: 0;
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   transform: translateY(-50%);
   cursor: pointer;
 }
 
 .aeris-date-picker__clear:hover,
 .aeris-date-picker__clear:focus-visible {
-  background: var(--aeris-surface-2, #f2f0ec);
-  color: var(--aeris-text, #222222);
+  background: var(--aeris-surface-2, #f3f3f3);
+  color: var(--aeris-text, #111111);
 }
 
 .aeris-date-picker__clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
 }
 
@@ -157,7 +168,7 @@
   height: 1rem;
   border: 1.5px solid currentColor;
   border-radius: 0.1875rem;
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   transform: translateY(-50%);
   pointer-events: none;
 }
@@ -198,7 +209,7 @@
   right: var(--aeris-date-picker-padding);
   width: 1rem;
   height: 1rem;
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   transform: translateY(-50%);
   pointer-events: none;
 }
@@ -230,8 +241,11 @@
     var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
   );
   background: var(--aeris-date-picker-panel-background, var(--aeris-surface, #fff));
-  box-shadow: var(--aeris-date-picker-panel-shadow, 0 1rem 2.5rem rgb(31 35 27 / 16%));
-  scrollbar-color: var(--aeris-border, #deddd7) transparent;
+  box-shadow: var(
+    --aeris-date-picker-panel-shadow,
+    var(--aeris-overlay-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)))
+  );
+  scrollbar-color: var(--aeris-border, #efefef) transparent;
   scrollbar-width: thin;
 }
 
@@ -248,7 +262,7 @@
 .aeris-date-picker__panel::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-border, #deddd7);
+  background: var(--aeris-border, #efefef);
   background-clip: content-box;
 }
 
@@ -274,9 +288,9 @@
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
-  color: var(--aeris-text, #222222);
-  font-size: 0.875rem;
-  font-weight: 700;
+  color: var(--aeris-text, #111111);
+  font-size: var(--aeris-font-size-lg, 0.875rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-date-picker__heading button,
@@ -293,7 +307,7 @@
 
 .aeris-date-picker__heading button {
   padding: 0.35rem 0.4rem;
-  font-weight: 700;
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-date-picker__heading button:hover,
@@ -310,7 +324,7 @@
 .aeris-date-picker__nav:focus-visible,
 .aeris-date-picker__footer button:focus-visible,
 .aeris-date-picker__choice-grid button:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
 }
 
@@ -364,8 +378,8 @@
 
 .aeris-date-picker__month h3 {
   margin: 0 0 0.5rem;
-  color: var(--aeris-text, #222222);
-  font-size: 0.8125rem;
+  color: var(--aeris-text, #111111);
+  font-size: var(--aeris-font-size-md, 0.8125rem);
   text-align: center;
 }
 
@@ -386,9 +400,9 @@
   min-height: 1.75rem;
   display: grid;
   place-items: center;
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.6875rem;
-  font-weight: 650;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-xs, 0.6875rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-date-picker__day {
@@ -401,9 +415,9 @@
   border: 0;
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font: inherit;
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
   cursor: pointer;
 }
 
@@ -417,12 +431,12 @@
 
 .aeris-date-picker__day:focus-visible {
   z-index: 1;
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 0;
 }
 
 .aeris-date-picker__day[data-other-month] {
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   opacity: 0.58;
 }
 
@@ -448,7 +462,7 @@
     --aeris-date-picker-selected-text,
     var(--aeris-on-primary, #{aeris-fallbacks.$on-primary})
   );
-  font-weight: 700;
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-date-picker__day[data-selected]:hover:not(:disabled),
@@ -492,7 +506,7 @@
 .aeris-date-picker__choice-grid button {
   min-height: 2.75rem;
   padding: 0.5rem;
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-date-picker__choice-grid button[data-selected] {
@@ -504,7 +518,7 @@
     --aeris-date-picker-selected-text,
     var(--aeris-on-primary, #{aeris-fallbacks.$on-primary})
   );
-  font-weight: 700;
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-date-picker__choice-grid button[data-selected]:hover:not(:disabled),
@@ -526,7 +540,7 @@
   gap: 0.375rem;
   margin-top: 0.75rem;
   padding-top: 0.75rem;
-  border-top: 1px solid var(--aeris-border, #deddd7);
+  border-top: 1px solid var(--aeris-border, #efefef);
 }
 
 .aeris-date-picker__time[data-time-only] {
@@ -540,9 +554,9 @@
   flex: 1 1 0;
   display: grid;
   gap: 0.3125rem;
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.6875rem;
-  font-weight: 700;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-xs, 0.6875rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-date-picker__time-field--period {
@@ -554,12 +568,12 @@
   width: 100%;
   min-height: 2.25rem;
   padding: 0 0.5rem;
-  border: 1px solid var(--aeris-date-picker-border, var(--aeris-border, #deddd7));
+  border: 1px solid var(--aeris-date-picker-border, var(--aeris-border, #efefef));
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-date-picker-background, var(--aeris-surface, #fff));
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font: inherit;
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-date-picker__time-field input {
@@ -568,9 +582,13 @@
 
 .aeris-date-picker__time-field input:focus-visible,
 .aeris-date-picker__time-field select:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
-  outline-offset: 1px;
-  border-color: var(--aeris-date-picker-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  border-color: var(
+    --aeris-date-picker-focus,
+    var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}))
+  );
+  outline: 0;
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-focus-ring-color, var(--aeris-focus-ring-color, transparent));
 }
 
 .aeris-date-picker__time-field input:disabled,
@@ -583,9 +601,9 @@
   min-height: 2.25rem;
   display: grid;
   place-items: center;
-  color: var(--aeris-text-2, #555555);
-  font-size: 1rem;
-  font-weight: 800;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-2xl, 1rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-date-picker__footer {
@@ -594,15 +612,15 @@
   gap: 0.75rem;
   margin-top: 0.625rem;
   padding-top: 0.625rem;
-  border-top: 1px solid var(--aeris-border, #deddd7);
+  border-top: 1px solid var(--aeris-border, #efefef);
 }
 
 .aeris-date-picker__footer button {
   min-height: 2rem;
   padding: 0.375rem 0.625rem;
   color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
-  font-size: 0.8125rem;
-  font-weight: 700;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 @media (max-width: 50rem) {

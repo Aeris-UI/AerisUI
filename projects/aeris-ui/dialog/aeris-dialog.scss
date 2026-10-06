@@ -4,7 +4,7 @@
   --_aeris-dialog-icon-size: var(--aeris-icon-size, 1rem);
 
   display: contents;
-  color: var(--aeris-dialog-color, var(--aeris-text, #222222));
+  color: var(--aeris-dialog-color, var(--aeris-text, #111111));
   font: inherit;
 }
 
@@ -88,8 +88,8 @@
   box-shadow: var(--aeris-dialog-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)));
   overflow: hidden;
   transform: translate(var(--aeris-dialog-drag-x, 0), var(--aeris-dialog-drag-y, 0));
-  animation: aeris-dialog-enter var(--aeris-motion-slow, 220ms)
-    var(--aeris-ease-enter, ease-out) backwards;
+  animation: aeris-dialog-enter var(--aeris-motion-slow, 220ms) var(--aeris-ease-enter, ease-out)
+    backwards;
 }
 
 .aeris-dialog__overlay[data-position='top'] .aeris-dialog__panel,
@@ -123,8 +123,7 @@
 
   to {
     opacity: 1;
-    transform: translate(var(--aeris-dialog-drag-x, 0px), var(--aeris-dialog-drag-y, 0px))
-      scale(1);
+    transform: translate(var(--aeris-dialog-drag-x, 0px), var(--aeris-dialog-drag-y, 0px)) scale(1);
   }
 }
 
@@ -213,7 +212,7 @@
 .aeris-dialog__title {
   min-width: 0;
   flex: 1 1 auto;
-  color: var(--aeris-dialog-title-color, var(--aeris-text, #222222));
+  color: var(--aeris-dialog-title-color, var(--aeris-text, #111111));
   font-size: var(--aeris-dialog-title-size, var(--aeris-font-size-2xl, 1rem));
   font-weight: var(--aeris-font-weight-bold, 700);
   line-height: var(--aeris-line-height-tight, 1.25);
@@ -233,20 +232,21 @@
   place-items: center;
   padding: 0;
   border: 0;
-  border-radius: var(--aeris-radius-sm, 0.4375rem);
+  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-dialog-icon-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-dialog-icon-color, var(--aeris-text-2, #454545));
   cursor: pointer;
 }
 
 .aeris-dialog__action:hover {
-  background: var(--aeris-dialog-action-hover, var(--aeris-surface-2, #f2f0ec));
-  color: var(--aeris-dialog-title-color, var(--aeris-text, #222222));
+  background: var(--aeris-dialog-action-hover, var(--aeris-surface-2, #f3f3f3));
+  color: var(--aeris-dialog-title-color, var(--aeris-text, #111111));
 }
 
 .aeris-dialog__action:focus-visible {
-  outline: 2px solid var(--aeris-dialog-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(--aeris-dialog-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-dialog__close-icon,
@@ -289,7 +289,7 @@
   min-height: 0;
   padding: var(--aeris-dialog-body-padding, 1.125rem);
   overflow: auto;
-  color: var(--aeris-dialog-body-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-dialog-body-color, var(--aeris-text-2, #454545));
   font-size: var(--aeris-font-size-lg, 0.875rem);
   line-height: var(--aeris-line-height-relaxed, 1.65);
 }

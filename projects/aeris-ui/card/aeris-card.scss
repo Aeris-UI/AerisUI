@@ -16,7 +16,7 @@ aeris-card {
   border: 1px solid var(--aeris-card-border, var(--aeris-border));
   border-radius: var(--_aeris-card-radius);
   background: var(--aeris-card-background, var(--aeris-surface, #fff));
-  color: var(--aeris-card-color, var(--aeris-text, #222222));
+  color: var(--aeris-card-color, var(--aeris-text, #111111));
   box-shadow: var(--aeris-card-shadow, none);
   transition:
     border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
@@ -34,13 +34,13 @@ aeris-card {
 
 .aeris-card[data-variant='filled'] {
   border-color: var(--aeris-card-filled-border, transparent);
-  background: var(--aeris-card-filled-background, var(--aeris-surface-2, #f2f0ec));
+  background: var(--aeris-card-filled-background, var(--aeris-surface-2, #f3f3f3));
 }
 
 .aeris-card[data-hoverable='true']:hover {
   border-color: var(
     --aeris-card-hover-border,
-    color-mix(in srgb, var(--aeris-border, #deddd7) 58%, transparent)
+    color-mix(in srgb, var(--aeris-border, #efefef) 58%, transparent)
   );
   box-shadow: var(--aeris-card-hover-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)));
   transform: translateY(-0.125rem);
@@ -76,7 +76,7 @@ aeris-card {
 .aeris-card__title {
   display: block;
   margin: 0;
-  color: var(--aeris-card-title-color, var(--aeris-text, #222222));
+  color: var(--aeris-card-title-color, var(--aeris-text, #111111));
   font-size: var(--aeris-card-title-size, var(--aeris-font-size-2xl, 1rem));
   font-weight: var(--aeris-font-weight-bold, 700);
   line-height: var(--aeris-line-height-tight, 1.25);
@@ -85,14 +85,14 @@ aeris-card {
 .aeris-card__subtitle {
   display: block;
   margin: 0.25rem 0 0;
-  color: var(--aeris-card-subtitle-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-card-subtitle-color, var(--aeris-text-2, #454545));
   font-size: var(--aeris-card-subtitle-size, var(--aeris-font-size-md, 0.8125rem));
   line-height: var(--aeris-line-height-normal, 1.5);
 }
 
 .aeris-card__content {
   min-width: 0;
-  color: var(--aeris-card-content-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-card-content-color, var(--aeris-text-2, #454545));
   font-size: var(--aeris-card-content-size, var(--aeris-font-size-lg, 0.875rem));
   line-height: var(--aeris-line-height-relaxed, 1.65);
 }

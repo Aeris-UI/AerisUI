@@ -3,24 +3,24 @@
 :host {
   --_aeris-stepper-trigger-size: 2.25rem;
   --_aeris-stepper-gap: 0.75rem;
-  --_aeris-stepper-font-size: 0.875rem;
+  --_aeris-stepper-font-size: var(--aeris-font-size-lg, 0.875rem);
 
   display: block;
   min-width: 0;
-  color: var(--aeris-stepper-color, var(--aeris-text, #222222));
+  color: var(--aeris-stepper-color, var(--aeris-text, #111111));
   font: inherit;
 }
 
 :host([data-size='sm']) {
   --_aeris-stepper-trigger-size: 1.875rem;
   --_aeris-stepper-gap: 0.5rem;
-  --_aeris-stepper-font-size: 0.8125rem;
+  --_aeris-stepper-font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 :host([data-size='lg']) {
   --_aeris-stepper-trigger-size: 2.75rem;
   --_aeris-stepper-gap: 1rem;
-  --_aeris-stepper-font-size: 0.9375rem;
+  --_aeris-stepper-font-size: var(--aeris-font-size-xl, 0.9375rem);
 }
 
 .aeris-stepper__step-source {
@@ -53,7 +53,7 @@
   border: 0;
   border-radius: var(--aeris-stepper-radius, var(--aeris-radius-md, 0.6875rem));
   background: transparent;
-  color: var(--aeris-stepper-muted-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-stepper-muted-color, var(--aeris-text-2, #454545));
   font: inherit;
   font-size: var(--_aeris-stepper-font-size);
   text-align: start;
@@ -63,14 +63,15 @@
 .aeris-stepper__trigger:hover:not(:disabled) {
   background: var(
     --aeris-stepper-hover-background,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
+    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
-  color: var(--aeris-stepper-color, var(--aeris-text, #222222));
+  color: var(--aeris-stepper-color, var(--aeris-text, #111111));
 }
 
 .aeris-stepper__trigger:focus-visible {
-  outline: 2px solid var(--aeris-stepper-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(--aeris-stepper-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-stepper__trigger:disabled {
@@ -83,12 +84,12 @@
   height: var(--_aeris-stepper-trigger-size);
   display: inline-grid;
   place-items: center;
-  border: 1px solid var(--aeris-stepper-indicator-border, var(--aeris-border, #deddd7));
-  border-radius: 999px;
+  border: 1px solid var(--aeris-stepper-indicator-border, var(--aeris-border, #efefef));
+  border-radius: var(--aeris-radius-pill, 999px);
   background: var(--aeris-stepper-indicator-background, var(--aeris-surface, #fff));
-  color: var(--aeris-stepper-muted-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-stepper-muted-color, var(--aeris-text-2, #454545));
   font-size: 0.8125em;
-  font-weight: 800;
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-stepper__header {
@@ -100,7 +101,7 @@
 .aeris-stepper__label {
   overflow: hidden;
   color: inherit;
-  font-weight: 750;
+  font-weight: var(--aeris-font-weight-bold, 700);
   line-height: 1.3;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -111,7 +112,7 @@
   overflow: hidden;
   color: var(--aeris-stepper-description-color, var(--aeris-text-3, #73766f));
   font-size: 0.75em;
-  font-weight: 600;
+  font-weight: var(--aeris-font-weight-semibold, 600);
   line-height: 1.35;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -121,8 +122,8 @@
   min-width: 1.5rem;
   height: var(--aeris-stepper-connector-size, 1px);
   flex: 1 1 auto;
-  border-radius: 999px;
-  background: var(--aeris-stepper-connector, var(--aeris-border, #deddd7));
+  border-radius: var(--aeris-radius-pill, 999px);
+  background: var(--aeris-stepper-connector, var(--aeris-border, #efefef));
 }
 
 .aeris-stepper__check {
@@ -207,12 +208,13 @@
     var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
   );
   background: var(--aeris-stepper-panel-background, var(--aeris-surface, #fff));
-  color: var(--aeris-stepper-panel-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-stepper-panel-color, var(--aeris-text-2, #454545));
 }
 
 .aeris-stepper__panel:focus-visible {
-  outline: 2px solid var(--aeris-stepper-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(--aeris-stepper-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 :host([data-orientation='vertical']) {

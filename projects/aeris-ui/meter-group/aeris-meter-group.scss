@@ -13,7 +13,7 @@
   max-inline-size: 100%;
   display: grid;
   gap: var(--aeris-meter-group-gap, 0.875rem);
-  color: var(--aeris-meter-group-text, var(--aeris-text, #222222));
+  color: var(--aeris-meter-group-text, var(--aeris-text, #111111));
   font: inherit;
 }
 
@@ -46,10 +46,9 @@
   block-size: var(--_aeris-meter-group-track-size);
   display: flex;
   overflow: hidden;
-  border: 1px solid
-    var(--aeris-meter-group-track-border, var(--aeris-border));
+  border: 1px solid var(--aeris-meter-group-track-border, var(--aeris-border));
   border-radius: var(--aeris-meter-group-radius, var(--aeris-radius-control, 0.4375rem));
-  background: var(--aeris-meter-group-track-background, var(--aeris-surface-2, #f2f0ec));
+  background: var(--aeris-meter-group-track-background, var(--aeris-surface-2, #f3f3f3));
   box-shadow: var(--aeris-meter-group-track-shadow, inset 0 0 0 1px rgb(0 0 0 / 2%));
 }
 
@@ -71,7 +70,8 @@
   overflow: hidden;
   background-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
   transform-origin: left center;
-  animation: aeris-meter-group-reveal-inline var(--aeris-motion-emphasized, 320ms) var(--aeris-ease-enter, ease-out) both;
+  animation: aeris-meter-group-reveal-inline var(--aeris-motion-emphasized, 320ms)
+    var(--aeris-ease-enter, ease-out) both;
 }
 
 :host(:dir(rtl)) .aeris-meter-group__segment {
@@ -86,7 +86,7 @@
 
 .aeris-meter-group__segment[data-tone='secondary'],
 .aeris-meter-group__marker[data-tone='secondary'] {
-  background-color: var(--aeris-surface-3, var(--aeris-border, #deddd7));
+  background-color: var(--aeris-surface-3, var(--aeris-border, #efefef));
 }
 
 .aeris-meter-group__segment[data-tone='success'],
@@ -116,7 +116,7 @@
 
 .aeris-meter-group__segment[data-tone='contrast'],
 .aeris-meter-group__marker[data-tone='contrast'] {
-  background-color: var(--aeris-text, #222222);
+  background-color: var(--aeris-text, #111111);
 }
 
 .aeris-meter-group__legend {
@@ -143,7 +143,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--aeris-meter-group-label-gap, 0.4375rem);
-  color: var(--aeris-meter-group-label-text, var(--aeris-text-2, #555555));
+  color: var(--aeris-meter-group-label-text, var(--aeris-text-2, #454545));
   font-size: var(--aeris-meter-group-label-font-size, 0.8125rem);
   line-height: 1.4;
 }
@@ -163,8 +163,8 @@
 
 .aeris-meter-group__value {
   flex: 0 0 auto;
-  color: var(--aeris-meter-group-value-text, var(--aeris-text, #222222));
-  font-weight: 750;
+  color: var(--aeris-meter-group-value-text, var(--aeris-text, #111111));
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-meter-group__header,

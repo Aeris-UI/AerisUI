@@ -25,15 +25,15 @@
     var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
   );
   background: var(--aeris-popover-background, var(--aeris-surface, #fff));
-  color: var(--aeris-popover-color, var(--aeris-text, #222222));
+  color: var(--aeris-popover-color, var(--aeris-text, #111111));
   box-shadow: var(--aeris-popover-shadow, var(--_aeris-popover-shadow));
   pointer-events: auto;
   transform-origin: var(--_aeris-popover-origin, top center);
 }
 
 .aeris-popover__layer[data-positioned='true'] .aeris-popover__panel {
-  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms)
-    var(--aeris-ease-enter, ease-out) backwards;
+  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out)
+    backwards;
 }
 
 .aeris-popover__panel:focus {
@@ -119,7 +119,7 @@
 
 .aeris-popover__title {
   min-width: 0;
-  color: var(--aeris-popover-title-color, var(--aeris-text, #222222));
+  color: var(--aeris-popover-title-color, var(--aeris-text, #111111));
   font-size: var(--aeris-font-size-xl, 0.9375rem);
   font-weight: var(--aeris-font-weight-bold, 700);
   line-height: var(--aeris-line-height-tight, 1.25);
@@ -132,21 +132,22 @@
   place-items: center;
   flex: 0 0 auto;
   border: 1px solid transparent;
-  border-radius: var(--aeris-radius-sm, 0.4375rem);
+  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   cursor: pointer;
 }
 
 .aeris-popover__close:hover {
-  border-color: var(--aeris-border, #deddd7);
-  background: var(--aeris-surface-2, #f2f0ec);
-  color: var(--aeris-text, #222222);
+  border-color: var(--aeris-border, #efefef);
+  background: var(--aeris-surface-2, #f3f3f3);
+  color: var(--aeris-text, #111111);
 }
 
 .aeris-popover__close:focus-visible {
-  outline: 2px solid var(--aeris-popover-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(--aeris-popover-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-popover__close-icon {
@@ -161,7 +162,7 @@
 .aeris-popover__body {
   min-width: 0;
   padding: var(--aeris-popover-body-padding, 1rem);
-  color: var(--aeris-popover-body-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-popover-body-color, var(--aeris-text-2, #454545));
   font-size: var(--aeris-font-size-lg, 0.875rem);
   line-height: var(--aeris-line-height-normal, 1.5);
 }

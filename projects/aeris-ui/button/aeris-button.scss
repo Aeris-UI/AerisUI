@@ -122,19 +122,19 @@
 :host(.aeris-button--xs) {
   --_height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
   padding-inline: 0.625rem;
-  font-size: 0.6875rem;
+  font-size: var(--aeris-font-size-xs, 0.6875rem);
 }
 
 :host(.aeris-button--sm) {
   --_height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
   padding-inline: 0.8125rem;
-  font-size: 0.75rem;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 :host(.aeris-button--lg) {
   --_height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
   padding-inline: 1.3125rem;
-  font-size: 0.875rem;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
 }
 
 :host([data-icon-only='true']) {
@@ -147,7 +147,7 @@
 }
 
 :host([data-rounded='true']) {
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
 }
 
 :host([data-fluid='true']) {
@@ -219,11 +219,11 @@
 }
 
 :host(.aeris-button--severity-contrast) {
-  --_aeris-button-fill: var(--aeris-contrast, var(--aeris-text, #222222));
+  --_aeris-button-fill: var(--aeris-contrast, var(--aeris-text, #111111));
   --_aeris-button-boundary: var(--aeris-contrast-boundary, var(--_aeris-button-fill));
-  --_aeris-button-hover-fill: var(--aeris-contrast-hover, var(--aeris-text-2, #555555));
-  --_aeris-button-active-fill: var(--aeris-contrast-active, var(--aeris-text, #222222));
-  --_aeris-button-text: var(--aeris-contrast-text, var(--aeris-text, #222222));
+  --_aeris-button-hover-fill: var(--aeris-contrast-hover, var(--aeris-text-2, #454545));
+  --_aeris-button-active-fill: var(--aeris-contrast-active, var(--aeris-text, #111111));
+  --_aeris-button-text: var(--aeris-contrast-text, var(--aeris-text, #111111));
   --_aeris-button-on-fill: var(--aeris-on-contrast, var(--aeris-surface, #fff));
   --_aeris-button-on-hover: var(--aeris-on-contrast-hover, var(--_aeris-button-on-fill));
   --_aeris-button-on-active: var(--aeris-on-contrast-active, var(--_aeris-button-on-hover));
@@ -239,8 +239,8 @@
   --_aeris-button-boundary: var(--aeris-secondary-boundary, var(--_aeris-button-fill));
   --_aeris-button-hover-fill: var(--aeris-secondary-hover, #75868e);
   --_aeris-button-active-fill: var(--aeris-secondary-active, #6b7b82);
-  --_aeris-button-text: var(--aeris-secondary-text, var(--aeris-text-2, #555555));
-  --_aeris-button-on-fill: var(--aeris-on-secondary, var(--aeris-text, #222222));
+  --_aeris-button-text: var(--aeris-secondary-text, var(--aeris-text-2, #454545));
+  --_aeris-button-on-fill: var(--aeris-on-secondary, var(--aeris-text, #111111));
   --_aeris-button-on-hover: var(--aeris-on-secondary-hover, var(--_aeris-button-on-fill));
   --_aeris-button-on-active: var(--aeris-on-secondary-active, var(--_aeris-button-on-hover));
   --_aeris-button-soft: var(
@@ -251,16 +251,16 @@
 }
 
 :host(.aeris-button--severity-neutral) {
-  --_aeris-button-fill: var(--aeris-text-2, #555555);
+  --_aeris-button-fill: var(--aeris-text-2, #454545);
   --_aeris-button-boundary: var(--_aeris-button-fill);
-  --_aeris-button-hover-fill: var(--aeris-text, #222222);
-  --_aeris-button-active-fill: var(--aeris-text, #222222);
-  --_aeris-button-text: var(--aeris-text-2, #555555);
+  --_aeris-button-hover-fill: var(--aeris-text, #111111);
+  --_aeris-button-active-fill: var(--aeris-text, #111111);
+  --_aeris-button-text: var(--aeris-text-2, #454545);
   --_aeris-button-on-fill: var(--aeris-surface, #fff);
   --_aeris-button-on-hover: var(--aeris-surface, #fff);
   --_aeris-button-on-active: var(--aeris-surface, #fff);
-  --_aeris-button-soft: var(--aeris-surface-2, #f2f0ec);
-  --_aeris-button-on-soft: var(--aeris-text, #222222);
+  --_aeris-button-soft: var(--aeris-surface-2, #f3f3f3);
+  --_aeris-button-on-soft: var(--aeris-text, #111111);
 }
 
 :host(.aeris-button--icon-right) {

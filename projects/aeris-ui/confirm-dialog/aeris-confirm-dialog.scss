@@ -62,8 +62,8 @@
 
 .aeris-confirm-dialog__message {
   min-width: 0;
-  color: var(--aeris-confirm-dialog-message-color, var(--aeris-text-2, #555555));
-  font-size: 0.9375rem;
+  color: var(--aeris-confirm-dialog-message-color, var(--aeris-text-2, #454545));
+  font-size: var(--aeris-font-size-xl, 0.9375rem);
   line-height: 1.55;
 }
 

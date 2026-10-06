@@ -973,7 +973,7 @@ export const appConfig: ApplicationConfig = {
           rows: [
             [
               'Typography',
-              '--aeris-font-size-xs through --aeris-font-size-2xl, --aeris-line-height-*, --aeris-font-weight-*',
+              '--aeris-font-size-xs through --aeris-font-size-3xl, --aeris-line-height-*, --aeris-font-weight-*',
               'Consistent labels, body copy, titles, and supporting text',
             ],
             [
@@ -983,8 +983,18 @@ export const appConfig: ApplicationConfig = {
             ],
             [
               'Focus',
-              '--aeris-focus-ring-width, --aeris-focus-ring-offset, --aeris-focus-ring-color',
-              'A consistent visible keyboard focus treatment',
+              '--aeris-focus-ring-width, --aeris-focus-ring-offset, --aeris-focus-ring-color, --aeris-control-focus-border, --aeris-control-focus-ring-color',
+              'Consistent focus geometry and color across native and composite controls',
+            ],
+            [
+              'Control states',
+              '--aeris-control-hover-border, --aeris-control-invalid-border, --aeris-control-invalid-focus-ring-color',
+              'Shared hover and validation treatment for the complete form-control family',
+            ],
+            [
+              'Floating surfaces',
+              '--aeris-overlay-shadow',
+              'One elevation alias for menus, pickers, popovers, and other anchored panels',
             ],
             [
               'Motion',
@@ -1029,8 +1039,16 @@ export const appConfig: ApplicationConfig = {
             ['Slow', '--aeris-motion-slow', 'Disclosure, drawer, and dialog movement'],
             ['Emphasized', '--aeris-motion-emphasized', 'Larger spatial or progress changes'],
             ['Distance', '--aeris-motion-distance', 'The short travel used by floating surfaces'],
-            ['Scale', '--aeris-motion-scale', 'The subtle starting scale used by floating surfaces'],
-            ['Easing', '--aeris-ease-standard, --aeris-ease-enter, --aeris-ease-exit', 'State, arrival, and departure curves'],
+            [
+              'Scale',
+              '--aeris-motion-scale',
+              'The subtle starting scale used by floating surfaces',
+            ],
+            [
+              'Easing',
+              '--aeris-ease-standard, --aeris-ease-enter, --aeris-ease-exit',
+              'State, arrival, and departure curves',
+            ],
           ],
         },
         note: 'Continuous activity such as indeterminate progress and loading spinners keeps a component-specific duration. Disable those features when motion is not appropriate; reduced-motion preferences stop or simplify them where necessary.',

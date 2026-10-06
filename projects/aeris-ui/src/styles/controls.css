@@ -56,15 +56,21 @@
 
 .aeris-input-text:hover:not(:disabled):not([readonly]),
 .aeris-textarea:hover:not(:disabled):not([readonly]) {
-  border-color: var(--aeris-primary, #2c694b);
+  border-color: var(--aeris-control-hover-border, var(--aeris-primary, #111111));
 }
 
 .aeris-input-text:focus,
 .aeris-textarea:focus {
-  border-color: var(--aeris-focus, #3b452a);
+  border-color: var(--aeris-control-focus-border, var(--aeris-focus, #111111));
   outline: 0;
   box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
-    var(--aeris-focus-ring-color, color-mix(in srgb, var(--aeris-focus, #111111) 48%, transparent));
+    var(
+      --aeris-control-focus-ring-color,
+      var(
+        --aeris-focus-ring-color,
+        color-mix(in srgb, var(--aeris-focus, #111111) 48%, transparent)
+      )
+    );
 }
 
 .aeris-input-text--filled:focus,
@@ -80,14 +86,18 @@
 .aeris-textarea--invalid:hover,
 .aeris-textarea:user-invalid,
 .aeris-textarea:user-invalid:hover {
-  border-color: var(--aeris-danger, #c81e2a);
+  border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
 }
 
 .aeris-input-text--invalid:focus,
 .aeris-input-text:user-invalid:focus,
 .aeris-textarea--invalid:focus,
 .aeris-textarea:user-invalid:focus {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-danger, #c81e2a) 18%, transparent);
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(
+      --aeris-control-invalid-focus-ring-color,
+      color-mix(in srgb, var(--aeris-danger, #c81e2a) 32%, transparent)
+    );
 }
 
 .aeris-input-text:read-only,

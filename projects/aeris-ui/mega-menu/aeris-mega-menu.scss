@@ -19,7 +19,7 @@
   );
 
   display: block;
-  color: var(--aeris-mega-menu-color, var(--aeris-text, #222222));
+  color: var(--aeris-mega-menu-color, var(--aeris-text, #111111));
 }
 
 .aeris-mega-menu__nav {
@@ -75,7 +75,7 @@
     --aeris-mega-menu-trigger-padding,
     var(--aeris-item-padding-y, 0.5rem) var(--aeris-item-padding-x, 0.75rem)
   );
-  font-weight: 750;
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-mega-menu__panel-item {
@@ -93,20 +93,20 @@
 .aeris-mega-menu__panel-item:hover {
   background: var(
     --aeris-mega-menu-item-hover-background,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
+    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
-  color: var(--aeris-mega-menu-item-hover-color, var(--aeris-text, #222222));
+  color: var(--aeris-mega-menu-item-hover-color, var(--aeris-text, #111111));
 }
 
 .aeris-mega-menu__trigger:focus-visible,
 .aeris-mega-menu__panel-item:focus-visible {
-  outline: 3px solid
+  outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(
       in srgb,
       var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 38%,
       transparent
     );
-  outline-offset: 2px;
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-mega-menu__trigger:disabled,
@@ -130,10 +130,10 @@
 }
 
 .aeris-mega-menu__description {
-  color: var(--aeris-mega-menu-description-color, var(--aeris-text-2, #555555));
-  font-size: 0.75rem;
-  font-weight: 600;
-  line-height: 1.25;
+  color: var(--aeris-mega-menu-description-color, var(--aeris-text-2, #454545));
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-semibold, 600);
+  line-height: var(--aeris-line-height-tight, 1.25);
 }
 
 .aeris-mega-menu__icon,
@@ -173,8 +173,8 @@
     --aeris-mega-menu-badge-color,
     var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
   );
-  font-size: 0.72rem;
-  font-weight: 850;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   overflow: hidden;
   text-align: center;
   text-overflow: ellipsis;
@@ -194,7 +194,10 @@
     var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
   );
   background: var(--aeris-mega-menu-panel-background, var(--aeris-surface, #fff));
-  box-shadow: var(--aeris-mega-menu-panel-shadow, 0 1.25rem 3rem rgba(0, 0, 0, 0.16));
+  box-shadow: var(
+    --aeris-mega-menu-panel-shadow,
+    var(--aeris-overlay-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)))
+  );
 }
 
 :host([data-orientation='vertical']) .aeris-mega-menu__panel {
@@ -227,16 +230,16 @@
 }
 
 .aeris-mega-menu__group-header h3 {
-  color: var(--aeris-mega-menu-group-title-color, var(--aeris-text, #222222));
-  font-size: 0.78rem;
-  font-weight: 850;
+  color: var(--aeris-mega-menu-group-title-color, var(--aeris-text, #111111));
+  font-size: var(--aeris-font-size-md, 0.8125rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 .aeris-mega-menu__group-header p {
-  color: var(--aeris-mega-menu-description-color, var(--aeris-text-2, #555555));
-  font-size: 0.75rem;
+  color: var(--aeris-mega-menu-description-color, var(--aeris-text-2, #454545));
+  font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 .aeris-mega-menu__panel-list {
@@ -262,14 +265,14 @@
 :host([data-size='sm']) {
   --aeris-mega-menu-trigger-height: calc(var(--aeris-item-height, 2.5rem) - 0.35rem);
   --aeris-mega-menu-panel-item-height: calc(var(--aeris-item-height, 2.5rem) - 0.45rem);
-  --aeris-mega-menu-panel-font-size: 0.8125rem;
+  --aeris-mega-menu-panel-font-size: var(--aeris-font-size-md, 0.8125rem);
   --aeris-mega-menu-icon-size: 1rem;
 }
 
 :host([data-size='lg']) {
   --aeris-mega-menu-trigger-height: calc(var(--aeris-item-height, 2.5rem) + 0.35rem);
   --aeris-mega-menu-panel-item-height: calc(var(--aeris-item-height, 2.5rem) + 0.25rem);
-  --aeris-mega-menu-panel-font-size: 0.9375rem;
+  --aeris-mega-menu-panel-font-size: var(--aeris-font-size-xl, 0.9375rem);
   --aeris-mega-menu-icon-size: 1.25rem;
 }
 

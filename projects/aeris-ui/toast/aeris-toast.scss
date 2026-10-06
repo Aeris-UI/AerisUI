@@ -235,8 +235,8 @@
     var(--_accent) var(--aeris-toast-severity-tint, 9%),
     var(--aeris-surface, #fff)
   );
-  --_toast-text: var(--aeris-text, #222222);
-  --_toast-detail: var(--aeris-text-2, #555555);
+  --_toast-text: var(--aeris-text, #111111);
+  --_toast-detail: var(--aeris-text-2, #454545);
 
   position: relative;
   box-sizing: border-box;
@@ -246,7 +246,7 @@
   height: 100%;
   min-width: 0;
   border: 1px solid var(--aeris-toast-border-color, var(--_accent));
-  border-radius: var(--aeris-radius-md, 0.75rem);
+  border-radius: var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem));
   background: var(--aeris-toast-background, var(--_toast-surface));
   color: var(--_toast-text);
   box-shadow: var(--aeris-shadow-lg, 0 18px 44px rgb(31 35 27 / 14%));
@@ -300,7 +300,7 @@
 .aeris-toast__message:hover,
 .aeris-toast__message:focus-within {
   border-color: var(--aeris-toast-border-color, var(--_accent));
-  box-shadow: 0 14px 34px color-mix(in srgb, var(--aeris-text, #222222) 10%, transparent);
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--aeris-text, #111111) 10%, transparent);
 }
 
 .aeris-toast__message[data-severity='primary'] {
@@ -328,13 +328,13 @@
 }
 
 .aeris-toast__message[data-severity='neutral'] {
-  --_accent: var(--aeris-text-2, #555555);
+  --_accent: var(--aeris-text-2, #454545);
 }
 
 .aeris-toast__message[data-severity='contrast'] {
-  --_accent: var(--aeris-text, #222222);
+  --_accent: var(--aeris-text, #111111);
   --_icon-color: var(--aeris-surface, #ffffff);
-  --_toast-surface: var(--aeris-text, #222222);
+  --_toast-surface: var(--aeris-text, #111111);
   --_toast-text: var(--aeris-surface, #ffffff);
   --_toast-detail: var(--aeris-surface, #ffffff);
 }
@@ -354,7 +354,7 @@
   height: var(--aeris-toast-icon-size, 1.25rem);
   display: block;
   border: 2px solid currentColor;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
 }
 
 .aeris-toast__default-icon::before,
@@ -369,7 +369,7 @@
   height: 0.4375rem;
   top: 0.5rem;
   left: 50%;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   transform: translateX(-50%);
 }
 
@@ -378,7 +378,7 @@
   height: 0.15625rem;
   top: 0.25rem;
   left: 50%;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   transform: translateX(-50%);
 }
 
@@ -409,7 +409,7 @@
   height: 0.125rem;
   top: 50%;
   left: 50%;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
 }
 
 .aeris-toast__message[data-severity='danger'] .aeris-toast__default-icon::before {
@@ -433,15 +433,15 @@
 
 .aeris-toast__summary {
   color: var(--_toast-text);
-  font-size: 0.875rem;
-  font-weight: 800;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   line-height: 1.35;
 }
 
 .aeris-toast__detail {
   color: var(--_toast-detail);
-  font-size: 0.8125rem;
-  line-height: 1.5;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
+  line-height: var(--aeris-line-height-normal, 1.5);
 }
 
 .aeris-toast__close {
@@ -451,7 +451,7 @@
   place-items: center;
   margin: -0.25rem -0.25rem 0 0;
   border: 0;
-  border-radius: var(--aeris-radius-sm, 0.5rem);
+  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: var(--_toast-detail);
   cursor: pointer;
@@ -466,8 +466,8 @@
 }
 
 .aeris-toast__close:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-toast__close span {
@@ -488,15 +488,15 @@
   display: inline-grid;
   place-items: center;
   padding: 0 0.35rem;
-  border: 1px solid var(--aeris-border, #deddd7);
-  border-radius: 999px;
+  border: 1px solid var(--aeris-border, #efefef);
+  border-radius: var(--aeris-radius-pill, 999px);
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   box-shadow:
     0 0 0 2px var(--aeris-surface, #fff),
-    var(--aeris-shadow-sm, 0 1px 2px rgb(31 35 27 / 6%));
-  font-size: 0.6875rem;
-  font-weight: 800;
+    var(--aeris-shadow-sm, 0 2px 5px rgb(0 0 0 / 14%));
+  font-size: var(--aeris-font-size-xs, 0.6875rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   pointer-events: none;
   translate: -50% -50%;
   transition:
@@ -509,7 +509,8 @@
 }
 
 .aeris-toast__overflow--leaving {
-  animation: aeris-toast-overflow-leave var(--aeris-motion-normal, 150ms) var(--aeris-ease-exit, ease-in) both;
+  animation: aeris-toast-overflow-leave var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-exit, ease-in) both;
 }
 
 .aeris-toast__region[data-position^='top'] .aeris-toast__overflow {

@@ -13,7 +13,7 @@
   display: grid;
   gap: var(--aeris-carousel-gap, calc(var(--aeris-density-gap, 0.5rem) * 1.5));
   min-inline-size: 0;
-  color: var(--aeris-carousel-color, var(--aeris-text, #222222));
+  color: var(--aeris-carousel-color, var(--aeris-text, #111111));
 }
 
 .aeris-carousel__header,
@@ -73,9 +73,9 @@
 }
 
 .aeris-carousel__viewport:focus-visible {
-  outline: 3px solid
+  outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
-  outline-offset: 2px;
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-carousel__track {
@@ -149,10 +149,10 @@
   flex: 0 0 auto;
   place-items: center;
   padding: 0;
-  border: 1px solid var(--aeris-carousel-navigator-border, var(--aeris-border, #deddd7));
+  border: 1px solid var(--aeris-carousel-navigator-border, var(--aeris-border, #efefef));
   border-radius: var(--aeris-carousel-navigator-radius, var(--aeris-radius-control, 0.6875rem));
   background: var(--aeris-carousel-navigator-background, var(--aeris-surface, #fff));
-  color: var(--aeris-carousel-navigator-color, var(--aeris-text, #222222));
+  color: var(--aeris-carousel-navigator-color, var(--aeris-text, #111111));
   cursor: pointer;
 }
 
@@ -160,7 +160,7 @@
   border-color: color-mix(
     in srgb,
     var(--aeris-primary, #{aeris-fallbacks.$primary}) 50%,
-    var(--aeris-border, #deddd7)
+    var(--aeris-border, #efefef)
   );
   background: color-mix(
     in srgb,
@@ -176,9 +176,9 @@
 
 .aeris-carousel__navigator:focus-visible,
 .aeris-carousel__indicators button:focus-visible {
-  outline: 3px solid
+  outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 25%, transparent);
-  outline-offset: 2px;
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-carousel__navigator span {
@@ -225,7 +225,7 @@
   padding: 0;
   border: 0;
   border-radius: var(--aeris-carousel-indicator-radius, 999px);
-  background: var(--aeris-carousel-indicator-background, var(--aeris-border, #deddd7));
+  background: var(--aeris-carousel-indicator-background, var(--aeris-border, #efefef));
   cursor: pointer;
   transition:
     inline-size var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),

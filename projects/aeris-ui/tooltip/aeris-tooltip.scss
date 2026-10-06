@@ -8,19 +8,19 @@
   max-width: var(--aeris-tooltip-max-width, 18rem);
   padding: var(--aeris-tooltip-padding, 0.45rem 0.625rem);
   border-radius: var(--aeris-tooltip-radius, var(--aeris-radius-sm, 0.4375rem));
-  background: var(--aeris-tooltip-background, var(--aeris-text, #222222));
+  background: var(--aeris-tooltip-background, var(--aeris-text, #111111));
   color: var(--aeris-tooltip-color, var(--aeris-surface, #fff));
   box-shadow: var(
     --aeris-tooltip-shadow,
-    0 12px 32px color-mix(in srgb, var(--aeris-text, #222222) 20%, transparent)
+    0 12px 32px color-mix(in srgb, var(--aeris-text, #111111) 20%, transparent)
   );
   font-size: var(--aeris-tooltip-font-size, 0.75rem);
-  font-weight: 650;
+  font-weight: var(--aeris-font-weight-bold, 700);
   line-height: 1.4;
   pointer-events: none;
   white-space: normal;
-  animation: aeris-overlay-enter var(--aeris-motion-fast, 100ms)
-    var(--aeris-ease-enter, ease-out) backwards;
+  animation: aeris-overlay-enter var(--aeris-motion-fast, 100ms) var(--aeris-ease-enter, ease-out)
+    backwards;
 }
 
 .aeris-tooltip__panel[data-position='top'] {

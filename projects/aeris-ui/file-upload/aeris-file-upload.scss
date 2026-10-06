@@ -1,6 +1,6 @@
 :host {
   display: block;
-  color: var(--aeris-file-upload-text, var(--aeris-text, #222222));
+  color: var(--aeris-file-upload-text, var(--aeris-text, #111111));
 }
 
 .aeris-file-upload__input {
@@ -23,7 +23,7 @@
     var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
   );
   background: var(--aeris-file-upload-background, var(--aeris-surface, #fff));
-  box-shadow: var(--aeris-file-upload-shadow, 0 1px 2px rgb(20 24 18 / 5%));
+  box-shadow: var(--aeris-file-upload-shadow, var(--aeris-shadow-xs, 0 1px 2px rgb(0 0 0 / 10%)));
 }
 
 .aeris-file-upload__basic {
@@ -52,8 +52,9 @@
 
 .aeris-file-upload__dropzone:focus-visible,
 .aeris-file-upload__remove:focus-visible {
-  outline: 2px solid var(--aeris-file-upload-focus, var(--aeris-focus, #7ca64f));
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(--aeris-file-upload-focus, var(--aeris-focus, #111111));
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-file-upload__dropzone:disabled,
@@ -72,8 +73,8 @@
 
 .aeris-file-upload__summary {
   color: var(--aeris-file-upload-muted-text, var(--aeris-text-3, #6f7667));
-  font-size: 0.8125rem;
-  font-weight: 650;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-file-upload__dropzone {
@@ -84,7 +85,7 @@
   gap: 0.45rem;
   margin: 0.875rem;
   padding: 1.5rem;
-  border: 1px dashed var(--aeris-file-upload-dropzone-border, var(--aeris-border, #d9ddcf));
+  border: 1px dashed var(--aeris-file-upload-dropzone-border, var(--aeris-border, #efefef));
   border-radius: var(
     --aeris-file-upload-dropzone-radius,
     var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
@@ -95,7 +96,7 @@
       color-mix(in srgb, var(--aeris-primary, #6f8f3d) 6%, transparent),
       transparent
     ),
-    var(--aeris-file-upload-dropzone-background, var(--aeris-surface-2, #f6f7f2));
+    var(--aeris-file-upload-dropzone-background, var(--aeris-surface-2, #f3f3f3));
   color: inherit;
   font: inherit;
   text-align: center;
@@ -123,15 +124,15 @@
 }
 
 .aeris-file-upload__drop-title {
-  font-size: 0.975rem;
-  font-weight: 800;
+  font-size: var(--aeris-font-size-2xl, 1rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-file-upload__drop-help,
 .aeris-file-upload__empty,
 .aeris-file-upload__file-size {
   color: var(--aeris-file-upload-muted-text, var(--aeris-text-3, #6f7667));
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-file-upload__list {
@@ -153,11 +154,11 @@
 }
 
 .aeris-file-upload__file[data-status='uploaded'] {
-  border-color: color-mix(in srgb, var(--aeris-success, #4f8f54) 34%, var(--aeris-border, #d9ddcf));
+  border-color: color-mix(in srgb, var(--aeris-success, #4f8f54) 34%, var(--aeris-border, #efefef));
 }
 
 .aeris-file-upload__file[data-status='error'] {
-  border-color: color-mix(in srgb, var(--aeris-danger, #c81e2a) 42%, var(--aeris-border, #d9ddcf));
+  border-color: color-mix(in srgb, var(--aeris-danger, #c81e2a) 42%, var(--aeris-border, #efefef));
 }
 
 .aeris-file-upload__preview,
@@ -170,15 +171,15 @@
 .aeris-file-upload__preview {
   display: block;
   object-fit: cover;
-  background: var(--aeris-surface-2, #f6f7f2);
+  background: var(--aeris-surface-2, #f3f3f3);
 }
 
 .aeris-file-upload__file-icon {
   position: relative;
   display: inline-grid;
   place-items: center;
-  border: 1px solid var(--aeris-file-upload-border, var(--aeris-border, #d9ddcf));
-  background: var(--aeris-surface-2, #f6f7f2);
+  border: 1px solid var(--aeris-file-upload-border, var(--aeris-border, #efefef));
+  background: var(--aeris-surface-2, #f3f3f3);
 }
 
 .aeris-file-upload__file-icon::before {
@@ -207,8 +208,8 @@
 .aeris-file-upload__file-name {
   min-width: 0;
   overflow: hidden;
-  color: var(--aeris-file-upload-text, var(--aeris-text, #222222));
-  font-weight: 800;
+  color: var(--aeris-file-upload-text, var(--aeris-text, #111111));
+  font-weight: var(--aeris-font-weight-bold, 700);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -216,13 +217,13 @@
 .aeris-file-upload__file-error {
   margin: 0;
   color: var(--aeris-danger-text, #a31722);
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-file-upload__progress {
   height: 0.45rem;
   overflow: hidden;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   background: color-mix(in srgb, var(--aeris-primary, #6f8f3d) 14%, transparent);
 }
 
@@ -241,15 +242,15 @@
   display: inline-grid;
   place-items: center;
   border: 1px solid transparent;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   background: transparent;
   color: var(--aeris-text-3, #6f7667);
   cursor: pointer;
 }
 
 .aeris-file-upload__remove:hover:not(:disabled) {
-  border-color: var(--aeris-file-upload-border, var(--aeris-border, #d9ddcf));
-  background: var(--aeris-surface-2, #f6f7f2);
+  border-color: var(--aeris-file-upload-border, var(--aeris-border, #efefef));
+  background: var(--aeris-surface-2, #f3f3f3);
   color: var(--aeris-danger-text, #a31722);
 }
 
@@ -271,7 +272,7 @@
   border-radius: var(--aeris-radius-md, 0.625rem);
   background: color-mix(in srgb, var(--aeris-danger, #c81e2a) 8%, transparent);
   color: var(--aeris-danger-text, #a31722);
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-file-upload__errors p {

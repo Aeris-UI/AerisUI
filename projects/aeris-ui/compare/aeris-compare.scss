@@ -25,8 +25,8 @@
     --aeris-compare-radius,
     var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
   );
-  background: var(--aeris-compare-background, var(--aeris-surface-2, #f2f0ec));
-  color: var(--aeris-compare-color, var(--aeris-text, #222222));
+  background: var(--aeris-compare-background, var(--aeris-surface-2, #f3f3f3));
+  color: var(--aeris-compare-color, var(--aeris-text, #111111));
   isolation: isolate;
   touch-action: pan-y;
   user-select: none;
@@ -75,10 +75,10 @@
   block-size: 100%;
   place-items: center;
   padding: var(--aeris-compare-empty-padding, 1.5rem);
-  background: var(--aeris-compare-empty-background, var(--aeris-surface-2, #f2f0ec));
-  color: var(--aeris-compare-muted-color, var(--aeris-text-2, #555555));
+  background: var(--aeris-compare-empty-background, var(--aeris-surface-2, #f3f3f3));
+  color: var(--aeris-compare-muted-color, var(--aeris-text-2, #454545));
   font: inherit;
-  font-weight: 700;
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-compare__layer--before .aeris-compare__empty {
@@ -195,7 +195,7 @@
   color: var(--aeris-compare-label-color, #fff);
   font: inherit;
   font-size: var(--aeris-compare-label-font-size, 0.75rem);
-  font-weight: 750;
+  font-weight: var(--aeris-font-weight-bold, 700);
   text-overflow: ellipsis;
   white-space: nowrap;
   pointer-events: none;
@@ -238,7 +238,7 @@
 }
 
 .aeris-compare:has(.aeris-compare__input:focus-visible) {
-  outline: 3px solid
+  outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
   outline-offset: var(--aeris-compare-focus-offset, 3px);
 }

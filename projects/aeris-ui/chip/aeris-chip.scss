@@ -7,7 +7,7 @@
 }
 
 :host(.aeris-chip) {
-  --_aeris-chip-accent: var(--aeris-text-2, #555555);
+  --_aeris-chip-accent: var(--aeris-text-2, #454545);
   --_aeris-chip-height: var(
     --aeris-chip-height,
     calc(var(--aeris-control-height, 2.625rem) - 0.5rem)
@@ -24,7 +24,7 @@
   border: 1px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
   background: color-mix(in srgb, var(--_aeris-chip-accent) 12%, var(--aeris-surface, #fff));
-  color: color-mix(in srgb, var(--_aeris-chip-accent) 76%, var(--aeris-text, #222222));
+  color: color-mix(in srgb, var(--_aeris-chip-accent) 76%, var(--aeris-text, #111111));
   font: inherit;
   font-size: var(--aeris-chip-font-size, 0.8125rem);
   font-weight: var(--aeris-chip-font-weight, 650);
@@ -59,7 +59,7 @@
 }
 
 :host(.aeris-chip[data-variant='outline']) {
-  border-color: color-mix(in srgb, var(--_aeris-chip-accent) 42%, var(--aeris-border, #deddd7));
+  border-color: color-mix(in srgb, var(--_aeris-chip-accent) 42%, var(--aeris-border, #efefef));
   background: transparent;
 }
 
@@ -155,8 +155,8 @@
 }
 
 .aeris-chip__remove:focus-visible {
-  outline: 2px solid var(--aeris-focus, #59674b);
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #111111);
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-chip__remove:disabled {

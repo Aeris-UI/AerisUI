@@ -294,6 +294,7 @@
   --aeris-font-size-lg: 0.875rem;
   --aeris-font-size-xl: 0.9375rem;
   --aeris-font-size-2xl: 1rem;
+  --aeris-font-size-3xl: 1.125rem;
   --aeris-line-height-tight: 1.25;
   --aeris-line-height-normal: 1.5;
   --aeris-line-height-relaxed: 1.65;
@@ -313,6 +314,16 @@
   --aeris-focus-ring-width: 3px;
   --aeris-focus-ring-offset: 2px;
   --aeris-focus-ring-color: color-mix(in srgb, var(--aeris-focus) 48%, transparent);
+  --aeris-control-hover-border: var(--aeris-primary);
+  --aeris-control-focus-border: var(--aeris-focus);
+  --aeris-control-focus-ring-color: var(--aeris-focus-ring-color);
+  --aeris-control-invalid-border: var(--aeris-danger);
+  --aeris-control-invalid-focus-ring-color: color-mix(
+    in srgb,
+    var(--aeris-danger) 32%,
+    transparent
+  );
+  --aeris-overlay-shadow: var(--aeris-shadow-lg);
 
   --aeris-radius-sm: 0.4375rem;
   --aeris-radius-md: 0.5625rem;
@@ -530,8 +541,8 @@
   .aeris-tree-select__panel
 )[data-positioned='true'],
 :where(.aeris-color-picker__panel)[data-positioned] {
-  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms)
-    var(--aeris-ease-enter, ease-out) backwards;
+  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out)
+    backwards;
   transform-origin: top center;
 }
 

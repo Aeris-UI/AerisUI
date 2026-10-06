@@ -20,7 +20,7 @@
 
   display: block;
   max-inline-size: 100%;
-  color: var(--aeris-menubar-color, var(--aeris-text, #222222));
+  color: var(--aeris-menubar-color, var(--aeris-text, #111111));
   font: inherit;
 }
 
@@ -101,18 +101,12 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto auto;
   align-items: center;
-  gap: var(
-    --aeris-menubar-item-gap,
-    var(--aeris-action-gap, var(--aeris-density-gap, 0.5rem))
-  );
+  gap: var(--aeris-menubar-item-gap, var(--aeris-action-gap, var(--aeris-density-gap, 0.5rem)));
   min-block-size: var(
     --aeris-menubar-item-height,
     var(--aeris-action-height, var(--aeris-control-height, 2.625rem))
   );
-  padding: var(
-    --aeris-menubar-item-padding,
-    0 var(--aeris-action-padding-inline, 1.0625rem)
-  );
+  padding: var(--aeris-menubar-item-padding, 0 var(--aeris-action-padding-inline, 1.0625rem));
   border: 1px solid transparent;
   border-radius: var(--_aeris-menubar-item-radius);
   background: transparent;
@@ -131,10 +125,7 @@
 }
 
 .aeris-menubar__submenu .aeris-menubar__item {
-  font-size: var(
-    --aeris-menubar-submenu-font-size,
-    var(--aeris-action-font-size, 0.8125rem)
-  );
+  font-size: var(--aeris-menubar-submenu-font-size, var(--aeris-action-font-size, 0.8125rem));
   font-weight: var(--aeris-menubar-submenu-font-weight, var(--aeris-action-font-weight, 600));
 }
 
@@ -152,9 +143,9 @@
 .aeris-menubar__item-shell[data-current='true'] > .aeris-menubar__item[data-variant='default'] {
   background: var(
     --aeris-menubar-item-hover-background,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
+    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
-  color: var(--aeris-menubar-item-hover-color, var(--aeris-text, #222222));
+  color: var(--aeris-menubar-item-hover-color, var(--aeris-text, #111111));
 }
 
 .aeris-menubar__item[data-severity='secondary'] {
@@ -162,8 +153,8 @@
   --_aeris-menubar-item-boundary: var(--aeris-secondary-boundary, var(--_aeris-menubar-item-fill));
   --_aeris-menubar-item-hover-fill: var(--aeris-secondary-hover, #75868e);
   --_aeris-menubar-item-active-fill: var(--aeris-secondary-active, #6b7b82);
-  --_aeris-menubar-item-text: var(--aeris-secondary-text, var(--aeris-text-2, #555555));
-  --_aeris-menubar-item-on-fill: var(--aeris-on-secondary, var(--aeris-text, #222222));
+  --_aeris-menubar-item-text: var(--aeris-secondary-text, var(--aeris-text-2, #454545));
+  --_aeris-menubar-item-on-fill: var(--aeris-on-secondary, var(--aeris-text, #111111));
   --_aeris-menubar-item-on-hover: var(
     --aeris-on-secondary-hover,
     var(--_aeris-menubar-item-on-fill)
@@ -260,11 +251,11 @@
 }
 
 .aeris-menubar__item[data-severity='contrast'] {
-  --_aeris-menubar-item-fill: var(--aeris-contrast, var(--aeris-text, #222222));
+  --_aeris-menubar-item-fill: var(--aeris-contrast, var(--aeris-text, #111111));
   --_aeris-menubar-item-boundary: var(--aeris-contrast-boundary, var(--_aeris-menubar-item-fill));
-  --_aeris-menubar-item-hover-fill: var(--aeris-contrast-hover, var(--aeris-text-2, #555555));
-  --_aeris-menubar-item-active-fill: var(--aeris-contrast-active, var(--aeris-text, #222222));
-  --_aeris-menubar-item-text: var(--aeris-contrast-text, var(--aeris-text, #222222));
+  --_aeris-menubar-item-hover-fill: var(--aeris-contrast-hover, var(--aeris-text-2, #454545));
+  --_aeris-menubar-item-active-fill: var(--aeris-contrast-active, var(--aeris-text, #111111));
+  --_aeris-menubar-item-text: var(--aeris-contrast-text, var(--aeris-text, #111111));
   --_aeris-menubar-item-on-fill: var(--aeris-on-contrast, var(--aeris-surface, #fff));
   --_aeris-menubar-item-on-hover: var(
     --aeris-on-contrast-hover,
@@ -287,12 +278,12 @@
 }
 
 .aeris-menubar__item[data-variant='secondary'] {
-  border-color: var(--aeris-border, #deddd7);
+  border-color: var(--aeris-border, #efefef);
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   box-shadow:
-    inset 0 0 0 1px var(--aeris-border, #deddd7),
-    var(--aeris-shadow-sm, 0 1px 2px rgb(31 35 27 / 6%));
+    inset 0 0 0 1px var(--aeris-border, #efefef),
+    var(--aeris-shadow-sm, 0 2px 5px rgb(0 0 0 / 14%));
 }
 
 .aeris-menubar__item[data-variant='outline'] {
@@ -316,7 +307,7 @@
   > .aeris-menubar__item:not([data-variant='default']) {
   background: var(--_aeris-menubar-item-soft);
   color: var(--_aeris-menubar-item-on-soft);
-  font-weight: 800;
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -328,7 +319,7 @@
 
   .aeris-menubar__item[data-variant='secondary']:hover,
   .aeris-menubar__item-shell[data-open='true'] > .aeris-menubar__item[data-variant='secondary'] {
-    background: var(--aeris-surface-2, #f2f0ec);
+    background: var(--aeris-surface-2, #f3f3f3);
   }
 
   .aeris-menubar__item[data-variant='outline']:hover,
@@ -357,13 +348,13 @@
 }
 
 .aeris-menubar__item:focus-visible {
-  outline: 3px solid
+  outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(
       in srgb,
       var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 44%,
       transparent
     );
-  outline-offset: 2px;
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-menubar__item:disabled,
@@ -386,9 +377,9 @@
 }
 
 .aeris-menubar__description {
-  color: var(--aeris-menubar-description-color, var(--aeris-text-2, #555555));
-  font-size: 0.75rem;
-  font-weight: 600;
+  color: var(--aeris-menubar-description-color, var(--aeris-text-2, #454545));
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-semibold, 600);
 }
 
 .aeris-menubar__icon,
@@ -436,8 +427,8 @@
     --aeris-menubar-badge-color,
     var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
   );
-  font-size: 0.72rem;
-  font-weight: 850;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   overflow: hidden;
   text-align: center;
   text-overflow: ellipsis;
@@ -445,10 +436,10 @@
 }
 
 .aeris-menubar__shortcut {
-  color: var(--aeris-menubar-shortcut-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-menubar-shortcut-color, var(--aeris-text-2, #454545));
   font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   white-space: nowrap;
 }
 
@@ -466,7 +457,10 @@
     var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
   );
   background: var(--aeris-menubar-submenu-background, var(--aeris-surface, #fff));
-  box-shadow: var(--aeris-menubar-submenu-shadow, 0 1.25rem 3rem rgba(0, 0, 0, 0.16));
+  box-shadow: var(
+    --aeris-menubar-submenu-shadow,
+    var(--aeris-overlay-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)))
+  );
 }
 
 .aeris-menubar__submenu .aeris-menubar__submenu {
@@ -501,18 +495,18 @@
 .aeris-menubar__toggle:hover {
   background: var(
     --aeris-menubar-item-hover-background,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
+    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
 }
 
 .aeris-menubar__toggle:focus-visible {
-  outline: 3px solid
+  outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(
       in srgb,
       var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 38%,
       transparent
     );
-  outline-offset: 2px;
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-menubar__toggle span,
@@ -546,16 +540,16 @@
 :host([data-size='sm']) {
   --aeris-menubar-item-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
   --aeris-menubar-item-padding: 0 0.8125rem;
-  --aeris-menubar-font-size: 0.75rem;
-  --aeris-menubar-submenu-font-size: 0.75rem;
+  --aeris-menubar-font-size: var(--aeris-font-size-sm, 0.75rem);
+  --aeris-menubar-submenu-font-size: var(--aeris-font-size-sm, 0.75rem);
   --aeris-menubar-icon-size: var(--aeris-icon-size, 1rem);
 }
 
 :host([data-size='lg']) {
   --aeris-menubar-item-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
   --aeris-menubar-item-padding: 0 1.3125rem;
-  --aeris-menubar-font-size: 0.875rem;
-  --aeris-menubar-submenu-font-size: 0.875rem;
+  --aeris-menubar-font-size: var(--aeris-font-size-lg, 0.875rem);
+  --aeris-menubar-submenu-font-size: var(--aeris-font-size-lg, 0.875rem);
   --aeris-menubar-icon-size: var(--aeris-icon-size, 1rem);
 }
 

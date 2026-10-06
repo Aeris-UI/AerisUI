@@ -11,10 +11,10 @@
   --_trigger-padding-inline: 1rem;
   --_panel-padding-block: 0 1.125rem;
   --_panel-padding-inline: 1rem;
-  --_font-size: 0.875rem;
+  --_font-size: var(--aeris-font-size-lg, 0.875rem);
   display: block;
   min-width: 0;
-  color: var(--aeris-accordion-color, var(--aeris-text, #222222));
+  color: var(--aeris-accordion-color, var(--aeris-text, #111111));
 }
 
 :host([data-size='sm']) {
@@ -23,7 +23,7 @@
   --_trigger-padding-inline: 0.75rem;
   --_panel-padding-block: 0 0.875rem;
   --_panel-padding-inline: 0.75rem;
-  --_font-size: 0.8125rem;
+  --_font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 :host([data-size='lg']) {
@@ -32,7 +32,7 @@
   --_trigger-padding-inline: 1.25rem;
   --_panel-padding-block: 0 1.35rem;
   --_panel-padding-inline: 1.25rem;
-  --_font-size: 0.9375rem;
+  --_font-size: var(--aeris-font-size-xl, 0.9375rem);
 }
 
 .aeris-accordion__panel-source {
@@ -69,10 +69,10 @@
   padding: var(--_trigger-padding-block) var(--_trigger-padding-inline);
   border: 0;
   background: transparent;
-  color: var(--aeris-accordion-trigger-color, var(--aeris-text, #222222));
+  color: var(--aeris-accordion-trigger-color, var(--aeris-text, #111111));
   font: inherit;
   font-size: var(--_font-size);
-  font-weight: 700;
+  font-weight: var(--aeris-font-weight-bold, 700);
   line-height: 1.35;
   text-align: left;
   cursor: pointer;
@@ -92,7 +92,8 @@
 .aeris-accordion__trigger:focus-visible {
   position: relative;
   z-index: 1;
-  outline: 2px solid var(--aeris-accordion-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(--aeris-accordion-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   outline-offset: -2px;
 }
 
@@ -112,7 +113,7 @@
   flex: 0 0 auto;
   display: inline-grid;
   place-items: center;
-  color: var(--aeris-accordion-icon-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-accordion-icon-color, var(--aeris-text-2, #454545));
 }
 
 .aeris-accordion__default-icon {
@@ -149,13 +150,14 @@
 .aeris-accordion__panel {
   min-width: 0;
   padding: var(--_panel-padding-block) var(--_panel-padding-inline);
-  color: var(--aeris-accordion-panel-color, var(--aeris-text-2, #555555));
-  font-size: 0.875rem;
+  color: var(--aeris-accordion-panel-color, var(--aeris-text-2, #454545));
+  font-size: var(--aeris-font-size-lg, 0.875rem);
   line-height: 1.6;
 }
 
 .aeris-accordion__panel:focus-visible {
-  outline: 2px solid var(--aeris-accordion-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(--aeris-accordion-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   outline-offset: -2px;
 }
 
@@ -174,7 +176,7 @@
     --aeris-accordion-radius,
     var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
   );
-  background: var(--aeris-accordion-filled-background, var(--aeris-surface-2, #f2f0ec));
+  background: var(--aeris-accordion-filled-background, var(--aeris-surface-2, #f3f3f3));
   overflow: hidden;
 }
 

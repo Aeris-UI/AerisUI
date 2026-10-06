@@ -8,7 +8,7 @@
 
   --_tab-height: 3rem;
   --_tab-padding: 1rem;
-  --_tab-font-size: 0.875rem;
+  --_tab-font-size: var(--aeris-font-size-lg, 0.875rem);
   display: block;
   min-width: 0;
 }
@@ -16,13 +16,13 @@
 :host([data-size='sm']) {
   --_tab-height: 2.25rem;
   --_tab-padding: 0.75rem;
-  --_tab-font-size: 0.75rem;
+  --_tab-font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 :host([data-size='lg']) {
   --_tab-height: 3.5rem;
   --_tab-padding: 1.25rem;
-  --_tab-font-size: 0.9375rem;
+  --_tab-font-size: var(--aeris-font-size-xl, 0.9375rem);
 }
 
 .aeris-tabs__header {
@@ -58,10 +58,10 @@
   border: 0;
   border-radius: var(--aeris-tabs-radius, var(--aeris-radius-control, 0.4375rem));
   background: transparent;
-  color: var(--aeris-tabs-text, var(--aeris-text-2, #555555));
+  color: var(--aeris-tabs-text, var(--aeris-text-2, #454545));
   font: inherit;
   font-size: var(--_tab-font-size);
-  font-weight: 600;
+  font-weight: var(--aeris-font-weight-semibold, 600);
   white-space: nowrap;
   cursor: pointer;
 }
@@ -72,7 +72,7 @@
   bottom: -1px;
   left: 0.75rem;
   height: 2px;
-  border-radius: 99px 99px 0 0;
+  border-radius: var(--aeris-radius-pill, 999px) var(--aeris-radius-pill, 999px) 0 0;
   background: transparent;
   content: '';
 }
@@ -98,7 +98,7 @@
 .aeris-tabs__list button:focus-visible,
 .aeris-tabs__scroll:focus-visible {
   z-index: 1;
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: -2px;
 }
 
@@ -109,7 +109,7 @@
   border-radius: calc(
     min(var(--aeris-tabs-radius, var(--aeris-radius-control, 0.4375rem)), 1rem) + 0.25rem
   );
-  background: var(--aeris-tabs-list-background, var(--aeris-surface-2, #f2f0ec));
+  background: var(--aeris-tabs-list-background, var(--aeris-surface-2, #f3f3f3));
 }
 
 :host([data-variant='pill']) .aeris-tabs__list button {
@@ -125,13 +125,13 @@
     --aeris-tabs-hover,
     color-mix(in srgb, var(--aeris-surface, #fff) 76%, transparent)
   );
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
 }
 
 :host([data-variant='pill']) .aeris-tabs__list button[aria-selected='true'] {
   background: var(--aeris-tabs-active-background, var(--aeris-surface, #fff));
   box-shadow: 0 1px 3px rgb(31 35 27 / 10%);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
 }
 
 :host([data-justify='center']) .aeris-tabs__list {
@@ -155,7 +155,7 @@
   border: 0;
   border-bottom: 1px solid var(--aeris-tabs-border, var(--aeris-border));
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   cursor: pointer;
 }
 

@@ -764,9 +764,11 @@ Prefer changing a foundation token at an application boundary over repeating com
 
 | Purpose | Tokens | Use |
 | --- | --- | --- |
-| Typography | --aeris-font-size-xs through --aeris-font-size-2xl, --aeris-line-height-*, --aeris-font-weight-* | Consistent labels, body copy, titles, and supporting text |
+| Typography | --aeris-font-size-xs through --aeris-font-size-3xl, --aeris-line-height-*, --aeris-font-weight-* | Consistent labels, body copy, titles, and supporting text |
 | Elevation | --aeris-shadow-xs, --aeris-shadow-sm, --aeris-shadow-md, --aeris-shadow-lg | Raised controls, surfaces, floating panels, and modal layers |
-| Focus | --aeris-focus-ring-width, --aeris-focus-ring-offset, --aeris-focus-ring-color | A consistent visible keyboard focus treatment |
+| Focus | --aeris-focus-ring-width, --aeris-focus-ring-offset, --aeris-focus-ring-color, --aeris-control-focus-border, --aeris-control-focus-ring-color | Consistent focus geometry and color across native and composite controls |
+| Control states | --aeris-control-hover-border, --aeris-control-invalid-border, --aeris-control-invalid-focus-ring-color | Shared hover and validation treatment for the complete form-control family |
+| Floating surfaces | --aeris-overlay-shadow | One elevation alias for menus, pickers, popovers, and other anchored panels |
 | Motion | --aeris-motion-instant through --aeris-motion-emphasized, --aeris-motion-distance, --aeris-motion-scale, --aeris-ease-* | Short, restrained state and overlay transitions |
 
 #### Tune motion without fragmenting it
