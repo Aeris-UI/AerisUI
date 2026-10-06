@@ -66,9 +66,9 @@
   outline: 0;
   box-shadow: none;
   transition:
-    border-color 150ms ease,
-    background-color 150ms ease,
-    box-shadow 150ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-auto-complete__input::placeholder {
@@ -192,7 +192,7 @@
   background: currentColor;
   content: '';
   transform: translate(-50%, -50%);
-  transition: transform 150ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
 }

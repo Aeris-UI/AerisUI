@@ -95,8 +95,8 @@
   outline: none;
   touch-action: none;
   transition:
-    background-color 140ms ease,
-    box-shadow 140ms ease;
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-splitter__gutter::before {
@@ -176,8 +176,8 @@
     color-mix(in srgb, var(--aeris-text, #222222) 28%, transparent)
   );
   transition:
-    background-color 140ms ease,
-    transform 140ms ease;
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 :host([data-orientation='horizontal'])

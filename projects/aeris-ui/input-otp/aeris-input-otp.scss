@@ -37,9 +37,9 @@
   text-align: center;
   caret-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
   transition:
-    border-color 120ms ease,
-    box-shadow 120ms ease,
-    background-color 120ms ease;
+    border-color var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-input-otp[data-fluid] .aeris-input-otp__slot {

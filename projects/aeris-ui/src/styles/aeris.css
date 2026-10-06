@@ -300,9 +300,13 @@
   --aeris-font-weight-medium: 500;
   --aeris-font-weight-semibold: 600;
   --aeris-font-weight-bold: 700;
+  --aeris-motion-instant: 0ms;
   --aeris-motion-fast: 100ms;
   --aeris-motion-normal: 150ms;
   --aeris-motion-slow: 220ms;
+  --aeris-motion-emphasized: 320ms;
+  --aeris-motion-distance: 0.25rem;
+  --aeris-motion-scale: 0.985;
   --aeris-ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --aeris-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
   --aeris-ease-exit: cubic-bezier(0.4, 0, 1, 1);
@@ -479,9 +483,83 @@
 
 @media (prefers-reduced-motion: reduce) {
   :root {
+    --aeris-motion-instant: 0ms;
     --aeris-motion-fast: 0.01ms;
     --aeris-motion-normal: 0.01ms;
     --aeris-motion-slow: 0.01ms;
+    --aeris-motion-emphasized: 0.01ms;
+    --aeris-motion-distance: 0px;
+    --aeris-motion-scale: 1;
+  }
+}
+
+@keyframes aeris-overlay-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(
+        var(--aeris-overlay-motion-x, 0),
+        var(--aeris-overlay-motion-y, calc(var(--aeris-motion-distance, 0.25rem) * -1)),
+        0
+      )
+      scale(var(--aeris-motion-scale, 0.985));
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes aeris-backdrop-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+:where(
+  .aeris-auto-complete__panel,
+  .aeris-cascade-select__panel,
+  .aeris-color-picker__panel,
+  .aeris-date-picker__panel,
+  .aeris-multi-select__panel,
+  .aeris-select__panel,
+  .aeris-tree-select__panel
+)[data-positioned='true'],
+:where(.aeris-color-picker__panel)[data-positioned] {
+  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out) backwards;
+  transform-origin: top center;
+}
+
+:where(
+  .aeris-auto-complete__panel,
+  .aeris-cascade-select__panel,
+  .aeris-color-picker__panel,
+  .aeris-date-picker__panel,
+  .aeris-multi-select__panel,
+  .aeris-select__panel,
+  .aeris-tree-select__panel
+)[data-placement='top'] {
+  --aeris-overlay-motion-y: var(--aeris-motion-distance, 0.25rem);
+
+  transform-origin: bottom center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(
+    .aeris-auto-complete__panel,
+    .aeris-cascade-select__panel,
+    .aeris-color-picker__panel,
+    .aeris-date-picker__panel,
+    .aeris-multi-select__panel,
+    .aeris-select__panel,
+    .aeris-tree-select__panel
+  )[data-positioned] {
+    animation: none;
   }
 }
 

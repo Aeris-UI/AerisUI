@@ -93,7 +93,7 @@
   background: currentColor;
   content: '';
   transform: translate(-50%, -50%);
-  transition: transform 160ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
 }
@@ -117,7 +117,7 @@
   border-radius: var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem));
   background: var(--aeris-surface, #fff);
   box-shadow: 0 0.75rem 2rem rgb(25 29 22 / 18%);
-  animation: aeris-split-button-menu-in 140ms ease both;
+  animation: aeris-split-button-menu-in var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease) both;
 }
 
 .aeris-split-button__item {

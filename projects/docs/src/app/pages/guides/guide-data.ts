@@ -988,12 +988,52 @@ export const appConfig: ApplicationConfig = {
             ],
             [
               'Motion',
-              '--aeris-motion-fast, --aeris-motion-normal, --aeris-motion-slow, --aeris-ease-*',
+              '--aeris-motion-instant through --aeris-motion-emphasized, --aeris-motion-distance, --aeris-motion-scale, --aeris-ease-*',
               'Short, restrained state and overlay transitions',
             ],
           ],
         },
         note: 'The four shadow values can also be configured per light or dark scheme through shadowXs, shadowSm, shadowMd, and shadowLg.',
+      },
+      {
+        id: 'motion',
+        title: 'Tune motion without fragmenting it',
+        paragraphs: [
+          'Aeris uses one motion scale for direct feedback, ordinary state changes, overlays, disclosures, and larger spatial changes. Override these shared values when a product needs a different pace instead of changing individual component transitions.',
+          'Movement stays close to its point of origin: anchored panels reveal toward their trigger, drawers follow their edge, and state transitions avoid unnecessary travel. Aeris automatically reduces shared durations and removes overlay travel when the operating system requests reduced motion.',
+        ],
+        code: [
+          source(
+            'CSS',
+            'CSS',
+            `:root {
+  --aeris-motion-fast: 90ms;
+  --aeris-motion-normal: 140ms;
+  --aeris-motion-slow: 210ms;
+  --aeris-motion-emphasized: 300ms;
+  --aeris-motion-distance: 0.2rem;
+  --aeris-motion-scale: 0.99;
+  --aeris-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --aeris-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --aeris-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+}`,
+          ),
+        ],
+        table: {
+          caption: 'Shared Aeris motion roles',
+          columns: ['Role', 'Default token', 'Typical use'],
+          rows: [
+            ['Immediate', '--aeris-motion-instant', 'Changes that must not interpolate'],
+            ['Fast', '--aeris-motion-fast', 'Press feedback, checks, and small indicators'],
+            ['Normal', '--aeris-motion-normal', 'Hover, focus, and floating-panel reveals'],
+            ['Slow', '--aeris-motion-slow', 'Disclosure, drawer, and dialog movement'],
+            ['Emphasized', '--aeris-motion-emphasized', 'Larger spatial or progress changes'],
+            ['Distance', '--aeris-motion-distance', 'The short travel used by floating surfaces'],
+            ['Scale', '--aeris-motion-scale', 'The subtle starting scale used by floating surfaces'],
+            ['Easing', '--aeris-ease-standard, --aeris-ease-enter, --aeris-ease-exit', 'State, arrival, and departure curves'],
+          ],
+        },
+        note: 'Continuous activity such as indeterminate progress and loading spinners keeps a component-specific duration. Disable those features when motion is not appropriate; reduced-motion preferences stop or simplify them where necessary.',
       },
       {
         id: 'palette',

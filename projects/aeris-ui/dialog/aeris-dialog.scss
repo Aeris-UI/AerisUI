@@ -19,6 +19,8 @@
     calc(var(--aeris-dialog-viewport-padding, 1.25rem) + var(--aeris-safe-area-bottom, 0px))
     calc(var(--aeris-dialog-viewport-padding, 1.25rem) + var(--aeris-safe-area-left, 0px));
   pointer-events: auto;
+  animation: aeris-backdrop-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out) backwards;
 }
 
 .aeris-dialog__overlay[data-backdrop] {
@@ -86,6 +88,44 @@
   box-shadow: var(--aeris-dialog-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)));
   overflow: hidden;
   transform: translate(var(--aeris-dialog-drag-x, 0), var(--aeris-dialog-drag-y, 0));
+  animation: aeris-dialog-enter var(--aeris-motion-slow, 220ms)
+    var(--aeris-ease-enter, ease-out) backwards;
+}
+
+.aeris-dialog__overlay[data-position='top'] .aeris-dialog__panel,
+.aeris-dialog__overlay[data-position='top-left'] .aeris-dialog__panel,
+.aeris-dialog__overlay[data-position='top-right'] .aeris-dialog__panel {
+  --aeris-overlay-motion-y: var(--aeris-motion-distance, 0.25rem);
+}
+
+.aeris-dialog__overlay[data-position='left'] .aeris-dialog__panel {
+  --aeris-overlay-motion-x: var(--aeris-motion-distance, 0.25rem);
+  --aeris-overlay-motion-y: 0;
+}
+
+.aeris-dialog__overlay[data-position='right'] .aeris-dialog__panel {
+  --aeris-overlay-motion-x: calc(var(--aeris-motion-distance, 0.25rem) * -1);
+  --aeris-overlay-motion-y: 0;
+}
+
+@keyframes aeris-dialog-enter {
+  from {
+    opacity: 0;
+    transform: translate(
+        calc(var(--aeris-dialog-drag-x, 0px) + var(--aeris-overlay-motion-x, 0px)),
+        calc(
+          var(--aeris-dialog-drag-y, 0px) +
+            var(--aeris-overlay-motion-y, calc(var(--aeris-motion-distance, 0.25rem) * -1))
+        )
+      )
+      scale(var(--aeris-motion-scale, 0.985));
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(var(--aeris-dialog-drag-x, 0px), var(--aeris-dialog-drag-y, 0px))
+      scale(1);
+  }
 }
 
 .aeris-dialog__panel:focus-visible {
@@ -300,7 +340,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aeris-dialog__panel,
+  .aeris-dialog__overlay,
+  .aeris-dialog__panel {
+    animation: none;
+  }
+
   .aeris-dialog__action {
     transition: none;
   }

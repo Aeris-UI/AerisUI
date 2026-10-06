@@ -253,8 +253,8 @@
   overflow: hidden;
   pointer-events: auto;
   transition:
-    box-shadow 160ms ease,
-    border-color 160ms ease;
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-toast__region[data-stack-width] .aeris-toast__message {
@@ -456,8 +456,8 @@
   color: var(--_toast-detail);
   cursor: pointer;
   transition:
-    background-color 160ms ease,
-    color 160ms ease;
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-toast__close:hover {
@@ -500,8 +500,8 @@
   pointer-events: none;
   translate: -50% -50%;
   transition:
-    opacity 150ms ease,
-    transform 150ms ease;
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-toast__overflow--entering {
@@ -509,7 +509,7 @@
 }
 
 .aeris-toast__overflow--leaving {
-  animation: aeris-toast-overflow-leave 160ms ease-in both;
+  animation: aeris-toast-overflow-leave var(--aeris-motion-normal, 150ms) var(--aeris-ease-exit, ease-in) both;
 }
 
 .aeris-toast__region[data-position^='top'] .aeris-toast__overflow {

@@ -33,9 +33,9 @@
   appearance: none;
   -webkit-tap-highlight-color: transparent;
   transition:
-    border-color 150ms,
-    background-color 150ms,
-    box-shadow 150ms;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-inplace__display:hover:not(:disabled) {
@@ -75,7 +75,7 @@
     --aeris-inplace-content-shadow,
     var(--aeris-shadow-sm, 0 1px 2px rgb(31 35 27 / 6%))
   );
-  animation: aeris-inplace-enter 160ms ease-out;
+  animation: aeris-inplace-enter var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out);
 }
 
 .aeris-inplace__body {

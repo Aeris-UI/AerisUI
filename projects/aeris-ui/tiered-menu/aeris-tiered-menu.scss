@@ -40,17 +40,16 @@ aeris-tiered-menu,
   inset-inline-start: 0;
   z-index: var(--aeris-tiered-menu-z-index, 1060);
   max-inline-size: var(--aeris-tiered-menu-max-width, min(22rem, calc(100vw - 1rem)));
-  opacity: 0;
-  transform: translateY(-0.25rem) scale(0.985);
   transform-origin: top left;
 }
 
 .aeris-tiered-menu__panel[data-positioned='true'] {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition:
-    opacity 140ms ease,
-    transform 140ms ease;
+  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out) backwards;
+}
+
+.aeris-tiered-menu__panel[data-placement='top'] {
+  --aeris-overlay-motion-y: var(--aeris-motion-distance, 0.25rem);
 }
 
 .aeris-tiered-menu__list {
@@ -245,6 +244,6 @@ aeris-tiered-menu,
 
 @media (prefers-reduced-motion: reduce) {
   .aeris-tiered-menu__panel[data-positioned='true'] {
-    transition: none;
+    animation: none;
   }
 }

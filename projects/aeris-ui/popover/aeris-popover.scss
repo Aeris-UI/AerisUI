@@ -27,18 +27,13 @@
   background: var(--aeris-popover-background, var(--aeris-surface, #fff));
   color: var(--aeris-popover-color, var(--aeris-text, #222222));
   box-shadow: var(--aeris-popover-shadow, var(--_aeris-popover-shadow));
-  opacity: 0;
   pointer-events: auto;
-  transform: translateY(0.25rem) scale(0.98);
   transform-origin: var(--_aeris-popover-origin, top center);
-  transition:
-    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out),
-    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out);
 }
 
 .aeris-popover__layer[data-positioned='true'] .aeris-popover__panel {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out) backwards;
 }
 
 .aeris-popover__panel:focus {
@@ -60,10 +55,13 @@
 
 .aeris-popover__panel[data-placement='top'] {
   --_aeris-popover-origin: bottom center;
+  --aeris-overlay-motion-y: var(--aeris-motion-distance, 0.25rem);
 }
 
 .aeris-popover__panel[data-placement='right'] {
   --_aeris-popover-origin: left center;
+  --aeris-overlay-motion-x: calc(var(--aeris-motion-distance, 0.25rem) * -1);
+  --aeris-overlay-motion-y: 0;
 }
 
 .aeris-popover__panel[data-placement='bottom'] {
@@ -72,6 +70,8 @@
 
 .aeris-popover__panel[data-placement='left'] {
   --_aeris-popover-origin: right center;
+  --aeris-overlay-motion-x: var(--aeris-motion-distance, 0.25rem);
+  --aeris-overlay-motion-y: 0;
 }
 
 .aeris-popover__arrow {
@@ -180,7 +180,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .aeris-popover__panel {
-    transition: none;
+    animation: none;
   }
 }
 

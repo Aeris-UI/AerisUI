@@ -47,10 +47,10 @@ button {
   font-weight: 700;
   cursor: pointer;
   transition:
-    border-color 140ms ease,
-    background-color 140ms ease,
-    color 140ms ease,
-    transform 140ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 button:hover:not(:disabled) {

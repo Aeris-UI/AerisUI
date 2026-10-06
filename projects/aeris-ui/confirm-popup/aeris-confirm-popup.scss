@@ -30,18 +30,13 @@
   background: var(--aeris-confirm-popup-background, var(--aeris-surface, #fff));
   color: var(--aeris-confirm-popup-color, var(--aeris-text, #222222));
   box-shadow: var(--aeris-confirm-popup-shadow, var(--_aeris-confirm-popup-shadow));
-  opacity: 0;
   pointer-events: auto;
-  transform: translateY(0.25rem) scale(0.98);
   transform-origin: var(--_aeris-confirm-popup-origin, top center);
-  transition:
-    opacity 130ms ease,
-    transform 130ms ease;
 }
 
 .aeris-confirm-popup__layer[data-positioned='true'] .aeris-confirm-popup__panel {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out) backwards;
 }
 
 .aeris-confirm-popup__panel:focus {
@@ -55,10 +50,13 @@
 
 .aeris-confirm-popup__panel[data-placement='top'] {
   --_aeris-confirm-popup-origin: bottom center;
+  --aeris-overlay-motion-y: var(--aeris-motion-distance, 0.25rem);
 }
 
 .aeris-confirm-popup__panel[data-placement='right'] {
   --_aeris-confirm-popup-origin: left center;
+  --aeris-overlay-motion-x: calc(var(--aeris-motion-distance, 0.25rem) * -1);
+  --aeris-overlay-motion-y: 0;
 }
 
 .aeris-confirm-popup__panel[data-placement='bottom'] {
@@ -67,6 +65,8 @@
 
 .aeris-confirm-popup__panel[data-placement='left'] {
   --_aeris-confirm-popup-origin: right center;
+  --aeris-overlay-motion-x: var(--aeris-motion-distance, 0.25rem);
+  --aeris-overlay-motion-y: 0;
 }
 
 .aeris-confirm-popup__arrow {
@@ -191,7 +191,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .aeris-confirm-popup__panel {
-    transition: none;
+    animation: none;
   }
 }
 

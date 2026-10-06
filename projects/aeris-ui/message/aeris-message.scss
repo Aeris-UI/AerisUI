@@ -22,12 +22,12 @@
   font-size: 0.875rem;
   line-height: 1.45;
   transition:
-    background-color 150ms ease,
-    border-color 150ms ease,
-    box-shadow 150ms ease,
-    color 150ms ease,
-    opacity 150ms ease,
-    transform 150ms ease;
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 :host(:not([data-visible])) {

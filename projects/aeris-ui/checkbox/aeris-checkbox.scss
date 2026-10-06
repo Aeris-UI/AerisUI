@@ -53,9 +53,9 @@
   background: var(--aeris-surface, #fff);
   color: var(--aeris-on-primary, #{aeris-fallbacks.$on-primary});
   transition:
-    background-color 150ms,
-    border-color 150ms,
-    box-shadow 150ms;
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-checkbox__icon {
@@ -79,7 +79,7 @@
   height: 72%;
   opacity: 0;
   transform: scale(0.7);
-  transition: opacity 120ms, transform 120ms;
+  transition: opacity var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease), transform var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-checkbox__check-mark {

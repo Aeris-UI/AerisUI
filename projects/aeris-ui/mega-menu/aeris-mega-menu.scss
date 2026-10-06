@@ -151,7 +151,7 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2;
-  transition: transform 140ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-mega-menu__root-item[data-open='true'] .aeris-mega-menu__chevron {

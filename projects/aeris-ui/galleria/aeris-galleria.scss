@@ -235,9 +235,9 @@
   cursor: pointer;
   isolation: isolate;
   transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease;
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-galleria__grid-item:hover {
@@ -406,10 +406,10 @@
   backdrop-filter: blur(0.75rem);
   cursor: pointer;
   transition:
-    opacity 180ms ease,
-    transform 180ms ease,
-    background-color 180ms ease,
-    border-color 180ms ease;
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-galleria__navigator {
@@ -565,7 +565,7 @@
   gap: var(--aeris-galleria-thumbnail-gap, var(--aeris-density-gap, 0.5rem));
   justify-content: center;
   min-inline-size: 0;
-  animation: aeris-galleria-thumbnails-enter 220ms ease-out;
+  animation: aeris-galleria-thumbnails-enter var(--aeris-motion-slow, 220ms) var(--aeris-ease-enter, ease-out);
 }
 
 .aeris-galleria__thumbnails[data-orientation='vertical'] .aeris-galleria__thumbnail-track {
@@ -600,10 +600,10 @@
   cursor: pointer;
   opacity: 0.68;
   transition:
-    opacity 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease,
-    transform 180ms ease;
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-galleria__thumbnail[aria-current='true'] {
@@ -733,8 +733,8 @@
   background: var(--aeris-galleria-indicator-background, var(--aeris-border, #deddd7));
   cursor: pointer;
   transition:
-    inline-size 180ms ease,
-    background-color 180ms ease;
+    inline-size var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-galleria__indicators--overlay button {

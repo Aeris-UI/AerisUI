@@ -125,9 +125,9 @@
   text-decoration: none;
   cursor: pointer;
   transition:
-    background-color 150ms,
-    color 150ms,
-    box-shadow 150ms;
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-menubar__submenu .aeris-menubar__item {
@@ -412,7 +412,7 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2;
-  transition: transform 140ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-menubar__item-shell[data-open='true']

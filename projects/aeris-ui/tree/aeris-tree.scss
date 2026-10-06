@@ -248,7 +248,7 @@
   background: currentColor;
   content: '';
   transform: translate(-50%, -50%) rotate(-90deg);
-  transition: transform 140ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
 }

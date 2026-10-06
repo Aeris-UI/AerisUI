@@ -176,9 +176,9 @@ svg.aeris-input-group__addon {
   font: inherit;
   font-size: var(--aeris-input-group-font-size);
   transition:
-    border-color 150ms ease,
-    background-color 150ms ease,
-    box-shadow 150ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-input-group > input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),

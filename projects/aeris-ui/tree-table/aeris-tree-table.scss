@@ -223,8 +223,8 @@ td[data-editable='true'] {
   padding-inline-end: calc(var(--aeris-tree-table-cell-padding-x) + 1.1rem);
   cursor: text;
   transition:
-    background-color 140ms ease,
-    box-shadow 140ms ease;
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 td[data-editable='true']::after {
@@ -239,8 +239,8 @@ td[data-editable='true']::after {
   opacity: 0.42;
   transform: translateY(-50%);
   transition:
-    color 140ms ease,
-    opacity 140ms ease;
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--aeris-icon-edit) center / 100% 100% no-repeat;
   mask: var(--aeris-icon-edit) center / 100% 100% no-repeat;
 }
@@ -452,7 +452,7 @@ tbody tr[data-selected='true'] td[data-frozen='true'] {
   border-radius: var(--aeris-radius-pill, 999px);
   background: transparent;
   content: '';
-  transition: background-color 120ms ease;
+  transition: background-color var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
 }
 
 th[data-resizing-column],
@@ -543,7 +543,7 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
   background: currentColor;
   content: '';
   transform: translate(-50%, -50%) rotate(-90deg);
-  transition: transform 140ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
 }

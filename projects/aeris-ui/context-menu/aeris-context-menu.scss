@@ -32,18 +32,13 @@ aeris-context-menu {
   background: var(--aeris-context-menu-background, var(--aeris-surface, #fff));
   color: var(--aeris-context-menu-color, var(--aeris-text, #222222));
   box-shadow: var(--aeris-context-menu-shadow, 0 1.25rem 3.5rem rgba(0, 0, 0, 0.18));
-  opacity: 0;
   pointer-events: auto;
-  transform: translateY(-0.25rem) scale(0.985);
   transform-origin: top left;
 }
 
 .aeris-context-menu__panel[data-positioned='true'] {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition:
-    opacity 140ms ease,
-    transform 140ms ease;
+  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out) backwards;
 }
 
 .aeris-context-menu__list {
@@ -231,6 +226,6 @@ aeris-context-menu {
 
 @media (prefers-reduced-motion: reduce) {
   .aeris-context-menu__panel[data-positioned='true'] {
-    transition: none;
+    animation: none;
   }
 }

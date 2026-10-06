@@ -67,8 +67,8 @@
   text-align: left;
   cursor: pointer;
   transition:
-    border-color 150ms ease,
-    box-shadow 150ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-date-picker__control:has(.aeris-date-picker__clear) .aeris-date-picker__trigger {

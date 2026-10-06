@@ -15,7 +15,7 @@
   display: grid;
   opacity: 1;
   pointer-events: auto;
-  transition: opacity 180ms ease;
+  transition: opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-drawer__overlay[data-state='closed'] {
@@ -68,8 +68,8 @@
   opacity: 1;
   transform: translate3d(0, 0, 0);
   transition:
-    transform 220ms cubic-bezier(0.2, 0, 0, 1),
-    opacity 180ms ease;
+    transform var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, ease),
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   will-change: transform;
 }
 

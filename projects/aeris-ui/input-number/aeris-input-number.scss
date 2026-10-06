@@ -41,9 +41,9 @@
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
   transition:
-    border-color 150ms,
-    background-color 150ms,
-    box-shadow 150ms;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-input-number__field:hover {
@@ -175,9 +175,9 @@
   color: var(--aeris-text, #222222);
   cursor: pointer;
   transition:
-    background-color 150ms,
-    border-color 150ms,
-    color 150ms;
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-input-number__button:hover:not(:disabled) {

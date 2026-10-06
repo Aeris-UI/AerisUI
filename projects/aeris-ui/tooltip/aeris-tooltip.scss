@@ -19,6 +19,22 @@
   line-height: 1.4;
   pointer-events: none;
   white-space: normal;
+  animation: aeris-overlay-enter var(--aeris-motion-fast, 100ms)
+    var(--aeris-ease-enter, ease-out) backwards;
+}
+
+.aeris-tooltip__panel[data-position='top'] {
+  --aeris-overlay-motion-y: var(--aeris-motion-distance, 0.25rem);
+}
+
+.aeris-tooltip__panel[data-position='left'] {
+  --aeris-overlay-motion-x: var(--aeris-motion-distance, 0.25rem);
+  --aeris-overlay-motion-y: 0;
+}
+
+.aeris-tooltip__panel[data-position='right'] {
+  --aeris-overlay-motion-x: calc(var(--aeris-motion-distance, 0.25rem) * -1);
+  --aeris-overlay-motion-y: 0;
 }
 
 .aeris-tooltip__panel[data-interactive='true'] {
@@ -55,6 +71,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .aeris-tooltip__panel {
-    transition: none;
+    animation: none;
   }
 }

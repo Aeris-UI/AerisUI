@@ -21,9 +21,9 @@
   background: var(--aeris-surface);
   box-shadow: var(--aeris-shadow-xs, 0 1px 2px rgb(15 23 42 / 0.05));
   transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease,
-    background 160ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-editor[data-fluid] {
@@ -84,9 +84,9 @@
   font-weight: 700;
   cursor: pointer;
   transition:
-    background 140ms ease,
-    color 140ms ease,
-    box-shadow 140ms ease;
+    background var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-editor__toolbar button:hover:not(:disabled),

@@ -767,7 +767,42 @@ Prefer changing a foundation token at an application boundary over repeating com
 | Typography | --aeris-font-size-xs through --aeris-font-size-2xl, --aeris-line-height-*, --aeris-font-weight-* | Consistent labels, body copy, titles, and supporting text |
 | Elevation | --aeris-shadow-xs, --aeris-shadow-sm, --aeris-shadow-md, --aeris-shadow-lg | Raised controls, surfaces, floating panels, and modal layers |
 | Focus | --aeris-focus-ring-width, --aeris-focus-ring-offset, --aeris-focus-ring-color | A consistent visible keyboard focus treatment |
-| Motion | --aeris-motion-fast, --aeris-motion-normal, --aeris-motion-slow, --aeris-ease-* | Short, restrained state and overlay transitions |
+| Motion | --aeris-motion-instant through --aeris-motion-emphasized, --aeris-motion-distance, --aeris-motion-scale, --aeris-ease-* | Short, restrained state and overlay transitions |
+
+#### Tune motion without fragmenting it
+
+Aeris uses one motion scale for direct feedback, ordinary state changes, overlays, disclosures, and larger spatial changes. Override these shared values when a product needs a different pace instead of changing individual component transitions.
+
+Movement stays close to its point of origin: anchored panels reveal toward their trigger, drawers follow their edge, and state transitions avoid unnecessary travel. Aeris automatically reduces shared durations and removes overlay travel when the operating system requests reduced motion.
+
+> Note: Continuous activity such as indeterminate progress and loading spinners keeps a component-specific duration. Disable those features when motion is not appropriate; reduced-motion preferences stop or simplify them where necessary.
+
+| Role | Default token | Typical use |
+| --- | --- | --- |
+| Immediate | --aeris-motion-instant | Changes that must not interpolate |
+| Fast | --aeris-motion-fast | Press feedback, checks, and small indicators |
+| Normal | --aeris-motion-normal | Hover, focus, and floating-panel reveals |
+| Slow | --aeris-motion-slow | Disclosure, drawer, and dialog movement |
+| Emphasized | --aeris-motion-emphasized | Larger spatial or progress changes |
+| Distance | --aeris-motion-distance | The short travel used by floating surfaces |
+| Scale | --aeris-motion-scale | The subtle starting scale used by floating surfaces |
+| Easing | --aeris-ease-standard, --aeris-ease-enter, --aeris-ease-exit | State, arrival, and departure curves |
+
+##### CSS
+
+```css
+:root {
+  --aeris-motion-fast: 90ms;
+  --aeris-motion-normal: 140ms;
+  --aeris-motion-slow: 210ms;
+  --aeris-motion-emphasized: 300ms;
+  --aeris-motion-distance: 0.2rem;
+  --aeris-motion-scale: 0.99;
+  --aeris-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --aeris-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --aeris-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+}
+```
 
 #### Create a palette
 

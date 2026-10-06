@@ -136,8 +136,8 @@
   -webkit-backdrop-filter: blur(0.5rem);
   backdrop-filter: blur(0.5rem);
   transition:
-    scale 160ms ease,
-    background-color 160ms ease;
+    scale var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 :host-context([dir='rtl']) .aeris-compare__handle {

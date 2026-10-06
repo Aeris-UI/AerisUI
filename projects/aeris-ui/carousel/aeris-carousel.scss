@@ -228,8 +228,8 @@
   background: var(--aeris-carousel-indicator-background, var(--aeris-border, #deddd7));
   cursor: pointer;
   transition:
-    inline-size 160ms ease,
-    background 160ms ease;
+    inline-size var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-carousel__indicators button[aria-current='page'] {

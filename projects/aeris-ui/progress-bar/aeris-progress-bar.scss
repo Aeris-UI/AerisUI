@@ -76,7 +76,7 @@
   min-inline-size: 0;
   border-radius: inherit;
   background: var(--aeris-progress-bar-fill, var(--_accent));
-  transition: inline-size 180ms ease;
+  transition: inline-size var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 :host([data-striped='true']) .aeris-progress-bar__fill {

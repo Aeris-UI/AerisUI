@@ -116,9 +116,9 @@
   transform: translate(-50%, -50%);
   cursor: grab;
   transition:
-    border-color 150ms ease,
-    box-shadow 150ms ease,
-    transform 150ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-slider__thumb--single {
@@ -184,7 +184,7 @@
   line-height: 1.2;
   opacity: 0;
   transform: translateX(-50%) translateY(0.2rem);
-  transition: opacity 120ms ease, transform 120ms ease;
+  transition: opacity var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease), transform var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
   pointer-events: none;
   white-space: nowrap;
 }

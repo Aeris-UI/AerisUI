@@ -72,9 +72,9 @@
   text-align: left;
   cursor: pointer;
   transition:
-    border-color 150ms ease,
-    background-color 150ms ease,
-    box-shadow 150ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-tree-select__control:has(.aeris-tree-select__clear) .aeris-tree-select__trigger {
@@ -146,7 +146,7 @@
   background: currentColor;
   content: '';
   transform: translate(-50%, -50%);
-  transition: transform 150ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
 }
@@ -384,7 +384,7 @@
   background: currentColor;
   content: '';
   transform: translate(-50%, -50%) rotate(-90deg);
-  transition: transform 150ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
 }
@@ -409,9 +409,9 @@
   background: var(--aeris-surface, #fff);
   color: var(--aeris-on-primary, #{aeris-fallbacks.$on-primary});
   transition:
-    background-color 150ms,
-    border-color 150ms,
-    box-shadow 150ms;
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-tree-select__node:not([data-disabled]):hover .aeris-tree-select__box {
@@ -430,8 +430,8 @@
   opacity: 0;
   transform: scale(0.7);
   transition:
-    opacity 120ms,
-    transform 120ms;
+    opacity var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-tree-select__box[data-checked]:not([data-mixed]) span {

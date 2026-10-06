@@ -75,7 +75,7 @@
   stroke: var(--aeris-progress-spinner-indicator, var(--_aeris-progress-spinner-color));
   transform: rotate(-90deg);
   transform-origin: center;
-  transition: stroke-dashoffset 180ms ease;
+  transition: stroke-dashoffset var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 :host([data-mode='indeterminate']) .aeris-progress-spinner__graphic {

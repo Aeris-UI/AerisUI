@@ -101,9 +101,9 @@
   text-align: center;
   cursor: pointer;
   transition:
-    border-color 160ms ease,
-    background 160ms ease,
-    transform 160ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-file-upload__dropzone[data-active='true'] {
@@ -231,7 +231,7 @@
   height: 100%;
   border-radius: inherit;
   background: var(--aeris-file-upload-progress-background, var(--aeris-primary, #6f8f3d));
-  transition: width 180ms ease;
+  transition: width var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-file-upload__remove {

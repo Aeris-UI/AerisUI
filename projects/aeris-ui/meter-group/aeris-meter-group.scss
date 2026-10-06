@@ -71,7 +71,7 @@
   overflow: hidden;
   background-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
   transform-origin: left center;
-  animation: aeris-meter-group-reveal-inline 320ms ease-out both;
+  animation: aeris-meter-group-reveal-inline var(--aeris-motion-emphasized, 320ms) var(--aeris-ease-enter, ease-out) both;
 }
 
 :host(:dir(rtl)) .aeris-meter-group__segment {

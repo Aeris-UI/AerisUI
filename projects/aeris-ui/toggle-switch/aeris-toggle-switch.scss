@@ -62,9 +62,9 @@
   );
   box-shadow: var(--aeris-toggle-switch-shadow, none);
   transition:
-    border-color 160ms ease,
-    background-color 160ms ease,
-    box-shadow 160ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-toggle-switch__thumb {
@@ -80,7 +80,7 @@
   background: var(--aeris-toggle-switch-thumb, var(--aeris-surface, #fff));
   box-shadow: 0 1px 3px rgb(24 29 22 / 28%);
   transform: translateX(0);
-  transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform var(--aeris-motion-slow, 220ms) var(--aeris-ease-enter, ease-out);
 }
 
 .aeris-toggle-switch:hover:not([data-disabled])

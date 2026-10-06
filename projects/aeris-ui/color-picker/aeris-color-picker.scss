@@ -136,7 +136,7 @@
   background: currentColor;
   content: '';
   transform: translate(-50%, -50%);
-  transition: transform 160ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--_aeris-color-picker-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-color-picker-chevron-mask) center / 100% 100% no-repeat;
 }
@@ -244,7 +244,6 @@
 }
 
 .aeris-color-picker__panel[data-positioned] {
-  animation: aeris-color-picker-panel-in 160ms ease-out;
   visibility: visible;
 }
 
@@ -532,18 +531,6 @@
 .aeris-color-picker[data-readonly] .aeris-color-picker__text,
 .aeris-color-picker[data-readonly] .aeris-color-picker__clear {
   cursor: not-allowed;
-}
-
-@keyframes aeris-color-picker-panel-in {
-  from {
-    opacity: 0;
-    transform: translateY(-0.25rem) scale(0.985);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
 }
 
 @media (max-width: 36rem) {

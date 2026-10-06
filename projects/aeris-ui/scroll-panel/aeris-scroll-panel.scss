@@ -183,7 +183,7 @@
   display: block;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 140ms ease;
+  transition: opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-scroll-panel__fade--top,
