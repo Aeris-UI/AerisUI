@@ -40,7 +40,7 @@ aeris-panel {
   border-color: var(--aeris-panel-elevated-border, transparent);
   box-shadow: var(
     --aeris-panel-elevated-shadow,
-    0 0.75rem 2rem color-mix(in srgb, var(--aeris-text, #222222) 10%, transparent)
+    var(--aeris-shadow-md, 0 8px 24px rgb(0 0 0 / 14%))
   );
 }
 
@@ -87,9 +87,9 @@ aeris-panel {
 .aeris-panel__title {
   min-inline-size: 0;
   color: var(--aeris-panel-title-color, var(--aeris-text, #222222));
-  font-size: var(--aeris-panel-title-size, 0.9375rem);
-  font-weight: 800;
-  line-height: 1.35;
+  font-size: var(--aeris-panel-title-size, var(--aeris-font-size-xl, 0.9375rem));
+  font-weight: var(--aeris-font-weight-bold, 700);
+  line-height: var(--aeris-line-height-tight, 1.25);
 }
 
 .aeris-panel__toggle {
@@ -121,13 +121,12 @@ aeris-panel {
 }
 
 .aeris-panel__toggle:focus-visible {
-  outline: 3px solid
-    color-mix(
-      in srgb,
-      var(--focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%,
-      transparent
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(
+      --aeris-focus-ring-color,
+      color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 48%, transparent)
     );
-  outline-offset: 0.25rem;
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-panel__toggle:disabled {
@@ -154,7 +153,7 @@ aeris-panel {
   stroke-linejoin: round;
   stroke-width: 2;
   transform-origin: center;
-  transition: transform 160ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-panel__toggle[aria-expanded='true'] .aeris-panel__toggle-icon svg {
@@ -172,7 +171,7 @@ aeris-panel {
 .aeris-panel__content-shell {
   display: grid;
   grid-template-rows: 1fr;
-  transition: grid-template-rows 180ms ease;
+  transition: grid-template-rows var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-panel[data-collapsed='true'] .aeris-panel__content-shell {
@@ -184,11 +183,11 @@ aeris-panel {
   overflow: hidden;
   padding: var(--_padding-block) var(--_padding-inline);
   color: var(--aeris-panel-content-color, var(--aeris-text-2, #555555));
-  font-size: var(--aeris-panel-content-size, 0.875rem);
-  line-height: 1.65;
+  font-size: var(--aeris-panel-content-size, var(--aeris-font-size-lg, 0.875rem));
+  line-height: var(--aeris-line-height-relaxed, 1.65);
   visibility: visible;
   transition:
-    padding-block 180ms ease,
+    padding-block var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, ease),
     visibility 0s linear;
 }
 

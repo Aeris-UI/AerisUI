@@ -73,6 +73,8 @@ export interface AerisThemeScheme {
   readonly focus?: string;
   readonly shadowXs?: string;
   readonly shadowSm?: string;
+  readonly shadowMd?: string;
+  readonly shadowLg?: string;
 }
 
 export type AerisDensityName = 'compact' | 'medium' | 'comfortable' | (string & {});
@@ -367,6 +369,8 @@ export const AERIS_THEME_PRESETS = {
       focus: '#111111',
       shadowXs: '0 1px 2px rgb(0 0 0 / 10%)',
       shadowSm: '0 2px 5px rgb(0 0 0 / 14%)',
+      shadowMd: '0 8px 24px rgb(0 0 0 / 14%)',
+      shadowLg: '0 18px 48px rgb(0 0 0 / 18%)',
       tones: {
         primary: AERIS_MONOCHROME_LIGHT_PRIMARY_TONE,
         secondary: AERIS_MONOCHROME_LIGHT_SECONDARY_TONE,
@@ -389,6 +393,8 @@ export const AERIS_THEME_PRESETS = {
       focus: '#ffffff',
       shadowXs: '0 1px 2px rgb(0 0 0 / 48%)',
       shadowSm: '0 2px 6px rgb(0 0 0 / 62%)',
+      shadowMd: '0 10px 28px rgb(0 0 0 / 58%)',
+      shadowLg: '0 20px 56px rgb(0 0 0 / 68%)',
       tones: {
         primary: AERIS_MONOCHROME_DARK_PRIMARY_TONE,
         secondary: AERIS_MONOCHROME_DARK_SECONDARY_TONE,

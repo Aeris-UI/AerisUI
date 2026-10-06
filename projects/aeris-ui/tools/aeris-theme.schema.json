@@ -112,7 +112,9 @@
         "borderStrong": { "$ref": "#/$defs/cssValue" },
         "focus": { "$ref": "#/$defs/cssValue" },
         "shadowXs": { "$ref": "#/$defs/cssValue" },
-        "shadowSm": { "$ref": "#/$defs/cssValue" }
+        "shadowSm": { "$ref": "#/$defs/cssValue" },
+        "shadowMd": { "$ref": "#/$defs/cssValue" },
+        "shadowLg": { "$ref": "#/$defs/cssValue" }
       }
     },
     "density": {

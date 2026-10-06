@@ -23,7 +23,7 @@
 
 .aeris-select {
   --aeris-select-height: var(--aeris-control-height, 2.625rem);
-  --aeris-select-font-size: 0.875rem;
+  --aeris-select-font-size: var(--aeris-font-size-lg, 0.875rem);
   --aeris-select-padding: var(--aeris-control-padding-x, 0.75rem);
   --aeris-select-density-gap: var(--aeris-density-gap, 0.5rem);
   --aeris-select-option-height: var(--aeris-item-height, 2.5rem);
@@ -36,19 +36,19 @@
 
 .aeris-select[data-size='xs'] {
   --aeris-select-height: 1.875rem;
-  --aeris-select-font-size: 0.75rem;
+  --aeris-select-font-size: var(--aeris-font-size-sm, 0.75rem);
   --aeris-select-padding: 0.5625rem;
 }
 
 .aeris-select[data-size='sm'] {
   --aeris-select-height: 2.25rem;
-  --aeris-select-font-size: 0.8125rem;
+  --aeris-select-font-size: var(--aeris-font-size-md, 0.8125rem);
   --aeris-select-padding: 0.6875rem;
 }
 
 .aeris-select[data-size='lg'] {
   --aeris-select-height: 3rem;
-  --aeris-select-font-size: 0.9375rem;
+  --aeris-select-font-size: var(--aeris-font-size-xl, 0.9375rem);
   --aeris-select-padding: 0.875rem;
 }
 
@@ -82,9 +82,9 @@
   text-align: left;
   cursor: pointer;
   transition:
-    border-color 150ms ease,
-    background-color 150ms ease,
-    box-shadow 150ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-select__control:has(.aeris-select__clear) .aeris-select__trigger {
@@ -113,11 +113,14 @@
 .aeris-select__trigger:focus-visible {
   outline: 0;
   border-color: var(--aeris-select-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));
-  box-shadow: 0 0 0 3px
-    color-mix(
-      in srgb,
-      var(--aeris-select-focus, var(--aeris-focus, #{aeris-fallbacks.$focus})) 22%,
-      transparent
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(
+      --aeris-focus-ring-color,
+      color-mix(
+        in srgb,
+        var(--aeris-select-focus, var(--aeris-focus, #{aeris-fallbacks.$focus})) 28%,
+        transparent
+      )
     );
 }
 
@@ -184,7 +187,7 @@
   background: currentColor;
   content: '';
   transform: translate(-50%, -50%);
-  transition: transform 150ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
 }
@@ -245,7 +248,10 @@
     var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
   );
   background: var(--aeris-select-panel-background, var(--aeris-surface, #fff));
-  box-shadow: var(--aeris-select-panel-shadow, 0 1rem 2.5rem rgb(31 35 27 / 16%));
+  box-shadow: var(
+    --aeris-select-panel-shadow,
+    var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%))
+  );
 }
 
 .aeris-select__filter-wrap {

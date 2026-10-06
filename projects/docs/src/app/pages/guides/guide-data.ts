@@ -904,7 +904,7 @@ export class SignalProfileForm {
               'CSS color',
             ],
             ['accent', 'Mode-specific decorative accent', 'CSS color'],
-            ['shadowXs, shadowSm', 'Mode-specific elevation', 'CSS shadow'],
+            ['shadowXs, shadowSm, shadowMd, shadowLg', 'Mode-specific elevation', 'CSS shadow'],
           ],
         },
         note: 'You do not need to configure every layer. Begin with a preset and add an override only when there is a clear product requirement.',
@@ -959,6 +959,41 @@ export const appConfig: ApplicationConfig = {
           ],
         },
         note: 'Spread a preset before adding density, radius, or scheme overrides; do not mutate the exported preset object. Supply a custom palette instead when the brand seeds need to change.',
+      },
+      {
+        id: 'visual-foundation',
+        title: 'Use the shared visual foundation',
+        paragraphs: [
+          'Aeris components share one compact foundation for typography, elevation, focus, and motion. These tokens keep controls and surfaces visually consistent and remain available for deliberate application-level customization.',
+          'Prefer changing a foundation token at an application boundary over repeating component-specific overrides. Reduced-motion preferences automatically collapse the shared motion durations while preserving state changes.',
+        ],
+        table: {
+          caption: 'Shared visual foundation tokens',
+          columns: ['Purpose', 'Tokens', 'Use'],
+          rows: [
+            [
+              'Typography',
+              '--aeris-font-size-xs through --aeris-font-size-2xl, --aeris-line-height-*, --aeris-font-weight-*',
+              'Consistent labels, body copy, titles, and supporting text',
+            ],
+            [
+              'Elevation',
+              '--aeris-shadow-xs, --aeris-shadow-sm, --aeris-shadow-md, --aeris-shadow-lg',
+              'Raised controls, surfaces, floating panels, and modal layers',
+            ],
+            [
+              'Focus',
+              '--aeris-focus-ring-width, --aeris-focus-ring-offset, --aeris-focus-ring-color',
+              'A consistent visible keyboard focus treatment',
+            ],
+            [
+              'Motion',
+              '--aeris-motion-fast, --aeris-motion-normal, --aeris-motion-slow, --aeris-ease-*',
+              'Short, restrained state and overlay transitions',
+            ],
+          ],
+        },
+        note: 'The four shadow values can also be configured per light or dark scheme through shadowXs, shadowSm, shadowMd, and shadowLg.',
       },
       {
         id: 'palette',

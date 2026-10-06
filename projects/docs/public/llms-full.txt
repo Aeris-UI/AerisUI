@@ -713,7 +713,7 @@ Start with the broadest decision and customize more narrowly only when the appli
 | text, text2, text3 | Neutral content hierarchy | CSS color |
 | border, borderStrong, focus | Quiet default boundaries, optional emphasized boundaries, and focus indication | CSS color |
 | accent | Mode-specific decorative accent | CSS color |
-| shadowXs, shadowSm | Mode-specific elevation | CSS shadow |
+| shadowXs, shadowSm, shadowMd, shadowLg | Mode-specific elevation | CSS shadow |
 
 #### Start with an Aeris theme
 
@@ -753,6 +753,21 @@ export const appConfig: ApplicationConfig = {
   ],
 };
 ```
+
+#### Use the shared visual foundation
+
+Aeris components share one compact foundation for typography, elevation, focus, and motion. These tokens keep controls and surfaces visually consistent and remain available for deliberate application-level customization.
+
+Prefer changing a foundation token at an application boundary over repeating component-specific overrides. Reduced-motion preferences automatically collapse the shared motion durations while preserving state changes.
+
+> Note: The four shadow values can also be configured per light or dark scheme through shadowXs, shadowSm, shadowMd, and shadowLg.
+
+| Purpose | Tokens | Use |
+| --- | --- | --- |
+| Typography | --aeris-font-size-xs through --aeris-font-size-2xl, --aeris-line-height-*, --aeris-font-weight-* | Consistent labels, body copy, titles, and supporting text |
+| Elevation | --aeris-shadow-xs, --aeris-shadow-sm, --aeris-shadow-md, --aeris-shadow-lg | Raised controls, surfaces, floating panels, and modal layers |
+| Focus | --aeris-focus-ring-width, --aeris-focus-ring-offset, --aeris-focus-ring-color | A consistent visible keyboard focus treatment |
+| Motion | --aeris-motion-fast, --aeris-motion-normal, --aeris-motion-slow, --aeris-ease-* | Short, restrained state and overlay transitions |
 
 #### Create a palette
 

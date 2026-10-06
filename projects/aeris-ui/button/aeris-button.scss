@@ -30,17 +30,20 @@
   text-decoration: none;
   cursor: pointer;
   transition:
-    background-color 150ms,
-    border-color 150ms,
-    color 150ms,
-    box-shadow 150ms,
-    transform 100ms;
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
 }
 
 :host(:focus-visible) {
-  outline: 3px solid
-    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 44%, transparent);
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(
+      --aeris-focus-ring-color,
+      color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 48%, transparent)
+    );
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 :host(:disabled),
@@ -53,7 +56,7 @@
   border-color: var(--_aeris-button-boundary);
   background: var(--_aeris-button-fill);
   color: var(--_aeris-button-on-fill);
-  box-shadow: 0 1px 2px color-mix(in srgb, var(--_aeris-button-fill) 40%, transparent);
+  box-shadow: var(--aeris-shadow-xs, 0 1px 2px rgb(0 0 0 / 10%));
 }
 
 :host(.aeris-button--outline) {
@@ -140,7 +143,7 @@
 }
 
 :host([data-raised='true']) {
-  box-shadow: 0 6px 16px color-mix(in srgb, var(--aeris-text, #222222) 16%, transparent);
+  box-shadow: var(--aeris-shadow-md, 0 8px 24px rgb(0 0 0 / 14%));
 }
 
 :host([data-rounded='true']) {

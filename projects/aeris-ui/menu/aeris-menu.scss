@@ -32,7 +32,7 @@ aeris-menu,
   );
   background: var(--aeris-menu-background, var(--aeris-surface, #fff));
   color: var(--aeris-menu-color, var(--aeris-text, #222222));
-  box-shadow: var(--aeris-menu-shadow, 0 0.75rem 2rem rgba(0, 0, 0, 0.12));
+  box-shadow: var(--aeris-menu-shadow, var(--aeris-shadow-md, 0 8px 24px rgb(0 0 0 / 12%)));
 }
 
 .aeris-menu__panel::-webkit-scrollbar {
@@ -69,8 +69,8 @@ aeris-menu,
   opacity: 1;
   transform: translateY(0) scale(1);
   transition:
-    opacity 140ms ease,
-    transform 140ms ease;
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out);
 }
 
 .aeris-menu__list {
@@ -100,7 +100,7 @@ aeris-menu,
     var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem))
   );
   font: inherit;
-  line-height: 1.3;
+  line-height: var(--aeris-line-height-tight, 1.25);
   text-align: start;
 }
 
@@ -115,8 +115,8 @@ aeris-menu,
   border: 0;
   background: transparent;
   color: var(--aeris-menu-item-color, inherit);
-  font-size: var(--aeris-menu-font-size, 0.875rem);
-  font-weight: 650;
+  font-size: var(--aeris-menu-font-size, var(--aeris-font-size-lg, 0.875rem));
+  font-weight: var(--aeris-font-weight-semibold, 600);
   text-decoration: none;
   cursor: pointer;
 }
@@ -135,11 +135,10 @@ aeris-menu,
 }
 
 .aeris-menu__item:focus-visible {
-  outline: 3px solid
-    color-mix(
-      in srgb,
-      var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%,
-      transparent
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(
+      --aeris-focus-ring-color,
+      color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 48%, transparent)
     );
   outline-offset: 1px;
 }
@@ -156,8 +155,8 @@ aeris-menu,
     var(--aeris-menu-item-padding-inline, 0.75rem)
     calc(var(--aeris-menu-item-padding-block, 0.5rem) * 0.45);
   color: var(--aeris-menu-header-color, var(--aeris-text-2, #555555));
-  font-size: var(--aeris-menu-header-font-size, 0.75rem);
-  font-weight: 850;
+  font-size: var(--aeris-menu-header-font-size, var(--aeris-font-size-sm, 0.75rem));
+  font-weight: var(--aeris-font-weight-bold, 700);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -177,7 +176,7 @@ aeris-menu,
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2;
-  transition: transform 140ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-menu__item-shell[data-expanded='true'] > .aeris-menu__item .aeris-menu__chevron {
@@ -200,8 +199,8 @@ aeris-menu,
 
 .aeris-menu__description {
   color: var(--aeris-menu-description-color, var(--aeris-text-2, #555555));
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-semibold, 600);
 }
 
 .aeris-menu__badge {
@@ -216,8 +215,8 @@ aeris-menu,
     color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 16%, transparent)
   );
   color: var(--aeris-menu-badge-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
-  font-size: 0.75rem;
-  font-weight: 800;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   overflow: hidden;
   text-align: center;
   text-overflow: ellipsis;
@@ -230,8 +229,8 @@ aeris-menu,
   justify-self: end;
   color: var(--aeris-menu-shortcut-color, var(--aeris-text-2, #555555));
   font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-semibold, 600);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -264,7 +263,7 @@ aeris-menu,
 }
 
 .aeris-menu__panel[data-size='sm'] {
-  --aeris-menu-font-size: 0.8125rem;
+  --aeris-menu-font-size: var(--aeris-font-size-md, 0.8125rem);
   --aeris-menu-item-min-height: calc(var(--aeris-item-height, 2.5rem) - 0.375rem);
   --aeris-menu-item-padding-block: calc(var(--aeris-item-padding-y, 0.5rem) * 0.8);
   --aeris-menu-item-padding-inline: calc(var(--aeris-item-padding-x, 0.75rem) * 0.85);
@@ -272,7 +271,7 @@ aeris-menu,
 }
 
 .aeris-menu__panel[data-size='lg'] {
-  --aeris-menu-font-size: 0.9375rem;
+  --aeris-menu-font-size: var(--aeris-font-size-xl, 0.9375rem);
   --aeris-menu-item-min-height: calc(var(--aeris-item-height, 2.5rem) + 0.25rem);
   --aeris-menu-item-padding-block: calc(var(--aeris-item-padding-y, 0.5rem) * 1.15);
   --aeris-menu-item-padding-inline: calc(var(--aeris-item-padding-x, 0.75rem) * 1.15);

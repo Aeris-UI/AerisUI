@@ -41,6 +41,7 @@ describe('Aeris theme development validation', () => {
   it('rejects unsafe or empty values, including values in inactive custom scales', () => {
     const report = validateAerisTheme({
       palette: { primary: '#123456; color: red' },
+      light: { shadowMd: '0 0 1rem black; color: red' },
       densities: {
         future: { controlHeight: '' },
         invalid: null,
@@ -50,6 +51,7 @@ describe('Aeris theme development validation', () => {
     expect(report.errors).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ code: 'invalid-css-value', path: 'palette.primary' }),
+        expect.objectContaining({ code: 'invalid-css-value', path: 'light.shadowMd' }),
         expect.objectContaining({
           code: 'invalid-css-value',
           path: 'densities.future.controlHeight',

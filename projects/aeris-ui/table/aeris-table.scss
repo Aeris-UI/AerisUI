@@ -3,7 +3,7 @@
 :host {
   --_aeris-chevron-mask: var(
     --aeris-icon-chevron,
-    url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E")
+    url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E')
   );
 
   display: block;
@@ -16,14 +16,8 @@
   --aeris-table-cell-padding-x: var(--aeris-item-padding-x, 0.75rem);
   --aeris-table-filter-height: var(--aeris-control-height, 2.625rem);
   --aeris-table-filter-padding-x: var(--aeris-control-padding-x, 0.75rem);
-  --aeris-table-editor-height: max(
-    1.75rem,
-    calc(var(--aeris-control-height, 2.625rem) - 0.625rem)
-  );
-  --aeris-table-action-size: max(
-    1.75rem,
-    calc(var(--aeris-control-height, 2.625rem) - 0.75rem)
-  );
+  --aeris-table-editor-height: max(1.75rem, calc(var(--aeris-control-height, 2.625rem) - 0.625rem));
+  --aeris-table-action-size: max(1.75rem, calc(var(--aeris-control-height, 2.625rem) - 0.75rem));
   --aeris-table-stack-row-height: calc(var(--aeris-item-height, 2.5rem) + 0.5rem);
 
   display: grid;
@@ -37,7 +31,7 @@
 
 .aeris-table__caption {
   color: var(--aeris-text-2, #555555);
-  font-size: 0.875rem;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
 }
 
 .aeris-table__filter {
@@ -45,8 +39,8 @@
   display: grid;
   gap: calc(var(--aeris-table-density-gap) * 0.7);
   color: var(--aeris-text-2, #555555);
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
+  font-weight: var(--aeris-font-weight-semibold, 600);
 }
 
 .aeris-table__filter input {
@@ -61,7 +55,11 @@
 
 .aeris-table__filter input:focus {
   border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(
+      --aeris-focus-ring-color,
+      color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 48%, transparent)
+    );
 }
 
 .aeris-table__frame {
@@ -85,8 +83,12 @@
 }
 
 .aeris-table__frame:has(.aeris-table__viewport:focus-visible) {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 34%, transparent);
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(
+      --aeris-focus-ring-color,
+      color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 48%, transparent)
+    );
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-table__viewport:focus-visible {
@@ -121,7 +123,7 @@ table {
   border-collapse: separate;
   border-spacing: 0;
   table-layout: fixed;
-  font-size: 0.875rem;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
 }
 
 caption {
@@ -167,8 +169,8 @@ th {
   top: 0;
   background: var(--aeris-surface-2, #f7f5f1);
   color: var(--aeris-text-2, #555555);
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   overflow: visible;
@@ -200,7 +202,7 @@ th {
   border-radius: var(--aeris-radius-pill, 999px);
   background: transparent;
   content: '';
-  transition: background-color 120ms ease;
+  transition: background-color var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
 }
 
 th[data-resizing-column],
@@ -242,7 +244,8 @@ th:has(> .aeris-table__resize:focus-visible) {
 .aeris-table__filter-row input:focus,
 .aeris-table__cell-editor:focus {
   border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
-  outline: 2px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
+  outline: 2px solid
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
 }
 
 tbody tr:last-child td,
@@ -271,7 +274,11 @@ tbody tr:focus-visible {
 }
 
 .aeris-table tbody tr[data-context-menu-active] td {
-  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%,
+    transparent
+  );
 }
 
 td[data-editable] {
@@ -279,8 +286,8 @@ td[data-editable] {
   padding-inline-end: calc(var(--aeris-table-cell-padding-x) + 1.1rem);
   cursor: text;
   transition:
-    background-color 140ms ease,
-    box-shadow 140ms ease;
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 td[data-editable]::after {
@@ -295,16 +302,21 @@ td[data-editable]::after {
   opacity: 0.42;
   transform: translateY(-50%);
   transition:
-    color 140ms ease,
-    opacity 140ms ease;
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--aeris-icon-edit) center / 100% 100% no-repeat;
   mask: var(--aeris-icon-edit) center / 100% 100% no-repeat;
 }
 
 td[data-editable]:hover,
 td[data-editable]:focus-within {
-  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 7%, var(--aeris-surface, #fff));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 34%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aeris-primary, #{aeris-fallbacks.$primary}) 7%,
+    var(--aeris-surface, #fff)
+  );
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 34%, transparent);
 }
 
 td[data-editable]:hover::after,
@@ -326,24 +338,18 @@ td[data-editable]:focus-within::after {
 .aeris-table[data-size='sm'] {
   --aeris-table-cell-padding-y: calc(var(--aeris-item-padding-y, 0.5rem) * 0.78);
   --aeris-table-cell-padding-x: calc(var(--aeris-item-padding-x, 0.75rem) * 0.85);
-  --aeris-table-action-size: max(
-    1.625rem,
-    calc(var(--aeris-control-height, 2.625rem) - 0.875rem)
-  );
+  --aeris-table-action-size: max(1.625rem, calc(var(--aeris-control-height, 2.625rem) - 0.875rem));
 }
 
 .aeris-table[data-size='sm'] th,
 .aeris-table[data-size='sm'] td {
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-table[data-size='lg'] {
   --aeris-table-cell-padding-y: calc(var(--aeris-item-padding-y, 0.5rem) * 1.2);
   --aeris-table-cell-padding-x: calc(var(--aeris-item-padding-x, 0.75rem) * 1.2);
-  --aeris-table-action-size: max(
-    2rem,
-    calc(var(--aeris-control-height, 2.625rem) - 0.625rem)
-  );
+  --aeris-table-action-size: max(2rem, calc(var(--aeris-control-height, 2.625rem) - 0.625rem));
 }
 
 [data-align='center'] {
@@ -466,7 +472,8 @@ td[data-editable]:focus-within::after {
 }
 
 .aeris-table__control-cell input:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
+  outline: 3px solid
+    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 42%, transparent);
   outline-offset: 2px;
 }
 
@@ -510,13 +517,17 @@ tr[data-expanded] .aeris-table__icon-button span::before {
 }
 
 tr[data-selected] td {
-  background: color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%,
+    transparent
+  );
 }
 
 .aeris-table__expansion-row td {
   background: var(--aeris-surface-2, #f7f5f1);
   color: var(--aeris-text-2, #555555);
-  line-height: 1.6;
+  line-height: var(--aeris-line-height-relaxed, 1.65);
 }
 
 .aeris-table__message {
@@ -598,8 +609,14 @@ tr[data-selected] td {
     border-block-end: 0;
   }
 
-  .aeris-table[data-responsive='stack'][data-striped] tbody tr:nth-child(odd):not(.aeris-table__expansion-row) td,
-  .aeris-table[data-responsive='stack'][data-hoverable] tbody tr:hover:not(.aeris-table__expansion-row) td,
+  .aeris-table[data-responsive='stack'][data-striped]
+    tbody
+    tr:nth-child(odd):not(.aeris-table__expansion-row)
+    td,
+  .aeris-table[data-responsive='stack'][data-hoverable]
+    tbody
+    tr:hover:not(.aeris-table__expansion-row)
+    td,
   .aeris-table[data-responsive='stack'] tbody tr[data-context-menu-active] td,
   .aeris-table[data-responsive='stack'] tr[data-selected] td {
     background: transparent;
@@ -627,8 +644,8 @@ tr[data-selected] td {
 
   .aeris-table[data-responsive='stack'] tbody tr:not(.aeris-table__expansion-row) td::before {
     color: var(--aeris-text-2, #555555);
-    font-size: 0.75rem;
-    font-weight: 700;
+    font-size: var(--aeris-font-size-sm, 0.75rem);
+    font-weight: var(--aeris-font-weight-bold, 700);
     text-align: left;
     content: attr(data-label);
   }

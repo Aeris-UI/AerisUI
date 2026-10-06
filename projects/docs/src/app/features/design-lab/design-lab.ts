@@ -131,6 +131,8 @@ const SERIALIZED_SCHEME_PROPERTIES: readonly Exclude<keyof AerisThemeScheme, 'to
   'focus',
   'shadowXs',
   'shadowSm',
+  'shadowMd',
+  'shadowLg',
 ];
 
 const CONTRAST_CATEGORIES: readonly {

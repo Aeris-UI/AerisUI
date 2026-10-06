@@ -56,8 +56,18 @@ export function resolveAerisThemeTokens(
   }
 
   tokens['--aeris-accent'] = theme[mode].accent ?? theme.palette.accent;
-  if (theme[mode].shadowXs) tokens['--aeris-shadow-xs'] = theme[mode].shadowXs;
-  if (theme[mode].shadowSm) tokens['--aeris-shadow-sm'] = theme[mode].shadowSm;
+  tokens['--aeris-shadow-xs'] =
+    theme[mode].shadowXs ??
+    (mode === 'light' ? '0 1px 2px rgb(0 0 0 / 8%)' : '0 1px 2px rgb(0 0 0 / 40%)');
+  tokens['--aeris-shadow-sm'] =
+    theme[mode].shadowSm ??
+    (mode === 'light' ? '0 2px 8px rgb(0 0 0 / 10%)' : '0 2px 8px rgb(0 0 0 / 48%)');
+  tokens['--aeris-shadow-md'] =
+    theme[mode].shadowMd ??
+    (mode === 'light' ? '0 8px 24px rgb(0 0 0 / 12%)' : '0 10px 28px rgb(0 0 0 / 54%)');
+  tokens['--aeris-shadow-lg'] =
+    theme[mode].shadowLg ??
+    (mode === 'light' ? '0 18px 48px rgb(0 0 0 / 16%)' : '0 20px 56px rgb(0 0 0 / 64%)');
 
   const tones = resolveAerisSemanticTones(theme, mode);
   for (const name of AERIS_SEMANTIC_TONE_NAMES) {

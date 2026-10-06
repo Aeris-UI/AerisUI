@@ -188,6 +188,12 @@ function collectThemeCssValues(theme: AerisTheme): readonly ThemeCssValue[] {
     if (scheme.shadowSm !== undefined) {
       values.push(cssValue(`${mode}.shadowSm`, scheme.shadowSm, false));
     }
+    if (scheme.shadowMd !== undefined) {
+      values.push(cssValue(`${mode}.shadowMd`, scheme.shadowMd, false));
+    }
+    if (scheme.shadowLg !== undefined) {
+      values.push(cssValue(`${mode}.shadowLg`, scheme.shadowLg, false));
+    }
 
     for (const toneName of AERIS_SEMANTIC_TONE_NAMES) {
       const tone = scheme.tones?.[toneName];
