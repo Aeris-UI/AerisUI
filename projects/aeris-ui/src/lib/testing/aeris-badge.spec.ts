@@ -93,6 +93,9 @@ describe('AerisBadge', () => {
     expect(overlay.dataset['position']).toBe('bottom-left');
     expect(overlayBadge.textContent?.trim()).toBe('7');
     expect(overlayBadge.getAttribute('aria-hidden')).toBe('true');
+    expect(
+      getComputedStyle(overlay).getPropertyValue('--_aeris-badge-overlay-offset').trim(),
+    ).toContain('30%');
     expect(longOverlayBadge.textContent?.trim()).toBe('128');
     expect(button.getAttribute('aria-label')).toBe('Notifications, 7 unread');
   });

@@ -487,7 +487,7 @@ export class AerisTabs {
           }
         : {
             x: button.offsetLeft + 12,
-            y: list.clientHeight - 2,
+            y: button.offsetTop + button.offsetHeight - 2,
             width: Math.max(button.offsetWidth - 24, 2),
             height: 2,
           };

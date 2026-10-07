@@ -287,6 +287,8 @@
                 <div
                   [id]="guideGroupId(group.title) + '-' + idSuffix"
                   class="docs-guide-group__items"
+                  animate.enter="docs-navigation-group--enter"
+                  animate.leave="docs-navigation-group--leave"
                 >
                   @for (guideId of group.guideIds; track guideId) {
                     @if (guideArticleById.get(guideId); as guide) {
@@ -336,6 +338,8 @@
                 <div
                   [id]="componentGroupId(group.category) + '-' + idSuffix"
                   class="docs-component-group__items"
+                  animate.enter="docs-navigation-group--enter"
+                  animate.leave="docs-navigation-group--leave"
                 >
                   @for (item of group.items; track item.slug) {
                     <a
@@ -423,7 +427,11 @@
     />
   </aeris-drawer>
 
-  <main id="docs-content" [class.docs-content]="!isLandingPage()">
+  <main
+    id="docs-content"
+    [class.docs-content]="!isLandingPage()"
+    [class.docs-content--landing]="isLandingPage()"
+  >
     <docs-route-outlet />
   </main>
 </div>

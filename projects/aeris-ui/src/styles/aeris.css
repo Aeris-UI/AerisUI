@@ -521,6 +521,41 @@
   }
 }
 
+@keyframes aeris-overlay-leave {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(
+        var(--aeris-overlay-motion-x, 0),
+        var(--aeris-overlay-motion-y, calc(var(--aeris-motion-distance, 0.25rem) * -1)),
+        0
+      )
+      scale(var(--aeris-motion-scale, 0.985));
+  }
+}
+
+.aeris-overlay-enter {
+  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out) both;
+}
+
+.aeris-overlay-leave {
+  pointer-events: none;
+  animation: aeris-overlay-leave var(--aeris-motion-fast, 100ms)
+    var(--aeris-ease-exit, ease-in) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-overlay-enter,
+  .aeris-overlay-leave {
+    animation: none;
+  }
+}
+
 @keyframes aeris-backdrop-enter {
   from {
     opacity: 0;

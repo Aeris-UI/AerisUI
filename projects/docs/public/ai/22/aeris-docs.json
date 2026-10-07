@@ -18677,6 +18677,12 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Visible focus rings."
+        },
+        {
+          "name": "--aeris-table-toggle-size",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Expandable-row disclosure button size."
         }
       ],
       "examples": [
@@ -19224,17 +19230,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisTimelineModule, type AerisTimelineItem } from '@aeris-ui/core/timeline';\nimport { LucideCheckCircle, LucideCode, LucideDynamicIcon, LucideRocket, LucideSearch, type LucideIconInput } from '@lucide/angular';\n\ninterface CustomReleaseData {\n  readonly owner: string;\n  readonly version: string;\n  readonly icon: LucideIconInput;\n}\n\n@Component({\n  selector: 'app-timeline-templates-demo',\n  imports: [AerisTimelineModule, LucideDynamicIcon],\n  templateUrl: './timeline-templates.demo.html',\n  styleUrl: './timeline-templates.demo.scss'\n})\nexport class TimelineTemplatesCustomMarkerIconsAndColorsDemo {\n  protected readonly customEvents: readonly AerisTimelineItem<CustomReleaseData>[] = [\n    {\n      id: 'planning',\n      title: 'Planning complete',\n      description: 'Scope and release criteria were approved.',\n      date: 'May 06',\n      markerColor: '#668451',\n      data: { owner: 'Maya Chen', version: 'v1.4', icon: LucideCheckCircle },\n    },\n    {\n      id: 'build',\n      title: 'Build',\n      description: 'Core package and guides are being prepared.',\n      date: 'May 14',\n      markerColor: '#4f7f95',\n      data: { owner: 'Noah Williams', version: 'v1.4', icon: LucideCode },\n    },\n    {\n      id: 'review',\n      title: 'Quality review',\n      description: 'Accessibility and API checks are scheduled.',\n      date: 'May 22',\n      markerColor: '#b27632',\n      data: { owner: 'Sofia Rossi', version: 'v1.4', icon: LucideSearch },\n    },\n    {\n      id: 'release',\n      title: 'Release',\n      description: 'Packages will publish after final approval.',\n      date: 'May 28',\n      markerColor: '#9b5f84',\n      data: { owner: 'Liam Novak', version: 'v1.4', icon: LucideRocket },\n    },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisTimelineModule, type AerisTimelineItem } from '@aeris-ui/core/timeline';\nimport { LucideBlocks, LucideClipboardCheck, LucideDynamicIcon, LucidePackageCheck, LucideShieldCheck, type LucideIconInput } from '@lucide/angular';\n\ninterface CustomReleaseData {\n  readonly owner: string;\n  readonly version: string;\n  readonly icon: LucideIconInput;\n}\n\n@Component({\n  selector: 'app-timeline-templates-demo',\n  imports: [AerisTimelineModule, LucideDynamicIcon],\n  templateUrl: './timeline-templates.demo.html',\n  styleUrl: './timeline-templates.demo.scss'\n})\nexport class TimelineTemplatesCustomMarkerIconsAndColorsDemo {\n  protected readonly customEvents: readonly AerisTimelineItem<CustomReleaseData>[] = [\n    {\n      id: 'planning',\n      title: 'Planning complete',\n      description: 'Scope and release criteria were approved.',\n      date: 'May 06',\n      markerColor: 'var(--aeris-success)',\n      data: { owner: 'Maya Chen', version: 'v1.4', icon: LucideClipboardCheck },\n    },\n    {\n      id: 'build',\n      title: 'Build',\n      description: 'Core package and guides are being prepared.',\n      date: 'May 14',\n      markerColor: 'var(--aeris-info)',\n      data: { owner: 'Noah Williams', version: 'v1.4', icon: LucideBlocks },\n    },\n    {\n      id: 'review',\n      title: 'Quality review',\n      description: 'Accessibility and API checks are scheduled.',\n      date: 'May 22',\n      markerColor: 'var(--aeris-warning)',\n      data: { owner: 'Sofia Rossi', version: 'v1.4', icon: LucideShieldCheck },\n    },\n    {\n      id: 'release',\n      title: 'Release',\n      description: 'Packages will publish after final approval.',\n      date: 'May 28',\n      markerColor: 'var(--aeris-primary)',\n      data: { owner: 'Liam Novak', version: 'v1.4', icon: LucidePackageCheck },\n    },\n  ];\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<aeris-timeline align=\"alternate\" [activeIndex]=\"1\" [value]=\"customEvents\">\n  <ng-template aerisTimelineMarker let-item>\n    <svg\n      class=\"timeline-marker-icon\"\n      [lucideIcon]=\"$any(item).data.icon\"\n    ></svg>\n  </ng-template>\n\n  <ng-template aerisTimelineOpposite let-item>\n    <span class=\"release-date\">{{ $any(item).date }}</span>\n  </ng-template>\n\n  <ng-template aerisTimelineContent let-item let-state=\"state\">\n    <article class=\"release-card\">\n      <span class=\"release-card__state\">{{ state }}</span>\n      <h3>{{ $any(item).title }}</h3>\n      <p>{{ $any(item).description }}</p>\n      <small>{{ $any(item).data.owner }} - {{ $any(item).data.version }}</small>\n    </article>\n  </ng-template>\n</aeris-timeline>"
+              "code": "<aeris-timeline\n  class=\"timeline-demo--custom\"\n  align=\"alternate\"\n  [activeIndex]=\"1\"\n  [value]=\"customEvents\"\n>\n  <ng-template aerisTimelineMarker let-item>\n    <span class=\"timeline-marker-icon\">\n      <svg\n        aria-hidden=\"true\"\n        focusable=\"false\"\n        [lucideIcon]=\"$any(item).data.icon\"\n      ></svg>\n    </span>\n  </ng-template>\n\n  <ng-template aerisTimelineOpposite let-item>\n    <span class=\"release-date\">{{ $any(item).date }}</span>\n  </ng-template>\n\n  <ng-template aerisTimelineContent let-item let-state=\"state\">\n    <article class=\"release-card\">\n      <span class=\"release-card__state\">{{ state }}</span>\n      <h3>{{ $any(item).title }}</h3>\n      <p>{{ $any(item).description }}</p>\n      <small>{{ $any(item).data.owner }} - {{ $any(item).data.version }}</small>\n    </article>\n  </ng-template>\n</aeris-timeline>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".timeline-marker-icon {\n  width: 1rem;\n  height: 1rem;\n  padding: 0.125rem;\n  border-radius: 50%;\n  background: color-mix(in srgb, currentColor 14%, var(--aeris-surface));\n}\n\n.release-date {\n  font-weight: 650;\n}\n\n.release-card {\n  padding: 0.875rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-md);\n  background: var(--aeris-surface);\n}\n\n.release-card__state {\n  color: var(--aeris-primary-text);\n  font-size: 0.6875rem;\n  font-weight: 700;\n  text-transform: uppercase;\n}\n\n.release-card h3 {\n  margin: 0.3rem 0 0;\n  font-size: 0.875rem;\n}\n\n.release-card p {\n  margin: 0.35rem 0 0;\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n  line-height: 1.55;\n}\n\n.release-card small {\n  display: block;\n  margin-top: 0.65rem;\n  color: var(--aeris-text-muted);\n  font-size: 0.6875rem;\n}"
+              "code": ".timeline-demo--custom {\n  --aeris-timeline-marker-size: 2rem;\n  --aeris-timeline-separator-size: 2.75rem;\n}\n\n.timeline-marker-icon {\n  display: grid;\n  width: 2rem;\n  height: 2rem;\n  place-items: center;\n  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);\n  border-radius: 50%;\n  background: color-mix(in srgb, currentColor 12%, var(--aeris-surface));\n}\n\n.timeline-marker-icon svg {\n  width: 1rem;\n  height: 1rem;\n  stroke-width: 2;\n}\n\n.release-date {\n  font-weight: 650;\n}\n\n.release-card {\n  padding: 0.875rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-md);\n  background: var(--aeris-surface);\n}\n\n.release-card__state {\n  color: var(--aeris-primary-text);\n  font-size: 0.6875rem;\n  font-weight: 700;\n  text-transform: uppercase;\n}\n\n.release-card h3 {\n  margin: 0.3rem 0 0;\n  font-size: 0.875rem;\n}\n\n.release-card p {\n  margin: 0.35rem 0 0;\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n  line-height: 1.55;\n}\n\n.release-card small {\n  display: block;\n  margin-top: 0.65rem;\n  color: var(--aeris-text-muted);\n  font-size: 0.6875rem;\n}"
             }
           ]
         },
@@ -20371,6 +20377,12 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Indent per hierarchy level."
+        },
+        {
+          "name": "--aeris-tree-table-toggle-size",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Branch disclosure button size."
         },
         {
           "name": "--aeris-tree-table-stripe",
@@ -32810,6 +32822,24 @@
           "description": "Message icon box size."
         },
         {
+          "name": "--aeris-message-severity-tint",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Severity color mixed into the filled surface."
+        },
+        {
+          "name": "--aeris-message-background",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Filled message background override."
+        },
+        {
+          "name": "--aeris-message-border-color",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Message border color override."
+        },
+        {
           "name": "--aeris-success",
           "type": "CSS custom property",
           "defaultValue": "",
@@ -35991,6 +36021,12 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Surface ring around overlay badges."
+        },
+        {
+          "name": "--aeris-badge-overlay-offset",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "How far an overlay badge extends beyond the content corner."
         },
         {
           "name": "--aeris-primary",

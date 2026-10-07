@@ -2,9 +2,11 @@
 
 :host {
   --_accent: var(--aeris-primary, #{aeris-fallbacks.$primary});
-  --_accent-soft: color-mix(in srgb, var(--_accent) 14%, transparent);
-  --_accent-border: color-mix(in srgb, var(--_accent) 36%, var(--aeris-border, #efefef));
-  --_surface: color-mix(in srgb, var(--aeris-surface, #fff) 94%, var(--_accent-soft));
+  --_surface: color-mix(
+    in srgb,
+    var(--_accent) var(--aeris-message-severity-tint, 9%),
+    var(--aeris-surface, #fff)
+  );
   --_text: var(--aeris-text, #111111);
   --_muted: var(--aeris-text-2, #454545);
 
@@ -14,9 +16,9 @@
   align-items: center;
   gap: 0.625rem;
   padding: 0.625rem 0.75rem;
-  border: 1px solid var(--_accent-border);
+  border: 1px solid var(--aeris-message-border-color, var(--_accent));
   border-radius: var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem));
-  background: linear-gradient(90deg, var(--_accent-soft), transparent 42%), var(--_surface);
+  background: var(--aeris-message-background, var(--_surface));
   color: var(--_text);
   box-shadow: var(--aeris-shadow-sm, 0 2px 5px rgb(0 0 0 / 14%));
   font-size: var(--aeris-font-size-lg, 0.875rem);

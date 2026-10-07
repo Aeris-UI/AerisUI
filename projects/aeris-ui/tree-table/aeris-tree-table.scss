@@ -22,10 +22,6 @@
     1.75rem,
     calc(var(--aeris-control-height, 2.625rem) - 0.625rem)
   );
-  --aeris-tree-table-action-size: max(
-    1.75rem,
-    calc(var(--aeris-control-height, 2.625rem) - 0.75rem)
-  );
   --aeris-tree-table-stack-row-height: calc(var(--aeris-item-height, 2.5rem) + 0.5rem);
 
   display: grid;
@@ -294,10 +290,6 @@ tbody tr[data-disabled='true'] {
 .aeris-tree-table[data-size='sm'] {
   --aeris-tree-table-cell-padding-y: calc(var(--aeris-item-padding-y, 0.5rem) * 0.78);
   --aeris-tree-table-cell-padding-x: calc(var(--aeris-item-padding-x, 0.75rem) * 0.85);
-  --aeris-tree-table-action-size: max(
-    1.625rem,
-    calc(var(--aeris-control-height, 2.625rem) - 0.875rem)
-  );
 }
 
 .aeris-tree-table[data-size='sm'] th,
@@ -308,7 +300,6 @@ tbody tr[data-disabled='true'] {
 .aeris-tree-table[data-size='lg'] {
   --aeris-tree-table-cell-padding-y: calc(var(--aeris-item-padding-y, 0.5rem) * 1.2);
   --aeris-tree-table-cell-padding-x: calc(var(--aeris-item-padding-x, 0.75rem) * 1.2);
-  --aeris-tree-table-action-size: max(2rem, calc(var(--aeris-control-height, 2.625rem) - 0.625rem));
 }
 
 th[data-align='center'],
@@ -521,26 +512,21 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
 }
 
 .aeris-tree-table__toggle {
-  width: var(--aeris-tree-table-action-size);
-  height: var(--aeris-tree-table-action-size);
+  width: var(--aeris-tree-table-toggle-size, 1.25rem);
+  height: var(--aeris-tree-table-toggle-size, 1.25rem);
   display: inline-grid;
   flex: 0 0 auto;
   place-items: center;
   padding: 0;
-  border: 1px solid transparent;
-  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
+  border: 0;
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-text-2, #454545);
+  color: inherit;
   cursor: pointer;
 }
 
-.aeris-tree-table__toggle[aria-expanded] {
-  border-color: var(--aeris-border);
-  background: var(--aeris-surface, #fff);
-}
-
 .aeris-tree-table__toggle:hover:not(:disabled) {
-  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
+  background: color-mix(in srgb, currentColor 10%, transparent);
 }
 
 .aeris-tree-table__toggle:disabled {

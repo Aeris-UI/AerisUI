@@ -65,17 +65,45 @@ export class AerisOrderListEmptyTemplate {
       <div class="aeris-order-list__body">
         @if (showControls()) {
           <div class="aeris-order-list__controls" aria-label="Reorder controls">
-            <button type="button" [disabled]="!canMoveUp()" [attr.aria-label]="moveTopAriaLabel()" (click)="moveSelectedToTop()">
-              <span aria-hidden="true" data-icon="top"></span>
+            <button
+              type="button"
+              [disabled]="!canMoveUp()"
+              [attr.aria-label]="moveTopAriaLabel()"
+              (click)="moveSelectedToTop()"
+            >
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="top">
+                <path d="M4 4h12M5 12l5-5 5 5" />
+              </svg>
             </button>
-            <button type="button" [disabled]="!canMoveUp()" [attr.aria-label]="moveUpAriaLabel()" (click)="moveSelectedUp()">
-              <span aria-hidden="true" data-icon="up"></span>
+            <button
+              type="button"
+              [disabled]="!canMoveUp()"
+              [attr.aria-label]="moveUpAriaLabel()"
+              (click)="moveSelectedUp()"
+            >
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="up">
+                <path d="M5 12l5-5 5 5" />
+              </svg>
             </button>
-            <button type="button" [disabled]="!canMoveDown()" [attr.aria-label]="moveDownAriaLabel()" (click)="moveSelectedDown()">
-              <span aria-hidden="true" data-icon="down"></span>
+            <button
+              type="button"
+              [disabled]="!canMoveDown()"
+              [attr.aria-label]="moveDownAriaLabel()"
+              (click)="moveSelectedDown()"
+            >
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="down">
+                <path d="M5 8l5 5 5-5" />
+              </svg>
             </button>
-            <button type="button" [disabled]="!canMoveDown()" [attr.aria-label]="moveBottomAriaLabel()" (click)="moveSelectedToBottom()">
-              <span aria-hidden="true" data-icon="bottom"></span>
+            <button
+              type="button"
+              [disabled]="!canMoveDown()"
+              [attr.aria-label]="moveBottomAriaLabel()"
+              (click)="moveSelectedToBottom()"
+            >
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="bottom">
+                <path d="M5 8l5 5 5-5M4 16h12" />
+              </svg>
             </button>
           </div>
         }
@@ -106,7 +134,7 @@ export class AerisOrderListEmptyTemplate {
                       $implicit: item,
                       item,
                       selected: isSelected(itemKey(item, index)),
-                      index
+                      index,
                     }"
                   />
                 } @else {

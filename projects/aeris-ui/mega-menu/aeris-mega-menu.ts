@@ -303,6 +303,8 @@ let nextMegaMenuId = 0;
                 role="menu"
                 [id]="entry.id + '-panel'"
                 [attr.aria-label]="entry.item.label ? entry.item.label + ' menu' : null"
+                animate.enter="aeris-overlay-enter"
+                animate.leave="aeris-overlay-leave"
               >
                 <div class="aeris-mega-menu__panel-grid">
                   @for (group of entry.panelGroups; track group.id ?? group.label ?? $index) {

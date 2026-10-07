@@ -138,6 +138,9 @@
   text-decoration: none;
   cursor: pointer;
   overflow-wrap: anywhere;
+  transition:
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-split-button__item:hover:not(:disabled):not([aria-disabled='true']),
@@ -201,5 +204,9 @@
   .aeris-split-button__spinner {
     animation-duration: 1ms;
     transition-duration: 1ms;
+  }
+
+  .aeris-split-button__item {
+    transition: none;
   }
 }

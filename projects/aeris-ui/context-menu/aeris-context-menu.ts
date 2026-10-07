@@ -193,6 +193,8 @@ let nextContextMenuId = 0;
                   class="aeris-context-menu__submenu"
                   [id]="entry.id + '-submenu'"
                   [attr.data-side]="submenuSide()"
+                  animate.enter="aeris-overlay-enter"
+                  animate.leave="aeris-overlay-leave"
                 >
                   <ng-container
                     [ngTemplateOutlet]="menuList"
@@ -241,6 +243,7 @@ let nextContextMenuId = 0;
           [style.top.px]="coordinates().y"
           [style.--aeris-context-menu-width]="width() || null"
           [style.--aeris-context-menu-max-width]="maxWidth() || null"
+          animate.leave="aeris-overlay-leave"
           (mouseleave)="handlePanelMouseLeave()"
         >
           <ng-container

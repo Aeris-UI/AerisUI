@@ -118,6 +118,9 @@ aeris-menu,
   font-weight: var(--aeris-font-weight-semibold, 600);
   text-decoration: none;
   cursor: pointer;
+  transition:
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-menu__item[data-custom-template='true'] {
@@ -246,6 +249,7 @@ aeris-menu,
 
 .aeris-menu__group {
   min-inline-size: 0;
+  transform-origin: top center;
 }
 
 .aeris-menu__slot {
@@ -289,6 +293,10 @@ aeris-menu,
   }
 
   .aeris-menu__chevron {
+    transition: none;
+  }
+
+  .aeris-menu__item {
     transition: none;
   }
 }

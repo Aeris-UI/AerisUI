@@ -229,6 +229,7 @@ interface AerisTableCsvExportOptions {
 | `--aeris-text / --aeris-text-2` | `CSS custom property` | — | Cell and secondary text. |
 | `--aeris-primary` | `CSS custom property` | — | Selected and hovered row accents. |
 | `--aeris-focus` | `CSS custom property` | — | Visible focus rings. |
+| `--aeris-table-toggle-size` | `CSS custom property` | — | Expandable-row disclosure button size. |
 
 ## Examples
 

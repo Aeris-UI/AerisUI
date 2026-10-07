@@ -18,8 +18,8 @@ aeris-context-menu {
   --aeris-context-menu-item-padding-inline: var(--aeris-item-padding-x, 0.75rem);
 
   position: fixed;
-  inset-block-start: 0;
-  inset-inline-start: 0;
+  top: 0;
+  left: 0;
   min-inline-size: var(--aeris-context-menu-width, 14rem);
   max-inline-size: var(--aeris-context-menu-max-width, min(22rem, calc(100vw - 1rem)));
   padding: var(--aeris-context-menu-padding, 0.375rem);
@@ -87,6 +87,9 @@ aeris-context-menu {
   text-align: start;
   text-decoration: none;
   cursor: pointer;
+  transition:
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-context-menu__item[data-custom-template='true'] {
@@ -207,11 +210,19 @@ aeris-context-menu {
 }
 
 .aeris-context-menu__submenu[data-side='end'] {
+  --aeris-overlay-motion-x: calc(var(--aeris-motion-distance, 0.25rem) * -1);
+  --aeris-overlay-motion-y: 0;
+
   inset-inline-start: calc(100% + var(--aeris-context-menu-submenu-offset, 0.375rem));
+  transform-origin: center left;
 }
 
 .aeris-context-menu__submenu[data-side='start'] {
+  --aeris-overlay-motion-x: var(--aeris-motion-distance, 0.25rem);
+  --aeris-overlay-motion-y: 0;
+
   inset-inline-end: calc(100% + var(--aeris-context-menu-submenu-offset, 0.375rem));
+  transform-origin: center right;
 }
 
 .aeris-context-menu__panel[data-size='sm'] {
@@ -233,5 +244,9 @@ aeris-context-menu {
 @media (prefers-reduced-motion: reduce) {
   .aeris-context-menu__panel[data-positioned='true'] {
     animation: none;
+  }
+
+  .aeris-context-menu__item {
+    transition: none;
   }
 }

@@ -41,12 +41,31 @@ describe('AerisOrderList', () => {
   it('renders listbox options from items', () => {
     const fixture = setup();
     const options = fixture.nativeElement.querySelectorAll('[role="option"]');
+    const controlIcons = Array.from(
+      fixture.nativeElement.querySelectorAll(
+        '.aeris-order-list__controls [data-icon]',
+      ) as NodeListOf<HTMLElement>,
+      (icon) => icon.dataset['icon'],
+    );
+    const controlIconPaths = Array.from(
+      fixture.nativeElement.querySelectorAll(
+        '.aeris-order-list__controls svg path',
+      ) as NodeListOf<SVGPathElement>,
+      (path) => path.getAttribute('d'),
+    );
 
     expect(options.length).toBe(3);
     expect(options[1].textContent).toContain('Beta');
     expect(options[1].getAttribute('aria-selected')).toBe('true');
     const itemRadius = getComputedStyle(options[0] as HTMLElement).borderRadius;
     expect(itemRadius).toContain('--aeris-radius-item');
+    expect(controlIcons).toEqual(['top', 'up', 'down', 'bottom']);
+    expect(controlIconPaths).toEqual([
+      'M4 4h12M5 12l5-5 5 5',
+      'M5 12l5-5 5 5',
+      'M5 8l5 5 5-5',
+      'M5 8l5 5 5-5M4 16h12',
+    ]);
   });
 
   it('moves selected items up', () => {

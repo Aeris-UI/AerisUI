@@ -73,12 +73,7 @@ export class AerisOrganizationChartEmptyTemplate {
     <div class="aeris-organization-chart" [attr.data-fluid]="fluid() || null">
       @if (value().length) {
         <div class="aeris-organization-chart__viewport" tabindex="0">
-          <ng-template
-            #nodeTemplate
-            let-node
-            let-key="key"
-            let-level="level"
-          >
+          <ng-template #nodeTemplate let-node let-key="key" let-level="level">
             <li class="aeris-organization-chart__branch">
               <div class="aeris-organization-chart__node-shell">
                 <div
@@ -107,7 +102,7 @@ export class AerisOrganizationChartEmptyTemplate {
                         selected: isSelected(key),
                         expanded: !isCollapsed(key),
                         leaf: !hasChildren(node),
-                        level
+                        level,
                       }"
                     />
                   } @else {
@@ -132,14 +127,23 @@ export class AerisOrganizationChartEmptyTemplate {
               </div>
 
               @if (hasVisibleChildren(node, key)) {
-                <ul role="group" class="aeris-organization-chart__children">
-                  @for (child of visibleChildren(node, key); track nodeKey(child, childIndex); let childIndex = $index) {
+                <ul
+                  role="group"
+                  class="aeris-organization-chart__children"
+                  animate.enter="aeris-organization-chart__children--enter"
+                  animate.leave="aeris-organization-chart__children--leave"
+                >
+                  @for (
+                    child of visibleChildren(node, key);
+                    track nodeKey(child, childIndex);
+                    let childIndex = $index
+                  ) {
                     <ng-container
                       [ngTemplateOutlet]="nodeTemplate"
                       [ngTemplateOutletContext]="{
                         $implicit: child,
                         key: nodeKey(child, key + '-' + childIndex),
-                        level: level + 1
+                        level: level + 1,
                       }"
                     />
                   }
@@ -155,7 +159,7 @@ export class AerisOrganizationChartEmptyTemplate {
                 [ngTemplateOutletContext]="{
                   $implicit: node,
                   key: nodeKey(node, index),
-                  level: 1
+                  level: 1,
                 }"
               />
             }
@@ -192,7 +196,9 @@ export class AerisOrganizationChart<TData = unknown> {
   readonly nodeExpanded = output<AerisOrganizationChartNodeEvent<TData>>();
   readonly nodeCollapsed = output<AerisOrganizationChartNodeEvent<TData>>();
 
-  protected readonly nodeTemplateDirective = contentChild(AerisOrganizationChartNodeTemplate<TData>);
+  protected readonly nodeTemplateDirective = contentChild(
+    AerisOrganizationChartNodeTemplate<TData>,
+  );
   protected readonly emptyTemplate = contentChild(AerisOrganizationChartEmptyTemplate);
   private readonly nodeElements = viewChildren<ElementRef<HTMLElement>>('nodeElement');
   protected readonly renderedKeys = computed(() => this.collectRenderedKeys(this.value()));

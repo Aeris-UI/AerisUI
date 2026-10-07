@@ -1,10 +1,6 @@
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 .aeris-order-list {
-  --_aeris-chevron-mask: var(
-    --aeris-icon-chevron,
-    url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E')
-  );
   --aeris-order-list-density-gap: var(--aeris-density-gap, 0.5rem);
   --aeris-order-list-item-min-height: var(--aeris-item-height, 2.5rem);
   --aeris-order-list-item-padding: var(--aeris-item-padding-y, 0.5rem)
@@ -83,49 +79,15 @@
     color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
 }
 
-.aeris-order-list__controls span {
-  width: 0.875rem;
-  height: 0.875rem;
-  display: block;
-  position: relative;
-}
-
-.aeris-order-list__controls span::before,
-.aeris-order-list__controls span::after {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  content: '';
-}
-
-.aeris-order-list__controls span::before {
+.aeris-order-list__controls svg {
   width: 1rem;
   height: 1rem;
-  background: currentColor;
-  transform: rotate(180deg);
-  -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
-  mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
-}
-
-.aeris-order-list__controls span[data-icon='down']::before,
-.aeris-order-list__controls span[data-icon='bottom']::before {
-  transform: none;
-}
-
-.aeris-order-list__controls span[data-icon='top']::after,
-.aeris-order-list__controls span[data-icon='bottom']::after {
-  width: 0.75rem;
-  height: 1.75px;
-  border-radius: var(--aeris-radius-pill, 999px);
-  background: currentColor;
-}
-
-.aeris-order-list__controls span[data-icon='top']::after {
-  top: -0.55rem;
-}
-
-.aeris-order-list__controls span[data-icon='bottom']::after {
-  bottom: -0.55rem;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .aeris-order-list__viewport {

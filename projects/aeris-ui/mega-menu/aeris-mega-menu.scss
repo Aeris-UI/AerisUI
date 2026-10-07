@@ -66,6 +66,9 @@
   text-align: start;
   text-decoration: none;
   cursor: pointer;
+  transition:
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-mega-menu__trigger {
@@ -198,11 +201,16 @@
     --aeris-mega-menu-panel-shadow,
     var(--aeris-overlay-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)))
   );
+  transform-origin: top center;
 }
 
 :host([data-orientation='vertical']) .aeris-mega-menu__panel {
+  --aeris-overlay-motion-x: calc(var(--aeris-motion-distance, 0.25rem) * -1);
+  --aeris-overlay-motion-y: 0;
+
   inset-block-start: 0;
   inset-inline-start: calc(100% + var(--aeris-mega-menu-panel-offset, 0.45rem));
+  transform-origin: center left;
 }
 
 .aeris-mega-menu__panel-grid {
@@ -283,14 +291,23 @@
 
   .aeris-mega-menu__panel,
   :host([data-orientation='vertical']) .aeris-mega-menu__panel {
+    --aeris-overlay-motion-x: 0;
+    --aeris-overlay-motion-y: calc(var(--aeris-motion-distance, 0.25rem) * -1);
+
     position: static;
     width: 100%;
     margin-block-start: 0.35rem;
+    transform-origin: top center;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .aeris-mega-menu__chevron {
+    transition: none;
+  }
+
+  .aeris-mega-menu__trigger,
+  .aeris-mega-menu__panel-item {
     transition: none;
   }
 }

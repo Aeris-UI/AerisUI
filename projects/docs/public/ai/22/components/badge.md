@@ -103,6 +103,7 @@ type AerisBadgeOverlayPosition =
 | `--aeris-badge-shadow` | `CSS custom property` | — | Solid badge shadow. |
 | `--aeris-badge-dot-size` | `CSS custom property` | — | Default dot badge size. |
 | `--aeris-badge-overlay-ring-size` | `CSS custom property` | — | Surface ring around overlay badges. |
+| `--aeris-badge-overlay-offset` | `CSS custom property` | — | How far an overlay badge extends beyond the content corner. |
 | `--aeris-primary` | `CSS custom property` | — | Primary badge accent. |
 | `--aeris-success` | `CSS custom property` | — | Success badge accent. |
 | `--aeris-info` | `CSS custom property` | — | Info badge accent. |

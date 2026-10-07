@@ -203,6 +203,7 @@ class AerisSplitButtonToggleAnchor {
         [id]="menuId()"
         role="menu"
         [attr.aria-label]="menuAriaLabel()"
+        animate.leave="aeris-overlay-leave"
         (keydown)="onMenuKeydown($event)"
       >
         @for (entry of visibleItems(); track entry.id) {

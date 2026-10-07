@@ -252,6 +252,8 @@ let nextMenubarId = 0;
                   class="aeris-menubar__submenu"
                   [id]="entry.id + '-submenu'"
                   [attr.data-level]="entry.level + 1"
+                  animate.enter="aeris-overlay-enter"
+                  animate.leave="aeris-overlay-leave"
                 >
                   <ng-container
                     [ngTemplateOutlet]="menuList"

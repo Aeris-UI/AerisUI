@@ -111,6 +111,9 @@ interface AerisMessageTemplateContext {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-message-icon-size` | `CSS custom property` | — | Message icon box size. |
+| `--aeris-message-severity-tint` | `CSS custom property` | — | Severity color mixed into the filled surface. |
+| `--aeris-message-background` | `CSS custom property` | — | Filled message background override. |
+| `--aeris-message-border-color` | `CSS custom property` | — | Message border color override. |
 | `--aeris-success` | `CSS custom property` | — | Success accent. |
 | `--aeris-info` | `CSS custom property` | — | Info accent. |
 | `--aeris-warning` | `CSS custom property` | — | Warning accent. |

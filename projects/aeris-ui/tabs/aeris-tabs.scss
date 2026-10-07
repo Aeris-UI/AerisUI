@@ -33,6 +33,7 @@
 
 .aeris-tabs__list {
   position: relative;
+  isolation: isolate;
   min-width: 0;
   display: flex;
   flex: 1 1 auto;
@@ -121,7 +122,7 @@
 
 .aeris-tabs__indicator {
   position: absolute;
-  z-index: 0;
+  z-index: 2;
   top: 0;
   left: 0;
   border-radius: var(--aeris-radius-pill, 999px) var(--aeris-radius-pill, 999px) 0 0;
@@ -138,6 +139,7 @@
 }
 
 :host([data-variant='pill']) .aeris-tabs__indicator {
+  z-index: 0;
   border-radius: var(--aeris-tabs-radius, var(--aeris-radius-control, 0.4375rem));
   background: var(--aeris-tabs-active-background, var(--aeris-surface, #fff));
   box-shadow: 0 1px 3px rgb(31 35 27 / 10%);

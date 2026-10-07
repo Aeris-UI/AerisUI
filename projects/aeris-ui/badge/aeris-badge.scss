@@ -128,6 +128,8 @@
 }
 
 :host(.aeris-badge-overlay) {
+  --_aeris-badge-overlay-offset: var(--aeris-badge-overlay-offset, 30%);
+
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -150,25 +152,34 @@
 :host(.aeris-badge-overlay[data-position='top-right']) .aeris-badge-overlay__badge {
   inset-block-start: 0;
   inset-inline-end: 0;
-  transform: translate(50%, -50%);
+  transform: translate(
+    var(--_aeris-badge-overlay-offset),
+    calc(var(--_aeris-badge-overlay-offset) * -1)
+  );
 }
 
 :host(.aeris-badge-overlay[data-position='top-left']) .aeris-badge-overlay__badge {
   inset-block-start: 0;
   inset-inline-start: 0;
-  transform: translate(-50%, -50%);
+  transform: translate(
+    calc(var(--_aeris-badge-overlay-offset) * -1),
+    calc(var(--_aeris-badge-overlay-offset) * -1)
+  );
 }
 
 :host(.aeris-badge-overlay[data-position='bottom-right']) .aeris-badge-overlay__badge {
   inset-block-end: 0;
   inset-inline-end: 0;
-  transform: translate(50%, 50%);
+  transform: translate(var(--_aeris-badge-overlay-offset), var(--_aeris-badge-overlay-offset));
 }
 
 :host(.aeris-badge-overlay[data-position='bottom-left']) .aeris-badge-overlay__badge {
   inset-block-end: 0;
   inset-inline-start: 0;
-  transform: translate(-50%, 50%);
+  transform: translate(
+    calc(var(--_aeris-badge-overlay-offset) * -1),
+    var(--_aeris-badge-overlay-offset)
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {

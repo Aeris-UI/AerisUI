@@ -308,7 +308,7 @@
   border: 0;
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-text-2, #454545);
+  color: inherit;
   transform: translateY(-50%);
   cursor: pointer;
 }
@@ -372,7 +372,7 @@
 }
 
 .aeris-tree-select__toggle:not(:disabled):hover {
-  background: var(--aeris-surface-2, #f3f3f3);
+  background: color-mix(in srgb, currentColor 10%, transparent);
 }
 
 .aeris-tree-select__toggle:disabled {

@@ -461,11 +461,28 @@
     --aeris-menubar-submenu-shadow,
     var(--aeris-overlay-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)))
   );
+  transform-origin: top center;
 }
 
 .aeris-menubar__submenu .aeris-menubar__submenu {
+  --aeris-overlay-motion-x: calc(var(--aeris-motion-distance, 0.25rem) * -1);
+  --aeris-overlay-motion-y: 0;
+
   inset-block-start: calc(var(--aeris-menubar-submenu-padding, 0.35rem) * -1);
   inset-inline-start: calc(100% + var(--aeris-menubar-submenu-offset, 0.45rem));
+  transform-origin: center left;
+}
+
+.aeris-menubar__submenu[data-flipped-inline='true'] {
+  --aeris-overlay-motion-x: var(--aeris-motion-distance, 0.25rem);
+
+  transform-origin: center right;
+}
+
+.aeris-menubar__submenu[data-flipped-block='true'] {
+  --aeris-overlay-motion-y: var(--aeris-motion-distance, 0.25rem);
+
+  transform-origin: bottom center;
 }
 
 .aeris-menubar__submenu-list {
@@ -570,6 +587,8 @@
 
   :host([data-collapsible='true'][data-mobile-open='true']) .aeris-menubar__menu {
     display: block;
+    animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms)
+      var(--aeris-ease-enter, ease-out) both;
   }
 
   :host([data-collapsible='true']) .aeris-menubar__root {
@@ -579,16 +598,28 @@
 
   :host([data-collapsible='true']) .aeris-menubar__submenu,
   :host([data-collapsible='true']) .aeris-menubar__submenu .aeris-menubar__submenu {
+    --aeris-overlay-motion-x: 0;
+    --aeris-overlay-motion-y: calc(var(--aeris-motion-distance, 0.25rem) * -1);
+
     position: static;
     min-inline-size: 0;
     max-inline-size: none;
     margin-block-start: 0.25rem;
     box-shadow: none;
+    transform-origin: top center;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .aeris-menubar__item {
+    transition: none;
+  }
+
   .aeris-menubar__chevron {
     transition: none;
+  }
+
+  :host([data-collapsible='true'][data-mobile-open='true']) .aeris-menubar__menu {
+    animation: none;
   }
 }

@@ -487,15 +487,20 @@ td[data-editable]:focus-within::after {
 }
 
 .aeris-table__icon-button {
-  width: var(--aeris-table-action-size);
-  height: var(--aeris-table-action-size);
+  width: var(--aeris-table-toggle-size, 1.25rem);
+  height: var(--aeris-table-toggle-size, 1.25rem);
   display: inline-grid;
   place-items: center;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
-  background: var(--aeris-surface, #fff);
-  color: var(--aeris-text-2, #454545);
+  padding: 0;
+  border: 0;
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
+  background: transparent;
+  color: inherit;
   cursor: pointer;
+}
+
+.aeris-table__icon-button:hover {
+  background: color-mix(in srgb, currentColor 10%, transparent);
 }
 
 .aeris-table__icon-button span {
@@ -512,14 +517,14 @@ td[data-editable]:focus-within::after {
   height: 1rem;
   background: currentColor;
   content: '';
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(-90deg);
   -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 tr[data-expanded] .aeris-table__icon-button span::before {
-  transform: translate(-50%, -50%) rotate(180deg);
+  transform: translate(-50%, -50%);
 }
 
 tr[data-selected] td {

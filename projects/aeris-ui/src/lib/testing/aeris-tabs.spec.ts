@@ -243,7 +243,7 @@ describe('AerisTabs', () => {
       '[role="tab"]',
     ) as NodeListOf<HTMLButtonElement>;
     Object.defineProperties(tablist, {
-      clientHeight: { configurable: true, get: () => 48 },
+      clientHeight: { configurable: true, get: () => 0 },
       clientWidth: { configurable: true, get: () => 240 },
     });
     Object.defineProperties(tabs.item(0), {

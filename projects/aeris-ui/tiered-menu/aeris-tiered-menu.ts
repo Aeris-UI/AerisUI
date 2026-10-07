@@ -217,6 +217,8 @@ let nextTieredMenuId = 0;
                   class="aeris-tiered-menu__submenu"
                   [id]="entry.id + '-submenu'"
                   [attr.data-side]="submenuSide()"
+                  animate.enter="aeris-overlay-enter"
+                  animate.leave="aeris-overlay-leave"
                 >
                   <ng-container
                     [ngTemplateOutlet]="menuList"
@@ -250,6 +252,7 @@ let nextTieredMenuId = 0;
         [style.top.px]="popup() ? coordinates().y : null"
         [style.--aeris-tiered-menu-width]="width() || null"
         [style.--aeris-tiered-menu-max-width]="maxWidth() || null"
+        animate.leave="aeris-overlay-leave"
         (contextmenu)="suppressNativeMenu($event)"
         (mouseleave)="handlePanelMouseLeave()"
       >

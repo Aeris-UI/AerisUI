@@ -256,6 +256,7 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
 | `--aeris-tree-table-scroll-height` | `CSS custom property` | — | Maximum scroll viewport height. |
 | `--aeris-tree-table-header-height` | `CSS custom property` | — | Sticky header offset used by column filters. |
 | `--aeris-tree-table-indent` | `CSS custom property` | — | Indent per hierarchy level. |
+| `--aeris-tree-table-toggle-size` | `CSS custom property` | — | Branch disclosure button size. |
 | `--aeris-tree-table-stripe` | `CSS custom property` | — | Alternate row surface. |
 | `--aeris-tree-table-row-hover` | `CSS custom property` | — | Hover and focused row surface. |
 | `--aeris-tree-table-row-selected` | `CSS custom property` | — | Selected row surface. |

@@ -28807,6 +28807,7 @@ interface AerisTableCsvExportOptions {
 | `--aeris-text / --aeris-text-2` | `CSS custom property` | — | Cell and secondary text. |
 | `--aeris-primary` | `CSS custom property` | — | Selected and hovered row accents. |
 | `--aeris-focus` | `CSS custom property` | — | Visible focus rings. |
+| `--aeris-table-toggle-size` | `CSS custom property` | — | Expandable-row disclosure button size. |
 
 #### Examples
 
@@ -30144,7 +30145,7 @@ Use the marker template and markerColor to render custom visual markers for each
 ```ts
 import { Component } from '@angular/core';
 import { AerisTimelineModule, type AerisTimelineItem } from '@aeris-ui/core/timeline';
-import { LucideCheckCircle, LucideCode, LucideDynamicIcon, LucideRocket, LucideSearch, type LucideIconInput } from '@lucide/angular';
+import { LucideBlocks, LucideClipboardCheck, LucideDynamicIcon, LucidePackageCheck, LucideShieldCheck, type LucideIconInput } from '@lucide/angular';
 
 interface CustomReleaseData {
   readonly owner: string;
@@ -30165,32 +30166,32 @@ export class TimelineTemplatesCustomMarkerIconsAndColorsDemo {
       title: 'Planning complete',
       description: 'Scope and release criteria were approved.',
       date: 'May 06',
-      markerColor: '#668451',
-      data: { owner: 'Maya Chen', version: 'v1.4', icon: LucideCheckCircle },
+      markerColor: 'var(--aeris-success)',
+      data: { owner: 'Maya Chen', version: 'v1.4', icon: LucideClipboardCheck },
     },
     {
       id: 'build',
       title: 'Build',
       description: 'Core package and guides are being prepared.',
       date: 'May 14',
-      markerColor: '#4f7f95',
-      data: { owner: 'Noah Williams', version: 'v1.4', icon: LucideCode },
+      markerColor: 'var(--aeris-info)',
+      data: { owner: 'Noah Williams', version: 'v1.4', icon: LucideBlocks },
     },
     {
       id: 'review',
       title: 'Quality review',
       description: 'Accessibility and API checks are scheduled.',
       date: 'May 22',
-      markerColor: '#b27632',
-      data: { owner: 'Sofia Rossi', version: 'v1.4', icon: LucideSearch },
+      markerColor: 'var(--aeris-warning)',
+      data: { owner: 'Sofia Rossi', version: 'v1.4', icon: LucideShieldCheck },
     },
     {
       id: 'release',
       title: 'Release',
       description: 'Packages will publish after final approval.',
       date: 'May 28',
-      markerColor: '#9b5f84',
-      data: { owner: 'Liam Novak', version: 'v1.4', icon: LucideRocket },
+      markerColor: 'var(--aeris-primary)',
+      data: { owner: 'Liam Novak', version: 'v1.4', icon: LucidePackageCheck },
     },
   ];
 }
@@ -30199,12 +30200,20 @@ export class TimelineTemplatesCustomMarkerIconsAndColorsDemo {
 ###### HTML
 
 ```html
-<aeris-timeline align="alternate" [activeIndex]="1" [value]="customEvents">
+<aeris-timeline
+  class="timeline-demo--custom"
+  align="alternate"
+  [activeIndex]="1"
+  [value]="customEvents"
+>
   <ng-template aerisTimelineMarker let-item>
-    <svg
-      class="timeline-marker-icon"
-      [lucideIcon]="$any(item).data.icon"
-    ></svg>
+    <span class="timeline-marker-icon">
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        [lucideIcon]="$any(item).data.icon"
+      ></svg>
+    </span>
   </ng-template>
 
   <ng-template aerisTimelineOpposite let-item>
@@ -30225,12 +30234,25 @@ export class TimelineTemplatesCustomMarkerIconsAndColorsDemo {
 ###### CSS
 
 ```css
+.timeline-demo--custom {
+  --aeris-timeline-marker-size: 2rem;
+  --aeris-timeline-separator-size: 2.75rem;
+}
+
 .timeline-marker-icon {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, currentColor 12%, var(--aeris-surface));
+}
+
+.timeline-marker-icon svg {
   width: 1rem;
   height: 1rem;
-  padding: 0.125rem;
-  border-radius: 50%;
-  background: color-mix(in srgb, currentColor 14%, var(--aeris-surface));
+  stroke-width: 2;
 }
 
 .release-date {
@@ -31437,6 +31459,7 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
 | `--aeris-tree-table-scroll-height` | `CSS custom property` | — | Maximum scroll viewport height. |
 | `--aeris-tree-table-header-height` | `CSS custom property` | — | Sticky header offset used by column filters. |
 | `--aeris-tree-table-indent` | `CSS custom property` | — | Indent per hierarchy level. |
+| `--aeris-tree-table-toggle-size` | `CSS custom property` | — | Branch disclosure button size. |
 | `--aeris-tree-table-stripe` | `CSS custom property` | — | Alternate row surface. |
 | `--aeris-tree-table-row-hover` | `CSS custom property` | — | Hover and focused row surface. |
 | `--aeris-tree-table-row-selected` | `CSS custom property` | — | Selected row surface. |
@@ -50004,6 +50027,9 @@ interface AerisMessageTemplateContext {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-message-icon-size` | `CSS custom property` | — | Message icon box size. |
+| `--aeris-message-severity-tint` | `CSS custom property` | — | Severity color mixed into the filled surface. |
+| `--aeris-message-background` | `CSS custom property` | — | Filled message background override. |
+| `--aeris-message-border-color` | `CSS custom property` | — | Message border color override. |
 | `--aeris-success` | `CSS custom property` | — | Success accent. |
 | `--aeris-info` | `CSS custom property` | — | Info accent. |
 | `--aeris-warning` | `CSS custom property` | — | Warning accent. |
@@ -53939,6 +53965,7 @@ type AerisBadgeOverlayPosition =
 | `--aeris-badge-shadow` | `CSS custom property` | — | Solid badge shadow. |
 | `--aeris-badge-dot-size` | `CSS custom property` | — | Default dot badge size. |
 | `--aeris-badge-overlay-ring-size` | `CSS custom property` | — | Surface ring around overlay badges. |
+| `--aeris-badge-overlay-offset` | `CSS custom property` | — | How far an overlay badge extends beyond the content corner. |
 | `--aeris-primary` | `CSS custom property` | — | Primary badge accent. |
 | `--aeris-success` | `CSS custom property` | — | Success badge accent. |
 | `--aeris-info` | `CSS custom property` | — | Info badge accent. |

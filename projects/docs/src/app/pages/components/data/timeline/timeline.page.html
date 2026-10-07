@@ -180,9 +180,20 @@
               [cssCode]="templateCssCode"
             >
               <div preview class="timeline-demo">
-                <aeris-timeline align="alternate" [activeIndex]="1" [value]="customEvents">
+                <aeris-timeline
+                  class="timeline-demo--custom"
+                  align="alternate"
+                  [activeIndex]="1"
+                  [value]="customEvents"
+                >
                   <ng-template aerisTimelineMarker let-item>
-                    <svg class="timeline-marker-icon" [lucideIcon]="$any(item).data.icon"></svg>
+                    <span class="timeline-marker-icon">
+                      <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        [lucideIcon]="$any(item).data.icon"
+                      ></svg>
+                    </span>
                   </ng-template>
                   <ng-template aerisTimelineOpposite let-item>
                     <span class="release-date">{{ $any(item).date }}</span>

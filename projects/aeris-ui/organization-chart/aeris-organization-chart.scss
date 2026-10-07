@@ -141,31 +141,34 @@
 }
 
 .aeris-organization-chart__toggle span {
-  position: relative;
   width: 1rem;
   height: 1rem;
-}
-
-.aeris-organization-chart__toggle span::before {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 1rem;
-  height: 1rem;
+  display: block;
   background: currentColor;
-  content: '';
-  transform: translate(-50%, -50%);
+  transform: rotate(0deg);
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
 }
 
-.aeris-organization-chart__toggle[aria-expanded='false'] span::before {
-  transform: translate(-50%, -50%) rotate(-90deg);
+.aeris-organization-chart__toggle[aria-expanded='false'] span {
+  transform: rotate(180deg);
 }
 
 .aeris-organization-chart__children {
   position: relative;
   gap: 0;
+  transform-origin: top center;
+}
+
+.aeris-organization-chart__children--enter {
+  animation: aeris-organization-chart-children-enter var(--aeris-motion-slow, 220ms)
+    var(--aeris-ease-enter, ease-out) both;
+}
+
+.aeris-organization-chart__children--leave {
+  animation: aeris-organization-chart-children-leave var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-exit, ease-in) both;
 }
 
 .aeris-organization-chart__children > .aeris-organization-chart__branch {
@@ -232,6 +235,33 @@
   background: var(--aeris-surface, #fff);
   color: var(--aeris-text-muted, #6d7068);
   text-align: center;
+}
+
+@keyframes aeris-organization-chart-children-enter {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--aeris-motion-distance, 0.25rem) * -1))
+      scale(var(--aeris-motion-scale, 0.985));
+  }
+}
+
+@keyframes aeris-organization-chart-children-leave {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--aeris-motion-distance, 0.25rem) * -1))
+      scale(var(--aeris-motion-scale, 0.985));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-organization-chart__toggle span {
+    transition: none;
+  }
+
+  .aeris-organization-chart__children--enter,
+  .aeris-organization-chart__children--leave {
+    animation: none;
+  }
 }
 
 @media (max-width: 44rem) {
