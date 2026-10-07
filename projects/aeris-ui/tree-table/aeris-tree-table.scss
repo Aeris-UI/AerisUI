@@ -193,6 +193,22 @@ tbody tr:last-child td {
   border-block-end: 0;
 }
 
+tbody td {
+  transition:
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+}
+
+.aeris-tree-table__row--enter {
+  animation: aeris-tree-table-row-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out) both;
+}
+
+.aeris-tree-table__row--leave {
+  animation: aeris-tree-table-row-leave var(--aeris-motion-fast, 100ms)
+    var(--aeris-ease-exit, ease-in) both;
+}
+
 tbody tr:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: -2px;
@@ -675,6 +691,7 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  tbody td,
   td[data-editable='true'],
   td[data-editable='true']::after,
   .aeris-tree-table__resize::before,
@@ -682,6 +699,25 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
   .aeris-tree-table__spinner {
     transition: none;
     animation: none;
+  }
+
+  .aeris-tree-table__row--enter,
+  .aeris-tree-table__row--leave {
+    animation: none;
+  }
+}
+
+@keyframes aeris-tree-table-row-enter {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--aeris-motion-distance, 0.25rem) * -1));
+  }
+}
+
+@keyframes aeris-tree-table-row-leave {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--aeris-motion-distance, 0.25rem) * -1));
   }
 }
 

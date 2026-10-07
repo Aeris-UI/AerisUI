@@ -65,6 +65,7 @@
   position: relative;
   display: block;
   color: var(--aeris-rating-empty, var(--aeris-surface-3, #e5e5df));
+  transition: filter var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-rating__layer,
@@ -75,6 +76,7 @@
 
 .aeris-rating__layer--empty {
   clip-path: inset(0 0 0 var(--aeris-rating-progress));
+  transition: clip-path var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-rating__layer--active {
@@ -85,6 +87,7 @@
   color: var(--aeris-rating-active, var(--aeris-primary, #{aeris-fallbacks.$primary}));
   overflow: hidden;
   pointer-events: none;
+  transition: width var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-rating__layer-inner {
@@ -127,7 +130,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aeris-rating__control {
+  .aeris-rating__stars,
+  .aeris-rating__layer--empty,
+  .aeris-rating__layer--active {
     transition: none;
   }
 }

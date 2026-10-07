@@ -197,6 +197,8 @@ let treeId = 0;
             <div
               #treeItem
               class="aeris-tree__node"
+              animate.enter="aeris-tree__node--enter"
+              animate.leave="aeris-tree__node--leave"
               role="treeitem"
               [id]="entry.id"
               [attr.tabindex]="entry.tabIndex"

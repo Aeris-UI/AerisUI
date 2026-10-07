@@ -151,6 +151,22 @@
   border: 1px solid var(--aeris-file-upload-file-border, var(--aeris-border));
   border-radius: var(--aeris-file-upload-file-radius, var(--aeris-radius-md, 0.625rem));
   background: var(--aeris-file-upload-file-background, var(--aeris-surface, #fff));
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out);
+}
+
+.aeris-file-upload__file--enter {
+  animation: aeris-file-upload-file-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out) both;
+}
+
+.aeris-file-upload__file--leave {
+  animation: aeris-file-upload-file-leave var(--aeris-motion-fast, 100ms)
+    var(--aeris-ease-exit, ease-in) both;
 }
 
 .aeris-file-upload__file[data-status='uploaded'] {
@@ -352,7 +368,27 @@
 
 @media (prefers-reduced-motion: reduce) {
   .aeris-file-upload__dropzone,
-  .aeris-file-upload__progress span {
+  .aeris-file-upload__progress span,
+  .aeris-file-upload__file {
     transition: none;
+  }
+
+  .aeris-file-upload__file--enter,
+  .aeris-file-upload__file--leave {
+    animation: none;
+  }
+}
+
+@keyframes aeris-file-upload-file-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--aeris-motion-distance, 0.25rem));
+  }
+}
+
+@keyframes aeris-file-upload-file-leave {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--aeris-motion-distance, 0.25rem) * -1));
   }
 }

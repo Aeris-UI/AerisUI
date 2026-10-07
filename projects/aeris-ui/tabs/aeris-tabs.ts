@@ -54,6 +54,13 @@ interface AerisTabPanelView {
   readonly rendered: boolean;
 }
 
+interface AerisTabsIndicatorRect {
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+}
+
 const AERIS_TABS_OWNER = new InjectionToken<AerisTabsOwner>('AerisTabsOwner');
 
 @Directive({ selector: 'ng-template[aerisTabHeader]' })
@@ -150,6 +157,16 @@ export class AerisTabPanel {
         (keydown)="handleKeydown($event)"
         (scroll)="updateScrollState()"
       >
+        @if (indicatorRect(); as indicator) {
+          <span
+            class="aeris-tabs__indicator"
+            aria-hidden="true"
+            [attr.data-ready]="indicatorReady() || null"
+            [style.width.px]="indicator.width"
+            [style.height.px]="indicator.height"
+            [style.transform]="indicatorTransform()"
+          ></span>
+        }
         @for (panel of panels(); track panel.value()) {
           <button
             #tabButton
@@ -247,6 +264,14 @@ export class AerisTabs {
   private readonly focusedValue = signal('');
   private readonly activatedPanels = signal<ReadonlySet<AerisTabPanel>>(new Set());
   private readonly hasOverflow = signal(false);
+  protected readonly indicatorRect = signal<AerisTabsIndicatorRect | null>(null);
+  protected readonly indicatorReady = signal(false);
+  protected readonly indicatorTransform = computed(() => {
+    const indicator = this.indicatorRect();
+    return indicator ? `translate3d(${indicator.x}px, ${indicator.y}px, 0)` : 'none';
+  });
+  private indicatorFrame: number | null = null;
+  private indicatorReadyFrame: number | null = null;
   protected readonly canScrollPrevious = signal(false);
   protected readonly canScrollNext = signal(false);
   protected readonly showScrollControls = computed(
@@ -281,6 +306,7 @@ export class AerisTabs {
     afterNextRender(() => {
       this.updateScrollState();
       this.observeTabSizing();
+      this.scheduleIndicatorUpdate();
     });
 
     effect(() => {
@@ -292,8 +318,19 @@ export class AerisTabs {
 
     afterRenderEffect(() => {
       const panel = this.activePanel();
-      if (!panel || this.activatedPanels().has(panel)) return;
-      this.activatedPanels.update((current) => new Set(current).add(panel));
+      this.variant();
+      this.orientation();
+      this.justify();
+      this.tabButtons();
+      this.scheduleIndicatorUpdate();
+      if (panel && !this.activatedPanels().has(panel)) {
+        this.activatedPanels.update((current) => new Set(current).add(panel));
+      }
+    });
+
+    this.destroyRef.onDestroy(() => {
+      if (this.indicatorFrame !== null) cancelAnimationFrame(this.indicatorFrame);
+      if (this.indicatorReadyFrame !== null) cancelAnimationFrame(this.indicatorReadyFrame);
     });
   }
 
@@ -402,11 +439,75 @@ export class AerisTabs {
     const list = this.tabList()?.nativeElement;
     if (!header || !list) return;
 
-    const observer = new ResizeObserver(() => this.updateScrollState());
+    const observer = new ResizeObserver(() => {
+      this.updateScrollState();
+      this.scheduleIndicatorUpdate();
+    });
     observer.observe(header);
     observer.observe(list);
     for (const button of this.tabButtons()) observer.observe(button.nativeElement);
     this.destroyRef.onDestroy(() => observer.disconnect());
+  }
+
+  private scheduleIndicatorUpdate(): void {
+    if (!this.isBrowser) return;
+    if (this.indicatorFrame !== null) cancelAnimationFrame(this.indicatorFrame);
+    this.indicatorFrame = requestAnimationFrame(() => {
+      this.indicatorFrame = null;
+      this.updateIndicator();
+    });
+  }
+
+  private updateIndicator(): void {
+    const panel = this.activePanel();
+    const list = this.tabList()?.nativeElement;
+    const panelIndex = panel ? this.panels().indexOf(panel) : -1;
+    const button = panelIndex >= 0 ? this.tabButtons()[panelIndex]?.nativeElement : undefined;
+    if (!list || !button) {
+      this.indicatorReady.set(false);
+      this.indicatorRect.set(null);
+      return;
+    }
+
+    const pill = this.variant() === 'pill';
+    const vertical = getComputedStyle(list).flexDirection === 'column';
+    const rect: AerisTabsIndicatorRect = pill
+      ? {
+          x: button.offsetLeft,
+          y: button.offsetTop,
+          width: button.offsetWidth,
+          height: button.offsetHeight,
+        }
+      : vertical
+        ? {
+            x: list.clientWidth - 2,
+            y: button.offsetTop + 8,
+            width: 2,
+            height: Math.max(button.offsetHeight - 16, 2),
+          }
+        : {
+            x: button.offsetLeft + 12,
+            y: list.clientHeight - 2,
+            width: Math.max(button.offsetWidth - 24, 2),
+            height: 2,
+          };
+
+    const currentRect = this.indicatorRect();
+    if (
+      !currentRect ||
+      currentRect.x !== rect.x ||
+      currentRect.y !== rect.y ||
+      currentRect.width !== rect.width ||
+      currentRect.height !== rect.height
+    ) {
+      this.indicatorRect.set(rect);
+    }
+    if (this.indicatorReady()) return;
+    if (this.indicatorReadyFrame !== null) cancelAnimationFrame(this.indicatorReadyFrame);
+    this.indicatorReadyFrame = requestAnimationFrame(() => {
+      this.indicatorReadyFrame = null;
+      this.indicatorReady.set(true);
+    });
   }
 
   private scrollPanelIntoView(panel: AerisTabPanel): void {

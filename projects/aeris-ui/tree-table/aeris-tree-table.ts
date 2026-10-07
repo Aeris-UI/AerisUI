@@ -437,6 +437,8 @@ let treeTableId = 0;
                 @for (entry of renderedRows(); track entry.key; let rowIndex = $index) {
                   <tr
                     #rowElement
+                    animate.enter="aeris-tree-table__row--enter"
+                    animate.leave="aeris-tree-table__row--leave"
                     [id]="entry.id"
                     [attr.tabindex]="entry.tabIndex"
                     [attr.data-row-key]="entry.key"

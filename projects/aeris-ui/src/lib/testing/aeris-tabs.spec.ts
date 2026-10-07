@@ -234,6 +234,42 @@ describe('AerisTabs', () => {
     expect(document.activeElement).toBe(tabs.item(0));
   });
 
+  it('moves one shared indicator to the active tab', async () => {
+    const fixture = TestBed.createComponent(TabsTestHost);
+    await fixture.whenStable();
+
+    const tablist = fixture.nativeElement.querySelector('[role="tablist"]') as HTMLElement;
+    const tabs = fixture.nativeElement.querySelectorAll(
+      '[role="tab"]',
+    ) as NodeListOf<HTMLButtonElement>;
+    Object.defineProperties(tablist, {
+      clientHeight: { configurable: true, get: () => 48 },
+      clientWidth: { configurable: true, get: () => 240 },
+    });
+    Object.defineProperties(tabs.item(0), {
+      offsetLeft: { configurable: true, get: () => 0 },
+      offsetTop: { configurable: true, get: () => 0 },
+      offsetWidth: { configurable: true, get: () => 80 },
+      offsetHeight: { configurable: true, get: () => 48 },
+    });
+    Object.defineProperties(tabs.item(1), {
+      offsetLeft: { configurable: true, get: () => 84 },
+      offsetTop: { configurable: true, get: () => 0 },
+      offsetWidth: { configurable: true, get: () => 88 },
+      offsetHeight: { configurable: true, get: () => 48 },
+    });
+
+    tabs.item(1).click();
+    fixture.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve, 40));
+    fixture.detectChanges();
+
+    const indicator = fixture.nativeElement.querySelector('.aeris-tabs__indicator') as HTMLElement;
+    expect(indicator.style.transform).toBe('translate3d(96px, 46px, 0)');
+    expect(indicator.style.width).toBe('64px');
+    expect(indicator.style.height).toBe('2px');
+  });
+
   it('supports manual activation, vertical keys, custom headers, and events', async () => {
     const fixture = TestBed.createComponent(ManualTabsTestHost);
     await fixture.whenStable();

@@ -163,6 +163,13 @@
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
+  transition:
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out);
 }
 
 .aeris-pick-list__item[draggable='true'] {
@@ -194,6 +201,7 @@
 
 .aeris-pick-list__item[data-dragging='true'] {
   opacity: 0.48;
+  transform: scale(0.985);
 }
 
 .aeris-pick-list__item[data-drop-target='true']::before {
@@ -344,5 +352,10 @@
 @media (prefers-reduced-motion: reduce) {
   .aeris-pick-list__item {
     scroll-behavior: auto;
+    transition: none;
+  }
+
+  .aeris-pick-list__item[data-dragging='true'] {
+    transform: none;
   }
 }

@@ -52,6 +52,11 @@
   font-size: var(--_font);
   text-align: left;
   cursor: pointer;
+  transition:
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 .aeris-multi-select__control:has(.aeris-multi-select__clear) .aeris-multi-select__trigger {
   padding-right: 4.5rem;
@@ -415,6 +420,10 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .aeris-multi-select__trigger {
+    transition: none;
+  }
+
   .aeris-multi-select__spinner {
     animation: none;
   }

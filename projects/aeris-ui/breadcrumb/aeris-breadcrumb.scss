@@ -118,6 +118,10 @@ aeris-breadcrumb {
   line-height: 1.3;
   text-align: start;
   text-decoration: none;
+  transition:
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-fast, 100ms) var(--aeris-ease-enter, ease-out);
 }
 
 button.aeris-breadcrumb__item,
@@ -169,6 +173,45 @@ a.aeris-breadcrumb__item:focus-visible {
   inline-size: var(--aeris-breadcrumb-ellipsis-size, 2rem);
   justify-content: center;
   color: var(--aeris-breadcrumb-ellipsis-color, var(--aeris-text-2, #454545));
+}
+
+button.aeris-breadcrumb__item--ellipsis:active {
+  transform: scale(0.92);
+}
+
+.aeris-breadcrumb__list-item--enter {
+  animation: aeris-breadcrumb-item-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out) both;
+}
+
+.aeris-breadcrumb__list-item--leave {
+  animation: aeris-breadcrumb-item-leave var(--aeris-motion-fast, 100ms)
+    var(--aeris-ease-exit, ease-in) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-breadcrumb__item {
+    transition: none;
+  }
+
+  .aeris-breadcrumb__list-item--enter,
+  .aeris-breadcrumb__list-item--leave {
+    animation: none;
+  }
+}
+
+@keyframes aeris-breadcrumb-item-enter {
+  from {
+    opacity: 0;
+    transform: scale(var(--aeris-motion-scale, 0.985));
+  }
+}
+
+@keyframes aeris-breadcrumb-item-leave {
+  to {
+    opacity: 0;
+    transform: scale(var(--aeris-motion-scale, 0.985));
+  }
 }
 
 .aeris-breadcrumb__item--custom {

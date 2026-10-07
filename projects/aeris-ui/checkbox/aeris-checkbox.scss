@@ -80,8 +80,8 @@
   opacity: 0;
   transform: scale(0.7);
   transition:
-    opacity var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease),
-    transform var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out);
 }
 
 .aeris-checkbox__check-mark {

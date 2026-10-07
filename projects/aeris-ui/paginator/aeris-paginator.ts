@@ -25,7 +25,6 @@ export interface AerisPaginatorPageEvent {
 
         @for (page of visiblePages(); track page) {
           <button
-            #rowsTrigger
             type="button"
             [attr.aria-label]="'Page ' + (page + 1)"
             [attr.aria-current]="page === currentPage() ? 'page' : null"
@@ -47,6 +46,7 @@ export interface AerisPaginatorPageEvent {
         <div class="aeris-paginator__rows" (focusout)="handleRowsFocusOut($event)">
           <span [id]="rowsLabelId">{{ rowsPerPageLabel() }}</span>
           <button
+            #rowsTrigger
             class="aeris-paginator__rows-trigger"
             type="button"
             aria-haspopup="listbox"

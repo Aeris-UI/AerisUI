@@ -49,6 +49,7 @@ button {
   transition:
     border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
     background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
     color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
     transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
@@ -80,6 +81,8 @@ button[aria-current='page'] {
     var(--aeris-surface, #fff)
   );
   color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 28%, transparent);
 }
 
 button:disabled {
@@ -190,8 +193,13 @@ button:focus-visible,
   background: currentColor;
   content: '';
   transform: translate(-50%, -50%);
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
+}
+
+.aeris-paginator__rows-trigger[aria-expanded='true'] .aeris-paginator__chevron::before {
+  transform: translate(-50%, -50%) rotate(180deg);
 }
 
 .aeris-paginator__rows-panel {
@@ -262,11 +270,6 @@ button:focus-visible,
   .aeris-paginator__rows {
     order: 3;
   }
-
-  .aeris-paginator__rows-panel {
-    right: 50%;
-    transform: translateX(50%);
-  }
 }
 
 @media (max-width: 30rem) {
@@ -298,7 +301,8 @@ button:focus-visible,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  button {
+  button,
+  .aeris-paginator__chevron::before {
     transition: none;
   }
 

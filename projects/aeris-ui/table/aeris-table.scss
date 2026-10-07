@@ -148,6 +148,9 @@ td {
 td {
   overflow: hidden;
   cursor: default;
+  transition:
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-table__cell-value {
@@ -512,6 +515,7 @@ td[data-editable]:focus-within::after {
   transform: translate(-50%, -50%);
   -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 tr[data-expanded] .aeris-table__icon-button span::before {
@@ -667,9 +671,11 @@ tr[data-selected] td {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  td,
   td[data-editable],
   td[data-editable]::after,
   .aeris-table__resize::before,
+  .aeris-table__icon-button span::before,
   .aeris-table__spinner {
     transition: none;
     animation: none;

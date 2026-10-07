@@ -75,7 +75,9 @@
   background: var(--aeris-toggle-switch-thumb, var(--aeris-surface, #fff));
   box-shadow: 0 1px 3px rgb(24 29 22 / 28%);
   transform: translateX(0);
-  transition: transform var(--aeris-motion-slow, 220ms) var(--aeris-ease-enter, ease-out);
+  transition:
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out);
 }
 
 .aeris-toggle-switch:hover:not([data-disabled]) .aeris-toggle-switch__control {

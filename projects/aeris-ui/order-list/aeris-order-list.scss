@@ -152,6 +152,13 @@
   font: inherit;
   text-align: left;
   cursor: pointer;
+  transition:
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out);
 }
 
 .aeris-order-list__item:hover {
@@ -166,6 +173,20 @@
   );
   background: var(--aeris-primary-soft, #eef2e6);
   color: var(--aeris-primary-text, #{aeris-fallbacks.$focus});
+}
+
+.aeris-order-list__item:active:not([aria-disabled='true']) {
+  transform: scale(0.99);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-order-list__item {
+    transition: none;
+  }
+
+  .aeris-order-list__item:active:not([aria-disabled='true']) {
+    transform: none;
+  }
 }
 
 .aeris-order-list__empty {

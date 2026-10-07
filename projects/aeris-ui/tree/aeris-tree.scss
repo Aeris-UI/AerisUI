@@ -149,6 +149,21 @@
   cursor: default;
   -webkit-user-select: none;
   user-select: none;
+  transition:
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+}
+
+.aeris-tree__node--enter {
+  animation: aeris-tree-node-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out) both;
+}
+
+.aeris-tree__node--leave {
+  animation: aeris-tree-node-leave var(--aeris-motion-fast, 100ms) var(--aeris-ease-exit, ease-in)
+    both;
 }
 
 .aeris-tree__node[draggable='true'] {
@@ -353,12 +368,32 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .aeris-tree__node,
   .aeris-tree__chevron::before {
     transition: none;
   }
 
   .aeris-tree__spinner {
     animation: none;
+  }
+
+  .aeris-tree__node--enter,
+  .aeris-tree__node--leave {
+    animation: none;
+  }
+}
+
+@keyframes aeris-tree-node-enter {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--aeris-motion-distance, 0.25rem) * -1));
+  }
+}
+
+@keyframes aeris-tree-node-leave {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--aeris-motion-distance, 0.25rem) * -1));
   }
 }
 
