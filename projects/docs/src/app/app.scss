@@ -402,15 +402,6 @@ button[data-docs-menu] {
   color: var(--text);
   font-weight: 600;
 }
-.docs-navigation a:not(.aeris-button).active::before {
-  position: absolute;
-  inset-block: 0.5rem;
-  inset-inline-start: -0.1875rem;
-  width: 2px;
-  border-radius: 999px;
-  background: var(--primary);
-  content: '';
-}
 .docs-navigation a:not(.aeris-button) span {
   margin-inline-start: auto;
   color: var(--text-3);
@@ -488,10 +479,6 @@ button[data-docs-menu] {
   font-size: 0.7rem;
 }
 
-.docs-navigation .docs-guide-group__items a.active::before,
-.docs-navigation .docs-component-group__items a.active::before {
-  inset-inline-start: calc(-0.5rem - 1px);
-}
 .docs-sidebar__footer {
   padding: 1rem 0.625rem 0;
   border-top: 1px solid color-mix(in srgb, var(--border) 48%, transparent);

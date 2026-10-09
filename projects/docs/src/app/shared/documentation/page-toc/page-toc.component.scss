@@ -49,18 +49,6 @@ a[aria-current='location'] {
   font-weight: 750;
 }
 
-a[aria-current='location']::before {
-  content: '';
-  width: 2px;
-  height: 1rem;
-  position: absolute;
-  inset-block-start: 50%;
-  inset-inline-start: -0.8125rem;
-  border-radius: 999px;
-  background: var(--primary);
-  transform: translateY(-50%);
-}
-
 a:focus-visible {
   border-radius: 0.25rem;
   outline-offset: 3px;
@@ -90,14 +78,6 @@ a:focus-visible {
     font-size: 0.8125rem;
   }
 
-  a[aria-current='location']::before {
-    width: 0.375rem;
-    height: 0.375rem;
-    position: static;
-    flex: 0 0 auto;
-    margin-inline-end: 0.375rem;
-    transform: none;
-  }
 }
 
 @media (max-width: 30rem) {

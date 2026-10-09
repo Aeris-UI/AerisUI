@@ -129,7 +129,7 @@ import { AerisClassNamesModule } from '@aeris-ui/core/class-names';
     }
 
     .array-card--accent {
-      border-inline-start: 0.25rem solid var(--aeris-primary);
+      border: 1px solid color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-border));
     }
 
     .array-card--compact {

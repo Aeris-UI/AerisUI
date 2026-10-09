@@ -566,7 +566,7 @@ export class StyleClassMethodsMethodsAndEventsDemo {
   display: none;
   width: min(100%, 34rem);
   padding: 1rem;
-  border-inline-start: 0.25rem solid var(--aeris-primary);
+  border: 1px solid color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-border));
   border-radius: var(--aeris-radius-lg);
   background: var(--aeris-primary-soft);
 }

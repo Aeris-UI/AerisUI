@@ -223,8 +223,9 @@
 
 .aeris-editor-content__quote {
   margin: 0 0 0.75rem;
-  padding-inline-start: 0.875rem;
-  border-inline-start: 3px solid var(--aeris-primary);
+  padding: 0.75rem 0.875rem;
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
+  background: var(--aeris-surface-2);
   color: var(--aeris-text-muted);
 }
 
