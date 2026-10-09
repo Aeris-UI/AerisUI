@@ -1,5 +1,18 @@
 import { expect, test } from './fixtures';
 
+test('documentation search loads on demand and focuses its search field', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Search documentation', exact: true }).click();
+  const dialog = page.getByRole('dialog', { name: 'Search documentation', exact: true });
+  await expect(dialog).toBeVisible();
+  const input = dialog.getByRole('searchbox');
+  await expect(input).toBeFocused();
+  await input.fill('select');
+  await expect(dialog.getByRole('link', { name: /^Select / })).toBeVisible();
+  await input.press('Escape');
+  await expect(dialog).not.toBeVisible();
+});
+
 const COMPONENT_ROUTES = [
   'button',
   'button-group',

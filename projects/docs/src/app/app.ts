@@ -4,10 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCardModule } from '@aeris-ui/core/card';
-import { AerisDialogModule } from '@aeris-ui/core/dialog';
 import { AerisDrawerModule } from '@aeris-ui/core/drawer';
-import { AerisIconField } from '@aeris-ui/core/icon-field';
-import { AerisInputText } from '@aeris-ui/core/input-text';
 import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
 import { AerisThemeService } from '@aeris-ui/core/theming';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
@@ -38,14 +35,10 @@ import { DOC_ICONS } from './shared/documentation/doc-icons';
 import { DocsRouteOutletComponent } from './shared/navigation/docs-route-outlet.component';
 import { DocsRoutePrefetchService } from './shared/navigation/docs-route-prefetch.service';
 import { DocsSeoService } from './shared/seo/docs-seo.service';
-
-interface DocsSearchEntry {
-  readonly name: string;
-  readonly category: string;
-  readonly description: string;
-  readonly path: string;
-  readonly kind: 'guide' | 'component';
-}
+import {
+  DocsSearchDialogComponent,
+  type DocsSearchEntry,
+} from './shared/search/docs-search-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -55,10 +48,8 @@ interface DocsSearchEntry {
     DocsRouteOutletComponent,
     NgTemplateOutlet,
     AerisButton,
-    AerisDialogModule,
+    DocsSearchDialogComponent,
     AerisDrawerModule,
-    AerisIconField,
-    AerisInputText,
     AerisScrollTop,
     AerisCardModule,
     AerisToolbarModule,
