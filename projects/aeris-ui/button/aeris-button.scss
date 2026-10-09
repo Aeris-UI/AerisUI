@@ -154,6 +154,10 @@
   width: 100%;
 }
 
+:host([data-fluid='true']) .aeris-button__content {
+  width: 100%;
+}
+
 :host(.aeris-button--severity-success) {
   --_aeris-button-fill: var(--aeris-success, #52744d);
   --_aeris-button-boundary: var(--aeris-success-boundary, var(--_aeris-button-fill));
