@@ -26,7 +26,7 @@ import {
 import { DOCS_PALETTES, type DocsPalette } from '../../data/docs-palettes';
 import { DocsAppearanceService } from '../../shared/appearance/docs-appearance.service';
 import { CodeBlockComponent } from '../../shared/code-block.component';
-import { AerisApplicationShowcaseComponent } from '../../shared/showcase/aeris-application-showcase.component';
+import { AerisShowcaseGalleryComponent } from '../../shared/showcase/aeris-showcase-gallery.component';
 
 type PaletteKey = keyof AerisPaletteConfig;
 type LabDensity = 'compact' | 'medium' | 'comfortable';
@@ -231,7 +231,7 @@ function createContrastReport(theme: AerisTheme, mode: LabScheme): LabContrastRe
     AerisMessage,
     AerisProgressBar,
     CodeBlockComponent,
-    AerisApplicationShowcaseComponent,
+    AerisShowcaseGalleryComponent,
   ],
   templateUrl: './design-lab.html',
   styleUrl: './design-lab.scss',

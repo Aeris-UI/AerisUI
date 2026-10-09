@@ -4,7 +4,6 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCardModule } from '@aeris-ui/core/card';
-import { AerisChipModule } from '@aeris-ui/core/chip';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 import { AerisMessageModule } from '@aeris-ui/core/message';
 import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
@@ -16,7 +15,7 @@ import { AERIS_CURRENT_VERSION } from '../data/aeris-version';
 import { AerisLogoMarkComponent } from '../shared/branding/aeris-logo-mark.component';
 import { CodeBlockComponent, type CodeSource } from '../shared/code-block.component';
 import { DOC_ICONS } from '../shared/documentation/doc-icons';
-import { AerisApplicationShowcaseComponent } from '../shared/showcase/aeris-application-showcase.component';
+import { AerisShowcaseGalleryComponent } from '../shared/showcase/aeris-showcase-gallery.component';
 
 @Component({
   selector: 'app-home-page',
@@ -26,7 +25,6 @@ import { AerisApplicationShowcaseComponent } from '../shared/showcase/aeris-appl
     AerisBadgeModule,
     AerisButton,
     AerisCardModule,
-    AerisChipModule,
     AerisInputText,
     AerisMessageModule,
     AerisSelect,
@@ -34,7 +32,7 @@ import { AerisApplicationShowcaseComponent } from '../shared/showcase/aeris-appl
     LucideDynamicIcon,
     AerisLogoMarkComponent,
     CodeBlockComponent,
-    AerisApplicationShowcaseComponent,
+    AerisShowcaseGalleryComponent,
   ],
   templateUrl: './home.page.html',
   styleUrls: [

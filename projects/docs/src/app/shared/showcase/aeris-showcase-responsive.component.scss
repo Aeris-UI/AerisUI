@@ -1,0 +1,190 @@
+@container (max-width: 58rem) {
+  .crm-preview__layout,
+  .finance-preview__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mail-preview {
+    grid-template-columns: 10rem minmax(13rem, 0.8fr) minmax(18rem, 1.2fr);
+  }
+}
+
+@container (max-width: 44rem) {
+  .product-toolbar {
+    display: block;
+  }
+
+  .product-toolbar [aerisToolbarStart],
+  .product-toolbar [aerisToolbarEnd] {
+    flex: 1 0 100%;
+  }
+
+  .product-toolbar__actions {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .chat-preview__conversation .product-toolbar {
+    display: block;
+  }
+
+  .chat-preview__conversation .product-toolbar [aerisToolbarStart] {
+    flex: 1 1 0;
+  }
+
+  .chat-preview__conversation .product-toolbar [aerisToolbarEnd] {
+    flex: 0 0 auto;
+  }
+
+  .product-metrics,
+  .product-metrics--three,
+  .crm-preview__footer-grid,
+  .finance-preview__footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-preview {
+    height: 100%;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    overflow: hidden;
+  }
+
+  .mail-preview {
+    height: auto;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+    overflow: visible;
+  }
+
+  .chat-preview__threads {
+    gap: 0.625rem;
+    padding: 0.75rem;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .chat-preview__threads nav {
+    display: flex;
+    gap: 0.375rem;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+
+  .chat-preview__threads nav > button {
+    flex: 0 0 min(10rem, 72vw);
+  }
+
+  .chat-preview__conversation {
+    min-height: 0;
+  }
+
+  .chat-preview__messages {
+    padding: 1rem;
+  }
+
+  .chat-preview__messages article {
+    max-width: 88%;
+  }
+
+  .chat-preview__composer {
+    padding: 0.625rem 0.75rem;
+  }
+
+  .mail-preview__sidebar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    padding: 0.75rem;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mail-preview__sidebar > button {
+    width: auto;
+  }
+
+  .mail-preview__sidebar nav {
+    grid-column: 1 / -1;
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+
+  .mail-preview__sidebar nav button {
+    flex: 0 0 auto;
+  }
+
+  .mail-preview__sidebar > aeris-divider,
+  .mail-preview__sidebar > small,
+  .mail-preview__labels {
+    display: none;
+  }
+
+  .mail-preview__list {
+    max-height: 20rem;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mail-preview__list > header {
+    flex-wrap: wrap;
+  }
+
+  .mail-preview__list > header aeris-icon-field {
+    width: 100%;
+  }
+
+  .mail-preview__reader {
+    min-height: 24rem;
+    padding: 1rem;
+    overflow: visible;
+  }
+
+  .mail-preview[data-mobile-view='list'] .mail-preview__reader,
+  .mail-preview[data-mobile-view='reader'] .mail-preview__list {
+    display: none;
+  }
+
+  .mail-preview__mobile-back {
+    align-self: flex-start;
+    display: inline-flex;
+    margin-bottom: 0.25rem;
+  }
+}
+
+@container (max-width: 32rem) {
+  .preview-inline-form--lead {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dashboard-preview__content,
+  .crm-preview__content,
+  .finance-preview__content {
+    padding: 0.75rem;
+  }
+
+  .product-toolbar {
+    position: static;
+  }
+
+  .mail-preview__brand strong {
+    font-size: 0.75rem;
+  }
+
+  .mail-preview__list [role='option'] {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .mail-preview__meta {
+    display: none;
+  }
+
+  .mail-preview__reader-header,
+  .mail-preview__sender {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,48 @@
+<section class="showcase-gallery" aria-label="Aeris product examples">
+  <div class="showcase-gallery__switcher" role="tablist" aria-label="Choose a product example">
+    @for (option of options; track option.id; let index = $index) {
+      <button
+        aerisButton
+        type="button"
+        size="sm"
+        [variant]="activeView() === option.id ? 'solid' : 'ghost'"
+        [severity]="activeView() === option.id ? 'secondary' : 'primary'"
+        role="tab"
+        [id]="instanceId + '-tab-' + option.id"
+        [attr.aria-label]="option.label"
+        [attr.aria-selected]="activeView() === option.id"
+        [attr.aria-controls]="activeView() === option.id ? instanceId + '-panel' : null"
+        [attr.tabindex]="activeView() === option.id ? 0 : -1"
+        (click)="selectView(option.id)"
+        (keydown)="handleTabKeydown($event, index)"
+      >
+        <svg [lucideIcon]="option.icon" aria-hidden="true"></svg>
+        <span>{{ option.label }}</span>
+      </button>
+    }
+  </div>
+
+  <div
+    class="showcase-gallery__viewport"
+    role="tabpanel"
+    tabindex="0"
+    [id]="instanceId + '-panel'"
+    [attr.aria-labelledby]="instanceId + '-tab-' + activeView()"
+    [attr.data-view]="activeView()"
+  >
+    @defer (on viewport; prefetch on idle) {
+      <app-aeris-showcase-content
+        [activeView]="activeView()"
+        (viewRequested)="selectView($event)"
+      />
+    } @placeholder {
+      <div class="showcase-gallery__loading" aria-hidden="true"><span></span><i></i><i></i></div>
+    }
+  </div>
+  <nav class="showcase-gallery__links" aria-label="Components used in this example">
+    <span>Explore these components</span>
+    @for (link of documentationLinks(); track link.path) {
+      <a [routerLink]="link.path">{{ link.label }}</a>
+    }
+  </nav>
+</section>
