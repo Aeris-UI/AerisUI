@@ -76,6 +76,7 @@
 :host(.aeris-badge[data-severity='primary']) {
   --_aeris-badge-accent: var(--aeris-primary, #{aeris-fallbacks.$primary});
   --_aeris-badge-on-accent: var(--aeris-on-primary, #{aeris-fallbacks.$on-primary});
+  --_aeris-badge-soft-text: var(--aeris-primary-text, #{aeris-fallbacks.$primary});
 }
 
 :host(.aeris-badge[data-severity='secondary']) {
@@ -86,21 +87,25 @@
 :host(.aeris-badge[data-severity='success']) {
   --_aeris-badge-accent: var(--aeris-success, #6f8a68);
   --_aeris-badge-on-accent: #fff;
+  --_aeris-badge-soft-text: var(--aeris-success-text, #37602c);
 }
 
 :host(.aeris-badge[data-severity='info']) {
   --_aeris-badge-accent: var(--aeris-info, #6b8793);
   --_aeris-badge-on-accent: #fff;
+  --_aeris-badge-soft-text: var(--aeris-info-text, #326174);
 }
 
 :host(.aeris-badge[data-severity='warning']) {
   --_aeris-badge-accent: var(--aeris-warning, #c38600);
   --_aeris-badge-on-accent: var(--aeris-on-warning, #211600);
+  --_aeris-badge-soft-text: var(--aeris-warning-text, #805400);
 }
 
 :host(.aeris-badge[data-severity='danger']) {
   --_aeris-badge-accent: var(--aeris-danger, #c81e2a);
   --_aeris-badge-on-accent: #fff;
+  --_aeris-badge-soft-text: var(--aeris-danger-text, #a81721);
 }
 
 :host(.aeris-badge[data-severity='neutral']) {
@@ -116,14 +121,20 @@
 :host(.aeris-badge[data-variant='soft']) {
   border-color: color-mix(in srgb, var(--_aeris-badge-accent) 24%, transparent);
   background: color-mix(in srgb, var(--_aeris-badge-accent) 14%, var(--aeris-surface, #fff));
-  color: color-mix(in srgb, var(--_aeris-badge-accent) 76%, var(--aeris-text, #111111));
+  color: var(
+    --_aeris-badge-soft-text,
+    color-mix(in srgb, var(--_aeris-badge-accent) 76%, var(--aeris-text, #111111))
+  );
   box-shadow: none;
 }
 
 :host(.aeris-badge[data-variant='outline']) {
   border-color: color-mix(in srgb, var(--_aeris-badge-accent) 52%, var(--aeris-border, #efefef));
   background: transparent;
-  color: color-mix(in srgb, var(--_aeris-badge-accent) 84%, var(--aeris-text, #111111));
+  color: var(
+    --_aeris-badge-soft-text,
+    color-mix(in srgb, var(--_aeris-badge-accent) 84%, var(--aeris-text, #111111))
+  );
   box-shadow: none;
 }
 
