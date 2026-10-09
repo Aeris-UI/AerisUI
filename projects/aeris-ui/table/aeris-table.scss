@@ -74,13 +74,15 @@
 .aeris-table__viewport {
   min-width: 0;
   overflow: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior-inline: contain;
+  overscroll-behavior-block: auto;
   scrollbar-color: var(--aeris-border, #efefef) transparent;
   scrollbar-width: thin;
 }
 
 .aeris-table__viewport[data-scrollable] {
   max-height: var(--aeris-table-scroll-height, 24rem);
+  overscroll-behavior-block: contain;
 }
 
 .aeris-table__frame:has(.aeris-table__viewport:focus-visible) {

@@ -406,13 +406,29 @@ export class AerisTableLoadingTemplate {
               @if (columnFilter()) {
                 <tr class="aeris-table__filter-row">
                   @if (expandableRows()) {
-                    <th class="aeris-table__control-cell" scope="col"></th>
+                    <th
+                      class="aeris-table__control-cell"
+                      scope="col"
+                      [attr.aria-label]="expandRowAriaLabel()"
+                    >
+                      <span class="aeris-table__sr">{{ expandRowAriaLabel() }}</span>
+                    </th>
                   }
                   @if (selectionMode() && selectionControl() === 'control') {
-                    <th class="aeris-table__control-cell" scope="col"></th>
+                    <th
+                      class="aeris-table__control-cell"
+                      scope="col"
+                      [attr.aria-label]="rowSelectionAriaLabel()"
+                    >
+                      <span class="aeris-table__sr">{{ rowSelectionAriaLabel() }}</span>
+                    </th>
                   }
                   @for (column of columns(); track column.field) {
-                    <th scope="col" [attr.data-align]="column.align || 'start'">
+                    <th
+                      scope="col"
+                      [attr.aria-label]="column.header"
+                      [attr.data-align]="column.align || 'start'"
+                    >
                       @if (column.filterable !== false) {
                         <label>
                           <span class="aeris-table__sr">Filter {{ column.header }}</span>
@@ -423,6 +439,8 @@ export class AerisTableLoadingTemplate {
                             (input)="handleColumnFilterInput(column.field, $event)"
                           />
                         </label>
+                      } @else {
+                        <span class="aeris-table__sr">{{ column.header }}</span>
                       }
                     </th>
                   }

@@ -25,6 +25,7 @@ import {
       [columns]="columns"
       [editable]="editable()"
       [gridlines]="gridlines()"
+      [scrollable]="scrollable()"
       [(sort)]="sort"
       [(selectedKeys)]="selectedKeys"
       [(expandedKeys)]="expandedKeys"
@@ -61,6 +62,7 @@ class TableTestHost {
   readonly columnFilters = signal<Readonly<Record<string, string>>>({});
   readonly editable = signal(false);
   readonly gridlines = signal(false);
+  readonly scrollable = signal(false);
   readonly lastSort = signal<AerisTableSortEvent | null>(null);
   readonly lastSelection = signal<AerisTableSelectionEvent | null>(null);
   readonly columns: readonly AerisTableColumn[] = [
@@ -133,6 +135,34 @@ class TableResizeHost {
 }
 
 describe('AerisTable', () => {
+  it('names filter-row cells even when a column has no filter', () => {
+    const fixture = TestBed.createComponent(AerisTable);
+    fixture.componentRef.setInput('columns', [
+      { field: 'value', header: 'Value', filterable: false },
+    ]);
+    fixture.componentRef.setInput('columnFilter', true);
+    fixture.detectChanges();
+    const header = fixture.nativeElement.querySelector(
+      '.aeris-table__filter-row th',
+    ) as HTMLElement;
+    expect(header.getAttribute('aria-label')).toBe('Value');
+    expect(header.textContent?.trim()).toBe('Value');
+    expect(header.querySelector('input')).toBeNull();
+  });
+
+  it('allows page scrolling unless vertical table scrolling is enabled', () => {
+    const fixture = TestBed.createComponent(TableTestHost);
+    fixture.detectChanges();
+    const viewport = fixture.nativeElement.querySelector('.aeris-table__viewport') as HTMLElement;
+
+    expect(getComputedStyle(viewport).overscrollBehaviorBlock).toBe('auto');
+
+    fixture.componentInstance.scrollable.set(true);
+    fixture.detectChanges();
+
+    expect(getComputedStyle(viewport).overscrollBehaviorBlock).toBe('contain');
+  });
+
   it('renders native table semantics with caption and paginated rows', async () => {
     const fixture = TestBed.createComponent(TableTestHost);
     await fixture.whenStable();
@@ -231,6 +261,10 @@ describe('AerisTable', () => {
     expect(fixture.nativeElement.querySelectorAll('.aeris-table__filter-row th').length).toBe(
       fixture.componentInstance.columns.length + 2,
     );
+    const headers = fixture.nativeElement.querySelectorAll(
+      '.aeris-table__filter-row th',
+    ) as NodeListOf<HTMLElement>;
+    expect(Array.from(headers).every((header) => !!header.getAttribute('aria-label'))).toBe(true);
   });
 
   it('resizes adjacent columns without changing their combined width', async () => {

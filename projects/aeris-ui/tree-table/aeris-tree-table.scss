@@ -93,13 +93,15 @@
 .aeris-tree-table__viewport {
   min-width: 0;
   overflow: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior-inline: contain;
+  overscroll-behavior-block: auto;
   scrollbar-color: var(--aeris-border, #efefef) transparent;
   scrollbar-width: thin;
 }
 
 .aeris-tree-table__viewport[data-scrollable='true'] {
   max-height: var(--aeris-tree-table-scroll-height, 24rem);
+  overscroll-behavior-block: contain;
 }
 
 .aeris-tree-table__frame:has(.aeris-tree-table__viewport:focus-visible) {

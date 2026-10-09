@@ -75,6 +75,7 @@ const NODES: readonly AerisTreeTableNode<FileRow>[] = [
       [resizableColumns]="resizable()"
       [reorderableColumns]="reorderable()"
       [showOverflowTooltip]="showOverflowTooltip()"
+      [scrollable]="scrollable()"
       [responsiveMode]="responsiveMode()"
       [(value)]="nodes"
       [(columns)]="columns"
@@ -118,6 +119,7 @@ class TreeTableTestHost {
   readonly resizable = signal(false);
   readonly reorderable = signal(false);
   readonly showOverflowTooltip = signal(false);
+  readonly scrollable = signal(false);
   readonly responsiveMode = signal<'scroll' | 'stack'>('scroll');
   readonly expandedEvent = signal('');
   readonly selectionEvent = signal('');
@@ -164,6 +166,21 @@ class TreeTableStateHost {
 }
 
 describe('AerisTreeTable', () => {
+  it('names filter-row cells even when a column has no filter', () => {
+    const fixture = TestBed.createComponent(AerisTreeTable);
+    fixture.componentRef.setInput('columns', [
+      { field: 'value', header: 'Value', filterable: false },
+    ]);
+    fixture.componentRef.setInput('columnFilter', true);
+    fixture.detectChanges();
+    const header = fixture.nativeElement.querySelector(
+      '.aeris-tree-table__filter-row th',
+    ) as HTMLElement;
+    expect(header.getAttribute('aria-label')).toBe('Value');
+    expect(header.textContent?.trim()).toBe('Value');
+    expect(header.querySelector('input')).toBeNull();
+  });
+
   function setup(): ComponentFixture<TreeTableTestHost> {
     const fixture = TestBed.createComponent(TreeTableTestHost);
     fixture.detectChanges();
@@ -177,6 +194,20 @@ describe('AerisTreeTable', () => {
   it('exports one module-array import with the component and templates', () => {
     expect(AerisTreeTableModule[0]).toBe(AerisTreeTable);
     expect(AerisTreeTableModule.length).toBe(5);
+  });
+
+  it('allows page scrolling unless vertical tree-table scrolling is enabled', () => {
+    const fixture = setup();
+    const viewport = fixture.nativeElement.querySelector(
+      '.aeris-tree-table__viewport',
+    ) as HTMLElement;
+
+    expect(getComputedStyle(viewport).overscrollBehaviorBlock).toBe('auto');
+
+    fixture.componentInstance.scrollable.set(true);
+    fixture.detectChanges();
+
+    expect(getComputedStyle(viewport).overscrollBehaviorBlock).toBe('contain');
   });
 
   it('renders a named treegrid with dynamic columns and hierarchical metadata', () => {
@@ -431,6 +462,10 @@ describe('AerisTreeTable', () => {
     expect(fixture.nativeElement.querySelectorAll('.aeris-tree-table__filter-row th').length).toBe(
       COLUMNS.length,
     );
+    const headers = fixture.nativeElement.querySelectorAll(
+      '.aeris-tree-table__filter-row th',
+    ) as NodeListOf<HTMLElement>;
+    expect(Array.from(headers).every((header) => !!header.getAttribute('aria-label'))).toBe(true);
   });
 
   it('resizes and reorders columns with keyboard controls', () => {
