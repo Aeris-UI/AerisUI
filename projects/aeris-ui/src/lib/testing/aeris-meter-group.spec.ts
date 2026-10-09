@@ -109,6 +109,21 @@ describe('AerisMeterGroup', () => {
     expect(host.textContent).toContain('Messages');
   });
 
+  it('reveals stacked segments as one continuous meter', () => {
+    const fixture = TestBed.createComponent(BasicMeterGroupHost);
+    fixture.detectChanges();
+    const animatedLayer = fixture.nativeElement.querySelector(
+      '.aeris-meter-group__segments',
+    ) as HTMLElement;
+    const segments = animatedLayer.querySelectorAll('.aeris-meter-group__segment');
+
+    expect(animatedLayer).toBeTruthy();
+    expect(segments).toHaveLength(3);
+    expect(
+      Array.from(segments, (segment) => (segment as HTMLElement).style.animationDelay),
+    ).toEqual(['', '', '']);
+  });
+
   it('caps visual overflow while retaining original legend values', () => {
     const fixture = TestBed.createComponent(MeterGroupOptionsHost);
     fixture.detectChanges();

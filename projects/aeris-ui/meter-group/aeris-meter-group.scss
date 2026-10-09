@@ -44,7 +44,6 @@
   min-inline-size: 0;
   inline-size: 100%;
   block-size: var(--_aeris-meter-group-track-size);
-  display: flex;
   overflow: hidden;
   border: 1px solid var(--aeris-meter-group-track-border, var(--aeris-border));
   border-radius: var(--aeris-meter-group-radius, var(--aeris-radius-control, 0.4375rem));
@@ -59,7 +58,24 @@
 :host([data-orientation='vertical']) .aeris-meter-group__track {
   inline-size: var(--_aeris-meter-group-track-size);
   block-size: var(--aeris-meter-group-vertical-size, 14rem);
+}
+
+.aeris-meter-group__segments {
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  overflow: hidden;
+  animation: aeris-meter-group-reveal-inline var(--aeris-motion-emphasized, 320ms)
+    var(--aeris-ease-enter, ease-out) both;
+}
+
+:host(:dir(rtl)) .aeris-meter-group__segments {
+  animation-name: aeris-meter-group-reveal-inline-rtl;
+}
+
+:host([data-orientation='vertical']) .aeris-meter-group__segments {
   flex-direction: column-reverse;
+  animation-name: aeris-meter-group-reveal-block;
 }
 
 .aeris-meter-group__segment {
@@ -69,19 +85,10 @@
   place-items: center;
   overflow: hidden;
   background-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
-  transform-origin: left center;
-  animation: aeris-meter-group-reveal-inline var(--aeris-motion-emphasized, 320ms)
-    var(--aeris-ease-enter, ease-out) both;
-}
-
-:host(:dir(rtl)) .aeris-meter-group__segment {
-  transform-origin: right center;
 }
 
 :host([data-orientation='vertical']) .aeris-meter-group__segment {
   min-block-size: 0;
-  transform-origin: center bottom;
-  animation-name: aeris-meter-group-reveal-block;
 }
 
 .aeris-meter-group__segment[data-tone='secondary'],
@@ -183,21 +190,31 @@
 
 @keyframes aeris-meter-group-reveal-inline {
   from {
-    transform: scaleX(0);
+    clip-path: inset(0 100% 0 0);
   }
 
   to {
-    transform: scaleX(1);
+    clip-path: inset(0);
+  }
+}
+
+@keyframes aeris-meter-group-reveal-inline-rtl {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+
+  to {
+    clip-path: inset(0);
   }
 }
 
 @keyframes aeris-meter-group-reveal-block {
   from {
-    transform: scaleY(0);
+    clip-path: inset(100% 0 0);
   }
 
   to {
-    transform: scaleY(1);
+    clip-path: inset(0);
   }
 }
 
@@ -213,7 +230,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aeris-meter-group__segment {
+  .aeris-meter-group__segments {
     animation: none;
   }
 }
