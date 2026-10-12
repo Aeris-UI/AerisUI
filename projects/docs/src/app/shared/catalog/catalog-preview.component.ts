@@ -91,7 +91,7 @@ import { CatalogFilePreviewComponent } from './catalog-file-preview.component';
       }
       @case ('editor') {
         @defer (on immediate) {
-          <app-catalog-editor-preview />
+          <app-catalog-editor-preview [active]="active()" />
         }
       }
       @case ('file-upload') {

@@ -173,4 +173,42 @@ describe('CatalogPreviewComponent', () => {
     fixture.detectChanges();
     expect(element.querySelector('[role="region"]')).toBeNull();
   });
+
+  it('replays editor text formatting with the real toolbar state without taking focus', async () => {
+    const fixture = TestBed.createComponent(CatalogPreviewComponent);
+    fixture.componentRef.setInput('kind', 'editor');
+    fixture.componentRef.setInput('category', 'Form');
+    fixture.detectChanges();
+    await (await fixture.getDeferBlocks())[0].render(DeferBlockState.Complete);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const element = fixture.nativeElement as HTMLElement;
+    const bold = element.querySelector('[aria-label="Bold"]') as HTMLButtonElement;
+    const textbox = element.querySelector('[role="textbox"]') as HTMLElement;
+    const focused = document.activeElement;
+    await vi.waitFor(() => {
+      expect(textbox.textContent).toBe('Make room for better ideas.');
+      expect(textbox.querySelector('strong')).toBeNull();
+      expect(bold.getAttribute('aria-pressed')).toBe('false');
+    });
+    for (let repeat = 0; repeat < 2; repeat++) {
+      fixture.componentRef.setInput('active', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await vi.waitFor(() => {
+        fixture.detectChanges();
+        expect(textbox.querySelector('strong')?.textContent).toBe('better ideas');
+        expect(bold.getAttribute('aria-pressed')).toBe('true');
+      });
+      fixture.componentRef.setInput('active', false);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await vi.waitFor(() => {
+        fixture.detectChanges();
+        expect(textbox.querySelector('strong')).toBeNull();
+        expect(bold.getAttribute('aria-pressed')).toBe('false');
+      });
+      expect(document.activeElement).toBe(focused);
+    }
+  });
 });

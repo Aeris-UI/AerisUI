@@ -1,6 +1,32 @@
 import { expect, test } from './fixtures';
 import { COMPONENT_CATALOG } from '../../projects/docs/src/app/data/component-catalog';
 
+test('catalog editor formats its phrase and toolbar only while hovered', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/components');
+  const search = page.getByRole('searchbox', { name: 'Filter components' });
+  await search.fill('editor');
+  const card = page.locator('.catalog-preview-card').filter({
+    has: page.locator('a[href="/components/editor"]'),
+  });
+  const textbox = card.locator('[role="textbox"]');
+  const bold = card.locator('[aria-label="Bold"]');
+  await expect(textbox).toHaveText('Make room for better ideas.');
+  await expect(textbox.locator('strong')).toHaveCount(0);
+  await expect(bold).toHaveAttribute('aria-pressed', 'false');
+  await expect(card.locator('.aeris-editor__separator')).toHaveCount(0);
+  for (let repeat = 0; repeat < 2; repeat++) {
+    await card.hover();
+    await expect(textbox.locator('strong')).toHaveText('better ideas');
+    await expect(bold).toHaveAttribute('aria-pressed', 'true');
+    await expect(search).toBeFocused();
+    await page.mouse.move(0, 0);
+    await expect(textbox.locator('strong')).toHaveCount(0);
+    await expect(bold).toHaveAttribute('aria-pressed', 'false');
+    await expect(textbox).toHaveText('Make room for better ideas.');
+  }
+});
+
 test('catalog CascadeSelect stays inside its card with aligned chevrons', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   for (const width of [390, 1440]) {
