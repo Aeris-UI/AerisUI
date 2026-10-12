@@ -207,7 +207,7 @@ let editorId = 0;
             </button>
           }
 
-          @if (hasInlineActions()) {
+          @if (toolbarSeparators().inline) {
             <span class="aeris-editor__separator" aria-hidden="true"></span>
           }
           @if (availableFormats().has('bold')) {
@@ -336,7 +336,7 @@ let editorId = 0;
             </button>
           }
 
-          @if (hasBlockActions()) {
+          @if (toolbarSeparators().block) {
             <span class="aeris-editor__separator" aria-hidden="true"></span>
           }
           @if (availableFormats().has('paragraph')) {
@@ -446,7 +446,7 @@ let editorId = 0;
             </button>
           }
 
-          @if (hasListActions()) {
+          @if (toolbarSeparators().list) {
             <span class="aeris-editor__separator" aria-hidden="true"></span>
           }
           @if (availableFormats().has('bulletList')) {
@@ -508,7 +508,7 @@ let editorId = 0;
             </button>
           }
 
-          @if (hasAlignmentActions()) {
+          @if (toolbarSeparators().alignment) {
             <span class="aeris-editor__separator" aria-hidden="true"></span>
           }
           @if (availableFormats().has('alignLeft')) {
@@ -590,7 +590,7 @@ let editorId = 0;
             </button>
           }
 
-          @if (hasDocumentActions()) {
+          @if (toolbarSeparators().document) {
             <span class="aeris-editor__separator" aria-hidden="true"></span>
           }
           @if (availableFormats().has('outdent')) {
@@ -781,6 +781,22 @@ export class AerisEditorComponent implements ControlValueAccessor {
   protected readonly hasDocumentActions = computed(() =>
     this.formats().some((format) => ['outdent', 'indent', 'clear'].includes(format)),
   );
+  protected readonly toolbarSeparators = computed(() => {
+    let hasPreviousGroup =
+      this.availableFormats().has('undo') || this.availableFormats().has('redo');
+    const beforeGroup = (hasActions: boolean) => {
+      const show = hasPreviousGroup && hasActions;
+      hasPreviousGroup ||= hasActions;
+      return show;
+    };
+    return {
+      inline: beforeGroup(this.hasInlineActions()),
+      block: beforeGroup(this.hasBlockActions()),
+      list: beforeGroup(this.hasListActions()),
+      alignment: beforeGroup(this.hasAlignmentActions()),
+      document: beforeGroup(this.hasDocumentActions()),
+    };
+  });
 
   protected readonly resolvedInputId = computed(() => this.inputId() || this.generatedId);
   protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
