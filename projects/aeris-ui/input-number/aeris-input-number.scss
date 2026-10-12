@@ -36,7 +36,7 @@
   align-items: center;
   flex: 1 1 auto;
   gap: 0.375rem;
-  padding-inline: 0.75rem;
+  padding-inline: var(--_padding, var(--aeris-control-padding-x, 0.75rem));
   border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
@@ -324,14 +324,17 @@
 
 .aeris-input-number[data-size='xs'] {
   --_height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
+  --_padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
 }
 
 .aeris-input-number[data-size='sm'] {
   --_height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
+  --_padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.85);
 }
 
 .aeris-input-number[data-size='lg'] {
   --_height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
+  --_padding: calc(var(--aeris-control-padding-x, 0.75rem) * 1.15);
 }
 
 .aeris-input-number[data-size='xs'] .aeris-input-number__input {

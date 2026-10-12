@@ -127,7 +127,7 @@
 .aeris-pick-list__viewport {
   min-width: 0;
   min-height: 0;
-  padding: calc(var(--aeris-density-gap, 0.5rem) * 0.75);
+  padding: var(--aeris-overlay-padding, calc(var(--aeris-density-gap, 0.5rem) * 0.75));
   overflow: auto;
 }
 
@@ -159,7 +159,7 @@
   );
   background: transparent;
   color: var(--aeris-text, #111111);
-  font-size: var(--aeris-font-size-lg, 0.875rem);
+  font-size: var(--aeris-item-font-size, 0.875rem);
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;

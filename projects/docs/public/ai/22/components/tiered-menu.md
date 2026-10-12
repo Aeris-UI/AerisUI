@@ -137,7 +137,7 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
 | `--aeris-tiered-menu-width` | `length` | `14rem` | Root panel width. |
 | `--aeris-tiered-menu-max-width` | `length` | `min(22rem, 100%)` | Root panel maximum width. |
 | `--aeris-tiered-menu-max-height` | `length` | `min(26rem, calc(100vh - 1rem))` | Root list maximum height. |
-| `--aeris-tiered-menu-padding` | `length` | `0.375rem` | Panel and submenu padding. |
+| `--aeris-tiered-menu-padding` | `length` | `--aeris-overlay-padding` | Panel and submenu padding. |
 | `--aeris-tiered-menu-border` | `color` | `--aeris-border` | Panel border color. |
 | `--aeris-tiered-menu-radius` | `length` | `--aeris-radius-overlay` | Panel and submenu radius shared by Aeris overlay surfaces. |
 | `--aeris-tiered-menu-background` | `color` | `--aeris-surface` | Panel background. |
@@ -146,7 +146,7 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
 | `--aeris-tiered-menu-item-min-height` | `length` | `--aeris-item-height` | Default item height. |
 | `--aeris-tiered-menu-item-radius` | `length` | `--aeris-radius-item` | Item hover and focus radius shared across every menu depth. |
 | `--aeris-tiered-menu-item-hover-background` | `color` | `primary mix` | Hover, active, and open item background. |
-| `--aeris-tiered-menu-icon-size` | `length` | `1.125rem` | Default icon box size. |
+| `--aeris-tiered-menu-icon-size` | `length` | `--aeris-icon-size` | Default icon box size. |
 | `--aeris-tiered-menu-submenu-width` | `length` | `14rem` | Submenu panel width. |
 | `--aeris-tiered-menu-submenu-offset` | `length` | `0.375rem` | Distance between parent and submenu panel. |
 

@@ -56,7 +56,7 @@ import { ProjectedCode } from '../../../../shared/projected-code.directive';
       line-height: 1.55;
     }
     .preview {
-      --aeris-card-gap: 1rem;
+      --aeris-card-gap: var(--aeris-content-gap, 1rem);
       --aeris-card-radius: var(--aeris-radius-lg, 1.125rem);
 
       min-height: 112px;

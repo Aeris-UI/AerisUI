@@ -1567,6 +1567,7 @@ export const appConfig: ApplicationConfig = {
         title: 'Choose density and corners',
         paragraphs: [
           'Use compact for dense workspaces, medium for the balanced default, and comfortable for touch-heavy or relaxed layouts. Soft, rounded, and pill control the visual character while structural components retain practical geometry.',
+          'Density also controls the space around content: menus and toolbars share compact outer padding, while cards, panels, accordions, and dialog bodies use the same content spacing scale. A toolbar containing buttons can be taller than a menu row because the controls need their own space.',
         ],
         code: [
           source(
@@ -1585,6 +1586,51 @@ export const appConfig: ApplicationConfig = {
     }),
   ],
 };`,
+          ),
+        ],
+      },
+      {
+        id: 'shared-geometry',
+        title: 'Customize shared spacing and typography',
+        advanced: true,
+        paragraphs: [
+          'Prefer these shared CSS tokens when several components should change together. Their default values derive from the active density, so compact and comfortable layouts remain coordinated. Component-specific tokens still take precedence for a local exception.',
+          'Widths remain content-dependent: a menu, a date grid, and a dialog do not need the same width. Use fluid controls and responsive parent layouts rather than assigning one fixed width to every component.',
+        ],
+        table: {
+          caption: 'Shared geometry tokens (medium density)',
+          columns: ['Token', 'Default', 'Used for'],
+          rows: [
+            [
+              '--aeris-overlay-padding',
+              '0.375rem',
+              'Outer padding of menus, dropdown panels, and toolbars',
+            ],
+            ['--aeris-surface-padding-sm', '0.875rem', 'Small surfaces and compact headers'],
+            ['--aeris-surface-padding', '1.25rem', 'Default content surfaces and overlay bodies'],
+            ['--aeris-surface-padding-lg', '1.75rem', 'Large content surfaces'],
+            ['--aeris-content-gap', '1rem', 'Spacing between content sections'],
+            [
+              '--aeris-heading-font-size',
+              '1rem',
+              'Card, panel, dialog, drawer, and popover headings',
+            ],
+            ['--aeris-body-font-size', '0.875rem', 'Content text'],
+            ['--aeris-item-font-size', '0.875rem', 'Menu items and selectable list options'],
+          ],
+        },
+        code: [
+          source(
+            'src/styles.scss',
+            'CSS',
+            `:root {
+  --aeris-surface-padding: 1.5rem;
+  --aeris-content-gap: 1.25rem;
+}
+
+.compact-toolbar {
+  --aeris-toolbar-padding-inline: 0.25rem;
+}`,
           ),
         ],
       },

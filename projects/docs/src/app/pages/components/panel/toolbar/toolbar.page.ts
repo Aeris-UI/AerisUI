@@ -293,6 +293,12 @@ type AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';`;
 
   protected readonly tokens: readonly ApiRow[] = [
     {
+      name: '--aeris-toolbar-font-size',
+      type: 'length',
+      defaultValue: '--aeris-body-font-size',
+      description: 'Text size inside the toolbar; projected controls retain their own sizing.',
+    },
+    {
       name: '--aeris-toolbar-background',
       type: 'color',
       defaultValue: '--aeris-surface',
@@ -343,31 +349,31 @@ type AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';`;
     {
       name: '--aeris-toolbar-padding-block',
       type: 'length',
-      defaultValue: '0.75rem',
+      defaultValue: '--aeris-overlay-padding',
       description: 'Default block padding.',
     },
     {
       name: '--aeris-toolbar-padding-inline',
       type: 'length',
-      defaultValue: '0.875rem',
+      defaultValue: '--aeris-overlay-padding',
       description: 'Default inline padding.',
     },
     {
       name: '--aeris-toolbar-gap',
       type: 'length',
-      defaultValue: '0.75rem',
+      defaultValue: '--aeris-density-gap',
       description: 'Gap between toolbar sections.',
     },
     {
       name: '--aeris-toolbar-section-gap',
       type: 'length',
-      defaultValue: '0.5rem',
+      defaultValue: '--aeris-density-gap',
       description: 'Gap between controls inside sections and groups.',
     },
     {
       name: '--aeris-toolbar-min-height',
       type: 'length',
-      defaultValue: '3.25rem',
+      defaultValue: '--aeris-control-height',
       description: 'Minimum content row height.',
     },
     {

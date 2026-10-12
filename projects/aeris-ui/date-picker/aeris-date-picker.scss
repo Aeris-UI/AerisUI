@@ -21,28 +21,28 @@
 .aeris-date-picker {
   --aeris-date-picker-height: var(--aeris-control-height, 2.625rem);
   --aeris-date-picker-font-size: var(--aeris-font-size-lg, 0.875rem);
-  --aeris-date-picker-padding: 0.75rem;
+  --aeris-date-picker-padding: var(--aeris-control-padding-x, 0.75rem);
 
   position: relative;
   width: 100%;
 }
 
 .aeris-date-picker[data-size='xs'] {
-  --aeris-date-picker-height: 1.875rem;
+  --aeris-date-picker-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
   --aeris-date-picker-font-size: var(--aeris-font-size-sm, 0.75rem);
-  --aeris-date-picker-padding: 0.5625rem;
+  --aeris-date-picker-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
 }
 
 .aeris-date-picker[data-size='sm'] {
-  --aeris-date-picker-height: 2.25rem;
+  --aeris-date-picker-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
   --aeris-date-picker-font-size: var(--aeris-font-size-md, 0.8125rem);
-  --aeris-date-picker-padding: 0.6875rem;
+  --aeris-date-picker-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.85);
 }
 
 .aeris-date-picker[data-size='lg'] {
-  --aeris-date-picker-height: 3rem;
+  --aeris-date-picker-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
   --aeris-date-picker-font-size: var(--aeris-font-size-xl, 0.9375rem);
-  --aeris-date-picker-padding: 0.875rem;
+  --aeris-date-picker-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 1.15);
 }
 
 .aeris-date-picker__control {

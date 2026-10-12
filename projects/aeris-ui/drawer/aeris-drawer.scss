@@ -217,8 +217,8 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 0.875rem;
-  padding: var(--aeris-drawer-header-padding, 1rem 1.125rem);
+  gap: var(--aeris-density-gap, 0.5rem);
+  padding: var(--aeris-drawer-header-padding, var(--aeris-surface-padding-sm, 0.875rem) var(--aeris-surface-padding, 1.25rem));
   background: var(--aeris-drawer-header-background, var(--aeris-surface, #fff));
 }
 
@@ -245,7 +245,7 @@
   min-width: 0;
   flex: 1 1 auto;
   color: var(--aeris-drawer-title-color, var(--aeris-text, #111111));
-  font-size: var(--aeris-drawer-title-size, 1rem);
+  font-size: var(--aeris-drawer-title-size, var(--aeris-heading-font-size, 1rem));
   font-weight: var(--aeris-font-weight-bold, 700);
   line-height: 1.35;
 }
@@ -253,7 +253,7 @@
 .aeris-drawer__actions {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: var(--aeris-overlay-padding, 0.375rem);
   flex: 0 0 auto;
 }
 
@@ -319,10 +319,10 @@
 .aeris-drawer__body {
   min-width: 0;
   min-height: 0;
-  padding: var(--aeris-drawer-body-padding, 1.125rem);
+  padding: var(--aeris-drawer-body-padding, var(--aeris-surface-padding, 1.25rem));
   overflow: auto;
   color: var(--aeris-drawer-body-color, var(--aeris-text-2, #454545));
-  font-size: var(--aeris-font-size-lg, 0.875rem);
+  font-size: var(--aeris-body-font-size, 0.875rem);
   line-height: 1.6;
 }
 

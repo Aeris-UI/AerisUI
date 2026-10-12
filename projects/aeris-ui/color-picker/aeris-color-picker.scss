@@ -20,8 +20,8 @@
 }
 
 .aeris-color-picker {
-  --aeris-color-picker-height: var(--aeris-control-height, 2.5rem);
-  --aeris-color-picker-font-size: var(--aeris-font-size-xl, 0.9375rem);
+  --aeris-color-picker-height: var(--aeris-control-height, 2.625rem);
+  --aeris-color-picker-font-size: var(--aeris-font-size-lg, 0.875rem);
   --aeris-color-picker-panel-width: 20rem;
   --aeris-color-picker-panel-background: var(--aeris-surface, #fff);
   --aeris-color-picker-panel-border: var(--aeris-border, var(--aeris-border, #efefef));
@@ -49,17 +49,17 @@
 }
 
 .aeris-color-picker[data-size='xs'] {
-  --aeris-color-picker-height: 1.875rem;
+  --aeris-color-picker-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
   --aeris-color-picker-font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 .aeris-color-picker[data-size='sm'] {
-  --aeris-color-picker-height: 2.1875rem;
+  --aeris-color-picker-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
   --aeris-color-picker-font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-color-picker[data-size='lg'] {
-  --aeris-color-picker-height: 2.875rem;
+  --aeris-color-picker-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
   --aeris-color-picker-font-size: var(--aeris-font-size-2xl, 1rem);
 }
 

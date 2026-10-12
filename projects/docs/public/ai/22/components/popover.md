@@ -122,7 +122,7 @@ interface AerisPopoverTemplateContext {
 | `--aeris-popover-radius` | `CSS custom property` | `var(--aeris-radius-overlay)` | Popover radius. |
 | `--aeris-popover-shadow` | `CSS custom property` | `component shadow` | Popover elevation. |
 | `--aeris-popover-focus` | `CSS custom property` | `var(--aeris-focus)` | Focus ring color. |
-| `--aeris-popover-body-padding` | `CSS custom property` | `1rem` | Body padding. |
+| `--aeris-popover-body-padding` | `CSS custom property` | `--aeris-surface-padding` | Body padding. |
 
 ## Examples
 

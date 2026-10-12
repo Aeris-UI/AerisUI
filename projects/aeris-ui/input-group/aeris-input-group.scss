@@ -4,7 +4,7 @@
   --aeris-input-group-height: var(--aeris-control-height, 2.625rem);
   --aeris-input-group-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   --aeris-input-group-font-size: var(--aeris-font-size-lg, 0.875rem);
-  --aeris-input-group-addon-padding: 0.75rem;
+  --aeris-input-group-addon-padding: var(--aeris-control-padding-x, 0.75rem);
   --aeris-input-group-embedded-padding: 2.625rem;
   --aeris-input-group-icon-size: 1rem;
   --aeris-input-group-icon-addon-size: 2.625rem;
@@ -25,7 +25,7 @@
 .aeris-input-group--xs {
   --aeris-input-group-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
   --aeris-input-group-font-size: var(--aeris-font-size-sm, 0.75rem);
-  --aeris-input-group-addon-padding: 0.5625rem;
+  --aeris-input-group-addon-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
   --aeris-input-group-embedded-padding: 2.125rem;
   --aeris-input-group-icon-size: 0.875rem;
   --aeris-input-group-icon-addon-size: 2rem;
@@ -34,7 +34,7 @@
 .aeris-input-group--sm {
   --aeris-input-group-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
   --aeris-input-group-font-size: var(--aeris-font-size-md, 0.8125rem);
-  --aeris-input-group-addon-padding: 0.625rem;
+  --aeris-input-group-addon-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.85);
   --aeris-input-group-embedded-padding: 2.3125rem;
   --aeris-input-group-icon-size: 0.9375rem;
   --aeris-input-group-icon-addon-size: 2.25rem;
@@ -43,7 +43,7 @@
 .aeris-input-group--lg {
   --aeris-input-group-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
   --aeris-input-group-font-size: var(--aeris-font-size-xl, 0.9375rem);
-  --aeris-input-group-addon-padding: 0.875rem;
+  --aeris-input-group-addon-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 1.15);
   --aeris-input-group-embedded-padding: 2.875rem;
   --aeris-input-group-icon-size: 1.125rem;
   --aeris-input-group-icon-addon-size: 3rem;

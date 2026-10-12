@@ -682,7 +682,7 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
     {
       name: '--aeris-tiered-menu-padding',
       type: 'length',
-      defaultValue: '0.375rem',
+      defaultValue: '--aeris-overlay-padding',
       description: 'Panel and submenu padding.',
     },
     {
@@ -736,7 +736,7 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
     {
       name: '--aeris-tiered-menu-icon-size',
       type: 'length',
-      defaultValue: '1.125rem',
+      defaultValue: '--aeris-icon-size',
       description: 'Default icon box size.',
     },
     {

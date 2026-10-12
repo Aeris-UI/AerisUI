@@ -29,23 +29,23 @@
 }
 
 .aeris-tree-select[data-size='xs'] {
-  --aeris-tree-select-height: 1.875rem;
+  --aeris-tree-select-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
   --aeris-tree-select-font-size: var(--aeris-font-size-sm, 0.75rem);
-  --aeris-tree-select-padding: 0.5625rem;
+  --aeris-tree-select-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
   --_aeris-tree-select-checkbox-size: 0.875rem;
 }
 
 .aeris-tree-select[data-size='sm'] {
-  --aeris-tree-select-height: 2.25rem;
+  --aeris-tree-select-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
   --aeris-tree-select-font-size: var(--aeris-font-size-md, 0.8125rem);
-  --aeris-tree-select-padding: 0.6875rem;
+  --aeris-tree-select-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.85);
   --_aeris-tree-select-checkbox-size: 1rem;
 }
 
 .aeris-tree-select[data-size='lg'] {
-  --aeris-tree-select-height: 3rem;
+  --aeris-tree-select-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
   --aeris-tree-select-font-size: var(--aeris-font-size-xl, 0.9375rem);
-  --aeris-tree-select-padding: 0.875rem;
+  --aeris-tree-select-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 1.15);
   --_aeris-tree-select-checkbox-size: 1.375rem;
 }
 
@@ -207,7 +207,7 @@
   left: 0;
   min-width: 100%;
   max-width: calc(100vw - 2rem);
-  padding: calc(var(--aeris-tree-select-density-gap) * 0.75);
+  padding: var(--aeris-overlay-padding, calc(var(--aeris-tree-select-density-gap) * 0.75));
   border: 1px solid var(--aeris-tree-select-panel-border, var(--aeris-border));
   border-radius: var(
     --aeris-tree-select-panel-radius,
@@ -331,7 +331,7 @@
     calc(var(--aeris-item-padding-x, 0.75rem) * 0.5 + var(--aeris-tree-select-level) * 1.125rem);
   border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   color: var(--aeris-tree-select-node-text, var(--aeris-text-2, #454545));
-  font-size: var(--aeris-font-size-md, 0.8125rem);
+  font-size: var(--aeris-item-font-size, 0.875rem);
   line-height: 1.35;
   cursor: pointer;
 }

@@ -111,8 +111,8 @@
   max-width: calc(100vw - 1rem);
   min-width: 0;
   display: grid;
-  gap: 0.125rem;
-  padding: 0.35rem;
+  gap: calc(var(--aeris-density-gap, 0.5rem) * 0.25);
+  padding: var(--aeris-overlay-padding, 0.375rem);
   border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem));
   background: var(--aeris-surface, #fff);
@@ -123,17 +123,17 @@
 
 .aeris-split-button__item {
   min-width: 0;
-  min-height: 2.375rem;
+  min-height: var(--aeris-item-height, 2.5rem);
   display: flex;
   align-items: center;
-  gap: 0.625rem;
-  padding: 0 0.7rem;
+  gap: var(--aeris-density-gap, 0.5rem);
+  padding: var(--aeris-item-padding-y, 0.5rem) var(--aeris-item-padding-x, 0.75rem);
   border: 0;
   border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: var(--aeris-text-2, #454545);
   font: inherit;
-  font-size: var(--aeris-font-size-md, 0.8125rem);
+  font-size: var(--aeris-item-font-size, 0.875rem);
   text-align: start;
   text-decoration: none;
   cursor: pointer;

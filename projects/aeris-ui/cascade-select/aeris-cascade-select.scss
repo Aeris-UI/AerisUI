@@ -29,21 +29,21 @@
 }
 
 .aeris-cascade-select[data-size='xs'] {
-  --aeris-cascade-select-height: 1.875rem;
+  --aeris-cascade-select-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
   --aeris-cascade-select-font-size: var(--aeris-font-size-sm, 0.75rem);
-  --aeris-cascade-select-padding: 0.5625rem;
+  --aeris-cascade-select-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
 }
 
 .aeris-cascade-select[data-size='sm'] {
-  --aeris-cascade-select-height: 2.25rem;
+  --aeris-cascade-select-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
   --aeris-cascade-select-font-size: var(--aeris-font-size-md, 0.8125rem);
-  --aeris-cascade-select-padding: 0.6875rem;
+  --aeris-cascade-select-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.85);
 }
 
 .aeris-cascade-select[data-size='lg'] {
-  --aeris-cascade-select-height: 3rem;
+  --aeris-cascade-select-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
   --aeris-cascade-select-font-size: var(--aeris-font-size-xl, 0.9375rem);
-  --aeris-cascade-select-padding: 0.875rem;
+  --aeris-cascade-select-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 1.15);
 }
 
 .aeris-cascade-select__control {
@@ -212,7 +212,7 @@
   overflow: auto;
   scrollbar-color: var(--aeris-border, #efefef) transparent;
   scrollbar-width: thin;
-  padding-block: calc(var(--aeris-cascade-select-density-gap) * 0.75);
+  padding-block: var(--aeris-overlay-padding, calc(var(--aeris-cascade-select-density-gap) * 0.75));
   border: 1px solid var(--aeris-cascade-select-panel-border, var(--aeris-border));
   border-radius: var(
     --aeris-cascade-select-panel-radius,
@@ -254,7 +254,7 @@
 .aeris-cascade-select__item {
   box-sizing: border-box;
   min-width: 0;
-  padding-inline: calc(var(--aeris-cascade-select-density-gap) * 0.75);
+  padding-inline: var(--aeris-overlay-padding, calc(var(--aeris-cascade-select-density-gap) * 0.75));
 }
 .aeris-cascade-select__submenu {
   animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out)
@@ -274,7 +274,7 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: var(--aeris-font-size-lg, 0.875rem);
+  font-size: var(--aeris-item-font-size, 0.875rem);
   line-height: 1.35;
   text-align: left;
   cursor: pointer;

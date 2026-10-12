@@ -338,16 +338,15 @@
   --aeris-checkbox-radius: 0.3125rem;
   --aeris-control-height: 2.625rem;
   --aeris-control-padding-x: 0.75rem;
-  --aeris-action-height: var(--aeris-control-height);
-  --aeris-action-padding-inline: calc(var(--aeris-control-padding-x) + 0.3125rem);
-  --aeris-action-gap: var(--aeris-density-gap);
   --aeris-action-font-size: var(--aeris-font-size-md);
   --aeris-action-font-weight: var(--aeris-font-weight-semibold);
-  --aeris-action-icon-size: var(--aeris-icon-size);
   --aeris-item-height: 2.5rem;
   --aeris-item-padding-y: 0.5rem;
   --aeris-item-padding-x: 0.75rem;
   --aeris-density-gap: 0.5rem;
+  --aeris-heading-font-size: var(--aeris-font-size-2xl);
+  --aeris-body-font-size: var(--aeris-font-size-lg);
+  --aeris-item-font-size: var(--aeris-font-size-lg);
   --aeris-icon-size: 1rem;
   --aeris-icon-chevron: url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E');
   --aeris-icon-close: url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M6%206l12%2012M18%206%206%2018%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27/%3E%3C/svg%3E');
@@ -453,6 +452,20 @@
   color-scheme: dark;
 }
 
+/* Re-resolve derived spacing at density boundaries, including nested workspaces. */
+:root,
+[data-aeris-density] {
+  --aeris-overlay-padding: calc(var(--aeris-density-gap) * 0.75);
+  --aeris-surface-padding-sm: calc(var(--aeris-item-padding-x) + var(--aeris-density-gap) * 0.25);
+  --aeris-surface-padding: calc(var(--aeris-item-padding-x) + var(--aeris-density-gap));
+  --aeris-surface-padding-lg: calc(var(--aeris-item-padding-x) + var(--aeris-density-gap) * 2);
+  --aeris-content-gap: calc(var(--aeris-density-gap) * 2);
+  --aeris-action-height: var(--aeris-control-height);
+  --aeris-action-padding-inline: calc(var(--aeris-control-padding-x) + 0.3125rem);
+  --aeris-action-gap: var(--aeris-density-gap);
+  --aeris-action-icon-size: var(--aeris-icon-size);
+}
+
 [data-aeris-density='compact'] {
   --aeris-control-height: 2.125rem;
   --aeris-control-padding-x: 0.625rem;
@@ -461,6 +474,16 @@
   --aeris-item-padding-x: 0.625rem;
   --aeris-density-gap: 0.375rem;
   --aeris-icon-size: 0.9375rem;
+}
+
+[data-aeris-density='medium'] {
+  --aeris-control-height: 2.625rem;
+  --aeris-control-padding-x: 0.75rem;
+  --aeris-item-height: 2.5rem;
+  --aeris-item-padding-y: 0.5rem;
+  --aeris-item-padding-x: 0.75rem;
+  --aeris-density-gap: 0.5rem;
+  --aeris-icon-size: 1rem;
 }
 
 [data-aeris-density='comfortable'] {
@@ -539,14 +562,14 @@
 }
 
 .aeris-overlay-enter {
-  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms)
-    var(--aeris-ease-enter, ease-out) both;
+  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out)
+    both;
 }
 
 .aeris-overlay-leave {
   pointer-events: none;
-  animation: aeris-overlay-leave var(--aeris-motion-fast, 100ms)
-    var(--aeris-ease-exit, ease-in) both;
+  animation: aeris-overlay-leave var(--aeris-motion-fast, 100ms) var(--aeris-ease-exit, ease-in)
+    both;
 }
 
 @media (prefers-reduced-motion: reduce) {

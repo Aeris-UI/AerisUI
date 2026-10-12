@@ -243,7 +243,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
 | `--aeris-confirm-popup-z-index` | `CSS custom property` | `1040` | Overlay stacking context. |
 | `--aeris-confirm-popup-width` | `CSS custom property` | `min(22rem, calc(100vw - 1rem))` | Popup width. |
 | `--aeris-confirm-popup-max-width` | `CSS custom property` | `calc(100vw - 1rem)` | Maximum popup width. |
-| `--aeris-confirm-popup-padding` | `CSS custom property` | `1rem` | Internal spacing. |
+| `--aeris-confirm-popup-padding` | `CSS custom property` | `--aeris-surface-padding` | Internal spacing. |
 | `--aeris-confirm-popup-background` | `CSS custom property` | `var(--aeris-surface)` | Popup surface. |
 | `--aeris-confirm-popup-border` | `CSS custom property` | `var(--aeris-border)` | Popup border. |
 | `--aeris-confirm-popup-radius` | `CSS custom property` | `var(--aeris-radius-overlay)` | Popup radius. |

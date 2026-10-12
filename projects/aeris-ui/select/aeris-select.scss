@@ -35,21 +35,21 @@
 }
 
 .aeris-select[data-size='xs'] {
-  --aeris-select-height: 1.875rem;
+  --aeris-select-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
   --aeris-select-font-size: var(--aeris-font-size-sm, 0.75rem);
-  --aeris-select-padding: 0.5625rem;
+  --aeris-select-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
 }
 
 .aeris-select[data-size='sm'] {
-  --aeris-select-height: 2.25rem;
+  --aeris-select-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
   --aeris-select-font-size: var(--aeris-font-size-md, 0.8125rem);
-  --aeris-select-padding: 0.6875rem;
+  --aeris-select-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.85);
 }
 
 .aeris-select[data-size='lg'] {
-  --aeris-select-height: 3rem;
+  --aeris-select-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
   --aeris-select-font-size: var(--aeris-font-size-xl, 0.9375rem);
-  --aeris-select-padding: 0.875rem;
+  --aeris-select-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 1.15);
 }
 
 .aeris-select[data-fluid] {
@@ -241,7 +241,7 @@
   left: 0;
   min-width: 100%;
   max-width: calc(100vw - 2rem);
-  padding: calc(var(--aeris-select-density-gap) * 0.75);
+  padding: var(--aeris-overlay-padding, calc(var(--aeris-select-density-gap) * 0.75));
   border: 1px solid var(--aeris-select-panel-border, var(--aeris-border));
   border-radius: var(
     --aeris-select-panel-radius,
@@ -401,7 +401,7 @@
   padding: var(--aeris-select-option-padding-y) var(--aeris-select-option-padding-x);
   border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   color: var(--aeris-select-option-text, var(--aeris-text-2, #454545));
-  font-size: var(--aeris-font-size-md, 0.8125rem);
+  font-size: var(--aeris-item-font-size, 0.875rem);
   line-height: 1.35;
   cursor: pointer;
 }

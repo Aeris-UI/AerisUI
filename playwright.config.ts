@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const fixtureUrl = 'http://127.0.0.1:4300';
+const docsLayoutTests = ['**/geometry-consistency.spec.ts', '**/cascade-select-responsive.spec.ts'];
 
 export default defineConfig({
   testDir: './e2e/browser',
@@ -21,6 +22,7 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
       testIgnore: [
+        ...docsLayoutTests,
         '**/component-pages.spec.ts',
         '**/mobile.spec.ts',
         '**/accessibility.spec.ts',
@@ -31,6 +33,7 @@ export default defineConfig({
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
       testIgnore: [
+        ...docsLayoutTests,
         '**/component-pages.spec.ts',
         '**/mobile.spec.ts',
         '**/accessibility.spec.ts',
@@ -41,6 +44,7 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
       testIgnore: [
+        ...docsLayoutTests,
         '**/component-pages.spec.ts',
         '**/mobile.spec.ts',
         '**/accessibility.spec.ts',
@@ -52,6 +56,11 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], baseURL: 'http://127.0.0.1:4301' },
       testMatch: '**/component-pages.spec.ts',
     },
+    ...(['chromium', 'webkit'] as const).map((browserName) => ({
+      name: `docs-layout-${browserName}`,
+      use: { browserName, baseURL: 'http://127.0.0.1:4301' },
+      testMatch: docsLayoutTests,
+    })),
     {
       name: 'mobile-chromium',
       use: { ...devices['Pixel 7'] },

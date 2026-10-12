@@ -28,21 +28,21 @@
 }
 
 .aeris-auto-complete[data-size='xs'] {
-  --aeris-auto-complete-height: 1.875rem;
+  --aeris-auto-complete-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
   --aeris-auto-complete-font-size: var(--aeris-font-size-sm, 0.75rem);
-  --aeris-auto-complete-padding: 0.5625rem;
+  --aeris-auto-complete-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
 }
 
 .aeris-auto-complete[data-size='sm'] {
-  --aeris-auto-complete-height: 2.25rem;
+  --aeris-auto-complete-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
   --aeris-auto-complete-font-size: var(--aeris-font-size-md, 0.8125rem);
-  --aeris-auto-complete-padding: 0.6875rem;
+  --aeris-auto-complete-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.85);
 }
 
 .aeris-auto-complete[data-size='lg'] {
-  --aeris-auto-complete-height: 3rem;
+  --aeris-auto-complete-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
   --aeris-auto-complete-font-size: var(--aeris-font-size-xl, 0.9375rem);
-  --aeris-auto-complete-padding: 0.875rem;
+  --aeris-auto-complete-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 1.15);
 }
 
 .aeris-auto-complete__control {
@@ -212,7 +212,7 @@
   overflow: auto;
   scrollbar-color: var(--aeris-border, #efefef) transparent;
   scrollbar-width: thin;
-  padding: calc(var(--aeris-auto-complete-density-gap) * 0.75);
+  padding: var(--aeris-overlay-padding, calc(var(--aeris-auto-complete-density-gap) * 0.75));
   border: 1px solid var(--aeris-auto-complete-panel-border, var(--aeris-border));
   border-radius: var(
     --aeris-auto-complete-panel-radius,
@@ -263,7 +263,7 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: var(--aeris-font-size-lg, 0.875rem);
+  font-size: var(--aeris-item-font-size, 0.875rem);
   line-height: 1.35;
   text-align: left;
   cursor: pointer;

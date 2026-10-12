@@ -1204,6 +1204,8 @@ export const appConfig: ApplicationConfig = {
 
 Use compact for dense workspaces, medium for the balanced default, and comfortable for touch-heavy or relaxed layouts. Soft, rounded, and pill control the visual character while structural components retain practical geometry.
 
+Density also controls the space around content: menus and toolbars share compact outer padding, while cards, panels, accordions, and dialog bodies use the same content spacing scale. A toolbar containing buttons can be taller than a menu row because the controls need their own space.
+
 ##### src/app/app.config.ts
 
 ```ts
@@ -1220,6 +1222,36 @@ export const appConfig: ApplicationConfig = {
     }),
   ],
 };
+```
+
+#### Customize shared spacing and typography
+
+Prefer these shared CSS tokens when several components should change together. Their default values derive from the active density, so compact and comfortable layouts remain coordinated. Component-specific tokens still take precedence for a local exception.
+
+Widths remain content-dependent: a menu, a date grid, and a dialog do not need the same width. Use fluid controls and responsive parent layouts rather than assigning one fixed width to every component.
+
+| Token | Default | Used for |
+| --- | --- | --- |
+| --aeris-overlay-padding | 0.375rem | Outer padding of menus, dropdown panels, and toolbars |
+| --aeris-surface-padding-sm | 0.875rem | Small surfaces and compact headers |
+| --aeris-surface-padding | 1.25rem | Default content surfaces and overlay bodies |
+| --aeris-surface-padding-lg | 1.75rem | Large content surfaces |
+| --aeris-content-gap | 1rem | Spacing between content sections |
+| --aeris-heading-font-size | 1rem | Card, panel, dialog, drawer, and popover headings |
+| --aeris-body-font-size | 0.875rem | Content text |
+| --aeris-item-font-size | 0.875rem | Menu items and selectable list options |
+
+##### src/styles.scss
+
+```css
+:root {
+  --aeris-surface-padding: 1.5rem;
+  --aeris-content-gap: 1.25rem;
+}
+
+.compact-toolbar {
+  --aeris-toolbar-padding-inline: 0.25rem;
+}
 ```
 
 #### Register custom density and corner scales
@@ -38128,6 +38160,7 @@ type AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
+| `--aeris-toolbar-font-size` | `length` | `--aeris-body-font-size` | Text size inside the toolbar; projected controls retain their own sizing. |
 | `--aeris-toolbar-background` | `color` | `--aeris-surface` | Toolbar surface color. |
 | `--aeris-toolbar-color` | `color` | `--aeris-text` | Toolbar text color. |
 | `--aeris-toolbar-border` | `color` | `--aeris-border` | Toolbar border color. |
@@ -38136,11 +38169,11 @@ type AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';
 | `--aeris-toolbar-shadow` | `shadow` | `none` | Toolbar shadow. |
 | `--aeris-toolbar-filled-background` | `color` | `surface mix` | Filled variant surface. |
 | `--aeris-toolbar-elevated-shadow` | `shadow` | `soft elevation` | Elevated variant shadow. |
-| `--aeris-toolbar-padding-block` | `length` | `0.75rem` | Default block padding. |
-| `--aeris-toolbar-padding-inline` | `length` | `0.875rem` | Default inline padding. |
-| `--aeris-toolbar-gap` | `length` | `0.75rem` | Gap between toolbar sections. |
-| `--aeris-toolbar-section-gap` | `length` | `0.5rem` | Gap between controls inside sections and groups. |
-| `--aeris-toolbar-min-height` | `length` | `3.25rem` | Minimum content row height. |
+| `--aeris-toolbar-padding-block` | `length` | `--aeris-overlay-padding` | Default block padding. |
+| `--aeris-toolbar-padding-inline` | `length` | `--aeris-overlay-padding` | Default inline padding. |
+| `--aeris-toolbar-gap` | `length` | `--aeris-density-gap` | Gap between toolbar sections. |
+| `--aeris-toolbar-section-gap` | `length` | `--aeris-density-gap` | Gap between controls inside sections and groups. |
+| `--aeris-toolbar-min-height` | `length` | `--aeris-control-height` | Minimum content row height. |
 | `--aeris-toolbar-spacer-min-size` | `length` | `1rem` | Minimum size for flexible spacers. |
 | `--aeris-toolbar-disabled-opacity` | `number` | `0.62` | Opacity when disabled. |
 
@@ -39674,7 +39707,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
 | `--aeris-confirm-popup-z-index` | `CSS custom property` | `1040` | Overlay stacking context. |
 | `--aeris-confirm-popup-width` | `CSS custom property` | `min(22rem, calc(100vw - 1rem))` | Popup width. |
 | `--aeris-confirm-popup-max-width` | `CSS custom property` | `calc(100vw - 1rem)` | Maximum popup width. |
-| `--aeris-confirm-popup-padding` | `CSS custom property` | `1rem` | Internal spacing. |
+| `--aeris-confirm-popup-padding` | `CSS custom property` | `--aeris-surface-padding` | Internal spacing. |
 | `--aeris-confirm-popup-background` | `CSS custom property` | `var(--aeris-surface)` | Popup surface. |
 | `--aeris-confirm-popup-border` | `CSS custom property` | `var(--aeris-border)` | Popup border. |
 | `--aeris-confirm-popup-radius` | `CSS custom property` | `var(--aeris-radius-overlay)` | Popup radius. |
@@ -43183,7 +43216,7 @@ interface AerisPopoverTemplateContext {
 | `--aeris-popover-radius` | `CSS custom property` | `var(--aeris-radius-overlay)` | Popover radius. |
 | `--aeris-popover-shadow` | `CSS custom property` | `component shadow` | Popover elevation. |
 | `--aeris-popover-focus` | `CSS custom property` | `var(--aeris-focus)` | Focus ring color. |
-| `--aeris-popover-body-padding` | `CSS custom property` | `1rem` | Body padding. |
+| `--aeris-popover-body-padding` | `CSS custom property` | `--aeris-surface-padding` | Body padding. |
 
 #### Examples
 
@@ -44493,7 +44526,7 @@ interface AerisFileUploadEvent {
 | `--aeris-file-upload-border` | `CSS custom property` | `var(--aeris-border)` | Surface and file borders. |
 | `--aeris-file-upload-radius` | `CSS custom property` | `var(--aeris-radius-lg)` | Surface radius. |
 | `--aeris-file-upload-shadow` | `CSS custom property` | `component shadow` | Surface elevation. |
-| `--aeris-file-upload-toolbar-padding` | `CSS custom property` | `0.875rem` | Toolbar padding. |
+| `--aeris-file-upload-toolbar-padding` | `CSS custom property` | `--aeris-overlay-padding` | Toolbar padding. |
 | `--aeris-file-upload-dropzone-min-height` | `CSS custom property` | `10rem` | Dropzone minimum height. |
 | `--aeris-file-upload-progress-background` | `CSS custom property` | `var(--aeris-primary)` | Progress fill. |
 | `--aeris-file-upload-focus` | `CSS custom property` | `var(--aeris-focus)` | Visible focus ring. |
@@ -45485,7 +45518,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 | `--aeris-context-menu-width` | `length` | `14rem` | Default panel width. |
 | `--aeris-context-menu-max-width` | `length` | `min(22rem, calc(100vw - 1rem))` | Panel max width. |
 | `--aeris-context-menu-max-height` | `length` | `min(26rem, calc(100vh - 1rem))` | Root menu max height. |
-| `--aeris-context-menu-padding` | `length` | `0.375rem` | Panel padding. |
+| `--aeris-context-menu-padding` | `length` | `--aeris-overlay-padding` | Panel padding. |
 | `--aeris-context-menu-border` | `color` | `--aeris-border` | Panel border color. |
 | `--aeris-context-menu-radius` | `length` | `--aeris-radius-overlay` | Panel radius shared by Aeris overlay surfaces. |
 | `--aeris-context-menu-background` | `color` | `--aeris-surface` | Panel background. |
@@ -45495,7 +45528,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 | `--aeris-context-menu-item-min-height` | `length` | `2.25rem` | Default item height. |
 | `--aeris-context-menu-item-radius` | `length` | `--aeris-radius-item` | Item radius shared across root items and nested submenus. |
 | `--aeris-context-menu-item-hover-background` | `color` | `primary mix` | Hover and active item background. |
-| `--aeris-context-menu-icon-size` | `length` | `1.125rem` | Default icon box size. |
+| `--aeris-context-menu-icon-size` | `length` | `--aeris-icon-size` | Default icon box size. |
 | `--aeris-context-menu-disabled-opacity` | `number` | `0.52` | Disabled item opacity. |
 | `--aeris-context-menu-separator-color` | `color` | `--aeris-border` | Separator color. |
 | `--aeris-context-menu-submenu-width` | `length` | `14rem` | Submenu width. |
@@ -46031,7 +46064,7 @@ interface AerisMegaMenuItemEvent<T = unknown> {
 | `--aeris-mega-menu-item-radius` | `length` | `--aeris-radius-item` | Shared radius for top-level items and panel subitems. |
 | `--aeris-mega-menu-panel-item-radius` | `length` | `--aeris-mega-menu-item-radius` | Optional panel-only override for the otherwise shared item radius. |
 | `--aeris-mega-menu-item-hover-background` | `color` | `primary mix` | Hover and open trigger surface. |
-| `--aeris-mega-menu-icon-size` | `length` | `1.125rem` | Default icon and chevron box. |
+| `--aeris-mega-menu-icon-size` | `length` | `--aeris-icon-size` | Default icon and chevron box. |
 
 #### Examples
 
@@ -46401,7 +46434,7 @@ interface AerisMenuVisibilityEvent {
 | `--aeris-menu-item-min-height` | `length` | `--aeris-item-height` | Minimum item height. |
 | `--aeris-menu-item-radius` | `length` | `--aeris-radius-item` | Item corner radius shared with other Aeris selectable rows. |
 | `--aeris-menu-item-hover-background` | `color` | `primary mix` | Hover and active item background. |
-| `--aeris-menu-icon-size` | `length` | `1.125rem` | Icon and chevron box size. |
+| `--aeris-menu-icon-size` | `length` | `--aeris-icon-size` | Icon and chevron box size. |
 | `--aeris-menu-badge-max-width` | `length` | `min(7rem, 36vw)` | Maximum badge width before ellipsis. |
 
 #### Examples
@@ -48690,7 +48723,7 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
 | `--aeris-tiered-menu-width` | `length` | `14rem` | Root panel width. |
 | `--aeris-tiered-menu-max-width` | `length` | `min(22rem, 100%)` | Root panel maximum width. |
 | `--aeris-tiered-menu-max-height` | `length` | `min(26rem, calc(100vh - 1rem))` | Root list maximum height. |
-| `--aeris-tiered-menu-padding` | `length` | `0.375rem` | Panel and submenu padding. |
+| `--aeris-tiered-menu-padding` | `length` | `--aeris-overlay-padding` | Panel and submenu padding. |
 | `--aeris-tiered-menu-border` | `color` | `--aeris-border` | Panel border color. |
 | `--aeris-tiered-menu-radius` | `length` | `--aeris-radius-overlay` | Panel and submenu radius shared by Aeris overlay surfaces. |
 | `--aeris-tiered-menu-background` | `color` | `--aeris-surface` | Panel background. |
@@ -48699,7 +48732,7 @@ interface AerisTieredMenuItemTemplateContext<T = unknown> {
 | `--aeris-tiered-menu-item-min-height` | `length` | `--aeris-item-height` | Default item height. |
 | `--aeris-tiered-menu-item-radius` | `length` | `--aeris-radius-item` | Item hover and focus radius shared across every menu depth. |
 | `--aeris-tiered-menu-item-hover-background` | `color` | `primary mix` | Hover, active, and open item background. |
-| `--aeris-tiered-menu-icon-size` | `length` | `1.125rem` | Default icon box size. |
+| `--aeris-tiered-menu-icon-size` | `length` | `--aeris-icon-size` | Default icon box size. |
 | `--aeris-tiered-menu-submenu-width` | `length` | `14rem` | Submenu panel width. |
 | `--aeris-tiered-menu-submenu-offset` | `length` | `0.375rem` | Distance between parent and submenu panel. |
 

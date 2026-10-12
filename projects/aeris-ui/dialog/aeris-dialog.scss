@@ -178,8 +178,8 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 0.875rem;
-  padding: var(--aeris-dialog-header-padding, 1rem 1.125rem);
+  gap: var(--aeris-density-gap, 0.5rem);
+  padding: var(--aeris-dialog-header-padding, var(--aeris-surface-padding-sm, 0.875rem) var(--aeris-surface-padding, 1.25rem));
   background: var(--aeris-dialog-header-background, var(--aeris-surface, #fff));
 }
 
@@ -213,7 +213,7 @@
   min-width: 0;
   flex: 1 1 auto;
   color: var(--aeris-dialog-title-color, var(--aeris-text, #111111));
-  font-size: var(--aeris-dialog-title-size, var(--aeris-font-size-2xl, 1rem));
+  font-size: var(--aeris-dialog-title-size, var(--aeris-heading-font-size, 1rem));
   font-weight: var(--aeris-font-weight-bold, 700);
   line-height: var(--aeris-line-height-tight, 1.25);
 }
@@ -221,7 +221,7 @@
 .aeris-dialog__actions {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: var(--aeris-overlay-padding, 0.375rem);
   flex: 0 0 auto;
 }
 
@@ -287,10 +287,10 @@
 .aeris-dialog__body {
   min-width: 0;
   min-height: 0;
-  padding: var(--aeris-dialog-body-padding, 1.125rem);
+  padding: var(--aeris-dialog-body-padding, var(--aeris-surface-padding, 1.25rem));
   overflow: auto;
   color: var(--aeris-dialog-body-color, var(--aeris-text-2, #454545));
-  font-size: var(--aeris-font-size-lg, 0.875rem);
+  font-size: var(--aeris-body-font-size, 0.875rem);
   line-height: var(--aeris-line-height-relaxed, 1.65);
 }
 

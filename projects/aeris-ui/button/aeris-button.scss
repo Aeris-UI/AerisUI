@@ -121,19 +121,19 @@
 
 :host(.aeris-button--xs) {
   --_height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
-  padding-inline: 0.625rem;
+  padding-inline: calc(var(--aeris-action-padding-inline, 1.0625rem) - 0.4375rem);
   font-size: var(--aeris-font-size-xs, 0.6875rem);
 }
 
 :host(.aeris-button--sm) {
   --_height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
-  padding-inline: 0.8125rem;
+  padding-inline: calc(var(--aeris-action-padding-inline, 1.0625rem) - 0.25rem);
   font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 :host(.aeris-button--lg) {
   --_height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
-  padding-inline: 1.3125rem;
+  padding-inline: calc(var(--aeris-action-padding-inline, 1.0625rem) + 0.25rem);
   font-size: var(--aeris-font-size-lg, 0.875rem);
 }
 

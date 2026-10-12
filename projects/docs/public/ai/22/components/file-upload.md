@@ -160,7 +160,7 @@ interface AerisFileUploadEvent {
 | `--aeris-file-upload-border` | `CSS custom property` | `var(--aeris-border)` | Surface and file borders. |
 | `--aeris-file-upload-radius` | `CSS custom property` | `var(--aeris-radius-lg)` | Surface radius. |
 | `--aeris-file-upload-shadow` | `CSS custom property` | `component shadow` | Surface elevation. |
-| `--aeris-file-upload-toolbar-padding` | `CSS custom property` | `0.875rem` | Toolbar padding. |
+| `--aeris-file-upload-toolbar-padding` | `CSS custom property` | `--aeris-overlay-padding` | Toolbar padding. |
 | `--aeris-file-upload-dropzone-min-height` | `CSS custom property` | `10rem` | Dropzone minimum height. |
 | `--aeris-file-upload-progress-background` | `CSS custom property` | `var(--aeris-primary)` | Progress fill. |
 | `--aeris-file-upload-focus` | `CSS custom property` | `var(--aeris-focus)` | Visible focus ring. |

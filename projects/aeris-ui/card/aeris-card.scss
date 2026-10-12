@@ -49,8 +49,8 @@ aeris-card {
 .aeris-card__body {
   min-width: 0;
   display: grid;
-  gap: var(--aeris-card-gap, 1rem);
-  padding: var(--aeris-card-padding, 1.25rem);
+  gap: var(--aeris-card-gap, var(--aeris-content-gap, 1rem));
+  padding: var(--aeris-card-padding, var(--aeris-surface-padding, 1.25rem));
 }
 
 .aeris-card[data-padding='none'] > .aeris-card__body {
@@ -58,11 +58,11 @@ aeris-card {
 }
 
 .aeris-card[data-padding='sm'] > .aeris-card__body {
-  padding: var(--aeris-card-padding-sm, 0.875rem);
+  padding: var(--aeris-card-padding-sm, var(--aeris-surface-padding-sm, 0.875rem));
 }
 
 .aeris-card[data-padding='lg'] > .aeris-card__body {
-  padding: var(--aeris-card-padding-lg, 1.75rem);
+  padding: var(--aeris-card-padding-lg, var(--aeris-surface-padding-lg, 1.75rem));
 }
 
 .aeris-card__header {
@@ -70,14 +70,14 @@ aeris-card {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--aeris-content-gap, 1rem);
 }
 
 .aeris-card__title {
   display: block;
   margin: 0;
   color: var(--aeris-card-title-color, var(--aeris-text, #111111));
-  font-size: var(--aeris-card-title-size, var(--aeris-font-size-2xl, 1rem));
+  font-size: var(--aeris-card-title-size, var(--aeris-heading-font-size, 1rem));
   font-weight: var(--aeris-font-weight-bold, 700);
   line-height: var(--aeris-line-height-tight, 1.25);
 }
@@ -93,7 +93,7 @@ aeris-card {
 .aeris-card__content {
   min-width: 0;
   color: var(--aeris-card-content-color, var(--aeris-text-2, #454545));
-  font-size: var(--aeris-card-content-size, var(--aeris-font-size-lg, 0.875rem));
+  font-size: var(--aeris-card-content-size, var(--aeris-body-font-size, 0.875rem));
   line-height: var(--aeris-line-height-relaxed, 1.65);
 }
 

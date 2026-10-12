@@ -204,7 +204,7 @@
   left: 0;
   min-width: 100%;
   max-width: calc(100vw - 2rem);
-  padding: calc(var(--_gap) * 0.75);
+  padding: var(--aeris-overlay-padding, calc(var(--_gap) * 0.75));
   border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem));
   background: var(--aeris-surface, #fff);
@@ -330,7 +330,7 @@
   padding: var(--aeris-item-padding-y, 0.5rem) var(--aeris-item-padding-x, 0.75rem);
   border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   color: var(--aeris-text-2, #454545);
-  font-size: var(--aeris-font-size-md, 0.8125rem);
+  font-size: var(--aeris-item-font-size, 0.875rem);
   cursor: pointer;
 }
 .aeris-multi-select__option[data-active] {

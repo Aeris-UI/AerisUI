@@ -6,10 +6,16 @@ aeris-panel {
 }
 
 .aeris-panel {
-  --_padding-block: var(--aeris-panel-padding-block, 1rem);
-  --_padding-inline: var(--aeris-panel-padding-inline, 1.125rem);
-  --_header-padding-block: var(--aeris-panel-header-padding-block, 0.875rem);
-  --_header-padding-inline: var(--aeris-panel-header-padding-inline, 1.125rem);
+  --_padding-block: var(--aeris-panel-padding-block, var(--aeris-surface-padding, 1.25rem));
+  --_padding-inline: var(--aeris-panel-padding-inline, var(--aeris-surface-padding, 1.25rem));
+  --_header-padding-block: var(
+    --aeris-panel-header-padding-block,
+    var(--aeris-surface-padding-sm, 0.875rem)
+  );
+  --_header-padding-inline: var(
+    --aeris-panel-header-padding-inline,
+    var(--aeris-surface-padding, 1.25rem)
+  );
 
   overflow: hidden;
   border: 1px solid var(--aeris-panel-border, var(--aeris-border));
@@ -23,17 +29,32 @@ aeris-panel {
 }
 
 .aeris-panel[data-size='sm'] {
-  --_padding-block: var(--aeris-panel-padding-block-sm, 0.75rem);
-  --_padding-inline: var(--aeris-panel-padding-inline-sm, 0.875rem);
-  --_header-padding-block: var(--aeris-panel-header-padding-block-sm, 0.675rem);
-  --_header-padding-inline: var(--aeris-panel-header-padding-inline-sm, 0.875rem);
+  --_padding-block: var(--aeris-panel-padding-block-sm, var(--aeris-surface-padding-sm, 0.875rem));
+  --_padding-inline: var(
+    --aeris-panel-padding-inline-sm,
+    var(--aeris-surface-padding-sm, 0.875rem)
+  );
+  --_header-padding-block: var(
+    --aeris-panel-header-padding-block-sm,
+    var(--aeris-item-padding-y, 0.5rem)
+  );
+  --_header-padding-inline: var(
+    --aeris-panel-header-padding-inline-sm,
+    var(--aeris-surface-padding-sm, 0.875rem)
+  );
 }
 
 .aeris-panel[data-size='lg'] {
-  --_padding-block: var(--aeris-panel-padding-block-lg, 1.35rem);
-  --_padding-inline: var(--aeris-panel-padding-inline-lg, 1.5rem);
-  --_header-padding-block: var(--aeris-panel-header-padding-block-lg, 1rem);
-  --_header-padding-inline: var(--aeris-panel-header-padding-inline-lg, 1.5rem);
+  --_padding-block: var(--aeris-panel-padding-block-lg, var(--aeris-surface-padding-lg, 1.75rem));
+  --_padding-inline: var(--aeris-panel-padding-inline-lg, var(--aeris-surface-padding-lg, 1.75rem));
+  --_header-padding-block: var(
+    --aeris-panel-header-padding-block-lg,
+    var(--aeris-surface-padding, 1.25rem)
+  );
+  --_header-padding-inline: var(
+    --aeris-panel-header-padding-inline-lg,
+    var(--aeris-surface-padding-lg, 1.75rem)
+  );
 }
 
 .aeris-panel[data-variant='elevated'] {
@@ -87,7 +108,7 @@ aeris-panel {
 .aeris-panel__title {
   min-inline-size: 0;
   color: var(--aeris-panel-title-color, var(--aeris-text, #111111));
-  font-size: var(--aeris-panel-title-size, var(--aeris-font-size-xl, 0.9375rem));
+  font-size: var(--aeris-panel-title-size, var(--aeris-heading-font-size, 1rem));
   font-weight: var(--aeris-font-weight-bold, 700);
   line-height: var(--aeris-line-height-tight, 1.25);
 }
@@ -183,7 +204,7 @@ aeris-panel {
   overflow: hidden;
   padding: var(--_padding-block) var(--_padding-inline);
   color: var(--aeris-panel-content-color, var(--aeris-text-2, #454545));
-  font-size: var(--aeris-panel-content-size, var(--aeris-font-size-lg, 0.875rem));
+  font-size: var(--aeris-panel-content-size, var(--aeris-body-font-size, 0.875rem));
   line-height: var(--aeris-line-height-relaxed, 1.65);
   visibility: visible;
   transition:
@@ -214,7 +235,8 @@ aeris-panel {
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: var(--aeris-panel-footer-gap, 0.625rem);
-  padding: var(--aeris-panel-footer-padding-block, 0.875rem) var(--_padding-inline);
+  padding: var(--aeris-panel-footer-padding-block, var(--aeris-surface-padding-sm, 0.875rem))
+    var(--_padding-inline);
   border-block-start: 1px solid var(--aeris-panel-footer-border, var(--aeris-border));
   background: var(--aeris-panel-footer-background, transparent);
 }

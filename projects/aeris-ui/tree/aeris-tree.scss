@@ -21,7 +21,7 @@
   width: max-content;
   min-width: var(--aeris-tree-min-width, 16rem);
   max-width: 100%;
-  padding: var(--aeris-tree-padding, var(--aeris-density-gap, 0.5rem));
+  padding: var(--aeris-tree-padding, var(--aeris-overlay-padding, 0.375rem));
   border: 1px solid var(--aeris-tree-border, var(--aeris-border));
   border-radius: var(
     --aeris-tree-radius,

@@ -21,7 +21,7 @@
   max-width: var(--aeris-confirm-popup-max-width, calc(100vw - 1rem));
   display: grid;
   gap: 0.875rem;
-  padding: var(--aeris-confirm-popup-padding, 1rem);
+  padding: var(--aeris-confirm-popup-padding, var(--aeris-surface-padding, 1.25rem));
   border: 1px solid var(--aeris-confirm-popup-border, var(--aeris-border));
   border-radius: var(
     --aeris-confirm-popup-radius,

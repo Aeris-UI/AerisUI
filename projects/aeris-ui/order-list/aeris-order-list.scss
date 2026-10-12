@@ -95,7 +95,7 @@
   grid-column: -2 / -1;
   min-height: 12rem;
   max-height: var(--aeris-order-list-max-height, 22rem);
-  padding: calc(var(--aeris-order-list-density-gap) * 0.75);
+  padding: var(--aeris-overlay-padding, calc(var(--aeris-order-list-density-gap) * 0.75));
   overflow: auto;
 }
 
