@@ -1,0 +1,32 @@
+app-catalog-media-preview {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  > aeris-carousel img,
+  > aeris-compare img {
+    display: block;
+    width: 100%;
+    height: 7rem;
+    object-fit: cover;
+    border-radius: var(--aeris-radius-control);
+  }
+  > aeris-compare img {
+    height: 12rem;
+  }
+  aeris-galleria {
+    --aeris-galleria-thumbnail-width: 3rem;
+    --aeris-galleria-thumbnail-height: 2rem;
+  }
+  .aeris-galleria .aeris-galleria__stage {
+    min-block-size: 0;
+    inline-size: 100%;
+  }
+  .aeris-galleria .aeris-galleria__thumbnails {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  aeris-compare {
+    display: block;
+    height: 12rem;
+    --aeris-compare-min-height: 12rem;
+  }
+}

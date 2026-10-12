@@ -1,0 +1,51 @@
+:host {
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 17rem;
+  font-size: 0.8125rem;
+}
+.stack {
+  display: grid;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+.row {
+  inline-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+}
+.sample {
+  padding: 0.75rem;
+  background: var(--aeris-surface);
+  border-radius: var(--aeris-radius-control);
+  min-inline-size: 0;
+}
+.muted,
+small {
+  color: var(--aeris-text-muted);
+  font-size: 0.75rem;
+}
+p {
+  margin: 0;
+  line-height: 1.5;
+}
+svg {
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+.panel-content {
+  display: grid;
+  place-items: center;
+  block-size: 100%;
+  box-sizing: border-box;
+  padding: 0.625rem;
+  background: var(--aeris-surface-2);
+  border-radius: var(--aeris-radius-control);
+}

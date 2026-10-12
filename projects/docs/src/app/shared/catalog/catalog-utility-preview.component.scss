@@ -1,0 +1,43 @@
+.selected {
+  background: var(--aeris-primary-subtle);
+  color: var(--aeris-text);
+}
+.entrance-preview {
+  --aeris-card-padding-sm: 0.5rem 0.75rem;
+  display: grid;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+.entrance-step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.entrance-number {
+  color: var(--aeris-text-muted);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+.entrance-copy {
+  display: grid;
+  gap: 0.125rem;
+  min-inline-size: 0;
+}
+.glass-scene {
+  width: 100%;
+  padding: 1rem;
+  background: url('/abstract.jpg') center/cover;
+  border-radius: var(--aeris-radius-control);
+}
+.scroll-scene {
+  position: relative;
+  width: 2.25rem;
+  height: 2.25rem;
+  --aeris-scroll-top-offset-inline: 0px;
+  --aeris-scroll-top-offset-block: 0px;
+}
+.focus-preview--active input {
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus);
+  outline-offset: 2px;
+}

@@ -1,0 +1,293 @@
+app-catalog-preview {
+  display: grid;
+  place-items: center;
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 0;
+
+  .preview-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .preview-field,
+  .preview-accordion {
+    inline-size: 100%;
+    max-inline-size: 16rem;
+    min-inline-size: 0;
+  }
+
+  .preview-field {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .preview-field__label {
+    color: var(--aeris-text);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .preview-field small,
+  .preview-accordion p {
+    margin: 0;
+    color: var(--aeris-text-muted);
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .preview-accordion {
+    block-size: 8rem;
+    --aeris-accordion-filled-background: transparent;
+  }
+
+  // Decorative previews remain still until their card is activated.
+  &[data-mobile-playback='true'] *,
+  &[data-mobile-playback='true'] *::before,
+  &[data-mobile-playback='true'] *::after {
+    animation-iteration-count: 1 !important;
+  }
+
+  &[data-active='false'] *,
+  &[data-active='false'] *::before,
+  &[data-active='false'] *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  app-catalog-form-preview {
+    &[data-kind='color-picker'] .aeris-color-picker {
+      inline-size: 100%;
+      grid-template-columns: minmax(0, 1fr);
+    }
+    &[data-kind='color-picker'] .aeris-color-picker__trigger {
+      inline-size: 100%;
+    }
+    .aeris-select__panel,
+    .aeris-multi-select__panel,
+    .aeris-cascade-select__panel,
+    .aeris-tree-select__panel,
+    .aeris-auto-complete__panel {
+      position: absolute;
+      inset-block-start: calc(100% + 0.375rem) !important;
+      inset-inline-start: 0 !important;
+      inline-size: 100%;
+      min-inline-size: 0;
+      max-block-size: 10rem;
+      transform: none !important;
+    }
+    .aeris-color-picker__panel {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      width: 20rem;
+      max-height: none;
+      transform: translate(-50%, -50%) scale(0.5);
+      transform-origin: center;
+    }
+    @media (max-width: 32rem) {
+      .aeris-multi-select__panel {
+        inline-size: 100% !important;
+        box-sizing: border-box;
+        max-block-size: 8rem;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .aeris-multi-select__list {
+        min-block-size: 0;
+        flex: 1;
+      }
+    }
+    .aeris-color-picker .aeris-color-picker__plane {
+      height: 4rem;
+    }
+    &[data-active='true'][data-kind='color-picker'] > aeris-color-picker > .aeris-color-picker {
+      visibility: hidden;
+    }
+  }
+  app-catalog-button-preview {
+    position: relative;
+    transform: translateZ(0);
+    .aeris-split-button__menu {
+      position: absolute;
+      top: 2.5rem !important;
+      left: 0 !important;
+      min-inline-size: 0;
+      width: 100% !important;
+    }
+    .aeris-split-button__menu .aeris-split-button__item {
+      min-height: 1.75rem;
+    }
+    &[data-kind='split-button'] {
+      align-items: start;
+      padding-block-start: 1.5rem;
+      box-sizing: border-box;
+    }
+  }
+  app-catalog-panel-preview {
+    --aeris-stepper-trigger-padding: 0.25rem;
+    &[data-kind='stepper'] .aeris-stepper__trigger {
+      gap: 0.375rem;
+      min-inline-size: 0;
+      grid-template-columns: 1.5rem max-content;
+    }
+    &[data-kind='stepper'] .aeris-stepper__indicator {
+      width: 1.5rem;
+      height: 1.5rem;
+      font-size: 0.75rem;
+    }
+    &[data-kind='stepper'] .aeris-stepper__label {
+      font-size: 0.75rem;
+    }
+    .aeris-splitter__panel {
+      transition: flex-grow 600ms var(--aeris-ease-standard, ease);
+    }
+  }
+  app-catalog-menu-preview {
+    --aeris-mega-menu-panel-padding: 0.375rem;
+    --aeris-mega-menu-panel-width: 100%;
+    &[data-kind='menubar'],
+    &[data-kind='mega-menu'] {
+      align-items: start;
+      padding-block-start: 1.75rem;
+      box-sizing: border-box;
+    }
+    .aeris-menubar__submenu,
+    .aeris-mega-menu__panel {
+      max-block-size: 10rem;
+      max-inline-size: 100%;
+      overflow: hidden;
+    }
+    &[data-kind='mega-menu'] .aeris-mega-menu__panel-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+    &[data-kind='mega-menu'] .aeris-mega-menu__root-item {
+      position: static;
+    }
+    &[data-kind='mega-menu'] .aeris-mega-menu__panel {
+      box-sizing: border-box;
+    }
+    &[data-kind='tiered-menu'] .aeris-tiered-menu__panel,
+    &[data-kind='tiered-menu'] .aeris-tiered-menu__submenu {
+      box-sizing: border-box;
+    }
+    &[data-kind='tiered-menu'] .aeris-tiered-menu__submenu {
+      min-inline-size: 0;
+      inline-size: 8rem;
+    }
+    &[data-kind='tiered-menu'] > aeris-tiered-menu {
+      inline-size: calc(100% - 8.375rem);
+    }
+  }
+
+  .aeris-date-picker__panel,
+  .aeris-color-picker__panel,
+  .aeris-block-ui__overlay {
+    animation: catalog-preview-reveal var(--aeris-motion-emphasized, 320ms)
+      var(--aeris-ease-standard, ease) both;
+  }
+
+  .aeris-compare__layer--before {
+    transition: clip-path var(--aeris-motion-emphasized, 320ms) var(--aeris-ease-standard, ease);
+  }
+  .aeris-compare__divider,
+  .aeris-compare__handle {
+    transition: inset-inline-start var(--aeris-motion-emphasized, 320ms)
+      var(--aeris-ease-standard, ease);
+  }
+
+  // Static overlay previews should not restart their mount animation on hover.
+  .aeris-dialog__overlay,
+  .aeris-dialog__panel,
+  .aeris-popover__panel,
+  .aeris-confirm-popup__panel,
+  .aeris-tooltip__panel,
+  .aeris-context-menu__panel,
+  .aeris-menu__panel,
+  .aeris-tiered-menu__panel {
+    animation: none !important;
+  }
+
+  &[data-active='true'] {
+    .entrance-preview .aeris-animate-on-scroll {
+      animation: catalog-scroll-entrance 480ms var(--aeris-ease-enter, ease-out)
+        var(--aeris-animate-on-scroll-delay, 0ms) both;
+    }
+    .entrance-preview [data-aeris-effect='slide-start'] {
+      --catalog-entrance-x: -1.5rem;
+      --catalog-entrance-y: 0px;
+    }
+    .entrance-preview [data-aeris-effect='slide-end'] {
+      --catalog-entrance-x: 1.5rem;
+      --catalog-entrance-y: 0px;
+    }
+    .entrance-preview :dir(rtl)[data-aeris-effect='slide-start'] {
+      --catalog-entrance-x: 1.5rem;
+    }
+    .entrance-preview :dir(rtl)[data-aeris-effect='slide-end'] {
+      --catalog-entrance-x: -1.5rem;
+    }
+    .aeris-meter-group__segments {
+      animation-duration: 900ms;
+      animation-timing-function: linear;
+    }
+    .aeris-drawer__panel {
+      animation: catalog-drawer-enter var(--aeris-motion-slow, 220ms)
+        var(--aeris-ease-enter, ease-out) both;
+    }
+    .aeris-toast__message {
+      animation: catalog-toast-enter var(--aeris-motion-emphasized, 320ms)
+        var(--aeris-ease-enter, ease-out) both;
+    }
+  }
+}
+
+@keyframes catalog-scroll-entrance {
+  from {
+    opacity: 0;
+    translate: var(--catalog-entrance-x, 0px) var(--catalog-entrance-y, 1.5rem);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  app-catalog-preview[data-active='true'] .entrance-preview .aeris-animate-on-scroll {
+    animation: none;
+  }
+}
+
+@keyframes catalog-drawer-enter {
+  from {
+    translate: 100% 0;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes catalog-toast-enter {
+  from {
+    opacity: 0;
+    translate: 0 100%;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes catalog-preview-reveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

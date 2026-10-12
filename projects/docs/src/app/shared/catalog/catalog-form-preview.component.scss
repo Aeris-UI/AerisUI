@@ -1,0 +1,27 @@
+:host {
+  position: relative;
+  transform: translateZ(0);
+}
+
+:host([data-kind='color-picker']) aeris-color-picker {
+  inline-size: 12rem;
+  max-inline-size: 100%;
+}
+
+:host([data-kind='select']),
+:host([data-kind='multi-select']),
+:host([data-kind='cascade-select']),
+:host([data-kind='tree-select']),
+:host([data-kind='auto-complete']) {
+  align-items: start;
+  padding-block-start: 1.25rem;
+  box-sizing: border-box;
+}
+
+:host([data-active='true'][data-kind='date-picker']) aeris-date-picker {
+  position: absolute;
+  inset-block-start: 50%;
+  left: 50%;
+  inline-size: 20rem;
+  transform: translate(-50%, -50%) scale(0.55);
+}
