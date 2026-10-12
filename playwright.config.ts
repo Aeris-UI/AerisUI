@@ -5,6 +5,7 @@ const docsLayoutTests = [
   '**/geometry-consistency.spec.ts',
   '**/cascade-select-responsive.spec.ts',
   '**/code-block.spec.ts',
+  '**/component-example-layout.spec.ts',
 ];
 
 export default defineConfig({
