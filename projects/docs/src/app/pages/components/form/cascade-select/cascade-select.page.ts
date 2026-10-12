@@ -197,7 +197,7 @@ interface AerisCascadeSelectChangeEvent {
       name: 'options',
       type: 'readonly AerisCascadeSelectOption[]',
       defaultValue: '[]',
-      description: 'Hierarchical option tree rendered by the cascading columns.',
+      description: 'Hierarchical option tree rendered by nested menus.',
     },
     {
       name: 'inputId',

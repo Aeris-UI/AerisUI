@@ -3581,7 +3581,7 @@
               "name": "options",
               "type": "readonly AerisCascadeSelectOption[]",
               "defaultValue": "[]",
-              "description": "Hierarchical option tree rendered by the cascading columns."
+              "description": "Hierarchical option tree rendered by nested menus."
             },
             {
               "name": "inputId",
@@ -3829,6 +3829,12 @@
       ],
       "designTokens": [
         {
+          "name": "--aeris-cascade-select-submenu-width",
+          "type": "CSS custom property",
+          "defaultValue": "13rem",
+          "description": "Desktop flyout width. Narrow screens expand children inline."
+        },
+        {
           "name": "--aeris-cascade-select-background",
           "type": "CSS custom property",
           "defaultValue": "#fff",
@@ -3880,7 +3886,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-basic-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field\">\n      <label for=\"cascade-basic-input\">Location</label>\n      <aeris-cascade-select\n        inputId=\"cascade-basic-input\"\n        [options]=\"locations\"\n        placeholder=\"Choose a location\"\n        ariaDescribedBy=\"cascade-basic-help\"\n        fluid\n      />\n      <small id=\"cascade-basic-help\"\n        >Open the panel, then move across the location hierarchy.</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class CascadeBasicBasicDemo {\n  protected readonly locations: readonly AerisCascadeSelectOption[] = [\n    {\n      label: 'Europe',\n      value: 'europe',\n      children: [\n        {\n          label: 'Portugal',\n          value: 'portugal',\n          children: [\n            { label: 'Lisbon', value: 'lisbon', description: 'Capital city' },\n            { label: 'Porto', value: 'porto' },\n          ],\n        },\n      ],\n    },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-basic-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field cascade-field\">\n      <label for=\"cascade-basic-input\">Location</label>\n      <aeris-cascade-select\n        inputId=\"cascade-basic-input\"\n        [options]=\"locations\"\n        placeholder=\"Choose a location\"\n        ariaDescribedBy=\"cascade-basic-help\"\n        fluid\n      />\n      <small id=\"cascade-basic-help\"\n        >Open the panel, then move across the location hierarchy.</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n    \n    .cascade-field {\n      max-inline-size: 18rem;\n    }\n  `\n})\nexport class CascadeBasicBasicDemo {\n  protected readonly locations: readonly AerisCascadeSelectOption[] = [\n    {\n      label: 'Europe',\n      value: 'europe',\n      children: [\n        {\n          label: 'Portugal',\n          value: 'portugal',\n          children: [\n            { label: 'Lisbon', value: 'lisbon', description: 'Capital city' },\n            { label: 'Porto', value: 'porto' },\n          ],\n        },\n      ],\n    },\n  ];\n}\n"
             }
           ]
         },
@@ -3892,7 +3898,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-signal-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field\">\n      <label for=\"cascade-signal-input\">Office</label>\n      <aeris-cascade-select\n        inputId=\"cascade-signal-input\"\n        [(value)]=\"locationValue\"\n        [options]=\"locations\"\n        clearable\n        fluid\n      />\n      <small aria-live=\"polite\">Value: {{ locationValue() || 'Empty' }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class CascadeSignalSignalValueDemo {\n  protected readonly locationValue = signal<string | null>(null);\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-signal-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field cascade-field\">\n      <label for=\"cascade-signal-input\">Office</label>\n      <aeris-cascade-select\n        inputId=\"cascade-signal-input\"\n        [(value)]=\"locationValue\"\n        [options]=\"locations\"\n        clearable\n        fluid\n      />\n      <small aria-live=\"polite\">Value: {{ locationValue() || 'Empty' }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n    \n    .cascade-field {\n      max-inline-size: 18rem;\n    }\n  `\n})\nexport class CascadeSignalSignalValueDemo {\n  protected readonly locationValue = signal<string | null>(null);\n}\n"
             }
           ]
         },
@@ -3904,7 +3910,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-branches-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field\">\n      <label for=\"cascade-branches-input\">Region or city</label>\n      <aeris-cascade-select\n        inputId=\"cascade-branches-input\"\n        [(value)]=\"branchValue\"\n        [options]=\"locations\"\n        selectBranches\n        clearable\n        fluid\n      />\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class CascadeBranchesBranchSelectionDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-branches-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field cascade-field\">\n      <label for=\"cascade-branches-input\">Region or city</label>\n      <aeris-cascade-select\n        inputId=\"cascade-branches-input\"\n        [(value)]=\"branchValue\"\n        [options]=\"locations\"\n        selectBranches\n        clearable\n        fluid\n      />\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n    \n    .cascade-field {\n      max-inline-size: 18rem;\n    }\n  `\n})\nexport class CascadeBranchesBranchSelectionDemo {\n}\n"
             }
           ]
         },
@@ -3921,12 +3927,12 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div class=\"field\">\n  <label for=\"cascade-template-input\">Templated location</label>\n  <aeris-cascade-select inputId=\"cascade-template-input\" [options]=\"locations\" fluid>\n    <ng-template aerisCascadeSelectOption let-option let-level=\"level\">\n      <span class=\"cascade-option\">\n        <span class=\"cascade-option__mark\" aria-hidden=\"true\">{{ level + 1 }}</span>\n        <span class=\"cascade-option__copy\">\n          <strong>{{ option.label }}</strong>\n          <small>{{\n            option.children?.length ? 'Open next level' : 'Select this value'\n          }}</small>\n        </span>\n      </span>\n    </ng-template>\n  </aeris-cascade-select>\n</div>"
+              "code": "<div class=\"field cascade-field\">\n  <label for=\"cascade-template-input\">Templated location</label>\n  <aeris-cascade-select inputId=\"cascade-template-input\" [options]=\"locations\" fluid>\n    <ng-template aerisCascadeSelectOption let-option let-level=\"level\">\n      <span class=\"cascade-option\">\n        <span class=\"cascade-option__mark\" aria-hidden=\"true\">{{ level + 1 }}</span>\n        <span class=\"cascade-option__copy\">\n          <strong>{{ option.label }}</strong>\n          <small>{{\n            option.children?.length ? 'Open next level' : 'Select this value'\n          }}</small>\n        </span>\n      </span>\n    </ng-template>\n  </aeris-cascade-select>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n.cascade-option {\n  min-width: 0;\n  display: flex;\n  align-items: center;\n  gap: 0.625rem;\n}\n\n.cascade-option__mark {\n  width: 1.75rem;\n  height: 1.75rem;\n  display: grid;\n  place-items: center;\n  flex: 0 0 auto;\n  border-radius: 0.5rem;\n  background: var(--primary-soft);\n  color: var(--aeris-primary-text);\n  font-size: 0.6875rem;\n  font-weight: 800;\n}\n\n.cascade-option__copy {\n  min-width: 0;\n  display: grid;\n}\n\n.cascade-option__copy strong {\n  font-size: 0.875rem;\n}\n\n.cascade-option__copy small {\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n}"
+              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n.cascade-field {\n  max-inline-size: 18rem;\n}\n\n.cascade-option {\n  min-width: 0;\n  display: flex;\n  align-items: center;\n  gap: 0.625rem;\n}\n\n.cascade-option__mark {\n  width: 1.75rem;\n  height: 1.75rem;\n  display: grid;\n  place-items: center;\n  flex: 0 0 auto;\n  border-radius: 0.5rem;\n  background: var(--primary-soft);\n  color: var(--aeris-primary-text);\n  font-size: 0.6875rem;\n  font-weight: 800;\n}\n\n.cascade-option__copy {\n  min-width: 0;\n  display: grid;\n}\n\n.cascade-option__copy strong {\n  font-size: 0.875rem;\n}\n\n.cascade-option__copy small {\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n}"
             }
           ]
         },
@@ -3938,7 +3944,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-clear-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field\">\n      <label for=\"cascade-clear-input\">Optional office</label>\n      <aeris-cascade-select\n        inputId=\"cascade-clear-input\"\n        value=\"lisbon\"\n        [options]=\"locations\"\n        clearable\n        fluid\n      />\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class CascadeClearClearButtonDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-clear-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field cascade-field\">\n      <label for=\"cascade-clear-input\">Optional office</label>\n      <aeris-cascade-select\n        inputId=\"cascade-clear-input\"\n        value=\"lisbon\"\n        [options]=\"locations\"\n        clearable\n        fluid\n      />\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n    \n    .cascade-field {\n      max-inline-size: 18rem;\n    }\n  `\n})\nexport class CascadeClearClearButtonDemo {\n}\n"
             }
           ]
         },
@@ -3955,12 +3961,12 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div class=\"field-grid\">\n  <div class=\"field\">\n    <label for=\"cascade-filled-input\">Filled</label>\n    <aeris-cascade-select\n      inputId=\"cascade-filled-input\"\n      [options]=\"locations\"\n      appearance=\"filled\"\n      fluid\n    />\n  </div>\n  <div class=\"field\">\n    <label for=\"cascade-invalid-input\">Invalid</label>\n    <aeris-cascade-select\n      inputId=\"cascade-invalid-input\"\n      [(value)]=\"invalidValue\"\n      [options]=\"locations\"\n      [invalid]=\"invalid()\"\n      required\n      ariaDescribedBy=\"cascade-invalid-message\"\n      (blurred)=\"touched.set(true)\"\n      fluid\n    />\n    <small id=\"cascade-invalid-message\" [class.error]=\"invalid()\" aria-live=\"polite\">\n      {{ invalid() ? 'Choose a location.' : 'Required.' }}\n    </small>\n  </div>\n  <div class=\"field\">\n    <label for=\"cascade-disabled-input\">Disabled</label>\n    <aeris-cascade-select\n      inputId=\"cascade-disabled-input\"\n      value=\"belgrade\"\n      [options]=\"locations\"\n      disabled\n      fluid\n    />\n  </div>\n</div>"
+              "code": "<div class=\"field-grid\">\n  <div class=\"field cascade-field\">\n    <label for=\"cascade-filled-input\">Filled</label>\n    <aeris-cascade-select\n      inputId=\"cascade-filled-input\"\n      [options]=\"locations\"\n      appearance=\"filled\"\n      fluid\n    />\n  </div>\n  <div class=\"field cascade-field\">\n    <label for=\"cascade-invalid-input\">Invalid</label>\n    <aeris-cascade-select\n      inputId=\"cascade-invalid-input\"\n      [(value)]=\"invalidValue\"\n      [options]=\"locations\"\n      [invalid]=\"invalid()\"\n      required\n      ariaDescribedBy=\"cascade-invalid-message\"\n      (blurred)=\"touched.set(true)\"\n      fluid\n    />\n    <small id=\"cascade-invalid-message\" [class.error]=\"invalid()\" aria-live=\"polite\">\n      {{ invalid() ? 'Choose a location.' : 'Required.' }}\n    </small>\n  </div>\n  <div class=\"field cascade-field\">\n    <label for=\"cascade-disabled-input\">Disabled</label>\n    <aeris-cascade-select\n      inputId=\"cascade-disabled-input\"\n      value=\"belgrade\"\n      [options]=\"locations\"\n      disabled\n      fluid\n    />\n  </div>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".field-grid {\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n}\n\n.field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n@media (max-width: 42rem) {\n  .field-grid {\n    grid-template-columns: 1fr;\n  }\n}"
+              "code": ".field-grid {\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n}\n\n.field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n@media (max-width: 42rem) {\n  .field-grid {\n    grid-template-columns: 1fr;\n  }\n}\n\n.cascade-field {\n  max-inline-size: 18rem;\n}"
             }
           ]
         },
@@ -3972,7 +3978,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-sizes-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field-stack\">\n      <aeris-cascade-select size=\"xs\" placeholder=\"Extra small\" [options]=\"locations\" />\n      <aeris-cascade-select size=\"sm\" placeholder=\"Small\" [options]=\"locations\" />\n      <aeris-cascade-select size=\"md\" placeholder=\"Medium\" [options]=\"locations\" />\n      <aeris-cascade-select size=\"lg\" placeholder=\"Large\" [options]=\"locations\" />\n    </div>\n  `,\n  styles: `\n    .field-stack {\n      width: 100%;\n      display: grid;\n      gap: 1rem;\n    }\n  `\n})\nexport class CascadeSizesSizesDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-sizes-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field-stack cascade-field\">\n      <aeris-cascade-select size=\"xs\" placeholder=\"Extra small\" [options]=\"locations\" />\n      <aeris-cascade-select size=\"sm\" placeholder=\"Small\" [options]=\"locations\" />\n      <aeris-cascade-select size=\"md\" placeholder=\"Medium\" [options]=\"locations\" />\n      <aeris-cascade-select size=\"lg\" placeholder=\"Large\" [options]=\"locations\" />\n    </div>\n  `,\n  styles: `\n    .field-stack {\n      width: 100%;\n      display: grid;\n      gap: 1rem;\n    }\n    \n    .cascade-field {\n      max-inline-size: 18rem;\n    }\n  `\n})\nexport class CascadeSizesSizesDemo {\n}\n"
             }
           ]
         },
@@ -3989,12 +3995,12 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div class=\"field-grid\">\n  <div class=\"field\">\n    <label for=\"cascade-reactive-input\">Reactive Forms</label>\n    <aeris-cascade-select\n      inputId=\"cascade-reactive-input\"\n      [options]=\"locations\"\n      [formControl]=\"reactiveLocation\"\n      fluid\n    />\n    <small>Value: {{ reactiveLocation.value }}</small>\n  </div>\n  <div class=\"field\">\n    <label for=\"cascade-template-form-input\">Template-driven forms</label>\n    <aeris-cascade-select\n      inputId=\"cascade-template-form-input\"\n      name=\"templateLocation\"\n      [options]=\"locations\"\n      [(ngModel)]=\"templateLocation\"\n      fluid\n    />\n    <small>Value: {{ templateLocation }}</small>\n  </div>\n</div>"
+              "code": "<div class=\"field-grid\">\n  <div class=\"field cascade-field\">\n    <label for=\"cascade-reactive-input\">Reactive Forms</label>\n    <aeris-cascade-select\n      inputId=\"cascade-reactive-input\"\n      [options]=\"locations\"\n      [formControl]=\"reactiveLocation\"\n      fluid\n    />\n    <small>Value: {{ reactiveLocation.value }}</small>\n  </div>\n  <div class=\"field cascade-field\">\n    <label for=\"cascade-template-form-input\">Template-driven forms</label>\n    <aeris-cascade-select\n      inputId=\"cascade-template-form-input\"\n      name=\"templateLocation\"\n      [options]=\"locations\"\n      [(ngModel)]=\"templateLocation\"\n      fluid\n    />\n    <small>Value: {{ templateLocation }}</small>\n  </div>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".field-grid {\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n}\n\n.field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n@media (max-width: 42rem) {\n  .field-grid {\n    grid-template-columns: 1fr;\n  }\n}"
+              "code": ".field-grid {\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n}\n\n.field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n@media (max-width: 42rem) {\n  .field-grid {\n    grid-template-columns: 1fr;\n  }\n}\n\n.cascade-field {\n  max-inline-size: 18rem;\n}"
             }
           ]
         },
@@ -4006,47 +4012,48 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisCascadeSelect, type AerisCascadeSelectChangeEvent } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-events-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field\">\n      <label for=\"cascade-events-input\">Event location</label>\n      <aeris-cascade-select\n        inputId=\"cascade-events-input\"\n        [options]=\"locations\"\n        clearable\n        fluid\n        (changed)=\"recordChange($event)\"\n      />\n      <small aria-live=\"polite\">{{ lastEvent() }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class CascadeEventsEventsDemo {\n  protected readonly lastEvent = signal('No selection yet');\n\n  protected recordChange(event: AerisCascadeSelectChangeEvent): void {\n    const path = event.path.map((option) => option.label).join(' / ');\n    this.lastEvent.set(path ? `Selected ${path}` : 'Selection cleared');\n  }\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisCascadeSelect, type AerisCascadeSelectChangeEvent } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-events-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field cascade-field\">\n      <label for=\"cascade-events-input\">Event location</label>\n      <aeris-cascade-select\n        inputId=\"cascade-events-input\"\n        [options]=\"locations\"\n        clearable\n        fluid\n        (changed)=\"recordChange($event)\"\n      />\n      <small aria-live=\"polite\">{{ lastEvent() }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n    \n    .cascade-field {\n      max-inline-size: 18rem;\n    }\n  `\n})\nexport class CascadeEventsEventsDemo {\n  protected readonly lastEvent = signal('No selection yet');\n\n  protected recordChange(event: AerisCascadeSelectChangeEvent): void {\n    const path = event.path.map((option) => option.label).join(' / ');\n    this.lastEvent.set(path ? `Selected ${path}` : 'Selection cleared');\n  }\n}\n"
             }
           ]
         }
       ],
       "accessibility": {
         "guidance": [
+          "On screens up to 36rem wide, tapping a branch expands or collapses its children inline without changing the selected value.",
           "The trigger uses role=\"combobox\", aria-expanded, aria-controls, and aria-activedescendant.",
-          "Each hierarchy column uses role=\"listbox\"; each option uses role=\"option\" and disabled options are skipped by keyboard movement.",
-          "Branch options expose aria-expanded while their child column is active.",
+          "The popup uses role=\"tree\", options use role=\"treeitem\", and nested levels use role=\"group\". Options expose their level and sibling position. Disabled options are skipped by keyboard movement.",
+          "Branch options expose aria-expanded while their children are visible.",
           "Use a visible label with inputId, or provide ariaLabel when a visible label is not possible.",
           "Validation messages should be connected with ariaDescribedBy and should not rely on color alone."
         ],
         "keyboard": [
           {
             "keys": "Enter / Space",
-            "behavior": "Opens the panel. When open, selects the active leaf option or opens the active branch."
+            "behavior": "Opens at the selected option, or the first enabled option. When open, selects the active leaf option or opens the active branch."
           },
           {
             "keys": "ArrowDown",
-            "behavior": "Opens the panel and moves to the next enabled option in the active column."
+            "behavior": "Opens at the selected or first enabled option. When open, moves to the next enabled sibling."
           },
           {
             "keys": "ArrowUp",
-            "behavior": "Opens the panel and moves to the previous enabled option in the active column."
+            "behavior": "Opens at the selected or first enabled option. When open, moves to the previous enabled sibling."
           },
           {
             "keys": "ArrowRight",
-            "behavior": "Moves into the child column of the active branch."
+            "behavior": "Expands a closed branch, or moves into its children when open. Reversed in RTL."
           },
           {
             "keys": "ArrowLeft",
-            "behavior": "Moves back to the parent column."
+            "behavior": "Collapses an open branch, or moves to its parent. Reversed in RTL."
           },
           {
             "keys": "Home",
-            "behavior": "Moves to the first enabled option in the active column."
+            "behavior": "Moves to the first enabled sibling."
           },
           {
             "keys": "End",
-            "behavior": "Moves to the last enabled option in the active column."
+            "behavior": "Moves to the last enabled sibling."
           },
           {
             "keys": "Escape",
