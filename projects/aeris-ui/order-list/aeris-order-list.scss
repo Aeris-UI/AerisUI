@@ -91,6 +91,8 @@
 }
 
 .aeris-order-list__viewport {
+  // Keep the viewport in the flexible column when reorder controls are hidden.
+  grid-column: -2 / -1;
   min-height: 12rem;
   max-height: var(--aeris-order-list-max-height, 22rem);
   padding: calc(var(--aeris-order-list-density-gap) * 0.75);

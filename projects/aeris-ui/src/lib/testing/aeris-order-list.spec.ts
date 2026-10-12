@@ -79,6 +79,22 @@ describe('AerisOrderList', () => {
     expect(host.reorderCount).toBe(1);
   });
 
+  it('keeps the viewport in the flexible content column without reorder controls', () => {
+    const fixture = TestBed.createComponent(AerisOrderList);
+    fixture.componentRef.setInput('items', [{ id: 'a', label: 'Alpha' }]);
+    fixture.componentRef.setInput('showControls', false);
+    fixture.detectChanges();
+    const viewport = fixture.nativeElement.querySelector(
+      '.aeris-order-list__viewport',
+    ) as HTMLElement;
+    expect(fixture.nativeElement.querySelector('.aeris-order-list__controls')).toBeNull();
+    expect(getComputedStyle(viewport).gridColumn).toMatch(/^-2\s*\/\s*-1$/);
+    fixture.componentRef.setInput('showControls', true);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.aeris-order-list__controls')).not.toBeNull();
+    expect(getComputedStyle(viewport).gridColumn).toMatch(/^-2\s*\/\s*-1$/);
+  });
+
   it('moves selected items to bottom', () => {
     const fixture = setup();
     const host = fixture.componentInstance;
