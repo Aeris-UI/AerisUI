@@ -11,7 +11,10 @@
   display: block;
   overflow: hidden;
   border-radius: var(--aeris-skeleton-radius, var(--aeris-radius-pill, 999px));
-  background: var(--aeris-skeleton-background, var(--aeris-surface-2, #f3f3f3));
+  background: var(
+    --aeris-skeleton-background,
+    color-mix(in srgb, var(--aeris-text, #111111) 16%, var(--aeris-surface-2, #f3f3f3))
+  );
   color: transparent;
   pointer-events: none;
   -webkit-user-select: none;
@@ -34,7 +37,7 @@
   background: linear-gradient(
     100deg,
     transparent 12%,
-    var(--aeris-skeleton-highlight, color-mix(in srgb, var(--aeris-surface, #fff) 72%, transparent))
+    var(--aeris-skeleton-highlight, color-mix(in srgb, var(--aeris-text, #111111) 12%, transparent))
       48%,
     transparent 84%
   );

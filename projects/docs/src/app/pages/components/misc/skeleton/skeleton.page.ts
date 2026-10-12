@@ -265,12 +265,12 @@ type AerisSkeletonAnimation = 'wave' | 'pulse' | 'none';`;
     {
       name: '--aeris-skeleton-background',
       purpose: 'Placeholder base color.',
-      fallback: '--aeris-surface-2',
+      fallback: '16% --aeris-text mixed with --aeris-surface-2',
     },
     {
       name: '--aeris-skeleton-highlight',
       purpose: 'Wave highlight color.',
-      fallback: '72% --aeris-surface',
+      fallback: '12% --aeris-text mixed with transparent',
     },
     {
       name: '--aeris-skeleton-radius',
