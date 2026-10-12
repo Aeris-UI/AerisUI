@@ -20,6 +20,7 @@
       "@angular/platform-browser": ">=22.0.6 <23.0.0",
       "rxjs": ">=7.8.0 <8.0.0",
       "chart.js": "^4.5.1",
+      "shiki": "^4.5.0",
       "@lexical/history": "^0.49.0",
       "@lexical/html": "^0.49.0",
       "@lexical/list": "^0.49.0",
@@ -367,6 +368,11 @@
                 "Chart",
                 "npm install chart.js",
                 "Importing @aeris-ui/core/chart"
+              ],
+              [
+                "CodeBlock",
+                "npm install shiki",
+                "Importing @aeris-ui/core/code-block; highlighting loads lazily"
               ],
               [
                 "Editor",
@@ -36761,6 +36767,339 @@
           {
             "keys": "Delete / Backspace",
             "behavior": "Removes the chip while its remove button is focused."
+          }
+        ]
+      }
+    },
+    {
+      "name": "CodeBlock",
+      "slug": "code-block",
+      "category": "Misc",
+      "description": "Display syntax-highlighted code with source tabs, line numbers, focused lines, and accessible copy actions.",
+      "entryPoint": "@aeris-ui/core/code-block",
+      "documentationUrl": "https://aeris-ui.dev/components/code-block",
+      "imports": [
+        "AerisCodeBlockModule"
+      ],
+      "importCode": "import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';",
+      "api": [
+        {
+          "name": "Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "code",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Source text for a single code block. Rendered as text, never executed or interpreted as HTML."
+            },
+            {
+              "name": "language",
+              "type": "string",
+              "defaultValue": "text",
+              "description": "Case-insensitive language: html, typescript, javascript, css, scss, json, shell, or text. Aliases: ts, js, angular, xml, bash, sh. Unknown languages use plain text."
+            },
+            {
+              "name": "label",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Single-source header label, such as a filename. Defaults to language."
+            },
+            {
+              "name": "sources",
+              "type": "readonly AerisCodeSource[]",
+              "defaultValue": "[]",
+              "description": "Source files displayed as tabs. Non-empty sources take precedence over code, language, and label. Empty files are retained."
+            },
+            {
+              "name": "highlight",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Enable Shiki syntax highlighting with lazily loaded grammars and light/dark themes. Plain text appears immediately while highlighting loads. Inputs over 100,000 characters use plain text."
+            },
+            {
+              "name": "lineNumbers",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Display decorative line numbers. Clipboard output always excludes them."
+            },
+            {
+              "name": "highlightLines",
+              "type": "readonly number[]",
+              "defaultValue": "[]",
+              "description": "One-based line numbers to emphasize. Invalid or out-of-range entries have no effect."
+            },
+            {
+              "name": "wrap",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Wrap long lines rather than horizontally scrolling."
+            },
+            {
+              "name": "maxHeight",
+              "type": "string | null",
+              "defaultValue": "null",
+              "description": "Explicit CSS maximum height on every screen size. Default desktop height comes from the token; mobile expands vertically to preserve page scrolling."
+            },
+            {
+              "name": "tabSize",
+              "type": "number",
+              "defaultValue": "2",
+              "description": "Displayed tab width, clamped to integers from 1 through 16."
+            },
+            {
+              "name": "copyable",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Show the copy action and enable the copy() method."
+            },
+            {
+              "name": "ariaLabel",
+              "type": "string",
+              "defaultValue": "Code example",
+              "description": "Accessible name for a single-source scroll region."
+            },
+            {
+              "name": "copyLabel",
+              "type": "string",
+              "defaultValue": "Copy",
+              "description": "Visible copy action text; automatically icon-only on narrow screens."
+            },
+            {
+              "name": "copiedLabel",
+              "type": "string",
+              "defaultValue": "Copied",
+              "description": "Visible success text."
+            },
+            {
+              "name": "copyAriaLabel",
+              "type": "string",
+              "defaultValue": "Copy code",
+              "description": "Accessible name for the copy button, retained in icon-only mode."
+            },
+            {
+              "name": "copiedMessage",
+              "type": "string",
+              "defaultValue": "Code copied to clipboard.",
+              "description": "Polite live announcement after a successful copy."
+            },
+            {
+              "name": "copyErrorMessage",
+              "type": "string",
+              "defaultValue": "Unable to copy code. Select the code and copy it manually.",
+              "description": "Live announcement when clipboard access fails."
+            },
+            {
+              "name": "sourceTabsLabel",
+              "type": "string",
+              "defaultValue": "Code source",
+              "description": "Accessible name for the source tab list."
+            },
+            {
+              "name": "scrollHint",
+              "type": "string",
+              "defaultValue": "Swipe sideways for long lines",
+              "description": "Non-interactive mobile hint for unwrapped content; empty text hides it."
+            },
+            {
+              "name": "scrollDescription",
+              "type": "string",
+              "defaultValue": "Scroll horizontally to view long lines.",
+              "description": "Accessible scroll guidance when wrapping is disabled; can be localized."
+            }
+          ]
+        },
+        {
+          "name": "Models",
+          "kind": "model",
+          "entries": [
+            {
+              "name": "activeSource",
+              "type": "number",
+              "defaultValue": "0",
+              "description": "Two-way active source index. Out-of-range values display the closest available source."
+            }
+          ]
+        },
+        {
+          "name": "Outputs",
+          "kind": "output",
+          "entries": [
+            {
+              "name": "highlightError",
+              "type": "unknown",
+              "defaultValue": "-",
+              "description": "Emits a highlighting failure. The original source remains visible and copyable as plain text."
+            },
+            {
+              "name": "copied",
+              "type": "AerisCodeCopyEvent",
+              "defaultValue": "-",
+              "description": "Emits the exact source text, language, and index after clipboard success."
+            },
+            {
+              "name": "copyError",
+              "type": "unknown",
+              "defaultValue": "-",
+              "description": "Emits the clipboard error. Source code is not included in error messages."
+            }
+          ]
+        },
+        {
+          "name": "Methods",
+          "kind": "method",
+          "entries": [
+            {
+              "name": "copy()",
+              "type": "Promise<boolean>",
+              "defaultValue": "-",
+              "description": "Copy the currently displayed raw source. Resolves false when disabled, busy, unsupported, or unsuccessful."
+            },
+            {
+              "name": "selectSource(index)",
+              "type": "(index: number) => void",
+              "defaultValue": "-",
+              "description": "Activate an existing source index; invalid indices are ignored."
+            }
+          ]
+        }
+      ],
+      "referenceTables": [],
+      "interfaces": [
+        {
+          "name": "Interfaces",
+          "code": "type AerisCodeLanguage = 'html' | 'typescript' | 'javascript' | 'css' | 'scss' | 'json' | 'shell' | 'text';\n\ninterface AerisCodeSource {\n  readonly code: string;\n  readonly language: string;\n  readonly label: string;\n}\n\ninterface AerisCodeCopyEvent {\n  readonly code: string;\n  readonly language: string;\n  readonly index: number;\n}"
+        }
+      ],
+      "designTokens": [],
+      "examples": [
+        {
+          "id": "code-block-basic",
+          "title": "Basic",
+          "description": "TypeScript coloring, a language label, and a copy action.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-basic-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div><aeris-code-block [code]=\"exampleCode\" language=\"typescript\" /></div>\n  `\n})\nexport class CodeBlockBasicBasicDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-sources",
+          "title": "Source tabs",
+          "description": "Group related files without hiding empty source files. Use left and right arrows, Home, or End to switch tabs.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-sources-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div><aeris-code-block [sources]=\"sourceFiles\" /></div>\n  `\n})\nexport class CodeBlockSourcesSourceTabsDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-lines",
+          "title": "Line numbers and focused lines",
+          "description": "Decorative line numbers and selected-line backgrounds never alter the copied source.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-lines-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div>\n      <aeris-code-block\n        [code]=\"exampleCode\"\n        language=\"typescript\"\n        lineNumbers\n        [highlightLines]=\"[3, 4, 5]\"\n      />\n    </div>\n  `\n})\nexport class CodeBlockLinesLineNumbersAndFocusedLinesDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-wrap",
+          "title": "Wrapping",
+          "description": "Wrap long lines to fit the available width.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-wrap-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div>\n      <aeris-code-block [code]=\"longCode\" language=\"typescript\" wrap maxHeight=\"12rem\" />\n    </div>\n  `\n})\nexport class CodeBlockWrapWrappingDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-scroll",
+          "title": "Scrolling",
+          "description": "An explicit maximum height provides a scroll region. Scroll at its boundary to continue through the page.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-scroll-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div>\n      <aeris-code-block [code]=\"longCode\" language=\"typescript\" maxHeight=\"12rem\" />\n    </div>\n  `\n})\nexport class CodeBlockScrollScrollingDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-copy",
+          "title": "Copy events and labels",
+          "description": "Customize visible labels and react to successful or failed copies.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-copy-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div class=\"code-example\">\n      <aeris-code-block\n        [code]=\"exampleCode\"\n        language=\"typescript\"\n        label=\"greeting.ts\"\n        copyLabel=\"Copy source\"\n        copiedLabel=\"Source copied\"\n        (copied)=\"onCopied($event)\"\n        (copyError)=\"onCopyError()\"\n      />\n      <p aria-live=\"polite\">{{ copyMessage() }}</p>\n    </div>\n  `,\n  styles: `\n    .code-example {\n      display: grid;\n      gap: 1rem;\n      min-inline-size: 0;\n    }\n  `\n})\nexport class CodeBlockCopyCopyEventsAndLabelsDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-plain",
+          "title": "Plain text",
+          "description": "Plain text can retain the label without syntax coloring or a copy button.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-plain-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div>\n      <aeris-code-block\n        code=\"Aeris keeps presentation separate from your source text.\"\n        language=\"text\"\n        label=\"Notes\"\n        [copyable]=\"false\"\n      />\n    </div>\n  `\n})\nexport class CodeBlockPlainPlainTextDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-custom",
+          "title": "Token customization",
+          "description": "Use component tokens for an intentional local exception.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-custom-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div>\n      <aeris-code-block\n        class=\"custom-code\"\n        [code]=\"exampleCode\"\n        language=\"typescript\"\n        [highlightLines]=\"[3]\"\n      />\n    </div>\n  `,\n  styles: `\n    .custom-code {\n      --aeris-code-block-background: var(--aeris-surface);\n      --aeris-code-block-font-size: 0.9375rem;\n      --aeris-code-block-padding: 1.5rem;\n      --aeris-code-block-line-highlight: var(--aeris-secondary-soft);\n    }\n  `\n})\nexport class CodeBlockCustomTokenCustomizationDemo {\n}\n"
+            }
+          ]
+        }
+      ],
+      "accessibility": {
+        "guidance": [
+          "Code uses native pre and code elements. Syntax highlighting never changes the text or relies on color to communicate meaning.",
+          "A single source has a named, focusable region. Multiple sources use labeled tabs and a linked tab panel with one tab stop.",
+          "Copy success and failure are announced politely. Clipboard access can be rejected by the browser; text remains manually selectable.",
+          "Line numbers are decorative and hidden from assistive technology. Line highlighting is visual emphasis, not a semantic error or selection.",
+          "Source text stays left-to-right in RTL layouts, while navigation arrows follow the interface direction.",
+          "Mobile copy actions retain their accessible name when their visible label is hidden. Default mobile blocks expand vertically; horizontal swipes reveal long lines without stopping page scrolling.",
+          "Reduced motion disables button transitions. CodeBlock does not animate or execute source text."
+        ],
+        "keyboard": [
+          {
+            "keys": "Tab / Shift + Tab",
+            "behavior": "Move through the active source tab, copy button, and scroll region."
+          },
+          {
+            "keys": "ArrowLeft / ArrowRight",
+            "behavior": "Focus and activate the adjacent source tab, wrapping at either end; reversed in RTL."
+          },
+          {
+            "keys": "Home / End",
+            "behavior": "Focus and activate the first / last source tab."
+          },
+          {
+            "keys": "Enter / Space",
+            "behavior": "Activate the focused native button."
+          },
+          {
+            "keys": "Arrow keys / PageUp / PageDown",
+            "behavior": "Scroll the focused code area using native browser behavior when it overflows."
           }
         ]
       }

@@ -371,6 +371,11 @@ export const appConfig: ApplicationConfig = {
           rows: [
             ['Chart', 'npm install chart.js', 'Importing @aeris-ui/core/chart'],
             [
+              'CodeBlock',
+              'npm install shiki',
+              'Importing @aeris-ui/core/code-block; highlighting loads lazily',
+            ],
+            [
               'Editor',
               'npm install lexical @lexical/history @lexical/html @lexical/list @lexical/rich-text @lexical/selection',
               'Importing @aeris-ui/core/editor',

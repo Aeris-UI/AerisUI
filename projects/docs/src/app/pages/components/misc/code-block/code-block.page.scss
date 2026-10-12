@@ -1,0 +1,14 @@
+@use '../../button/shared/button-docs';
+@use '../../form/shared/form-docs';
+
+.code-example {
+  display: grid;
+  gap: 1rem;
+  min-inline-size: 0;
+}
+.custom-code {
+  --aeris-code-block-background: var(--aeris-surface);
+  --aeris-code-block-font-size: 0.9375rem;
+  --aeris-code-block-padding: 1.5rem;
+  --aeris-code-block-line-highlight: var(--aeris-secondary-soft);
+}

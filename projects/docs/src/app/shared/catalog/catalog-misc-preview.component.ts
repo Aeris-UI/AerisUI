@@ -10,6 +10,7 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
 import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
 import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
 import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
 @Component({
   selector: 'app-catalog-misc-preview',
   imports: [
@@ -24,9 +25,19 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     AerisProgressSpinnerModule,
     AerisSkeletonModule,
     AerisInputText,
+    AerisCodeBlockModule,
   ],
   template: `
     @switch (kind()) {
+      @case ('code-block') {
+        <aeris-code-block
+          code="const greeting = 'Hello, Aeris';"
+          language="typescript"
+          [copyable]="false"
+          scrollHint=""
+          wrap
+        />
+      }
       @case ('avatar') {
         <aeris-avatar-group
           ><aeris-avatar label="AM" /><aeris-avatar label="JL" tone="info" /><aeris-avatar

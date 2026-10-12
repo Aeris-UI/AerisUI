@@ -55,6 +55,14 @@ try {
   const installedPackageRoot = resolve(workspace, 'node_modules/@aeris-ui/core');
   const installedManifest = readJson(resolve(installedPackageRoot, 'package.json'));
   assert(
+    installedManifest.peerDependenciesMeta?.shiki?.optional === true,
+    'Shiki must remain an optional peer dependency.',
+  );
+  assert(
+    !existsSync(resolve(workspace, 'node_modules/shiki')),
+    'Installing Aeris without CodeBlock must not install Shiki.',
+  );
+  assert(
     installedManifest.version === packageManifest.version,
     'Installed tarball version differs.',
   );

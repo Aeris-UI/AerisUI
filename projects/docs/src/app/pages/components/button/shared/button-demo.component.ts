@@ -89,7 +89,7 @@ import { ProjectedCode } from '../../../../shared/projected-code.directive';
       background: var(--surface);
       overflow: hidden;
     }
-    .source app-code-block ::ng-deep .code-block {
+    .source app-code-block ::ng-deep .aeris-code-block {
       border: 0;
       border-radius: 0;
     }

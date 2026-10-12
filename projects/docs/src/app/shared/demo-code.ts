@@ -81,6 +81,7 @@ const AERIS_IMPORTS: readonly AerisImportRule[] = [
   rule('AerisChipModule', 'chip', /<aeris-chip\b/, /\saerisChip(?:Leading|RemoveIcon)\b/),
   rule('AerisCheckbox', 'checkbox', /<aeris-checkbox\b/),
   rule('AerisColorPicker', 'color-picker', /<aeris-color-picker\b/),
+  rule('AerisCodeBlockModule', 'code-block', /<aeris-code-block\b/),
   rule('AerisCompareModule', 'compare', /<aeris-compare\b/, /\saerisCompare[A-Z]\w*/),
   rule(
     'AerisConfirmDialogModule',
@@ -277,6 +278,8 @@ const AERIS_TYPE_PREFIXES: readonly [prefix: string, secondary: string][] = [
   ['AerisScrollPanel', 'scroll-panel'],
   ['AerisScrollTop', 'scroll-top'],
   ['AerisSkeleton', 'skeleton'],
+  ['AerisCodeSource', 'code-block'],
+  ['AerisCodeCopyEvent', 'code-block'],
   ['AerisSelect', 'select'],
   ['AerisSlider', 'slider'],
   ['AerisSplitter', 'splitter'],

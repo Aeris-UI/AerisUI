@@ -55,6 +55,7 @@ const descriptions: Readonly<Record<string, string>> = {
     'Hierarchical navigation trail with links, actions, current-page semantics, templates, separators, and ellipsis collapsing.',
   'cascade-select': 'Hierarchical selection with cascading columns, templates, and Forms support.',
   card: 'Composable content surface with media, semantic regions, responsive layouts, and theme tokens.',
+  'code-block': 'Display syntax-highlighted code with source tabs, line numbers, focused lines, and accessible copy actions.',
   carousel:
     'Responsive item carousel with controlled paging, templates, autoplay, swipe, and keyboard navigation.',
   galleria:
@@ -241,6 +242,7 @@ export const COMPONENT_CATALOG: readonly ComponentCatalogItem[] = [
     'Badge',
     'BlockUI',
     'Chip',
+    'CodeBlock',
     'Fluid',
     'Inplace',
     'MeterGroup',

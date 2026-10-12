@@ -10,6 +10,15 @@ The package is available on npm as [`@aeris-ui/core`](https://www.npmjs.com/pack
 
 ## Setup
 
+CodeBlock has an optional [Shiki](https://shiki.style/) peer dependency:
+
+```bash
+npm install shiki
+```
+
+Install it only when importing `@aeris-ui/core/code-block`. Highlighting is lazy-loaded;
+other Aeris components do not require or load Shiki.
+
 Use the Angular initializer for guided or reproducible setup:
 
 ```bash

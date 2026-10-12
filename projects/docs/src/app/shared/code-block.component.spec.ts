@@ -22,9 +22,9 @@ describe('CodeBlockComponent', () => {
     fixture.detectChanges();
 
     const element = fixture.nativeElement as HTMLElement;
-    const header = element.querySelector('.code-block__header');
-    const toolbar = header?.querySelector('.code-block__toolbar');
-    const copy = header?.querySelector('.code-block__copy');
+    const header = element.querySelector('.aeris-code-block__header');
+    const toolbar = header?.querySelector('.aeris-code-block__toolbar');
+    const copy = header?.querySelector('.aeris-code-block__copy');
 
     expect(toolbar?.textContent).toContain('Pinned alpha (recommended)');
     expect(copy?.getAttribute('aria-label')).toBe('Copy code');

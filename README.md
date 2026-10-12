@@ -45,6 +45,10 @@ exact versions when reproducibility matters.
 
 ## Workspace
 
+CodeBlock uses [Shiki](https://shiki.style/) as an optional peer dependency. Install it with
+`npm install shiki` when importing `@aeris-ui/core/code-block`. Other Aeris components do not
+require or load Shiki.
+
 - `projects/aeris-mcp` — local read-only `@aeris-ui/mcp` documentation server
 - `projects/aeris-ui` — published `@aeris-ui/core` package and secondary entry points
 - `projects/aeris-ui/src/lib/testing` — complete library test suite

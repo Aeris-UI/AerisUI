@@ -1,7 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const fixtureUrl = 'http://127.0.0.1:4300';
-const docsLayoutTests = ['**/geometry-consistency.spec.ts', '**/cascade-select-responsive.spec.ts'];
+const docsLayoutTests = [
+  '**/geometry-consistency.spec.ts',
+  '**/cascade-select-responsive.spec.ts',
+  '**/code-block.spec.ts',
+];
 
 export default defineConfig({
   testDir: './e2e/browser',

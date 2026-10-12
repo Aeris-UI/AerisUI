@@ -700,6 +700,14 @@ export const routes: Routes = [
       import('./pages/components/misc/skeleton/skeleton.page').then((page) => page.SkeletonPage),
   },
   {
+    path: 'components/code-block',
+    title: 'CodeBlock - Aeris UI',
+    loadComponent: () =>
+      import('./pages/components/misc/code-block/code-block.page').then(
+        (page) => page.CodeBlockPage,
+      ),
+  },
+  {
     path: 'components/block-ui',
     title: 'BlockUI - Aeris UI',
     loadComponent: () =>
