@@ -217,8 +217,16 @@ let speedDialId = 0;
               class="aeris-speed-dial__trigger-icon"
               [attr.data-rotate]="rotateAnimation() && !hideIcon() ? true : null"
               aria-hidden="true"
-              >{{ visible() && hideIcon() ? hideIcon() : showIcon() }}</span
             >
+              @let icon = visible() && hideIcon() ? hideIcon() : showIcon();
+              @if (icon === '+') {
+                <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              } @else {
+                {{ icon }}
+              }
+            </span>
           }
         </button>
       }

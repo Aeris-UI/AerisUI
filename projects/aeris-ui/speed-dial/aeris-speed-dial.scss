@@ -97,7 +97,18 @@
   place-items: center;
   font-size: 1.5rem;
   line-height: 1;
+  transform-origin: center;
   transition: transform var(--aeris-motion-slow, 220ms) var(--aeris-ease-enter, ease-out);
+}
+
+.aeris-speed-dial__trigger-icon svg {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
 }
 
 :host([data-open]) .aeris-speed-dial__trigger-icon[data-rotate] {

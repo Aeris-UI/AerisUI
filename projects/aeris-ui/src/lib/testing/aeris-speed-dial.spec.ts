@@ -40,6 +40,26 @@ class SpeedDialTestHost {
 }
 
 describe('AerisSpeedDial', () => {
+  it('uses a centered vector plus for the rotating default icon and preserves custom icons', async () => {
+    const fixture = TestBed.createComponent(AerisSpeedDial);
+    await fixture.whenStable();
+    const icon = fixture.nativeElement.querySelector(
+      '.aeris-speed-dial__trigger-icon',
+    ) as HTMLElement;
+    expect(icon.querySelector('svg')?.getAttribute('viewBox')).toBe('0 0 24 24');
+    expect(icon.querySelector('path')?.getAttribute('d')).toBe('M12 5v14M5 12h14');
+    expect(icon.hasAttribute('data-rotate')).toBe(true);
+    fixture.componentRef.setInput('visible', true);
+    await fixture.whenStable();
+    expect(icon.querySelector('svg')).not.toBeNull();
+    fixture.componentRef.setInput('showIcon', 'A');
+    fixture.componentRef.setInput('hideIcon', 'B');
+    await fixture.whenStable();
+    expect(icon.querySelector('svg')).toBeNull();
+    expect(icon.textContent?.trim()).toBe('B');
+    expect(icon.hasAttribute('data-rotate')).toBe(false);
+  });
+
   it('connects an accessible trigger to its menu', async () => {
     const fixture = TestBed.createComponent(SpeedDialTestHost);
     await fixture.whenStable();
@@ -47,9 +67,7 @@ describe('AerisSpeedDial', () => {
     const trigger = fixture.nativeElement.querySelector(
       '.aeris-speed-dial__trigger',
     ) as HTMLButtonElement;
-    const menu = fixture.nativeElement.querySelector(
-      '.aeris-speed-dial__list',
-    ) as HTMLElement;
+    const menu = fixture.nativeElement.querySelector('.aeris-speed-dial__list') as HTMLElement;
 
     expect(trigger.getAttribute('aria-haspopup')).toBe('menu');
     expect(trigger.getAttribute('aria-controls')).toBe(menu.id);
@@ -98,9 +116,7 @@ describe('AerisSpeedDial', () => {
     expect(fixture.componentInstance.commands()).toBe(1);
     expect(fixture.componentInstance.selected()).toBe('Create document');
     expect(fixture.componentInstance.open()).toBe(false);
-    expect(
-      fixture.nativeElement.querySelector('.aeris-speed-dial__mask'),
-    ).toBeNull();
+    expect(fixture.nativeElement.querySelector('.aeris-speed-dial__mask')).toBeNull();
   });
 
   it('skips disabled items during keyboard navigation and restores trigger focus', async () => {
@@ -120,17 +136,15 @@ describe('AerisSpeedDial', () => {
     expect(actions.item(0).tabIndex).toBe(0);
     expect((actions.item(1) as HTMLButtonElement).disabled).toBe(true);
 
-    actions.item(0).dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
-    );
+    actions
+      .item(0)
+      .dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
     fixture.detectChanges();
     await Promise.resolve();
 
     expect(actions.item(2).tabIndex).toBe(0);
 
-    actions.item(2).dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
-    );
+    actions.item(2).dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     fixture.detectChanges();
     await Promise.resolve();
 
@@ -145,9 +159,7 @@ describe('AerisSpeedDial', () => {
     const trigger = fixture.nativeElement.querySelector(
       '.aeris-speed-dial__trigger',
     ) as HTMLButtonElement;
-    trigger.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }),
-    );
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
     fixture.detectChanges();
     await Promise.resolve();
 
@@ -156,21 +168,17 @@ describe('AerisSpeedDial', () => {
     ) as NodeListOf<HTMLElement>;
     expect(document.activeElement).toBe(actions.item(2));
 
-    actions.item(2).dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Home', bubbles: true }),
-    );
+    actions.item(2).dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
     await Promise.resolve();
     expect(document.activeElement).toBe(actions.item(0));
 
-    actions.item(0).dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'End', bubbles: true }),
-    );
+    actions.item(0).dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }));
     await Promise.resolve();
     expect(document.activeElement).toBe(actions.item(2));
 
-    actions.item(2).dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }),
-    );
+    actions
+      .item(2)
+      .dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     await Promise.resolve();
     expect(document.activeElement).toBe(actions.item(0));
   });
@@ -233,9 +241,9 @@ describe('AerisSpeedDial', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      const middleItem = fixture.nativeElement.querySelectorAll(
-        '.aeris-speed-dial__item',
-      ).item(1) as HTMLElement;
+      const middleItem = fixture.nativeElement
+        .querySelectorAll('.aeris-speed-dial__item')
+        .item(1) as HTMLElement;
 
       expect(middleItem.style.left).toBe(expectedLeft);
       expect(middleItem.style.top).toBe(expectedTop);
@@ -265,9 +273,9 @@ describe('AerisSpeedDial', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      const middleItem = fixture.nativeElement.querySelectorAll(
-        '.aeris-speed-dial__item',
-      ).item(1) as HTMLElement;
+      const middleItem = fixture.nativeElement
+        .querySelectorAll('.aeris-speed-dial__item')
+        .item(1) as HTMLElement;
 
       expect(middleItem.style.left).toBe(expectedLeft);
       expect(middleItem.style.top).toBe(expectedTop);
@@ -276,28 +284,26 @@ describe('AerisSpeedDial', () => {
     },
   );
 
-  it.each(
-    Object.entries(AERIS_SPEED_DIAL_ITEM_LIMITS) as [
-      AerisSpeedDialType,
-      number,
-    ][],
-  )('limits %s layouts to %i rendered actions', async (type, limit) => {
-    const fixture = TestBed.createComponent(AerisSpeedDial);
-    fixture.componentRef.setInput(
-      'model',
-      Array.from({ length: 10 }, (_, index) => ({ label: `Action ${index + 1}` })),
-    );
-    fixture.componentRef.setInput('type', type);
-    fixture.componentRef.setInput('visible', true);
-    fixture.detectChanges();
-    await fixture.whenStable();
+  it.each(Object.entries(AERIS_SPEED_DIAL_ITEM_LIMITS) as [AerisSpeedDialType, number][])(
+    'limits %s layouts to %i rendered actions',
+    async (type, limit) => {
+      const fixture = TestBed.createComponent(AerisSpeedDial);
+      fixture.componentRef.setInput(
+        'model',
+        Array.from({ length: 10 }, (_, index) => ({ label: `Action ${index + 1}` })),
+      );
+      fixture.componentRef.setInput('type', type);
+      fixture.componentRef.setInput('visible', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    expect(
-      fixture.nativeElement.querySelectorAll('.aeris-speed-dial__action').length,
-    ).toBe(limit);
-    expect(fixture.nativeElement.getAttribute('data-truncated')).toBe('true');
-    expect(fixture.nativeElement.querySelector('.aeris-speed-dial__tooltip')).toBeNull();
-  });
+      expect(fixture.nativeElement.querySelectorAll('.aeris-speed-dial__action').length).toBe(
+        limit,
+      );
+      expect(fixture.nativeElement.getAttribute('data-truncated')).toBe('true');
+      expect(fixture.nativeElement.querySelector('.aeris-speed-dial__tooltip')).toBeNull();
+    },
+  );
 
   it('allows maxItems to lower but not exceed the layout limit', async () => {
     const fixture = TestBed.createComponent(AerisSpeedDial);
@@ -310,16 +316,14 @@ describe('AerisSpeedDial', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(
-      fixture.nativeElement.querySelectorAll('.aeris-speed-dial__action').length,
-    ).toBe(3);
+    expect(fixture.nativeElement.querySelectorAll('.aeris-speed-dial__action').length).toBe(3);
 
     fixture.componentRef.setInput('maxItems', 10);
     fixture.detectChanges();
 
-    expect(
-      fixture.nativeElement.querySelectorAll('.aeris-speed-dial__action').length,
-    ).toBe(AERIS_SPEED_DIAL_ITEM_LIMITS['quarter-circle']);
+    expect(fixture.nativeElement.querySelectorAll('.aeris-speed-dial__action').length).toBe(
+      AERIS_SPEED_DIAL_ITEM_LIMITS['quarter-circle'],
+    );
   });
 
   it.each([
@@ -327,25 +331,20 @@ describe('AerisSpeedDial', () => {
     ['down', 'top', false],
     ['left', 'left', true],
     ['right', 'left', false],
-  ] as const)(
-    'uses the same linear offset origin for %s',
-    async (direction, axis, negative) => {
-      const fixture = TestBed.createComponent(AerisSpeedDial);
-      fixture.componentRef.setInput('model', [{ label: 'One' }]);
-      fixture.componentRef.setInput('direction', direction);
-      fixture.componentRef.setInput('visible', true);
-      fixture.detectChanges();
-      await fixture.whenStable();
+  ] as const)('uses the same linear offset origin for %s', async (direction, axis, negative) => {
+    const fixture = TestBed.createComponent(AerisSpeedDial);
+    fixture.componentRef.setInput('model', [{ label: 'One' }]);
+    fixture.componentRef.setInput('direction', direction);
+    fixture.componentRef.setInput('visible', true);
+    fixture.detectChanges();
+    await fixture.whenStable();
 
-      const item = fixture.nativeElement.querySelector(
-        '.aeris-speed-dial__item',
-      ) as HTMLElement;
-      const value = item.style[axis];
+    const item = fixture.nativeElement.querySelector('.aeris-speed-dial__item') as HTMLElement;
+    const value = item.style[axis];
 
-      expect(value).toContain('var(--aeris-speed-dial-size)');
-      expect(value.includes('-1 *')).toBe(negative);
-      expect(item.style.right).toBe('');
-      expect(item.style.bottom).toBe('');
-    },
-  );
+    expect(value).toContain('var(--aeris-speed-dial-size)');
+    expect(value.includes('-1 *')).toBe(negative);
+    expect(item.style.right).toBe('');
+    expect(item.style.bottom).toBe('');
+  });
 });
