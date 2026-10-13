@@ -3,6 +3,8 @@ import { AERIS_ANGULAR_PEER_RANGE, AERIS_CURRENT_VERSION } from '../../data/aeri
 import { DOCS_PALETTES, type DocsPalette } from '../../data/docs-palettes';
 import type { GuideId } from './guide-navigation';
 import { AERIS_COMPATIBILITY, AERIS_RELEASES } from './release-data';
+import { CAPACITOR_GUIDE } from './capacitor-guide';
+import { MOBILE_GUIDE } from './mobile-guide';
 
 export interface GuideLink {
   readonly label: string;
@@ -48,6 +50,8 @@ const source = (label: string, language: CodeSource['language'], code: string): 
 });
 
 export const GUIDE_ARTICLES: readonly GuideArticle[] = [
+  MOBILE_GUIDE,
+  CAPACITOR_GUIDE,
   {
     id: 'installation',
     path: '/guides/installation',
@@ -2078,13 +2082,12 @@ export class ProjectDetails {
       },
       {
         id: 'testing',
-        title: 'Test the complete interaction',
+        title: 'Integrate overlays into application workflows',
         bullets: [
-          'Open with mouse, touch, and keyboard.',
-          'Verify the initial focus target, Tab sequence, Escape behavior, and focus restoration.',
-          'Check both viewport edges, RTL, narrow screens, zoom, and long translated content.',
-          'Confirm background content is inert or unavailable while a modal interaction is active.',
-          'Close the overlay during route changes and component destruction to verify cleanup.',
+          'Choose an initial focus target that matches the task, and keep its trigger available for focus restoration.',
+          'Allow application-provided content and translated action labels to fit the overlay body and footer.',
+          'Use a modal interaction when background tasks must be unavailable; do not disable focus trapping without an accessible replacement.',
+          'Close application-controlled overlays when their task is abandoned or their route changes.',
         ],
         links: [
           { label: 'Dialog examples and API', href: '/components/dialog' },
@@ -2515,7 +2518,7 @@ export class ProjectDetails {
         id: 'matrix',
         title: 'Supported browsers',
         paragraphs: [
-          'The table is the Aeris support policy, not a claim that every application and third-party integration has been tested in every listed browser. During alpha, the automated library suite does not yet run a complete Chrome, Edge, Firefox, and WebKit matrix, so consumers must test the browsers used by their audience.',
+          'The table describes the Aeris browser support policy. During alpha, browser coverage is still limited; it is not a certification of every component and browser combination. Application CSS, content, and third-party integrations have their own compatibility requirements.',
         ],
         table: {
           caption: 'Aeris browser policy',
@@ -2542,11 +2545,10 @@ export class ProjectDetails {
         id: 'ssr-hydration',
         title: 'Server rendering and hydration',
         paragraphs: [
-          'Aeris release verification now server-renders a consumer composition containing deferred Tabs and body-targeted overlay controls, checks stable ARIA relationships, and verifies Angular hydration metadata. Browser-dependent observers and animation work remain guarded where components use them.',
-          "This targeted regression is not yet a complete all-component SSR and hydration matrix. During alpha, evaluate every component used by an application's initial route and treat the browser production build as a separate check.",
-          'Evaluate SSR applications in a disposable branch, render every component used by the initial route, and check for direct document access, hydration mismatches, overlay creation before the browser is ready, and layout changes after hydration. Treat a successful browser build alone as insufficient evidence.',
+          'Aeris guards browser-dependent observers and animation work. Automated SSR coverage includes deferred Tabs and body-targeted overlay controls, but does not establish SSR and hydration support for every component during alpha.',
+          'Keep application browser-only code behind platform guards and open overlays only after the browser is ready. A browser build does not validate server rendering; use your Angular SSR build and hydration diagnostics for the components rendered on the initial route.',
         ],
-        note: 'A complete SSR support promise will follow only after the full component matrix is automated.',
+        note: 'SSR and hydration support remain limited during alpha; do not assume every component is supported in server-rendered routes.',
       },
       {
         id: 'application-testing',

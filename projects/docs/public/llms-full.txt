@@ -25,6 +25,210 @@ This generated document combines the canonical developer guides and every compon
 
 ## Developer guides
 
+### Mobile layouts
+
+> Build flexible layouts and usable forms, data views, and overlays for mobile browsers.
+
+Aeris handles component-level interactions and sizing. Your application owns responsive page layout. Use flexible containers, choose appropriate data layouts, and keep application-owned navigation and actions reachable.
+
+Human-readable documentation: [https://aeris-ui.dev/guides/mobile](https://aeris-ui.dev/guides/mobile)
+
+#### Build flexible mobile layouts
+
+Aeris handles component interactions and sizing within the available space. Your application still owns page layout, breakpoints, and which content to show on a narrow screen. Start with flexible wrappers instead of fixed desktop widths.
+
+Use Fluid for full-width supported controls, and allow their parent grid or flex items to shrink. Fluid does not turn a multi-column page into a mobile layout.
+
+| Area | Aeris handles | Your application handles |
+| --- | --- | --- |
+| Forms | Shrinkable controls, Fluid support, and coarse-pointer input sizing. | Flexible wrappers, labels, and useful inputmode and autocomplete values. |
+| Data tables | Contained scrolling or stacking through responsiveMode. | Choose scroll or stack for the data; keep important columns understandable. |
+| Dialogs and drawers | Scrollable bodies and responsive footer layouts by default. | Reasonable content width, action labels, and avoiding competing scroll regions. |
+| Dropdowns | Anchor tracking, viewport clamping, and automatic escape from clipping ancestors. | A connected trigger and appropriate appendTo target for unusual layouts. |
+| Touch interaction | Coarse-pointer sizing for supported actions and gesture behavior where available. | Usable custom controls and layouts that do not rely on hover alone. |
+
+##### CSS
+
+```css
+.form-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.form-layout > * {
+  min-width: 0;
+}
+
+@media (min-width: 48rem) {
+  .form-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+```
+
+- [Fluid](https://aeris-ui.dev/components/fluid)
+- [Table responsive layouts](https://aeris-ui.dev/components/table)
+- [Overlay integration](https://aeris-ui.dev/guides/overlays)
+
+#### Keep forms and actions reachable
+
+- Keep the responsive footerLayout default on Dialog and Drawer, or choose wrap or stack when your actions need it. Avoid inline layouts that force long labels into one row on small screens.
+- Keep long modal content in the component body instead of adding a second fixed-height scroll region.
+- Aeris observes visualViewport changes for viewport overlays and clamps anchored panels to the visible area. If your host covers content with a keyboard without resizing the viewport, your application must supply the missing sizing or inset information.
+- Use appendTo="body" when a dropdown explicitly needs a viewport-level target. Use a local target only when intentionally containing the overlay.
+- Keep zoom and text scaling enabled. Supply appropriate inputmode and autocomplete values on native fields, and keep custom projected controls large enough to operate by touch.
+
+- [Forms and validation](https://aeris-ui.dev/guides/forms)
+- [Dialog](https://aeris-ui.dev/components/dialog)
+- [Drawer](https://aeris-ui.dev/components/drawer)
+
+#### Application layout considerations
+
+Aeris provides component-level mobile behavior. The surrounding application layout determines how navigation, custom content, and groups of components fit together.
+
+- Let application grids and flex items shrink or stack instead of forcing desktop widths into narrow screens.
+- Allow groups of actions to wrap or stack when labels or translations need more space.
+- Account for application-owned sticky headers and bottom navigation so they do not cover page content or focused fields.
+- Avoid competing fixed-height scroll containers and preserve browser zoom when styling your page shell.
+- Give custom projected controls usable touch targets and an interaction that does not depend on hover.
+
+> Note: For native WebView sizing, system bars, and Android Back integration, see the Capacitor guide.
+
+- [Capacitor integration](https://aeris-ui.dev/guides/capacitor)
+- [Accessibility](https://aeris-ui.dev/guides/accessibility)
+- [Browser support](https://aeris-ui.dev/guides/browser-support)
+
+#### Handle screen edges and safe areas
+
+For edge-to-edge layouts, use viewport-fit=cover without disabling user zoom. Aeris safe-area tokens use native CSS environment values and also accept host-provided --safe-area-inset-* values. Ordinary websites do not need edge-to-edge layout to be responsive.
+
+Dialogs, drawers, toasts, fullscreen galleries, and fixed ScrollTop controls use these tokens. Your own page header, bottom navigation, and floating-action placement must use them too. Apply each inset once; do not add it again when a containing shell already supplies that padding.
+
+SpeedDial is inline: your application positions its floating wrapper and adds safe-area spacing if it sits at a screen edge.
+
+| Token | Default | Purpose |
+| --- | --- | --- |
+| --aeris-safe-area-top/right/bottom/left | Host inset or env(..., 0px) | Keep edge controls away from system bars and cutouts. |
+| --aeris-mobile-input-font-size | 1rem | Editable text on coarse pointers; helps avoid small-font iOS focus zoom when the root font size is at least 16px. |
+| --aeris-touch-target-size | 2.75rem | Coarse-pointer target minimum for primary actions and overlay controls. |
+
+##### index.html
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+```
+
+##### CSS
+
+```css
+.app-shell {
+  padding: var(--aeris-safe-area-top) var(--aeris-safe-area-right)
+    var(--aeris-safe-area-bottom) var(--aeris-safe-area-left);
+}
+
+/* Override an inset only if your host requires it. */
+:root {
+  --aeris-safe-area-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+}
+```
+
+- [Capacitor integration](https://aeris-ui.dev/guides/capacitor)
+
+#### Related guides
+
+- [Overlays](https://aeris-ui.dev/guides/overlays)
+- [Accessibility](https://aeris-ui.dev/guides/accessibility)
+- [Browser support](https://aeris-ui.dev/guides/browser-support)
+- [Capacitor](https://aeris-ui.dev/guides/capacitor)
+
+### Capacitor integration
+
+> Understand Aeris overlay behavior, safe-area integration, and Android Back handling in Capacitor apps.
+
+Capacitor runs your Angular application in a native WebView. Aeris renders web controls and has no Capacitor dependency. The integration points below connect Aeris overlays and layout tokens to your existing Capacitor app.
+
+Human-readable documentation: [https://aeris-ui.dev/guides/capacitor](https://aeris-ui.dev/guides/capacitor)
+
+#### What Aeris handles in a Capacitor app
+
+Use the same Aeris components and themes as in an Angular website. There is no separate native component package or Capacitor adapter to install.
+
+Aeris observes browser viewport changes and exposes safe-area tokens. It does not subscribe to native plugins, control system bars, or handle Android Back automatically. Your application supplies those native integration points.
+
+> Note: This guide assumes a working Capacitor application. Installation, native project setup, plugin configuration, and deployment belong in the Capacitor documentation.
+
+- [Capacitor documentation](https://capacitorjs.com/docs)
+- [Mobile layouts with Aeris](https://aeris-ui.dev/guides/mobile)
+
+#### Integrate system bars and safe areas
+
+Capacitor 8 System Bars can supply --safe-area-inset-* values on Android through insetsHandling: css. Aeris safe-area tokens accept these values as well as browser CSS environment insets.
+
+Use viewport-fit=cover for edge-to-edge layouts and pad application-owned headers, bottom navigation, and floating controls with the Aeris safe-area tokens. Avoid double padding when a native container already supplies the inset.
+
+- [Mobile layout safe areas](https://aeris-ui.dev/guides/mobile#safe-areas)
+- [Capacitor System Bars](https://capacitorjs.com/docs/apis/system-bars)
+
+#### How keyboard resizing affects Aeris overlays
+
+Start with native WebView resizing. Aeris observes visualViewport changes for viewport overlays and clamps anchored panels to the visible area. It does not infer keyboard height or subscribe to Capacitor plugins.
+
+No-resize configurations can cover controls without changing the browser viewport. Aeris cannot detect that occlusion reliably; prefer native resizing or manage it explicitly in your application.
+
+- [Capacitor Keyboard configuration](https://capacitorjs.com/docs/apis/keyboard)
+
+#### Close the top overlay on Android Back
+
+dismissTopAerisOverlay() closes one registered overlay using its own close path and focus restoration. This includes dialogs and drawers, service-backed confirmations, popup menus, and form dropdowns. It returns dismissed, blocked, or none.
+
+Treat blocked as handled: a non-dismissible dialog or fullscreen BlockUI must not fall through to navigation. Register the listener once at application startup and remove only your own listener on teardown. Installing a Back listener replaces Capacitor’s default Back handling.
+
+> Note: The supplied Document isolates the application’s overlay stack. Outside an Angular application, the function defaults to the current browser document and returns none during server rendering.
+
+##### hardware-back.provider.ts
+
+```ts
+import { DOCUMENT, Location } from '@angular/common';
+import { DestroyRef, inject, provideEnvironmentInitializer } from '@angular/core';
+import { App } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
+import { dismissTopAerisOverlay } from '@aeris-ui/core';
+
+export function provideHardwareBack() {
+  return provideEnvironmentInitializer(() => {
+    if (Capacitor.getPlatform() !== 'android') return;
+    const document = inject(DOCUMENT);
+    const location = inject(Location);
+    const destroyRef = inject(DestroyRef);
+    const listener = App.addListener('backButton', ({ canGoBack }) => {
+      if (dismissTopAerisOverlay(document) !== 'none') return;
+      if (canGoBack) location.back();
+      // At the root, keep the app open; choose an exit policy deliberately.
+    });
+    destroyRef.onDestroy(() => { void listener.then((handle) => handle.remove()); });
+  });
+}
+
+// Add provideHardwareBack() to the providers in your app.config.ts.
+```
+
+- [Capacitor App Back events](https://capacitorjs.com/docs/apis/app)
+
+#### Application integration responsibilities
+
+- Configure WebView resizing so keyboard occlusion is reflected in the viewport, or supply application-level sizing when using a no-resize configuration.
+- Connect host-provided system-bar insets to the safe-area tokens and apply each inset only once in your page shell.
+- Register the Android Back listener once, consume dismissed and blocked results, and apply application navigation only when no Aeris overlay handles the event.
+
+> Note: Aeris handles the component behavior; native plugin configuration, page-shell sizing, and navigation policy belong to your application. Device-specific WebView behavior depends on that host configuration.
+
+#### Related guides
+
+- [Mobile](https://aeris-ui.dev/guides/mobile)
+- [Overlays](https://aeris-ui.dev/guides/overlays)
+- [Browser support](https://aeris-ui.dev/guides/browser-support)
+
 ### Installation
 
 > Install Aeris, load its styles, configure the provider, and render your first component.
@@ -1629,13 +1833,12 @@ Aeris components expose component-specific z-index tokens. Prefer those narrow t
 - Use viewport-relative maximum sizes and verify portrait mobile layouts, zoom, and the on-screen keyboard.
 - Reposition or close anchored overlays when application scrolling changes the relationship to their trigger, following that component API.
 
-#### Test the complete interaction
+#### Integrate overlays into application workflows
 
-- Open with mouse, touch, and keyboard.
-- Verify the initial focus target, Tab sequence, Escape behavior, and focus restoration.
-- Check both viewport edges, RTL, narrow screens, zoom, and long translated content.
-- Confirm background content is inert or unavailable while a modal interaction is active.
-- Close the overlay during route changes and component destruction to verify cleanup.
+- Choose an initial focus target that matches the task, and keep its trigger available for focus restoration.
+- Allow application-provided content and translated action labels to fit the overlay body and footer.
+- Use a modal interaction when background tasks must be unavailable; do not disable focus trapping without an accessible replacement.
+- Close application-controlled overlays when their task is abandoned or their route changes.
 
 - [Dialog examples and API](https://aeris-ui.dev/components/dialog)
 - [Drawer examples and API](https://aeris-ui.dev/components/drawer)
@@ -1945,7 +2148,7 @@ Human-readable documentation: [https://aeris-ui.dev/guides/browser-support](http
 
 #### Supported browsers
 
-The table is the Aeris support policy, not a claim that every application and third-party integration has been tested in every listed browser. During alpha, the automated library suite does not yet run a complete Chrome, Edge, Firefox, and WebKit matrix, so consumers must test the browsers used by their audience.
+The table describes the Aeris browser support policy. During alpha, browser coverage is still limited; it is not a certification of every component and browser combination. Application CSS, content, and third-party integrations have their own compatibility requirements.
 
 > Note: Internet Explorer and other legacy browsers are not supported.
 
@@ -1965,13 +2168,11 @@ Optional visual effects such as backdrop blur degrade to the underlying transluc
 
 #### Server rendering and hydration
 
-Aeris release verification now server-renders a consumer composition containing deferred Tabs and body-targeted overlay controls, checks stable ARIA relationships, and verifies Angular hydration metadata. Browser-dependent observers and animation work remain guarded where components use them.
+Aeris guards browser-dependent observers and animation work. Automated SSR coverage includes deferred Tabs and body-targeted overlay controls, but does not establish SSR and hydration support for every component during alpha.
 
-This targeted regression is not yet a complete all-component SSR and hydration matrix. During alpha, evaluate every component used by an application's initial route and treat the browser production build as a separate check.
+Keep application browser-only code behind platform guards and open overlays only after the browser is ready. A browser build does not validate server rendering; use your Angular SSR build and hydration diagnostics for the components rendered on the initial route.
 
-Evaluate SSR applications in a disposable branch, render every component used by the initial route, and check for direct document access, hydration mismatches, overlay creation before the browser is ready, and layout changes after hydration. Treat a successful browser build alone as insufficient evidence.
-
-> Note: A complete SSR support promise will follow only after the full component matrix is automated.
+> Note: SSR and hydration support remain limited during alpha; do not assume every component is supported in server-rendered routes.
 
 #### Application testing
 

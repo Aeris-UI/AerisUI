@@ -507,6 +507,16 @@ function sanitizeGuides(guides) {
 }
 
 async function buildGuideExternalValues() {
+  const mobileGuideSource = await readFile(
+    'projects/docs/src/app/pages/guides/mobile-guide.ts',
+    'utf8',
+  );
+  const mobileGuide = evaluateExportedVariable(mobileGuideSource, 'MOBILE_GUIDE');
+  const capacitorGuideSource = await readFile(
+    'projects/docs/src/app/pages/guides/capacitor-guide.ts',
+    'utf8',
+  );
+  const capacitorGuide = evaluateExportedVariable(capacitorGuideSource, 'CAPACITOR_GUIDE');
   const versionSource = await readFile('projects/docs/src/app/data/aeris-version.ts', 'utf8');
   const releaseSource = await readFile(RELEASE_DATA_PATH, 'utf8');
   const paletteSource = await readFile(PALETTE_DATA_PATH, 'utf8');
@@ -524,7 +534,12 @@ async function buildGuideExternalValues() {
     ...values,
     AERIS_THEME_PRESETS: presetStub,
   });
-  return { ...values, ...paletteValues };
+  return {
+    ...values,
+    ...paletteValues,
+    MOBILE_GUIDE: mobileGuide,
+    CAPACITOR_GUIDE: capacitorGuide,
+  };
 }
 
 function evaluatePageClass(source) {

@@ -17,6 +17,8 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 
 ## Guides
 
+- [Mobile layouts](https://aeris-ui.dev/guides/mobile): Build flexible layouts and usable forms, data views, and overlays for mobile browsers.
+- [Capacitor integration](https://aeris-ui.dev/guides/capacitor): Understand Aeris overlay behavior, safe-area integration, and Android Back handling in Capacitor apps.
 - [Installation](https://aeris-ui.dev/guides/installation): Install Aeris, load its styles, configure the provider, and render your first component.
 - [Configuration](https://aeris-ui.dev/guides/configuration): Configure Aeris at application startup and update supported settings at runtime.
 - [Forms and validation](https://aeris-ui.dev/guides/forms): Connect Aeris controls to signals or Angular Forms with accessible labels and validation.
