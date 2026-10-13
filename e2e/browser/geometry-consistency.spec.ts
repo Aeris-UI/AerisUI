@@ -6,15 +6,15 @@ const densities = [
   ['comfortable', 7.5, 16.5, 24, 34, 20],
 ] as const;
 
-test('chrome and content surfaces share density-aware geometry and keep local overrides', async ({
-  page,
-}) => {
-  for (const [route, selector, paddingRole] of [
-    ['toolbar', '#toolbar-basic .aeris-toolbar__content', 'chrome'],
-    ['menu', '#menu-basic .aeris-menu__panel', 'chrome'],
-    ['card', '#card-basic [preview] .aeris-card__body', 'content'],
-    ['panel', '#panel-basic .aeris-panel__content', 'content'],
-  ] as const) {
+for (const [route, selector, paddingRole] of [
+  ['toolbar', '#toolbar-basic .aeris-toolbar__content', 'chrome'],
+  ['menu', '#menu-basic .aeris-menu__panel', 'chrome'],
+  ['card', '#card-basic [preview] .aeris-card__body', 'content'],
+  ['panel', '#panel-basic .aeris-panel__content', 'content'],
+] as const) {
+  test(`${route} surfaces share density-aware geometry and keep local overrides`, async ({
+    page,
+  }) => {
     await page.goto(`/components/${route}`);
     const target = page.locator(selector).first();
     await expect(target).toBeVisible();
@@ -69,20 +69,18 @@ test('chrome and content surfaces share density-aware geometry and keep local ov
       )
       .toBe(true);
     await page.setViewportSize({ width: 1280, height: 900 });
-  }
-});
+  });
+}
 
-test('small form fields use the same height and horizontal padding across densities', async ({
-  page,
-}) => {
-  for (const [route, selector] of [
-    ['input-text', '.aeris-input-text--sm'],
-    ['select', '.aeris-select[data-size="sm"] .aeris-select__trigger'],
-    ['auto-complete', '.aeris-auto-complete[data-size="sm"] .aeris-auto-complete__input'],
-    ['tree-select', '.aeris-tree-select[data-size="sm"] .aeris-tree-select__trigger'],
-    ['cascade-select', '.aeris-cascade-select[data-size="sm"] .aeris-cascade-select__trigger'],
-    ['date-picker', '.aeris-date-picker[data-size="sm"] .aeris-date-picker__trigger'],
-  ]) {
+for (const [route, selector] of [
+  ['input-text', '.aeris-input-text--sm'],
+  ['select', '.aeris-select[data-size="sm"] .aeris-select__trigger'],
+  ['auto-complete', '.aeris-auto-complete[data-size="sm"] .aeris-auto-complete__input'],
+  ['tree-select', '.aeris-tree-select[data-size="sm"] .aeris-tree-select__trigger'],
+  ['cascade-select', '.aeris-cascade-select[data-size="sm"] .aeris-cascade-select__trigger'],
+  ['date-picker', '.aeris-date-picker[data-size="sm"] .aeris-date-picker__trigger'],
+]) {
+  test(`${route} small fields share height and padding across densities`, async ({ page }) => {
     await page.goto(`/components/${route}`);
     const input = page.locator(`main ${selector}`).first();
     await expect(input).toBeVisible();
@@ -99,5 +97,5 @@ test('small form fields use the same height and horizontal padding across densit
       await expect(input).toHaveCSS('padding-left', `${padding}px`);
       await expect(input).toHaveCSS('min-height', `${height}px`);
     }
-  }
-});
+  });
+}

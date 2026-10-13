@@ -114,6 +114,13 @@
               ],
               "outputHashing": "all"
             },
+            "browser-testing": {
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": false
+              }
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,

@@ -83,6 +83,8 @@ jobs:
 
   browser:
     name: browser
+    env:
+      AERIS_E2E_BUILT_APPS: 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -106,7 +108,8 @@ jobs:
         run: npm run build:lib
 
       - name: Run browser regression tests
-        run: npm run test:e2e:critical
+        # Build once; individual tests must not race dev-server compilation or HMR.
+        run: npm run test:browser-server && npm run build:browser-apps && npm run test:e2e:critical
 
       - name: Upload browser failure artifacts
         if: failure()

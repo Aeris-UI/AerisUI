@@ -49,10 +49,10 @@ test('CodeBlock highlights, switches tabs by keyboard, and changes syntax colors
     .analyze();
   expect(accessibility.violations).toEqual([]);
 });
-test('CodeBlock separates copy actions from scrollable tabs and preserves mobile scrolling', async ({
-  page,
-}) => {
-  for (const width of [320, 390, 1280]) {
+for (const width of [320, 390, 1280]) {
+  test(`CodeBlock separates copy actions and preserves scrolling at ${width}px`, async ({
+    page,
+  }) => {
     await page.setViewportSize({ width, height: 800 });
     await page.goto('/components/code-block');
     const block = page.locator('#code-block-sources [preview] aeris-code-block');
@@ -86,8 +86,8 @@ test('CodeBlock separates copy actions from scrollable tabs and preserves mobile
     expect(
       await wrapped.evaluate((element) => element.scrollWidth <= element.clientWidth + 1),
     ).toBe(true);
-  }
-});
+  });
+}
 test('documentation code blocks are rendered by the library component', async ({ page }) => {
   for (const route of ['/guides/installation', '/components/button', '/']) {
     await page.goto(route);

@@ -92,10 +92,10 @@ test('Markdown copying retains user activation while loading documentation', asy
   );
 });
 
-test('example controls fit small viewports and code stays independently scrollable', async ({
-  page,
-}) => {
-  for (const route of ['/components/button', '/components/input-text', '/components/table']) {
+for (const route of ['/components/button', '/components/input-text', '/components/table']) {
+  test(`${route} controls fit small viewports with independently scrollable code`, async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 320, height: 800 });
     await page.goto(route);
     const header = page.locator('app-component-page-header');
@@ -112,5 +112,5 @@ test('example controls fit small viewports and code stays independently scrollab
     }
     const imports = page.locator('.import-section');
     await expect(imports).toBeVisible();
-  }
-});
+  });
+}

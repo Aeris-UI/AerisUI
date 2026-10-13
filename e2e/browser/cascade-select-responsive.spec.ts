@@ -29,11 +29,11 @@ test('CascadeSelect examples stay compact and fit narrow screens', async ({ page
   }
 });
 
-test('CascadeSelect mobile branches expand inline and collapse without changing the value', async ({
-  page,
-}) => {
-  for (const width of [320, 390]) {
-    for (const direction of ['ltr', 'rtl']) {
+for (const width of [320, 390]) {
+  for (const direction of ['ltr', 'rtl']) {
+    test(`CascadeSelect mobile branches expand and collapse at ${width}px in ${direction}`, async ({
+      page,
+    }) => {
       await page.setViewportSize({ width, height: 800 });
       await page.goto('/components/cascade-select');
       await page
@@ -84,15 +84,15 @@ test('CascadeSelect mobile branches expand inline and collapse without changing 
       await expect(trigger).toContainText('Europe / Portugal / Lisbon');
       await expect(panel).toHaveCount(0);
       await expect(trigger).toBeFocused();
-    }
+    });
   }
-});
+}
 
-test('CascadeSelect desktop flyouts anchor to branch rows and remain inside the viewport', async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1280, height: 900 });
-  for (const direction of ['ltr', 'rtl']) {
+for (const direction of ['ltr', 'rtl']) {
+  test(`CascadeSelect desktop flyouts anchor inside the viewport in ${direction}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/components/cascade-select');
     await page
       .locator('html')
@@ -157,5 +157,5 @@ test('CascadeSelect desktop flyouts anchor to branch rows and remain inside the 
     await expect(trigger).toHaveAttribute('aria-activedescendant', /lisbon/);
     await trigger.press('Escape');
     await expect(trigger).toBeFocused();
-  }
-});
+  });
+}

@@ -254,9 +254,14 @@ test('catalog refinements show menu tiers and distinct grouped navigation', asyn
     } else {
       const groups = card.locator('.aeris-mega-menu__group');
       await expect(groups).toHaveCount(2);
-      const first = await groups.nth(0).boundingBox();
-      const second = await groups.nth(1).boundingBox();
-      expect(first && second && Math.abs(first.y - second.y) < 1).toBe(true);
+      await expect
+        .poll(() =>
+          groups.evaluateAll((elements) => {
+            const [first, second] = elements.map((element) => element.getBoundingClientRect());
+            return first && second ? Math.abs(first.y - second.y) : Number.POSITIVE_INFINITY;
+          }),
+        )
+        .toBeLessThan(1);
     }
   }
 });
@@ -448,11 +453,11 @@ test('catalog tree select shows an expanded multi-level tree', async ({ page }) 
 });
 
 test('mobile multiselect preview dropdown fits the card at narrow widths', async ({
-  browser,
+  createContext,
   baseURL,
 }) => {
   for (const width of [320, 390]) {
-    const context = await browser.newContext({
+    const context = await createContext({
       baseURL,
       viewport: { width, height: 844 },
       isMobile: true,
@@ -484,10 +489,10 @@ test('mobile multiselect preview dropdown fits the card at narrow widths', async
 });
 
 test('mobile catalog previews wait for the whole card and replay only after leaving the viewport', async ({
-  browser,
+  createContext,
   baseURL,
 }) => {
-  const context = await browser.newContext({
+  const context = await createContext({
     baseURL,
     viewport: { width: 390, height: 844 },
     isMobile: true,
@@ -565,10 +570,10 @@ test('mobile catalog previews wait for the whole card and replay only after leav
 });
 
 test('catalog previews navigate directly by touch while viewport previews play', async ({
-  browser,
+  createContext,
   baseURL,
 }) => {
-  const context = await browser.newContext({
+  const context = await createContext({
     baseURL,
     viewport: { width: 390, height: 844 },
     isMobile: true,
@@ -732,12 +737,10 @@ test('catalog overlay previews stay in their cards without taking page focus or 
   ).toHaveCount(0);
 });
 
-test('catalog loading animations replay on hover and stop when the card is left', async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await page.goto('/components');
-  for (const slug of ['skeleton', 'meter-group', 'progress-spinner']) {
+for (const slug of ['skeleton', 'meter-group', 'progress-spinner']) {
+  test(`${slug} catalog animation replays on hover and stops on exit`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto('/components');
     const card = page
       .locator('.catalog-preview-card')
       .filter({ has: page.locator(`a[href="/components/${slug}"]`) });
@@ -751,15 +754,29 @@ test('catalog loading animations replay on hover and stop when the card is left'
       await expect
         .poll(() => scene.evaluate((e) => e.getAnimations({ subtree: true }).length))
         .toBe(0);
+      // Observe the start before hovering: short animations may finish before a
+      // cross-process getAnimations() sample arrives on a busy CI runner.
+      await scene.evaluate((element) => {
+        element.removeAttribute('data-test-motion-started');
+        const started = () => {
+          element.setAttribute('data-test-motion-started', 'true');
+          element.removeEventListener('animationstart', started);
+          element.removeEventListener('transitionrun', started);
+        };
+        element.addEventListener('animationstart', started);
+        element.addEventListener('transitionrun', started);
+      });
       await card.hover();
-      await expect
-        .poll(() => scene.evaluate((e) => e.getAnimations({ subtree: true }).length))
-        .toBeGreaterThan(0);
+      await expect(scene).toHaveAttribute('data-active', 'true');
+      await expect(scene).toHaveAttribute('data-test-motion-started', 'true');
       await page.mouse.move(0, 0);
       await expect(scene).toHaveAttribute('data-active', 'false');
+      await expect
+        .poll(() => scene.evaluate((e) => e.getAnimations({ subtree: true }).length))
+        .toBe(0);
     }
-  }
-});
+  });
+}
 
 test('catalog pickers, blockers and action menus open only while their card is active', async ({
   page,

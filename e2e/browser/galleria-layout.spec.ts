@@ -171,17 +171,17 @@ test('image taps are stable, zoomed drags pan, and thumbnail rails scroll withou
   );
 });
 
-test('thumbnail rails stay bounded and arrows follow native scrolling in every placement', async ({
-  page,
-}) => {
-  await page.route('https://fonts.googleapis.com/**', (route) =>
-    route.fulfill({ contentType: 'text/css', body: '' }),
-  );
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.goto('/components/galleria');
-  const example = page.locator('#galleria-positions');
-  const gallery = example.locator('aeris-galleria');
-  for (const direction of ['ltr', 'rtl']) {
+for (const direction of ['ltr', 'rtl']) {
+  test(`thumbnail rails stay bounded and arrows follow native scrolling in ${direction}`, async ({
+    page,
+  }) => {
+    await page.route('https://fonts.googleapis.com/**', (route) =>
+      route.fulfill({ contentType: 'text/css', body: '' }),
+    );
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto('/components/galleria');
+    const example = page.locator('#galleria-positions');
+    const gallery = example.locator('aeris-galleria');
     await gallery.evaluate((el, dir) => el.setAttribute('dir', dir), direction);
     for (const position of ['Top', 'Bottom', 'Start', 'End']) {
       await example.getByRole('button', { name: position, exact: true }).click();
@@ -218,8 +218,8 @@ test('thumbnail rails stay bounded and arrows follow native scrolling in every p
         )
         .toBeLessThan(2);
     }
-  }
-});
+  });
+}
 
 test('toolbar fades track hidden controls on either side, including RTL', async ({ page }) => {
   await page.route('https://fonts.googleapis.com/**', (route) =>

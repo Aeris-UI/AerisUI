@@ -16,6 +16,26 @@ exhibited startup failures under Node 26 that do not occur with CI's Node 24 run
 External Google Fonts stylesheets are stubbed in browser fixtures; app assets and runtime errors
 remain checked. Font CDN availability is not a component-behavior regression.
 
+The browser CI job builds both applications once and serves their compiled files through a
+local-only static server. This removes cold dev-server compilation and HMR from browser-test
+deadlines. Production optimization remains enabled; only external font inlining is disabled so
+the browser font stub stays deterministic. Layout matrix cases have independent test deadlines,
+with no extra retries or blanket timeout increases.
+
+To reproduce that setup in PowerShell after building the library:
+
+```powershell
+npm run test:browser-server
+npm run build:browser-apps
+$env:AERIS_E2E_BUILT_APPS = 'true'
+npm run test:e2e:critical
+Remove-Item Env:AERIS_E2E_BUILT_APPS
+```
+
+Tests needing additional device contexts use the shared `createContext` fixture so font routing
+and runtime-error checks apply to those pages too. Landing-page accessibility audits start each
+mode in a fresh document; separate interaction checks verify live theme switching and persistence.
+
 Playwright device profiles emulate viewport, pointer, touch, and user-agent behavior. They do not
 replace testing on physical devices. Before a release, smoke-test the production documentation and
 a small consumer application on:

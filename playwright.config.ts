@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const fixtureUrl = 'http://127.0.0.1:4300';
+const builtApps = process.env['AERIS_E2E_BUILT_APPS'] === 'true';
 const docsLayoutTests = [
   '**/geometry-consistency.spec.ts',
   '**/cascade-select-responsive.spec.ts',
@@ -104,15 +105,19 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: 'npm run serve:browser-tests',
+      command: builtApps
+        ? 'node tools/serve-browser-app.mjs dist/browser-tests/browser 4300'
+        : 'npm run serve:browser-tests',
       url: fixtureUrl,
-      reuseExistingServer: !process.env['CI'],
+      reuseExistingServer: !process.env['CI'] && !builtApps,
       timeout: 120_000,
     },
     {
-      command: 'npm run serve:docs -- --host 127.0.0.1 --port 4301',
+      command: builtApps
+        ? 'node tools/serve-browser-app.mjs dist/docs/browser 4301'
+        : 'npm run serve:docs -- --host 127.0.0.1 --port 4301',
       url: 'http://127.0.0.1:4301',
-      reuseExistingServer: !process.env['CI'],
+      reuseExistingServer: !process.env['CI'] && !builtApps,
       timeout: 120_000,
     },
   ],
