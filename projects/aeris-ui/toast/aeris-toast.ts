@@ -115,6 +115,10 @@ interface AerisToastSwipeVisual {
 interface AerisToastSwipeSession {
   readonly message: AerisToastMessage;
   readonly pointerId: number;
+  readonly pointerType: string;
+  readonly tapStartX: number;
+  readonly tapStartY: number;
+  tapMoved: boolean;
   startX: number;
   startY: number;
   lastX: number;
@@ -307,7 +311,7 @@ export class AerisToastService {
       [attr.aria-label]="hasVisibleMessages() ? ariaLabel() : null"
       [attr.data-empty]="!hasVisibleMessages() || null"
       [attr.data-position]="position()"
-      [attr.data-mode]="mode()"
+      [attr.data-mode]="presentationMode()"
       [attr.data-newest-on-top]="newestOnTop() || null"
       [attr.data-overflow]="hiddenCount() > 0 || null"
       [attr.data-stack-width]="stackWidthLocked() || null"
@@ -457,6 +461,13 @@ export class AerisToast {
 
   readonly closed = output<AerisToastCloseEvent>();
   private readonly stackHovered = signal(false);
+  private readonly touchExpanded = signal(false);
+  protected readonly presentationMode = computed(() =>
+    this.mode() === 'expanded' || this.touchExpanded() ? 'expanded' : 'stacked',
+  );
+  private readonly interactionPaused = computed(
+    () => this.pauseOnHover() && (this.stackHovered() || this.touchExpanded()),
+  );
   private readonly resolvedSwipeDirections = computed<readonly AerisToastSwipeDirection[]>(() => {
     const value = this.swipeDirection();
     const directions = Array.isArray(value) ? value : [value];
@@ -554,7 +565,10 @@ export class AerisToast {
     effect(() => {
       const visibleCount = this.visibleMessages().length;
       if (visibleCount > 1) this.stackWidthLocked.set(true);
-      else if (visibleCount === 0) this.stackWidthLocked.set(false);
+      else if (visibleCount === 0) {
+        this.stackWidthLocked.set(false);
+        this.touchExpanded.set(false);
+      }
     });
 
     effect((onCleanup) => {
@@ -582,7 +596,7 @@ export class AerisToast {
     effect(() => {
       const visibleIds = new Set(this.visibleMessages().map((message) => message.id));
       const gestureIds = new Set(Object.keys(this.swipeVisuals()));
-      const pauseVisible = this.stackHovered() && this.pauseOnHover();
+      const pauseVisible = this.interactionPaused();
 
       for (const message of this.orderedMessages()) {
         if (visibleIds.has(message.id) && !pauseVisible && !gestureIds.has(message.id)) {
@@ -616,7 +630,7 @@ export class AerisToast {
 
   protected resumeVisible(): void {
     this.stackHovered.set(false);
-    if (!this.pauseOnHover()) return;
+    if (!this.pauseOnHover() || this.touchExpanded()) return;
     const gestureIds = new Set(Object.keys(this.swipeVisuals()));
     for (const message of this.visibleMessages()) {
       if (!gestureIds.has(message.id)) this.toastService.resume(message.id);
@@ -624,7 +638,8 @@ export class AerisToast {
   }
 
   protected handlePointerDown(event: PointerEvent, message: AerisToastMessage): void {
-    if (this.resolvedSwipeDirections().length === 0 || this.swipeSession) return;
+    const touchStack = event.pointerType === 'touch' && this.mode() === 'stacked';
+    if ((!touchStack && this.resolvedSwipeDirections().length === 0) || this.swipeSession) return;
     if (event.pointerType === 'mouse' && event.button !== 0) return;
 
     const target = event.target as Element | null;
@@ -641,6 +656,10 @@ export class AerisToast {
     this.swipeSession = {
       message,
       pointerId: event.pointerId,
+      pointerType: event.pointerType,
+      tapStartX: event.clientX,
+      tapStartY: event.clientY,
+      tapMoved: false,
       startX: event.clientX,
       startY: event.clientY,
       lastX: event.clientX,
@@ -669,6 +688,8 @@ export class AerisToast {
   protected handlePointerMove(event: PointerEvent): void {
     const session = this.swipeSession;
     if (!session || event.pointerId !== session.pointerId) return;
+    this.trackTapMovement(session, event);
+    if (this.resolvedSwipeDirections().length === 0) return;
     event.preventDefault();
     this.updateSwipeSession(session, event.clientX, event.clientY);
     this.swipeFrame.schedule();
@@ -677,6 +698,7 @@ export class AerisToast {
   protected handlePointerEnd(event: PointerEvent): void {
     const session = this.swipeSession;
     if (!session || event.pointerId !== session.pointerId) return;
+    this.trackTapMovement(session, event);
 
     const target = event.currentTarget as HTMLElement;
     if (target.hasPointerCapture?.(event.pointerId)) target.releasePointerCapture(event.pointerId);
@@ -707,8 +729,22 @@ export class AerisToast {
     }
 
     this.removeSwipeVisual(session.message.id);
-    if (!(this.stackHovered() && this.pauseOnHover())) {
+    if (
+      event.type === 'pointerup' &&
+      session.pointerType === 'touch' &&
+      !session.tapMoved &&
+      this.mode() === 'stacked'
+    ) {
+      this.touchExpanded.update((expanded) => !expanded);
+    }
+    if (!this.interactionPaused()) {
       this.toastService.resume(session.message.id);
+    }
+  }
+
+  private trackTapMovement(session: AerisToastSwipeSession, event: PointerEvent): void {
+    if (Math.hypot(event.clientX - session.tapStartX, event.clientY - session.tapStartY) > 8) {
+      session.tapMoved = true;
     }
   }
 

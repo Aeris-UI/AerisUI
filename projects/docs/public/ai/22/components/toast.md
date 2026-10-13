@@ -34,11 +34,11 @@ import {
 | --- | --- | --- | --- |
 | `position` | `AerisToastPosition` | `'bottom-right'` | Places the toast region on the viewport. Options: 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'center'. |
 | `group` | `string` | `''` | Renders only messages from the matching service group. |
-| `mode` | `AerisToastMode` | `'stacked'` | Uses a compact stack that expands on hover/focus or an always-expanded list. Options: 'stacked', 'expanded'. |
+| `mode` | `AerisToastMode` | `'stacked'` | Uses a compact stack that expands on hover/focus and toggles on touch taps, or an always-expanded list. Options: 'stacked', 'expanded'. |
 | `visibleCount` | `number` | `4` | Controls how many messages are rendered in stacked and expanded modes. |
 | `limit` | `number &#124; undefined` | `undefined` | Compatibility alias that overrides visibleCount when provided. |
 | `newestOnTop` | `boolean` | `true` | Shows the newest message as the primary toast. Set false to keep the oldest message on top. |
-| `pauseOnHover` | `boolean` | `true` | Pauses auto-dismiss timers while the toast region is hovered or focused. |
+| `pauseOnHover` | `boolean` | `true` | Pauses auto-dismiss timers while the region is hovered, focused, or expanded by touch. |
 | `showIcon` | `boolean` | `true` | Shows the default or projected icon for each message. |
 | `showClose` | `boolean` | `true` | Shows close buttons for closable messages. |
 | `swipeDirection` | `AerisToastSwipeDirection &#124; readonly AerisToastSwipeDirection[]` | `['down', 'right']` | Sets one or more directions that can dismiss a toast by pointer or touch swipe. Pass an empty array to disable swiping. Options: 'up', 'down', 'left', 'right'. |
@@ -449,7 +449,7 @@ export class ToastCustomCustomContentDemo {
 
 ### Stacked preview
 
-Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus the stack to smoothly expand the visible window.
+Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus to expand it, or tap a toast on touch devices to expand and tap again to collapse. Close buttons, actions, and swipes keep their own behavior.
 
 #### TS
 
@@ -705,7 +705,7 @@ export class ToastLoadingLoadingPatternDemo {
 - Close controls are native buttons with configurable accessible labels.
 - Stacked mode renders a limited visible window. Messages outside that window remain queued and appear as visible messages are dismissed.
 - Use newestOnTop to control whether the newest or oldest queued message is the primary visible toast.
-- Auto-dismiss timers pause while the region is hovered or focused when pauseOnHover is enabled.
+- Auto-dismiss timers pause while the region is hovered, focused, or expanded by touch when pauseOnHover is enabled.
 - Messages outside the visible window are paused until they become visible so they are not dismissed before users can perceive them.
 - Pointer, pen, and touch users can swipe in any configured swipeDirection. Gestures shorter than swipeThreshold return to the resting position, and interactive content does not begin a swipe.
 - Use sticky messages for critical information that must remain available until dismissed.

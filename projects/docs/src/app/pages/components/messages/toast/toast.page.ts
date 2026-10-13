@@ -345,7 +345,7 @@ interface AerisToastTemplateContext<TData = unknown> {
       type: 'AerisToastMode',
       defaultValue: "'stacked'",
       description:
-        "Uses a compact stack that expands on hover/focus or an always-expanded list. Options: 'stacked', 'expanded'.",
+        "Uses a compact stack that expands on hover/focus and toggles on touch taps, or an always-expanded list. Options: 'stacked', 'expanded'.",
     },
     {
       name: 'visibleCount',
@@ -370,7 +370,8 @@ interface AerisToastTemplateContext<TData = unknown> {
       name: 'pauseOnHover',
       type: 'boolean',
       defaultValue: 'true',
-      description: 'Pauses auto-dismiss timers while the toast region is hovered or focused.',
+      description:
+        'Pauses auto-dismiss timers while the region is hovered, focused, or expanded by touch.',
     },
     {
       name: 'showIcon',

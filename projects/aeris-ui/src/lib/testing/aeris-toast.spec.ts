@@ -296,6 +296,121 @@ describe('AerisToast', () => {
     expect(fixture.nativeElement.querySelector('.aeris-toast__overflow')).toBeNull();
   });
 
+  it('toggles a stack when different toasts are tapped without dismissing them', () => {
+    const fixture = TestBed.createComponent(StackedToastHost);
+    fixture.detectChanges();
+    service.showAll([
+      { group: 'stack', detail: 'First', sticky: true },
+      { group: 'stack', detail: 'Second', sticky: true },
+    ]);
+    fixture.detectChanges();
+    const region = fixture.nativeElement.querySelector('.aeris-toast__region') as HTMLElement;
+    const items = fixture.nativeElement.querySelectorAll(
+      '.aeris-toast__item',
+    ) as NodeListOf<HTMLElement>;
+    for (const [index, expected] of [
+      [0, 'expanded'],
+      [1, 'stacked'],
+    ] as const) {
+      items[index].dispatchEvent(
+        new PointerEvent('pointerdown', {
+          bubbles: true,
+          pointerType: 'touch',
+          pointerId: 1,
+          clientX: 20,
+          clientY: 20,
+        }),
+      );
+      items[index].dispatchEvent(
+        new PointerEvent('pointerup', {
+          bubbles: true,
+          pointerType: 'touch',
+          pointerId: 1,
+          clientX: 20,
+          clientY: 20,
+        }),
+      );
+      fixture.detectChanges();
+      expect(region.dataset['mode']).toBe(expected);
+      expect(service.messages()).toHaveLength(2);
+    }
+  });
+
+  it('does not toggle a stack after movement, cancellation, or a mouse click', () => {
+    const fixture = TestBed.createComponent(StackedToastHost);
+    fixture.detectChanges();
+    service.showAll([
+      { group: 'stack', detail: 'First', sticky: true },
+      { group: 'stack', detail: 'Second', sticky: true },
+    ]);
+    fixture.detectChanges();
+    const item = fixture.nativeElement.querySelector('.aeris-toast__item') as HTMLElement;
+    const region = fixture.nativeElement.querySelector('.aeris-toast__region') as HTMLElement;
+    for (const [pointerType, endType, displacement] of [
+      ['touch', 'pointerup', 20],
+      ['touch', 'pointercancel', 0],
+      ['mouse', 'pointerup', 0],
+    ] as const) {
+      item.dispatchEvent(
+        new PointerEvent('pointerdown', { pointerType, pointerId: 1, clientX: 20, clientY: 20 }),
+      );
+      item.dispatchEvent(
+        new PointerEvent(endType, {
+          pointerType,
+          pointerId: 1,
+          clientX: 20 + displacement,
+          clientY: 20,
+        }),
+      );
+      fixture.detectChanges();
+      expect(region.dataset['mode']).toBe('stacked');
+    }
+  });
+
+  it('supports tap expansion with swipe disabled and resets after the stack empties', () => {
+    const fixture = TestBed.createComponent(AerisToast);
+    fixture.componentRef.setInput('group', 'stack');
+    fixture.componentRef.setInput('swipeDirection', []);
+    fixture.detectChanges();
+    const message = service.show({ group: 'stack', detail: 'First', sticky: true });
+    fixture.detectChanges();
+    const item = fixture.nativeElement.querySelector('.aeris-toast__item') as HTMLElement;
+    item.dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'touch', pointerId: 1 }));
+    item.dispatchEvent(new PointerEvent('pointerup', { pointerType: 'touch', pointerId: 1 }));
+    fixture.detectChanges();
+    const region = fixture.nativeElement.querySelector('.aeris-toast__region') as HTMLElement;
+    expect(region.dataset['mode']).toBe('expanded');
+    service.remove(message.id);
+    fixture.detectChanges();
+    service.show({ group: 'stack', detail: 'New batch', sticky: true });
+    fixture.detectChanges();
+    expect(region.dataset['mode']).toBe('stacked');
+  });
+
+  it('does not toggle the stack when a projected action is tapped', () => {
+    const fixture = TestBed.createComponent(CustomToastHost);
+    fixture.detectChanges();
+    service.showAll([
+      { group: 'custom', summary: 'First', sticky: true },
+      { group: 'custom', summary: 'Second', sticky: true },
+    ]);
+    fixture.detectChanges();
+    const button = fixture.nativeElement.querySelector('#custom-dismiss') as HTMLElement;
+    button.dispatchEvent(
+      new PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch', pointerId: 1 }),
+    );
+    button.dispatchEvent(
+      new PointerEvent('pointerup', { bubbles: true, pointerType: 'touch', pointerId: 1 }),
+    );
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.aeris-toast__region').dataset['mode']).toBe(
+      'stacked',
+    );
+    button.click();
+    fixture.detectChanges();
+    expect(service.messages()).toHaveLength(1);
+  });
+
   it('keeps stack width until the batch empties and resets for a new single toast', () => {
     const fixture = TestBed.createComponent(StackedToastHost);
     fixture.detectChanges();

@@ -232,7 +232,7 @@
             <app-form-demo
               id="toast-stacked"
               title="Stacked preview"
-              description="Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus the stack to smoothly expand the visible window."
+              description="Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus to expand it, or tap a toast on touch devices to expand and tap again to collapse. Close buttons, actions, and swipes keep their own behavior."
               [tsCode]="stackedTsCode"
             >
               <div preview>
@@ -629,7 +629,7 @@
             the primary visible toast.
           </li>
           <li>
-            Auto-dismiss timers pause while the region is hovered or focused when
+            Auto-dismiss timers pause while the region is hovered, focused, or expanded by touch when
             <code>pauseOnHover</code> is enabled.
           </li>
           <li>
