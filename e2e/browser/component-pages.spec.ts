@@ -540,16 +540,22 @@ test('mobile catalog previews wait for the whole card and replay only after leav
         ),
       )
       .toBe('1');
-    await expect
-      .poll(() =>
-        skeleton.evaluate(
-          (element) =>
-            element
-              .getAnimations({ subtree: true })
-              .filter((animation) => animation.playState === 'running').length,
-        ),
-      )
-      .toBe(0);
+    await expect(skeleton).toHaveCSS('animation-iteration-count', '1');
+    // Await real animation completion rather than a wall-clock polling deadline.
+    // Parallel browser work can delay rendering without changing one-shot playback.
+    await skeleton.evaluate(async (element) => {
+      await Promise.all(
+        element.getAnimations({ subtree: true }).map((animation) => animation.finished),
+      );
+    });
+    expect(
+      await skeleton.evaluate(
+        (element) =>
+          element
+            .getAnimations({ subtree: true })
+            .filter((animation) => animation.playState === 'running').length,
+      ),
+    ).toBe(0);
     await page.getByRole('searchbox', { name: 'Filter components' }).fill('Rating');
     await card.locator('a').tap();
     await expect(page).toHaveURL(/\/components\/rating$/);
