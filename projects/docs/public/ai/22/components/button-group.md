@@ -78,9 +78,9 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
   template: `
     <div class="aeris-example-row">
       <aeris-button-group ariaLabel="Document actions">
-        <button aerisButton variant="solid" severity="secondary">Save</button>
-        <button aerisButton variant="solid" severity="secondary">Preview</button>
-        <button aerisButton variant="solid" severity="secondary">Publish</button>
+        <button aerisButton variant="solid" severity="primary">Save</button>
+        <button aerisButton variant="solid" severity="primary">Preview</button>
+        <button aerisButton variant="solid" severity="primary">Publish</button>
       </aeris-button-group>
     </div>
   `,
@@ -121,8 +121,8 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
     <div class="aeris-example-row">
       <aeris-button-group ariaLabel="Record actions">
         <aeris-button label="Create" />
-        <aeris-button label="Duplicate" variant="solid" severity="secondary" />
-        <aeris-button label="Archive" variant="solid" severity="secondary" />
+        <aeris-button label="Duplicate" variant="solid" severity="primary" />
+        <aeris-button label="Archive" variant="solid" severity="primary" />
       </aeris-button-group>
     </div>
   `,
@@ -163,7 +163,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
     <div class="aeris-example-row">
       <aeris-button-group ariaLabel="Approval actions">
         <button aerisButton severity="success">Approve</button>
-        <button aerisButton variant="solid" severity="secondary">Review</button>
+        <button aerisButton variant="solid" severity="primary">Review</button>
         <button aerisButton severity="danger">Reject</button>
       </aeris-button-group>
     </div>
@@ -216,7 +216,7 @@ export class GroupIconsIconsDemo {
     <button
       aerisButton
       variant="solid"
-      severity="secondary"
+      severity="primary"
       iconOnly
       aria-label="Align left"
     >
@@ -225,7 +225,7 @@ export class GroupIconsIconsDemo {
     <button
       aerisButton
       variant="solid"
-      severity="secondary"
+      severity="primary"
       iconOnly
       aria-label="Align center"
     >
@@ -234,7 +234,7 @@ export class GroupIconsIconsDemo {
     <button
       aerisButton
       variant="solid"
-      severity="secondary"
+      severity="primary"
       iconOnly
       aria-label="Align right"
     >
@@ -278,9 +278,9 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
   template: `
     <div class="aeris-example-row">
       <aeris-button-group ariaLabel="View options" orientation="vertical">
-        <button aerisButton variant="solid" severity="secondary">List view</button>
-        <button aerisButton variant="solid" severity="secondary">Board view</button>
-        <button aerisButton variant="solid" severity="secondary">Timeline view</button>
+        <button aerisButton variant="solid" severity="primary">List view</button>
+        <button aerisButton variant="solid" severity="primary">Board view</button>
+        <button aerisButton variant="solid" severity="primary">Timeline view</button>
       </aeris-button-group>
     </div>
   `,
@@ -320,9 +320,9 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
   template: `
     <div class="stack aeris-example-row">
       <aeris-button-group ariaLabel="Editor mode" fluid>
-        <button aerisButton variant="solid" severity="secondary">Write</button>
-        <button aerisButton variant="solid" severity="secondary">Preview</button>
-        <button aerisButton variant="solid" severity="secondary">Compare</button>
+        <button aerisButton variant="solid" severity="primary">Write</button>
+        <button aerisButton variant="solid" severity="primary">Preview</button>
+        <button aerisButton variant="solid" severity="primary">Compare</button>
       </aeris-button-group>
     </div>
   `,
@@ -368,9 +368,9 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
   template: `
     <div class="stack aeris-example-row">
       <aeris-button-group ariaLabel="Export formats" responsive>
-        <button aerisButton variant="solid" severity="secondary">Export PDF</button>
-        <button aerisButton variant="solid" severity="secondary">Export CSV</button>
-        <button aerisButton variant="solid" severity="secondary">Export JSON</button>
+        <button aerisButton variant="solid" severity="primary">Export PDF</button>
+        <button aerisButton variant="solid" severity="primary">Export CSV</button>
+        <button aerisButton variant="solid" severity="primary">Export JSON</button>
       </aeris-button-group>
     </div>
   `,
@@ -416,11 +416,11 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
   template: `
     <div class="aeris-example-row">
       <aeris-button-group ariaLabel="Synchronization actions">
-        <button aerisButton variant="solid" severity="secondary" loading disabled>
+        <button aerisButton variant="solid" severity="primary" loading disabled>
           Sync
         </button>
-        <button aerisButton variant="solid" severity="secondary">Retry</button>
-        <button aerisButton variant="solid" severity="secondary" disabled>Cancel</button>
+        <button aerisButton variant="solid" severity="primary">Retry</button>
+        <button aerisButton variant="solid" severity="primary" disabled>Cancel</button>
       </aeris-button-group>
     </div>
   `,
@@ -460,11 +460,11 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
   template: `
     <div class="aeris-example-row">
       <aeris-button-group ariaLabel="Documentation actions">
-        <button aerisButton variant="solid" severity="secondary">Copy link</button>
+        <button aerisButton variant="solid" severity="primary">Copy link</button>
         <a
           aerisButton
           variant="solid"
-          severity="secondary"
+          severity="primary"
           href="https://github.com"
           target="_blank"
           rel="noopener noreferrer"
