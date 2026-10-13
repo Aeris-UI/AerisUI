@@ -190,6 +190,9 @@ let multiSelectId = 0;
         <div
           #optionsPanel
           class="aeris-multi-select__panel"
+          (pointerdown)="handlePanelPointerDown($event)"
+          (pointercancel)="endPanelPointerInteraction()"
+          (click)="endPanelPointerInteraction()"
           [aerisInternalAppendTo]="appendTo()"
           [aerisInternalAppendToDismiss]="dismissOverlay"
           [aerisInternalAppendToAnchor]="this.control()?.nativeElement ?? null"
@@ -360,10 +363,12 @@ let multiSelectId = 0;
   },
 })
 export class AerisMultiSelectComponent implements ControlValueAccessor {
+  private panelPointerInteraction = false;
   protected readonly dismissOverlay = (): boolean => {
     this.closePanel(true);
     return true;
   };
+
   readonly options = input.required<readonly AerisSelectOption[]>();
   readonly value = model<readonly string[]>([]);
   readonly inputId = input('');
@@ -572,6 +577,7 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
   }
 
   closePanel(restoreFocus = false): void {
+    this.panelPointerInteraction = false;
     if (!this.open()) return;
     this.panelPortal()?.restore();
     this.open.set(false);
@@ -632,6 +638,14 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
 
   protected preservePointerFocus(event: PointerEvent): void {
     if (event.pointerType === 'mouse') event.preventDefault();
+  }
+
+  protected handlePanelPointerDown(event: PointerEvent): void {
+    this.panelPointerInteraction = event.pointerType !== 'mouse';
+  }
+
+  protected endPanelPointerInteraction(): void {
+    this.panelPointerInteraction = false;
   }
 
   protected toggleSelectAll(event: Event): void {
@@ -773,6 +787,16 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
     ) {
       return;
     }
+    const panel = this.optionsPanel()?.nativeElement;
+    // Touch focus can land on a focusable ancestor of a non-focusable option
+    // before the click. That is still an interaction inside this panel.
+    if (this.panelPointerInteraction && next instanceof Node && panel && next.contains(panel)) {
+      return;
+    }
+    // Touching a non-focusable option can blur the filter with no related
+    // target before its click arrives. Outside pointer dismissal is handled
+    // by the overlay; this ambiguous blur must not interrupt selection.
+    if (this.open() && next === null) return;
     this.closePanel(false);
     this.onTouched();
     this.touch.emit();

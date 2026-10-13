@@ -4,6 +4,8 @@ const fixtureUrl = 'http://127.0.0.1:4300';
 const docsLayoutTests = [
   '**/geometry-consistency.spec.ts',
   '**/cascade-select-responsive.spec.ts',
+  '**/multi-select-responsive.spec.ts',
+  '**/tree-select-responsive.spec.ts',
   '**/code-block.spec.ts',
   '**/component-example-layout.spec.ts',
 ];

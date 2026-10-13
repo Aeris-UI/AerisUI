@@ -93,11 +93,76 @@ describe('AerisTreeSelect', () => {
       pointerType: 'touch',
     });
     beta.dispatchEvent(pointerdown);
+    trigger.dispatchEvent(
+      new FocusEvent('focusout', { bubbles: true, relatedTarget: fixture.nativeElement }),
+    );
+    fixture.detectChanges();
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
     beta.click();
     fixture.detectChanges();
 
     expect(pointerdown.defaultPrevented).toBe(false);
     expect(fixture.componentInstance.value()).toBe('beta');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  for (const selectionMode of ['checkbox', 'multiple'] as const) {
+    for (const appendTo of ['self', 'body'] as const) {
+      it(`keeps ${selectionMode} touch selections open with appendTo=${appendTo}`, async () => {
+        const fixture = TestBed.createComponent(AerisTreeSelectComponent);
+        fixture.componentRef.setInput('nodes', nodes);
+        fixture.componentRef.setInput('selectionMode', selectionMode);
+        fixture.componentRef.setInput('appendTo', appendTo);
+        fixture.componentRef.setInput('filter', true);
+        await fixture.whenStable();
+        const component = fixture.componentInstance;
+        component.openPanel();
+        await fixture.whenStable();
+        const scope = appendTo === 'body' ? document.body : (fixture.nativeElement as HTMLElement);
+        const panel = scope.querySelector('.aeris-tree-select__panel') as HTMLElement;
+        const filter = panel.querySelector('input') as HTMLInputElement;
+        const trigger = fixture.nativeElement.querySelector('[role=combobox]') as HTMLElement;
+        for (const label of ['Alpha', 'Beta']) {
+          const node = Array.from(panel.querySelectorAll<HTMLElement>('[role=treeitem]')).find(
+            (element) => element.textContent?.includes(label),
+          ) as HTMLElement;
+          const pointerdown = new PointerEvent('pointerdown', {
+            bubbles: true,
+            cancelable: true,
+            pointerType: 'touch',
+          });
+          node.dispatchEvent(pointerdown);
+          filter.dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: scope }));
+          fixture.detectChanges();
+          expect(trigger.getAttribute('aria-expanded')).toBe('true');
+          expect(pointerdown.defaultPrevented).toBe(false);
+          node.click();
+          await fixture.whenStable();
+          expect(trigger.getAttribute('aria-expanded')).toBe('true');
+        }
+        expect(component.value()).toEqual(['alpha', 'beta']);
+        document.body.dispatchEvent(
+          new PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch' }),
+        );
+        await fixture.whenStable();
+        expect(trigger.getAttribute('aria-expanded')).toBe('false');
+      });
+    }
+  }
+
+  it('clears touch interaction state after cancellation and allows focus to leave', async () => {
+    const fixture = TestBed.createComponent(TreeSelectHost);
+    await fixture.whenStable();
+    fixture.componentInstance.treeSelect().openPanel();
+    await fixture.whenStable();
+    const panel = fixture.nativeElement.querySelector('.aeris-tree-select__panel') as HTMLElement;
+    panel.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch' }));
+    panel.dispatchEvent(new PointerEvent('pointercancel', { bubbles: true, pointerType: 'touch' }));
+    const trigger = fixture.nativeElement.querySelector('[role=combobox]') as HTMLElement;
+    trigger.dispatchEvent(
+      new FocusEvent('focusout', { bubbles: true, relatedTarget: fixture.nativeElement }),
+    );
+    fixture.detectChanges();
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
