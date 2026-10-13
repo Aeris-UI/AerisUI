@@ -12,6 +12,7 @@ const docsLayoutTests = [
   '**/code-block.spec.ts',
   '**/component-example-layout.spec.ts',
   '**/catalog-quality.spec.ts',
+  '**/home-page.spec.ts',
 ];
 
 export default defineConfig({
@@ -78,7 +79,7 @@ export default defineConfig({
     {
       name: 'docs-quality-firefox',
       use: { ...devices['Desktop Firefox'], baseURL: 'http://127.0.0.1:4301' },
-      testMatch: '**/catalog-quality.spec.ts',
+      testMatch: ['**/catalog-quality.spec.ts', '**/home-page.spec.ts'],
     },
     {
       name: 'visual-baselines',

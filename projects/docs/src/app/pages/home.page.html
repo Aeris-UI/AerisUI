@@ -1,139 +1,28 @@
 <div class="home-page">
   <main>
     <section class="home-hero" aria-labelledby="home-title">
-      <div class="home-hero__copy">
-        <div class="home-brand" aria-label="Aeris UI">
-          <span class="home-brand__mark" aria-hidden="true">
-            <aeris-logo-mark />
-          </span>
-          <span class="home-brand__name">Aeris <strong>UI</strong></span>
-        </div>
-
-        <p class="home-kicker">Open-source components for Angular 22</p>
-        <h1 id="home-title">A dependable UI foundation for Angular.</h1>
-        <p class="home-hero__lead">
-          Accessible behavior, signal-first APIs, and a flexible theme system—built to help teams
-          ship coherent interfaces without carrying unnecessary weight.
-        </p>
-
-        <div class="home-release-note" role="note">
-          <aeris-badge value="Alpha" severity="warning" variant="soft" />
-          <span>Ready to evaluate in test projects; not yet recommended for production.</span>
-        </div>
-
-        <div class="home-actions">
-          <a aerisButton size="lg" routerLink="/guides/installation">
-            Get started
-            <svg [lucideIcon]="icons.ChevronRight" aria-hidden="true"></svg>
-          </a>
-          <a aerisButton size="lg" variant="outline" routerLink="/components">
-            Browse components
-          </a>
-        </div>
-
-        <app-code-block class="home-install" [sources]="installSources" />
+      <aeris-logo-mark class="home-logo" aria-hidden="true" />
+      <p class="home-brand">Aeris UI <span>for Angular 22</span></p>
+      <h1 id="home-title">UI components for Angular.</h1>
+      <p class="home-lead">
+        {{ componentCount }} components. Signal-first forms. A theme you can make your own.<br
+          class="home-desktop-break"
+        />
+        Open source, with the code and documentation to back it up.
+      </p>
+      <div class="home-actions">
+        <a aerisButton size="lg" routerLink="/guides/installation"
+          >Get started <svg [lucideIcon]="icons.ChevronRight" aria-hidden="true"></svg
+        ></a>
+        <a aerisButton size="lg" variant="outline" routerLink="/components">Browse components</a>
       </div>
-
-      <div class="home-hero__preview" aria-label="Aeris workspace form preview">
-        <aeris-card class="home-workspace-card" padding="none">
-          <header class="home-workspace-card__header">
-            <div>
-              <span class="home-workspace-icon" aria-hidden="true">
-                <svg [lucideIcon]="icons.Layers"></svg>
-              </span>
-              <span>
-                <strong>Create a workspace</strong>
-                <small>Set up the essentials for your team.</small>
-              </span>
-            </div>
-            <aeris-badge value="Live" severity="success" variant="soft" />
-          </header>
-
-          <form class="home-workspace-form" (submit)="saveWorkspace($event)">
-            <label>
-              <span>Workspace name</span>
-              <input aerisInputText fluid value="Northstar" autocomplete="organization" />
-            </label>
-            <label>
-              <span>Workspace type</span>
-              <aeris-select
-                fluid
-                appendTo="self"
-                panelClass="home-workspace-select-panel"
-                ariaLabel="Workspace type"
-                [options]="workspaceTypes"
-                [(value)]="workspaceType"
-              />
-            </label>
-            <div class="home-workspace-form__toggle">
-              <span>
-                <strong>Weekly summary</strong>
-                <small>A short digest of project activity.</small>
-              </span>
-              <aeris-toggle-switch
-                size="sm"
-                ariaLabel="Receive weekly project summaries"
-                [(checked)]="updatesEnabled"
-              />
-            </div>
-            <aeris-message
-              size="sm"
-              severity="success"
-              text="Workspace settings saved."
-              [(visible)]="saveVisible"
-            />
-            <footer>
-              <aeris-avatar label="AM" ariaLabel="Workspace owner, Alex Mason" size="sm" />
-              <span>Alex Mason will be the owner</span>
-              <button aerisButton type="submit" size="sm">
-                <svg [lucideIcon]="icons.Check" aria-hidden="true"></svg>
-                Create workspace
-              </button>
-            </footer>
-          </form>
-        </aeris-card>
-      </div>
+      <p class="home-release">
+        <a routerLink="/guides/changelog">v{{ version }}</a
+        ><span aria-hidden="true">·</span> Alpha — evaluate in test projects, not production.
+      </p>
     </section>
 
-    <dl class="home-facts" aria-label="Aeris UI at a glance">
-      <div>
-        <dt>{{ componentCount }}</dt>
-        <dd>documented components</dd>
-      </div>
-      <div>
-        <dt>WCAG 2.2</dt>
-        <dd>AA accessibility target</dd>
-      </div>
-      <div>
-        <dt>Angular 22</dt>
-        <dd>standalone, signal-first APIs</dd>
-      </div>
-      <div>
-        <dt>MIT</dt>
-        <dd>open source and inspectable</dd>
-      </div>
-    </dl>
-
-    <section class="home-section home-live-showcase" aria-labelledby="showcase-title">
-      <header class="home-section__heading">
-        <div>
-          <p class="home-kicker">One coherent system</p>
-          <h2 id="showcase-title">Components working together in a real interface.</h2>
-        </div>
-        <div>
-          <p>
-            Try a dashboard, chat, sales pipeline, inbox, and finance workspace. Filter records,
-            send a message, or explore individual components—all built with Aeris.
-          </p>
-          <div class="home-section__actions">
-            <a aerisButton size="sm" variant="outline" routerLink="/design-lab">Open Design Lab</a>
-            <a aerisButton size="sm" variant="ghost" routerLink="/components"
-              >View all components</a
-            >
-          </div>
-        </div>
-      </header>
-
+    <section class="home-live-showcase" aria-label="Explore live Aeris interfaces">
       @defer (on viewport; prefetch on idle) {
         <app-aeris-showcase-gallery [compact]="true" />
       } @placeholder {
@@ -144,126 +33,198 @@
       }
     </section>
 
-    <section class="home-section home-capabilities" aria-labelledby="capabilities-title">
-      <header class="home-capabilities__intro">
-        <p class="home-kicker">Made for product work</p>
-        <h2 id="capabilities-title">Built for everyday Angular work.</h2>
-        <p>Start with accessible controls, connect your forms, and make the theme your own.</p>
-      </header>
-
-      <div class="home-capabilities__list">
-        <a routerLink="/guides/accessibility">
-          <span class="home-card-icon" aria-hidden="true">
-            <svg [lucideIcon]="icons.CheckCircle"></svg>
-          </span>
-          <span>
-            <strong>Accessible behavior</strong>
-            <small
-              >Semantic markup, keyboard models, focus management, and practical guidance.</small
-            >
-          </span>
-          <svg [lucideIcon]="icons.ChevronRight" aria-hidden="true"></svg>
-        </a>
-        <a routerLink="/guides/configuration">
-          <span class="home-card-icon" aria-hidden="true">
-            <svg [lucideIcon]="icons.Code"></svg>
-          </span>
-          <span>
-            <strong>Angular-native APIs</strong>
-            <small
-              >Standalone entry points, signals, strict types, templates, and forms support.</small
-            >
-          </span>
-          <svg [lucideIcon]="icons.ChevronRight" aria-hidden="true"></svg>
-        </a>
-        <a routerLink="/guides/theming">
-          <span class="home-card-icon" aria-hidden="true">
-            <svg [lucideIcon]="icons.Pipette"></svg>
-          </span>
-          <span>
-            <strong>Theme ownership</strong>
-            <small
-              >Palettes, light and dark schemes, density, corners, direction, and tokens.</small
-            >
-          </span>
-          <svg [lucideIcon]="icons.ChevronRight" aria-hidden="true"></svg>
-        </a>
-        <a routerLink="/guides/browser-support">
-          <span class="home-card-icon" aria-hidden="true">
-            <svg [lucideIcon]="icons.Zap"></svg>
-          </span>
-          <span>
-            <strong>Modern browser support</strong>
-            <small
-              >Responsive layouts, reduced-motion support, and guidance for current browsers.</small
-            >
-          </span>
-          <svg [lucideIcon]="icons.ChevronRight" aria-hidden="true"></svg>
-        </a>
+    <section class="home-section home-usage" aria-labelledby="usage-title">
+      <div class="home-section-copy">
+        <span class="home-section-index" aria-hidden="true">01 / Usage</span>
+        <h2 id="usage-title">From import to interface.</h2>
+        <p>
+          Use standalone components with Angular Signal Forms. Value, touched state, and validation
+          travel with the field.
+        </p>
+        <app-code-block class="home-install" [sources]="installSources" />
+        <div class="home-demo-surface">
+          <app-home-profile-demo />
+        </div>
+        <a class="home-text-link" routerLink="/guides/forms"
+          >Read the forms guide <svg [lucideIcon]="icons.ChevronRight" aria-hidden="true"></svg
+        ></a>
+      </div>
+      <div class="home-usage-code">
+        <app-code-block [sources]="profileSources" />
+        <p class="home-caption">
+          Complete component, template, and styles. Copy the three files into an app configured with
+          Aeris.
+        </p>
       </div>
     </section>
 
-    <section class="home-open-source" aria-labelledby="open-source-title">
-      <article>
-        <span class="home-open-source__icon" aria-hidden="true">
-          <svg [lucideIcon]="icons.Code"></svg>
-        </span>
-        <p class="home-kicker">Open source</p>
-        <h2 id="open-source-title">Inspect the whole system.</h2>
+    <section class="home-section home-theming" aria-labelledby="theming-title">
+      <div class="home-section-copy">
+        <span class="home-section-index" aria-hidden="true">02 / Theming</span>
+        <h2 id="theming-title">Same components.<br />Your own look.</h2>
         <p>
-          Library code, tests, documentation, theme tooling, and release workflows are public under
-          the MIT License.
+          Start with a preset. Change the palette, spacing, and corners without rewriting component
+          styles.
         </p>
-        <div class="home-open-source__actions">
-          <a
-            aerisButton
-            variant="outline"
-            href="https://github.com/Aeris-UI/AerisUI"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View source
-            <svg [lucideIcon]="icons.ExternalLink" aria-hidden="true"></svg>
-          </a>
-          <a
-            aerisButton
-            variant="ghost"
-            href="https://github.com/Aeris-UI/AerisUI/blob/main/LICENSE"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            MIT License
-          </a>
-        </div>
-      </article>
-
-      <article>
-        <span class="home-open-source__icon" aria-hidden="true">
-          <svg [lucideIcon]="icons.Package"></svg>
-        </span>
-        <p class="home-kicker">AI-ready documentation</p>
-        <h2>Bring versioned Aeris context to your tools.</h2>
-        <p>
-          Use the local MCP package or generated Markdown and JSON documentation without coupling
-          your application to another runtime service.
+        <p class="home-caption">
+          These controls update the whole site and stay in sync with the appearance menu.
         </p>
-        <div class="home-open-source__actions">
-          <a aerisButton variant="outline" routerLink="/guides/mcp">Set up the MCP</a>
-          <a aerisButton variant="ghost" href="/llms.txt">Open llms.txt</a>
+        <a class="home-text-link" routerLink="/design-lab"
+          >Customize in Design Lab <svg [lucideIcon]="icons.ChevronRight" aria-hidden="true"></svg
+        ></a>
+        @if (themeCode(); as code) {
+          <app-code-block class="home-theme-code" [code]="code" language="TypeScript" />
+        } @else {
+          <p>Your custom palette is active. Open Design Lab to export its configuration.</p>
+        }
+      </div>
+      <div class="home-theme-workbench">
+        <div class="home-theme-controls">
+          <fieldset>
+            <legend>Palette</legend>
+            <div class="home-options">
+              @for (palette of appearance.palettes; track palette.id) {
+                <button
+                  aerisButton
+                  size="sm"
+                  variant="ghost"
+                  type="button"
+                  [attr.aria-pressed]="appearance.activePaletteId() === palette.id"
+                  (click)="appearance.selectPalette(palette.id)"
+                >
+                  <span
+                    class="home-swatch"
+                    [style.background]="palette.palette.primary"
+                    aria-hidden="true"
+                  ></span
+                  >{{ palette.shortName }}
+                </button>
+              }
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Mode</legend>
+            <div class="home-options">
+              <button
+                aerisButton
+                size="sm"
+                variant="ghost"
+                type="button"
+                [attr.aria-pressed]="theme.mode() === 'light'"
+                (click)="theme.setMode('light')"
+              >
+                Light
+              </button>
+              <button
+                aerisButton
+                size="sm"
+                variant="ghost"
+                type="button"
+                [attr.aria-pressed]="theme.mode() === 'dark'"
+                (click)="theme.setMode('dark')"
+              >
+                Dark
+              </button>
+              <button
+                aerisButton
+                size="sm"
+                variant="ghost"
+                type="button"
+                [attr.aria-pressed]="theme.mode() === 'system'"
+                (click)="theme.setMode('system')"
+              >
+                System
+              </button>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Corners</legend>
+            <div class="home-options">
+              @for (radius of appearance.radii; track radius.id) {
+                <button
+                  aerisButton
+                  size="sm"
+                  variant="ghost"
+                  type="button"
+                  [attr.aria-pressed]="appearance.activeRadiusId() === radius.id"
+                  (click)="appearance.selectRadius(radius.id)"
+                >
+                  {{ radius.name }}
+                </button>
+              }
+            </div>
+          </fieldset>
         </div>
-      </article>
+        <div class="home-demo-surface home-theme-preview">
+          <app-home-profile-demo idPrefix="theme-profile" />
+        </div>
+      </div>
     </section>
 
-    <section class="home-final" aria-labelledby="home-final-title">
+    <section class="home-section home-engineering" aria-labelledby="engineering-title">
+      <div class="home-section-copy">
+        <span class="home-section-index" aria-hidden="true">03 / The details</span>
+        <h2 id="engineering-title">More than the visible parts.</h2>
+      </div>
+      <div class="home-evidence">
+        <article>
+          <h3>Keyboard and focus</h3>
+          <p>
+            Tab through the form above. Open the select with the keyboard, navigate with arrow keys,
+            and press Escape to close it.
+          </p>
+          <a routerLink="/guides/accessibility">Accessibility guidance</a
+          ><small
+            >Designed toward WCAG 2.2 AA. Application accessibility still depends on how components
+            are used.</small
+          >
+        </article>
+        <article>
+          <h3>Validation after interaction</h3>
+          <p>
+            Clear the name and save. Signal Forms marks the field touched; Aeris presents its
+            invalid state. Enter a name to clear the error.
+          </p>
+          <a routerLink="/guides/forms">Forms and validation</a>
+        </article>
+        <article>
+          <h3>Import what you use</h3>
+          <p>
+            Components have individual entry points. Chart.js, Lexical, and Shiki are needed only
+            for their respective components.
+          </p>
+          <a routerLink="/guides/installation">Installation and dependencies</a>
+        </article>
+        <article>
+          <h3>On a smaller screen</h3>
+          <p>
+            The same controls and product examples reflow for narrow layouts, with touch
+            interactions, safe-area handling, and reduced-motion support.
+          </p>
+          <a routerLink="/guides/mobile">Mobile layouts</a>
+        </article>
+      </div>
+    </section>
+
+    <footer class="home-footer" aria-label="Aeris project resources">
       <div>
-        <p class="home-kicker">Start with a test project</p>
-        <h2 id="home-final-title">Evaluate Aeris with your own interface.</h2>
-        <p>Install the alpha, choose a theme, and test the components against real product work.</p>
+        <strong>Aeris UI is open source.</strong>
+        <p>MIT licensed. Source, tests, and documentation are public.</p>
       </div>
-      <div class="home-actions">
-        <a aerisButton size="lg" routerLink="/guides/installation">Installation guide</a>
-        <a aerisButton size="lg" variant="outline" routerLink="/design-lab">Open Design Lab</a>
-      </div>
-    </section>
+      <nav aria-label="Project links">
+        <a href="https://github.com/Aeris-UI/AerisUI" target="_blank" rel="noopener noreferrer"
+          >GitHub <svg [lucideIcon]="icons.ExternalLink" aria-hidden="true"></svg
+        ></a>
+        <a
+          href="https://github.com/Aeris-UI/AerisUI/blob/main/LICENSE"
+          target="_blank"
+          rel="noopener noreferrer"
+          >MIT license</a
+        >
+        <a routerLink="/guides/mcp">AI tools &amp; MCP</a>
+        <a href="/llms.txt">llms.txt</a>
+        <a routerLink="/support">Support Aeris</a>
+      </nav>
+    </footer>
   </main>
 </div>
