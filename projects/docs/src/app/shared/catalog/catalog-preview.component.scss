@@ -43,6 +43,14 @@ app-catalog-preview {
     --aeris-accordion-filled-background: transparent;
   }
 
+  // The decorative toast is positioned within its preview, not the visual viewport.
+  &[data-active] .aeris-toast__region[data-position='center'] {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: min(16rem, 100%);
+    transform: translate(-50%, -50%);
+  }
+
   // Decorative previews remain still until their card is activated.
   &[data-mobile-playback='true'] *,
   &[data-mobile-playback='true'] *::before,

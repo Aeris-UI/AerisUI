@@ -4,7 +4,9 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'aeris-logo-mark',
   imports: [NgOptimizedImage],
-  template: ` <img ngSrc="logo.png" width="579" height="579" alt="" aria-hidden="true" /> `,
+  template: `
+    <img ngSrc="logo.png" width="579" height="579" alt="" aria-hidden="true" priority />
+  `,
   styles: `
     :host {
       display: inline-flex;
