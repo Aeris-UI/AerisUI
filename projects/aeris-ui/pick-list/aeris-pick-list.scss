@@ -331,7 +331,8 @@
 }
 
 @media (max-width: 34rem) {
-  .aeris-pick-list__pane-body {
+  .aeris-pick-list__pane-body,
+  .aeris-pick-list__pane-body[data-side='target'] {
     min-height: 0;
     max-height: none;
     grid-template-columns: minmax(0, 1fr);
@@ -343,7 +344,9 @@
     max-height: var(--aeris-pick-list-max-height, 22rem);
   }
 
-  .aeris-pick-list__reorder-controls {
+  .aeris-pick-list__reorder-controls,
+  .aeris-pick-list__pane-body[data-side='target'] .aeris-pick-list__reorder-controls {
+    grid-row: 1;
     grid-template-columns: repeat(4, auto);
     justify-content: start;
     border-right: 0;
