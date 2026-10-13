@@ -16,6 +16,7 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
+import { ɵregisterAerisOverlay, ɵunregisterAerisOverlay } from '@aeris-ui/core';
 
 export type AerisMegaMenuOrientation = 'horizontal' | 'vertical';
 export type AerisMegaMenuSize = 'sm' | 'md' | 'lg';
@@ -303,6 +304,8 @@ let nextMegaMenuId = 0;
                 role="menu"
                 [id]="entry.id + '-panel'"
                 [attr.aria-label]="entry.item.label ? entry.item.label + ' menu' : null"
+                animate.enter="aeris-overlay-enter"
+                animate.leave="aeris-overlay-leave"
               >
                 <div class="aeris-mega-menu__panel-grid">
                   @for (group of entry.panelGroups; track group.id ?? group.label ?? $index) {
@@ -382,11 +385,16 @@ export class AerisMegaMenu<T = unknown> {
     effect((onCleanup) => {
       if (this.openRootIndex() === null) return;
       const document = this.host.nativeElement.ownerDocument;
+      ɵregisterAerisOverlay(document, this.host.nativeElement, () => {
+        this.close();
+        return true;
+      });
       const pointerdown = (event: PointerEvent) => this.handleDocumentPointerdown(event);
       const keydown = (event: KeyboardEvent) => this.handleDocumentKeydown(event);
       document.addEventListener('pointerdown', pointerdown);
       document.addEventListener('keydown', keydown);
       onCleanup(() => {
+        ɵunregisterAerisOverlay(document, this.host.nativeElement);
         document.removeEventListener('pointerdown', pointerdown);
         document.removeEventListener('keydown', keydown);
       });

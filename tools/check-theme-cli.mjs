@@ -39,6 +39,13 @@ assert(
 );
 assert(!generated.stdout.includes('prefers-color-scheme'), '--no-system was not respected.');
 
+const defaultGenerated = run(['--minify', '--no-system']);
+assert(defaultGenerated.status === 0, defaultGenerated.stderr || 'Default generation failed.');
+assert(
+  defaultGenerated.stdout === generated.stdout,
+  'The build-time theme generator does not default to Monochrome.',
+);
+
 const darkOnly = run(['--preset', 'coastal', '--schemes', 'dark', '--default-mode', 'dark']);
 assert(darkOnly.status === 0, darkOnly.stderr || 'Dark-only generation failed.');
 assert(darkOnly.stdout.includes('color-scheme: dark'), 'Dark-only CSS is missing.');

@@ -3,7 +3,7 @@
 :host {
   display: inline-block;
   max-width: 100%;
-  color: var(--aeris-radio-label-color, var(--aeris-text-2, #4e524a));
+  color: var(--aeris-radio-label-color, var(--aeris-text-2, #454545));
   font: inherit;
 }
 
@@ -19,7 +19,7 @@
   min-height: 2rem;
   color: inherit;
   font: inherit;
-  font-size: 0.875rem;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
   line-height: 1.45;
   cursor: pointer;
   -webkit-user-select: none;
@@ -33,7 +33,7 @@
   --aeris-radio-gap: 0.4375rem;
 
   min-height: 1.5rem;
-  font-size: 0.75rem;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 .aeris-radio[data-size='sm'] {
@@ -42,7 +42,7 @@
   --aeris-radio-gap: 0.5rem;
 
   min-height: 1.75rem;
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-radio[data-size='lg'] {
@@ -51,7 +51,7 @@
   --aeris-radio-gap: 0.6875rem;
 
   min-height: 2.25rem;
-  font-size: 0.9375rem;
+  font-size: var(--aeris-font-size-xl, 0.9375rem);
 }
 
 .aeris-radio--label-start {
@@ -78,16 +78,15 @@
   width: var(--aeris-radio-size);
   height: var(--aeris-radio-size);
   box-sizing: border-box;
-  border: 1.5px solid
-    var(--aeris-radio-border, var(--aeris-border, #deddd7));
+  border: 1.5px solid var(--aeris-radio-border, var(--aeris-border, #efefef));
   border-radius: 50%;
   background: var(--aeris-radio-background, var(--aeris-surface, #fff));
   box-shadow: var(--aeris-radio-shadow, none);
   transition:
-    border-color 150ms ease,
-    background-color 150ms ease,
-    box-shadow 150ms ease,
-    transform 150ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-radio__dot {
@@ -98,24 +97,21 @@
   opacity: 0;
   transform: scale(0.35);
   transition:
-    opacity 140ms ease,
-    transform 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out);
 }
 
 .aeris-radio__label {
   min-width: 0;
 }
 
-.aeris-radio:hover .aeris-radio__control {
-  border-color: var(
-    --aeris-radio-hover-border,
-    var(--aeris-primary, #768653)
-  );
+@media (hover: hover) {
+  .aeris-radio:hover .aeris-radio__control {
+    border-color: var(--aeris-radio-hover-border, var(--aeris-primary, #768653));
+  }
 }
-
 .aeris-radio__input:checked + .aeris-radio__control {
-  border: calc((var(--aeris-radio-size) - var(--aeris-radio-dot-size)) / 2)
-    solid
+  border: calc((var(--aeris-radio-size) - var(--aeris-radio-dot-size)) / 2) solid
     var(--aeris-radio-selected-color, var(--aeris-primary, #768653));
   background: transparent;
 }
@@ -126,21 +122,19 @@
 }
 
 .aeris-radio__input:focus-visible + .aeris-radio__control {
-  outline: 3px solid
-    var(
-      --aeris-radio-focus-ring,
-      color-mix(
-        in srgb,
-        var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$focus})) 42%,
-        transparent
-      )
-    );
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(--aeris-radio-focus-ring, var(--aeris-focus-ring-color, transparent));
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-radio[data-invalid='true'] .aeris-radio__control,
 .aeris-radio__input:user-invalid + .aeris-radio__control {
-  border-color: var(--aeris-danger, #c81e2a);
+  border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
+}
+
+.aeris-radio[data-invalid='true'] .aeris-radio__input:focus-visible + .aeris-radio__control,
+.aeris-radio__input:user-invalid:focus-visible + .aeris-radio__control {
+  outline-color: var(--aeris-control-invalid-focus-ring-color, transparent);
 }
 
 .aeris-radio[data-disabled='true'] {
@@ -148,13 +142,11 @@
   cursor: not-allowed;
 }
 
-.aeris-radio[data-disabled='true']:hover .aeris-radio__control {
-  border-color: var(
-    --aeris-radio-border,
-    var(--aeris-border, #deddd7)
-  );
+@media (hover: hover) {
+  .aeris-radio[data-disabled='true']:hover .aeris-radio__control {
+    border-color: var(--aeris-radio-border, var(--aeris-border, #efefef));
+  }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .aeris-radio__control,
   .aeris-radio__dot {

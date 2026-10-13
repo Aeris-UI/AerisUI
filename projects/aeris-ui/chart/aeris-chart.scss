@@ -3,7 +3,7 @@
 :host {
   display: block;
   min-inline-size: 0;
-  color: var(--aeris-chart-color, var(--aeris-text, #222222));
+  color: var(--aeris-chart-color, var(--aeris-text, #111111));
 }
 
 .aeris-chart__canvas-wrap {
@@ -29,7 +29,7 @@
 }
 
 .aeris-chart__canvas:focus-visible {
-  outline: 3px solid
+  outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 26%, transparent);
   outline-offset: -3px;
 }
@@ -41,8 +41,8 @@
   place-items: center;
   padding: 1rem;
   color: var(--aeris-chart-empty-color, var(--aeris-text-muted, #6d7068));
-  font-size: 0.875rem;
-  font-weight: 650;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   text-align: center;
 }
 

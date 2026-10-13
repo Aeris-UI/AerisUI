@@ -44,6 +44,21 @@ class ValueHost {}
 class DotAndOverlayHost {}
 
 describe('AerisBadge', () => {
+  it('uses theme text tones for soft and outline status labels', () => {
+    const fixture = TestBed.createComponent(AerisBadge);
+    fixture.componentRef.setInput('value', 'Review');
+    for (const variant of ['soft', 'outline']) {
+      fixture.componentRef.setInput('variant', variant);
+      for (const severity of ['primary', 'success', 'info', 'warning', 'danger']) {
+        fixture.componentRef.setInput('severity', severity);
+        fixture.detectChanges();
+        expect(
+          getComputedStyle(fixture.nativeElement).getPropertyValue('--_aeris-badge-soft-text'),
+        ).toContain(`--aeris-${severity}-text`);
+      }
+    }
+  });
+
   it('renders value, severity, variant, size, shape, and accessible naming', () => {
     const fixture = TestBed.createComponent(BadgeHost);
     fixture.detectChanges();
@@ -93,6 +108,9 @@ describe('AerisBadge', () => {
     expect(overlay.dataset['position']).toBe('bottom-left');
     expect(overlayBadge.textContent?.trim()).toBe('7');
     expect(overlayBadge.getAttribute('aria-hidden')).toBe('true');
+    expect(
+      getComputedStyle(overlay).getPropertyValue('--_aeris-badge-overlay-offset').trim(),
+    ).toContain('30%');
     expect(longOverlayBadge.textContent?.trim()).toBe('128');
     expect(button.getAttribute('aria-label')).toBe('Notifications, 7 unread');
   });

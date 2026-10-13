@@ -4,10 +4,10 @@ aeris-toolbar {
 }
 
 .aeris-toolbar {
-  --_padding-block: var(--aeris-toolbar-padding-block, 0.75rem);
-  --_padding-inline: var(--aeris-toolbar-padding-inline, 0.875rem);
-  --_gap: var(--aeris-toolbar-gap, 0.75rem);
-  --_section-gap: var(--aeris-toolbar-section-gap, 0.5rem);
+  --_padding-block: var(--aeris-toolbar-padding-block, var(--aeris-overlay-padding, 0.375rem));
+  --_padding-inline: var(--aeris-toolbar-padding-inline, var(--aeris-overlay-padding, 0.375rem));
+  --_gap: var(--aeris-toolbar-gap, var(--aeris-density-gap, 0.5rem));
+  --_section-gap: var(--aeris-toolbar-section-gap, var(--aeris-density-gap, 0.5rem));
 
   border: var(--aeris-toolbar-border-width, 1px) solid
     var(--aeris-toolbar-border, var(--aeris-border));
@@ -16,7 +16,8 @@ aeris-toolbar {
     var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
   );
   background: var(--aeris-toolbar-background, var(--aeris-surface, #fff));
-  color: var(--aeris-toolbar-color, var(--aeris-text, #222222));
+  color: var(--aeris-toolbar-color, var(--aeris-text, #111111));
+  font-size: var(--aeris-toolbar-font-size, var(--aeris-body-font-size, 0.875rem));
   box-shadow: var(--aeris-toolbar-shadow, none);
 }
 
@@ -25,24 +26,42 @@ aeris-toolbar {
 }
 
 .aeris-toolbar[data-size='sm'] {
-  --_padding-block: var(--aeris-toolbar-padding-block-sm, 0.5625rem);
-  --_padding-inline: var(--aeris-toolbar-padding-inline-sm, 0.625rem);
-  --_gap: var(--aeris-toolbar-gap-sm, 0.5rem);
-  --_section-gap: var(--aeris-toolbar-section-gap-sm, 0.375rem);
+  --_padding-block: var(
+    --aeris-toolbar-padding-block-sm,
+    calc(var(--aeris-overlay-padding, 0.375rem) * 0.75)
+  );
+  --_padding-inline: var(
+    --aeris-toolbar-padding-inline-sm,
+    calc(var(--aeris-overlay-padding, 0.375rem) * 0.75)
+  );
+  --_gap: var(--aeris-toolbar-gap-sm, calc(var(--aeris-density-gap, 0.5rem) * 0.75));
+  --_section-gap: var(
+    --aeris-toolbar-section-gap-sm,
+    calc(var(--aeris-density-gap, 0.5rem) * 0.75)
+  );
 }
 
 .aeris-toolbar[data-size='lg'] {
-  --_padding-block: var(--aeris-toolbar-padding-block-lg, 1rem);
-  --_padding-inline: var(--aeris-toolbar-padding-inline-lg, 1.125rem);
-  --_gap: var(--aeris-toolbar-gap-lg, 1rem);
-  --_section-gap: var(--aeris-toolbar-section-gap-lg, 0.625rem);
+  --_padding-block: var(
+    --aeris-toolbar-padding-block-lg,
+    calc(var(--aeris-overlay-padding, 0.375rem) * 1.25)
+  );
+  --_padding-inline: var(
+    --aeris-toolbar-padding-inline-lg,
+    calc(var(--aeris-overlay-padding, 0.375rem) * 1.25)
+  );
+  --_gap: var(--aeris-toolbar-gap-lg, calc(var(--aeris-density-gap, 0.5rem) * 1.25));
+  --_section-gap: var(
+    --aeris-toolbar-section-gap-lg,
+    calc(var(--aeris-density-gap, 0.5rem) * 1.25)
+  );
 }
 
 .aeris-toolbar[data-variant='filled'] {
   border-color: var(--aeris-toolbar-filled-border, transparent);
   background: var(
     --aeris-toolbar-filled-background,
-    color-mix(in srgb, var(--aeris-surface-2, #f2f0ec) 76%, var(--aeris-surface, #fff))
+    color-mix(in srgb, var(--aeris-surface-2, #f3f3f3) 76%, var(--aeris-surface, #fff))
   );
 }
 
@@ -50,7 +69,7 @@ aeris-toolbar {
   border-color: var(--aeris-toolbar-elevated-border, transparent);
   box-shadow: var(
     --aeris-toolbar-elevated-shadow,
-    0 0.75rem 2rem color-mix(in srgb, var(--aeris-text, #222222) 10%, transparent)
+    0 0.75rem 2rem color-mix(in srgb, var(--aeris-text, #111111) 10%, transparent)
   );
 }
 
@@ -65,7 +84,8 @@ aeris-toolbar {
   display: flex;
   align-items: center;
   gap: var(--_gap);
-  min-block-size: var(--aeris-toolbar-min-height, 3.25rem);
+  box-sizing: border-box;
+  min-block-size: var(--aeris-toolbar-min-height, var(--aeris-control-height, 2.625rem));
   min-inline-size: 0;
   padding: var(--_padding-block) var(--_padding-inline);
 }
@@ -77,7 +97,7 @@ aeris-toolbar {
 .aeris-toolbar[data-wrap='false'] .aeris-toolbar__content {
   flex-wrap: nowrap;
   overflow-x: auto;
-  scrollbar-color: var(--aeris-border, #deddd7) transparent;
+  scrollbar-color: var(--aeris-border, #efefef) transparent;
   scrollbar-width: thin;
 }
 
@@ -94,7 +114,7 @@ aeris-toolbar {
 .aeris-toolbar[data-wrap='false'] .aeris-toolbar__content::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-border, #deddd7);
+  background: var(--aeris-border, #efefef);
   background-clip: content-box;
 }
 

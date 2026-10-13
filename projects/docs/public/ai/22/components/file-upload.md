@@ -2,7 +2,7 @@
 
 > Accessible file queue with drag-and-drop, validation, templates, previews, and event-driven upload progress.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/file-upload`
 - Human-readable documentation: [https://aeris-ui.dev/components/file-upload](https://aeris-ui.dev/components/file-upload)
@@ -160,7 +160,7 @@ interface AerisFileUploadEvent {
 | `--aeris-file-upload-border` | `CSS custom property` | `var(--aeris-border)` | Surface and file borders. |
 | `--aeris-file-upload-radius` | `CSS custom property` | `var(--aeris-radius-lg)` | Surface radius. |
 | `--aeris-file-upload-shadow` | `CSS custom property` | `component shadow` | Surface elevation. |
-| `--aeris-file-upload-toolbar-padding` | `CSS custom property` | `0.875rem` | Toolbar padding. |
+| `--aeris-file-upload-toolbar-padding` | `CSS custom property` | `--aeris-overlay-padding` | Toolbar padding. |
 | `--aeris-file-upload-dropzone-min-height` | `CSS custom property` | `10rem` | Dropzone minimum height. |
 | `--aeris-file-upload-progress-background` | `CSS custom property` | `var(--aeris-primary)` | Progress fill. |
 | `--aeris-file-upload-focus` | `CSS custom property` | `var(--aeris-focus)` | Visible focus ring. |

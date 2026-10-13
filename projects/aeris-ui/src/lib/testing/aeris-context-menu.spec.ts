@@ -311,6 +311,28 @@ describe('AerisContextMenu', () => {
     expect(Number(panel.style.left.replace('px', ''))).toBeGreaterThanOrEqual(0);
     expect(panel.textContent).toContain('Programmatic');
   });
+
+  it('keeps physical pointer coordinates in RTL layouts', async () => {
+    const previousDirection = document.documentElement.dir;
+    document.documentElement.dir = 'rtl';
+
+    try {
+      const fixture = TestBed.createComponent(TargetContextMenuHost);
+      fixture.detectChanges();
+
+      const target = fixture.nativeElement.querySelector('#target') as HTMLButtonElement;
+      target.dispatchEvent(contextMenuEvent(180, 190));
+      fixture.detectChanges();
+      await settle();
+      fixture.detectChanges();
+
+      const panel = document.querySelector('.aeris-context-menu__panel') as HTMLElement;
+      expect(panel.style.left).toBe('180px');
+      expect(getComputedStyle(panel).right).toBe('auto');
+    } finally {
+      document.documentElement.dir = previousDirection;
+    }
+  });
 });
 
 function contextMenuEvent(x: number, y: number): MouseEvent {

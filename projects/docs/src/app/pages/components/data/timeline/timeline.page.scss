@@ -27,12 +27,25 @@
   font-size: 0.8125rem;
 }
 
+.timeline-demo--custom {
+  --aeris-timeline-marker-size: 2rem;
+  --aeris-timeline-separator-size: 2.75rem;
+}
+
 .timeline-marker-icon {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, currentColor 12%, var(--aeris-surface));
+}
+
+.timeline-marker-icon svg {
   width: 1rem;
   height: 1rem;
-  padding: 0.125rem;
-  border-radius: 50%;
-  background: color-mix(in srgb, currentColor 14%, var(--aeris-surface));
+  stroke-width: 2;
 }
 
 .release-date {

@@ -85,16 +85,16 @@
 .aeris-icon-field input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
 .aeris-icon-field select,
 .aeris-icon-field textarea:not(.aeris-textarea) {
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font: inherit;
-  font-size: 0.875rem;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
   transition:
-    border-color 150ms ease,
-    background-color 150ms ease,
-    box-shadow 150ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-icon-field input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
@@ -107,7 +107,7 @@
 .aeris-icon-field textarea:not(.aeris-textarea) {
   min-height: 5.5rem;
   padding: 0.625rem 0.75rem;
-  line-height: 1.5;
+  line-height: var(--aeris-line-height-normal, 1.5);
   resize: vertical;
 }
 
@@ -117,7 +117,7 @@
 .aeris-icon-field--filled .aeris-input-text,
 .aeris-icon-field--filled .aeris-textarea {
   border-color: transparent;
-  background: var(--aeris-surface-2, #f2f0ec);
+  background: var(--aeris-surface-2, #f3f3f3);
 }
 
 .aeris-icon-field--invalid input:not([type='checkbox']):not([type='radio']),
@@ -129,10 +129,10 @@
 .aeris-icon-field input:focus,
 .aeris-icon-field textarea:focus,
 .aeris-icon-field select:focus {
-  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+  border-color: var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   outline: 0;
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-focus-ring-color, var(--aeris-focus-ring-color, transparent));
 }
 
 .aeris-icon-field input::placeholder,
@@ -170,19 +170,19 @@
 .aeris-icon-field--xs input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
 .aeris-icon-field--xs select {
   min-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
-  font-size: 0.75rem;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 .aeris-icon-field--sm input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
 .aeris-icon-field--sm select {
   min-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-icon-field--lg input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
 .aeris-icon-field--lg select {
   min-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
-  font-size: 0.9375rem;
+  font-size: var(--aeris-font-size-xl, 0.9375rem);
 }
 
 .aeris-icon-field--compact {

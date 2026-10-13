@@ -378,7 +378,7 @@ interface AerisMegaMenuItemEvent<T = unknown> {
     {
       name: '--aeris-mega-menu-icon-size',
       type: 'length',
-      defaultValue: '1.125rem',
+      defaultValue: '--aeris-icon-size',
       description: 'Default icon and chevron box.',
     },
   ];

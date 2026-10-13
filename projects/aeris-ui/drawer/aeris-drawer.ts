@@ -387,7 +387,11 @@ export class AerisDrawer {
 
   private handleShown(): void {
     this.previouslyFocused.set(this.activeHtmlElement());
-    ɵregisterAerisOverlay(this.document, this.overlayToken);
+    ɵregisterAerisOverlay(this.document, this.overlayToken, () => {
+      if (!this.visible() || !this.closeOnEscape()) return false;
+      this.hide();
+      return true;
+    });
     this.lockScroll();
     const event = this.visibilityEvent(true, 'api', this.pendingOriginalEvent);
     this.pendingOriginalEvent = null;

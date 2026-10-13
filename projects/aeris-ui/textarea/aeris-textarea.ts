@@ -227,7 +227,11 @@ export class AerisTextareaComponent implements ControlValueAccessor {
     if (!element) return;
 
     const styles = getComputedStyle(element);
-    const rowHeight = cssPixelValue(styles, '--aeris-textarea-row-height', 21);
+    const configuredRowHeight = cssPixelValue(styles, '--aeris-textarea-row-height', 21);
+    const rowHeight = Math.max(
+      configuredRowHeight,
+      cssPixelValue(styles, 'line-height', configuredRowHeight),
+    );
     const verticalPadding = cssPixelValue(styles, '--aeris-textarea-vertical-padding', 20);
     const minimum = Math.max(1, this.minRows()) * rowHeight + verticalPadding;
     const maximumRows = this.maxRows();

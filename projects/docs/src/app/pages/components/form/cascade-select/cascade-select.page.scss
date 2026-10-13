@@ -1,5 +1,9 @@
 @use '../shared/form-docs';
 
+.cascade-field {
+  max-inline-size: 18rem;
+}
+
 .cascade-option {
   min-width: 0;
   display: flex;

@@ -2,7 +2,7 @@
 
 > Chronological event display with responsive orientation, progress, alignment, and templates.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/timeline`
 - Human-readable documentation: [https://aeris-ui.dev/components/timeline](https://aeris-ui.dev/components/timeline)
@@ -511,7 +511,7 @@ Use the marker template and markerColor to render custom visual markers for each
 ```ts
 import { Component } from '@angular/core';
 import { AerisTimelineModule, type AerisTimelineItem } from '@aeris-ui/core/timeline';
-import { LucideCheckCircle, LucideCode, LucideDynamicIcon, LucideRocket, LucideSearch, type LucideIconInput } from '@lucide/angular';
+import { LucideBlocks, LucideClipboardCheck, LucideDynamicIcon, LucidePackageCheck, LucideShieldCheck, type LucideIconInput } from '@lucide/angular';
 
 interface CustomReleaseData {
   readonly owner: string;
@@ -532,32 +532,32 @@ export class TimelineTemplatesCustomMarkerIconsAndColorsDemo {
       title: 'Planning complete',
       description: 'Scope and release criteria were approved.',
       date: 'May 06',
-      markerColor: '#668451',
-      data: { owner: 'Maya Chen', version: 'v1.4', icon: LucideCheckCircle },
+      markerColor: 'var(--aeris-success)',
+      data: { owner: 'Maya Chen', version: 'v1.4', icon: LucideClipboardCheck },
     },
     {
       id: 'build',
       title: 'Build',
       description: 'Core package and guides are being prepared.',
       date: 'May 14',
-      markerColor: '#4f7f95',
-      data: { owner: 'Noah Williams', version: 'v1.4', icon: LucideCode },
+      markerColor: 'var(--aeris-info)',
+      data: { owner: 'Noah Williams', version: 'v1.4', icon: LucideBlocks },
     },
     {
       id: 'review',
       title: 'Quality review',
       description: 'Accessibility and API checks are scheduled.',
       date: 'May 22',
-      markerColor: '#b27632',
-      data: { owner: 'Sofia Rossi', version: 'v1.4', icon: LucideSearch },
+      markerColor: 'var(--aeris-warning)',
+      data: { owner: 'Sofia Rossi', version: 'v1.4', icon: LucideShieldCheck },
     },
     {
       id: 'release',
       title: 'Release',
       description: 'Packages will publish after final approval.',
       date: 'May 28',
-      markerColor: '#9b5f84',
-      data: { owner: 'Liam Novak', version: 'v1.4', icon: LucideRocket },
+      markerColor: 'var(--aeris-primary)',
+      data: { owner: 'Liam Novak', version: 'v1.4', icon: LucidePackageCheck },
     },
   ];
 }
@@ -566,12 +566,20 @@ export class TimelineTemplatesCustomMarkerIconsAndColorsDemo {
 #### HTML
 
 ```html
-<aeris-timeline align="alternate" [activeIndex]="1" [value]="customEvents">
+<aeris-timeline
+  class="timeline-demo--custom"
+  align="alternate"
+  [activeIndex]="1"
+  [value]="customEvents"
+>
   <ng-template aerisTimelineMarker let-item>
-    <svg
-      class="timeline-marker-icon"
-      [lucideIcon]="$any(item).data.icon"
-    ></svg>
+    <span class="timeline-marker-icon">
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        [lucideIcon]="$any(item).data.icon"
+      ></svg>
+    </span>
   </ng-template>
 
   <ng-template aerisTimelineOpposite let-item>
@@ -592,12 +600,25 @@ export class TimelineTemplatesCustomMarkerIconsAndColorsDemo {
 #### CSS
 
 ```css
+.timeline-demo--custom {
+  --aeris-timeline-marker-size: 2rem;
+  --aeris-timeline-separator-size: 2.75rem;
+}
+
 .timeline-marker-icon {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, currentColor 12%, var(--aeris-surface));
+}
+
+.timeline-marker-icon svg {
   width: 1rem;
   height: 1rem;
-  padding: 0.125rem;
-  border-radius: 50%;
-  background: color-mix(in srgb, currentColor 14%, var(--aeris-surface));
+  stroke-width: 2;
 }
 
 .release-date {

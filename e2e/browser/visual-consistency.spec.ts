@@ -39,6 +39,39 @@ for (const [palette, mode, density, radius] of PRESETS) {
     );
     await expect(input).toHaveCSS('border-radius', controlRadius);
 
+    const focusStyles = async (control: typeof input) => {
+      await control.focus();
+      return control.evaluate((element) => {
+        const styles = getComputedStyle(element);
+
+        return {
+          borderColor: styles.borderColor,
+          boxShadow: styles.boxShadow,
+        };
+      });
+    };
+    const inputFocus = await focusStyles(input);
+    const selectFocus = await focusStyles(page.getByRole('combobox', { name: 'Role' }));
+    const datePickerFocus = await focusStyles(page.getByRole('combobox', { name: 'Deadline' }));
+
+    expect(selectFocus).toEqual(inputFocus);
+    expect(datePickerFocus).toEqual(inputFocus);
+    expect(inputFocus.boxShadow).not.toBe('none');
+
+    const foundationTokens = await page.locator('html').evaluate((element) => {
+      const styles = getComputedStyle(element);
+
+      return [
+        '--aeris-control-hover-border',
+        '--aeris-control-focus-border',
+        '--aeris-control-focus-ring-color',
+        '--aeris-control-invalid-border',
+        '--aeris-control-invalid-focus-ring-color',
+        '--aeris-overlay-shadow',
+      ].map((token) => styles.getPropertyValue(token).trim());
+    });
+    expect(foundationTokens.every(Boolean)).toBe(true);
+
     const menuTrigger = page.getByRole('button', { name: 'Open popup menu' });
     await menuTrigger.click();
     const panel = page.locator('.aeris-menu__panel[data-popup]');

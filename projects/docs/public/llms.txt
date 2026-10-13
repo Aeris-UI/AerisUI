@@ -1,6 +1,6 @@
 # Aeris UI
 
-> Aeris UI 22.0.0-alpha.9 is an accessible, responsive, themeable Angular 22 component library using standalone and signal-based APIs. It is currently alpha software and is not production ready.
+> Aeris UI 22.0.0-alpha.10 is an accessible, responsive, themeable Angular 22 component library using standalone and signal-based APIs. It is currently alpha software and is not production ready.
 
 Use component secondary entry points and load both global Aeris styles once. Aeris has no required icon library; the documentation uses Lucide only to demonstrate consumer-provided icons. Components are designed and tested to support WCAG 2.2 Level AA, mobile layouts, light and dark themes, RTL, Tailwind CSS, and Bootstrap coexistence; final accessibility conformance depends on the complete application.
 
@@ -17,6 +17,8 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 
 ## Guides
 
+- [Mobile layouts](https://aeris-ui.dev/guides/mobile): Build flexible layouts and usable forms, data views, and overlays for mobile browsers.
+- [Capacitor integration](https://aeris-ui.dev/guides/capacitor): Understand Aeris overlay behavior, safe-area integration, and Android Back handling in Capacitor apps.
 - [Installation](https://aeris-ui.dev/guides/installation): Install Aeris, load its styles, configure the provider, and render your first component.
 - [Configuration](https://aeris-ui.dev/guides/configuration): Configure Aeris at application startup and update supported settings at runtime.
 - [Forms and validation](https://aeris-ui.dev/guides/forms): Connect Aeris controls to signals or Angular Forms with accessible labels and validation.
@@ -134,6 +136,7 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [Badge](https://aeris-ui.dev/ai/22/components/badge.md): Compact status, count, and overlay indicator with severity, size, shape, and accessible semantics.
 - [BlockUI](https://aeris-ui.dev/ai/22/components/block-ui.md): Temporarily block a content region or the full viewport with a dark interaction-blocking layer.
 - [Chip](https://aeris-ui.dev/ai/22/components/chip.md): Represent compact entities with labels, images, consumer icons, custom content, and accessible removal.
+- [CodeBlock](https://aeris-ui.dev/ai/22/components/code-block.md): Display syntax-highlighted code with source tabs, line numbers, focused lines, and accessible copy actions.
 - [Fluid](https://aeris-ui.dev/ai/22/components/fluid.md): Make compatible Aeris controls fill the available width through one responsive layout wrapper.
 - [Inplace](https://aeris-ui.dev/ai/22/components/inplace.md): Switch between a compact display and lazily rendered content with controlled state and accessible focus management.
 - [MeterGroup](https://aeris-ui.dev/ai/22/components/meter-group.md): Visualize multiple scalar contributions within a known range using responsive segments, legends, templates, and meter semantics.

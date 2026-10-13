@@ -1,6 +1,7 @@
 import { AERIS_SEMANTIC_TONE_NAMES } from './aeris-semantic-tones';
 import {
   AERIS_DEFAULT_THEME,
+  AERIS_THEME_PRESETS,
   type AerisDensityScale,
   type AerisPalette,
   type AerisRadiusScale,
@@ -9,31 +10,47 @@ import {
   type AerisThemeScheme,
 } from './aeris-theme';
 
+const AERIS_THEME_RESOLUTION_BASE: AerisTheme = {
+  ...AERIS_DEFAULT_THEME,
+  palette: {
+    ...AERIS_THEME_PRESETS.earth.palette,
+    mist: AERIS_THEME_PRESETS.earth.palette.surface,
+    sage: AERIS_THEME_PRESETS.earth.palette.primary,
+    cloud: AERIS_THEME_PRESETS.earth.palette.secondary,
+    sand: AERIS_THEME_PRESETS.earth.palette.accent,
+    umber: AERIS_THEME_PRESETS.earth.palette.contrast,
+  },
+  light: {},
+  dark: { ...AERIS_THEME_PRESETS.earth.dark },
+};
+
 /** Resolves an optional theme override against the complete Aeris defaults. */
 export function resolveAerisTheme(theme: AerisThemeOverride | undefined): AerisTheme {
+  const base = theme === undefined ? AERIS_DEFAULT_THEME : AERIS_THEME_RESOLUTION_BASE;
+
   return {
-    ...AERIS_DEFAULT_THEME,
+    ...base,
     ...theme,
     palette: {
-      ...AERIS_DEFAULT_THEME.palette,
+      ...base.palette,
       ...normalizeAerisPalette(theme?.palette),
     },
     light: {
-      ...AERIS_DEFAULT_THEME.light,
+      ...base.light,
       ...theme?.light,
-      tones: mergeAerisSemanticTones(AERIS_DEFAULT_THEME.light.tones, theme?.light?.tones),
+      tones: mergeAerisSemanticTones(base.light.tones, theme?.light?.tones),
     },
     dark: {
-      ...AERIS_DEFAULT_THEME.dark,
+      ...base.dark,
       ...theme?.dark,
-      tones: mergeAerisSemanticTones(AERIS_DEFAULT_THEME.dark.tones, theme?.dark?.tones),
+      tones: mergeAerisSemanticTones(base.dark.tones, theme?.dark?.tones),
     },
     densities: {
-      ...AERIS_DEFAULT_THEME.densities,
+      ...base.densities,
       ...theme?.densities,
     },
     radii: {
-      ...AERIS_DEFAULT_THEME.radii,
+      ...base.radii,
       ...theme?.radii,
     },
   };

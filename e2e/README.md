@@ -10,6 +10,32 @@ Run the complete suite with `npm run test:e2e`. If the library is already built,
 Failed tests retain a Playwright trace, screenshot, and video in `test-results/`; open a trace with
 `npx playwright show-trace <trace.zip>`.
 
+Use Node 24.15.0 (matching CI) for reproducible browser verification, and install the matching
+test engines with `npx playwright install chromium firefox webkit`. The local Firefox engine has
+exhibited startup failures under Node 26 that do not occur with CI's Node 24 runtime.
+External Google Fonts stylesheets are stubbed in browser fixtures; app assets and runtime errors
+remain checked. Font CDN availability is not a component-behavior regression.
+
+The browser CI job builds both applications once and serves their compiled files through a
+local-only static server. This removes cold dev-server compilation and HMR from browser-test
+deadlines. Production optimization remains enabled; only external font inlining is disabled so
+the browser font stub stays deterministic. Layout matrix cases have independent test deadlines,
+with no extra retries or blanket timeout increases.
+
+To reproduce that setup in PowerShell after building the library:
+
+```powershell
+npm run test:browser-server
+npm run build:browser-apps
+$env:AERIS_E2E_BUILT_APPS = 'true'
+npm run test:e2e:critical
+Remove-Item Env:AERIS_E2E_BUILT_APPS
+```
+
+Tests needing additional device contexts use the shared `createContext` fixture so font routing
+and runtime-error checks apply to those pages too. Landing-page accessibility audits start each
+mode in a fresh document; separate interaction checks verify live theme switching and persistence.
+
 Playwright device profiles emulate viewport, pointer, touch, and user-agent behavior. They do not
 replace testing on physical devices. Before a release, smoke-test the production documentation and
 a small consumer application on:
@@ -35,3 +61,37 @@ Automation is evidence, not a universal WCAG-conformance claim. Before a release
 keyboard order and visible focus at 100% and 200% zoom, high-contrast/forced-colors presentation,
 and representative workflows with current VoiceOver/Safari and NVDA/Firefox. Record the assistive
 technology, browser, operating-system version, and any untested combination in the release review.
+
+## Visual baselines
+
+`npm run test:e2e:visual` compares reviewed PNG references for all four themes in both modes,
+soft/rounded/pill corners, phone/tablet/laptop/wide widths, and resting catalog cards. These checks
+use reduced motion to make captures deterministic. The separate `visual` CI job runs Windows
+Chromium, matching the reference environment; font rasterization makes cross-OS pixel comparisons
+unreliable. Other operating systems skip this project, not the cross-browser behavior tests.
+
+After an intentional visual change, run on Windows:
+
+```sh
+npm run build:lib
+npm run test:e2e:visual -- --update-snapshots
+npm run test:e2e:visual
+```
+
+Inspect every changed PNG in `e2e/browser/visual-baselines.spec.ts-snapshots/` before committing it.
+Never update references automatically in CI or to silence an unexplained regression. Failed
+comparisons retain expected, actual, and difference images in the report.
+
+Catalog quality checks cover keyboard navigation, inert preview content, automated accessibility,
+responsive bounds, rapid motion interruption, and reduced motion in Chromium, Firefox, and WebKit.
+The critical command includes these and the docs layout projects. Mobile foundation tests separately
+exercise coarse pointers, safe areas, keyboard-sized visual viewports, and nested overlays.
+
+The production docs build enforces `tools/doc-performance-budgets.json`: initial assets, incremental
+catalog route JavaScript (including embedded component CSS), and the union of every deferred preview family's static imports. Shared
+initial assets and shared dependencies are counted once; the full preview total is not a first-load
+payload. Budgets are based on the measured baseline with limited headroom. Raising one requires a
+measured reason, not just a failing build.
+
+Physical Safari, Android WebView, and WKWebView verification remains manual. Use the recording
+template in [the native testbed](../tools/mobile-testbed/README.md#release-verification-record).

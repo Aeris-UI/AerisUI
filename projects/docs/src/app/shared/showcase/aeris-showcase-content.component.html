@@ -1,0 +1,1157 @@
+@switch (activeView()) {
+  @case ('components') {
+    <section class="product-preview components-preview" aria-label="Component collection">
+      <div class="components-preview__canvas">
+        <div class="components-preview__column components-preview__column--primary">
+          <section class="component-sample component-sample--fields">
+            <header class="preview-card-heading">
+              <div><strong>Form fields</strong><small>Inputs for common data</small></div>
+            </header>
+            <div class="component-sample__fields">
+              <label>
+                <span>Email</span>
+                <aeris-icon-field fluid>
+                  <svg aerisIconStart [lucideIcon]="icons.Mail" aria-hidden="true"></svg>
+                  <input aerisInputText fluid type="email" value="maya@northstar.dev" />
+                </aeris-icon-field>
+              </label>
+              <label>
+                <span>Team</span>
+                <aeris-select
+                  fluid
+                  ariaLabel="Team"
+                  [options]="teamOptions"
+                  [(value)]="componentSelect"
+                />
+              </label>
+              <label class="component-sample__wide">
+                <span>Note</span>
+                <textarea aerisTextarea fluid rows="2">
+Polished, accessible and ready to compose.</textarea>
+              </label>
+            </div>
+          </section>
+
+          <section class="component-sample component-sample--choices">
+            <header class="preview-card-heading">
+              <div><strong>Choices</strong><small>Selection and preferences</small></div>
+            </header>
+            <div class="component-sample__stack">
+              <aeris-checkbox [(checked)]="componentCheckbox" label="Email notifications" />
+              <div class="component-sample__setting">
+                <span
+                  ><strong>Automatic updates</strong><small>Install stable releases</small></span
+                >
+                <aeris-toggle-switch
+                  size="sm"
+                  ariaLabel="Automatic updates"
+                  [(checked)]="componentToggle"
+                />
+              </div>
+              <label class="component-sample__range">
+                <span
+                  ><strong>Volume</strong><small>{{ componentSlider() }}%</small></span
+                >
+                <aeris-slider fluid size="sm" ariaLabel="Volume" [(value)]="componentSlider" />
+              </label>
+            </div>
+          </section>
+        </div>
+
+        <div class="components-preview__column components-preview__column--secondary">
+          <section class="component-sample component-sample--actions">
+            <header class="preview-card-heading">
+              <div><strong>Actions</strong><small>Buttons and contextual help</small></div>
+            </header>
+            <div class="component-sample__row">
+              <button aerisButton type="button" (click)="showComponentNotice('Primary action')">
+                Continue
+              </button>
+              <button
+                aerisButton
+                type="button"
+                variant="outline"
+                (click)="showComponentNotice('Secondary action')"
+              >
+                Preview
+              </button>
+              <button
+                aerisButton
+                type="button"
+                variant="ghost"
+                iconOnly
+                aria-label="More actions"
+                aerisTooltip="More actions"
+                (click)="
+                  showComponentNotice(
+                    'Try changing the volume, rating, or team, then switch tabs. Your choices stay in this preview.'
+                  )
+                "
+              >
+                <svg [lucideIcon]="icons.MoreHorizontal"></svg>
+              </button>
+            </div>
+            <aeris-message size="sm" variant="simple" [text]="componentNotice()" />
+          </section>
+
+          <section class="component-sample component-sample--status">
+            <header class="preview-card-heading">
+              <div><strong>Status</strong><small>Progress and feedback</small></div>
+              <aeris-badge [value]="componentSlider() + '%'" severity="success" variant="soft" />
+            </header>
+            <div class="component-sample__stack">
+              <aeris-progress-bar
+                [value]="componentSlider()"
+                size="sm"
+                [showValue]="false"
+                ariaLabel="Upload progress"
+              />
+              <aeris-meter-group
+                [items]="componentMeters"
+                size="sm"
+                [showLegend]="false"
+                ariaLabel="Project status"
+              />
+              <aeris-message size="sm" severity="success" text="All checks passed" />
+            </div>
+          </section>
+
+          <section class="component-sample component-sample--navigation">
+            <header class="preview-card-heading">
+              <div>
+                <strong>Navigation</strong><small>Switch context without losing state</small>
+              </div>
+            </header>
+            <aeris-tabs [(value)]="componentTab" ariaLabel="Component sample tabs">
+              <aeris-tab-panel value="forms" label="Overview">
+                <p class="component-sample__copy">
+                  Everything you need, composed from small parts.
+                </p>
+              </aeris-tab-panel>
+              <aeris-tab-panel value="actions" label="Activity">
+                <p class="component-sample__copy">Three updates were added today.</p>
+              </aeris-tab-panel>
+            </aeris-tabs>
+            <div class="component-sample__rating">
+              <span
+                ><strong>Experience</strong><small>{{ componentRating() }} out of 5</small></span
+              >
+              <aeris-rating [(value)]="componentRating" ariaLabel="Experience rating" />
+            </div>
+          </section>
+        </div>
+
+        <div class="components-preview__column components-preview__column--tertiary">
+          <aeris-card class="component-sample component-sample--identity" padding="md">
+            <header aerisCardHeader class="preview-card-heading">
+              <div><strong>Identity</strong><small>People, labels and metadata</small></div>
+            </header>
+            <div class="component-sample__people">
+              <div class="component-sample__avatars">
+                <aeris-avatar label="MC" ariaLabel="Maya Chen" />
+                <aeris-avatar label="NW" ariaLabel="Noah Williams" />
+                <aeris-avatar label="SR" ariaLabel="Sofia Rossi" />
+              </div>
+              <aeris-badge value="12 updates" severity="info" variant="soft" />
+            </div>
+            <aeris-divider spacing="sm" />
+            <div class="component-sample__row">
+              <aeris-chip label="Design" tone="primary" />
+              <aeris-chip label="Accessible" tone="success" />
+              <aeris-chip label="Review" tone="warning" removable />
+            </div>
+          </aeris-card>
+
+          <section class="component-sample component-sample--verification">
+            <header class="preview-card-heading">
+              <div><strong>Verification</strong><small>Secure account access</small></div>
+              <aeris-badge value="Protected" severity="success" size="sm" variant="soft" />
+            </header>
+            <aeris-input-otp size="sm" ariaLabel="Verification code" [(value)]="componentOtp" />
+            <div class="component-sample__verification-meta">
+              <small>Expires in 02:00</small>
+              <button
+                aerisButton
+                type="button"
+                size="sm"
+                variant="ghost"
+                (click)="componentOtp.set('')"
+              >
+                Reset
+              </button>
+            </div>
+          </section>
+
+          <section class="component-sample component-sample--details">
+            <header class="preview-card-heading">
+              <div><strong>Details</strong><small>Reveal information on demand</small></div>
+            </header>
+            <aeris-accordion ariaLabel="Project details" size="sm" value="delivery">
+              <aeris-accordion-panel value="delivery" header="Delivery">
+                Ready for the October release window.
+              </aeris-accordion-panel>
+              <aeris-accordion-panel value="access" header="Access">
+                Shared with the product and engineering teams.
+              </aeris-accordion-panel>
+            </aeris-accordion>
+          </section>
+        </div>
+      </div>
+    </section>
+  }
+
+  @case ('dashboard') {
+    <section class="product-preview dashboard-preview" aria-label="Operations dashboard example">
+      <aside class="dashboard-preview__sidebar">
+        <div class="dashboard-preview__brand">
+          <span class="product-mark" aria-hidden="true">
+            <svg [lucideIcon]="icons.Layers"></svg>
+          </span>
+          <span><strong>Northstar</strong><small>Team workspace</small></span>
+        </div>
+        <nav aria-label="Dashboard sections">
+          <button aerisButton type="button" size="sm" variant="solid" severity="secondary">
+            <svg [lucideIcon]="icons.Home" aria-hidden="true"></svg>
+            Dashboard
+          </button>
+          <button
+            aerisButton
+            type="button"
+            size="sm"
+            variant="ghost"
+            (click)="viewRequested.emit('crm')"
+          >
+            <svg [lucideIcon]="icons.Package" aria-hidden="true"></svg>
+            Pipeline
+          </button>
+          <button
+            aerisButton
+            type="button"
+            size="sm"
+            variant="ghost"
+            (click)="viewRequested.emit('chat')"
+          >
+            <svg [lucideIcon]="icons.Users" aria-hidden="true"></svg>
+            Team
+          </button>
+          <button
+            aerisButton
+            type="button"
+            size="sm"
+            variant="ghost"
+            (click)="viewRequested.emit('finances')"
+          >
+            <svg [lucideIcon]="icons.BarChart3" aria-hidden="true"></svg>
+            Reports
+          </button>
+        </nav>
+        <div class="dashboard-preview__profile">
+          <aeris-avatar label="MC" ariaLabel="Maya Chen" size="sm" />
+          <span><strong>Maya Chen</strong><small>Administrator</small></span>
+        </div>
+      </aside>
+
+      <div class="dashboard-preview__main">
+        <aeris-toolbar
+          class="product-toolbar"
+          size="sm"
+          variant="plain"
+          [wrap]="true"
+          ariaLabel="Dashboard actions"
+        >
+          <div aerisToolbarStart>
+            <span class="product-mark" aria-hidden="true"
+              ><svg [lucideIcon]="icons.BarChart3"></svg
+            ></span>
+            <span><strong>Operations</strong><small>Tuesday, October 8</small></span>
+          </div>
+          <div aerisToolbarEnd class="product-toolbar__actions">
+            <aeris-chip label="Live" size="sm" tone="success" />
+            <button
+              aerisButton
+              type="button"
+              size="sm"
+              variant="outline"
+              (click)="exportDashboard()"
+            >
+              <svg [lucideIcon]="icons.Download" aria-hidden="true"></svg>
+              Export
+            </button>
+          </div>
+        </aeris-toolbar>
+        <div class="dashboard-preview__content">
+          <div class="product-metrics product-metrics--three">
+            <aeris-card padding="md"
+              ><span>Monthly revenue</span><strong>$84.2k</strong
+              ><small>12.4% above target</small></aeris-card
+            >
+            <aeris-card padding="md"
+              ><span>Active accounts</span><strong>2,418</strong
+              ><small>96 joined this week</small></aeris-card
+            >
+            <aeris-card padding="md"
+              ><span>Resolution time</span><strong>2.4h</strong
+              ><small>18 minutes faster</small></aeris-card
+            >
+          </div>
+          <div class="dashboard-preview__grid">
+            <aeris-card padding="lg">
+              <header aerisCardHeader class="preview-card-heading">
+                <div>
+                  <strong>Workspace activity</strong><small>Completed work over six weeks</small>
+                </div>
+                <aeris-badge value="+14%" severity="success" variant="soft" />
+              </header>
+              <div class="dashboard-preview__chart">
+                <aeris-chart
+                  type="bar"
+                  [data]="dashboardChartData"
+                  [options]="compactChartOptions"
+                  height="15rem"
+                  ariaLabel="Workspace activity over six weeks"
+                />
+              </div>
+            </aeris-card>
+            <aeris-card padding="lg">
+              <header aerisCardHeader class="preview-card-heading">
+                <div>
+                  <strong>Today</strong
+                  ><small
+                    >{{ completedTasks().length }} of {{ dashboardTasks.length }} tasks
+                    complete</small
+                  >
+                </div>
+                <aeris-progress-bar
+                  size="sm"
+                  [value]="taskProgress()"
+                  [showValue]="false"
+                  ariaLabel="Today's task completion"
+                />
+              </header>
+              <div class="dashboard-preview__tasks">
+                @for (task of dashboardTasks; track task.label) {
+                  <label>
+                    <aeris-checkbox
+                      [checked]="completedTasks().includes(task.label)"
+                      (checkedChange)="toggleTask(task.label, $event)"
+                      [label]="task.label"
+                    />
+                    <small>{{ task.owner }}</small>
+                  </label>
+                }
+              </div>
+            </aeris-card>
+          </div>
+          <aeris-card padding="lg">
+            <header aerisCardHeader class="preview-card-heading">
+              <div>
+                <strong>Recent activity</strong><small>What changed across the workspace</small>
+              </div>
+              <button
+                aerisButton
+                type="button"
+                size="sm"
+                variant="ghost"
+                (click)="showAllActivity.update(toggle)"
+              >
+                {{ showAllActivity() ? 'Show less' : 'View all' }}
+              </button>
+            </header>
+            <div class="dashboard-preview__activity">
+              @for (item of dashboardActivity; track item.title) {
+                <article>
+                  <aeris-avatar [label]="item.initials" [ariaLabel]="item.person" size="sm" />
+                  <span
+                    ><strong>{{ item.title }}</strong
+                    ><small>{{ item.person }} · {{ item.time }}</small></span
+                  >
+                  <aeris-badge [value]="item.status" size="sm" variant="soft" />
+                </article>
+              }
+              @if (showAllActivity()) {
+                <article>
+                  <aeris-avatar label="EF" ariaLabel="Elias Ford" size="sm" />
+                  <span
+                    ><strong>Updated the weekly forecast</strong
+                    ><small>Elias Ford · Yesterday</small></span
+                  >
+                  <aeris-badge value="Complete" size="sm" variant="soft" />
+                </article>
+                <article>
+                  <aeris-avatar label="MC" ariaLabel="Maya Chen" size="sm" />
+                  <span
+                    ><strong>Published the team summary</strong
+                    ><small>Maya Chen · Yesterday</small></span
+                  >
+                  <aeris-badge value="New" size="sm" variant="soft" />
+                </article>
+              }
+            </div>
+          </aeris-card>
+        </div>
+      </div>
+    </section>
+  }
+
+  @case ('chat') {
+    <section class="product-preview chat-preview" aria-label="Team chat product example">
+      <aside class="chat-preview__threads">
+        <header>
+          <div><strong>Messages</strong><small>Northstar workspace</small></div>
+          <button
+            aerisButton
+            type="button"
+            size="sm"
+            variant="ghost"
+            iconOnly
+            aria-label="Start a conversation"
+            aerisTooltip="Start a conversation"
+            [attr.aria-expanded]="newConversationOpen()"
+            (click)="newConversationOpen.update(toggle)"
+          >
+            <svg [lucideIcon]="icons.Plus" aria-hidden="true"></svg>
+          </button>
+        </header>
+        @if (newConversationOpen()) {
+          <form class="preview-inline-form" (submit)="$event.preventDefault(); startConversation()">
+            <aeris-select
+              fluid
+              ariaLabel="Conversation recipient"
+              [options]="conversationOptions()"
+              [(value)]="conversationRecipient"
+            />
+            <button aerisButton type="submit" size="sm">Start conversation</button>
+          </form>
+        }
+        <aeris-icon-field size="sm" fluid>
+          <svg aerisIconStart [lucideIcon]="icons.Search" aria-hidden="true"></svg>
+          <input
+            aerisInputText
+            size="sm"
+            fluid
+            type="search"
+            placeholder="Search messages"
+            aria-label="Search messages"
+            [value]="chatSearch()"
+            (input)="chatSearch.set($any($event.target).value)"
+          />
+        </aeris-icon-field>
+        <nav aria-label="Conversations">
+          @for (thread of visibleThreads(); track thread.id) {
+            <button
+              aerisButton
+              type="button"
+              size="sm"
+              variant="ghost"
+              severity="neutral"
+              fluid
+              [attr.aria-current]="activeThreadId() === thread.id ? 'page' : null"
+              (click)="selectThread(thread.id)"
+            >
+              <span class="chat-preview__thread-content">
+                <aeris-avatar [label]="thread.initials" [ariaLabel]="thread.name" size="sm" />
+                <span
+                  ><strong>{{ thread.name }}</strong
+                  ><small>{{ thread.preview }}</small></span
+                >
+                <span class="chat-preview__thread-meta">
+                  <small>{{ thread.time }}</small>
+                  @if (thread.unread && !readThreads().includes(thread.id)) {
+                    <aeris-badge [value]="thread.unread" size="sm" />
+                  }
+                </span>
+              </span>
+            </button>
+          } @empty {
+            <p class="preview-empty">No conversations match your search.</p>
+          }
+        </nav>
+      </aside>
+
+      <div class="chat-preview__conversation">
+        <aeris-toolbar
+          class="product-toolbar"
+          size="sm"
+          variant="plain"
+          [wrap]="true"
+          ariaLabel="Conversation actions"
+        >
+          <div aerisToolbarStart>
+            <aeris-avatar
+              [label]="activeThread().initials"
+              [ariaLabel]="activeThread().name"
+              size="sm"
+            />
+            <span
+              ><strong>{{ activeThread().name }}</strong
+              ><small>Active now</small></span
+            >
+          </div>
+          <div aerisToolbarEnd class="product-toolbar__actions">
+            <button
+              aerisButton
+              type="button"
+              size="sm"
+              variant="ghost"
+              iconOnly
+              aria-label="Conversation information"
+              aerisTooltip="Conversation information"
+              [attr.aria-expanded]="chatInfoOpen()"
+              (click)="chatInfoOpen.update(toggle)"
+            >
+              <svg [lucideIcon]="icons.Info"></svg>
+            </button>
+          </div>
+        </aeris-toolbar>
+        <div class="chat-preview__messages" aria-live="polite">
+          @if (chatInfoOpen()) {
+            <aeris-message
+              severity="info"
+              size="sm"
+              [text]="
+                'Conversation with ' +
+                activeThread().name +
+                '. Messages are stored only for this preview.'
+              "
+            />
+          }
+          <p class="chat-preview__date">Today</p>
+          @for (message of chatMessages(); track message.id) {
+            <article [attr.data-own]="message.author === 'You' || null">
+              <span>{{ message.text }}</span>
+              <small>{{ message.author }} · {{ message.time }}</small>
+            </article>
+          }
+        </div>
+        <form class="chat-preview__composer" (submit)="sendMessage($event)">
+          <label class="visually-hidden" for="showcase-chat-message">
+            Message {{ activeThread().name }}
+          </label>
+          <aeris-input-group fluid size="sm">
+            <input
+              aerisInputText
+              id="showcase-chat-message"
+              fluid
+              type="text"
+              placeholder="Write a message…"
+              [value]="chatDraft()"
+              (input)="chatDraft.set($any($event.target).value)"
+            />
+            <button aerisButton type="submit" size="sm" iconOnly aria-label="Send message">
+              <svg [lucideIcon]="icons.SendHorizontal" aria-hidden="true"></svg>
+            </button>
+          </aeris-input-group>
+        </form>
+      </div>
+    </section>
+  }
+
+  @case ('crm') {
+    <section class="product-preview crm-preview" aria-label="Customer relationship product example">
+      <aeris-toolbar
+        class="product-toolbar"
+        size="sm"
+        variant="plain"
+        [wrap]="true"
+        ariaLabel="Pipeline actions"
+      >
+        <div aerisToolbarStart>
+          <span class="product-mark" aria-hidden="true"
+            ><svg [lucideIcon]="icons.Users"></svg
+          ></span>
+          <span><strong>Pipeline</strong><small>Sales workspace</small></span>
+        </div>
+        <div aerisToolbarEnd class="product-toolbar__actions">
+          <button aerisButton type="button" size="sm" variant="outline" (click)="resetCrmView()">
+            Reset view
+          </button>
+          <button aerisButton type="button" size="sm" (click)="addLead()">
+            <svg [lucideIcon]="icons.Plus" aria-hidden="true"></svg>
+            Add lead
+          </button>
+        </div>
+      </aeris-toolbar>
+
+      <div class="crm-preview__content">
+        @if (leadFormOpen()) {
+          <form class="preview-inline-form preview-inline-form--lead" (submit)="createLead($event)">
+            <strong>New opportunity</strong>
+            <label
+              ><span>Company</span><input aerisInputText fluid name="company" required
+            /></label>
+            <label
+              ><span>Contact</span><input aerisInputText fluid name="contact" required
+            /></label>
+            <label
+              ><span>Value</span
+              ><aeris-input-number
+                fluid
+                ariaLabel="Opportunity value"
+                [min]="0"
+                [(value)]="leadValue"
+            /></label>
+            <div class="preview-card-actions">
+              <button aerisButton type="submit" size="sm">Save lead</button>
+              <button
+                aerisButton
+                type="button"
+                size="sm"
+                variant="ghost"
+                (click)="leadFormOpen.set(false)"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        }
+        @if (crmFeedback()) {
+          <aeris-message
+            size="sm"
+            severity="info"
+            closable
+            [text]="crmFeedback()"
+            (closed)="crmFeedback.set('')"
+          />
+        }
+        <div class="product-metrics product-metrics--three">
+          <aeris-card padding="md"
+            ><span>Open pipeline</span><strong>{{ pipelineValue() }}</strong>
+            <small>Across {{ crmData().length }} opportunities</small></aeris-card
+          >
+          <aeris-card padding="md"
+            ><span>Win rate</span><strong>38%</strong><small>+4.2% this quarter</small></aeris-card
+          >
+          <aeris-card padding="md"
+            ><span>Forecast</span><strong>$72k</strong><small>Weighted revenue</small></aeris-card
+          >
+        </div>
+
+        <div class="crm-preview__layout">
+          <section class="crm-preview__table-panel" aria-label="Opportunity records">
+            <aeris-table
+              caption="Active sales opportunities"
+              size="sm"
+              [data]="crmData()"
+              [columns]="crmColumns"
+              globalFilter
+              filterLabel="Search opportunities"
+              filterPlaceholder="Company, contact, stage, or value"
+              [(filterValue)]="crmFilter"
+              columnFilter
+              [columnFilterPlaceholder]="crmColumnFilterPlaceholders"
+              [(columnFilters)]="crmColumnFilters"
+              [(sort)]="crmSort"
+              selectionMode="single"
+              selectionControl="row"
+              [(selectedKeys)]="crmSelectedKeys"
+              (rowSelected)="handleCrmSelection($event)"
+              paginator
+              [(first)]="crmFirst"
+              [rows]="5"
+              [rowsPerPageOptions]="[5, 10]"
+              [pageLinkSize]="3"
+              paginatorAriaLabel="Opportunity pages"
+              striped
+              resizableColumns
+              reorderableColumns
+              showOverflowTooltip
+              responsiveMode="stack"
+            >
+              <ng-template aerisTableCell let-value let-row="row" let-column="column">
+                @if (column.field === 'company') {
+                  <span class="crm-preview__company-cell">
+                    <strong>{{ row['company'] }}</strong>
+                    <small>{{ row['contact'] }}</small>
+                  </span>
+                } @else if (column.field === 'stage') {
+                  <aeris-badge [value]="$any(row['stage'])" size="sm" variant="soft" />
+                } @else if (column.field === 'value') {
+                  <strong>{{ row['valueLabel'] }}</strong>
+                } @else if (column.field === 'probability') {
+                  <span class="crm-preview__confidence-cell">
+                    <aeris-progress-bar
+                      size="sm"
+                      [value]="$any(row['probability'])"
+                      [showValue]="false"
+                      [ariaLabel]="$any(row['company']) + ' confidence'"
+                    />
+                    <small>{{ row['probability'] }}%</small>
+                  </span>
+                } @else {
+                  {{ value }}
+                }
+              </ng-template>
+            </aeris-table>
+          </section>
+
+          <aeris-card padding="lg">
+            <header aerisCardHeader class="preview-card-heading">
+              <div><strong>Pipeline mix</strong><small>By current stage</small></div>
+            </header>
+            <aeris-meter-group
+              [items]="pipeline"
+              legendLayout="column"
+              ariaLabel="Pipeline by stage"
+            />
+            <aeris-divider spacing="md" />
+            <div class="crm-preview__contact">
+              <aeris-avatar
+                [label]="selectedCrmLead().initials"
+                [ariaLabel]="selectedCrmLead().contact"
+                size="lg"
+              />
+              <div>
+                <strong>{{ selectedCrmLead().contact }}</strong>
+                <span>{{ selectedCrmLead().title }} · {{ selectedCrmLead().company }}</span>
+              </div>
+              <button
+                aerisButton
+                type="button"
+                size="sm"
+                variant="outline"
+                [disabled]="selectedFollowUpScheduled()"
+                (click)="scheduleFollowUp()"
+              >
+                {{ selectedFollowUpScheduled() ? 'Scheduled' : 'Follow up' }}
+              </button>
+            </div>
+          </aeris-card>
+        </div>
+
+        <div class="crm-preview__footer-grid">
+          <aeris-card padding="lg">
+            <header aerisCardHeader class="preview-card-heading">
+              <div><strong>Next actions</strong><small>Keep opportunities moving</small></div>
+              <aeris-badge value="3 due" severity="warning" variant="soft" />
+            </header>
+            <div class="crm-preview__tasks">
+              @for (lead of followUpLeads(); track lead.id) {
+                <label
+                  ><aeris-checkbox [label]="'Follow up with ' + lead.company" /><small
+                    >{{ lead.contact }} · Tomorrow</small
+                  ></label
+                >
+              }
+              <label
+                ><aeris-checkbox label="Send Northwind proposal" /><small
+                  >Today · Ava Morgan</small
+                ></label
+              >
+              <label
+                ><aeris-checkbox label="Prepare Relay pricing" /><small
+                  >Tomorrow · Nora Patel</small
+                ></label
+              >
+              <label
+                ><aeris-checkbox [checked]="true" label="Qualify Keystone Health" /><small
+                  >Completed by Maya</small
+                ></label
+              >
+            </div>
+          </aeris-card>
+          <aeris-card padding="lg">
+            <header aerisCardHeader class="preview-card-heading">
+              <div>
+                <strong>Quarterly goal</strong><small>$72k of $100k weighted revenue</small>
+              </div>
+            </header>
+            <aeris-progress-bar [value]="72" ariaLabel="Quarterly sales goal" />
+            <div class="crm-preview__goal-meta">
+              <span><strong>18</strong><small>Open deals</small></span>
+              <span><strong>6</strong><small>Closing soon</small></span>
+              <span><strong>38%</strong><small>Win rate</small></span>
+            </div>
+          </aeris-card>
+        </div>
+      </div>
+    </section>
+  }
+
+  @case ('mail') {
+    <section
+      class="product-preview mail-preview"
+      aria-label="Mail product example"
+      [attr.data-mobile-view]="mailMobileView()"
+    >
+      <aside class="mail-preview__sidebar">
+        <div class="mail-preview__brand">
+          <span class="product-mark" aria-hidden="true"><svg [lucideIcon]="icons.Mail"></svg></span>
+          <strong>Northstar Mail</strong>
+        </div>
+        <button aerisButton type="button" fluid (click)="openComposer()">
+          <svg [lucideIcon]="icons.Edit" aria-hidden="true"></svg>
+          Compose
+        </button>
+        <nav aria-label="Mail folders">
+          @for (folder of mailFolders; track folder.id) {
+            <button
+              aerisButton
+              type="button"
+              size="sm"
+              fluid
+              [variant]="mailFolder() === folder.id ? 'solid' : 'ghost'"
+              severity="secondary"
+              [attr.aria-current]="mailFolder() === folder.id ? 'page' : null"
+              (click)="selectFolder(folder.id)"
+            >
+              <span class="mail-preview__folder-content">
+                <svg [lucideIcon]="folder.icon" aria-hidden="true"></svg
+                ><span>{{ folder.label }}</span>
+              </span>
+            </button>
+          }
+        </nav>
+        <aeris-divider spacing="sm" />
+        <small>Labels</small>
+        <div class="mail-preview__labels">
+          <aeris-chip label="Release" size="sm" tone="primary" /><aeris-chip
+            label="Research"
+            size="sm"
+            tone="info"
+          /><aeris-chip label="Finance" size="sm" tone="success" />
+        </div>
+      </aside>
+
+      <div class="mail-preview__list">
+        <header>
+          <div>
+            <strong>{{ mailFolderLabel() }}</strong
+            ><small>{{ visibleMails().length }} messages</small>
+          </div>
+          <aeris-icon-field size="sm" fluid>
+            <svg aerisIconStart [lucideIcon]="icons.Search" aria-hidden="true"></svg>
+            <input
+              aerisInputText
+              fluid
+              size="sm"
+              type="search"
+              placeholder="Search mail"
+              aria-label="Search mail"
+              [value]="mailSearch()"
+              (input)="mailSearch.set($any($event.target).value)"
+            />
+          </aeris-icon-field>
+        </header>
+        <div role="listbox" aria-label="Messages">
+          @for (mail of visibleMails(); track mail.id) {
+            <button
+              aerisButton
+              type="button"
+              size="sm"
+              variant="ghost"
+              fluid
+              role="option"
+              [attr.aria-selected]="selectedMail()?.id === mail.id"
+              [attr.tabindex]="selectedMail()?.id === mail.id ? 0 : -1"
+              [attr.data-unread]="mail.unread || null"
+              (click)="selectMail(mail.id)"
+              (keydown)="handleMailKeydown($event, mail.id)"
+            >
+              <span class="mail-preview__option-content">
+                <aeris-avatar [label]="mail.initials" [ariaLabel]="mail.sender" size="sm" />
+                <span
+                  ><strong>{{ mail.sender }}</strong
+                  ><b>{{ mail.subject }}</b
+                  ><small>{{ mail.preview }}</small></span
+                >
+                <span class="mail-preview__meta"
+                  ><small>{{ mail.time }}</small>
+                  @if (mail.label) {
+                    <aeris-badge [value]="mail.label" size="sm" variant="soft" />
+                  }
+                </span>
+              </span>
+            </button>
+          } @empty {
+            <p class="preview-empty" role="status">
+              No messages here. Try another folder or search.
+            </p>
+          }
+        </div>
+      </div>
+
+      <article class="mail-preview__reader">
+        @if (mailFeedback()) {
+          <aeris-message
+            size="sm"
+            severity="success"
+            closable
+            [text]="mailFeedback()"
+            (closed)="mailFeedback.set('')"
+          />
+        }
+        @if (composeOpen()) {
+          <form class="mail-preview__compose" (submit)="sendMail($event)">
+            <header>
+              <div><strong>New message</strong><small>Release team</small></div>
+              <button
+                aerisButton
+                type="button"
+                size="sm"
+                variant="ghost"
+                iconOnly
+                aria-label="Close composer"
+                (click)="composeOpen.set(false)"
+              >
+                <svg [lucideIcon]="icons.X"></svg>
+              </button>
+            </header>
+            <label
+              ><span>To</span
+              ><input
+                aerisInputText
+                fluid
+                type="email"
+                required
+                [value]="composeTo()"
+                (input)="composeTo.set($any($event.target).value)"
+            /></label>
+            <label
+              ><span>Subject</span
+              ><input
+                aerisInputText
+                fluid
+                required
+                [value]="composeSubject()"
+                (input)="composeSubject.set($any($event.target).value)"
+            /></label>
+            <label
+              ><span>Message</span
+              ><textarea
+                aerisTextarea
+                fluid
+                rows="8"
+                required
+                placeholder="Write your message…"
+                [value]="composeBody()"
+                (input)="composeBody.set($any($event.target).value)"
+              ></textarea>
+            </label>
+            <footer><button aerisButton type="submit" size="sm">Send message</button></footer>
+          </form>
+        } @else if (selectedMail(); as mail) {
+          <header class="mail-preview__reader-header">
+            <div>
+              <button
+                class="mail-preview__mobile-back"
+                aerisButton
+                type="button"
+                size="sm"
+                variant="ghost"
+                iconOnly
+                aria-label="Back to messages"
+                (click)="mailMobileView.set('list')"
+              >
+                <svg [lucideIcon]="icons.ArrowLeft"></svg>
+              </button>
+              <h3>{{ mail.subject }}</h3>
+              <span>{{ mail.sender }} · {{ mail.time }}</span>
+            </div>
+            <div>
+              <button
+                aerisButton
+                type="button"
+                size="sm"
+                variant="ghost"
+                iconOnly
+                aria-label="Archive message"
+                aerisTooltip="Archive"
+                (click)="moveMail('archive')"
+              >
+                <svg [lucideIcon]="icons.Archive"></svg></button
+              ><button
+                aerisButton
+                type="button"
+                size="sm"
+                variant="ghost"
+                iconOnly
+                aria-label="Delete message"
+                aerisTooltip="Delete"
+                (click)="moveMail('trash')"
+              >
+                <svg [lucideIcon]="icons.Trash2"></svg>
+              </button>
+            </div>
+          </header>
+          <div class="mail-preview__sender">
+            <aeris-avatar [label]="mail.initials" [ariaLabel]="mail.sender" /><span
+              ><strong>{{ mail.sender }}</strong
+              ><small>to me</small></span
+            ><button aerisButton type="button" size="sm" variant="outline" (click)="replyToMail()">
+              Reply
+            </button>
+          </div>
+          <p>{{ mail.body }}</p>
+        } @else {
+          <p class="preview-empty">Choose a folder with messages, or compose a new one.</p>
+        }
+      </article>
+    </section>
+  }
+
+  @case ('finances') {
+    <section class="product-preview finance-preview" aria-label="Finance product example">
+      <aeris-toolbar
+        class="product-toolbar"
+        size="sm"
+        variant="plain"
+        [wrap]="true"
+        ariaLabel="Finance actions"
+      >
+        <div aerisToolbarStart>
+          <span class="product-mark" aria-hidden="true"
+            ><svg [lucideIcon]="icons.WalletCards"></svg
+          ></span>
+          <span><strong>Finance overview</strong><small>Northstar operations</small></span>
+        </div>
+        <div aerisToolbarEnd class="product-toolbar__actions">
+          <aeris-select
+            size="sm"
+            ariaLabel="Finance period"
+            [options]="financePeriods"
+            [(value)]="financePeriod"
+          />
+          <button aerisButton type="button" size="sm" variant="outline" (click)="exportFinances()">
+            <svg [lucideIcon]="icons.Download" aria-hidden="true"></svg>Export
+          </button>
+        </div>
+      </aeris-toolbar>
+
+      <div class="finance-preview__content">
+        <div class="product-metrics">
+          <aeris-card padding="md"
+            ><span>Available balance</span><strong>$48,294</strong
+            ><small>+8.4% from last month</small></aeris-card
+          >
+          <aeris-card padding="md"
+            ><span>Revenue</span><strong>{{ financeSummary().revenue }}</strong>
+            <small>For the selected period</small></aeris-card
+          >
+          <aeris-card padding="md"
+            ><span>Expenses</span><strong>{{ financeSummary().expenses }}</strong>
+            <small>For the selected period</small></aeris-card
+          >
+          <aeris-card padding="md"
+            ><span>Runway</span><strong>14.2 mo</strong
+            ><small>At current spending</small></aeris-card
+          >
+        </div>
+
+        <div class="finance-preview__grid">
+          <aeris-card padding="lg">
+            <header aerisCardHeader class="preview-card-heading">
+              <div><strong>Cash flow</strong><small>Income and operating expenses</small></div>
+              <aeris-badge [value]="financeSummary().change" severity="success" variant="soft" />
+            </header>
+            <div class="finance-preview__chart">
+              <aeris-chart
+                type="line"
+                [data]="cashflowData()"
+                [options]="chartOptions"
+                height="16rem"
+                ariaLabel="Income and expenses for the selected period"
+              />
+            </div>
+          </aeris-card>
+          <aeris-card padding="lg">
+            <header aerisCardHeader class="preview-card-heading">
+              <div>
+                <strong>{{ financeSummary().label }}</strong
+                ><small>88% of planned budget</small>
+              </div>
+            </header>
+            <aeris-meter-group
+              [items]="spending"
+              size="sm"
+              legendLayout="column"
+              ariaLabel="Monthly spending by category"
+            />
+            <aeris-divider spacing="md" />
+            <label class="finance-preview__budget"
+              ><span
+                ><strong>Budget alert</strong
+                ><small>Notify me at {{ budgetThreshold() }}%</small></span
+              ><aeris-slider
+                size="sm"
+                [(value)]="budgetThreshold"
+                ariaLabel="Budget alert threshold"
+            /></label>
+          </aeris-card>
+        </div>
+
+        <aeris-card padding="none">
+          <header aerisCardHeader class="preview-card-heading preview-card-heading--padded">
+            <div><strong>Recent transactions</strong><small>Latest account activity</small></div>
+            <button
+              aerisButton
+              type="button"
+              size="sm"
+              variant="ghost"
+              (click)="showAllTransactions.update(toggle)"
+            >
+              {{ showAllTransactions() ? 'Show less' : 'View all' }}
+            </button>
+          </header>
+          <div class="finance-preview__transactions">
+            @for (transaction of visibleTransactions(); track transaction.id) {
+              <article>
+                <span class="finance-preview__transaction-icon" aria-hidden="true"
+                  ><svg
+                    [lucideIcon]="transaction.incoming ? icons.ArrowDownLeft : icons.ArrowUpRight"
+                  ></svg></span
+                ><span
+                  ><strong>{{ transaction.merchant }}</strong
+                  ><small>{{ transaction.category }} · {{ transaction.date }}</small></span
+                ><strong [attr.data-income]="transaction.incoming || null">{{
+                  transaction.amount
+                }}</strong>
+              </article>
+            }
+          </div>
+        </aeris-card>
+
+        <div class="finance-preview__footer-grid">
+          <aeris-card padding="lg">
+            <header aerisCardHeader class="preview-card-heading">
+              <div>
+                <strong>Upcoming invoices</strong><small>Expected in the next 14 days</small>
+              </div>
+              <aeris-badge value="$12.8k" severity="info" variant="soft" />
+            </header>
+            <div class="finance-preview__invoices">
+              <article>
+                <span><strong>Atlas Systems</strong><small>Due Oct 12</small></span
+                ><strong>$4,800</strong>
+              </article>
+              <article>
+                <span><strong>Relay Studio</strong><small>Due Oct 17</small></span
+                ><strong>$5,200</strong>
+              </article>
+              <article>
+                <span><strong>Juniper Works</strong><small>Due Oct 20</small></span
+                ><strong>$2,800</strong>
+              </article>
+            </div>
+          </aeris-card>
+          <aeris-card padding="lg">
+            <header aerisCardHeader class="preview-card-heading">
+              <div><strong>Accounts</strong><small>Available across connected balances</small></div>
+            </header>
+            <div class="finance-preview__accounts">
+              <article>
+                <span class="finance-preview__account-mark">N</span
+                ><span><strong>Operating</strong><small>•• 2481</small></span
+                ><strong>$34,180</strong>
+              </article>
+              <article>
+                <span class="finance-preview__account-mark">R</span
+                ><span><strong>Reserve</strong><small>•• 6014</small></span
+                ><strong>$14,114</strong>
+              </article>
+            </div>
+          </aeris-card>
+        </div>
+      </div>
+    </section>
+  }
+}

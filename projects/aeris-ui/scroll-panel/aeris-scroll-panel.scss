@@ -20,11 +20,11 @@
     var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
   );
   background: var(--aeris-scroll-panel-background, var(--aeris-surface, #fff));
-  color: var(--aeris-scroll-panel-color, var(--aeris-text, #222222));
+  color: var(--aeris-scroll-panel-color, var(--aeris-text, #111111));
 }
 
 .aeris-scroll-panel__frame:has(.aeris-scroll-panel__viewport:focus-visible) {
-  outline: 3px solid
+  outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(
       in srgb,
       var(--focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%,
@@ -45,7 +45,7 @@
   color: inherit;
   scrollbar-color: var(
       --aeris-scroll-panel-thumb,
-      color-mix(in srgb, var(--aeris-text, #222222) 34%, transparent)
+      color-mix(in srgb, var(--aeris-text, #111111) 34%, transparent)
     )
     var(--aeris-scroll-panel-track, transparent);
   scrollbar-gutter: stable;
@@ -62,34 +62,35 @@
 }
 
 .aeris-scroll-panel__viewport::-webkit-scrollbar-track {
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   background: var(--aeris-scroll-panel-track, transparent);
 }
 
 .aeris-scroll-panel__viewport::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   background: var(
     --aeris-scroll-panel-thumb,
-    color-mix(in srgb, var(--aeris-text, #222222) 34%, transparent)
+    color-mix(in srgb, var(--aeris-text, #111111) 34%, transparent)
   );
   background-clip: content-box;
 }
 
-.aeris-scroll-panel__viewport::-webkit-scrollbar-thumb:hover {
-  background: var(
-    --aeris-scroll-panel-thumb-hover,
-    color-mix(in srgb, var(--aeris-text, #222222) 48%, transparent)
-  );
-  background-clip: content-box;
+@media (hover: hover) {
+  .aeris-scroll-panel__viewport::-webkit-scrollbar-thumb:hover {
+    background: var(
+      --aeris-scroll-panel-thumb-hover,
+      color-mix(in srgb, var(--aeris-text, #111111) 48%, transparent)
+    );
+    background-clip: content-box;
+  }
 }
-
 .aeris-scroll-panel__content {
   min-inline-size: 0;
   padding: var(--aeris-scroll-panel-padding, 1rem);
-  color: var(--aeris-scroll-panel-content-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-scroll-panel-content-color, var(--aeris-text-2, #454545));
   font-size: var(--aeris-scroll-panel-content-size, 0.875rem);
-  line-height: 1.65;
+  line-height: var(--aeris-line-height-relaxed, 1.65);
 }
 
 .aeris-scroll-panel__content > :first-child {
@@ -120,49 +121,51 @@
   scrollbar-color: transparent transparent;
 }
 
-:host([data-variant='hover']) .aeris-scroll-panel__viewport:is(:hover, :focus-within) {
-  scrollbar-color: var(
-      --aeris-scroll-panel-thumb,
-      color-mix(in srgb, var(--aeris-text, #222222) 34%, transparent)
-    )
-    var(--aeris-scroll-panel-track, transparent);
+@media (hover: hover) {
+  :host([data-variant='hover']) .aeris-scroll-panel__viewport:is(:hover, :focus-within) {
+    scrollbar-color: var(
+        --aeris-scroll-panel-thumb,
+        color-mix(in srgb, var(--aeris-text, #111111) 34%, transparent)
+      )
+      var(--aeris-scroll-panel-track, transparent);
+  }
 }
-
 :host([data-variant='hover']) .aeris-scroll-panel__viewport::-webkit-scrollbar-thumb {
   background: transparent;
 }
 
-:host([data-variant='hover'])
-  .aeris-scroll-panel__viewport:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
-  background: var(
-    --aeris-scroll-panel-thumb,
-    color-mix(in srgb, var(--aeris-text, #222222) 34%, transparent)
-  );
-  background-clip: content-box;
+@media (hover: hover) {
+  :host([data-variant='hover'])
+    .aeris-scroll-panel__viewport:is(:hover, :focus-within)::-webkit-scrollbar-thumb {
+    background: var(
+      --aeris-scroll-panel-thumb,
+      color-mix(in srgb, var(--aeris-text, #111111) 34%, transparent)
+    );
+    background-clip: content-box;
+  }
 }
-
 :host([data-variant='always']) .aeris-scroll-panel__viewport {
   scrollbar-color: var(
       --aeris-scroll-panel-thumb-always,
-      color-mix(in srgb, var(--aeris-text, #222222) 42%, transparent)
+      color-mix(in srgb, var(--aeris-text, #111111) 42%, transparent)
     )
     var(
       --aeris-scroll-panel-track-always,
-      color-mix(in srgb, var(--aeris-text, #222222) 8%, transparent)
+      color-mix(in srgb, var(--aeris-text, #111111) 8%, transparent)
     );
 }
 
 :host([data-variant='always']) .aeris-scroll-panel__viewport::-webkit-scrollbar-track {
   background: var(
     --aeris-scroll-panel-track-always,
-    color-mix(in srgb, var(--aeris-text, #222222) 8%, transparent)
+    color-mix(in srgb, var(--aeris-text, #111111) 8%, transparent)
   );
 }
 
 :host([data-variant='always']) .aeris-scroll-panel__viewport::-webkit-scrollbar-thumb {
   background: var(
     --aeris-scroll-panel-thumb-always,
-    color-mix(in srgb, var(--aeris-text, #222222) 42%, transparent)
+    color-mix(in srgb, var(--aeris-text, #111111) 42%, transparent)
   );
   background-clip: content-box;
 }
@@ -183,7 +186,7 @@
   display: block;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 140ms ease;
+  transition: opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-scroll-panel__fade--top,

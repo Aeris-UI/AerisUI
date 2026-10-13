@@ -1,8 +1,8 @@
 :host {
   position: sticky;
-  top: 8.25rem;
+  top: calc(var(--docs-header-height, 4rem) + 4.25rem);
   display: block;
-  padding-top: 1.4rem;
+  padding-top: 1.25rem;
 }
 
 aside > span {
@@ -17,9 +17,9 @@ aside > span {
 
 nav {
   display: grid;
-  gap: 0.15rem;
-  padding-inline-start: 0.875rem;
-  border-inline-start: 1px solid var(--border);
+  gap: 0.125rem;
+  padding-inline-start: 0.75rem;
+  border-inline-start: 1px solid color-mix(in srgb, var(--border) 54%, transparent);
 }
 
 a {
@@ -27,32 +27,26 @@ a {
   min-height: 2rem;
   display: flex;
   align-items: center;
-  padding: 0.25rem 0;
+  padding: 0.25rem 0.375rem;
+  border-radius: var(--aeris-radius-control);
   color: var(--text-2);
   font-size: 0.75rem;
   line-height: 1.35;
   text-decoration: none;
+  transition:
+    background-color var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
 }
 
 a:hover {
-  color: var(--primary-text);
+  background: color-mix(in srgb, var(--surface-2) 66%, transparent);
+  color: var(--text);
 }
 
 a[aria-current='location'] {
-  color: var(--primary-text);
+  background: color-mix(in srgb, var(--aeris-interactive-selected, var(--primary-soft)) 52%, transparent);
+  color: var(--text);
   font-weight: 750;
-}
-
-a[aria-current='location']::before {
-  content: '';
-  width: 2px;
-  height: 1rem;
-  position: absolute;
-  inset-block-start: 50%;
-  inset-inline-start: -0.9375rem;
-  border-radius: 999px;
-  background: var(--primary);
-  transform: translateY(-50%);
 }
 
 a:focus-visible {
@@ -80,17 +74,10 @@ a:focus-visible {
 
   a {
     min-height: 2.75rem;
+    padding-inline: 0.625rem;
     font-size: 0.8125rem;
   }
 
-  a[aria-current='location']::before {
-    width: 0.375rem;
-    height: 0.375rem;
-    position: static;
-    flex: 0 0 auto;
-    margin-inline-end: 0.375rem;
-    transform: none;
-  }
 }
 
 @media (max-width: 30rem) {

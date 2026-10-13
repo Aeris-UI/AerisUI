@@ -28,6 +28,22 @@ describe('DocsAppearanceService', () => {
     vi.unstubAllGlobals();
   });
 
+  it('uses Monochrome for a first documentation visit', () => {
+    const appearance = TestBed.inject(DocsAppearanceService);
+
+    expect(appearance.activePaletteId()).toBe('monochrome');
+    expect(appearance.activePaletteName()).toBe('Aeris Monochrome');
+  });
+
+  it('preserves an existing stored palette choice', () => {
+    globalThis.localStorage.setItem('aeris-docs-palette', 'earth');
+
+    const appearance = TestBed.inject(DocsAppearanceService);
+
+    expect(appearance.activePaletteId()).toBe('earth');
+    expect(appearance.activePaletteName()).toBe('Aeris Earth');
+  });
+
   it('restores one shared documentation appearance state', () => {
     globalThis.localStorage.setItem('aeris-docs-palette', 'orchid');
     globalThis.localStorage.setItem('aeris-docs-density', 'compact');

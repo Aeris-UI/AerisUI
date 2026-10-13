@@ -1,6 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import {
   Component,
+  ElementRef,
+  effect,
+  viewChild,
   booleanAttribute,
   computed,
   inject,
@@ -9,13 +12,10 @@ import {
   output,
   signal,
 } from '@angular/core';
+import { aerisInternalObserveViewport } from '@aeris-ui/core';
 
 export type AerisScrollTopBehavior = 'auto' | 'smooth';
-export type AerisScrollTopPosition =
-  | 'bottom-right'
-  | 'bottom-left'
-  | 'top-right'
-  | 'top-left';
+export type AerisScrollTopPosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
 export type AerisScrollTopSize = 'sm' | 'md' | 'lg';
 export type AerisScrollTopStrategy = 'fixed' | 'absolute';
 
@@ -24,6 +24,7 @@ export type AerisScrollTopStrategy = 'fixed' | 'absolute';
   template: `
     @if (visible()) {
       <button
+        #scrollButton
         class="aeris-scroll-top"
         type="button"
         [attr.data-position]="position()"
@@ -44,6 +45,14 @@ export type AerisScrollTopStrategy = 'fixed' | 'absolute';
   },
 })
 export class AerisScrollTop {
+  private readonly scrollButton = viewChild<ElementRef<HTMLElement>>('scrollButton');
+  constructor() {
+    effect((onCleanup) => {
+      const button = this.scrollButton()?.nativeElement;
+      if (button && this.strategy() === 'fixed')
+        onCleanup(aerisInternalObserveViewport(button, this.document));
+    });
+  }
   readonly threshold = input(320, { transform: numberAttribute });
   readonly behavior = input<AerisScrollTopBehavior>('smooth');
   readonly position = input<AerisScrollTopPosition>('bottom-right');
@@ -57,9 +66,7 @@ export class AerisScrollTop {
 
   private readonly document = inject(DOCUMENT);
   private readonly overThreshold = signal(false);
-  protected readonly visible = computed(
-    () => this.alwaysVisible() || this.overThreshold(),
-  );
+  protected readonly visible = computed(() => this.alwaysVisible() || this.overThreshold());
   private lastVisible = false;
 
   handleScroll(): void {

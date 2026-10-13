@@ -2,7 +2,7 @@
 
 > High-performance data table with sorting, filtering, editing, and virtualization.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/table`
 - Human-readable documentation: [https://aeris-ui.dev/components/table](https://aeris-ui.dev/components/table)
@@ -229,6 +229,7 @@ interface AerisTableCsvExportOptions {
 | `--aeris-text / --aeris-text-2` | `CSS custom property` | — | Cell and secondary text. |
 | `--aeris-primary` | `CSS custom property` | — | Selected and hovered row accents. |
 | `--aeris-focus` | `CSS custom property` | — | Visible focus rings. |
+| `--aeris-table-toggle-size` | `CSS custom property` | — | Expandable-row disclosure button size. |
 
 ## Examples
 

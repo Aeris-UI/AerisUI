@@ -1,4 +1,4 @@
-export const AERIS_UI_VERSION = '22.0.0-alpha.9';
+export const AERIS_UI_VERSION = '22.0.0-alpha.10';
 
 export type { AerisSeverity } from './lib/aeris-severity';
 export { aerisInternalDisplayInvalid as ɵaerisDisplayInvalid } from './lib/aeris-validation-state';
@@ -24,11 +24,15 @@ export {
 
 export {
   ɵisTopmostAerisOverlay,
+  dismissTopAerisOverlay,
+  type AerisOverlayDismissResult,
   ɵlockAerisDocumentScroll,
   ɵregisterAerisOverlay,
   ɵunregisterAerisOverlay,
   ɵunlockAerisDocumentScroll,
 } from './lib/aeris-scroll-lock';
+
+export { aerisInternalObserveViewport, aerisInternalViewportBounds } from './lib/aeris-viewport';
 
 export {
   aerisInternalFocusableElements,

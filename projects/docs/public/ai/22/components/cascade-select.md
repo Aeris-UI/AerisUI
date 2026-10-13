@@ -2,7 +2,7 @@
 
 > Hierarchical selection with cascading columns, templates, and Forms support.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/cascade-select`
 - Human-readable documentation: [https://aeris-ui.dev/components/cascade-select](https://aeris-ui.dev/components/cascade-select)
@@ -32,7 +32,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
-| `options` | `readonly AerisCascadeSelectOption[]` | `[]` | Hierarchical option tree rendered by the cascading columns. |
+| `options` | `readonly AerisCascadeSelectOption[]` | `[]` | Hierarchical option tree rendered by nested menus. |
 | `inputId` | `string` | `generated` | ID assigned to the trigger button. |
 | `name` | `string` | `''` | Native form field name submitted through a hidden input when a value is selected. |
 | `placeholder` | `string` | `'Select an option'` | Text shown while no value is selected. |
@@ -112,6 +112,7 @@ interface AerisCascadeSelectChangeEvent {
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
+| `--aeris-cascade-select-submenu-width` | `CSS custom property` | `13rem` | Desktop flyout width. Narrow screens expand children inline. |
 | `--aeris-cascade-select-background` | `CSS custom property` | `#fff` | Trigger background. |
 | `--aeris-cascade-select-border` | `CSS custom property` | `#c7c9c0` | Trigger border color. |
 | `--aeris-cascade-select-focus` | `CSS custom property` | `#536437` | Focus ring and active border color. |
@@ -136,7 +137,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
   selector: 'app-cascade-basic-demo',
   imports: [AerisCascadeSelect],
   template: `
-    <div class="field">
+    <div class="field cascade-field">
       <label for="cascade-basic-input">Location</label>
       <aeris-cascade-select
         inputId="cascade-basic-input"
@@ -175,6 +176,10 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .cascade-field {
+      max-inline-size: 18rem;
+    }
   `
 })
 export class CascadeBasicBasicDemo {
@@ -211,7 +216,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
   selector: 'app-cascade-signal-demo',
   imports: [AerisCascadeSelect],
   template: `
-    <div class="field">
+    <div class="field cascade-field">
       <label for="cascade-signal-input">Office</label>
       <aeris-cascade-select
         inputId="cascade-signal-input"
@@ -249,6 +254,10 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .cascade-field {
+      max-inline-size: 18rem;
+    }
   `
 })
 export class CascadeSignalSignalValueDemo {
@@ -270,7 +279,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
   selector: 'app-cascade-branches-demo',
   imports: [AerisCascadeSelect],
   template: `
-    <div class="field">
+    <div class="field cascade-field">
       <label for="cascade-branches-input">Region or city</label>
       <aeris-cascade-select
         inputId="cascade-branches-input"
@@ -307,6 +316,10 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 
     .field small.error {
       color: var(--aeris-danger);
+    }
+
+    .cascade-field {
+      max-inline-size: 18rem;
     }
   `
 })
@@ -353,7 +366,7 @@ export class CascadeTemplatesTemplatesDemo {
 #### HTML
 
 ```html
-<div class="field">
+<div class="field cascade-field">
   <label for="cascade-template-input">Templated location</label>
   <aeris-cascade-select inputId="cascade-template-input" [options]="locations" fluid>
     <ng-template aerisCascadeSelectOption let-option let-level="level">
@@ -398,6 +411,10 @@ export class CascadeTemplatesTemplatesDemo {
 
 .field small.error {
   color: var(--aeris-danger);
+}
+
+.cascade-field {
+  max-inline-size: 18rem;
 }
 
 .cascade-option {
@@ -449,7 +466,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
   selector: 'app-cascade-clear-demo',
   imports: [AerisCascadeSelect],
   template: `
-    <div class="field">
+    <div class="field cascade-field">
       <label for="cascade-clear-input">Optional office</label>
       <aeris-cascade-select
         inputId="cascade-clear-input"
@@ -486,6 +503,10 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .cascade-field {
+      max-inline-size: 18rem;
+    }
   `
 })
 export class CascadeClearClearButtonDemo {
@@ -521,7 +542,7 @@ export class CascadeStatesAppearancesAndStatesDemo {
 
 ```html
 <div class="field-grid">
-  <div class="field">
+  <div class="field cascade-field">
     <label for="cascade-filled-input">Filled</label>
     <aeris-cascade-select
       inputId="cascade-filled-input"
@@ -530,7 +551,7 @@ export class CascadeStatesAppearancesAndStatesDemo {
       fluid
     />
   </div>
-  <div class="field">
+  <div class="field cascade-field">
     <label for="cascade-invalid-input">Invalid</label>
     <aeris-cascade-select
       inputId="cascade-invalid-input"
@@ -546,7 +567,7 @@ export class CascadeStatesAppearancesAndStatesDemo {
       {{ invalid() ? 'Choose a location.' : 'Required.' }}
     </small>
   </div>
-  <div class="field">
+  <div class="field cascade-field">
     <label for="cascade-disabled-input">Disabled</label>
     <aeris-cascade-select
       inputId="cascade-disabled-input"
@@ -600,6 +621,10 @@ export class CascadeStatesAppearancesAndStatesDemo {
     grid-template-columns: 1fr;
   }
 }
+
+.cascade-field {
+  max-inline-size: 18rem;
+}
 ```
 
 ### Sizes
@@ -616,7 +641,7 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
   selector: 'app-cascade-sizes-demo',
   imports: [AerisCascadeSelect],
   template: `
-    <div class="field-stack">
+    <div class="field-stack cascade-field">
       <aeris-cascade-select size="xs" placeholder="Extra small" [options]="locations" />
       <aeris-cascade-select size="sm" placeholder="Small" [options]="locations" />
       <aeris-cascade-select size="md" placeholder="Medium" [options]="locations" />
@@ -628,6 +653,10 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
       width: 100%;
       display: grid;
       gap: 1rem;
+    }
+
+    .cascade-field {
+      max-inline-size: 18rem;
     }
   `
 })
@@ -664,7 +693,7 @@ export class CascadeFormsReactiveAndTemplateDrivenFormsDemo {
 
 ```html
 <div class="field-grid">
-  <div class="field">
+  <div class="field cascade-field">
     <label for="cascade-reactive-input">Reactive Forms</label>
     <aeris-cascade-select
       inputId="cascade-reactive-input"
@@ -674,7 +703,7 @@ export class CascadeFormsReactiveAndTemplateDrivenFormsDemo {
     />
     <small>Value: {{ reactiveLocation.value }}</small>
   </div>
-  <div class="field">
+  <div class="field cascade-field">
     <label for="cascade-template-form-input">Template-driven forms</label>
     <aeris-cascade-select
       inputId="cascade-template-form-input"
@@ -729,6 +758,10 @@ export class CascadeFormsReactiveAndTemplateDrivenFormsDemo {
     grid-template-columns: 1fr;
   }
 }
+
+.cascade-field {
+  max-inline-size: 18rem;
+}
 ```
 
 ### Events
@@ -745,7 +778,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectChangeEvent } from '@aeris-u
   selector: 'app-cascade-events-demo',
   imports: [AerisCascadeSelect],
   template: `
-    <div class="field">
+    <div class="field cascade-field">
       <label for="cascade-events-input">Event location</label>
       <aeris-cascade-select
         inputId="cascade-events-input"
@@ -783,6 +816,10 @@ import { AerisCascadeSelect, type AerisCascadeSelectChangeEvent } from '@aeris-u
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .cascade-field {
+      max-inline-size: 18rem;
+    }
   `
 })
 export class CascadeEventsEventsDemo {
@@ -797,9 +834,10 @@ export class CascadeEventsEventsDemo {
 
 ## Accessibility
 
+- On screens up to 36rem wide, tapping a branch expands or collapses its children inline without changing the selected value.
 - The trigger uses role="combobox", aria-expanded, aria-controls, and aria-activedescendant.
-- Each hierarchy column uses role="listbox"; each option uses role="option" and disabled options are skipped by keyboard movement.
-- Branch options expose aria-expanded while their child column is active.
+- The popup uses role="tree", options use role="treeitem", and nested levels use role="group". Options expose their level and sibling position. Disabled options are skipped by keyboard movement.
+- Branch options expose aria-expanded while their children are visible.
 - Use a visible label with inputId, or provide ariaLabel when a visible label is not possible.
 - Validation messages should be connected with ariaDescribedBy and should not rely on color alone.
 
@@ -807,12 +845,12 @@ export class CascadeEventsEventsDemo {
 
 | Key | Function |
 | --- | --- |
-| `Enter / Space` | Opens the panel. When open, selects the active leaf option or opens the active branch. |
-| `ArrowDown` | Opens the panel and moves to the next enabled option in the active column. |
-| `ArrowUp` | Opens the panel and moves to the previous enabled option in the active column. |
-| `ArrowRight` | Moves into the child column of the active branch. |
-| `ArrowLeft` | Moves back to the parent column. |
-| `Home` | Moves to the first enabled option in the active column. |
-| `End` | Moves to the last enabled option in the active column. |
+| `Enter / Space` | Opens at the selected option, or the first enabled option. When open, selects the active leaf option or opens the active branch. |
+| `ArrowDown` | Opens at the selected or first enabled option. When open, moves to the next enabled sibling. |
+| `ArrowUp` | Opens at the selected or first enabled option. When open, moves to the previous enabled sibling. |
+| `ArrowRight` | Expands a closed branch, or moves into its children when open. Reversed in RTL. |
+| `ArrowLeft` | Collapses an open branch, or moves to its parent. Reversed in RTL. |
+| `Home` | Moves to the first enabled sibling. |
+| `End` | Moves to the last enabled sibling. |
 | `Escape` | Closes the panel without changing the value. |
 | `Tab` | Moves focus away and closes the panel. |

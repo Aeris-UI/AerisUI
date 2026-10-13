@@ -72,6 +72,10 @@ describe('AerisPickList', () => {
     ) as NodeListOf<HTMLElement>;
     const sourceChildren = paneBodies.item(0).children;
     const targetChildren = paneBodies.item(1).children;
+    const sourceControlIconPaths = Array.from(
+      paneBodies.item(0).querySelectorAll('.aeris-pick-list__reorder-controls svg path'),
+      (path) => path.getAttribute('d'),
+    );
 
     expect(sourceChildren.item(0)?.classList.contains('aeris-pick-list__reorder-controls')).toBe(
       true,
@@ -81,6 +85,12 @@ describe('AerisPickList', () => {
     expect(targetChildren.item(1)?.classList.contains('aeris-pick-list__reorder-controls')).toBe(
       true,
     );
+    expect(sourceControlIconPaths).toEqual([
+      'M4 4h12M5 12l5-5 5 5',
+      'M5 12l5-5 5 5',
+      'M5 8l5 5 5-5',
+      'M5 8l5 5 5-5M4 16h12',
+    ]);
   });
 
   it('moves selected items between controlled collections', () => {

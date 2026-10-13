@@ -2,7 +2,7 @@
 @use '../../form/shared/form-docs';
 
 .class-names-docs app-form-demo {
-  --docs-code-block-max-height: min(42rem, 72vh);
+  --aeris-code-block-max-height: min(42rem, 72vh);
 }
 .string-card {
   padding: 1rem;
@@ -24,7 +24,7 @@
   background: var(--aeris-primary-soft);
 }
 .array-card--accent {
-  border-inline-start: 0.25rem solid var(--aeris-primary);
+  border: 1px solid color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-border));
 }
 .array-card--compact {
   line-height: 1.45;

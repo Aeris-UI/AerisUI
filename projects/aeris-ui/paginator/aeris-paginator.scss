@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -17,8 +18,8 @@
   flex-wrap: wrap;
   gap: calc(var(--aeris-density-gap, 0.5rem) * 2);
   min-width: 0;
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.8125rem;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-paginator__pages {
@@ -33,10 +34,10 @@
 button,
 select {
   min-height: max(2rem, calc(var(--aeris-control-height, 2.625rem) - 0.5rem));
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font: inherit;
 }
 
@@ -44,34 +45,37 @@ button {
   min-width: max(2rem, calc(var(--aeris-control-height, 2.625rem) - 0.5rem));
   padding: 0 calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
   border-color: var(--aeris-border);
-  font-weight: 700;
+  font-weight: var(--aeris-font-weight-bold, 700);
   cursor: pointer;
   transition:
-    border-color 140ms ease,
-    background-color 140ms ease,
-    color 140ms ease,
-    transform 140ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-button:hover:not(:disabled) {
-  border-color: color-mix(
-    in srgb,
-    var(--aeris-primary, #{aeris-fallbacks.$primary}) 58%,
-    var(--aeris-border, #deddd7)
-  );
-  background: var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec));
-  color: var(--aeris-text, #222222);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  button:hover:not(:disabled) {
+    border-color: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 58%,
+      var(--aeris-border, #efefef)
+    );
+    background: var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3));
+    color: var(--aeris-text, #111111);
+    transform: translateY(-1px);
+  }
 }
-
-.aeris-paginator__pages > button[aria-current='page']:hover {
-  background: color-mix(
-    in srgb,
-    var(--aeris-primary, #{aeris-fallbacks.$primary}) 22%,
-    var(--aeris-surface, #fff)
-  );
+@media (hover: hover) {
+  .aeris-paginator__pages > button[aria-current='page']:hover {
+    background: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 22%,
+      var(--aeris-surface, #fff)
+    );
+  }
 }
-
 button[aria-current='page'] {
   border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
   background: color-mix(
@@ -80,6 +84,8 @@ button[aria-current='page'] {
     var(--aeris-surface, #fff)
   );
   color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 28%, transparent);
 }
 
 button:disabled {
@@ -89,8 +95,8 @@ button:disabled {
 
 button:focus-visible,
 .aeris-paginator__rows-trigger:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-paginator__page-icon {
@@ -190,8 +196,13 @@ button:focus-visible,
   background: currentColor;
   content: '';
   transform: translate(-50%, -50%);
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-chevron-mask) center / 100% 100% no-repeat;
+}
+
+.aeris-paginator__rows-trigger[aria-expanded='true'] .aeris-paginator__chevron::before {
+  transform: translate(-50%, -50%) rotate(180deg);
 }
 
 .aeris-paginator__rows-panel {
@@ -200,11 +211,11 @@ button:focus-visible,
   top: calc(100% + var(--aeris-density-gap, 0.5rem));
   right: 0;
   min-width: 5.75rem;
-  padding: calc(var(--aeris-density-gap, 0.5rem) * 0.7);
+  padding: var(--aeris-overlay-padding, 0.375rem);
   border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem));
   background: var(--aeris-surface, #fff);
-  box-shadow: 0 1rem 2.5rem rgb(31 35 27 / 16%);
+  box-shadow: var(--aeris-overlay-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)));
 }
 
 .aeris-paginator__rows-panel button {
@@ -216,12 +227,11 @@ button:focus-visible,
   border: 0;
   border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-text-2, #555555);
-  font-weight: 600;
+  color: var(--aeris-text-2, #454545);
+  font-weight: var(--aeris-font-weight-semibold, 600);
   text-align: left;
 }
 
-.aeris-paginator__rows-panel button:hover,
 .aeris-paginator__rows-panel button[aria-selected='true'] {
   background: color-mix(
     in srgb,
@@ -230,7 +240,16 @@ button:focus-visible,
   );
   color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
 }
-
+@media (hover: hover) {
+  .aeris-paginator__rows-panel button:hover {
+    background: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%,
+      transparent
+    );
+    color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
+  }
+}
 .aeris-paginator__check {
   width: 0.65rem;
   height: 0.35rem;
@@ -262,16 +281,11 @@ button:focus-visible,
   .aeris-paginator__rows {
     order: 3;
   }
-
-  .aeris-paginator__rows-panel {
-    right: 50%;
-    transform: translateX(50%);
-  }
 }
 
 @media (max-width: 30rem) {
   .aeris-paginator {
-    font-size: 0.78125rem;
+    font-size: var(--aeris-font-size-md, 0.8125rem);
   }
 
   .aeris-paginator__pages {
@@ -298,11 +312,16 @@ button:focus-visible,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  button {
+  button,
+  .aeris-paginator__chevron::before {
     transition: none;
   }
 
-  button:hover:not(:disabled) {
-    transform: none;
+  @media (hover: hover) {
+    button:hover:not(:disabled) {
+      transform: none;
+    }
   }
 }
+
+@include aeris-mobile.targets('.aeris-paginator__button');

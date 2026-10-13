@@ -2,7 +2,7 @@
 
 > Target-anchored overlay content with controlled visibility, templates, focus management, and responsive placement.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/popover`
 - Human-readable documentation: [https://aeris-ui.dev/components/popover](https://aeris-ui.dev/components/popover)
@@ -122,7 +122,7 @@ interface AerisPopoverTemplateContext {
 | `--aeris-popover-radius` | `CSS custom property` | `var(--aeris-radius-overlay)` | Popover radius. |
 | `--aeris-popover-shadow` | `CSS custom property` | `component shadow` | Popover elevation. |
 | `--aeris-popover-focus` | `CSS custom property` | `var(--aeris-focus)` | Focus ring color. |
-| `--aeris-popover-body-padding` | `CSS custom property` | `1rem` | Body padding. |
+| `--aeris-popover-body-padding` | `CSS custom property` | `--aeris-surface-padding` | Body padding. |
 
 ## Examples
 

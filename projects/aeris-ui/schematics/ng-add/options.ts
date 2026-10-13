@@ -239,13 +239,13 @@ async function resolvePalette(
     const choice = await prompt.select(
       'Choose an Aeris starter theme or provide palette seeds',
       [
+        ['monochrome', 'Monochrome — high-contrast black and white'],
         ['earth', 'Earth — warm and grounded'],
         ['coastal', 'Coastal — clear and cool'],
         ['orchid', 'Orchid — expressive and refined'],
-        ['monochrome', 'Monochrome — high-contrast black and white'],
         ['custom', 'Custom — enter five palette seeds'],
       ] as const,
-      'earth',
+      'monochrome',
     );
     if (choice === 'custom') seeds = {};
     else preset = choice;
@@ -257,7 +257,7 @@ async function resolvePalette(
     preset = undefined;
   }
   if (seeds) {
-    const defaults = AERIS_THEME_PRESETS.earth.palette;
+    const defaults = AERIS_THEME_PRESETS.monochrome.palette;
     const complete: { -readonly [K in keyof AerisPaletteConfig]?: string } = { ...seeds };
     for (const name of SEED_NAMES) {
       if (!complete[name]) {
@@ -273,7 +273,7 @@ async function resolvePalette(
     return { seeds: complete as AerisPaletteConfig };
   }
 
-  return { preset: preset ?? 'earth' };
+  return { preset: preset ?? 'monochrome' };
 }
 
 async function resolveDefaultMode(

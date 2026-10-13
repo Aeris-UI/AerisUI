@@ -14,6 +14,8 @@ import {
 import {
   ɵlockAerisDocumentScroll,
   ɵunlockAerisDocumentScroll,
+  ɵregisterAerisOverlay,
+  ɵunregisterAerisOverlay,
 } from '@aeris-ui/core';
 
 @Component({
@@ -75,9 +77,13 @@ export class AerisBlockUI {
 
     effect((onCleanup) => {
       if (!this.blocked() || !this.fullScreen()) return;
+      ɵregisterAerisOverlay(this.document, this.host.nativeElement);
       const keydown = (event: KeyboardEvent) => this.guardFullscreenFocus(event);
       this.document.addEventListener('keydown', keydown);
-      onCleanup(() => this.document.removeEventListener('keydown', keydown));
+      onCleanup(() => {
+        ɵunregisterAerisOverlay(this.document, this.host.nativeElement);
+        this.document.removeEventListener('keydown', keydown);
+      });
     });
   }
 

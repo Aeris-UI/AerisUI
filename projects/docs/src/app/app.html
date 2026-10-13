@@ -287,6 +287,8 @@
                 <div
                   [id]="guideGroupId(group.title) + '-' + idSuffix"
                   class="docs-guide-group__items"
+                  animate.enter="docs-navigation-group--enter"
+                  animate.leave="docs-navigation-group--leave"
                 >
                   @for (guideId of group.guideIds; track guideId) {
                     @if (guideArticleById.get(guideId); as guide) {
@@ -336,6 +338,8 @@
                 <div
                   [id]="componentGroupId(group.category) + '-' + idSuffix"
                   class="docs-component-group__items"
+                  animate.enter="docs-navigation-group--enter"
+                  animate.leave="docs-navigation-group--leave"
                 >
                   @for (item of group.items; track item.slug) {
                     <a
@@ -423,8 +427,12 @@
     />
   </aeris-drawer>
 
-  <main id="docs-content" [class.docs-content]="!isLandingPage()">
-    <router-outlet />
+  <main
+    id="docs-content"
+    [class.docs-content]="!isLandingPage()"
+    [class.docs-content--landing]="isLandingPage()"
+  >
+    <docs-route-outlet />
   </main>
 </div>
 
@@ -436,67 +444,6 @@
   />
 }
 
-<aeris-dialog
-  class="docs-command-dialog"
-  [(visible)]="searchOpen"
-  position="top"
-  width="min(38.75rem, calc(100vw - 2.25rem))"
-  maxHeight="min(36rem, calc(100dvh - 2.25rem))"
-  initialFocus="input[type=search]"
-  header="Search documentation"
-  ariaLabel="Search documentation"
-  closeAriaLabel="Close documentation search"
-  [closeOnBackdropClick]="true"
->
-  <div class="docs-command">
-    <aeris-icon-field size="lg" fluid>
-      <svg aerisIconStart [lucideIcon]="icons.Search" aria-hidden="true"></svg>
-      <input
-        aerisInputText
-        size="lg"
-        fluid
-        type="search"
-        placeholder="Search guides and components..."
-        aria-label="Search guides and components"
-        [value]="query()"
-        (input)="query.set($any($event.target).value)"
-      />
-    </aeris-icon-field>
-
-    <div class="docs-command__summary">
-      <span>Guides and components</span>
-      <span>{{ searchResults().length }} shown</span>
-    </div>
-
-    <nav class="docs-command__results" aria-label="Documentation search results">
-      @for (item of searchResults(); track item.path) {
-        <a
-          aerisButton
-          class="docs-command__result"
-          variant="ghost"
-          size="md"
-          [routerLink]="item.path"
-          (pointerenter)="prefetchRoute(item.path)"
-          (pointerdown)="prefetchRoute(item.path)"
-          (focus)="prefetchRoute(item.path)"
-          (click)="searchOpen.set(false)"
-        >
-          <span class="docs-command__result-icon" aria-hidden="true">
-            <svg [lucideIcon]="item.kind === 'guide' ? icons.BookOpen : icons.Package"></svg>
-          </span>
-          <span class="docs-command__result-copy">
-            <strong>{{ item.name }}</strong>
-            <small>{{ item.category }}</small>
-          </span>
-          <svg
-            class="docs-command__result-arrow"
-            [lucideIcon]="icons.ChevronRight"
-            aria-hidden="true"
-          ></svg>
-        </a>
-      } @empty {
-        <p class="docs-command__empty" role="status">No documentation matches “{{ query() }}”.</p>
-      }
-    </nav>
-  </div>
-</aeris-dialog>
+@defer (when searchOpen(); prefetch on idle) {
+  <app-docs-search-dialog [(visible)]="searchOpen" [(query)]="query" [results]="searchResults()" />
+}

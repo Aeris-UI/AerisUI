@@ -388,6 +388,7 @@ let treeTableId = 0;
                   @for (column of renderedColumns(); track column.field) {
                     <th
                       scope="col"
+                      [attr.aria-label]="column.header"
                       [attr.data-frozen]="column.frozen || null"
                       [style.left]="column.frozenLeft"
                     >
@@ -401,6 +402,8 @@ let treeTableId = 0;
                             (input)="handleColumnFilter(column.field, $event)"
                           />
                         </label>
+                      } @else {
+                        <span class="aeris-tree-table__sr">{{ column.header }}</span>
                       }
                     </th>
                   }
@@ -437,6 +440,8 @@ let treeTableId = 0;
                 @for (entry of renderedRows(); track entry.key; let rowIndex = $index) {
                   <tr
                     #rowElement
+                    animate.enter="aeris-tree-table__row--enter"
+                    animate.leave="aeris-tree-table__row--leave"
                     [id]="entry.id"
                     [attr.tabindex]="entry.tabIndex"
                     [attr.data-row-key]="entry.key"

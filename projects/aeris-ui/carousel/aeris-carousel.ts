@@ -19,7 +19,8 @@ import {
 } from '@angular/core';
 
 export type AerisCarouselOrientation = 'horizontal' | 'vertical';
-export type AerisCarouselChangeReason = 'next' | 'previous' | 'indicator' | 'keyboard' | 'swipe' | 'autoplay' | 'api';
+export type AerisCarouselChangeReason =
+  'next' | 'previous' | 'indicator' | 'keyboard' | 'swipe' | 'autoplay' | 'api';
 
 export interface AerisCarouselResponsiveOption {
   readonly breakpoint: string;
@@ -73,9 +74,18 @@ export class AerisCarouselFooterTemplate {
   selector: 'aeris-carousel',
   imports: [NgTemplateOutlet],
   template: `
-    <section class="aeris-carousel" [attr.aria-label]="ariaLabel()" [attr.aria-roledescription]="'carousel'">
+    <section
+      class="aeris-carousel"
+      [attr.aria-label]="ariaLabel()"
+      [attr.aria-roledescription]="'carousel'"
+    >
       <ng-template #indicatorList>
-        <div class="aeris-carousel__indicators" [attr.data-orientation]="orientation()" role="group" [attr.aria-label]="indicatorAriaLabel()">
+        <div
+          class="aeris-carousel__indicators"
+          [attr.data-orientation]="orientation()"
+          role="group"
+          [attr.aria-label]="indicatorAriaLabel()"
+        >
           @for (indicator of indicators(); track indicator.page) {
             <button
               type="button"
@@ -88,7 +98,9 @@ export class AerisCarouselFooterTemplate {
       </ng-template>
 
       @if (headerTemplate(); as header) {
-        <div class="aeris-carousel__header"><ng-container [ngTemplateOutlet]="header.template" /></div>
+        <div class="aeris-carousel__header">
+          <ng-container [ngTemplateOutlet]="header.template" />
+        </div>
       }
 
       <div class="aeris-carousel__content" [attr.data-orientation]="orientation()">
@@ -99,7 +111,9 @@ export class AerisCarouselFooterTemplate {
             [attr.aria-label]="previousAriaLabel()"
             [disabled]="previousDisabled()"
             (click)="previous('previous')"
-          ><span aria-hidden="true"></span></button>
+          >
+            <span aria-hidden="true"></span>
+          </button>
         }
 
         <div
@@ -111,7 +125,8 @@ export class AerisCarouselFooterTemplate {
           (pointerdown)="handlePointerDown($event)"
           (pointermove)="handlePointerMove($event)"
           (pointerup)="handlePointerUp($event)"
-          (pointercancel)="clearPointer()"
+          (pointercancel)="handlePointerCancel($event)"
+          (lostpointercapture)="handlePointerCancel($event)"
           (pointerenter)="setHoverPaused(true)"
           (pointerleave)="setHoverPaused(false)"
           (focusin)="setFocusPaused(true)"
@@ -134,7 +149,10 @@ export class AerisCarouselFooterTemplate {
                 [style.--aeris-carousel-item-count]="value().length"
               >
                 @if (itemTemplate(); as template) {
-                  <ng-container [ngTemplateOutlet]="template.template" [ngTemplateOutletContext]="view.context" />
+                  <ng-container
+                    [ngTemplateOutlet]="template.template"
+                    [ngTemplateOutletContext]="view.context"
+                  />
                 } @else {
                   <span class="aeris-carousel__default-item">{{ view.item }}</span>
                 }
@@ -154,7 +172,9 @@ export class AerisCarouselFooterTemplate {
             [attr.aria-label]="nextAriaLabel()"
             [disabled]="nextDisabled()"
             (click)="next('next')"
-          ><span aria-hidden="true"></span></button>
+          >
+            <span aria-hidden="true"></span>
+          </button>
         }
       </div>
 
@@ -163,7 +183,9 @@ export class AerisCarouselFooterTemplate {
       }
 
       @if (footerTemplate(); as footer) {
-        <div class="aeris-carousel__footer"><ng-container [ngTemplateOutlet]="footer.template" /></div>
+        <div class="aeris-carousel__footer">
+          <ng-container [ngTemplateOutlet]="footer.template" />
+        </div>
       }
     </section>
   `,
@@ -183,10 +205,12 @@ export class AerisCarousel<T = unknown> {
   private readonly hoverPaused = signal(false);
   private readonly focusPaused = signal(false);
   private readonly autoplayStopped = signal(false);
-  private readonly paused = computed(() =>
-    this.hoverPaused() || this.focusPaused() || this.autoplayStopped(),
+  private readonly paused = computed(
+    () => this.hoverPaused() || this.focusPaused() || this.autoplayStopped(),
   );
   private readonly pointerStart = signal<number | null>(null);
+  private pointerCrossStart = 0;
+  private activePointerId: number | null = null;
   private readonly dragOffset = signal(0);
   protected readonly dragging = signal(false);
   private resizeObserver: ResizeObserver | null = null;
@@ -268,21 +292,28 @@ export class AerisCarousel<T = unknown> {
       label: `Show items ${this.indicatorRange(page)}`,
     })),
   );
-  protected readonly previousDisabled = computed(() => !this.circular() && this.currentPage() === 0);
-  protected readonly nextDisabled = computed(() =>
-    !this.circular() && this.currentPage() >= this.pageCount() - 1,
+  protected readonly previousDisabled = computed(
+    () => !this.circular() && this.currentPage() === 0,
+  );
+  protected readonly nextDisabled = computed(
+    () => !this.circular() && this.currentPage() >= this.pageCount() - 1,
   );
   protected readonly trackInlineSize = computed(() =>
-    this.orientation() === 'horizontal' ? `${(this.value().length / this.visibleCount()) * 100}%` : null,
+    this.orientation() === 'horizontal'
+      ? `${(this.value().length / this.visibleCount()) * 100}%`
+      : null,
   );
   protected readonly trackBlockSize = computed(() =>
-    this.orientation() === 'vertical' ? `${(this.value().length / this.visibleCount()) * 100}%` : null,
+    this.orientation() === 'vertical'
+      ? `${(this.value().length / this.visibleCount()) * 100}%`
+      : null,
   );
   protected readonly trackTransform = computed(() => {
     const total = Math.max(1, this.value().length);
     const offset = (this.firstVisibleIndex() / total) * 100;
     const dragOffset = this.dragOffset();
-    if (this.orientation() === 'vertical') return `translate3d(0, calc(-${offset}% + ${dragOffset}px), 0)`;
+    if (this.orientation() === 'vertical')
+      return `translate3d(0, calc(-${offset}% + ${dragOffset}px), 0)`;
     const direction = this.isRtl() ? offset : -offset;
     return `translate3d(calc(${direction}% + ${dragOffset}px), 0, 0)`;
   });
@@ -332,8 +363,10 @@ export class AerisCarousel<T = unknown> {
   }
 
   protected handleViewportKeydown(event: KeyboardEvent): void {
-    const nextKey = this.orientation() === 'vertical' ? 'ArrowDown' : this.isRtl() ? 'ArrowLeft' : 'ArrowRight';
-    const previousKey = this.orientation() === 'vertical' ? 'ArrowUp' : this.isRtl() ? 'ArrowRight' : 'ArrowLeft';
+    const nextKey =
+      this.orientation() === 'vertical' ? 'ArrowDown' : this.isRtl() ? 'ArrowLeft' : 'ArrowRight';
+    const previousKey =
+      this.orientation() === 'vertical' ? 'ArrowUp' : this.isRtl() ? 'ArrowRight' : 'ArrowLeft';
     if (event.key === nextKey) {
       event.preventDefault();
       this.next('keyboard');
@@ -350,26 +383,51 @@ export class AerisCarousel<T = unknown> {
   }
 
   protected handlePointerDown(event: PointerEvent): void {
+    if (this.activePointerId !== null || this.pageCount() <= 1) return;
     if (event.pointerType === 'mouse' && event.button !== 0) return;
-    event.preventDefault();
+    if (
+      (event.target as Element | null)?.closest(
+        'button, a, input, select, textarea, [role="button"], [contenteditable]:not([contenteditable="false"])',
+      )
+    )
+      return;
+    if (event.pointerType === 'mouse') event.preventDefault();
     (event.currentTarget as HTMLElement).setPointerCapture?.(event.pointerId);
+    this.activePointerId = event.pointerId;
     this.pointerStart.set(this.orientation() === 'vertical' ? event.clientY : event.clientX);
+    this.pointerCrossStart = this.orientation() === 'vertical' ? event.clientX : event.clientY;
     this.dragOffset.set(0);
-    this.dragging.set(true);
+    this.dragging.set(event.pointerType === 'mouse');
   }
 
   protected handlePointerMove(event: PointerEvent): void {
+    if (this.activePointerId !== event.pointerId) return;
     const start = this.pointerStart();
     if (start === null) return;
-    event.preventDefault();
     const point = this.orientation() === 'vertical' ? event.clientY : event.clientX;
+    if (event.pointerType !== 'mouse' && !this.dragging()) {
+      const cross = this.orientation() === 'vertical' ? event.clientX : event.clientY;
+      const distance = Math.abs(point - start);
+      if (Math.max(distance, Math.abs(cross - this.pointerCrossStart)) < 6) return;
+      if (Math.abs(cross - this.pointerCrossStart) > distance) {
+        this.clearPointer();
+        const target = event.currentTarget as HTMLElement;
+        if (target.hasPointerCapture?.(event.pointerId))
+          target.releasePointerCapture(event.pointerId);
+        return;
+      }
+      this.dragging.set(true);
+    }
+    event.preventDefault();
     this.dragOffset.set(point - start);
   }
 
   protected handlePointerUp(event: PointerEvent): void {
+    if (this.activePointerId !== event.pointerId) return;
     const start = this.pointerStart();
     const currentTarget = event.currentTarget as HTMLElement;
-    if (currentTarget.hasPointerCapture?.(event.pointerId)) currentTarget.releasePointerCapture(event.pointerId);
+    if (currentTarget.hasPointerCapture?.(event.pointerId))
+      currentTarget.releasePointerCapture(event.pointerId);
     if (start === null) {
       this.clearPointer();
       return;
@@ -379,21 +437,26 @@ export class AerisCarousel<T = unknown> {
     this.clearPointer();
     if (Math.abs(distance) < 32) return;
 
-    const viewportSize = this.orientation() === 'vertical'
-      ? currentTarget.clientHeight
-      : currentTarget.clientWidth;
-    const stepSize = viewportSize > 0
-      ? (viewportSize / this.visibleCount()) * this.resolvedSettings().numScroll
-      : 80;
+    const viewportSize =
+      this.orientation() === 'vertical' ? currentTarget.clientHeight : currentTarget.clientWidth;
+    const stepSize =
+      viewportSize > 0
+        ? (viewportSize / this.visibleCount()) * this.resolvedSettings().numScroll
+        : 80;
     const pageDelta = Math.max(1, Math.round(Math.abs(distance) / stepSize));
     const direction = this.dragDirection(distance);
     this.goToPage(this.dragTargetPage(this.currentPage() + direction * pageDelta), 'swipe');
   }
 
   protected clearPointer(): void {
+    this.activePointerId = null;
     this.pointerStart.set(null);
     this.dragOffset.set(0);
     this.dragging.set(false);
+  }
+
+  protected handlePointerCancel(event: PointerEvent): void {
+    if (this.activePointerId === event.pointerId) this.clearPointer();
   }
 
   protected setHoverPaused(paused: boolean): void {
@@ -414,8 +477,14 @@ export class AerisCarousel<T = unknown> {
     this.page.set(page);
     this.pageChanged.emit({
       page,
-      first: Math.min(page * this.resolvedSettings().numScroll, Math.max(0, this.value().length - this.visibleCount())),
-      last: Math.min(this.value().length - 1, page * this.resolvedSettings().numScroll + this.visibleCount() - 1),
+      first: Math.min(
+        page * this.resolvedSettings().numScroll,
+        Math.max(0, this.value().length - this.visibleCount()),
+      ),
+      last: Math.min(
+        this.value().length - 1,
+        page * this.resolvedSettings().numScroll + this.visibleCount() - 1,
+      ),
       reason,
     });
   }
@@ -450,18 +519,25 @@ export class AerisCarousel<T = unknown> {
     const amount = Number(match[1]);
     const unit = match[2] ?? 'px';
     if (unit === 'px') return amount;
-    const rootSize = Number.parseFloat(getComputedStyle(this.document.documentElement).fontSize) || 16;
+    const rootSize =
+      Number.parseFloat(getComputedStyle(this.document.documentElement).fontSize) || 16;
     return amount * rootSize;
   }
 
   private indicatorRange(page: number): string {
-    const first = Math.min(page * this.resolvedSettings().numScroll, Math.max(0, this.value().length - this.visibleCount()));
+    const first = Math.min(
+      page * this.resolvedSettings().numScroll,
+      Math.max(0, this.value().length - this.visibleCount()),
+    );
     const last = Math.min(this.value().length, first + this.visibleCount());
     return `${first + 1} to ${last}`;
   }
 
   private isRtl(): boolean {
-    return this.document.documentElement.dir === 'rtl';
+    const direction = this.document.defaultView?.getComputedStyle(
+      this.host.nativeElement,
+    ).direction;
+    return direction ? direction === 'rtl' : this.document.documentElement.dir === 'rtl';
   }
 }
 

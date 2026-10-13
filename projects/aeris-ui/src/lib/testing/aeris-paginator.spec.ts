@@ -84,4 +84,41 @@ describe('AerisPaginator', () => {
     expect(fixture.componentInstance.rows()).toBe(20);
     expect(fixture.componentInstance.first()).toBe(0);
   });
+
+  it('anchors the rows menu to its trigger and toggles it closed', async () => {
+    const fixture = TestBed.createComponent(PaginatorTestHost);
+    await fixture.whenStable();
+
+    const rowsTrigger = fixture.nativeElement.querySelector(
+      '.aeris-paginator__rows-trigger',
+    ) as HTMLButtonElement;
+    vi.spyOn(rowsTrigger, 'getBoundingClientRect').mockReturnValue({
+      x: 700,
+      y: 100,
+      top: 100,
+      right: 780,
+      bottom: 132,
+      left: 700,
+      width: 80,
+      height: 32,
+      toJSON: () => ({}),
+    });
+
+    rowsTrigger.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const panel = fixture.nativeElement.querySelector(
+      '.aeris-paginator__rows-panel',
+    ) as HTMLElement;
+    expect(panel).not.toBeNull();
+    expect(Number.parseFloat(panel.style.left)).toBeGreaterThan(600);
+
+    rowsTrigger.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    rowsTrigger.click();
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.aeris-paginator__rows-panel')).toBeNull();
+    expect(rowsTrigger.getAttribute('aria-expanded')).toBe('false');
+  });
 });

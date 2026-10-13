@@ -266,7 +266,12 @@ let nextMenuId = 0;
               }
 
               @if (entry.children.length && entry.expanded) {
-                <div class="aeris-menu__group" [id]="entry.id + '-group'">
+                <div
+                  class="aeris-menu__group"
+                  [id]="entry.id + '-group'"
+                  animate.enter="aeris-overlay-enter"
+                  animate.leave="aeris-overlay-leave"
+                >
                   <ng-container
                     [ngTemplateOutlet]="menuList"
                     [ngTemplateOutletContext]="{
@@ -287,6 +292,7 @@ let nextMenuId = 0;
         #panel
         class="aeris-menu__panel"
         [aerisInternalAppendTo]="popup() ? appendTo() : 'self'"
+        [aerisInternalAppendToDismiss]="popup() ? dismissOverlay : null"
         [aerisInternalAppendToAnchor]="popup() ? portalAnchor() : null"
         [aerisInternalAppendToCollisionPadding]="viewportMargin()"
         [aerisInternalAppendToPositionSelf]="false"
@@ -299,6 +305,7 @@ let nextMenuId = 0;
         [style.top.px]="popup() ? coordinates().y : null"
         [style.--aeris-menu-width]="width() || null"
         [style.--aeris-menu-max-height]="maxHeight() || null"
+        animate.leave="aeris-overlay-leave"
       >
         @if (startTemplate()) {
           <div class="aeris-menu__slot aeris-menu__slot--start">
@@ -327,6 +334,11 @@ let nextMenuId = 0;
   },
 })
 export class AerisMenu<T = unknown> {
+  protected readonly dismissOverlay = (): boolean => {
+    if (!(this.popup() && this.closeOnEscape())) return false;
+    this.hide();
+    return true;
+  };
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly repositionFrame = aerisInternalCreateFrameScheduler(() => this.reposition());
   private readonly injector = inject(Injector);

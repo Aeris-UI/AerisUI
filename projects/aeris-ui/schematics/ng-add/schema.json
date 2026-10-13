@@ -15,7 +15,7 @@
     },
     "preset": {
       "enum": ["earth", "coastal", "orchid", "monochrome"],
-      "description": "Official Aeris starter theme."
+      "description": "Official Aeris starter theme. Defaults to Monochrome when omitted."
     },
     "surface": { "type": "string", "description": "Custom surface palette seed." },
     "primary": { "type": "string", "description": "Custom primary palette seed." },

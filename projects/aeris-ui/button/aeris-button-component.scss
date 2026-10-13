@@ -24,12 +24,12 @@
   place-items: center;
   padding: 0 0.35rem;
   border: 1px solid color-mix(in srgb, var(--_badge-color) 28%, transparent);
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   background: var(--aeris-surface, #fff);
   color: var(--_badge-color);
   box-shadow: 0 1px 1px rgb(0 0 0 / 8%);
-  font-size: 0.625rem;
-  font-weight: 700;
+  font-size: var(--aeris-font-size-xs, 0.6875rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-button-component__badge[data-severity='primary'] {
@@ -37,7 +37,7 @@
 }
 
 .aeris-button-component__badge[data-severity='secondary'] {
-  --_badge-color: var(--aeris-text-2, #555555);
+  --_badge-color: var(--aeris-text-2, #454545);
 }
 
 .aeris-button-component__badge[data-severity='success'] {
@@ -57,5 +57,5 @@
 }
 
 .aeris-button-component__badge[data-severity='contrast'] {
-  --_badge-color: var(--aeris-text, #222222);
+  --_badge-color: var(--aeris-text, #111111);
 }

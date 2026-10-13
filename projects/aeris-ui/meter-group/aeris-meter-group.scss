@@ -13,7 +13,7 @@
   max-inline-size: 100%;
   display: grid;
   gap: var(--aeris-meter-group-gap, 0.875rem);
-  color: var(--aeris-meter-group-text, var(--aeris-text, #222222));
+  color: var(--aeris-meter-group-text, var(--aeris-text, #111111));
   font: inherit;
 }
 
@@ -44,12 +44,10 @@
   min-inline-size: 0;
   inline-size: 100%;
   block-size: var(--_aeris-meter-group-track-size);
-  display: flex;
   overflow: hidden;
-  border: 1px solid
-    var(--aeris-meter-group-track-border, var(--aeris-border));
+  border: 1px solid var(--aeris-meter-group-track-border, var(--aeris-border));
   border-radius: var(--aeris-meter-group-radius, var(--aeris-radius-control, 0.4375rem));
-  background: var(--aeris-meter-group-track-background, var(--aeris-surface-2, #f2f0ec));
+  background: var(--aeris-meter-group-track-background, var(--aeris-surface-2, #f3f3f3));
   box-shadow: var(--aeris-meter-group-track-shadow, inset 0 0 0 1px rgb(0 0 0 / 2%));
 }
 
@@ -60,7 +58,24 @@
 :host([data-orientation='vertical']) .aeris-meter-group__track {
   inline-size: var(--_aeris-meter-group-track-size);
   block-size: var(--aeris-meter-group-vertical-size, 14rem);
+}
+
+.aeris-meter-group__segments {
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  overflow: hidden;
+  animation: aeris-meter-group-reveal-inline var(--aeris-motion-emphasized, 320ms)
+    var(--aeris-ease-enter, ease-out) both;
+}
+
+:host(:dir(rtl)) .aeris-meter-group__segments {
+  animation-name: aeris-meter-group-reveal-inline-rtl;
+}
+
+:host([data-orientation='vertical']) .aeris-meter-group__segments {
   flex-direction: column-reverse;
+  animation-name: aeris-meter-group-reveal-block;
 }
 
 .aeris-meter-group__segment {
@@ -70,23 +85,15 @@
   place-items: center;
   overflow: hidden;
   background-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
-  transform-origin: left center;
-  animation: aeris-meter-group-reveal-inline 320ms ease-out both;
-}
-
-:host(:dir(rtl)) .aeris-meter-group__segment {
-  transform-origin: right center;
 }
 
 :host([data-orientation='vertical']) .aeris-meter-group__segment {
   min-block-size: 0;
-  transform-origin: center bottom;
-  animation-name: aeris-meter-group-reveal-block;
 }
 
 .aeris-meter-group__segment[data-tone='secondary'],
 .aeris-meter-group__marker[data-tone='secondary'] {
-  background-color: var(--aeris-surface-3, var(--aeris-border, #deddd7));
+  background-color: var(--aeris-surface-3, var(--aeris-border, #efefef));
 }
 
 .aeris-meter-group__segment[data-tone='success'],
@@ -116,7 +123,7 @@
 
 .aeris-meter-group__segment[data-tone='contrast'],
 .aeris-meter-group__marker[data-tone='contrast'] {
-  background-color: var(--aeris-text, #222222);
+  background-color: var(--aeris-text, #111111);
 }
 
 .aeris-meter-group__legend {
@@ -143,7 +150,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--aeris-meter-group-label-gap, 0.4375rem);
-  color: var(--aeris-meter-group-label-text, var(--aeris-text-2, #555555));
+  color: var(--aeris-meter-group-label-text, var(--aeris-text-2, #454545));
   font-size: var(--aeris-meter-group-label-font-size, 0.8125rem);
   line-height: 1.4;
 }
@@ -163,8 +170,8 @@
 
 .aeris-meter-group__value {
   flex: 0 0 auto;
-  color: var(--aeris-meter-group-value-text, var(--aeris-text, #222222));
-  font-weight: 750;
+  color: var(--aeris-meter-group-value-text, var(--aeris-text, #111111));
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-meter-group__header,
@@ -183,21 +190,31 @@
 
 @keyframes aeris-meter-group-reveal-inline {
   from {
-    transform: scaleX(0);
+    clip-path: inset(0 100% 0 0);
   }
 
   to {
-    transform: scaleX(1);
+    clip-path: inset(0);
+  }
+}
+
+@keyframes aeris-meter-group-reveal-inline-rtl {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+
+  to {
+    clip-path: inset(0);
   }
 }
 
 @keyframes aeris-meter-group-reveal-block {
   from {
-    transform: scaleY(0);
+    clip-path: inset(100% 0 0);
   }
 
   to {
-    transform: scaleY(1);
+    clip-path: inset(0);
   }
 }
 
@@ -213,7 +230,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aeris-meter-group__segment {
+  .aeris-meter-group__segments {
     animation: none;
   }
 }

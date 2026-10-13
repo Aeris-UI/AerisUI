@@ -16,14 +16,7 @@ export type AerisMeterGroupLegendLayout = 'auto' | 'row' | 'column';
 export type AerisMeterGroupLegendPosition = 'before' | 'after';
 export type AerisMeterGroupSize = 'sm' | 'md' | 'lg';
 export type AerisMeterGroupTone =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'danger'
-  | 'neutral'
-  | 'contrast';
+  'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'neutral' | 'contrast';
 
 export interface AerisMeterGroupItem {
   readonly label: string;
@@ -110,24 +103,25 @@ interface AerisMeterGroupItemView {
         [attr.aria-label]="ariaLabel() || null"
         [attr.aria-labelledby]="ariaLabelledBy() || null"
       >
-        @for (view of itemViews(); track view.index) {
-          @if (view.renderPercent > 0) {
-            <span
-              class="aeris-meter-group__segment"
-              aria-hidden="true"
-              [attr.data-tone]="view.tone"
-              [style.background-color]="view.color"
-              [style.--aeris-meter-group-segment-size]="view.renderPercent + '%'"
-            >
-              @if (segmentTemplate(); as segment) {
-                <ng-container
-                  [ngTemplateOutlet]="segment.template"
-                  [ngTemplateOutletContext]="view.context"
-                />
-              }
-            </span>
+        <span class="aeris-meter-group__segments" aria-hidden="true">
+          @for (view of itemViews(); track view.index) {
+            @if (view.renderPercent > 0) {
+              <span
+                class="aeris-meter-group__segment"
+                [attr.data-tone]="view.tone"
+                [style.background-color]="view.color"
+                [style.--aeris-meter-group-segment-size]="view.renderPercent + '%'"
+              >
+                @if (segmentTemplate(); as segment) {
+                  <ng-container
+                    [ngTemplateOutlet]="segment.template"
+                    [ngTemplateOutletContext]="view.context"
+                  />
+                }
+              </span>
+            }
           }
-        }
+        </span>
       </div>
 
       @if (showLegend() && legendPosition() === 'after') {

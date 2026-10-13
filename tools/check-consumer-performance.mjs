@@ -142,10 +142,12 @@ bootstrapApplication(App).catch(console.error);
   const stats = JSON.parse(readFileSync(statsPath, 'utf8'));
   const inputs = Object.keys(stats.inputs);
   const optional = inputs.filter((name) =>
-    /node_modules\/(?:chart\.js|(?:@lexical\/|lexical\/))/.test(name.replaceAll('\\', '/')),
+    /node_modules\/(?:chart\.js|(?:@lexical\/|lexical\/)|(?:shiki\/|@shikijs\/))/.test(name.replaceAll('\\', '/')),
   );
   if (!['chart', 'editor'].includes(scenario.name) && optional.length)
     throw new Error(`${scenario.name} pulled in optional dependencies: ${optional.join(', ')}`);
+  if (optional.some((name) => /\/(?:shiki|@shikijs)\//.test(name.replaceAll('\\', '/'))))
+    throw new Error(`${scenario.name} pulled in CodeBlock syntax highlighting without using CodeBlock.`);
   if (scenario.name === 'chart' && !optional.some((name) => name.includes('chart.js')))
     throw new Error('Chart fixture did not include Chart.js.');
   if (scenario.name === 'editor' && !optional.some((name) => name.includes('lexical')))

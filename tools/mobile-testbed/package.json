@@ -1,0 +1,10 @@
+{
+  "name": "aeris-mobile-testbed",
+  "private": true,
+  "scripts": {
+    "build:web": "npm --prefix ../.. exec ng -- build browser-tests --configuration development",
+    "prepare:web": "node prepare-web.mjs",
+    "sync:android": "npm run build:web && npm run prepare:web && cap sync android",
+    "sync:ios": "npm run build:web && npm run prepare:web && cap sync ios"
+  }
+}

@@ -2,7 +2,7 @@
 
 > Hierarchical tabular data with controlled expansion, sorting, filtering, selection, editing, pagination, and lazy loading.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/tree-table`
 - Human-readable documentation: [https://aeris-ui.dev/components/tree-table](https://aeris-ui.dev/components/tree-table)
@@ -256,6 +256,7 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
 | `--aeris-tree-table-scroll-height` | `CSS custom property` | — | Maximum scroll viewport height. |
 | `--aeris-tree-table-header-height` | `CSS custom property` | — | Sticky header offset used by column filters. |
 | `--aeris-tree-table-indent` | `CSS custom property` | — | Indent per hierarchy level. |
+| `--aeris-tree-table-toggle-size` | `CSS custom property` | — | Branch disclosure button size. |
 | `--aeris-tree-table-stripe` | `CSS custom property` | — | Alternate row surface. |
 | `--aeris-tree-table-row-hover` | `CSS custom property` | — | Hover and focused row surface. |
 | `--aeris-tree-table-row-selected` | `CSS custom property` | — | Selected row surface. |

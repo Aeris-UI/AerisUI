@@ -769,7 +769,7 @@ interface AerisMenuVisibilityEvent {
     {
       name: '--aeris-menu-icon-size',
       type: 'length',
-      defaultValue: '1.125rem',
+      defaultValue: '--aeris-icon-size',
       description: 'Icon and chevron box size.',
     },
     {

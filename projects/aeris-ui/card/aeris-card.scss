@@ -16,44 +16,45 @@ aeris-card {
   border: 1px solid var(--aeris-card-border, var(--aeris-border));
   border-radius: var(--_aeris-card-radius);
   background: var(--aeris-card-background, var(--aeris-surface, #fff));
-  color: var(--aeris-card-color, var(--aeris-text, #222222));
+  color: var(--aeris-card-color, var(--aeris-text, #111111));
   box-shadow: var(--aeris-card-shadow, none);
   transition:
-    border-color 150ms ease,
-    box-shadow 150ms ease,
-    transform 150ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-card[data-variant='elevated'] {
   border-color: var(--aeris-card-elevated-border, transparent);
   box-shadow: var(
     --aeris-card-elevated-shadow,
-    0 0.75rem 2rem color-mix(in srgb, var(--aeris-text, #222222) 10%, transparent)
+    var(--aeris-shadow-md, 0 8px 24px rgb(0 0 0 / 14%))
   );
 }
 
 .aeris-card[data-variant='filled'] {
   border-color: var(--aeris-card-filled-border, transparent);
-  background: var(--aeris-card-filled-background, var(--aeris-surface-2, #f2f0ec));
+  background: var(--aeris-card-filled-background, var(--aeris-surface-2, #f3f3f3));
 }
 
-.aeris-card[data-hoverable='true']:hover {
-  border-color: var(
-    --aeris-card-hover-border,
-    color-mix(in srgb, var(--aeris-border, #deddd7) 58%, transparent)
-  );
-  box-shadow: var(
-    --aeris-card-hover-shadow,
-    0 1rem 2.5rem color-mix(in srgb, var(--aeris-text, #222222) 12%, transparent)
-  );
-  transform: translateY(-0.125rem);
+@media (hover: hover) {
+  .aeris-card[data-hoverable='true']:hover {
+    border-color: var(
+      --aeris-card-hover-border,
+      color-mix(in srgb, var(--aeris-border, #efefef) 58%, transparent)
+    );
+    box-shadow: var(
+      --aeris-card-hover-shadow,
+      var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%))
+    );
+    transform: translateY(-0.125rem);
+  }
 }
-
 .aeris-card__body {
   min-width: 0;
   display: grid;
-  gap: var(--aeris-card-gap, 1rem);
-  padding: var(--aeris-card-padding, 1.25rem);
+  gap: var(--aeris-card-gap, var(--aeris-content-gap, 1rem));
+  padding: var(--aeris-card-padding, var(--aeris-surface-padding, 1.25rem));
 }
 
 .aeris-card[data-padding='none'] > .aeris-card__body {
@@ -61,11 +62,11 @@ aeris-card {
 }
 
 .aeris-card[data-padding='sm'] > .aeris-card__body {
-  padding: var(--aeris-card-padding-sm, 0.875rem);
+  padding: var(--aeris-card-padding-sm, var(--aeris-surface-padding-sm, 0.875rem));
 }
 
 .aeris-card[data-padding='lg'] > .aeris-card__body {
-  padding: var(--aeris-card-padding-lg, 1.75rem);
+  padding: var(--aeris-card-padding-lg, var(--aeris-surface-padding-lg, 1.75rem));
 }
 
 .aeris-card__header {
@@ -73,31 +74,31 @@ aeris-card {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--aeris-content-gap, 1rem);
 }
 
 .aeris-card__title {
   display: block;
   margin: 0;
-  color: var(--aeris-card-title-color, var(--aeris-text, #222222));
-  font-size: var(--aeris-card-title-size, 1rem);
-  font-weight: 700;
-  line-height: 1.35;
+  color: var(--aeris-card-title-color, var(--aeris-text, #111111));
+  font-size: var(--aeris-card-title-size, var(--aeris-heading-font-size, 1rem));
+  font-weight: var(--aeris-font-weight-bold, 700);
+  line-height: var(--aeris-line-height-tight, 1.25);
 }
 
 .aeris-card__subtitle {
   display: block;
   margin: 0.25rem 0 0;
-  color: var(--aeris-card-subtitle-color, var(--aeris-text-2, #555555));
-  font-size: var(--aeris-card-subtitle-size, 0.8125rem);
-  line-height: 1.5;
+  color: var(--aeris-card-subtitle-color, var(--aeris-text-2, #454545));
+  font-size: var(--aeris-card-subtitle-size, var(--aeris-font-size-md, 0.8125rem));
+  line-height: var(--aeris-line-height-normal, 1.5);
 }
 
 .aeris-card__content {
   min-width: 0;
-  color: var(--aeris-card-content-color, var(--aeris-text-2, #555555));
-  font-size: var(--aeris-card-content-size, 0.875rem);
-  line-height: 1.65;
+  color: var(--aeris-card-content-color, var(--aeris-text-2, #454545));
+  font-size: var(--aeris-card-content-size, var(--aeris-body-font-size, 0.875rem));
+  line-height: var(--aeris-line-height-relaxed, 1.65);
 }
 
 .aeris-card__content:empty {

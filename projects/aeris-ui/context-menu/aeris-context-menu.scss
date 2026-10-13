@@ -18,11 +18,11 @@ aeris-context-menu {
   --aeris-context-menu-item-padding-inline: var(--aeris-item-padding-x, 0.75rem);
 
   position: fixed;
-  inset-block-start: 0;
-  inset-inline-start: 0;
+  top: 0;
+  left: 0;
   min-inline-size: var(--aeris-context-menu-width, 14rem);
   max-inline-size: var(--aeris-context-menu-max-width, min(22rem, calc(100vw - 1rem)));
-  padding: var(--aeris-context-menu-padding, 0.375rem);
+  padding: var(--aeris-context-menu-padding, var(--aeris-overlay-padding, 0.375rem));
   border: var(--aeris-context-menu-border-width, 1px) solid
     var(--aeris-context-menu-border, var(--aeris-border));
   border-radius: var(
@@ -30,20 +30,18 @@ aeris-context-menu {
     var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
   );
   background: var(--aeris-context-menu-background, var(--aeris-surface, #fff));
-  color: var(--aeris-context-menu-color, var(--aeris-text, #222222));
-  box-shadow: var(--aeris-context-menu-shadow, 0 1.25rem 3.5rem rgba(0, 0, 0, 0.18));
-  opacity: 0;
+  color: var(--aeris-context-menu-color, var(--aeris-text, #111111));
+  box-shadow: var(
+    --aeris-context-menu-shadow,
+    var(--aeris-overlay-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)))
+  );
   pointer-events: auto;
-  transform: translateY(-0.25rem) scale(0.985);
   transform-origin: top left;
 }
 
 .aeris-context-menu__panel[data-positioned='true'] {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition:
-    opacity 140ms ease,
-    transform 140ms ease;
+  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out)
+    backwards;
 }
 
 .aeris-context-menu__list {
@@ -83,29 +81,39 @@ aeris-context-menu {
   background: transparent;
   color: var(--aeris-context-menu-item-color, inherit);
   font: inherit;
-  font-size: var(--aeris-context-menu-font-size, 0.875rem);
-  font-weight: 650;
+  font-size: var(--aeris-context-menu-font-size, var(--aeris-item-font-size, 0.875rem));
+  font-weight: var(--aeris-font-weight-bold, 700);
   line-height: 1.3;
   text-align: start;
   text-decoration: none;
   cursor: pointer;
+  transition:
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-context-menu__item[data-custom-template='true'] {
   display: block;
 }
 
-.aeris-context-menu__item:hover,
 .aeris-context-menu__item-shell[data-active='true'] > .aeris-context-menu__item {
   background: var(
     --aeris-context-menu-item-hover-background,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
+    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
-  color: var(--aeris-context-menu-item-hover-color, var(--aeris-text, #222222));
+  color: var(--aeris-context-menu-item-hover-color, var(--aeris-text, #111111));
 }
-
+@media (hover: hover) {
+  .aeris-context-menu__item:hover {
+    background: var(
+      --aeris-context-menu-item-hover-background,
+      var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
+    );
+    color: var(--aeris-context-menu-item-hover-color, var(--aeris-text, #111111));
+  }
+}
 .aeris-context-menu__item:focus-visible {
-  outline: 3px solid
+  outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(
       in srgb,
       var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%,
@@ -124,8 +132,8 @@ aeris-context-menu {
 .aeris-context-menu__submenu-icon {
   display: inline-grid;
   place-items: center;
-  inline-size: var(--aeris-context-menu-icon-size, 1.125rem);
-  block-size: var(--aeris-context-menu-icon-size, 1.125rem);
+  inline-size: var(--aeris-context-menu-icon-size, var(--aeris-icon-size, 1rem));
+  block-size: var(--aeris-context-menu-icon-size, var(--aeris-icon-size, 1rem));
   color: var(--aeris-context-menu-icon-color, currentColor);
 }
 
@@ -159,8 +167,8 @@ aeris-context-menu {
     --aeris-context-menu-badge-color,
     var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
   );
-  font-size: 0.75rem;
-  font-weight: 800;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   overflow: hidden;
   text-align: center;
   text-overflow: ellipsis;
@@ -171,10 +179,10 @@ aeris-context-menu {
   min-inline-size: 0;
   max-inline-size: var(--aeris-context-menu-shortcut-max-width, min(8rem, 38vw));
   justify-self: end;
-  color: var(--aeris-context-menu-shortcut-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-context-menu-shortcut-color, var(--aeris-text-2, #454545));
   font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -192,9 +200,11 @@ aeris-context-menu {
 
 .aeris-context-menu__submenu {
   position: absolute;
-  inset-block-start: calc(-1 * var(--aeris-context-menu-padding, 0.375rem));
+  inset-block-start: calc(
+    -1 * var(--aeris-context-menu-padding, var(--aeris-overlay-padding, 0.375rem))
+  );
   min-inline-size: var(--aeris-context-menu-submenu-width, 14rem);
-  padding: var(--aeris-context-menu-padding, 0.375rem);
+  padding: var(--aeris-context-menu-padding, var(--aeris-overlay-padding, 0.375rem));
   border: var(--aeris-context-menu-border-width, 1px) solid
     var(--aeris-context-menu-border, var(--aeris-border));
   border-radius: var(
@@ -202,35 +212,50 @@ aeris-context-menu {
     var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
   );
   background: var(--aeris-context-menu-background, var(--aeris-surface, #fff));
-  box-shadow: var(--aeris-context-menu-shadow, 0 1.25rem 3.5rem rgba(0, 0, 0, 0.18));
+  box-shadow: var(
+    --aeris-context-menu-shadow,
+    var(--aeris-overlay-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)))
+  );
 }
 
 .aeris-context-menu__submenu[data-side='end'] {
+  --aeris-overlay-motion-x: calc(var(--aeris-motion-distance, 0.25rem) * -1);
+  --aeris-overlay-motion-y: 0;
+
   inset-inline-start: calc(100% + var(--aeris-context-menu-submenu-offset, 0.375rem));
+  transform-origin: center left;
 }
 
 .aeris-context-menu__submenu[data-side='start'] {
+  --aeris-overlay-motion-x: var(--aeris-motion-distance, 0.25rem);
+  --aeris-overlay-motion-y: 0;
+
   inset-inline-end: calc(100% + var(--aeris-context-menu-submenu-offset, 0.375rem));
+  transform-origin: center right;
 }
 
 .aeris-context-menu__panel[data-size='sm'] {
-  --aeris-context-menu-font-size: 0.8125rem;
+  --aeris-context-menu-font-size: var(--aeris-font-size-md, 0.8125rem);
   --aeris-context-menu-item-min-height: calc(var(--aeris-item-height, 2.5rem) - 0.375rem);
   --aeris-context-menu-item-padding-block: calc(var(--aeris-item-padding-y, 0.5rem) * 0.8);
   --aeris-context-menu-item-padding-inline: calc(var(--aeris-item-padding-x, 0.75rem) * 0.85);
-  --aeris-context-menu-icon-size: 1rem;
+  --aeris-context-menu-icon-size: var(--aeris-icon-size, 1rem);
 }
 
 .aeris-context-menu__panel[data-size='lg'] {
-  --aeris-context-menu-font-size: 0.9375rem;
+  --aeris-context-menu-font-size: var(--aeris-font-size-xl, 0.9375rem);
   --aeris-context-menu-item-min-height: calc(var(--aeris-item-height, 2.5rem) + 0.25rem);
   --aeris-context-menu-item-padding-block: calc(var(--aeris-item-padding-y, 0.5rem) * 1.15);
   --aeris-context-menu-item-padding-inline: calc(var(--aeris-item-padding-x, 0.75rem) * 1.15);
-  --aeris-context-menu-icon-size: 1.25rem;
+  --aeris-context-menu-icon-size: var(--aeris-icon-size, 1rem);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .aeris-context-menu__panel[data-positioned='true'] {
+    animation: none;
+  }
+
+  .aeris-context-menu__item {
     transition: none;
   }
 }

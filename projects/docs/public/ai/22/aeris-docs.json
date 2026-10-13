@@ -3,7 +3,7 @@
   "schemaVersion": 1,
   "library": {
     "name": "@aeris-ui/core",
-    "version": "22.0.0-alpha.9",
+    "version": "22.0.0-alpha.10",
     "status": "alpha",
     "angularPeerRange": ">=22.0.6 <23.0.0",
     "documentationUrl": "https://aeris-ui.dev",
@@ -20,6 +20,7 @@
       "@angular/platform-browser": ">=22.0.6 <23.0.0",
       "rxjs": ">=7.8.0 <8.0.0",
       "chart.js": "^4.5.1",
+      "shiki": "^4.5.0",
       "@lexical/history": "^0.49.0",
       "@lexical/html": "^0.49.0",
       "@lexical/list": "^0.49.0",
@@ -51,6 +52,294 @@
   ],
   "guides": [
     {
+      "id": "mobile",
+      "path": "/guides/mobile",
+      "group": "Integration and quality",
+      "title": "Mobile layouts",
+      "description": "Build flexible layouts and usable forms, data views, and overlays for mobile browsers.",
+      "summary": "Aeris handles component-level interactions and sizing. Your application owns responsive page layout. Use flexible containers, choose appropriate data layouts, and keep application-owned navigation and actions reachable.",
+      "sections": [
+        {
+          "id": "mobile-layouts",
+          "title": "Build flexible mobile layouts",
+          "paragraphs": [
+            "Aeris handles component interactions and sizing within the available space. Your application still owns page layout, breakpoints, and which content to show on a narrow screen. Start with flexible wrappers instead of fixed desktop widths.",
+            "Use Fluid for full-width supported controls, and allow their parent grid or flex items to shrink. Fluid does not turn a multi-column page into a mobile layout."
+          ],
+          "code": [
+            {
+              "label": "CSS",
+              "language": "CSS",
+              "code": ".form-layout {\n  display: grid;\n  grid-template-columns: minmax(0, 1fr);\n  gap: 1rem;\n}\n\n.form-layout > * {\n  min-width: 0;\n}\n\n@media (min-width: 48rem) {\n  .form-layout {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n  }\n}"
+            }
+          ],
+          "table": {
+            "caption": "Component behavior and application responsibilities",
+            "columns": [
+              "Area",
+              "Aeris handles",
+              "Your application handles"
+            ],
+            "rows": [
+              [
+                "Forms",
+                "Shrinkable controls, Fluid support, and coarse-pointer input sizing.",
+                "Flexible wrappers, labels, and useful inputmode and autocomplete values."
+              ],
+              [
+                "Data tables",
+                "Contained scrolling or stacking through responsiveMode.",
+                "Choose scroll or stack for the data; keep important columns understandable."
+              ],
+              [
+                "Dialogs and drawers",
+                "Scrollable bodies and responsive footer layouts by default.",
+                "Reasonable content width, action labels, and avoiding competing scroll regions."
+              ],
+              [
+                "Dropdowns",
+                "Anchor tracking, viewport clamping, and automatic escape from clipping ancestors.",
+                "A connected trigger and appropriate appendTo target for unusual layouts."
+              ],
+              [
+                "Touch interaction",
+                "Coarse-pointer sizing for supported actions and gesture behavior where available.",
+                "Usable custom controls and layouts that do not rely on hover alone."
+              ]
+            ]
+          },
+          "links": [
+            {
+              "label": "Fluid",
+              "href": "/components/fluid"
+            },
+            {
+              "label": "Table responsive layouts",
+              "href": "/components/table"
+            },
+            {
+              "label": "Overlay integration",
+              "href": "/guides/overlays"
+            }
+          ]
+        },
+        {
+          "id": "forms-overlays",
+          "title": "Keep forms and actions reachable",
+          "bullets": [
+            "Keep the responsive footerLayout default on Dialog and Drawer, or choose wrap or stack when your actions need it. Avoid inline layouts that force long labels into one row on small screens.",
+            "Keep long modal content in the component body instead of adding a second fixed-height scroll region.",
+            "Aeris observes visualViewport changes for viewport overlays and clamps anchored panels to the visible area. If your host covers content with a keyboard without resizing the viewport, your application must supply the missing sizing or inset information.",
+            "Use appendTo=\"body\" when a dropdown explicitly needs a viewport-level target. Use a local target only when intentionally containing the overlay.",
+            "Keep zoom and text scaling enabled. Supply appropriate inputmode and autocomplete values on native fields, and keep custom projected controls large enough to operate by touch."
+          ],
+          "links": [
+            {
+              "label": "Forms and validation",
+              "href": "/guides/forms"
+            },
+            {
+              "label": "Dialog",
+              "href": "/components/dialog"
+            },
+            {
+              "label": "Drawer",
+              "href": "/components/drawer"
+            }
+          ]
+        },
+        {
+          "id": "application-layout",
+          "title": "Application layout considerations",
+          "paragraphs": [
+            "Aeris provides component-level mobile behavior. The surrounding application layout determines how navigation, custom content, and groups of components fit together."
+          ],
+          "bullets": [
+            "Let application grids and flex items shrink or stack instead of forcing desktop widths into narrow screens.",
+            "Allow groups of actions to wrap or stack when labels or translations need more space.",
+            "Account for application-owned sticky headers and bottom navigation so they do not cover page content or focused fields.",
+            "Avoid competing fixed-height scroll containers and preserve browser zoom when styling your page shell.",
+            "Give custom projected controls usable touch targets and an interaction that does not depend on hover."
+          ],
+          "note": "For native WebView sizing, system bars, and Android Back integration, see the Capacitor guide.",
+          "links": [
+            {
+              "label": "Capacitor integration",
+              "href": "/guides/capacitor"
+            },
+            {
+              "label": "Accessibility",
+              "href": "/guides/accessibility"
+            },
+            {
+              "label": "Browser support",
+              "href": "/guides/browser-support"
+            }
+          ]
+        },
+        {
+          "id": "safe-areas",
+          "title": "Handle screen edges and safe areas",
+          "paragraphs": [
+            "For edge-to-edge layouts, use viewport-fit=cover without disabling user zoom. Aeris safe-area tokens use native CSS environment values and also accept host-provided --safe-area-inset-* values. Ordinary websites do not need edge-to-edge layout to be responsive.",
+            "Dialogs, drawers, toasts, fullscreen galleries, and fixed ScrollTop controls use these tokens. Your own page header, bottom navigation, and floating-action placement must use them too. Apply each inset once; do not add it again when a containing shell already supplies that padding.",
+            "SpeedDial is inline: your application positions its floating wrapper and adds safe-area spacing if it sits at a screen edge."
+          ],
+          "code": [
+            {
+              "label": "index.html",
+              "language": "HTML",
+              "code": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\" />"
+            },
+            {
+              "label": "CSS",
+              "language": "CSS",
+              "code": ".app-shell {\n  padding: var(--aeris-safe-area-top) var(--aeris-safe-area-right)\n    var(--aeris-safe-area-bottom) var(--aeris-safe-area-left);\n}\n\n/* Override an inset only if your host requires it. */\n:root {\n  --aeris-safe-area-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));\n}"
+            }
+          ],
+          "table": {
+            "caption": "Mobile design tokens",
+            "columns": [
+              "Token",
+              "Default",
+              "Purpose"
+            ],
+            "rows": [
+              [
+                "--aeris-safe-area-top/right/bottom/left",
+                "Host inset or env(..., 0px)",
+                "Keep edge controls away from system bars and cutouts."
+              ],
+              [
+                "--aeris-mobile-input-font-size",
+                "1rem",
+                "Editable text on coarse pointers; helps avoid small-font iOS focus zoom when the root font size is at least 16px."
+              ],
+              [
+                "--aeris-touch-target-size",
+                "2.75rem",
+                "Coarse-pointer target minimum for primary actions and overlay controls."
+              ]
+            ]
+          },
+          "links": [
+            {
+              "label": "Capacitor integration",
+              "href": "/guides/capacitor"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "overlays",
+        "accessibility",
+        "browser-support",
+        "capacitor"
+      ]
+    },
+    {
+      "id": "capacitor",
+      "path": "/guides/capacitor",
+      "group": "Integration and quality",
+      "title": "Capacitor integration",
+      "description": "Understand Aeris overlay behavior, safe-area integration, and Android Back handling in Capacitor apps.",
+      "summary": "Capacitor runs your Angular application in a native WebView. Aeris renders web controls and has no Capacitor dependency. The integration points below connect Aeris overlays and layout tokens to your existing Capacitor app.",
+      "sections": [
+        {
+          "id": "interaction",
+          "title": "What Aeris handles in a Capacitor app",
+          "paragraphs": [
+            "Use the same Aeris components and themes as in an Angular website. There is no separate native component package or Capacitor adapter to install.",
+            "Aeris observes browser viewport changes and exposes safe-area tokens. It does not subscribe to native plugins, control system bars, or handle Android Back automatically. Your application supplies those native integration points."
+          ],
+          "note": "This guide assumes a working Capacitor application. Installation, native project setup, plugin configuration, and deployment belong in the Capacitor documentation.",
+          "links": [
+            {
+              "label": "Capacitor documentation",
+              "href": "https://capacitorjs.com/docs",
+              "external": true
+            },
+            {
+              "label": "Mobile layouts with Aeris",
+              "href": "/guides/mobile"
+            }
+          ]
+        },
+        {
+          "id": "system-bars",
+          "title": "Integrate system bars and safe areas",
+          "paragraphs": [
+            "Capacitor 8 System Bars can supply --safe-area-inset-* values on Android through insetsHandling: css. Aeris safe-area tokens accept these values as well as browser CSS environment insets.",
+            "Use viewport-fit=cover for edge-to-edge layouts and pad application-owned headers, bottom navigation, and floating controls with the Aeris safe-area tokens. Avoid double padding when a native container already supplies the inset."
+          ],
+          "links": [
+            {
+              "label": "Mobile layout safe areas",
+              "href": "/guides/mobile#safe-areas"
+            },
+            {
+              "label": "Capacitor System Bars",
+              "href": "https://capacitorjs.com/docs/apis/system-bars",
+              "external": true
+            }
+          ]
+        },
+        {
+          "id": "keyboard",
+          "title": "How keyboard resizing affects Aeris overlays",
+          "paragraphs": [
+            "Start with native WebView resizing. Aeris observes visualViewport changes for viewport overlays and clamps anchored panels to the visible area. It does not infer keyboard height or subscribe to Capacitor plugins.",
+            "No-resize configurations can cover controls without changing the browser viewport. Aeris cannot detect that occlusion reliably; prefer native resizing or manage it explicitly in your application."
+          ],
+          "links": [
+            {
+              "label": "Capacitor Keyboard configuration",
+              "href": "https://capacitorjs.com/docs/apis/keyboard",
+              "external": true
+            }
+          ]
+        },
+        {
+          "id": "hardware-back",
+          "title": "Close the top overlay on Android Back",
+          "paragraphs": [
+            "dismissTopAerisOverlay() closes one registered overlay using its own close path and focus restoration. This includes dialogs and drawers, service-backed confirmations, popup menus, and form dropdowns. It returns dismissed, blocked, or none.",
+            "Treat blocked as handled: a non-dismissible dialog or fullscreen BlockUI must not fall through to navigation. Register the listener once at application startup and remove only your own listener on teardown. Installing a Back listener replaces Capacitor’s default Back handling."
+          ],
+          "code": [
+            {
+              "label": "hardware-back.provider.ts",
+              "language": "TypeScript",
+              "code": "import { DOCUMENT, Location } from '@angular/common';\nimport { DestroyRef, inject, provideEnvironmentInitializer } from '@angular/core';\nimport { App } from '@capacitor/app';\nimport { Capacitor } from '@capacitor/core';\nimport { dismissTopAerisOverlay } from '@aeris-ui/core';\n\nexport function provideHardwareBack() {\n  return provideEnvironmentInitializer(() => {\n    if (Capacitor.getPlatform() !== 'android') return;\n    const document = inject(DOCUMENT);\n    const location = inject(Location);\n    const destroyRef = inject(DestroyRef);\n    const listener = App.addListener('backButton', ({ canGoBack }) => {\n      if (dismissTopAerisOverlay(document) !== 'none') return;\n      if (canGoBack) location.back();\n      // At the root, keep the app open; choose an exit policy deliberately.\n    });\n    destroyRef.onDestroy(() => { void listener.then((handle) => handle.remove()); });\n  });\n}\n\n// Add provideHardwareBack() to the providers in your app.config.ts."
+            }
+          ],
+          "note": "The supplied Document isolates the application’s overlay stack. Outside an Angular application, the function defaults to the current browser document and returns none during server rendering.",
+          "links": [
+            {
+              "label": "Capacitor App Back events",
+              "href": "https://capacitorjs.com/docs/apis/app",
+              "external": true
+            }
+          ]
+        },
+        {
+          "id": "device-validation",
+          "title": "Application integration responsibilities",
+          "bullets": [
+            "Configure WebView resizing so keyboard occlusion is reflected in the viewport, or supply application-level sizing when using a no-resize configuration.",
+            "Connect host-provided system-bar insets to the safe-area tokens and apply each inset only once in your page shell.",
+            "Register the Android Back listener once, consume dismissed and blocked results, and apply application navigation only when no Aeris overlay handles the event."
+          ],
+          "note": "Aeris handles the component behavior; native plugin configuration, page-shell sizing, and navigation policy belong to your application. Device-specific WebView behavior depends on that host configuration."
+        }
+      ],
+      "related": [
+        "mobile",
+        "overlays",
+        "browser-support"
+      ]
+    },
+    {
       "id": "installation",
       "path": "/guides/installation",
       "group": "Getting started",
@@ -62,7 +351,7 @@
           "id": "alpha-status",
           "title": "Alpha status",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.9 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
+            "Aeris 22.0.0-alpha.10 is an active-development alpha release. It is not production ready and should not be used for critical or production applications yet.",
             "Public APIs, styling contracts, component behavior, and migration requirements may change before the first stable release as consumer testing uncovers improvements."
           ],
           "bullets": [
@@ -98,7 +387,7 @@
             {
               "label": "Pinned alpha (recommended)",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.9"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.10"
             },
             {
               "label": "Newest alpha",
@@ -117,8 +406,8 @@
             "rows": [
               [
                 "Theme",
-                "Earth, Coastal, Orchid, Monochrome, or five custom seeds",
-                "Earth"
+                "Monochrome, Earth, Coastal, Orchid, or five custom seeds",
+                "Monochrome"
               ],
               [
                 "Density",
@@ -217,7 +506,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.9 --config=aeris.setup.json"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.10 --config=aeris.setup.json"
             }
           ]
         },
@@ -232,7 +521,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "ng add @aeris-ui/core@22.0.0-alpha.9 --project=web --surface=\"#f1f4f8\" --primary=\"#2d63a8\" --secondary=\"#546b89\" --accent=\"#368678\" --contrast=\"#39404a\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
+              "code": "ng add @aeris-ui/core@22.0.0-alpha.10 --project=web --surface=\"#f1f4f8\" --primary=\"#2d63a8\" --secondary=\"#546b89\" --accent=\"#368678\" --contrast=\"#39404a\" --density=compact --corners=soft --schemes=both --default-mode=system --strategy=build-time --direction=ltr --skip-prompts"
             },
             {
               "label": "aeris.setup.json",
@@ -253,7 +542,7 @@
             {
               "label": "Terminal",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.9"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.10"
             }
           ]
         },
@@ -292,15 +581,15 @@
           "id": "starter-theme",
           "title": "Choose a starter theme",
           "paragraphs": [
-            "Aeris includes four accessible starter themes. Earth is the default when theme is omitted; pass Coastal, Orchid, or Monochrome through the same theme option to change the visual direction without building a custom palette.",
+            "Aeris includes four accessible starter themes. Monochrome is the default when theme is omitted; pass Earth, Coastal, or Orchid through the same theme option to change the visual direction without building a custom palette.",
             "The presets contain palette seeds, so they continue to use the shared Aeris semantic derivation, light and dark modes, density scales, and corner styles.",
             "Monochrome keeps application chrome, actions, surfaces, and typography neutral while reserving restrained color for success, information, warning, and danger. Primary actions use the dominant foreground, secondary actions use a middle neutral, and contrast actions invert the surface with a strong boundary. Severity remains reinforced by component icons, labels, and accessibility semantics rather than color alone."
           ],
           "code": [
             {
-              "label": "Earth",
+              "label": "Monochrome",
               "language": "TypeScript",
-              "code": "import { ApplicationConfig } from '@angular/core';\nimport { AERIS_THEME_PRESETS, provideAeris } from '@aeris-ui/core/theming';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    provideAeris({\n      mode: 'system',\n      theme: AERIS_THEME_PRESETS.earth,\n    }),\n  ],\n};"
+              "code": "import { ApplicationConfig } from '@angular/core';\nimport { AERIS_THEME_PRESETS, provideAeris } from '@aeris-ui/core/theming';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    provideAeris({\n      mode: 'system',\n      theme: AERIS_THEME_PRESETS.monochrome,\n    }),\n  ],\n};"
             },
             {
               "label": "Coastal",
@@ -313,13 +602,18 @@
               "code": "import { ApplicationConfig } from '@angular/core';\nimport { AERIS_THEME_PRESETS, provideAeris } from '@aeris-ui/core/theming';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    provideAeris({\n      mode: 'system',\n      theme: AERIS_THEME_PRESETS.orchid,\n    }),\n  ],\n};"
             },
             {
-              "label": "Monochrome",
+              "label": "Earth",
               "language": "TypeScript",
-              "code": "import { ApplicationConfig } from '@angular/core';\nimport { AERIS_THEME_PRESETS, provideAeris } from '@aeris-ui/core/theming';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    provideAeris({\n      mode: 'system',\n      theme: AERIS_THEME_PRESETS.monochrome,\n    }),\n  ],\n};"
+              "code": "import { ApplicationConfig } from '@angular/core';\nimport { AERIS_THEME_PRESETS, provideAeris } from '@aeris-ui/core/theming';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    provideAeris({\n      mode: 'system',\n      theme: AERIS_THEME_PRESETS.earth,\n    }),\n  ],\n};"
             }
           ],
-          "note": "Omit theme entirely to use Aeris Earth. There is no separate preset mode: starter and custom themes both use the existing theme configuration property.",
+          "note": "Omit theme entirely to use Monochrome. There is no separate preset mode: starter and custom themes both use the existing theme configuration property.",
           "themePresets": [
+            {
+              "id": "monochrome",
+              "name": "Aeris Monochrome",
+              "description": "Black-and-white interface colors with distinct neutral action tiers and restrained status accents."
+            },
             {
               "id": "earth",
               "name": "Aeris Earth",
@@ -334,11 +628,6 @@
               "id": "orchid",
               "name": "Orchid Dusk",
               "description": "Refined violet, quiet plum, and a restrained rose accent on soft neutrals."
-            },
-            {
-              "id": "monochrome",
-              "name": "Aeris Monochrome",
-              "description": "Black-and-white interface colors with distinct neutral action tiers and restrained status accents."
             }
           ],
           "links": [
@@ -367,6 +656,11 @@
                 "Chart",
                 "npm install chart.js",
                 "Importing @aeris-ui/core/chart"
+              ],
+              [
+                "CodeBlock",
+                "npm install shiki",
+                "Importing @aeris-ui/core/code-block; highlighting loads lazily"
               ],
               [
                 "Editor",
@@ -839,7 +1133,7 @@
                 "CSS color"
               ],
               [
-                "shadowXs, shadowSm",
+                "shadowXs, shadowSm, shadowMd, shadowLg",
                 "Mode-specific elevation",
                 "CSS shadow"
               ]
@@ -888,6 +1182,121 @@
                 "AerisThemePreset",
                 "AerisThemeOverride with a complete palette",
                 "Public type for tooling that consumes an official starter theme"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "visual-foundation",
+          "title": "Use the shared visual foundation",
+          "paragraphs": [
+            "Aeris components share one compact foundation for typography, elevation, focus, and motion. These tokens keep controls and surfaces visually consistent and remain available for deliberate application-level customization.",
+            "Prefer changing a foundation token at an application boundary over repeating component-specific overrides. Reduced-motion preferences automatically collapse the shared motion durations while preserving state changes."
+          ],
+          "note": "The four shadow values can also be configured per light or dark scheme through shadowXs, shadowSm, shadowMd, and shadowLg.",
+          "table": {
+            "caption": "Shared visual foundation tokens",
+            "columns": [
+              "Purpose",
+              "Tokens",
+              "Use"
+            ],
+            "rows": [
+              [
+                "Typography",
+                "--aeris-font-size-xs through --aeris-font-size-3xl, --aeris-line-height-*, --aeris-font-weight-*",
+                "Consistent labels, body copy, titles, and supporting text"
+              ],
+              [
+                "Elevation",
+                "--aeris-shadow-xs, --aeris-shadow-sm, --aeris-shadow-md, --aeris-shadow-lg",
+                "Raised controls, surfaces, floating panels, and modal layers"
+              ],
+              [
+                "Focus",
+                "--aeris-focus-ring-width, --aeris-focus-ring-offset, --aeris-focus-ring-color, --aeris-control-focus-border, --aeris-control-focus-ring-color",
+                "Consistent focus geometry and color across native and composite controls"
+              ],
+              [
+                "Control states",
+                "--aeris-control-hover-border, --aeris-control-invalid-border, --aeris-control-invalid-focus-ring-color",
+                "Shared hover and validation treatment for the complete form-control family"
+              ],
+              [
+                "Floating surfaces",
+                "--aeris-overlay-shadow",
+                "One elevation alias for menus, pickers, popovers, and other anchored panels"
+              ],
+              [
+                "Motion",
+                "--aeris-motion-instant through --aeris-motion-emphasized, --aeris-motion-distance, --aeris-motion-scale, --aeris-ease-*",
+                "Short, restrained state and overlay transitions"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "motion",
+          "title": "Tune motion without fragmenting it",
+          "paragraphs": [
+            "Aeris uses one motion scale for direct feedback, ordinary state changes, overlays, disclosures, and larger spatial changes. Override these shared values when a product needs a different pace instead of changing individual component transitions.",
+            "Movement stays close to its point of origin: anchored panels reveal toward their trigger, drawers follow their edge, and state transitions avoid unnecessary travel. Aeris automatically reduces shared durations and removes overlay travel when the operating system requests reduced motion."
+          ],
+          "code": [
+            {
+              "label": "CSS",
+              "language": "CSS",
+              "code": ":root {\n  --aeris-motion-fast: 90ms;\n  --aeris-motion-normal: 140ms;\n  --aeris-motion-slow: 210ms;\n  --aeris-motion-emphasized: 300ms;\n  --aeris-motion-distance: 0.2rem;\n  --aeris-motion-scale: 0.99;\n  --aeris-ease-standard: cubic-bezier(0.2, 0, 0, 1);\n  --aeris-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);\n  --aeris-ease-exit: cubic-bezier(0.4, 0, 1, 1);\n}"
+            }
+          ],
+          "note": "Continuous activity such as indeterminate progress and loading spinners keeps a component-specific duration. Disable those features when motion is not appropriate; reduced-motion preferences stop or simplify them where necessary.",
+          "table": {
+            "caption": "Shared Aeris motion roles",
+            "columns": [
+              "Role",
+              "Default token",
+              "Typical use"
+            ],
+            "rows": [
+              [
+                "Immediate",
+                "--aeris-motion-instant",
+                "Changes that must not interpolate"
+              ],
+              [
+                "Fast",
+                "--aeris-motion-fast",
+                "Press feedback, checks, and small indicators"
+              ],
+              [
+                "Normal",
+                "--aeris-motion-normal",
+                "Hover, focus, and floating-panel reveals"
+              ],
+              [
+                "Slow",
+                "--aeris-motion-slow",
+                "Disclosure, drawer, and dialog movement"
+              ],
+              [
+                "Emphasized",
+                "--aeris-motion-emphasized",
+                "Larger spatial or progress changes"
+              ],
+              [
+                "Distance",
+                "--aeris-motion-distance",
+                "The short travel used by floating surfaces"
+              ],
+              [
+                "Scale",
+                "--aeris-motion-scale",
+                "The subtle starting scale used by floating surfaces"
+              ],
+              [
+                "Easing",
+                "--aeris-ease-standard, --aeris-ease-enter, --aeris-ease-exit",
+                "State, arrival, and departure curves"
               ]
             ]
           }
@@ -1179,8 +1588,8 @@
             "rows": [
               [
                 "--preset",
-                "earth",
-                "Select earth, coastal, orchid, or monochrome as the base"
+                "monochrome",
+                "Select monochrome, earth, coastal, or orchid as the base"
               ],
               [
                 "--config",
@@ -1393,7 +1802,8 @@
           "id": "scales",
           "title": "Choose density and corners",
           "paragraphs": [
-            "Use compact for dense workspaces, medium for the balanced default, and comfortable for touch-heavy or relaxed layouts. Soft, rounded, and pill control the visual character while structural components retain practical geometry."
+            "Use compact for dense workspaces, medium for the balanced default, and comfortable for touch-heavy or relaxed layouts. Soft, rounded, and pill control the visual character while structural components retain practical geometry.",
+            "Density also controls the space around content: menus and toolbars share compact outer padding, while cards, panels, accordions, and dialog bodies use the same content spacing scale. A toolbar containing buttons can be taller than a menu row because the controls need their own space."
           ],
           "code": [
             {
@@ -1402,6 +1812,72 @@
               "code": "import { ApplicationConfig } from '@angular/core';\nimport { provideAeris } from '@aeris-ui/core/theming';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    provideAeris({\n      theme: {\n        density: 'medium',\n        radius: 'rounded',\n      },\n    }),\n  ],\n};"
             }
           ]
+        },
+        {
+          "id": "shared-geometry",
+          "title": "Customize shared spacing and typography",
+          "advanced": true,
+          "paragraphs": [
+            "Prefer these shared CSS tokens when several components should change together. Their default values derive from the active density, so compact and comfortable layouts remain coordinated. Component-specific tokens still take precedence for a local exception.",
+            "Widths remain content-dependent: a menu, a date grid, and a dialog do not need the same width. Use fluid controls and responsive parent layouts rather than assigning one fixed width to every component."
+          ],
+          "code": [
+            {
+              "label": "src/styles.scss",
+              "language": "CSS",
+              "code": ":root {\n  --aeris-surface-padding: 1.5rem;\n  --aeris-content-gap: 1.25rem;\n}\n\n.compact-toolbar {\n  --aeris-toolbar-padding-inline: 0.25rem;\n}"
+            }
+          ],
+          "table": {
+            "caption": "Shared geometry tokens (medium density)",
+            "columns": [
+              "Token",
+              "Default",
+              "Used for"
+            ],
+            "rows": [
+              [
+                "--aeris-overlay-padding",
+                "0.375rem",
+                "Outer padding of menus, dropdown panels, and toolbars"
+              ],
+              [
+                "--aeris-surface-padding-sm",
+                "0.875rem",
+                "Small surfaces and compact headers"
+              ],
+              [
+                "--aeris-surface-padding",
+                "1.25rem",
+                "Default content surfaces and overlay bodies"
+              ],
+              [
+                "--aeris-surface-padding-lg",
+                "1.75rem",
+                "Large content surfaces"
+              ],
+              [
+                "--aeris-content-gap",
+                "1rem",
+                "Spacing between content sections"
+              ],
+              [
+                "--aeris-heading-font-size",
+                "1rem",
+                "Card, panel, dialog, drawer, and popover headings"
+              ],
+              [
+                "--aeris-body-font-size",
+                "0.875rem",
+                "Content text"
+              ],
+              [
+                "--aeris-item-font-size",
+                "0.875rem",
+                "Menu items and selectable list options"
+              ]
+            ]
+          }
         },
         {
           "id": "custom-scales",
@@ -1787,13 +2263,12 @@
         },
         {
           "id": "testing",
-          "title": "Test the complete interaction",
+          "title": "Integrate overlays into application workflows",
           "bullets": [
-            "Open with mouse, touch, and keyboard.",
-            "Verify the initial focus target, Tab sequence, Escape behavior, and focus restoration.",
-            "Check both viewport edges, RTL, narrow screens, zoom, and long translated content.",
-            "Confirm background content is inert or unavailable while a modal interaction is active.",
-            "Close the overlay during route changes and component destruction to verify cleanup."
+            "Choose an initial focus target that matches the task, and keep its trigger available for focus restoration.",
+            "Allow application-provided content and translated action labels to fit the overlay body and footer.",
+            "Use a modal interaction when background tasks must be unavailable; do not disable focus trapping without an accessible replacement.",
+            "Close application-controlled overlays when their task is abandoned or their route changes."
           ],
           "links": [
             {
@@ -1845,7 +2320,7 @@
           "bullets": [
             "Node.js 20 or newer for the local MCP process.",
             "An AI editor, CLI, or desktop application that supports local stdio MCP servers.",
-            "Use @aeris-ui/mcp 22.0.0-alpha.9 with @aeris-ui/core 22.0.0-alpha.9.",
+            "Use @aeris-ui/mcp 22.0.0-alpha.10 with @aeris-ui/core 22.0.0-alpha.10.",
             "Restart or reload the AI client after changing its MCP configuration."
           ],
           "note": "Pin the MCP and core packages to the same exact alpha version."
@@ -1862,7 +2337,7 @@
             {
               "label": "Generic MCP client configuration",
               "language": "JSON",
-              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.9\"]\n    }\n  }\n}"
+              "code": "{\n  \"mcpServers\": {\n    \"aeris\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@aeris-ui/mcp@22.0.0-alpha.10\"]\n    }\n  }\n}"
             }
           ],
           "note": "Do not add @aeris-ui/mcp to the Angular application dependencies. It belongs in the AI client configuration, not application source or runtime code.",
@@ -1884,7 +2359,7 @@
             {
               "label": "Install the MCP executable",
               "language": "Shell",
-              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.9"
+              "code": "npm install --global @aeris-ui/mcp@22.0.0-alpha.10"
             },
             {
               "label": "Global installation configuration",
@@ -2272,7 +2747,7 @@
           "id": "matrix",
           "title": "Supported browsers",
           "paragraphs": [
-            "The table is the Aeris support policy, not a claim that every application and third-party integration has been tested in every listed browser. During alpha, the automated library suite does not yet run a complete Chrome, Edge, Firefox, and WebKit matrix, so consumers must test the browsers used by their audience."
+            "The table describes the Aeris browser support policy. During alpha, browser coverage is still limited; it is not a certification of every component and browser combination. Application CSS, content, and third-party integrations have their own compatibility requirements."
           ],
           "note": "Internet Explorer and other legacy browsers are not supported.",
           "table": {
@@ -2317,11 +2792,10 @@
           "id": "ssr-hydration",
           "title": "Server rendering and hydration",
           "paragraphs": [
-            "Aeris release verification now server-renders a consumer composition containing deferred Tabs and body-targeted overlay controls, checks stable ARIA relationships, and verifies Angular hydration metadata. Browser-dependent observers and animation work remain guarded where components use them.",
-            "This targeted regression is not yet a complete all-component SSR and hydration matrix. During alpha, evaluate every component used by an application's initial route and treat the browser production build as a separate check.",
-            "Evaluate SSR applications in a disposable branch, render every component used by the initial route, and check for direct document access, hydration mismatches, overlay creation before the browser is ready, and layout changes after hydration. Treat a successful browser build alone as insufficient evidence."
+            "Aeris guards browser-dependent observers and animation work. Automated SSR coverage includes deferred Tabs and body-targeted overlay controls, but does not establish SSR and hydration support for every component during alpha.",
+            "Keep application browser-only code behind platform guards and open overlays only after the browser is ready. A browser build does not validate server rendering; use your Angular SSR build and hydration diagnostics for the components rendered on the initial route."
           ],
-          "note": "A complete SSR support promise will follow only after the full component matrix is automated."
+          "note": "SSR and hydration support remain limited during alpha; do not assume every component is supported in server-rendered routes."
         },
         {
           "id": "application-testing",
@@ -2356,7 +2830,7 @@
       "group": "Releases and updates",
       "title": "Version compatibility",
       "description": "Choose an Aeris release line that is verified for the Angular version used by your application.",
-      "summary": "The current package is Aeris 22.0.0-alpha.9, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
+      "summary": "The current package is Aeris 22.0.0-alpha.10, an alpha that is not production ready. Its Angular peer dependencies use >=22.0.6 <23.0.0, keeping the evaluated range within Angular 22.",
       "sections": [
         {
           "id": "matrix",
@@ -2394,7 +2868,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm view @aeris-ui/core@22.0.0-alpha.9 peerDependencies"
+              "code": "npm view @aeris-ui/core@22.0.0-alpha.10 peerDependencies"
             }
           ]
         },
@@ -2479,7 +2953,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "npm install @aeris-ui/core@22.0.0-alpha.9"
+              "code": "npm install @aeris-ui/core@22.0.0-alpha.10"
             }
           ]
         },
@@ -2493,7 +2967,7 @@
             {
               "label": "Shell",
               "language": "Shell",
-              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.9"
+              "code": "ng update @angular/core@22 @angular/cli@22\nnpm install @aeris-ui/core@22.0.0-alpha.10"
             }
           ],
           "note": "The commands show the currently supported Angular major. Replace the major only after it appears in the compatibility matrix."
@@ -2529,7 +3003,7 @@
           "id": "release-specific",
           "title": "Release-specific migration notes",
           "paragraphs": [
-            "Aeris 22.0.0-alpha.9 renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.",
+            "Aeris 22.0.0-alpha.10 renders ordinary Tabs panel content eagerly. Applications that relied on alpha.4 creating only the active panel must choose an explicit deferred template strategy.",
             "Use a bare aerisTabContent template to initialize expensive content on first activation and preserve its state. Set the directive to active to destroy and recreate the content whenever selection changes."
           ],
           "code": [
@@ -2606,13 +3080,42 @@
           ]
         },
         {
-          "id": "unreleased",
-          "title": "Unreleased",
+          "id": "version-22.0.0-alpha.10",
+          "title": "Aeris 22.0.0-alpha.10",
           "paragraphs": [
-            "Next release · In development"
+            "Alpha · 13 October 2026"
           ],
           "bullets": [
-            "No consumer-visible changes have been recorded since 22.0.0-alpha.9."
+            "CodeBlock: syntax highlighting, language labels, source tabs, line numbers, highlighted lines, wrapping, and copy actions. Shiki is an optional dependency, loaded only when highlighting is used.",
+            "Shared motion tokens for consistent durations, easing, movement, and reduced-motion behavior.",
+            "dismissTopAerisOverlay() for application-controlled dismissal of the top overlay, including native Back-button integration.",
+            "Visual regression baselines, catalog performance budgets, and expanded cross-browser, responsive, accessibility, and animation-interruption tests.",
+            "Make Monochrome the default theme for Aeris, the installer, and new documentation visitors. Existing saved documentation palette choices are preserved.",
+            "Standardize component spacing, sizing, corners, icons, focus treatment, surfaces, and elevation.",
+            "Refine component animations, including tab indicators, menu transitions, expanding content, selection states, and progress indicators.",
+            "Improve touch targets, hover behavior, safe-area handling, and overlay sizing and positioning when the visual viewport changes.",
+            "Redesign the documentation landing page around live interfaces, copyable examples, and interactive theme controls.",
+            "Add visual component catalog previews and responsive product showcases.",
+            "Improve component-page preview actions and use Aeris CodeBlock throughout the documentation.",
+            "Update Angular to 22.2.2, MCP SDK to 1.32.1, and refresh compatible dependencies.",
+            "Preserve multiple selections during touch interaction in MultiSelect and TreeSelect.",
+            "Correct Paginator dropdown anchoring, repeated-click dismissal, and chevron animation.",
+            "Correct ContextMenu positioning and improve CascadeSelect submenu sizing and alignment.",
+            "Keep Table scrolling from trapping page scrolling when its content does not need to scroll.",
+            "Improve Skeleton visibility and Badge and Chip text contrast.",
+            "Reveal MeterGroup segments as one continuous track.",
+            "Allow tapping stacked Toasts to expand and collapse them on touch devices.",
+            "Align PickList mobile controls and normalize list-navigation, clear-button, and toggle icons.",
+            "Fit Galleria fullscreen images without cropping and keep the viewer within narrow containers.",
+            "Stabilize Galleria image taps, support panning zoomed images, and allow native thumbnail scrolling.",
+            "Improve Galleria and Carousel gesture handling while preserving page scrolling, interactive slide content, and browser pinch zoom.",
+            "Enlarge Carousel indicator hit areas without enlarging their visual dots.",
+            "Correct Editor toolbar separators and Textarea automatic sizing.",
+            "Breaking: remove Galleria indicators, including showIndicators, indicatorsOverlay, indicatorsAriaLabel, indicator design tokens, and the indicator change reason.",
+            "Updating from alpha.9: remove any Galleria indicator bindings or token overrides. Use thumbnails or previous/next navigation instead.",
+            "Install Shiki if you use CodeBlock syntax highlighting; plain code rendering does not require it.",
+            "Explicitly configure Earth, Coastal, or Orchid if you want to retain a colored preset rather than the new Monochrome default.",
+            "Review custom component styling against the updated geometry and visual tokens."
           ]
         },
         {
@@ -3466,7 +3969,7 @@
               "name": "options",
               "type": "readonly AerisCascadeSelectOption[]",
               "defaultValue": "[]",
-              "description": "Hierarchical option tree rendered by the cascading columns."
+              "description": "Hierarchical option tree rendered by nested menus."
             },
             {
               "name": "inputId",
@@ -3714,6 +4217,12 @@
       ],
       "designTokens": [
         {
+          "name": "--aeris-cascade-select-submenu-width",
+          "type": "CSS custom property",
+          "defaultValue": "13rem",
+          "description": "Desktop flyout width. Narrow screens expand children inline."
+        },
+        {
           "name": "--aeris-cascade-select-background",
           "type": "CSS custom property",
           "defaultValue": "#fff",
@@ -3765,7 +4274,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-basic-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field\">\n      <label for=\"cascade-basic-input\">Location</label>\n      <aeris-cascade-select\n        inputId=\"cascade-basic-input\"\n        [options]=\"locations\"\n        placeholder=\"Choose a location\"\n        ariaDescribedBy=\"cascade-basic-help\"\n        fluid\n      />\n      <small id=\"cascade-basic-help\"\n        >Open the panel, then move across the location hierarchy.</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class CascadeBasicBasicDemo {\n  protected readonly locations: readonly AerisCascadeSelectOption[] = [\n    {\n      label: 'Europe',\n      value: 'europe',\n      children: [\n        {\n          label: 'Portugal',\n          value: 'portugal',\n          children: [\n            { label: 'Lisbon', value: 'lisbon', description: 'Capital city' },\n            { label: 'Porto', value: 'porto' },\n          ],\n        },\n      ],\n    },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-basic-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field cascade-field\">\n      <label for=\"cascade-basic-input\">Location</label>\n      <aeris-cascade-select\n        inputId=\"cascade-basic-input\"\n        [options]=\"locations\"\n        placeholder=\"Choose a location\"\n        ariaDescribedBy=\"cascade-basic-help\"\n        fluid\n      />\n      <small id=\"cascade-basic-help\"\n        >Open the panel, then move across the location hierarchy.</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n    \n    .cascade-field {\n      max-inline-size: 18rem;\n    }\n  `\n})\nexport class CascadeBasicBasicDemo {\n  protected readonly locations: readonly AerisCascadeSelectOption[] = [\n    {\n      label: 'Europe',\n      value: 'europe',\n      children: [\n        {\n          label: 'Portugal',\n          value: 'portugal',\n          children: [\n            { label: 'Lisbon', value: 'lisbon', description: 'Capital city' },\n            { label: 'Porto', value: 'porto' },\n          ],\n        },\n      ],\n    },\n  ];\n}\n"
             }
           ]
         },
@@ -3777,7 +4286,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-signal-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field\">\n      <label for=\"cascade-signal-input\">Office</label>\n      <aeris-cascade-select\n        inputId=\"cascade-signal-input\"\n        [(value)]=\"locationValue\"\n        [options]=\"locations\"\n        clearable\n        fluid\n      />\n      <small aria-live=\"polite\">Value: {{ locationValue() || 'Empty' }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class CascadeSignalSignalValueDemo {\n  protected readonly locationValue = signal<string | null>(null);\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-signal-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field cascade-field\">\n      <label for=\"cascade-signal-input\">Office</label>\n      <aeris-cascade-select\n        inputId=\"cascade-signal-input\"\n        [(value)]=\"locationValue\"\n        [options]=\"locations\"\n        clearable\n        fluid\n      />\n      <small aria-live=\"polite\">Value: {{ locationValue() || 'Empty' }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n    \n    .cascade-field {\n      max-inline-size: 18rem;\n    }\n  `\n})\nexport class CascadeSignalSignalValueDemo {\n  protected readonly locationValue = signal<string | null>(null);\n}\n"
             }
           ]
         },
@@ -3789,7 +4298,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-branches-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field\">\n      <label for=\"cascade-branches-input\">Region or city</label>\n      <aeris-cascade-select\n        inputId=\"cascade-branches-input\"\n        [(value)]=\"branchValue\"\n        [options]=\"locations\"\n        selectBranches\n        clearable\n        fluid\n      />\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class CascadeBranchesBranchSelectionDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-branches-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field cascade-field\">\n      <label for=\"cascade-branches-input\">Region or city</label>\n      <aeris-cascade-select\n        inputId=\"cascade-branches-input\"\n        [(value)]=\"branchValue\"\n        [options]=\"locations\"\n        selectBranches\n        clearable\n        fluid\n      />\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n    \n    .cascade-field {\n      max-inline-size: 18rem;\n    }\n  `\n})\nexport class CascadeBranchesBranchSelectionDemo {\n}\n"
             }
           ]
         },
@@ -3806,12 +4315,12 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div class=\"field\">\n  <label for=\"cascade-template-input\">Templated location</label>\n  <aeris-cascade-select inputId=\"cascade-template-input\" [options]=\"locations\" fluid>\n    <ng-template aerisCascadeSelectOption let-option let-level=\"level\">\n      <span class=\"cascade-option\">\n        <span class=\"cascade-option__mark\" aria-hidden=\"true\">{{ level + 1 }}</span>\n        <span class=\"cascade-option__copy\">\n          <strong>{{ option.label }}</strong>\n          <small>{{\n            option.children?.length ? 'Open next level' : 'Select this value'\n          }}</small>\n        </span>\n      </span>\n    </ng-template>\n  </aeris-cascade-select>\n</div>"
+              "code": "<div class=\"field cascade-field\">\n  <label for=\"cascade-template-input\">Templated location</label>\n  <aeris-cascade-select inputId=\"cascade-template-input\" [options]=\"locations\" fluid>\n    <ng-template aerisCascadeSelectOption let-option let-level=\"level\">\n      <span class=\"cascade-option\">\n        <span class=\"cascade-option__mark\" aria-hidden=\"true\">{{ level + 1 }}</span>\n        <span class=\"cascade-option__copy\">\n          <strong>{{ option.label }}</strong>\n          <small>{{\n            option.children?.length ? 'Open next level' : 'Select this value'\n          }}</small>\n        </span>\n      </span>\n    </ng-template>\n  </aeris-cascade-select>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n.cascade-option {\n  min-width: 0;\n  display: flex;\n  align-items: center;\n  gap: 0.625rem;\n}\n\n.cascade-option__mark {\n  width: 1.75rem;\n  height: 1.75rem;\n  display: grid;\n  place-items: center;\n  flex: 0 0 auto;\n  border-radius: 0.5rem;\n  background: var(--primary-soft);\n  color: var(--aeris-primary-text);\n  font-size: 0.6875rem;\n  font-weight: 800;\n}\n\n.cascade-option__copy {\n  min-width: 0;\n  display: grid;\n}\n\n.cascade-option__copy strong {\n  font-size: 0.875rem;\n}\n\n.cascade-option__copy small {\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n}"
+              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n.cascade-field {\n  max-inline-size: 18rem;\n}\n\n.cascade-option {\n  min-width: 0;\n  display: flex;\n  align-items: center;\n  gap: 0.625rem;\n}\n\n.cascade-option__mark {\n  width: 1.75rem;\n  height: 1.75rem;\n  display: grid;\n  place-items: center;\n  flex: 0 0 auto;\n  border-radius: 0.5rem;\n  background: var(--primary-soft);\n  color: var(--aeris-primary-text);\n  font-size: 0.6875rem;\n  font-weight: 800;\n}\n\n.cascade-option__copy {\n  min-width: 0;\n  display: grid;\n}\n\n.cascade-option__copy strong {\n  font-size: 0.875rem;\n}\n\n.cascade-option__copy small {\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n}"
             }
           ]
         },
@@ -3823,7 +4332,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-clear-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field\">\n      <label for=\"cascade-clear-input\">Optional office</label>\n      <aeris-cascade-select\n        inputId=\"cascade-clear-input\"\n        value=\"lisbon\"\n        [options]=\"locations\"\n        clearable\n        fluid\n      />\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class CascadeClearClearButtonDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-clear-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field cascade-field\">\n      <label for=\"cascade-clear-input\">Optional office</label>\n      <aeris-cascade-select\n        inputId=\"cascade-clear-input\"\n        value=\"lisbon\"\n        [options]=\"locations\"\n        clearable\n        fluid\n      />\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n    \n    .cascade-field {\n      max-inline-size: 18rem;\n    }\n  `\n})\nexport class CascadeClearClearButtonDemo {\n}\n"
             }
           ]
         },
@@ -3840,12 +4349,12 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div class=\"field-grid\">\n  <div class=\"field\">\n    <label for=\"cascade-filled-input\">Filled</label>\n    <aeris-cascade-select\n      inputId=\"cascade-filled-input\"\n      [options]=\"locations\"\n      appearance=\"filled\"\n      fluid\n    />\n  </div>\n  <div class=\"field\">\n    <label for=\"cascade-invalid-input\">Invalid</label>\n    <aeris-cascade-select\n      inputId=\"cascade-invalid-input\"\n      [(value)]=\"invalidValue\"\n      [options]=\"locations\"\n      [invalid]=\"invalid()\"\n      required\n      ariaDescribedBy=\"cascade-invalid-message\"\n      (blurred)=\"touched.set(true)\"\n      fluid\n    />\n    <small id=\"cascade-invalid-message\" [class.error]=\"invalid()\" aria-live=\"polite\">\n      {{ invalid() ? 'Choose a location.' : 'Required.' }}\n    </small>\n  </div>\n  <div class=\"field\">\n    <label for=\"cascade-disabled-input\">Disabled</label>\n    <aeris-cascade-select\n      inputId=\"cascade-disabled-input\"\n      value=\"belgrade\"\n      [options]=\"locations\"\n      disabled\n      fluid\n    />\n  </div>\n</div>"
+              "code": "<div class=\"field-grid\">\n  <div class=\"field cascade-field\">\n    <label for=\"cascade-filled-input\">Filled</label>\n    <aeris-cascade-select\n      inputId=\"cascade-filled-input\"\n      [options]=\"locations\"\n      appearance=\"filled\"\n      fluid\n    />\n  </div>\n  <div class=\"field cascade-field\">\n    <label for=\"cascade-invalid-input\">Invalid</label>\n    <aeris-cascade-select\n      inputId=\"cascade-invalid-input\"\n      [(value)]=\"invalidValue\"\n      [options]=\"locations\"\n      [invalid]=\"invalid()\"\n      required\n      ariaDescribedBy=\"cascade-invalid-message\"\n      (blurred)=\"touched.set(true)\"\n      fluid\n    />\n    <small id=\"cascade-invalid-message\" [class.error]=\"invalid()\" aria-live=\"polite\">\n      {{ invalid() ? 'Choose a location.' : 'Required.' }}\n    </small>\n  </div>\n  <div class=\"field cascade-field\">\n    <label for=\"cascade-disabled-input\">Disabled</label>\n    <aeris-cascade-select\n      inputId=\"cascade-disabled-input\"\n      value=\"belgrade\"\n      [options]=\"locations\"\n      disabled\n      fluid\n    />\n  </div>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".field-grid {\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n}\n\n.field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n@media (max-width: 42rem) {\n  .field-grid {\n    grid-template-columns: 1fr;\n  }\n}"
+              "code": ".field-grid {\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n}\n\n.field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n@media (max-width: 42rem) {\n  .field-grid {\n    grid-template-columns: 1fr;\n  }\n}\n\n.cascade-field {\n  max-inline-size: 18rem;\n}"
             }
           ]
         },
@@ -3857,7 +4366,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-sizes-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field-stack\">\n      <aeris-cascade-select size=\"xs\" placeholder=\"Extra small\" [options]=\"locations\" />\n      <aeris-cascade-select size=\"sm\" placeholder=\"Small\" [options]=\"locations\" />\n      <aeris-cascade-select size=\"md\" placeholder=\"Medium\" [options]=\"locations\" />\n      <aeris-cascade-select size=\"lg\" placeholder=\"Large\" [options]=\"locations\" />\n    </div>\n  `,\n  styles: `\n    .field-stack {\n      width: 100%;\n      display: grid;\n      gap: 1rem;\n    }\n  `\n})\nexport class CascadeSizesSizesDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-sizes-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field-stack cascade-field\">\n      <aeris-cascade-select size=\"xs\" placeholder=\"Extra small\" [options]=\"locations\" />\n      <aeris-cascade-select size=\"sm\" placeholder=\"Small\" [options]=\"locations\" />\n      <aeris-cascade-select size=\"md\" placeholder=\"Medium\" [options]=\"locations\" />\n      <aeris-cascade-select size=\"lg\" placeholder=\"Large\" [options]=\"locations\" />\n    </div>\n  `,\n  styles: `\n    .field-stack {\n      width: 100%;\n      display: grid;\n      gap: 1rem;\n    }\n    \n    .cascade-field {\n      max-inline-size: 18rem;\n    }\n  `\n})\nexport class CascadeSizesSizesDemo {\n}\n"
             }
           ]
         },
@@ -3874,12 +4383,12 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div class=\"field-grid\">\n  <div class=\"field\">\n    <label for=\"cascade-reactive-input\">Reactive Forms</label>\n    <aeris-cascade-select\n      inputId=\"cascade-reactive-input\"\n      [options]=\"locations\"\n      [formControl]=\"reactiveLocation\"\n      fluid\n    />\n    <small>Value: {{ reactiveLocation.value }}</small>\n  </div>\n  <div class=\"field\">\n    <label for=\"cascade-template-form-input\">Template-driven forms</label>\n    <aeris-cascade-select\n      inputId=\"cascade-template-form-input\"\n      name=\"templateLocation\"\n      [options]=\"locations\"\n      [(ngModel)]=\"templateLocation\"\n      fluid\n    />\n    <small>Value: {{ templateLocation }}</small>\n  </div>\n</div>"
+              "code": "<div class=\"field-grid\">\n  <div class=\"field cascade-field\">\n    <label for=\"cascade-reactive-input\">Reactive Forms</label>\n    <aeris-cascade-select\n      inputId=\"cascade-reactive-input\"\n      [options]=\"locations\"\n      [formControl]=\"reactiveLocation\"\n      fluid\n    />\n    <small>Value: {{ reactiveLocation.value }}</small>\n  </div>\n  <div class=\"field cascade-field\">\n    <label for=\"cascade-template-form-input\">Template-driven forms</label>\n    <aeris-cascade-select\n      inputId=\"cascade-template-form-input\"\n      name=\"templateLocation\"\n      [options]=\"locations\"\n      [(ngModel)]=\"templateLocation\"\n      fluid\n    />\n    <small>Value: {{ templateLocation }}</small>\n  </div>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".field-grid {\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n}\n\n.field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n@media (max-width: 42rem) {\n  .field-grid {\n    grid-template-columns: 1fr;\n  }\n}"
+              "code": ".field-grid {\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n}\n\n.field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n@media (max-width: 42rem) {\n  .field-grid {\n    grid-template-columns: 1fr;\n  }\n}\n\n.cascade-field {\n  max-inline-size: 18rem;\n}"
             }
           ]
         },
@@ -3891,47 +4400,48 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisCascadeSelect, type AerisCascadeSelectChangeEvent } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-events-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field\">\n      <label for=\"cascade-events-input\">Event location</label>\n      <aeris-cascade-select\n        inputId=\"cascade-events-input\"\n        [options]=\"locations\"\n        clearable\n        fluid\n        (changed)=\"recordChange($event)\"\n      />\n      <small aria-live=\"polite\">{{ lastEvent() }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class CascadeEventsEventsDemo {\n  protected readonly lastEvent = signal('No selection yet');\n\n  protected recordChange(event: AerisCascadeSelectChangeEvent): void {\n    const path = event.path.map((option) => option.label).join(' / ');\n    this.lastEvent.set(path ? `Selected ${path}` : 'Selection cleared');\n  }\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisCascadeSelect, type AerisCascadeSelectChangeEvent } from '@aeris-ui/core/cascade-select';\n\n@Component({\n  selector: 'app-cascade-events-demo',\n  imports: [AerisCascadeSelect],\n  template: `\n    <div class=\"field cascade-field\">\n      <label for=\"cascade-events-input\">Event location</label>\n      <aeris-cascade-select\n        inputId=\"cascade-events-input\"\n        [options]=\"locations\"\n        clearable\n        fluid\n        (changed)=\"recordChange($event)\"\n      />\n      <small aria-live=\"polite\">{{ lastEvent() }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n    \n    .cascade-field {\n      max-inline-size: 18rem;\n    }\n  `\n})\nexport class CascadeEventsEventsDemo {\n  protected readonly lastEvent = signal('No selection yet');\n\n  protected recordChange(event: AerisCascadeSelectChangeEvent): void {\n    const path = event.path.map((option) => option.label).join(' / ');\n    this.lastEvent.set(path ? `Selected ${path}` : 'Selection cleared');\n  }\n}\n"
             }
           ]
         }
       ],
       "accessibility": {
         "guidance": [
+          "On screens up to 36rem wide, tapping a branch expands or collapses its children inline without changing the selected value.",
           "The trigger uses role=\"combobox\", aria-expanded, aria-controls, and aria-activedescendant.",
-          "Each hierarchy column uses role=\"listbox\"; each option uses role=\"option\" and disabled options are skipped by keyboard movement.",
-          "Branch options expose aria-expanded while their child column is active.",
+          "The popup uses role=\"tree\", options use role=\"treeitem\", and nested levels use role=\"group\". Options expose their level and sibling position. Disabled options are skipped by keyboard movement.",
+          "Branch options expose aria-expanded while their children are visible.",
           "Use a visible label with inputId, or provide ariaLabel when a visible label is not possible.",
           "Validation messages should be connected with ariaDescribedBy and should not rely on color alone."
         ],
         "keyboard": [
           {
             "keys": "Enter / Space",
-            "behavior": "Opens the panel. When open, selects the active leaf option or opens the active branch."
+            "behavior": "Opens at the selected option, or the first enabled option. When open, selects the active leaf option or opens the active branch."
           },
           {
             "keys": "ArrowDown",
-            "behavior": "Opens the panel and moves to the next enabled option in the active column."
+            "behavior": "Opens at the selected or first enabled option. When open, moves to the next enabled sibling."
           },
           {
             "keys": "ArrowUp",
-            "behavior": "Opens the panel and moves to the previous enabled option in the active column."
+            "behavior": "Opens at the selected or first enabled option. When open, moves to the previous enabled sibling."
           },
           {
             "keys": "ArrowRight",
-            "behavior": "Moves into the child column of the active branch."
+            "behavior": "Expands a closed branch, or moves into its children when open. Reversed in RTL."
           },
           {
             "keys": "ArrowLeft",
-            "behavior": "Moves back to the parent column."
+            "behavior": "Collapses an open branch, or moves to its parent. Reversed in RTL."
           },
           {
             "keys": "Home",
-            "behavior": "Moves to the first enabled option in the active column."
+            "behavior": "Moves to the first enabled sibling."
           },
           {
             "keys": "End",
-            "behavior": "Moves to the last enabled option in the active column."
+            "behavior": "Moves to the last enabled sibling."
           },
           {
             "keys": "Escape",
@@ -15378,7 +15888,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-basic-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Document actions\">\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Save</button>\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Preview</button>\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Publish</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupBasicBasicDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-basic-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Document actions\">\n        <button aerisButton variant=\"solid\" severity=\"primary\">Save</button>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Preview</button>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Publish</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupBasicBasicDemo {\n}\n"
             }
           ]
         },
@@ -15390,7 +15900,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-wrapper-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Record actions\">\n        <aeris-button label=\"Create\" />\n        <aeris-button label=\"Duplicate\" variant=\"solid\" severity=\"secondary\" />\n        <aeris-button label=\"Archive\" variant=\"solid\" severity=\"secondary\" />\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupWrapperWrapperButtonsDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-wrapper-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Record actions\">\n        <aeris-button label=\"Create\" />\n        <aeris-button label=\"Duplicate\" variant=\"solid\" severity=\"primary\" />\n        <aeris-button label=\"Archive\" variant=\"solid\" severity=\"primary\" />\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupWrapperWrapperButtonsDemo {\n}\n"
             }
           ]
         },
@@ -15402,7 +15912,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-mixed-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Approval actions\">\n        <button aerisButton severity=\"success\">Approve</button>\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Review</button>\n        <button aerisButton severity=\"danger\">Reject</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupMixedMixedTreatmentsDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-mixed-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Approval actions\">\n        <button aerisButton severity=\"success\">Approve</button>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Review</button>\n        <button aerisButton severity=\"danger\">Reject</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupMixedMixedTreatmentsDemo {\n}\n"
             }
           ]
         },
@@ -15419,7 +15929,7 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div class=\"aeris-example-row\">\n  <aeris-button-group ariaLabel=\"Text alignment\">\n    <button\n      aerisButton\n      variant=\"solid\"\n      severity=\"secondary\"\n      iconOnly\n      aria-label=\"Align left\"\n    >\n      <span aria-hidden=\"true\">L</span>\n    </button>\n    <button\n      aerisButton\n      variant=\"solid\"\n      severity=\"secondary\"\n      iconOnly\n      aria-label=\"Align center\"\n    >\n      <span aria-hidden=\"true\">C</span>\n    </button>\n    <button\n      aerisButton\n      variant=\"solid\"\n      severity=\"secondary\"\n      iconOnly\n      aria-label=\"Align right\"\n    >\n      <span aria-hidden=\"true\">R</span>\n    </button>\n  </aeris-button-group>\n</div>"
+              "code": "<div class=\"aeris-example-row\">\n  <aeris-button-group ariaLabel=\"Text alignment\">\n    <button\n      aerisButton\n      variant=\"solid\"\n      severity=\"primary\"\n      iconOnly\n      aria-label=\"Align left\"\n    >\n      <span aria-hidden=\"true\">L</span>\n    </button>\n    <button\n      aerisButton\n      variant=\"solid\"\n      severity=\"primary\"\n      iconOnly\n      aria-label=\"Align center\"\n    >\n      <span aria-hidden=\"true\">C</span>\n    </button>\n    <button\n      aerisButton\n      variant=\"solid\"\n      severity=\"primary\"\n      iconOnly\n      aria-label=\"Align right\"\n    >\n      <span aria-hidden=\"true\">R</span>\n    </button>\n  </aeris-button-group>\n</div>"
             },
             {
               "language": "CSS",
@@ -15436,7 +15946,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-vertical-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"View options\" orientation=\"vertical\">\n        <button aerisButton variant=\"solid\" severity=\"secondary\">List view</button>\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Board view</button>\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Timeline view</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupVerticalVerticalDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-vertical-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"View options\" orientation=\"vertical\">\n        <button aerisButton variant=\"solid\" severity=\"primary\">List view</button>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Board view</button>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Timeline view</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupVerticalVerticalDemo {\n}\n"
             }
           ]
         },
@@ -15448,7 +15958,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-fluid-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"stack aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Editor mode\" fluid>\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Write</button>\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Preview</button>\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Compare</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    .stack {\n      width: 100%;\n      display: grid;\n      gap: 0.75rem;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupFluidFluidDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-fluid-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"stack aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Editor mode\" fluid>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Write</button>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Preview</button>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Compare</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    .stack {\n      width: 100%;\n      display: grid;\n      gap: 0.75rem;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupFluidFluidDemo {\n}\n"
             }
           ]
         },
@@ -15460,7 +15970,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-responsive-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"stack aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Export formats\" responsive>\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Export PDF</button>\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Export CSV</button>\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Export JSON</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    .stack {\n      width: 100%;\n      display: grid;\n      gap: 0.75rem;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupResponsiveResponsiveStackingDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-responsive-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"stack aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Export formats\" responsive>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Export PDF</button>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Export CSV</button>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Export JSON</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    .stack {\n      width: 100%;\n      display: grid;\n      gap: 0.75rem;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupResponsiveResponsiveStackingDemo {\n}\n"
             }
           ]
         },
@@ -15472,7 +15982,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-states-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Synchronization actions\">\n        <button aerisButton variant=\"solid\" severity=\"secondary\" loading disabled>\n          Sync\n        </button>\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Retry</button>\n        <button aerisButton variant=\"solid\" severity=\"secondary\" disabled>Cancel</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupStatesDisabledAndLoadingStatesDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-states-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Synchronization actions\">\n        <button aerisButton variant=\"solid\" severity=\"primary\" loading disabled>\n          Sync\n        </button>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Retry</button>\n        <button aerisButton variant=\"solid\" severity=\"primary\" disabled>Cancel</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupStatesDisabledAndLoadingStatesDemo {\n}\n"
             }
           ]
         },
@@ -15484,7 +15994,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-links-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Documentation actions\">\n        <button aerisButton variant=\"solid\" severity=\"secondary\">Copy link</button>\n        <a\n          aerisButton\n          variant=\"solid\"\n          severity=\"secondary\"\n          href=\"https://github.com\"\n          target=\"_blank\"\n          rel=\"noopener noreferrer\"\n          >Open GitHub</a>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupLinksButtonsAndLinksDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-links-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Documentation actions\">\n        <button aerisButton variant=\"solid\" severity=\"primary\">Copy link</button>\n        <a\n          aerisButton\n          variant=\"solid\"\n          severity=\"primary\"\n          href=\"https://github.com\"\n          target=\"_blank\"\n          rel=\"noopener noreferrer\"\n          >Open GitHub</a>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupLinksButtonsAndLinksDemo {\n}\n"
             }
           ]
         }
@@ -18562,6 +19072,12 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Visible focus rings."
+        },
+        {
+          "name": "--aeris-table-toggle-size",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Expandable-row disclosure button size."
         }
       ],
       "examples": [
@@ -19109,17 +19625,17 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisTimelineModule, type AerisTimelineItem } from '@aeris-ui/core/timeline';\nimport { LucideCheckCircle, LucideCode, LucideDynamicIcon, LucideRocket, LucideSearch, type LucideIconInput } from '@lucide/angular';\n\ninterface CustomReleaseData {\n  readonly owner: string;\n  readonly version: string;\n  readonly icon: LucideIconInput;\n}\n\n@Component({\n  selector: 'app-timeline-templates-demo',\n  imports: [AerisTimelineModule, LucideDynamicIcon],\n  templateUrl: './timeline-templates.demo.html',\n  styleUrl: './timeline-templates.demo.scss'\n})\nexport class TimelineTemplatesCustomMarkerIconsAndColorsDemo {\n  protected readonly customEvents: readonly AerisTimelineItem<CustomReleaseData>[] = [\n    {\n      id: 'planning',\n      title: 'Planning complete',\n      description: 'Scope and release criteria were approved.',\n      date: 'May 06',\n      markerColor: '#668451',\n      data: { owner: 'Maya Chen', version: 'v1.4', icon: LucideCheckCircle },\n    },\n    {\n      id: 'build',\n      title: 'Build',\n      description: 'Core package and guides are being prepared.',\n      date: 'May 14',\n      markerColor: '#4f7f95',\n      data: { owner: 'Noah Williams', version: 'v1.4', icon: LucideCode },\n    },\n    {\n      id: 'review',\n      title: 'Quality review',\n      description: 'Accessibility and API checks are scheduled.',\n      date: 'May 22',\n      markerColor: '#b27632',\n      data: { owner: 'Sofia Rossi', version: 'v1.4', icon: LucideSearch },\n    },\n    {\n      id: 'release',\n      title: 'Release',\n      description: 'Packages will publish after final approval.',\n      date: 'May 28',\n      markerColor: '#9b5f84',\n      data: { owner: 'Liam Novak', version: 'v1.4', icon: LucideRocket },\n    },\n  ];\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisTimelineModule, type AerisTimelineItem } from '@aeris-ui/core/timeline';\nimport { LucideBlocks, LucideClipboardCheck, LucideDynamicIcon, LucidePackageCheck, LucideShieldCheck, type LucideIconInput } from '@lucide/angular';\n\ninterface CustomReleaseData {\n  readonly owner: string;\n  readonly version: string;\n  readonly icon: LucideIconInput;\n}\n\n@Component({\n  selector: 'app-timeline-templates-demo',\n  imports: [AerisTimelineModule, LucideDynamicIcon],\n  templateUrl: './timeline-templates.demo.html',\n  styleUrl: './timeline-templates.demo.scss'\n})\nexport class TimelineTemplatesCustomMarkerIconsAndColorsDemo {\n  protected readonly customEvents: readonly AerisTimelineItem<CustomReleaseData>[] = [\n    {\n      id: 'planning',\n      title: 'Planning complete',\n      description: 'Scope and release criteria were approved.',\n      date: 'May 06',\n      markerColor: 'var(--aeris-success)',\n      data: { owner: 'Maya Chen', version: 'v1.4', icon: LucideClipboardCheck },\n    },\n    {\n      id: 'build',\n      title: 'Build',\n      description: 'Core package and guides are being prepared.',\n      date: 'May 14',\n      markerColor: 'var(--aeris-info)',\n      data: { owner: 'Noah Williams', version: 'v1.4', icon: LucideBlocks },\n    },\n    {\n      id: 'review',\n      title: 'Quality review',\n      description: 'Accessibility and API checks are scheduled.',\n      date: 'May 22',\n      markerColor: 'var(--aeris-warning)',\n      data: { owner: 'Sofia Rossi', version: 'v1.4', icon: LucideShieldCheck },\n    },\n    {\n      id: 'release',\n      title: 'Release',\n      description: 'Packages will publish after final approval.',\n      date: 'May 28',\n      markerColor: 'var(--aeris-primary)',\n      data: { owner: 'Liam Novak', version: 'v1.4', icon: LucidePackageCheck },\n    },\n  ];\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<aeris-timeline align=\"alternate\" [activeIndex]=\"1\" [value]=\"customEvents\">\n  <ng-template aerisTimelineMarker let-item>\n    <svg\n      class=\"timeline-marker-icon\"\n      [lucideIcon]=\"$any(item).data.icon\"\n    ></svg>\n  </ng-template>\n\n  <ng-template aerisTimelineOpposite let-item>\n    <span class=\"release-date\">{{ $any(item).date }}</span>\n  </ng-template>\n\n  <ng-template aerisTimelineContent let-item let-state=\"state\">\n    <article class=\"release-card\">\n      <span class=\"release-card__state\">{{ state }}</span>\n      <h3>{{ $any(item).title }}</h3>\n      <p>{{ $any(item).description }}</p>\n      <small>{{ $any(item).data.owner }} - {{ $any(item).data.version }}</small>\n    </article>\n  </ng-template>\n</aeris-timeline>"
+              "code": "<aeris-timeline\n  class=\"timeline-demo--custom\"\n  align=\"alternate\"\n  [activeIndex]=\"1\"\n  [value]=\"customEvents\"\n>\n  <ng-template aerisTimelineMarker let-item>\n    <span class=\"timeline-marker-icon\">\n      <svg\n        aria-hidden=\"true\"\n        focusable=\"false\"\n        [lucideIcon]=\"$any(item).data.icon\"\n      ></svg>\n    </span>\n  </ng-template>\n\n  <ng-template aerisTimelineOpposite let-item>\n    <span class=\"release-date\">{{ $any(item).date }}</span>\n  </ng-template>\n\n  <ng-template aerisTimelineContent let-item let-state=\"state\">\n    <article class=\"release-card\">\n      <span class=\"release-card__state\">{{ state }}</span>\n      <h3>{{ $any(item).title }}</h3>\n      <p>{{ $any(item).description }}</p>\n      <small>{{ $any(item).data.owner }} - {{ $any(item).data.version }}</small>\n    </article>\n  </ng-template>\n</aeris-timeline>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".timeline-marker-icon {\n  width: 1rem;\n  height: 1rem;\n  padding: 0.125rem;\n  border-radius: 50%;\n  background: color-mix(in srgb, currentColor 14%, var(--aeris-surface));\n}\n\n.release-date {\n  font-weight: 650;\n}\n\n.release-card {\n  padding: 0.875rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-md);\n  background: var(--aeris-surface);\n}\n\n.release-card__state {\n  color: var(--aeris-primary-text);\n  font-size: 0.6875rem;\n  font-weight: 700;\n  text-transform: uppercase;\n}\n\n.release-card h3 {\n  margin: 0.3rem 0 0;\n  font-size: 0.875rem;\n}\n\n.release-card p {\n  margin: 0.35rem 0 0;\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n  line-height: 1.55;\n}\n\n.release-card small {\n  display: block;\n  margin-top: 0.65rem;\n  color: var(--aeris-text-muted);\n  font-size: 0.6875rem;\n}"
+              "code": ".timeline-demo--custom {\n  --aeris-timeline-marker-size: 2rem;\n  --aeris-timeline-separator-size: 2.75rem;\n}\n\n.timeline-marker-icon {\n  display: grid;\n  width: 2rem;\n  height: 2rem;\n  place-items: center;\n  border: 1px solid color-mix(in srgb, currentColor 28%, transparent);\n  border-radius: 50%;\n  background: color-mix(in srgb, currentColor 12%, var(--aeris-surface));\n}\n\n.timeline-marker-icon svg {\n  width: 1rem;\n  height: 1rem;\n  stroke-width: 2;\n}\n\n.release-date {\n  font-weight: 650;\n}\n\n.release-card {\n  padding: 0.875rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-md);\n  background: var(--aeris-surface);\n}\n\n.release-card__state {\n  color: var(--aeris-primary-text);\n  font-size: 0.6875rem;\n  font-weight: 700;\n  text-transform: uppercase;\n}\n\n.release-card h3 {\n  margin: 0.3rem 0 0;\n  font-size: 0.875rem;\n}\n\n.release-card p {\n  margin: 0.35rem 0 0;\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n  line-height: 1.55;\n}\n\n.release-card small {\n  display: block;\n  margin-top: 0.65rem;\n  color: var(--aeris-text-muted);\n  font-size: 0.6875rem;\n}"
             }
           ]
         },
@@ -20256,6 +20772,12 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Indent per hierarchy level."
+        },
+        {
+          "name": "--aeris-tree-table-toggle-size",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Branch disclosure button size."
         },
         {
           "name": "--aeris-tree-table-stripe",
@@ -24275,6 +24797,12 @@
       ],
       "designTokens": [
         {
+          "name": "--aeris-toolbar-font-size",
+          "type": "length",
+          "defaultValue": "--aeris-body-font-size",
+          "description": "Text size inside the toolbar; projected controls retain their own sizing."
+        },
+        {
           "name": "--aeris-toolbar-background",
           "type": "color",
           "defaultValue": "--aeris-surface",
@@ -24325,31 +24853,31 @@
         {
           "name": "--aeris-toolbar-padding-block",
           "type": "length",
-          "defaultValue": "0.75rem",
+          "defaultValue": "--aeris-overlay-padding",
           "description": "Default block padding."
         },
         {
           "name": "--aeris-toolbar-padding-inline",
           "type": "length",
-          "defaultValue": "0.875rem",
+          "defaultValue": "--aeris-overlay-padding",
           "description": "Default inline padding."
         },
         {
           "name": "--aeris-toolbar-gap",
           "type": "length",
-          "defaultValue": "0.75rem",
+          "defaultValue": "--aeris-density-gap",
           "description": "Gap between toolbar sections."
         },
         {
           "name": "--aeris-toolbar-section-gap",
           "type": "length",
-          "defaultValue": "0.5rem",
+          "defaultValue": "--aeris-density-gap",
           "description": "Gap between controls inside sections and groups."
         },
         {
           "name": "--aeris-toolbar-min-height",
           "type": "length",
-          "defaultValue": "3.25rem",
+          "defaultValue": "--aeris-control-height",
           "description": "Minimum content row height."
         },
         {
@@ -26073,7 +26601,7 @@
         {
           "name": "--aeris-confirm-popup-padding",
           "type": "CSS custom property",
-          "defaultValue": "1rem",
+          "defaultValue": "--aeris-surface-padding",
           "description": "Internal spacing."
         },
         {
@@ -28425,7 +28953,7 @@
         {
           "name": "--aeris-popover-body-padding",
           "type": "CSS custom property",
-          "defaultValue": "1rem",
+          "defaultValue": "--aeris-surface-padding",
           "description": "Body padding."
         }
       ],
@@ -29351,7 +29879,7 @@
         {
           "name": "--aeris-file-upload-toolbar-padding",
           "type": "CSS custom property",
-          "defaultValue": "0.875rem",
+          "defaultValue": "--aeris-overlay-padding",
           "description": "Toolbar padding."
         },
         {
@@ -30178,7 +30706,7 @@
         {
           "name": "--aeris-context-menu-padding",
           "type": "length",
-          "defaultValue": "0.375rem",
+          "defaultValue": "--aeris-overlay-padding",
           "description": "Panel padding."
         },
         {
@@ -30238,7 +30766,7 @@
         {
           "name": "--aeris-context-menu-icon-size",
           "type": "length",
-          "defaultValue": "1.125rem",
+          "defaultValue": "--aeris-icon-size",
           "description": "Default icon box size."
         },
         {
@@ -30615,7 +31143,7 @@
         {
           "name": "--aeris-mega-menu-icon-size",
           "type": "length",
-          "defaultValue": "1.125rem",
+          "defaultValue": "--aeris-icon-size",
           "description": "Default icon and chevron box."
         }
       ],
@@ -31049,7 +31577,7 @@
         {
           "name": "--aeris-menu-icon-size",
           "type": "length",
-          "defaultValue": "1.125rem",
+          "defaultValue": "--aeris-icon-size",
           "description": "Icon and chevron box size."
         },
         {
@@ -31967,7 +32495,7 @@
         {
           "name": "--aeris-tiered-menu-padding",
           "type": "length",
-          "defaultValue": "0.375rem",
+          "defaultValue": "--aeris-overlay-padding",
           "description": "Panel and submenu padding."
         },
         {
@@ -32021,7 +32549,7 @@
         {
           "name": "--aeris-tiered-menu-icon-size",
           "type": "length",
-          "defaultValue": "1.125rem",
+          "defaultValue": "--aeris-icon-size",
           "description": "Default icon box size."
         },
         {
@@ -32695,6 +33223,24 @@
           "description": "Message icon box size."
         },
         {
+          "name": "--aeris-message-severity-tint",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Severity color mixed into the filled surface."
+        },
+        {
+          "name": "--aeris-message-background",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Filled message background override."
+        },
+        {
+          "name": "--aeris-message-border-color",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Message border color override."
+        },
+        {
           "name": "--aeris-success",
           "type": "CSS custom property",
           "defaultValue": "",
@@ -32958,7 +33504,7 @@
               "name": "mode",
               "type": "AerisToastMode",
               "defaultValue": "'stacked'",
-              "description": "Uses a compact stack that expands on hover/focus or an always-expanded list. Options: 'stacked', 'expanded'."
+              "description": "Uses a compact stack that expands on hover/focus and toggles on touch taps, or an always-expanded list. Options: 'stacked', 'expanded'."
             },
             {
               "name": "visibleCount",
@@ -32982,7 +33528,7 @@
               "name": "pauseOnHover",
               "type": "boolean",
               "defaultValue": "true",
-              "description": "Pauses auto-dismiss timers while the toast region is hovered or focused."
+              "description": "Pauses auto-dismiss timers while the region is hovered, focused, or expanded by touch."
             },
             {
               "name": "showIcon",
@@ -33296,7 +33842,7 @@
         {
           "id": "toast-stacked",
           "title": "Stacked preview",
-          "description": "Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus the stack to smoothly expand the visible window.",
+          "description": "Stacked mode shows one primary notification and keeps the next visible messages tucked underneath. Hover or focus to expand it, or tap a toast on touch devices to expand and tap again to collapse. Close buttons, actions, and swipes keep their own behavior.",
           "sources": [
             {
               "language": "TypeScript",
@@ -33373,7 +33919,7 @@
           "Close controls are native buttons with configurable accessible labels.",
           "Stacked mode renders a limited visible window. Messages outside that window remain queued and appear as visible messages are dismissed.",
           "Use newestOnTop to control whether the newest or oldest queued message is the primary visible toast.",
-          "Auto-dismiss timers pause while the region is hovered or focused when pauseOnHover is enabled.",
+          "Auto-dismiss timers pause while the region is hovered, focused, or expanded by touch when pauseOnHover is enabled.",
           "Messages outside the visible window are paused until they become visible so they are not dismissed before users can perceive them.",
           "Pointer, pen, and touch users can swipe in any configured swipeDirection. Gestures shorter than swipeThreshold return to the resting position, and interactive content does not begin a swipe.",
           "Use sticky messages for critical information that must remain available until dismissed.",
@@ -34447,18 +34993,6 @@
               "description": "Reveals stage navigation on hover or focus; controls remain visible on touch devices."
             },
             {
-              "name": "showIndicators",
-              "type": "boolean",
-              "defaultValue": "false",
-              "description": "Shows one selectable indicator per gallery item."
-            },
-            {
-              "name": "indicatorsOverlay",
-              "type": "boolean",
-              "defaultValue": "false",
-              "description": "Places indicators over the media stage."
-            },
-            {
               "name": "showCaption",
               "type": "boolean",
               "defaultValue": "true",
@@ -34600,7 +35134,7 @@
               "name": "objectFit",
               "type": "'contain' | 'cover'",
               "defaultValue": "'cover'",
-              "description": "Controls built-in image fitting within the stage."
+              "description": "Controls built-in stage image fitting. Grid items opened fullscreen always use contain to show the whole photo."
             },
             {
               "name": "aspectRatio",
@@ -34637,12 +35171,6 @@
               "type": "string",
               "defaultValue": "'Gallery thumbnails'",
               "description": "Accessible name for the thumbnail tab list."
-            },
-            {
-              "name": "indicatorsAriaLabel",
-              "type": "string",
-              "defaultValue": "'Gallery items'",
-              "description": "Accessible name for the indicator tab list."
             },
             {
               "name": "previousAriaLabel",
@@ -34975,7 +35503,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisGalleriaThumbnailPosition = 'top' | 'bottom' | 'start' | 'end';\ntype AerisGalleriaObjectFit = 'contain' | 'cover';\ntype AerisGalleriaMode = 'gallery' | 'grid' | 'single';\ntype AerisGalleriaChangeReason = 'next' | 'previous' | 'thumbnail' | 'indicator' | 'keyboard' | 'swipe' | 'autoplay' | 'grid' | 'api';\ntype AerisGalleriaFullscreenCloseReason = 'toggle' | 'escape' | 'backdrop' | 'api';\n\ninterface AerisGalleriaImage {\n  readonly src: string;\n  readonly thumbnailSrc?: string;\n  readonly alt: string;\n  readonly title?: string;\n  readonly description?: string;\n  readonly downloadName?: string;\n}\n\ninterface AerisGalleriaResponsiveOption {\n  readonly breakpoint: string;\n  readonly numVisible?: number;\n  readonly showThumbnails?: boolean;\n  readonly thumbnailPosition?: AerisGalleriaThumbnailPosition;\n}\n\ninterface AerisGalleriaItemContext<T = unknown> {\n  readonly $implicit: T;\n  readonly item: T;\n  readonly index: number;\n  readonly active: boolean;\n}\n\ninterface AerisGalleriaIndexChangeEvent<T = unknown> {\n  readonly index: number;\n  readonly previousIndex: number;\n  readonly item: T;\n  readonly reason: AerisGalleriaChangeReason;\n}\n\ninterface AerisGalleriaTransformState {\n  readonly rotation: number;\n  readonly zoom: number;\n  readonly horizontalFlip: boolean;\n  readonly verticalFlip: boolean;\n}\n\ninterface AerisGalleriaDownloadEvent<T = unknown> {\n  readonly item: T;\n  readonly index: number;\n  readonly src: string;\n  readonly filename: string;\n}"
+          "code": "type AerisGalleriaThumbnailPosition = 'top' | 'bottom' | 'start' | 'end';\ntype AerisGalleriaObjectFit = 'contain' | 'cover';\ntype AerisGalleriaMode = 'gallery' | 'grid' | 'single';\ntype AerisGalleriaChangeReason = 'next' | 'previous' | 'thumbnail' | 'keyboard' | 'swipe' | 'autoplay' | 'grid' | 'api';\ntype AerisGalleriaFullscreenCloseReason = 'toggle' | 'escape' | 'backdrop' | 'api';\n\ninterface AerisGalleriaImage {\n  readonly src: string;\n  readonly thumbnailSrc?: string;\n  readonly alt: string;\n  readonly title?: string;\n  readonly description?: string;\n  readonly downloadName?: string;\n}\n\ninterface AerisGalleriaResponsiveOption {\n  readonly breakpoint: string;\n  readonly numVisible?: number;\n  readonly showThumbnails?: boolean;\n  readonly thumbnailPosition?: AerisGalleriaThumbnailPosition;\n}\n\ninterface AerisGalleriaItemContext<T = unknown> {\n  readonly $implicit: T;\n  readonly item: T;\n  readonly index: number;\n  readonly active: boolean;\n}\n\ninterface AerisGalleriaIndexChangeEvent<T = unknown> {\n  readonly index: number;\n  readonly previousIndex: number;\n  readonly item: T;\n  readonly reason: AerisGalleriaChangeReason;\n}\n\ninterface AerisGalleriaTransformState {\n  readonly rotation: number;\n  readonly zoom: number;\n  readonly horizontalFlip: boolean;\n  readonly verticalFlip: boolean;\n}\n\ninterface AerisGalleriaDownloadEvent<T = unknown> {\n  readonly item: T;\n  readonly index: number;\n  readonly src: string;\n  readonly filename: string;\n}"
         }
       ],
       "designTokens": [
@@ -34983,7 +35511,7 @@
           "name": "--aeris-galleria-gap",
           "type": "length",
           "defaultValue": "density gap × 1.5",
-          "description": "Space between stage, indicators, and thumbnails."
+          "description": "Space between stage and thumbnails."
         },
         {
           "name": "--aeris-galleria-radius",
@@ -35040,6 +35568,12 @@
           "description": "Toolbar corner radius."
         },
         {
+          "name": "--aeris-galleria-toolbar-fade-size",
+          "type": "length",
+          "defaultValue": "1.5rem",
+          "description": "Width of the edge fade when toolbar controls are outside the scrollable viewport."
+        },
+        {
           "name": "--aeris-galleria-grid-gap",
           "type": "length",
           "defaultValue": "--aeris-density-gap-lg",
@@ -35072,14 +35606,14 @@
         {
           "name": "--aeris-galleria-thumbnail-width",
           "type": "length",
-          "defaultValue": "5.75rem",
-          "description": "Compact horizontal thumbnail width."
+          "defaultValue": "available width / visible slots",
+          "description": "Optional horizontal thumbnail width override; otherwise the visible slots fill the rail."
         },
         {
           "name": "--aeris-galleria-thumbnail-height",
           "type": "length",
-          "defaultValue": "4.5rem",
-          "description": "Compact vertical thumbnail height."
+          "defaultValue": "available height / visible slots",
+          "description": "Optional vertical thumbnail height override."
         },
         {
           "name": "--aeris-galleria-thumbnail-aspect-ratio",
@@ -35092,18 +35626,6 @@
           "type": "color",
           "defaultValue": "--aeris-primary",
           "description": "Selected thumbnail border."
-        },
-        {
-          "name": "--aeris-galleria-indicator-background",
-          "type": "color",
-          "defaultValue": "--aeris-border",
-          "description": "Inactive indicator color."
-        },
-        {
-          "name": "--aeris-galleria-active-indicator-background",
-          "type": "color",
-          "defaultValue": "--aeris-primary",
-          "description": "Selected indicator color."
         },
         {
           "name": "--aeris-galleria-backdrop",
@@ -35132,8 +35654,8 @@
         {
           "name": "--aeris-galleria-fullscreen-thumbnail-width",
           "type": "length",
-          "defaultValue": "6.5rem",
-          "description": "Fullscreen thumbnail width; mobile defaults to 4.5rem."
+          "defaultValue": "available width / visible slots",
+          "description": "Optional fullscreen thumbnail width override; automatic slots adapt to the viewport."
         },
         {
           "name": "--aeris-galleria-fullscreen-gap",
@@ -35198,7 +35720,7 @@
         {
           "id": "galleria-toolbar",
           "title": "Image toolbar",
-          "description": "Enable built-in controls for rotation, horizontal and vertical flipping, zoom, reset, secure download, and fullscreen viewing.",
+          "description": "Enable rotation, flips, zoom, reset, download, and fullscreen viewing. Drag a zoomed photo to inspect it without changing images. Thumbnail rails support native touch scrolling; toolbar edge fades reveal off-screen controls.",
           "sources": [
             {
               "language": "TypeScript",
@@ -35210,7 +35732,7 @@
         {
           "id": "galleria-grid",
           "title": "Grid",
-          "description": "Present a larger 30-item collection as a responsive image grid. Selecting a tile opens that item in the fullscreen viewer by default.",
+          "description": "Present a larger 30-item collection as a responsive image grid. Selecting a tile opens that item in the fullscreen viewer, fitting the whole photo without cropping.",
           "sources": [
             {
               "language": "TypeScript",
@@ -35222,7 +35744,7 @@
         {
           "id": "galleria-single",
           "title": "Single",
-          "description": "Use the focused single-item viewer without thumbnails, indicators, or collection navigation chrome.",
+          "description": "Use the focused single-item viewer without thumbnails or collection navigation chrome.",
           "sources": [
             {
               "language": "TypeScript",
@@ -35232,14 +35754,14 @@
           ]
         },
         {
-          "id": "galleria-indicators",
-          "title": "Indicators and hover navigation",
-          "description": "Replace thumbnails with compact overlay indicators and reveal navigators on hover or keyboard focus. Touch devices keep controls visible.",
+          "id": "galleria-hover-navigation",
+          "title": "Hover navigation",
+          "description": "Reveal navigators on hover or keyboard focus. Touch devices keep controls visible.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/galleria';\n\n@Component({\n  selector: 'app-galleria-indicators-demo',\n  imports: [AerisGalleriaModule],\n  template: `\n    <div>\n      <aeris-galleria\n        [value]=\"photos\"\n        [showThumbnails]=\"false\"\n        showIndicators\n        indicatorsOverlay\n        navigatorsOnHover\n        circular\n        ariaLabel=\"Gallery with item indicators\"\n      />\n    </div>\n  `\n})\nexport class GalleriaIndicatorsIndicatorsAndHoverNavigationDemo {\n  protected readonly puppyNames: readonly string[] = [\n    'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',\n    'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',\n    'Millie', 'Scout', 'Willow', 'Charlie', 'Honey', 'Frankie', 'Nala', 'Monty', 'Penny', 'Remy',\n  ];\n\n  protected readonly photos: readonly AerisGalleriaImage[] = this.puppyNames.map(\n    (name, index) => ({\n      src: `/puppies/puppy${index + 1}.jpg`,\n      thumbnailSrc: `/puppies/puppy${index + 1}.jpg`,\n      alt: `Portrait of ${name} the puppy`,\n      title: name,\n      description: `Meet ${name}, one of the playful faces in the Aeris puppy collection.`,\n    }),\n  );\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/galleria';\n\n@Component({\n  selector: 'app-galleria-hover-navigation-demo',\n  imports: [AerisGalleriaModule],\n  template: `\n    <div>\n      <aeris-galleria\n        [value]=\"photos\"\n        [showThumbnails]=\"false\"\n        navigatorsOnHover\n        circular\n        ariaLabel=\"Gallery with hover navigation\"\n      />\n    </div>\n  `\n})\nexport class GalleriaHoverNavigationHoverNavigationDemo {\n  protected readonly puppyNames: readonly string[] = [\n    'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',\n    'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',\n    'Millie', 'Scout', 'Willow', 'Charlie', 'Honey', 'Frankie', 'Nala', 'Monty', 'Penny', 'Remy',\n  ];\n\n  protected readonly photos: readonly AerisGalleriaImage[] = this.puppyNames.map(\n    (name, index) => ({\n      src: `/puppies/puppy${index + 1}.jpg`,\n      thumbnailSrc: `/puppies/puppy${index + 1}.jpg`,\n      alt: `Portrait of ${name} the puppy`,\n      title: name,\n      description: `Meet ${name}, one of the playful faces in the Aeris puppy collection.`,\n    }),\n  );\n}\n"
             }
           ]
         },
@@ -35303,10 +35825,10 @@
       "accessibility": {
         "guidance": [
           "Inline Galleria is a named gallery region. Fullscreen presentation becomes a modal dialog, traps focus, locks background scrolling without shifting page content, and restores focus when closed.",
-          "Thumbnails and indicators are labelled groups of native buttons. The selected image exposes current state and each selector references the gallery stage.",
+          "Thumbnails are labelled groups of native buttons. The selected image exposes current state and each selector references the gallery stage.",
           "Thumbnail windows are paged with labelled previous and next buttons that remain usable with touch, keyboard, and assistive technology.",
           "The image tools use a labelled toolbar with native buttons, pressed states for flips and fullscreen, disabled zoom boundaries, and a readable zoom output.",
-          "Grid mode exposes a named list of image buttons. Single mode removes collection thumbnails and indicators while preserving native toolbar and fullscreen controls.",
+          "Grid mode exposes a named list of image buttons. Single mode removes collection thumbnails while preserving native toolbar and fullscreen controls.",
           "Built-in images require meaningful alt text. Use an empty alt only when an image is genuinely decorative and its caption conveys no unique information.",
           "Autoplay pauses for hover and focus, is disabled when reduced motion is requested, and keeps live announcements off while running.",
           "Hover-only navigators remain visible on touch devices and whenever keyboard focus is inside the stage.",
@@ -35316,11 +35838,15 @@
         "keyboard": [
           {
             "keys": "Tab",
-            "behavior": "Moves through stage controls, thumbnails, indicators, and projected native interactive elements. Focus is contained while fullscreen is open."
+            "behavior": "Moves through stage controls, thumbnails and projected native interactive elements. Focus is contained while fullscreen is open."
           },
           {
             "keys": "Arrow Right / Arrow Left",
-            "behavior": "Moves to the next or previous item from the focused stage. Direction follows RTL."
+            "behavior": "Moves to the next or previous item from the focused stage at normal zoom. Direction follows RTL. When zoomed in, arrow keys pan the image instead."
+          },
+          {
+            "keys": "Arrow Up / Arrow Down",
+            "behavior": "Pans a zoomed image vertically from the focused stage."
           },
           {
             "keys": "Home / End",
@@ -35328,7 +35854,7 @@
           },
           {
             "keys": "Enter / Space",
-            "behavior": "Activates focused native navigator, toolbar, grid, thumbnail, indicator, or fullscreen buttons."
+            "behavior": "Activates focused native navigator, toolbar, grid, thumbnail, or fullscreen buttons."
           },
           {
             "keys": "Escape",
@@ -35876,6 +36402,12 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Surface ring around overlay badges."
+        },
+        {
+          "name": "--aeris-badge-overlay-offset",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "How far an overlay badge extends beyond the content corner."
         },
         {
           "name": "--aeris-primary",
@@ -36530,6 +37062,339 @@
           {
             "keys": "Delete / Backspace",
             "behavior": "Removes the chip while its remove button is focused."
+          }
+        ]
+      }
+    },
+    {
+      "name": "CodeBlock",
+      "slug": "code-block",
+      "category": "Misc",
+      "description": "Display syntax-highlighted code with source tabs, line numbers, focused lines, and accessible copy actions.",
+      "entryPoint": "@aeris-ui/core/code-block",
+      "documentationUrl": "https://aeris-ui.dev/components/code-block",
+      "imports": [
+        "AerisCodeBlockModule"
+      ],
+      "importCode": "import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';",
+      "api": [
+        {
+          "name": "Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "code",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Source text for a single code block. Rendered as text, never executed or interpreted as HTML."
+            },
+            {
+              "name": "language",
+              "type": "string",
+              "defaultValue": "text",
+              "description": "Case-insensitive language: html, typescript, javascript, css, scss, json, shell, or text. Aliases: ts, js, angular, xml, bash, sh. Unknown languages use plain text."
+            },
+            {
+              "name": "label",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Single-source header label, such as a filename. Defaults to language."
+            },
+            {
+              "name": "sources",
+              "type": "readonly AerisCodeSource[]",
+              "defaultValue": "[]",
+              "description": "Source files displayed as tabs. Non-empty sources take precedence over code, language, and label. Empty files are retained."
+            },
+            {
+              "name": "highlight",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Enable Shiki syntax highlighting with lazily loaded grammars and light/dark themes. Plain text appears immediately while highlighting loads. Inputs over 100,000 characters use plain text."
+            },
+            {
+              "name": "lineNumbers",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Display decorative line numbers. Clipboard output always excludes them."
+            },
+            {
+              "name": "highlightLines",
+              "type": "readonly number[]",
+              "defaultValue": "[]",
+              "description": "One-based line numbers to emphasize. Invalid or out-of-range entries have no effect."
+            },
+            {
+              "name": "wrap",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Wrap long lines rather than horizontally scrolling."
+            },
+            {
+              "name": "maxHeight",
+              "type": "string | null",
+              "defaultValue": "null",
+              "description": "Explicit CSS maximum height on every screen size. Default desktop height comes from the token; mobile expands vertically to preserve page scrolling."
+            },
+            {
+              "name": "tabSize",
+              "type": "number",
+              "defaultValue": "2",
+              "description": "Displayed tab width, clamped to integers from 1 through 16."
+            },
+            {
+              "name": "copyable",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Show the copy action and enable the copy() method."
+            },
+            {
+              "name": "ariaLabel",
+              "type": "string",
+              "defaultValue": "Code example",
+              "description": "Accessible name for a single-source scroll region."
+            },
+            {
+              "name": "copyLabel",
+              "type": "string",
+              "defaultValue": "Copy",
+              "description": "Visible copy action text; automatically icon-only on narrow screens."
+            },
+            {
+              "name": "copiedLabel",
+              "type": "string",
+              "defaultValue": "Copied",
+              "description": "Visible success text."
+            },
+            {
+              "name": "copyAriaLabel",
+              "type": "string",
+              "defaultValue": "Copy code",
+              "description": "Accessible name for the copy button, retained in icon-only mode."
+            },
+            {
+              "name": "copiedMessage",
+              "type": "string",
+              "defaultValue": "Code copied to clipboard.",
+              "description": "Polite live announcement after a successful copy."
+            },
+            {
+              "name": "copyErrorMessage",
+              "type": "string",
+              "defaultValue": "Unable to copy code. Select the code and copy it manually.",
+              "description": "Live announcement when clipboard access fails."
+            },
+            {
+              "name": "sourceTabsLabel",
+              "type": "string",
+              "defaultValue": "Code source",
+              "description": "Accessible name for the source tab list."
+            },
+            {
+              "name": "scrollHint",
+              "type": "string",
+              "defaultValue": "Swipe sideways for long lines",
+              "description": "Non-interactive mobile hint for unwrapped content; empty text hides it."
+            },
+            {
+              "name": "scrollDescription",
+              "type": "string",
+              "defaultValue": "Scroll horizontally to view long lines.",
+              "description": "Accessible scroll guidance when wrapping is disabled; can be localized."
+            }
+          ]
+        },
+        {
+          "name": "Models",
+          "kind": "model",
+          "entries": [
+            {
+              "name": "activeSource",
+              "type": "number",
+              "defaultValue": "0",
+              "description": "Two-way active source index. Out-of-range values display the closest available source."
+            }
+          ]
+        },
+        {
+          "name": "Outputs",
+          "kind": "output",
+          "entries": [
+            {
+              "name": "highlightError",
+              "type": "unknown",
+              "defaultValue": "-",
+              "description": "Emits a highlighting failure. The original source remains visible and copyable as plain text."
+            },
+            {
+              "name": "copied",
+              "type": "AerisCodeCopyEvent",
+              "defaultValue": "-",
+              "description": "Emits the exact source text, language, and index after clipboard success."
+            },
+            {
+              "name": "copyError",
+              "type": "unknown",
+              "defaultValue": "-",
+              "description": "Emits the clipboard error. Source code is not included in error messages."
+            }
+          ]
+        },
+        {
+          "name": "Methods",
+          "kind": "method",
+          "entries": [
+            {
+              "name": "copy()",
+              "type": "Promise<boolean>",
+              "defaultValue": "-",
+              "description": "Copy the currently displayed raw source. Resolves false when disabled, busy, unsupported, or unsuccessful."
+            },
+            {
+              "name": "selectSource(index)",
+              "type": "(index: number) => void",
+              "defaultValue": "-",
+              "description": "Activate an existing source index; invalid indices are ignored."
+            }
+          ]
+        }
+      ],
+      "referenceTables": [],
+      "interfaces": [
+        {
+          "name": "Interfaces",
+          "code": "type AerisCodeLanguage = 'html' | 'typescript' | 'javascript' | 'css' | 'scss' | 'json' | 'shell' | 'text';\n\ninterface AerisCodeSource {\n  readonly code: string;\n  readonly language: string;\n  readonly label: string;\n}\n\ninterface AerisCodeCopyEvent {\n  readonly code: string;\n  readonly language: string;\n  readonly index: number;\n}"
+        }
+      ],
+      "designTokens": [],
+      "examples": [
+        {
+          "id": "code-block-basic",
+          "title": "Basic",
+          "description": "TypeScript coloring, a language label, and a copy action.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-basic-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div><aeris-code-block [code]=\"exampleCode\" language=\"typescript\" /></div>\n  `\n})\nexport class CodeBlockBasicBasicDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-sources",
+          "title": "Source tabs",
+          "description": "Group related files without hiding empty source files. Use left and right arrows, Home, or End to switch tabs.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-sources-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div><aeris-code-block [sources]=\"sourceFiles\" /></div>\n  `\n})\nexport class CodeBlockSourcesSourceTabsDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-lines",
+          "title": "Line numbers and focused lines",
+          "description": "Decorative line numbers and selected-line backgrounds never alter the copied source.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-lines-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div>\n      <aeris-code-block\n        [code]=\"exampleCode\"\n        language=\"typescript\"\n        lineNumbers\n        [highlightLines]=\"[3, 4, 5]\"\n      />\n    </div>\n  `\n})\nexport class CodeBlockLinesLineNumbersAndFocusedLinesDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-wrap",
+          "title": "Wrapping",
+          "description": "Wrap long lines to fit the available width.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-wrap-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div>\n      <aeris-code-block [code]=\"longCode\" language=\"typescript\" wrap maxHeight=\"12rem\" />\n    </div>\n  `\n})\nexport class CodeBlockWrapWrappingDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-scroll",
+          "title": "Scrolling",
+          "description": "An explicit maximum height provides a scroll region. Scroll at its boundary to continue through the page.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-scroll-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div>\n      <aeris-code-block [code]=\"longCode\" language=\"typescript\" maxHeight=\"12rem\" />\n    </div>\n  `\n})\nexport class CodeBlockScrollScrollingDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-copy",
+          "title": "Copy events and labels",
+          "description": "Customize visible labels and react to successful or failed copies.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-copy-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div class=\"code-example\">\n      <aeris-code-block\n        [code]=\"exampleCode\"\n        language=\"typescript\"\n        label=\"greeting.ts\"\n        copyLabel=\"Copy source\"\n        copiedLabel=\"Source copied\"\n        (copied)=\"onCopied($event)\"\n        (copyError)=\"onCopyError()\"\n      />\n      <p aria-live=\"polite\">{{ copyMessage() }}</p>\n    </div>\n  `,\n  styles: `\n    .code-example {\n      display: grid;\n      gap: 1rem;\n      min-inline-size: 0;\n    }\n  `\n})\nexport class CodeBlockCopyCopyEventsAndLabelsDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-plain",
+          "title": "Plain text",
+          "description": "Plain text can retain the label without syntax coloring or a copy button.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-plain-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div>\n      <aeris-code-block\n        code=\"Aeris keeps presentation separate from your source text.\"\n        language=\"text\"\n        label=\"Notes\"\n        [copyable]=\"false\"\n      />\n    </div>\n  `\n})\nexport class CodeBlockPlainPlainTextDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "code-block-custom",
+          "title": "Token customization",
+          "description": "Use component tokens for an intentional local exception.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCodeBlockModule } from '@aeris-ui/core/code-block';\n\n@Component({\n  selector: 'app-code-block-custom-demo',\n  imports: [AerisCodeBlockModule],\n  template: `\n    <div>\n      <aeris-code-block\n        class=\"custom-code\"\n        [code]=\"exampleCode\"\n        language=\"typescript\"\n        [highlightLines]=\"[3]\"\n      />\n    </div>\n  `,\n  styles: `\n    .custom-code {\n      --aeris-code-block-background: var(--aeris-surface);\n      --aeris-code-block-font-size: 0.9375rem;\n      --aeris-code-block-padding: 1.5rem;\n      --aeris-code-block-line-highlight: var(--aeris-secondary-soft);\n    }\n  `\n})\nexport class CodeBlockCustomTokenCustomizationDemo {\n}\n"
+            }
+          ]
+        }
+      ],
+      "accessibility": {
+        "guidance": [
+          "Code uses native pre and code elements. Syntax highlighting never changes the text or relies on color to communicate meaning.",
+          "A single source has a named, focusable region. Multiple sources use labeled tabs and a linked tab panel with one tab stop.",
+          "Copy success and failure are announced politely. Clipboard access can be rejected by the browser; text remains manually selectable.",
+          "Line numbers are decorative and hidden from assistive technology. Line highlighting is visual emphasis, not a semantic error or selection.",
+          "Source text stays left-to-right in RTL layouts, while navigation arrows follow the interface direction.",
+          "Mobile copy actions retain their accessible name when their visible label is hidden. Default mobile blocks expand vertically; horizontal swipes reveal long lines without stopping page scrolling.",
+          "Reduced motion disables button transitions. CodeBlock does not animate or execute source text."
+        ],
+        "keyboard": [
+          {
+            "keys": "Tab / Shift + Tab",
+            "behavior": "Move through the active source tab, copy button, and scroll region."
+          },
+          {
+            "keys": "ArrowLeft / ArrowRight",
+            "behavior": "Focus and activate the adjacent source tab, wrapping at either end; reversed in RTL."
+          },
+          {
+            "keys": "Home / End",
+            "behavior": "Focus and activate the first / last source tab."
+          },
+          {
+            "keys": "Enter / Space",
+            "behavior": "Activate the focused native button."
+          },
+          {
+            "keys": "Arrow keys / PageUp / PageDown",
+            "behavior": "Scroll the focused code area using native browser behavior when it overflows."
           }
         ]
       }
@@ -38602,7 +39467,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisClassNamesModule } from '@aeris-ui/core/class-names';\n\n@Component({\n  selector: 'app-class-names-array-demo',\n  imports: [AerisClassNamesModule],\n  template: `\n    <div>\n      <article\n        [aerisClassNames]=\"[\n          'array-card array-card--surface',\n          'array-card--accent',\n          'array-card--compact',\n        ]\"\n      >\n        Arrays make programmatically assembled class groups easy to read.\n      </article>\n    </div>\n  `,\n  styles: `\n    .array-card {\n      max-width: 30rem;\n      padding: 1.25rem;\n      border-radius: var(--aeris-radius-xl);\n    }\n    \n    .array-card--surface {\n      background: var(--aeris-primary-soft);\n    }\n    \n    .array-card--accent {\n      border-inline-start: 0.25rem solid var(--aeris-primary);\n    }\n    \n    .array-card--compact {\n      line-height: 1.45;\n    }\n  `\n})\nexport class ClassNamesArrayArrayDemo {\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisClassNamesModule } from '@aeris-ui/core/class-names';\n\n@Component({\n  selector: 'app-class-names-array-demo',\n  imports: [AerisClassNamesModule],\n  template: `\n    <div>\n      <article\n        [aerisClassNames]=\"[\n          'array-card array-card--surface',\n          'array-card--accent',\n          'array-card--compact',\n        ]\"\n      >\n        Arrays make programmatically assembled class groups easy to read.\n      </article>\n    </div>\n  `,\n  styles: `\n    .array-card {\n      max-width: 30rem;\n      padding: 1.25rem;\n      border-radius: var(--aeris-radius-xl);\n    }\n    \n    .array-card--surface {\n      background: var(--aeris-primary-soft);\n    }\n    \n    .array-card--accent {\n      border: 1px solid color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-border));\n    }\n    \n    .array-card--compact {\n      line-height: 1.45;\n    }\n  `\n})\nexport class ClassNamesArrayArrayDemo {\n}\n"
             }
           ]
         },
@@ -39675,7 +40540,7 @@
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".style-method-demo {\n  display: grid;\n  gap: 0.875rem;\n}\n\n.style-method-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.625rem;\n}\n\n.style-method-notice {\n  display: none;\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border-inline-start: 0.25rem solid var(--aeris-primary);\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-primary-soft);\n}\n\n.style-method-notice--visible {\n  display: block;\n}\n\n.style-method-status {\n  margin: 0;\n  color: var(--aeris-text-2);\n}\n\n@media (max-width: 30rem) {\n  .style-method-actions > button {\n    width: 100%;\n  }\n}"
+              "code": ".style-method-demo {\n  display: grid;\n  gap: 0.875rem;\n}\n\n.style-method-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.625rem;\n}\n\n.style-method-notice {\n  display: none;\n  width: min(100%, 34rem);\n  padding: 1rem;\n  border: 1px solid color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-border));\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-primary-soft);\n}\n\n.style-method-notice--visible {\n  display: block;\n}\n\n.style-method-status {\n  margin: 0;\n  color: var(--aeris-text-2);\n}\n\n@media (max-width: 30rem) {\n  .style-method-actions > button {\n    width: 100%;\n  }\n}"
             }
           ]
         }

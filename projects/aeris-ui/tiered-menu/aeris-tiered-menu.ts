@@ -217,6 +217,8 @@ let nextTieredMenuId = 0;
                   class="aeris-tiered-menu__submenu"
                   [id]="entry.id + '-submenu'"
                   [attr.data-side]="submenuSide()"
+                  animate.enter="aeris-overlay-enter"
+                  animate.leave="aeris-overlay-leave"
                 >
                   <ng-container
                     [ngTemplateOutlet]="menuList"
@@ -238,6 +240,7 @@ let nextTieredMenuId = 0;
         #panel
         class="aeris-tiered-menu__panel"
         [aerisInternalAppendTo]="popup() ? appendTo() : 'self'"
+        [aerisInternalAppendToDismiss]="popup() ? dismissOverlay : null"
         [aerisInternalAppendToAnchor]="popup() ? portalAnchor() : null"
         [aerisInternalAppendToCollisionPadding]="viewportMargin()"
         [aerisInternalAppendToPositionSelf]="false"
@@ -250,6 +253,7 @@ let nextTieredMenuId = 0;
         [style.top.px]="popup() ? coordinates().y : null"
         [style.--aeris-tiered-menu-width]="width() || null"
         [style.--aeris-tiered-menu-max-width]="maxWidth() || null"
+        animate.leave="aeris-overlay-leave"
         (contextmenu)="suppressNativeMenu($event)"
         (mouseleave)="handlePanelMouseLeave()"
       >
@@ -268,6 +272,11 @@ let nextTieredMenuId = 0;
   },
 })
 export class AerisTieredMenu<T = unknown> {
+  protected readonly dismissOverlay = (): boolean => {
+    if (!(this.popup() && this.closeOnEscape())) return false;
+    this.hide();
+    return true;
+  };
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly repositionFrame = aerisInternalCreateFrameScheduler(() => this.reposition());
   private readonly injector = inject(Injector);

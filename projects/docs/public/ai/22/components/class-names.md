@@ -2,7 +2,7 @@
 
 > Compose strings, nested arrays, and conditional maps into one reactive set of application classes.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/class-names`
 - Human-readable documentation: [https://aeris-ui.dev/components/class-names](https://aeris-ui.dev/components/class-names)
@@ -129,7 +129,7 @@ import { AerisClassNamesModule } from '@aeris-ui/core/class-names';
     }
 
     .array-card--accent {
-      border-inline-start: 0.25rem solid var(--aeris-primary);
+      border: 1px solid color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-border));
     }
 
     .array-card--compact {

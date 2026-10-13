@@ -302,11 +302,17 @@ let nextFileUploadId = 0;
           >
             <span class="aeris-file-upload__drop-icon" aria-hidden="true"></span>
             <span [id]="labelId()" class="aeris-file-upload__drop-title">{{ dropLabel() }}</span>
-            <span [id]="helpId()" class="aeris-file-upload__drop-help">{{ resolvedHelpText() }}</span>
+            <span [id]="helpId()" class="aeris-file-upload__drop-help">{{
+              resolvedHelpText()
+            }}</span>
           </button>
 
           @if (showFileList()) {
-            <div class="aeris-file-upload__list" role="list" [attr.aria-label]="fileListAriaLabel()">
+            <div
+              class="aeris-file-upload__list"
+              role="list"
+              [attr.aria-label]="fileListAriaLabel()"
+            >
               @for (item of items(); track item.id) {
                 @if (fileTemplate(); as fileTemplateRef) {
                   <ng-container
@@ -314,9 +320,19 @@ let nextFileUploadId = 0;
                     [ngTemplateOutletContext]="fileContexts()[item.id]"
                   />
                 } @else {
-                  <article class="aeris-file-upload__file" role="listitem" [attr.data-status]="item.status">
+                  <article
+                    class="aeris-file-upload__file"
+                    animate.enter="aeris-file-upload__file--enter"
+                    animate.leave="aeris-file-upload__file--leave"
+                    role="listitem"
+                    [attr.data-status]="item.status"
+                  >
                     @if (imagePreview() && item.image && item.previewUrl) {
-                      <img class="aeris-file-upload__preview" [src]="item.previewUrl" [alt]="'Preview of ' + item.name" />
+                      <img
+                        class="aeris-file-upload__preview"
+                        [src]="item.previewUrl"
+                        [alt]="'Preview of ' + item.name"
+                      />
                     } @else {
                       <span class="aeris-file-upload__file-icon" aria-hidden="true"></span>
                     }
@@ -452,10 +468,12 @@ export class AerisFileUpload {
 
   protected readonly labelId = computed(() => `${this.generatedId}-label`);
   protected readonly helpId = computed(() => `${this.generatedId}-help`);
-  protected readonly descriptionIds = computed(() => this.resolvedHelpText() ? this.helpId() : null);
+  protected readonly descriptionIds = computed(() =>
+    this.resolvedHelpText() ? this.helpId() : null,
+  );
   protected readonly canClear = computed(() => !this.disabled() && this.items().length > 0);
-  protected readonly canUpload = computed(() =>
-    !this.disabled() && this.items().some((item) => item.status === 'ready'),
+  protected readonly canUpload = computed(
+    () => !this.disabled() && this.items().some((item) => item.status === 'ready'),
   );
   protected readonly summaryText = computed(() => {
     const count = this.items().length;
@@ -541,10 +559,7 @@ export class AerisFileUpload {
     }
   }
 
-  clear(
-    originalEvent: Event | null = null,
-    reason: AerisFileUploadClearReason = 'api',
-  ): void {
+  clear(originalEvent: Event | null = null, reason: AerisFileUploadClearReason = 'api'): void {
     const current = this.items();
     if (current.length === 0) return;
 
@@ -625,7 +640,10 @@ export class AerisFileUpload {
     return !this.disabled() && this.dragDrop();
   }
 
-  private addFiles(fileList: FileList | readonly File[] | null | undefined, originalEvent: Event): void {
+  private addFiles(
+    fileList: FileList | readonly File[] | null | undefined,
+    originalEvent: Event,
+  ): void {
     if (this.disabled() || !fileList) return;
 
     const incoming = Array.from(fileList);
@@ -730,9 +748,8 @@ export class AerisFileUpload {
 
   private createItem(file: File): AerisFileUploadItemState {
     const image = this.isSafePreviewImage(file);
-    const preview = image && this.imagePreview()
-      ? this.createObjectUrl(file)
-      : { url: '', created: false };
+    const preview =
+      image && this.imagePreview() ? this.createObjectUrl(file) : { url: '', created: false };
     return {
       id: `${this.generatedId}-file-${globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`}`,
       file,
@@ -775,7 +792,7 @@ export class AerisFileUpload {
   ): void {
     const targets = new Set(files);
     this.items.update((items) =>
-      items.map((item) => targets.has(item.file) ? { ...item, ...patch } : item),
+      items.map((item) => (targets.has(item.file) ? { ...item, ...patch } : item)),
     );
   }
 

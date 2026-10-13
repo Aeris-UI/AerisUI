@@ -7,7 +7,68 @@ release line.
 
 ## [Unreleased]
 
-No consumer-visible changes have been recorded since 22.0.0-alpha.9.
+## [22.0.0-alpha.10] - 2026-10-13
+
+This release adds CodeBlock, refreshes the visual foundation and documentation, and improves
+motion, mobile interactions, and overlay behavior.
+
+### Added
+
+- **CodeBlock:** syntax highlighting, language labels, source tabs, line numbers, highlighted lines,
+  wrapping, and copy actions. Shiki is an optional dependency, loaded only when highlighting is used.
+- Shared motion tokens for consistent durations, easing, movement, and reduced-motion behavior.
+- `dismissTopAerisOverlay()` for application-controlled dismissal of the top overlay, including
+  native Back-button integration.
+- Visual regression baselines, catalog performance budgets, and expanded cross-browser, responsive,
+  accessibility, and animation-interruption tests.
+
+### Changed
+
+- Make **Monochrome the default theme** for Aeris, the installer, and new documentation visitors.
+  Existing saved documentation palette choices are preserved.
+- Standardize component spacing, sizing, corners, icons, focus treatment, surfaces, and elevation.
+- Refine component animations, including tab indicators, menu transitions, expanding content,
+  selection states, and progress indicators.
+- Improve touch targets, hover behavior, safe-area handling, and overlay sizing and positioning when
+  the visual viewport changes.
+- Redesign the documentation landing page around live interfaces, copyable examples, and interactive
+  theme controls.
+- Add visual component catalog previews and responsive product showcases.
+- Improve component-page preview actions and use Aeris CodeBlock throughout the documentation.
+- Update Angular to **22.2.2**, MCP SDK to **1.32.1**, and refresh compatible dependencies.
+
+### Fixed
+
+- Preserve multiple selections during touch interaction in MultiSelect and TreeSelect.
+- Correct Paginator dropdown anchoring, repeated-click dismissal, and chevron animation.
+- Correct ContextMenu positioning and improve CascadeSelect submenu sizing and alignment.
+- Keep Table scrolling from trapping page scrolling when its content does not need to scroll.
+- Improve Skeleton visibility and Badge and Chip text contrast.
+- Reveal MeterGroup segments as one continuous track.
+- Allow tapping stacked Toasts to expand and collapse them on touch devices.
+- Align PickList mobile controls and normalize list-navigation, clear-button, and toggle icons.
+- Fit Galleria fullscreen images without cropping and keep the viewer within narrow containers.
+- Stabilize Galleria image taps, support panning zoomed images, and allow native thumbnail scrolling.
+- Improve Galleria and Carousel gesture handling while preserving page scrolling, interactive slide
+  content, and browser pinch zoom.
+- Enlarge Carousel indicator hit areas without enlarging their visual dots.
+- Correct Editor toolbar separators and Textarea automatic sizing.
+
+### Removed
+
+- **Breaking:** Remove Galleria indicators, including `showIndicators`, `indicatorsOverlay`,
+  `indicatorsAriaLabel`, indicator design tokens, and the `indicator` change reason.
+
+### Updating from alpha.9
+
+- Remove any Galleria indicator bindings or token overrides. Use thumbnails or previous/next
+  navigation instead.
+- Install Shiki if you use CodeBlock syntax highlighting; plain code rendering does not require it.
+- Explicitly configure Earth, Coastal, or Orchid if you want to retain a colored preset rather than
+  the new Monochrome default.
+- Review custom component styling against the updated geometry and visual tokens.
+
+Aeris remains alpha software and is not yet recommended for production.
 
 ## [22.0.0-alpha.9] - 2026-10-05
 

@@ -1,9 +1,9 @@
 $aeris-default-palette: (
-  'surface': #f1f4f2,
-  'primary': #2c694b,
-  'secondary': #52685b,
-  'accent': #a88245,
-  'contrast': #343b37,
+  'surface': #f4f4f4,
+  'primary': #111111,
+  'secondary': #1f1f1f,
+  'accent': #f8f8f8,
+  'contrast': #050505,
 );
 
 @mixin aeris-palette($palette) {

@@ -9,9 +9,7 @@
   -webkit-backdrop-filter: blur(
     var(--aeris-block-ui-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem))
   );
-  backdrop-filter: blur(
-    var(--aeris-block-ui-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem))
-  );
+  backdrop-filter: blur(var(--aeris-block-ui-backdrop-blur, var(--aeris-backdrop-blur, 0.25rem)));
 }
 
 :host(.aeris-block-ui) {

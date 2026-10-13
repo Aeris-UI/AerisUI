@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 :host {
   display: inline-block;
   color: var(--aeris-text);
@@ -10,20 +11,23 @@
 
 .aeris-editor {
   --aeris-editor-padding: 0.875rem;
-  --aeris-editor-font-size: 0.9375rem;
+  --aeris-editor-font-size: var(--aeris-font-size-xl, 0.9375rem);
   --aeris-editor-line-height: 1.6;
 
   display: grid;
   overflow: hidden;
   width: min(100%, 44rem);
   border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-md, 0.875rem);
+  border-radius: var(
+    --aeris-radius-structured-control,
+    var(--aeris-radius-control, var(--aeris-radius-md, 0.5625rem))
+  );
   background: var(--aeris-surface);
-  box-shadow: var(--aeris-shadow-xs, 0 1px 2px rgb(15 23 42 / 0.05));
+  box-shadow: var(--aeris-shadow-xs, 0 1px 2px rgb(0 0 0 / 10%));
   transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease,
-    background 160ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-editor[data-fluid] {
@@ -32,12 +36,12 @@
 
 .aeris-editor[data-size='sm'] {
   --aeris-editor-padding: 0.75rem;
-  --aeris-editor-font-size: 0.875rem;
+  --aeris-editor-font-size: var(--aeris-font-size-lg, 0.875rem);
 }
 
 .aeris-editor[data-size='lg'] {
   --aeris-editor-padding: 1rem;
-  --aeris-editor-font-size: 1rem;
+  --aeris-editor-font-size: var(--aeris-font-size-2xl, 1rem);
 }
 
 .aeris-editor[data-appearance='filled'] {
@@ -45,12 +49,18 @@
 }
 
 .aeris-editor:focus-within {
-  border-color: var(--aeris-focus);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus) 18%, transparent);
+  border-color: var(--aeris-control-focus-border, var(--aeris-focus));
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-focus-ring-color, var(--aeris-focus-ring-color, transparent));
 }
 
 .aeris-editor[data-invalid] {
-  border-color: var(--aeris-danger);
+  border-color: var(--aeris-control-invalid-border, var(--aeris-danger));
+}
+
+.aeris-editor[data-invalid]:focus-within {
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-invalid-focus-ring-color, transparent);
 }
 
 .aeris-editor[data-disabled] {
@@ -76,28 +86,32 @@
   width: 2rem;
   height: 2rem;
   border: 0;
-  border-radius: var(--aeris-radius-sm, 0.625rem);
+  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: var(--aeris-text);
   font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 700;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   cursor: pointer;
   transition:
-    background 140ms ease,
-    color 140ms ease,
-    box-shadow 140ms ease;
+    background var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-.aeris-editor__toolbar button:hover:not(:disabled),
 .aeris-editor__toolbar button[aria-pressed='true'] {
   background: var(--aeris-primary-soft);
   color: var(--aeris-text);
 }
-
+@media (hover: hover) {
+  .aeris-editor__toolbar button:hover:not(:disabled) {
+    background: var(--aeris-primary-soft);
+    color: var(--aeris-text);
+  }
+}
 .aeris-editor__toolbar button:focus-visible {
-  outline: 2px solid var(--aeris-focus);
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus);
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-editor__toolbar button:disabled {
@@ -183,7 +197,7 @@
   margin: 0 0 0.75rem;
   color: var(--aeris-text);
   font-size: 1.3em;
-  line-height: 1.25;
+  line-height: var(--aeris-line-height-tight, 1.25);
 }
 
 .aeris-editor-content__heading--h1 {
@@ -214,8 +228,9 @@
 
 .aeris-editor-content__quote {
   margin: 0 0 0.75rem;
-  padding-inline-start: 0.875rem;
-  border-inline-start: 3px solid var(--aeris-primary);
+  padding: 0.75rem 0.875rem;
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
+  background: var(--aeris-surface-2);
   color: var(--aeris-text-muted);
 }
 
@@ -278,7 +293,7 @@
 }
 
 .aeris-editor-content__bold {
-  font-weight: 700;
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-editor-content__italic {
@@ -340,3 +355,5 @@
     transition: none;
   }
 }
+
+@include aeris-mobile.input-font('input:not([type="checkbox"]):not([type="radio"]), textarea');

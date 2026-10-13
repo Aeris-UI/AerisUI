@@ -169,7 +169,7 @@
             <app-form-demo
               id="galleria-toolbar"
               title="Image toolbar"
-              description="Enable built-in controls for rotation, horizontal and vertical flipping, zoom, reset, secure download, and fullscreen viewing."
+              description="Enable rotation, flips, zoom, reset, download, and fullscreen viewing. Drag a zoomed photo to inspect it without changing images. Thumbnail rails support native touch scrolling; toolbar edge fades reveal off-screen controls."
               [tsCode]="toolbarCode"
               [cssCode]="toolbarStatusCss"
             >
@@ -206,7 +206,7 @@
             <app-form-demo
               id="galleria-grid"
               title="Grid"
-              description="Present a larger 30-item collection as a responsive image grid. Selecting a tile opens that item in the fullscreen viewer by default."
+              description="Present a larger 30-item collection as a responsive image grid. Selecting a tile opens that item in the fullscreen viewer, fitting the whole photo without cropping."
               [tsCode]="photosCode"
             >
               <div preview>
@@ -234,7 +234,7 @@
             <app-form-demo
               id="galleria-single"
               title="Single"
-              description="Use the focused single-item viewer without thumbnails, indicators, or collection navigation chrome."
+              description="Use the focused single-item viewer without thumbnails or collection navigation chrome."
               [tsCode]="singleCode"
             >
               <div preview>
@@ -260,31 +260,27 @@
             </app-form-demo>
 
             <app-form-demo
-              id="galleria-indicators"
-              title="Indicators and hover navigation"
-              description="Replace thumbnails with compact overlay indicators and reveal navigators on hover or keyboard focus. Touch devices keep controls visible."
+              id="galleria-hover-navigation"
+              title="Hover navigation"
+              description="Reveal navigators on hover or keyboard focus. Touch devices keep controls visible."
               [tsCode]="photosCode"
             >
               <div preview>
                 <aeris-galleria
                   [value]="photos"
                   [showThumbnails]="false"
-                  showIndicators
-                  indicatorsOverlay
                   navigatorsOnHover
                   circular
-                  ariaLabel="Gallery with item indicators"
+                  ariaLabel="Gallery with hover navigation"
                 />
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;aeris-galleria
     [value]="photos"
     [showThumbnails]="false"
-    showIndicators
-    indicatorsOverlay
     navigatorsOnHover
     circular
-    ariaLabel="Gallery with item indicators"
+    ariaLabel="Gallery with hover navigation"
   /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -579,8 +575,8 @@
                   restores focus when closed.
                 </li>
                 <li>
-                  Thumbnails and indicators are labelled groups of native buttons. The selected
-                  image exposes current state and each selector references the gallery stage.
+                  Thumbnails are labelled groups of native buttons. The selected image exposes
+                  current state and each selector references the gallery stage.
                 </li>
                 <li>
                   Thumbnail windows are paged with labelled previous and next buttons that remain
@@ -592,7 +588,7 @@
                 </li>
                 <li>
                   Grid mode exposes a named list of image buttons. Single mode removes collection
-                  thumbnails and indicators while preserving native toolbar and fullscreen controls.
+                  thumbnails while preserving native toolbar and fullscreen controls.
                 </li>
                 <li>
                   Built-in images require meaningful <code>alt</code> text. Use an empty alt only
@@ -630,16 +626,20 @@
                 <div role="row">
                   <kbd role="cell">Tab</kbd
                   ><span role="cell"
-                    >Moves through stage controls, thumbnails, indicators, and projected native
-                    interactive elements. Focus is contained while fullscreen is open.</span
+                    >Moves through stage controls, thumbnails and projected native interactive
+                    elements. Focus is contained while fullscreen is open.</span
                   >
                 </div>
                 <div role="row">
                   <kbd role="cell">Arrow Right / Arrow Left</kbd
                   ><span role="cell"
-                    >Moves to the next or previous item from the focused stage. Direction follows
-                    RTL.</span
+                    >Moves to the next or previous item from the focused stage at normal zoom.
+                    Direction follows RTL. When zoomed in, arrow keys pan the image instead.</span
                   >
+                </div>
+                <div role="row">
+                  <kbd role="cell">Arrow Up / Arrow Down</kbd
+                  ><span role="cell">Pans a zoomed image vertically from the focused stage.</span>
                 </div>
                 <div role="row">
                   <kbd role="cell">Home / End</kbd
@@ -648,8 +648,8 @@
                 <div role="row">
                   <kbd role="cell">Enter / Space</kbd
                   ><span role="cell"
-                    >Activates focused native navigator, toolbar, grid, thumbnail, indicator, or
-                    fullscreen buttons.</span
+                    >Activates focused native navigator, toolbar, grid, thumbnail, or fullscreen
+                    buttons.</span
                   >
                 </div>
                 <div role="row">

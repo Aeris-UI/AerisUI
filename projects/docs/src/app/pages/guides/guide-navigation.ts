@@ -7,6 +7,8 @@ export type GuideId =
   | 'icons'
   | 'rtl'
   | 'overlays'
+  | 'mobile'
+  | 'capacitor'
   | 'mcp'
   | 'framework-compatibility'
   | 'accessibility'
@@ -34,6 +36,22 @@ export interface GuideGroup {
 }
 
 export const GUIDE_SUMMARIES: readonly GuideSummary[] = [
+  {
+    id: 'mobile',
+    path: '/guides/mobile',
+    group: 'Integration and quality',
+    title: 'Mobile layouts',
+    description:
+      'Build flexible layouts and usable forms, data views, and overlays for mobile browsers.',
+  },
+  {
+    id: 'capacitor',
+    path: '/guides/capacitor',
+    group: 'Integration and quality',
+    title: 'Capacitor integration',
+    description:
+      'Understand Aeris overlay behavior, safe-area integration, and Android Back handling in Capacitor apps.',
+  },
   {
     id: 'installation',
     path: '/guides/installation',
@@ -179,6 +197,8 @@ export const GUIDE_GROUPS: readonly GuideGroup[] = [
       'Ship Aeris responsibly across frameworks, browsers, accessibility needs, and trust boundaries.',
     guideIds: [
       'overlays',
+      'mobile',
+      'capacitor',
       'mcp',
       'framework-compatibility',
       'accessibility',

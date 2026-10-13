@@ -2,7 +2,7 @@
 
 > Vertical command and navigation menu with grouped items, popup mode, controlled expansion, templates, commands, and links.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/menu`
 - Human-readable documentation: [https://aeris-ui.dev/components/menu](https://aeris-ui.dev/components/menu)
@@ -141,7 +141,7 @@ interface AerisMenuVisibilityEvent {
 | `--aeris-menu-item-min-height` | `length` | `--aeris-item-height` | Minimum item height. |
 | `--aeris-menu-item-radius` | `length` | `--aeris-radius-item` | Item corner radius shared with other Aeris selectable rows. |
 | `--aeris-menu-item-hover-background` | `color` | `primary mix` | Hover and active item background. |
-| `--aeris-menu-icon-size` | `length` | `1.125rem` | Icon and chevron box size. |
+| `--aeris-menu-icon-size` | `length` | `--aeris-icon-size` | Icon and chevron box size. |
 | `--aeris-menu-badge-max-width` | `length` | `min(7rem, 36vw)` | Maximum badge width before ellipsis. |
 
 ## Examples

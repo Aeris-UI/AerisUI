@@ -2,7 +2,7 @@
 
 > Right-click action menu with target or global triggers, nested submenus, templates, commands, and keyboard navigation.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/context-menu`
 - Human-readable documentation: [https://aeris-ui.dev/components/context-menu](https://aeris-ui.dev/components/context-menu)
@@ -139,7 +139,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 | `--aeris-context-menu-width` | `length` | `14rem` | Default panel width. |
 | `--aeris-context-menu-max-width` | `length` | `min(22rem, calc(100vw - 1rem))` | Panel max width. |
 | `--aeris-context-menu-max-height` | `length` | `min(26rem, calc(100vh - 1rem))` | Root menu max height. |
-| `--aeris-context-menu-padding` | `length` | `0.375rem` | Panel padding. |
+| `--aeris-context-menu-padding` | `length` | `--aeris-overlay-padding` | Panel padding. |
 | `--aeris-context-menu-border` | `color` | `--aeris-border` | Panel border color. |
 | `--aeris-context-menu-radius` | `length` | `--aeris-radius-overlay` | Panel radius shared by Aeris overlay surfaces. |
 | `--aeris-context-menu-background` | `color` | `--aeris-surface` | Panel background. |
@@ -149,7 +149,7 @@ interface AerisContextMenuItemTemplateContext<T = unknown> {
 | `--aeris-context-menu-item-min-height` | `length` | `2.25rem` | Default item height. |
 | `--aeris-context-menu-item-radius` | `length` | `--aeris-radius-item` | Item radius shared across root items and nested submenus. |
 | `--aeris-context-menu-item-hover-background` | `color` | `primary mix` | Hover and active item background. |
-| `--aeris-context-menu-icon-size` | `length` | `1.125rem` | Default icon box size. |
+| `--aeris-context-menu-icon-size` | `length` | `--aeris-icon-size` | Default icon box size. |
 | `--aeris-context-menu-disabled-opacity` | `number` | `0.52` | Disabled item opacity. |
 | `--aeris-context-menu-separator-color` | `color` | `--aeris-border` | Separator color. |
 | `--aeris-context-menu-submenu-width` | `length` | `14rem` | Submenu width. |

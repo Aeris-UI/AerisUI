@@ -2,7 +2,7 @@
 
 > Responsive action surface for grouping controls, status, and navigation with accessible toolbar semantics.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/toolbar`
 - Human-readable documentation: [https://aeris-ui.dev/components/toolbar](https://aeris-ui.dev/components/toolbar)
@@ -74,6 +74,7 @@ type AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
+| `--aeris-toolbar-font-size` | `length` | `--aeris-body-font-size` | Text size inside the toolbar; projected controls retain their own sizing. |
 | `--aeris-toolbar-background` | `color` | `--aeris-surface` | Toolbar surface color. |
 | `--aeris-toolbar-color` | `color` | `--aeris-text` | Toolbar text color. |
 | `--aeris-toolbar-border` | `color` | `--aeris-border` | Toolbar border color. |
@@ -82,11 +83,11 @@ type AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';
 | `--aeris-toolbar-shadow` | `shadow` | `none` | Toolbar shadow. |
 | `--aeris-toolbar-filled-background` | `color` | `surface mix` | Filled variant surface. |
 | `--aeris-toolbar-elevated-shadow` | `shadow` | `soft elevation` | Elevated variant shadow. |
-| `--aeris-toolbar-padding-block` | `length` | `0.75rem` | Default block padding. |
-| `--aeris-toolbar-padding-inline` | `length` | `0.875rem` | Default inline padding. |
-| `--aeris-toolbar-gap` | `length` | `0.75rem` | Gap between toolbar sections. |
-| `--aeris-toolbar-section-gap` | `length` | `0.5rem` | Gap between controls inside sections and groups. |
-| `--aeris-toolbar-min-height` | `length` | `3.25rem` | Minimum content row height. |
+| `--aeris-toolbar-padding-block` | `length` | `--aeris-overlay-padding` | Default block padding. |
+| `--aeris-toolbar-padding-inline` | `length` | `--aeris-overlay-padding` | Default inline padding. |
+| `--aeris-toolbar-gap` | `length` | `--aeris-density-gap` | Gap between toolbar sections. |
+| `--aeris-toolbar-section-gap` | `length` | `--aeris-density-gap` | Gap between controls inside sections and groups. |
+| `--aeris-toolbar-min-height` | `length` | `--aeris-control-height` | Minimum content row height. |
 | `--aeris-toolbar-spacer-min-size` | `length` | `1rem` | Minimum size for flexible spacers. |
 | `--aeris-toolbar-disabled-opacity` | `number` | `0.62` | Opacity when disabled. |
 

@@ -2,6 +2,18 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'guides/mobile',
+    title: 'Mobile layouts - Aeris UI',
+    loadComponent: () => import('./pages/guides/guide.page').then((page) => page.GuidePage),
+    data: { guideId: 'mobile' },
+  },
+  {
+    path: 'guides/capacitor',
+    title: 'Capacitor integration - Aeris UI',
+    loadComponent: () => import('./pages/guides/guide.page').then((page) => page.GuidePage),
+    data: { guideId: 'capacitor' },
+  },
+  {
     path: '',
     title: 'Aeris UI Alpha - Angular component library',
     loadComponent: () => import('./pages/home.page').then((page) => page.HomePage),
@@ -698,6 +710,14 @@ export const routes: Routes = [
     title: 'Skeleton - Aeris UI',
     loadComponent: () =>
       import('./pages/components/misc/skeleton/skeleton.page').then((page) => page.SkeletonPage),
+  },
+  {
+    path: 'components/code-block',
+    title: 'CodeBlock - Aeris UI',
+    loadComponent: () =>
+      import('./pages/components/misc/code-block/code-block.page').then(
+        (page) => page.CodeBlockPage,
+      ),
   },
   {
     path: 'components/block-ui',

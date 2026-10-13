@@ -1,0 +1,9 @@
+{
+  "appId": "dev.aeris.mobiletestbed",
+  "appName": "Aeris Mobile Testbed",
+  "webDir": "../../dist/browser-tests/browser",
+  "plugins": {
+    "Keyboard": { "resize": "native", "resizeOnFullScreen": true },
+    "SystemBars": { "insetsHandling": "css" }
+  }
+}

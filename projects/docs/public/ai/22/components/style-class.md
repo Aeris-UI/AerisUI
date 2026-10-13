@@ -2,7 +2,7 @@
 
 > Toggle application classes and coordinate enter or leave transitions declaratively.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/style-class`
 - Human-readable documentation: [https://aeris-ui.dev/components/style-class](https://aeris-ui.dev/components/style-class)
@@ -566,7 +566,7 @@ export class StyleClassMethodsMethodsAndEventsDemo {
   display: none;
   width: min(100%, 34rem);
   padding: 1rem;
-  border-inline-start: 0.25rem solid var(--aeris-primary);
+  border: 1px solid color-mix(in srgb, var(--aeris-primary) 36%, var(--aeris-border));
   border-radius: var(--aeris-radius-lg);
   background: var(--aeris-primary-soft);
 }

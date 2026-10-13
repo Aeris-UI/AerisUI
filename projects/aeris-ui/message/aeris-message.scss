@@ -2,11 +2,13 @@
 
 :host {
   --_accent: var(--aeris-primary, #{aeris-fallbacks.$primary});
-  --_accent-soft: color-mix(in srgb, var(--_accent) 14%, transparent);
-  --_accent-border: color-mix(in srgb, var(--_accent) 36%, var(--aeris-border, #deddd7));
-  --_surface: color-mix(in srgb, var(--aeris-surface, #fff) 94%, var(--_accent-soft));
-  --_text: var(--aeris-text, #222222);
-  --_muted: var(--aeris-text-2, #555555);
+  --_surface: color-mix(
+    in srgb,
+    var(--_accent) var(--aeris-message-severity-tint, 9%),
+    var(--aeris-surface, #fff)
+  );
+  --_text: var(--aeris-text, #111111);
+  --_muted: var(--aeris-text-2, #454545);
 
   min-width: 0;
   display: inline-grid;
@@ -14,20 +16,20 @@
   align-items: center;
   gap: 0.625rem;
   padding: 0.625rem 0.75rem;
-  border: 1px solid var(--_accent-border);
-  border-radius: var(--aeris-radius-md, 0.75rem);
-  background: linear-gradient(90deg, var(--_accent-soft), transparent 42%), var(--_surface);
+  border: 1px solid var(--aeris-message-border-color, var(--_accent));
+  border-radius: var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem));
+  background: var(--aeris-message-background, var(--_surface));
   color: var(--_text);
-  box-shadow: var(--aeris-shadow-sm, 0 1px 2px rgb(31 35 27 / 6%));
-  font-size: 0.875rem;
+  box-shadow: var(--aeris-shadow-sm, 0 2px 5px rgb(0 0 0 / 14%));
+  font-size: var(--aeris-font-size-lg, 0.875rem);
   line-height: 1.45;
   transition:
-    background-color 150ms ease,
-    border-color 150ms ease,
-    box-shadow 150ms ease,
-    color 150ms ease,
-    opacity 150ms ease,
-    transform 150ms ease;
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 :host(:not([data-visible])) {
@@ -52,11 +54,11 @@
 
 :host([data-severity='neutral']),
 :host([data-severity='secondary']) {
-  --_accent: var(--aeris-text-2, #555555);
+  --_accent: var(--aeris-text-2, #454545);
 }
 
 :host([data-severity='contrast']) {
-  --_accent: var(--aeris-text, #222222);
+  --_accent: var(--aeris-text, #111111);
 }
 
 :host([data-variant='outlined']) {
@@ -76,14 +78,14 @@
 :host([data-size='sm']) {
   gap: 0.5rem;
   padding: 0.45rem 0.625rem;
-  border-radius: var(--aeris-radius-sm, 0.5rem);
-  font-size: 0.8125rem;
+  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 :host([data-size='lg']) {
   gap: 0.75rem;
   padding: 0.8125rem 0.95rem;
-  font-size: 0.9375rem;
+  font-size: var(--aeris-font-size-xl, 0.9375rem);
 }
 
 :host([data-size='sm'][data-variant='simple']) {
@@ -116,7 +118,7 @@
   height: var(--aeris-message-icon-size, 1.15rem);
   display: block;
   border: 2px solid currentColor;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
 }
 
 .aeris-message__default-icon::before,
@@ -131,7 +133,7 @@
   height: 0.4rem;
   top: 0.45rem;
   left: 50%;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   transform: translateX(-50%);
 }
 
@@ -140,7 +142,7 @@
   height: 0.15625rem;
   top: 0.22rem;
   left: 50%;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   transform: translateX(-50%);
 }
 
@@ -170,7 +172,7 @@
   height: 0.125rem;
   top: 50%;
   left: 50%;
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
 }
 
 :host([data-severity='danger']) .aeris-message__default-icon::before {
@@ -193,20 +195,21 @@
   place-items: center;
   margin: -0.25rem -0.25rem -0.25rem 0;
   border: 0;
-  border-radius: var(--aeris-radius-sm, 0.5rem);
+  border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: var(--_muted);
   cursor: pointer;
 }
 
-.aeris-message__close:hover {
-  background: color-mix(in srgb, var(--aeris-text, #222222) 8%, transparent);
-  color: var(--aeris-text, #222222);
+@media (hover: hover) {
+  .aeris-message__close:hover {
+    background: color-mix(in srgb, var(--aeris-text, #111111) 8%, transparent);
+    color: var(--aeris-text, #111111);
+  }
 }
-
 .aeris-message__close:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-message__close span {

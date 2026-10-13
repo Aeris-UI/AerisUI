@@ -35,9 +35,42 @@ const stylesOutput = Object.entries(stats.outputs).find(
 if (!stylesOutput) fail('The documentation global stylesheet output is missing.');
 
 const globalStyles = measure([stylesOutput]);
+const catalogEntry = Object.entries(stats.outputs).find(([, output]) =>
+  Object.keys(output.inputs ?? {}).some((input) => input.endsWith('/component-catalog.page.ts')),
+)?.[0];
+if (!catalogEntry) fail('The component catalog output is missing.');
+const collect = (roots) => {
+  const outputs = new Set();
+  const visitOutput = (name) => {
+    if (outputs.has(name) || initialOutputs.has(name)) return;
+    outputs.add(name);
+    for (const dependency of stats.outputs[name]?.imports ?? []) {
+      if (dependency.kind !== 'dynamic-import' && !dependency.external)
+        visitOutput(dependency.path);
+    }
+  };
+  roots.forEach(visitOutput);
+  return [...outputs].filter((name) => name.endsWith('.js'));
+};
+const previewEntries = Object.entries(stats.outputs)
+  .filter(([, output]) =>
+    Object.keys(output.inputs ?? {}).some((input) =>
+      /\/catalog\/catalog-.*preview\.component\.ts$/.test(input),
+    ),
+  )
+  .map(([name]) => name);
+if (previewEntries.length === 0) fail('Catalog preview outputs are missing.');
+const catalogRoute = measure(collect([catalogEntry]));
+const catalogPreviews = measure(collect([catalogEntry, ...previewEntries]));
 const failures = [];
 check('Initial JavaScript', initialJavaScript, budgets.initialJavaScript);
 check('Global styles', globalStyles, budgets.globalStyles);
+check('Catalog route (excluding initial JavaScript)', catalogRoute, budgets.catalogRoute);
+check(
+  'Catalog with every deferred preview (excluding initial JavaScript)',
+  catalogPreviews,
+  budgets.catalogPreviews,
+);
 
 if (failures.length > 0) {
   process.stderr.write('Documentation performance verification failed:\n\n');
@@ -47,6 +80,9 @@ if (failures.length > 0) {
 
 process.stdout.write(
   `Verified documentation payload: ${format(initialJavaScript.raw)} raw / ${format(initialJavaScript.gzip)} gzip initial JavaScript and ${format(globalStyles.raw)} raw / ${format(globalStyles.gzip)} gzip global CSS.\n`,
+);
+process.stdout.write(
+  `Catalog route: ${format(catalogRoute.raw)} raw / ${format(catalogRoute.gzip)} gzip; all preview families: ${format(catalogPreviews.raw)} raw / ${format(catalogPreviews.gzip)} gzip.\n`,
 );
 
 function measure(outputs) {

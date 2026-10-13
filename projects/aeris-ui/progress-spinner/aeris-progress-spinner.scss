@@ -16,7 +16,7 @@
   max-inline-size: 100%;
   display: inline-grid;
   place-items: center;
-  color: var(--aeris-progress-spinner-value-color, var(--aeris-text, #222222));
+  color: var(--aeris-progress-spinner-value-color, var(--aeris-text, #111111));
   font: inherit;
   vertical-align: middle;
 }
@@ -30,7 +30,7 @@
 }
 
 :host([data-tone='secondary']) {
-  --_aeris-progress-spinner-color: var(--aeris-surface-3, var(--aeris-border, #deddd7));
+  --_aeris-progress-spinner-color: var(--aeris-surface-3, var(--aeris-border, #efefef));
 }
 
 :host([data-tone='success']) {
@@ -54,7 +54,7 @@
 }
 
 :host([data-tone='contrast']) {
-  --_aeris-progress-spinner-color: var(--aeris-text, #222222);
+  --_aeris-progress-spinner-color: var(--aeris-text, #111111);
 }
 
 .aeris-progress-spinner__graphic {
@@ -75,7 +75,7 @@
   stroke: var(--aeris-progress-spinner-indicator, var(--_aeris-progress-spinner-color));
   transform: rotate(-90deg);
   transform-origin: center;
-  transition: stroke-dashoffset 180ms ease;
+  transition: stroke-dashoffset var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 :host([data-mode='indeterminate']) .aeris-progress-spinner__graphic {
@@ -97,7 +97,7 @@
   padding: 0.25rem;
   overflow: hidden;
   font-size: var(--aeris-progress-spinner-value-font-size, 0.6875rem);
-  font-weight: 800;
+  font-weight: var(--aeris-font-weight-bold, 700);
   line-height: 1;
   text-align: center;
 }

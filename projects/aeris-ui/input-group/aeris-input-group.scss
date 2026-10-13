@@ -3,8 +3,8 @@
 .aeris-input-group {
   --aeris-input-group-height: var(--aeris-control-height, 2.625rem);
   --aeris-input-group-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
-  --aeris-input-group-font-size: 0.875rem;
-  --aeris-input-group-addon-padding: 0.75rem;
+  --aeris-input-group-font-size: var(--aeris-font-size-lg, 0.875rem);
+  --aeris-input-group-addon-padding: var(--aeris-control-padding-x, 0.75rem);
   --aeris-input-group-embedded-padding: 2.625rem;
   --aeris-input-group-icon-size: 1rem;
   --aeris-input-group-icon-addon-size: 2.625rem;
@@ -24,8 +24,8 @@
 
 .aeris-input-group--xs {
   --aeris-input-group-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
-  --aeris-input-group-font-size: 0.75rem;
-  --aeris-input-group-addon-padding: 0.5625rem;
+  --aeris-input-group-font-size: var(--aeris-font-size-sm, 0.75rem);
+  --aeris-input-group-addon-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.75);
   --aeris-input-group-embedded-padding: 2.125rem;
   --aeris-input-group-icon-size: 0.875rem;
   --aeris-input-group-icon-addon-size: 2rem;
@@ -33,8 +33,8 @@
 
 .aeris-input-group--sm {
   --aeris-input-group-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
-  --aeris-input-group-font-size: 0.8125rem;
-  --aeris-input-group-addon-padding: 0.625rem;
+  --aeris-input-group-font-size: var(--aeris-font-size-md, 0.8125rem);
+  --aeris-input-group-addon-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 0.85);
   --aeris-input-group-embedded-padding: 2.3125rem;
   --aeris-input-group-icon-size: 0.9375rem;
   --aeris-input-group-icon-addon-size: 2.25rem;
@@ -42,8 +42,8 @@
 
 .aeris-input-group--lg {
   --aeris-input-group-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
-  --aeris-input-group-font-size: 0.9375rem;
-  --aeris-input-group-addon-padding: 0.875rem;
+  --aeris-input-group-font-size: var(--aeris-font-size-xl, 0.9375rem);
+  --aeris-input-group-addon-padding: calc(var(--aeris-control-padding-x, 0.75rem) * 1.15);
   --aeris-input-group-embedded-padding: 2.875rem;
   --aeris-input-group-icon-size: 1.125rem;
   --aeris-input-group-icon-addon-size: 3rem;
@@ -67,11 +67,11 @@
   flex: 0 0 auto;
   min-height: var(--aeris-input-group-height);
   padding-inline: var(--aeris-input-group-addon-padding);
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   background: var(--aeris-surface, #fff);
   color: var(--aeris-text-muted, var(--aeris-text-2));
   font-size: var(--aeris-input-group-font-size);
-  font-weight: 600;
+  font-weight: var(--aeris-font-weight-semibold, 600);
   white-space: nowrap;
 }
 
@@ -170,15 +170,15 @@ svg.aeris-input-group__addon {
 .aeris-input-group > input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
 .aeris-input-group > select,
 .aeris-input-group > textarea:not(.aeris-textarea) {
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font: inherit;
   font-size: var(--aeris-input-group-font-size);
   transition:
-    border-color 150ms ease,
-    background-color 150ms ease,
-    box-shadow 150ms ease;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-input-group > input:not([type='checkbox']):not([type='radio']):not(.aeris-input-text),
@@ -189,7 +189,7 @@ svg.aeris-input-group__addon {
 .aeris-input-group > textarea:not(.aeris-textarea) {
   min-height: 5.5rem;
   padding: 0.625rem 0.75rem;
-  line-height: 1.5;
+  line-height: var(--aeris-line-height-normal, 1.5);
 }
 
 .aeris-input-group > .aeris-input-text,
@@ -218,15 +218,16 @@ aeris-input-group.aeris-input-group .aeris-input-group__stack > .aeris-button {
 .aeris-input-group > a:not(.aeris-button) {
   z-index: 2;
   flex: 0 0 auto;
-  border-color: var(--aeris-border, #deddd7);
+  border-color: var(--aeris-border, #efefef);
   border-radius: 0;
 }
 
-aeris-input-group.aeris-input-group .aeris-button:hover:not(:disabled),
-aeris-input-group.aeris-input-group button:hover:not(:disabled) {
-  transform: none;
+@media (hover: hover) {
+  aeris-input-group.aeris-input-group .aeris-button:hover:not(:disabled),
+  aeris-input-group.aeris-input-group button:hover:not(:disabled) {
+    transform: none;
+  }
 }
-
 @media (hover: hover) and (pointer: fine) {
   aeris-input-group.aeris-input-group
     > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):hover:not(:disabled),
@@ -272,10 +273,10 @@ aeris-input-group.aeris-input-group
 .aeris-input-group > input:focus,
 .aeris-input-group > textarea:focus,
 .aeris-input-group > select:focus {
-  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+  border-color: var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   outline: 0;
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-focus-ring-color, var(--aeris-focus-ring-color, transparent));
 }
 
 .aeris-input-group--filled > input:not([type='checkbox']):not([type='radio']),
@@ -288,22 +289,30 @@ aeris-input-group.aeris-input-group
 .aeris-input-group--filled > .aeris-input-group__stack > .aeris-input-group__addon,
 .aeris-input-group--filled > .aeris-input-group__stack > button:not(.aeris-button) {
   border-color: transparent;
-  background: var(--aeris-surface-2, #f2f0ec);
+  background: var(--aeris-surface-2, #f3f3f3);
   box-shadow: none;
 }
 
-.aeris-input-group--filled > button:not(.aeris-button):hover:not(:disabled),
-.aeris-input-group--filled
-  > .aeris-input-group__stack
-  > button:not(.aeris-button):hover:not(:disabled) {
-  background: color-mix(in srgb, var(--aeris-surface-2, #f2f0ec) 82%, var(--aeris-text, #222222));
+@media (hover: hover) {
+  .aeris-input-group--filled > button:not(.aeris-button):hover:not(:disabled),
+  .aeris-input-group--filled
+    > .aeris-input-group__stack
+    > button:not(.aeris-button):hover:not(:disabled) {
+    background: color-mix(in srgb, var(--aeris-surface-2, #f3f3f3) 82%, var(--aeris-text, #111111));
+  }
 }
-
 .aeris-input-group--invalid > input:not([type='checkbox']):not([type='radio']),
 .aeris-input-group--invalid > textarea,
 .aeris-input-group--invalid > select,
 .aeris-input-group--invalid > .aeris-input-group__addon {
-  border-color: var(--aeris-danger, #c81e2a);
+  border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
+}
+
+.aeris-input-group--invalid > input:focus,
+.aeris-input-group--invalid > textarea:focus,
+.aeris-input-group--invalid > select:focus {
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-invalid-focus-ring-color, transparent);
 }
 
 .aeris-input-group--disabled {
@@ -467,5 +476,15 @@ aeris-input-group.aeris-input-group
   .aeris-input-group > textarea,
   .aeris-input-group > select {
     transition: none;
+  }
+}
+
+@media (pointer: coarse) {
+  .aeris-input-group {
+    --aeris-input-group-height: max(
+      var(--aeris-control-height, 2.625rem),
+      var(--aeris-touch-target-size, 2.75rem)
+    );
+    --aeris-input-group-font-size: var(--aeris-mobile-input-font-size, 1rem);
   }
 }

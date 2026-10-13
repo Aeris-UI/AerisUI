@@ -16,22 +16,22 @@ import {
   model,
   output,
   signal,
+  viewChild,
 } from '@angular/core';
-import { ɵlockAerisDocumentScroll, ɵunlockAerisDocumentScroll } from '@aeris-ui/core';
+import {
+  ɵlockAerisDocumentScroll,
+  ɵunlockAerisDocumentScroll,
+  ɵregisterAerisOverlay,
+  ɵunregisterAerisOverlay,
+  aerisInternalObserveViewport,
+  aerisInternalCreateFrameScheduler,
+} from '@aeris-ui/core';
 
 export type AerisGalleriaThumbnailPosition = 'top' | 'bottom' | 'start' | 'end';
 export type AerisGalleriaObjectFit = 'contain' | 'cover';
 export type AerisGalleriaMode = 'gallery' | 'grid' | 'single';
 export type AerisGalleriaChangeReason =
-  | 'next'
-  | 'previous'
-  | 'thumbnail'
-  | 'indicator'
-  | 'keyboard'
-  | 'swipe'
-  | 'autoplay'
-  | 'grid'
-  | 'api';
+  'next' | 'previous' | 'thumbnail' | 'keyboard' | 'swipe' | 'autoplay' | 'grid' | 'api';
 export type AerisGalleriaFullscreenCloseReason = 'toggle' | 'escape' | 'backdrop' | 'api';
 
 export interface AerisGalleriaImage {
@@ -83,7 +83,6 @@ interface AerisGalleriaView<T> {
   readonly index: number;
   readonly image: AerisGalleriaImage | null;
   readonly thumbnailLabel: string;
-  readonly indicatorLabel: string;
   readonly context: AerisGalleriaItemContext<T>;
 }
 
@@ -222,7 +221,7 @@ let nextGalleriaId = 0;
           } @else {
             <div
               class="aeris-galleria__stage"
-              [attr.data-fit]="objectFit()"
+              [attr.data-fit]="stageObjectFit()"
               [attr.data-toolbar]="showToolbar() || null"
               [attr.data-navigators-on-hover]="navigatorsOnHover() || null"
               [style.aspect-ratio]="aspectRatio()"
@@ -233,6 +232,7 @@ let nextGalleriaId = 0;
             >
               <div
                 class="aeris-galleria__viewport"
+                [attr.data-zoomed]="resolvedZoom() > 1 || null"
                 [id]="stageId"
                 tabindex="0"
                 [attr.aria-label]="stageAriaLabel()"
@@ -240,7 +240,8 @@ let nextGalleriaId = 0;
                 (pointerdown)="handlePointerDown($event)"
                 (pointermove)="handlePointerMove($event)"
                 (pointerup)="handlePointerUp($event)"
-                (pointercancel)="clearPointer()"
+                (pointercancel)="handlePointerCancel($event)"
+                (lostpointercapture)="handlePointerCancel($event)"
                 (dragstart)="$event.preventDefault()"
               >
                 @for (view of activeViews(); track view.index) {
@@ -250,7 +251,11 @@ let nextGalleriaId = 0;
                     [attr.data-dragging]="dragging() || null"
                     [style.--aeris-galleria-drag-offset]="dragOffset() + 'px'"
                   >
-                    <div class="aeris-galleria__media" [style.transform]="mediaTransform()">
+                    <div
+                      class="aeris-galleria__media"
+                      [attr.data-panning]="(dragging() && resolvedZoom() > 1) || null"
+                      [style.transform]="mediaTransform()"
+                    >
                       @if (itemTemplate(); as template) {
                         <ng-container
                           [ngTemplateOutlet]="template.template"
@@ -274,133 +279,141 @@ let nextGalleriaId = 0;
 
               @if (showToolbar()) {
                 <div
-                  class="aeris-galleria__toolbar"
-                  role="toolbar"
-                  [attr.aria-label]="toolbarAriaLabel()"
+                  class="aeris-galleria__toolbar-frame"
+                  [attr.data-fade-left]="toolbarFadeLeft() || null"
+                  [attr.data-fade-right]="toolbarFadeRight() || null"
                 >
-                  @if (showRotateControls()) {
-                    <button
-                      type="button"
-                      [attr.aria-label]="rotateLeftAriaLabel()"
-                      [title]="rotateLeftAriaLabel()"
-                      (click)="rotate(-rotationStep())"
-                    >
-                      <span
-                        class="aeris-galleria__tool-icon aeris-galleria__tool-icon--rotate-left"
-                        aria-hidden="true"
-                      ></span>
-                    </button>
-                    <button
-                      type="button"
-                      [attr.aria-label]="rotateRightAriaLabel()"
-                      [title]="rotateRightAriaLabel()"
-                      (click)="rotate(rotationStep())"
-                    >
-                      <span
-                        class="aeris-galleria__tool-icon aeris-galleria__tool-icon--rotate-right"
-                        aria-hidden="true"
-                      ></span>
-                    </button>
-                  }
-                  @if (showFlipControls()) {
-                    <button
-                      type="button"
-                      [attr.aria-label]="flipHorizontalAriaLabel()"
-                      [title]="flipHorizontalAriaLabel()"
-                      [attr.aria-pressed]="horizontalFlip()"
-                      (click)="toggleHorizontalFlip()"
-                    >
-                      <span
-                        class="aeris-galleria__tool-icon aeris-galleria__tool-icon--flip-horizontal"
-                        aria-hidden="true"
-                      ></span>
-                    </button>
-                    <button
-                      type="button"
-                      [attr.aria-label]="flipVerticalAriaLabel()"
-                      [title]="flipVerticalAriaLabel()"
-                      [attr.aria-pressed]="verticalFlip()"
-                      (click)="toggleVerticalFlip()"
-                    >
-                      <span
-                        class="aeris-galleria__tool-icon aeris-galleria__tool-icon--flip-vertical"
-                        aria-hidden="true"
-                      ></span>
-                    </button>
-                  }
-                  @if (showZoomControls()) {
-                    <button
-                      type="button"
-                      [attr.aria-label]="zoomOutAriaLabel()"
-                      [title]="zoomOutAriaLabel()"
-                      [disabled]="resolvedZoom() <= resolvedMinZoom()"
-                      (click)="zoomOut()"
-                    >
-                      <span
-                        class="aeris-galleria__tool-icon aeris-galleria__tool-icon--zoom-out"
-                        aria-hidden="true"
-                      ></span>
-                    </button>
-                    <output
-                      class="aeris-galleria__zoom-value"
-                      [attr.aria-label]="zoomLevelAriaLabel()"
-                      >{{ zoomPercent() }}%</output
-                    >
-                    <button
-                      type="button"
-                      [attr.aria-label]="zoomInAriaLabel()"
-                      [title]="zoomInAriaLabel()"
-                      [disabled]="resolvedZoom() >= resolvedMaxZoom()"
-                      (click)="zoomIn()"
-                    >
-                      <span
-                        class="aeris-galleria__tool-icon aeris-galleria__tool-icon--zoom-in"
-                        aria-hidden="true"
-                      ></span>
-                    </button>
-                  }
-                  @if (showResetControl()) {
-                    <button
-                      type="button"
-                      [attr.aria-label]="resetTransformAriaLabel()"
-                      [title]="resetTransformAriaLabel()"
-                      [disabled]="transformIsDefault()"
-                      (click)="resetTransform()"
-                    >
-                      <span
-                        class="aeris-galleria__tool-icon aeris-galleria__tool-icon--reset"
-                        aria-hidden="true"
-                      ></span>
-                    </button>
-                  }
-                  @if (showDownloadControl() && downloadAvailable()) {
-                    <button
-                      type="button"
-                      [attr.aria-label]="downloadAriaLabel()"
-                      [title]="downloadAriaLabel()"
-                      (click)="download()"
-                    >
-                      <span
-                        class="aeris-galleria__tool-icon aeris-galleria__tool-icon--download"
-                        aria-hidden="true"
-                      ></span>
-                    </button>
-                  }
-                  @if (allowFullscreen()) {
-                    <button
-                      type="button"
-                      [attr.aria-label]="
-                        fullscreen() ? exitFullscreenAriaLabel() : enterFullscreenAriaLabel()
-                      "
-                      [title]="
-                        fullscreen() ? exitFullscreenAriaLabel() : enterFullscreenAriaLabel()
-                      "
-                      [attr.aria-pressed]="fullscreen()"
-                      (click)="toggleFullscreen()"
-                    >
-                      <span class="aeris-galleria__fullscreen-icon" aria-hidden="true"></span>
-                    </button>
-                  }
+                  <div
+                    #toolbar
+                    class="aeris-galleria__toolbar"
+                    role="toolbar"
+                    [attr.aria-label]="toolbarAriaLabel()"
+                    (scroll)="scheduleToolbarMeasurement()"
+                  >
+                    @if (showRotateControls()) {
+                      <button
+                        type="button"
+                        [attr.aria-label]="rotateLeftAriaLabel()"
+                        [title]="rotateLeftAriaLabel()"
+                        (click)="rotate(-rotationStep())"
+                      >
+                        <span
+                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--rotate-left"
+                          aria-hidden="true"
+                        ></span>
+                      </button>
+                      <button
+                        type="button"
+                        [attr.aria-label]="rotateRightAriaLabel()"
+                        [title]="rotateRightAriaLabel()"
+                        (click)="rotate(rotationStep())"
+                      >
+                        <span
+                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--rotate-right"
+                          aria-hidden="true"
+                        ></span>
+                      </button>
+                    }
+                    @if (showFlipControls()) {
+                      <button
+                        type="button"
+                        [attr.aria-label]="flipHorizontalAriaLabel()"
+                        [title]="flipHorizontalAriaLabel()"
+                        [attr.aria-pressed]="horizontalFlip()"
+                        (click)="toggleHorizontalFlip()"
+                      >
+                        <span
+                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--flip-horizontal"
+                          aria-hidden="true"
+                        ></span>
+                      </button>
+                      <button
+                        type="button"
+                        [attr.aria-label]="flipVerticalAriaLabel()"
+                        [title]="flipVerticalAriaLabel()"
+                        [attr.aria-pressed]="verticalFlip()"
+                        (click)="toggleVerticalFlip()"
+                      >
+                        <span
+                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--flip-vertical"
+                          aria-hidden="true"
+                        ></span>
+                      </button>
+                    }
+                    @if (showZoomControls()) {
+                      <button
+                        type="button"
+                        [attr.aria-label]="zoomOutAriaLabel()"
+                        [title]="zoomOutAriaLabel()"
+                        [disabled]="resolvedZoom() <= resolvedMinZoom()"
+                        (click)="zoomOut()"
+                      >
+                        <span
+                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--zoom-out"
+                          aria-hidden="true"
+                        ></span>
+                      </button>
+                      <output
+                        class="aeris-galleria__zoom-value"
+                        [attr.aria-label]="zoomLevelAriaLabel()"
+                        >{{ zoomPercent() }}%</output
+                      >
+                      <button
+                        type="button"
+                        [attr.aria-label]="zoomInAriaLabel()"
+                        [title]="zoomInAriaLabel()"
+                        [disabled]="resolvedZoom() >= resolvedMaxZoom()"
+                        (click)="zoomIn()"
+                      >
+                        <span
+                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--zoom-in"
+                          aria-hidden="true"
+                        ></span>
+                      </button>
+                    }
+                    @if (showResetControl()) {
+                      <button
+                        type="button"
+                        [attr.aria-label]="resetTransformAriaLabel()"
+                        [title]="resetTransformAriaLabel()"
+                        [disabled]="transformIsDefault()"
+                        (click)="resetTransform()"
+                      >
+                        <span
+                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--reset"
+                          aria-hidden="true"
+                        ></span>
+                      </button>
+                    }
+                    @if (showDownloadControl() && downloadAvailable()) {
+                      <button
+                        type="button"
+                        [attr.aria-label]="downloadAriaLabel()"
+                        [title]="downloadAriaLabel()"
+                        (click)="download()"
+                      >
+                        <span
+                          class="aeris-galleria__tool-icon aeris-galleria__tool-icon--download"
+                          aria-hidden="true"
+                        ></span>
+                      </button>
+                    }
+                    @if (allowFullscreen()) {
+                      <button
+                        type="button"
+                        [attr.aria-label]="
+                          fullscreen() ? exitFullscreenAriaLabel() : enterFullscreenAriaLabel()
+                        "
+                        [title]="
+                          fullscreen() ? exitFullscreenAriaLabel() : enterFullscreenAriaLabel()
+                        "
+                        [attr.aria-pressed]="fullscreen()"
+                        (click)="toggleFullscreen()"
+                      >
+                        <span class="aeris-galleria__fullscreen-icon" aria-hidden="true"></span>
+                      </button>
+                    }
+                  </div>
                 </div>
               }
 
@@ -477,22 +490,15 @@ let nextGalleriaId = 0;
                 }
               }
 
-              @if (resolvedShowIndicators() && indicatorsOverlay() && views().length > 1) {
-                <ng-container [ngTemplateOutlet]="indicatorList" />
-              }
-
               <span class="aeris-galleria__status" aria-live="polite" aria-atomic="true">
                 {{ activeStatus() }}
               </span>
             </div>
 
-            @if (resolvedShowIndicators() && !indicatorsOverlay() && views().length > 1) {
-              <ng-container [ngTemplateOutlet]="indicatorList" />
-            }
-
             @if (resolvedShowThumbnails() && views().length > 1) {
               <div
                 class="aeris-galleria__thumbnails"
+                [attr.data-start]="thumbnailStart()"
                 [attr.data-orientation]="thumbnailOrientation()"
                 [style.--aeris-galleria-thumbnail-count]="thumbnailWindowCount()"
               >
@@ -501,20 +507,24 @@ let nextGalleriaId = 0;
                     class="aeris-galleria__thumbnail-navigator aeris-galleria__thumbnail-navigator--previous"
                     type="button"
                     [attr.aria-label]="previousThumbnailsAriaLabel()"
-                    [disabled]="thumbnailStart() === 0"
+                    [disabled]="thumbnailAtStart()"
                     (click)="shiftThumbnails(-1)"
                   >
                     <span aria-hidden="true"></span>
                   </button>
                 }
 
-                <div class="aeris-galleria__thumbnail-viewport">
+                <div
+                  #thumbnailViewport
+                  class="aeris-galleria__thumbnail-viewport"
+                  (scroll)="measureThumbnailScroll()"
+                >
                   <div
                     class="aeris-galleria__thumbnail-track"
                     role="group"
                     [attr.aria-label]="thumbnailsAriaLabel()"
                   >
-                    @for (view of visibleThumbnailViews(); track view.index) {
+                    @for (view of views(); track view.index) {
                       <button
                         class="aeris-galleria__thumbnail"
                         type="button"
@@ -551,7 +561,7 @@ let nextGalleriaId = 0;
                     class="aeris-galleria__thumbnail-navigator aeris-galleria__thumbnail-navigator--next"
                     type="button"
                     [attr.aria-label]="nextThumbnailsAriaLabel()"
-                    [disabled]="thumbnailStart() >= maxThumbnailStart()"
+                    [disabled]="thumbnailAtEnd()"
                     (click)="shiftThumbnails(1)"
                   >
                     <span aria-hidden="true"></span>
@@ -571,25 +581,6 @@ let nextGalleriaId = 0;
         }
       </div>
     </section>
-
-    <ng-template #indicatorList>
-      <div
-        class="aeris-galleria__indicators"
-        [class.aeris-galleria__indicators--overlay]="indicatorsOverlay()"
-        role="group"
-        [attr.aria-label]="indicatorsAriaLabel()"
-      >
-        @for (view of views(); track view.index) {
-          <button
-            type="button"
-            [attr.aria-label]="view.indicatorLabel"
-            [attr.aria-current]="view.index === currentIndex() ? 'true' : null"
-            [attr.aria-controls]="stageId"
-            (click)="goTo(view.index, 'indicator')"
-          ></button>
-        }
-      </div>
-    </ng-template>
   `,
   styleUrl: './aeris-galleria.scss',
   host: {
@@ -610,9 +601,33 @@ export class AerisGalleria<T = AerisGalleriaImage> {
   private readonly autoplayStopped = signal(false);
   private readonly reducedMotion = signal(false);
   private readonly pointerStart = signal<number | null>(null);
+  private pointerSession: {
+    readonly id: number;
+    readonly x: number;
+    readonly y: number;
+    readonly pan: boolean;
+    readonly panX: number;
+    readonly panY: number;
+    readonly maxX: number;
+    readonly maxY: number;
+  } | null = null;
+  private readonly panX = signal(0);
+  private readonly panY = signal(0);
+  private readonly thumbnailViewport = viewChild<ElementRef<HTMLElement>>('thumbnailViewport');
+  protected readonly thumbnailAtStart = signal(true);
+  protected readonly thumbnailAtEnd = signal(false);
+  private readonly thumbnailFrame = aerisInternalCreateFrameScheduler(() =>
+    this.syncThumbnailScroll(),
+  );
   private readonly previousFocus = signal<HTMLElement | null>(null);
   private pageLocked = false;
   private resizeObserver: ResizeObserver | null = null;
+  private readonly toolbar = viewChild<ElementRef<HTMLElement>>('toolbar');
+  protected readonly toolbarFadeLeft = signal(false);
+  protected readonly toolbarFadeRight = signal(false);
+  private readonly toolbarFrame = aerisInternalCreateFrameScheduler(() =>
+    this.measureToolbarOverflow(),
+  );
 
   protected readonly itemTemplate = contentChild(AerisGalleriaItemTemplate<T>);
   protected readonly thumbnailTemplate = contentChild(AerisGalleriaThumbnailTemplate<T>);
@@ -639,8 +654,6 @@ export class AerisGalleria<T = AerisGalleriaImage> {
   readonly showThumbnailNavigators = input(true, { transform: booleanAttribute });
   readonly showNavigators = input(true, { transform: booleanAttribute });
   readonly navigatorsOnHover = input(false, { transform: booleanAttribute });
-  readonly showIndicators = input(false, { transform: booleanAttribute });
-  readonly indicatorsOverlay = input(false, { transform: booleanAttribute });
   readonly showCaption = input(true, { transform: booleanAttribute });
   readonly showToolbar = input(false, { transform: booleanAttribute });
   readonly showRotateControls = input(true, { transform: booleanAttribute });
@@ -671,7 +684,6 @@ export class AerisGalleria<T = AerisGalleriaImage> {
   readonly gridAriaLabel = input('Gallery grid');
   readonly toolbarAriaLabel = input('Image tools');
   readonly thumbnailsAriaLabel = input('Gallery thumbnails');
-  readonly indicatorsAriaLabel = input('Gallery items');
   readonly previousAriaLabel = input('Previous item');
   readonly nextAriaLabel = input('Next item');
   readonly previousThumbnailsAriaLabel = input('Previous thumbnails');
@@ -696,7 +708,7 @@ export class AerisGalleria<T = AerisGalleriaImage> {
 
   protected readonly dragOffset = signal(0);
   protected readonly dragging = signal(false);
-  protected readonly motion = signal<'next' | 'previous' | 'fade'>('fade');
+  protected readonly motion = signal<'next' | 'previous' | 'fade' | 'none'>('fade');
   protected readonly thumbnailStart = signal(0);
   protected readonly stageId = `aeris-galleria-stage-${++nextGalleriaId}`;
 
@@ -711,7 +723,6 @@ export class AerisGalleria<T = AerisGalleriaImage> {
         index,
         image,
         thumbnailLabel: image?.alt ? `Show ${image.alt}` : `Show item ${index + 1}`,
-        indicatorLabel: `Show item ${index + 1}`,
         context: { $implicit: item, item, index, active: index === this.currentIndex() },
       };
     }),
@@ -760,17 +771,14 @@ export class AerisGalleria<T = AerisGalleriaImage> {
     const requested = configured === 'auto' ? capacity : this.safeCount(configured);
     return Math.min(this.views().length || 1, requested, this.safeCount(capacity));
   });
+  protected readonly stageObjectFit = computed(() =>
+    this.fullscreen() && this.mode() === 'grid' ? 'contain' : this.objectFit(),
+  );
   protected readonly resolvedShowThumbnails = computed(() => {
     if (!this.showThumbnails() || this.mode() === 'single') return false;
     if (this.fullscreen()) return true;
     return this.mode() === 'gallery' && (this.responsiveSetting()?.showThumbnails ?? true);
   });
-  protected readonly resolvedShowIndicators = computed(
-    () =>
-      this.showIndicators() &&
-      this.mode() !== 'single' &&
-      (this.mode() === 'gallery' || this.fullscreen()),
-  );
   protected readonly effectiveThumbnailPosition = computed<AerisGalleriaThumbnailPosition>(() => {
     if (this.fullscreen()) return 'bottom';
     const configured = this.responsiveSetting()?.thumbnailPosition ?? this.thumbnailPosition();
@@ -787,9 +795,6 @@ export class AerisGalleria<T = AerisGalleriaImage> {
   );
   protected readonly maxThumbnailStart = computed(() =>
     Math.max(0, this.views().length - this.thumbnailWindowCount()),
-  );
-  protected readonly visibleThumbnailViews = computed(() =>
-    this.views().slice(this.thumbnailStart(), this.thumbnailStart() + this.thumbnailWindowCount()),
   );
   protected readonly previousDisabled = computed(
     () => !this.circular() && this.currentIndex() === 0,
@@ -821,7 +826,7 @@ export class AerisGalleria<T = AerisGalleriaImage> {
   protected readonly mediaTransform = computed(() => {
     const horizontal = this.horizontalFlip() ? -1 : 1;
     const vertical = this.verticalFlip() ? -1 : 1;
-    return `rotate(${this.resolvedRotation()}deg) scale(${this.resolvedZoom() * horizontal}, ${this.resolvedZoom() * vertical})`;
+    return `translate3d(${this.panX()}px, ${this.panY()}px, 0) rotate(${this.resolvedRotation()}deg) scale(${this.resolvedZoom() * horizontal}, ${this.resolvedZoom() * vertical})`;
   });
   protected readonly transformIsDefault = computed(
     () =>
@@ -836,20 +841,71 @@ export class AerisGalleria<T = AerisGalleriaImage> {
   });
   private readonly paused = computed(
     () =>
-      this.hoverPaused() || this.focusPaused() || this.autoplayStopped() || this.reducedMotion(),
+      this.hoverPaused() ||
+      this.focusPaused() ||
+      this.autoplayStopped() ||
+      this.reducedMotion() ||
+      this.pointerStart() !== null,
   );
 
   constructor() {
     afterNextRender(() => this.initializeBrowserFeatures());
     this.destroyRef.onDestroy(() => this.resizeObserver?.disconnect());
+    this.destroyRef.onDestroy(() => this.toolbarFrame.cancel());
+    this.destroyRef.onDestroy(() => this.thumbnailFrame.cancel());
+    effect(() => {
+      this.resolvedZoom();
+      this.resolvedRotation();
+      this.horizontalFlip();
+      this.verticalFlip();
+      this.currentIndex();
+      this.fullscreen();
+      this.panX.set(0);
+      this.panY.set(0);
+    });
+    effect((onCleanup) => {
+      // Control visibility and zoom labels can change the scrollable content width.
+      this.showRotateControls();
+      this.showFlipControls();
+      this.showZoomControls();
+      this.showResetControl();
+      this.showDownloadControl();
+      this.allowFullscreen();
+      this.downloadAvailable();
+      this.zoomPercent();
+      const toolbar = this.toolbar()?.nativeElement;
+      if (!this.browser || !toolbar) {
+        this.toolbarFadeLeft.set(false);
+        this.toolbarFadeRight.set(false);
+        return;
+      }
+      this.toolbarFrame.schedule();
+      const resize = () => this.toolbarFrame.schedule();
+      const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(resize);
+      observer?.observe(toolbar);
+      if (!observer) this.document.defaultView?.addEventListener('resize', resize);
+      onCleanup(() => {
+        observer?.disconnect();
+        this.document.defaultView?.removeEventListener('resize', resize);
+        this.toolbarFrame.cancel();
+      });
+    });
 
     let previousThumbnailIndex = this.currentIndex();
     let previousThumbnailCount = this.thumbnailWindowCount();
+    let previousThumbnailOrientation = this.thumbnailOrientation();
+    let previousThumbnailViewport: HTMLElement | undefined;
     effect(() => {
       const active = this.currentIndex();
       const count = this.thumbnailWindowCount();
       const max = this.maxThumbnailStart();
       const start = this.thumbnailStart();
+      const viewport = this.thumbnailViewport()?.nativeElement;
+      const orientation = this.thumbnailOrientation();
+      const orientationChanged = orientation !== previousThumbnailOrientation;
+      previousThumbnailOrientation = orientation;
+      const viewportChanged = viewport !== previousThumbnailViewport;
+      previousThumbnailViewport = viewport;
       const selectionChanged = active !== previousThumbnailIndex;
       const capacityChanged = count !== previousThumbnailCount;
       previousThumbnailIndex = active;
@@ -863,6 +919,8 @@ export class AerisGalleria<T = AerisGalleriaImage> {
       } else if (start > max) {
         this.thumbnailStart.set(max);
       }
+      if (viewportChanged || selectionChanged || capacityChanged || orientationChanged)
+        this.thumbnailFrame.schedule();
     });
 
     let previousTransformIndex = this.currentIndex();
@@ -891,10 +949,21 @@ export class AerisGalleria<T = AerisGalleriaImage> {
     effect((onCleanup) => {
       if (!this.browser || !this.fullscreen()) return;
       this.lockPage();
+      const surface = this.host.nativeElement.querySelector<HTMLElement>('.aeris-galleria');
+      const stopViewport = surface
+        ? aerisInternalObserveViewport(surface, this.document)
+        : () => undefined;
+      ɵregisterAerisOverlay(this.document, this.host.nativeElement, () => {
+        if (!this.fullscreen() || !this.closeOnEscape()) return false;
+        this.closeFullscreen('escape');
+        return true;
+      });
       queueMicrotask(() =>
         this.host.nativeElement.querySelector<HTMLElement>('.aeris-galleria__panel')?.focus(),
       );
       onCleanup(() => {
+        stopViewport();
+        ɵunregisterAerisOverlay(this.document, this.host.nativeElement);
         this.unlockPage();
         queueMicrotask(() => this.previousFocus()?.focus());
       });
@@ -1000,6 +1069,51 @@ export class AerisGalleria<T = AerisGalleriaImage> {
     this.thumbnailStart.set(
       Math.min(this.maxThumbnailStart(), Math.max(0, this.thumbnailStart() + direction * amount)),
     );
+    this.thumbnailFrame.schedule();
+  }
+
+  protected measureThumbnailScroll(): void {
+    const viewport = this.thumbnailViewport()?.nativeElement;
+    if (!viewport) return;
+    const vertical = this.thumbnailOrientation() === 'vertical';
+    const offset = Math.abs(vertical ? viewport.scrollTop : viewport.scrollLeft);
+    const max = Math.max(
+      0,
+      vertical
+        ? viewport.scrollHeight - viewport.clientHeight
+        : viewport.scrollWidth - viewport.clientWidth,
+    );
+    this.thumbnailAtStart.set(offset <= 1);
+    this.thumbnailAtEnd.set(max - offset <= 1);
+    const step = this.thumbnailStep();
+    if (step > 0)
+      this.thumbnailStart.set(Math.min(this.maxThumbnailStart(), Math.round(offset / step)));
+  }
+
+  private thumbnailStep(): number {
+    const viewport = this.thumbnailViewport()?.nativeElement;
+    const buttons = viewport?.querySelectorAll<HTMLElement>('.aeris-galleria__thumbnail');
+    if (!buttons?.length) return 0;
+    if (buttons.length === 1)
+      return this.thumbnailOrientation() === 'vertical'
+        ? buttons[0].offsetHeight
+        : buttons[0].offsetWidth;
+    return this.thumbnailOrientation() === 'vertical'
+      ? Math.abs(buttons[1].offsetTop - buttons[0].offsetTop)
+      : Math.abs(buttons[1].offsetLeft - buttons[0].offsetLeft);
+  }
+
+  private syncThumbnailScroll(): void {
+    const viewport = this.thumbnailViewport()?.nativeElement;
+    const step = this.thumbnailStep();
+    if (!viewport || step <= 0) return;
+    const offset = this.thumbnailStart() * step;
+    viewport.scrollTo?.(
+      this.thumbnailOrientation() === 'vertical'
+        ? { top: offset, left: 0 }
+        : { left: this.isRtl() ? -offset : offset, top: 0 },
+    );
+    this.measureThumbnailScroll();
   }
 
   protected handleRootKeydown(event: KeyboardEvent): void {
@@ -1014,6 +1128,32 @@ export class AerisGalleria<T = AerisGalleriaImage> {
     }
     const target = event.target as HTMLElement;
     if (!target.classList.contains('aeris-galleria__viewport')) return;
+    if (
+      this.resolvedZoom() > 1 &&
+      ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)
+    ) {
+      event.preventDefault();
+      const bounds = this.panBounds(target);
+      this.panX.set(
+        Math.max(
+          -bounds.x,
+          Math.min(
+            bounds.x,
+            this.panX() + (event.key === 'ArrowLeft' ? -40 : event.key === 'ArrowRight' ? 40 : 0),
+          ),
+        ),
+      );
+      this.panY.set(
+        Math.max(
+          -bounds.y,
+          Math.min(
+            bounds.y,
+            this.panY() + (event.key === 'ArrowUp' ? -40 : event.key === 'ArrowDown' ? 40 : 0),
+          ),
+        ),
+      );
+      return;
+    }
     if (this.mode() === 'single') return;
     const nextKey = this.isRtl() ? 'ArrowLeft' : 'ArrowRight';
     const previousKey = this.isRtl() ? 'ArrowRight' : 'ArrowLeft';
@@ -1033,29 +1173,64 @@ export class AerisGalleria<T = AerisGalleriaImage> {
   }
 
   protected handlePointerDown(event: PointerEvent): void {
-    if (this.mode() === 'single') return;
+    if (this.pointerSession) return;
+    const pan = this.resolvedZoom() > 1;
+    if (!pan && (this.mode() === 'single' || this.views().length < 2)) return;
     if (event.pointerType === 'mouse' && event.button !== 0) return;
-    (event.currentTarget as HTMLElement).setPointerCapture?.(event.pointerId);
+    if (
+      (event.target as Element | null)?.closest(
+        'button,a,input,select,textarea,[role="button"],[contenteditable]:not([contenteditable="false"])',
+      )
+    )
+      return;
+    const target = event.currentTarget as HTMLElement;
+    if (event.pointerType === 'mouse') event.preventDefault();
+    target.setPointerCapture?.(event.pointerId);
+    const bounds = pan ? this.panBounds(target) : { x: 0, y: 0 };
+    this.pointerSession = {
+      id: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      pan,
+      panX: this.panX(),
+      panY: this.panY(),
+      maxX: bounds.x,
+      maxY: bounds.y,
+    };
     this.pointerStart.set(event.clientX);
     this.dragOffset.set(0);
-    this.dragging.set(true);
   }
 
   protected handlePointerMove(event: PointerEvent): void {
-    const start = this.pointerStart();
-    if (start === null) return;
-    const distance = event.clientX - start;
-    if (Math.abs(distance) > 8) event.preventDefault();
-    this.dragOffset.set(distance);
+    const session = this.pointerSession;
+    if (!session || session.id !== event.pointerId) return;
+    const x = event.clientX - session.x;
+    const y = event.clientY - session.y;
+    if (!this.dragging()) {
+      if (Math.max(Math.abs(x), Math.abs(y)) < 6) return;
+      if (!session.pan && Math.abs(y) > Math.abs(x)) {
+        this.handlePointerCancel(event);
+        return;
+      }
+      this.motion.set('none');
+      this.dragging.set(true);
+    }
+    event.preventDefault();
+    if (session.pan) {
+      this.panX.set(Math.max(-session.maxX, Math.min(session.maxX, session.panX + x)));
+      this.panY.set(Math.max(-session.maxY, Math.min(session.maxY, session.panY + y)));
+    } else this.dragOffset.set(x);
   }
 
   protected handlePointerUp(event: PointerEvent): void {
-    const start = this.pointerStart();
+    const session = this.pointerSession;
+    if (!session || session.id !== event.pointerId) return;
     const target = event.currentTarget as HTMLElement;
     if (target.hasPointerCapture?.(event.pointerId)) target.releasePointerCapture(event.pointerId);
-    if (start === null) return this.clearPointer();
-    const distance = event.clientX - start;
+    const distance = event.clientX - session.x;
+    const moved = this.dragging();
     this.clearPointer();
+    if (session.pan || !moved) return;
     if (Math.abs(distance) < Math.min(64, target.clientWidth * 0.12)) return;
     const forward = this.isRtl() ? distance > 0 : distance < 0;
     if (forward) this.next('swipe');
@@ -1063,9 +1238,46 @@ export class AerisGalleria<T = AerisGalleriaImage> {
   }
 
   protected clearPointer(): void {
+    this.pointerSession = null;
     this.pointerStart.set(null);
     this.dragOffset.set(0);
     this.dragging.set(false);
+  }
+
+  protected handlePointerCancel(event: PointerEvent): void {
+    if (this.pointerSession?.id !== event.pointerId) return;
+    const target = event.currentTarget as HTMLElement;
+    if (target.hasPointerCapture?.(event.pointerId)) target.releasePointerCapture(event.pointerId);
+    this.clearPointer();
+  }
+
+  private panBounds(viewport: HTMLElement): { readonly x: number; readonly y: number } {
+    const width = viewport.clientWidth;
+    const height = viewport.clientHeight;
+    const image = viewport.querySelector<HTMLImageElement>('.aeris-galleria__image');
+    let imageWidth = width;
+    let imageHeight = height;
+    if (image?.naturalWidth && image.naturalHeight) {
+      const scale =
+        this.stageObjectFit() === 'contain'
+          ? Math.min(width / image.naturalWidth, height / image.naturalHeight)
+          : Math.max(width / image.naturalWidth, height / image.naturalHeight);
+      imageWidth = image.naturalWidth * scale;
+      imageHeight = image.naturalHeight * scale;
+    }
+    const angle = (this.resolvedRotation() * Math.PI) / 180;
+    const cosine = Math.abs(Math.cos(angle));
+    const sine = Math.abs(Math.sin(angle));
+    return {
+      x: Math.max(
+        0,
+        ((imageWidth * cosine + imageHeight * sine) * this.resolvedZoom() - width) / 2,
+      ),
+      y: Math.max(
+        0,
+        ((imageWidth * sine + imageHeight * cosine) * this.resolvedZoom() - height) / 2,
+      ),
+    };
   }
 
   protected setHoverPaused(paused: boolean): void {
@@ -1158,6 +1370,26 @@ export class AerisGalleria<T = AerisGalleriaImage> {
     return Number.isFinite(value) ? value : fallback;
   }
 
+  protected scheduleToolbarMeasurement(): void {
+    this.toolbarFrame.schedule();
+  }
+
+  private measureToolbarOverflow(): void {
+    const toolbar = this.toolbar()?.nativeElement;
+    const first = toolbar?.firstElementChild;
+    const last = toolbar?.lastElementChild;
+    if (!toolbar || !first || !last || toolbar.scrollWidth <= toolbar.clientWidth + 1) {
+      this.toolbarFadeLeft.set(false);
+      this.toolbarFadeRight.set(false);
+      return;
+    }
+    const bounds = toolbar.getBoundingClientRect();
+    const firstBounds = first.getBoundingClientRect();
+    const lastBounds = last.getBoundingClientRect();
+    this.toolbarFadeLeft.set(Math.min(firstBounds.left, lastBounds.left) < bounds.left - 1);
+    this.toolbarFadeRight.set(Math.max(firstBounds.right, lastBounds.right) > bounds.right + 1);
+  }
+
   private initializeBrowserFeatures(): void {
     if (!this.browser) return;
     if (typeof ResizeObserver !== 'undefined') {
@@ -1201,7 +1433,10 @@ export class AerisGalleria<T = AerisGalleriaImage> {
   }
 
   private isRtl(): boolean {
-    return this.document.documentElement.dir === 'rtl';
+    const direction = this.document.defaultView?.getComputedStyle(
+      this.host.nativeElement,
+    ).direction;
+    return direction ? direction === 'rtl' : this.document.documentElement.dir === 'rtl';
   }
 
   private trapTab(event: KeyboardEvent): void {

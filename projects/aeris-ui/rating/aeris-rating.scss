@@ -2,7 +2,7 @@
 
 :host {
   display: inline-block;
-  color: var(--aeris-rating-text, var(--aeris-text, #222222));
+  color: var(--aeris-rating-text, var(--aeris-text, #111111));
   font: inherit;
 }
 
@@ -33,11 +33,13 @@
 .aeris-rating__control {
   position: relative;
   display: block;
-  width: calc(var(--aeris-rating-max) * var(--_star-size) + (var(--aeris-rating-max) - 1) * var(--_gap));
+  width: calc(
+    var(--aeris-rating-max) * var(--_star-size) + (var(--aeris-rating-max) - 1) * var(--_gap)
+  );
   min-width: 0;
   padding: 0;
   border: 0;
-  border-radius: 0.5rem;
+  border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
   color: inherit;
   cursor: pointer;
@@ -63,6 +65,7 @@
   position: relative;
   display: block;
   color: var(--aeris-rating-empty, var(--aeris-surface-3, #e5e5df));
+  transition: filter var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-rating__layer,
@@ -73,6 +76,7 @@
 
 .aeris-rating__layer--empty {
   clip-path: inset(0 0 0 var(--aeris-rating-progress));
+  transition: clip-path var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-rating__layer--active {
@@ -83,10 +87,13 @@
   color: var(--aeris-rating-active, var(--aeris-primary, #{aeris-fallbacks.$primary}));
   overflow: hidden;
   pointer-events: none;
+  transition: width var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-rating__layer-inner {
-  width: calc(var(--aeris-rating-max) * var(--_star-size) + (var(--aeris-rating-max) - 1) * var(--_gap));
+  width: calc(
+    var(--aeris-rating-max) * var(--_star-size) + (var(--aeris-rating-max) - 1) * var(--_gap)
+  );
 }
 
 .aeris-rating__star {
@@ -107,9 +114,9 @@
 }
 
 .aeris-rating__value {
-  color: var(--aeris-rating-value-text, var(--aeris-text-2, #555555));
-  font-size: 0.8125rem;
-  font-weight: 650;
+  color: var(--aeris-rating-value-text, var(--aeris-text-2, #454545));
+  font-size: var(--aeris-font-size-md, 0.8125rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   font-variant-numeric: tabular-nums;
 }
 
@@ -123,7 +130,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aeris-rating__control {
+  .aeris-rating__stars,
+  .aeris-rating__layer--empty,
+  .aeris-rating__layer--active {
     transition: none;
   }
 }

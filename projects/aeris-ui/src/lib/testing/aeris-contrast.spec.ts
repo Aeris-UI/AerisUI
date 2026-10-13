@@ -2,6 +2,7 @@ import {
   AERIS_DEFAULT_THEME,
   AERIS_THEME_PRESETS,
   auditAerisThemeContrast,
+  resolveAerisTheme,
   type AerisTheme,
   type AerisThemePreset,
 } from '../../../theming/public-api';
@@ -148,11 +149,13 @@ describe('Aeris theme contrast audit', () => {
     }
   });
 
-  it('uses the Earth starter theme as the default palette', () => {
+  it('uses the complete Monochrome starter theme by default', () => {
     expect(Object.keys(AERIS_THEME_PRESETS)).toEqual(['earth', 'coastal', 'orchid', 'monochrome']);
     expect(AERIS_DEFAULT_THEME.palette).toEqual(
-      expect.objectContaining(AERIS_THEME_PRESETS.earth.palette),
+      expect.objectContaining(AERIS_THEME_PRESETS.monochrome.palette),
     );
+    expect(AERIS_DEFAULT_THEME.light).toEqual(AERIS_THEME_PRESETS.monochrome.light);
+    expect(AERIS_DEFAULT_THEME.dark).toEqual(AERIS_THEME_PRESETS.monochrome.dark);
   });
 
   it('keeps foundation text neutral and colored dark surfaces achromatic', () => {
@@ -265,21 +268,5 @@ function averageChannel(channels: readonly number[]): number {
 }
 
 function resolvePresetTheme(preset: AerisThemePreset): AerisTheme {
-  return {
-    ...AERIS_DEFAULT_THEME,
-    ...preset,
-    palette: { ...AERIS_DEFAULT_THEME.palette, ...preset.palette },
-    light: {
-      ...AERIS_DEFAULT_THEME.light,
-      ...preset.light,
-      tones: { ...AERIS_DEFAULT_THEME.light.tones, ...preset.light?.tones },
-    },
-    dark: {
-      ...AERIS_DEFAULT_THEME.dark,
-      ...preset.dark,
-      tones: { ...AERIS_DEFAULT_THEME.dark.tones, ...preset.dark?.tones },
-    },
-    densities: { ...AERIS_DEFAULT_THEME.densities, ...preset.densities },
-    radii: { ...AERIS_DEFAULT_THEME.radii, ...preset.radii },
-  };
+  return resolveAerisTheme(preset);
 }

@@ -2,7 +2,7 @@
 
 > Inline feedback with severity, variants, templates, closable state, and live-region semantics.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/message`
 - Human-readable documentation: [https://aeris-ui.dev/components/message](https://aeris-ui.dev/components/message)
@@ -111,6 +111,9 @@ interface AerisMessageTemplateContext {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-message-icon-size` | `CSS custom property` | — | Message icon box size. |
+| `--aeris-message-severity-tint` | `CSS custom property` | — | Severity color mixed into the filled surface. |
+| `--aeris-message-background` | `CSS custom property` | — | Filled message background override. |
+| `--aeris-message-border-color` | `CSS custom property` | — | Message border color override. |
 | `--aeris-success` | `CSS custom property` | — | Success accent. |
 | `--aeris-info` | `CSS custom property` | — | Info accent. |
 | `--aeris-warning` | `CSS custom property` | — | Warning accent. |

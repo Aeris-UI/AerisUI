@@ -1,0 +1,361 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Misc"
+    title="CodeBlock"
+    description="Display syntax-highlighted code with source tabs, line numbers, focused lines, and accessible copy actions."
+  />
+  <section id="code-block-import" class="import-section" aria-labelledby="code-block-import-title">
+    <div>
+      <h2 id="code-block-import-title">Import</h2>
+      <p>
+        Install Shiki only when using CodeBlock, then import the component. Shiki is an optional
+        peer dependency; other Aeris entry points do not require or load it. No icon library is
+        required.
+      </p>
+    </div>
+    <div class="code-example">
+      <app-code-block code="npm install shiki" language="Shell" />
+      <app-code-block [code]="importCode" language="TypeScript" />
+    </div>
+  </section>
+  <aeris-tabs ariaLabel="CodeBlock documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features</h2>
+        <p>
+          Source text stays selectable and is never executed. Coloring is calculated only when the
+          code or language changes. Shiki grammars and its JavaScript regex engine load lazily,
+          without WebAssembly or unsafe HTML rendering. The copy action needs clipboard permission
+          in a secure context, such as HTTPS or localhost.
+        </p>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="code-block-basic"
+              title="Basic"
+              description="TypeScript coloring, a language label, and a copy action."
+            >
+              <div preview><aeris-code-block [code]="exampleCode" language="typescript" /></div>
+              <pre
+                code
+              ><code ngNonBindable>&lt;div&gt;&lt;aeris-code-block [code]="exampleCode" language="typescript" /&gt;&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="code-block-sources"
+              title="Source tabs"
+              description="Group related files without hiding empty source files. Use left and right arrows, Home, or End to switch tabs."
+            >
+              <div preview><aeris-code-block [sources]="sourceFiles" /></div>
+              <pre
+                code
+              ><code ngNonBindable>&lt;div&gt;&lt;aeris-code-block [sources]="sourceFiles" /&gt;&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="code-block-lines"
+              title="Line numbers and focused lines"
+              description="Decorative line numbers and selected-line backgrounds never alter the copied source."
+            >
+              <div preview>
+                <aeris-code-block
+                  [code]="exampleCode"
+                  language="typescript"
+                  lineNumbers
+                  [highlightLines]="[3, 4, 5]"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-code-block
+    [code]="exampleCode"
+    language="typescript"
+    lineNumbers
+    [highlightLines]="[3, 4, 5]"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="code-block-wrap"
+              title="Wrapping"
+              description="Wrap long lines to fit the available width."
+            >
+              <div preview>
+                <aeris-code-block [code]="longCode" language="typescript" wrap maxHeight="12rem" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-code-block [code]="longCode" language="typescript" wrap maxHeight="12rem" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="code-block-scroll"
+              title="Scrolling"
+              description="An explicit maximum height provides a scroll region. Scroll at its boundary to continue through the page."
+            >
+              <div preview>
+                <aeris-code-block [code]="longCode" language="typescript" maxHeight="12rem" />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-code-block [code]="longCode" language="typescript" maxHeight="12rem" /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="code-block-copy"
+              title="Copy events and labels"
+              description="Customize visible labels and react to successful or failed copies."
+            >
+              <div preview class="code-example">
+                <aeris-code-block
+                  [code]="exampleCode"
+                  language="typescript"
+                  label="greeting.ts"
+                  copyLabel="Copy source"
+                  copiedLabel="Source copied"
+                  (copied)="onCopied($event)"
+                  (copyError)="onCopyError()"
+                />
+                <p aria-live="polite">{{ copyMessage() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="code-example"&gt;
+  &lt;aeris-code-block
+    [code]="exampleCode"
+    language="typescript"
+    label="greeting.ts"
+    copyLabel="Copy source"
+    copiedLabel="Source copied"
+    (copied)="onCopied($event)"
+    (copyError)="onCopyError()"
+  /&gt;
+  &lt;p aria-live="polite"&gt;&#123;&#123; copyMessage() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="code-block-plain"
+              title="Plain text"
+              description="Plain text can retain the label without syntax coloring or a copy button."
+            >
+              <div preview>
+                <aeris-code-block
+                  code="Aeris keeps presentation separate from your source text."
+                  language="text"
+                  label="Notes"
+                  [copyable]="false"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-code-block
+    code="Aeris keeps presentation separate from your source text."
+    language="text"
+    label="Notes"
+    [copyable]="false"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="code-block-custom"
+              title="Token customization"
+              description="Use component tokens for an intentional local exception."
+            >
+              <div preview>
+                <aeris-code-block
+                  class="custom-code"
+                  [code]="exampleCode"
+                  language="typescript"
+                  [highlightLines]="[3]"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-code-block
+    class="custom-code"
+    [code]="exampleCode"
+    language="typescript"
+    [highlightLines]="[3]"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="Features"
+            ariaLabel="CodeBlock features on this page"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+    <aeris-tab-panel value="api" label="API">
+      <section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <h3 id="code-block-inputs">Inputs</h3>
+            <div class="api-table" role="table" aria-label="CodeBlock inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (row of inputs; track row.name) {
+                <div role="row">
+                  <code role="cell">{{ row.name }}</code
+                  ><code role="cell">{{ row.type }}</code
+                  ><code role="cell">{{ row.defaultValue }}</code
+                  ><span role="cell">{{ row.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="code-block-models">Models</h3>
+            <div class="api-table" role="table" aria-label="CodeBlock models" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (row of models; track row.name) {
+                <div role="row">
+                  <code role="cell">{{ row.name }}</code
+                  ><code role="cell">{{ row.type }}</code
+                  ><code role="cell">{{ row.defaultValue }}</code
+                  ><span role="cell">{{ row.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="code-block-outputs">Outputs</h3>
+            <div class="api-table" role="table" aria-label="CodeBlock outputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (row of outputs; track row.name) {
+                <div role="row">
+                  <code role="cell">{{ row.name }}</code
+                  ><code role="cell">{{ row.type }}</code
+                  ><code role="cell">{{ row.defaultValue }}</code
+                  ><span role="cell">{{ row.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="code-block-methods">Methods</h3>
+            <div class="api-table" role="table" aria-label="CodeBlock methods" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Return / signature</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (row of methods; track row.name) {
+                <div role="row">
+                  <code role="cell">{{ row.name }}</code
+                  ><code role="cell">{{ row.type }}</code
+                  ><code role="cell">{{ row.defaultValue }}</code
+                  ><span role="cell">{{ row.description }}</span>
+                </div>
+              }
+            </div>
+          </div>
+          <app-page-toc title="API" ariaLabel="CodeBlock API on this page" [links]="apiLinks" />
+        </div>
+      </section>
+    </aeris-tab-panel>
+    <aeris-tab-panel value="interfaces" label="Interfaces"
+      ><section class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" /></section
+    ></aeris-tab-panel>
+    <aeris-tab-panel value="tokens" label="Tokens"
+      ><section class="doc-section">
+        <h2>Design tokens</h2>
+        <p>
+          Shiki provides paired GitHub-based light and dark syntax colors independent of brand
+          palettes, with stronger light-mode colors for Aeris surfaces. Theme changes select the
+          existing token colors without loading or tokenizing the code again. Override the
+          token-color property for an intentional monochromatic presentation.
+        </p>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="CodeBlock design tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          @for (row of tokens; track row.name) {
+            <div role="row">
+              <code role="cell">{{ row.name }}</code
+              ><span role="cell">{{ row.purpose }}</span
+              ><code role="cell">{{ row.fallback }}</code>
+            </div>
+          }
+        </div>
+      </section></aeris-tab-panel
+    >
+    <aeris-tab-panel value="accessibility" label="Accessibility"
+      ><section class="doc-section">
+        <h2>Accessibility</h2>
+        <ul>
+          <li>
+            Code uses native pre and code elements. Syntax highlighting never changes the text or
+            relies on color to communicate meaning.
+          </li>
+          <li>
+            A single source has a named, focusable region. Multiple sources use labeled tabs and a
+            linked tab panel with one tab stop.
+          </li>
+          <li>
+            Copy success and failure are announced politely. Clipboard access can be rejected by the
+            browser; text remains manually selectable.
+          </li>
+          <li>
+            Line numbers are decorative and hidden from assistive technology. Line highlighting is
+            visual emphasis, not a semantic error or selection.
+          </li>
+          <li>
+            Source text stays left-to-right in RTL layouts, while navigation arrows follow the
+            interface direction.
+          </li>
+          <li>
+            Mobile copy actions retain their accessible name when their visible label is hidden.
+            Default mobile blocks expand vertically; horizontal swipes reveal long lines without
+            stopping page scrolling.
+          </li>
+          <li>
+            Reduced motion disables button transitions. CodeBlock does not animate or execute source
+            text.
+          </li>
+        </ul>
+        <h3>Keyboard support</h3>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="CodeBlock keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Action</b>
+          </div>
+          <div role="row">
+            <kbd role="cell">Tab / Shift + Tab</kbd
+            ><span role="cell"
+              >Move through the active source tab, copy button, and scroll region.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">ArrowLeft / ArrowRight</kbd
+            ><span role="cell"
+              >Focus and activate the adjacent source tab, wrapping at either end; reversed in
+              RTL.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Home / End</kbd
+            ><span role="cell">Focus and activate the first / last source tab.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Enter / Space</kbd
+            ><span role="cell">Activate the focused native button.</span>
+          </div>
+          <div role="row">
+            <kbd role="cell">Arrow keys / PageUp / PageDown</kbd
+            ><span role="cell"
+              >Scroll the focused code area using native browser behavior when it overflows.</span
+            >
+          </div>
+        </div>
+      </section></aeris-tab-panel
+    >
+  </aeris-tabs>
+</article>

@@ -1,0 +1,95 @@
+<div class="reference-page">
+  <header class="reference-hero">
+    <span class="page-kicker">Library</span>
+    <h1>Components</h1>
+    <p>Complete interface coverage, built with accessible behavior and modern Angular APIs.</p>
+    <div class="catalog-stats">
+      <span
+        ><strong>{{ catalog.length }}</strong> components</span
+      ><span
+        ><strong>{{ categories.length }}</strong> groups</span
+      >
+    </div>
+  </header>
+  <div class="catalog-controls">
+    <aeris-icon-field class="catalog-search" size="sm" fluid>
+      <svg aerisIconStart [lucideIcon]="icons.Search" aria-hidden="true"></svg>
+      <input
+        aerisInputText
+        size="sm"
+        fluid
+        type="search"
+        aria-label="Filter components"
+        placeholder="Filter components"
+        [value]="query()"
+        (input)="handleQueryInput($event)"
+      />
+    </aeris-icon-field>
+    <div role="group" aria-label="Filter by category">
+      <button
+        aerisButton
+        type="button"
+        size="xs"
+        [variant]="category() === 'All' ? 'solid' : 'ghost'"
+        [severity]="category() === 'All' ? 'secondary' : 'primary'"
+        [attr.aria-pressed]="category() === 'All'"
+        (click)="category.set('All')"
+      >
+        All
+      </button>
+      @for (item of categories; track item) {
+        <button
+          aerisButton
+          type="button"
+          size="xs"
+          [variant]="category() === item ? 'solid' : 'ghost'"
+          [severity]="category() === item ? 'secondary' : 'primary'"
+          [attr.aria-pressed]="category() === item"
+          (click)="category.set(item)"
+        >
+          {{ item }}
+        </button>
+      }
+    </div>
+  </div>
+  <div class="catalog-previews">
+    @for (item of filtered(); track item.slug) {
+      <aeris-card
+        #previewCard
+        class="catalog-preview-card"
+        [attr.data-preview-kind]="item.slug"
+        [variant]="elevatedPreview() === item.slug ? 'elevated' : 'filled'"
+        padding="sm"
+        role="article"
+        (pointerenter)="activatePreview(item.slug, $event)"
+        (pointerleave)="resetPreview()"
+        (focusin)="activatePreview(item.slug)"
+        (focusout)="resetPreview()"
+      >
+        <div
+          aerisCardMedia
+          class="catalog-preview-scene"
+          [class.catalog-preview-scene--overlay]="item.category === 'Overlay'"
+          inert
+          aria-hidden="true"
+        >
+          @defer (on viewport) {
+            <app-catalog-preview
+              [kind]="item.slug"
+              [category]="item.category"
+              [active]="activePreview() === item.slug || mobilePreviews().has(item.slug)"
+              [attr.data-mobile-playback]="mobilePreviews().has(item.slug) ? 'true' : null"
+            />
+          } @placeholder {
+            <span class="catalog-preview-placeholder"></span>
+          }
+        </div>
+        <h2 aerisCardTitle class="catalog-preview-title">
+          <a [routerLink]="['/components', item.slug]">{{ item.name }}</a>
+        </h2>
+      </aeris-card>
+    } @empty {
+      <p class="catalog-empty" role="status">No components match this filter.</p>
+    }
+  </div>
+</div>

@@ -177,8 +177,12 @@ let treeSelectId = 0;
       @if (open()) {
         <div
           #optionsPanel
+          (pointerdown)="handlePanelPointerDown($event)"
+          (pointercancel)="endPanelPointerInteraction()"
+          (click)="endPanelPointerInteraction()"
           class="aeris-tree-select__panel"
           [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToDismiss]="dismissOverlay"
           [aerisInternalAppendToAnchor]="this.control()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
@@ -335,6 +339,11 @@ let treeSelectId = 0;
   },
 })
 export class AerisTreeSelectComponent implements ControlValueAccessor {
+  private panelPointerInteraction = false;
+  protected readonly dismissOverlay = (): boolean => {
+    this.closePanel(true);
+    return true;
+  };
   readonly nodes = input.required<readonly AerisTreeNode[]>();
   readonly value = model<AerisTreeSelectValue>(null);
   readonly selectionMode = input<AerisTreeSelectMode>('single');
@@ -487,6 +496,7 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
   }
 
   closePanel(restoreFocus = false): void {
+    this.panelPointerInteraction = false;
     if (!this.open()) return;
     this.panelPortal()?.restore();
     this.open.set(false);
@@ -604,7 +614,16 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
     if (event.pointerType === 'mouse') event.preventDefault();
   }
 
+  protected handlePanelPointerDown(event: PointerEvent): void {
+    this.panelPointerInteraction = event.pointerType !== 'mouse';
+  }
+
+  protected endPanelPointerInteraction(): void {
+    this.panelPointerInteraction = false;
+  }
+
   protected handleToggleClick(node: AerisTreeNode, event: MouseEvent): void {
+    this.endPanelPointerInteraction();
     event.preventDefault();
     event.stopPropagation();
     this.toggleNode(node);
@@ -690,6 +709,14 @@ export class AerisTreeSelectComponent implements ControlValueAccessor {
     ) {
       return;
     }
+    const panel = this.optionsPanel()?.nativeElement;
+    // A touch on a non-focusable node can move focus to its ancestor before
+    // the click. Keep the panel available for that internal interaction.
+    if (this.panelPointerInteraction && next instanceof Node && panel && next.contains(panel)) {
+      return;
+    }
+    // Outside pointer dismissal is handled separately by the overlay.
+    if (this.open() && next === null) return;
     this.closePanel(false);
     this.onTouched();
     this.touch.emit();

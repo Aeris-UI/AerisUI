@@ -129,6 +129,17 @@ describe('AerisMessage', () => {
     expect(strong.textContent).toBe('Saved');
   });
 
+  it('uses a uniform surface without a directional gradient for filled messages', () => {
+    const fixture = TestBed.createComponent(ProjectedMessageHost);
+    fixture.detectChanges();
+
+    const message = fixture.nativeElement.querySelector('aeris-message') as HTMLElement;
+    const styles = getComputedStyle(message);
+
+    expect(message.dataset['variant']).toBe('filled');
+    expect(styles.backgroundImage).toBe('none');
+  });
+
   it('supports icon and content templates with close context', () => {
     const fixture = TestBed.createComponent(TemplateMessageHost);
     fixture.detectChanges();

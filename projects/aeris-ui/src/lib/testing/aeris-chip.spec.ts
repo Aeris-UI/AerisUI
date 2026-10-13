@@ -55,6 +55,18 @@ class RemovableChipHost {
 class ChipStatesHost {}
 
 describe('AerisChip', () => {
+  it('uses theme text tones rather than mixing the status fill into its label', () => {
+    const fixture = TestBed.createComponent(AerisChip);
+    fixture.componentRef.setInput('label', 'Review');
+    for (const tone of ['primary', 'success', 'info', 'warning', 'danger']) {
+      fixture.componentRef.setInput('tone', tone);
+      fixture.detectChanges();
+      expect(
+        getComputedStyle(fixture.nativeElement).getPropertyValue('--_aeris-chip-text'),
+      ).toContain(`--aeris-${tone}-text`);
+    }
+  });
+
   it('renders labels, images, projected content, sizes, tones, variants, and shapes', () => {
     const fixture = TestBed.createComponent(ChipHost);
     fixture.detectChanges();

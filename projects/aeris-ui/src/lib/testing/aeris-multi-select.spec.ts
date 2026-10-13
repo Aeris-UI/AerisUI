@@ -73,12 +73,82 @@ describe('AerisMultiSelect', () => {
       pointerType: 'touch',
     });
     option.dispatchEvent(pointerdown);
+    const filter = fixture.nativeElement.querySelector(
+      '.aeris-multi-select__filter',
+    ) as HTMLInputElement;
+    filter.dispatchEvent(
+      new FocusEvent('focusout', { bubbles: true, relatedTarget: fixture.nativeElement }),
+    );
+    fixture.detectChanges();
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
     option.click();
     fixture.detectChanges();
 
     expect(pointerdown.defaultPrevented).toBe(false);
     expect(fixture.componentInstance.skills()).toEqual(['design', 'engineering']);
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('keeps a body-mounted panel open across repeated touch selections and dismisses outside', async () => {
+    const fixture = TestBed.createComponent(AerisMultiSelectComponent);
+    fixture.componentRef.setInput('options', [
+      { label: 'Design', value: 'design' },
+      { label: 'Research', value: 'research' },
+    ]);
+    fixture.componentRef.setInput('appendTo', 'body');
+    fixture.componentRef.setInput('filter', true);
+    await fixture.whenStable();
+    fixture.componentInstance.openPanel();
+    await fixture.whenStable();
+
+    const panel = document.body.querySelector('.aeris-multi-select__panel') as HTMLElement;
+    const filter = panel.querySelector('input') as HTMLInputElement;
+    for (const option of panel.querySelectorAll<HTMLElement>('[role=option]')) {
+      option.dispatchEvent(
+        new PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch' }),
+      );
+      filter.dispatchEvent(
+        new FocusEvent('focusout', { bubbles: true, relatedTarget: document.body }),
+      );
+      fixture.detectChanges();
+      expect(document.body.contains(option)).toBe(true);
+      option.click();
+      await fixture.whenStable();
+      expect(document.body.contains(panel)).toBe(true);
+    }
+    expect(fixture.componentInstance.value()).toEqual(['design', 'research']);
+    document.body.dispatchEvent(
+      new PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch' }),
+    );
+    await fixture.whenStable();
+    expect(document.body.contains(panel)).toBe(false);
+  });
+
+  it('still dismisses on focus moving outside and honors closeOnSelect', async () => {
+    const fixture = TestBed.createComponent(MultiSelectTestHost);
+    await fixture.whenStable();
+    const multi = fixture.componentInstance.multi();
+    multi.openPanel();
+    await fixture.whenStable();
+    const trigger = fixture.nativeElement.querySelector('#skills') as HTMLElement;
+    trigger.dispatchEvent(
+      new FocusEvent('focusout', { bubbles: true, relatedTarget: document.body }),
+    );
+    fixture.detectChanges();
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+
+    const componentFixture = TestBed.createComponent(AerisMultiSelectComponent);
+    componentFixture.componentRef.setInput('options', [{ label: 'Design', value: 'design' }]);
+    componentFixture.componentRef.setInput('closeOnSelect', true);
+    await componentFixture.whenStable();
+    componentFixture.componentInstance.openPanel();
+    await componentFixture.whenStable();
+    const option = componentFixture.nativeElement.querySelector('[role=option]') as HTMLElement;
+    option.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch' }));
+    option.click();
+    await componentFixture.whenStable();
+    expect(componentFixture.componentInstance.value()).toEqual(['design']);
+    expect(componentFixture.nativeElement.querySelector('[role=listbox]')).toBeNull();
   });
 
   it('keeps the panel open while toggling options with the keyboard', async () => {

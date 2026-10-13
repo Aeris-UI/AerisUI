@@ -93,6 +93,76 @@ svg {
   stroke-linejoin: round;
 }
 
+docs-route-outlet .docs-route-view > router-outlet + * {
+  display: block;
+  animation: docs-route-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out) backwards;
+}
+
+.docs-header__nav a::after {
+  position: absolute;
+  right: 0.625rem;
+  bottom: 0.125rem;
+  left: 0.625rem;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--primary);
+  content: '';
+  opacity: 0;
+  transform: scaleX(0.45);
+  transition:
+    opacity var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-emphasized, ease);
+}
+
+.docs-header__nav a,
+.docs-navigation a:not(.aeris-button) {
+  transition:
+    background-color var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
+}
+
+.docs-header__nav a.active::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.docs-navigation-group--enter {
+  animation: docs-navigation-group-enter var(--aeris-motion-normal, 150ms)
+    var(--aeris-ease-enter, ease-out);
+}
+
+.docs-navigation-group--leave {
+  animation: docs-navigation-group-leave var(--aeris-motion-fast, 100ms)
+    var(--aeris-ease-exit, ease-in);
+}
+
+@keyframes docs-navigation-group-enter {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--aeris-motion-distance-sm, 0.25rem) * -1));
+  }
+}
+
+@keyframes docs-navigation-group-leave {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--aeris-motion-distance-sm, 0.25rem) * -1));
+  }
+}
+
+@keyframes docs-route-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--aeris-motion-distance-sm, 0.25rem));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .docs-header.aeris-toolbar[data-wrap='false'] .aeris-toolbar__content {
   overflow: visible;
 }
@@ -153,6 +223,15 @@ svg {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  docs-route-outlet .docs-route-view > router-outlet + * {
+    animation: none;
+  }
+
+  .docs-navigation-group--enter,
+  .docs-navigation-group--leave {
+    animation: none;
   }
 }
 
@@ -255,8 +334,4 @@ app-guide-page .guide code {
 
 app-guide-page .guide-grid span {
   font-size: 12px !important;
-}
-
-.home-workspace-select-panel {
-  margin-block-start: -0.9rem;
 }

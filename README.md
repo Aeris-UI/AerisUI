@@ -7,7 +7,7 @@ library, tests, documentation application, design lab, and release tooling so im
 guidance evolve together.
 
 > **Alpha software:** Aeris UI is under active development and is not production ready. The
-> current `22.0.0-alpha.9` version may introduce breaking API, styling, and behavior changes before
+> current `22.0.0-alpha.10` version may introduce breaking API, styling, and behavior changes before
 > the first stable release. Pin prerelease versions exactly and review the changelog when updating.
 
 Explore the components, guides, and Design Lab at [aeris-ui.dev](https://www.aeris-ui.dev/).
@@ -44,6 +44,10 @@ Both packages are currently published under the `next` prerelease tag. During al
 exact versions when reproducibility matters.
 
 ## Workspace
+
+CodeBlock uses [Shiki](https://shiki.style/) as an optional peer dependency. Install it with
+`npm install shiki` when importing `@aeris-ui/core/code-block`. Other Aeris components do not
+require or load Shiki.
 
 - `projects/aeris-mcp` — local read-only `@aeris-ui/mcp` documentation server
 - `projects/aeris-ui` — published `@aeris-ui/core` package and secondary entry points
@@ -116,7 +120,7 @@ access at runtime.
   "mcpServers": {
     "aeris": {
       "command": "npx",
-      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.9"]
+      "args": ["-y", "@aeris-ui/mcp@22.0.0-alpha.10"]
     }
   }
 }
@@ -134,7 +138,7 @@ Install the exact prerelease version during alpha. A consumer application import
 points it needs:
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.9
+ng add @aeris-ui/core@22.0.0-alpha.10
 ```
 
 The Angular initializer supports interactive setup, a schema-backed `aeris.setup.json`, custom
@@ -147,8 +151,8 @@ import { AerisButton } from '@aeris-ui/core/button';
 import { AERIS_THEME_PRESETS, AerisThemeService, provideAeris } from '@aeris-ui/core/theming';
 ```
 
-Pass `AERIS_THEME_PRESETS.earth`, `.coastal`, `.orchid`, or `.monochrome` to `provideAeris({ theme })` to start
-with an official theme. Aeris Earth is used when no theme is supplied.
+Pass `AERIS_THEME_PRESETS.monochrome`, `.earth`, `.coastal`, or `.orchid` to `provideAeris({ theme })` to start
+with an official theme. Monochrome is used when no theme is supplied.
 
 For a fixed application theme, generate the resolved light and dark token stylesheet during the
 build. The published `aeris-theme` CLI uses a schema-backed JSON configuration, audits contrast,

@@ -555,7 +555,7 @@
 
 .design-lab__tone[data-customized='true'] {
   border-color: color-mix(in srgb, var(--aeris-primary) 46%, var(--border));
-  box-shadow: inset 3px 0 0 var(--aeris-primary);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--aeris-primary) 28%, transparent);
 }
 
 .design-lab__tone > header {

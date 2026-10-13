@@ -44,6 +44,7 @@ const requiredPeers = [
   'rxjs',
 ];
 const optionalPeers = [
+  'shiki',
   'chart.js',
   '@lexical/history',
   '@lexical/html',

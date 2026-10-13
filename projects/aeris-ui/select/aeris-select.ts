@@ -263,6 +263,7 @@ let nextSelectId = 0;
           #optionsPanel
           class="aeris-select__panel"
           [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToDismiss]="dismissOverlay"
           [aerisInternalAppendToAnchor]="this.control()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
@@ -426,6 +427,11 @@ let nextSelectId = 0;
   },
 })
 export class AerisSelectComponent implements ControlValueAccessor {
+  protected readonly dismissOverlay = (): boolean => {
+    this.closePanel(true);
+    return true;
+  };
+
   private readonly destroyRef = inject(DestroyRef);
   readonly options = input.required<readonly AerisSelectOption[]>();
   readonly value = model<string | null>(null);

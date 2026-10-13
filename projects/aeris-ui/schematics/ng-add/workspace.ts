@@ -184,7 +184,7 @@ function prepareBuildTimeFiles(
     $schema: './node_modules/@aeris-ui/core/theme-config.schema.json',
     generatedBy: MANAGED_CONFIG_MARKER,
     derivationVersion: AERIS_COLOR_DERIVATION_VERSION,
-    preset: setup.preset ?? 'earth',
+    preset: setup.preset ?? 'monochrome',
     output: generatedCssPath.slice(1),
     css: {
       schemes: setup.schemes,

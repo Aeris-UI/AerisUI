@@ -74,6 +74,7 @@ let nextPopoverId = 0;
       <div
         class="aeris-popover__layer"
         [aerisInternalAppendTo]="appendTo()"
+        [aerisInternalAppendToDismiss]="dismissOverlay"
         aerisInternalAppendToDefault="body"
         [attr.data-positioned]="positioned() || null"
       >
@@ -162,6 +163,11 @@ let nextPopoverId = 0;
   },
 })
 export class AerisPopover {
+  protected readonly dismissOverlay = (): boolean => {
+    if (!this.closeOnEscape()) return false;
+    this.hide();
+    return true;
+  };
   private readonly repositionFrame = aerisInternalCreateFrameScheduler(() => this.reposition());
   private readonly document = inject(DOCUMENT);
   private readonly activeTarget = signal<Element | null>(null);

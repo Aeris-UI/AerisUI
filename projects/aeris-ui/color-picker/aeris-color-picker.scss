@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -20,11 +21,11 @@
 }
 
 .aeris-color-picker {
-  --aeris-color-picker-height: var(--aeris-control-height, 2.5rem);
-  --aeris-color-picker-font-size: 0.9375rem;
+  --aeris-color-picker-height: var(--aeris-control-height, 2.625rem);
+  --aeris-color-picker-font-size: var(--aeris-font-size-lg, 0.875rem);
   --aeris-color-picker-panel-width: 20rem;
   --aeris-color-picker-panel-background: var(--aeris-surface, #fff);
-  --aeris-color-picker-panel-border: var(--aeris-border, var(--aeris-border, #deddd7));
+  --aeris-color-picker-panel-border: var(--aeris-border, var(--aeris-border, #efefef));
   --aeris-color-picker-panel-radius: var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem));
   --aeris-color-picker-panel-shadow: 0 1.25rem 3.5rem rgb(31 35 27 / 22%);
   --aeris-color-picker-panel-padding: calc(var(--aeris-density-gap, 0.5rem) + 0.375rem);
@@ -33,7 +34,7 @@
   align-items: center;
   gap: 0.5rem;
   max-width: 100%;
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font-size: var(--aeris-color-picker-font-size);
 }
 
@@ -49,18 +50,18 @@
 }
 
 .aeris-color-picker[data-size='xs'] {
-  --aeris-color-picker-height: 1.875rem;
-  --aeris-color-picker-font-size: 0.75rem;
+  --aeris-color-picker-height: calc(var(--aeris-control-height, 2.625rem) - 0.875rem);
+  --aeris-color-picker-font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 .aeris-color-picker[data-size='sm'] {
-  --aeris-color-picker-height: 2.1875rem;
-  --aeris-color-picker-font-size: 0.8125rem;
+  --aeris-color-picker-height: calc(var(--aeris-control-height, 2.625rem) - 0.5rem);
+  --aeris-color-picker-font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-color-picker[data-size='lg'] {
-  --aeris-color-picker-height: 2.875rem;
-  --aeris-color-picker-font-size: 1rem;
+  --aeris-color-picker-height: calc(var(--aeris-control-height, 2.625rem) + 0.5rem);
+  --aeris-color-picker-font-size: var(--aeris-font-size-2xl, 1rem);
 }
 
 .aeris-color-picker button,
@@ -71,7 +72,7 @@
 .aeris-color-picker__trigger,
 .aeris-color-picker__text {
   min-height: var(--aeris-color-picker-height);
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.5rem));
   background: var(--aeris-surface, #fff);
   color: inherit;
@@ -80,7 +81,7 @@
 .aeris-color-picker[data-appearance='filled'] .aeris-color-picker__trigger,
 .aeris-color-picker[data-appearance='filled'] .aeris-color-picker__text {
   border-color: transparent;
-  background: var(--aeris-surface-2, #f2f0ec);
+  background: var(--aeris-surface-2, #f3f3f3);
 }
 
 .aeris-color-picker__trigger {
@@ -106,15 +107,15 @@
   flex: 0 0 auto;
   border: 0;
   border-radius: min(var(--aeris-radius-sm, 0.5rem), 0.35rem);
-  box-shadow: 0 0 0 1px var(--aeris-border, #deddd7);
+  box-shadow: 0 0 0 1px var(--aeris-border, #efefef);
 }
 
 .aeris-color-picker__value {
   min-width: 0;
   flex: 1;
   overflow: hidden;
-  color: var(--aeris-text-2, #555555);
-  font-weight: 650;
+  color: var(--aeris-text-2, #454545);
+  font-weight: var(--aeris-font-weight-bold, 700);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -124,7 +125,7 @@
   width: 1rem;
   height: 1rem;
   flex: 0 0 auto;
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
 }
 
 .aeris-color-picker__indicator::before {
@@ -136,7 +137,7 @@
   background: currentColor;
   content: '';
   transform: translate(-50%, -50%);
-  transition: transform 160ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
   -webkit-mask: var(--_aeris-color-picker-chevron-mask) center / 100% 100% no-repeat;
   mask: var(--_aeris-color-picker-chevron-mask) center / 100% 100% no-repeat;
 }
@@ -158,7 +159,7 @@
 
 .aeris-color-picker__text::placeholder,
 .aeris-color-picker__panel-value input::placeholder {
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   opacity: 0.72;
 }
 
@@ -168,9 +169,9 @@
   display: grid;
   place-items: center;
   padding: 0;
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   cursor: pointer;
 }
 
@@ -221,7 +222,7 @@
   box-shadow: var(--aeris-color-picker-panel-shadow);
   overflow: auto;
   overscroll-behavior: contain;
-  scrollbar-color: var(--aeris-border, #deddd7) transparent;
+  scrollbar-color: var(--aeris-border, #efefef) transparent;
   scrollbar-width: thin;
   visibility: hidden;
 }
@@ -239,12 +240,11 @@
 .aeris-color-picker__panel::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-border, #deddd7);
+  background: var(--aeris-border, #efefef);
   background-clip: content-box;
 }
 
 .aeris-color-picker__panel[data-positioned] {
-  animation: aeris-color-picker-panel-in 160ms ease-out;
   visibility: visible;
 }
 
@@ -268,7 +268,7 @@
   height: 2.25rem;
   border: 0;
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.5rem));
-  box-shadow: 0 0 0 1px var(--aeris-border, #deddd7);
+  box-shadow: 0 0 0 1px var(--aeris-border, #efefef);
 }
 
 .aeris-color-picker__panel-header > span:nth-child(2) {
@@ -285,19 +285,19 @@
 }
 
 .aeris-color-picker__panel-header strong {
-  color: var(--aeris-text, #222222);
-  font-size: 0.8125rem;
+  color: var(--aeris-text, #111111);
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-color-picker__panel-header small {
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.6875rem;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-xs, 0.6875rem);
 }
 
 .aeris-color-picker__plane {
   position: relative;
   height: 11rem;
-  border: 1px solid color-mix(in srgb, var(--aeris-border, #deddd7) 72%, #000);
+  border: 1px solid color-mix(in srgb, var(--aeris-border, #efefef) 72%, #000);
   border-radius: calc(var(--aeris-color-picker-panel-radius) - 0.25rem);
   background:
     linear-gradient(to top, #000, transparent),
@@ -331,13 +331,13 @@
 .aeris-color-picker__preset-section > span {
   display: flex;
   justify-content: space-between;
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.6875rem;
-  font-weight: 700;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-xs, 0.6875rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-color-picker__hue output {
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font: inherit;
 }
 
@@ -356,14 +356,14 @@
 .aeris-color-picker__hue input[type='range']::-webkit-slider-runnable-track {
   height: 0.625rem;
   border: 1px solid rgb(0 0 0 / 16%);
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
 }
 
 .aeris-color-picker__hue input[type='range']::-moz-range-track {
   height: 0.625rem;
   border: 1px solid rgb(0 0 0 / 16%);
-  border-radius: 999px;
+  border-radius: var(--aeris-radius-pill, 999px);
   background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
 }
 
@@ -396,9 +396,9 @@
   gap: 0.25rem;
   margin-top: 0.75rem;
   padding: 0.25rem;
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.5rem));
-  background: var(--aeris-surface-2, #f2f0ec);
+  background: var(--aeris-surface-2, #f3f3f3);
 }
 
 .aeris-color-picker__formats button {
@@ -409,15 +409,15 @@
   border: 0;
   border-radius: var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-text-2, #555555);
-  font-size: 0.6875rem;
-  font-weight: 750;
+  color: var(--aeris-text-2, #454545);
+  font-size: var(--aeris-font-size-xs, 0.6875rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   cursor: pointer;
 }
 
 .aeris-color-picker__formats button[aria-pressed='true'] {
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   box-shadow: 0 0.125rem 0.4rem rgb(31 35 27 / 10%);
 }
 
@@ -431,11 +431,11 @@
   width: 100%;
   min-height: 2.25rem;
   padding: 0 0.625rem;
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.5rem));
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
-  font-size: 0.8125rem;
+  color: var(--aeris-text, #111111);
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-color-picker__preset-section {
@@ -456,55 +456,69 @@
   padding: 0;
   border: 0;
   border-radius: min(var(--aeris-radius-sm, 0.5rem), 0.45rem);
-  box-shadow: 0 0 0 1px var(--aeris-border, #deddd7);
+  box-shadow: 0 0 0 1px var(--aeris-border, #efefef);
   cursor: pointer;
 }
 
 .aeris-color-picker__presets button[aria-pressed='true'] {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
-  outline-offset: 2px;
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
-.aeris-color-picker__trigger:hover,
-.aeris-color-picker__panel-value input:hover {
-  border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
+@media (hover: hover) {
+  .aeris-color-picker__trigger:hover,
+  .aeris-color-picker__panel-value input:hover {
+    border-color: var(
+      --aeris-control-hover-border,
+      var(--aeris-primary, #{aeris-fallbacks.$primary})
+    );
+  }
 }
-
-.aeris-color-picker__clear:hover,
 .aeris-color-picker__clear:focus-visible {
-  background: var(--aeris-surface-2, #f2f0ec);
-  color: var(--aeris-text, #222222);
+  background: var(--aeris-surface-2, #f3f3f3);
+  color: var(--aeris-text, #111111);
 }
-
+@media (hover: hover) {
+  .aeris-color-picker__clear:hover {
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
+}
 .aeris-color-picker__clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
 }
 
-.aeris-color-picker__presets button:hover {
-  box-shadow: 0 0 0 1px var(--aeris-primary, #{aeris-fallbacks.$primary});
+@media (hover: hover) {
+  .aeris-color-picker__presets button:hover {
+    box-shadow: 0 0 0 1px var(--aeris-primary, #{aeris-fallbacks.$primary});
+  }
 }
-
-.aeris-color-picker__close:hover,
-.aeris-color-picker__eyedropper:hover,
-.aeris-color-picker__formats button:hover {
-  background: var(--aeris-surface-2, #f2f0ec);
-  color: var(--aeris-text, #222222);
+@media (hover: hover) {
+  .aeris-color-picker__close:hover,
+  .aeris-color-picker__eyedropper:hover,
+  .aeris-color-picker__formats button:hover {
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
+}
+.aeris-color-picker__close:focus-visible,
+.aeris-color-picker__eyedropper:focus-visible,
+.aeris-color-picker__formats button:focus-visible,
+.aeris-color-picker__presets button:focus-visible,
+.aeris-color-picker__plane:focus-visible,
+.aeris-color-picker__hue input:focus-visible {
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus-ring-color, transparent);
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
 .aeris-color-picker__trigger:focus-visible,
 .aeris-color-picker__text:focus,
-.aeris-color-picker__close:focus-visible,
-.aeris-color-picker__eyedropper:focus-visible,
-.aeris-color-picker__formats button:focus-visible,
-.aeris-color-picker__panel-value input:focus,
-.aeris-color-picker__presets button:focus-visible,
-.aeris-color-picker__plane:focus-visible,
-.aeris-color-picker__hue input:focus-visible {
-  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
-  outline: 3px solid
-    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 24%, transparent);
-  outline-offset: 1px;
+.aeris-color-picker__panel-value input:focus {
+  border-color: var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  outline: 0;
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-focus-ring-color, var(--aeris-focus-ring-color, transparent));
 }
 
 .aeris-color-picker__eyedropper:disabled {
@@ -517,7 +531,16 @@
 .aeris-color-picker__text:user-invalid,
 .aeris-color-picker__text[aria-invalid='true'],
 .aeris-color-picker__panel-value input[aria-invalid='true'] {
-  border-color: var(--aeris-danger, #c81e2a);
+  border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
+}
+
+.aeris-color-picker[data-invalid] .aeris-color-picker__trigger:focus-visible,
+.aeris-color-picker[data-invalid] .aeris-color-picker__text:focus,
+.aeris-color-picker__text:user-invalid:focus,
+.aeris-color-picker__text[aria-invalid='true']:focus,
+.aeris-color-picker__panel-value input[aria-invalid='true']:focus {
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-invalid-focus-ring-color, transparent);
 }
 
 .aeris-color-picker[data-disabled],
@@ -532,18 +555,6 @@
 .aeris-color-picker[data-readonly] .aeris-color-picker__text,
 .aeris-color-picker[data-readonly] .aeris-color-picker__clear {
   cursor: not-allowed;
-}
-
-@keyframes aeris-color-picker-panel-in {
-  from {
-    opacity: 0;
-    transform: translateY(-0.25rem) scale(0.985);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
 }
 
 @media (max-width: 36rem) {
@@ -569,3 +580,5 @@
     animation: none;
   }
 }
+
+@include aeris-mobile.input-font('input');

@@ -2,7 +2,7 @@
 
 > Compact status, count, and overlay indicator with severity, size, shape, and accessible semantics.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/badge`
 - Human-readable documentation: [https://aeris-ui.dev/components/badge](https://aeris-ui.dev/components/badge)
@@ -103,6 +103,7 @@ type AerisBadgeOverlayPosition =
 | `--aeris-badge-shadow` | `CSS custom property` | — | Solid badge shadow. |
 | `--aeris-badge-dot-size` | `CSS custom property` | — | Default dot badge size. |
 | `--aeris-badge-overlay-ring-size` | `CSS custom property` | — | Surface ring around overlay badges. |
+| `--aeris-badge-overlay-offset` | `CSS custom property` | — | How far an overlay badge extends beyond the content corner. |
 | `--aeris-primary` | `CSS custom property` | — | Primary badge accent. |
 | `--aeris-success` | `CSS custom property` | — | Success badge accent. |
 | `--aeris-info` | `CSS custom property` | — | Info badge accent. |

@@ -4,7 +4,7 @@
   align-content: start;
   grid-auto-rows: max-content;
   gap: var(--aeris-form-field-gap, 0.45rem);
-  color: var(--aeris-form-field-color, var(--aeris-text, #222222));
+  color: var(--aeris-form-field-color, var(--aeris-text, #111111));
 }
 
 .aeris-form-field[data-fluid] {
@@ -17,7 +17,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: var(--aeris-form-field-indicator-gap, 0.25rem);
-  color: var(--aeris-form-field-label-color, var(--aeris-text, #222222));
+  color: var(--aeris-form-field-label-color, var(--aeris-text, #111111));
   font-size: var(--aeris-form-field-label-font-size, 0.875rem);
   font-weight: var(--aeris-form-field-label-font-weight, 700);
   line-height: 1.35;
@@ -29,10 +29,10 @@
 }
 
 .aeris-form-field__label[data-optional]::after {
-  color: var(--aeris-form-field-optional-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-form-field-optional-color, var(--aeris-text-2, #454545));
   content: '(' attr(data-optional-text) ')';
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-semibold, 600);
 }
 
 .aeris-form-field__control,
@@ -71,12 +71,12 @@
 }
 
 .aeris-form-field__hint {
-  color: var(--aeris-form-field-hint-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-form-field-hint-color, var(--aeris-text-2, #454545));
 }
 
 .aeris-form-field__error {
   color: var(--aeris-form-field-error-color, var(--aeris-danger-text, #a31722));
-  font-weight: 650;
+  font-weight: var(--aeris-font-weight-bold, 700);
 }
 
 .aeris-form-field__error[hidden] {

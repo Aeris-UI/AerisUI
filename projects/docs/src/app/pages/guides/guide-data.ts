@@ -3,6 +3,8 @@ import { AERIS_ANGULAR_PEER_RANGE, AERIS_CURRENT_VERSION } from '../../data/aeri
 import { DOCS_PALETTES, type DocsPalette } from '../../data/docs-palettes';
 import type { GuideId } from './guide-navigation';
 import { AERIS_COMPATIBILITY, AERIS_RELEASES } from './release-data';
+import { CAPACITOR_GUIDE } from './capacitor-guide';
+import { MOBILE_GUIDE } from './mobile-guide';
 
 export interface GuideLink {
   readonly label: string;
@@ -48,6 +50,8 @@ const source = (label: string, language: CodeSource['language'], code: string): 
 });
 
 export const GUIDE_ARTICLES: readonly GuideArticle[] = [
+  MOBILE_GUIDE,
+  CAPACITOR_GUIDE,
   {
     id: 'installation',
     path: '/guides/installation',
@@ -107,7 +111,7 @@ export const GUIDE_ARTICLES: readonly GuideArticle[] = [
           caption: 'Initializer decisions',
           columns: ['Decision', 'Choices', 'Recommended starting point'],
           rows: [
-            ['Theme', 'Earth, Coastal, Orchid, Monochrome, or five custom seeds', 'Earth'],
+            ['Theme', 'Monochrome, Earth, Coastal, Orchid, or five custom seeds', 'Monochrome'],
             ['Density', 'Compact, Medium, Comfortable', 'Medium for most applications'],
             ['Corners', 'Soft, Rounded, Pill', 'Rounded'],
             ['Schemes', 'Light and dark, light only, dark only', 'Light and dark'],
@@ -288,14 +292,14 @@ export const appConfig: ApplicationConfig = {
         id: 'starter-theme',
         title: 'Choose a starter theme',
         paragraphs: [
-          'Aeris includes four accessible starter themes. Earth is the default when theme is omitted; pass Coastal, Orchid, or Monochrome through the same theme option to change the visual direction without building a custom palette.',
+          'Aeris includes four accessible starter themes. Monochrome is the default when theme is omitted; pass Earth, Coastal, or Orchid through the same theme option to change the visual direction without building a custom palette.',
           'The presets contain palette seeds, so they continue to use the shared Aeris semantic derivation, light and dark modes, density scales, and corner styles.',
           'Monochrome keeps application chrome, actions, surfaces, and typography neutral while reserving restrained color for success, information, warning, and danger. Primary actions use the dominant foreground, secondary actions use a middle neutral, and contrast actions invert the surface with a strong boundary. Severity remains reinforced by component icons, labels, and accessibility semantics rather than color alone.',
         ],
         themePresets: DOCS_PALETTES,
         code: [
           source(
-            'Earth',
+            'Monochrome',
             'TypeScript',
             `import { ApplicationConfig } from '@angular/core';
 import { AERIS_THEME_PRESETS, provideAeris } from '@aeris-ui/core/theming';
@@ -304,7 +308,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideAeris({
       mode: 'system',
-      theme: AERIS_THEME_PRESETS.earth,
+      theme: AERIS_THEME_PRESETS.monochrome,
     }),
   ],
 };`,
@@ -340,7 +344,7 @@ export const appConfig: ApplicationConfig = {
 };`,
           ),
           source(
-            'Monochrome',
+            'Earth',
             'TypeScript',
             `import { ApplicationConfig } from '@angular/core';
 import { AERIS_THEME_PRESETS, provideAeris } from '@aeris-ui/core/theming';
@@ -349,13 +353,13 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideAeris({
       mode: 'system',
-      theme: AERIS_THEME_PRESETS.monochrome,
+      theme: AERIS_THEME_PRESETS.earth,
     }),
   ],
 };`,
           ),
         ],
-        note: 'Omit theme entirely to use Aeris Earth. There is no separate preset mode: starter and custom themes both use the existing theme configuration property.',
+        note: 'Omit theme entirely to use Monochrome. There is no separate preset mode: starter and custom themes both use the existing theme configuration property.',
         links: [{ label: 'Create a custom theme', href: '/guides/theming' }],
       },
       {
@@ -370,6 +374,11 @@ export const appConfig: ApplicationConfig = {
           columns: ['Feature', 'Install', 'Required when'],
           rows: [
             ['Chart', 'npm install chart.js', 'Importing @aeris-ui/core/chart'],
+            [
+              'CodeBlock',
+              'npm install shiki',
+              'Importing @aeris-ui/core/code-block; highlighting loads lazily',
+            ],
             [
               'Editor',
               'npm install lexical @lexical/history @lexical/html @lexical/list @lexical/rich-text @lexical/selection',
@@ -904,7 +913,7 @@ export class SignalProfileForm {
               'CSS color',
             ],
             ['accent', 'Mode-specific decorative accent', 'CSS color'],
-            ['shadowXs, shadowSm', 'Mode-specific elevation', 'CSS shadow'],
+            ['shadowXs, shadowSm, shadowMd, shadowLg', 'Mode-specific elevation', 'CSS shadow'],
           ],
         },
         note: 'You do not need to configure every layer. Begin with a preset and add an override only when there is a clear product requirement.',
@@ -959,6 +968,99 @@ export const appConfig: ApplicationConfig = {
           ],
         },
         note: 'Spread a preset before adding density, radius, or scheme overrides; do not mutate the exported preset object. Supply a custom palette instead when the brand seeds need to change.',
+      },
+      {
+        id: 'visual-foundation',
+        title: 'Use the shared visual foundation',
+        paragraphs: [
+          'Aeris components share one compact foundation for typography, elevation, focus, and motion. These tokens keep controls and surfaces visually consistent and remain available for deliberate application-level customization.',
+          'Prefer changing a foundation token at an application boundary over repeating component-specific overrides. Reduced-motion preferences automatically collapse the shared motion durations while preserving state changes.',
+        ],
+        table: {
+          caption: 'Shared visual foundation tokens',
+          columns: ['Purpose', 'Tokens', 'Use'],
+          rows: [
+            [
+              'Typography',
+              '--aeris-font-size-xs through --aeris-font-size-3xl, --aeris-line-height-*, --aeris-font-weight-*',
+              'Consistent labels, body copy, titles, and supporting text',
+            ],
+            [
+              'Elevation',
+              '--aeris-shadow-xs, --aeris-shadow-sm, --aeris-shadow-md, --aeris-shadow-lg',
+              'Raised controls, surfaces, floating panels, and modal layers',
+            ],
+            [
+              'Focus',
+              '--aeris-focus-ring-width, --aeris-focus-ring-offset, --aeris-focus-ring-color, --aeris-control-focus-border, --aeris-control-focus-ring-color',
+              'Consistent focus geometry and color across native and composite controls',
+            ],
+            [
+              'Control states',
+              '--aeris-control-hover-border, --aeris-control-invalid-border, --aeris-control-invalid-focus-ring-color',
+              'Shared hover and validation treatment for the complete form-control family',
+            ],
+            [
+              'Floating surfaces',
+              '--aeris-overlay-shadow',
+              'One elevation alias for menus, pickers, popovers, and other anchored panels',
+            ],
+            [
+              'Motion',
+              '--aeris-motion-instant through --aeris-motion-emphasized, --aeris-motion-distance, --aeris-motion-scale, --aeris-ease-*',
+              'Short, restrained state and overlay transitions',
+            ],
+          ],
+        },
+        note: 'The four shadow values can also be configured per light or dark scheme through shadowXs, shadowSm, shadowMd, and shadowLg.',
+      },
+      {
+        id: 'motion',
+        title: 'Tune motion without fragmenting it',
+        paragraphs: [
+          'Aeris uses one motion scale for direct feedback, ordinary state changes, overlays, disclosures, and larger spatial changes. Override these shared values when a product needs a different pace instead of changing individual component transitions.',
+          'Movement stays close to its point of origin: anchored panels reveal toward their trigger, drawers follow their edge, and state transitions avoid unnecessary travel. Aeris automatically reduces shared durations and removes overlay travel when the operating system requests reduced motion.',
+        ],
+        code: [
+          source(
+            'CSS',
+            'CSS',
+            `:root {
+  --aeris-motion-fast: 90ms;
+  --aeris-motion-normal: 140ms;
+  --aeris-motion-slow: 210ms;
+  --aeris-motion-emphasized: 300ms;
+  --aeris-motion-distance: 0.2rem;
+  --aeris-motion-scale: 0.99;
+  --aeris-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --aeris-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --aeris-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+}`,
+          ),
+        ],
+        table: {
+          caption: 'Shared Aeris motion roles',
+          columns: ['Role', 'Default token', 'Typical use'],
+          rows: [
+            ['Immediate', '--aeris-motion-instant', 'Changes that must not interpolate'],
+            ['Fast', '--aeris-motion-fast', 'Press feedback, checks, and small indicators'],
+            ['Normal', '--aeris-motion-normal', 'Hover, focus, and floating-panel reveals'],
+            ['Slow', '--aeris-motion-slow', 'Disclosure, drawer, and dialog movement'],
+            ['Emphasized', '--aeris-motion-emphasized', 'Larger spatial or progress changes'],
+            ['Distance', '--aeris-motion-distance', 'The short travel used by floating surfaces'],
+            [
+              'Scale',
+              '--aeris-motion-scale',
+              'The subtle starting scale used by floating surfaces',
+            ],
+            [
+              'Easing',
+              '--aeris-ease-standard, --aeris-ease-enter, --aeris-ease-exit',
+              'State, arrival, and departure curves',
+            ],
+          ],
+        },
+        note: 'Continuous activity such as indeterminate progress and loading spinners keeps a component-specific duration. Disable those features when motion is not appropriate; reduced-motion preferences stop or simplify them where necessary.',
       },
       {
         id: 'palette',
@@ -1288,7 +1390,7 @@ export function assertThemeContrast(theme: AerisTheme): void {
           caption: 'Build-time theme generator options',
           columns: ['Option or API', 'Default', 'Purpose'],
           rows: [
-            ['--preset', 'earth', 'Select earth, coastal, orchid, or monochrome as the base'],
+            ['--preset', 'monochrome', 'Select monochrome, earth, coastal, or orchid as the base'],
             ['--config', '-', 'Read a schema-backed JSON theme configuration'],
             [
               '--derivation-version',
@@ -1474,6 +1576,7 @@ export const appConfig: ApplicationConfig = {
         title: 'Choose density and corners',
         paragraphs: [
           'Use compact for dense workspaces, medium for the balanced default, and comfortable for touch-heavy or relaxed layouts. Soft, rounded, and pill control the visual character while structural components retain practical geometry.',
+          'Density also controls the space around content: menus and toolbars share compact outer padding, while cards, panels, accordions, and dialog bodies use the same content spacing scale. A toolbar containing buttons can be taller than a menu row because the controls need their own space.',
         ],
         code: [
           source(
@@ -1492,6 +1595,51 @@ export const appConfig: ApplicationConfig = {
     }),
   ],
 };`,
+          ),
+        ],
+      },
+      {
+        id: 'shared-geometry',
+        title: 'Customize shared spacing and typography',
+        advanced: true,
+        paragraphs: [
+          'Prefer these shared CSS tokens when several components should change together. Their default values derive from the active density, so compact and comfortable layouts remain coordinated. Component-specific tokens still take precedence for a local exception.',
+          'Widths remain content-dependent: a menu, a date grid, and a dialog do not need the same width. Use fluid controls and responsive parent layouts rather than assigning one fixed width to every component.',
+        ],
+        table: {
+          caption: 'Shared geometry tokens (medium density)',
+          columns: ['Token', 'Default', 'Used for'],
+          rows: [
+            [
+              '--aeris-overlay-padding',
+              '0.375rem',
+              'Outer padding of menus, dropdown panels, and toolbars',
+            ],
+            ['--aeris-surface-padding-sm', '0.875rem', 'Small surfaces and compact headers'],
+            ['--aeris-surface-padding', '1.25rem', 'Default content surfaces and overlay bodies'],
+            ['--aeris-surface-padding-lg', '1.75rem', 'Large content surfaces'],
+            ['--aeris-content-gap', '1rem', 'Spacing between content sections'],
+            [
+              '--aeris-heading-font-size',
+              '1rem',
+              'Card, panel, dialog, drawer, and popover headings',
+            ],
+            ['--aeris-body-font-size', '0.875rem', 'Content text'],
+            ['--aeris-item-font-size', '0.875rem', 'Menu items and selectable list options'],
+          ],
+        },
+        code: [
+          source(
+            'src/styles.scss',
+            'CSS',
+            `:root {
+  --aeris-surface-padding: 1.5rem;
+  --aeris-content-gap: 1.25rem;
+}
+
+.compact-toolbar {
+  --aeris-toolbar-padding-inline: 0.25rem;
+}`,
           ),
         ],
       },
@@ -1934,13 +2082,12 @@ export class ProjectDetails {
       },
       {
         id: 'testing',
-        title: 'Test the complete interaction',
+        title: 'Integrate overlays into application workflows',
         bullets: [
-          'Open with mouse, touch, and keyboard.',
-          'Verify the initial focus target, Tab sequence, Escape behavior, and focus restoration.',
-          'Check both viewport edges, RTL, narrow screens, zoom, and long translated content.',
-          'Confirm background content is inert or unavailable while a modal interaction is active.',
-          'Close the overlay during route changes and component destruction to verify cleanup.',
+          'Choose an initial focus target that matches the task, and keep its trigger available for focus restoration.',
+          'Allow application-provided content and translated action labels to fit the overlay body and footer.',
+          'Use a modal interaction when background tasks must be unavailable; do not disable focus trapping without an accessible replacement.',
+          'Close application-controlled overlays when their task is abandoned or their route changes.',
         ],
         links: [
           { label: 'Dialog examples and API', href: '/components/dialog' },
@@ -2371,7 +2518,7 @@ export class ProjectDetails {
         id: 'matrix',
         title: 'Supported browsers',
         paragraphs: [
-          'The table is the Aeris support policy, not a claim that every application and third-party integration has been tested in every listed browser. During alpha, the automated library suite does not yet run a complete Chrome, Edge, Firefox, and WebKit matrix, so consumers must test the browsers used by their audience.',
+          'The table describes the Aeris browser support policy. During alpha, browser coverage is still limited; it is not a certification of every component and browser combination. Application CSS, content, and third-party integrations have their own compatibility requirements.',
         ],
         table: {
           caption: 'Aeris browser policy',
@@ -2398,11 +2545,10 @@ export class ProjectDetails {
         id: 'ssr-hydration',
         title: 'Server rendering and hydration',
         paragraphs: [
-          'Aeris release verification now server-renders a consumer composition containing deferred Tabs and body-targeted overlay controls, checks stable ARIA relationships, and verifies Angular hydration metadata. Browser-dependent observers and animation work remain guarded where components use them.',
-          "This targeted regression is not yet a complete all-component SSR and hydration matrix. During alpha, evaluate every component used by an application's initial route and treat the browser production build as a separate check.",
-          'Evaluate SSR applications in a disposable branch, render every component used by the initial route, and check for direct document access, hydration mismatches, overlay creation before the browser is ready, and layout changes after hydration. Treat a successful browser build alone as insufficient evidence.',
+          'Aeris guards browser-dependent observers and animation work. Automated SSR coverage includes deferred Tabs and body-targeted overlay controls, but does not establish SSR and hydration support for every component during alpha.',
+          'Keep application browser-only code behind platform guards and open overlays only after the browser is ready. A browser build does not validate server rendering; use your Angular SSR build and hydration diagnostics for the components rendered on the initial route.',
         ],
-        note: 'A complete SSR support promise will follow only after the full component matrix is automated.',
+        note: 'SSR and hydration support remain limited during alpha; do not assume every component is supported in server-rendered routes.',
       },
       {
         id: 'application-testing',

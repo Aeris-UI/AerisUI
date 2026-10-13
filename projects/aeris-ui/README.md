@@ -10,10 +10,19 @@ The package is available on npm as [`@aeris-ui/core`](https://www.npmjs.com/pack
 
 ## Setup
 
+CodeBlock has an optional [Shiki](https://shiki.style/) peer dependency:
+
+```bash
+npm install shiki
+```
+
+Install it only when importing `@aeris-ui/core/code-block`. Highlighting is lazy-loaded;
+other Aeris components do not require or load Shiki.
+
 Use the Angular initializer for guided or reproducible setup:
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.9
+ng add @aeris-ui/core@22.0.0-alpha.10
 ```
 
 It configures an application project, theme or custom palette seeds, built-in density and corners,
@@ -21,7 +30,7 @@ light/dark support, runtime or build-time theming, mode persistence, initial dir
 and framework detection. Use a schema-backed setup file for repeatable installation:
 
 ```bash
-ng add @aeris-ui/core@22.0.0-alpha.9 --config=aeris.setup.json
+ng add @aeris-ui/core@22.0.0-alpha.10 --config=aeris.setup.json
 ```
 
 ```json
@@ -54,7 +63,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-Choose `earth`, `coastal`, `orchid`, or `monochrome`. Omit `theme` to use Aeris Earth, the default starter
+Choose `monochrome`, `earth`, `coastal`, or `orchid`. Omit `theme` to use Monochrome, the default starter
 theme, or provide a custom `AerisThemeOverride` when the application needs its own palette.
 
 ```css

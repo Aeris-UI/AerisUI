@@ -78,9 +78,7 @@ const TONE_PROPERTIES = [
  * Errors identify values Aeris cannot safely apply or accessibility checks
  * known to fail. Warnings identify colors that require rendered/manual review.
  */
-export function validateAerisTheme(
-  themeOverride: AerisThemeOverride = {},
-): AerisThemeValidationReport {
+export function validateAerisTheme(themeOverride?: AerisThemeOverride): AerisThemeValidationReport {
   const theme = resolveAerisTheme(themeOverride);
   const issues: AerisThemeValidationIssue[] = [];
 
@@ -189,6 +187,12 @@ function collectThemeCssValues(theme: AerisTheme): readonly ThemeCssValue[] {
     }
     if (scheme.shadowSm !== undefined) {
       values.push(cssValue(`${mode}.shadowSm`, scheme.shadowSm, false));
+    }
+    if (scheme.shadowMd !== undefined) {
+      values.push(cssValue(`${mode}.shadowMd`, scheme.shadowMd, false));
+    }
+    if (scheme.shadowLg !== undefined) {
+      values.push(cssValue(`${mode}.shadowLg`, scheme.shadowLg, false));
     }
 
     for (const toneName of AERIS_SEMANTIC_TONE_NAMES) {

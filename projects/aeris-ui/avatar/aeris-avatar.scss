@@ -14,7 +14,7 @@ aeris-avatar.aeris-avatar {
   --_aeris-avatar-color: color-mix(
     in srgb,
     var(--_aeris-avatar-accent) 78%,
-    var(--aeris-text, #222222)
+    var(--aeris-text, #111111)
   );
 
   box-sizing: border-box;
@@ -33,11 +33,11 @@ aeris-avatar.aeris-avatar {
   border: var(--aeris-avatar-border-width, 1px) solid
     var(
       --aeris-avatar-border,
-      color-mix(in srgb, var(--_aeris-avatar-accent) 25%, var(--aeris-border, #deddd7))
+      color-mix(in srgb, var(--_aeris-avatar-accent) 25%, var(--aeris-border, #efefef))
     );
   background: var(--aeris-avatar-background, var(--_aeris-avatar-background));
   color: var(--aeris-avatar-color, var(--_aeris-avatar-color));
-  box-shadow: var(--aeris-avatar-shadow, 0 1px 2px rgb(31 35 27 / 8%));
+  box-shadow: var(--aeris-avatar-shadow, var(--aeris-shadow-xs, 0 1px 2px rgb(0 0 0 / 10%)));
   font: inherit;
   font-size: var(--aeris-avatar-font-size, 0.8125rem);
   font-weight: var(--aeris-avatar-font-weight, 800);
@@ -52,10 +52,7 @@ aeris-avatar.aeris-avatar {
 aeris-avatar.aeris-avatar[data-size='sm'] {
   --_aeris-avatar-size: var(
     --aeris-avatar-size,
-    var(
-      --aeris-avatar-sm-size,
-      calc(var(--aeris-control-height, 2.625rem) - 0.625rem)
-    )
+    var(--aeris-avatar-sm-size, calc(var(--aeris-control-height, 2.625rem) - 0.625rem))
   );
   font-size: var(--aeris-avatar-sm-font-size, 0.6875rem);
 }
@@ -63,10 +60,7 @@ aeris-avatar.aeris-avatar[data-size='sm'] {
 aeris-avatar.aeris-avatar[data-size='lg'] {
   --_aeris-avatar-size: var(
     --aeris-avatar-size,
-    var(
-      --aeris-avatar-lg-size,
-      calc(var(--aeris-control-height, 2.625rem) + 0.75rem)
-    )
+    var(--aeris-avatar-lg-size, calc(var(--aeris-control-height, 2.625rem) + 0.75rem))
   );
   font-size: var(--aeris-avatar-lg-font-size, 1rem);
 }
@@ -74,10 +68,7 @@ aeris-avatar.aeris-avatar[data-size='lg'] {
 aeris-avatar.aeris-avatar[data-size='xl'] {
   --_aeris-avatar-size: var(
     --aeris-avatar-size,
-    var(
-      --aeris-avatar-xl-size,
-      calc(var(--aeris-control-height, 2.625rem) + 1.75rem)
-    )
+    var(--aeris-avatar-xl-size, calc(var(--aeris-control-height, 2.625rem) + 1.75rem))
   );
   font-size: var(--aeris-avatar-xl-font-size, 1.25rem);
 }
@@ -98,7 +89,7 @@ aeris-avatar.aeris-avatar[data-shape='square'] {
 }
 
 aeris-avatar.aeris-avatar[data-tone='neutral'] {
-  --_aeris-avatar-accent: var(--aeris-text-2, #555a50);
+  --_aeris-avatar-accent: var(--aeris-text-2, #454545);
 }
 
 aeris-avatar.aeris-avatar[data-tone='success'] {
@@ -187,7 +178,7 @@ aeris-avatar-group.aeris-avatar-group > aeris-avatar.aeris-avatar {
   box-shadow:
     0 0 0 var(--aeris-avatar-group-ring-size, 2px)
       var(--aeris-avatar-group-ring-color, var(--aeris-surface, #fff)),
-    var(--aeris-avatar-shadow, 0 1px 2px rgb(31 35 27 / 8%));
+    var(--aeris-avatar-shadow, var(--aeris-shadow-xs, 0 1px 2px rgb(0 0 0 / 10%)));
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -2,7 +2,7 @@
 
 > Target-relative confirmation popup with service prompts, trigger ARIA state, templates, and explicit outcomes.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/confirm-popup`
 - Human-readable documentation: [https://aeris-ui.dev/components/confirm-popup](https://aeris-ui.dev/components/confirm-popup)
@@ -243,7 +243,7 @@ interface AerisConfirmPopupTemplateContext<TData = unknown> {
 | `--aeris-confirm-popup-z-index` | `CSS custom property` | `1040` | Overlay stacking context. |
 | `--aeris-confirm-popup-width` | `CSS custom property` | `min(22rem, calc(100vw - 1rem))` | Popup width. |
 | `--aeris-confirm-popup-max-width` | `CSS custom property` | `calc(100vw - 1rem)` | Maximum popup width. |
-| `--aeris-confirm-popup-padding` | `CSS custom property` | `1rem` | Internal spacing. |
+| `--aeris-confirm-popup-padding` | `CSS custom property` | `--aeris-surface-padding` | Internal spacing. |
 | `--aeris-confirm-popup-background` | `CSS custom property` | `var(--aeris-surface)` | Popup surface. |
 | `--aeris-confirm-popup-border` | `CSS custom property` | `var(--aeris-border)` | Popup border. |
 | `--aeris-confirm-popup-radius` | `CSS custom property` | `var(--aeris-radius-overlay)` | Popup radius. |

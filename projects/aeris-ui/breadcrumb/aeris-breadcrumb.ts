@@ -100,7 +100,12 @@ let nextBreadcrumbId = 0;
     >
       <ol class="aeris-breadcrumb__list">
         @for (entry of visibleEntries(); track entry.key; let last = $last) {
-          <li class="aeris-breadcrumb__list-item" [attr.data-current]="entry.current || null">
+          <li
+            class="aeris-breadcrumb__list-item"
+            animate.enter="aeris-breadcrumb__list-item--enter"
+            animate.leave="aeris-breadcrumb__list-item--leave"
+            [attr.data-current]="entry.current || null"
+          >
             @if (entry.kind === 'ellipsis') {
               <button
                 class="aeris-breadcrumb__item aeris-breadcrumb__item--ellipsis"
@@ -132,7 +137,7 @@ let nextBreadcrumbId = 0;
                       item,
                       index: entry.index,
                       current: entry.current,
-                      disabled: entry.disabled
+                      disabled: entry.disabled,
                     }"
                   />
                 </span>
@@ -144,7 +149,9 @@ let nextBreadcrumbId = 0;
                   [attr.aria-disabled]="entry.disabled || null"
                 >
                   @if (item.icon) {
-                    <span class="aeris-breadcrumb__item-icon" aria-hidden="true">{{ item.icon }}</span>
+                    <span class="aeris-breadcrumb__item-icon" aria-hidden="true">{{
+                      item.icon
+                    }}</span>
                   }
                   @if (item.label) {
                     <span>{{ item.label }}</span>
@@ -160,7 +167,9 @@ let nextBreadcrumbId = 0;
                   (click)="handleItemClick($event, item, entry.index, entry.current)"
                 >
                   @if (item.icon) {
-                    <span class="aeris-breadcrumb__item-icon" aria-hidden="true">{{ item.icon }}</span>
+                    <span class="aeris-breadcrumb__item-icon" aria-hidden="true">{{
+                      item.icon
+                    }}</span>
                   }
                   @if (item.label) {
                     <span>{{ item.label }}</span>
@@ -174,7 +183,9 @@ let nextBreadcrumbId = 0;
                   (click)="handleItemClick($event, item, entry.index, entry.current)"
                 >
                   @if (item.icon) {
-                    <span class="aeris-breadcrumb__item-icon" aria-hidden="true">{{ item.icon }}</span>
+                    <span class="aeris-breadcrumb__item-icon" aria-hidden="true">{{
+                      item.icon
+                    }}</span>
                   }
                   @if (item.label) {
                     <span>{{ item.label }}</span>
@@ -191,7 +202,7 @@ let nextBreadcrumbId = 0;
                     [ngTemplateOutletContext]="{
                       index: entry.index,
                       item,
-                      nextItem: entry.nextItem
+                      nextItem: entry.nextItem,
                     }"
                   />
                 } @else if (separator()) {
@@ -279,7 +290,10 @@ export class AerisBreadcrumb {
     this.itemSelected.emit({ originalEvent: event, item, index, current });
   }
 
-  protected handleEllipsisClick(event: MouseEvent, hiddenItems: readonly AerisBreadcrumbItem[]): void {
+  protected handleEllipsisClick(
+    event: MouseEvent,
+    hiddenItems: readonly AerisBreadcrumbItem[],
+  ): void {
     this.ellipsisSelected.emit({ originalEvent: event, hiddenItems });
   }
 

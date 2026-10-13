@@ -7,6 +7,7 @@ import { AerisMessage, type AerisMessageSeverity } from '@aeris-ui/core/message'
 import { AerisProgressBar } from '@aeris-ui/core/progress-bar';
 import {
   AERIS_DEFAULT_THEME,
+  AERIS_THEME_PRESETS,
   AerisThemeService,
   auditAerisThemeContrast,
   type AerisContrastCategory,
@@ -25,7 +26,7 @@ import {
 import { DOCS_PALETTES, type DocsPalette } from '../../data/docs-palettes';
 import { DocsAppearanceService } from '../../shared/appearance/docs-appearance.service';
 import { CodeBlockComponent } from '../../shared/code-block.component';
-import { AerisApplicationShowcaseComponent } from '../../shared/showcase/aeris-application-showcase.component';
+import { AerisShowcaseGalleryComponent } from '../../shared/showcase/aeris-showcase-gallery.component';
 
 type PaletteKey = keyof AerisPaletteConfig;
 type LabDensity = 'compact' | 'medium' | 'comfortable';
@@ -130,6 +131,8 @@ const SERIALIZED_SCHEME_PROPERTIES: readonly Exclude<keyof AerisThemeScheme, 'to
   'focus',
   'shadowXs',
   'shadowSm',
+  'shadowMd',
+  'shadowLg',
 ];
 
 const CONTRAST_CATEGORIES: readonly {
@@ -228,7 +231,7 @@ function createContrastReport(theme: AerisTheme, mode: LabScheme): LabContrastRe
     AerisMessage,
     AerisProgressBar,
     CodeBlockComponent,
-    AerisApplicationShowcaseComponent,
+    AerisShowcaseGalleryComponent,
   ],
   templateUrl: './design-lab.html',
   styleUrl: './design-lab.scss',
@@ -417,7 +420,11 @@ export const appConfig: ApplicationConfig = {
     this.palette.set(palette);
     this.toneOverrides.set({ light: {}, dark: {} });
     this.aerisTheme.setMode('system');
-    this.aerisTheme.setTheme({ palette, density: 'medium', radius: 'rounded' });
+    this.aerisTheme.setTheme({
+      ...AERIS_DEFAULT_THEME,
+      density: 'medium',
+      radius: 'rounded',
+    });
   }
 
   protected updateColor(key: PaletteKey, value: string): void {

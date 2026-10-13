@@ -64,13 +64,16 @@ describe('AerisOrganizationChart', () => {
 
   it('collapses child nodes', () => {
     const fixture = setup();
-    const toggle = fixture.nativeElement.querySelector('.aeris-organization-chart__toggle') as HTMLButtonElement;
+    const toggle = fixture.nativeElement.querySelector(
+      '.aeris-organization-chart__toggle',
+    ) as HTMLButtonElement;
 
     toggle.click();
     fixture.detectChanges();
 
     expect(fixture.componentInstance.collapsedKeys()).toEqual(['ceo']);
     expect(fixture.componentInstance.collapsedKey()).toBe('ceo');
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
     expect(fixture.nativeElement.textContent).not.toContain('Design');
   });
 });

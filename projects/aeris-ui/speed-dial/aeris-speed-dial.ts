@@ -6,6 +6,7 @@ import {
   booleanAttribute,
   computed,
   contentChild,
+  effect,
   inject,
   input,
   linkedSignal,
@@ -13,6 +14,7 @@ import {
   output,
   viewChildren,
 } from '@angular/core';
+import { ɵregisterAerisOverlay, ɵunregisterAerisOverlay } from '@aeris-ui/core';
 
 export type AerisSpeedDialDirection =
   'up' | 'down' | 'left' | 'right' | 'up-left' | 'up-right' | 'down-left' | 'down-right';
@@ -217,8 +219,16 @@ let speedDialId = 0;
               class="aeris-speed-dial__trigger-icon"
               [attr.data-rotate]="rotateAnimation() && !hideIcon() ? true : null"
               aria-hidden="true"
-              >{{ visible() && hideIcon() ? hideIcon() : showIcon() }}</span
             >
+              @let icon = visible() && hideIcon() ? hideIcon() : showIcon();
+              @if (icon === '+') {
+                <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              } @else {
+                {{ icon }}
+              }
+            </span>
           }
         </button>
       }
@@ -237,6 +247,17 @@ let speedDialId = 0;
   },
 })
 export class AerisSpeedDial<T = unknown> {
+  constructor() {
+    effect((onCleanup) => {
+      if (!this.visible()) return;
+      const element = this.host.nativeElement;
+      ɵregisterAerisOverlay(element.ownerDocument, element, () => {
+        this.hide(new Event('aeris-dismiss'), true);
+        return true;
+      });
+      onCleanup(() => ɵunregisterAerisOverlay(element.ownerDocument, element));
+    });
+  }
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly generatedId = `aeris-speed-dial-${++speedDialId}`;
   private readonly actions = viewChildren<ElementRef<HTMLElement>>('action');

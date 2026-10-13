@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -22,18 +23,18 @@
   max-width: 100%;
   min-height: var(--_height);
   padding: 0 0.75rem;
-  border: 1px solid var(--aeris-border, #deddd7);
+  border: 1px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   outline: 0;
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text, #222222);
+  color: var(--aeris-text, #111111);
   font: inherit;
-  font-size: 0.875rem;
+  font-size: var(--aeris-font-size-lg, 0.875rem);
   box-shadow: none;
   transition:
-    border-color 150ms,
-    background-color 150ms,
-    box-shadow 150ms;
+    border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 :host([data-fluid]) .aeris-input-mask__input {
@@ -41,40 +42,48 @@
 }
 
 .aeris-input-mask__input::placeholder {
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   opacity: 0.72;
 }
 
-.aeris-input-mask__input:hover:not(:disabled):not(:read-only) {
-  border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
+@media (hover: hover) {
+  .aeris-input-mask__input:hover:not(:disabled):not(:read-only) {
+    border-color: var(
+      --aeris-control-hover-border,
+      var(--aeris-primary, #{aeris-fallbacks.$primary})
+    );
+  }
 }
-
 .aeris-input-mask__input:focus {
-  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 18%, transparent);
+  border-color: var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-focus-ring-color, var(--aeris-focus-ring-color, transparent));
 }
 
 .aeris-input-mask[data-appearance='filled'] .aeris-input-mask__input {
   border-color: transparent;
-  background: var(--aeris-surface-2, #f2f0ec);
+  background: var(--aeris-surface-2, #f3f3f3);
 }
 
 .aeris-input-mask[data-appearance='filled'] .aeris-input-mask__input:focus {
-  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+  border-color: var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   background: var(--aeris-surface, #fff);
 }
 
 .aeris-input-mask[data-invalid] .aeris-input-mask__input,
-.aeris-input-mask[data-invalid] .aeris-input-mask__input:hover,
-.aeris-input-mask__input:user-invalid,
-.aeris-input-mask__input:user-invalid:hover {
-  border-color: var(--aeris-danger, #c81e2a);
+.aeris-input-mask__input:user-invalid {
+  border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
 }
-
+@media (hover: hover) {
+  .aeris-input-mask[data-invalid] .aeris-input-mask__input:hover,
+  .aeris-input-mask__input:user-invalid:hover {
+    border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
+  }
+}
 .aeris-input-mask[data-invalid] .aeris-input-mask__input:focus,
 .aeris-input-mask__input:user-invalid:focus {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-danger, #c81e2a) 18%, transparent);
+  box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
+    var(--aeris-control-invalid-focus-ring-color, transparent);
 }
 
 .aeris-input-mask[data-disabled],
@@ -84,7 +93,7 @@
 
 .aeris-input-mask[data-disabled] .aeris-input-mask__input,
 .aeris-input-mask[data-readonly] .aeris-input-mask__input {
-  background: var(--aeris-surface-2, #f2f0ec);
+  background: var(--aeris-surface-2, #f3f3f3);
 }
 
 .aeris-input-mask[data-size='xs'] {
@@ -101,17 +110,17 @@
 
 .aeris-input-mask[data-size='xs'] .aeris-input-mask__input {
   padding-inline: 0.5625rem;
-  font-size: 0.75rem;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 .aeris-input-mask[data-size='sm'] .aeris-input-mask__input {
   padding-inline: 0.625rem;
-  font-size: 0.8125rem;
+  font-size: var(--aeris-font-size-md, 0.8125rem);
 }
 
 .aeris-input-mask[data-size='lg'] .aeris-input-mask__input {
   padding-inline: 0.875rem;
-  font-size: 0.9375rem;
+  font-size: var(--aeris-font-size-xl, 0.9375rem);
 }
 
 .aeris-input-mask:has(.aeris-input-mask__clear) .aeris-input-mask__input {
@@ -130,19 +139,23 @@
   border: 0;
   border-radius: var(--aeris-radius-control, var(--aeris-radius-sm, 0.4375rem));
   background: transparent;
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   cursor: pointer;
   transform: translateY(-50%);
 }
 
-.aeris-input-mask__clear:hover,
 .aeris-input-mask__clear:focus-visible {
-  background: var(--aeris-surface-2, #f2f0ec);
-  color: var(--aeris-text, #222222);
+  background: var(--aeris-surface-2, #f3f3f3);
+  color: var(--aeris-text, #111111);
 }
-
+@media (hover: hover) {
+  .aeris-input-mask__clear:hover {
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
+}
 .aeris-input-mask__clear:focus-visible {
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
 }
 
@@ -159,3 +172,5 @@
     transition: none;
   }
 }
+
+@include aeris-mobile.input-font('input');

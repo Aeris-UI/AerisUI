@@ -4,7 +4,7 @@ aeris-menu,
 :host {
   display: inline-block;
   max-inline-size: 100%;
-  color: var(--aeris-menu-color, var(--aeris-text, #222222));
+  color: var(--aeris-menu-color, var(--aeris-text, #111111));
   font: inherit;
 }
 
@@ -22,17 +22,17 @@ aeris-menu,
   max-inline-size: var(--aeris-menu-max-width, min(24rem, 100%));
   max-block-size: var(--aeris-menu-max-height, none);
   overflow: auto;
-  scrollbar-color: var(--aeris-border, #deddd7) transparent;
+  scrollbar-color: var(--aeris-border, #efefef) transparent;
   scrollbar-width: thin;
-  padding: var(--aeris-menu-padding, 0.375rem);
+  padding: var(--aeris-menu-padding, var(--aeris-overlay-padding, 0.375rem));
   border: var(--aeris-menu-border-width, 1px) solid var(--aeris-menu-border, var(--aeris-border));
   border-radius: var(
     --aeris-menu-radius,
     var(--aeris-radius-overlay, var(--aeris-radius-md, 0.6875rem))
   );
   background: var(--aeris-menu-background, var(--aeris-surface, #fff));
-  color: var(--aeris-menu-color, var(--aeris-text, #222222));
-  box-shadow: var(--aeris-menu-shadow, 0 0.75rem 2rem rgba(0, 0, 0, 0.12));
+  color: var(--aeris-menu-color, var(--aeris-text, #111111));
+  box-shadow: var(--aeris-menu-shadow, var(--aeris-shadow-md, 0 8px 24px rgb(0 0 0 / 12%)));
 }
 
 .aeris-menu__panel::-webkit-scrollbar {
@@ -48,7 +48,7 @@ aeris-menu,
 .aeris-menu__panel::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: var(--aeris-radius-pill, 999px);
-  background: var(--aeris-border, #deddd7);
+  background: var(--aeris-border, #efefef);
   background-clip: content-box;
 }
 
@@ -60,17 +60,16 @@ aeris-menu,
   max-inline-size: var(--aeris-menu-max-width, min(24rem, calc(100vw - 1rem)));
   max-block-size: var(--aeris-menu-max-height, min(28rem, calc(100vh - 1rem)));
   max-block-size: var(--aeris-menu-max-height, min(28rem, calc(100dvh - 1rem)));
-  opacity: 0;
-  transform: translateY(-0.25rem) scale(0.985);
   transform-origin: top left;
 }
 
 .aeris-menu__panel[data-positioned='true'] {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition:
-    opacity 140ms ease,
-    transform 140ms ease;
+  animation: aeris-overlay-enter var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out)
+    backwards;
+}
+
+.aeris-menu__panel[data-placement='top'] {
+  --aeris-overlay-motion-y: var(--aeris-motion-distance, 0.25rem);
 }
 
 .aeris-menu__list {
@@ -100,7 +99,7 @@ aeris-menu,
     var(--aeris-radius-item, var(--aeris-radius-sm, 0.4375rem))
   );
   font: inherit;
-  line-height: 1.3;
+  line-height: var(--aeris-line-height-tight, 1.25);
   text-align: start;
 }
 
@@ -115,31 +114,40 @@ aeris-menu,
   border: 0;
   background: transparent;
   color: var(--aeris-menu-item-color, inherit);
-  font-size: var(--aeris-menu-font-size, 0.875rem);
-  font-weight: 650;
+  font-size: var(--aeris-menu-font-size, var(--aeris-item-font-size, 0.875rem));
+  font-weight: var(--aeris-font-weight-semibold, 600);
   text-decoration: none;
   cursor: pointer;
+  transition:
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-menu__item[data-custom-template='true'] {
   display: block;
 }
 
-.aeris-menu__item:hover,
 .aeris-menu__item-shell[data-active='true'] > .aeris-menu__item {
   background: var(
     --aeris-menu-item-hover-background,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f2f0ec))
+    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
-  color: var(--aeris-menu-item-hover-color, var(--aeris-text, #222222));
+  color: var(--aeris-menu-item-hover-color, var(--aeris-text, #111111));
 }
-
+@media (hover: hover) {
+  .aeris-menu__item:hover {
+    background: var(
+      --aeris-menu-item-hover-background,
+      var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
+    );
+    color: var(--aeris-menu-item-hover-color, var(--aeris-text, #111111));
+  }
+}
 .aeris-menu__item:focus-visible {
-  outline: 3px solid
-    color-mix(
-      in srgb,
-      var(--aeris-focus, var(--aeris-primary, #{aeris-fallbacks.$primary})) 42%,
-      transparent
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(
+      --aeris-focus-ring-color,
+      color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 48%, transparent)
     );
   outline-offset: 1px;
 }
@@ -155,9 +163,9 @@ aeris-menu,
   padding: calc(var(--aeris-menu-item-padding-block, 0.5rem) * 0.8)
     var(--aeris-menu-item-padding-inline, 0.75rem)
     calc(var(--aeris-menu-item-padding-block, 0.5rem) * 0.45);
-  color: var(--aeris-menu-header-color, var(--aeris-text-2, #555555));
-  font-size: var(--aeris-menu-header-font-size, 0.75rem);
-  font-weight: 850;
+  color: var(--aeris-menu-header-color, var(--aeris-text-2, #454545));
+  font-size: var(--aeris-menu-header-font-size, var(--aeris-font-size-sm, 0.75rem));
+  font-weight: var(--aeris-font-weight-bold, 700);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -166,8 +174,8 @@ aeris-menu,
 .aeris-menu__chevron {
   display: inline-grid;
   place-items: center;
-  inline-size: var(--aeris-menu-icon-size, 1.125rem);
-  block-size: var(--aeris-menu-icon-size, 1.125rem);
+  inline-size: var(--aeris-menu-icon-size, var(--aeris-icon-size, 1rem));
+  block-size: var(--aeris-menu-icon-size, var(--aeris-icon-size, 1rem));
   color: var(--aeris-menu-icon-color, currentColor);
 }
 
@@ -177,7 +185,7 @@ aeris-menu,
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2;
-  transition: transform 140ms ease;
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-menu__item-shell[data-expanded='true'] > .aeris-menu__item .aeris-menu__chevron {
@@ -199,9 +207,9 @@ aeris-menu,
 }
 
 .aeris-menu__description {
-  color: var(--aeris-menu-description-color, var(--aeris-text-2, #555555));
-  font-size: 0.75rem;
-  font-weight: 600;
+  color: var(--aeris-menu-description-color, var(--aeris-text-2, #454545));
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-semibold, 600);
 }
 
 .aeris-menu__badge {
@@ -216,8 +224,8 @@ aeris-menu,
     color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 16%, transparent)
   );
   color: var(--aeris-menu-badge-color, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
-  font-size: 0.75rem;
-  font-weight: 800;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-bold, 700);
   overflow: hidden;
   text-align: center;
   text-overflow: ellipsis;
@@ -228,10 +236,10 @@ aeris-menu,
   min-inline-size: 0;
   max-inline-size: var(--aeris-menu-shortcut-max-width, min(8rem, 38vw));
   justify-self: end;
-  color: var(--aeris-menu-shortcut-color, var(--aeris-text-2, #555555));
+  color: var(--aeris-menu-shortcut-color, var(--aeris-text-2, #454545));
   font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
+  font-size: var(--aeris-font-size-sm, 0.75rem);
+  font-weight: var(--aeris-font-weight-semibold, 600);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -248,6 +256,7 @@ aeris-menu,
 
 .aeris-menu__group {
   min-inline-size: 0;
+  transform-origin: top center;
 }
 
 .aeris-menu__slot {
@@ -264,19 +273,19 @@ aeris-menu,
 }
 
 .aeris-menu__panel[data-size='sm'] {
-  --aeris-menu-font-size: 0.8125rem;
+  --aeris-menu-font-size: var(--aeris-font-size-md, 0.8125rem);
   --aeris-menu-item-min-height: calc(var(--aeris-item-height, 2.5rem) - 0.375rem);
   --aeris-menu-item-padding-block: calc(var(--aeris-item-padding-y, 0.5rem) * 0.8);
   --aeris-menu-item-padding-inline: calc(var(--aeris-item-padding-x, 0.75rem) * 0.85);
-  --aeris-menu-icon-size: 1rem;
+  --aeris-menu-icon-size: var(--aeris-icon-size, 1rem);
 }
 
 .aeris-menu__panel[data-size='lg'] {
-  --aeris-menu-font-size: 0.9375rem;
+  --aeris-menu-font-size: var(--aeris-font-size-xl, 0.9375rem);
   --aeris-menu-item-min-height: calc(var(--aeris-item-height, 2.5rem) + 0.25rem);
   --aeris-menu-item-padding-block: calc(var(--aeris-item-padding-y, 0.5rem) * 1.15);
   --aeris-menu-item-padding-inline: calc(var(--aeris-item-padding-x, 0.75rem) * 1.15);
-  --aeris-menu-icon-size: 1.25rem;
+  --aeris-menu-icon-size: var(--aeris-icon-size, 1rem);
 }
 
 @media (max-width: 40rem) {
@@ -286,8 +295,15 @@ aeris-menu,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aeris-menu__panel[data-positioned='true'],
+  .aeris-menu__panel[data-positioned='true'] {
+    animation: none;
+  }
+
   .aeris-menu__chevron {
+    transition: none;
+  }
+
+  .aeris-menu__item {
     transition: none;
   }
 }

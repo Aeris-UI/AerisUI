@@ -8,7 +8,7 @@
 
   --_tab-height: 3rem;
   --_tab-padding: 1rem;
-  --_tab-font-size: 0.875rem;
+  --_tab-font-size: var(--aeris-font-size-lg, 0.875rem);
   display: block;
   min-width: 0;
 }
@@ -16,13 +16,13 @@
 :host([data-size='sm']) {
   --_tab-height: 2.25rem;
   --_tab-padding: 0.75rem;
-  --_tab-font-size: 0.75rem;
+  --_tab-font-size: var(--aeris-font-size-sm, 0.75rem);
 }
 
 :host([data-size='lg']) {
   --_tab-height: 3.5rem;
   --_tab-padding: 1.25rem;
-  --_tab-font-size: 0.9375rem;
+  --_tab-font-size: var(--aeris-font-size-xl, 0.9375rem);
 }
 
 .aeris-tabs__header {
@@ -32,6 +32,8 @@
 }
 
 .aeris-tabs__list {
+  position: relative;
+  isolation: isolate;
   min-width: 0;
   display: flex;
   flex: 1 1 auto;
@@ -52,42 +54,35 @@
 
 .aeris-tabs__list button {
   position: relative;
+  z-index: 1;
   min-height: var(--_tab-height);
   flex: 0 0 auto;
   padding: 0 var(--_tab-padding);
   border: 0;
   border-radius: var(--aeris-tabs-radius, var(--aeris-radius-control, 0.4375rem));
   background: transparent;
-  color: var(--aeris-tabs-text, var(--aeris-text-2, #555555));
+  color: var(--aeris-tabs-text, var(--aeris-text-2, #454545));
   font: inherit;
   font-size: var(--_tab-font-size);
-  font-weight: 600;
+  font-weight: var(--aeris-font-weight-semibold, 600);
   white-space: nowrap;
   cursor: pointer;
+  transition:
+    background-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
+    color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-.aeris-tabs__list button::after {
-  position: absolute;
-  right: 0.75rem;
-  bottom: -1px;
-  left: 0.75rem;
-  height: 2px;
-  border-radius: 99px 99px 0 0;
-  background: transparent;
-  content: '';
+@media (hover: hover) {
+  .aeris-tabs__list button:hover:not(:disabled) {
+    background: transparent;
+    color: var(
+      --aeris-tabs-active-text,
+      var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
+    );
+  }
 }
-
-.aeris-tabs__list button:hover:not(:disabled) {
-  background: transparent;
-  color: var(--aeris-tabs-active-text, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
-}
-
 .aeris-tabs__list button[aria-selected='true'] {
   color: var(--aeris-tabs-active-text, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
-}
-
-.aeris-tabs__list button[aria-selected='true']::after {
-  background: var(--aeris-tabs-indicator, var(--aeris-primary, #{aeris-fallbacks.$primary}));
 }
 
 .aeris-tabs__list button:disabled {
@@ -98,7 +93,7 @@
 .aeris-tabs__list button:focus-visible,
 .aeris-tabs__scroll:focus-visible {
   z-index: 1;
-  outline: 2px solid var(--aeris-focus, #{aeris-fallbacks.$focus});
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: -2px;
 }
 
@@ -109,29 +104,50 @@
   border-radius: calc(
     min(var(--aeris-tabs-radius, var(--aeris-radius-control, 0.4375rem)), 1rem) + 0.25rem
   );
-  background: var(--aeris-tabs-list-background, var(--aeris-surface-2, #f2f0ec));
+  background: var(--aeris-tabs-list-background, var(--aeris-surface-2, #f3f3f3));
 }
 
 :host([data-variant='pill']) .aeris-tabs__list button {
   min-height: calc(var(--_tab-height) - 0.5rem);
 }
 
-:host([data-variant='pill']) .aeris-tabs__list button::after {
-  display: none;
+@media (hover: hover) {
+  :host([data-variant='pill']) .aeris-tabs__list button:hover:not(:disabled) {
+    background: var(
+      --aeris-tabs-hover,
+      color-mix(in srgb, var(--aeris-surface, #fff) 76%, transparent)
+    );
+    color: var(--aeris-text, #111111);
+  }
 }
-
-:host([data-variant='pill']) .aeris-tabs__list button:hover:not(:disabled) {
-  background: var(
-    --aeris-tabs-hover,
-    color-mix(in srgb, var(--aeris-surface, #fff) 76%, transparent)
-  );
-  color: var(--aeris-text, #222222);
-}
-
 :host([data-variant='pill']) .aeris-tabs__list button[aria-selected='true'] {
+  background: transparent;
+  color: var(--aeris-text, #111111);
+}
+
+.aeris-tabs__indicator {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  border-radius: var(--aeris-radius-pill, 999px) var(--aeris-radius-pill, 999px) 0 0;
+  background: var(--aeris-tabs-indicator, var(--aeris-primary, #{aeris-fallbacks.$primary}));
+  pointer-events: none;
+  will-change: transform, width, height;
+}
+
+.aeris-tabs__indicator[data-ready] {
+  transition:
+    width var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    height var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    transform var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
+
+:host([data-variant='pill']) .aeris-tabs__indicator {
+  z-index: 0;
+  border-radius: var(--aeris-tabs-radius, var(--aeris-radius-control, 0.4375rem));
   background: var(--aeris-tabs-active-background, var(--aeris-surface, #fff));
   box-shadow: 0 1px 3px rgb(31 35 27 / 10%);
-  color: var(--aeris-text, #222222);
 }
 
 :host([data-justify='center']) .aeris-tabs__list {
@@ -155,7 +171,7 @@
   border: 0;
   border-bottom: 1px solid var(--aeris-tabs-border, var(--aeris-border));
   background: var(--aeris-surface, #fff);
-  color: var(--aeris-text-2, #555555);
+  color: var(--aeris-text-2, #454545);
   cursor: pointer;
 }
 
@@ -215,15 +231,6 @@
   text-align: left;
 }
 
-:host([data-orientation='vertical']) .aeris-tabs__list button::after {
-  top: 0.5rem;
-  right: -1px;
-  bottom: 0.5rem;
-  left: auto;
-  width: 2px;
-  height: auto;
-}
-
 @media (max-width: 40rem) {
   :host([data-orientation='vertical']) {
     display: block;
@@ -240,5 +247,10 @@
 @media (prefers-reduced-motion: reduce) {
   .aeris-tabs__list {
     scroll-behavior: auto;
+  }
+
+  .aeris-tabs__indicator,
+  .aeris-tabs__list button {
+    transition: none;
   }
 }

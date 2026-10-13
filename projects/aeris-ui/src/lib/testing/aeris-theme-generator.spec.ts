@@ -22,6 +22,8 @@ describe('Aeris build-time theme generator', () => {
     expect(first).toContain('@media (prefers-color-scheme: dark)');
     expect(first).toContain('--aeris-primary-boundary:');
     expect(first).toContain('--aeris-radius-control:');
+    expect(first).toContain('--aeris-shadow-md:');
+    expect(first).toContain('--aeris-shadow-lg:');
   });
 
   it('reports and enforces the public color derivation contract', () => {
@@ -58,6 +60,24 @@ describe('Aeris build-time theme generator', () => {
 
     expect(css.match(/--aeris-control-height:/g)).toHaveLength(1);
     expect(css.match(/--aeris-radius-md:/g)).toHaveLength(1);
+  });
+
+  it('emits a complete customizable elevation scale for every theme', () => {
+    const custom = resolveAerisTheme({
+      light: {
+        shadowMd: '0 9px 20px rgb(0 0 0 / 12%)',
+        shadowLg: '0 20px 50px rgb(0 0 0 / 18%)',
+      },
+    });
+    const light = resolveAerisThemeTokens(custom, 'light');
+    const dark = resolveAerisThemeTokens(resolveAerisTheme(AERIS_THEME_PRESETS.coastal), 'dark');
+
+    expect(light['--aeris-shadow-md']).toBe('0 9px 20px rgb(0 0 0 / 12%)');
+    expect(light['--aeris-shadow-lg']).toBe('0 20px 50px rgb(0 0 0 / 18%)');
+    expect(dark['--aeris-shadow-xs']).toBeTruthy();
+    expect(dark['--aeris-shadow-sm']).toBeTruthy();
+    expect(dark['--aeris-shadow-md']).toBeTruthy();
+    expect(dark['--aeris-shadow-lg']).toBeTruthy();
   });
 
   it('supports compact output, custom ownership, and explicit modes only', () => {

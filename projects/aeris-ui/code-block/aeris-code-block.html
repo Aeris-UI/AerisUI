@@ -1,0 +1,67 @@
+<div class="aeris-code-block__header">
+  @if (availableSources().length > 1) {
+    <div class="aeris-code-block__toolbar" role="tablist" [attr.aria-label]="sourceTabsLabel()">
+      @for (item of availableSources(); track $index) {
+        <button
+          #tab
+          type="button"
+          role="tab"
+          [id]="blockId + '-tab-' + $index"
+          [attr.aria-selected]="resolvedIndex() === $index"
+          [attr.aria-controls]="blockId + '-panel'"
+          [tabIndex]="resolvedIndex() === $index ? 0 : -1"
+          (click)="selectSource($index)"
+          (keydown)="handleTabKeydown($event, $index)"
+        >
+          {{ item.label }}
+        </button>
+      }
+    </div>
+  } @else {
+    <span class="aeris-code-block__label">{{ source().label }}</span>
+  }
+  @if (copyable()) {
+    <button
+      class="aeris-code-block__copy"
+      type="button"
+      [attr.aria-label]="copyAriaLabel()"
+      [disabled]="copyState() === 'copying'"
+      (click)="copy()"
+    >
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        @if (copyState() === 'copied') {
+          <path d="m5 12 4 4 10-10" />
+        } @else {
+          <rect x="8" y="8" width="12" height="12" rx="2" />
+          <path d="M16 8V4H4v12h4" />
+        }
+      </svg>
+      <span class="aeris-code-block__copy-label">{{
+        copyState() === 'copied' ? copiedLabel() : copyLabel()
+      }}</span>
+    </button>
+  }
+</div>
+<pre
+  class="aeris-code-block__pre"
+  tabindex="0"
+  [id]="blockId + '-panel'"
+  [attr.role]="availableSources().length > 1 ? 'tabpanel' : 'region'"
+  [attr.aria-label]="availableSources().length > 1 ? null : ariaLabel()"
+  [attr.aria-labelledby]="
+    availableSources().length > 1 ? blockId + '-tab-' + resolvedIndex() : null
+  "
+  [attr.aria-description]="wrap() ? null : scrollDescription()"
+><code>@for (line of lines(); track line.number) {<span class="aeris-code-block__line" [attr.data-highlighted]="markedLines().has(line.number) || null">@if (lineNumbers()) {<span class="aeris-code-block__number" aria-hidden="true">{{ line.number }}</span>}@for (token of line.tokens; track $index) {<span [attr.data-token]="token.light ? 'highlighted' : 'plain'" [style.--_aeris-code-light]="token.light" [style.--_aeris-code-dark]="token.dark" [style.font-style]="token.italic" [style.font-weight]="token.weight" [style.text-decoration]="token.decoration">{{ token.text }}</span>}</span>{{ line.ending }}}</code></pre>
+@if (!wrap() && scrollHint()) {
+  <span class="aeris-code-block__mobile-hint" aria-hidden="true">{{ scrollHint() }}</span>
+}
+<span class="aeris-code-block__status" role="status" aria-live="polite">{{ announcement() }}</span>

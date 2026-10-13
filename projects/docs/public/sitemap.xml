@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://aeris-ui.dev/guides/mobile</loc>
+  </url>
+  <url>
+    <loc>https://aeris-ui.dev/guides/capacitor</loc>
+  </url>
+  <url>
     <loc>https://aeris-ui.dev/</loc>
   </url>
   <url>
@@ -299,6 +305,9 @@
   </url>
   <url>
     <loc>https://aeris-ui.dev/components/skeleton</loc>
+  </url>
+  <url>
+    <loc>https://aeris-ui.dev/components/code-block</loc>
   </url>
   <url>
     <loc>https://aeris-ui.dev/components/block-ui</loc>

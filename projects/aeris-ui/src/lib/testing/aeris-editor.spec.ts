@@ -112,6 +112,40 @@ describe('AerisEditor', () => {
     );
   });
 
+  it('only separates populated toolbar groups, including after formats change', async () => {
+    const fixture = TestBed.createComponent(AerisEditorComponent);
+    for (const [formats, separatorCount] of [
+      [[], 0],
+      [['undo', 'redo'], 0],
+      [['bold', 'italic', 'underline'], 0],
+      [['heading1'], 0],
+      [['bulletList'], 0],
+      [['alignLeft'], 0],
+      [['clear'], 0],
+      [['redo', 'bold'], 1],
+      [['bold', 'clear'], 1],
+      [['heading1', 'bulletList', 'alignLeft'], 2],
+      [AERIS_EDITOR_ALL_FORMATS, 5],
+    ] as const) {
+      fixture.componentRef.setInput('formats', formats);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const toolbar = fixture.nativeElement.querySelector('[role="toolbar"]') as HTMLElement;
+      expect(toolbar.querySelectorAll('.aeris-editor__separator'), formats.join(', ')).toHaveLength(
+        separatorCount,
+      );
+      const children = [...toolbar.children];
+      expect(children[0]?.classList.contains('aeris-editor__separator') ?? false).toBe(false);
+      expect(children.at(-1)?.classList.contains('aeris-editor__separator') ?? false).toBe(false);
+      for (let index = 1; index < children.length; index++) {
+        expect(
+          children[index].classList.contains('aeris-editor__separator') &&
+            children[index - 1].classList.contains('aeris-editor__separator'),
+        ).toBe(false);
+      }
+    }
+  });
+
   it('registers consumer Lexical extensions and disposes their cleanup', async () => {
     let setupEditor: unknown;
     let cleanupCalls = 0;

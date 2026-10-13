@@ -2,7 +2,7 @@
 
 > Large navigation menu with grouped panels, horizontal or vertical orientation, templates, commands, and keyboard support.
 
-Aeris 22.0.0-alpha.9 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
+Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
 - Package entry point: `@aeris-ui/core/mega-menu`
 - Human-readable documentation: [https://aeris-ui.dev/components/mega-menu](https://aeris-ui.dev/components/mega-menu)
@@ -120,7 +120,7 @@ interface AerisMegaMenuItemEvent<T = unknown> {
 | `--aeris-mega-menu-item-radius` | `length` | `--aeris-radius-item` | Shared radius for top-level items and panel subitems. |
 | `--aeris-mega-menu-panel-item-radius` | `length` | `--aeris-mega-menu-item-radius` | Optional panel-only override for the otherwise shared item radius. |
 | `--aeris-mega-menu-item-hover-background` | `color` | `primary mix` | Hover and open trigger surface. |
-| `--aeris-mega-menu-icon-size` | `length` | `1.125rem` | Default icon and chevron box. |
+| `--aeris-mega-menu-icon-size` | `length` | `--aeris-icon-size` | Default icon and chevron box. |
 
 ## Examples
 
