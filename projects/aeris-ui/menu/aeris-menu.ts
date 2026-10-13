@@ -292,6 +292,7 @@ let nextMenuId = 0;
         #panel
         class="aeris-menu__panel"
         [aerisInternalAppendTo]="popup() ? appendTo() : 'self'"
+        [aerisInternalAppendToDismiss]="popup() ? dismissOverlay : null"
         [aerisInternalAppendToAnchor]="popup() ? portalAnchor() : null"
         [aerisInternalAppendToCollisionPadding]="viewportMargin()"
         [aerisInternalAppendToPositionSelf]="false"
@@ -333,6 +334,11 @@ let nextMenuId = 0;
   },
 })
 export class AerisMenu<T = unknown> {
+  protected readonly dismissOverlay = (): boolean => {
+    if (!(this.popup() && this.closeOnEscape())) return false;
+    this.hide();
+    return true;
+  };
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly repositionFrame = aerisInternalCreateFrameScheduler(() => this.reposition());
   private readonly injector = inject(Injector);

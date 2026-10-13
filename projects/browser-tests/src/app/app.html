@@ -2,6 +2,10 @@
   <header>
     <p>Aeris UI</p>
     <h1>Browser regression fixtures</h1>
+    <button aerisButton type="button" (click)="handleHardwareBack($event)">
+      Simulate hardware Back
+    </button>
+    <output aria-label="Overlay Back result">{{ lastDismissResult() }}</output>
   </header>
 
   <section data-fixture="forms" aria-labelledby="forms-title">
@@ -84,6 +88,7 @@
         <div class="field">
           <label for="dialog-role">Owner role</label>
           <aeris-select inputId="dialog-role" [options]="roles" appendTo="body" fluid />
+          <aeris-date-picker ariaLabel="Project date" />
         </div>
       </div>
       <ng-template aerisDialogFooter let-close="close">
@@ -108,6 +113,8 @@
       closeOnBackdropClick
     >
       <p>Drawer content</p>
+      <label class="field"><span>Filter name</span><input aerisInputText /></label>
+      <aeris-date-picker ariaLabel="Filter date" />
       <ng-template aerisDrawerFooter let-close="close">
         <button
           aerisButton
@@ -210,6 +217,28 @@
           <p>{{ milestone }}</p>
         }
       </aeris-scroll-panel>
+    </div>
+  </section>
+  <section data-fixture="mobile-media" aria-labelledby="mobile-media-title">
+    <h2 id="mobile-media-title">Mobile media and floating actions</h2>
+    <aeris-input-group size="xs" ariaLabel="Compact joined field">
+      <input aerisInputText aria-label="Compact search" />
+      <button aerisButton type="button">Search</button>
+    </aeris-input-group>
+    <aeris-carousel [value]="mobileSlides" [numVisible]="1" ariaLabel="Mobile swipe cards">
+      <ng-template aerisCarouselItem let-item
+        ><p class="mobile-slide">{{ item }}</p></ng-template
+      >
+    </aeris-carousel>
+    <aeris-galleria
+      [value]="mobileImages"
+      ariaLabel="Mobile fullscreen gallery"
+      allowFullscreen
+      showToolbar
+    />
+    <aeris-speed-dial [model]="dialItems" direction="up" ariaLabel="Mobile actions" />
+    <div style="position: relative; height: 5rem">
+      <aeris-scroll-top alwaysVisible strategy="absolute" />
     </div>
   </section>
 </main>

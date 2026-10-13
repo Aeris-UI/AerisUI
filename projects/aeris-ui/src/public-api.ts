@@ -24,11 +24,15 @@ export {
 
 export {
   ɵisTopmostAerisOverlay,
+  dismissTopAerisOverlay,
+  type AerisOverlayDismissResult,
   ɵlockAerisDocumentScroll,
   ɵregisterAerisOverlay,
   ɵunregisterAerisOverlay,
   ɵunlockAerisDocumentScroll,
 } from './lib/aeris-scroll-lock';
+
+export { aerisInternalObserveViewport, aerisInternalViewportBounds } from './lib/aeris-viewport';
 
 export {
   aerisInternalFocusableElements,

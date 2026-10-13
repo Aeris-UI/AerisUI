@@ -6,13 +6,31 @@ interface AerisDocumentScrollLockState {
 
 const scrollLockStates = new WeakMap<Document, AerisDocumentScrollLockState>();
 const overlayStacks = new WeakMap<Document, object[]>();
+const overlayDismissals = new WeakMap<object, () => boolean>();
 
-export function ɵregisterAerisOverlay(document: Document, token: object): void {
+export type AerisOverlayDismissResult = 'dismissed' | 'blocked' | 'none';
+
+/** Close one topmost overlay. A non-dismissible overlay must not fall through to navigation. */
+export function dismissTopAerisOverlay(
+  document: Document | undefined = globalThis.document,
+): AerisOverlayDismissResult {
+  if (!document) return 'none';
+  const token = overlayStacks.get(document)?.at(-1);
+  if (!token) return 'none';
+  return overlayDismissals.get(token)?.() ? 'dismissed' : 'blocked';
+}
+
+export function ɵregisterAerisOverlay(
+  document: Document,
+  token: object,
+  dismiss?: () => boolean,
+): void {
   const stack = overlayStacks.get(document) ?? [];
   const existingIndex = stack.indexOf(token);
   if (existingIndex >= 0) stack.splice(existingIndex, 1);
   stack.push(token);
   overlayStacks.set(document, stack);
+  if (dismiss) overlayDismissals.set(token, dismiss);
 }
 
 export function ɵunregisterAerisOverlay(document: Document, token: object): void {
@@ -21,6 +39,7 @@ export function ɵunregisterAerisOverlay(document: Document, token: object): voi
 
   const index = stack.indexOf(token);
   if (index >= 0) stack.splice(index, 1);
+  overlayDismissals.delete(token);
   if (stack.length === 0) overlayStacks.delete(document);
 }
 

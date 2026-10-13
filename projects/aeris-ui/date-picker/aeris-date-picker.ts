@@ -159,6 +159,7 @@ let datePickerId = 0;
         <div
           class="aeris-date-picker__panel"
           [aerisInternalAppendTo]="inline() ? 'self' : appendTo()"
+          [aerisInternalAppendToDismiss]="inline() ? null : dismissOverlay"
           [aerisInternalAppendToAnchor]="this.control()?.nativeElement ?? null"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="close(false)"
@@ -407,6 +408,12 @@ let datePickerId = 0;
   },
 })
 export class AerisDatePicker implements ControlValueAccessor {
+  protected readonly dismissOverlay = (): boolean => {
+    if (this.inline()) return false;
+    this.close(true);
+    return true;
+  };
+
   readonly value = model<AerisDatePickerValue>(null);
   readonly selectionMode = input<AerisDatePickerSelectionMode>('single');
   readonly view = input<AerisDatePickerView>('day');

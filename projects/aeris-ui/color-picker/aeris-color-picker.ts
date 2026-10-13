@@ -152,6 +152,7 @@ let colorPickerId = 0;
           #pickerPanel
           class="aeris-color-picker__panel"
           [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToDismiss]="dismissOverlay"
           [aerisInternalAppendToAnchor]="this.triggerButton()?.nativeElement ?? null"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="close(false)"
@@ -317,6 +318,11 @@ let colorPickerId = 0;
   },
 })
 export class AerisColorPicker implements ControlValueAccessor {
+  protected readonly dismissOverlay = (): boolean => {
+    this.close(true);
+    return true;
+  };
+
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly repositionFrame = aerisInternalCreateFrameScheduler(() => this.positionPanel());
   private readonly injector = inject(Injector);

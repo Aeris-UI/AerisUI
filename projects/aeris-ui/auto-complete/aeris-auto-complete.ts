@@ -182,6 +182,7 @@ let nextAutoCompleteId = 0;
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
           (aerisInternalAppendToOutside)="closePanel()"
+          [aerisInternalAppendToDismiss]="dismissOverlay"
           [id]="panelId"
           role="listbox"
           [attr.aria-label]="listboxAriaLabel()"
@@ -295,6 +296,10 @@ let nextAutoCompleteId = 0;
   },
 })
 export class AerisAutoComplete implements ControlValueAccessor {
+  protected readonly dismissOverlay = (): boolean => {
+    this.closePanel();
+    return true;
+  };
   protected readonly controlElement = viewChild<ElementRef<HTMLElement>>('control');
   protected readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('textInput');
   private readonly suggestionsPanel = viewChild<ElementRef<HTMLElement>>('suggestionsPanel');

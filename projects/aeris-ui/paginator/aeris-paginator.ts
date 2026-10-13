@@ -1,5 +1,18 @@
-import { Component, ElementRef, computed, input, model, output, signal, viewChild } from '@angular/core';
-import { ɵAerisAppendTo, type AerisAppendTo, type AerisOverlayCollisionPadding } from '@aeris-ui/core';
+import {
+  Component,
+  ElementRef,
+  computed,
+  input,
+  model,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
+import {
+  ɵAerisAppendTo,
+  type AerisAppendTo,
+  type AerisOverlayCollisionPadding,
+} from '@aeris-ui/core';
 
 export interface AerisPaginatorPageEvent {
   readonly first: number;
@@ -16,11 +29,27 @@ export interface AerisPaginatorPageEvent {
       <span class="aeris-paginator__report" aria-live="polite">{{ pageReport() }}</span>
 
       <div class="aeris-paginator__pages">
-        <button type="button" aria-label="First page" [disabled]="currentPage() === 0" (click)="goToPage(0)">
-          <span class="aeris-paginator__page-icon aeris-paginator__page-icon--first" aria-hidden="true"></span>
+        <button
+          type="button"
+          aria-label="First page"
+          [disabled]="currentPage() === 0"
+          (click)="goToPage(0)"
+        >
+          <span
+            class="aeris-paginator__page-icon aeris-paginator__page-icon--first"
+            aria-hidden="true"
+          ></span>
         </button>
-        <button type="button" aria-label="Previous page" [disabled]="currentPage() === 0" (click)="goToPage(currentPage() - 1)">
-          <span class="aeris-paginator__page-icon aeris-paginator__page-icon--previous" aria-hidden="true"></span>
+        <button
+          type="button"
+          aria-label="Previous page"
+          [disabled]="currentPage() === 0"
+          (click)="goToPage(currentPage() - 1)"
+        >
+          <span
+            class="aeris-paginator__page-icon aeris-paginator__page-icon--previous"
+            aria-hidden="true"
+          ></span>
         </button>
 
         @for (page of visiblePages(); track page) {
@@ -34,11 +63,27 @@ export interface AerisPaginatorPageEvent {
           </button>
         }
 
-        <button type="button" aria-label="Next page" [disabled]="currentPage() >= pageCount() - 1" (click)="goToPage(currentPage() + 1)">
-          <span class="aeris-paginator__page-icon aeris-paginator__page-icon--next" aria-hidden="true"></span>
+        <button
+          type="button"
+          aria-label="Next page"
+          [disabled]="currentPage() >= pageCount() - 1"
+          (click)="goToPage(currentPage() + 1)"
+        >
+          <span
+            class="aeris-paginator__page-icon aeris-paginator__page-icon--next"
+            aria-hidden="true"
+          ></span>
         </button>
-        <button type="button" aria-label="Last page" [disabled]="currentPage() >= pageCount() - 1" (click)="goToPage(pageCount() - 1)">
-          <span class="aeris-paginator__page-icon aeris-paginator__page-icon--last" aria-hidden="true"></span>
+        <button
+          type="button"
+          aria-label="Last page"
+          [disabled]="currentPage() >= pageCount() - 1"
+          (click)="goToPage(pageCount() - 1)"
+        >
+          <span
+            class="aeris-paginator__page-icon aeris-paginator__page-icon--last"
+            aria-hidden="true"
+          ></span>
         </button>
       </div>
 
@@ -65,6 +110,7 @@ export interface AerisPaginatorPageEvent {
               #rowsPanel
               class="aeris-paginator__rows-panel"
               [aerisInternalAppendTo]="appendTo()"
+              [aerisInternalAppendToDismiss]="dismissOverlay"
               [aerisInternalAppendToAnchor]="this.rowsTrigger()?.nativeElement ?? null"
               [aerisInternalAppendToCollisionPadding]="viewportMargin()"
               (aerisInternalAppendToOutside)="closeRowsPanel()"
@@ -95,6 +141,11 @@ export interface AerisPaginatorPageEvent {
   styleUrl: './aeris-paginator.scss',
 })
 export class AerisPaginator {
+  protected readonly dismissOverlay = (): boolean => {
+    this.closeRowsPanel();
+    return true;
+  };
+
   private static nextId = 0;
   readonly first = model(0);
   readonly rows = model(10);
@@ -127,10 +178,7 @@ export class AerisPaginator {
     const count = this.pageCount();
     const size = Math.max(1, this.pageLinkSize());
     const half = Math.floor(size / 2);
-    const start = Math.min(
-      Math.max(0, this.currentPage() - half),
-      Math.max(0, count - size),
-    );
+    const start = Math.min(Math.max(0, this.currentPage() - half), Math.max(0, count - size));
     const end = Math.min(count, start + size);
     return Array.from({ length: end - start }, (_, index) => start + index);
   });

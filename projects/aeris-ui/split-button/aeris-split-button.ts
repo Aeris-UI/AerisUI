@@ -96,12 +96,7 @@ class AerisSplitButtonToggleAnchor {
 
 @Component({
   selector: 'aeris-split-button',
-  imports: [
-    NgTemplateOutlet,
-    AerisButtonDirective,
-    AerisSplitButtonToggleAnchor,
-    ɵAerisAppendTo,
-  ],
+  imports: [NgTemplateOutlet, AerisButtonDirective, AerisSplitButtonToggleAnchor, ɵAerisAppendTo],
   template: `
     <div class="aeris-split-button__control">
       <button
@@ -196,6 +191,7 @@ class AerisSplitButtonToggleAnchor {
         #menuPanel
         class="aeris-split-button__menu"
         [aerisInternalAppendTo]="appendTo()"
+        [aerisInternalAppendToDismiss]="dismissOverlay"
         [aerisInternalAppendToAnchor]="toggleButton()?.elementRef.nativeElement ?? null"
         [aerisInternalAppendToCollisionPadding]="viewportMargin()"
         (aerisInternalAppendToOutside)="hide($event)"
@@ -279,6 +275,11 @@ class AerisSplitButtonToggleAnchor {
   },
 })
 export class AerisSplitButton<T = unknown> {
+  protected readonly dismissOverlay = (): boolean => {
+    this.hide(new Event('aeris-dismiss'), true);
+    return true;
+  };
+
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly generatedId = `aeris-split-button-${++splitButtonId}`;
   protected readonly toggleButton = viewChild(AerisSplitButtonToggleAnchor);

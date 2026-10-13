@@ -17,7 +17,11 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
-import { aerisInternalCreateFrameScheduler } from '@aeris-ui/core';
+import {
+  aerisInternalCreateFrameScheduler,
+  ɵregisterAerisOverlay,
+  ɵunregisterAerisOverlay,
+} from '@aeris-ui/core';
 import type { AerisButtonSeverity, AerisButtonVariant } from '@aeris-ui/core/button';
 
 export type AerisMenubarSize = 'sm' | 'md' | 'lg';
@@ -373,11 +377,19 @@ export class AerisMenubar<T = unknown> {
     effect((onCleanup) => {
       if (!this.openPath() && !this.mobileOpen()) return;
       const document = this.host.nativeElement.ownerDocument;
+      ɵregisterAerisOverlay(document, this.host.nativeElement, () => {
+        if (!this.closeOnEscape()) return false;
+        this.close();
+        this.mobileOpen.set(false);
+        this.focus();
+        return true;
+      });
       const pointerdown = (event: PointerEvent) => this.handleDocumentPointerdown(event);
       const keydown = (event: KeyboardEvent) => this.handleDocumentKeydown(event);
       document.addEventListener('pointerdown', pointerdown);
       document.addEventListener('keydown', keydown);
       onCleanup(() => {
+        ɵunregisterAerisOverlay(document, this.host.nativeElement);
         document.removeEventListener('pointerdown', pointerdown);
         document.removeEventListener('keydown', keydown);
       });

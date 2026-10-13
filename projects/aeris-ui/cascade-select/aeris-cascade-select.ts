@@ -138,6 +138,7 @@ let nextCascadeSelectId = 0;
                 [id]="optionId(level, option.value) + '-children'"
                 [attr.aria-label]="option.label"
                 [aerisInternalAppendTo]="submenuTarget()"
+                [aerisInternalAppendToDismiss]="dismissOverlay"
                 [aerisInternalAppendToAnchor]="optionAnchor"
                 [aerisInternalAppendToPositionSelf]="!mobile()"
                 [aerisInternalAppendToPlacement]="submenuPlacement()"
@@ -224,6 +225,7 @@ let nextCascadeSelectId = 0;
           #optionsPanel
           class="aeris-cascade-select__panel"
           [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToDismiss]="dismissOverlay"
           [aerisInternalAppendToAnchor]="controlElement()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
@@ -264,6 +266,10 @@ let nextCascadeSelectId = 0;
   },
 })
 export class AerisCascadeSelect implements ControlValueAccessor {
+  protected readonly dismissOverlay = (): boolean => {
+    this.closePanel();
+    return true;
+  };
   protected readonly controlElement = viewChild<ElementRef<HTMLElement>>('control');
   protected readonly triggerElement = viewChild<ElementRef<HTMLButtonElement>>('trigger');
   private readonly panels = viewChildren<ElementRef<HTMLElement>>('optionsPanel');

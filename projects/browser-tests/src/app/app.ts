@@ -1,4 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { dismissTopAerisOverlay, type AerisOverlayDismissResult } from '@aeris-ui/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisPanelModule } from '@aeris-ui/core/panel';
@@ -17,11 +19,21 @@ import { AerisTieredMenuModule, type AerisTieredMenuItem } from '@aeris-ui/core/
 import { AerisToastModule, AerisToastService } from '@aeris-ui/core/toast';
 import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
 import { AerisTooltipModule } from '@aeris-ui/core/tooltip';
+import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
+import { AerisCarouselModule } from '@aeris-ui/core/carousel';
+import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
+import { AerisInputGroup } from '@aeris-ui/core/input-group';
 import { AerisThemeService } from '@aeris-ui/core/theming';
 
 @Component({
   selector: 'app-root',
   imports: [
+    AerisInputGroup,
+    AerisSpeedDial,
+    AerisScrollTop,
+    AerisCarouselModule,
+    AerisGalleriaModule,
     AerisButton,
     AerisCardModule,
     AerisPanelModule,
@@ -45,6 +57,32 @@ import { AerisThemeService } from '@aeris-ui/core/theming';
   styleUrl: './app.scss',
 })
 export class App {
+  protected readonly mobileSlides = ['Research', 'Design', 'Build'];
+  protected readonly dialItems = [{ label: 'Show notification', command: () => this.showToast() }];
+  protected readonly mobileImages = [
+    {
+      src: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="640" height="400"%3E%3Crect width="640" height="400" fill="%233b5568"/%3E%3C/svg%3E',
+      alt: 'Blue test image',
+    },
+    {
+      src: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="640" height="400"%3E%3Crect width="640" height="400" fill="%23596a46"/%3E%3C/svg%3E',
+      alt: 'Green test image',
+    },
+  ];
+  protected readonly lastDismissResult = signal<AerisOverlayDismissResult>('none');
+  constructor() {
+    const view = inject(DOCUMENT).defaultView;
+    const handleBack = (event: Event) => this.handleHardwareBack(event);
+    view?.addEventListener('aeris-hardware-back', handleBack);
+    inject(DestroyRef).onDestroy(() =>
+      view?.removeEventListener('aeris-hardware-back', handleBack),
+    );
+  }
+  protected handleHardwareBack(event: Event): void {
+    const result = dismissTopAerisOverlay();
+    this.lastDismissResult.set(result);
+    if (result !== 'none') event.preventDefault();
+  }
   private readonly toast = inject(AerisToastService);
   private readonly theme = inject(AerisThemeService);
   private toastSequence = 0;

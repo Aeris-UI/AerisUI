@@ -17,7 +17,13 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { ɵlockAerisDocumentScroll, ɵunlockAerisDocumentScroll } from '@aeris-ui/core';
+import {
+  ɵlockAerisDocumentScroll,
+  ɵunlockAerisDocumentScroll,
+  ɵregisterAerisOverlay,
+  ɵunregisterAerisOverlay,
+  aerisInternalObserveViewport,
+} from '@aeris-ui/core';
 
 export type AerisGalleriaThumbnailPosition = 'top' | 'bottom' | 'start' | 'end';
 export type AerisGalleriaObjectFit = 'contain' | 'cover';
@@ -891,10 +897,21 @@ export class AerisGalleria<T = AerisGalleriaImage> {
     effect((onCleanup) => {
       if (!this.browser || !this.fullscreen()) return;
       this.lockPage();
+      const surface = this.host.nativeElement.querySelector<HTMLElement>('.aeris-galleria');
+      const stopViewport = surface
+        ? aerisInternalObserveViewport(surface, this.document)
+        : () => undefined;
+      ɵregisterAerisOverlay(this.document, this.host.nativeElement, () => {
+        if (!this.fullscreen() || !this.closeOnEscape()) return false;
+        this.closeFullscreen('escape');
+        return true;
+      });
       queueMicrotask(() =>
         this.host.nativeElement.querySelector<HTMLElement>('.aeris-galleria__panel')?.focus(),
       );
       onCleanup(() => {
+        stopViewport();
+        ɵunregisterAerisOverlay(this.document, this.host.nativeElement);
         this.unlockPage();
         queueMicrotask(() => this.previousFocus()?.focus());
       });

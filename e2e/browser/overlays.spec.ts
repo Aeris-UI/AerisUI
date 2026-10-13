@@ -49,11 +49,13 @@ test('tooltip remains attached to its target while the page scrolls', async ({ p
   const before = await target.boundingBox();
   const tooltipBefore = await tooltip.boundingBox();
   await page.getByRole('heading', { name: 'Menu' }).scrollIntoViewIfNeeded();
-  const after = await target.boundingBox();
-  const tooltipAfter = await tooltip.boundingBox();
-
-  expect(before && tooltipBefore && after && tooltipAfter).toBeTruthy();
-  if (before && tooltipBefore && after && tooltipAfter) {
-    expect(Math.abs(tooltipAfter.y - after.y - (tooltipBefore.y - before.y))).toBeLessThan(3);
-  }
+  expect(before && tooltipBefore).toBeTruthy();
+  await expect
+    .poll(async () => {
+      const after = await target.boundingBox();
+      const tooltipAfter = await tooltip.boundingBox();
+      if (!before || !tooltipBefore || !after || !tooltipAfter) return Infinity;
+      return Math.abs(tooltipAfter.y - after.y - (tooltipBefore.y - before.y));
+    })
+    .toBeLessThan(3);
 });

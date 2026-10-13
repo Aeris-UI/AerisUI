@@ -235,6 +235,7 @@ let nextContextMenuId = 0;
           #panel
           class="aeris-context-menu__panel"
           [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToDismiss]="dismissOverlay"
           [id]="menuId()"
           [class]="panelStyleClass()"
           [attr.data-positioned]="positioned() || null"
@@ -262,6 +263,11 @@ let nextContextMenuId = 0;
   },
 })
 export class AerisContextMenu<T = unknown> {
+  protected readonly dismissOverlay = (): boolean => {
+    if (!this.closeOnEscape()) return false;
+    this.hide();
+    return true;
+  };
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly repositionFrame = aerisInternalCreateFrameScheduler(() => this.reposition());
   private readonly injector = inject(Injector);

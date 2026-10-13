@@ -1,4 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -16,7 +16,9 @@ import {
   Service,
   signal,
   viewChildren,
+  viewChild,
 } from '@angular/core';
+import { aerisInternalObserveViewport } from '@aeris-ui/core';
 import { aerisInternalCreateFrameScheduler } from '@aeris-ui/core';
 import type { AerisSeverity } from '@aeris-ui/core';
 
@@ -300,6 +302,7 @@ export class AerisToastService {
   imports: [NgTemplateOutlet],
   template: `
     <section
+      #toastRegion
       class="aeris-toast__region"
       [attr.aria-label]="hasVisibleMessages() ? ariaLabel() : null"
       [attr.data-empty]="!hasVisibleMessages() || null"
@@ -417,6 +420,7 @@ export class AerisToastService {
   },
 })
 export class AerisToast {
+  private readonly toastRegion = viewChild<ElementRef<HTMLElement>>('toastRegion');
   private static readonly fallbackHeight = 72;
   private static readonly swipeRemovalDelay = 550;
   private static readonly reverseCancelThreshold = 10;
@@ -541,6 +545,12 @@ export class AerisToast {
   });
 
   constructor() {
+    const document = inject(DOCUMENT);
+    effect((onCleanup) => {
+      const region = this.toastRegion()?.nativeElement;
+      if (region && this.hasVisibleMessages())
+        onCleanup(aerisInternalObserveViewport(region, document));
+    });
     effect(() => {
       const visibleCount = this.visibleMessages().length;
       if (visibleCount > 1) this.stackWidthLocked.set(true);

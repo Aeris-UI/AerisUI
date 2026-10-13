@@ -438,6 +438,7 @@ let nextPopupId = 0;
       <div
         class="aeris-confirm-popup__layer"
         [aerisInternalAppendTo]="settings().appendTo"
+        [aerisInternalAppendToDismiss]="dismissOverlay"
         aerisInternalAppendToDefault="body"
         [attr.data-positioned]="positioned() || null"
       >
@@ -583,6 +584,11 @@ let nextPopupId = 0;
   },
 })
 export class AerisConfirmPopup {
+  protected readonly dismissOverlay = (): boolean => {
+    if (!this.settings().closeOnEscape) return false;
+    this.close();
+    return true;
+  };
   private readonly service = inject(AerisConfirmPopupService);
   private readonly document = inject(DOCUMENT);
   private readonly repositionFrame = aerisInternalCreateFrameScheduler(() => this.reposition());

@@ -6,6 +6,7 @@ import {
   booleanAttribute,
   computed,
   contentChild,
+  effect,
   inject,
   input,
   linkedSignal,
@@ -13,6 +14,7 @@ import {
   output,
   viewChildren,
 } from '@angular/core';
+import { ɵregisterAerisOverlay, ɵunregisterAerisOverlay } from '@aeris-ui/core';
 
 export type AerisSpeedDialDirection =
   'up' | 'down' | 'left' | 'right' | 'up-left' | 'up-right' | 'down-left' | 'down-right';
@@ -245,6 +247,17 @@ let speedDialId = 0;
   },
 })
 export class AerisSpeedDial<T = unknown> {
+  constructor() {
+    effect((onCleanup) => {
+      if (!this.visible()) return;
+      const element = this.host.nativeElement;
+      ɵregisterAerisOverlay(element.ownerDocument, element, () => {
+        this.hide(new Event('aeris-dismiss'), true);
+        return true;
+      });
+      onCleanup(() => ɵunregisterAerisOverlay(element.ownerDocument, element));
+    });
+  }
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly generatedId = `aeris-speed-dial-${++speedDialId}`;
   private readonly actions = viewChildren<ElementRef<HTMLElement>>('action');

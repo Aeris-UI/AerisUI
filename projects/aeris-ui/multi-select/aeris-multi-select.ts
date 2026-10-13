@@ -191,6 +191,7 @@ let multiSelectId = 0;
           #optionsPanel
           class="aeris-multi-select__panel"
           [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToDismiss]="dismissOverlay"
           [aerisInternalAppendToAnchor]="this.control()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
@@ -359,6 +360,10 @@ let multiSelectId = 0;
   },
 })
 export class AerisMultiSelectComponent implements ControlValueAccessor {
+  protected readonly dismissOverlay = (): boolean => {
+    this.closePanel(true);
+    return true;
+  };
   readonly options = input.required<readonly AerisSelectOption[]>();
   readonly value = model<readonly string[]>([]);
   readonly inputId = input('');

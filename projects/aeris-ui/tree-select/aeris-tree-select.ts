@@ -179,6 +179,7 @@ let treeSelectId = 0;
           #optionsPanel
           class="aeris-tree-select__panel"
           [aerisInternalAppendTo]="appendTo()"
+          [aerisInternalAppendToDismiss]="dismissOverlay"
           [aerisInternalAppendToAnchor]="this.control()?.nativeElement ?? null"
           [aerisInternalAppendToMatchWidth]="true"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
@@ -335,6 +336,10 @@ let treeSelectId = 0;
   },
 })
 export class AerisTreeSelectComponent implements ControlValueAccessor {
+  protected readonly dismissOverlay = (): boolean => {
+    this.closePanel(true);
+    return true;
+  };
   readonly nodes = input.required<readonly AerisTreeNode[]>();
   readonly value = model<AerisTreeSelectValue>(null);
   readonly selectionMode = input<AerisTreeSelectMode>('single');
