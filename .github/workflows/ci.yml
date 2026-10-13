@@ -79,7 +79,7 @@ jobs:
         run: npm run test:mcp
 
       - name: Build documentation
-        run: npm run build:docs
+        run: npm run test:doc-performance && npm run build:docs
 
   browser:
     name: browser
@@ -113,6 +113,37 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  visual:
+    name: visual
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.15.0
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Chromium
+        run: npx playwright install chromium
+      - name: Build library
+        run: npm run build:lib
+      - name: Compare reviewed visual baselines
+        run: npm run test:e2e:visual
+      - name: Upload visual failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: visual-report
           path: |
             playwright-report/
             test-results/

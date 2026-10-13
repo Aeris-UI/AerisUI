@@ -276,11 +276,11 @@ test('catalog refinements scroll ScrollPanel on hover and reset on exit', async 
   await expect.poll(() => viewport.evaluate((element) => element.scrollTop)).toBe(0);
 });
 
-test('skeleton defaults stay visible in light and dark themes and allow custom colors', async ({
-  page,
-}) => {
-  for (const palette of ['monochrome', 'earth', 'aqua', 'orchid']) {
-    for (const mode of ['light', 'dark']) {
+for (const palette of ['monochrome', 'earth', 'coastal', 'orchid']) {
+  for (const mode of ['light', 'dark']) {
+    test(`${palette} ${mode} skeleton stays visible and accepts custom colors`, async ({
+      page,
+    }) => {
       await page.addInitScript(
         ({ palette, mode }) => {
           localStorage.setItem('aeris-docs-palette', palette);
@@ -289,6 +289,7 @@ test('skeleton defaults stay visible in light and dark themes and allow custom c
         { palette, mode },
       );
       await page.goto('/components/skeleton');
+      await expect(page.locator('html')).toHaveAttribute('data-aeris-theme', mode);
       const skeleton = page.locator('aeris-skeleton').first();
       await expect(skeleton).toBeVisible();
       const contrast = await skeleton.evaluate((element) => {
@@ -315,9 +316,9 @@ test('skeleton defaults stay visible in light and dark themes and allow custom c
         (element as HTMLElement).style.setProperty('--aeris-skeleton-background', '#ff00ff'),
       );
       await expect(skeleton).toHaveCSS('background-color', 'rgb(255, 0, 255)');
-    }
+    });
   }
-});
+}
 
 test('catalog rating preview keeps the component colors on a distinct surface', async ({
   page,

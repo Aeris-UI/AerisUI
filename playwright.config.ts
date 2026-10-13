@@ -11,6 +11,7 @@ const docsLayoutTests = [
   '**/galleria-layout.spec.ts',
   '**/code-block.spec.ts',
   '**/component-example-layout.spec.ts',
+  '**/catalog-quality.spec.ts',
 ];
 
 export default defineConfig({
@@ -37,6 +38,7 @@ export default defineConfig({
         '**/mobile.spec.ts',
         '**/accessibility.spec.ts',
         '**/visual-consistency.spec.ts',
+        '**/visual-baselines.spec.ts',
       ],
     },
     {
@@ -48,6 +50,7 @@ export default defineConfig({
         '**/mobile.spec.ts',
         '**/accessibility.spec.ts',
         '**/visual-consistency.spec.ts',
+        '**/visual-baselines.spec.ts',
       ],
     },
     {
@@ -59,6 +62,7 @@ export default defineConfig({
         '**/mobile.spec.ts',
         '**/accessibility.spec.ts',
         '**/visual-consistency.spec.ts',
+        '**/visual-baselines.spec.ts',
       ],
     },
     {
@@ -71,6 +75,16 @@ export default defineConfig({
       use: { browserName, baseURL: 'http://127.0.0.1:4301' },
       testMatch: docsLayoutTests,
     })),
+    {
+      name: 'docs-quality-firefox',
+      use: { ...devices['Desktop Firefox'], baseURL: 'http://127.0.0.1:4301' },
+      testMatch: '**/catalog-quality.spec.ts',
+    },
+    {
+      name: 'visual-baselines',
+      use: { ...devices['Desktop Chrome'] },
+      testMatch: '**/visual-baselines.spec.ts',
+    },
     {
       name: 'mobile-chromium',
       use: { ...devices['Pixel 7'] },

@@ -24,7 +24,8 @@
     "test:mcp": "vitest run projects/aeris-mcp/src",
     "test:e2e": "npm run build:lib && npm run test:e2e:run",
     "test:e2e:run": "playwright test",
-    "test:e2e:critical": "playwright test --project=chromium --project=firefox --project=webkit --project=component-smoke --project=mobile-chromium --project=mobile-webkit --project=accessibility",
+    "test:e2e:critical": "playwright test --project=chromium --project=firefox --project=webkit --project=component-smoke --project=docs-layout-chromium --project=docs-quality-firefox --project=docs-layout-webkit --project=mobile-chromium --project=mobile-webkit --project=accessibility",
+    "test:e2e:visual": "playwright test --project=visual-baselines",
     "test:release": "node --test tools/release-metadata.spec.mjs tools/release-publish-verification.spec.mjs tools/release-workflow.spec.mjs",
     "test:theme-cli": "node tools/check-theme-cli.mjs",
     "test:ng-add": "node tools/check-ng-add.mjs",
@@ -43,6 +44,7 @@
     "check:consumer-performance": "node tools/check-consumer-performance.mjs",
     "benchmark:consumer-performance": "node tools/check-consumer-performance.mjs --benchmark",
     "check:doc-performance": "node tools/check-doc-performance.mjs",
+    "test:doc-performance": "node --test tools/check-doc-performance.spec.mjs",
     "check:packed-install": "node tools/check-packed-install.mjs",
     "check:mcp-package": "node tools/check-mcp-package.mjs && node tools/check-mcp-cli.mjs"
   },

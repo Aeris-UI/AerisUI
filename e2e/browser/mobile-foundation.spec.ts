@@ -27,6 +27,17 @@ test('viewport overlays follow keyboard-size viewport changes and safe areas', a
     })
     .toBeLessThanOrEqual(432);
   await expect(dialog.getByRole('button', { name: 'Create project', exact: true })).toBeVisible();
+  await dialog.getByRole('combobox', { name: 'Owner role' }).click();
+  const options = page.getByRole('listbox');
+  await expect(options).toBeVisible();
+  await expect
+    .poll(async () => {
+      const bounds = await options.boundingBox();
+      return bounds ? bounds.y + bounds.height : 10000;
+    })
+    .toBeLessThanOrEqual(432);
+  await page.getByRole('option', { name: 'Engineer' }).click();
+  await expect(options).toHaveCount(0);
   await dialog.getByRole('button', { name: 'Close dialog' }).click();
   await page.getByRole('button', { name: 'Open drawer', exact: true }).click();
   const drawer = page.getByRole('dialog', { name: 'Filters' });
@@ -77,6 +88,11 @@ test('coarse-pointer fields avoid small-font focus zoom and actions have usable 
   const action = await group.getByRole('button', { name: 'Search', exact: true }).boundingBox();
   expect(field && action).toBeTruthy();
   expect(Math.abs((field?.height ?? 0) - (action?.height ?? 0))).toBeLessThanOrEqual(1);
+  for (const indicator of await page.locator('.aeris-carousel__indicators button').all()) {
+    const bounds = await indicator.boundingBox();
+    expect(bounds?.width).toBeGreaterThanOrEqual(44);
+    expect(bounds?.height).toBeGreaterThanOrEqual(44);
+  }
 });
 
 test('fullscreen galleries respect visible viewport sizing and hardware Back', async ({ page }) => {
