@@ -56,6 +56,19 @@ test('open form, menu, dialog, and toast states have no automated violations', a
   await expectNoAutomatedViolations(page);
 });
 
+test('carousel dots retain their visual size inside usable click targets', async ({ page }) => {
+  await page.goto('/');
+  const indicators = page.locator('.aeris-carousel__indicators button');
+  for (const indicator of await indicators.all()) {
+    const bounds = await indicator.boundingBox();
+    expect(bounds?.width).toBeGreaterThanOrEqual(24);
+    expect(bounds?.height).toBeGreaterThanOrEqual(24);
+    await expect
+      .poll(() => indicator.evaluate((el) => getComputedStyle(el, '::before').height))
+      .toBe('10px');
+  }
+});
+
 test('keyboard focus, validation semantics, reflow, and reduced motion remain usable', async ({
   page,
 }) => {

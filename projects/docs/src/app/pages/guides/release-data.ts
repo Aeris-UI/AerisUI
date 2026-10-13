@@ -28,6 +28,7 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
     date: 'In development',
     status: 'Next release',
     changes: [
+      'Keep Galleria within narrow containers and provide usable Carousel indicator hit targets while preserving small visual dots.',
       'Breaking: remove Galleria indicator inputs, tokens, and the indicator change reason; use thumbnails or previous/next navigation instead.',
       'Show the whole image without cropping when opening a Galleria grid item fullscreen.',
       'Keep Galleria taps stable, support bounded image panning when zoomed, and scroll thumbnails natively.',

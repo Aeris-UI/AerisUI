@@ -2380,6 +2380,7 @@ Human-readable documentation: [https://aeris-ui.dev/guides/changelog](https://ae
 
 Next release · In development
 
+- Keep Galleria within narrow containers and provide usable Carousel indicator hit targets while preserving small visual dots.
 - Breaking: remove Galleria indicator inputs, tokens, and the indicator change reason; use thumbnails or previous/next navigation instead.
 - Show the whole image without cropping when opening a Galleria grid item fullscreen.
 - Keep Galleria taps stable, support bounded image panning when zoomed, and scroll thumbnails natively.

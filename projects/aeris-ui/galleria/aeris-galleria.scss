@@ -39,6 +39,7 @@
 
 .aeris-galleria__panel {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     'stage'
     'thumbnails';
@@ -75,6 +76,7 @@
 
 .aeris-galleria__stage {
   grid-area: stage;
+  inline-size: 100%;
   position: relative;
   min-inline-size: 0;
   overflow: hidden;
@@ -372,6 +374,8 @@
 }
 
 .aeris-galleria__zoom-value {
+  flex: 0 0 auto;
+  inline-size: 3.25rem;
   min-inline-size: 3.25rem;
   color: rgb(255 255 255 / 76%);
   font-size: var(--aeris-font-size-xs, 0.6875rem);

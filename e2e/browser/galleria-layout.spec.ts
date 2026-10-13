@@ -257,6 +257,14 @@ test('toolbar fades track hidden controls on either side, including RTL', async 
   }
   await gallery.evaluate((element) => element.setAttribute('dir', 'ltr'));
   await page.setViewportSize({ width: 1800, height: 1000 });
+  // The docs example caps its width; expand the component itself to test no overflow.
+  await gallery.evaluate((element) => {
+    (element as HTMLElement).style.inlineSize = '1000px';
+    (element as HTMLElement).style.maxInlineSize = 'none';
+  });
+  await expect
+    .poll(() => toolbar.evaluate((el) => el.scrollWidth <= el.clientWidth + 1))
+    .toBe(true);
   await expect(frame).not.toHaveAttribute('data-fade-left', 'true');
   await expect(frame).not.toHaveAttribute('data-fade-right', 'true');
 });

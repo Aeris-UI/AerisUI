@@ -15,6 +15,8 @@ release line.
 
 ### Fixed
 
+- Keep Galleria inside narrow containers and enlarge Carousel indicator hit areas without enlarging their visual dots.
+
 - Fit images opened from a Galleria grid within the fullscreen viewer without cropping.
 - Keep image taps stable, pan zoomed Galleria images without changing slides, and allow native
   thumbnail scrolling while retaining arrow navigation and thumbnail sizing options.

@@ -222,19 +222,33 @@
 }
 
 .aeris-carousel__indicators button {
-  inline-size: var(--aeris-carousel-indicator-size, 0.625rem);
-  block-size: var(--aeris-carousel-indicator-size, 0.625rem);
+  display: grid;
+  place-items: center;
+  inline-size: max(1.5rem, var(--aeris-carousel-indicator-size, 0.625rem));
+  block-size: max(1.5rem, var(--aeris-carousel-indicator-size, 0.625rem));
   padding: 0;
   border: 0;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.aeris-carousel__indicators button::before {
+  content: '';
+  inline-size: var(--aeris-carousel-indicator-size, 0.625rem);
+  block-size: var(--aeris-carousel-indicator-size, 0.625rem);
   border-radius: var(--aeris-carousel-indicator-radius, 999px);
   background: var(--aeris-carousel-indicator-background, var(--aeris-border, #efefef));
-  cursor: pointer;
   transition:
     inline-size var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease),
     background var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
 .aeris-carousel__indicators button[aria-current='page'] {
+  inline-size: max(1.5rem, var(--aeris-carousel-active-indicator-width, 1.5rem));
+}
+
+.aeris-carousel__indicators button[aria-current='page']::before {
   inline-size: var(--aeris-carousel-active-indicator-width, 1.5rem);
   background: var(
     --aeris-carousel-active-indicator-background,
@@ -270,7 +284,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   .aeris-carousel__track,
-  .aeris-carousel__indicators button {
+  .aeris-carousel__indicators button::before {
     transition: none;
+  }
+}
+
+@media (pointer: coarse) {
+  .aeris-carousel__indicators button {
+    min-inline-size: 2.75rem;
+    min-block-size: 2.75rem;
   }
 }
