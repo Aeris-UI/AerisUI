@@ -44,6 +44,51 @@ class CircularCarouselHost {
 }
 
 describe('AerisCarousel', () => {
+  it('does not let a second touch replace or cancel the active gesture', () => {
+    const fixture = TestBed.createComponent(CarouselHost);
+    fixture.detectChanges();
+    const viewport = fixture.nativeElement.querySelector(
+      '.aeris-carousel__viewport',
+    ) as HTMLElement;
+    viewport.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        pointerType: 'touch',
+        pointerId: 1,
+        clientX: 180,
+        clientY: 100,
+      }),
+    );
+    viewport.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        pointerType: 'touch',
+        pointerId: 2,
+        clientX: 400,
+        clientY: 100,
+      }),
+    );
+    viewport.dispatchEvent(
+      new PointerEvent('pointercancel', { pointerType: 'touch', pointerId: 2 }),
+    );
+    viewport.dispatchEvent(
+      new PointerEvent('pointermove', {
+        pointerType: 'touch',
+        pointerId: 1,
+        clientX: 100,
+        clientY: 100,
+      }),
+    );
+    viewport.dispatchEvent(
+      new PointerEvent('pointerup', {
+        pointerType: 'touch',
+        pointerId: 1,
+        clientX: 100,
+        clientY: 100,
+      }),
+    );
+    fixture.detectChanges();
+    expect(fixture.componentInstance.page()).toBe(1);
+    expect(fixture.componentInstance.lastEvent()?.reason).toBe('swipe');
+  });
   it('leaves cross-axis touch scrolling to the browser without changing slides', () => {
     const fixture = TestBed.createComponent(CarouselHost);
     fixture.detectChanges();

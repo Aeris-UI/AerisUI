@@ -125,7 +125,8 @@ export class AerisCarouselFooterTemplate {
           (pointerdown)="handlePointerDown($event)"
           (pointermove)="handlePointerMove($event)"
           (pointerup)="handlePointerUp($event)"
-          (pointercancel)="clearPointer()"
+          (pointercancel)="handlePointerCancel($event)"
+          (lostpointercapture)="handlePointerCancel($event)"
           (pointerenter)="setHoverPaused(true)"
           (pointerleave)="setHoverPaused(false)"
           (focusin)="setFocusPaused(true)"
@@ -209,6 +210,7 @@ export class AerisCarousel<T = unknown> {
   );
   private readonly pointerStart = signal<number | null>(null);
   private pointerCrossStart = 0;
+  private activePointerId: number | null = null;
   private readonly dragOffset = signal(0);
   protected readonly dragging = signal(false);
   private resizeObserver: ResizeObserver | null = null;
@@ -381,15 +383,17 @@ export class AerisCarousel<T = unknown> {
   }
 
   protected handlePointerDown(event: PointerEvent): void {
+    if (this.activePointerId !== null || this.pageCount() <= 1) return;
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     if (
       (event.target as Element | null)?.closest(
-        'button, a, input, select, textarea, [contenteditable="true"]',
+        'button, a, input, select, textarea, [role="button"], [contenteditable]:not([contenteditable="false"])',
       )
     )
       return;
     if (event.pointerType === 'mouse') event.preventDefault();
     (event.currentTarget as HTMLElement).setPointerCapture?.(event.pointerId);
+    this.activePointerId = event.pointerId;
     this.pointerStart.set(this.orientation() === 'vertical' ? event.clientY : event.clientX);
     this.pointerCrossStart = this.orientation() === 'vertical' ? event.clientX : event.clientY;
     this.dragOffset.set(0);
@@ -397,6 +401,7 @@ export class AerisCarousel<T = unknown> {
   }
 
   protected handlePointerMove(event: PointerEvent): void {
+    if (this.activePointerId !== event.pointerId) return;
     const start = this.pointerStart();
     if (start === null) return;
     const point = this.orientation() === 'vertical' ? event.clientY : event.clientX;
@@ -418,6 +423,7 @@ export class AerisCarousel<T = unknown> {
   }
 
   protected handlePointerUp(event: PointerEvent): void {
+    if (this.activePointerId !== event.pointerId) return;
     const start = this.pointerStart();
     const currentTarget = event.currentTarget as HTMLElement;
     if (currentTarget.hasPointerCapture?.(event.pointerId))
@@ -443,9 +449,14 @@ export class AerisCarousel<T = unknown> {
   }
 
   protected clearPointer(): void {
+    this.activePointerId = null;
     this.pointerStart.set(null);
     this.dragOffset.set(0);
     this.dragging.set(false);
+  }
+
+  protected handlePointerCancel(event: PointerEvent): void {
+    if (this.activePointerId === event.pointerId) this.clearPointer();
   }
 
   protected setHoverPaused(paused: boolean): void {
@@ -523,7 +534,10 @@ export class AerisCarousel<T = unknown> {
   }
 
   private isRtl(): boolean {
-    return this.document.documentElement.dir === 'rtl';
+    const direction = this.document.defaultView?.getComputedStyle(
+      this.host.nativeElement,
+    ).direction;
+    return direction ? direction === 'rtl' : this.document.documentElement.dir === 'rtl';
   }
 }
 

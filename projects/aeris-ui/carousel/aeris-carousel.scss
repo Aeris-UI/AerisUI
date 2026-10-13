@@ -58,7 +58,8 @@
     --aeris-carousel-radius,
     var(--aeris-radius-surface, var(--aeris-radius-lg, 0.75rem))
   );
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom;
+  -webkit-tap-highlight-color: transparent;
   user-select: none;
   -webkit-user-select: none;
   cursor: grab;
@@ -69,7 +70,7 @@
 }
 
 .aeris-carousel__content[data-orientation='vertical'] .aeris-carousel__viewport {
-  touch-action: pan-x;
+  touch-action: pan-x pinch-zoom;
 }
 
 .aeris-carousel__viewport:focus-visible {
