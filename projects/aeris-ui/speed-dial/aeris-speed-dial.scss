@@ -11,6 +11,12 @@
   height: var(--aeris-speed-dial-size);
 }
 
+@media (pointer: coarse) {
+  :host {
+    --aeris-speed-dial-item-size: var(--aeris-touch-target-size, 2.75rem);
+  }
+}
+
 :host([data-open]) {
   z-index: 1000;
 }
@@ -75,11 +81,12 @@
   --aeris-speed-dial-size: 3.5rem;
 }
 
-.aeris-speed-dial__trigger:hover:not(:disabled) {
-  background: var(--aeris-primary-hover, #{aeris-fallbacks.$primary-hover});
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .aeris-speed-dial__trigger:hover:not(:disabled) {
+    background: var(--aeris-primary-hover, #{aeris-fallbacks.$primary-hover});
+    transform: translateY(-1px);
+  }
 }
-
 .aeris-speed-dial__trigger:focus-visible,
 .aeris-speed-dial__action:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid
@@ -163,16 +170,17 @@
     border-color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-.aeris-speed-dial__action:hover:not(:disabled):not(.aeris-speed-dial__action--disabled) {
-  border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
-  background: color-mix(
-    in srgb,
-    var(--aeris-primary, #{aeris-fallbacks.$primary}) 10%,
-    var(--aeris-surface, #fff)
-  );
-  transform: scale(1.08);
+@media (hover: hover) {
+  .aeris-speed-dial__action:hover:not(:disabled):not(.aeris-speed-dial__action--disabled) {
+    border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
+    background: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 10%,
+      var(--aeris-surface, #fff)
+    );
+    transform: scale(1.08);
+  }
 }
-
 .aeris-speed-dial__action:disabled,
 .aeris-speed-dial__action--disabled {
   opacity: 0.45;

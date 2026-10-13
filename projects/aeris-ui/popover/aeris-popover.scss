@@ -141,12 +141,13 @@
   cursor: pointer;
 }
 
-.aeris-popover__close:hover {
-  border-color: var(--aeris-border, #efefef);
-  background: var(--aeris-surface-2, #f3f3f3);
-  color: var(--aeris-text, #111111);
+@media (hover: hover) {
+  .aeris-popover__close:hover {
+    border-color: var(--aeris-border, #efefef);
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
 }
-
 .aeris-popover__close:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid
     var(--aeris-popover-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));

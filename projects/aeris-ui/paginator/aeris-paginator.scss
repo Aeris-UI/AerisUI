@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -54,25 +55,27 @@ button {
     transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-button:hover:not(:disabled) {
-  border-color: color-mix(
-    in srgb,
-    var(--aeris-primary, #{aeris-fallbacks.$primary}) 58%,
-    var(--aeris-border, #efefef)
-  );
-  background: var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3));
-  color: var(--aeris-text, #111111);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  button:hover:not(:disabled) {
+    border-color: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 58%,
+      var(--aeris-border, #efefef)
+    );
+    background: var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3));
+    color: var(--aeris-text, #111111);
+    transform: translateY(-1px);
+  }
 }
-
-.aeris-paginator__pages > button[aria-current='page']:hover {
-  background: color-mix(
-    in srgb,
-    var(--aeris-primary, #{aeris-fallbacks.$primary}) 22%,
-    var(--aeris-surface, #fff)
-  );
+@media (hover: hover) {
+  .aeris-paginator__pages > button[aria-current='page']:hover {
+    background: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 22%,
+      var(--aeris-surface, #fff)
+    );
+  }
 }
-
 button[aria-current='page'] {
   border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
   background: color-mix(
@@ -229,7 +232,6 @@ button:focus-visible,
   text-align: left;
 }
 
-.aeris-paginator__rows-panel button:hover,
 .aeris-paginator__rows-panel button[aria-selected='true'] {
   background: color-mix(
     in srgb,
@@ -238,7 +240,16 @@ button:focus-visible,
   );
   color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
 }
-
+@media (hover: hover) {
+  .aeris-paginator__rows-panel button:hover {
+    background: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%,
+      transparent
+    );
+    color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
+  }
+}
 .aeris-paginator__check {
   width: 0.65rem;
   height: 0.35rem;
@@ -306,7 +317,11 @@ button:focus-visible,
     transition: none;
   }
 
-  button:hover:not(:disabled) {
-    transform: none;
+  @media (hover: hover) {
+    button:hover:not(:disabled) {
+      transform: none;
+    }
   }
 }
+
+@include aeris-mobile.targets('.aeris-paginator__button');

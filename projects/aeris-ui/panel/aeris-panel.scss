@@ -134,13 +134,14 @@ aeris-panel {
   cursor: pointer;
 }
 
-.aeris-panel__toggle:hover {
-  color: var(
-    --aeris-panel-toggle-hover-color,
-    var(--aeris-primary-text, var(--aeris-primary, #{aeris-fallbacks.$primary}))
-  );
+@media (hover: hover) {
+  .aeris-panel__toggle:hover {
+    color: var(
+      --aeris-panel-toggle-hover-color,
+      var(--aeris-primary-text, var(--aeris-primary, #{aeris-fallbacks.$primary}))
+    );
+  }
 }
-
 .aeris-panel__toggle:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid
     var(

@@ -201,11 +201,12 @@
   cursor: pointer;
 }
 
-.aeris-message__close:hover {
-  background: color-mix(in srgb, var(--aeris-text, #111111) 8%, transparent);
-  color: var(--aeris-text, #111111);
+@media (hover: hover) {
+  .aeris-message__close:hover {
+    background: color-mix(in srgb, var(--aeris-text, #111111) 8%, transparent);
+    color: var(--aeris-text, #111111);
+  }
 }
-
 .aeris-message__close:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: var(--aeris-focus-ring-offset, 2px);

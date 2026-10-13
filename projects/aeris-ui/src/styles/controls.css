@@ -54,11 +54,12 @@
   background: var(--aeris-surface-2, #f2f0ec);
 }
 
-.aeris-input-text:hover:not(:disabled):not([readonly]),
-.aeris-textarea:hover:not(:disabled):not([readonly]) {
-  border-color: var(--aeris-control-hover-border, var(--aeris-primary, #111111));
+@media (hover: hover) {
+  .aeris-input-text:hover:not(:disabled):not([readonly]),
+  .aeris-textarea:hover:not(:disabled):not([readonly]) {
+    border-color: var(--aeris-control-hover-border, var(--aeris-primary, #111111));
+  }
 }
-
 .aeris-input-text:focus,
 .aeris-textarea:focus {
   border-color: var(--aeris-control-focus-border, var(--aeris-focus, #111111));
@@ -79,16 +80,19 @@
 }
 
 .aeris-input-text--invalid,
-.aeris-input-text--invalid:hover,
 .aeris-input-text:user-invalid,
-.aeris-input-text:user-invalid:hover,
 .aeris-textarea--invalid,
-.aeris-textarea--invalid:hover,
-.aeris-textarea:user-invalid,
-.aeris-textarea:user-invalid:hover {
+.aeris-textarea:user-invalid {
   border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
 }
-
+@media (hover: hover) {
+  .aeris-input-text--invalid:hover,
+  .aeris-input-text:user-invalid:hover,
+  .aeris-textarea--invalid:hover,
+  .aeris-textarea:user-invalid:hover {
+    border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
+  }
+}
 .aeris-input-text--invalid:focus,
 .aeris-input-text:user-invalid:focus,
 .aeris-textarea--invalid:focus,
@@ -180,6 +184,13 @@
 
 .aeris-textarea[data-resize='vertical'] {
   resize: vertical;
+}
+
+@media (pointer: coarse) {
+  .aeris-input-text,
+  .aeris-textarea {
+    font-size: var(--aeris-mobile-input-font-size, 1rem);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -20,13 +20,16 @@
   width: 100%;
 }
 
-.aeris-split-button__primary:hover:not(:disabled),
-.aeris-split-button__toggle:hover:not(:disabled),
 .aeris-split-button__primary:active:not(:disabled),
 .aeris-split-button__toggle:active:not(:disabled) {
   transform: none;
 }
-
+@media (hover: hover) {
+  .aeris-split-button__primary:hover:not(:disabled),
+  .aeris-split-button__toggle:hover:not(:disabled) {
+    transform: none;
+  }
+}
 .aeris-split-button__primary {
   min-width: 0;
   flex: 1 1 auto;
@@ -143,7 +146,6 @@
     color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-.aeris-split-button__item:hover:not(:disabled):not([aria-disabled='true']),
 .aeris-split-button__item:focus-visible {
   background: color-mix(
     in srgb,
@@ -152,7 +154,16 @@
   );
   color: var(--aeris-text, #111111);
 }
-
+@media (hover: hover) {
+  .aeris-split-button__item:hover:not(:disabled):not([aria-disabled='true']) {
+    background: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 13%,
+      transparent
+    );
+    color: var(--aeris-text, #111111);
+  }
+}
 .aeris-split-button__item:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid
     color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 32%, transparent);

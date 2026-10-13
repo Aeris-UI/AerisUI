@@ -240,17 +240,18 @@
     box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-.aeris-galleria__grid-item:hover {
-  z-index: 1;
-  border-color: color-mix(
-    in srgb,
-    var(--aeris-primary, #{aeris-fallbacks.$primary}) 62%,
-    var(--aeris-border, #efefef)
-  );
-  box-shadow: 0 0.8rem 2rem rgb(31 35 27 / 16%);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .aeris-galleria__grid-item:hover {
+    z-index: 1;
+    border-color: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 62%,
+      var(--aeris-border, #efefef)
+    );
+    box-shadow: 0 0.8rem 2rem rgb(31 35 27 / 16%);
+    transform: translateY(-2px);
+  }
 }
-
 .aeris-galleria__grid-item[aria-current='true'] {
   border-color: var(
     --aeris-galleria-active-thumbnail-border,
@@ -269,10 +270,11 @@
   transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.aeris-galleria__grid-item:hover img {
-  transform: scale(1.035);
+@media (hover: hover) {
+  .aeris-galleria__grid-item:hover img {
+    transform: scale(1.035);
+  }
 }
-
 .aeris-galleria__grid-title {
   position: absolute;
   inset-inline: 0;
@@ -324,11 +326,14 @@
   cursor: pointer;
 }
 
-.aeris-galleria__toolbar button:hover:not(:disabled),
 .aeris-galleria__toolbar button[aria-pressed='true'] {
   background: rgb(255 255 255 / 13%);
 }
-
+@media (hover: hover) {
+  .aeris-galleria__toolbar button:hover:not(:disabled) {
+    background: rgb(255 255 255 / 13%);
+  }
+}
 .aeris-galleria__toolbar button:disabled {
   opacity: 0.36;
   cursor: not-allowed;
@@ -430,20 +435,23 @@
   inset-inline-end: var(--aeris-galleria-control-inset, 0.75rem);
 }
 
-.aeris-galleria__navigator:hover:not(:disabled),
-.aeris-galleria__fullscreen-toggle:hover {
-  border-color: rgb(255 255 255 / 42%);
-  background: rgb(13 15 12 / 82%);
+@media (hover: hover) {
+  .aeris-galleria__navigator:hover:not(:disabled),
+  .aeris-galleria__fullscreen-toggle:hover {
+    border-color: rgb(255 255 255 / 42%);
+    background: rgb(13 15 12 / 82%);
+  }
 }
-
-.aeris-galleria__navigator:hover:not(:disabled) {
-  transform: translateY(-50%) scale(1.04);
+@media (hover: hover) {
+  .aeris-galleria__navigator:hover:not(:disabled) {
+    transform: translateY(-50%) scale(1.04);
+  }
 }
-
-.aeris-galleria__fullscreen-toggle:hover {
-  transform: scale(1.04);
+@media (hover: hover) {
+  .aeris-galleria__fullscreen-toggle:hover {
+    transform: scale(1.04);
+  }
 }
-
 .aeris-galleria__navigator:disabled {
   opacity: 0.32;
   cursor: not-allowed;
@@ -453,11 +461,14 @@
   opacity: 0;
 }
 
-.aeris-galleria__stage[data-navigators-on-hover='true']:hover .aeris-galleria__navigator,
 .aeris-galleria__stage[data-navigators-on-hover='true']:focus-within .aeris-galleria__navigator {
   opacity: 1;
 }
-
+@media (hover: hover) {
+  .aeris-galleria__stage[data-navigators-on-hover='true']:hover .aeris-galleria__navigator {
+    opacity: 1;
+  }
+}
 .aeris-galleria__chevron,
 .aeris-galleria__thumbnail-navigator span {
   display: block;
@@ -664,19 +675,20 @@
   cursor: pointer;
 }
 
-.aeris-galleria__thumbnail-navigator:hover:not(:disabled) {
-  border-color: color-mix(
-    in srgb,
-    var(--aeris-primary, #{aeris-fallbacks.$primary}) 48%,
-    var(--aeris-border, #efefef)
-  );
-  background: color-mix(
-    in srgb,
-    var(--aeris-primary, #{aeris-fallbacks.$primary}) 9%,
-    var(--aeris-surface, #fff)
-  );
+@media (hover: hover) {
+  .aeris-galleria__thumbnail-navigator:hover:not(:disabled) {
+    border-color: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 48%,
+      var(--aeris-border, #efefef)
+    );
+    background: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 9%,
+      var(--aeris-surface, #fff)
+    );
+  }
 }
-
 .aeris-galleria__thumbnail-navigator:disabled {
   opacity: 0.38;
   cursor: not-allowed;
@@ -796,11 +808,17 @@
   position: fixed;
   z-index: var(--aeris-galleria-fullscreen-z-index, 1050);
   inset: 0;
+  inset: var(--_aeris-viewport-top, 0px) var(--_aeris-viewport-right, 0px)
+    var(--_aeris-viewport-bottom, 0px) var(--_aeris-viewport-left, 0px);
   min-block-size: 100vh;
   min-block-size: 100dvh;
+  min-block-size: var(--_aeris-viewport-height, 100dvh);
   display: grid;
   place-items: center;
   padding: clamp(0.5rem, 2.5vw, 2rem);
+  padding: max(0.5rem, var(--aeris-safe-area-top, 0px))
+    max(0.5rem, var(--aeris-safe-area-right, 0px)) max(0.5rem, var(--aeris-safe-area-bottom, 0px))
+    max(0.5rem, var(--aeris-safe-area-left, 0px));
   overflow: hidden;
   background: var(--aeris-galleria-backdrop, rgb(5 7 5 / 88%));
 }

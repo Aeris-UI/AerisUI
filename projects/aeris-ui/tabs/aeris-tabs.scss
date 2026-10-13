@@ -72,11 +72,15 @@
     color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-.aeris-tabs__list button:hover:not(:disabled) {
-  background: transparent;
-  color: var(--aeris-tabs-active-text, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
+@media (hover: hover) {
+  .aeris-tabs__list button:hover:not(:disabled) {
+    background: transparent;
+    color: var(
+      --aeris-tabs-active-text,
+      var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
+    );
+  }
 }
-
 .aeris-tabs__list button[aria-selected='true'] {
   color: var(--aeris-tabs-active-text, var(--aeris-primary-text, #{aeris-fallbacks.$primary-text}));
 }
@@ -107,14 +111,15 @@
   min-height: calc(var(--_tab-height) - 0.5rem);
 }
 
-:host([data-variant='pill']) .aeris-tabs__list button:hover:not(:disabled) {
-  background: var(
-    --aeris-tabs-hover,
-    color-mix(in srgb, var(--aeris-surface, #fff) 76%, transparent)
-  );
-  color: var(--aeris-text, #111111);
+@media (hover: hover) {
+  :host([data-variant='pill']) .aeris-tabs__list button:hover:not(:disabled) {
+    background: var(
+      --aeris-tabs-hover,
+      color-mix(in srgb, var(--aeris-surface, #fff) 76%, transparent)
+    );
+    color: var(--aeris-text, #111111);
+  }
 }
-
 :host([data-variant='pill']) .aeris-tabs__list button[aria-selected='true'] {
   background: transparent;
   color: var(--aeris-text, #111111);

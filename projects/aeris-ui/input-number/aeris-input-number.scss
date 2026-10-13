@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -46,13 +47,14 @@
     box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-.aeris-input-number__field:hover {
-  border-color: var(
-    --aeris-control-hover-border,
-    var(--aeris-primary, #{aeris-fallbacks.$primary})
-  );
+@media (hover: hover) {
+  .aeris-input-number__field:hover {
+    border-color: var(
+      --aeris-control-hover-border,
+      var(--aeris-primary, #{aeris-fallbacks.$primary})
+    );
+  }
 }
-
 .aeris-input-number__field:focus-within {
   position: relative;
   z-index: 2;
@@ -72,12 +74,15 @@
 }
 
 .aeris-input-number[data-invalid] .aeris-input-number__field,
-.aeris-input-number[data-invalid] .aeris-input-number__field:hover,
-.aeris-input-number__field:has(.aeris-input-number__input:user-invalid),
-.aeris-input-number__field:has(.aeris-input-number__input:user-invalid):hover {
+.aeris-input-number__field:has(.aeris-input-number__input:user-invalid) {
   border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
 }
-
+@media (hover: hover) {
+  .aeris-input-number[data-invalid] .aeris-input-number__field:hover,
+  .aeris-input-number__field:has(.aeris-input-number__input:user-invalid):hover {
+    border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
+  }
+}
 .aeris-input-number[data-invalid] .aeris-input-number__field:focus-within,
 .aeris-input-number__field:has(.aeris-input-number__input:user-invalid):focus-within {
   box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
@@ -148,12 +153,16 @@
   cursor: pointer;
 }
 
-.aeris-input-number__clear:hover,
 .aeris-input-number__clear:focus-visible {
   background: var(--aeris-surface-2, #f3f3f3);
   color: var(--aeris-text, #111111);
 }
-
+@media (hover: hover) {
+  .aeris-input-number__clear:hover {
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
+}
 .aeris-input-number__clear:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
@@ -184,16 +193,17 @@
     color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-.aeris-input-number__button:hover:not(:disabled) {
-  border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
-  background: color-mix(
-    in srgb,
-    var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%,
-    var(--aeris-surface, #fff)
-  );
-  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
+@media (hover: hover) {
+  .aeris-input-number__button:hover:not(:disabled) {
+    border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
+    background: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%,
+      var(--aeris-surface, #fff)
+    );
+    color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
+  }
 }
-
 .aeris-input-number__button:focus-visible {
   position: relative;
   z-index: 3;
@@ -355,3 +365,5 @@
     transition: none;
   }
 }
+
+@include aeris-mobile.input-font('input');

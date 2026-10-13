@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -60,11 +61,41 @@
   left: var(--aeris-scroll-top-offset-inline, 1.25rem);
 }
 
-.aeris-scroll-top:hover {
-  border-color: var(--aeris-scroll-top-hover-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
-  background: var(--aeris-scroll-top-hover-background, var(--aeris-surface-2, #f3f3f3));
-  color: var(--aeris-scroll-top-hover-color, var(--aeris-text, #111111));
-  transform: translateY(-0.125rem);
+@media (hover: hover) {
+  .aeris-scroll-top:hover {
+    border-color: var(
+      --aeris-scroll-top-hover-border,
+      var(--aeris-focus, #{aeris-fallbacks.$focus})
+    );
+    background: var(--aeris-scroll-top-hover-background, var(--aeris-surface-2, #f3f3f3));
+    color: var(--aeris-scroll-top-hover-color, var(--aeris-text, #111111));
+    transform: translateY(-0.125rem);
+  }
+}
+
+.aeris-scroll-top[data-strategy='fixed'][data-position$='right'] {
+  right: calc(
+    var(--aeris-scroll-top-offset-inline, 1.25rem) + var(--aeris-safe-area-right, 0px) +
+      var(--_aeris-viewport-right, 0px)
+  );
+}
+.aeris-scroll-top[data-strategy='fixed'][data-position$='left'] {
+  left: calc(
+    var(--aeris-scroll-top-offset-inline, 1.25rem) + var(--aeris-safe-area-left, 0px) +
+      var(--_aeris-viewport-left, 0px)
+  );
+}
+.aeris-scroll-top[data-strategy='fixed'][data-position^='bottom'] {
+  bottom: calc(
+    var(--aeris-scroll-top-offset-block, 1.25rem) + var(--aeris-safe-area-bottom, 0px) +
+      var(--_aeris-viewport-bottom, 0px)
+  );
+}
+.aeris-scroll-top[data-strategy='fixed'][data-position^='top'] {
+  top: calc(
+    var(--aeris-scroll-top-offset-block, 1.25rem) + var(--aeris-safe-area-top, 0px) +
+      var(--_aeris-viewport-top, 0px)
+  );
 }
 
 .aeris-scroll-top:focus-visible {
@@ -96,3 +127,5 @@
     transition: none;
   }
 }
+
+@include aeris-mobile.targets('.aeris-scroll-top');

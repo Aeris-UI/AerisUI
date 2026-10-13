@@ -38,11 +38,12 @@
     box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-.aeris-inplace__display:hover:not(:disabled) {
-  border-color: var(--aeris-inplace-display-border, var(--aeris-border, #efefef));
-  background: var(--aeris-inplace-display-hover, var(--aeris-surface-2, #f3f3f3));
+@media (hover: hover) {
+  .aeris-inplace__display:hover:not(:disabled) {
+    border-color: var(--aeris-inplace-display-border, var(--aeris-border, #efefef));
+    background: var(--aeris-inplace-display-hover, var(--aeris-surface-2, #f3f3f3));
+  }
 }
-
 .aeris-inplace__display:focus-visible,
 .aeris-inplace__close:focus-visible,
 .aeris-inplace__content:focus-visible {
@@ -104,11 +105,12 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.aeris-inplace__close:hover {
-  background: var(--aeris-inplace-display-hover, var(--aeris-surface-2, #f3f3f3));
-  color: var(--aeris-text, #111111);
+@media (hover: hover) {
+  .aeris-inplace__close:hover {
+    background: var(--aeris-inplace-display-hover, var(--aeris-surface-2, #f3f3f3));
+    color: var(--aeris-text, #111111);
+  }
 }
-
 .aeris-inplace__close-icon {
   inline-size: var(--aeris-inplace-close-icon-size, 0.75rem);
   block-size: var(--aeris-inplace-close-icon-size, 0.75rem);

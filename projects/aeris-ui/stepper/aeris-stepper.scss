@@ -63,14 +63,15 @@
     color var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-.aeris-stepper__trigger:hover:not(:disabled) {
-  background: var(
-    --aeris-stepper-hover-background,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
-  );
-  color: var(--aeris-stepper-color, var(--aeris-text, #111111));
+@media (hover: hover) {
+  .aeris-stepper__trigger:hover:not(:disabled) {
+    background: var(
+      --aeris-stepper-hover-background,
+      var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
+    );
+    color: var(--aeris-stepper-color, var(--aeris-text, #111111));
+  }
 }
-
 .aeris-stepper__trigger:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid
     var(--aeris-stepper-focus, var(--aeris-focus, #{aeris-fallbacks.$focus}));

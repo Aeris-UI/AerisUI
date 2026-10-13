@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -105,14 +106,20 @@
   background: var(--aeris-select-filled-background, var(--aeris-surface-2, #f3f3f3));
 }
 
-.aeris-select__trigger:hover,
 .aeris-select[data-open] .aeris-select__trigger {
   border-color: var(
     --aeris-select-hover-border,
     var(--aeris-control-hover-border, var(--aeris-primary, #{aeris-fallbacks.$primary}))
   );
 }
-
+@media (hover: hover) {
+  .aeris-select__trigger:hover {
+    border-color: var(
+      --aeris-select-hover-border,
+      var(--aeris-control-hover-border, var(--aeris-primary, #{aeris-fallbacks.$primary}))
+    );
+  }
+}
 .aeris-select__trigger:focus-visible {
   outline: 0;
   border-color: var(
@@ -214,12 +221,16 @@
   cursor: pointer;
 }
 
-.aeris-select__clear:hover,
 .aeris-select__clear:focus-visible {
   background: var(--aeris-surface-2, #f3f3f3);
   color: var(--aeris-text, #111111);
 }
-
+@media (hover: hover) {
+  .aeris-select__clear:hover {
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
+}
 .aeris-select__clear:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
@@ -294,12 +305,16 @@
   cursor: pointer;
 }
 
-.aeris-select__filter-clear:hover,
 .aeris-select__filter-clear:focus-visible {
   background: var(--aeris-surface-2, #f3f3f3);
   color: var(--aeris-text, #111111);
 }
-
+@media (hover: hover) {
+  .aeris-select__filter-clear:hover {
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
+}
 .aeris-select__filter-clear:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
@@ -492,3 +507,5 @@
     animation-duration: 1.4s;
   }
 }
+
+@include aeris-mobile.input-font('input');

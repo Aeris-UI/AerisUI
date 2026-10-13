@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -115,11 +116,12 @@
   background-clip: content-box;
 }
 
-.aeris-table__viewport::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--aeris-text-2, #454545) 62%, transparent);
-  background-clip: content-box;
+@media (hover: hover) {
+  .aeris-table__viewport::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--aeris-text-2, #454545) 62%, transparent);
+    background-clip: content-box;
+  }
 }
-
 table {
   width: 100%;
   min-width: 44rem;
@@ -212,17 +214,23 @@ th {
 }
 
 th[data-resizing-column],
-th:has(> .aeris-table__resize:hover),
 th:has(> .aeris-table__resize:focus-visible) {
   z-index: 6;
 }
-
-.aeris-table__resize:hover::before,
+@media (hover: hover) {
+  th:has(> .aeris-table__resize:hover) {
+    z-index: 6;
+  }
+}
 .aeris-table__resize:focus-visible::before,
 .aeris-table__resize[data-resizing]::before {
   background: color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 36%, transparent);
 }
-
+@media (hover: hover) {
+  .aeris-table__resize:hover::before {
+    background: color-mix(in srgb, var(--aeris-focus, #{aeris-fallbacks.$focus}) 36%, transparent);
+  }
+}
 .aeris-table__resize:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: -2px;
@@ -273,13 +281,14 @@ tbody tr:focus-visible {
   background: color-mix(in srgb, var(--aeris-surface-2, #f3f3f3) 55%, transparent);
 }
 
-.aeris-table[data-hoverable] tbody tr:hover:not(.aeris-table__expansion-row) td {
-  background: var(
-    --aeris-table-row-hover,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
-  );
+@media (hover: hover) {
+  .aeris-table[data-hoverable] tbody tr:hover:not(.aeris-table__expansion-row) td {
+    background: var(
+      --aeris-table-row-hover,
+      var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
+    );
+  }
 }
-
 .aeris-table tbody tr[data-context-menu-active] td {
   background: color-mix(
     in srgb,
@@ -315,7 +324,6 @@ td[data-editable]::after {
   mask: var(--aeris-icon-edit) center / 100% 100% no-repeat;
 }
 
-td[data-editable]:hover,
 td[data-editable]:focus-within {
   background: color-mix(
     in srgb,
@@ -325,13 +333,27 @@ td[data-editable]:focus-within {
   box-shadow: inset 0 0 0 1px
     color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 34%, transparent);
 }
-
-td[data-editable]:hover::after,
+@media (hover: hover) {
+  td[data-editable]:hover {
+    background: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 7%,
+      var(--aeris-surface, #fff)
+    );
+    box-shadow: inset 0 0 0 1px
+      color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 34%, transparent);
+  }
+}
 td[data-editable]:focus-within::after {
   color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
   opacity: 1;
 }
-
+@media (hover: hover) {
+  td[data-editable]:hover::after {
+    color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
+    opacity: 1;
+  }
+}
 .aeris-table[data-gridlines] th,
 .aeris-table[data-gridlines] td {
   border-inline-end: 1px solid var(--aeris-border);
@@ -388,10 +410,11 @@ td[data-editable]:focus-within::after {
   flex: 1 1 auto;
 }
 
-.aeris-table__sort:hover {
-  color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
+@media (hover: hover) {
+  .aeris-table__sort:hover {
+    color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
+  }
 }
-
 .aeris-table__sort:focus-visible,
 .aeris-table__icon-button:focus-visible,
 .aeris-table__paginator button:focus-visible {
@@ -501,10 +524,11 @@ td[data-editable]:focus-within::after {
   cursor: pointer;
 }
 
-.aeris-table__icon-button:hover {
-  background: color-mix(in srgb, currentColor 10%, transparent);
+@media (hover: hover) {
+  .aeris-table__icon-button:hover {
+    background: color-mix(in srgb, currentColor 10%, transparent);
+  }
 }
-
 .aeris-table__icon-button span {
   position: relative;
   width: 1rem;
@@ -629,15 +653,18 @@ tr[data-selected] td {
     tbody
     tr:nth-child(odd):not(.aeris-table__expansion-row)
     td,
-  .aeris-table[data-responsive='stack'][data-hoverable]
-    tbody
-    tr:hover:not(.aeris-table__expansion-row)
-    td,
   .aeris-table[data-responsive='stack'] tbody tr[data-context-menu-active] td,
   .aeris-table[data-responsive='stack'] tr[data-selected] td {
     background: transparent;
   }
-
+  @media (hover: hover) {
+    .aeris-table[data-responsive='stack'][data-hoverable]
+      tbody
+      tr:hover:not(.aeris-table__expansion-row)
+      td {
+      background: transparent;
+    }
+  }
   .aeris-table[data-responsive='stack'] .aeris-table__expansion-row {
     display: block;
     margin-top: calc(-1 * (var(--aeris-table-density-gap) + 0.25rem));
@@ -694,3 +721,5 @@ tr[data-selected] td {
     transform: rotate(360deg);
   }
 }
+
+@include aeris-mobile.input-font('input:not([type="checkbox"]):not([type="radio"]), textarea');

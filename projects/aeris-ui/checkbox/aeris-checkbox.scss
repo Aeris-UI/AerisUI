@@ -69,10 +69,11 @@
   line-height: 0;
 }
 
-.aeris-checkbox:hover:not([data-disabled]) .aeris-checkbox__control {
-  border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
+@media (hover: hover) {
+  .aeris-checkbox:hover:not([data-disabled]) .aeris-checkbox__control {
+    border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
+  }
 }
-
 .aeris-checkbox__check-mark,
 .aeris-checkbox__mixed-mark {
   width: 72%;

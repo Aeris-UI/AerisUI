@@ -86,11 +86,12 @@
   cursor: pointer;
 }
 
-.aeris-organization-chart__node[data-selectable='true']:hover {
-  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
-  background: var(--aeris-surface-2, #f3f3f3);
+@media (hover: hover) {
+  .aeris-organization-chart__node[data-selectable='true']:hover {
+    border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+    background: var(--aeris-surface-2, #f3f3f3);
+  }
 }
-
 .aeris-organization-chart__node[data-selected='true'] {
   border-color: color-mix(
     in srgb,
@@ -135,11 +136,12 @@
   cursor: pointer;
 }
 
-.aeris-organization-chart__toggle:hover {
-  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
-  background: var(--aeris-surface-2, #f3f3f3);
+@media (hover: hover) {
+  .aeris-organization-chart__toggle:hover {
+    border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+    background: var(--aeris-surface-2, #f3f3f3);
+  }
 }
-
 .aeris-organization-chart__toggle span {
   width: 1rem;
   height: 1rem;

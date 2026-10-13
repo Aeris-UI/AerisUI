@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -45,13 +46,14 @@
   opacity: 0.72;
 }
 
-.aeris-input-mask__input:hover:not(:disabled):not(:read-only) {
-  border-color: var(
-    --aeris-control-hover-border,
-    var(--aeris-primary, #{aeris-fallbacks.$primary})
-  );
+@media (hover: hover) {
+  .aeris-input-mask__input:hover:not(:disabled):not(:read-only) {
+    border-color: var(
+      --aeris-control-hover-border,
+      var(--aeris-primary, #{aeris-fallbacks.$primary})
+    );
+  }
 }
-
 .aeris-input-mask__input:focus {
   border-color: var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
@@ -69,12 +71,15 @@
 }
 
 .aeris-input-mask[data-invalid] .aeris-input-mask__input,
-.aeris-input-mask[data-invalid] .aeris-input-mask__input:hover,
-.aeris-input-mask__input:user-invalid,
-.aeris-input-mask__input:user-invalid:hover {
+.aeris-input-mask__input:user-invalid {
   border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
 }
-
+@media (hover: hover) {
+  .aeris-input-mask[data-invalid] .aeris-input-mask__input:hover,
+  .aeris-input-mask__input:user-invalid:hover {
+    border-color: var(--aeris-control-invalid-border, var(--aeris-danger, #c81e2a));
+  }
+}
 .aeris-input-mask[data-invalid] .aeris-input-mask__input:focus,
 .aeris-input-mask__input:user-invalid:focus {
   box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
@@ -139,12 +144,16 @@
   transform: translateY(-50%);
 }
 
-.aeris-input-mask__clear:hover,
 .aeris-input-mask__clear:focus-visible {
   background: var(--aeris-surface-2, #f3f3f3);
   color: var(--aeris-text, #111111);
 }
-
+@media (hover: hover) {
+  .aeris-input-mask__clear:hover {
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
+}
 .aeris-input-mask__clear:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
@@ -163,3 +172,5 @@
     transition: none;
   }
 }
+
+@include aeris-mobile.input-font('input');

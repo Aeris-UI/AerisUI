@@ -264,12 +264,13 @@
   cursor: pointer;
 }
 
-.aeris-file-upload__remove:hover:not(:disabled) {
-  border-color: var(--aeris-file-upload-border, var(--aeris-border, #efefef));
-  background: var(--aeris-surface-2, #f3f3f3);
-  color: var(--aeris-danger-text, #a31722);
+@media (hover: hover) {
+  .aeris-file-upload__remove:hover:not(:disabled) {
+    border-color: var(--aeris-file-upload-border, var(--aeris-border, #efefef));
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-danger-text, #a31722);
+  }
 }
-
 .aeris-file-upload__remove span {
   width: var(--aeris-icon-size, 1rem);
   height: var(--aeris-icon-size, 1rem);

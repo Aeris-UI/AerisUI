@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -180,10 +181,11 @@
   cursor: grabbing;
 }
 
-.aeris-pick-list__item:hover {
-  background: var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3));
+@media (hover: hover) {
+  .aeris-pick-list__item:hover {
+    background: var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3));
+  }
 }
-
 .aeris-pick-list__item[data-selected='true'] {
   border-color: color-mix(
     in srgb,
@@ -265,12 +267,13 @@
   cursor: pointer;
 }
 
-.aeris-pick-list__reorder-controls button:not(:disabled):hover,
-.aeris-pick-list__transfer-controls button:not(:disabled):hover {
-  border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
-  background: var(--aeris-surface-2, #f3f3f3);
+@media (hover: hover) {
+  .aeris-pick-list__reorder-controls button:not(:disabled):hover,
+  .aeris-pick-list__transfer-controls button:not(:disabled):hover {
+    border-color: var(--aeris-focus, #{aeris-fallbacks.$focus});
+    background: var(--aeris-surface-2, #f3f3f3);
+  }
 }
-
 .aeris-pick-list__reorder-controls button:focus-visible,
 .aeris-pick-list__transfer-controls button:focus-visible {
   outline: 0;
@@ -359,3 +362,5 @@
     transform: none;
   }
 }
+
+@include aeris-mobile.input-font('input:not([type="checkbox"]):not([type="radio"]), textarea');

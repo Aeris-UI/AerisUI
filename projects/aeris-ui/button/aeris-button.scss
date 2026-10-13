@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -318,3 +319,5 @@
     animation-duration: 1.5s;
   }
 }
+
+@include aeris-mobile.targets(':host');

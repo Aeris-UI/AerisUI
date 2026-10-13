@@ -92,16 +92,23 @@
   font-size: var(--aeris-mega-menu-panel-font-size, var(--aeris-item-font-size, 0.875rem));
 }
 
-.aeris-mega-menu__trigger:hover,
-.aeris-mega-menu__root-item[data-open='true'] > .aeris-mega-menu__trigger,
-.aeris-mega-menu__panel-item:hover {
+.aeris-mega-menu__root-item[data-open='true'] > .aeris-mega-menu__trigger {
   background: var(
     --aeris-mega-menu-item-hover-background,
     var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
   color: var(--aeris-mega-menu-item-hover-color, var(--aeris-text, #111111));
 }
-
+@media (hover: hover) {
+  .aeris-mega-menu__trigger:hover,
+  .aeris-mega-menu__panel-item:hover {
+    background: var(
+      --aeris-mega-menu-item-hover-background,
+      var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
+    );
+    color: var(--aeris-mega-menu-item-hover-color, var(--aeris-text, #111111));
+  }
+}
 .aeris-mega-menu__trigger:focus-visible,
 .aeris-mega-menu__panel-item:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid

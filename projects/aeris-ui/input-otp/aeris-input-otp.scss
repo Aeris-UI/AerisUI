@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -48,13 +49,14 @@
   max-width: var(--_slot-size);
 }
 
-.aeris-input-otp__slot:hover:not(:disabled, :read-only) {
-  border-color: var(
-    --aeris-control-hover-border,
-    var(--aeris-primary, #{aeris-fallbacks.$primary})
-  );
+@media (hover: hover) {
+  .aeris-input-otp__slot:hover:not(:disabled, :read-only) {
+    border-color: var(
+      --aeris-control-hover-border,
+      var(--aeris-primary, #{aeris-fallbacks.$primary})
+    );
+  }
 }
-
 .aeris-input-otp__slot:focus-visible {
   border-color: var(--aeris-control-focus-border, var(--aeris-focus, #{aeris-fallbacks.$focus}));
   box-shadow: 0 0 0 var(--aeris-focus-ring-width, 3px)
@@ -131,3 +133,5 @@
     transition: none;
   }
 }
+
+@include aeris-mobile.input-font('input');

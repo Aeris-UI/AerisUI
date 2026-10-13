@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -80,14 +81,20 @@
   background: var(--aeris-date-picker-filled-background, var(--aeris-surface-2, #f3f3f3));
 }
 
-.aeris-date-picker__trigger:hover,
 .aeris-date-picker[data-open] .aeris-date-picker__trigger {
   border-color: var(
     --aeris-date-picker-hover-border,
     var(--aeris-control-hover-border, var(--aeris-primary, #{aeris-fallbacks.$primary}))
   );
 }
-
+@media (hover: hover) {
+  .aeris-date-picker__trigger:hover {
+    border-color: var(
+      --aeris-date-picker-hover-border,
+      var(--aeris-control-hover-border, var(--aeris-primary, #{aeris-fallbacks.$primary}))
+    );
+  }
+}
 .aeris-date-picker__trigger:focus-visible {
   outline: 0;
   border-color: var(
@@ -141,12 +148,16 @@
   cursor: pointer;
 }
 
-.aeris-date-picker__clear:hover,
 .aeris-date-picker__clear:focus-visible {
   background: var(--aeris-surface-2, #f3f3f3);
   color: var(--aeris-text, #111111);
 }
-
+@media (hover: hover) {
+  .aeris-date-picker__clear:hover {
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
+}
 .aeris-date-picker__clear:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
@@ -310,16 +321,17 @@
   font-weight: var(--aeris-font-weight-bold, 700);
 }
 
-.aeris-date-picker__heading button:hover,
-.aeris-date-picker__nav:hover:not(:disabled),
-.aeris-date-picker__footer button:hover:not(:disabled),
-.aeris-date-picker__choice-grid button:hover:not(:disabled) {
-  background: var(
-    --aeris-date-picker-hover,
-    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%, transparent)
-  );
+@media (hover: hover) {
+  .aeris-date-picker__heading button:hover,
+  .aeris-date-picker__nav:hover:not(:disabled),
+  .aeris-date-picker__footer button:hover:not(:disabled),
+  .aeris-date-picker__choice-grid button:hover:not(:disabled) {
+    background: var(
+      --aeris-date-picker-hover,
+      color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%, transparent)
+    );
+  }
 }
-
 .aeris-date-picker__heading button:focus-visible,
 .aeris-date-picker__nav:focus-visible,
 .aeris-date-picker__footer button:focus-visible,
@@ -421,14 +433,20 @@
   cursor: pointer;
 }
 
-.aeris-date-picker__day:hover:not(:disabled),
 .aeris-date-picker__day:focus-visible {
   background: var(
     --aeris-date-picker-hover,
     color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%, transparent)
   );
 }
-
+@media (hover: hover) {
+  .aeris-date-picker__day:hover:not(:disabled) {
+    background: var(
+      --aeris-date-picker-hover,
+      color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 12%, transparent)
+    );
+  }
+}
 .aeris-date-picker__day:focus-visible {
   z-index: 1;
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
@@ -465,11 +483,8 @@
   font-weight: var(--aeris-font-weight-bold, 700);
 }
 
-.aeris-date-picker__day[data-selected]:hover:not(:disabled),
 .aeris-date-picker__day[data-selected]:focus-visible,
-.aeris-date-picker__day[data-range-start]:hover:not(:disabled),
 .aeris-date-picker__day[data-range-start]:focus-visible,
-.aeris-date-picker__day[data-range-end]:hover:not(:disabled),
 .aeris-date-picker__day[data-range-end]:focus-visible {
   background: var(
     --aeris-date-picker-selected-hover-background,
@@ -480,7 +495,20 @@
     var(--aeris-on-primary-hover, var(--aeris-on-primary, #{aeris-fallbacks.$on-primary}))
   );
 }
-
+@media (hover: hover) {
+  .aeris-date-picker__day[data-selected]:hover:not(:disabled),
+  .aeris-date-picker__day[data-range-start]:hover:not(:disabled),
+  .aeris-date-picker__day[data-range-end]:hover:not(:disabled) {
+    background: var(
+      --aeris-date-picker-selected-hover-background,
+      var(--aeris-primary-hover, var(--aeris-primary, #{aeris-fallbacks.$primary}))
+    );
+    color: var(
+      --aeris-date-picker-selected-hover-text,
+      var(--aeris-on-primary-hover, var(--aeris-on-primary, #{aeris-fallbacks.$on-primary}))
+    );
+  }
+}
 .aeris-date-picker__day[data-today]:not([data-selected])::after {
   position: absolute;
   bottom: 0.1875rem;
@@ -521,7 +549,6 @@
   font-weight: var(--aeris-font-weight-bold, 700);
 }
 
-.aeris-date-picker__choice-grid button[data-selected]:hover:not(:disabled),
 .aeris-date-picker__choice-grid button[data-selected]:focus-visible {
   background: var(
     --aeris-date-picker-selected-hover-background,
@@ -532,7 +559,18 @@
     var(--aeris-on-primary-hover, var(--aeris-on-primary, #{aeris-fallbacks.$on-primary}))
   );
 }
-
+@media (hover: hover) {
+  .aeris-date-picker__choice-grid button[data-selected]:hover:not(:disabled) {
+    background: var(
+      --aeris-date-picker-selected-hover-background,
+      var(--aeris-primary-hover, var(--aeris-primary, #{aeris-fallbacks.$primary}))
+    );
+    color: var(
+      --aeris-date-picker-selected-hover-text,
+      var(--aeris-on-primary-hover, var(--aeris-on-primary, #{aeris-fallbacks.$on-primary}))
+    );
+  }
+}
 .aeris-date-picker__time {
   min-width: 15rem;
   display: flex;
@@ -639,3 +677,6 @@
     transition: none;
   }
 }
+
+@include aeris-mobile.input-font('input');
+@include aeris-mobile.targets('button:not(.aeris-date-picker__day)');

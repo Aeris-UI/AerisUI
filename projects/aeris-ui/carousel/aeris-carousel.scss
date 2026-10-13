@@ -156,19 +156,20 @@
   cursor: pointer;
 }
 
-.aeris-carousel__navigator:hover:not(:disabled) {
-  border-color: color-mix(
-    in srgb,
-    var(--aeris-primary, #{aeris-fallbacks.$primary}) 50%,
-    var(--aeris-border, #efefef)
-  );
-  background: color-mix(
-    in srgb,
-    var(--aeris-primary, #{aeris-fallbacks.$primary}) 10%,
-    var(--aeris-surface, #fff)
-  );
+@media (hover: hover) {
+  .aeris-carousel__navigator:hover:not(:disabled) {
+    border-color: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 50%,
+      var(--aeris-border, #efefef)
+    );
+    background: color-mix(
+      in srgb,
+      var(--aeris-primary, #{aeris-fallbacks.$primary}) 10%,
+      var(--aeris-surface, #fff)
+    );
+  }
 }
-
 .aeris-carousel__navigator:disabled {
   opacity: 0.42;
   cursor: not-allowed;

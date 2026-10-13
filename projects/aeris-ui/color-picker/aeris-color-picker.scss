@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -464,36 +465,43 @@
   outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
-.aeris-color-picker__trigger:hover,
-.aeris-color-picker__panel-value input:hover {
-  border-color: var(
-    --aeris-control-hover-border,
-    var(--aeris-primary, #{aeris-fallbacks.$primary})
-  );
+@media (hover: hover) {
+  .aeris-color-picker__trigger:hover,
+  .aeris-color-picker__panel-value input:hover {
+    border-color: var(
+      --aeris-control-hover-border,
+      var(--aeris-primary, #{aeris-fallbacks.$primary})
+    );
+  }
 }
-
-.aeris-color-picker__clear:hover,
 .aeris-color-picker__clear:focus-visible {
   background: var(--aeris-surface-2, #f3f3f3);
   color: var(--aeris-text, #111111);
 }
-
+@media (hover: hover) {
+  .aeris-color-picker__clear:hover {
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
+}
 .aeris-color-picker__clear:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
 }
 
-.aeris-color-picker__presets button:hover {
-  box-shadow: 0 0 0 1px var(--aeris-primary, #{aeris-fallbacks.$primary});
+@media (hover: hover) {
+  .aeris-color-picker__presets button:hover {
+    box-shadow: 0 0 0 1px var(--aeris-primary, #{aeris-fallbacks.$primary});
+  }
 }
-
-.aeris-color-picker__close:hover,
-.aeris-color-picker__eyedropper:hover,
-.aeris-color-picker__formats button:hover {
-  background: var(--aeris-surface-2, #f3f3f3);
-  color: var(--aeris-text, #111111);
+@media (hover: hover) {
+  .aeris-color-picker__close:hover,
+  .aeris-color-picker__eyedropper:hover,
+  .aeris-color-picker__formats button:hover {
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
 }
-
 .aeris-color-picker__close:focus-visible,
 .aeris-color-picker__eyedropper:focus-visible,
 .aeris-color-picker__formats button:focus-visible,
@@ -572,3 +580,5 @@
     animation: none;
   }
 }
+
+@include aeris-mobile.input-font('input');

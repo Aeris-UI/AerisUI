@@ -78,17 +78,18 @@
   cursor: pointer;
 }
 
-.aeris-accordion__trigger:hover:not(:disabled) {
-  background: var(
-    --aeris-accordion-hover-background,
-    color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 8%, transparent)
-  );
-  color: var(
-    --aeris-accordion-hover-color,
-    var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
-  );
+@media (hover: hover) {
+  .aeris-accordion__trigger:hover:not(:disabled) {
+    background: var(
+      --aeris-accordion-hover-background,
+      color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 8%, transparent)
+    );
+    color: var(
+      --aeris-accordion-hover-color,
+      var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
+    );
+  }
 }
-
 .aeris-accordion__trigger:focus-visible {
   position: relative;
   z-index: 1;

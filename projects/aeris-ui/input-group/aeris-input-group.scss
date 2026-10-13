@@ -222,11 +222,12 @@ aeris-input-group.aeris-input-group .aeris-input-group__stack > .aeris-button {
   border-radius: 0;
 }
 
-aeris-input-group.aeris-input-group .aeris-button:hover:not(:disabled),
-aeris-input-group.aeris-input-group button:hover:not(:disabled) {
-  transform: none;
+@media (hover: hover) {
+  aeris-input-group.aeris-input-group .aeris-button:hover:not(:disabled),
+  aeris-input-group.aeris-input-group button:hover:not(:disabled) {
+    transform: none;
+  }
 }
-
 @media (hover: hover) and (pointer: fine) {
   aeris-input-group.aeris-input-group
     > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):hover:not(:disabled),
@@ -292,13 +293,14 @@ aeris-input-group.aeris-input-group
   box-shadow: none;
 }
 
-.aeris-input-group--filled > button:not(.aeris-button):hover:not(:disabled),
-.aeris-input-group--filled
-  > .aeris-input-group__stack
-  > button:not(.aeris-button):hover:not(:disabled) {
-  background: color-mix(in srgb, var(--aeris-surface-2, #f3f3f3) 82%, var(--aeris-text, #111111));
+@media (hover: hover) {
+  .aeris-input-group--filled > button:not(.aeris-button):hover:not(:disabled),
+  .aeris-input-group--filled
+    > .aeris-input-group__stack
+    > button:not(.aeris-button):hover:not(:disabled) {
+    background: color-mix(in srgb, var(--aeris-surface-2, #f3f3f3) 82%, var(--aeris-text, #111111));
+  }
 }
-
 .aeris-input-group--invalid > input:not([type='checkbox']):not([type='radio']),
 .aeris-input-group--invalid > textarea,
 .aeris-input-group--invalid > select,
@@ -474,5 +476,15 @@ aeris-input-group.aeris-input-group
   .aeris-input-group > textarea,
   .aeris-input-group > select {
     transition: none;
+  }
+}
+
+@media (pointer: coarse) {
+  .aeris-input-group {
+    --aeris-input-group-height: max(
+      var(--aeris-control-height, 2.625rem),
+      var(--aeris-touch-target-size, 2.75rem)
+    );
+    --aeris-input-group-font-size: var(--aeris-mobile-input-font-size, 1rem);
   }
 }

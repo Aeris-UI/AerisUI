@@ -80,10 +80,11 @@
     transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out);
 }
 
-.aeris-toggle-switch:hover:not([data-disabled]) .aeris-toggle-switch__control {
-  border-color: var(--aeris-toggle-switch-hover-border, var(--aeris-primary, #768653));
+@media (hover: hover) {
+  .aeris-toggle-switch:hover:not([data-disabled]) .aeris-toggle-switch__control {
+    border-color: var(--aeris-toggle-switch-hover-border, var(--aeris-primary, #768653));
+  }
 }
-
 .aeris-toggle-switch__input:checked + .aeris-toggle-switch__control {
   border-color: var(--aeris-toggle-switch-checked-background, var(--aeris-primary, #768653));
   background: var(--aeris-toggle-switch-checked-background, var(--aeris-primary, #768653));

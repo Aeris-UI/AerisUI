@@ -37,15 +37,19 @@ aeris-card {
   background: var(--aeris-card-filled-background, var(--aeris-surface-2, #f3f3f3));
 }
 
-.aeris-card[data-hoverable='true']:hover {
-  border-color: var(
-    --aeris-card-hover-border,
-    color-mix(in srgb, var(--aeris-border, #efefef) 58%, transparent)
-  );
-  box-shadow: var(--aeris-card-hover-shadow, var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%)));
-  transform: translateY(-0.125rem);
+@media (hover: hover) {
+  .aeris-card[data-hoverable='true']:hover {
+    border-color: var(
+      --aeris-card-hover-border,
+      color-mix(in srgb, var(--aeris-border, #efefef) 58%, transparent)
+    );
+    box-shadow: var(
+      --aeris-card-hover-shadow,
+      var(--aeris-shadow-lg, 0 18px 48px rgb(0 0 0 / 18%))
+    );
+    transform: translateY(-0.125rem);
+  }
 }
-
 .aeris-card__body {
   min-width: 0;
   display: grid;

@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 :host {
   display: inline-block;
   color: var(--aeris-text);
@@ -98,12 +99,16 @@
     box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-.aeris-editor__toolbar button:hover:not(:disabled),
 .aeris-editor__toolbar button[aria-pressed='true'] {
   background: var(--aeris-primary-soft);
   color: var(--aeris-text);
 }
-
+@media (hover: hover) {
+  .aeris-editor__toolbar button:hover:not(:disabled) {
+    background: var(--aeris-primary-soft);
+    color: var(--aeris-text);
+  }
+}
 .aeris-editor__toolbar button:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus);
   outline-offset: var(--aeris-focus-ring-offset, 2px);
@@ -350,3 +355,5 @@
     transition: none;
   }
 }
+
+@include aeris-mobile.input-font('input:not([type="checkbox"]):not([type="radio"]), textarea');

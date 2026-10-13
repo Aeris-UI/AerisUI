@@ -1,0 +1,16 @@
+@mixin input-font($selectors) {
+  @media (pointer: coarse) {
+    #{$selectors} {
+      font-size: var(--aeris-mobile-input-font-size, 1rem);
+    }
+  }
+}
+
+@mixin targets($selectors) {
+  @media (pointer: coarse) {
+    #{$selectors} {
+      min-block-size: var(--aeris-touch-target-size, 2.75rem);
+      min-inline-size: var(--aeris-touch-target-size, 2.75rem);
+    }
+  }
+}

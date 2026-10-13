@@ -127,7 +127,6 @@ aeris-menu,
   display: block;
 }
 
-.aeris-menu__item:hover,
 .aeris-menu__item-shell[data-active='true'] > .aeris-menu__item {
   background: var(
     --aeris-menu-item-hover-background,
@@ -135,7 +134,15 @@ aeris-menu,
   );
   color: var(--aeris-menu-item-hover-color, var(--aeris-text, #111111));
 }
-
+@media (hover: hover) {
+  .aeris-menu__item:hover {
+    background: var(
+      --aeris-menu-item-hover-background,
+      var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
+    );
+    color: var(--aeris-menu-item-hover-color, var(--aeris-text, #111111));
+  }
+}
 .aeris-menu__item:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid
     var(

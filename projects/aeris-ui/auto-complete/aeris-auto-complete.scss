@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -93,14 +94,20 @@
   background: var(--aeris-auto-complete-filled-background, var(--aeris-surface-2, #f3f3f3));
 }
 
-.aeris-auto-complete__input:hover,
 .aeris-auto-complete[data-open] .aeris-auto-complete__input {
   border-color: var(
     --aeris-auto-complete-hover-border,
     var(--aeris-control-hover-border, var(--aeris-primary, #{aeris-fallbacks.$primary}))
   );
 }
-
+@media (hover: hover) {
+  .aeris-auto-complete__input:hover {
+    border-color: var(
+      --aeris-auto-complete-hover-border,
+      var(--aeris-control-hover-border, var(--aeris-primary, #{aeris-fallbacks.$primary}))
+    );
+  }
+}
 .aeris-auto-complete__input:focus-visible {
   border-color: var(
     --aeris-auto-complete-focus,
@@ -156,13 +163,17 @@
   right: var(--aeris-auto-complete-padding);
 }
 
-.aeris-auto-complete__clear:hover,
-.aeris-auto-complete__clear:focus-visible,
-.aeris-auto-complete__dropdown:hover {
+.aeris-auto-complete__clear:focus-visible {
   background: var(--aeris-surface-2, #f3f3f3);
   color: var(--aeris-text, #111111);
 }
-
+@media (hover: hover) {
+  .aeris-auto-complete__clear:hover,
+  .aeris-auto-complete__dropdown:hover {
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
+}
 .aeris-auto-complete__clear:focus-visible,
 .aeris-auto-complete__dropdown:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
@@ -269,14 +280,20 @@
   cursor: pointer;
 }
 
-.aeris-auto-complete__option:hover,
 .aeris-auto-complete__option[data-active] {
   background: var(
     --aeris-auto-complete-option-hover,
     var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
 }
-
+@media (hover: hover) {
+  .aeris-auto-complete__option:hover {
+    background: var(
+      --aeris-auto-complete-option-hover,
+      var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
+    );
+  }
+}
 .aeris-auto-complete__option[aria-selected='true'] {
   background: var(--aeris-auto-complete-option-selected, var(--aeris-primary-soft, #e7eddc));
   color: var(--aeris-auto-complete-option-selected-text, var(--aeris-text, #111111));
@@ -313,3 +330,5 @@
     transition: none;
   }
 }
+
+@include aeris-mobile.input-font('input');

@@ -129,18 +129,19 @@ a.aeris-breadcrumb__item {
   cursor: pointer;
 }
 
-button.aeris-breadcrumb__item:hover,
-a.aeris-breadcrumb__item:hover {
-  background: var(
-    --aeris-breadcrumb-item-hover-background,
-    var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
-  );
-  color: var(
-    --aeris-breadcrumb-item-hover-color,
-    var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
-  );
+@media (hover: hover) {
+  button.aeris-breadcrumb__item:hover,
+  a.aeris-breadcrumb__item:hover {
+    background: var(
+      --aeris-breadcrumb-item-hover-background,
+      var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
+    );
+    color: var(
+      --aeris-breadcrumb-item-hover-color,
+      var(--aeris-primary-text, #{aeris-fallbacks.$primary-text})
+    );
+  }
 }
-
 button.aeris-breadcrumb__item:focus-visible,
 a.aeris-breadcrumb__item:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid

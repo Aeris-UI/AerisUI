@@ -1,3 +1,4 @@
+@use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -98,12 +99,16 @@
   cursor: pointer;
 }
 
-.aeris-tree__filter-clear:hover,
 .aeris-tree__filter-clear:focus-visible {
   background: var(--aeris-surface-2, #f3f3f3);
   color: var(--aeris-text, #111111);
 }
-
+@media (hover: hover) {
+  .aeris-tree__filter-clear:hover {
+    background: var(--aeris-surface-2, #f3f3f3);
+    color: var(--aeris-text, #111111);
+  }
+}
 .aeris-tree__filter-clear:focus-visible {
   outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus, #{aeris-fallbacks.$focus});
   outline-offset: 1px;
@@ -207,14 +212,20 @@
   bottom: -1px;
 }
 
-.aeris-tree__node:not([data-disabled='true']):hover,
 .aeris-tree__node[data-active='true'] {
   background: var(
     --aeris-tree-node-hover,
     var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
   );
 }
-
+@media (hover: hover) {
+  .aeris-tree__node:not([data-disabled='true']):hover {
+    background: var(
+      --aeris-tree-node-hover,
+      var(--aeris-interactive-hover, var(--aeris-surface-2, #f3f3f3))
+    );
+  }
+}
 .aeris-tree__node[data-selected='true'] {
   background: var(--aeris-tree-node-selected, var(--aeris-primary-soft, #eef2e6));
   color: var(--aeris-primary-text, #{aeris-fallbacks.$focus});
@@ -243,10 +254,11 @@
   cursor: pointer;
 }
 
-.aeris-tree__toggle[data-expandable='true']:hover {
-  background: color-mix(in srgb, currentColor 10%, transparent);
+@media (hover: hover) {
+  .aeris-tree__toggle[data-expandable='true']:hover {
+    background: color-mix(in srgb, currentColor 10%, transparent);
+  }
 }
-
 .aeris-tree__chevron {
   position: relative;
   width: 1rem;
@@ -410,3 +422,5 @@
     color: HighlightText;
   }
 }
+
+@include aeris-mobile.input-font('input:not([type="checkbox"]):not([type="radio"]), textarea');
