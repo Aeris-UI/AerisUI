@@ -8,6 +8,7 @@ const docsLayoutTests = [
   '**/tree-select-responsive.spec.ts',
   '**/pick-list-responsive.spec.ts',
   '**/toast-touch.spec.ts',
+  '**/galleria-layout.spec.ts',
   '**/code-block.spec.ts',
   '**/component-example-layout.spec.ts',
 ];

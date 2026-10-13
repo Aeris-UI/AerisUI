@@ -7,7 +7,18 @@ release line.
 
 ## [Unreleased]
 
-No consumer-visible changes have been recorded since 22.0.0-alpha.9.
+### Removed
+
+- **Breaking:** Remove Galleria indicators, including `showIndicators`, `indicatorsOverlay`,
+  `indicatorsAriaLabel`, indicator design tokens, and the `indicator` change reason. Use thumbnails
+  or previous/next navigation instead.
+
+### Fixed
+
+- Fit images opened from a Galleria grid within the fullscreen viewer without cropping.
+- Keep image taps stable, pan zoomed Galleria images without changing slides, and allow native
+  thumbnail scrolling while retaining arrow navigation and thumbnail sizing options.
+- Keep Galleria and Carousel gestures isolated to their active pointer and preserve browser pinch zoom.
 
 ## [22.0.0-alpha.9] - 2026-10-05
 

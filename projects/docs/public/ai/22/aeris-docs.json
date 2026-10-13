@@ -3086,7 +3086,10 @@
             "Next release · In development"
           ],
           "bullets": [
-            "No consumer-visible changes have been recorded since 22.0.0-alpha.9."
+            "Breaking: remove Galleria indicator inputs, tokens, and the indicator change reason; use thumbnails or previous/next navigation instead.",
+            "Show the whole image without cropping when opening a Galleria grid item fullscreen.",
+            "Keep Galleria taps stable, support bounded image panning when zoomed, and scroll thumbnails natively.",
+            "Prevent secondary touches from interrupting Galleria and Carousel gestures and preserve browser pinch zoom."
           ]
         },
         {
@@ -34964,18 +34967,6 @@
               "description": "Reveals stage navigation on hover or focus; controls remain visible on touch devices."
             },
             {
-              "name": "showIndicators",
-              "type": "boolean",
-              "defaultValue": "false",
-              "description": "Shows one selectable indicator per gallery item."
-            },
-            {
-              "name": "indicatorsOverlay",
-              "type": "boolean",
-              "defaultValue": "false",
-              "description": "Places indicators over the media stage."
-            },
-            {
               "name": "showCaption",
               "type": "boolean",
               "defaultValue": "true",
@@ -35117,7 +35108,7 @@
               "name": "objectFit",
               "type": "'contain' | 'cover'",
               "defaultValue": "'cover'",
-              "description": "Controls built-in image fitting within the stage."
+              "description": "Controls built-in stage image fitting. Grid items opened fullscreen always use contain to show the whole photo."
             },
             {
               "name": "aspectRatio",
@@ -35154,12 +35145,6 @@
               "type": "string",
               "defaultValue": "'Gallery thumbnails'",
               "description": "Accessible name for the thumbnail tab list."
-            },
-            {
-              "name": "indicatorsAriaLabel",
-              "type": "string",
-              "defaultValue": "'Gallery items'",
-              "description": "Accessible name for the indicator tab list."
             },
             {
               "name": "previousAriaLabel",
@@ -35492,7 +35477,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisGalleriaThumbnailPosition = 'top' | 'bottom' | 'start' | 'end';\ntype AerisGalleriaObjectFit = 'contain' | 'cover';\ntype AerisGalleriaMode = 'gallery' | 'grid' | 'single';\ntype AerisGalleriaChangeReason = 'next' | 'previous' | 'thumbnail' | 'indicator' | 'keyboard' | 'swipe' | 'autoplay' | 'grid' | 'api';\ntype AerisGalleriaFullscreenCloseReason = 'toggle' | 'escape' | 'backdrop' | 'api';\n\ninterface AerisGalleriaImage {\n  readonly src: string;\n  readonly thumbnailSrc?: string;\n  readonly alt: string;\n  readonly title?: string;\n  readonly description?: string;\n  readonly downloadName?: string;\n}\n\ninterface AerisGalleriaResponsiveOption {\n  readonly breakpoint: string;\n  readonly numVisible?: number;\n  readonly showThumbnails?: boolean;\n  readonly thumbnailPosition?: AerisGalleriaThumbnailPosition;\n}\n\ninterface AerisGalleriaItemContext<T = unknown> {\n  readonly $implicit: T;\n  readonly item: T;\n  readonly index: number;\n  readonly active: boolean;\n}\n\ninterface AerisGalleriaIndexChangeEvent<T = unknown> {\n  readonly index: number;\n  readonly previousIndex: number;\n  readonly item: T;\n  readonly reason: AerisGalleriaChangeReason;\n}\n\ninterface AerisGalleriaTransformState {\n  readonly rotation: number;\n  readonly zoom: number;\n  readonly horizontalFlip: boolean;\n  readonly verticalFlip: boolean;\n}\n\ninterface AerisGalleriaDownloadEvent<T = unknown> {\n  readonly item: T;\n  readonly index: number;\n  readonly src: string;\n  readonly filename: string;\n}"
+          "code": "type AerisGalleriaThumbnailPosition = 'top' | 'bottom' | 'start' | 'end';\ntype AerisGalleriaObjectFit = 'contain' | 'cover';\ntype AerisGalleriaMode = 'gallery' | 'grid' | 'single';\ntype AerisGalleriaChangeReason = 'next' | 'previous' | 'thumbnail' | 'keyboard' | 'swipe' | 'autoplay' | 'grid' | 'api';\ntype AerisGalleriaFullscreenCloseReason = 'toggle' | 'escape' | 'backdrop' | 'api';\n\ninterface AerisGalleriaImage {\n  readonly src: string;\n  readonly thumbnailSrc?: string;\n  readonly alt: string;\n  readonly title?: string;\n  readonly description?: string;\n  readonly downloadName?: string;\n}\n\ninterface AerisGalleriaResponsiveOption {\n  readonly breakpoint: string;\n  readonly numVisible?: number;\n  readonly showThumbnails?: boolean;\n  readonly thumbnailPosition?: AerisGalleriaThumbnailPosition;\n}\n\ninterface AerisGalleriaItemContext<T = unknown> {\n  readonly $implicit: T;\n  readonly item: T;\n  readonly index: number;\n  readonly active: boolean;\n}\n\ninterface AerisGalleriaIndexChangeEvent<T = unknown> {\n  readonly index: number;\n  readonly previousIndex: number;\n  readonly item: T;\n  readonly reason: AerisGalleriaChangeReason;\n}\n\ninterface AerisGalleriaTransformState {\n  readonly rotation: number;\n  readonly zoom: number;\n  readonly horizontalFlip: boolean;\n  readonly verticalFlip: boolean;\n}\n\ninterface AerisGalleriaDownloadEvent<T = unknown> {\n  readonly item: T;\n  readonly index: number;\n  readonly src: string;\n  readonly filename: string;\n}"
         }
       ],
       "designTokens": [
@@ -35500,7 +35485,7 @@
           "name": "--aeris-galleria-gap",
           "type": "length",
           "defaultValue": "density gap × 1.5",
-          "description": "Space between stage, indicators, and thumbnails."
+          "description": "Space between stage and thumbnails."
         },
         {
           "name": "--aeris-galleria-radius",
@@ -35557,6 +35542,12 @@
           "description": "Toolbar corner radius."
         },
         {
+          "name": "--aeris-galleria-toolbar-fade-size",
+          "type": "length",
+          "defaultValue": "1.5rem",
+          "description": "Width of the edge fade when toolbar controls are outside the scrollable viewport."
+        },
+        {
           "name": "--aeris-galleria-grid-gap",
           "type": "length",
           "defaultValue": "--aeris-density-gap-lg",
@@ -35589,14 +35580,14 @@
         {
           "name": "--aeris-galleria-thumbnail-width",
           "type": "length",
-          "defaultValue": "5.75rem",
-          "description": "Compact horizontal thumbnail width."
+          "defaultValue": "available width / visible slots",
+          "description": "Optional horizontal thumbnail width override; otherwise the visible slots fill the rail."
         },
         {
           "name": "--aeris-galleria-thumbnail-height",
           "type": "length",
-          "defaultValue": "4.5rem",
-          "description": "Compact vertical thumbnail height."
+          "defaultValue": "available height / visible slots",
+          "description": "Optional vertical thumbnail height override."
         },
         {
           "name": "--aeris-galleria-thumbnail-aspect-ratio",
@@ -35609,18 +35600,6 @@
           "type": "color",
           "defaultValue": "--aeris-primary",
           "description": "Selected thumbnail border."
-        },
-        {
-          "name": "--aeris-galleria-indicator-background",
-          "type": "color",
-          "defaultValue": "--aeris-border",
-          "description": "Inactive indicator color."
-        },
-        {
-          "name": "--aeris-galleria-active-indicator-background",
-          "type": "color",
-          "defaultValue": "--aeris-primary",
-          "description": "Selected indicator color."
         },
         {
           "name": "--aeris-galleria-backdrop",
@@ -35649,8 +35628,8 @@
         {
           "name": "--aeris-galleria-fullscreen-thumbnail-width",
           "type": "length",
-          "defaultValue": "6.5rem",
-          "description": "Fullscreen thumbnail width; mobile defaults to 4.5rem."
+          "defaultValue": "available width / visible slots",
+          "description": "Optional fullscreen thumbnail width override; automatic slots adapt to the viewport."
         },
         {
           "name": "--aeris-galleria-fullscreen-gap",
@@ -35715,7 +35694,7 @@
         {
           "id": "galleria-toolbar",
           "title": "Image toolbar",
-          "description": "Enable built-in controls for rotation, horizontal and vertical flipping, zoom, reset, secure download, and fullscreen viewing.",
+          "description": "Enable rotation, flips, zoom, reset, download, and fullscreen viewing. Drag a zoomed photo to inspect it without changing images. Thumbnail rails support native touch scrolling; toolbar edge fades reveal off-screen controls.",
           "sources": [
             {
               "language": "TypeScript",
@@ -35727,7 +35706,7 @@
         {
           "id": "galleria-grid",
           "title": "Grid",
-          "description": "Present a larger 30-item collection as a responsive image grid. Selecting a tile opens that item in the fullscreen viewer by default.",
+          "description": "Present a larger 30-item collection as a responsive image grid. Selecting a tile opens that item in the fullscreen viewer, fitting the whole photo without cropping.",
           "sources": [
             {
               "language": "TypeScript",
@@ -35739,7 +35718,7 @@
         {
           "id": "galleria-single",
           "title": "Single",
-          "description": "Use the focused single-item viewer without thumbnails, indicators, or collection navigation chrome.",
+          "description": "Use the focused single-item viewer without thumbnails or collection navigation chrome.",
           "sources": [
             {
               "language": "TypeScript",
@@ -35749,14 +35728,14 @@
           ]
         },
         {
-          "id": "galleria-indicators",
-          "title": "Indicators and hover navigation",
-          "description": "Replace thumbnails with compact overlay indicators and reveal navigators on hover or keyboard focus. Touch devices keep controls visible.",
+          "id": "galleria-hover-navigation",
+          "title": "Hover navigation",
+          "description": "Reveal navigators on hover or keyboard focus. Touch devices keep controls visible.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/galleria';\n\n@Component({\n  selector: 'app-galleria-indicators-demo',\n  imports: [AerisGalleriaModule],\n  template: `\n    <div>\n      <aeris-galleria\n        [value]=\"photos\"\n        [showThumbnails]=\"false\"\n        showIndicators\n        indicatorsOverlay\n        navigatorsOnHover\n        circular\n        ariaLabel=\"Gallery with item indicators\"\n      />\n    </div>\n  `\n})\nexport class GalleriaIndicatorsIndicatorsAndHoverNavigationDemo {\n  protected readonly puppyNames: readonly string[] = [\n    'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',\n    'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',\n    'Millie', 'Scout', 'Willow', 'Charlie', 'Honey', 'Frankie', 'Nala', 'Monty', 'Penny', 'Remy',\n  ];\n\n  protected readonly photos: readonly AerisGalleriaImage[] = this.puppyNames.map(\n    (name, index) => ({\n      src: `/puppies/puppy${index + 1}.jpg`,\n      thumbnailSrc: `/puppies/puppy${index + 1}.jpg`,\n      alt: `Portrait of ${name} the puppy`,\n      title: name,\n      description: `Meet ${name}, one of the playful faces in the Aeris puppy collection.`,\n    }),\n  );\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/galleria';\n\n@Component({\n  selector: 'app-galleria-hover-navigation-demo',\n  imports: [AerisGalleriaModule],\n  template: `\n    <div>\n      <aeris-galleria\n        [value]=\"photos\"\n        [showThumbnails]=\"false\"\n        navigatorsOnHover\n        circular\n        ariaLabel=\"Gallery with hover navigation\"\n      />\n    </div>\n  `\n})\nexport class GalleriaHoverNavigationHoverNavigationDemo {\n  protected readonly puppyNames: readonly string[] = [\n    'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',\n    'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',\n    'Millie', 'Scout', 'Willow', 'Charlie', 'Honey', 'Frankie', 'Nala', 'Monty', 'Penny', 'Remy',\n  ];\n\n  protected readonly photos: readonly AerisGalleriaImage[] = this.puppyNames.map(\n    (name, index) => ({\n      src: `/puppies/puppy${index + 1}.jpg`,\n      thumbnailSrc: `/puppies/puppy${index + 1}.jpg`,\n      alt: `Portrait of ${name} the puppy`,\n      title: name,\n      description: `Meet ${name}, one of the playful faces in the Aeris puppy collection.`,\n    }),\n  );\n}\n"
             }
           ]
         },
@@ -35820,10 +35799,10 @@
       "accessibility": {
         "guidance": [
           "Inline Galleria is a named gallery region. Fullscreen presentation becomes a modal dialog, traps focus, locks background scrolling without shifting page content, and restores focus when closed.",
-          "Thumbnails and indicators are labelled groups of native buttons. The selected image exposes current state and each selector references the gallery stage.",
+          "Thumbnails are labelled groups of native buttons. The selected image exposes current state and each selector references the gallery stage.",
           "Thumbnail windows are paged with labelled previous and next buttons that remain usable with touch, keyboard, and assistive technology.",
           "The image tools use a labelled toolbar with native buttons, pressed states for flips and fullscreen, disabled zoom boundaries, and a readable zoom output.",
-          "Grid mode exposes a named list of image buttons. Single mode removes collection thumbnails and indicators while preserving native toolbar and fullscreen controls.",
+          "Grid mode exposes a named list of image buttons. Single mode removes collection thumbnails while preserving native toolbar and fullscreen controls.",
           "Built-in images require meaningful alt text. Use an empty alt only when an image is genuinely decorative and its caption conveys no unique information.",
           "Autoplay pauses for hover and focus, is disabled when reduced motion is requested, and keeps live announcements off while running.",
           "Hover-only navigators remain visible on touch devices and whenever keyboard focus is inside the stage.",
@@ -35833,11 +35812,15 @@
         "keyboard": [
           {
             "keys": "Tab",
-            "behavior": "Moves through stage controls, thumbnails, indicators, and projected native interactive elements. Focus is contained while fullscreen is open."
+            "behavior": "Moves through stage controls, thumbnails and projected native interactive elements. Focus is contained while fullscreen is open."
           },
           {
             "keys": "Arrow Right / Arrow Left",
-            "behavior": "Moves to the next or previous item from the focused stage. Direction follows RTL."
+            "behavior": "Moves to the next or previous item from the focused stage at normal zoom. Direction follows RTL. When zoomed in, arrow keys pan the image instead."
+          },
+          {
+            "keys": "Arrow Up / Arrow Down",
+            "behavior": "Pans a zoomed image vertically from the focused stage."
           },
           {
             "keys": "Home / End",
@@ -35845,7 +35828,7 @@
           },
           {
             "keys": "Enter / Space",
-            "behavior": "Activates focused native navigator, toolbar, grid, thumbnail, indicator, or fullscreen buttons."
+            "behavior": "Activates focused native navigator, toolbar, grid, thumbnail, or fullscreen buttons."
           },
           {
             "keys": "Escape",

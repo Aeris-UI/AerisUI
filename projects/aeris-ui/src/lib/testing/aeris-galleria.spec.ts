@@ -70,7 +70,7 @@ class GalleriaHost {
 @Component({
   imports: [AerisGalleriaModule],
   template: `
-    <aeris-galleria [value]="items" [showIndicators]="true" [showThumbnails]="true">
+    <aeris-galleria [value]="items" [showThumbnails]="true">
       <ng-template aerisGalleriaItem let-item let-index="index">
         <article class="custom-item">{{ index + 1 }}. {{ $any(item).name }}</article>
       </ng-template>
@@ -184,7 +184,7 @@ class ToolbarGalleriaHost {
       [(activeIndex)]="activeIndex"
       (indexChanged)="reason.set($event.reason)"
     />
-    <aeris-galleria mode="single" [value]="images" showIndicators />
+    <aeris-galleria mode="single" [value]="images" />
   `,
 })
 class ModeGalleriaHost {
@@ -221,7 +221,12 @@ describe('AerisGalleria', () => {
     expect(image.getAttribute('src')).toContain('puppy1.jpg');
     expect(image.alt).toBe('Milo in the grass');
     expect(fixture.nativeElement.textContent).toContain('A curious explorer.');
-    expect(thumbnails).toHaveLength(2);
+    expect(thumbnails).toHaveLength(images.length);
+    expect(
+      fixture.nativeElement
+        .querySelector('.aeris-galleria__thumbnails')
+        .style.getPropertyValue('--aeris-galleria-thumbnail-count'),
+    ).toBe('2');
     expect(thumbnailGroup.getAttribute('role')).toBe('group');
     expect(thumbnails[0]?.getAttribute('role')).toBeNull();
     expect(thumbnails[0]?.getAttribute('aria-current')).toBe('true');
@@ -230,7 +235,7 @@ describe('AerisGalleria', () => {
     expect(thumbnails[0]?.querySelector('.aeris-galleria__thumbnail-content > img')).toBeTruthy();
   });
 
-  it('changes controlled state through navigators, thumbnails, indicators, and public methods', () => {
+  it('changes controlled state through navigators, thumbnails, and public methods', () => {
     const fixture = TestBed.createComponent(GalleriaHost);
     fixture.detectChanges();
     const component = fixture.debugElement.query(
@@ -312,6 +317,130 @@ describe('AerisGalleria', () => {
     expect(fixture.componentInstance.lastChange()?.reason).toBe('keyboard');
   });
 
+  it('does not enter drag state or replay image motion on a tap or vertical scroll', () => {
+    const fixture = TestBed.createComponent(GalleriaHost);
+    fixture.detectChanges();
+    const viewport = fixture.nativeElement.querySelector(
+      '.aeris-galleria__viewport',
+    ) as HTMLElement;
+    const item = fixture.nativeElement.querySelector('.aeris-galleria__item') as HTMLElement;
+    const motion = item.dataset['motion'];
+    viewport.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        pointerType: 'touch',
+        pointerId: 1,
+        clientX: 100,
+        clientY: 100,
+      }),
+    );
+    fixture.detectChanges();
+    expect(item.hasAttribute('data-dragging')).toBe(false);
+    viewport.dispatchEvent(
+      new PointerEvent('pointerup', {
+        pointerType: 'touch',
+        pointerId: 1,
+        clientX: 100,
+        clientY: 100,
+      }),
+    );
+    fixture.detectChanges();
+    expect(item.dataset['motion']).toBe(motion);
+    viewport.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        pointerType: 'touch',
+        pointerId: 1,
+        clientX: 100,
+        clientY: 100,
+      }),
+    );
+    viewport.dispatchEvent(
+      new PointerEvent('pointermove', {
+        pointerType: 'touch',
+        pointerId: 1,
+        clientX: 98,
+        clientY: 170,
+      }),
+    );
+    viewport.dispatchEvent(
+      new PointerEvent('pointerup', {
+        pointerType: 'touch',
+        pointerId: 1,
+        clientX: 40,
+        clientY: 180,
+      }),
+    );
+    fixture.detectChanges();
+    expect(fixture.componentInstance.activeIndex()).toBe(0);
+    expect(item.hasAttribute('data-dragging')).toBe(false);
+  });
+
+  it('pans zoomed single images within bounds without changing slides, and supports keyboard panning', () => {
+    const fixture = TestBed.createComponent(AerisGalleria);
+    fixture.componentRef.setInput('value', images);
+    fixture.componentRef.setInput('mode', 'single');
+    fixture.componentRef.setInput('zoom', 2);
+    fixture.detectChanges();
+    const viewport = fixture.nativeElement.querySelector(
+      '.aeris-galleria__viewport',
+    ) as HTMLElement;
+    Object.defineProperties(viewport, {
+      clientWidth: { value: 400 },
+      clientHeight: { value: 300 },
+    });
+    const media = fixture.nativeElement.querySelector('.aeris-galleria__media') as HTMLElement;
+    viewport.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        pointerType: 'touch',
+        pointerId: 1,
+        clientX: 100,
+        clientY: 100,
+      }),
+    );
+    viewport.dispatchEvent(
+      new PointerEvent('pointerdown', {
+        pointerType: 'touch',
+        pointerId: 2,
+        clientX: 200,
+        clientY: 200,
+      }),
+    );
+    viewport.dispatchEvent(
+      new PointerEvent('pointermove', {
+        pointerType: 'touch',
+        pointerId: 2,
+        clientX: 240,
+        clientY: 240,
+      }),
+    );
+    fixture.detectChanges();
+    expect(media.style.transform).toContain('translate3d(0px, 0px, 0)');
+    viewport.dispatchEvent(
+      new PointerEvent('pointermove', {
+        pointerType: 'touch',
+        pointerId: 1,
+        clientX: 600,
+        clientY: 600,
+      }),
+    );
+    viewport.dispatchEvent(
+      new PointerEvent('pointerup', {
+        pointerType: 'touch',
+        pointerId: 1,
+        clientX: 600,
+        clientY: 600,
+      }),
+    );
+    fixture.detectChanges();
+    expect(media.style.transform).toContain('translate3d(200px, 150px, 0)');
+    expect(fixture.componentInstance.activeIndex()).toBe(0);
+    viewport.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
+    fixture.detectChanges();
+    expect(media.style.transform).toContain('translate3d(160px, 150px, 0)');
+    fixture.componentInstance.resetTransform();
+    fixture.detectChanges();
+    expect(media.style.transform).toContain('translate3d(0px, 0px, 0)');
+  });
+
   it('supports touch dragging without making image content draggable', () => {
     const fixture = TestBed.createComponent(GalleriaHost);
     fixture.detectChanges();
@@ -355,6 +484,36 @@ describe('AerisGalleria', () => {
     expect(fixture.nativeElement.querySelector('.custom-grid-item')?.textContent).toContain(
       'Grid Milo',
     );
+  });
+
+  it('opens grid images fullscreen without cropping and exposes no indicator controls', () => {
+    const fixture = TestBed.createComponent(AerisGalleria);
+    fixture.componentRef.setInput('value', images);
+    fixture.componentRef.setInput('mode', 'grid');
+    fixture.componentRef.setInput('allowFullscreen', true);
+    fixture.detectChanges();
+    const component = fixture.componentInstance;
+    expect(component.objectFit()).toBe('cover');
+    expect('showIndicators' in component).toBe(false);
+    expect('indicatorsOverlay' in component).toBe(false);
+    expect('indicatorsAriaLabel' in component).toBe(false);
+    const tile = fixture.nativeElement.querySelector(
+      '.aeris-galleria__grid-item',
+    ) as HTMLButtonElement;
+    tile.click();
+    fixture.detectChanges();
+    expect(component.fullscreen()).toBe(true);
+    expect(fixture.nativeElement.querySelector('.aeris-galleria__stage').dataset['fit']).toBe(
+      'contain',
+    );
+    expect(fixture.nativeElement.querySelector('.aeris-galleria__indicators')).toBeNull();
+    component.closeFullscreen();
+    fixture.componentRef.setInput('mode', 'gallery');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.aeris-galleria__stage').dataset['fit']).toBe(
+      'cover',
+    );
+    expect(fixture.nativeElement.querySelector('.aeris-galleria__indicators')).toBeNull();
   });
 
   it('provides controlled rotate, flip, zoom, reset, download, and fullscreen toolbar actions', () => {
@@ -486,7 +645,14 @@ describe('AerisGalleria', () => {
 
     const gallery = fixture.nativeElement.querySelector('.aeris-galleria') as HTMLElement;
     expect(gallery.getAttribute('data-thumbnail-position')).toBe('bottom');
-    expect(fixture.nativeElement.querySelectorAll('.aeris-galleria__thumbnail')).toHaveLength(1);
+    expect(fixture.nativeElement.querySelectorAll('.aeris-galleria__thumbnail')).toHaveLength(
+      images.length,
+    );
+    expect(
+      fixture.nativeElement
+        .querySelector('.aeris-galleria__thumbnails')
+        .style.getPropertyValue('--aeris-galleria-thumbnail-count'),
+    ).toBe('1');
   });
 
   it('fills the available thumbnail width when numVisible is automatic', async () => {
@@ -507,7 +673,12 @@ describe('AerisGalleria', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelectorAll('.aeris-galleria__thumbnail')).toHaveLength(7);
+    expect(fixture.nativeElement.querySelectorAll('.aeris-galleria__thumbnail')).toHaveLength(12);
+    expect(
+      fixture.nativeElement
+        .querySelector('.aeris-galleria__thumbnails')
+        .style.getPropertyValue('--aeris-galleria-thumbnail-count'),
+    ).toBe('7');
     (
       fixture.nativeElement.querySelector(
         '.aeris-galleria__thumbnail-navigator--next',
@@ -515,10 +686,8 @@ describe('AerisGalleria', () => {
     ).click();
     fixture.detectChanges();
     expect(
-      (
-        fixture.nativeElement.querySelector('.aeris-galleria__thumbnail') as HTMLButtonElement
-      ).getAttribute('aria-label'),
-    ).toBe('Show Puppy 6');
+      fixture.nativeElement.querySelector('.aeris-galleria__thumbnails').dataset['start'],
+    ).toBe('5');
   });
 
   it('uses container height to size automatic start and end thumbnail rails', async () => {
@@ -544,7 +713,12 @@ describe('AerisGalleria', () => {
         'data-thumbnail-position',
       ),
     ).toBe('start');
-    expect(fixture.nativeElement.querySelectorAll('.aeris-galleria__thumbnail')).toHaveLength(3);
+    expect(fixture.nativeElement.querySelectorAll('.aeris-galleria__thumbnail')).toHaveLength(12);
+    expect(
+      fixture.nativeElement
+        .querySelector('.aeris-galleria__thumbnails')
+        .style.getPropertyValue('--aeris-galleria-thumbnail-count'),
+    ).toBe('3');
   });
 
   it('packs larger thumbnails across fullscreen when fullscreenNumVisible is automatic', () => {
@@ -561,7 +735,12 @@ describe('AerisGalleria', () => {
     component.openFullscreen();
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelectorAll('.aeris-galleria__thumbnail')).toHaveLength(10);
+    expect(fixture.nativeElement.querySelectorAll('.aeris-galleria__thumbnail')).toHaveLength(12);
+    expect(
+      fixture.nativeElement
+        .querySelector('.aeris-galleria__thumbnails')
+        .style.getPropertyValue('--aeris-galleria-thumbnail-count'),
+    ).toBe('10');
     clientWidth.mockRestore();
   });
 

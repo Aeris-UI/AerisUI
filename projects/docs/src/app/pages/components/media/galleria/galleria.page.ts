@@ -238,7 +238,7 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
     { id: 'galleria-toolbar', label: 'Image toolbar' },
     { id: 'galleria-grid', label: 'Grid' },
     { id: 'galleria-single', label: 'Single' },
-    { id: 'galleria-indicators', label: 'Indicators' },
+    { id: 'galleria-hover-navigation', label: 'Hover navigation' },
     { id: 'galleria-controlled', label: 'Controlled' },
     { id: 'galleria-autoplay', label: 'Autoplay' },
     { id: 'galleria-templates', label: 'Templates' },
@@ -330,18 +330,6 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
       defaultValue: 'false',
       description:
         'Reveals stage navigation on hover or focus; controls remain visible on touch devices.',
-    },
-    {
-      name: 'showIndicators',
-      type: 'boolean',
-      defaultValue: 'false',
-      description: 'Shows one selectable indicator per gallery item.',
-    },
-    {
-      name: 'indicatorsOverlay',
-      type: 'boolean',
-      defaultValue: 'false',
-      description: 'Places indicators over the media stage.',
     },
     {
       name: 'showCaption',
@@ -486,7 +474,8 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
       name: 'objectFit',
       type: "'contain' | 'cover'",
       defaultValue: "'cover'",
-      description: 'Controls built-in image fitting within the stage.',
+      description:
+        'Controls built-in stage image fitting. Grid items opened fullscreen always use contain to show the whole photo.',
     },
     {
       name: 'aspectRatio',
@@ -523,12 +512,6 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
       type: 'string',
       defaultValue: "'Gallery thumbnails'",
       description: 'Accessible name for the thumbnail tab list.',
-    },
-    {
-      name: 'indicatorsAriaLabel',
-      type: 'string',
-      defaultValue: "'Gallery items'",
-      description: 'Accessible name for the indicator tab list.',
     },
     {
       name: 'previousAriaLabel',
@@ -845,7 +828,7 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
       name: '--aeris-galleria-gap',
       type: 'length',
       defaultValue: 'density gap × 1.5',
-      description: 'Space between stage, indicators, and thumbnails.',
+      description: 'Space between stage and thumbnails.',
     },
     {
       name: '--aeris-galleria-radius',
@@ -902,6 +885,13 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
       description: 'Toolbar corner radius.',
     },
     {
+      name: '--aeris-galleria-toolbar-fade-size',
+      type: 'length',
+      defaultValue: '1.5rem',
+      description:
+        'Width of the edge fade when toolbar controls are outside the scrollable viewport.',
+    },
+    {
       name: '--aeris-galleria-grid-gap',
       type: 'length',
       defaultValue: '--aeris-density-gap-lg',
@@ -934,14 +924,15 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
     {
       name: '--aeris-galleria-thumbnail-width',
       type: 'length',
-      defaultValue: '5.75rem',
-      description: 'Compact horizontal thumbnail width.',
+      defaultValue: 'available width / visible slots',
+      description:
+        'Optional horizontal thumbnail width override; otherwise the visible slots fill the rail.',
     },
     {
       name: '--aeris-galleria-thumbnail-height',
       type: 'length',
-      defaultValue: '4.5rem',
-      description: 'Compact vertical thumbnail height.',
+      defaultValue: 'available height / visible slots',
+      description: 'Optional vertical thumbnail height override.',
     },
     {
       name: '--aeris-galleria-thumbnail-aspect-ratio',
@@ -954,18 +945,6 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
       type: 'color',
       defaultValue: '--aeris-primary',
       description: 'Selected thumbnail border.',
-    },
-    {
-      name: '--aeris-galleria-indicator-background',
-      type: 'color',
-      defaultValue: '--aeris-border',
-      description: 'Inactive indicator color.',
-    },
-    {
-      name: '--aeris-galleria-active-indicator-background',
-      type: 'color',
-      defaultValue: '--aeris-primary',
-      description: 'Selected indicator color.',
     },
     {
       name: '--aeris-galleria-backdrop',
@@ -994,8 +973,9 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
     {
       name: '--aeris-galleria-fullscreen-thumbnail-width',
       type: 'length',
-      defaultValue: '6.5rem',
-      description: 'Fullscreen thumbnail width; mobile defaults to 4.5rem.',
+      defaultValue: 'available width / visible slots',
+      description:
+        'Optional fullscreen thumbnail width override; automatic slots adapt to the viewport.',
     },
     {
       name: '--aeris-galleria-fullscreen-gap',
@@ -1013,7 +993,7 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
   protected readonly interfacesCode = `type AerisGalleriaThumbnailPosition = 'top' | 'bottom' | 'start' | 'end';
 type AerisGalleriaObjectFit = 'contain' | 'cover';
 type AerisGalleriaMode = 'gallery' | 'grid' | 'single';
-type AerisGalleriaChangeReason = 'next' | 'previous' | 'thumbnail' | 'indicator' | 'keyboard' | 'swipe' | 'autoplay' | 'grid' | 'api';
+type AerisGalleriaChangeReason = 'next' | 'previous' | 'thumbnail' | 'keyboard' | 'swipe' | 'autoplay' | 'grid' | 'api';
 type AerisGalleriaFullscreenCloseReason = 'toggle' | 'escape' | 'backdrop' | 'api';
 
 interface AerisGalleriaImage {

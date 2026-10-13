@@ -27,7 +27,12 @@ export const AERIS_RELEASES: readonly AerisReleaseEntry[] = [
     version: 'Unreleased',
     date: 'In development',
     status: 'Next release',
-    changes: ['No consumer-visible changes have been recorded since 22.0.0-alpha.9.'],
+    changes: [
+      'Breaking: remove Galleria indicator inputs, tokens, and the indicator change reason; use thumbnails or previous/next navigation instead.',
+      'Show the whole image without cropping when opening a Galleria grid item fullscreen.',
+      'Keep Galleria taps stable, support bounded image panning when zoomed, and scroll thumbnails natively.',
+      'Prevent secondary touches from interrupting Galleria and Carousel gestures and preserve browser pinch zoom.',
+    ],
   },
   {
     version: '22.0.0-alpha.9',
