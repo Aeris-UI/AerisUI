@@ -1103,6 +1103,12 @@ Aeris compares light and dark foreground candidates for solid states, keeps the 
 
 Override semantic colors only through the tones collection. Override only the roles that need deliberate control; unspecified roles continue to be derived from the base color.
 
+All theme objects inherit Monochrome unless preset selects another theme, including empty objects and density-only overrides. Preset values are inherited rather than copied into user overrides. Changing a primary, secondary, or contrast seed regenerates that inherited tone in both modes; changing a tone base regenerates its inherited states. Explicit states and foregrounds remain authoritative.
+
+Omit a tone or property to inherit its preset value. Set it to null for automatic derivation, for example light: { tones: { primary: { hover: null }, secondary: null } }. During updateTheme, an explicit undefined removes an override and restores inheritance. Changing preset resets the old colors and overrides while preserving density, corners, and direction.
+
+The service theme exposes explicit light and dark overrides. Use resolveAerisThemeScheme(theme, mode) for the effective inherited scheme and resolveAerisThemeTokens(theme, mode) for the final CSS values.
+
 > Note: Automatic color analysis supports opaque hex, rgb, and hsl values. When a tone uses a CSS variable or another unresolved color expression, provide its boundary, onBase, onHover, onActive, text, and onSoft values explicitly.
 
 | Property | Used for | Default behavior |
@@ -1251,7 +1257,7 @@ Create one JSON configuration, generate the CSS before the application build, an
 ```json
 {
   "$schema": "./node_modules/@aeris-ui/core/theme-config.schema.json",
-  "derivationVersion": 1,
+  "derivationVersion": 2,
   "preset": "coastal",
   "output": "src/styles/aeris-theme.css",
   "theme": {
@@ -1304,7 +1310,7 @@ If a future Aeris release changes an existing derived color, the derivation vers
 ```json
 {
   "$schema": "./node_modules/@aeris-ui/core/theme-config.schema.json",
-  "derivationVersion": 1,
+  "derivationVersion": 2,
   "preset": "coastal",
   "output": "src/styles/aeris-theme.css"
 }
@@ -1396,7 +1402,7 @@ export const appConfig: ApplicationConfig = {
 ```json
 {
   "$schema": "./node_modules/@aeris-ui/core/theme-config.schema.json",
-  "derivationVersion": 1,
+  "derivationVersion": 2,
   "preset": "coastal",
   "output": "src/styles/aeris-theme.css",
   "css": {

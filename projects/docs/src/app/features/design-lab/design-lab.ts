@@ -167,10 +167,15 @@ function serializeThemeScheme(mode: LabScheme, scheme: AerisThemeScheme): string
   );
   const toneEntries = TONE_OPTIONS.flatMap(({ name }) => {
     const tone = scheme.tones?.[name];
+    if (tone === null) return [`      ${name}: null,`];
     if (!tone) return [];
 
     const toneProperties = SERIALIZED_TONE_PROPERTIES.flatMap((property) =>
-      tone[property] ? [`        ${property}: '${tone[property]}',`] : [],
+      tone[property] === null
+        ? [`        ${property}: null,`]
+        : tone[property]
+          ? [`        ${property}: '${tone[property]}',`]
+          : [],
     );
     return toneProperties.length
       ? [`      ${name}: {\n${toneProperties.join('\n')}\n      },`]
@@ -348,6 +353,7 @@ export class DesignLab {
     return `import type { AerisThemeOverride } from '@aeris-ui/core/theming';
 
 export const aerisTheme: AerisThemeOverride = {
+  preset: '${theme.preset}',
   palette: {
     surface: '${palette.surface}',
     primary: '${palette.primary}',
@@ -466,14 +472,12 @@ export const appConfig: ApplicationConfig = {
     const scheme = this.resolvedMode();
     this.toneOverrides.update((current) => ({
       ...current,
-      [scheme]: { ...current[scheme], [name]: undefined },
+      [scheme]: { ...current[scheme], [name]: null },
     }));
     this.aerisTheme.updateTheme({
       [scheme]: {
         tones: {
-          [name]: Object.fromEntries(
-            SERIALIZED_TONE_PROPERTIES.map((property) => [property, undefined]),
-          ),
+          [name]: null,
         },
       },
     });
@@ -485,10 +489,7 @@ export const appConfig: ApplicationConfig = {
 
   private clearToneOverrides(): void {
     const clearedTones: AerisSemanticTones = Object.fromEntries(
-      TONE_OPTIONS.map(({ name }) => [
-        name,
-        Object.fromEntries(SERIALIZED_TONE_PROPERTIES.map((property) => [property, undefined])),
-      ]),
+      TONE_OPTIONS.map(({ name }) => [name, null]),
     );
     this.toneOverrides.set({ light: {}, dark: {} });
     this.aerisTheme.updateTheme({

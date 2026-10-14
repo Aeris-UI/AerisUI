@@ -1180,6 +1180,9 @@ export const appConfig: ApplicationConfig = {
           'Generated surfaces, states, and contrast corrections are mixed by perceived lightness, chroma, and hue instead of raw RGB channel values. This produces more even visual steps across different palette colors while keeping explicit overrides exact.',
           'Aeris compares light and dark foreground candidates for solid states, keeps the foreground stable across interaction states whenever it remains WCAG AA readable, and adjusts outlined or text colors against the active surface. This work runs only when the theme or color mode changes; components consume the resulting CSS tokens without per-instance color calculations.',
           'Override semantic colors only through the tones collection. Override only the roles that need deliberate control; unspecified roles continue to be derived from the base color.',
+          'All theme objects inherit Monochrome unless preset selects another theme, including empty objects and density-only overrides. Preset values are inherited rather than copied into user overrides. Changing a primary, secondary, or contrast seed regenerates that inherited tone in both modes; changing a tone base regenerates its inherited states. Explicit states and foregrounds remain authoritative.',
+          'Omit a tone or property to inherit its preset value. Set it to null for automatic derivation, for example light: { tones: { primary: { hover: null }, secondary: null } }. During updateTheme, an explicit undefined removes an override and restores inheritance. Changing preset resets the old colors and overrides while preserving density, corners, and direction.',
+          'The service theme exposes explicit light and dark overrides. Use resolveAerisThemeScheme(theme, mode) for the effective inherited scheme and resolveAerisThemeTokens(theme, mode) for the final CSS values.',
         ],
         code: [
           source(
@@ -1356,7 +1359,7 @@ export function assertThemeContrast(theme: AerisTheme): void {
             'JSON',
             `{
   "$schema": "./node_modules/@aeris-ui/core/theme-config.schema.json",
-  "derivationVersion": 1,
+  "derivationVersion": 2,
   "preset": "coastal",
   "output": "src/styles/aeris-theme.css",
   "theme": {
@@ -1432,7 +1435,7 @@ export function assertThemeContrast(theme: AerisTheme): void {
             'JSON',
             `{
   "$schema": "./node_modules/@aeris-ui/core/theme-config.schema.json",
-  "derivationVersion": 1,
+  "derivationVersion": 2,
   "preset": "coastal",
   "output": "src/styles/aeris-theme.css"
 }`,
@@ -1539,7 +1542,7 @@ export const appConfig: ApplicationConfig = {
             'JSON',
             `{
   "$schema": "./node_modules/@aeris-ui/core/theme-config.schema.json",
-  "derivationVersion": 1,
+  "derivationVersion": 2,
   "preset": "coastal",
   "output": "src/styles/aeris-theme.css",
   "css": {

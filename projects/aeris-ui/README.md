@@ -135,6 +135,38 @@ provideAeris({
 });
 ```
 
+All configurations start with Monochrome, including `theme: {}` and overrides containing only
+density or radius. Set `theme.preset` to `earth`, `coastal`, `orchid`, or `monochrome` to select a
+base explicitly. `AERIS_THEME_PRESETS` provides the same preset identity and its palette seeds.
+
+Preset values are inherited, not copied into your overrides. Changing a primary, secondary, or
+contrast seed regenerates that tone's inherited colors in both modes. Changing a tone's `base`
+regenerates its inherited interaction states and foregrounds. Explicit values always take priority
+and survive subsequent edits. Omit a value to inherit it; set a tone or individual tone property to
+`null` for automatic derivation:
+
+```ts
+provideAeris({
+  theme: {
+    preset: 'monochrome',
+    palette: { primary: '#2563eb' },
+    light: {
+      tones: {
+        primary: { hover: '#1d4ed8' }, // Keep this exact hover color.
+        secondary: null, // Derive the whole tone instead of inheriting preset values.
+      },
+    },
+  },
+});
+```
+
+`AerisThemeService.updateTheme()` merges explicit overrides. An `undefined` tone/property removes
+that override and restores inheritance; `null` selects automatic derivation instead. Switching to
+a different `preset` starts its colors afresh while retaining density, corners, and direction.
+`setTheme()` replaces the entire configuration. `theme().light` and `theme().dark` expose only
+explicit overrides; use `resolveAerisThemeScheme()` for the effective inherited scheme or
+`resolveAerisThemeTokens()` for the complete generated CSS values.
+
 The palette drives both light and dark semantic tokens. Change modes at runtime with
 `AerisThemeService.setMode()`. Mode selection is persisted by default. In Angular development
 mode, runtime themes are checked for unsafe values, missing scales, and WCAG contrast problems;
@@ -149,7 +181,7 @@ build. This avoids runtime theme calculation while preserving light, dark, and s
 ```json
 {
   "$schema": "./node_modules/@aeris-ui/core/theme-config.schema.json",
-  "derivationVersion": 1,
+  "derivationVersion": 2,
   "preset": "coastal",
   "output": "src/styles/aeris-theme.css",
   "theme": {

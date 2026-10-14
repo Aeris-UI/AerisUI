@@ -1,5 +1,8 @@
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
+import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 
 const cliPath = resolve('dist/aeris-ui/tools/aeris-theme.mjs');
@@ -71,6 +74,45 @@ assert(
 
 const contrastOptOut = run(['--preset', 'earth', '--no-contrast-validation', '--minify']);
 assert(contrastOptOut.status === 0, contrastOptOut.stderr || 'Contrast opt-out failed.');
+
+const { compileAerisTheme, resolveAerisTheme, mergeAerisTheme } = await import(
+  pathToFileURL(resolve('dist/aeris-ui/fesm2022/aeris-ui-core-theme-builder.mjs')).href
+);
+const temporary = await mkdtemp(resolve(tmpdir(), 'aeris-theme-config-'));
+try {
+  const configuration = {
+    theme: {
+      preset: 'monochrome',
+      palette: { primary: '#2563eb' },
+      light: { tones: { primary: { hover: null }, secondary: null } },
+    },
+    css: { validateContrast: false, minify: true },
+  };
+  const configPath = resolve(temporary, 'theme.json');
+  await writeFile(configPath, JSON.stringify(configuration));
+  const fromConfiguration = run(['--config', configPath]);
+  assert(
+    fromConfiguration.status === 0,
+    fromConfiguration.stderr || 'Custom theme generation failed.',
+  );
+  assert(
+    fromConfiguration.stdout.trim() ===
+      compileAerisTheme(configuration.theme, configuration.css).css.trim(),
+    'Config-file and runtime inheritance differ.',
+  );
+  const presetOverride = run(['--config', configPath, '--preset', 'coastal']);
+  const expected = mergeAerisTheme(resolveAerisTheme({ preset: 'coastal' }), {
+    ...configuration.theme,
+    preset: 'coastal',
+  });
+  assert(presetOverride.status === 0, presetOverride.stderr || 'CLI preset override failed.');
+  assert(
+    presetOverride.stdout.trim() === compileAerisTheme(expected, configuration.css).css.trim(),
+    'CLI preset does not override the configuration.',
+  );
+} finally {
+  await rm(temporary, { recursive: true, force: true });
+}
 
 process.stdout.write('Aeris theme CLI smoke test passed.\n');
 

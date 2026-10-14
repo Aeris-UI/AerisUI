@@ -154,8 +154,9 @@ describe('Aeris theme contrast audit', () => {
     expect(AERIS_DEFAULT_THEME.palette).toEqual(
       expect.objectContaining(AERIS_THEME_PRESETS.monochrome.palette),
     );
-    expect(AERIS_DEFAULT_THEME.light).toEqual(AERIS_THEME_PRESETS.monochrome.light);
-    expect(AERIS_DEFAULT_THEME.dark).toEqual(AERIS_THEME_PRESETS.monochrome.dark);
+    expect(AERIS_DEFAULT_THEME.preset).toBe('monochrome');
+    expect(AERIS_DEFAULT_THEME.light).toEqual({});
+    expect(AERIS_DEFAULT_THEME.dark).toEqual({});
   });
 
   it('keeps foundation text neutral and colored dark surfaces achromatic', () => {

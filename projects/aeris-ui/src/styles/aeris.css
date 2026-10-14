@@ -181,11 +181,6 @@
   --aeris-palette-secondary: #1f1f1f;
   --aeris-palette-accent: #f8f8f8;
   --aeris-palette-contrast: #050505;
-  --aeris-palette-mist: var(--aeris-palette-surface);
-  --aeris-palette-sage: var(--aeris-palette-primary);
-  --aeris-palette-cloud: var(--aeris-palette-secondary);
-  --aeris-palette-sand: var(--aeris-palette-accent);
-  --aeris-palette-umber: var(--aeris-palette-contrast);
 
   --aeris-primary: var(--aeris-palette-primary);
   --aeris-primary-boundary: #111111;

@@ -7,6 +7,24 @@ release line.
 
 ## [Unreleased]
 
+### Changed
+
+- Make theme inheritance consistent: empty and geometry-only configurations retain Monochrome.
+  Presets retain their identity separately from explicit light/dark overrides. Seed and tone-base
+  changes regenerate inherited interaction colors without discarding explicit overrides.
+- Add `theme.preset`, `resolveAerisThemeScheme()`, and serializable `null` resets for whole semantic
+  tones or individual tone properties. Switching presets resets colors while retaining geometry.
+- **Breaking:** Advance the color derivation contract to v2 for the new custom-theme inheritance
+  behavior. Official preset colors are unchanged. Review custom themes before regenerating CSS
+  with `derivationVersion: 2`.
+- **Breaking:** `theme().light` and `theme().dark` now contain explicit overrides, not flattened
+  preset defaults. Use `resolveAerisThemeScheme()` for the effective scheme.
+
+### Removed
+
+- **Breaking:** Remove the legacy palette names `mist`, `sage`, `cloud`, `sand`, and `umber` and
+  their `--aeris-palette-*` aliases. Use `surface`, `primary`, `secondary`, `accent`, and `contrast`.
+
 ## [22.0.0-alpha.10] - 2026-10-13
 
 This release adds CodeBlock, refreshes the visual foundation and documentation, and improves

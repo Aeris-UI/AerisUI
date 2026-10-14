@@ -1,10 +1,11 @@
 import {
+  AERIS_SEMANTIC_TONE_NAMES,
+  resolveAerisThemeScheme,
   type AerisSemanticTone,
   type AerisSemanticToneName,
   type AerisResolvedSemanticTone,
   type AerisResolvedSemanticTones,
   type AerisTheme,
-  type AerisThemeScheme,
 } from './aeris-theme';
 import {
   aerisRgbContrastRatio,
@@ -13,16 +14,9 @@ import {
   mixAerisRgb,
   parseAerisColor,
 } from './aeris-color';
+import { resolveAerisFoundation } from './aeris-foundation';
 
-export const AERIS_SEMANTIC_TONE_NAMES: readonly AerisSemanticToneName[] = [
-  'primary',
-  'secondary',
-  'success',
-  'info',
-  'warning',
-  'danger',
-  'contrast',
-];
+export { AERIS_SEMANTIC_TONE_NAMES } from './aeris-theme';
 
 const LIGHT_BASES: Readonly<Partial<Record<AerisSemanticToneName, string>>> = {
   success: '#52744d',
@@ -50,8 +44,8 @@ export function resolveAerisSemanticTones(
   theme: AerisTheme,
   mode: 'light' | 'dark',
 ): AerisResolvedSemanticTones {
-  const scheme = theme[mode];
-  const surface = resolveSurface(theme, scheme, mode);
+  const scheme = resolveAerisThemeScheme(theme, mode);
+  const surface = resolveAerisFoundation(theme, mode).surface;
   const result = {} as Record<AerisSemanticToneName, AerisResolvedSemanticTone>;
 
   for (const name of AERIS_SEMANTIC_TONE_NAMES) {
@@ -59,10 +53,8 @@ export function resolveAerisSemanticTones(
     const base = overrides.base ?? defaultBase(theme, mode, name);
     const boundary = overrides.boundary ?? base;
     const onBase = overrides.onBase ?? contrastingForeground(base);
-    const hover =
-      overrides.hover ?? deriveState(base, mode, stateMix(mode, 'hover'), onBase);
-    const active =
-      overrides.active ?? deriveState(base, mode, stateMix(mode, 'active'), onBase);
+    const hover = overrides.hover ?? deriveState(base, mode, stateMix(mode, 'hover'), onBase);
+    const active = overrides.active ?? deriveState(base, mode, stateMix(mode, 'active'), onBase);
     const soft = overrides.soft ?? mixAerisColor(surface, base, mode === 'dark' ? 0.2 : 0.14);
     const text = overrides.text ?? ensureTextContrast(base, surface, mode);
     const onHover = overrides.onHover ?? contrastingForeground(hover, onBase);
@@ -104,28 +96,13 @@ function defaultBase(
   return mixAerisColor(seed, LIGHT_FOREGROUND, name === 'contrast' ? 0.29 : 0.22);
 }
 
-function resolveSurface(
-  theme: AerisTheme,
-  scheme: AerisThemeScheme,
-  mode: 'light' | 'dark',
-): string {
-  if (scheme.surface) return scheme.surface;
-  return mode === 'light'
-    ? LIGHT_FOREGROUND
-    : mixAerisColor('#1f221c', theme.palette.surface, 0.02);
-}
-
 function deriveState(
   base: string,
   mode: 'light' | 'dark',
   amount: number,
   foreground: string,
 ): string {
-  const state = mixAerisColor(
-    base,
-    mode === 'light' ? DARK_FOREGROUND : LIGHT_FOREGROUND,
-    amount,
-  );
+  const state = mixAerisColor(base, mode === 'light' ? DARK_FOREGROUND : LIGHT_FOREGROUND, amount);
   const stateColor = parseAerisColor(state);
   const foregroundColor = parseAerisColor(foreground);
   if (
@@ -140,8 +117,7 @@ function deriveState(
   const dark = parseAerisColor(DARK_FOREGROUND)!;
   const light = parseAerisColor(LIGHT_FOREGROUND)!;
   const target =
-    aerisRgbContrastRatio(foregroundColor, light) >
-    aerisRgbContrastRatio(foregroundColor, dark)
+    aerisRgbContrastRatio(foregroundColor, light) > aerisRgbContrastRatio(foregroundColor, dark)
       ? LIGHT_FOREGROUND
       : DARK_FOREGROUND;
 

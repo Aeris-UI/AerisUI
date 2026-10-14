@@ -1,7 +1,12 @@
 import { resolveAerisFoundation } from './aeris-foundation';
 import { AERIS_SEMANTIC_TONE_NAMES, resolveAerisSemanticTones } from './aeris-semantic-tones';
 import { resolveAerisDensity, resolveAerisRadius } from './aeris-theme-resolver';
-import { type AerisDensityScale, type AerisRadiusScale, type AerisTheme } from './aeris-theme';
+import {
+  resolveAerisThemeScheme,
+  type AerisDensityScale,
+  type AerisRadiusScale,
+  type AerisTheme,
+} from './aeris-theme';
 
 export type AerisThemeTokenName = `--aeris-${string}`;
 export type AerisThemeTokenMap = Readonly<Record<AerisThemeTokenName, string>>;
@@ -45,6 +50,7 @@ export function resolveAerisThemeTokens(
   mode: 'light' | 'dark',
 ): AerisThemeTokenMap {
   const tokens: Partial<Record<AerisThemeTokenName, string>> = {};
+  const scheme = resolveAerisThemeScheme(theme, mode);
 
   for (const [name, value] of Object.entries(theme.palette)) {
     tokens[`--aeris-palette-${name}`] = value;
@@ -55,18 +61,18 @@ export function resolveAerisThemeTokens(
     tokens[token] = foundation[property];
   }
 
-  tokens['--aeris-accent'] = theme[mode].accent ?? theme.palette.accent;
+  tokens['--aeris-accent'] = scheme.accent ?? theme.palette.accent;
   tokens['--aeris-shadow-xs'] =
-    theme[mode].shadowXs ??
+    scheme.shadowXs ??
     (mode === 'light' ? '0 1px 2px rgb(0 0 0 / 8%)' : '0 1px 2px rgb(0 0 0 / 40%)');
   tokens['--aeris-shadow-sm'] =
-    theme[mode].shadowSm ??
+    scheme.shadowSm ??
     (mode === 'light' ? '0 2px 8px rgb(0 0 0 / 10%)' : '0 2px 8px rgb(0 0 0 / 48%)');
   tokens['--aeris-shadow-md'] =
-    theme[mode].shadowMd ??
+    scheme.shadowMd ??
     (mode === 'light' ? '0 8px 24px rgb(0 0 0 / 12%)' : '0 10px 28px rgb(0 0 0 / 54%)');
   tokens['--aeris-shadow-lg'] =
-    theme[mode].shadowLg ??
+    scheme.shadowLg ??
     (mode === 'light' ? '0 18px 48px rgb(0 0 0 / 16%)' : '0 20px 56px rgb(0 0 0 / 64%)');
 
   const tones = resolveAerisSemanticTones(theme, mode);

@@ -1399,7 +1399,10 @@
             "Primary, secondary, success, info, warning, danger, and contrast each resolve to a complete interaction scale. Hover and active colors are derived from that tone's own base color rather than from the primary palette.",
             "Generated surfaces, states, and contrast corrections are mixed by perceived lightness, chroma, and hue instead of raw RGB channel values. This produces more even visual steps across different palette colors while keeping explicit overrides exact.",
             "Aeris compares light and dark foreground candidates for solid states, keeps the foreground stable across interaction states whenever it remains WCAG AA readable, and adjusts outlined or text colors against the active surface. This work runs only when the theme or color mode changes; components consume the resulting CSS tokens without per-instance color calculations.",
-            "Override semantic colors only through the tones collection. Override only the roles that need deliberate control; unspecified roles continue to be derived from the base color."
+            "Override semantic colors only through the tones collection. Override only the roles that need deliberate control; unspecified roles continue to be derived from the base color.",
+            "All theme objects inherit Monochrome unless preset selects another theme, including empty objects and density-only overrides. Preset values are inherited rather than copied into user overrides. Changing a primary, secondary, or contrast seed regenerates that inherited tone in both modes; changing a tone base regenerates its inherited states. Explicit states and foregrounds remain authoritative.",
+            "Omit a tone or property to inherit its preset value. Set it to null for automatic derivation, for example light: { tones: { primary: { hover: null }, secondary: null } }. During updateTheme, an explicit undefined removes an override and restores inheritance. Changing preset resets the old colors and overrides while preserving density, corners, and direction.",
+            "The service theme exposes explicit light and dark overrides. Use resolveAerisThemeScheme(theme, mode) for the effective inherited scheme and resolveAerisThemeTokens(theme, mode) for the final CSS values."
           ],
           "code": [
             {
@@ -1564,7 +1567,7 @@
             {
               "label": "aeris.theme.json",
               "language": "JSON",
-              "code": "{\n  \"$schema\": \"./node_modules/@aeris-ui/core/theme-config.schema.json\",\n  \"derivationVersion\": 1,\n  \"preset\": \"coastal\",\n  \"output\": \"src/styles/aeris-theme.css\",\n  \"theme\": {\n    \"density\": \"compact\",\n    \"radius\": \"soft\",\n    \"palette\": {\n      \"primary\": \"#527da1\",\n      \"accent\": \"#368678\"\n    }\n  }\n}"
+              "code": "{\n  \"$schema\": \"./node_modules/@aeris-ui/core/theme-config.schema.json\",\n  \"derivationVersion\": 2,\n  \"preset\": \"coastal\",\n  \"output\": \"src/styles/aeris-theme.css\",\n  \"theme\": {\n    \"density\": \"compact\",\n    \"radius\": \"soft\",\n    \"palette\": {\n      \"primary\": \"#527da1\",\n      \"accent\": \"#368678\"\n    }\n  }\n}"
             },
             {
               "label": "Terminal and package.json",
@@ -1661,7 +1664,7 @@
             {
               "label": "aeris.theme.json",
               "language": "JSON",
-              "code": "{\n  \"$schema\": \"./node_modules/@aeris-ui/core/theme-config.schema.json\",\n  \"derivationVersion\": 1,\n  \"preset\": \"coastal\",\n  \"output\": \"src/styles/aeris-theme.css\"\n}"
+              "code": "{\n  \"$schema\": \"./node_modules/@aeris-ui/core/theme-config.schema.json\",\n  \"derivationVersion\": 2,\n  \"preset\": \"coastal\",\n  \"output\": \"src/styles/aeris-theme.css\"\n}"
             },
             {
               "label": "theme-build.ts",
@@ -1728,7 +1731,7 @@
             {
               "label": "aeris.theme.json",
               "language": "JSON",
-              "code": "{\n  \"$schema\": \"./node_modules/@aeris-ui/core/theme-config.schema.json\",\n  \"derivationVersion\": 1,\n  \"preset\": \"coastal\",\n  \"output\": \"src/styles/aeris-theme.css\",\n  \"css\": {\n    \"validateContrast\": false\n  }\n}"
+              "code": "{\n  \"$schema\": \"./node_modules/@aeris-ui/core/theme-config.schema.json\",\n  \"derivationVersion\": 2,\n  \"preset\": \"coastal\",\n  \"output\": \"src/styles/aeris-theme.css\",\n  \"css\": {\n    \"validateContrast\": false\n  }\n}"
             }
           ],
           "note": "Aeris does not judge whether a palette is attractive. It reports only objective configuration, CSS-safety, and contrast results. Developers retain control over whether contrast diagnostics are enforced.",

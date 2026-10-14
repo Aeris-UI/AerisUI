@@ -83,6 +83,51 @@ describe('AerisThemeService', () => {
     );
   });
 
+  it('keeps empty theme objects and geometry-only updates on Monochrome', async () => {
+    TestBed.configureTestingModule({
+      providers: [provideAeris({ theme: {}, mode: 'light', themeModeStorageKey: false })],
+    });
+    const service = TestBed.inject(AerisThemeService);
+    await TestBed.tick();
+    const root = document.documentElement;
+    expect(root.style.getPropertyValue('--aeris-primary')).toBe('#111111');
+    service.updateTheme({ density: 'compact' });
+    await TestBed.tick();
+    expect(root.style.getPropertyValue('--aeris-primary')).toBe('#111111');
+    expect(root.dataset['aerisDensity']).toBe('compact');
+    service.setTheme({ radius: 'soft' });
+    await TestBed.tick();
+    expect(root.style.getPropertyValue('--aeris-primary')).toBe('#111111');
+    expect(root.dataset['aerisRadius']).toBe('soft');
+  });
+
+  it('applies seed edits, explicit overrides, and automatic resets to runtime CSS', async () => {
+    TestBed.configureTestingModule({
+      providers: [provideAeris({ mode: 'light', themeModeStorageKey: false })],
+    });
+    const service = TestBed.inject(AerisThemeService);
+    const root = document.documentElement;
+    service.updateTheme({
+      palette: { primary: '#2563eb' },
+      light: { tones: { primary: { hover: '#1d4ed8' } } },
+    });
+    await TestBed.tick();
+    expect(root.style.getPropertyValue('--aeris-primary')).toBe('#2563eb');
+    expect(root.style.getPropertyValue('--aeris-primary-hover')).toBe('#1d4ed8');
+    service.updateTheme({ palette: { primary: '#345678' } });
+    await TestBed.tick();
+    expect(root.style.getPropertyValue('--aeris-primary-hover')).toBe('#1d4ed8');
+    service.updateTheme({ light: { tones: { primary: { hover: null } } } });
+    await TestBed.tick();
+    expect(root.style.getPropertyValue('--aeris-primary-hover')).not.toBe('#1d4ed8');
+    service.setMode('dark');
+    await TestBed.tick();
+    expect(root.style.getPropertyValue('--aeris-primary')).toBe(
+      service.semanticTones().primary.base,
+    );
+    expect(root.style.getPropertyValue('--aeris-primary')).not.toBe('#f5f5f5');
+  });
+
   it('allows development-mode runtime diagnostics to be disabled', async () => {
     const warning = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     TestBed.configureTestingModule({
@@ -144,11 +189,6 @@ describe('AerisThemeService', () => {
     expect(palette).toEqual(
       expect.objectContaining({
         ...AERIS_THEME_PRESETS.coastal.palette,
-        mist: AERIS_THEME_PRESETS.coastal.palette.surface,
-        sage: AERIS_THEME_PRESETS.coastal.palette.primary,
-        cloud: AERIS_THEME_PRESETS.coastal.palette.secondary,
-        sand: AERIS_THEME_PRESETS.coastal.palette.accent,
-        umber: AERIS_THEME_PRESETS.coastal.palette.contrast,
       }),
     );
   });
@@ -288,8 +328,8 @@ describe('AerisThemeService', () => {
     const service = TestBed.inject(AerisThemeService);
     await TestBed.tick();
     expect(service.theme().palette.primary).toBe('#31536a');
-    expect(service.theme().palette.sage).toBe('#31536a');
-    expect(service.theme().palette.surface).toBe('#f1f4f2');
+    expect(service.theme().preset).toBe('monochrome');
+    expect(service.theme().palette.surface).toBe('#f4f4f4');
     expect(listeners.size).toBe(1);
 
     service.updateTheme({
@@ -300,7 +340,7 @@ describe('AerisThemeService', () => {
     await TestBed.tick();
 
     expect(service.theme().palette.accent).toBe('#abcdef');
-    expect(service.theme().palette.sand).toBe('#abcdef');
+    expect(Object.keys(service.theme().palette)).toHaveLength(5);
     expect(document.documentElement.style.getPropertyValue('--aeris-palette-accent')).toBe(
       '#abcdef',
     );
