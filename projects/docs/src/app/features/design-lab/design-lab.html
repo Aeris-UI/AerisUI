@@ -11,11 +11,33 @@
     <aeris-badge value="Live preview" severity="success" variant="soft" />
   </header>
 
+  <nav class="design-lab__workflow" aria-label="Theme workflow">
+    <a
+      aerisButton
+      variant="outline"
+      size="sm"
+      routerLink="/design-lab"
+      fragment="theme-controls-title"
+      >1. Customize</a
+    >
+    <a aerisButton variant="outline" size="sm" routerLink="/design-lab" fragment="preview-title"
+      >2. Preview</a
+    >
+    <a
+      aerisButton
+      variant="outline"
+      size="sm"
+      routerLink="/design-lab"
+      fragment="generated-code-title"
+      >3. Use your theme</a
+    >
+  </nav>
+
   <section class="design-lab__controls" aria-labelledby="theme-controls-title">
     <header>
       <div>
         <p>Theme controls</p>
-        <h2 id="theme-controls-title">Make the system yours.</h2>
+        <h2 id="theme-controls-title">Choose your starting point.</h2>
       </div>
       <button
         aerisButton
@@ -25,7 +47,7 @@
         severity="secondary"
         (click)="resetTheme()"
       >
-        Reset theme
+        Reset to defaults
       </button>
     </header>
 
@@ -33,19 +55,21 @@
       <aeris-card class="design-lab__palette-card" padding="lg">
         <div class="design-lab__control-heading">
           <div>
-            <strong>Palette</strong><small>Choose a preset or enter any valid hex color.</small>
+            <strong>Starter theme</strong><small>Choose a preset, then make it yours.</small>
           </div>
-          <span>5 seeds</span>
+          <span>{{ starterName() }}{{ paletteCustomized() ? ' (customized)' : '' }}</span>
         </div>
         <div class="design-lab__presets" aria-label="Palette presets">
           @for (preset of presets; track preset.id) {
             <button
+              aerisButton
               type="button"
-              [class.active]="activePresetId() === preset.id"
+              size="sm"
+              [variant]="activePresetId() === preset.id ? 'solid' : 'ghost'"
               [attr.aria-pressed]="activePresetId() === preset.id"
               (click)="applyPreset(preset)"
             >
-              <span aria-hidden="true">
+              <span class="design-lab__swatches" aria-hidden="true">
                 @for (
                   color of [
                     preset.palette.surface,
@@ -82,6 +106,11 @@
             </div>
           }
         </div>
+        @if (paletteCustomized()) {
+          <button aerisButton type="button" size="sm" variant="ghost" (click)="resetPalette()">
+            Restore {{ starterName() }} colors
+          </button>
+        }
       </aeris-card>
 
       <div class="design-lab__choices">
@@ -158,97 +187,126 @@
       </div>
     </div>
 
-    <aeris-card class="design-lab__tones" padding="lg">
-      <div class="design-lab__tones-heading">
-        <div>
-          <span class="design-lab__tones-title">
-            <strong>Semantic interaction tones</strong>
-            <aeris-badge
-              [value]="resolvedMode() + ' scheme'"
-              severity="info"
-              variant="soft"
-              size="sm"
-            />
-          </span>
-          <p>
-            Preview every severity across filled, outline, and text treatments. Aeris calculates
-            accessible foregrounds automatically; changing a state below creates an explicit
-            override for the currently previewed scheme.
-          </p>
+    <details class="design-lab__disclosure design-lab__advanced">
+      <summary>Advanced interaction colors</summary>
+      <aeris-card class="design-lab__tones" padding="lg">
+        <div class="design-lab__tones-heading">
+          <div>
+            <span class="design-lab__tones-title">
+              <strong>Semantic interaction tones</strong>
+              <aeris-badge
+                [value]="resolvedMode() + ' scheme'"
+                severity="info"
+                variant="soft"
+                size="sm"
+              />
+            </span>
+            <p>
+              Preview every severity across filled, outline, and text treatments. Aeris calculates
+              accessible foregrounds automatically; changing a state below creates an explicit
+              override for the currently previewed scheme.
+            </p>
+          </div>
+          <button
+            aerisButton
+            type="button"
+            size="sm"
+            variant="solid"
+            severity="secondary"
+            (click)="resetSemanticTones()"
+          >
+            Use automatic tones
+          </button>
         </div>
-        <button
-          aerisButton
-          type="button"
-          size="sm"
-          variant="solid"
-          severity="secondary"
-          (click)="resetSemanticTones()"
-        >
-          Use automatic tones
-        </button>
-      </div>
 
-      <div class="design-lab__tone-list">
-        @for (tone of toneRows(); track tone.name) {
-          <article class="design-lab__tone" [attr.data-customized]="tone.customized || null">
-            <header>
-              <span>
-                <strong>{{ tone.label }}</strong>
-                <small>{{ tone.description }}</small>
-              </span>
-              @if (tone.customized) {
+        <div class="design-lab__tone-list">
+          @for (tone of toneRows(); track tone.name) {
+            <article class="design-lab__tone" [attr.data-customized]="tone.customized || null">
+              <header>
+                <span>
+                  <strong>{{ tone.label }}</strong>
+                  <small>{{ tone.description }}</small>
+                </span>
+                @if (tone.customized) {
+                  <button
+                    aerisButton
+                    type="button"
+                    size="xs"
+                    variant="ghost"
+                    (click)="resetTone(tone.name)"
+                  >
+                    Auto
+                  </button>
+                }
+              </header>
+
+              <div
+                class="design-lab__tone-preview"
+                role="group"
+                [attr.aria-label]="tone.label + ' button previews'"
+              >
+                <button aerisButton type="button" size="sm" [severity]="tone.name">Filled</button>
                 <button
                   aerisButton
                   type="button"
-                  size="xs"
-                  variant="ghost"
-                  (click)="resetTone(tone.name)"
+                  size="sm"
+                  variant="outline"
+                  [severity]="tone.name"
                 >
-                  Auto
+                  Outline
                 </button>
-              }
-            </header>
+                <button aerisButton type="button" size="sm" variant="ghost" [severity]="tone.name">
+                  Text
+                </button>
+              </div>
 
-            <div
-              class="design-lab__tone-preview"
-              role="group"
-              [attr.aria-label]="tone.label + ' button previews'"
-            >
-              <button aerisButton type="button" size="sm" [severity]="tone.name">Filled</button>
-              <button aerisButton type="button" size="sm" variant="outline" [severity]="tone.name">
-                Outline
-              </button>
-              <button aerisButton type="button" size="sm" variant="ghost" [severity]="tone.name">
-                Text
-              </button>
-            </div>
+              <div class="design-lab__tone-colors">
+                @for (property of toneProperties; track property.key) {
+                  <div>
+                    <span>{{ property.label }}</span>
+                    <aeris-color-picker
+                      size="xs"
+                      format="hex"
+                      [showInput]="false"
+                      [showFormat]="false"
+                      [ariaLabel]="'Choose ' + tone.label + ' ' + property.label + ' color'"
+                      [value]="tone.resolved[property.key]"
+                      (valueChange)="updateTone(tone.name, property.key, $event)"
+                    />
+                  </div>
+                }
+              </div>
+            </article>
+          }
+        </div>
 
-            <div class="design-lab__tone-colors">
-              @for (property of toneProperties; track property.key) {
-                <div>
-                  <span>{{ property.label }}</span>
-                  <aeris-color-picker
-                    size="xs"
-                    format="hex"
-                    [showInput]="false"
-                    [showFormat]="false"
-                    [ariaLabel]="'Choose ' + tone.label + ' ' + property.label + ' color'"
-                    [value]="tone.resolved[property.key]"
-                    (valueChange)="updateTone(tone.name, property.key, $event)"
-                  />
-                </div>
-              }
-            </div>
-          </article>
-        }
+        <p class="design-lab__tones-note">
+          Switch Color mode above to configure light and dark overrides independently. Leave a tone
+          on Auto to keep it synchronized with its palette seed and Aeris contrast calculations.
+        </p>
+      </aeris-card>
+    </details>
+  </section>
+
+  <section class="design-lab__preview" aria-labelledby="preview-title">
+    <header>
+      <div>
+        <p>Application preview</p>
+        <h2 id="preview-title">Test the theme in context.</h2>
       </div>
+      <span>Every control below is an Aeris component.</span>
+    </header>
+    <app-aeris-showcase-gallery />
+  </section>
 
-      <p class="design-lab__tones-note">
-        Switch Color mode above to configure light and dark overrides independently. Leave a tone on
-        Auto to keep it synchronized with its palette seed and Aeris contrast calculations.
-      </p>
-    </aeris-card>
-
+  <details class="design-lab__disclosure design-lab__report">
+    <summary>
+      Contrast report
+      <span
+        >Light: {{ contrastReports().light.statusLabel }} / Dark:
+        {{ contrastReports().dark.statusLabel }}</span
+      >
+    </summary>
     <section class="design-lab__contrast" aria-labelledby="contrast-report-title">
       <header class="design-lab__contrast-heading">
         <div>
@@ -459,18 +517,7 @@
         </p>
       </aeris-card>
     </section>
-  </section>
-
-  <section class="design-lab__preview" aria-labelledby="preview-title">
-    <header>
-      <div>
-        <p>Application preview</p>
-        <h2 id="preview-title">Test the theme in context.</h2>
-      </div>
-      <span>Every control below is an Aeris component.</span>
-    </header>
-    <app-aeris-showcase-gallery />
-  </section>
+  </details>
 
   <section class="design-lab__code" aria-labelledby="generated-code-title">
     <header>
@@ -478,27 +525,34 @@
         <p>Generated configuration</p>
         <h2 id="generated-code-title">Use this theme in your project.</h2>
       </div>
-      <span>The code stays synchronized with the controls above.</span>
+      <span
+        >Only changes from the starter theme are included. Custom edits are not saved as a draft;
+        copy your code before leaving.</span
+      >
     </header>
+    <p class="design-lab__handoff-note">
+      Already using Aeris? Keep your existing providers and stylesheet imports; update only the
+      theme configuration.
+    </p>
     <div class="design-lab__code-grid">
       <section class="design-lab__code-item" aria-labelledby="theme-code-title">
         <div class="design-lab__code-heading">
           <strong id="theme-code-title">1. Save the generated theme</strong>
-          <code>aeris-theme.ts</code>
+          <code>src/app/aeris-theme.ts</code>
         </div>
         <app-code-block [code]="themeCode()" language="TypeScript" />
       </section>
       <section class="design-lab__code-item" aria-labelledby="provider-code-title">
         <div class="design-lab__code-heading">
           <strong id="provider-code-title">2. Register Aeris</strong>
-          <code>app.config.ts</code>
+          <code>src/app/app.config.ts</code>
         </div>
         <app-code-block [code]="providerCode()" language="TypeScript" />
       </section>
       <section class="design-lab__code-item" aria-labelledby="styles-code-title">
         <div class="design-lab__code-heading">
           <strong id="styles-code-title">3. Load the shared styles</strong>
-          <code>styles.scss</code>
+          <code>src/styles.scss</code>
         </div>
         <app-code-block [code]="stylesCode" language="CSS" />
       </section>

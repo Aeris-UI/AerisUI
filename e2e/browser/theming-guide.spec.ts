@@ -1,5 +1,59 @@
 import { expect, test } from './fixtures';
 
+test('Design Lab keeps its main workflow short without removing advanced controls', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/design-lab');
+  const lab = page.locator('app-design-lab');
+  const advanced = lab.locator('.design-lab__advanced');
+  const report = lab.locator('.design-lab__report');
+  await expect(advanced).not.toHaveAttribute('open');
+  await expect(report).not.toHaveAttribute('open');
+  for (const seed of ['Surface', 'Primary', 'Secondary', 'Accent', 'Contrast']) {
+    await expect(
+      lab.getByRole('button', { name: `Choose ${seed} seed`, exact: true }),
+    ).toBeVisible();
+  }
+  await expect(lab.locator('.design-lab__palette-card details')).toHaveCount(0);
+  await advanced.locator(':scope > summary').click();
+  await expect(lab.getByRole('button', { name: 'Use automatic tones', exact: true })).toBeVisible();
+  await report.locator(':scope > summary').click();
+  await expect(
+    lab.getByRole('heading', { name: 'Contrast across the complete theme.' }),
+  ).toBeVisible();
+  await lab
+    .getByRole('navigation', { name: 'Theme workflow' })
+    .getByRole('link', { name: '3. Use your theme' })
+    .click();
+  await expect(page).toHaveURL(/\/design-lab#generated-code-title$/);
+  await expect(lab.locator('.design-lab__code app-code-block code').first()).toContainText(
+    'preset:',
+  );
+});
+
+for (const width of [320, 390]) {
+  test(`Design Lab controls and generated configuration fit at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 850 });
+    await page.goto('/design-lab');
+    const lab = page.locator('app-design-lab');
+    await lab.getByRole('button', { name: 'Coastal', exact: true }).click();
+    await expect(lab.getByRole('button', { name: 'Coastal', exact: true })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    const themeCode = lab.locator('.design-lab__code app-code-block code').first();
+    await expect(themeCode).toContainText("preset: 'coastal'");
+    await expect(themeCode).not.toContainText('palette:');
+    await lab.locator('.design-lab__advanced > summary').click();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+      width + 1,
+    );
+    await lab.getByRole('button', { name: 'Reset to defaults', exact: true }).click();
+    await expect(themeCode).toContainText("preset: 'monochrome'");
+  });
+}
+
 test('theming walkthrough stays short and opens a separate reference page', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });

@@ -1,4 +1,5 @@
-import { Component, computed, effect, inject, linkedSignal, signal } from '@angular/core';
+import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCardModule } from '@aeris-ui/core/card';
@@ -7,9 +8,9 @@ import { AerisMessage, type AerisMessageSeverity } from '@aeris-ui/core/message'
 import { AerisProgressBar } from '@aeris-ui/core/progress-bar';
 import {
   AERIS_DEFAULT_THEME,
-  AERIS_THEME_PRESETS,
   AerisThemeService,
   auditAerisThemeContrast,
+  resolveAerisTheme,
   type AerisContrastCategory,
   type AerisContrastCheck,
   type AerisContrastStatus,
@@ -229,6 +230,7 @@ function createContrastReport(theme: AerisTheme, mode: LabScheme): LabContrastRe
 @Component({
   selector: 'app-design-lab',
   imports: [
+    RouterLink,
     AerisBadgeModule,
     AerisButton,
     AerisCardModule,
@@ -246,7 +248,7 @@ export class DesignLab {
   private readonly aerisTheme = inject(AerisThemeService);
   protected readonly paletteOptions = PALETTE_OPTIONS;
   protected readonly presets = DOCS_PALETTES;
-  protected readonly activePresetId = this.docsAppearance.activePaletteId;
+  protected readonly activePresetId = computed(() => this.aerisTheme.theme().preset);
   protected readonly toneProperties: readonly {
     readonly key: LabToneProperty;
     readonly label: string;
@@ -262,30 +264,18 @@ export class DesignLab {
   protected readonly density = computed(() => this.aerisTheme.theme().density);
   protected readonly radius = computed(() => this.aerisTheme.theme().radius);
   protected readonly resolvedMode = this.aerisTheme.resolvedMode;
-  protected readonly palette = signal<AerisPaletteConfig>({
-    surface: this.aerisTheme.theme().palette.surface,
-    primary: this.aerisTheme.theme().palette.primary,
-    secondary: this.aerisTheme.theme().palette.secondary,
-    accent: this.aerisTheme.theme().palette.accent,
-    contrast: this.aerisTheme.theme().palette.contrast,
-  });
-  protected readonly toneOverrides = signal<LabToneOverrides>({
+  protected readonly palette = computed(() => this.aerisTheme.theme().palette);
+  protected readonly toneOverrides = computed<LabToneOverrides>(() => ({
     light: editableToneOverrides(this.aerisTheme.theme().light.tones),
     dark: editableToneOverrides(this.aerisTheme.theme().dark.tones),
-  });
-  private readonly syncEditableTheme = effect(() => {
+  }));
+  protected readonly starterName = computed(
+    () => this.presets.find(({ id }) => id === this.aerisTheme.theme().preset)?.shortName,
+  );
+  protected readonly paletteCustomized = computed(() => {
     const theme = this.aerisTheme.theme();
-    this.palette.set({
-      surface: theme.palette.surface,
-      primary: theme.palette.primary,
-      secondary: theme.palette.secondary,
-      accent: theme.palette.accent,
-      contrast: theme.palette.contrast,
-    });
-    this.toneOverrides.set({
-      light: editableToneOverrides(theme.light.tones),
-      dark: editableToneOverrides(theme.dark.tones),
-    });
+    const starter = resolveAerisTheme({ preset: theme.preset });
+    return PALETTE_OPTIONS.some(({ key }) => theme.palette[key] !== starter.palette[key]);
   });
   protected readonly toneRows = computed<readonly LabToneRow[]>(() => {
     const scheme = this.resolvedMode();
@@ -346,24 +336,26 @@ export class DesignLab {
   });
 
   protected readonly themeCode = computed(() => {
-    const palette = this.palette();
     const theme = this.aerisTheme.theme();
+    const starter = resolveAerisTheme({ preset: theme.preset });
+    const paletteEntries = PALETTE_OPTIONS.flatMap(({ key }) =>
+      theme.palette[key] !== starter.palette[key] ? [`    ${key}: '${theme.palette[key]}',`] : [],
+    );
+    const paletteCode = paletteEntries.length
+      ? `  palette: {\n${paletteEntries.join('\n')}\n  },\n`
+      : '';
+    const appearanceCode = [
+      ...(theme.density !== 'medium' ? [`  density: '${theme.density}',`] : []),
+      ...(theme.radius !== 'rounded' ? [`  radius: '${theme.radius}',`] : []),
+      ...(theme.direction !== 'ltr' ? [`  direction: '${theme.direction}',`] : []),
+    ].join('\n');
     const schemeCode =
       serializeThemeScheme('light', theme.light) + serializeThemeScheme('dark', theme.dark);
     return `import type { AerisThemeOverride } from '@aeris-ui/core/theming';
 
 export const aerisTheme: AerisThemeOverride = {
   preset: '${theme.preset}',
-  palette: {
-    surface: '${palette.surface}',
-    primary: '${palette.primary}',
-    secondary: '${palette.secondary}',
-    accent: '${palette.accent}',
-    contrast: '${palette.contrast}',
-  },
-${schemeCode}  density: '${this.density()}',
-  radius: '${this.radius()}',
-};`;
+${paletteCode}${schemeCode}${appearanceCode ? appearanceCode + '\n' : ''}};`;
   });
 
   protected readonly providerCode = computed(
@@ -407,24 +399,15 @@ export const appConfig: ApplicationConfig = {
   }
 
   protected applyPreset(preset: DocsPalette): void {
-    this.palette.set(preset.palette);
-    this.toneOverrides.set({
-      light: editableToneOverrides(preset.theme.light?.tones),
-      dark: editableToneOverrides(preset.theme.dark?.tones),
-    });
     this.docsAppearance.selectPalette(preset.id);
   }
 
+  protected resetPalette(): void {
+    const preset = this.presets.find(({ id }) => id === this.aerisTheme.theme().preset);
+    if (preset) this.applyPreset(preset);
+  }
+
   protected resetTheme(): void {
-    const palette: AerisPaletteConfig = {
-      surface: AERIS_DEFAULT_THEME.palette.surface,
-      primary: AERIS_DEFAULT_THEME.palette.primary,
-      secondary: AERIS_DEFAULT_THEME.palette.secondary,
-      accent: AERIS_DEFAULT_THEME.palette.accent,
-      contrast: AERIS_DEFAULT_THEME.palette.contrast,
-    };
-    this.palette.set(palette);
-    this.toneOverrides.set({ light: {}, dark: {} });
     this.aerisTheme.setMode('system');
     this.aerisTheme.setTheme({
       ...AERIS_DEFAULT_THEME,
@@ -438,7 +421,6 @@ export const appConfig: ApplicationConfig = {
       return;
     }
 
-    this.palette.update((current) => ({ ...current, [key]: value.toLowerCase() }));
     this.aerisTheme.updateTheme({ palette: { [key]: value.toLowerCase() } });
   }
 
@@ -451,16 +433,6 @@ export const appConfig: ApplicationConfig = {
 
     const scheme = this.resolvedMode();
     const normalized = value.toLowerCase();
-    this.toneOverrides.update((current) => ({
-      ...current,
-      [scheme]: {
-        ...current[scheme],
-        [name]: {
-          ...current[scheme][name],
-          [property]: normalized,
-        },
-      },
-    }));
     this.aerisTheme.updateTheme({
       [scheme]: {
         tones: { [name]: { [property]: normalized } },
@@ -470,10 +442,6 @@ export const appConfig: ApplicationConfig = {
 
   protected resetTone(name: AerisSemanticToneName): void {
     const scheme = this.resolvedMode();
-    this.toneOverrides.update((current) => ({
-      ...current,
-      [scheme]: { ...current[scheme], [name]: null },
-    }));
     this.aerisTheme.updateTheme({
       [scheme]: {
         tones: {
@@ -491,7 +459,6 @@ export const appConfig: ApplicationConfig = {
     const clearedTones: AerisSemanticTones = Object.fromEntries(
       TONE_OPTIONS.map(({ name }) => [name, null]),
     );
-    this.toneOverrides.set({ light: {}, dark: {} });
     this.aerisTheme.updateTheme({
       light: { tones: clearedTones },
       dark: { tones: clearedTones },

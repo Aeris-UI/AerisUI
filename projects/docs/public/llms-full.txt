@@ -1666,13 +1666,9 @@ Begin with semantic decisions instead of styling individual components. A small 
 
 #### Use the Design Lab
 
-The Aeris Design Lab lets you choose palette presets or enter custom surface, primary, secondary, accent, and contrast colors. Mode, density, and corner changes update a dashboard built from published Aeris components immediately.
+Choose a starter theme, adjust its five palette seeds and appearance, then preview real Aeris components. Open Advanced interaction colors for per-scheme base, hover, and pressed overrides.
 
-A semantic tone editor previews filled, outline, and text treatments together. Base, hover, and pressed colors can be overridden independently for light and dark schemes, while foreground contrast remains calculated automatically.
-
-A live contrast report audits both schemes as the theme changes. It groups text, semantic content, focus, and boundary checks, exposes exact WCAG ratios, and provides focused guidance for failures or colors that require manual review.
-
-The generated theme records its preset, palette, and explicit scheme overrides and stays synchronized with the provider configuration and stylesheet imports. A null tone represents Auto. Save the generated code before leaving or reloading; custom edits are not persisted as a complete draft.
+Below the preview, open the Contrast report to review both schemes. The generated code includes your preset and only its changed palette values, appearance settings, and explicit scheme overrides. Save the code before leaving or reloading; custom edits are not persisted as a complete draft.
 
 The Lab is a color and interaction editor, not a replacement for the full theme API. Set exact page backgrounds, text, borders, shadows, or custom geometry scales in the typed theme file when the product needs them.
 
