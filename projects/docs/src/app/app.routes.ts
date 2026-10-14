@@ -49,6 +49,12 @@ export const routes: Routes = [
     data: { guideId: 'theming' },
   },
   {
+    path: 'guides/theme-reference',
+    title: 'Theme reference - Aeris UI',
+    loadComponent: () => import('./pages/guides/guide.page').then((page) => page.GuidePage),
+    data: { guideId: 'theme-reference' },
+  },
+  {
     path: 'guides/design-system',
     title: 'Design system workflow - Aeris UI',
     loadComponent: () => import('./pages/guides/guide.page').then((page) => page.GuidePage),

@@ -27,6 +27,7 @@ try {
   const rootNames = [];
   const diagnostics = [];
   let exampleCount = 0;
+  let guideExampleCount = 0;
 
   for (const htmlPath of htmlPaths) {
     const source = await readFile(htmlPath, 'utf8');
@@ -98,6 +99,40 @@ try {
     }
   }
 
+  // Theme recipes are copyable consumer code too, including multi-file imports.
+  // build:docs verifies that this generated corpus matches the guide source first.
+  const library = JSON.parse(await readFile('projects/aeris-ui/package.json', 'utf8'));
+  const major = library.version.split('.')[0];
+  const corpus = JSON.parse(
+    await readFile(`projects/docs/public/ai/${major}/aeris-docs.json`, 'utf8'),
+  );
+  const themeGuides = corpus.guides.filter((guide) =>
+    ['theming', 'theme-reference'].includes(guide.id),
+  );
+  if (themeGuides.length !== 2)
+    throw new Error('The theming walkthrough and reference must both be present.');
+  for (const guide of themeGuides) {
+    for (const section of guide.sections) {
+      const snippets = (section.code ?? []).filter((source) => source.language === 'TypeScript');
+      if (!snippets.length) continue;
+      const exampleDirectory = join(temporaryRoot, 'guides', guide.id, section.id);
+      await mkdir(exampleDirectory, { recursive: true });
+      const filenames = new Set();
+      for (const [index, snippet] of snippets.entries()) {
+        const filename = snippet.label.endsWith('.ts')
+          ? basename(snippet.label)
+          : `example-${index}.ts`;
+        if (filenames.has(filename))
+          throw new Error(`Duplicate guide example filename: ${section.id}/${filename}`);
+        filenames.add(filename);
+        const path = join(exampleDirectory, filename);
+        await writeFile(path, snippet.code, 'utf8');
+        rootNames.push(path);
+        guideExampleCount += 1;
+      }
+    }
+  }
+
   if (diagnostics.length) throw new Error(diagnostics.join('\n'));
 
   const configPath = join(temporaryRoot, 'tsconfig.json');
@@ -163,12 +198,12 @@ try {
       process.stderr.write(`...and ${entries.length - fileLimit} more files with diagnostics.\n`);
     }
     process.stderr.write(
-      `Generated documentation examples failed strict Angular compilation (${exampleCount} checked, ${compileDiagnostics.length} diagnostics in ${entries.length} files).\n`,
+      `Documentation examples failed strict Angular compilation (${exampleCount} component and ${guideExampleCount} theming guide examples, ${compileDiagnostics.length} diagnostics in ${entries.length} files).\n`,
     );
     process.exitCode = 1;
   } else {
     process.stdout.write(
-      `Strictly compiled ${exampleCount} generated Angular documentation examples.\n`,
+      `Strictly compiled ${exampleCount} component examples and ${guideExampleCount} theming guide examples.\n`,
     );
   }
 } finally {

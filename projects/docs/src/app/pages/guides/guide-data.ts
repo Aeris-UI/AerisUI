@@ -876,15 +876,419 @@ export class SignalProfileForm {
     group: 'Design foundations',
     kicker: 'Design foundations',
     title: 'Theming',
-    description:
-      'Build a cohesive light and dark theme with semantic tokens, density, and corner scales.',
+    description: 'Choose a theme, apply your brand color, and adjust the appearance.',
     summary:
-      'Aeris starts with five palette seeds, derives a semantic system, and exposes stable CSS custom properties for application and component-level customization.',
+      'A short setup walkthrough. Exact colors, inheritance rules, and build-time tooling are covered separately in the Theme reference.',
     sections: [
+      {
+        id: 'starter-themes',
+        title: 'Choose a theme',
+        paragraphs: [
+          'After loading the Aeris styles, register provideAeris once in your application configuration. Monochrome is the default; set theme.preset to choose another theme.',
+        ],
+        code: [
+          source(
+            'src/app/app.config.ts',
+            'TypeScript',
+            `import { ApplicationConfig } from '@angular/core';
+import { provideAeris } from '@aeris-ui/core/theming';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideAeris({
+      theme: {
+        preset: 'coastal',
+      },
+    }),
+  ],
+};`,
+          ),
+        ],
+        note: 'If ng add already registered Aeris, edit that configuration. Keep your existing router, HTTP, and other providers.',
+        bullets: [
+          'monochrome: neutral actions and surfaces (default).',
+          'earth: green actions with natural accents.',
+          'coastal: blue actions with cool accents.',
+          'orchid: violet actions with muted accents.',
+        ],
+        links: [{ label: 'Installation and styles', href: '/guides/installation#styles' }],
+      },
+      {
+        id: 'palette',
+        title: 'Apply your brand colors',
+        paragraphs: [
+          'Start with one brand color. Save the theme below, then import it into your existing provider. Other colors inherit the preset; Aeris derives primary interaction states for both modes.',
+        ],
+        code: [
+          source(
+            'src/app/aeris-theme.ts',
+            'TypeScript',
+            `import type { AerisThemeOverride } from '@aeris-ui/core/theming';
+
+export const productTheme: AerisThemeOverride = {
+  preset: 'coastal',
+  palette: {
+    primary: '#2563eb',
+  },
+};`,
+          ),
+          source(
+            'src/app/app.config.ts',
+            'TypeScript',
+            `import { ApplicationConfig } from '@angular/core';
+import { provideAeris } from '@aeris-ui/core/theming';
+
+import { productTheme } from './aeris-theme';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideAeris({
+      theme: productTheme,
+    }),
+  ],
+};`,
+          ),
+        ],
+        note: 'If ng add created aeris.config.ts, edit its existing theme instead.',
+        links: [
+          {
+            label: 'Palette roles and exact colors',
+            href: '/guides/theme-reference#palette-seeds',
+          },
+        ],
+      },
+      {
+        id: 'scales',
+        title: 'Adjust appearance',
+        paragraphs: [
+          'Add density and radius to the same theme file. Set mode on provideAeris to follow the system or choose a fixed light or dark appearance.',
+        ],
+        code: [
+          source(
+            'src/app/aeris-theme.ts',
+            'TypeScript',
+            `import type { AerisThemeOverride } from '@aeris-ui/core/theming';
+
+export const productTheme: AerisThemeOverride = {
+  preset: 'coastal',
+  palette: { primary: '#2563eb' },
+  density: 'compact',
+  radius: 'soft',
+};`,
+          ),
+        ],
+        bullets: [
+          'density: compact, medium (default), or comfortable.',
+          'radius: soft, rounded (default), or pill.',
+          'mode on provideAeris: system (default), light, or dark.',
+        ],
+        links: [{ label: 'Add a runtime mode switcher', href: '/guides/theme-reference#mode' }],
+      },
+      {
+        id: 'application-colors',
+        title: 'Use the theme in your own layout',
+        paragraphs: [
+          'Aeris components already use the theme. For your own layouts, read semantic CSS variables instead of copying hex values. Use --aeris-text for ordinary copy and --aeris-primary-text for intentional brand-colored text.',
+        ],
+        code: [
+          source(
+            'src/styles.scss',
+            'CSS',
+            `.workspace {
+  background: var(--aeris-page);
+  color: var(--aeris-text);
+}
+`,
+          ),
+        ],
+        links: [
+          { label: 'Semantic and component tokens', href: '/guides/theme-reference#css-tokens' },
+        ],
+      },
+      {
+        id: 'preview-and-apply',
+        title: 'Preview in Design Lab',
+        paragraphs: [
+          'Try your colors across real components, switch between light and dark, and review the contrast report. Copy the generated theme, provider configuration, and style imports into your project before leaving or reloading.',
+        ],
+        links: [
+          { label: 'Open Design Lab', href: '/design-lab' },
+          { label: 'Theme reference and troubleshooting', href: '/guides/theme-reference' },
+        ],
+        note: 'The report checks specific color pairs, not the accessibility of an entire application.',
+      },
+    ],
+    related: ['theme-reference', 'design-system', 'configuration'],
+  },
+  {
+    id: 'theme-reference',
+    path: '/guides/theme-reference',
+    group: 'Design foundations',
+    kicker: 'Design foundations',
+    title: 'Theme reference',
+    description:
+      'Look up inheritance, exact colors, tokens, custom scales, and build-time generation.',
+    summary:
+      'Use this reference when the theming walkthrough no longer covers your requirements. Configure only the parts your application needs.',
+    sections: [
+      {
+        id: 'palette-seeds',
+        title: 'Palette seed roles',
+        paragraphs: [
+          'Seeds influence several generated colors. Use a scheme property when you need one exact background, text, border, or focus color.',
+        ],
+        table: {
+          caption: 'Aeris palette seed roles',
+          columns: ['Seed', 'Choose it for'],
+          rows: [
+            [
+              'surface',
+              'A light foundation seed for neutral layers; not an exact page background or text color',
+            ],
+            ['primary', 'Main actions, selection, and the shared focus identity'],
+            ['secondary', 'Supporting actions and part of the neutral boundary derivation'],
+            ['accent', 'Decorative emphasis; it does not replace success or warning'],
+            [
+              'contrast',
+              'An alternative high-emphasis action color; not a WCAG ratio or ordinary text color',
+            ],
+          ],
+        },
+      },
+      {
+        id: 'inheritance',
+        title: 'Understand which color wins',
+        paragraphs: [
+          'Aeris combines preset defaults with your explicit overrides, then derives any automatic values. A palette seed is a broad brand choice; a light or dark tone is an exact decision for one role in one mode. Component CSS can add a narrower local override on top of those theme values.',
+          'Changing primary, secondary, or contrast regenerates the corresponding inherited tone in both modes. Changing a tone base regenerates its inherited states and foregrounds. Explicit hover, active, and foreground overrides remain exactly as supplied until you change or reset them.',
+        ],
+        table: {
+          caption: 'Inheritance and automatic color values',
+          columns: ['Value', 'Meaning', 'Example'],
+          rows: [
+            [
+              'Omitted',
+              'Inherit the selected preset; derive a value when the preset does not supply it',
+              'No light.tones.primary override',
+            ],
+            [
+              'A CSS color string',
+              'Use this exact explicit value, even when its seed changes',
+              "primary: { hover: '#1d4ed8' }",
+            ],
+            [
+              'null',
+              'Use automatic derivation instead of inheriting a preset or keeping an earlier override',
+              'primary: { hover: null }, or primary: null for the entire tone',
+            ],
+            [
+              'undefined in updateTheme()',
+              'Remove the explicit override and restore preset inheritance',
+              'primary: { hover: undefined }',
+            ],
+          ],
+        },
+        code: [
+          source(
+            'src/app/aeris-theme.ts',
+            'TypeScript',
+            `import type { AerisThemeOverride } from '@aeris-ui/core/theming';
+
+export const productTheme: AerisThemeOverride = {
+  preset: 'coastal',
+  palette: { primary: '#2563eb' },
+  light: {
+    tones: {
+      primary: { hover: '#1d4ed8' }, // Keep this exact hover color.
+      secondary: null, // Derive this whole tone automatically.
+    },
+  },
+};`,
+          ),
+        ],
+        note: 'updateTheme() merges into the current theme. Switching to a different preset starts its colors afresh while retaining density, corners, and direction. setTheme() replaces the configuration; setTheme({}) returns to the Monochrome defaults. JSON exports preserve null, but not undefined.',
+      },
+      {
+        id: 'scheme-overrides',
+        title: 'Set exact colors for a mode',
+        paragraphs: [
+          'Use light and dark when a generated color is not the exact value your product needs. A scheme surface is a background color; a tone base is a semantic action or status color. Neither setting requires you to specify every remaining theme property.',
+          'This theme keeps Coastal as its starting point, sets exact dark backgrounds, and fixes the dark primary action color. Unspecified states are derived from the new base. Pair intentional background changes with readable text and review both contrast reports.',
+        ],
+        code: [
+          source(
+            'src/app/aeris-theme.ts',
+            'TypeScript',
+            `import type { AerisThemeOverride } from '@aeris-ui/core/theming';
+
+export const productTheme: AerisThemeOverride = {
+  preset: 'coastal',
+  dark: {
+    page: '#080808',
+    surface: '#121212',
+    surface2: '#1b1b1b',
+    text: '#f4f4f4',
+    tones: {
+      primary: { base: '#93c5fd' },
+    },
+  },
+};`,
+          ),
+        ],
+        links: [
+          { label: 'Review light and dark contrast', href: '/design-lab' },
+          {
+            label: 'View the complete scheme property reference',
+            href: '/guides/theme-reference#architecture',
+          },
+        ],
+      },
+      {
+        id: 'semantic-tones',
+        title: 'Semantic interaction tones',
+        paragraphs: [
+          "Primary, secondary, success, info, warning, danger, and contrast each resolve to a complete interaction scale. Hover and active colors are derived from that tone's own base color rather than from the primary palette.",
+          'Generated surfaces, states, and contrast corrections are mixed by perceived lightness, chroma, and hue instead of raw RGB channel values. This produces more even visual steps across different palette colors while keeping explicit overrides exact.',
+          'Aeris compares light and dark foreground candidates for solid states, keeps the foreground stable across interaction states whenever it remains WCAG AA readable, and adjusts outlined or text colors against the active surface. This work runs only when the theme or color mode changes; components consume the resulting CSS tokens without per-instance color calculations.',
+          'Use tones to customize semantic roles, including success, info, warning, and danger; those status colors are not additional palette seeds. Missing values first inherit the preset. The table below describes how each value is calculated when it is automatic.',
+          'theme().light and theme().dark expose explicit overrides, not a flattened copy of the preset. For debugging or tooling, resolveAerisThemeScheme(theme, mode) returns the effective inherited scheme; resolveAerisThemeTokens(theme, mode) returns final CSS values.',
+        ],
+        code: [
+          source(
+            'src/app/aeris-theme.ts',
+            'TypeScript',
+            `import type { AerisThemeOverride } from '@aeris-ui/core/theming';
+
+export const productTheme: AerisThemeOverride = {
+  preset: 'coastal',
+  light: {
+    tones: {
+      danger: { base: '#b91c1c' },
+    },
+  },
+  dark: {
+    tones: {
+      danger: { base: '#f87171' },
+    },
+  },
+};`,
+          ),
+        ],
+        table: {
+          caption: 'AerisSemanticTone properties',
+          columns: ['Property', 'Used for', 'When automatic'],
+          rows: [
+            ['base', 'Solid background', 'Palette seed or built-in semantic default'],
+            [
+              'boundary',
+              'Solid and outline control boundary',
+              'Uses base unless an inverse treatment needs a distinct border',
+            ],
+            [
+              'hover',
+              'Solid and outline hover background',
+              'Derived from base for the active mode',
+            ],
+            ['active', 'Pressed background', 'Derived one step beyond hover'],
+            ['onBase', 'Content on the solid base', 'Higher-contrast light or dark foreground'],
+            [
+              'onHover',
+              'Content on the hover background',
+              'Inherits onBase when readable; otherwise recalculated',
+            ],
+            [
+              'onActive',
+              'Content on the pressed background',
+              'Inherits onHover when readable; otherwise recalculated',
+            ],
+            [
+              'text',
+              'Idle outline, ghost, and link content',
+              'Adjusted from base to contrast with the surface',
+            ],
+            ['soft', 'Ghost hover background', 'Low-emphasis blend of base and surface'],
+            ['onSoft', 'Content on the soft background', 'Adjusted to maintain readable contrast'],
+          ],
+        },
+        note: 'Automatic color analysis supports opaque hex, rgb, and hsl values. When a tone uses a CSS variable or another unresolved color expression, provide its boundary, onBase, onHover, onActive, text, and onSoft values explicitly.',
+      },
+      {
+        id: 'mode',
+        title: 'Light, dark, and system mode',
+        paragraphs: [
+          'System mode follows prefers-color-scheme and reacts when the operating-system preference changes. It is the recommended general default. A selected mode is persisted by default and restored during the next application startup.',
+          'You do not need to build a switcher if your application follows the system. For a user-selectable mode, render this component in your application shell. It uses the provider already registered at startup.',
+        ],
+        code: [
+          source(
+            'src/app/color-mode-controls.ts',
+            'TypeScript',
+            `import { Component, inject } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisThemeService, type AerisThemeMode } from '@aeris-ui/core/theming';
+
+@Component({
+  selector: 'app-color-mode-controls',
+  imports: [AerisButton],
+  template: \`
+    <div class="mode-controls" role="group" aria-label="Color mode">
+      <button aerisButton type="button" [attr.aria-pressed]="theme.mode() === 'light'" (click)="setMode('light')">Light</button>
+      <button aerisButton type="button" [attr.aria-pressed]="theme.mode() === 'dark'" (click)="setMode('dark')">Dark</button>
+      <button aerisButton type="button" [attr.aria-pressed]="theme.mode() === 'system'" (click)="setMode('system')">System</button>
+      <span>Active: {{ theme.resolvedMode() }}</span>
+    </div>
+  \`,
+  styles: \`
+    .mode-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  \`,
+})
+export class ColorModeControls {
+  protected readonly theme = inject(AerisThemeService);
+
+  protected setMode(mode: AerisThemeMode): void {
+    this.theme.setMode(mode);
+  }
+}`,
+          ),
+        ],
+      },
+      {
+        id: 'css-tokens',
+        title: 'Use semantic and component tokens',
+        paragraphs: [
+          'A design token is a named CSS custom property that represents a role instead of one hard-coded value. For example, --aeris-text always means normal readable content even though its resolved color changes with the theme and mode.',
+          'Application surfaces should use semantic Aeris tokens so they stay synchronized with library components. Override a documented component token on a wrapper or component host when one instance needs a deliberate variation.',
+          'Corner roles are consistent across the library: --aeris-radius-control shapes single-line fields and buttons, --aeris-radius-structured-control keeps multi-line and grouped controls from becoming impractical pills, --aeris-radius-item shapes selectable rows and menu items, --aeris-radius-overlay shapes floating panels, and --aeris-radius-surface shapes cards and structural containers. Each role derives from the active corner scale.',
+          'The built-in scales keep overlays and structural surfaces compact. The pill preset fully rounds compact controls where that geometry is useful, while cards, tables, panels, menus, and other containers retain practical rounded corners.',
+        ],
+        code: [
+          source(
+            'src/styles.scss',
+            'CSS',
+            `body {
+  background: var(--aeris-page);
+  color: var(--aeris-text);
+}
+
+aeris-card.billing-summary {
+  --aeris-card-radius: var(--aeris-radius-lg);
+  --aeris-card-padding: 1.5rem;
+}`,
+          ),
+        ],
+        links: [
+          { label: 'Explore the live Design Lab', href: '/design-lab' },
+          { label: 'View component token tables', href: '/components' },
+        ],
+      },
       {
         id: 'architecture',
         title: 'Understand the theme layers',
-        advanced: true,
         paragraphs: [
           'Start with the broadest decision and customize more narrowly only when the application needs it. A preset supplies a complete visual direction; palette seeds change the brand; component tokens adjust one component or one part of the page.',
         ],
@@ -919,55 +1323,198 @@ export class SignalProfileForm {
         note: 'You do not need to configure every layer. Begin with a preset and add an override only when there is a clear product requirement.',
       },
       {
-        id: 'starter-themes',
-        title: 'Start with an Aeris theme',
+        id: 'neutral-content',
+        title: 'Keep ordinary text neutral',
         paragraphs: [
-          'Use one of the official presets when the application does not need a custom brand palette. Each preset passes the Aeris light and dark WCAG 2.2 AA contrast audit and can be combined with a density or corner choice through a normal theme override.',
-          'Earth, Coastal, and Orchid share an achromatic dark surface hierarchy so content remains calm while actions, focus, selection, and accents retain each theme’s identity. Every dark foundation value is a normal theme property that can be overridden after spreading the preset.',
+          'Aeris keeps primary, secondary, and muted content achromatic: near-black in light mode and near-white in dark mode. A palette changes the surrounding surface hierarchy, borders, focus treatment, and semantic colors without placing a green, blue, or violet cast over ordinary copy.',
+          'Use a semantic text token when color communicates a deliberate role. These text variants are adjusted for use on neutral surfaces; paired on-color tokens are intended for content placed on a solid semantic background.',
         ],
         code: [
-          source('Terminal', 'Shell', 'npm install @lucide/angular'),
           source(
-            'src/app/save-action.ts',
+            'CSS',
+            'CSS',
+            `.article-copy {
+  color: var(--aeris-text);
+}
+
+.brand-link {
+  color: var(--aeris-primary-text);
+}
+
+.success-note {
+  color: var(--aeris-success-text);
+}
+
+.primary-banner {
+  background: var(--aeris-primary);
+  color: var(--aeris-on-primary);
+}`,
+          ),
+        ],
+        table: {
+          caption: 'Foundation and intentional color tokens',
+          columns: ['Purpose', 'Tokens', 'Use'],
+          rows: [
+            [
+              'Ordinary content',
+              '--aeris-text, --aeris-text-2, --aeris-text-3',
+              'Default headings, body copy, supporting text, labels, and placeholders',
+            ],
+            [
+              'Quiet surface separation',
+              '--aeris-border',
+              'Optional low-emphasis edges around non-interactive cards, panels, and overlay shells',
+            ],
+            [
+              'Colored text on neutral surfaces',
+              '--aeris-primary-text, --aeris-secondary-text, and semantic *-text tokens',
+              'Links, statuses, or emphasis where color is intentional and meaningful',
+            ],
+            [
+              'Content on solid semantic colors',
+              '--aeris-on-primary, --aeris-on-success, and other on-* tokens',
+              'Text and icons placed on the corresponding filled background',
+            ],
+          ],
+        },
+        note: 'Do not use a raw palette seed as body text. The corresponding semantic *-text token is the contrast-aware choice for colored content on a neutral surface.',
+      },
+      {
+        id: 'contrast-audit',
+        title: 'Audit theme contrast',
+        paragraphs: [
+          'The Design Lab recalculates a WCAG 2.2 AA contrast report as the palette or semantic tones change. Review light and dark independently, filter the report to issues, and inspect the exact colors, ratio, target, criterion, and suggested correction for every check.',
+          'The same deterministic audit is public for build scripts, tests, and custom theme tooling. It checks foundation text, every semantic interaction state, focus indicators, borders, and solid control boundaries without reading the document or depending on the active color mode.',
+        ],
+        code: [
+          source(
+            'TS',
+            'TypeScript',
+            `import {
+  auditAerisThemeContrast,
+  type AerisTheme,
+} from '@aeris-ui/core/theming';
+
+export function assertThemeContrast(theme: AerisTheme): void {
+  for (const mode of ['light', 'dark'] as const) {
+    const report = auditAerisThemeContrast(theme, mode);
+
+    if (report.failed > 0 || report.unresolved > 0) {
+      throw new Error(
+        \`\${mode} theme has \${report.failed} failures and \${report.unresolved} checks to review.\`,
+      );
+    }
+  }
+}`,
+          ),
+        ],
+        table: {
+          caption: 'Contrast audit API',
+          columns: ['API', 'Type', 'Purpose'],
+          rows: [
+            [
+              'auditAerisThemeContrast(theme, mode)',
+              'Function',
+              'Returns the complete report for one light or dark scheme',
+            ],
+            [
+              'checks',
+              'readonly AerisContrastCheck[]',
+              'Individual ratios, thresholds, results, and remediation guidance',
+            ],
+            ['passed', 'number', 'Checks meeting their required ratio'],
+            ['failed', 'number', 'Resolved checks below their required ratio'],
+            ['unresolved', 'number', 'CSS expressions that require rendered or manual review'],
+            ['score', 'number', 'Passing percentage across resolved checks only'],
+            ['status', "'pass' | 'fail' | 'unresolved'", 'Overall result for the selected scheme'],
+          ],
+        },
+        note: 'Static analysis supports opaque HEX, RGB, and HSL values. CSS variables, translucent colors, gradients, and other unresolved expressions are deliberately reported for review instead of receiving an unreliable ratio.',
+        links: [{ label: 'Open the live contrast report', href: '/design-lab' }],
+      },
+      {
+        id: 'development-validation',
+        title: 'Choose a theme validation policy',
+        paragraphs: [
+          'When provideAeris is active, Aeris validates the initial theme and every runtime theme update in Angular development mode. Problems appear once per distinct theme state in the browser console with an exact path, severity, explanation, and correction. Validation is excluded from runtime work in production mode.',
+          'Errors identify unsafe CSS values, missing selected scales, invalid direction values, and contrast ratios known to fail WCAG 2.2 AA. Warnings identify CSS variables or color expressions that static analysis cannot resolve; verify those combinations in their rendered context instead of treating the warning as a confirmed failure.',
+          'These diagnostics are guidance, not a design gate. Set themeValidation to false when an application intentionally accepts the result or uses its own review workflow. For generated themes, set css.validateContrast to false or pass --no-contrast-validation. Build-time CSS-safety, scale, selector, and derivation-version checks remain active.',
+        ],
+        code: [
+          source(
+            'theme-validation.ts',
+            'TypeScript',
+            `import {
+  validateAerisTheme,
+  type AerisThemeOverride,
+} from '@aeris-ui/core/theming';
+
+export function verifyTheme(theme: AerisThemeOverride): void {
+  const report = validateAerisTheme(theme);
+
+  for (const issue of report.issues) {
+    console.log(issue.severity, issue.path, issue.message, issue.guidance);
+  }
+
+  if (!report.valid) {
+    throw new Error('The Aeris theme has ' + report.errors.length + ' validation errors.');
+  }
+}`,
+          ),
+          source(
+            'src/app/app.config.ts',
             'TypeScript',
             `import { ApplicationConfig } from '@angular/core';
-import { AERIS_THEME_PRESETS, provideAeris } from '@aeris-ui/core/theming';
+import { provideAeris } from '@aeris-ui/core/theming';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAeris({
+      // No automatic theme warnings are emitted in development.
+      themeValidation: false,
       theme: {
-        ...AERIS_THEME_PRESETS.orchid,
-        density: 'compact',
-        radius: 'soft',
+        palette: { primary: '#527da1' },
       },
     }),
   ],
 };`,
           ),
+          source(
+            'aeris.theme.json',
+            'JSON',
+            `{
+  "$schema": "./node_modules/@aeris-ui/core/theme-config.schema.json",
+  "derivationVersion": 2,
+  "preset": "coastal",
+  "output": "src/styles/aeris-theme.css",
+  "css": {
+    "validateContrast": false
+  }
+}`,
+          ),
         ],
         table: {
-          caption: 'Official Aeris starter theme API',
-          columns: ['Export', 'Type', 'Purpose'],
+          caption: 'Theme validation report',
+          columns: ['Member or issue', 'Severity', 'Meaning'],
           rows: [
+            ['status', '-', "'valid', 'warning', or 'error' summary"],
+            ['valid', '-', 'False when at least one confirmed error exists'],
+            ['issues', '-', 'All errors and warnings in deterministic order'],
+            ['errors', '-', 'Confirmed configuration, CSS-safety, or contrast failures'],
+            ['warnings', '-', 'Checks requiring rendered or manual review'],
+            ['invalid-css-value', 'Error', 'An empty, non-string, or unsafe CSS value'],
+            ['invalid-direction', 'Error', 'A runtime direction other than ltr or rtl'],
+            ['missing-density', 'Error', 'The selected density scale is not registered'],
+            ['missing-radius', 'Error', 'The selected radius scale is not registered'],
+            ['contrast-failed', 'Error', 'A resolved WCAG contrast check is below its target'],
             [
-              'AERIS_THEME_PRESETS',
-              'Readonly<Record<AerisThemePresetName, AerisThemePreset>>',
-              'Earth, Coastal, Orchid, and Monochrome theme overrides ready for provideAeris',
-            ],
-            [
-              'AerisThemePresetName',
-              "'earth' | 'coastal' | 'orchid' | 'monochrome'",
-              'Strict names for theme selectors and stored preferences',
-            ],
-            [
-              'AerisThemePreset',
-              'AerisThemeOverride with a complete palette',
-              'Public type for tooling that consumes an official starter theme',
+              'contrast-unresolved',
+              'Warning',
+              'A dynamic color needs rendered or manual contrast verification',
             ],
           ],
         },
-        note: 'Spread a preset before adding density, radius, or scheme overrides; do not mutate the exported preset object. Supply a custom palette instead when the brand seeds need to change.',
+        note: 'Aeris does not judge whether a palette is attractive. It reports only objective configuration, CSS-safety, and contrast results. Developers retain control over whether contrast diagnostics are enforced.',
       },
       {
         id: 'visual-foundation',
@@ -1063,14 +1610,58 @@ export const appConfig: ApplicationConfig = {
         note: 'Continuous activity such as indeterminate progress and loading spinners keeps a component-specific duration. Disable those features when motion is not appropriate; reduced-motion preferences stop or simplify them where necessary.',
       },
       {
-        id: 'palette',
-        title: 'Create a palette',
+        id: 'shared-geometry',
+        title: 'Customize shared spacing and typography',
         paragraphs: [
-          'Start with five intentional colors. Aeris creates coordinated light and dark foundations, interaction states, and readable foregrounds from those seeds. Override a mode-specific foundation or tone only when the generated result does not fit the product.',
+          'Prefer these shared CSS tokens when several components should change together. Their default values derive from the active density, so compact and comfortable layouts remain coordinated. Component-specific tokens still take precedence for a local exception.',
+          'Widths remain content-dependent: a menu, a date grid, and a dialog do not need the same width. Use fluid controls and responsive parent layouts rather than assigning one fixed width to every component.',
+        ],
+        table: {
+          caption: 'Shared geometry tokens (medium density)',
+          columns: ['Token', 'Default', 'Used for'],
+          rows: [
+            [
+              '--aeris-overlay-padding',
+              '0.375rem',
+              'Outer padding of menus, dropdown panels, and toolbars',
+            ],
+            ['--aeris-surface-padding-sm', '0.875rem', 'Small surfaces and compact headers'],
+            ['--aeris-surface-padding', '1.25rem', 'Default content surfaces and overlay bodies'],
+            ['--aeris-surface-padding-lg', '1.75rem', 'Large content surfaces'],
+            ['--aeris-content-gap', '1rem', 'Spacing between content sections'],
+            [
+              '--aeris-heading-font-size',
+              '1rem',
+              'Card, panel, dialog, drawer, and popover headings',
+            ],
+            ['--aeris-body-font-size', '0.875rem', 'Content text'],
+            ['--aeris-item-font-size', '0.875rem', 'Menu items and selectable list options'],
+          ],
+        },
+        code: [
+          source(
+            'src/styles.scss',
+            'CSS',
+            `:root {
+  --aeris-surface-padding: 1.5rem;
+  --aeris-content-gap: 1.25rem;
+}
+
+.compact-toolbar {
+  --aeris-toolbar-padding-inline: 0.25rem;
+}`,
+          ),
+        ],
+      },
+      {
+        id: 'custom-scales',
+        title: 'Register custom density and corner scales',
+        paragraphs: [
+          'Register a named scale only when the built-in choices cannot express the product. Components consume the resolved measurements, so one named scale updates the whole system coherently.',
         ],
         code: [
           source(
-            'TS',
+            'src/app/app.config.ts',
             'TypeScript',
             `import { ApplicationConfig } from '@angular/core';
 import { provideAeris } from '@aeris-ui/core/theming';
@@ -1079,21 +1670,28 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideAeris({
       theme: {
-        palette: {
-          surface: '#f1f4f8',
-          primary: '#2d63a8',
-          secondary: '#546b89',
-          accent: '#368678',
-          contrast: '#39404a',
+        density: 'workspace',
+        densities: {
+          workspace: {
+            controlHeight: '2.75rem',
+            controlPaddingX: '0.875rem',
+            itemHeight: '2.625rem',
+            itemPaddingY: '0.5rem',
+            itemPaddingX: '0.875rem',
+            gap: '0.625rem',
+            iconSize: '1rem',
+          },
         },
-        dark: {
-          page: '#0c0c0c',
-          surface: '#121212',
-          surface2: '#191919',
-          surface3: '#232323',
-          interactiveHover: '#292929',
-          border: '#292929',
-          borderStrong: '#757575',
+        radius: 'brand',
+        radii: {
+          brand: {
+            sm: '0.35rem',
+            md: '0.6rem',
+            lg: '1rem',
+            xl: '1.35rem',
+            control: '0.35rem',
+            pill: '999px',
+          },
         },
       },
     }),
@@ -1101,254 +1699,10 @@ export const appConfig: ApplicationConfig = {
 };`,
           ),
         ],
-        table: {
-          caption: 'Aeris palette seed roles',
-          columns: ['Seed', 'Choose it for'],
-          rows: [
-            ['surface', 'The neutral temperature behind pages, cards, borders, and text'],
-            ['primary', 'The most common action and focus identity'],
-            ['secondary', 'A distinct supporting action or category'],
-            ['accent', 'Decorative emphasis and low-frequency highlights'],
-            ['contrast', 'A deliberately strong inverse treatment'],
-          ],
-        },
-        note: 'Aeris derives independent hover, active, readable text, and foreground colors for every semantic tone. Explicit tone values remain available for intentional brand or contrast exceptions.',
-      },
-      {
-        id: 'neutral-content',
-        title: 'Keep ordinary text neutral',
-        paragraphs: [
-          'Aeris keeps primary, secondary, and muted content achromatic: near-black in light mode and near-white in dark mode. A palette changes the surrounding surface hierarchy, borders, focus treatment, and semantic colors without placing a green, blue, or violet cast over ordinary copy.',
-          'Use a semantic text token when color communicates a deliberate role. These text variants are adjusted for use on neutral surfaces; paired on-color tokens are intended for content placed on a solid semantic background.',
-        ],
-        code: [
-          source(
-            'CSS',
-            'CSS',
-            `.article-copy {
-  color: var(--aeris-text);
-}
-
-.brand-link {
-  color: var(--aeris-primary-text);
-}
-
-.success-note {
-  color: var(--aeris-success-text);
-}
-
-.primary-banner {
-  background: var(--aeris-primary);
-  color: var(--aeris-on-primary);
-}`,
-          ),
-        ],
-        table: {
-          caption: 'Foundation and intentional color tokens',
-          columns: ['Purpose', 'Tokens', 'Use'],
-          rows: [
-            [
-              'Ordinary content',
-              '--aeris-text, --aeris-text-2, --aeris-text-3',
-              'Default headings, body copy, supporting text, labels, and placeholders',
-            ],
-            [
-              'Quiet surface separation',
-              '--aeris-border',
-              'Optional low-emphasis edges around non-interactive cards, panels, and overlay shells',
-            ],
-            [
-              'Colored text on neutral surfaces',
-              '--aeris-primary-text, --aeris-secondary-text, and semantic *-text tokens',
-              'Links, statuses, or emphasis where color is intentional and meaningful',
-            ],
-            [
-              'Content on solid semantic colors',
-              '--aeris-on-primary, --aeris-on-success, and other on-* tokens',
-              'Text and icons placed on the corresponding filled background',
-            ],
-          ],
-        },
-        note: 'Do not use a raw palette seed as body text. The corresponding semantic *-text token is the contrast-aware choice for colored content on a neutral surface.',
-      },
-      {
-        id: 'semantic-tones',
-        title: 'Semantic interaction tones',
-        advanced: true,
-        paragraphs: [
-          "Primary, secondary, success, info, warning, danger, and contrast each resolve to a complete interaction scale. Hover and active colors are derived from that tone's own base color rather than from the primary palette.",
-          'Generated surfaces, states, and contrast corrections are mixed by perceived lightness, chroma, and hue instead of raw RGB channel values. This produces more even visual steps across different palette colors while keeping explicit overrides exact.',
-          'Aeris compares light and dark foreground candidates for solid states, keeps the foreground stable across interaction states whenever it remains WCAG AA readable, and adjusts outlined or text colors against the active surface. This work runs only when the theme or color mode changes; components consume the resulting CSS tokens without per-instance color calculations.',
-          'Override semantic colors only through the tones collection. Override only the roles that need deliberate control; unspecified roles continue to be derived from the base color.',
-          'All theme objects inherit Monochrome unless preset selects another theme, including empty objects and density-only overrides. Preset values are inherited rather than copied into user overrides. Changing a primary, secondary, or contrast seed regenerates that inherited tone in both modes; changing a tone base regenerates its inherited states. Explicit states and foregrounds remain authoritative.',
-          'Omit a tone or property to inherit its preset value. Set it to null for automatic derivation, for example light: { tones: { primary: { hover: null }, secondary: null } }. During updateTheme, an explicit undefined removes an override and restores inheritance. Changing preset resets the old colors and overrides while preserving density, corners, and direction.',
-          'The service theme exposes explicit light and dark overrides. Use resolveAerisThemeScheme(theme, mode) for the effective inherited scheme and resolveAerisThemeTokens(theme, mode) for the final CSS values.',
-        ],
-        code: [
-          source(
-            'TS',
-            'TypeScript',
-            `import type { AerisThemeOverride } from '@aeris-ui/core/theming';
-
-export const productTheme: AerisThemeOverride = {
-  palette: {
-    surface: '#f1f4f8',
-    primary: '#2d63a8',
-    secondary: '#546b89',
-    accent: '#368678',
-    contrast: '#39404a',
-  },
-  light: {
-    tones: {
-      warning: {
-        base: '#a66516',
-        hover: '#87500d',
-        onBase: '#ffffff',
-        onHover: '#ffffff',
-      },
-    },
-  },
-  dark: {
-    tones: {
-      warning: {
-        base: '#e8bd68',
-        onBase: '#251804',
-      },
-    },
-  },
-};`,
-          ),
-        ],
-        table: {
-          caption: 'AerisSemanticTone properties',
-          columns: ['Property', 'Used for', 'Default behavior'],
-          rows: [
-            ['base', 'Solid background', 'Palette seed or built-in semantic default'],
-            [
-              'boundary',
-              'Solid and outline control boundary',
-              'Uses base unless an inverse treatment needs a distinct border',
-            ],
-            [
-              'hover',
-              'Solid and outline hover background',
-              'Derived from base for the active mode',
-            ],
-            ['active', 'Pressed background', 'Derived one step beyond hover'],
-            ['onBase', 'Content on the solid base', 'Higher-contrast light or dark foreground'],
-            [
-              'onHover',
-              'Content on the hover background',
-              'Inherits onBase when readable; otherwise recalculated',
-            ],
-            [
-              'onActive',
-              'Content on the pressed background',
-              'Inherits onHover when readable; otherwise recalculated',
-            ],
-            [
-              'text',
-              'Idle outline, ghost, and link content',
-              'Adjusted from base to contrast with the surface',
-            ],
-            ['soft', 'Ghost hover background', 'Low-emphasis blend of base and surface'],
-            ['onSoft', 'Content on the soft background', 'Adjusted to maintain readable contrast'],
-          ],
-        },
-        note: 'Automatic color analysis supports opaque hex, rgb, and hsl values. When a tone uses a CSS variable or another unresolved color expression, provide its boundary, onBase, onHover, onActive, text, and onSoft values explicitly.',
-      },
-      {
-        id: 'mode',
-        title: 'Light, dark, and system mode',
-        paragraphs: [
-          'System mode follows prefers-color-scheme and reacts when the operating-system preference changes. It is the recommended general default. A selected mode is persisted by default and restored during the next application startup.',
-        ],
-        code: [
-          source(
-            'TS',
-            'TypeScript',
-            `import { Component, inject } from '@angular/core';
-import { AerisButton } from '@aeris-ui/core/button';
-import { AerisThemeService, type AerisThemeMode } from '@aeris-ui/core/theming';
-
-@Component({
-  selector: 'app-color-mode-controls',
-  imports: [AerisButton],
-  template: \`
-    <button aerisButton type="button" (click)="setMode('light')">Light</button>
-    <button aerisButton type="button" (click)="setMode('dark')">Dark</button>
-    <button aerisButton type="button" (click)="setMode('system')">System</button>
-    <span>Active: {{ theme.resolvedMode() }}</span>
-  \`,
-})
-export class ColorModeControls {
-  protected readonly theme = inject(AerisThemeService);
-
-  protected setMode(mode: AerisThemeMode): void {
-    this.theme.setMode(mode);
-  }
-}`,
-          ),
-        ],
-      },
-      {
-        id: 'contrast-audit',
-        title: 'Audit theme contrast',
-        advanced: true,
-        paragraphs: [
-          'The Design Lab recalculates a WCAG 2.2 AA contrast report as the palette or semantic tones change. Review light and dark independently, filter the report to issues, and inspect the exact colors, ratio, target, criterion, and suggested correction for every check.',
-          'The same deterministic audit is public for build scripts, tests, and custom theme tooling. It checks foundation text, every semantic interaction state, focus indicators, borders, and solid control boundaries without reading the document or depending on the active color mode.',
-        ],
-        code: [
-          source(
-            'TS',
-            'TypeScript',
-            `import {
-  auditAerisThemeContrast,
-  type AerisTheme,
-} from '@aeris-ui/core/theming';
-
-export function assertThemeContrast(theme: AerisTheme): void {
-  for (const mode of ['light', 'dark'] as const) {
-    const report = auditAerisThemeContrast(theme, mode);
-
-    if (report.failed > 0 || report.unresolved > 0) {
-      throw new Error(
-        \`\${mode} theme has \${report.failed} failures and \${report.unresolved} checks to review.\`,
-      );
-    }
-  }
-}`,
-          ),
-        ],
-        table: {
-          caption: 'Contrast audit API',
-          columns: ['API', 'Type', 'Purpose'],
-          rows: [
-            [
-              'auditAerisThemeContrast(theme, mode)',
-              'Function',
-              'Returns the complete report for one light or dark scheme',
-            ],
-            [
-              'checks',
-              'readonly AerisContrastCheck[]',
-              'Individual ratios, thresholds, results, and remediation guidance',
-            ],
-            ['passed', 'number', 'Checks meeting their required ratio'],
-            ['failed', 'number', 'Resolved checks below their required ratio'],
-            ['unresolved', 'number', 'CSS expressions that require rendered or manual review'],
-            ['score', 'number', 'Passing percentage across resolved checks only'],
-            ['status', "'pass' | 'fail' | 'unresolved'", 'Overall result for the selected scheme'],
-          ],
-        },
-        note: 'Static analysis supports opaque HEX, RGB, and HSL values. CSS variables, translucent colors, gradients, and other unresolved expressions are deliberately reported for review instead of receiving an unreliable ratio.',
-        links: [{ label: 'Open the live contrast report', href: '/design-lab' }],
       },
       {
         id: 'build-time-generation',
         title: 'Generate theme CSS at build time',
-        advanced: true,
         paragraphs: [
           'For applications with a fixed theme, the Aeris theme compiler can resolve the complete light and dark token set during the build instead of calculating and applying variables at runtime. The generated stylesheet uses the same color, foundation, semantic tone, density, radius, and contrast logic as AerisThemeService.',
           'Create one JSON configuration, generate the CSS before the application build, and load it after the Aeris base styles. The default output follows the operating-system preference, supports explicit light and dark data attributes, and fails generation when a contrast check is unresolved or below its WCAG target.',
@@ -1419,12 +1773,11 @@ export function assertThemeContrast(theme: AerisTheme): void {
             ['generateAerisThemeCss()', '-', 'Return only the deterministic stylesheet'],
           ],
         },
-        note: 'Use the generated stylesheet without provideAeris when the theme is static. Set data-aeris-theme="light", "dark", or "system" on the owning element to choose a mode; omitting the attribute follows the system preference. Keep provideAeris and AerisThemeService when users need persisted runtime theme, density, radius, or direction changes.',
+        note: 'Choose this as an alternative to runtime theming, not an additional required step. Omit provideAeris for a static generated theme: the runtime provider writes inline tokens that override normal stylesheet values. Set data-aeris-theme="light", "dark", or "system" on the owning element; omitting it follows the system preference. Use runtime theming instead when users need persisted theme, density, radius, or direction changes.',
       },
       {
         id: 'derived-color-stability',
         title: 'Keep derived colors stable',
-        advanced: true,
         paragraphs: [
           'Aeris assigns a public version to the color derivation algorithm. With the same complete theme input and derivation version, every existing resolved color token is deterministic across runtime and build-time theming. Generated CSS includes the version in its banner, and configurations created by ng add pin it automatically.',
           'If a future Aeris release changes an existing derived color, the derivation version increases. A pinned build then stops with a clear mismatch instead of silently replacing the application palette. Review the release notes and regenerated colors, run the contrast report, and update the pinned version only after accepting the result.',
@@ -1491,240 +1844,62 @@ console.log(result.css);`,
         note: 'The contract covers derived color tokens. Density, radii, component layout, and newly introduced token names follow the normal Aeris release and changelog policy. During alpha, pin exact package versions as well as the derivation version.',
       },
       {
-        id: 'development-validation',
-        title: 'Choose a theme validation policy',
-        paragraphs: [
-          'When provideAeris is active, Aeris validates the initial theme and every runtime theme update in Angular development mode. Problems appear once per distinct theme state in the browser console with an exact path, severity, explanation, and correction. Validation is excluded from runtime work in production mode.',
-          'Errors identify unsafe CSS values, missing selected scales, invalid direction values, and contrast ratios known to fail WCAG 2.2 AA. Warnings identify CSS variables or color expressions that static analysis cannot resolve; verify those combinations in their rendered context instead of treating the warning as a confirmed failure.',
-          'These diagnostics are guidance, not a design gate. Set themeValidation to false when an application intentionally accepts the result or uses its own review workflow. For generated themes, set css.validateContrast to false or pass --no-contrast-validation. Build-time CSS-safety, scale, selector, and derivation-version checks remain active.',
-        ],
-        code: [
-          source(
-            'theme-validation.ts',
-            'TypeScript',
-            `import {
-  validateAerisTheme,
-  type AerisThemeOverride,
-} from '@aeris-ui/core/theming';
-
-export function verifyTheme(theme: AerisThemeOverride): void {
-  const report = validateAerisTheme(theme);
-
-  for (const issue of report.issues) {
-    console.log(issue.severity, issue.path, issue.message, issue.guidance);
-  }
-
-  if (!report.valid) {
-    throw new Error('The Aeris theme has ' + report.errors.length + ' validation errors.');
-  }
-}`,
-          ),
-          source(
-            'src/app/app.config.ts',
-            'TypeScript',
-            `import { ApplicationConfig } from '@angular/core';
-import { provideAeris } from '@aeris-ui/core/theming';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideAeris({
-      // No automatic theme warnings are emitted in development.
-      themeValidation: false,
-      theme: {
-        palette: { primary: '#527da1' },
-      },
-    }),
-  ],
-};`,
-          ),
-          source(
-            'aeris.theme.json',
-            'JSON',
-            `{
-  "$schema": "./node_modules/@aeris-ui/core/theme-config.schema.json",
-  "derivationVersion": 2,
-  "preset": "coastal",
-  "output": "src/styles/aeris-theme.css",
-  "css": {
-    "validateContrast": false
-  }
-}`,
-          ),
-        ],
+        id: 'troubleshooting',
+        title: 'Troubleshoot a theme change',
         table: {
-          caption: 'Theme validation report',
-          columns: ['Member or issue', 'Severity', 'Meaning'],
+          caption: 'Common theming questions',
+          columns: ['What you see', 'Why it happens', 'What to change'],
           rows: [
-            ['status', '-', "'valid', 'warning', or 'error' summary"],
-            ['valid', '-', 'False when at least one confirmed error exists'],
-            ['issues', '-', 'All errors and warnings in deterministic order'],
-            ['errors', '-', 'Confirmed configuration, CSS-safety, or contrast failures'],
-            ['warnings', '-', 'Checks requiring rendered or manual review'],
-            ['invalid-css-value', 'Error', 'An empty, non-string, or unsafe CSS value'],
-            ['invalid-direction', 'Error', 'A runtime direction other than ltr or rtl'],
-            ['missing-density', 'Error', 'The selected density scale is not registered'],
-            ['missing-radius', 'Error', 'The selected radius scale is not registered'],
-            ['contrast-failed', 'Error', 'A resolved WCAG contrast check is below its target'],
             [
-              'contrast-unresolved',
-              'Warning',
-              'A dynamic color needs rendered or manual contrast verification',
+              'A seed changes, but an action color stays the same',
+              'An explicit tone base or a local component CSS token takes priority',
+              'Check the current light/dark tones and local CSS overrides; remove or reset the value you no longer want',
+            ],
+            [
+              'Hover no longer follows a changed base',
+              'An explicit hover color is intentionally preserved',
+              'Set hover to null for automatic derivation, or to undefined in updateTheme() to restore preset inheritance',
+            ],
+            [
+              'Dark-mode primary differs from the supplied hex value',
+              'A palette seed is adjusted for the active mode',
+              'Use dark.tones.primary.base when an exact dark action color is required',
+            ],
+            [
+              'The surface seed does not match the page background',
+              'A seed influences several derived layers; it is not an exact surface assignment',
+              'Set light.page, dark.page, or the relevant scheme surface property',
+            ],
+            [
+              'Text is unexpectedly brand-colored',
+              'The application is using a raw palette or action color for ordinary copy',
+              'Use --aeris-text or --aeris-text-2; reserve *-text semantic colors for intentional emphasis',
+            ],
+            [
+              'The app ignores the configured initial mode',
+              'A saved user preference is restored before the configured fallback',
+              'Use setMode() to change it, or themeModeStorageKey: false when persistence is not wanted',
+            ],
+            [
+              'A CSS-variable color is reported as unresolved',
+              'Static analysis cannot determine its rendered value',
+              'Check it in the browser; provide explicit paired colors as needed or choose your own validation policy',
+            ],
+            [
+              'Generated CSS seems to have no effect',
+              'The runtime provider can write inline theme variables that take priority over stylesheet values',
+              'Choose runtime theming or generated CSS; for a static theme, omit provideAeris and load the generated file after the base styles',
             ],
           ],
         },
-        note: 'Aeris does not judge whether a palette is attractive. It reports only objective configuration, CSS-safety, and contrast results. Developers retain control over whether contrast diagnostics are enforced.',
-      },
-      {
-        id: 'scales',
-        title: 'Choose density and corners',
-        paragraphs: [
-          'Use compact for dense workspaces, medium for the balanced default, and comfortable for touch-heavy or relaxed layouts. Soft, rounded, and pill control the visual character while structural components retain practical geometry.',
-          'Density also controls the space around content: menus and toolbars share compact outer padding, while cards, panels, accordions, and dialog bodies use the same content spacing scale. A toolbar containing buttons can be taller than a menu row because the controls need their own space.',
-        ],
-        code: [
-          source(
-            'src/app/app.config.ts',
-            'TypeScript',
-            `import { ApplicationConfig } from '@angular/core';
-import { provideAeris } from '@aeris-ui/core/theming';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideAeris({
-      theme: {
-        density: 'medium',
-        radius: 'rounded',
-      },
-    }),
-  ],
-};`,
-          ),
-        ],
-      },
-      {
-        id: 'shared-geometry',
-        title: 'Customize shared spacing and typography',
-        advanced: true,
-        paragraphs: [
-          'Prefer these shared CSS tokens when several components should change together. Their default values derive from the active density, so compact and comfortable layouts remain coordinated. Component-specific tokens still take precedence for a local exception.',
-          'Widths remain content-dependent: a menu, a date grid, and a dialog do not need the same width. Use fluid controls and responsive parent layouts rather than assigning one fixed width to every component.',
-        ],
-        table: {
-          caption: 'Shared geometry tokens (medium density)',
-          columns: ['Token', 'Default', 'Used for'],
-          rows: [
-            [
-              '--aeris-overlay-padding',
-              '0.375rem',
-              'Outer padding of menus, dropdown panels, and toolbars',
-            ],
-            ['--aeris-surface-padding-sm', '0.875rem', 'Small surfaces and compact headers'],
-            ['--aeris-surface-padding', '1.25rem', 'Default content surfaces and overlay bodies'],
-            ['--aeris-surface-padding-lg', '1.75rem', 'Large content surfaces'],
-            ['--aeris-content-gap', '1rem', 'Spacing between content sections'],
-            [
-              '--aeris-heading-font-size',
-              '1rem',
-              'Card, panel, dialog, drawer, and popover headings',
-            ],
-            ['--aeris-body-font-size', '0.875rem', 'Content text'],
-            ['--aeris-item-font-size', '0.875rem', 'Menu items and selectable list options'],
-          ],
-        },
-        code: [
-          source(
-            'src/styles.scss',
-            'CSS',
-            `:root {
-  --aeris-surface-padding: 1.5rem;
-  --aeris-content-gap: 1.25rem;
-}
-
-.compact-toolbar {
-  --aeris-toolbar-padding-inline: 0.25rem;
-}`,
-          ),
-        ],
-      },
-      {
-        id: 'custom-scales',
-        title: 'Register custom density and corner scales',
-        advanced: true,
-        paragraphs: [
-          'Register a named scale only when the built-in choices cannot express the product. Components consume the resolved measurements, so one named scale updates the whole system coherently.',
-        ],
-        code: [
-          source(
-            'src/app/app.config.ts',
-            'TypeScript',
-            `import { ApplicationConfig } from '@angular/core';
-import { provideAeris } from '@aeris-ui/core/theming';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideAeris({
-      theme: {
-        density: 'workspace',
-        densities: {
-          workspace: {
-            controlHeight: '2.75rem',
-            controlPaddingX: '0.875rem',
-            itemHeight: '2.625rem',
-            itemPaddingY: '0.5rem',
-            itemPaddingX: '0.875rem',
-            gap: '0.625rem',
-            iconSize: '1rem',
-          },
-        },
-        radius: 'brand',
-        radii: {
-          brand: {
-            sm: '0.35rem',
-            md: '0.6rem',
-            lg: '1rem',
-            xl: '1.35rem',
-            control: '0.35rem',
-            pill: '999px',
-          },
-        },
-      },
-    }),
-  ],
-};`,
-          ),
-        ],
-      },
-      {
-        id: 'css-tokens',
-        title: 'Use semantic and component tokens',
-        paragraphs: [
-          'A design token is a named CSS custom property that represents a role instead of one hard-coded value. For example, --aeris-text always means normal readable content even though its resolved color changes with the theme and mode.',
-          'Application surfaces should use semantic Aeris tokens so they stay synchronized with library components. Override a documented component token on a wrapper or component host when one instance needs a deliberate variation.',
-          'Corner roles are consistent across the library: --aeris-radius-control shapes single-line fields and buttons, --aeris-radius-structured-control keeps multi-line and grouped controls from becoming impractical pills, --aeris-radius-item shapes selectable rows and menu items, --aeris-radius-overlay shapes floating panels, and --aeris-radius-surface shapes cards and structural containers. Each role derives from the active corner scale.',
-          'The built-in scales keep overlays and structural surfaces compact. The pill preset fully rounds compact controls where that geometry is useful, while cards, tables, panels, menus, and other containers retain practical rounded corners.',
-        ],
-        code: [
-          source(
-            'src/styles.scss',
-            'CSS',
-            `body {
-  background: var(--aeris-page);
-  color: var(--aeris-text);
-}
-
-.billing-actions {
-  --aeris-button-radius: var(--aeris-radius-pill);
-  --aeris-button-primary-background: var(--aeris-contrast);
-}`,
-          ),
-        ],
         links: [
-          { label: 'Explore the live Design Lab', href: '/design-lab' },
-          { label: 'View component token tables', href: '/components' },
+          { label: 'Color inheritance and resets', href: '/guides/theme-reference#inheritance' },
+          { label: 'Exact scheme colors', href: '/guides/theme-reference#scheme-overrides' },
+          { label: 'Validation controls', href: '/guides/theme-reference#development-validation' },
         ],
       },
     ],
-    related: ['design-system', 'configuration', 'accessibility'],
+    related: ['theming', 'design-system', 'accessibility'],
   },
   {
     id: 'design-system',
@@ -1735,7 +1910,7 @@ export const appConfig: ApplicationConfig = {
     description:
       'Turn brand decisions into a maintainable Aeris theme and verify them across real components.',
     summary:
-      'Build a complete Aeris theme interactively, validate it in a real component dashboard, and copy the typed configuration into your application.',
+      'Use Design Lab to explore brand colors and interaction states, preview real components, and copy a typed theme into your application. Use the theming guide for exact foundation colors and advanced overrides.',
     sections: [
       {
         id: 'workflow',
@@ -1744,11 +1919,14 @@ export const appConfig: ApplicationConfig = {
           'Begin with semantic decisions instead of styling individual components. A small set of shared choices keeps a product coherent and makes later changes predictable.',
         ],
         bullets: [
-          'Choose the five palette seeds and verify both color modes.',
+          'Start from a preset; change primary first and add other seed overrides only when the brand needs them.',
           'Select density from the information needs of the product, not screen size alone.',
           'Choose a corner system and reserve pill shapes for controls where the shape is meaningful.',
           'Review forms, navigation, overlays, messages, and dense data—not only buttons and cards.',
           'Apply component-token overrides only after the semantic system is stable.',
+        ],
+        links: [
+          { label: 'Start with the theming walkthrough', href: '/guides/theming#starter-themes' },
         ],
       },
       {
@@ -1758,7 +1936,8 @@ export const appConfig: ApplicationConfig = {
           'The Aeris Design Lab lets you choose palette presets or enter custom surface, primary, secondary, accent, and contrast colors. Mode, density, and corner changes update a dashboard built from published Aeris components immediately.',
           'A semantic tone editor previews filled, outline, and text treatments together. Base, hover, and pressed colors can be overridden independently for light and dark schemes, while foreground contrast remains calculated automatically.',
           'A live contrast report audits both schemes as the theme changes. It groups text, semantic content, focus, and boundary checks, exposes exact WCAG ratios, and provides focused guidance for failures or colors that require manual review.',
-          'The generated theme includes only deliberate tone overrides and stays synchronized with the provider configuration and stylesheet imports. Leave a tone on Auto to keep it derived from the palette and active color mode.',
+          'The generated theme records its preset, palette, and explicit scheme overrides and stays synchronized with the provider configuration and stylesheet imports. A null tone represents Auto. Save the generated code before leaving or reloading; custom edits are not persisted as a complete draft.',
+          'The Lab is a color and interaction editor, not a replacement for the full theme API. Set exact page backgrounds, text, borders, shadows, or custom geometry scales in the typed theme file when the product needs them.',
         ],
         links: [{ label: 'Open Design Lab', href: '/design-lab' }],
       },

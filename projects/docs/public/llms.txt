@@ -10,7 +10,8 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 
 - [Installation](https://aeris-ui.dev/guides/installation): Install and configure Aeris, including global styles and the theme provider.
 - [Configuration](https://aeris-ui.dev/guides/configuration): Configure runtime behavior, themes, direction, density, and corners.
-- [Theming](https://aeris-ui.dev/guides/theming): Use built-in themes, custom palettes, runtime theming, and build-time generation.
+- [Theming](https://aeris-ui.dev/guides/theming): Choose a preset, apply a brand color, and adjust appearance.
+- [Theme reference](https://aeris-ui.dev/guides/theme-reference): Look up inheritance, exact colors, tokens, validation, and build-time generation.
 - [Accessibility](https://aeris-ui.dev/guides/accessibility): Understand the Aeris accessibility contract and consumer responsibilities.
 - [Canonical JSON](https://aeris-ui.dev/ai/22/aeris-docs.json): Versioned structured documentation for programmatic retrieval.
 - [Full LLM context](https://aeris-ui.dev/llms-full.txt): All Aeris guides and component references in one Markdown document.
@@ -22,7 +23,8 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [Installation](https://aeris-ui.dev/guides/installation): Install Aeris, load its styles, configure the provider, and render your first component.
 - [Configuration](https://aeris-ui.dev/guides/configuration): Configure Aeris at application startup and update supported settings at runtime.
 - [Forms and validation](https://aeris-ui.dev/guides/forms): Connect Aeris controls to signals or Angular Forms with accessible labels and validation.
-- [Theming](https://aeris-ui.dev/guides/theming): Build a cohesive light and dark theme with semantic tokens, density, and corner scales.
+- [Theming](https://aeris-ui.dev/guides/theming): Choose a theme, apply your brand color, and adjust the appearance.
+- [Theme reference](https://aeris-ui.dev/guides/theme-reference): Look up inheritance, exact colors, tokens, custom scales, and build-time generation.
 - [Design system workflow](https://aeris-ui.dev/guides/design-system): Turn brand decisions into a maintainable Aeris theme and verify them across real components.
 - [Icons](https://aeris-ui.dev/guides/icons): Use any Angular icon library, inline SVG, icon component, or icon font with Aeris.
 - [Right-to-left layouts](https://aeris-ui.dev/guides/rtl): Enable RTL globally and keep application styles, overlays, and projected content direction-aware.
