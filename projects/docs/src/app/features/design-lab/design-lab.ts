@@ -1,5 +1,8 @@
 import {
   Component,
+  DOCUMENT,
+  Injector,
+  afterNextRender,
   DestroyRef,
   computed,
   effect,
@@ -21,6 +24,8 @@ import {
   auditAerisThemeContrast,
   resolveAerisTheme,
   resolveAerisThemeTokens,
+  resolveAerisThemeScheme,
+  type AerisContrastProperty,
   type AerisContrastCategory,
   type AerisContrastCheck,
   type AerisContrastStatus,
@@ -53,6 +58,8 @@ import { AerisShowcaseGalleryComponent } from '../../shared/showcase/aeris-showc
 import { DesignLabColorFields } from './design-lab-color-fields';
 import { DesignLabShadowFields } from './design-lab-shadow-fields';
 import type { LabColorField } from './design-lab-theme';
+import { labContrastColor, type LabContrastColor } from './design-lab-contrast';
+import { DesignLabContrastTrace } from './design-lab-contrast-trace';
 
 type PaletteKey = keyof AerisPaletteConfig;
 type LabDensity = 'compact' | 'medium' | 'comfortable';
@@ -79,6 +86,7 @@ interface LabToneRow extends LabToneOption {
 }
 
 interface LabContrastCheck extends AerisContrastCheck {
+  readonly colors: readonly LabContrastColor[];
   readonly ratioLabel: string;
   readonly requiredLabel: string;
   readonly statusLabel: string;
@@ -148,8 +156,27 @@ function contrastStatusLabel(status: AerisContrastStatus): string {
 
 function createContrastReport(theme: AerisTheme, mode: LabScheme): LabContrastReport {
   const report = auditAerisThemeContrast(theme, mode);
+  const resolved = resolveAerisThemeScheme(theme, mode);
   const checks: readonly LabContrastCheck[] = report.checks.map((check) => ({
     ...check,
+    colors: [
+      labContrastColor(
+        theme,
+        mode,
+        resolved,
+        check.foregroundProperty,
+        check.foreground,
+        'Foreground',
+      ),
+      labContrastColor(
+        theme,
+        mode,
+        resolved,
+        check.backgroundProperty,
+        check.background,
+        'Background',
+      ),
+    ],
     ratioLabel: check.ratio === null ? 'Not resolved' : `${check.ratio.toFixed(2)}:1`,
     requiredLabel: `${check.requiredRatio}:1`,
     statusLabel: contrastStatusLabel(check.status),
@@ -189,11 +216,14 @@ function createContrastReport(theme: AerisTheme, mode: LabScheme): LabContrastRe
     AerisShowcaseGalleryComponent,
     DesignLabColorFields,
     DesignLabShadowFields,
+    DesignLabContrastTrace,
   ],
   templateUrl: './design-lab.html',
   styleUrl: './design-lab.scss',
 })
 export class DesignLab {
+  private readonly document = inject(DOCUMENT);
+  private readonly injector = inject(Injector);
   private readonly destroyRef = inject(DestroyRef);
   private clearedDraft: string | null = null;
   private importReadId = 0;
@@ -489,6 +519,27 @@ export const appConfig: ApplicationConfig = {
 
   protected setContrastMode(mode: LabScheme): void {
     this.contrastMode.set(mode);
+  }
+
+  protected editContrastColor(property: AerisContrastProperty): void {
+    const mode = this.contrastMode();
+    this.setMode(mode);
+    afterNextRender(
+      () => {
+        const target = this.document.getElementById(
+          `lab-${mode}-${property.replace(/^tones\./, '').replaceAll('.', '-')}`,
+        );
+        if (!target) return;
+        let ancestor = target.parentElement;
+        while (ancestor) {
+          if (ancestor instanceof HTMLDetailsElement) ancestor.open = true;
+          ancestor = ancestor.parentElement;
+        }
+        target.focus({ preventScroll: true });
+        target.scrollIntoView({ block: 'center' });
+      },
+      { injector: this.injector },
+    );
   }
 
   protected toggleContrastIssues(): void {

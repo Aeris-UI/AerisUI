@@ -143,6 +143,26 @@ describe('Aeris theme inheritance', () => {
     );
   });
 
+  it('removes foundation overrides rather than masking inherited starter values with undefined', () => {
+    for (const mode of ['light', 'dark'] as const) {
+      const original = resolveAerisTheme();
+      const changed = mergeAerisTheme(original, {
+        [mode]: { text: '#123456', surface: '#654321' },
+      });
+      const restored = mergeAerisTheme(changed, {
+        [mode]: { text: undefined, surface: undefined },
+      });
+      expect(Object.hasOwn(restored[mode], 'text')).toBe(false);
+      expect(Object.hasOwn(restored[mode], 'surface')).toBe(false);
+      expect(resolveAerisThemeTokens(restored, mode)).toEqual(
+        resolveAerisThemeTokens(original, mode),
+      );
+      expect(
+        resolveAerisThemeTokens(resolveAerisTheme({ [mode]: { text: undefined } }), mode),
+      ).toEqual(resolveAerisThemeTokens(original, mode));
+    }
+  });
+
   it('changes preset without leaking previous colors or overrides and retains geometry', () => {
     const theme = resolveAerisTheme({
       density: 'compact',

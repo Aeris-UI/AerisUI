@@ -78,7 +78,11 @@ function mergeScheme(current: AerisThemeScheme, update: AerisThemeScheme = {}): 
       tones[name] = merged;
     }
   }
-  return { ...current, ...update, tones };
+  const scheme = { ...current, ...update, tones };
+  for (const key of Object.keys(scheme) as (keyof AerisThemeScheme)[]) {
+    if (scheme[key] === undefined) delete scheme[key];
+  }
+  return scheme;
 }
 
 function mergePalette(

@@ -495,6 +495,11 @@
                           @if (check.status !== 'pass') {
                             <span>{{ check.guidance }}</span>
                           }
+                          <app-lab-contrast-trace
+                            [colors]="check.colors"
+                            [label]="check.label"
+                            (edit)="editContrastColor($event)"
+                          />
                         </th>
                         <td>
                           <span class="design-lab__contrast-colors">

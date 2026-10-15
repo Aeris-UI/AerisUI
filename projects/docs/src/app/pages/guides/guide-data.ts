@@ -1383,7 +1383,7 @@ aeris-card.billing-summary {
         id: 'contrast-audit',
         title: 'Audit theme contrast',
         paragraphs: [
-          'The Design Lab recalculates a WCAG 2.2 AA contrast report as the palette or semantic tones change. Review light and dark independently, filter the report to issues, and inspect the exact colors, ratio, target, criterion, and suggested correction for every check.',
+          'The Design Lab recalculates a WCAG 2.2 AA contrast report as the palette or semantic tones change. Review light and dark independently and filter to issues. Expand Trace colors on any check to see its exact configuration paths, CSS tokens, and whether each color is overridden, inherited from the starter, derived, or explicitly automatic. Edit foreground or Edit background opens the matching scheme and focuses its color picker. No colors are changed until you edit them; Inherit restores the starter behavior.',
           'The same deterministic audit is public for build scripts, tests, and custom theme tooling. It checks foundation text, every semantic interaction state, focus indicators, borders, and solid control boundaries without reading the document or depending on the active color mode.',
         ],
         code: [
@@ -1423,6 +1423,16 @@ export function assertThemeContrast(theme: AerisTheme): void {
               'Individual ratios, thresholds, results, and remediation guidance',
             ],
             ['passed', 'number', 'Checks meeting their required ratio'],
+            [
+              'checks[].foregroundProperty',
+              'AerisContrastProperty',
+              'Scheme-relative path for the measured foreground, such as tones.primary.onBase',
+            ],
+            [
+              'checks[].backgroundProperty',
+              'AerisContrastProperty',
+              'Scheme-relative path for the measured background, such as tones.primary.base',
+            ],
             ['failed', 'number', 'Resolved checks below their required ratio'],
             ['unresolved', 'number', 'CSS expressions that require rendered or manual review'],
             ['score', 'number', 'Passing percentage across resolved checks only'],

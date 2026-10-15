@@ -5,6 +5,26 @@ import { DesignLab } from './design-lab';
 import { LAB_DRAFT_KEY, parseLabThemeDocument } from './design-lab-theme';
 
 describe('DesignLab workflow', () => {
+  it('updates contrast traces after overrides and inheritance without changing the other scheme', () => {
+    const lab = TestBed.createComponent(DesignLab).componentInstance;
+    const foreground = () =>
+      lab['contrastReports']().light.checks.find(({ id }) => id === 'text-page')?.colors[0];
+    const original = foreground();
+    const dark = lab['contrastReports']().dark.checks;
+    lab['setMode']('light');
+    lab['updateScheme']('text', '#ffffff');
+    expect(foreground()).toMatchObject({
+      path: 'light.text',
+      value: '#ffffff',
+      source: 'Override',
+    });
+    expect(lab['contrastReports']().light.checks.find(({ id }) => id === 'text-page')?.status).toBe(
+      'fail',
+    );
+    expect(lab['contrastReports']().dark.checks).toEqual(dark);
+    lab['inheritScheme']('text');
+    expect(foreground()).toEqual(original);
+  });
   beforeEach(() => {
     const values = new Map<string, string>();
     vi.stubGlobal('localStorage', {

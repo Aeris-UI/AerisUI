@@ -5,11 +5,16 @@ import {
   type AerisResolvedSemanticTone,
   type AerisSemanticToneName,
   type AerisTheme,
+  type AerisThemeScheme,
+  type AerisSemanticTone,
 } from './aeris-theme';
 
 export type AerisContrastCategory = 'text' | 'interaction' | 'focus' | 'boundary';
 export type AerisContrastStatus = 'pass' | 'fail' | 'unresolved';
 export type AerisContrastKind = 'text' | 'non-text';
+export type AerisContrastProperty =
+  | Exclude<keyof AerisThemeScheme, 'tones'>
+  | `tones.${AerisSemanticToneName}.${keyof AerisSemanticTone}`;
 
 export interface AerisContrastCheck {
   readonly id: string;
@@ -20,6 +25,9 @@ export interface AerisContrastCheck {
   readonly criterion: '1.4.3' | '1.4.11';
   readonly foreground: string;
   readonly background: string;
+  /** Scheme-relative configuration paths for the two measured colors. */
+  readonly foregroundProperty: AerisContrastProperty;
+  readonly backgroundProperty: AerisContrastProperty;
   readonly ratio: number | null;
   readonly requiredRatio: 3 | 4.5;
   readonly status: AerisContrastStatus;
@@ -58,6 +66,8 @@ interface CheckDefinition {
   readonly kind: AerisContrastKind;
   readonly foreground: string;
   readonly background: string;
+  readonly foregroundProperty: AerisContrastProperty;
+  readonly backgroundProperty: AerisContrastProperty;
   readonly requiredRatio: 3 | 4.5;
   readonly guidance: string;
 }
@@ -87,6 +97,8 @@ export function auditAerisThemeContrast(
       kind: 'text',
       foreground: scheme.text,
       background: scheme.page,
+      foregroundProperty: 'text',
+      backgroundProperty: 'page',
       requiredRatio: 4.5,
       guidance: 'Increase the difference between the text and page colors.',
     }),
@@ -98,6 +110,8 @@ export function auditAerisThemeContrast(
       kind: 'text',
       foreground: scheme.text,
       background: scheme.surface,
+      foregroundProperty: 'text',
+      backgroundProperty: 'surface',
       requiredRatio: 4.5,
       guidance: 'Increase the difference between the text and surface colors.',
     }),
@@ -109,6 +123,8 @@ export function auditAerisThemeContrast(
       kind: 'text',
       foreground: scheme.text2,
       background: scheme.surface,
+      foregroundProperty: 'text2',
+      backgroundProperty: 'surface',
       requiredRatio: 4.5,
       guidance: 'Strengthen the secondary text color without reducing hierarchy.',
     }),
@@ -120,6 +136,8 @@ export function auditAerisThemeContrast(
       kind: 'text',
       foreground: scheme.text3,
       background: scheme.surface,
+      foregroundProperty: 'text3',
+      backgroundProperty: 'surface',
       requiredRatio: 4.5,
       guidance: 'Darken or lighten the tertiary text until it remains readable.',
     }),
@@ -131,6 +149,8 @@ export function auditAerisThemeContrast(
       kind: 'text',
       foreground: scheme.text2,
       background: scheme.surface2,
+      foregroundProperty: 'text2',
+      backgroundProperty: 'surface2',
       requiredRatio: 4.5,
       guidance: 'Increase secondary text contrast against the raised surface.',
     }),
@@ -142,6 +162,8 @@ export function auditAerisThemeContrast(
       kind: 'text',
       foreground: scheme.text,
       background: scheme.interactiveHover,
+      foregroundProperty: 'text',
+      backgroundProperty: 'interactiveHover',
       requiredRatio: 4.5,
       guidance: 'Adjust interactiveHover until default content remains readable.',
     }),
@@ -154,6 +176,8 @@ export function auditAerisThemeContrast(
       kind: 'non-text',
       foreground: scheme.focus,
       background: scheme.surface,
+      foregroundProperty: 'focus',
+      backgroundProperty: 'surface',
       requiredRatio: 3,
       guidance: 'Strengthen the focus color against the primary surface.',
     }),
@@ -165,6 +189,8 @@ export function auditAerisThemeContrast(
       kind: 'non-text',
       foreground: scheme.focus,
       background: scheme.page,
+      foregroundProperty: 'focus',
+      backgroundProperty: 'page',
       requiredRatio: 3,
       guidance: 'Strengthen the focus color against the page background.',
     }),
@@ -176,6 +202,8 @@ export function auditAerisThemeContrast(
       kind: 'non-text',
       foreground: scheme.borderStrong,
       background: scheme.surface,
+      foregroundProperty: 'borderStrong',
+      backgroundProperty: 'surface',
       requiredRatio: 3,
       guidance: 'Increase the emphasized boundary contrast against the primary surface.',
     }),
@@ -187,6 +215,8 @@ export function auditAerisThemeContrast(
       kind: 'non-text',
       foreground: scheme.borderStrong,
       background: scheme.surface2,
+      foregroundProperty: 'borderStrong',
+      backgroundProperty: 'surface2',
       requiredRatio: 3,
       guidance: 'Increase the emphasized boundary contrast against the raised surface.',
     }),
@@ -199,6 +229,8 @@ export function auditAerisThemeContrast(
         kind: 'non-text',
         foreground: tones[name].boundary,
         background: scheme.surface,
+        foregroundProperty: `tones.${name}.boundary`,
+        backgroundProperty: 'surface',
         requiredRatio: 3,
         guidance: `Adjust tones.${name}.boundary so solid controls remain identifiable.`,
       }),
@@ -237,6 +269,8 @@ function interactionChecks(
       kind: 'text',
       foreground: tone.onBase,
       background: tone.base,
+      foregroundProperty: `tones.${name}.onBase`,
+      backgroundProperty: `tones.${name}.base`,
       requiredRatio: 4.5,
       guidance: `Set tones.${name}.onBase to a more contrasting foreground.`,
     }),
@@ -248,6 +282,8 @@ function interactionChecks(
       kind: 'text',
       foreground: tone.onHover,
       background: tone.hover,
+      foregroundProperty: `tones.${name}.onHover`,
+      backgroundProperty: `tones.${name}.hover`,
       requiredRatio: 4.5,
       guidance: `Adjust tones.${name}.hover or tones.${name}.onHover.`,
     }),
@@ -259,6 +295,8 @@ function interactionChecks(
       kind: 'text',
       foreground: tone.onActive,
       background: tone.active,
+      foregroundProperty: `tones.${name}.onActive`,
+      backgroundProperty: `tones.${name}.active`,
       requiredRatio: 4.5,
       guidance: `Adjust tones.${name}.active or tones.${name}.onActive.`,
     }),
@@ -270,6 +308,8 @@ function interactionChecks(
       kind: 'text',
       foreground: tone.text,
       background: surface,
+      foregroundProperty: `tones.${name}.text`,
+      backgroundProperty: 'surface',
       requiredRatio: 4.5,
       guidance: `Set tones.${name}.text to a readable surface foreground.`,
     }),
@@ -281,6 +321,8 @@ function interactionChecks(
       kind: 'text',
       foreground: tone.onSoft,
       background: tone.soft,
+      foregroundProperty: `tones.${name}.onSoft`,
+      backgroundProperty: `tones.${name}.soft`,
       requiredRatio: 4.5,
       guidance: `Adjust tones.${name}.soft or tones.${name}.onSoft.`,
     }),

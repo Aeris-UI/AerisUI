@@ -3,6 +3,7 @@ import {
   AERIS_THEME_PRESETS,
   auditAerisThemeContrast,
   resolveAerisTheme,
+  resolveAerisThemeTokens,
   type AerisTheme,
   type AerisThemePreset,
 } from '../../../theming/public-api';
@@ -10,6 +11,23 @@ import { aerisContrastRatio } from '../../../theme-builder/aeris-color';
 import { resolveAerisFoundation } from '../../../theme-builder/aeris-foundation';
 
 describe('Aeris theme contrast audit', () => {
+  it('exposes configuration paths for every measured foreground and background', () => {
+    const theme = resolveAerisTheme({ light: { tones: { primary: { hover: '#123456' } } } });
+    const report = auditAerisThemeContrast(theme, 'light');
+    expect(report.checks.find(({ id }) => id === 'primary-hover-content')).toMatchObject({
+      foregroundProperty: 'tones.primary.onHover',
+      backgroundProperty: 'tones.primary.hover',
+      background: resolveAerisThemeTokens(theme, 'light')['--aeris-primary-hover'],
+    });
+    expect(report.checks.find(({ id }) => id === 'focus-page')).toMatchObject({
+      foregroundProperty: 'focus',
+      backgroundProperty: 'page',
+    });
+    for (const check of report.checks) {
+      expect(check.foregroundProperty).toBeTruthy();
+      expect(check.backgroundProperty).toBeTruthy();
+    }
+  });
   it('reports every WCAG AA text, interaction, focus, and boundary check', () => {
     const report = auditAerisThemeContrast(AERIS_DEFAULT_THEME, 'light');
 

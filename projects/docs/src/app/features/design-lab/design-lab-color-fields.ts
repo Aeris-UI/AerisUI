@@ -93,6 +93,11 @@ import type { LabColorField } from './design-lab-theme';
       min-width: 0;
       max-width: 100%;
     }
+    aeris-color-picker:focus-within {
+      outline: 2px solid var(--aeris-focus);
+      outline-offset: 3px;
+      border-radius: var(--aeris-radius-control);
+    }
     .actions {
       display: flex;
       flex-wrap: wrap;

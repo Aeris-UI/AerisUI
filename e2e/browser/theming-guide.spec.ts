@@ -1,6 +1,68 @@
 import { expect, test } from './fixtures';
 import { readFile } from 'node:fs/promises';
 
+test('contrast tracing opens the correct scheme and focuses foundation and tone controls without editing', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/design-lab');
+  const lab = page.locator('app-design-lab');
+  const code = lab.locator('.design-lab__code-item app-code-block code').first();
+  await expect(code).toContainText('preset:');
+  const before = await code.textContent();
+  await lab.locator('.design-lab__report > summary').click();
+  const reportBounds = await lab.locator('.design-lab__contrast-report').boundingBox();
+  const configurationBounds = await lab.locator('.design-lab__code').boundingBox();
+  if (!reportBounds || !configurationBounds)
+    throw new Error('Expected report and configuration layout.');
+  expect(configurationBounds.y - (reportBounds.y + reportBounds.height)).toBeGreaterThanOrEqual(31);
+  await lab
+    .getByRole('group', { name: 'Contrast report scheme' })
+    .getByRole('button', { name: /dark/i })
+    .click();
+  await lab
+    .locator('.design-lab__contrast-details > details')
+    .first()
+    .locator(':scope > summary')
+    .click();
+  const text = lab
+    .locator('tr')
+    .filter({ has: page.getByText('Primary text on page', { exact: true }) });
+  await text.getByText('Trace colors', { exact: false }).click();
+  await expect(text).toContainText('dark.text');
+  await expect(text).toContainText('--aeris-text');
+  await text.getByRole('button', { name: 'Edit dark.text', exact: true }).click();
+  await expect(lab.locator('#lab-dark-text')).toBeFocused();
+  await expect(
+    lab.locator('aeris-color-picker').filter({ has: page.locator('#lab-dark-text') }),
+  ).toHaveCSS('outline-width', '2px');
+  await expect(lab.locator('.design-lab__advanced-foundations')).toHaveAttribute('open');
+  await expect(code).toHaveText(before ?? '');
+  const semantic = lab
+    .locator('tr')
+    .filter({ has: page.getByText('Primary solid content', { exact: true }) });
+  // Groups are collapsed independently; reveal semantic content before inspecting it.
+  const group = lab.locator('.design-lab__contrast-details > details').filter({
+    has: page.getByText('Primary solid content', { exact: true }),
+  });
+  await group.locator(':scope > summary').click();
+  await semantic.getByText('Trace colors', { exact: false }).click();
+  await expect(semantic).toContainText('--aeris-on-primary');
+  await semantic
+    .getByRole('button', { name: 'Edit dark.tones.primary.onBase', exact: true })
+    .click();
+  await expect(lab.locator('#lab-dark-primary-onBase')).toBeFocused();
+  await expect(
+    lab.locator('aeris-color-picker').filter({ has: page.locator('#lab-dark-primary-onBase') }),
+  ).toHaveCSS('outline-width', '2px');
+  await expect(
+    lab.locator('aeris-color-picker').filter({ has: page.locator('#lab-dark-text') }),
+  ).toHaveCSS('outline-style', 'none');
+  await expect(lab.locator('.design-lab__advanced')).toHaveAttribute('open');
+  await expect(code).toHaveText(before ?? '');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(391);
+});
+
 test('Design Lab edits both schemes, restores its draft, and exports the same theme', async ({
   page,
 }) => {
