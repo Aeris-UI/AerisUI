@@ -55,6 +55,141 @@ class RemovableChipHost {
 class ChipStatesHost {}
 
 describe('AerisChip', () => {
+  it('emits cancellable removal, visibility, and completion in order', async () => {
+    const fixture = TestBed.createComponent(AerisChip);
+    fixture.componentRef.setInput('label', 'Ordered');
+    fixture.componentRef.setInput('removable', true);
+    await fixture.whenStable();
+    const events: string[] = [];
+    fixture.componentInstance.removing.subscribe((event) => {
+      expect(event.defaultPrevented).toBe(false);
+      expect(fixture.componentInstance.visible()).toBe(true);
+      events.push('removing');
+    });
+    fixture.componentInstance.visible.subscribe(() => events.push('visible'));
+    fixture.componentInstance.removed.subscribe(() => events.push('removed'));
+    fixture.componentInstance.remove();
+    expect(events).toEqual(['removing', 'visible', 'removed']);
+  });
+
+  it('cancels button, keyboard, and API removal without completion or visibility events', async () => {
+    const fixture = TestBed.createComponent(AerisChip);
+    fixture.componentRef.setInput('removable', true);
+    await fixture.whenStable();
+    let requests = 0;
+    let completions = 0;
+    let visibilityChanges = 0;
+    fixture.componentInstance.removing.subscribe((event) => {
+      requests++;
+      event.preventDefault();
+      expect(event.defaultPrevented).toBe(true);
+    });
+    fixture.componentInstance.removed.subscribe(() => completions++);
+    fixture.componentInstance.visible.subscribe(() => visibilityChanges++);
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    button.focus();
+    button.click();
+    button.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', cancelable: true }));
+    fixture.componentInstance.remove();
+    await fixture.whenStable();
+    expect(requests).toBe(3);
+    expect(completions).toBe(0);
+    expect(visibilityChanges).toBe(0);
+    expect(fixture.componentInstance.visible()).toBe(true);
+    expect(document.activeElement).toBe(button);
+  });
+
+  it('lets a parent manage visibility without hiding or emitting visibleChange', async () => {
+    const fixture = TestBed.createComponent(AerisChip);
+    fixture.componentRef.setInput('removable', true);
+    fixture.componentRef.setInput('autoHide', false);
+    await fixture.whenStable();
+    let completions = 0;
+    let visibilityChanges = 0;
+    fixture.componentInstance.removed.subscribe(() => completions++);
+    fixture.componentInstance.visible.subscribe(() => visibilityChanges++);
+    fixture.componentInstance.remove();
+    await fixture.whenStable();
+    expect(completions).toBe(1);
+    expect(visibilityChanges).toBe(0);
+    expect(fixture.componentInstance.visible()).toBe(true);
+    expect(fixture.nativeElement.querySelector('button')).not.toBeNull();
+    fixture.componentRef.setInput('visible', false);
+    await fixture.whenStable();
+    expect(fixture.nativeElement.querySelector('button')).toBeNull();
+    fixture.componentRef.setInput('visible', true);
+    await fixture.whenStable();
+    expect(fixture.nativeElement.querySelector('button')).not.toBeNull();
+  });
+
+  it('prevents reentrant removal and ignores hidden, disabled and static chips', async () => {
+    const fixture = TestBed.createComponent(AerisChip);
+    fixture.componentRef.setInput('removable', true);
+    await fixture.whenStable();
+    let requests = 0;
+    let completions = 0;
+    fixture.componentInstance.removing.subscribe(() => {
+      requests++;
+      fixture.componentInstance.remove();
+    });
+    fixture.componentInstance.removed.subscribe(() => completions++);
+    fixture.componentRef.setInput('disabled', true);
+    fixture.componentInstance.remove();
+    expect(requests).toBe(0);
+    fixture.componentRef.setInput('disabled', false);
+    fixture.componentRef.setInput('removable', false);
+    fixture.componentInstance.remove();
+    expect(requests).toBe(0);
+    fixture.componentRef.setInput('removable', true);
+    fixture.componentInstance.remove();
+    fixture.componentInstance.remove();
+    expect(requests).toBe(1);
+    expect(completions).toBe(1);
+  });
+
+  it('uses contextual names for projected content and a safe fallback for empty labels', async () => {
+    const fixture = TestBed.createComponent(AerisChip);
+    fixture.componentRef.setInput('removable', true);
+    fixture.componentRef.setInput('ariaLabel', 'Enterprise plan');
+    await fixture.whenStable();
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    expect(button.getAttribute('aria-label')).toBe('Remove Enterprise plan');
+    fixture.componentRef.setInput('ariaLabel', '');
+    fixture.componentRef.setInput('ariaLabelledBy', 'external-title');
+    await fixture.whenStable();
+    expect(button.getAttribute('aria-label')).toBeNull();
+    expect(button.getAttribute('aria-labelledby')).toMatch(
+      /^aeris-chip-remove-\d+ external-title$/,
+    );
+    fixture.componentRef.setInput('removeAriaLabel', 'Discard filter');
+    await fixture.whenStable();
+    expect(button.getAttribute('aria-label')).toBe('Discard filter');
+    expect(button.getAttribute('aria-labelledby')).toBeNull();
+    fixture.componentRef.setInput('removeAriaLabel', '');
+    fixture.componentRef.setInput('ariaLabelledBy', '');
+    fixture.componentRef.setInput('label', '   ');
+    await fixture.whenStable();
+    expect(button.getAttribute('aria-label')).toBe('Remove chip');
+  });
+
+  it('focuses only the existing enabled remove button and never creates a host tab stop', async () => {
+    const fixture = TestBed.createComponent(AerisChip);
+    fixture.componentRef.setInput('removable', true);
+    await fixture.whenStable();
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    fixture.componentInstance.focus({ preventScroll: true });
+    expect(document.activeElement).toBe(button);
+    expect(fixture.nativeElement.hasAttribute('tabindex')).toBe(false);
+    button.blur();
+    fixture.componentRef.setInput('disabled', true);
+    fixture.componentInstance.focus();
+    expect(document.activeElement).not.toBe(button);
+    fixture.componentRef.setInput('disabled', false);
+    fixture.componentRef.setInput('visible', false);
+    fixture.componentInstance.focus();
+    expect(document.activeElement).not.toBe(button);
+  });
+
   it('uses theme text tones rather than mixing the status fill into its label', () => {
     const fixture = TestBed.createComponent(AerisChip);
     fixture.componentRef.setInput('label', 'Review');

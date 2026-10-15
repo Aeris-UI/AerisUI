@@ -33,6 +33,8 @@ export const DOC_EXAMPLE_STYLES: Readonly<Record<string, string>> = {
   "checkbox-native-form": ".checkbox-stack {\n  width: 100%;\n  display: grid;\n  gap: 0.875rem;\n}",
   "checkbox-rich-label": ".checkbox-rich-label {\n  display: inline-grid;\n  gap: 0.15rem;\n}\n\n.checkbox-rich-label strong {\n  color: var(--aeris-text);\n}\n\n.checkbox-rich-label small {\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n}",
   "checkbox-states": ".field small.error {\n  color: var(--aeris-danger);\n}\n\n.checkbox-stack {\n  width: 100%;\n  display: grid;\n  gap: 0.875rem;\n}",
+  "chip-cancel-removal": ".chip-row {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 0.75rem;\n}\n\n.chip-removable-demo {\n  display: grid;\n  justify-items: start;\n  gap: 0.875rem;\n}\n\n.chip-removable-demo p {\n  margin: 0;\n  color: var(--aeris-text-2);\n}",
+  "chip-controlled-removal": ".chip-row {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 0.75rem;\n}\n\n.chip-removable-demo {\n  display: grid;\n  justify-items: start;\n  gap: 0.875rem;\n}\n\n.chip-removable-demo p {\n  margin: 0;\n  color: var(--aeris-text-2);\n}",
   "code-block-copy": ".code-example {\n  display: grid;\n  gap: 1rem;\n  min-inline-size: 0;\n}",
   "code-block-custom": ".custom-code {\n  --aeris-code-block-background: var(--aeris-surface);\n  --aeris-code-block-font-size: 0.9375rem;\n  --aeris-code-block-padding: 1.5rem;\n  --aeris-code-block-line-highlight: var(--aeris-secondary-soft);\n}",
   "color-picker-validation": ".validation-message.error {\n  color: var(--aeris-danger);\n  font-weight: 700;\n}",

@@ -1,6 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, ElementRef, signal, viewChild } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisChipModule, type AerisChipRemoveEvent } from '@aeris-ui/core/chip';
+import {
+  AerisChipModule,
+  type AerisChipRemoveEvent,
+  type AerisChipRemovingEvent,
+} from '@aeris-ui/core/chip';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 import {
   LucideCamera,
@@ -49,6 +53,12 @@ interface TokenRow {
   styleUrl: './chip.page.scss',
 })
 export class ChipPage {
+  private readonly restoreElement = viewChild('restoreButton', {
+    read: ElementRef<HTMLButtonElement>,
+  });
+  private readonly restoreControlledElement = viewChild('restoreControlledButton', {
+    read: ElementRef<HTMLButtonElement>,
+  });
   protected readonly icons = {
     Camera: LucideCamera,
     Code2: LucideCode2,
@@ -57,6 +67,11 @@ export class ChipPage {
   };
   protected readonly removableVisible = signal(true);
   protected readonly removalStatus = signal('Photography is selected.');
+  protected readonly protectedVisible = signal(true);
+  protected readonly removalAllowed = signal(false);
+  protected readonly controlledVisible = signal(true);
+  protected readonly controlledRequested = signal(false);
+  protected readonly controlledStatus = signal('The parent controls visibility.');
 
   protected readonly importCode = `import { AerisChipModule } from '@aeris-ui/core/chip';`;
 
@@ -67,6 +82,8 @@ export class ChipPage {
     { id: 'chip-images', label: 'Images' },
     { id: 'chip-styles', label: 'Sizes and styles' },
     { id: 'chip-removable', label: 'Removable' },
+    { id: 'chip-cancel-removal', label: 'Cancellable removal' },
+    { id: 'chip-controlled-removal', label: 'Parent-managed removal' },
     { id: 'chip-content', label: 'Custom content' },
     { id: 'chip-custom', label: 'Tokens' },
   ];
@@ -85,20 +102,6 @@ export class ChipPage {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
-}`;
-
-  protected readonly removableTsCode = `import { type AerisChipRemoveEvent } from '@aeris-ui/core/chip';
-
-protected readonly removableVisible = signal(true);
-protected readonly removalStatus = signal('Photography is selected.');
-
-protected recordRemoval(event: AerisChipRemoveEvent): void {
-  this.removalStatus.set(\`Removed \${event.label}.\`);
-}
-
-protected restoreChip(): void {
-  this.removableVisible.set(true);
-  this.removalStatus.set('Photography is selected.');
 }`;
 
   protected readonly removableCssCode = `.chip-removable-demo {
@@ -155,6 +158,11 @@ interface AerisChipRemoveEvent {
   readonly label: string;
 }
 
+interface AerisChipRemovingEvent extends AerisChipRemoveEvent {
+  readonly defaultPrevented: boolean;
+  preventDefault(): void;
+}
+
 interface AerisChipRemoveIconContext {
   readonly $implicit: AerisChip;
   readonly disabled: boolean;
@@ -165,7 +173,8 @@ interface AerisChipRemoveIconContext {
       name: 'visible',
       type: 'boolean',
       defaultValue: 'true',
-      description: 'Two-way visibility state updated automatically after removal.',
+      description:
+        'Two-way visibility state. Accepted removal sets it to false when autoHide is true; otherwise the parent controls it.',
     },
   ];
 
@@ -193,6 +202,13 @@ interface AerisChipRemoveIconContext {
       type: 'boolean',
       defaultValue: 'false',
       description: 'Shows the native remove button.',
+    },
+    {
+      name: 'autoHide',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Hides after accepted removal. Set false to let a parent update visible or remove the item from its data instead.',
     },
     {
       name: 'disabled',
@@ -247,6 +263,13 @@ interface AerisChipRemoveIconContext {
 
   protected readonly outputs: readonly ApiRow[] = [
     {
+      name: 'removing',
+      type: 'AerisChipRemovingEvent',
+      defaultValue: '-',
+      description:
+        'Synchronous removal request. Call preventDefault() to keep the chip and suppress visibleChange and removed. Not emitted for disabled, hidden or non-removable chips.',
+    },
+    {
       name: 'visibleChange',
       type: 'boolean',
       defaultValue: '-',
@@ -256,7 +279,8 @@ interface AerisChipRemoveIconContext {
       name: 'removed',
       type: 'AerisChipRemoveEvent',
       defaultValue: '-',
-      description: 'Emits after pointer, keyboard, or API removal.',
+      description:
+        'Emits once after accepted pointer, keyboard or API removal. With autoHide=false, the chip stays visible until its parent updates it.',
     },
   ];
 
@@ -287,7 +311,15 @@ interface AerisChipRemoveIconContext {
       name: 'remove(originalEvent?)',
       type: '(Event | null) => void',
       defaultValue: '-',
-      description: 'Removes a visible, removable, enabled chip.',
+      description:
+        'Requests removal of a visible, removable, enabled chip. Runs removing, then visibleChange when autoHide is true, then removed unless cancelled.',
+    },
+    {
+      name: 'focus(options?)',
+      type: '(FocusOptions) => void',
+      defaultValue: '-',
+      description:
+        'Focuses the existing remove button. Does nothing for hidden, disabled or non-removable chips; never adds a host focus stop.',
     },
   ];
 
@@ -332,6 +364,22 @@ interface AerisChipRemoveIconContext {
 
   protected recordRemoval(event: AerisChipRemoveEvent): void {
     this.removalStatus.set(`Removed ${event.label}.`);
+    this.restoreElement()?.nativeElement.focus();
+  }
+
+  protected guardRemoval(event: AerisChipRemovingEvent): void {
+    if (!this.removalAllowed()) event.preventDefault();
+  }
+
+  protected acceptControlledRemoval(): void {
+    this.controlledVisible.set(false);
+    this.controlledStatus.set('The parent accepted the request and hid the chip.');
+    this.restoreControlledElement()?.nativeElement.focus();
+  }
+
+  protected requestControlledRemoval(): void {
+    this.controlledRequested.set(true);
+    this.controlledStatus.set('Removal requested. Confirm to hide the chip.');
   }
 
   protected restoreChip(): void {

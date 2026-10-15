@@ -743,6 +743,7 @@ export class AerisMultiSelectComponent implements ControlValueAccessor {
 
   protected removeCallback(option: AerisSelectOption): () => void {
     return () => {
+      if (this.effectiveDisabled() || option.disabled) return;
       if (this.isSelected(option)) {
         const next = this.value().filter((value) => value !== option.value);
         this.setValue(next);

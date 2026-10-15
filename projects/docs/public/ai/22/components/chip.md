@@ -29,7 +29,7 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `visible` | `boolean` | `true` | Two-way visibility state updated automatically after removal. |
+| `visible` | `boolean` | `true` | Two-way visibility state. Accepted removal sets it to false when autoHide is true; otherwise the parent controls it. |
 
 ### Inputs
 
@@ -39,6 +39,7 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
 | `imageSrc` | `string` | `''` | Optional leading image URL. |
 | `imageAlt` | `string` | `''` | Alternative text used when the image is the chip’s only meaningful content. |
 | `removable` | `boolean` | `false` | Shows the native remove button. |
+| `autoHide` | `boolean` | `true` | Hides after accepted removal. Set false to let a parent update visible or remove the item from its data instead. |
 | `disabled` | `boolean` | `false` | Disables removal while keeping the chip visible. |
 | `size` | `AerisChipSize` | `'md'` | Sets chip height, padding, and typography. Options: 'sm', 'md', 'lg'. |
 | `variant` | `AerisChipVariant` | `'soft'` | Sets a soft filled or outline appearance. |
@@ -52,8 +53,9 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `removing` | `AerisChipRemovingEvent` | `-` | Synchronous removal request. Call preventDefault() to keep the chip and suppress visibleChange and removed. Not emitted for disabled, hidden or non-removable chips. |
 | `visibleChange` | `boolean` | `-` | Implicit model output emitted when visibility changes. |
-| `removed` | `AerisChipRemoveEvent` | `-` | Emits after pointer, keyboard, or API removal. |
+| `removed` | `AerisChipRemoveEvent` | `-` | Emits once after accepted pointer, keyboard or API removal. With autoHide=false, the chip stays visible until its parent updates it. |
 
 ### Content
 
@@ -67,7 +69,8 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `remove(originalEvent?)` | `(Event &#124; null) =&gt; void` | `-` | Removes a visible, removable, enabled chip. |
+| `remove(originalEvent?)` | `(Event &#124; null) =&gt; void` | `-` | Requests removal of a visible, removable, enabled chip. Runs removing, then visibleChange when autoHide is true, then removed unless cancelled. |
+| `focus(options?)` | `(FocusOptions) =&gt; void` | `-` | Focuses the existing remove button. Does nothing for hidden, disabled or non-removable chips; never adds a host focus stop. |
 
 ## Interfaces and types
 
@@ -88,6 +91,11 @@ type AerisChipShape = 'pill' | 'rounded';
 interface AerisChipRemoveEvent {
   readonly originalEvent: Event | null;
   readonly label: string;
+}
+
+interface AerisChipRemovingEvent extends AerisChipRemoveEvent {
+  readonly defaultPrevented: boolean;
+  preventDefault(): void;
 }
 
 interface AerisChipRemoveIconContext {
@@ -261,9 +269,9 @@ The native remove button updates visible, emits removed, and supports Enter, Spa
 #### TS
 
 ```ts
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisChipModule, type AerisChipRemoveEvent } from '@aeris-ui/core/chip';
+import { AerisChipModule } from '@aeris-ui/core/chip';
 
 @Component({
   selector: 'app-chip-removable-demo',
@@ -272,17 +280,6 @@ import { AerisChipModule, type AerisChipRemoveEvent } from '@aeris-ui/core/chip'
   styleUrl: './chip-removable.demo.scss'
 })
 export class ChipRemovableRemovableDemo {
-  protected readonly removableVisible = signal(true);
-  protected readonly removalStatus = signal('Photography is selected.');
-
-  protected recordRemoval(event: AerisChipRemoveEvent): void {
-    this.removalStatus.set(`Removed ${event.label}.`);
-  }
-
-  protected restoreChip(): void {
-    this.removableVisible.set(true);
-    this.removalStatus.set('Photography is selected.');
-  }
 }
 ```
 
@@ -298,6 +295,7 @@ export class ChipRemovableRemovableDemo {
       (removed)="recordRemoval($event)"
     />
     <button
+      #restoreButton
       aerisButton
       variant="solid"
       severity="secondary"
@@ -314,6 +312,163 @@ export class ChipRemovableRemovableDemo {
 #### CSS
 
 ```css
+.chip-removable-demo {
+  display: grid;
+  justify-items: start;
+  gap: 0.875rem;
+}
+
+.chip-removable-demo p {
+  margin: 0;
+  color: var(--aeris-text-2);
+}
+```
+
+### Cancellable removal
+
+Call preventDefault() synchronously on removing to reject the request. A cancelled chip stays visible and keeps its focused remove button.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisChipModule } from '@aeris-ui/core/chip';
+
+@Component({
+  selector: 'app-chip-cancel-removal-demo',
+  imports: [AerisButton, AerisChipModule],
+  templateUrl: './chip-cancel-removal.demo.html',
+  styleUrl: './chip-cancel-removal.demo.scss'
+})
+export class ChipCancelRemovalCancellableRemovalDemo {
+}
+```
+
+#### HTML
+
+```html
+<div class="chip-removable-demo">
+  <aeris-chip
+    label="Protected category"
+    removable
+    [(visible)]="protectedVisible"
+    (removing)="guardRemoval($event)"
+  />
+  <div class="chip-row">
+    <button
+      aerisButton
+      variant="outline"
+      type="button"
+      [attr.aria-pressed]="removalAllowed()"
+      (click)="removalAllowed.set(!removalAllowed())"
+    >
+      Allow removal
+    </button>
+    <button
+      aerisButton
+      variant="outline"
+      type="button"
+      (click)="protectedVisible.set(true)"
+    >
+      Restore category
+    </button>
+  </div>
+  <p>Removal is {{ removalAllowed() ? 'allowed' : 'protected' }}.</p>
+</div>
+```
+
+#### CSS
+
+```css
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.chip-removable-demo {
+  display: grid;
+  justify-items: start;
+  gap: 0.875rem;
+}
+
+.chip-removable-demo p {
+  margin: 0;
+  color: var(--aeris-text-2);
+}
+```
+
+### Parent-managed removal
+
+Set autoHide to false to receive accepted requests without changing visible. The parent can confirm first, or remove the item from its collection.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisChipModule } from '@aeris-ui/core/chip';
+
+@Component({
+  selector: 'app-chip-controlled-removal-demo',
+  imports: [AerisButton, AerisChipModule],
+  templateUrl: './chip-controlled-removal.demo.html',
+  styleUrl: './chip-controlled-removal.demo.scss'
+})
+export class ChipControlledRemovalParentManagedRemovalDemo {
+}
+```
+
+#### HTML
+
+```html
+<div class="chip-removable-demo">
+  <aeris-chip
+    label="Saved filter"
+    removable
+    [autoHide]="false"
+    [visible]="controlledVisible()"
+    (removed)="requestControlledRemoval()"
+  />
+  <div class="chip-row">
+    <button
+      aerisButton
+      type="button"
+      [disabled]="!controlledRequested() || !controlledVisible()"
+      (click)="acceptControlledRemoval()"
+    >
+      Confirm removal
+    </button>
+    <button
+      #restoreControlledButton
+      aerisButton
+      variant="outline"
+      type="button"
+      (click)="
+        controlledVisible.set(true);
+        controlledRequested.set(false);
+        controlledStatus.set('The parent controls visibility.')
+      "
+    >
+      Restore filter
+    </button>
+  </div>
+  <p role="status">{{ controlledStatus() }}</p>
+</div>
+```
+
+#### CSS
+
+```css
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .chip-removable-demo {
   display: grid;
   justify-items: start;
@@ -439,8 +594,10 @@ export class ChipCustomTokenCustomizationDemo {
 
 ## Accessibility
 
+- Chip is not a selectable item or a keyboard collection. Static chips do not receive focus, and removable chips expose only their native remove button. Keep projected content and custom remove artwork non-interactive.
+- Cancellation leaves focus on the remove button. After accepted removal, choose a meaningful destination in the parent: the standalone example focuses its Restore button. A collection should focus the next enabled item, then the previous enabled item, then its entry control if empty. Wait until the updated collection is rendered before focusing a newly rendered item. Chip does not inspect sibling elements or choose that destination automatically; focus() lets the parent focus an existing removable chip.
 - Static chips expose their visible label and projected content without entering the tab order.
-- Removable chips use a semantic native button with an accessible name derived from the label or removeAriaLabel.
+- Removable chips use a semantic native button with an accessible name derived from the label, ariaLabel, ariaLabelledBy, or an explicit removeAriaLabel. Supply a name for projected-only content; otherwise the fallback is “Remove chip”.
 - Consumer-provided leading icons marked with aerisChipLeading are decorative. Meaningful custom content can use ariaLabel or ariaLabelledBy.
 - Images become decorative when a label or explicit accessible name already identifies the chip, preventing duplicate announcements.
 - Disabled chips expose aria-disabled and disable their native remove button.
@@ -453,4 +610,4 @@ export class ChipCustomTokenCustomizationDemo {
 | --- | --- |
 | `Tab / Shift + Tab` | Moves focus to or away from the native remove button. Static chips are skipped. |
 | `Enter / Space` | Activates the focused native remove button. |
-| `Delete / Backspace` | Removes the chip while its remove button is focused. |
+| `Delete / Backspace` | Requests removal while its remove button is focused. Cancellation and autoHide apply to keyboard removal too. |
