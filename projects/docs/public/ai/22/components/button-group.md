@@ -197,14 +197,17 @@ Projected SVGs and icon-only buttons retain their Button accessibility requireme
 import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisButtonGroup } from '@aeris-ui/core/button-group';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideDynamicIcon } from '@lucide/angular';
 
 @Component({
   selector: 'app-group-icons-demo',
-  imports: [AerisButton, AerisButtonGroup],
+  imports: [AerisButton, AerisButtonGroup, LucideDynamicIcon],
   templateUrl: './group-icons.demo.html',
   styleUrl: './group-icons.demo.scss'
 })
 export class GroupIconsIconsDemo {
+
+  protected readonly icons = { AlignCenter: LucideAlignCenter, AlignLeft: LucideAlignLeft, AlignRight: LucideAlignRight };
 }
 ```
 
@@ -220,7 +223,7 @@ export class GroupIconsIconsDemo {
       iconOnly
       aria-label="Align left"
     >
-      <span aria-hidden="true">L</span>
+      <svg [lucideIcon]="icons.AlignLeft" aria-hidden="true"></svg>
     </button>
     <button
       aerisButton
@@ -229,7 +232,7 @@ export class GroupIconsIconsDemo {
       iconOnly
       aria-label="Align center"
     >
-      <span aria-hidden="true">C</span>
+      <svg [lucideIcon]="icons.AlignCenter" aria-hidden="true"></svg>
     </button>
     <button
       aerisButton
@@ -238,7 +241,7 @@ export class GroupIconsIconsDemo {
       iconOnly
       aria-label="Align right"
     >
-      <span aria-hidden="true">R</span>
+      <svg [lucideIcon]="icons.AlignRight" aria-hidden="true"></svg>
     </button>
   </aeris-button-group>
 </div>

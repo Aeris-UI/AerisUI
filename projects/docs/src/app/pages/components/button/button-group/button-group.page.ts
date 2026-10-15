@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { AerisButtonGroup } from '@aeris-ui/core/button-group';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
+import {
+  LucideAlignCenter,
+  LucideAlignLeft,
+  LucideAlignRight,
+  LucideDynamicIcon,
+} from '@lucide/angular';
 
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
 import {
@@ -22,6 +28,7 @@ interface ApiRow {
   selector: 'app-button-group-page',
   imports: [
     AerisButtonGroup,
+    LucideDynamicIcon,
     AerisTabsModule,
     ButtonDemoComponent,
     ComponentPageHeaderComponent,
@@ -33,6 +40,12 @@ interface ApiRow {
   styleUrl: '../shared/button-docs.scss',
 })
 export class ButtonGroupPage {
+  protected readonly icons = {
+    AlignLeft: LucideAlignLeft,
+    AlignCenter: LucideAlignCenter,
+    AlignRight: LucideAlignRight,
+  };
+
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'group-basic', label: 'Basic' },
     { id: 'group-wrapper', label: 'Wrapper buttons' },

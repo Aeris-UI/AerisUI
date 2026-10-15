@@ -1720,15 +1720,15 @@ export const productTheme: AerisThemeOverride = {
 
 > Use any Angular icon library, inline SVG, icon component, or icon font with Aeris.
 
-Aeris does not ship or depend on a consumer icon package. Documentation uses Lucide consistently, while the library stays icon-library neutral.
+Aeris works with any consumer icon library. Built-in controls include static Lucide SVG artwork without requiring a Lucide package; the documentation also uses Lucide Angular.
 
 Human-readable documentation: [https://aeris-ui.dev/guides/icons](https://aeris-ui.dev/guides/icons)
 
 #### Icon ownership
 
-Aeris-owned functional icons such as chevrons, close marks, and search indicators are rendered by the component itself. Consumer-facing slots project normal Angular content so your application can use its existing icon system.
+Built-in functional icons such as chevrons, close marks, and search indicators use bundled Lucide SVG artwork rendered by the component itself. Consumer-facing slots project normal Angular content so your application can use its existing icon system.
 
-Do not install Lucide unless your application chooses it. Lucide is a development dependency of the Aeris documentation application only and is not imported by the Aeris library.
+Do not install Lucide unless your application chooses it. The library includes only the static artwork it needs, with the applicable ISC/MIT notices; it never imports Lucide Angular at runtime.
 
 #### Example with Lucide
 
@@ -1755,7 +1755,7 @@ export class SaveAction {}
 ```
 
 - [Lucide Angular documentation](https://lucide.dev/guide/angular/getting-started)
-- [Documentation third-party notices](https://aeris-ui.dev/third-party-notices)
+- [Third-party notices](https://aeris-ui.dev/third-party-notices)
 
 #### Replace icons application-wide
 
@@ -1888,6 +1888,20 @@ Supply a URL to a monochrome SVG or a data URL. The mask uses the image alpha ch
 | --aeris-icon-eyedropper | ColorPicker eyedropper action |
 | --aeris-icon-edit | Editable cell indicator |
 | --aeris-icon-copy | CodeBlock copy action |
+| --aeris-icon-chevrons | Double down-pointing chevron for first/last navigation |
+| --aeris-icon-info | Informational Message and Toast status |
+| --aeris-icon-success | Successful Message and Toast status |
+| --aeris-icon-warning | Warning Message and Toast status |
+| --aeris-icon-danger | Error Message and Toast status |
+| --aeris-icon-maximize | Dialog and Drawer maximize action |
+| --aeris-icon-restore | Dialog and Drawer restore action |
+| --aeris-icon-menu | Menubar mobile navigation toggle |
+| --aeris-icon-file | FileUpload file placeholder |
+| --aeris-icon-compare | Compare handle direction indicator |
+| --aeris-icon-loader | Animated loading glyphs |
+| --aeris-icon-sort | Unsorted Table and TreeTable column |
+| --aeris-icon-sort-asc | Ascending Table and TreeTable column |
+| --aeris-icon-sort-desc | Descending Table and TreeTable column |
 
 ##### src/styles.scss
 
@@ -24344,14 +24358,17 @@ Projected SVGs and icon-only buttons retain their Button accessibility requireme
 import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisButtonGroup } from '@aeris-ui/core/button-group';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideDynamicIcon } from '@lucide/angular';
 
 @Component({
   selector: 'app-group-icons-demo',
-  imports: [AerisButton, AerisButtonGroup],
+  imports: [AerisButton, AerisButtonGroup, LucideDynamicIcon],
   templateUrl: './group-icons.demo.html',
   styleUrl: './group-icons.demo.scss'
 })
 export class GroupIconsIconsDemo {
+
+  protected readonly icons = { AlignCenter: LucideAlignCenter, AlignLeft: LucideAlignLeft, AlignRight: LucideAlignRight };
 }
 ```
 
@@ -24367,7 +24384,7 @@ export class GroupIconsIconsDemo {
       iconOnly
       aria-label="Align left"
     >
-      <span aria-hidden="true">L</span>
+      <svg [lucideIcon]="icons.AlignLeft" aria-hidden="true"></svg>
     </button>
     <button
       aerisButton
@@ -24376,7 +24393,7 @@ export class GroupIconsIconsDemo {
       iconOnly
       aria-label="Align center"
     >
-      <span aria-hidden="true">C</span>
+      <svg [lucideIcon]="icons.AlignCenter" aria-hidden="true"></svg>
     </button>
     <button
       aerisButton
@@ -24385,7 +24402,7 @@ export class GroupIconsIconsDemo {
       iconOnly
       aria-label="Align right"
     >
-      <span aria-hidden="true">R</span>
+      <svg [lucideIcon]="icons.AlignRight" aria-hidden="true"></svg>
     </button>
   </aeris-button-group>
 </div>
