@@ -29,6 +29,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisPopoverTemplateContext&gt; &#124; undefined` | `undefined` | Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target. |
 | `target` | `AerisPopoverTarget` | `null` | Element or trigger event used when visible is controlled directly. |
 | `header` | `string` | `''` | Visible popover title. |

@@ -20,6 +20,7 @@ import { AerisPaginator, type AerisPaginatorPageEvent } from '@aeris-ui/core/pag
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 import { AerisTooltip } from '@aeris-ui/core/tooltip';
 import {
+  ɵAerisIcon,
   aerisInternalApplyMeasuredColumnWidths,
   aerisInternalClampColumnResizeDelta,
   aerisInternalColumnResizeDirection,
@@ -189,6 +190,11 @@ interface TreeTableResizeState {
   readonly direction: 1 | -1;
 }
 
+export interface AerisTreeTableSortIconContext {
+  readonly $implicit: AerisTreeTableColumn;
+  readonly direction: AerisTreeTableSortDirection | null;
+}
+
 @Directive({ selector: 'ng-template[aerisTreeTableHeader]' })
 export class AerisTreeTableHeaderTemplate {
   readonly template = inject<TemplateRef<AerisTreeTableHeaderContext>>(TemplateRef);
@@ -227,7 +233,7 @@ let treeTableId = 0;
 
 @Component({
   selector: 'aeris-tree-table',
-  imports: [NgTemplateOutlet, AerisCheckbox, AerisPaginator, AerisTooltip],
+  imports: [ɵAerisIcon, NgTemplateOutlet, AerisCheckbox, AerisPaginator, AerisTooltip],
   template: `
     <div
       class="aeris-tree-table"
@@ -333,12 +339,26 @@ let treeTableId = 0;
                             {{ column.header }}
                           </span>
                         }
-                        <span
-                          class="aeris-tree-table__sort-mark"
-                          [attr.data-direction]="sortDirection(column.field)"
-                          aria-hidden="true"
-                          ><span></span><span></span
-                        ></span>
+                        @if (sortIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-tree-table__sort-mark"
+                            data-aeris-custom-icon
+                            aria-hidden="true"
+                            ><ng-container
+                              [ngTemplateOutlet]="customIcon"
+                              [ngTemplateOutletContext]="{
+                                $implicit: column,
+                                direction: sortDirection(column.field),
+                              }"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-tree-table__sort-mark"
+                            [attr.data-direction]="sortDirection(column.field)"
+                            aria-hidden="true"
+                            ><span></span><span></span
+                          ></span>
+                        }
                       </button>
                     } @else {
                       <span
@@ -418,7 +438,16 @@ let treeTableId = 0;
                       @if (loadingTemplate(); as customLoading) {
                         <ng-container [ngTemplateOutlet]="customLoading.template" />
                       } @else {
-                        <span class="aeris-tree-table__spinner" aria-hidden="true"></span>
+                        @if (loadingIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-tree-table__spinner"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container [ngTemplateOutlet]="customIcon"
+                          /></span>
+                        } @else {
+                          <span class="aeris-tree-table__spinner" aria-hidden="true"></span>
+                        }
                         {{ loadingMessage() }}
                       }
                     </div>
@@ -459,14 +488,22 @@ let treeTableId = 0;
                     (keydown)="handleRowKeydown(entry, $event)"
                   >
                     @for (column of renderedColumns(); track column.field) {
+                      @let cellEditable = isCellEditable(entry, column);
                       <td
                         [attr.data-label]="column.header"
                         [attr.data-frozen]="column.frozen || null"
-                        [attr.data-editable]="isCellEditable(entry, column) || null"
+                        [attr.data-editable]="cellEditable || null"
                         [attr.data-align]="column.align || 'start'"
                         [style.left]="column.frozenLeft"
                         (dblclick)="startCellEdit(entry, column, $event)"
                       >
+                        @if (cellEditable) {
+                          <span
+                            aerisInternalIcon="edit"
+                            class="aeris-tree-table__edit-icon"
+                            aria-hidden="true"
+                          ></span>
+                        }
                         <div
                           class="aeris-tree-table__cell"
                           [attr.data-tree-cell]="column.field === treeField() || null"
@@ -487,9 +524,24 @@ let treeTableId = 0;
                               (click)="toggleNode(entry, $event)"
                             >
                               @if (entry.loading) {
-                                <span class="aeris-tree-table__spinner" aria-hidden="true"></span>
+                                @if (loadingIconTemplate(); as customIcon) {
+                                  <span
+                                    class="aeris-tree-table__spinner"
+                                    aria-hidden="true"
+                                    data-aeris-custom-icon
+                                    ><ng-container [ngTemplateOutlet]="customIcon"
+                                  /></span>
+                                } @else {
+                                  <span class="aeris-tree-table__spinner" aria-hidden="true"></span>
+                                }
                               } @else {
-                                <span aria-hidden="true"></span>
+                                @if (toggleIconTemplate(); as customIcon) {
+                                  <span aria-hidden="true" data-aeris-custom-icon>
+                                    <ng-container [ngTemplateOutlet]="customIcon" />
+                                  </span>
+                                } @else {
+                                  <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+                                }
                               }
                             </button>
                             @if (selectionMode() === 'checkbox') {
@@ -570,6 +622,10 @@ let treeTableId = 0;
   styleUrl: './aeris-tree-table.scss',
 })
 export class AerisTreeTable<TData extends AerisTreeTableData = AerisTreeTableData> {
+  readonly sortIconTemplate = input<TemplateRef<AerisTreeTableSortIconContext>>();
+  readonly loadingIconTemplate = input<TemplateRef<void>>();
+  readonly toggleIconTemplate = input<TemplateRef<void>>();
+
   private readonly destroyRef = inject(DestroyRef);
   private readonly document = inject(DOCUMENT);
   readonly value = model<readonly AerisTreeTableNode<TData>[]>([]);

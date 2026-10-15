@@ -29,6 +29,9 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropdownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `submenuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |

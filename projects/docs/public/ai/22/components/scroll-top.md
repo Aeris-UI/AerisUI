@@ -29,6 +29,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `iconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces the upward icon artwork. Keep it decorative and non-interactive; Aeris retains scrolling and the button accessible name. |
 | `threshold` | `number` | `320` | Vertical scroll offset in pixels before the button is shown. |
 | `behavior` | `AerisScrollTopBehavior` | `'smooth'` | Scroll behavior passed to the browser scroll API. Options: 'auto', 'smooth'. |
 | `position` | `AerisScrollTopPosition` | `'bottom-right'` | Fixed viewport placement. Options: 'bottom-right', 'bottom-left', 'top-right', 'top-left'. |

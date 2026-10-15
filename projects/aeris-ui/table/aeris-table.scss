@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
@@ -306,7 +307,7 @@ td[data-editable] {
     box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-td[data-editable]::after {
+.aeris-table__edit-icon {
   position: absolute;
   inset-inline-end: calc(var(--aeris-table-cell-padding-x) * 0.55);
   top: 50%;
@@ -314,7 +315,6 @@ td[data-editable]::after {
   height: 0.8rem;
   background: currentColor;
   color: var(--aeris-text-3, var(--aeris-text-2, #454545));
-  content: '';
   opacity: 0.42;
   transform: translateY(-50%);
   transition:
@@ -344,12 +344,12 @@ td[data-editable]:focus-within {
       color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 34%, transparent);
   }
 }
-td[data-editable]:focus-within::after {
+td[data-editable]:focus-within .aeris-table__edit-icon {
   color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
   opacity: 1;
 }
 @media (hover: hover) {
-  td[data-editable]:hover::after {
+  td[data-editable]:hover .aeris-table__edit-icon {
     color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
     opacity: 1;
   }
@@ -707,7 +707,7 @@ tr[data-selected] td {
 @media (prefers-reduced-motion: reduce) {
   td,
   td[data-editable],
-  td[data-editable]::after,
+  .aeris-table__edit-icon,
   .aeris-table__resize::before,
   .aeris-table__icon-button span::before,
   .aeris-table__spinner {
@@ -723,3 +723,20 @@ tr[data-selected] td {
 }
 
 @include aeris-mobile.input-font('input:not([type="checkbox"]):not([type="radio"]), textarea');
+
+@include aeris-icons.custom-icon;
+
+.aeris-table__icon-button [data-aeris-custom-icon] {
+  transform: rotate(-90deg);
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+}
+
+tr[data-expanded] .aeris-table__icon-button [data-aeris-custom-icon] {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-table__icon-button [data-aeris-custom-icon] {
+    transition: none;
+  }
+}

@@ -29,6 +29,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `string (model)` | `''` | Formatted or raw value, depending on unmask. |
 | `mask` | `string` | `required` | Mask grammar applied to user input. |
 | `inputId` | `string` | `generated` | ID assigned to the internal input. |

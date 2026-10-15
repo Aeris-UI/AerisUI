@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -9,9 +10,10 @@ import {
   output,
   signal,
   viewChild,
+  TemplateRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisCheckboxSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisCheckboxLabelPosition = 'start' | 'end';
@@ -26,6 +28,7 @@ export interface AerisCheckboxChangeEvent {
 let checkboxId = 0;
 
 @Component({
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   selector: 'aeris-checkbox',
   template: `
     <label
@@ -58,9 +61,24 @@ let checkboxId = 0;
       <span class="aeris-checkbox__control" aria-hidden="true">
         <span class="aeris-checkbox__icon">
           @if (indeterminate()) {
-            <span class="aeris-checkbox__mixed-mark"></span>
+            @if (mixedIconTemplate(); as customIcon) {
+              <span class="aeris-checkbox__mixed-mark" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span aerisInternalIcon="minus" class="aeris-checkbox__mixed-mark"></span>
+            }
           } @else {
-            <span class="aeris-checkbox__check-mark"></span>
+            @if (checkIconTemplate(); as customIcon) {
+              <span class="aeris-checkbox__check-mark" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span
+                [aerisInternalIcon]="checked() ? 'check' : null"
+                class="aeris-checkbox__check-mark"
+              ></span>
+            }
           }
         </span>
       </span>
@@ -87,6 +105,9 @@ let checkboxId = 0;
   },
 })
 export class AerisCheckbox implements ControlValueAccessor {
+  readonly checkIconTemplate = input<TemplateRef<void>>();
+  readonly mixedIconTemplate = input<TemplateRef<void>>();
+
   private readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('checkboxInput');
   private readonly generatedId = `aeris-checkbox-${++checkboxId}`;
   private readonly formDisabled = signal(false);

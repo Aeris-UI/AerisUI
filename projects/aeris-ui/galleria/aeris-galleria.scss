@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -864,6 +865,25 @@
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
   }
+}
+
+@include aeris-icons.custom-icon;
+
+:host
+  .aeris-galleria__thumbnail-navigator
+  > [data-aeris-custom-icon]:not([data-aeris-global-icon]) {
+  transform: none;
+}
+:host-context([dir='rtl'])
+  .aeris-galleria__thumbnail-navigator
+  > [data-aeris-custom-icon]:not([data-aeris-global-icon]) {
+  transform: scaleX(-1);
+}
+:host
+  .aeris-galleria__thumbnails[data-orientation='vertical']
+  .aeris-galleria__thumbnail-navigator
+  > [data-aeris-custom-icon]:not([data-aeris-global-icon]) {
+  transform: rotate(90deg);
 }
 
 @keyframes aeris-galleria-enter-previous {

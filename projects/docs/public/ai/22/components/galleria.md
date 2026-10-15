@@ -29,6 +29,14 @@ import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `rotateLeftIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the rotate left icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `rotateRightIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the rotate right icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `flipHorizontalIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the flip horizontal icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `flipVerticalIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the flip vertical icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `zoomOutIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the zoom out icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `zoomInIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the zoom in icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `resetIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the reset icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `downloadIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the download icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `readonly T[]` | `[]` | Gallery items. AerisGalleriaImage values receive a complete built-in image presentation. |
 | `mode` | `AerisGalleriaMode` | `'gallery'` | Selects the gallery, responsive grid, or focused single-item presentation. Options: 'gallery', 'grid', 'single'. |
 | `numVisible` | `number &#124; 'auto'` | `'auto'` | Maximum thumbnails visible in the thumbnail window; auto fills the available width. |
@@ -115,9 +123,9 @@ import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
 | `aerisGalleriaCaption` | `AerisGalleriaItemContext&lt;T&gt;` | `Image title and description` | Renders the active caption overlay. |
 | `aerisGalleriaEmpty` | `none` | `emptyMessage` | Renders custom empty content. |
 | `aerisGalleriaGridItem` | `AerisGalleriaItemContext&lt;T&gt;` | `Built-in image tile` | Renders each item in grid mode. |
-| `aerisGalleriaPreviousIcon` | `none` | `Aeris chevron` | Replaces the previous-item icon. |
-| `aerisGalleriaNextIcon` | `none` | `Aeris chevron` | Replaces the next-item icon. |
-| `aerisGalleriaFullscreenIcon` | `{ $implicit: boolean; fullscreen: boolean }` | `Aeris fullscreen icon` | Replaces the fullscreen icon and exposes current fullscreen state. |
+| `aerisGalleriaPreviousIcon` | `none` | `Aeris chevron` | Replaces previous-item and previous-thumbnail artwork. Supply a left-pointing icon; thumbnail controls adapt its direction for vertical layouts. |
+| `aerisGalleriaNextIcon` | `none` | `Aeris chevron` | Replaces next-item and next-thumbnail artwork. Supply a right-pointing icon; thumbnail controls adapt its direction for vertical layouts. |
+| `aerisGalleriaFullscreenIcon` | `{ $implicit: boolean; fullscreen: boolean }` | `Aeris fullscreen icon` | Replaces fullscreen artwork in the stage or toolbar and exposes current fullscreen state. |
 
 ### Methods
 

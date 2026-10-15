@@ -242,6 +242,20 @@ interface AerisSelectLazyLoadEvent {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'checkIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the check icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'filterClearIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the filter clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
       defaultValue: "global config or 'self'",

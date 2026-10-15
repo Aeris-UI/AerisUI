@@ -35,6 +35,7 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `label` | `string` | `'Show content'` | Fallback display button text when no display template is provided. |
 | `disabled` | `boolean` | `false` | Disables activation from display mode. |
 | `closable` | `boolean` | `false` | Shows the Aeris-owned close button in content mode. |

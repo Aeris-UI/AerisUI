@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 :host {
   display: block;
   color: var(--aeris-file-upload-text, var(--aeris-text, #111111));
@@ -366,6 +367,8 @@
     display: none;
   }
 }
+
+@include aeris-icons.custom-icon;
 
 @media (prefers-reduced-motion: reduce) {
   .aeris-file-upload__dropzone,

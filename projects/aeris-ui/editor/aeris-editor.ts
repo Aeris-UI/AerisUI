@@ -1,6 +1,7 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
+  TemplateRef,
   ElementRef,
   SecurityContext,
   booleanAttribute,
@@ -177,6 +178,7 @@ let editorId = 0;
 
 @Component({
   selector: 'aeris-editor',
+  imports: [NgTemplateOutlet],
   template: `
     <div
       class="aeris-editor"
@@ -192,18 +194,30 @@ let editorId = 0;
         <div class="aeris-editor__toolbar" role="toolbar" [attr.aria-label]="toolbarAriaLabel()">
           @if (availableFormats().has('undo')) {
             <button type="button" aria-label="Undo" [disabled]="toolbarDisabled()" (click)="undo()">
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M9 8H4V3" />
-                <path d="M4 8c2.1-2.7 5-4 8.1-4A8 8 0 1 1 6 17.1" />
-              </svg>
+              @if (toolbarIcons()['undo']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M9 8H4V3" />
+                  <path d="M4 8c2.1-2.7 5-4 8.1-4A8 8 0 1 1 6 17.1" />
+                </svg>
+              }
             </button>
           }
           @if (availableFormats().has('redo')) {
             <button type="button" aria-label="Redo" [disabled]="toolbarDisabled()" (click)="redo()">
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M15 8h5V3" />
-                <path d="M20 8c-2.1-2.7-5-4-8.1-4A8 8 0 1 0 18 17.1" />
-              </svg>
+              @if (toolbarIcons()['redo']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M15 8h5V3" />
+                  <path d="M20 8c-2.1-2.7-5-4-8.1-4A8 8 0 1 0 18 17.1" />
+                </svg>
+              }
             </button>
           }
 
@@ -218,7 +232,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="format('bold')"
             >
-              <strong>B</strong>
+              @if (toolbarIcons()['bold']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <strong>B</strong>
+              }
             </button>
           }
           @if (availableFormats().has('italic')) {
@@ -229,7 +249,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="format('italic')"
             >
-              <em>I</em>
+              @if (toolbarIcons()['italic']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <em>I</em>
+              }
             </button>
           }
           @if (availableFormats().has('underline')) {
@@ -240,7 +266,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="format('underline')"
             >
-              <span class="aeris-editor__underline">U</span>
+              @if (toolbarIcons()['underline']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span class="aeris-editor__underline">U</span>
+              }
             </button>
           }
           @if (availableFormats().has('strikethrough')) {
@@ -251,7 +283,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="format('strikethrough')"
             >
-              <span class="aeris-editor__strikethrough">S</span>
+              @if (toolbarIcons()['strikethrough']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span class="aeris-editor__strikethrough">S</span>
+              }
             </button>
           }
           @if (availableFormats().has('code')) {
@@ -262,7 +300,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="format('code')"
             >
-              <span aria-hidden="true">&lt;/&gt;</span>
+              @if (toolbarIcons()['code']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span aria-hidden="true">&lt;/&gt;</span>
+              }
             </button>
           }
           @if (availableFormats().has('highlight')) {
@@ -273,11 +317,17 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="format('highlight')"
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="m9 11 4 4" />
-                <path d="m14.5 4.5 5 5L10 19H5v-5Z" />
-                <path d="M4 21h16" />
-              </svg>
+              @if (toolbarIcons()['highlight']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="m9 11 4 4" />
+                  <path d="m14.5 4.5 5 5L10 19H5v-5Z" />
+                  <path d="M4 21h16" />
+                </svg>
+              }
             </button>
           }
           @if (availableFormats().has('subscript')) {
@@ -288,7 +338,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="format('subscript')"
             >
-              <span aria-hidden="true">X<sub>2</sub></span>
+              @if (toolbarIcons()['subscript']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span aria-hidden="true">X<sub>2</sub></span>
+              }
             </button>
           }
           @if (availableFormats().has('superscript')) {
@@ -299,7 +355,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="format('superscript')"
             >
-              <span aria-hidden="true">X<sup>2</sup></span>
+              @if (toolbarIcons()['superscript']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span aria-hidden="true">X<sup>2</sup></span>
+              }
             </button>
           }
           @if (availableFormats().has('lowercase')) {
@@ -310,7 +372,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="format('lowercase')"
             >
-              aa
+              @if (toolbarIcons()['lowercase']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                aa
+              }
             </button>
           }
           @if (availableFormats().has('uppercase')) {
@@ -321,7 +389,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="format('uppercase')"
             >
-              AA
+              @if (toolbarIcons()['uppercase']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                AA
+              }
             </button>
           }
           @if (availableFormats().has('capitalize')) {
@@ -332,7 +406,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="format('capitalize')"
             >
-              Aa
+              @if (toolbarIcons()['capitalize']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                Aa
+              }
             </button>
           }
 
@@ -347,7 +427,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="setBlock('paragraph')"
             >
-              P
+              @if (toolbarIcons()['paragraph']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                P
+              }
             </button>
           }
           @if (availableFormats().has('heading1')) {
@@ -358,7 +444,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="setBlock('h1')"
             >
-              H1
+              @if (toolbarIcons()['heading1']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                H1
+              }
             </button>
           }
           @if (availableFormats().has('heading')) {
@@ -369,7 +461,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="setBlock('heading')"
             >
-              H2
+              @if (toolbarIcons()['heading']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                H2
+              }
             </button>
           }
           @if (availableFormats().has('heading2')) {
@@ -380,7 +478,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="setBlock('h2')"
             >
-              H2
+              @if (toolbarIcons()['heading2']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                H2
+              }
             </button>
           }
           @if (availableFormats().has('heading3')) {
@@ -391,7 +495,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="setBlock('h3')"
             >
-              H3
+              @if (toolbarIcons()['heading3']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                H3
+              }
             </button>
           }
           @if (availableFormats().has('heading4')) {
@@ -402,7 +512,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="setBlock('h4')"
             >
-              H4
+              @if (toolbarIcons()['heading4']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                H4
+              }
             </button>
           }
           @if (availableFormats().has('heading5')) {
@@ -413,7 +529,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="setBlock('h5')"
             >
-              H5
+              @if (toolbarIcons()['heading5']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                H5
+              }
             </button>
           }
           @if (availableFormats().has('heading6')) {
@@ -424,7 +546,13 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="setBlock('h6')"
             >
-              H6
+              @if (toolbarIcons()['heading6']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                H6
+              }
             </button>
           }
           @if (availableFormats().has('quote')) {
@@ -435,14 +563,20 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="setBlock('quote')"
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path
-                  d="M8 6H5.8C4.8 7.7 4.3 9.3 4.3 11c0 2.1 1.1 3.6 3 3.6 1.5 0 2.7-1.1 2.7-2.7 0-1.4-1-2.5-2.4-2.7.1-.9.5-1.9 1.1-3.2Z"
-                />
-                <path
-                  d="M18 6h-2.2c-1 1.7-1.5 3.3-1.5 5 0 2.1 1.1 3.6 3 3.6 1.5 0 2.7-1.1 2.7-2.7 0-1.4-1-2.5-2.4-2.7.1-.9.5-1.9 1.1-3.2Z"
-                />
-              </svg>
+              @if (toolbarIcons()['quote']; as customIcon) {
+                <span class="aeris-custom-icon" data-aeris-custom-icon aria-hidden="true"
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path
+                    d="M8 6H5.8C4.8 7.7 4.3 9.3 4.3 11c0 2.1 1.1 3.6 3 3.6 1.5 0 2.7-1.1 2.7-2.7 0-1.4-1-2.5-2.4-2.7.1-.9.5-1.9 1.1-3.2Z"
+                  />
+                  <path
+                    d="M18 6h-2.2c-1 1.7-1.5 3.3-1.5 5 0 2.1 1.1 3.6 3 3.6 1.5 0 2.7-1.1 2.7-2.7 0-1.4-1-2.5-2.4-2.7.1-.9.5-1.9 1.1-3.2Z"
+                  />
+                </svg>
+              }
             </button>
           }
 
@@ -457,14 +591,20 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="toggleBulletList()"
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M8 6h12" />
-                <path d="M8 12h12" />
-                <path d="M8 18h12" />
-                <circle cx="4" cy="6" r="1" />
-                <circle cx="4" cy="12" r="1" />
-                <circle cx="4" cy="18" r="1" />
-              </svg>
+              @if (toolbarIcons()['bulletList']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M8 6h12" />
+                  <path d="M8 12h12" />
+                  <path d="M8 18h12" />
+                  <circle cx="4" cy="6" r="1" />
+                  <circle cx="4" cy="12" r="1" />
+                  <circle cx="4" cy="18" r="1" />
+                </svg>
+              }
             </button>
           }
           @if (availableFormats().has('numberedList')) {
@@ -475,19 +615,25 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="toggleNumberedList()"
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M10 6h10" />
-                <path d="M10 12h10" />
-                <path d="M10 18h10" />
-                <path d="M4 5h1v3" />
-                <path d="M3.7 8h2.6" />
-                <path
-                  d="M3.6 11.4c.3-.4.8-.6 1.4-.6.8 0 1.4.5 1.4 1.2 0 .5-.3.9-.8 1.2L4 14.5h2.5"
-                />
-                <path
-                  d="M3.7 17h2.1l-1 1h.3c.8 0 1.4.4 1.4 1.1 0 .7-.6 1.2-1.5 1.2-.6 0-1.1-.2-1.5-.6"
-                />
-              </svg>
+              @if (toolbarIcons()['numberedList']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M10 6h10" />
+                  <path d="M10 12h10" />
+                  <path d="M10 18h10" />
+                  <path d="M4 5h1v3" />
+                  <path d="M3.7 8h2.6" />
+                  <path
+                    d="M3.6 11.4c.3-.4.8-.6 1.4-.6.8 0 1.4.5 1.4 1.2 0 .5-.3.9-.8 1.2L4 14.5h2.5"
+                  />
+                  <path
+                    d="M3.7 17h2.1l-1 1h.3c.8 0 1.4.4 1.4 1.1 0 .7-.6 1.2-1.5 1.2-.6 0-1.1-.2-1.5-.6"
+                  />
+                </svg>
+              }
             </button>
           }
           @if (availableFormats().has('checkList')) {
@@ -498,13 +644,19 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="toggleCheckList()"
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <rect x="3" y="4" width="5" height="5" rx="1" />
-                <path d="m4.5 6.5 1.2 1.2L8.3 5" />
-                <path d="M11 6.5h10" />
-                <rect x="3" y="15" width="5" height="5" rx="1" />
-                <path d="M11 17.5h10" />
-              </svg>
+              @if (toolbarIcons()['checkList']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="5" height="5" rx="1" />
+                  <path d="m4.5 6.5 1.2 1.2L8.3 5" />
+                  <path d="M11 6.5h10" />
+                  <rect x="3" y="15" width="5" height="5" rx="1" />
+                  <path d="M11 17.5h10" />
+                </svg>
+              }
             </button>
           }
 
@@ -519,9 +671,15 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="align('left')"
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M4 6h16M4 10h11M4 14h16M4 18h11" />
-              </svg>
+              @if (toolbarIcons()['alignLeft']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 6h16M4 10h11M4 14h16M4 18h11" />
+                </svg>
+              }
             </button>
           }
           @if (availableFormats().has('alignStart')) {
@@ -532,9 +690,18 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="align('start')"
             >
-              <svg class="aeris-editor__logical-icon" aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M4 6h16M4 10h11M4 14h16M4 18h11" />
-              </svg>
+              @if (toolbarIcons()['alignStart']; as customIcon) {
+                <span
+                  class="aeris-custom-icon aeris-editor__logical-icon"
+                  aria-hidden="true"
+                  data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg class="aeris-editor__logical-icon" aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 6h16M4 10h11M4 14h16M4 18h11" />
+                </svg>
+              }
             </button>
           }
           @if (availableFormats().has('alignCenter')) {
@@ -545,9 +712,15 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="align('center')"
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M4 6h16M6.5 10h11M4 14h16M6.5 18h11" />
-              </svg>
+              @if (toolbarIcons()['alignCenter']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 6h16M6.5 10h11M4 14h16M6.5 18h11" />
+                </svg>
+              }
             </button>
           }
           @if (availableFormats().has('alignRight')) {
@@ -558,9 +731,15 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="align('right')"
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M4 6h16M9 10h11M4 14h16M9 18h11" />
-              </svg>
+              @if (toolbarIcons()['alignRight']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 6h16M9 10h11M4 14h16M9 18h11" />
+                </svg>
+              }
             </button>
           }
           @if (availableFormats().has('alignEnd')) {
@@ -571,9 +750,18 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="align('end')"
             >
-              <svg class="aeris-editor__logical-icon" aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M4 6h16M9 10h11M4 14h16M9 18h11" />
-              </svg>
+              @if (toolbarIcons()['alignEnd']; as customIcon) {
+                <span
+                  class="aeris-custom-icon aeris-editor__logical-icon"
+                  aria-hidden="true"
+                  data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg class="aeris-editor__logical-icon" aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 6h16M9 10h11M4 14h16M9 18h11" />
+                </svg>
+              }
             </button>
           }
           @if (availableFormats().has('alignJustify')) {
@@ -584,9 +772,15 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="align('justify')"
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-              </svg>
+              @if (toolbarIcons()['alignJustify']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
+              }
             </button>
           }
 
@@ -600,10 +794,16 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="outdent()"
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M11 6h9M11 10h9M11 14h9M11 18h9" />
-                <path d="m8 9-4 3 4 3" />
-              </svg>
+              @if (toolbarIcons()['outdent']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M11 6h9M11 10h9M11 14h9M11 18h9" />
+                  <path d="m8 9-4 3 4 3" />
+                </svg>
+              }
             </button>
           }
           @if (availableFormats().has('indent')) {
@@ -613,10 +813,16 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="indent()"
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="M11 6h9M11 10h9M11 14h9M11 18h9" />
-                <path d="m4 9 4 3-4 3" />
-              </svg>
+              @if (toolbarIcons()['indent']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M11 6h9M11 10h9M11 14h9M11 18h9" />
+                  <path d="m4 9 4 3-4 3" />
+                </svg>
+              }
             </button>
           }
           @if (availableFormats().has('clear')) {
@@ -626,11 +832,17 @@ let editorId = 0;
               [disabled]="toolbarDisabled()"
               (click)="clearFormatting()"
             >
-              <svg aria-hidden="true" viewBox="0 0 24 24">
-                <path d="m4 20 16-16" />
-                <path d="M6.5 4h9l-1.5 5" />
-                <path d="m9.5 15-.5 2H5" />
-              </svg>
+              @if (toolbarIcons()['clear']; as customIcon) {
+                <span class="aeris-custom-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="m4 20 16-16" />
+                  <path d="M6.5 4h9l-1.5 5" />
+                  <path d="m9.5 15-.5 2H5" />
+                </svg>
+              }
             </button>
           }
         </div>
@@ -679,6 +891,9 @@ let editorId = 0;
   },
 })
 export class AerisEditorComponent implements ControlValueAccessor {
+  readonly toolbarIcons = input<Readonly<Partial<Record<AerisEditorFormat, TemplateRef<void>>>>>(
+    {},
+  );
   private readonly document = inject(DOCUMENT);
   private readonly sanitizer = inject(DomSanitizer);
   readonly value = model('');

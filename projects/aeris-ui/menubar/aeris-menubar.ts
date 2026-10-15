@@ -18,6 +18,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import {
+  ɵAerisIcon,
   aerisInternalCreateFrameScheduler,
   ɵregisterAerisOverlay,
   ɵunregisterAerisOverlay,
@@ -65,6 +66,11 @@ export interface AerisMenubarVisibilityEvent<T = unknown> {
   readonly reason: AerisMenubarCloseReason;
   readonly item: AerisMenubarItem<T> | null;
   readonly path: readonly number[];
+}
+
+export interface AerisMenubarSubmenuIconContext {
+  readonly $implicit: boolean;
+  readonly root: boolean;
 }
 
 export interface AerisMenubarItemTemplateContext<T = unknown> {
@@ -133,7 +139,7 @@ let nextMenubarId = 0;
 
 @Component({
   selector: 'aeris-menubar',
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     <ng-template #defaultItemTemplate let-item let-root="root" let-hasSubmenu="hasSubmenu">
       @if (item.icon) {
@@ -152,14 +158,24 @@ let nextMenubarId = 0;
         <kbd class="aeris-menubar__shortcut">{{ item.shortcut }}</kbd>
       }
       @if (hasSubmenu) {
-        <svg
-          class="aeris-menubar__chevron"
-          [attr.data-root]="root || null"
-          viewBox="0 0 20 20"
-          aria-hidden="true"
-        >
-          <path [attr.d]="root ? 'm6 8 4 4 4-4' : 'm7.5 4.5 5 5.5-5 5.5'" />
-        </svg>
+        @if (submenuIconTemplate(); as customIcon) {
+          <span
+            class="aeris-custom-icon aeris-menubar__chevron"
+            [attr.data-root]="root || null"
+            aria-hidden="true"
+            data-aeris-custom-icon
+            ><ng-container
+              [ngTemplateOutlet]="customIcon"
+              [ngTemplateOutletContext]="{ $implicit: root, root }"
+          /></span>
+        } @else {
+          <span
+            [aerisInternalIcon]="root ? 'chevron' : 'chevronRight'"
+            class="aeris-menubar__chevron"
+            [attr.data-root]="root || null"
+            aria-hidden="true"
+          ></span>
+        }
       }
     </ng-template>
 
@@ -296,7 +312,13 @@ let nextMenubarId = 0;
             [attr.aria-controls]="id() + '-menu'"
             (click)="toggleMobile()"
           >
-            <span aria-hidden="true"></span>
+            @if (menuIconTemplate(); as customIcon) {
+              <span aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span aria-hidden="true"></span>
+            }
           </button>
         }
 
@@ -324,6 +346,9 @@ let nextMenubarId = 0;
   },
 })
 export class AerisMenubar<T = unknown> {
+  readonly submenuIconTemplate = input<TemplateRef<AerisMenubarSubmenuIconContext>>();
+  readonly menuIconTemplate = input<TemplateRef<void>>();
+
   private readonly submenuPositionFrame = aerisInternalCreateFrameScheduler(() =>
     this.positionSubmenus(),
   );

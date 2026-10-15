@@ -287,6 +287,13 @@ interface AerisEditorChangeEvent {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'toolbarIcons',
+      type: 'Readonly<Partial<Record<AerisEditorFormat, TemplateRef<void>>>>',
+      defaultValue: '{}',
+      description:
+        'Optional artwork templates keyed by the documented formats. Omitted formats retain their default icons or labels; buttons retain their commands, disabled state, and accessible names.',
+    },
+    {
       name: 'value',
       type: 'string (model)',
       defaultValue: "''",

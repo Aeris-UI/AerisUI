@@ -29,6 +29,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
@@ -48,6 +49,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label is associated. |
 | `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
 | `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help or validation messages. |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |

@@ -2052,6 +2052,188 @@ export class SaveAction {}`,
         ],
       },
       {
+        id: 'global-icons',
+        title: 'Replace icons application-wide',
+        paragraphs: [
+          'Use provideAerisIcons to replace shared built-in artwork throughout an application. Register Angular components, not icon directives or icon names. Aeris has no dependency on Lucide or any other icon library: a replacement component can contain an SVG, an icon directive, or another icon component.',
+          'For directive-based libraries such as Lucide, create a small presentational wrapper. Add the provider to your existing application providers. Only the icons you explicitly register are replaced; the rest keep their Aeris artwork.',
+        ],
+        code: [
+          source(
+            'src/app/close-icon.ts',
+            'TypeScript',
+            `import { Component } from '@angular/core';
+import { LucideX } from '@lucide/angular';
+
+@Component({
+  selector: 'app-close-icon',
+  imports: [LucideX],
+  template: \`<svg lucideX aria-hidden="true"></svg>\`,
+})
+export class CloseIcon {}`,
+          ),
+          source(
+            'src/app/app.config.ts',
+            'TypeScript',
+            `import type { ApplicationConfig } from '@angular/core';
+import { provideAerisIcons } from '@aeris-ui/core';
+import { CloseIcon } from './close-icon';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    // Keep your existing application and Aeris theme providers here too.
+    provideAerisIcons({ close: CloseIcon }),
+  ],
+};`,
+          ),
+        ],
+        table: {
+          caption: 'AerisIconName registration keys',
+          columns: ['Key', 'Shared artwork'],
+          rows: [
+            ['close', 'Clear, remove and dismiss glyphs'],
+            ['chevron', 'Down-pointing chevron; controls retain their directional rotations'],
+            ['chevrons', 'Double down-pointing chevrons for the first and last Paginator actions'],
+            ['chevronRight', 'Right-pointing nested-menu chevron'],
+            ['search', 'Filter and search glyphs'],
+            [
+              'plus / minus',
+              'Add and subtract actions; minus also represents indeterminate selection',
+            ],
+            ['check', 'Selected, completed and copied marks'],
+            ['calendar', 'DatePicker calendar glyph'],
+            ['eye / eyeOff', 'Visible and masked Password indicators'],
+            ['copy', 'CodeBlock copy action'],
+            ['upload', 'FileUpload upload and drop-zone glyphs'],
+            ['eyedropper', 'ColorPicker eyedropper action'],
+            ['edit', 'Table and TreeTable editable-cell indicators'],
+          ],
+        },
+        bullets: [
+          'Priority is local icon template, then registered component, then default artwork. CSS image tokens still customize the default artwork.',
+          'Replacement components must be decorative, non-interactive, and usable without required inputs. Use currentColor and an SVG viewBox; Aeris keeps the action, accessible name, sizing and direction.',
+          'provideAerisIcons accepts AerisIconComponents, a partial map of AerisIconName to Angular component types or null. No icon registry service or extra icon package is required by Aeris.',
+          'A component-level provider overrides its subtree and inherits unmodified parent entries. Set an entry to null to restore Aeris default artwork in that scope.',
+          'Service-created dialogs use the configuration visible to their dialog service. A root-provided service uses application-wide registration.',
+          'Use the component-specific templates below for artwork not covered by these shared keys, including specialized toolbar controls.',
+        ],
+      },
+      {
+        id: 'default-icons',
+        title: 'Replace built-in icon artwork',
+        paragraphs: [
+          'Keep the Aeris-owned button or control and replace only its decorative artwork. Icon-template inputs accept an Angular TemplateRef; their API rows list the available slots and any template context. Existing named template directives, such as aerisSelectDropdownIcon and aerisDialogCloseIcon, remain available. No additional Aeris import is needed for an icon-template input.',
+          'This example changes the DatePicker calendar, clear, and navigation icons. Aeris retains the accessible names, keyboard controls, disabled states, and navigation behavior. Use a down-pointing glyph for these navigation slots: Aeris rotates it into the correct previous or next direction. Do not put links, buttons, inputs, or independent tab stops inside an icon template.',
+        ],
+        code: [
+          source(
+            'src/app/date-field.ts',
+            'TypeScript',
+            `import { Component, signal } from '@angular/core';
+import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { LucideCalendarDays, LucideChevronDown, LucideX } from '@lucide/angular';
+
+@Component({
+  selector: 'app-date-field',
+  imports: [AerisDatePicker, LucideCalendarDays, LucideChevronDown, LucideX],
+  template: \`
+    <ng-template #calendar><svg lucideCalendarDays aria-hidden="true"></svg></ng-template>
+    <ng-template #clear><svg lucideX aria-hidden="true"></svg></ng-template>
+    <ng-template #navigation><svg lucideChevronDown aria-hidden="true"></svg></ng-template>
+
+    <aeris-date-picker
+      ariaLabel="Delivery date"
+      [(value)]="date"
+      clearable
+      [calendarIconTemplate]="calendar"
+      [clearIconTemplate]="clear"
+      [previousIconTemplate]="navigation"
+      [nextIconTemplate]="navigation"
+    />
+  \`,
+})
+export class DateField {
+  readonly date = signal<Date | null>(new Date(2026, 5, 15));
+}`,
+          ),
+        ],
+        table: {
+          caption: 'Directional icon templates',
+          columns: ['Slots', 'Artwork orientation'],
+          rows: [
+            [
+              'DatePicker, Tabs, Paginator and Carousel navigation',
+              'Supply a down-pointing glyph. Aeris rotates it for the action and layout. First and last Paginator icons can use double down chevrons.',
+            ],
+            [
+              'Dropdown and tree disclosure icons',
+              'Supply a down-pointing glyph. Aeris handles open, closed and responsive directions.',
+            ],
+            [
+              'Menubar submenuIconTemplate',
+              'Use the root context value: down for top-level entries, right for nested entries.',
+            ],
+            ['ContextMenu and TieredMenu submenuIconTemplate', 'Supply a right-pointing glyph.'],
+            [
+              'Galleria previous and next templates',
+              'Supply left- and right-pointing glyphs respectively. Thumbnail controls adapt them to their orientation.',
+            ],
+            [
+              'InputNumber incrementIconTemplate',
+              'A stacked increment icon rotates 180 degrees; other layouts use the supplied artwork directly.',
+            ],
+            [
+              'Other action icons',
+              'Supply the finished glyph for the action; Aeris retains control geometry and interaction.',
+            ],
+          ],
+        },
+        note: 'Aeris sizes icon-slot content with its icon tokens. Use currentColor and a viewBox in custom SVGs. The Editor accepts a partial toolbarIcons map keyed by AerisEditorFormat; omitted actions keep their original artwork. DynamicDialog and ConfirmDialog service configurations also accept closeIconTemplate.',
+      },
+      {
+        id: 'icon-tokens',
+        title: 'Replace shared icons with CSS',
+        paragraphs: [
+          'Use shared CSS image tokens to replace common built-in artwork without Angular templates. Put overrides after the Aeris stylesheet. A :root override applies throughout the application; a narrower selector applies to descendants that inherit it. These tokens affect Aeris-owned mask icons, not icons projected by your application.',
+          'Supply a URL to a monochrome SVG or a data URL. The mask uses the image alpha channel; Aeris supplies the current foreground color. Place your own assets at the example paths below. Directional assets should match the default orientation: chevron points down and chevron-right points right.',
+        ],
+        code: [
+          source(
+            'src/styles.scss',
+            'CSS',
+            `:root {
+  --aeris-icon-close: url('/icons/close.svg');
+  --aeris-icon-chevron: url('/icons/chevron-down.svg');
+  --aeris-icon-chevron-right: url('/icons/chevron-right.svg');
+}`,
+          ),
+        ],
+        table: {
+          caption: 'Shared icon image tokens',
+          columns: ['Token', 'Artwork'],
+          rows: [
+            [
+              '--aeris-icon-chevron',
+              'Down-pointing chevron, rotated by navigation and disclosure controls',
+            ],
+            ['--aeris-icon-chevron-right', 'Right-pointing submenu chevron'],
+            ['--aeris-icon-close', 'Clear and dismiss mark'],
+            ['--aeris-icon-search', 'Filter and search indicator'],
+            ['--aeris-icon-plus', 'Add mark'],
+            ['--aeris-icon-minus', 'Indeterminate selection mark'],
+            ['--aeris-icon-check', 'Selected and copied mark'],
+            ['--aeris-icon-calendar', 'DatePicker calendar indicator'],
+            ['--aeris-icon-eye', 'Visible password indicator'],
+            ['--aeris-icon-eye-off', 'Masked password indicator'],
+            ['--aeris-icon-upload', 'Upload action'],
+            ['--aeris-icon-eyedropper', 'ColorPicker eyedropper action'],
+            ['--aeris-icon-edit', 'Editable cell indicator'],
+            ['--aeris-icon-copy', 'CodeBlock copy action'],
+          ],
+        },
+        note: 'Use a component icon template for artwork that is not covered by a shared token, or when your application uses Angular icon components. For state-aware templates, the component API describes the available context. Icon changes do not replace control labels or status text.',
+      },
+      {
         id: 'accessibility',
         title: 'Accessible icon use',
         bullets: [

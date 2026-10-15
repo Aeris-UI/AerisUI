@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -349,6 +350,8 @@
   }
 }
 
+@include aeris-icons.custom-icon;
+
 .aeris-menubar__item:not([data-variant='default']):active {
   background: var(--_aeris-menubar-item-active-fill);
   color: var(--_aeris-menubar-item-on-active);
@@ -632,4 +635,14 @@
   :host([data-collapsible='true'][data-mobile-open='true']) .aeris-menubar__menu {
     animation: none;
   }
+}
+
+.aeris-menubar__chevron:not([data-aeris-custom-icon]) {
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-chevron-right) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-chevron-right) center / 100% 100% no-repeat;
+}
+.aeris-menubar__chevron[data-root='true']:not([data-aeris-custom-icon]) {
+  -webkit-mask-image: var(--aeris-icon-chevron);
+  mask-image: var(--aeris-icon-chevron);
 }

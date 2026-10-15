@@ -301,6 +301,13 @@ interface AerisInplaceContentContext {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'closeIconTemplate',
+      type: 'TemplateRef<AerisDialogTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'label',
       type: 'string',
       defaultValue: "'Show content'",

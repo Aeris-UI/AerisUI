@@ -477,6 +477,13 @@ interface AerisMenuVisibilityEvent {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'submenuIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
       defaultValue: "global config or 'self'",

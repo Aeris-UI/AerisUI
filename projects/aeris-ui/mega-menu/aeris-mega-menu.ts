@@ -16,7 +16,7 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
-import { ɵregisterAerisOverlay, ɵunregisterAerisOverlay } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵregisterAerisOverlay, ɵunregisterAerisOverlay } from '@aeris-ui/core';
 
 export type AerisMegaMenuOrientation = 'horizontal' | 'vertical';
 export type AerisMegaMenuSize = 'sm' | 'md' | 'lg';
@@ -110,7 +110,7 @@ let nextMegaMenuId = 0;
 
 @Component({
   selector: 'aeris-mega-menu',
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     <ng-template #itemContent let-entry let-root="root" let-hasPanel="hasPanel">
       <ng-container
@@ -133,9 +133,20 @@ let nextMegaMenuId = 0;
         <span class="aeris-mega-menu__badge">{{ item.badge }}</span>
       }
       @if (hasPanel) {
-        <svg class="aeris-mega-menu__chevron" viewBox="0 0 20 20" aria-hidden="true">
-          <path d="m6.5 8 3.5 4 3.5-4" />
-        </svg>
+        @if (submenuIconTemplate(); as customIcon) {
+          <span
+            class="aeris-custom-icon aeris-mega-menu__chevron"
+            aria-hidden="true"
+            data-aeris-custom-icon
+            ><ng-container [ngTemplateOutlet]="customIcon"
+          /></span>
+        } @else {
+          <span
+            aerisInternalIcon="chevron"
+            class="aeris-mega-menu__chevron"
+            aria-hidden="true"
+          ></span>
+        }
       }
     </ng-template>
 
@@ -349,6 +360,8 @@ let nextMegaMenuId = 0;
   },
 })
 export class AerisMegaMenu<T = unknown> {
+  readonly submenuIconTemplate = input<TemplateRef<void>>();
+
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly injector = inject(Injector);
   private readonly generatedId = `aeris-mega-menu-${++nextMegaMenuId}`;

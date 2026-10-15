@@ -328,6 +328,13 @@ interface AerisToastTemplateContext<TData = unknown> {
 
   protected readonly componentInputs: readonly ApiRow[] = [
     {
+      name: 'closeIconTemplate',
+      type: 'TemplateRef<AerisDialogTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'position',
       type: 'AerisToastPosition',
       defaultValue: "'bottom-right'",

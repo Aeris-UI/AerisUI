@@ -42,6 +42,8 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `maximizeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Decorative artwork for the maximize and restore button; the Dialog retains its accessible name and action. |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Optional close-button artwork; the service forwards it to the underlying Dialog without replacing its behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the dialog locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Dialog title rendered by the shell. |
 | `data` | `TData` | `undefined` | Typed payload available through AERIS_DYNAMIC_DIALOG_DATA. |
@@ -94,6 +96,8 @@ import {
 
 ```ts
 interface AerisDynamicDialogConfig<TData = unknown> {
+  readonly closeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
+  readonly maximizeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
   readonly header?: string;
   readonly appendTo?: AerisAppendTo;
   readonly data?: TData;

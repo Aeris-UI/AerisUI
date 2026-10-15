@@ -186,6 +186,27 @@ interface AerisFileUploadEvent {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'removeIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the remove icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'dropIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the drop icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'fileIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the file icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'mode',
       type: 'AerisFileUploadMode',
       defaultValue: "'advanced'",

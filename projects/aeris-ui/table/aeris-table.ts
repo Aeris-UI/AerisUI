@@ -18,6 +18,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 import { AerisContextMenu, AerisContextMenuItemTemplate } from '@aeris-ui/core/context-menu';
 import { AerisTooltip } from '@aeris-ui/core/tooltip';
 import {
+  ɵAerisIcon,
   aerisInternalApplyMeasuredColumnWidths,
   aerisInternalClampColumnResizeDelta,
   aerisInternalColumnResizeDirection,
@@ -184,6 +185,11 @@ interface AerisTableRowExpansionContext {
   readonly rowIndex: number;
 }
 
+export interface AerisTableSortIconContext {
+  readonly $implicit: AerisTableColumn;
+  readonly direction: AerisTableSortDirection | null;
+}
+
 @Directive({ selector: 'ng-template[aerisTableHeader]' })
 export class AerisTableHeaderTemplate {
   readonly template = inject<TemplateRef<AerisTableHeaderContext>>(TemplateRef);
@@ -232,7 +238,7 @@ export class AerisTableLoadingTemplate {
 
 @Component({
   selector: 'aeris-table',
-  imports: [NgTemplateOutlet, AerisCheckbox, AerisPaginator, AerisTooltip],
+  imports: [ɵAerisIcon, NgTemplateOutlet, AerisCheckbox, AerisPaginator, AerisTooltip],
   template: `
     <div
       class="aeris-table"
@@ -343,16 +349,33 @@ export class AerisTableLoadingTemplate {
                             {{ column.header }}
                           </span>
                         }
-                        <span
-                          class="aeris-table__sort-mark"
-                          [attr.data-direction]="
-                            sort()?.field === column.field ? sort()?.direction : null
-                          "
-                          aria-hidden="true"
-                        >
-                          <span></span>
-                          <span></span>
-                        </span>
+                        @if (sortIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-table__sort-mark"
+                            data-aeris-custom-icon
+                            aria-hidden="true"
+                            ><ng-container
+                              [ngTemplateOutlet]="customIcon"
+                              [ngTemplateOutletContext]="{
+                                $implicit: column,
+                                direction:
+                                  sort()?.field === column.field
+                                    ? (sort()?.direction ?? null)
+                                    : null,
+                              }"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-table__sort-mark"
+                            [attr.data-direction]="
+                              sort()?.field === column.field ? sort()?.direction : null
+                            "
+                            aria-hidden="true"
+                          >
+                            <span></span>
+                            <span></span>
+                          </span>
+                        }
                       </button>
                     } @else {
                       @if (headerTemplate(); as header) {
@@ -455,7 +478,16 @@ export class AerisTableLoadingTemplate {
                       @if (loadingTemplate(); as customLoading) {
                         <ng-container [ngTemplateOutlet]="customLoading.template" />
                       } @else {
-                        <span class="aeris-table__spinner" aria-hidden="true"></span>
+                        @if (loadingIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-table__spinner"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container [ngTemplateOutlet]="customIcon"
+                          /></span>
+                        } @else {
+                          <span class="aeris-table__spinner" aria-hidden="true"></span>
+                        }
                         {{ loadingMessage() }}
                       }
                     </div>
@@ -502,7 +534,13 @@ export class AerisTableLoadingTemplate {
                           [attr.aria-expanded]="isExpanded(row)"
                           (click)="toggleExpanded(row)"
                         >
-                          <span aria-hidden="true"></span>
+                          @if (toggleIconTemplate(); as customIcon) {
+                            <span aria-hidden="true" data-aeris-custom-icon
+                              ><ng-container [ngTemplateOutlet]="customIcon"
+                            /></span>
+                          } @else {
+                            <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+                          }
                         </button>
                       </td>
                     }
@@ -533,6 +571,13 @@ export class AerisTableLoadingTemplate {
                         [attr.data-editable]="editable() || null"
                         (dblclick)="startCellEdit(row, column, $event)"
                       >
+                        @if (editable()) {
+                          <span
+                            aerisInternalIcon="edit"
+                            class="aeris-table__edit-icon"
+                            aria-hidden="true"
+                          ></span>
+                        }
                         @if (isEditing(row, column.field)) {
                           <input
                             class="aeris-table__cell-editor"
@@ -616,6 +661,10 @@ export class AerisTableLoadingTemplate {
   styleUrl: './aeris-table.scss',
 })
 export class AerisTable {
+  readonly sortIconTemplate = input<TemplateRef<AerisTableSortIconContext>>();
+  readonly toggleIconTemplate = input<TemplateRef<void>>();
+  readonly loadingIconTemplate = input<TemplateRef<void>>();
+
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
   private resizeListenersCleanup: (() => void) | null = null;

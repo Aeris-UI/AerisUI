@@ -192,6 +192,20 @@ interface AerisTabChangeEvent {
 
   protected readonly tabsInputs: readonly ApiRow[] = [
     {
+      name: 'previousIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'nextIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'value',
       type: 'string (model)',
       defaultValue: "''",

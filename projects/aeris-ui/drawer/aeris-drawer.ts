@@ -17,6 +17,7 @@ import {
   viewChild,
 } from '@angular/core';
 import {
+  ɵAerisIcon,
   ɵAerisAppendTo,
   aerisInternalFocusInitialElement,
   aerisInternalTrapTabFocus,
@@ -75,7 +76,7 @@ const DRAWER_FOCUS_OPTIONS = {
 
 @Component({
   selector: 'aeris-drawer',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     @if (rendered()) {
       <div
@@ -145,11 +146,23 @@ const DRAWER_FOCUS_OPTIONS = {
                         [attr.aria-pressed]="maximized()"
                         (click)="toggleMaximized()"
                       >
-                        <span
-                          class="aeris-drawer__maximize-icon"
-                          [attr.data-maximized]="maximized() || null"
-                          aria-hidden="true"
-                        ></span>
+                        @if (maximizeIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-drawer__maximize-icon"
+                            [attr.data-maximized]="maximized() || null"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container
+                              [ngTemplateOutlet]="customIcon"
+                              [ngTemplateOutletContext]="templateContext()"
+                          /></span>
+                        } @else {
+                          <span
+                            class="aeris-drawer__maximize-icon"
+                            [attr.data-maximized]="maximized() || null"
+                            aria-hidden="true"
+                          ></span>
+                        }
                       </button>
                     }
 
@@ -160,13 +173,21 @@ const DRAWER_FOCUS_OPTIONS = {
                         [attr.aria-label]="closeAriaLabel()"
                         (click)="hide($event, 'close-button')"
                       >
-                        @if (closeIconTemplate(); as closeIconTemplateRef) {
-                          <ng-container
-                            [ngTemplateOutlet]="closeIconTemplateRef.template"
-                            [ngTemplateOutletContext]="templateContext()"
-                          />
+                        @if (resolvedCloseIconTemplate(); as closeIconTemplateRef) {
+                          <span
+                            class="aeris-drawer__close-icon"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container
+                              [ngTemplateOutlet]="closeIconTemplateRef"
+                              [ngTemplateOutletContext]="templateContext()"
+                          /></span>
                         } @else {
-                          <span class="aeris-drawer__close-icon" aria-hidden="true"></span>
+                          <span
+                            aerisInternalIcon="close"
+                            class="aeris-drawer__close-icon"
+                            aria-hidden="true"
+                          ></span>
                         }
                       </button>
                     }
@@ -200,6 +221,12 @@ const DRAWER_FOCUS_OPTIONS = {
   },
 })
 export class AerisDrawer {
+  readonly closeIconTemplate = input<TemplateRef<AerisDrawerTemplateContext>>();
+  protected readonly resolvedCloseIconTemplate = computed(
+    () => this.closeIconTemplate() ?? this.projectedCloseIconTemplate()?.template,
+  );
+  readonly maximizeIconTemplate = input<TemplateRef<AerisDrawerTemplateContext>>();
+
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
   private readonly overlayToken = {};
@@ -216,7 +243,7 @@ export class AerisDrawer {
   protected readonly animationState = computed(() => (this.visible() ? 'open' : 'closed'));
   protected readonly headerTemplate = contentChild(AerisDrawerHeaderTemplate);
   protected readonly footerTemplate = contentChild(AerisDrawerFooterTemplate);
-  protected readonly closeIconTemplate = contentChild(AerisDrawerCloseIconTemplate);
+  private readonly projectedCloseIconTemplate = contentChild(AerisDrawerCloseIconTemplate);
   protected readonly headlessTemplate = contentChild(AerisDrawerHeadlessTemplate);
   protected readonly templateContext = computed<AerisDrawerTemplateContext>(() => ({
     $implicit: this,

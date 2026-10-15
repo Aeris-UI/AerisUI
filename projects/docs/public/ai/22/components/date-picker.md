@@ -29,6 +29,11 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `calendarIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the calendar icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropdownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `previousIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `nextIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the calendar inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `value` | `AerisDatePickerValue (model)` | `null` | Selected Date, date array, or range according to selectionMode. |

@@ -29,6 +29,8 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `previousIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `nextIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `string (model)` | `''` | Selected panel value with two-way binding. |
 | `ariaLabel` | `string` | `''` | Accessible name for the tab list. |
 | `ariaLabelledBy` | `string` | `''` | ID reference to visible text that labels the tab list. |

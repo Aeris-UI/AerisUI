@@ -1,3 +1,4 @@
+import { ɵAerisIcon } from '@aeris-ui/core';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -114,7 +115,7 @@ let nextPickListId = 0;
 
 @Component({
   selector: 'aeris-pick-list',
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     <div
       class="aeris-pick-list"
@@ -124,18 +125,89 @@ let nextPickListId = 0;
       [attr.data-fluid]="fluid() || null"
     >
       <ng-template #reorderControls let-controlSide>
-        <div class="aeris-pick-list__reorder-controls" [attr.aria-label]="paneHeader(controlSide) + ' reorder controls'">
-          <button type="button" [disabled]="!canReorder(controlSide, 'top')" [attr.aria-label]="'Move selected ' + paneHeader(controlSide) + ' items to top'" (click)="moveSelectedToTop(controlSide, $event)">
-            <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M4 4h12M5 12l5-5 5 5" /></svg>
+        <div
+          class="aeris-pick-list__reorder-controls"
+          [attr.aria-label]="paneHeader(controlSide) + ' reorder controls'"
+        >
+          <button
+            type="button"
+            [disabled]="!canReorder(controlSide, 'top')"
+            [attr.aria-label]="'Move selected ' + paneHeader(controlSide) + ' items to top'"
+            (click)="moveSelectedToTop(controlSide, $event)"
+          >
+            @if (moveTopIconTemplate(); as customIcon) {
+              <span
+                class="aeris-custom-icon"
+                aria-hidden="true"
+                focusable="false"
+                data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
+                <path d="M4 4h12M5 12l5-5 5 5" />
+              </svg>
+            }
           </button>
-          <button type="button" [disabled]="!canReorder(controlSide, 'up')" [attr.aria-label]="'Move selected ' + paneHeader(controlSide) + ' items up'" (click)="moveSelectedUp(controlSide, $event)">
-            <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M5 12l5-5 5 5" /></svg>
+          <button
+            type="button"
+            [disabled]="!canReorder(controlSide, 'up')"
+            [attr.aria-label]="'Move selected ' + paneHeader(controlSide) + ' items up'"
+            (click)="moveSelectedUp(controlSide, $event)"
+          >
+            @if (moveUpIconTemplate(); as customIcon) {
+              <span
+                class="aeris-custom-icon"
+                aria-hidden="true"
+                focusable="false"
+                data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
+                <path d="M5 12l5-5 5 5" />
+              </svg>
+            }
           </button>
-          <button type="button" [disabled]="!canReorder(controlSide, 'down')" [attr.aria-label]="'Move selected ' + paneHeader(controlSide) + ' items down'" (click)="moveSelectedDown(controlSide, $event)">
-            <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M5 8l5 5 5-5" /></svg>
+          <button
+            type="button"
+            [disabled]="!canReorder(controlSide, 'down')"
+            [attr.aria-label]="'Move selected ' + paneHeader(controlSide) + ' items down'"
+            (click)="moveSelectedDown(controlSide, $event)"
+          >
+            @if (moveDownIconTemplate(); as customIcon) {
+              <span
+                class="aeris-custom-icon"
+                aria-hidden="true"
+                focusable="false"
+                data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
+                <path d="M5 8l5 5 5-5" />
+              </svg>
+            }
           </button>
-          <button type="button" [disabled]="!canReorder(controlSide, 'bottom')" [attr.aria-label]="'Move selected ' + paneHeader(controlSide) + ' items to bottom'" (click)="moveSelectedToBottom(controlSide, $event)">
-            <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M5 8l5 5 5-5M4 16h12" /></svg>
+          <button
+            type="button"
+            [disabled]="!canReorder(controlSide, 'bottom')"
+            [attr.aria-label]="'Move selected ' + paneHeader(controlSide) + ' items to bottom'"
+            (click)="moveSelectedToBottom(controlSide, $event)"
+          >
+            @if (moveBottomIconTemplate(); as customIcon) {
+              <span
+                class="aeris-custom-icon"
+                aria-hidden="true"
+                focusable="false"
+                data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
+                <path d="M5 8l5 5 5-5M4 16h12" />
+              </svg>
+            }
           </button>
         </div>
       </ng-template>
@@ -150,7 +222,17 @@ let nextPickListId = 0;
           @if (showFilter()) {
             <label class="aeris-pick-list__filter">
               <span class="aeris-pick-list__visually-hidden">{{ filterAriaLabel(side) }}</span>
-              <span class="aeris-pick-list__search-icon" aria-hidden="true"></span>
+              @if (filterIconTemplate(); as customIcon) {
+                <span class="aeris-pick-list__search-icon" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span
+                  aerisInternalIcon="search"
+                  class="aeris-pick-list__search-icon"
+                  aria-hidden="true"
+                ></span>
+              }
               <input
                 type="search"
                 autocomplete="off"
@@ -164,7 +246,10 @@ let nextPickListId = 0;
 
           <div class="aeris-pick-list__pane-body" [attr.data-side]="side">
             @if (side === 'source' && showReorderControls(side)) {
-              <ng-container [ngTemplateOutlet]="reorderControls" [ngTemplateOutletContext]="{ $implicit: side }" />
+              <ng-container
+                [ngTemplateOutlet]="reorderControls"
+                [ngTemplateOutletContext]="{ $implicit: side }"
+              />
             }
 
             <div
@@ -204,7 +289,7 @@ let nextPickListId = 0;
                         item: entry.item,
                         side,
                         selected: isSelected(side, entry.key),
-                        index: entry.index
+                        index: entry.index,
                       }"
                     />
                   } @else {
@@ -226,7 +311,10 @@ let nextPickListId = 0;
             </div>
 
             @if (side === 'target' && showReorderControls(side)) {
-              <ng-container [ngTemplateOutlet]="reorderControls" [ngTemplateOutletContext]="{ $implicit: side }" />
+              <ng-container
+                [ngTemplateOutlet]="reorderControls"
+                [ngTemplateOutletContext]="{ $implicit: side }"
+              />
             }
           </div>
         </section>
@@ -236,28 +324,108 @@ let nextPickListId = 0;
 
       @if (showTransferControls()) {
         <div class="aeris-pick-list__transfer-controls" aria-label="Transfer controls">
-          <button type="button" [disabled]="!canTransfer('to-target', false)" [attr.aria-label]="moveToTargetAriaLabel()" (click)="moveSelectedToTarget($event)">
-            <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M7 5l5 5-5 5" /></svg>
+          <button
+            type="button"
+            [disabled]="!canTransfer('to-target', false)"
+            [attr.aria-label]="moveToTargetAriaLabel()"
+            (click)="moveSelectedToTarget($event)"
+          >
+            @if (moveToTargetIconTemplate(); as customIcon) {
+              <span
+                class="aeris-custom-icon"
+                aria-hidden="true"
+                focusable="false"
+                data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
+                <path d="M7 5l5 5-5 5" />
+              </svg>
+            }
           </button>
-          <button type="button" [disabled]="!canTransfer('to-target', true)" [attr.aria-label]="moveAllToTargetAriaLabel()" (click)="moveAllToTarget($event)">
-            <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M7 5l5 5-5 5M16 4v12" /></svg>
+          <button
+            type="button"
+            [disabled]="!canTransfer('to-target', true)"
+            [attr.aria-label]="moveAllToTargetAriaLabel()"
+            (click)="moveAllToTarget($event)"
+          >
+            @if (moveAllToTargetIconTemplate(); as customIcon) {
+              <span
+                class="aeris-custom-icon"
+                aria-hidden="true"
+                focusable="false"
+                data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
+                <path d="M7 5l5 5-5 5M16 4v12" />
+              </svg>
+            }
           </button>
-          <button type="button" [disabled]="!canTransfer('to-source', false)" [attr.aria-label]="moveToSourceAriaLabel()" (click)="moveSelectedToSource($event)">
-            <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M13 5l-5 5 5 5" /></svg>
+          <button
+            type="button"
+            [disabled]="!canTransfer('to-source', false)"
+            [attr.aria-label]="moveToSourceAriaLabel()"
+            (click)="moveSelectedToSource($event)"
+          >
+            @if (moveToSourceIconTemplate(); as customIcon) {
+              <span
+                class="aeris-custom-icon"
+                aria-hidden="true"
+                focusable="false"
+                data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
+                <path d="M13 5l-5 5 5 5" />
+              </svg>
+            }
           </button>
-          <button type="button" [disabled]="!canTransfer('to-source', true)" [attr.aria-label]="moveAllToSourceAriaLabel()" (click)="moveAllToSource($event)">
-            <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M13 5l-5 5 5 5M4 4v12" /></svg>
+          <button
+            type="button"
+            [disabled]="!canTransfer('to-source', true)"
+            [attr.aria-label]="moveAllToSourceAriaLabel()"
+            (click)="moveAllToSource($event)"
+          >
+            @if (moveAllToSourceIconTemplate(); as customIcon) {
+              <span
+                class="aeris-custom-icon"
+                aria-hidden="true"
+                focusable="false"
+                data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
+                <path d="M13 5l-5 5 5 5M4 4v12" />
+              </svg>
+            }
           </button>
         </div>
       }
 
       <ng-container [ngTemplateOutlet]="pane" [ngTemplateOutletContext]="{ $implicit: 'target' }" />
-      <span class="aeris-pick-list__visually-hidden" role="status" aria-live="polite">{{ announcement() }}</span>
+      <span class="aeris-pick-list__visually-hidden" role="status" aria-live="polite">{{
+        announcement()
+      }}</span>
     </div>
   `,
   styleUrl: './aeris-pick-list.scss',
 })
 export class AerisPickList<TItem extends AerisPickListItem = AerisPickListItem> {
+  readonly moveTopIconTemplate = input<TemplateRef<void>>();
+  readonly moveUpIconTemplate = input<TemplateRef<void>>();
+  readonly moveDownIconTemplate = input<TemplateRef<void>>();
+  readonly moveBottomIconTemplate = input<TemplateRef<void>>();
+  readonly moveToTargetIconTemplate = input<TemplateRef<void>>();
+  readonly moveAllToTargetIconTemplate = input<TemplateRef<void>>();
+  readonly moveToSourceIconTemplate = input<TemplateRef<void>>();
+  readonly moveAllToSourceIconTemplate = input<TemplateRef<void>>();
+  readonly filterIconTemplate = input<TemplateRef<void>>();
+
   private readonly componentId = `aeris-pick-list-${++nextPickListId}`;
   private readonly activeSourceKey = signal<string | null>(null);
   private readonly activeTargetKey = signal<string | null>(null);
@@ -395,7 +563,9 @@ export class AerisPickList<TItem extends AerisPickListItem = AerisPickListItem> 
   protected activeDescendant(side: AerisPickListSide): string | null {
     const entries = this.filteredEntries(side);
     const activeKey = this.activeKey(side)();
-    return entries.find((entry) => entry.key === activeKey)?.optionId ?? entries[0]?.optionId ?? null;
+    return (
+      entries.find((entry) => entry.key === activeKey)?.optionId ?? entries[0]?.optionId ?? null
+    );
   }
 
   protected emptyText(side: AerisPickListSide): string {
@@ -602,7 +772,10 @@ export class AerisPickList<TItem extends AerisPickListItem = AerisPickListItem> 
     return direction !== 'to-target' || this.availableTargetSlots() > 0;
   }
 
-  protected canReorder(side: AerisPickListSide, position: 'top' | 'up' | 'down' | 'bottom'): boolean {
+  protected canReorder(
+    side: AerisPickListSide,
+    position: 'top' | 'up' | 'down' | 'bottom',
+  ): boolean {
     if (this.disabled()) return false;
     const indexes = this.selectedIndexes(side);
     if (!indexes.length) return false;
@@ -712,9 +885,12 @@ export class AerisPickList<TItem extends AerisPickListItem = AerisPickListItem> 
     const entries = this.filteredEntries(side);
     if (!entries.length) return;
     const currentIndex = entries.findIndex((entry) => entry.key === this.activeKey(side)());
-    const nextIndex = currentIndex < 0
-      ? direction === 1 ? 0 : entries.length - 1
-      : Math.max(0, Math.min(entries.length - 1, currentIndex + direction));
+    const nextIndex =
+      currentIndex < 0
+        ? direction === 1
+          ? 0
+          : entries.length - 1
+        : Math.max(0, Math.min(entries.length - 1, currentIndex + direction));
     this.activeKey(side).set(entries[nextIndex]?.key ?? null);
   }
 
@@ -751,10 +927,13 @@ export class AerisPickList<TItem extends AerisPickListItem = AerisPickListItem> 
       : this.collection(fromSide)
           .map((item, index) => ({ item, key: this.itemKey(item, index) }))
           .filter((entry) => this.selection(fromSide).includes(entry.key));
-    const allowedEntries = direction === 'to-target'
-      ? entries.slice(0, this.availableTargetSlots())
-      : entries;
-    this.transferKeys(direction, allowedEntries.map((entry) => entry.key), originalEvent);
+    const allowedEntries =
+      direction === 'to-target' ? entries.slice(0, this.availableTargetSlots()) : entries;
+    this.transferKeys(
+      direction,
+      allowedEntries.map((entry) => entry.key),
+      originalEvent,
+    );
   }
 
   private transferKeys(
@@ -786,9 +965,10 @@ export class AerisPickList<TItem extends AerisPickListItem = AerisPickListItem> 
       item,
       key: this.itemKey(item, index),
     }));
-    const requestedIndex = beforeKey == null
-      ? destinationEntries.length
-      : destinationEntries.findIndex((entry) => entry.key === beforeKey);
+    const requestedIndex =
+      beforeKey == null
+        ? destinationEntries.length
+        : destinationEntries.findIndex((entry) => entry.key === beforeKey);
     const insertionIndex = requestedIndex < 0 ? destinationEntries.length : requestedIndex;
     const nextDestination = [
       ...destination.slice(0, insertionIndex),
@@ -821,7 +1001,9 @@ export class AerisPickList<TItem extends AerisPickListItem = AerisPickListItem> 
     } else {
       this.movedToSource.emit(event);
     }
-    this.announcement.set(`${moved.length} item${moved.length === 1 ? '' : 's'} moved to ${direction === 'to-target' ? this.targetHeader() : this.sourceHeader()}.`);
+    this.announcement.set(
+      `${moved.length} item${moved.length === 1 ? '' : 's'} moved to ${direction === 'to-target' ? this.targetHeader() : this.sourceHeader()}.`,
+    );
   }
 
   private availableTargetSlots(): number {
@@ -832,7 +1014,7 @@ export class AerisPickList<TItem extends AerisPickListItem = AerisPickListItem> 
   private selectedIndexes(side: AerisPickListSide): readonly number[] {
     const selected = new Set(this.selection(side));
     return this.collection(side)
-      .map((item, index) => selected.has(this.itemKey(item, index)) ? index : -1)
+      .map((item, index) => (selected.has(this.itemKey(item, index)) ? index : -1))
       .filter((index) => index >= 0);
   }
 
@@ -850,9 +1032,10 @@ export class AerisPickList<TItem extends AerisPickListItem = AerisPickListItem> 
     const moving = entries.filter((entry) => keySet.has(entry.key));
     if (!moving.length) return;
     const remaining = entries.filter((entry) => !keySet.has(entry.key));
-    const requestedIndex = beforeKey == null
-      ? remaining.length
-      : remaining.findIndex((entry) => entry.key === beforeKey);
+    const requestedIndex =
+      beforeKey == null
+        ? remaining.length
+        : remaining.findIndex((entry) => entry.key === beforeKey);
     const insertionIndex = requestedIndex < 0 ? remaining.length : requestedIndex;
     const next = [
       ...remaining.slice(0, insertionIndex),
@@ -869,9 +1052,10 @@ export class AerisPickList<TItem extends AerisPickListItem = AerisPickListItem> 
   ): void {
     const selected = new Set(this.selection(side));
     const next = [...this.collection(side)];
-    const indexes = direction === -1
-      ? this.selectedIndexes(side)
-      : [...this.selectedIndexes(side)].sort((left, right) => right - left);
+    const indexes =
+      direction === -1
+        ? this.selectedIndexes(side)
+        : [...this.selectedIndexes(side)].sort((left, right) => right - left);
 
     for (const index of indexes) {
       const targetIndex = index + direction;
@@ -888,9 +1072,17 @@ export class AerisPickList<TItem extends AerisPickListItem = AerisPickListItem> 
     originalEvent: Event | null,
   ): void {
     const selected = new Set(this.selection(side));
-    const chosen = this.collection(side).filter((item, index) => selected.has(this.itemKey(item, index)));
-    const remaining = this.collection(side).filter((item, index) => !selected.has(this.itemKey(item, index)));
-    this.setReordered(side, edge === 'top' ? [...chosen, ...remaining] : [...remaining, ...chosen], originalEvent);
+    const chosen = this.collection(side).filter((item, index) =>
+      selected.has(this.itemKey(item, index)),
+    );
+    const remaining = this.collection(side).filter(
+      (item, index) => !selected.has(this.itemKey(item, index)),
+    );
+    this.setReordered(
+      side,
+      edge === 'top' ? [...chosen, ...remaining] : [...remaining, ...chosen],
+      originalEvent,
+    );
   }
 
   private setReordered(
@@ -924,7 +1116,9 @@ export class AerisPickList<TItem extends AerisPickListItem = AerisPickListItem> 
       originalEvent,
       side,
       selectedKeys: this.selection(side),
-      selectedItems: this.collection(side).filter((item, index) => selected.has(this.itemKey(item, index))),
+      selectedItems: this.collection(side).filter((item, index) =>
+        selected.has(this.itemKey(item, index)),
+      ),
     });
   }
 

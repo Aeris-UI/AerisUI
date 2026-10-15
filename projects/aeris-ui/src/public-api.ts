@@ -1,5 +1,12 @@
 export const AERIS_UI_VERSION = '22.0.0-alpha.10';
 
+export {
+  provideAerisIcons,
+  ɵAerisIcon,
+  type AerisIconName,
+  type AerisIconComponents,
+} from './lib/aeris-icons';
+
 export type { AerisSeverity } from './lib/aeris-severity';
 export { aerisInternalDisplayInvalid as ɵaerisDisplayInvalid } from './lib/aeris-validation-state';
 

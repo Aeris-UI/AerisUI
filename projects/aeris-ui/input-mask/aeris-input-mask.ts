@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -9,9 +10,10 @@ import {
   output,
   signal,
   viewChild,
+  TemplateRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisInputMaskSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisInputMaskAppearance = 'outline' | 'filled';
@@ -23,6 +25,7 @@ type MaskToken =
 let inputMaskId = 0;
 
 @Component({
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   selector: 'aeris-input-mask',
   template: `
     <span
@@ -62,7 +65,17 @@ let inputMaskId = 0;
           [attr.aria-label]="clearButtonAriaLabel()"
           (click)="clear()"
         >
-          <span class="aeris-input-mask__clear-mark" aria-hidden="true"></span>
+          @if (clearIconTemplate(); as customIcon) {
+            <span class="aeris-input-mask__clear-mark" aria-hidden="true" data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span
+              aerisInternalIcon="close"
+              class="aeris-input-mask__clear-mark"
+              aria-hidden="true"
+            ></span>
+          }
         </button>
       }
     </span>
@@ -80,6 +93,8 @@ let inputMaskId = 0;
   },
 })
 export class AerisInputMask implements ControlValueAccessor {
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+
   private readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('maskInput');
   private readonly generatedId = `aeris-input-mask-${++inputMaskId}`;
   private readonly formDisabled = signal(false);

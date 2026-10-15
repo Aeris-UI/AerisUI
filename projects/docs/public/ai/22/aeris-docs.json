@@ -2261,6 +2261,229 @@
           ]
         },
         {
+          "id": "global-icons",
+          "title": "Replace icons application-wide",
+          "paragraphs": [
+            "Use provideAerisIcons to replace shared built-in artwork throughout an application. Register Angular components, not icon directives or icon names. Aeris has no dependency on Lucide or any other icon library: a replacement component can contain an SVG, an icon directive, or another icon component.",
+            "For directive-based libraries such as Lucide, create a small presentational wrapper. Add the provider to your existing application providers. Only the icons you explicitly register are replaced; the rest keep their Aeris artwork."
+          ],
+          "bullets": [
+            "Priority is local icon template, then registered component, then default artwork. CSS image tokens still customize the default artwork.",
+            "Replacement components must be decorative, non-interactive, and usable without required inputs. Use currentColor and an SVG viewBox; Aeris keeps the action, accessible name, sizing and direction.",
+            "provideAerisIcons accepts AerisIconComponents, a partial map of AerisIconName to Angular component types or null. No icon registry service or extra icon package is required by Aeris.",
+            "A component-level provider overrides its subtree and inherits unmodified parent entries. Set an entry to null to restore Aeris default artwork in that scope.",
+            "Service-created dialogs use the configuration visible to their dialog service. A root-provided service uses application-wide registration.",
+            "Use the component-specific templates below for artwork not covered by these shared keys, including specialized toolbar controls."
+          ],
+          "code": [
+            {
+              "label": "src/app/close-icon.ts",
+              "language": "TypeScript",
+              "code": "import { Component } from '@angular/core';\nimport { LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-close-icon',\n  imports: [LucideX],\n  template: `<svg lucideX aria-hidden=\"true\"></svg>`,\n})\nexport class CloseIcon {}"
+            },
+            {
+              "label": "src/app/app.config.ts",
+              "language": "TypeScript",
+              "code": "import type { ApplicationConfig } from '@angular/core';\nimport { provideAerisIcons } from '@aeris-ui/core';\nimport { CloseIcon } from './close-icon';\n\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    // Keep your existing application and Aeris theme providers here too.\n    provideAerisIcons({ close: CloseIcon }),\n  ],\n};"
+            }
+          ],
+          "table": {
+            "caption": "AerisIconName registration keys",
+            "columns": [
+              "Key",
+              "Shared artwork"
+            ],
+            "rows": [
+              [
+                "close",
+                "Clear, remove and dismiss glyphs"
+              ],
+              [
+                "chevron",
+                "Down-pointing chevron; controls retain their directional rotations"
+              ],
+              [
+                "chevrons",
+                "Double down-pointing chevrons for the first and last Paginator actions"
+              ],
+              [
+                "chevronRight",
+                "Right-pointing nested-menu chevron"
+              ],
+              [
+                "search",
+                "Filter and search glyphs"
+              ],
+              [
+                "plus / minus",
+                "Add and subtract actions; minus also represents indeterminate selection"
+              ],
+              [
+                "check",
+                "Selected, completed and copied marks"
+              ],
+              [
+                "calendar",
+                "DatePicker calendar glyph"
+              ],
+              [
+                "eye / eyeOff",
+                "Visible and masked Password indicators"
+              ],
+              [
+                "copy",
+                "CodeBlock copy action"
+              ],
+              [
+                "upload",
+                "FileUpload upload and drop-zone glyphs"
+              ],
+              [
+                "eyedropper",
+                "ColorPicker eyedropper action"
+              ],
+              [
+                "edit",
+                "Table and TreeTable editable-cell indicators"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "default-icons",
+          "title": "Replace built-in icon artwork",
+          "paragraphs": [
+            "Keep the Aeris-owned button or control and replace only its decorative artwork. Icon-template inputs accept an Angular TemplateRef; their API rows list the available slots and any template context. Existing named template directives, such as aerisSelectDropdownIcon and aerisDialogCloseIcon, remain available. No additional Aeris import is needed for an icon-template input.",
+            "This example changes the DatePicker calendar, clear, and navigation icons. Aeris retains the accessible names, keyboard controls, disabled states, and navigation behavior. Use a down-pointing glyph for these navigation slots: Aeris rotates it into the correct previous or next direction. Do not put links, buttons, inputs, or independent tab stops inside an icon template."
+          ],
+          "code": [
+            {
+              "label": "src/app/date-field.ts",
+              "language": "TypeScript",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisDatePicker } from '@aeris-ui/core/date-picker';\nimport { LucideCalendarDays, LucideChevronDown, LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-date-field',\n  imports: [AerisDatePicker, LucideCalendarDays, LucideChevronDown, LucideX],\n  template: `\n    <ng-template #calendar><svg lucideCalendarDays aria-hidden=\"true\"></svg></ng-template>\n    <ng-template #clear><svg lucideX aria-hidden=\"true\"></svg></ng-template>\n    <ng-template #navigation><svg lucideChevronDown aria-hidden=\"true\"></svg></ng-template>\n\n    <aeris-date-picker\n      ariaLabel=\"Delivery date\"\n      [(value)]=\"date\"\n      clearable\n      [calendarIconTemplate]=\"calendar\"\n      [clearIconTemplate]=\"clear\"\n      [previousIconTemplate]=\"navigation\"\n      [nextIconTemplate]=\"navigation\"\n    />\n  `,\n})\nexport class DateField {\n  readonly date = signal<Date | null>(new Date(2026, 5, 15));\n}"
+            }
+          ],
+          "note": "Aeris sizes icon-slot content with its icon tokens. Use currentColor and a viewBox in custom SVGs. The Editor accepts a partial toolbarIcons map keyed by AerisEditorFormat; omitted actions keep their original artwork. DynamicDialog and ConfirmDialog service configurations also accept closeIconTemplate.",
+          "table": {
+            "caption": "Directional icon templates",
+            "columns": [
+              "Slots",
+              "Artwork orientation"
+            ],
+            "rows": [
+              [
+                "DatePicker, Tabs, Paginator and Carousel navigation",
+                "Supply a down-pointing glyph. Aeris rotates it for the action and layout. First and last Paginator icons can use double down chevrons."
+              ],
+              [
+                "Dropdown and tree disclosure icons",
+                "Supply a down-pointing glyph. Aeris handles open, closed and responsive directions."
+              ],
+              [
+                "Menubar submenuIconTemplate",
+                "Use the root context value: down for top-level entries, right for nested entries."
+              ],
+              [
+                "ContextMenu and TieredMenu submenuIconTemplate",
+                "Supply a right-pointing glyph."
+              ],
+              [
+                "Galleria previous and next templates",
+                "Supply left- and right-pointing glyphs respectively. Thumbnail controls adapt them to their orientation."
+              ],
+              [
+                "InputNumber incrementIconTemplate",
+                "A stacked increment icon rotates 180 degrees; other layouts use the supplied artwork directly."
+              ],
+              [
+                "Other action icons",
+                "Supply the finished glyph for the action; Aeris retains control geometry and interaction."
+              ]
+            ]
+          }
+        },
+        {
+          "id": "icon-tokens",
+          "title": "Replace shared icons with CSS",
+          "paragraphs": [
+            "Use shared CSS image tokens to replace common built-in artwork without Angular templates. Put overrides after the Aeris stylesheet. A :root override applies throughout the application; a narrower selector applies to descendants that inherit it. These tokens affect Aeris-owned mask icons, not icons projected by your application.",
+            "Supply a URL to a monochrome SVG or a data URL. The mask uses the image alpha channel; Aeris supplies the current foreground color. Place your own assets at the example paths below. Directional assets should match the default orientation: chevron points down and chevron-right points right."
+          ],
+          "code": [
+            {
+              "label": "src/styles.scss",
+              "language": "CSS",
+              "code": ":root {\n  --aeris-icon-close: url('/icons/close.svg');\n  --aeris-icon-chevron: url('/icons/chevron-down.svg');\n  --aeris-icon-chevron-right: url('/icons/chevron-right.svg');\n}"
+            }
+          ],
+          "note": "Use a component icon template for artwork that is not covered by a shared token, or when your application uses Angular icon components. For state-aware templates, the component API describes the available context. Icon changes do not replace control labels or status text.",
+          "table": {
+            "caption": "Shared icon image tokens",
+            "columns": [
+              "Token",
+              "Artwork"
+            ],
+            "rows": [
+              [
+                "--aeris-icon-chevron",
+                "Down-pointing chevron, rotated by navigation and disclosure controls"
+              ],
+              [
+                "--aeris-icon-chevron-right",
+                "Right-pointing submenu chevron"
+              ],
+              [
+                "--aeris-icon-close",
+                "Clear and dismiss mark"
+              ],
+              [
+                "--aeris-icon-search",
+                "Filter and search indicator"
+              ],
+              [
+                "--aeris-icon-plus",
+                "Add mark"
+              ],
+              [
+                "--aeris-icon-minus",
+                "Indeterminate selection mark"
+              ],
+              [
+                "--aeris-icon-check",
+                "Selected and copied mark"
+              ],
+              [
+                "--aeris-icon-calendar",
+                "DatePicker calendar indicator"
+              ],
+              [
+                "--aeris-icon-eye",
+                "Visible password indicator"
+              ],
+              [
+                "--aeris-icon-eye-off",
+                "Masked password indicator"
+              ],
+              [
+                "--aeris-icon-upload",
+                "Upload action"
+              ],
+              [
+                "--aeris-icon-eyedropper",
+                "ColorPicker eyedropper action"
+              ],
+              [
+                "--aeris-icon-edit",
+                "Editable cell indicator"
+              ],
+              [
+                "--aeris-icon-copy",
+                "CodeBlock copy action"
+              ]
+            ]
+          }
+        },
+        {
           "id": "accessibility",
           "title": "Accessible icon use",
           "bullets": [
@@ -3522,6 +3745,18 @@
           "kind": "input",
           "entries": [
             {
+              "name": "clearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "dropdownIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "global config or 'self'",
@@ -4160,6 +4395,24 @@
           "kind": "input",
           "entries": [
             {
+              "name": "clearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "dropdownIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "submenuIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "global config or 'self'",
@@ -4683,6 +4936,18 @@
           "kind": "input",
           "entries": [
             {
+              "name": "checkIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the check icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "mixedIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the mixed icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "checked",
               "type": "boolean (model)",
               "defaultValue": "false",
@@ -5075,6 +5340,24 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "clearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "eyedropperIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the eyedropper icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "closeIconTemplate",
+              "type": "TemplateRef<AerisDialogTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
@@ -5758,6 +6041,36 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "clearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "calendarIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the calendar icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "dropdownIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "previousIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "nextIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
@@ -6594,6 +6907,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "toolbarIcons",
+              "type": "Readonly<Partial<Record<AerisEditorFormat, TemplateRef<void>>>>",
+              "defaultValue": "{}",
+              "description": "Optional artwork templates keyed by the documented formats. Omitted formats retain their default icons or labels; buttons retain their commands, disabled state, and accessible names."
+            },
             {
               "name": "value",
               "type": "string (model)",
@@ -8259,6 +8578,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "clearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "value",
               "type": "string (model)",
               "defaultValue": "''",
@@ -8794,6 +9119,24 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "clearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "incrementIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the increment icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "decrementIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the decrement icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "value",
               "type": "number | null (model)",
@@ -9912,6 +10255,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "clearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "size",
               "type": "AerisInputTextSize",
               "defaultValue": "'md'",
@@ -10000,6 +10349,12 @@
               "type": "string | undefined",
               "defaultValue": "undefined",
               "description": "IDs of help or validation messages."
+            },
+            {
+              "name": "clearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
             },
             {
               "name": "size",
@@ -10648,6 +11003,36 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "clearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "removeIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the remove icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "dropdownIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "filterIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "loadingIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
@@ -11346,6 +11731,24 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "visibleIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Artwork for the visibility button when the password is visible."
+            },
+            {
+              "name": "maskedIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Artwork for the visibility button when the password is masked."
+            },
+            {
+              "name": "clearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
@@ -12679,6 +13082,18 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "checkIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the check icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "filterClearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the filter clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
@@ -14118,6 +14533,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "clearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "value",
               "type": "string (model)",
               "defaultValue": "''",
@@ -15085,6 +15506,36 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "clearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "dropdownIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "filterIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "filterClearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the filter clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "toggleIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
@@ -17280,6 +17731,30 @@
           "kind": "input",
           "entries": [
             {
+              "name": "moveTopIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the move top icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "moveUpIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the move up icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "moveDownIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the move down icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "moveBottomIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the move bottom icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "optionLabel",
               "type": "string",
               "defaultValue": "'label'",
@@ -17633,6 +18108,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "toggleIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "value",
               "type": "readonly AerisOrganizationChartNode<TData>[]",
               "defaultValue": "[]",
@@ -17930,6 +18411,42 @@
           "kind": "input",
           "entries": [
             {
+              "name": "firstIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the first icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "previousIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "nextIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "lastIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the last icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "dropdownIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "checkIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the check icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "global config or 'self'",
@@ -18124,6 +18641,60 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "moveTopIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the move top icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "moveUpIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the move up icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "moveDownIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the move down icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "moveBottomIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the move bottom icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "moveToTargetIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the move to target icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "moveAllToTargetIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the move all to target icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "moveToSourceIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the move to source icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "moveAllToSourceIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the move all to source icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "filterIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "optionLabel",
               "type": "string",
@@ -18733,6 +19304,24 @@
           "kind": "input",
           "entries": [
             {
+              "name": "toggleIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Decorative row-expander artwork. Supply a down-pointing icon; Aeris rotates it for the collapsed state."
+            },
+            {
+              "name": "sortIconTemplate",
+              "type": "TemplateRef<AerisTableSortIconContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Artwork for sortable headers. Context: $implicit is the column; direction is asc, desc, or null. Header buttons retain sorting and aria-sort."
+            },
+            {
+              "name": "loadingIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "paginatorDropdownAppendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "global config or 'self'",
@@ -19245,7 +19834,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisTableSize = 'sm' | 'md' | 'lg';\ntype AerisTableSortDirection = 'asc' | 'desc';\ntype AerisTableSelectionMode = 'single' | 'multiple';\ntype AerisTableResponsiveMode = 'scroll' | 'stack';\ntype AerisTableData = Record<string, unknown>;\ntype AerisTableContextMenuDisabled =\n  | boolean\n  | ((row: AerisTableData, rowIndex: number) => boolean);\n\ninterface AerisTableColumn {\n  readonly field: string;\n  readonly header: string;\n  readonly sortable?: boolean;\n  readonly filterable?: boolean;\n  readonly width?: string;\n  readonly align?: 'start' | 'center' | 'end';\n}\n\ninterface AerisTableSort {\n  readonly field: string;\n  readonly direction: AerisTableSortDirection;\n}\n\ninterface AerisTableSortEvent {\n  readonly originalEvent: Event;\n  readonly sort: AerisTableSort | null;\n}\n\ninterface AerisTablePageEvent {\n  readonly first: number;\n  readonly rows: number;\n  readonly page: number;\n  readonly pageCount: number;\n}\n\ninterface AerisTableFilterEvent {\n  readonly originalEvent: Event | null;\n  readonly filterValue: string;\n  readonly columnFilters: Readonly<Record<string, string>>;\n  readonly rows: readonly AerisTableData[];\n}\n\ninterface AerisTableSelectionEvent {\n  readonly originalEvent: Event;\n  readonly keys: readonly string[];\n  readonly row: AerisTableData;\n}\n\ninterface AerisTableContextMenuEvent {\n  readonly originalEvent: MouseEvent;\n  readonly row: AerisTableData;\n  readonly rowIndex: number;\n  readonly key: string;\n}\n\ninterface AerisTableCellEditEvent {\n  readonly originalEvent: Event;\n  readonly row: AerisTableData;\n  readonly field: string;\n  readonly value: string;\n}\n\ninterface AerisTableColumnResizeEvent {\n  readonly originalEvent: Event;\n  readonly field: string;\n  readonly width: string;\n  readonly columns: readonly AerisTableColumn[];\n}\n\ninterface AerisTableColumnReorderEvent {\n  readonly originalEvent: Event;\n  readonly field: string;\n  readonly fromIndex: number;\n  readonly toIndex: number;\n  readonly columns: readonly AerisTableColumn[];\n}\n\ninterface AerisTableCsvExportOptions {\n  readonly filename?: string;\n  readonly separator?: string;\n  readonly includeHeaders?: boolean;\n  readonly rows?: 'all' | 'filtered' | 'page';\n  readonly download?: boolean;\n}"
+          "code": "type AerisTableSize = 'sm' | 'md' | 'lg';\ntype AerisTableSortDirection = 'asc' | 'desc';\ntype AerisTableSelectionMode = 'single' | 'multiple';\ntype AerisTableResponsiveMode = 'scroll' | 'stack';\ntype AerisTableData = Record<string, unknown>;\ntype AerisTableContextMenuDisabled =\n  | boolean\n  | ((row: AerisTableData, rowIndex: number) => boolean);\n\ninterface AerisTableColumn {\n  readonly field: string;\n  readonly header: string;\n  readonly sortable?: boolean;\n  readonly filterable?: boolean;\n  readonly width?: string;\n  readonly align?: 'start' | 'center' | 'end';\n}\n\ninterface AerisTableSortIconContext {\n  readonly $implicit: AerisTableColumn;\n  readonly direction: AerisTableSortDirection | null;\n}\n\ninterface AerisTableSort {\n  readonly field: string;\n  readonly direction: AerisTableSortDirection;\n}\n\ninterface AerisTableSortEvent {\n  readonly originalEvent: Event;\n  readonly sort: AerisTableSort | null;\n}\n\ninterface AerisTablePageEvent {\n  readonly first: number;\n  readonly rows: number;\n  readonly page: number;\n  readonly pageCount: number;\n}\n\ninterface AerisTableFilterEvent {\n  readonly originalEvent: Event | null;\n  readonly filterValue: string;\n  readonly columnFilters: Readonly<Record<string, string>>;\n  readonly rows: readonly AerisTableData[];\n}\n\ninterface AerisTableSelectionEvent {\n  readonly originalEvent: Event;\n  readonly keys: readonly string[];\n  readonly row: AerisTableData;\n}\n\ninterface AerisTableContextMenuEvent {\n  readonly originalEvent: MouseEvent;\n  readonly row: AerisTableData;\n  readonly rowIndex: number;\n  readonly key: string;\n}\n\ninterface AerisTableCellEditEvent {\n  readonly originalEvent: Event;\n  readonly row: AerisTableData;\n  readonly field: string;\n  readonly value: string;\n}\n\ninterface AerisTableColumnResizeEvent {\n  readonly originalEvent: Event;\n  readonly field: string;\n  readonly width: string;\n  readonly columns: readonly AerisTableColumn[];\n}\n\ninterface AerisTableColumnReorderEvent {\n  readonly originalEvent: Event;\n  readonly field: string;\n  readonly fromIndex: number;\n  readonly toIndex: number;\n  readonly columns: readonly AerisTableColumn[];\n}\n\ninterface AerisTableCsvExportOptions {\n  readonly filename?: string;\n  readonly separator?: string;\n  readonly includeHeaders?: boolean;\n  readonly rows?: 'all' | 'filtered' | 'page';\n  readonly download?: boolean;\n}"
         }
       ],
       "designTokens": [
@@ -19905,6 +20494,30 @@
           "kind": "input",
           "entries": [
             {
+              "name": "filterIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "filterClearIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the filter clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "loadingIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "toggleIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "selectionMode",
               "type": "'single' | 'multiple' | 'checkbox' | null",
               "defaultValue": "null",
@@ -20453,6 +21066,24 @@
           "kind": "input",
           "entries": [
             {
+              "name": "sortIconTemplate",
+              "type": "TemplateRef<AerisTreeTableSortIconContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Artwork for sortable headers. Context: $implicit is the column; direction is asc, desc, or null. Header buttons retain sorting and aria-sort."
+            },
+            {
+              "name": "loadingIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "toggleIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "paginatorDropdownAppendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "global config or 'self'",
@@ -20927,7 +21558,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisTreeTableData = Readonly<Record<string, unknown>>;\ntype AerisTreeTableSize = 'sm' | 'md' | 'lg';\ntype AerisTreeTableSelectionMode = 'single' | 'multiple' | 'checkbox';\ntype AerisTreeTableSortDirection = 'asc' | 'desc';\ntype AerisTreeTableSortMode = 'single' | 'multiple';\ntype AerisTreeTableFilterStrategy = 'subtree' | 'path';\ntype AerisTreeTableResponsiveMode = 'scroll' | 'stack';\n\ninterface AerisTreeTableNode<TData extends AerisTreeTableData = AerisTreeTableData> {\n  readonly key: string;\n  readonly data: TData;\n  readonly children?: readonly AerisTreeTableNode<TData>[];\n  readonly leaf?: boolean;\n  readonly disabled?: boolean;\n  readonly selectable?: boolean;\n}\n\ninterface AerisTreeTableColumn {\n  readonly field: string;\n  readonly header: string;\n  readonly sortable?: boolean;\n  readonly filterable?: boolean;\n  readonly editable?: boolean;\n  readonly frozen?: boolean;\n  readonly width?: string;\n  readonly align?: 'start' | 'center' | 'end';\n}\n\ninterface AerisTreeTableSort {\n  readonly field: string;\n  readonly direction: AerisTreeTableSortDirection;\n}\n\ninterface AerisTreeTableNodeEvent<TData extends AerisTreeTableData = AerisTreeTableData> {\n  readonly originalEvent: Event;\n  readonly node: AerisTreeTableNode<TData>;\n  readonly key: string;\n}\n\ninterface AerisTreeTableSelectionEvent<TData extends AerisTreeTableData = AerisTreeTableData>\n  extends AerisTreeTableNodeEvent<TData> {\n  readonly selected: boolean;\n  readonly selectedKeys: readonly string[];\n}\n\ninterface AerisTreeTableSortEvent {\n  readonly originalEvent: Event;\n  readonly sorts: readonly AerisTreeTableSort[];\n}\n\ninterface AerisTreeTableFilterEvent<TData extends AerisTreeTableData = AerisTreeTableData> {\n  readonly originalEvent: Event | null;\n  readonly globalValue: string;\n  readonly columnFilters: Readonly<Record<string, string>>;\n  readonly value: readonly AerisTreeTableNode<TData>[];\n}\n\ninterface AerisTreeTablePageEvent {\n  readonly first: number;\n  readonly rows: number;\n  readonly page: number;\n  readonly pageCount: number;\n}\n\ninterface AerisTreeTableLazyLoadEvent {\n  readonly first: number;\n  readonly rows: number;\n  readonly sorts: readonly AerisTreeTableSort[];\n  readonly globalValue: string;\n  readonly columnFilters: Readonly<Record<string, string>>;\n}\n\ninterface AerisTreeTableCellEditEvent<TData extends AerisTreeTableData = AerisTreeTableData>\n  extends AerisTreeTableNodeEvent<TData> {\n  readonly field: string;\n  readonly previousValue: unknown;\n  readonly value: unknown;\n}\n\ninterface AerisTreeTableColumnResizeEvent {\n  readonly originalEvent: Event;\n  readonly field: string;\n  readonly width: string;\n  readonly columns: readonly AerisTreeTableColumn[];\n}\n\ninterface AerisTreeTableColumnReorderEvent {\n  readonly originalEvent: Event;\n  readonly field: string;\n  readonly fromIndex: number;\n  readonly toIndex: number;\n  readonly columns: readonly AerisTreeTableColumn[];\n}\n\ninterface AerisTreeTableHeaderContext {\n  readonly $implicit: AerisTreeTableColumn;\n  readonly column: AerisTreeTableColumn;\n  readonly sort: AerisTreeTableSortDirection | null;\n}\n\ninterface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTreeTableData> {\n  readonly $implicit: unknown;\n  readonly value: unknown;\n  readonly node: AerisTreeTableNode<TData>;\n  readonly data: TData;\n  readonly column: AerisTreeTableColumn;\n  readonly rowIndex: number;\n  readonly level: number;\n  readonly expanded: boolean;\n  readonly selected: boolean;\n  readonly leaf: boolean;\n}"
+          "code": "type AerisTreeTableData = Readonly<Record<string, unknown>>;\ntype AerisTreeTableSize = 'sm' | 'md' | 'lg';\ntype AerisTreeTableSelectionMode = 'single' | 'multiple' | 'checkbox';\ntype AerisTreeTableSortDirection = 'asc' | 'desc';\ntype AerisTreeTableSortMode = 'single' | 'multiple';\ntype AerisTreeTableFilterStrategy = 'subtree' | 'path';\ntype AerisTreeTableResponsiveMode = 'scroll' | 'stack';\n\ninterface AerisTreeTableNode<TData extends AerisTreeTableData = AerisTreeTableData> {\n  readonly key: string;\n  readonly data: TData;\n  readonly children?: readonly AerisTreeTableNode<TData>[];\n  readonly leaf?: boolean;\n  readonly disabled?: boolean;\n  readonly selectable?: boolean;\n}\n\ninterface AerisTreeTableColumn {\n  readonly field: string;\n  readonly header: string;\n  readonly sortable?: boolean;\n  readonly filterable?: boolean;\n  readonly editable?: boolean;\n  readonly frozen?: boolean;\n  readonly width?: string;\n  readonly align?: 'start' | 'center' | 'end';\n}\n\ninterface AerisTreeTableSortIconContext {\n  readonly $implicit: AerisTreeTableColumn;\n  readonly direction: AerisTreeTableSortDirection | null;\n}\n\ninterface AerisTreeTableSort {\n  readonly field: string;\n  readonly direction: AerisTreeTableSortDirection;\n}\n\ninterface AerisTreeTableNodeEvent<TData extends AerisTreeTableData = AerisTreeTableData> {\n  readonly originalEvent: Event;\n  readonly node: AerisTreeTableNode<TData>;\n  readonly key: string;\n}\n\ninterface AerisTreeTableSelectionEvent<TData extends AerisTreeTableData = AerisTreeTableData>\n  extends AerisTreeTableNodeEvent<TData> {\n  readonly selected: boolean;\n  readonly selectedKeys: readonly string[];\n}\n\ninterface AerisTreeTableSortEvent {\n  readonly originalEvent: Event;\n  readonly sorts: readonly AerisTreeTableSort[];\n}\n\ninterface AerisTreeTableFilterEvent<TData extends AerisTreeTableData = AerisTreeTableData> {\n  readonly originalEvent: Event | null;\n  readonly globalValue: string;\n  readonly columnFilters: Readonly<Record<string, string>>;\n  readonly value: readonly AerisTreeTableNode<TData>[];\n}\n\ninterface AerisTreeTablePageEvent {\n  readonly first: number;\n  readonly rows: number;\n  readonly page: number;\n  readonly pageCount: number;\n}\n\ninterface AerisTreeTableLazyLoadEvent {\n  readonly first: number;\n  readonly rows: number;\n  readonly sorts: readonly AerisTreeTableSort[];\n  readonly globalValue: string;\n  readonly columnFilters: Readonly<Record<string, string>>;\n}\n\ninterface AerisTreeTableCellEditEvent<TData extends AerisTreeTableData = AerisTreeTableData>\n  extends AerisTreeTableNodeEvent<TData> {\n  readonly field: string;\n  readonly previousValue: unknown;\n  readonly value: unknown;\n}\n\ninterface AerisTreeTableColumnResizeEvent {\n  readonly originalEvent: Event;\n  readonly field: string;\n  readonly width: string;\n  readonly columns: readonly AerisTreeTableColumn[];\n}\n\ninterface AerisTreeTableColumnReorderEvent {\n  readonly originalEvent: Event;\n  readonly field: string;\n  readonly fromIndex: number;\n  readonly toIndex: number;\n  readonly columns: readonly AerisTreeTableColumn[];\n}\n\ninterface AerisTreeTableHeaderContext {\n  readonly $implicit: AerisTreeTableColumn;\n  readonly column: AerisTreeTableColumn;\n  readonly sort: AerisTreeTableSortDirection | null;\n}\n\ninterface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTreeTableData> {\n  readonly $implicit: unknown;\n  readonly value: unknown;\n  readonly node: AerisTreeTableNode<TData>;\n  readonly data: TData;\n  readonly column: AerisTreeTableColumn;\n  readonly rowIndex: number;\n  readonly level: number;\n  readonly expanded: boolean;\n  readonly selected: boolean;\n  readonly leaf: boolean;\n}"
         }
       ],
       "designTokens": [
@@ -24431,6 +25062,18 @@
           "kind": "input",
           "entries": [
             {
+              "name": "previousIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "nextIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "value",
               "type": "string (model)",
               "defaultValue": "''",
@@ -25319,6 +25962,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "closeIconTemplate",
+              "type": "TemplateRef<AerisDialogTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Optional close-button artwork; the service forwards it to the underlying Dialog without replacing its behavior."
+            },
+            {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "global config or 'body'",
@@ -25661,6 +26310,18 @@
           "kind": "property",
           "entries": [
             {
+              "name": "closeIconTemplate",
+              "type": "TemplateRef<AerisDialogTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Decorative close-button artwork forwarded to the underlying Dialog."
+            },
+            {
+              "name": "closeIconTemplate",
+              "type": "TemplateRef<AerisDialogTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Optional close-button artwork; the service forwards it to the underlying Dialog without replacing its behavior."
+            },
+            {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "global config or 'body'",
@@ -25955,7 +26616,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisConfirmDialogSeverity =\n  | 'primary'\n  | 'secondary'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'neutral';\n\ntype AerisConfirmDialogIcon =\n  | 'question'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'success'\n  | 'none';\n\ntype AerisConfirmDialogDefaultFocus =\n  | 'accept'\n  | 'reject'\n  | 'close'\n  | 'dialog'\n  | 'none';\n\ntype AerisConfirmDialogResult = 'accept' | 'reject' | 'dismiss';\n\ntype AerisDialogPosition =\n  | 'center'\n  | 'top'\n  | 'bottom'\n  | 'left'\n  | 'right'\n  | 'top-left'\n  | 'top-right'\n  | 'bottom-left'\n  | 'bottom-right';\n\ninterface AerisConfirmDialogConfig<TData = unknown> {\n  readonly key?: string;\n  readonly appendTo?: AerisAppendTo;\n  readonly header?: string;\n  readonly message?: string;\n  readonly data?: TData;\n  readonly severity?: AerisConfirmDialogSeverity;\n  readonly icon?: AerisConfirmDialogIcon;\n  readonly acceptLabel?: string;\n  readonly rejectLabel?: string;\n  readonly defaultFocus?: AerisConfirmDialogDefaultFocus;\n  readonly backdrop?: boolean;\n  readonly backdropBlur?: boolean;\n  readonly backdropBlurAmount?: string;\n  readonly closeOnBackdropClick?: boolean;\n  readonly position?: AerisDialogPosition;\n  readonly width?: string;\n  readonly blockScroll?: boolean;\n  readonly accept?: (event: AerisConfirmDialogActionEvent<TData>) => void;\n  readonly reject?: (event: AerisConfirmDialogActionEvent<TData>) => void;\n}\n\ninterface AerisConfirmDialogActionEvent<TData = unknown> {\n  readonly originalEvent: Event | null;\n  readonly data: TData | undefined;\n  readonly config: AerisConfirmDialogResolvedConfig<TData>;\n}\n\ninterface AerisConfirmDialogCloseEvent<TData = unknown>\n  extends AerisConfirmDialogActionEvent<TData> {\n  readonly result: AerisConfirmDialogResult;\n  readonly reason: AerisDialogCloseReason | 'accept' | 'reject';\n}\n\ninterface AerisConfirmDialogTemplateContext<TData = unknown> {\n  readonly $implicit: AerisConfirmDialog;\n  readonly config: AerisConfirmDialogResolvedConfig<TData>;\n  readonly data: TData | undefined;\n  readonly accept: (event?: Event) => void;\n  readonly reject: (event?: Event) => void;\n  readonly close: (event?: Event) => void;\n}"
+          "code": "type AerisConfirmDialogSeverity =\n  | 'primary'\n  | 'secondary'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'neutral';\n\ntype AerisConfirmDialogIcon =\n  | 'question'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'success'\n  | 'none';\n\ntype AerisConfirmDialogDefaultFocus =\n  | 'accept'\n  | 'reject'\n  | 'close'\n  | 'dialog'\n  | 'none';\n\ntype AerisConfirmDialogResult = 'accept' | 'reject' | 'dismiss';\n\ntype AerisDialogPosition =\n  | 'center'\n  | 'top'\n  | 'bottom'\n  | 'left'\n  | 'right'\n  | 'top-left'\n  | 'top-right'\n  | 'bottom-left'\n  | 'bottom-right';\n\ninterface AerisConfirmDialogConfig<TData = unknown> {\n  readonly closeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;\n  readonly key?: string;\n  readonly appendTo?: AerisAppendTo;\n  readonly header?: string;\n  readonly message?: string;\n  readonly data?: TData;\n  readonly severity?: AerisConfirmDialogSeverity;\n  readonly icon?: AerisConfirmDialogIcon;\n  readonly acceptLabel?: string;\n  readonly rejectLabel?: string;\n  readonly defaultFocus?: AerisConfirmDialogDefaultFocus;\n  readonly backdrop?: boolean;\n  readonly backdropBlur?: boolean;\n  readonly backdropBlurAmount?: string;\n  readonly closeOnBackdropClick?: boolean;\n  readonly position?: AerisDialogPosition;\n  readonly width?: string;\n  readonly blockScroll?: boolean;\n  readonly accept?: (event: AerisConfirmDialogActionEvent<TData>) => void;\n  readonly reject?: (event: AerisConfirmDialogActionEvent<TData>) => void;\n}\n\ninterface AerisConfirmDialogActionEvent<TData = unknown> {\n  readonly originalEvent: Event | null;\n  readonly data: TData | undefined;\n  readonly config: AerisConfirmDialogResolvedConfig<TData>;\n}\n\ninterface AerisConfirmDialogCloseEvent<TData = unknown>\n  extends AerisConfirmDialogActionEvent<TData> {\n  readonly result: AerisConfirmDialogResult;\n  readonly reason: AerisDialogCloseReason | 'accept' | 'reject';\n}\n\ninterface AerisConfirmDialogTemplateContext<TData = unknown> {\n  readonly $implicit: AerisConfirmDialog;\n  readonly config: AerisConfirmDialogResolvedConfig<TData>;\n  readonly data: TData | undefined;\n  readonly accept: (event?: Event) => void;\n  readonly reject: (event?: Event) => void;\n  readonly close: (event?: Event) => void;\n}"
         }
       ],
       "designTokens": [
@@ -27038,6 +27699,18 @@
           "kind": "input",
           "entries": [
             {
+              "name": "closeIconTemplate",
+              "type": "TemplateRef<AerisDialogTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name."
+            },
+            {
+              "name": "maximizeIconTemplate",
+              "type": "TemplateRef<AerisDialogTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the maximize icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "global config or 'self'",
@@ -27752,6 +28425,18 @@
           "kind": "input",
           "entries": [
             {
+              "name": "closeIconTemplate",
+              "type": "TemplateRef<AerisDrawerTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name."
+            },
+            {
+              "name": "maximizeIconTemplate",
+              "type": "TemplateRef<AerisDrawerTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the maximize icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "global config or 'body'",
@@ -28415,6 +29100,18 @@
           "kind": "property",
           "entries": [
             {
+              "name": "maximizeIconTemplate",
+              "type": "TemplateRef<AerisDialogTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Decorative artwork for the maximize and restore button; the Dialog retains its accessible name and action."
+            },
+            {
+              "name": "closeIconTemplate",
+              "type": "TemplateRef<AerisDialogTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Optional close-button artwork; the service forwards it to the underlying Dialog without replacing its behavior."
+            },
+            {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "global config or 'body'",
@@ -28667,7 +29364,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "interface AerisDynamicDialogConfig<TData = unknown> {\n  readonly header?: string;\n  readonly appendTo?: AerisAppendTo;\n  readonly data?: TData;\n  readonly inputValues?: Record<string, unknown>;\n  readonly modal?: boolean;\n  readonly backdrop?: boolean;\n  readonly backdropBlur?: boolean;\n  readonly backdropBlurAmount?: string;\n  readonly closeOnBackdropClick?: boolean;\n  readonly closeOnEscape?: boolean;\n  readonly closable?: boolean;\n  readonly maximizable?: boolean;\n  readonly maximized?: boolean;\n  readonly draggable?: boolean;\n  readonly resizable?: boolean;\n  readonly blockScroll?: boolean;\n  readonly focusTrap?: boolean;\n  readonly restoreFocus?: boolean;\n  readonly autoFocus?: boolean;\n  readonly initialFocus?: string;\n  readonly position?: AerisDialogPosition;\n  readonly size?: AerisDialogSize;\n  readonly width?: string;\n  readonly minWidth?: string;\n  readonly maxWidth?: string;\n  readonly height?: string;\n  readonly maxHeight?: string;\n  readonly mobileWidth?: string;\n  readonly closeAriaLabel?: string;\n  readonly ariaLabel?: string;\n  readonly ariaLabelledBy?: string;\n  readonly ariaDescribedBy?: string;\n}\n\ninterface AerisDynamicDialogCloseEvent<TResult = unknown> {\n  readonly originalEvent: Event | null;\n  readonly reason: AerisDialogCloseReason;\n  readonly result: TResult | undefined;\n}\n\ninterface AerisDynamicDialogOpenEvent {\n  readonly originalEvent: Event | null;\n}\n\ninterface AerisDynamicDialogSubscribable<T> {\n  subscribe(next: (event: T) => void): { unsubscribe(): void };\n}"
+          "code": "interface AerisDynamicDialogConfig<TData = unknown> {\n  readonly closeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;\n  readonly maximizeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;\n  readonly header?: string;\n  readonly appendTo?: AerisAppendTo;\n  readonly data?: TData;\n  readonly inputValues?: Record<string, unknown>;\n  readonly modal?: boolean;\n  readonly backdrop?: boolean;\n  readonly backdropBlur?: boolean;\n  readonly backdropBlurAmount?: string;\n  readonly closeOnBackdropClick?: boolean;\n  readonly closeOnEscape?: boolean;\n  readonly closable?: boolean;\n  readonly maximizable?: boolean;\n  readonly maximized?: boolean;\n  readonly draggable?: boolean;\n  readonly resizable?: boolean;\n  readonly blockScroll?: boolean;\n  readonly focusTrap?: boolean;\n  readonly restoreFocus?: boolean;\n  readonly autoFocus?: boolean;\n  readonly initialFocus?: string;\n  readonly position?: AerisDialogPosition;\n  readonly size?: AerisDialogSize;\n  readonly width?: string;\n  readonly minWidth?: string;\n  readonly maxWidth?: string;\n  readonly height?: string;\n  readonly maxHeight?: string;\n  readonly mobileWidth?: string;\n  readonly closeAriaLabel?: string;\n  readonly ariaLabel?: string;\n  readonly ariaLabelledBy?: string;\n  readonly ariaDescribedBy?: string;\n}\n\ninterface AerisDynamicDialogCloseEvent<TResult = unknown> {\n  readonly originalEvent: Event | null;\n  readonly reason: AerisDialogCloseReason;\n  readonly result: TResult | undefined;\n}\n\ninterface AerisDynamicDialogOpenEvent {\n  readonly originalEvent: Event | null;\n}\n\ninterface AerisDynamicDialogSubscribable<T> {\n  subscribe(next: (event: T) => void): { unsubscribe(): void };\n}"
         }
       ],
       "designTokens": [
@@ -28869,6 +29566,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "closeIconTemplate",
+              "type": "TemplateRef<AerisPopoverTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name."
+            },
             {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
@@ -29699,6 +30402,24 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "removeIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the remove icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "dropIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the drop icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "fileIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the file icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "mode",
               "type": "AerisFileUploadMode",
@@ -30671,6 +31392,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "submenuIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
               "defaultValue": "global config or 'self'",
@@ -31157,6 +31884,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "submenuIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "id",
               "type": "string",
               "defaultValue": "generated id",
@@ -31481,6 +32214,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "submenuIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
@@ -31980,6 +32719,18 @@
           "kind": "input",
           "entries": [
             {
+              "name": "submenuIconTemplate",
+              "type": "TemplateRef<AerisMenubarSubmenuIconContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "menuIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the menu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "id",
               "type": "string",
               "defaultValue": "generated",
@@ -32202,7 +32953,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisMenubarSize = 'sm' | 'md' | 'lg';\ntype AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';\ntype AerisMenubarItemVariant =\n  | 'default'\n  | 'primary'\n  | 'secondary'\n  | 'outline'\n  | 'ghost'\n  | 'danger'\n  | 'link';\ntype AerisMenubarAriaCurrent =\n  | 'page'\n  | 'step'\n  | 'location'\n  | 'date'\n  | 'time'\n  | true\n  | false;\ntype AerisButtonSeverity =\n  | 'primary'\n  | 'secondary'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'contrast';\n\ninterface AerisMenubarItem<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly ariaLabel?: string;\n  readonly icon?: string;\n  readonly badge?: string | number;\n  readonly shortcut?: string;\n  readonly variant?: Exclude<AerisMenubarItemVariant, 'default'>;\n  readonly severity?:\n    | 'primary'\n    | 'secondary'\n    | 'success'\n    | 'info'\n    | 'warning'\n    | 'danger'\n    | 'contrast';\n  readonly active?: boolean;\n  readonly ariaCurrent?: AerisMenubarAriaCurrent;\n  readonly disabled?: boolean;\n  readonly visible?: boolean;\n  readonly separator?: boolean;\n  readonly url?: string;\n  readonly routerLink?: string | readonly (string | number)[];\n  readonly target?: string;\n  readonly rel?: string;\n  readonly items?: readonly AerisMenubarItem<T>[];\n  readonly data?: T;\n  readonly command?: (event: AerisMenubarItemEvent<T>) => void;\n}\n\ninterface AerisMenubarItemEvent<T = unknown> {\n  readonly originalEvent: MouseEvent | KeyboardEvent;\n  readonly item: AerisMenubarItem<T>;\n  readonly path: readonly number[];\n}\n\ninterface AerisMenubarItemTemplateContext<T = unknown> {\n  readonly $implicit: AerisMenubarItem<T>;\n  readonly item: AerisMenubarItem<T>;\n  readonly level: number;\n  readonly root: boolean;\n  readonly active: boolean;\n  readonly current: boolean;\n  readonly open: boolean;\n  readonly disabled: boolean;\n  readonly hasSubmenu: boolean;\n  readonly variant: AerisMenubarItemVariant;\n  readonly severity: AerisButtonSeverity;\n}"
+          "code": "type AerisMenubarSize = 'sm' | 'md' | 'lg';\ntype AerisMenubarCloseReason = 'api' | 'escape' | 'outside' | 'select' | 'mouseleave';\ntype AerisMenubarItemVariant =\n  | 'default'\n  | 'primary'\n  | 'secondary'\n  | 'outline'\n  | 'ghost'\n  | 'danger'\n  | 'link';\ntype AerisMenubarAriaCurrent =\n  | 'page'\n  | 'step'\n  | 'location'\n  | 'date'\n  | 'time'\n  | true\n  | false;\ntype AerisButtonSeverity =\n  | 'primary'\n  | 'secondary'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'contrast';\n\ninterface AerisMenubarSubmenuIconContext {\n  readonly $implicit: boolean;\n  readonly root: boolean;\n}\n\ninterface AerisMenubarItem<T = unknown> {\n  readonly id?: string;\n  readonly label?: string;\n  readonly description?: string;\n  readonly ariaLabel?: string;\n  readonly icon?: string;\n  readonly badge?: string | number;\n  readonly shortcut?: string;\n  readonly variant?: Exclude<AerisMenubarItemVariant, 'default'>;\n  readonly severity?:\n    | 'primary'\n    | 'secondary'\n    | 'success'\n    | 'info'\n    | 'warning'\n    | 'danger'\n    | 'contrast';\n  readonly active?: boolean;\n  readonly ariaCurrent?: AerisMenubarAriaCurrent;\n  readonly disabled?: boolean;\n  readonly visible?: boolean;\n  readonly separator?: boolean;\n  readonly url?: string;\n  readonly routerLink?: string | readonly (string | number)[];\n  readonly target?: string;\n  readonly rel?: string;\n  readonly items?: readonly AerisMenubarItem<T>[];\n  readonly data?: T;\n  readonly command?: (event: AerisMenubarItemEvent<T>) => void;\n}\n\ninterface AerisMenubarItemEvent<T = unknown> {\n  readonly originalEvent: MouseEvent | KeyboardEvent;\n  readonly item: AerisMenubarItem<T>;\n  readonly path: readonly number[];\n}\n\ninterface AerisMenubarItemTemplateContext<T = unknown> {\n  readonly $implicit: AerisMenubarItem<T>;\n  readonly item: AerisMenubarItem<T>;\n  readonly level: number;\n  readonly root: boolean;\n  readonly active: boolean;\n  readonly current: boolean;\n  readonly open: boolean;\n  readonly disabled: boolean;\n  readonly hasSubmenu: boolean;\n  readonly variant: AerisMenubarItemVariant;\n  readonly severity: AerisButtonSeverity;\n}"
         }
       ],
       "designTokens": [
@@ -32465,6 +33216,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "submenuIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "appendTo",
               "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
@@ -33262,6 +34019,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "closeIconTemplate",
+              "type": "TemplateRef<AerisDialogTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "id",
               "type": "string",
               "defaultValue": "generated id",
@@ -33700,6 +34463,12 @@
           "name": "Component Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "closeIconTemplate",
+              "type": "TemplateRef<AerisDialogTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "position",
               "type": "AerisToastPosition",
@@ -34169,6 +34938,18 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "previousIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "nextIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "value",
               "type": "readonly T[]",
@@ -35145,6 +35926,54 @@
           "kind": "input",
           "entries": [
             {
+              "name": "rotateLeftIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the rotate left icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "rotateRightIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the rotate right icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "flipHorizontalIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the flip horizontal icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "flipVerticalIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the flip vertical icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "zoomOutIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the zoom out icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "zoomInIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the zoom in icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "resetIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the reset icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
+              "name": "downloadIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the download icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
+            {
               "name": "value",
               "type": "readonly T[]",
               "defaultValue": "[]",
@@ -35592,19 +36421,19 @@
               "name": "aerisGalleriaPreviousIcon",
               "type": "none",
               "defaultValue": "Aeris chevron",
-              "description": "Replaces the previous-item icon."
+              "description": "Replaces previous-item and previous-thumbnail artwork. Supply a left-pointing icon; thumbnail controls adapt its direction for vertical layouts."
             },
             {
               "name": "aerisGalleriaNextIcon",
               "type": "none",
               "defaultValue": "Aeris chevron",
-              "description": "Replaces the next-item icon."
+              "description": "Replaces next-item and next-thumbnail artwork. Supply a right-pointing icon; thumbnail controls adapt its direction for vertical layouts."
             },
             {
               "name": "aerisGalleriaFullscreenIcon",
               "type": "{ $implicit: boolean; fullscreen: boolean }",
               "defaultValue": "Aeris fullscreen icon",
-              "description": "Replaces the fullscreen icon and exposes current fullscreen state."
+              "description": "Replaces fullscreen artwork in the stage or toolbar and exposes current fullscreen state."
             }
           ]
         },
@@ -37295,6 +38124,18 @@
           "kind": "input",
           "entries": [
             {
+              "name": "copyIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Optional copy-button artwork; the native button retains its clipboard action and accessible name."
+            },
+            {
+              "name": "copiedIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Optional artwork displayed after a successful copy."
+            },
+            {
               "name": "code",
               "type": "string",
               "defaultValue": "''",
@@ -37785,6 +38626,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "closeIconTemplate",
+              "type": "TemplateRef<AerisDialogTemplateContext> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
+            },
             {
               "name": "label",
               "type": "string",
@@ -40265,6 +41112,12 @@
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "iconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Replaces the upward icon artwork. Keep it decorative and non-interactive; Aeris retains scrolling and the button accessible name."
+            },
             {
               "name": "threshold",
               "type": "number",

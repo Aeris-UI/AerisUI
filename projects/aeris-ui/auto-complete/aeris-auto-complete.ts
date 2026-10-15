@@ -16,7 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   ɵAerisAppendTo,
   type AerisAppendTo,
@@ -101,7 +101,7 @@ let nextAutoCompleteId = 0;
 
 @Component({
   selector: 'aeris-auto-complete',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <div
       class="aeris-auto-complete"
@@ -154,7 +154,13 @@ let nextAutoCompleteId = 0;
             [attr.aria-label]="clearButtonAriaLabel()"
             (click)="clear()"
           >
-            <span aria-hidden="true"></span>
+            @if (clearIconTemplate(); as customIcon) {
+              <span aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span aerisInternalIcon="close" aria-hidden="true"></span>
+            }
           </button>
         }
 
@@ -168,7 +174,13 @@ let nextAutoCompleteId = 0;
             [disabled]="effectiveDisabled() || readonly()"
             (click)="togglePanel($event)"
           >
-            <span aria-hidden="true"></span>
+            @if (dropdownIconTemplate(); as customIcon) {
+              <span aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+            }
           </button>
         }
       </div>
@@ -296,6 +308,9 @@ let nextAutoCompleteId = 0;
   },
 })
 export class AerisAutoComplete implements ControlValueAccessor {
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+  readonly dropdownIconTemplate = input<TemplateRef<void>>();
+
   protected readonly dismissOverlay = (): boolean => {
     this.closePanel();
     return true;

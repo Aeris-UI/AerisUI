@@ -1,3 +1,4 @@
+import { ɵAerisIcon } from '@aeris-ui/core';
 import { DOCUMENT, NgTemplateOutlet, isPlatformBrowser } from '@angular/common';
 import {
   Component,
@@ -72,7 +73,7 @@ export class AerisCarouselFooterTemplate {
 
 @Component({
   selector: 'aeris-carousel',
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     <section
       class="aeris-carousel"
@@ -112,7 +113,13 @@ export class AerisCarouselFooterTemplate {
             [disabled]="previousDisabled()"
             (click)="previous('previous')"
           >
-            <span aria-hidden="true"></span>
+            @if (previousIconTemplate(); as customIcon) {
+              <span aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+            }
           </button>
         }
 
@@ -173,7 +180,13 @@ export class AerisCarouselFooterTemplate {
             [disabled]="nextDisabled()"
             (click)="next('next')"
           >
-            <span aria-hidden="true"></span>
+            @if (nextIconTemplate(); as customIcon) {
+              <span aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+            }
           </button>
         }
       </div>
@@ -196,6 +209,9 @@ export class AerisCarouselFooterTemplate {
   },
 })
 export class AerisCarousel<T = unknown> {
+  readonly previousIconTemplate = input<TemplateRef<void>>();
+  readonly nextIconTemplate = input<TemplateRef<void>>();
+
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);

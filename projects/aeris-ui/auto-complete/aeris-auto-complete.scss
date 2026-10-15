@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
@@ -332,3 +333,9 @@
 }
 
 @include aeris-mobile.input-font('input');
+
+@include aeris-icons.custom-icon;
+@include aeris-icons.dropdown(
+  '.aeris-auto-complete__dropdown > span',
+  '.aeris-auto-complete[data-open]'
+);

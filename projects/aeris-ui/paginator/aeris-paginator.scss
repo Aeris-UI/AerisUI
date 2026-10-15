@@ -1,3 +1,5 @@
+@use '../src/styles/selection-icons' as selection-icons;
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
@@ -250,14 +252,6 @@ button:focus-visible,
     color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
   }
 }
-.aeris-paginator__check {
-  width: 0.65rem;
-  height: 0.35rem;
-  border-bottom: 1.75px solid currentColor;
-  border-left: 1.75px solid currentColor;
-  transform: rotate(-45deg);
-}
-
 @media (max-width: 42rem) {
   .aeris-paginator {
     align-items: stretch;
@@ -325,3 +319,29 @@ button:focus-visible,
 }
 
 @include aeris-mobile.targets('.aeris-paginator__button');
+
+@include aeris-icons.custom-icon;
+@include aeris-icons.rotate('.aeris-paginator__page-icon--previous', 90deg);
+@include aeris-icons.rotate('.aeris-paginator__page-icon--first', 90deg);
+@include aeris-icons.rotate('.aeris-paginator__page-icon--next', -90deg);
+@include aeris-icons.rotate('.aeris-paginator__page-icon--last', -90deg);
+@include aeris-icons.rotate(
+  ":host-context([dir='rtl']) .aeris-paginator__page-icon--previous",
+  -90deg
+);
+@include aeris-icons.rotate(
+  ":host-context([dir='rtl']) .aeris-paginator__page-icon--first",
+  -90deg
+);
+@include aeris-icons.rotate(":host-context([dir='rtl']) .aeris-paginator__page-icon--next", 90deg);
+@include aeris-icons.rotate(":host-context([dir='rtl']) .aeris-paginator__page-icon--last", 90deg);
+@include aeris-icons.dropdown(
+  '.aeris-paginator__chevron',
+  ".aeris-paginator__rows-trigger[aria-expanded='true']"
+);
+
+:host .aeris-paginator__check[data-aeris-custom-icon] {
+  transform: none;
+}
+
+@include selection-icons.mark('.aeris-paginator__check', 'check');

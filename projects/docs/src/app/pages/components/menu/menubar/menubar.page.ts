@@ -536,6 +536,11 @@ type AerisButtonSeverity =
   | 'danger'
   | 'contrast';
 
+interface AerisMenubarSubmenuIconContext {
+  readonly $implicit: boolean;
+  readonly root: boolean;
+}
+
 interface AerisMenubarItem<T = unknown> {
   readonly id?: string;
   readonly label?: string;
@@ -622,6 +627,20 @@ interface AerisMenubarItemTemplateContext<T = unknown> {
   ];
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'submenuIconTemplate',
+      type: 'TemplateRef<AerisMenubarSubmenuIconContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'menuIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the menu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
     {
       name: 'id',
       type: 'string',

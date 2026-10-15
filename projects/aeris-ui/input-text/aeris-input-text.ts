@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -10,9 +11,10 @@ import {
   output,
   signal,
   viewChild,
+  TemplateRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisInputTextSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisInputTextAppearance = 'outline' | 'filled';
@@ -49,7 +51,7 @@ let inputTextId = 0;
 
 @Component({
   selector: 'aeris-input-text',
-  imports: [AerisInputTextDirective],
+  imports: [ɵAerisIcon, NgTemplateOutlet, AerisInputTextDirective],
   template: `
     <span class="aeris-input-text-component__field">
       <input
@@ -83,7 +85,20 @@ let inputTextId = 0;
           [attr.aria-label]="clearButtonAriaLabel()"
           (click)="clear()"
         >
-          <span class="aeris-input-text-component__clear-mark" aria-hidden="true"></span>
+          @if (clearIconTemplate(); as customIcon) {
+            <span
+              class="aeris-input-text-component__clear-mark"
+              aria-hidden="true"
+              data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span
+              aerisInternalIcon="close"
+              class="aeris-input-text-component__clear-mark"
+              aria-hidden="true"
+            ></span>
+          }
         </button>
       }
     </span>
@@ -101,6 +116,8 @@ let inputTextId = 0;
   },
 })
 export class AerisInputTextComponent implements ControlValueAccessor {
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+
   private readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('textInput');
   private readonly generatedId = `aeris-input-text-${++inputTextId}`;
   private readonly formDisabled = signal(false);

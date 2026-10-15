@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
@@ -85,3 +86,5 @@
 }
 
 @include aeris-mobile.input-font('textarea');
+
+@include aeris-icons.custom-icon;

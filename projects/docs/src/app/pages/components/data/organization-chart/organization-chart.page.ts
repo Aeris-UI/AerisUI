@@ -68,8 +68,7 @@ export class OrganizationChartPage {
     { id: 'organization-chart-api-templates', label: 'Templates' },
   ];
 
-  protected readonly importCode =
-    `import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart';`;
+  protected readonly importCode = `import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart';`;
 
   protected readonly basicTsCode = `interface Person {
   readonly name: string;
@@ -168,32 +167,126 @@ interface AerisOrganizationChartSelectionEvent<TData = unknown> {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'value', type: 'readonly AerisOrganizationChartNode<TData>[]', defaultValue: '[]', description: 'Root nodes rendered by the chart.' },
-    { name: 'selectionMode', type: "'single' | 'multiple' | null", defaultValue: 'null', description: 'Enables single or multiple node selection.' },
-    { name: 'collapsible', type: 'boolean', defaultValue: 'true', description: 'Shows branch expand and collapse controls.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'true', description: 'Makes the chart fill the available width while preserving horizontal scroll for wide trees.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Organization chart'", description: 'Accessible name for the tree.' },
-    { name: 'emptyMessage', type: 'string', defaultValue: "'No organization chart data available'", description: 'Message shown when value is empty.' },
-    { name: 'expandAriaLabel', type: 'string', defaultValue: "'Expand node'", description: 'Accessible label for collapsed branch controls.' },
-    { name: 'collapseAriaLabel', type: 'string', defaultValue: "'Collapse node'", description: 'Accessible label for expanded branch controls.' },
+    {
+      name: 'toggleIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'value',
+      type: 'readonly AerisOrganizationChartNode<TData>[]',
+      defaultValue: '[]',
+      description: 'Root nodes rendered by the chart.',
+    },
+    {
+      name: 'selectionMode',
+      type: "'single' | 'multiple' | null",
+      defaultValue: 'null',
+      description: 'Enables single or multiple node selection.',
+    },
+    {
+      name: 'collapsible',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows branch expand and collapse controls.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Makes the chart fill the available width while preserving horizontal scroll for wide trees.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Organization chart'",
+      description: 'Accessible name for the tree.',
+    },
+    {
+      name: 'emptyMessage',
+      type: 'string',
+      defaultValue: "'No organization chart data available'",
+      description: 'Message shown when value is empty.',
+    },
+    {
+      name: 'expandAriaLabel',
+      type: 'string',
+      defaultValue: "'Expand node'",
+      description: 'Accessible label for collapsed branch controls.',
+    },
+    {
+      name: 'collapseAriaLabel',
+      type: 'string',
+      defaultValue: "'Collapse node'",
+      description: 'Accessible label for expanded branch controls.',
+    },
   ];
 
   protected readonly models: readonly ApiRow[] = [
-    { name: 'selectionKeys', type: 'readonly string[]', defaultValue: '[]', description: 'Selected node keys.' },
-    { name: 'collapsedKeys', type: 'readonly string[]', defaultValue: '[]', description: 'Collapsed branch keys.' },
+    {
+      name: 'selectionKeys',
+      type: 'readonly string[]',
+      defaultValue: '[]',
+      description: 'Selected node keys.',
+    },
+    {
+      name: 'collapsedKeys',
+      type: 'readonly string[]',
+      defaultValue: '[]',
+      description: 'Collapsed branch keys.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'selectionChanged', type: 'AerisOrganizationChartSelectionEvent<TData>', defaultValue: '-', description: 'Emitted whenever selection changes.' },
-    { name: 'nodeSelected', type: 'AerisOrganizationChartSelectionEvent<TData>', defaultValue: '-', description: 'Emitted when a node becomes selected.' },
-    { name: 'nodeUnselected', type: 'AerisOrganizationChartSelectionEvent<TData>', defaultValue: '-', description: 'Emitted when a selected node is cleared.' },
-    { name: 'nodeExpanded', type: 'AerisOrganizationChartNodeEvent<TData>', defaultValue: '-', description: 'Emitted when a branch expands.' },
-    { name: 'nodeCollapsed', type: 'AerisOrganizationChartNodeEvent<TData>', defaultValue: '-', description: 'Emitted when a branch collapses.' },
+    {
+      name: 'selectionChanged',
+      type: 'AerisOrganizationChartSelectionEvent<TData>',
+      defaultValue: '-',
+      description: 'Emitted whenever selection changes.',
+    },
+    {
+      name: 'nodeSelected',
+      type: 'AerisOrganizationChartSelectionEvent<TData>',
+      defaultValue: '-',
+      description: 'Emitted when a node becomes selected.',
+    },
+    {
+      name: 'nodeUnselected',
+      type: 'AerisOrganizationChartSelectionEvent<TData>',
+      defaultValue: '-',
+      description: 'Emitted when a selected node is cleared.',
+    },
+    {
+      name: 'nodeExpanded',
+      type: 'AerisOrganizationChartNodeEvent<TData>',
+      defaultValue: '-',
+      description: 'Emitted when a branch expands.',
+    },
+    {
+      name: 'nodeCollapsed',
+      type: 'AerisOrganizationChartNodeEvent<TData>',
+      defaultValue: '-',
+      description: 'Emitted when a branch collapses.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisOrganizationChartNode', type: '{ $implicit, node, key, selected, expanded, leaf, level }', defaultValue: '-', description: 'Custom node content while Aeris keeps layout, selection, and collapse behavior.' },
-    { name: 'aerisOrganizationChartEmpty', type: 'none', defaultValue: '-', description: 'Custom empty state.' },
+    {
+      name: 'aerisOrganizationChartNode',
+      type: '{ $implicit, node, key, selected, expanded, leaf, level }',
+      defaultValue: '-',
+      description:
+        'Custom node content while Aeris keeps layout, selection, and collapse behavior.',
+    },
+    {
+      name: 'aerisOrganizationChartEmpty',
+      type: 'none',
+      defaultValue: '-',
+      description: 'Custom empty state.',
+    },
   ];
 
   protected handleSelection(event: AerisOrganizationChartSelectionEvent<Person>): void {
@@ -232,8 +325,18 @@ interface AerisOrganizationChartSelectionEvent<TData = unknown> {
             type: 'Product',
             data: this.person('Noah Williams', 'VP Product', 'Product', 'blue'),
             children: [
-              { key: 'design', label: 'Lena Park', type: 'Design', data: this.person('Lena Park', 'Design Lead', 'Experience', 'rose') },
-              { key: 'research', label: 'Iris Novak', type: 'Research', data: this.person('Iris Novak', 'Research Lead', 'Insights', 'gold') },
+              {
+                key: 'design',
+                label: 'Lena Park',
+                type: 'Design',
+                data: this.person('Lena Park', 'Design Lead', 'Experience', 'rose'),
+              },
+              {
+                key: 'research',
+                label: 'Iris Novak',
+                type: 'Research',
+                data: this.person('Iris Novak', 'Research Lead', 'Insights', 'gold'),
+              },
             ],
           },
           {
@@ -242,8 +345,18 @@ interface AerisOrganizationChartSelectionEvent<TData = unknown> {
             type: 'Engineering',
             data: this.person('Sofia Rossi', 'VP Engineering', 'Engineering', 'sage'),
             children: [
-              { key: 'platform', label: 'Eli Brooks', type: 'Platform', data: this.person('Eli Brooks', 'Platform Lead', 'Core', 'blue') },
-              { key: 'quality', label: 'Ava Patel', type: 'Quality', data: this.person('Ava Patel', 'Quality Lead', 'QA', 'gold') },
+              {
+                key: 'platform',
+                label: 'Eli Brooks',
+                type: 'Platform',
+                data: this.person('Eli Brooks', 'Platform Lead', 'Core', 'blue'),
+              },
+              {
+                key: 'quality',
+                label: 'Ava Patel',
+                type: 'Quality',
+                data: this.person('Ava Patel', 'Quality Lead', 'QA', 'gold'),
+              },
             ],
           },
           {
@@ -252,8 +365,18 @@ interface AerisOrganizationChartSelectionEvent<TData = unknown> {
             type: 'Operations',
             data: this.person('Liam Novak', 'Operations Director', 'Operations', 'rose'),
             children: [
-              { key: 'finance', label: 'Mila Costa', type: 'Finance', data: this.person('Mila Costa', 'Finance Lead', 'Finance', 'sage') },
-              { key: 'people', label: 'Theo Stone', type: 'People', data: this.person('Theo Stone', 'People Lead', 'People', 'blue') },
+              {
+                key: 'finance',
+                label: 'Mila Costa',
+                type: 'Finance',
+                data: this.person('Mila Costa', 'Finance Lead', 'Finance', 'sage'),
+              },
+              {
+                key: 'people',
+                label: 'Theo Stone',
+                type: 'People',
+                data: this.person('Theo Stone', 'People Lead', 'People', 'blue'),
+              },
             ],
           },
         ],
@@ -262,7 +385,16 @@ interface AerisOrganizationChartSelectionEvent<TData = unknown> {
   }
 
   private createWideChart(): readonly AerisOrganizationChartNode<Person>[] {
-    const teams = ['Growth', 'Support', 'Data', 'Security', 'Mobile', 'Web', 'Infrastructure', 'Enablement'];
+    const teams = [
+      'Growth',
+      'Support',
+      'Data',
+      'Security',
+      'Mobile',
+      'Web',
+      'Infrastructure',
+      'Enablement',
+    ];
     return [
       {
         key: 'wide-root',

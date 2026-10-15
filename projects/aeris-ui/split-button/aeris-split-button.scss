@@ -1,4 +1,6 @@
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
+@use '../src/styles/icon-template' as aeris-icons;
+@include aeris-icons.dropdown('.aeris-split-button__chevron', ':host([data-open])');
 
 :host {
   --_aeris-chevron-mask: var(

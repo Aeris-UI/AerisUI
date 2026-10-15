@@ -16,6 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import {
+  ɵAerisIcon,
   ɵAerisAppendTo,
   aerisInternalFocusInitialElement,
   aerisInternalCreateFrameScheduler,
@@ -68,7 +69,7 @@ let nextPopoverId = 0;
 
 @Component({
   selector: 'aeris-popover',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     @if (visible()) {
       <div
@@ -126,13 +127,21 @@ let nextPopoverId = 0;
                     [attr.aria-label]="closeAriaLabel()"
                     (click)="hide($event, 'close-button')"
                   >
-                    @if (closeIconTemplate(); as closeIconTemplateRef) {
-                      <ng-container
-                        [ngTemplateOutlet]="closeIconTemplateRef.template"
-                        [ngTemplateOutletContext]="templateContext()"
-                      />
+                    @if (resolvedCloseIconTemplate(); as closeIconTemplateRef) {
+                      <span
+                        class="aeris-popover__close-icon"
+                        aria-hidden="true"
+                        data-aeris-custom-icon
+                        ><ng-container
+                          [ngTemplateOutlet]="closeIconTemplateRef"
+                          [ngTemplateOutletContext]="templateContext()"
+                      /></span>
                     } @else {
-                      <span class="aeris-popover__close-icon" aria-hidden="true"></span>
+                      <span
+                        aerisInternalIcon="close"
+                        class="aeris-popover__close-icon"
+                        aria-hidden="true"
+                      ></span>
                     }
                   </button>
                 }
@@ -163,6 +172,10 @@ let nextPopoverId = 0;
   },
 })
 export class AerisPopover {
+  readonly closeIconTemplate = input<TemplateRef<AerisPopoverTemplateContext>>();
+  protected readonly resolvedCloseIconTemplate = computed(
+    () => this.closeIconTemplate() ?? this.projectedCloseIconTemplate()?.template,
+  );
   protected readonly dismissOverlay = (): boolean => {
     if (!this.closeOnEscape()) return false;
     this.hide();
@@ -185,7 +198,7 @@ export class AerisPopover {
   private readonly panelPortal = viewChild(ɵAerisAppendTo);
   protected readonly headerTemplate = contentChild(AerisPopoverHeaderTemplate);
   protected readonly footerTemplate = contentChild(AerisPopoverFooterTemplate);
-  protected readonly closeIconTemplate = contentChild(AerisPopoverCloseIconTemplate);
+  private readonly projectedCloseIconTemplate = contentChild(AerisPopoverCloseIconTemplate);
   protected readonly headlessTemplate = contentChild(AerisPopoverHeadlessTemplate);
   protected readonly positioned = signal(false);
   protected readonly actualPlacement = signal<Exclude<AerisPopoverPlacement, 'auto'>>('bottom');

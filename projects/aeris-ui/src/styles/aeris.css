@@ -152,6 +152,25 @@
   block-size: 100%;
 }
 
+/* Icon slots project application-owned views outside component style scopes. */
+:where([data-aeris-custom-icon]) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--aeris-icon-size, 1rem);
+  block-size: var(--aeris-icon-size, 1rem);
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
+:where([data-aeris-custom-icon]) > :where(*),
+:where([data-aeris-custom-icon]) :where(svg, img) {
+  inline-size: 100%;
+  block-size: 100%;
+  max-inline-size: none;
+  object-fit: contain;
+}
+
 /*
  * Menubar templates may project icons from any icon library. Keep them on the
  * same geometry as Button icons without requiring library-specific selectors.
@@ -343,6 +362,13 @@
   --aeris-heading-font-size: var(--aeris-font-size-2xl);
   --aeris-body-font-size: var(--aeris-font-size-lg);
   --aeris-item-font-size: var(--aeris-font-size-lg);
+  --aeris-icon-calendar: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%224%22%20y%3D%225%22%20width%3D%2216%22%20height%3D%2216%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M8%203v4m8-4v4M4%2011h16%22%2F%3E%3C%2Fsvg%3E');
+  --aeris-icon-check: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m5%2012%204%204%2010-10%22%2F%3E%3C%2Fsvg%3E');
+  --aeris-icon-minus: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%2012h14%22%2F%3E%3C%2Fsvg%3E');
+  --aeris-icon-eye: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M2.5%2012s3.5-6%209.5-6%209.5%206%209.5%206-3.5%206-9.5%206-9.5-6-9.5-6Z%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%222.75%22%2F%3E%3C%2Fsvg%3E');
+  --aeris-icon-eye-off: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M9.4%206.4A10.6%2010.6%200%200%201%2012%206c6%200%209.5%206%209.5%206a15%2015%200%200%201-2.8%203.4M14.6%2017.6a10.6%2010.6%200%200%201-2.6.4c-6%200-9.5-6-9.5-6a15%2015%200%200%201%202.8-3.4M10.1%2010.1a2.7%202.7%200%200%200%203.8%203.8M4%204l16%2016%22%2F%3E%3C%2Fsvg%3E');
+  --aeris-icon-copy: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%228%22%20y%3D%228%22%20width%3D%2212%22%20height%3D%2212%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M16%208V4H4v12h4%22%2F%3E%3C%2Fsvg%3E');
+  --aeris-icon-chevron-right: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m9.5%207%205%205-5%205%22%2F%3E%3C%2Fsvg%3E');
   --aeris-icon-size: 1rem;
   --aeris-icon-chevron: url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M7%209.5%2012%2014.5%2017%209.5%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27/%3E%3C/svg%3E');
   --aeris-icon-close: url('data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2024%2024%27%3E%3Cpath%20d=%27M6%206l12%2012M18%206%206%2018%27%20fill=%27none%27%20stroke=%27black%27%20stroke-width=%272.4%27%20stroke-linecap=%27round%27/%3E%3C/svg%3E');

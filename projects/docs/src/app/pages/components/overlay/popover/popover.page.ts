@@ -195,6 +195,13 @@ interface AerisPopoverTemplateContext {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'closeIconTemplate',
+      type: 'TemplateRef<AerisPopoverTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name.',
+    },
+    {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
       defaultValue: "global config or 'body'",

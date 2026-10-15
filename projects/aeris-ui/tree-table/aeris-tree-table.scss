@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
@@ -242,7 +243,7 @@ td[data-editable='true'] {
     box-shadow var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
 }
 
-td[data-editable='true']::after {
+.aeris-tree-table__edit-icon {
   position: absolute;
   inset-inline-end: calc(var(--aeris-tree-table-cell-padding-x) * 0.55);
   top: 50%;
@@ -250,7 +251,6 @@ td[data-editable='true']::after {
   height: 0.8rem;
   background: currentColor;
   color: var(--aeris-text-3, var(--aeris-text-2, #454545));
-  content: '';
   opacity: 0.42;
   transform: translateY(-50%);
   transition:
@@ -280,12 +280,12 @@ td[data-editable='true']:focus-within {
       color-mix(in srgb, var(--aeris-primary, #{aeris-fallbacks.$primary}) 34%, transparent);
   }
 }
-td[data-editable='true']:focus-within::after {
+td[data-editable='true']:focus-within .aeris-tree-table__edit-icon {
   color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
   opacity: 1;
 }
 @media (hover: hover) {
-  td[data-editable='true']:hover::after {
+  td[data-editable='true']:hover .aeris-tree-table__edit-icon {
     color: var(--aeris-primary-text, #{aeris-fallbacks.$primary-text});
     opacity: 1;
   }
@@ -709,7 +709,7 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
 @media (prefers-reduced-motion: reduce) {
   tbody td,
   td[data-editable='true'],
-  td[data-editable='true']::after,
+  .aeris-tree-table__edit-icon,
   .aeris-tree-table__resize::before,
   .aeris-tree-table__toggle > span::before,
   .aeris-tree-table__spinner {
@@ -751,3 +751,20 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
 }
 
 @include aeris-mobile.input-font('input:not([type="checkbox"]):not([type="radio"]), textarea');
+
+@include aeris-icons.custom-icon;
+
+.aeris-tree-table__toggle > [data-aeris-custom-icon]:not(.aeris-tree-table__spinner) {
+  transform: rotate(-90deg);
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+}
+
+.aeris-tree-table__toggle[aria-expanded='true'] > [data-aeris-custom-icon] {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-tree-table__toggle > [data-aeris-custom-icon] {
+    transition: none;
+  }
+}

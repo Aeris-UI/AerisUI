@@ -29,6 +29,8 @@ import { AerisCarouselModule } from '@aeris-ui/core/carousel';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `previousIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `nextIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `readonly T[]` | `[]` | Items to render. |
 | `numVisible` | `number` | `1` | Items visible in one page. |
 | `numScroll` | `number` | `1` | Items advanced by navigation. |

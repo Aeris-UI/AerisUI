@@ -1,3 +1,5 @@
+@use '../src/styles/selection-icons' as selection-icons;
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
@@ -458,22 +460,11 @@
 }
 
 .aeris-tree-select__box[data-checked]:not([data-mixed]) span {
-  position: relative;
-  top: -0.0625rem;
-  width: 52%;
-  height: 30%;
-  border-bottom: 2px solid currentColor;
-  border-left: 2px solid currentColor;
   opacity: 1;
-  transform: rotate(-45deg) scale(1);
+  transform: scale(1);
 }
 
 .aeris-tree-select__box[data-mixed] span {
-  width: 56%;
-  height: 2px;
-  border: 0;
-  border-radius: var(--aeris-radius-pill, 999px);
-  background: currentColor;
   opacity: 1;
   transform: none;
 }
@@ -515,3 +506,26 @@
 }
 
 @include aeris-mobile.input-font('input');
+
+@include aeris-icons.custom-icon;
+@include aeris-icons.dropdown('.aeris-tree-select__chevron', '.aeris-tree-select[data-open]');
+
+.aeris-tree-select__toggle span[data-aeris-custom-icon] {
+  transform: rotate(-90deg);
+  transition: transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+}
+
+.aeris-tree-select__node[aria-expanded='true']
+  .aeris-tree-select__toggle
+  span[data-aeris-custom-icon] {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aeris-tree-select__toggle span[data-aeris-custom-icon] {
+    transition: none;
+  }
+}
+
+@include selection-icons.mark('.aeris-tree-select__box[data-checked] span', 'check');
+@include selection-icons.mark('.aeris-tree-select__box[data-mixed] span', 'minus');

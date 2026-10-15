@@ -29,6 +29,8 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `copyIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Optional copy-button artwork; the native button retains its clipboard action and accessible name. |
+| `copiedIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Optional artwork displayed after a successful copy. |
 | `code` | `string` | `''` | Source text for a single code block. Rendered as text, never executed or interpreted as HTML. |
 | `language` | `string` | `text` | Case-insensitive language: html, typescript, javascript, css, scss, json, shell, or text. Aliases: ts, js, angular, xml, bash, sh. Unknown languages use plain text. |
 | `label` | `string` | `''` | Single-source header label, such as a filename. Defaults to language. |

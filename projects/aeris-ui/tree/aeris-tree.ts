@@ -1,3 +1,4 @@
+import { ɵAerisIcon } from '@aeris-ui/core';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -129,7 +130,7 @@ let treeId = 0;
 
 @Component({
   selector: 'aeris-tree',
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     <div
       class="aeris-tree"
@@ -139,7 +140,13 @@ let treeId = 0;
     >
       @if (filter()) {
         <div class="aeris-tree__filter-wrap">
-          <span class="aeris-tree__search" aria-hidden="true"></span>
+          @if (filterIconTemplate(); as customIcon) {
+            <span class="aeris-tree__search" aria-hidden="true" data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span aerisInternalIcon="search" class="aeris-tree__search" aria-hidden="true"></span>
+          }
           <input
             #filterInput
             class="aeris-tree__filter"
@@ -160,7 +167,13 @@ let treeId = 0;
               [attr.aria-label]="filterClearAriaLabel()"
               (click)="clearFilter($event)"
             >
-              <span aria-hidden="true"></span>
+              @if (filterClearIconTemplate(); as customIcon) {
+                <span aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span aerisInternalIcon="close" aria-hidden="true"></span>
+              }
             </button>
           }
         </div>
@@ -171,7 +184,13 @@ let treeId = 0;
           @if (loadingTemplate(); as customLoading) {
             <ng-container [ngTemplateOutlet]="customLoading.template" />
           } @else {
-            <span class="aeris-tree__spinner" aria-hidden="true"></span>
+            @if (loadingIconTemplate(); as customIcon) {
+              <span class="aeris-tree__spinner" aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span class="aeris-tree__spinner" aria-hidden="true"></span>
+            }
             {{ loadingMessage() }}
           }
         </div>
@@ -239,9 +258,21 @@ let treeId = 0;
                 aria-hidden="true"
               >
                 @if (entry.loading) {
-                  <span class="aeris-tree__spinner"></span>
+                  @if (loadingIconTemplate(); as customIcon) {
+                    <span class="aeris-tree__spinner" data-aeris-custom-icon
+                      ><ng-container [ngTemplateOutlet]="customIcon"
+                    /></span>
+                  } @else {
+                    <span class="aeris-tree__spinner"></span>
+                  }
                 } @else {
-                  <span class="aeris-tree__chevron"></span>
+                  @if (toggleIconTemplate(); as customIcon) {
+                    <span class="aeris-tree__chevron" data-aeris-custom-icon
+                      ><ng-container [ngTemplateOutlet]="customIcon"
+                    /></span>
+                  } @else {
+                    <span aerisInternalIcon="chevron" class="aeris-tree__chevron"></span>
+                  }
                 }
               </span>
 
@@ -251,7 +282,11 @@ let treeId = 0;
                   [attr.data-checked]="entry.selected || null"
                   [attr.data-mixed]="entry.partial || null"
                   aria-hidden="true"
-                  ><span></span
+                  ><span
+                    [aerisInternalIcon]="
+                      entry.partial || null ? 'minus' : entry.selected || null ? 'check' : null
+                    "
+                  ></span
                 ></span>
               }
 
@@ -287,6 +322,11 @@ let treeId = 0;
   styleUrl: './aeris-tree.scss',
 })
 export class AerisTree<TData = unknown> {
+  readonly filterIconTemplate = input<TemplateRef<void>>();
+  readonly filterClearIconTemplate = input<TemplateRef<void>>();
+  readonly loadingIconTemplate = input<TemplateRef<void>>();
+  readonly toggleIconTemplate = input<TemplateRef<void>>();
+
   private readonly destroyRef = inject(DestroyRef);
   readonly value = model<readonly AerisTreeNode<TData>[]>([]);
   readonly selectionMode = input<AerisTreeSelectionMode | null>(null);

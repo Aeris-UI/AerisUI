@@ -1757,6 +1757,148 @@ export class SaveAction {}
 - [Lucide Angular documentation](https://lucide.dev/guide/angular/getting-started)
 - [Documentation third-party notices](https://aeris-ui.dev/third-party-notices)
 
+#### Replace icons application-wide
+
+Use provideAerisIcons to replace shared built-in artwork throughout an application. Register Angular components, not icon directives or icon names. Aeris has no dependency on Lucide or any other icon library: a replacement component can contain an SVG, an icon directive, or another icon component.
+
+For directive-based libraries such as Lucide, create a small presentational wrapper. Add the provider to your existing application providers. Only the icons you explicitly register are replaced; the rest keep their Aeris artwork.
+
+- Priority is local icon template, then registered component, then default artwork. CSS image tokens still customize the default artwork.
+- Replacement components must be decorative, non-interactive, and usable without required inputs. Use currentColor and an SVG viewBox; Aeris keeps the action, accessible name, sizing and direction.
+- provideAerisIcons accepts AerisIconComponents, a partial map of AerisIconName to Angular component types or null. No icon registry service or extra icon package is required by Aeris.
+- A component-level provider overrides its subtree and inherits unmodified parent entries. Set an entry to null to restore Aeris default artwork in that scope.
+- Service-created dialogs use the configuration visible to their dialog service. A root-provided service uses application-wide registration.
+- Use the component-specific templates below for artwork not covered by these shared keys, including specialized toolbar controls.
+
+| Key | Shared artwork |
+| --- | --- |
+| close | Clear, remove and dismiss glyphs |
+| chevron | Down-pointing chevron; controls retain their directional rotations |
+| chevrons | Double down-pointing chevrons for the first and last Paginator actions |
+| chevronRight | Right-pointing nested-menu chevron |
+| search | Filter and search glyphs |
+| plus / minus | Add and subtract actions; minus also represents indeterminate selection |
+| check | Selected, completed and copied marks |
+| calendar | DatePicker calendar glyph |
+| eye / eyeOff | Visible and masked Password indicators |
+| copy | CodeBlock copy action |
+| upload | FileUpload upload and drop-zone glyphs |
+| eyedropper | ColorPicker eyedropper action |
+| edit | Table and TreeTable editable-cell indicators |
+
+##### src/app/close-icon.ts
+
+```ts
+import { Component } from '@angular/core';
+import { LucideX } from '@lucide/angular';
+
+@Component({
+  selector: 'app-close-icon',
+  imports: [LucideX],
+  template: `<svg lucideX aria-hidden="true"></svg>`,
+})
+export class CloseIcon {}
+```
+
+##### src/app/app.config.ts
+
+```ts
+import type { ApplicationConfig } from '@angular/core';
+import { provideAerisIcons } from '@aeris-ui/core';
+import { CloseIcon } from './close-icon';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    // Keep your existing application and Aeris theme providers here too.
+    provideAerisIcons({ close: CloseIcon }),
+  ],
+};
+```
+
+#### Replace built-in icon artwork
+
+Keep the Aeris-owned button or control and replace only its decorative artwork. Icon-template inputs accept an Angular TemplateRef; their API rows list the available slots and any template context. Existing named template directives, such as aerisSelectDropdownIcon and aerisDialogCloseIcon, remain available. No additional Aeris import is needed for an icon-template input.
+
+This example changes the DatePicker calendar, clear, and navigation icons. Aeris retains the accessible names, keyboard controls, disabled states, and navigation behavior. Use a down-pointing glyph for these navigation slots: Aeris rotates it into the correct previous or next direction. Do not put links, buttons, inputs, or independent tab stops inside an icon template.
+
+> Note: Aeris sizes icon-slot content with its icon tokens. Use currentColor and a viewBox in custom SVGs. The Editor accepts a partial toolbarIcons map keyed by AerisEditorFormat; omitted actions keep their original artwork. DynamicDialog and ConfirmDialog service configurations also accept closeIconTemplate.
+
+| Slots | Artwork orientation |
+| --- | --- |
+| DatePicker, Tabs, Paginator and Carousel navigation | Supply a down-pointing glyph. Aeris rotates it for the action and layout. First and last Paginator icons can use double down chevrons. |
+| Dropdown and tree disclosure icons | Supply a down-pointing glyph. Aeris handles open, closed and responsive directions. |
+| Menubar submenuIconTemplate | Use the root context value: down for top-level entries, right for nested entries. |
+| ContextMenu and TieredMenu submenuIconTemplate | Supply a right-pointing glyph. |
+| Galleria previous and next templates | Supply left- and right-pointing glyphs respectively. Thumbnail controls adapt them to their orientation. |
+| InputNumber incrementIconTemplate | A stacked increment icon rotates 180 degrees; other layouts use the supplied artwork directly. |
+| Other action icons | Supply the finished glyph for the action; Aeris retains control geometry and interaction. |
+
+##### src/app/date-field.ts
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { LucideCalendarDays, LucideChevronDown, LucideX } from '@lucide/angular';
+
+@Component({
+  selector: 'app-date-field',
+  imports: [AerisDatePicker, LucideCalendarDays, LucideChevronDown, LucideX],
+  template: `
+    <ng-template #calendar><svg lucideCalendarDays aria-hidden="true"></svg></ng-template>
+    <ng-template #clear><svg lucideX aria-hidden="true"></svg></ng-template>
+    <ng-template #navigation><svg lucideChevronDown aria-hidden="true"></svg></ng-template>
+
+    <aeris-date-picker
+      ariaLabel="Delivery date"
+      [(value)]="date"
+      clearable
+      [calendarIconTemplate]="calendar"
+      [clearIconTemplate]="clear"
+      [previousIconTemplate]="navigation"
+      [nextIconTemplate]="navigation"
+    />
+  `,
+})
+export class DateField {
+  readonly date = signal<Date | null>(new Date(2026, 5, 15));
+}
+```
+
+#### Replace shared icons with CSS
+
+Use shared CSS image tokens to replace common built-in artwork without Angular templates. Put overrides after the Aeris stylesheet. A :root override applies throughout the application; a narrower selector applies to descendants that inherit it. These tokens affect Aeris-owned mask icons, not icons projected by your application.
+
+Supply a URL to a monochrome SVG or a data URL. The mask uses the image alpha channel; Aeris supplies the current foreground color. Place your own assets at the example paths below. Directional assets should match the default orientation: chevron points down and chevron-right points right.
+
+> Note: Use a component icon template for artwork that is not covered by a shared token, or when your application uses Angular icon components. For state-aware templates, the component API describes the available context. Icon changes do not replace control labels or status text.
+
+| Token | Artwork |
+| --- | --- |
+| --aeris-icon-chevron | Down-pointing chevron, rotated by navigation and disclosure controls |
+| --aeris-icon-chevron-right | Right-pointing submenu chevron |
+| --aeris-icon-close | Clear and dismiss mark |
+| --aeris-icon-search | Filter and search indicator |
+| --aeris-icon-plus | Add mark |
+| --aeris-icon-minus | Indeterminate selection mark |
+| --aeris-icon-check | Selected and copied mark |
+| --aeris-icon-calendar | DatePicker calendar indicator |
+| --aeris-icon-eye | Visible password indicator |
+| --aeris-icon-eye-off | Masked password indicator |
+| --aeris-icon-upload | Upload action |
+| --aeris-icon-eyedropper | ColorPicker eyedropper action |
+| --aeris-icon-edit | Editable cell indicator |
+| --aeris-icon-copy | CodeBlock copy action |
+
+##### src/styles.scss
+
+```css
+:root {
+  --aeris-icon-close: url('/icons/close.svg');
+  --aeris-icon-chevron: url('/icons/chevron-down.svg');
+  --aeris-icon-chevron-right: url('/icons/chevron-right.svg');
+}
+```
+
 #### Accessible icon use
 
 - Hide decorative icons from assistive technology with aria-hidden="true".
@@ -2664,6 +2806,8 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropdownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Use per-edge values to reserve fixed headers, navigation, or other exclusion zones. |
 | `value` | `string (model)` | `''` | Current text value with two-way binding and Forms support. |
@@ -3706,6 +3850,9 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropdownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `submenuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string &#124; null (model)` | `null` | Selected option value with two-way binding and Forms support. |
@@ -4548,6 +4695,8 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `checkIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the check icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `mixedIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the mixed icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `checked` | `boolean (model)` | `false` | Boolean selection state and Angular Signal Forms checkbox contract. |
 | `indeterminate` | `boolean (model)` | `false` | Mixed visual and native state. User activation clears it. |
 | `inputId` | `string` | `generated` | ID assigned to the native checkbox. |
@@ -5160,6 +5309,9 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `eyedropperIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the eyedropper icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `'#2c694b'` | Current color value with two-way binding and Forms support. |
@@ -6081,6 +6233,11 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `calendarIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the calendar icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropdownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `previousIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `nextIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the calendar inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `value` | `AerisDatePickerValue (model)` | `null` | Selected Date, date array, or range according to selectionMode. |
@@ -7240,6 +7397,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `toolbarIcons` | `Readonly&lt;Partial&lt;Record&lt;AerisEditorFormat, TemplateRef&lt;void&gt;&gt;&gt;&gt;` | `{}` | Optional artwork templates keyed by the documented formats. Omitted formats retain their default icons or labels; buttons retain their commands, disabled state, and accessible names. |
 | `value` | `string (model)` | `''` | HTML content value with two-way binding and Forms support. Incoming HTML is sanitized before Lexical imports supported nodes. |
 | `inputId` | `string` | `''` | ID applied to the editable textbox. |
 | `name` | `string` | `''` | Adds a hidden input for native form submission of the HTML value. |
@@ -10445,6 +10603,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `string (model)` | `''` | Formatted or raw value, depending on unmask. |
 | `mask` | `string` | `required` | Mask grammar applied to user input. |
 | `inputId` | `string` | `generated` | ID assigned to the internal input. |
@@ -11449,6 +11608,9 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `incrementIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the increment icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `decrementIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the decrement icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `number &#124; null (model)` | `null` | Numeric value with two-way binding and Signal Forms compatibility. |
 | `inputId` | `string` | `generated` | ID assigned to the internal native input. |
 | `name` | `string` | `''` | Native input name. |
@@ -13545,6 +13707,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
@@ -13564,6 +13727,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
 | `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name when no visible label is associated. |
 | `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of elements that label the input. |
 | `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help or validation messages. |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `size` | `AerisInputTextSize` | `'md'` | Sets the input height, padding, and font size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisInputTextAppearance` | `'outline'` | Selects an outlined or filled surface treatment. Options: 'outline', 'filled'. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
@@ -15135,6 +15299,11 @@ import { AerisMultiSelect, type AerisSelectOption } from '@aeris-ui/core/multi-s
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `removeIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the remove icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropdownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `filterIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `loadingIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
@@ -16226,6 +16395,9 @@ import { AerisPassword } from '@aeris-ui/core/password';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `visibleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Artwork for the visibility button when the password is visible. |
+| `maskedIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Artwork for the visibility button when the password is masked. |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the feedback overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the feedback panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `''` | Password value with two-way binding and Forms support. |
@@ -18671,6 +18843,8 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `checkIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the check icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `filterClearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the options panel inside the visual viewport. Use per-edge values to reserve fixed headers or bottom navigation. |
 | `options` | `readonly AerisSelectOption[]` | `required` | Available options in display order. |
@@ -20978,6 +21152,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `string (model)` | `''` | Current value with two-way binding support. |
 | `inputId` | `string` | `generated` | ID assigned to the internal native textarea. |
 | `name` | `string` | `''` | Native form control name. |
@@ -22507,6 +22682,11 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropdownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `filterIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `filterClearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `toggleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the tree panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `nodes` | `readonly AerisTreeNode[]` | `required` | Tree data rendered recursively in source order. Nesting depth is not limited by the component API. |
@@ -27390,6 +27570,10 @@ import { AerisOrderListModule } from '@aeris-ui/core/order-list';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `moveTopIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move top icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveUpIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move up icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveDownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move down icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveBottomIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move bottom icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `optionLabel` | `string` | `'label'` | Property used as the default visible item label. |
 | `dataKey` | `string` | `'id'` | Property used as the stable item identity. |
 | `header` | `string` | `''` | Optional list header text. |
@@ -27791,6 +27975,7 @@ import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart'
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `toggleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `readonly AerisOrganizationChartNode&lt;TData&gt;[]` | `[]` | Root nodes rendered by the chart. |
 | `selectionMode` | `'single' &#124; 'multiple' &#124; null` | `null` | Enables single or multiple node selection. |
 | `collapsible` | `boolean` | `true` | Shows branch expand and collapse controls. |
@@ -28195,6 +28380,12 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `firstIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the first icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `previousIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `nextIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `lastIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the last icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropdownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the dropdown icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `checkIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the check icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the rows-per-page menu locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the rows menu inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `first` | `number (model)` | `0` | Index of the first record in the current page. |
@@ -28428,6 +28619,15 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `moveTopIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move top icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveUpIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move up icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveDownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move down icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveBottomIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move bottom icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveToTargetIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move to target icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveAllToTargetIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move all to target icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveToSourceIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move to source icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveAllToSourceIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move all to source icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `filterIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `optionLabel` | `string` | `'label'` | Property rendered by the default item template. |
 | `dataKey` | `string` | `'id'` | Property used as the stable item identity. |
 | `filterBy` | `string` | `'label'` | Comma-separated properties searched by both filters. |
@@ -29021,6 +29221,9 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `toggleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Decorative row-expander artwork. Supply a down-pointing icon; Aeris rotates it for the collapsed state. |
+| `sortIconTemplate` | `TemplateRef&lt;AerisTableSortIconContext&gt; &#124; undefined` | `undefined` | Artwork for sortable headers. Context: $implicit is the column; direction is asc, desc, or null. Header buttons retain sorting and aria-sort. |
+| `loadingIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Forwards the mounting target to the paginator rows-per-page menu. |
 | `data` | `readonly AerisTableData[]` | `[]` | Rows rendered by the table. |
 | `columns` | `readonly AerisTableColumn[] (model)` | `[]` | Column definitions used for headers, cells, sorting, filtering, and controlled resized widths. |
@@ -29141,6 +29344,11 @@ interface AerisTableColumn {
   readonly filterable?: boolean;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
+}
+
+interface AerisTableSortIconContext {
+  readonly $implicit: AerisTableColumn;
+  readonly direction: AerisTableSortDirection | null;
 }
 
 interface AerisTableSort {
@@ -30767,6 +30975,10 @@ import { AerisTreeModule } from '@aeris-ui/core/tree';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `filterIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `filterClearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `loadingIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `toggleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `selectionMode` | `'single' &#124; 'multiple' &#124; 'checkbox' &#124; null` | `null` | Enables controlled node selection. |
 | `filter` | `boolean` | `false` | Shows the built-in label filter. |
 | `propagateSelection` | `boolean` | `true` | Cascades checkbox selection through selectable descendants and derives mixed parent state. |
@@ -31646,6 +31858,9 @@ import { AerisTreeTableModule } from '@aeris-ui/core/tree-table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `sortIconTemplate` | `TemplateRef&lt;AerisTreeTableSortIconContext&gt; &#124; undefined` | `undefined` | Artwork for sortable headers. Context: $implicit is the column; direction is asc, desc, or null. Header buttons retain sorting and aria-sort. |
+| `loadingIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `toggleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Forwards the mounting target to the paginator rows-per-page menu. |
 | `treeColumn` | `string` | `''` | Column field that owns indentation, toggles, and checkbox controls. Defaults to the first column. |
 | `caption` | `string` | `''` | Native table caption. |
@@ -31772,6 +31987,11 @@ interface AerisTreeTableColumn {
   readonly frozen?: boolean;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
+}
+
+interface AerisTreeTableSortIconContext {
+  readonly $implicit: AerisTreeTableColumn;
+  readonly direction: AerisTreeTableSortDirection | null;
 }
 
 interface AerisTreeTableSort {
@@ -37695,6 +37915,8 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `previousIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `nextIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `string (model)` | `''` | Selected panel value with two-way binding. |
 | `ariaLabel` | `string` | `''` | Accessible name for the tab list. |
 | `ariaLabelledBy` | `string` | `''` | ID reference to visible text that labels the tab list. |
@@ -39055,6 +39277,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Optional close-button artwork; the service forwards it to the underlying Dialog without replacing its behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a specific template host. Omit it for service-created dialogs. |
 | `header` | `string` | `'Confirm action'` | Visible title for declarative usage. |
@@ -39132,6 +39355,8 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Decorative close-button artwork forwarded to the underlying Dialog. |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Optional close-button artwork; the service forwards it to the underlying Dialog without replacing its behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the confirmation overlay locally, in document.body, or in the supplied DOM/template target. |
 | `key` | `string` | `''` | Matches service requests to a specific template host. Omit it for service-created dialogs. |
 | `header` | `string` | `'Confirm action'` | Visible title for declarative usage. |
@@ -39228,6 +39453,7 @@ type AerisDialogPosition =
   | 'bottom-right';
 
 interface AerisConfirmDialogConfig<TData = unknown> {
+  readonly closeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
   readonly key?: string;
   readonly appendTo?: AerisAppendTo;
   readonly header?: string;
@@ -40688,6 +40914,8 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name. |
+| `maximizeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the maximize icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the dialog overlay locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Default dialog title rendered in the header. |
 | `role` | `AerisDialogRole` | `'dialog'` | Dialog landmark role. Use alertdialog only for interruptive confirmation-style surfaces. |
@@ -41749,6 +41977,8 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDrawerTemplateContext&gt; &#124; undefined` | `undefined` | Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name. |
+| `maximizeIconTemplate` | `TemplateRef&lt;AerisDrawerTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the maximize icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Default drawer title rendered in the header. |
 | `position` | `AerisDrawerPosition` | `'right'` | Anchors the drawer to the left, right, top, or bottom viewport edge. |
@@ -42833,6 +43063,8 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `maximizeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Decorative artwork for the maximize and restore button; the Dialog retains its accessible name and action. |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Optional close-button artwork; the service forwards it to the underlying Dialog without replacing its behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the dialog locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Dialog title rendered by the shell. |
 | `data` | `TData` | `undefined` | Typed payload available through AERIS_DYNAMIC_DIALOG_DATA. |
@@ -42885,6 +43117,8 @@ import {
 
 ```ts
 interface AerisDynamicDialogConfig<TData = unknown> {
+  readonly closeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
+  readonly maximizeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
   readonly header?: string;
   readonly appendTo?: AerisAppendTo;
   readonly data?: TData;
@@ -43467,6 +43701,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisPopoverTemplateContext&gt; &#124; undefined` | `undefined` | Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the popover overlay locally, in document.body, or in the supplied DOM/template target. |
 | `target` | `AerisPopoverTarget` | `null` | Element or trigger event used when visible is controlled directly. |
 | `header` | `string` | `''` | Visible popover title. |
@@ -44739,6 +44974,9 @@ import { AerisFileUploadModule } from '@aeris-ui/core/file-upload';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `removeIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the remove icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the drop icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `fileIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the file icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `mode` | `AerisFileUploadMode` | `'advanced'` | Renders compact basic controls or the full queue surface. Options: 'basic', 'advanced'. |
 | `multiple` | `boolean` | `false` | Allows selecting more than one file. |
 | `accept` | `string` | `''` | Native accept filter and validation rule. |
@@ -45752,6 +45990,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `submenuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the menu overlay locally, in document.body, or in the supplied DOM/template target. |
 | `id` | `string` | `generated id` | Root menu ID used for menu and submenu relationships. |
 | `model` | `readonly AerisContextMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |
@@ -46317,6 +46556,7 @@ import { AerisMegaMenuModule } from '@aeris-ui/core/mega-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `submenuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `id` | `string` | `generated id` | Base id used for menu item and panel relationships. |
 | `model` | `readonly AerisMegaMenuItem&lt;T&gt;[]` | `[]` | Root menu items with optional grouped mega panels. |
 | `orientation` | `horizontal &#124; vertical` | `'horizontal'` | Lays root items across or stacked. |
@@ -46666,6 +46906,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `submenuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts popup menus locally by default and automatically moves them to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection; inline menus remain local. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `id` | `string` | `generated` | ID for the root panel. |
@@ -47730,6 +47971,8 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `submenuIconTemplate` | `TemplateRef&lt;AerisMenubarSubmenuIconContext&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `menuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the menu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `id` | `string` | `generated` | ID prefix for the menubar and generated submenu relationships. |
 | `model` | `readonly AerisMenubarItem&lt;T&gt;[]` | `[]` | Nested item model for root items and cascading submenu items. |
 | `openPath` | `string (model)` | `''` | Controlled path key for the open submenu branch. |
@@ -47810,6 +48053,11 @@ type AerisButtonSeverity =
   | 'warning'
   | 'danger'
   | 'contrast';
+
+interface AerisMenubarSubmenuIconContext {
+  readonly $implicit: boolean;
+  readonly root: boolean;
+}
 
 interface AerisMenubarItem<T = unknown> {
   readonly id?: string;
@@ -48959,6 +49207,7 @@ import { AerisTieredMenuModule } from '@aeris-ui/core/tiered-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `submenuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts popup menus locally by default and automatically moves them to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection; inline menus remain local. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `id` | `string` | `generated id` | Panel ID used for menu and submenu relationships. |
@@ -50360,6 +50609,7 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `id` | `string` | `generated id` | Sets the host element id. |
 | `severity` | `AerisMessageSeverity` | `'info'` | Sets visual tone and default live-region behavior. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
 | `variant` | `AerisMessageVariant` | `'filled'` | Sets filled, outlined, or simple presentation. |
@@ -51088,6 +51338,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `position` | `AerisToastPosition` | `'bottom-right'` | Places the toast region on the viewport. Options: 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'center'. |
 | `group` | `string` | `''` | Renders only messages from the matching service group. |
 | `mode` | `AerisToastMode` | `'stacked'` | Uses a compact stack that expands on hover/focus and toggles on touch taps, or an always-expanded list. Options: 'stacked', 'expanded'. |
@@ -51791,6 +52042,8 @@ import { AerisCarouselModule } from '@aeris-ui/core/carousel';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `previousIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the previous icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `nextIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the next icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `readonly T[]` | `[]` | Items to render. |
 | `numVisible` | `number` | `1` | Items visible in one page. |
 | `numScroll` | `number` | `1` | Items advanced by navigation. |
@@ -52971,6 +53224,14 @@ import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `rotateLeftIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the rotate left icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `rotateRightIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the rotate right icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `flipHorizontalIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the flip horizontal icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `flipVerticalIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the flip vertical icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `zoomOutIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the zoom out icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `zoomInIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the zoom in icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `resetIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the reset icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `downloadIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the download icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `readonly T[]` | `[]` | Gallery items. AerisGalleriaImage values receive a complete built-in image presentation. |
 | `mode` | `AerisGalleriaMode` | `'gallery'` | Selects the gallery, responsive grid, or focused single-item presentation. Options: 'gallery', 'grid', 'single'. |
 | `numVisible` | `number &#124; 'auto'` | `'auto'` | Maximum thumbnails visible in the thumbnail window; auto fills the available width. |
@@ -53057,9 +53318,9 @@ import { AerisGalleriaModule } from '@aeris-ui/core/galleria';
 | `aerisGalleriaCaption` | `AerisGalleriaItemContext&lt;T&gt;` | `Image title and description` | Renders the active caption overlay. |
 | `aerisGalleriaEmpty` | `none` | `emptyMessage` | Renders custom empty content. |
 | `aerisGalleriaGridItem` | `AerisGalleriaItemContext&lt;T&gt;` | `Built-in image tile` | Renders each item in grid mode. |
-| `aerisGalleriaPreviousIcon` | `none` | `Aeris chevron` | Replaces the previous-item icon. |
-| `aerisGalleriaNextIcon` | `none` | `Aeris chevron` | Replaces the next-item icon. |
-| `aerisGalleriaFullscreenIcon` | `{ $implicit: boolean; fullscreen: boolean }` | `Aeris fullscreen icon` | Replaces the fullscreen icon and exposes current fullscreen state. |
+| `aerisGalleriaPreviousIcon` | `none` | `Aeris chevron` | Replaces previous-item and previous-thumbnail artwork. Supply a left-pointing icon; thumbnail controls adapt its direction for vertical layouts. |
+| `aerisGalleriaNextIcon` | `none` | `Aeris chevron` | Replaces next-item and next-thumbnail artwork. Supply a right-pointing icon; thumbnail controls adapt its direction for vertical layouts. |
+| `aerisGalleriaFullscreenIcon` | `{ $implicit: boolean; fullscreen: boolean }` | `Aeris fullscreen icon` | Replaces fullscreen artwork in the stage or toolbar and exposes current fullscreen state. |
 
 ##### Methods
 
@@ -55377,6 +55638,8 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `copyIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Optional copy-button artwork; the native button retains its clipboard action and accessible name. |
+| `copiedIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Optional artwork displayed after a successful copy. |
 | `code` | `string` | `''` | Source text for a single code block. Rendered as text, never executed or interpreted as HTML. |
 | `language` | `string` | `text` | Case-insensitive language: html, typescript, javascript, css, scss, json, shell, or text. Aliases: ts, js, angular, xml, bash, sh. Unknown languages use plain text. |
 | `label` | `string` | `''` | Single-source header label, such as a filename. Defaults to language. |
@@ -56030,6 +56293,7 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `label` | `string` | `'Show content'` | Fallback display button text when no display template is provided. |
 | `disabled` | `boolean` | `false` | Disables activation from display mode. |
 | `closable` | `boolean` | `false` | Shows the Aeris-owned close button in content mode. |
@@ -61568,6 +61832,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `iconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces the upward icon artwork. Keep it decorative and non-interactive; Aeris retains scrolling and the button accessible name. |
 | `threshold` | `number` | `320` | Vertical scroll offset in pixels before the button is shown. |
 | `behavior` | `AerisScrollTopBehavior` | `'smooth'` | Scroll behavior passed to the browser scroll API. Options: 'auto', 'smooth'. |
 | `position` | `AerisScrollTopPosition` | `'bottom-right'` | Fixed viewport placement. Options: 'bottom-right', 'bottom-left', 'top-right', 'top-left'. |

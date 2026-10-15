@@ -20,6 +20,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import {
+  ɵAerisIcon,
   ɵAerisAppendTo,
   aerisInternalClampOverlayPoint,
   aerisInternalCreateFrameScheduler,
@@ -115,7 +116,7 @@ let nextTieredMenuId = 0;
 
 @Component({
   selector: 'aeris-tiered-menu',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <ng-template #defaultItemTemplate let-item let-hasSubmenu="hasSubmenu">
       @if (item.icon) {
@@ -129,9 +130,20 @@ let nextTieredMenuId = 0;
         <kbd class="aeris-tiered-menu__shortcut">{{ item.shortcut }}</kbd>
       }
       @if (hasSubmenu) {
-        <svg class="aeris-tiered-menu__submenu-icon" viewBox="0 0 20 20" aria-hidden="true">
-          <path d="m7.5 4.5 5 5.5-5 5.5" />
-        </svg>
+        @if (submenuIconTemplate(); as customIcon) {
+          <span
+            class="aeris-custom-icon aeris-tiered-menu__submenu-icon"
+            aria-hidden="true"
+            data-aeris-custom-icon
+            ><ng-container [ngTemplateOutlet]="customIcon"
+          /></span>
+        } @else {
+          <span
+            aerisInternalIcon="chevronRight"
+            class="aeris-tiered-menu__submenu-icon"
+            aria-hidden="true"
+          ></span>
+        }
       }
     </ng-template>
 
@@ -272,6 +284,8 @@ let nextTieredMenuId = 0;
   },
 })
 export class AerisTieredMenu<T = unknown> {
+  readonly submenuIconTemplate = input<TemplateRef<void>>();
+
   protected readonly dismissOverlay = (): boolean => {
     if (!(this.popup() && this.closeOnEscape())) return false;
     this.hide();

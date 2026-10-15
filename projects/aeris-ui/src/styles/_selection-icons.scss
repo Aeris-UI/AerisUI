@@ -1,0 +1,12 @@
+// A shared artwork contract for native and composite selection controls.
+@mixin mark($selector, $name) {
+  #{$selector}:not([data-aeris-custom-icon]) {
+    top: 0;
+    width: min(var(--aeris-icon-size, 1rem), 100%);
+    height: min(var(--aeris-icon-size, 1rem), 100%);
+    border: 0;
+    background: currentColor;
+    -webkit-mask: var(--aeris-icon-#{$name}) center / 100% 100% no-repeat;
+    mask: var(--aeris-icon-#{$name}) center / 100% 100% no-repeat;
+  }
+}

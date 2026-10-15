@@ -31,6 +31,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `toolbarIcons` | `Readonly&lt;Partial&lt;Record&lt;AerisEditorFormat, TemplateRef&lt;void&gt;&gt;&gt;&gt;` | `{}` | Optional artwork templates keyed by the documented formats. Omitted formats retain their default icons or labels; buttons retain their commands, disabled state, and accessible names. |
 | `value` | `string (model)` | `''` | HTML content value with two-way binding and Forms support. Incoming HTML is sanitized before Lexical imports supported nodes. |
 | `inputId` | `string` | `''` | ID applied to the editable textbox. |
 | `name` | `string` | `''` | Adds a hidden input for native form submission of the HTML value. |

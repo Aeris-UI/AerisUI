@@ -29,6 +29,7 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `id` | `string` | `generated id` | Sets the host element id. |
 | `severity` | `AerisMessageSeverity` | `'info'` | Sets visual tone and default live-region behavior. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
 | `variant` | `AerisMessageVariant` | `'filled'` | Sets filled, outlined, or simple presentation. |

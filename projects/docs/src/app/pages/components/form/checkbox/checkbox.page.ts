@@ -121,6 +121,20 @@ interface AerisCheckboxChangeEvent {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'checkIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the check icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'mixedIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the mixed icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'checked',
       type: 'boolean (model)',
       defaultValue: 'false',

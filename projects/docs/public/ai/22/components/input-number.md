@@ -29,6 +29,9 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `incrementIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the increment icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `decrementIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the decrement icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `number &#124; null (model)` | `null` | Numeric value with two-way binding and Signal Forms compatibility. |
 | `inputId` | `string` | `generated` | ID assigned to the internal native input. |
 | `name` | `string` | `''` | Native input name. |

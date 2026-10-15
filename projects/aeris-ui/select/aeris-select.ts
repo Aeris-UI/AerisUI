@@ -18,7 +18,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   boundarySelectValue,
   filterSelectOptions,
@@ -144,7 +144,7 @@ let nextSelectId = 0;
 
 @Component({
   selector: 'aeris-select',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <div
       class="aeris-select"
@@ -232,9 +232,11 @@ let nextSelectId = 0;
             (click)="handleClearClick($event)"
           >
             @if (clearIconTemplate(); as clearIcon) {
-              <ng-container [ngTemplateOutlet]="clearIcon.template" />
+              <span aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="clearIcon.template"
+              /></span>
             } @else {
-              <span aria-hidden="true"></span>
+              <span aerisInternalIcon="close" aria-hidden="true"></span>
             }
           </button>
         }
@@ -245,15 +247,23 @@ let nextSelectId = 0;
         >
           @if (loading()) {
             @if (loadingIconTemplate(); as loadingIcon) {
-              <ng-container [ngTemplateOutlet]="loadingIcon.template" />
+              <span class="aeris-select__spinner" aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="loadingIcon.template"
+              /></span>
             } @else {
               <span class="aeris-select__spinner" aria-hidden="true"></span>
             }
           }
           @if (dropdownIconTemplate(); as dropdownIcon) {
-            <ng-container [ngTemplateOutlet]="dropdownIcon.template" />
+            <span class="aeris-select__chevron" aria-hidden="true" data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="dropdownIcon.template"
+            /></span>
           } @else {
-            <span class="aeris-select__chevron" aria-hidden="true"></span>
+            <span
+              aerisInternalIcon="chevron"
+              class="aeris-select__chevron"
+              aria-hidden="true"
+            ></span>
           }
         </span>
       </div>
@@ -280,9 +290,15 @@ let nextSelectId = 0;
           @if (filter()) {
             <div class="aeris-select__filter-wrap">
               @if (filterIconTemplate(); as filterIcon) {
-                <ng-container [ngTemplateOutlet]="filterIcon.template" />
+                <span class="aeris-select__search-mark" aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="filterIcon.template"
+                /></span>
               } @else {
-                <span class="aeris-select__search-mark" aria-hidden="true"></span>
+                <span
+                  aerisInternalIcon="search"
+                  class="aeris-select__search-mark"
+                  aria-hidden="true"
+                ></span>
               }
               <input
                 #filterInput
@@ -305,7 +321,13 @@ let nextSelectId = 0;
                   [attr.aria-label]="filterClearAriaLabel()"
                   (click)="clearFilter()"
                 >
-                  <span aria-hidden="true"></span>
+                  @if (filterClearIconTemplate(); as customIcon) {
+                    <span aria-hidden="true" data-aeris-custom-icon
+                      ><ng-container [ngTemplateOutlet]="customIcon"
+                    /></span>
+                  } @else {
+                    <span aerisInternalIcon="close" aria-hidden="true"></span>
+                  }
                 </button>
               }
             </div>
@@ -323,7 +345,9 @@ let nextSelectId = 0;
             @if (loading()) {
               <div class="aeris-select__message" role="status">
                 @if (loadingIconTemplate(); as loadingIcon) {
-                  <ng-container [ngTemplateOutlet]="loadingIcon.template" />
+                  <span class="aeris-select__spinner" aria-hidden="true" data-aeris-custom-icon
+                    ><ng-container [ngTemplateOutlet]="loadingIcon.template"
+                  /></span>
                 } @else {
                   <span class="aeris-select__spinner" aria-hidden="true"></span>
                 }
@@ -394,7 +418,20 @@ let nextSelectId = 0;
                         }
                       </span>
                       @if (checkmark() && value() === option.value) {
-                        <span class="aeris-select__check" aria-hidden="true"></span>
+                        @if (checkIconTemplate(); as customIcon) {
+                          <span
+                            class="aeris-select__check"
+                            aria-hidden="true"
+                            data-aeris-custom-icon
+                            ><ng-container [ngTemplateOutlet]="customIcon"
+                          /></span>
+                        } @else {
+                          <span
+                            aerisInternalIcon="check"
+                            class="aeris-select__check"
+                            aria-hidden="true"
+                          ></span>
+                        }
                       }
                     </div>
                   }
@@ -427,6 +464,9 @@ let nextSelectId = 0;
   },
 })
 export class AerisSelectComponent implements ControlValueAccessor {
+  readonly checkIconTemplate = input<TemplateRef<void>>();
+  readonly filterClearIconTemplate = input<TemplateRef<void>>();
+
   protected readonly dismissOverlay = (): boolean => {
     this.closePanel(true);
     return true;

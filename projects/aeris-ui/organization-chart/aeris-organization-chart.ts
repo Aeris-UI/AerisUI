@@ -1,3 +1,4 @@
+import { ɵAerisIcon } from '@aeris-ui/core';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -68,7 +69,7 @@ export class AerisOrganizationChartEmptyTemplate {
 
 @Component({
   selector: 'aeris-organization-chart',
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     <div class="aeris-organization-chart" [attr.data-fluid]="fluid() || null">
       @if (value().length) {
@@ -121,7 +122,13 @@ export class AerisOrganizationChartEmptyTemplate {
                     [attr.aria-expanded]="!isCollapsed(key)"
                     (click)="toggleNode(node, key, $event)"
                   >
-                    <span aria-hidden="true"></span>
+                    @if (toggleIconTemplate(); as customIcon) {
+                      <span aria-hidden="true" data-aeris-custom-icon
+                        ><ng-container [ngTemplateOutlet]="customIcon"
+                      /></span>
+                    } @else {
+                      <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+                    }
                   </button>
                 }
               </div>
@@ -179,6 +186,8 @@ export class AerisOrganizationChartEmptyTemplate {
   styleUrl: './aeris-organization-chart.scss',
 })
 export class AerisOrganizationChart<TData = unknown> {
+  readonly toggleIconTemplate = input<TemplateRef<void>>();
+
   readonly value = input<readonly AerisOrganizationChartNode<TData>[]>([]);
   readonly selectionKeys = model<readonly string[]>([]);
   readonly collapsedKeys = model<readonly string[]>([]);

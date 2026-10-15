@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -255,6 +256,8 @@
     transform: translateY(150%);
   }
 }
+
+@include aeris-icons.custom-icon;
 
 .aeris-toast__message {
   --_accent: var(--aeris-primary, #{aeris-fallbacks.$primary});

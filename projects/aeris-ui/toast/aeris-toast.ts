@@ -18,7 +18,7 @@ import {
   viewChildren,
   viewChild,
 } from '@angular/core';
-import { aerisInternalObserveViewport } from '@aeris-ui/core';
+import { ɵAerisIcon, aerisInternalObserveViewport } from '@aeris-ui/core';
 import { aerisInternalCreateFrameScheduler } from '@aeris-ui/core';
 import type { AerisSeverity } from '@aeris-ui/core';
 
@@ -303,7 +303,7 @@ export class AerisToastService {
 
 @Component({
   selector: 'aeris-toast',
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     <section
       #toastRegion
@@ -397,7 +397,13 @@ export class AerisToastService {
                   [attr.aria-label]="closeAriaLabel()"
                   (click)="close(item.message)"
                 >
-                  <span aria-hidden="true"></span>
+                  @if (closeIconTemplate(); as customIcon) {
+                    <span aria-hidden="true" data-aeris-custom-icon
+                      ><ng-container [ngTemplateOutlet]="customIcon"
+                    /></span>
+                  } @else {
+                    <span aerisInternalIcon="close" aria-hidden="true"></span>
+                  }
                 </button>
               }
             </div>
@@ -424,6 +430,8 @@ export class AerisToastService {
   },
 })
 export class AerisToast {
+  readonly closeIconTemplate = input<TemplateRef<void>>();
+
   private readonly toastRegion = viewChild<ElementRef<HTMLElement>>('toastRegion');
   private static readonly fallbackHeight = 72;
   private static readonly swipeRemovalDelay = 550;

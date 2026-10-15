@@ -29,6 +29,15 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `moveTopIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move top icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveUpIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move up icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveDownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move down icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveBottomIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move bottom icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveToTargetIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move to target icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveAllToTargetIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move all to target icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveToSourceIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move to source icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveAllToSourceIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move all to source icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `filterIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `optionLabel` | `string` | `'label'` | Property rendered by the default item template. |
 | `dataKey` | `string` | `'id'` | Property used as the stable item identity. |
 | `filterBy` | `string` | `'label'` | Comma-separated properties searched by both filters. |

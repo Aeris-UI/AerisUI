@@ -1,3 +1,4 @@
+import { ɵAerisIcon } from '@aeris-ui/core';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -46,7 +47,7 @@ export class AerisChipRemoveIconTemplate {
 
 @Component({
   selector: 'aeris-chip',
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     @if (visible()) {
       @if (showImage()) {
@@ -84,7 +85,11 @@ export class AerisChipRemoveIconTemplate {
               [ngTemplateOutletContext]="removeIconContext()"
             />
           } @else {
-            <span class="aeris-chip__remove-icon" aria-hidden="true"></span>
+            <span
+              aerisInternalIcon="close"
+              class="aeris-chip__remove-icon"
+              aria-hidden="true"
+            ></span>
           }
         </button>
       }

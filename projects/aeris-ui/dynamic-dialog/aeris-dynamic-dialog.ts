@@ -2,6 +2,7 @@ import { DOCUMENT, NgComponentOutlet } from '@angular/common';
 import {
   ApplicationRef,
   Component,
+  TemplateRef,
   ComponentRef,
   EmbeddedViewRef,
   EnvironmentInjector,
@@ -21,6 +22,7 @@ import {
 import {
   AerisDialog,
   type AerisDialogCloseReason,
+  type AerisDialogTemplateContext,
   type AerisDialogPosition,
   type AerisDialogSize,
   type AerisDialogVisibilityChangeEvent,
@@ -39,6 +41,7 @@ export interface AerisDynamicDialogConfig<TData = unknown> {
   readonly closeOnBackdropClick?: boolean;
   readonly closeOnEscape?: boolean;
   readonly closable?: boolean;
+  readonly maximizeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
   readonly maximizable?: boolean;
   readonly maximized?: boolean;
   readonly draggable?: boolean;
@@ -56,6 +59,7 @@ export interface AerisDynamicDialogConfig<TData = unknown> {
   readonly height?: string;
   readonly maxHeight?: string;
   readonly mobileWidth?: string;
+  readonly closeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
   readonly closeAriaLabel?: string;
   readonly ariaLabel?: string;
   readonly ariaLabelledBy?: string;
@@ -74,6 +78,7 @@ export interface AerisDynamicDialogResolvedConfig<TData = unknown> {
   readonly closeOnBackdropClick: boolean;
   readonly closeOnEscape: boolean;
   readonly closable: boolean;
+  readonly maximizeIconTemplate: TemplateRef<AerisDialogTemplateContext> | undefined;
   readonly maximizable: boolean;
   readonly maximized: boolean;
   readonly draggable: boolean;
@@ -91,6 +96,7 @@ export interface AerisDynamicDialogResolvedConfig<TData = unknown> {
   readonly height: string;
   readonly maxHeight: string;
   readonly mobileWidth: string;
+  readonly closeIconTemplate: TemplateRef<AerisDialogTemplateContext> | undefined;
   readonly closeAriaLabel: string;
   readonly ariaLabel: string;
   readonly ariaLabelledBy: string;
@@ -231,6 +237,7 @@ export class AerisDynamicDialogRef<TResult = unknown> {
       [closeOnBackdropClick]="settings().closeOnBackdropClick"
       [closeOnEscape]="settings().closeOnEscape"
       [closable]="settings().closable"
+      [maximizeIconTemplate]="settings().maximizeIconTemplate"
       [maximizable]="settings().maximizable"
       [(maximized)]="maximized"
       [draggable]="settings().draggable"
@@ -248,6 +255,7 @@ export class AerisDynamicDialogRef<TResult = unknown> {
       [height]="settings().height"
       [maxHeight]="settings().maxHeight"
       [mobileWidth]="settings().mobileWidth"
+      [closeIconTemplate]="settings().closeIconTemplate"
       [closeAriaLabel]="settings().closeAriaLabel"
       [ariaLabel]="settings().ariaLabel"
       [ariaLabelledBy]="settings().ariaLabelledBy"
@@ -392,6 +400,7 @@ export class AerisDynamicDialogService {
       closeOnBackdropClick: config.closeOnBackdropClick ?? false,
       closeOnEscape: config.closeOnEscape ?? true,
       closable: config.closable ?? true,
+      maximizeIconTemplate: config.maximizeIconTemplate,
       maximizable: config.maximizable ?? false,
       maximized: config.maximized ?? false,
       draggable: config.draggable ?? false,
@@ -409,6 +418,7 @@ export class AerisDynamicDialogService {
       height: config.height ?? '',
       maxHeight: config.maxHeight ?? '',
       mobileWidth: config.mobileWidth ?? '',
+      closeIconTemplate: config.closeIconTemplate,
       closeAriaLabel: config.closeAriaLabel ?? 'Close dialog',
       ariaLabel: config.ariaLabel ?? '',
       ariaLabelledBy: config.ariaLabelledBy ?? '',

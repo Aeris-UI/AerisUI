@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -387,6 +388,19 @@
     .aeris-cascade-select__option-chevron::before {
     transform: translate(-50%, -50%) rotate(180deg);
   }
+}
+
+@include aeris-icons.custom-icon;
+@include aeris-icons.dropdown('.aeris-cascade-select__chevron', '.aeris-cascade-select[data-open]');
+@include aeris-icons.rotate('.aeris-cascade-select__option-chevron', -90deg);
+@include aeris-icons.rotate('.aeris-cascade-select__option-chevron:dir(rtl)', 90deg);
+@media (max-width: 36rem) {
+  @include aeris-icons.rotate('.aeris-cascade-select__option-chevron', 0deg);
+  @include aeris-icons.rotate('.aeris-cascade-select__option-chevron:dir(rtl)', 0deg);
+  @include aeris-icons.rotate(
+    ".aeris-cascade-select__option[aria-expanded='true'] .aeris-cascade-select__option-chevron",
+    180deg
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {

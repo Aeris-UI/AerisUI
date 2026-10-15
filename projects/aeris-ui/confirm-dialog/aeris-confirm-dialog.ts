@@ -26,6 +26,7 @@ import {
   AerisDialogFooterTemplate,
   AerisDialogHeadlessTemplate,
   type AerisDialogCloseReason,
+  type AerisDialogTemplateContext,
   type AerisDialogPosition,
   type AerisDialogSize,
   type AerisDialogVisibilityChangeEvent,
@@ -74,6 +75,7 @@ export interface AerisConfirmDialogConfig<TData = unknown> {
   readonly width?: string;
   readonly maxWidth?: string;
   readonly mobileWidth?: string;
+  readonly closeIconTemplate?: TemplateRef<AerisDialogTemplateContext>;
   readonly closeAriaLabel?: string;
   readonly ariaLabel?: string;
   readonly ariaLabelledBy?: string;
@@ -116,6 +118,7 @@ export interface AerisConfirmDialogResolvedConfig<TData = unknown> {
   readonly width: string;
   readonly maxWidth: string;
   readonly mobileWidth: string;
+  readonly closeIconTemplate: TemplateRef<AerisDialogTemplateContext> | undefined;
   readonly closeAriaLabel: string;
   readonly ariaLabel: string;
   readonly ariaLabelledBy: string;
@@ -410,6 +413,7 @@ export class AerisConfirmDialogService {
       width: config.width ?? '',
       maxWidth: config.maxWidth ?? '',
       mobileWidth: config.mobileWidth ?? '',
+      closeIconTemplate: config.closeIconTemplate,
       closeAriaLabel: config.closeAriaLabel ?? 'Close confirmation dialog',
       ariaLabel: config.ariaLabel ?? '',
       ariaLabelledBy: config.ariaLabelledBy ?? '',
@@ -452,6 +456,7 @@ export class AerisConfirmDialogService {
       [width]="settings().width"
       [maxWidth]="settings().maxWidth"
       [mobileWidth]="settings().mobileWidth"
+      [closeIconTemplate]="settings().closeIconTemplate"
       [closeAriaLabel]="settings().closeAriaLabel"
       [ariaLabel]="settings().ariaLabel"
       [ariaLabelledBy]="settings().ariaLabelledBy"
@@ -610,6 +615,7 @@ export class AerisConfirmDialog {
     width: this.width(),
     maxWidth: this.maxWidth(),
     mobileWidth: this.mobileWidth(),
+    closeIconTemplate: this.closeIconTemplate(),
     closeAriaLabel: this.closeAriaLabel(),
     ariaLabel: this.ariaLabel(),
     ariaLabelledBy: this.ariaLabelledBy(),
@@ -701,6 +707,7 @@ export class AerisConfirmDialog {
   readonly width = input('');
   readonly maxWidth = input('');
   readonly mobileWidth = input('');
+  readonly closeIconTemplate = input<TemplateRef<AerisDialogTemplateContext>>();
   readonly closeAriaLabel = input('Close confirmation dialog');
   readonly ariaLabel = input('');
   readonly ariaLabelledBy = input('');

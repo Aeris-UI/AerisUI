@@ -29,6 +29,7 @@ import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart'
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `toggleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `readonly AerisOrganizationChartNode&lt;TData&gt;[]` | `[]` | Root nodes rendered by the chart. |
 | `selectionMode` | `'single' &#124; 'multiple' &#124; null` | `null` | Enables single or multiple node selection. |
 | `collapsible` | `boolean` | `true` | Shows branch expand and collapse controls. |

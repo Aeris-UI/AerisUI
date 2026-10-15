@@ -334,6 +334,11 @@ interface AerisTreeTableColumn {
   readonly align?: 'start' | 'center' | 'end';
 }
 
+interface AerisTreeTableSortIconContext {
+  readonly $implicit: AerisTreeTableColumn;
+  readonly direction: AerisTreeTableSortDirection | null;
+}
+
 interface AerisTreeTableSort {
   readonly field: string;
   readonly direction: AerisTreeTableSortDirection;
@@ -420,6 +425,27 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'sortIconTemplate',
+      type: 'TemplateRef<AerisTreeTableSortIconContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Artwork for sortable headers. Context: $implicit is the column; direction is asc, desc, or null. Header buttons retain sorting and aria-sort.',
+    },
+    {
+      name: 'loadingIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'toggleIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
     {
       name: 'paginatorDropdownAppendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",

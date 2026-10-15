@@ -29,6 +29,8 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name. |
+| `maximizeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the maximize icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the dialog overlay locally, in document.body, or in the supplied DOM/template target. |
 | `header` | `string` | `''` | Default dialog title rendered in the header. |
 | `role` | `AerisDialogRole` | `'dialog'` | Dialog landmark role. Use alertdialog only for interruptive confirmation-style surfaces. |

@@ -300,6 +300,11 @@ interface AerisTableColumn {
   readonly align?: 'start' | 'center' | 'end';
 }
 
+interface AerisTableSortIconContext {
+  readonly $implicit: AerisTableColumn;
+  readonly direction: AerisTableSortDirection | null;
+}
+
 interface AerisTableSort {
   readonly field: string;
   readonly direction: AerisTableSortDirection;
@@ -368,6 +373,27 @@ interface AerisTableCsvExportOptions {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'toggleIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Decorative row-expander artwork. Supply a down-pointing icon; Aeris rotates it for the collapsed state.',
+    },
+    {
+      name: 'sortIconTemplate',
+      type: 'TemplateRef<AerisTableSortIconContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Artwork for sortable headers. Context: $implicit is the column; direction is asc, desc, or null. Header buttons retain sorting and aria-sort.',
+    },
+    {
+      name: 'loadingIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
     {
       name: 'paginatorDropdownAppendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",

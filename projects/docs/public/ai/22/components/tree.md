@@ -29,6 +29,10 @@ import { AerisTreeModule } from '@aeris-ui/core/tree';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `filterIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `filterClearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the filter clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `loadingIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `toggleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `selectionMode` | `'single' &#124; 'multiple' &#124; 'checkbox' &#124; null` | `null` | Enables controlled node selection. |
 | `filter` | `boolean` | `false` | Shows the built-in label filter. |
 | `propagateSelection` | `boolean` | `true` | Cascades checkbox selection through selectable descendants and derives mixed parent state. |

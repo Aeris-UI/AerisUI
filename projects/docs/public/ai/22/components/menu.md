@@ -29,6 +29,7 @@ import { AerisMenuModule } from '@aeris-ui/core/menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `submenuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts popup menus locally by default and automatically moves them to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection; inline menus remain local. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps popup menus inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `id` | `string` | `generated` | ID for the root panel. |

@@ -71,6 +71,13 @@ type AerisScrollTopStrategy = 'fixed' | 'absolute';`;
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'iconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces the upward icon artwork. Keep it decorative and non-interactive; Aeris retains scrolling and the button accessible name.',
+    },
+    {
       name: 'threshold',
       type: 'number',
       defaultValue: '320',

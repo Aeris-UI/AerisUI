@@ -29,6 +29,9 @@ import { AerisTreeTableModule } from '@aeris-ui/core/tree-table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `sortIconTemplate` | `TemplateRef&lt;AerisTreeTableSortIconContext&gt; &#124; undefined` | `undefined` | Artwork for sortable headers. Context: $implicit is the column; direction is asc, desc, or null. Header buttons retain sorting and aria-sort. |
+| `loadingIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `toggleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the toggle icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Forwards the mounting target to the paginator rows-per-page menu. |
 | `treeColumn` | `string` | `''` | Column field that owns indentation, toggles, and checkbox controls. Defaults to the first column. |
 | `caption` | `string` | `''` | Native table caption. |
@@ -155,6 +158,11 @@ interface AerisTreeTableColumn {
   readonly frozen?: boolean;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
+}
+
+interface AerisTreeTableSortIconContext {
+  readonly $implicit: AerisTreeTableColumn;
+  readonly direction: AerisTreeTableSortDirection | null;
 }
 
 interface AerisTreeTableSort {

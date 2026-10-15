@@ -40,6 +40,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `value` | `string (model)` | `''` | Current value with two-way binding support. |
 | `inputId` | `string` | `generated` | ID assigned to the internal native textarea. |
 | `name` | `string` | `''` | Native form control name. |

@@ -1,3 +1,5 @@
+@use '../src/styles/selection-icons' as selection-icons;
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
@@ -381,26 +383,14 @@
   background: var(--aeris-primary, #{aeris-fallbacks.$primary});
 }
 .aeris-multi-select__checkbox span {
-  position: relative;
-  top: -0.05rem;
-  width: 52%;
-  height: 30%;
-  border-inline-start: 2px solid currentColor;
-  border-block-end: 2px solid currentColor;
-  transform: rotate(-45deg) scale(0.7);
+  transform: scale(0.7);
   opacity: 0;
 }
 .aeris-multi-select__checkbox[data-checked] span {
   opacity: 1;
-  transform: rotate(-45deg) scale(1);
+  transform: scale(1);
 }
 .aeris-multi-select__checkbox[data-mixed] span {
-  top: 0;
-  width: 56%;
-  height: 2px;
-  border: 0;
-  border-radius: var(--aeris-radius-pill, 999px);
-  background: currentColor;
   transform: none;
   opacity: 1;
 }
@@ -458,3 +448,9 @@
 }
 
 @include aeris-mobile.input-font('input');
+
+@include aeris-icons.custom-icon;
+@include aeris-icons.dropdown('.aeris-multi-select__chevron', '.aeris-multi-select[data-open]');
+
+@include selection-icons.mark('.aeris-multi-select__checkbox[data-checked] span', 'check');
+@include selection-icons.mark('.aeris-multi-select__checkbox[data-mixed] span', 'minus');

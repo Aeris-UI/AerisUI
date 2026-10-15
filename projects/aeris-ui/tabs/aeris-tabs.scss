@@ -1,3 +1,4 @@
+@use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -243,6 +244,10 @@
     overflow-x: auto;
   }
 }
+
+@include aeris-icons.custom-icon;
+@include aeris-icons.rotate('.aeris-tabs__scroll span', 90deg);
+@include aeris-icons.rotate('.aeris-tabs__scroll--next span', -90deg);
 
 @media (prefers-reduced-motion: reduce) {
   .aeris-tabs__list {

@@ -84,8 +84,7 @@ export class PickListPage {
     { id: 'pick-list-api-methods', label: 'Methods' },
   ];
 
-  protected readonly importCode =
-    `import { AerisPickListModule } from '@aeris-ui/core/pick-list';`;
+  protected readonly importCode = `import { AerisPickListModule } from '@aeris-ui/core/pick-list';`;
 
   protected readonly basicTsCode = `interface Product {
   readonly id: string;
@@ -226,75 +225,423 @@ interface AerisPickListDragEvent<TItem> {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
-    { name: 'optionLabel', type: 'string', defaultValue: "'label'", description: 'Property rendered by the default item template.' },
-    { name: 'dataKey', type: 'string', defaultValue: "'id'", description: 'Property used as the stable item identity.' },
-    { name: 'filterBy', type: 'string', defaultValue: "'label'", description: 'Comma-separated properties searched by both filters.' },
-    { name: 'filterMatchMode', type: 'contains | startsWith', defaultValue: "'contains'", description: 'Matching strategy used by pane filters.' },
-    { name: 'sourceHeader', type: 'string', defaultValue: "'Available'", description: 'Visible source pane heading.' },
-    { name: 'targetHeader', type: 'string', defaultValue: "'Selected'", description: 'Visible target pane heading.' },
-    { name: 'sourceAriaLabel', type: 'string', defaultValue: "'Available items'", description: 'Accessible name for the source listbox.' },
-    { name: 'targetAriaLabel', type: 'string', defaultValue: "'Selected items'", description: 'Accessible name for the target listbox.' },
-    { name: 'ariaLabel', type: 'string', defaultValue: "'Item transfer'", description: 'Accessible name for the complete PickList group.' },
-    { name: 'sourceFilterPlaceholder', type: 'string', defaultValue: "'Filter available items'", description: 'Source filter placeholder.' },
-    { name: 'targetFilterPlaceholder', type: 'string', defaultValue: "'Filter selected items'", description: 'Target filter placeholder.' },
-    { name: 'sourceFilterAriaLabel', type: 'string', defaultValue: "'Filter available items'", description: 'Accessible source filter label.' },
-    { name: 'targetFilterAriaLabel', type: 'string', defaultValue: "'Filter selected items'", description: 'Accessible target filter label.' },
-    { name: 'sourceEmptyMessage', type: 'string', defaultValue: "'No available items'", description: 'Source empty-state message.' },
-    { name: 'targetEmptyMessage', type: 'string', defaultValue: "'No selected items'", description: 'Target empty-state message.' },
-    { name: 'sourceFilterEmptyMessage', type: 'string', defaultValue: "'No available items match the filter'", description: 'Source filter-empty message.' },
-    { name: 'targetFilterEmptyMessage', type: 'string', defaultValue: "'No selected items match the filter'", description: 'Target filter-empty message.' },
-    { name: 'showFilter', type: 'boolean', defaultValue: 'false', description: 'Shows a filter in each pane.' },
-    { name: 'showSourceControls', type: 'boolean', defaultValue: 'true', description: 'Shows source reorder controls.' },
-    { name: 'showTargetControls', type: 'boolean', defaultValue: 'true', description: 'Shows target reorder controls.' },
-    { name: 'showTransferControls', type: 'boolean', defaultValue: 'true', description: 'Shows the central transfer controls.' },
-    { name: 'transferOnDoubleClick', type: 'boolean', defaultValue: 'false', description: 'Transfers a double-clicked item to the opposite pane.' },
-    { name: 'dragDrop', type: 'boolean', defaultValue: 'true', description: 'Enables pointer drag transfer and same-pane reordering.' },
-    { name: 'disabled', type: 'boolean', defaultValue: 'false', description: 'Disables filtering, selection, transfer, reordering, and dragging.' },
-    { name: 'fluid', type: 'boolean', defaultValue: 'true', description: 'Fills the available container width.' },
-    { name: 'targetLimit', type: 'number | null', defaultValue: 'null', description: 'Maximum number of items allowed in the target pane.' },
-    { name: 'moveToTargetAriaLabel', type: 'string', defaultValue: "'Move selected items to selected list'", description: 'Selected-to-target control label.' },
-    { name: 'moveAllToTargetAriaLabel', type: 'string', defaultValue: "'Move all items to selected list'", description: 'All-to-target control label.' },
-    { name: 'moveToSourceAriaLabel', type: 'string', defaultValue: "'Move selected items to available list'", description: 'Selected-to-source control label.' },
-    { name: 'moveAllToSourceAriaLabel', type: 'string', defaultValue: "'Move all items to available list'", description: 'All-to-source control label.' },
+    {
+      name: 'moveTopIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the move top icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'moveUpIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the move up icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'moveDownIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the move down icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'moveBottomIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the move bottom icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'moveToTargetIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the move to target icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'moveAllToTargetIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the move all to target icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'moveToSourceIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the move to source icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'moveAllToSourceIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the move all to source icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'filterIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the filter icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'optionLabel',
+      type: 'string',
+      defaultValue: "'label'",
+      description: 'Property rendered by the default item template.',
+    },
+    {
+      name: 'dataKey',
+      type: 'string',
+      defaultValue: "'id'",
+      description: 'Property used as the stable item identity.',
+    },
+    {
+      name: 'filterBy',
+      type: 'string',
+      defaultValue: "'label'",
+      description: 'Comma-separated properties searched by both filters.',
+    },
+    {
+      name: 'filterMatchMode',
+      type: 'contains | startsWith',
+      defaultValue: "'contains'",
+      description: 'Matching strategy used by pane filters.',
+    },
+    {
+      name: 'sourceHeader',
+      type: 'string',
+      defaultValue: "'Available'",
+      description: 'Visible source pane heading.',
+    },
+    {
+      name: 'targetHeader',
+      type: 'string',
+      defaultValue: "'Selected'",
+      description: 'Visible target pane heading.',
+    },
+    {
+      name: 'sourceAriaLabel',
+      type: 'string',
+      defaultValue: "'Available items'",
+      description: 'Accessible name for the source listbox.',
+    },
+    {
+      name: 'targetAriaLabel',
+      type: 'string',
+      defaultValue: "'Selected items'",
+      description: 'Accessible name for the target listbox.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Item transfer'",
+      description: 'Accessible name for the complete PickList group.',
+    },
+    {
+      name: 'sourceFilterPlaceholder',
+      type: 'string',
+      defaultValue: "'Filter available items'",
+      description: 'Source filter placeholder.',
+    },
+    {
+      name: 'targetFilterPlaceholder',
+      type: 'string',
+      defaultValue: "'Filter selected items'",
+      description: 'Target filter placeholder.',
+    },
+    {
+      name: 'sourceFilterAriaLabel',
+      type: 'string',
+      defaultValue: "'Filter available items'",
+      description: 'Accessible source filter label.',
+    },
+    {
+      name: 'targetFilterAriaLabel',
+      type: 'string',
+      defaultValue: "'Filter selected items'",
+      description: 'Accessible target filter label.',
+    },
+    {
+      name: 'sourceEmptyMessage',
+      type: 'string',
+      defaultValue: "'No available items'",
+      description: 'Source empty-state message.',
+    },
+    {
+      name: 'targetEmptyMessage',
+      type: 'string',
+      defaultValue: "'No selected items'",
+      description: 'Target empty-state message.',
+    },
+    {
+      name: 'sourceFilterEmptyMessage',
+      type: 'string',
+      defaultValue: "'No available items match the filter'",
+      description: 'Source filter-empty message.',
+    },
+    {
+      name: 'targetFilterEmptyMessage',
+      type: 'string',
+      defaultValue: "'No selected items match the filter'",
+      description: 'Target filter-empty message.',
+    },
+    {
+      name: 'showFilter',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Shows a filter in each pane.',
+    },
+    {
+      name: 'showSourceControls',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows source reorder controls.',
+    },
+    {
+      name: 'showTargetControls',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows target reorder controls.',
+    },
+    {
+      name: 'showTransferControls',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Shows the central transfer controls.',
+    },
+    {
+      name: 'transferOnDoubleClick',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Transfers a double-clicked item to the opposite pane.',
+    },
+    {
+      name: 'dragDrop',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Enables pointer drag transfer and same-pane reordering.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables filtering, selection, transfer, reordering, and dragging.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'true',
+      description: 'Fills the available container width.',
+    },
+    {
+      name: 'targetLimit',
+      type: 'number | null',
+      defaultValue: 'null',
+      description: 'Maximum number of items allowed in the target pane.',
+    },
+    {
+      name: 'moveToTargetAriaLabel',
+      type: 'string',
+      defaultValue: "'Move selected items to selected list'",
+      description: 'Selected-to-target control label.',
+    },
+    {
+      name: 'moveAllToTargetAriaLabel',
+      type: 'string',
+      defaultValue: "'Move all items to selected list'",
+      description: 'All-to-target control label.',
+    },
+    {
+      name: 'moveToSourceAriaLabel',
+      type: 'string',
+      defaultValue: "'Move selected items to available list'",
+      description: 'Selected-to-source control label.',
+    },
+    {
+      name: 'moveAllToSourceAriaLabel',
+      type: 'string',
+      defaultValue: "'Move all items to available list'",
+      description: 'All-to-source control label.',
+    },
   ];
 
   protected readonly models: readonly ApiRow[] = [
-    { name: 'source', type: 'readonly TItem[]', defaultValue: '[]', description: 'Items in the source pane.' },
-    { name: 'target', type: 'readonly TItem[]', defaultValue: '[]', description: 'Items in the target pane.' },
-    { name: 'sourceSelectedKeys', type: 'readonly string[]', defaultValue: '[]', description: 'Selected source item keys.' },
-    { name: 'targetSelectedKeys', type: 'readonly string[]', defaultValue: '[]', description: 'Selected target item keys.' },
-    { name: 'sourceFilter', type: 'string', defaultValue: "''", description: 'Controlled source filter value.' },
-    { name: 'targetFilter', type: 'string', defaultValue: "''", description: 'Controlled target filter value.' },
+    {
+      name: 'source',
+      type: 'readonly TItem[]',
+      defaultValue: '[]',
+      description: 'Items in the source pane.',
+    },
+    {
+      name: 'target',
+      type: 'readonly TItem[]',
+      defaultValue: '[]',
+      description: 'Items in the target pane.',
+    },
+    {
+      name: 'sourceSelectedKeys',
+      type: 'readonly string[]',
+      defaultValue: '[]',
+      description: 'Selected source item keys.',
+    },
+    {
+      name: 'targetSelectedKeys',
+      type: 'readonly string[]',
+      defaultValue: '[]',
+      description: 'Selected target item keys.',
+    },
+    {
+      name: 'sourceFilter',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Controlled source filter value.',
+    },
+    {
+      name: 'targetFilter',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Controlled target filter value.',
+    },
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
-    { name: 'selectionChanged', type: 'AerisPickListSelectionEvent<TItem>', defaultValue: '-', description: 'Emitted when either selection changes.' },
-    { name: 'transferred', type: 'AerisPickListTransferEvent<TItem>', defaultValue: '-', description: 'Emitted after either transfer direction.' },
-    { name: 'movedToTarget', type: 'AerisPickListTransferEvent<TItem>', defaultValue: '-', description: 'Emitted after items enter the target pane.' },
-    { name: 'movedToSource', type: 'AerisPickListTransferEvent<TItem>', defaultValue: '-', description: 'Emitted after items return to the source pane.' },
-    { name: 'reordered', type: 'AerisPickListReorderEvent<TItem>', defaultValue: '-', description: 'Emitted after either pane is reordered.' },
-    { name: 'sourceReordered', type: 'AerisPickListReorderEvent<TItem>', defaultValue: '-', description: 'Emitted after source reordering.' },
-    { name: 'targetReordered', type: 'AerisPickListReorderEvent<TItem>', defaultValue: '-', description: 'Emitted after target reordering.' },
-    { name: 'filterChanged', type: 'AerisPickListFilterEvent', defaultValue: '-', description: 'Emitted when either controlled filter changes.' },
-    { name: 'dragStarted', type: 'AerisPickListDragEvent<TItem>', defaultValue: '-', description: 'Emitted when native dragging begins.' },
-    { name: 'dragEnded', type: 'AerisPickListDragEvent<TItem>', defaultValue: '-', description: 'Emitted when native dragging ends.' },
+    {
+      name: 'selectionChanged',
+      type: 'AerisPickListSelectionEvent<TItem>',
+      defaultValue: '-',
+      description: 'Emitted when either selection changes.',
+    },
+    {
+      name: 'transferred',
+      type: 'AerisPickListTransferEvent<TItem>',
+      defaultValue: '-',
+      description: 'Emitted after either transfer direction.',
+    },
+    {
+      name: 'movedToTarget',
+      type: 'AerisPickListTransferEvent<TItem>',
+      defaultValue: '-',
+      description: 'Emitted after items enter the target pane.',
+    },
+    {
+      name: 'movedToSource',
+      type: 'AerisPickListTransferEvent<TItem>',
+      defaultValue: '-',
+      description: 'Emitted after items return to the source pane.',
+    },
+    {
+      name: 'reordered',
+      type: 'AerisPickListReorderEvent<TItem>',
+      defaultValue: '-',
+      description: 'Emitted after either pane is reordered.',
+    },
+    {
+      name: 'sourceReordered',
+      type: 'AerisPickListReorderEvent<TItem>',
+      defaultValue: '-',
+      description: 'Emitted after source reordering.',
+    },
+    {
+      name: 'targetReordered',
+      type: 'AerisPickListReorderEvent<TItem>',
+      defaultValue: '-',
+      description: 'Emitted after target reordering.',
+    },
+    {
+      name: 'filterChanged',
+      type: 'AerisPickListFilterEvent',
+      defaultValue: '-',
+      description: 'Emitted when either controlled filter changes.',
+    },
+    {
+      name: 'dragStarted',
+      type: 'AerisPickListDragEvent<TItem>',
+      defaultValue: '-',
+      description: 'Emitted when native dragging begins.',
+    },
+    {
+      name: 'dragEnded',
+      type: 'AerisPickListDragEvent<TItem>',
+      defaultValue: '-',
+      description: 'Emitted when native dragging ends.',
+    },
   ];
 
   protected readonly templates: readonly ApiRow[] = [
-    { name: 'aerisPickListItem', type: '{ $implicit, item, side, selected, index }', defaultValue: '-', description: 'Custom item content shared by both panes.' },
-    { name: 'aerisPickListEmpty', type: '{ side, filtering }', defaultValue: '-', description: 'Custom empty or filter-empty content.' },
+    {
+      name: 'aerisPickListItem',
+      type: '{ $implicit, item, side, selected, index }',
+      defaultValue: '-',
+      description: 'Custom item content shared by both panes.',
+    },
+    {
+      name: 'aerisPickListEmpty',
+      type: '{ side, filtering }',
+      defaultValue: '-',
+      description: 'Custom empty or filter-empty content.',
+    },
   ];
 
   protected readonly methods: readonly ApiRow[] = [
-    { name: 'moveSelectedToTarget()', type: 'void', defaultValue: '-', description: 'Moves selected source items to the target.' },
-    { name: 'moveAllToTarget()', type: 'void', defaultValue: '-', description: 'Moves every allowed source item to the target.' },
-    { name: 'moveSelectedToSource()', type: 'void', defaultValue: '-', description: 'Returns selected target items to the source.' },
-    { name: 'moveAllToSource()', type: 'void', defaultValue: '-', description: 'Returns every target item to the source.' },
-    { name: "moveSelectedUp('source' | 'target')", type: 'void', defaultValue: '-', description: 'Moves selected pane items up one position.' },
-    { name: "moveSelectedDown('source' | 'target')", type: 'void', defaultValue: '-', description: 'Moves selected pane items down one position.' },
-    { name: "moveSelectedToTop('source' | 'target')", type: 'void', defaultValue: '-', description: 'Moves selected pane items to the beginning.' },
-    { name: "moveSelectedToBottom('source' | 'target')", type: 'void', defaultValue: '-', description: 'Moves selected pane items to the end.' },
-    { name: 'clearFilters()', type: 'void', defaultValue: '-', description: 'Clears both controlled filter models.' },
+    {
+      name: 'moveSelectedToTarget()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves selected source items to the target.',
+    },
+    {
+      name: 'moveAllToTarget()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves every allowed source item to the target.',
+    },
+    {
+      name: 'moveSelectedToSource()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Returns selected target items to the source.',
+    },
+    {
+      name: 'moveAllToSource()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Returns every target item to the source.',
+    },
+    {
+      name: "moveSelectedUp('source' | 'target')",
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves selected pane items up one position.',
+    },
+    {
+      name: "moveSelectedDown('source' | 'target')",
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves selected pane items down one position.',
+    },
+    {
+      name: "moveSelectedToTop('source' | 'target')",
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves selected pane items to the beginning.',
+    },
+    {
+      name: "moveSelectedToBottom('source' | 'target')",
+      type: 'void',
+      defaultValue: '-',
+      description: 'Moves selected pane items to the end.',
+    },
+    {
+      name: 'clearFilters()',
+      type: 'void',
+      defaultValue: '-',
+      description: 'Clears both controlled filter models.',
+    },
   ];
 
   protected handleTransfer(event: AerisPickListTransferEvent<Product>): void {

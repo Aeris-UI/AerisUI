@@ -29,6 +29,7 @@ import { AerisContextMenuModule } from '@aeris-ui/core/context-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `submenuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the menu overlay locally, in document.body, or in the supplied DOM/template target. |
 | `id` | `string` | `generated id` | Root menu ID used for menu and submenu relationships. |
 | `model` | `readonly AerisContextMenuItem&lt;T&gt;[]` | `[]` | Menu item model including separators, disabled state, commands, links, and nested children. |

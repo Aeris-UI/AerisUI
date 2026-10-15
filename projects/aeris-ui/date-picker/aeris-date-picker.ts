@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -14,9 +15,10 @@ import {
   signal,
   viewChild,
   viewChildren,
+  TemplateRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   ɵAerisAppendTo,
   type AerisAppendTo,
@@ -89,7 +91,7 @@ let datePickerId = 0;
 
 @Component({
   selector: 'aeris-date-picker',
-  imports: [ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <div
       class="aeris-date-picker"
@@ -141,16 +143,43 @@ let datePickerId = 0;
               [attr.aria-label]="clearButtonAriaLabel()"
               (click)="handleClearClick($event)"
             >
-              <span aria-hidden="true"></span>
+              @if (clearIconTemplate(); as customIcon) {
+                <span aria-hidden="true" data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span aerisInternalIcon="close" aria-hidden="true"></span>
+              }
             </button>
           }
 
           @if (showIcon()) {
-            <span class="aeris-date-picker__calendar-icon" aria-hidden="true">
-              <span></span>
-            </span>
+            @if (calendarIconTemplate(); as customIcon) {
+              <span
+                class="aeris-date-picker__calendar-icon"
+                aria-hidden="true"
+                data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span
+                aerisInternalIcon="calendar"
+                class="aeris-date-picker__calendar-icon"
+                aria-hidden="true"
+              ></span>
+            }
           } @else {
-            <span class="aeris-date-picker__chevron" aria-hidden="true"></span>
+            @if (dropdownIconTemplate(); as customIcon) {
+              <span class="aeris-date-picker__chevron" aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span
+                aerisInternalIcon="chevron"
+                class="aeris-date-picker__chevron"
+                aria-hidden="true"
+              ></span>
+            }
           }
         </div>
       }
@@ -179,7 +208,13 @@ let datePickerId = 0;
                 [disabled]="previousDisabled()"
                 (click)="navigate(-1)"
               >
-                <span aria-hidden="true"></span>
+                @if (previousIconTemplate(); as customIcon) {
+                  <span aria-hidden="true" data-aeris-custom-icon
+                    ><ng-container [ngTemplateOutlet]="customIcon"
+                  /></span>
+                } @else {
+                  <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+                }
               </button>
 
               <div class="aeris-date-picker__heading">
@@ -204,7 +239,13 @@ let datePickerId = 0;
                 [disabled]="nextDisabled()"
                 (click)="navigate(1)"
               >
-                <span aria-hidden="true"></span>
+                @if (nextIconTemplate(); as customIcon) {
+                  <span aria-hidden="true" data-aeris-custom-icon
+                    ><ng-container [ngTemplateOutlet]="customIcon"
+                  /></span>
+                } @else {
+                  <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+                }
               </button>
             </div>
 
@@ -408,6 +449,12 @@ let datePickerId = 0;
   },
 })
 export class AerisDatePicker implements ControlValueAccessor {
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+  readonly calendarIconTemplate = input<TemplateRef<void>>();
+  readonly dropdownIconTemplate = input<TemplateRef<void>>();
+  readonly previousIconTemplate = input<TemplateRef<void>>();
+  readonly nextIconTemplate = input<TemplateRef<void>>();
+
   protected readonly dismissOverlay = (): boolean => {
     if (this.inline()) return false;
     this.close(true);

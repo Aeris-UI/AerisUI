@@ -32,6 +32,7 @@ import {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `position` | `AerisToastPosition` | `'bottom-right'` | Places the toast region on the viewport. Options: 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'center'. |
 | `group` | `string` | `''` | Renders only messages from the matching service group. |
 | `mode` | `AerisToastMode` | `'stacked'` | Uses a compact stack that expands on hover/focus and toggles on touch taps, or an always-expanded list. Options: 'stacked', 'expanded'. |

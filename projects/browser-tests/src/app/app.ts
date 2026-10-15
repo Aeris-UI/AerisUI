@@ -1,4 +1,6 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { IconCustomizationFixture } from './icon-customization.fixture';
+import { GlobalIconsFixture } from './global-icons.fixture';
 import { DOCUMENT } from '@angular/common';
 import { dismissTopAerisOverlay, type AerisOverlayDismissResult } from '@aeris-ui/core';
 import { AerisButton } from '@aeris-ui/core/button';
@@ -29,6 +31,8 @@ import { AerisThemeService } from '@aeris-ui/core/theming';
 @Component({
   selector: 'app-root',
   imports: [
+    GlobalIconsFixture,
+    IconCustomizationFixture,
     AerisInputGroup,
     AerisSpeedDial,
     AerisScrollTop,

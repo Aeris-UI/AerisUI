@@ -29,6 +29,10 @@ import { AerisOrderListModule } from '@aeris-ui/core/order-list';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `moveTopIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move top icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveUpIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move up icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveDownIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move down icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `moveBottomIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the move bottom icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `optionLabel` | `string` | `'label'` | Property used as the default visible item label. |
 | `dataKey` | `string` | `'id'` | Property used as the stable item identity. |
 | `header` | `string` | `''` | Optional list header text. |

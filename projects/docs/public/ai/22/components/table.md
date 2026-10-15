@@ -29,6 +29,9 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `toggleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Decorative row-expander artwork. Supply a down-pointing icon; Aeris rotates it for the collapsed state. |
+| `sortIconTemplate` | `TemplateRef&lt;AerisTableSortIconContext&gt; &#124; undefined` | `undefined` | Artwork for sortable headers. Context: $implicit is the column; direction is asc, desc, or null. Header buttons retain sorting and aria-sort. |
+| `loadingIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Forwards the mounting target to the paginator rows-per-page menu. |
 | `data` | `readonly AerisTableData[]` | `[]` | Rows rendered by the table. |
 | `columns` | `readonly AerisTableColumn[] (model)` | `[]` | Column definitions used for headers, cells, sorting, filtering, and controlled resized widths. |
@@ -149,6 +152,11 @@ interface AerisTableColumn {
   readonly filterable?: boolean;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
+}
+
+interface AerisTableSortIconContext {
+  readonly $implicit: AerisTableColumn;
+  readonly direction: AerisTableSortDirection | null;
 }
 
 interface AerisTableSort {

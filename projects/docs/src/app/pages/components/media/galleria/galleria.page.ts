@@ -267,6 +267,62 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'rotateLeftIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the rotate left icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'rotateRightIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the rotate right icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'flipHorizontalIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the flip horizontal icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'flipVerticalIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the flip vertical icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'zoomOutIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the zoom out icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'zoomInIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the zoom in icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'resetIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the reset icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'downloadIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the download icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'value',
       type: 'readonly T[]',
       defaultValue: '[]',
@@ -710,19 +766,22 @@ protected handleIndexChange(event: AerisGalleriaIndexChangeEvent<AerisGalleriaIm
       name: 'aerisGalleriaPreviousIcon',
       type: 'none',
       defaultValue: 'Aeris chevron',
-      description: 'Replaces the previous-item icon.',
+      description:
+        'Replaces previous-item and previous-thumbnail artwork. Supply a left-pointing icon; thumbnail controls adapt its direction for vertical layouts.',
     },
     {
       name: 'aerisGalleriaNextIcon',
       type: 'none',
       defaultValue: 'Aeris chevron',
-      description: 'Replaces the next-item icon.',
+      description:
+        'Replaces next-item and next-thumbnail artwork. Supply a right-pointing icon; thumbnail controls adapt its direction for vertical layouts.',
     },
     {
       name: 'aerisGalleriaFullscreenIcon',
       type: '{ $implicit: boolean; fullscreen: boolean }',
       defaultValue: 'Aeris fullscreen icon',
-      description: 'Replaces the fullscreen icon and exposes current fullscreen state.',
+      description:
+        'Replaces fullscreen artwork in the stage or toolbar and exposes current fullscreen state.',
     },
   ];
   protected readonly methods: readonly ApiRow[] = [

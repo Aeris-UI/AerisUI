@@ -141,6 +141,25 @@ type AerisPasswordStrengthEvaluator = (
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'visibleIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description: 'Artwork for the visibility button when the password is visible.',
+    },
+    {
+      name: 'maskedIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description: 'Artwork for the visibility button when the password is masked.',
+    },
+    {
+      name: 'clearIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
       defaultValue: "global config or 'self'",

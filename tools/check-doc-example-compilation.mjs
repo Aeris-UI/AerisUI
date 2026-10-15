@@ -107,10 +107,10 @@ try {
     await readFile(`projects/docs/public/ai/${major}/aeris-docs.json`, 'utf8'),
   );
   const themeGuides = corpus.guides.filter((guide) =>
-    ['theming', 'theme-reference'].includes(guide.id),
+    ['theming', 'theme-reference', 'icons'].includes(guide.id),
   );
-  if (themeGuides.length !== 2)
-    throw new Error('The theming walkthrough and reference must both be present.');
+  if (themeGuides.length !== 3)
+    throw new Error('The theming walkthrough, reference, and icons guide must all be present.');
   for (const guide of themeGuides) {
     for (const section of guide.sections) {
       const snippets = (section.code ?? []).filter((source) => source.language === 'TypeScript');
@@ -198,12 +198,12 @@ try {
       process.stderr.write(`...and ${entries.length - fileLimit} more files with diagnostics.\n`);
     }
     process.stderr.write(
-      `Documentation examples failed strict Angular compilation (${exampleCount} component and ${guideExampleCount} theming guide examples, ${compileDiagnostics.length} diagnostics in ${entries.length} files).\n`,
+      `Documentation examples failed strict Angular compilation (${exampleCount} component and ${guideExampleCount} guide examples, ${compileDiagnostics.length} diagnostics in ${entries.length} files).\n`,
     );
     process.exitCode = 1;
   } else {
     process.stdout.write(
-      `Strictly compiled ${exampleCount} component examples and ${guideExampleCount} theming guide examples.\n`,
+      `Strictly compiled ${exampleCount} component examples and ${guideExampleCount} guide examples.\n`,
     );
   }
 } finally {

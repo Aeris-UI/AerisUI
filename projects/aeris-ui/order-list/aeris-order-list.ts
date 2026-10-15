@@ -71,9 +71,20 @@ export class AerisOrderListEmptyTemplate {
               [attr.aria-label]="moveTopAriaLabel()"
               (click)="moveSelectedToTop()"
             >
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="top">
-                <path d="M4 4h12M5 12l5-5 5 5" />
-              </svg>
+              @if (moveTopIconTemplate(); as customIcon) {
+                <span
+                  class="aeris-custom-icon"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-icon="top"
+                  data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="top">
+                  <path d="M4 4h12M5 12l5-5 5 5" />
+                </svg>
+              }
             </button>
             <button
               type="button"
@@ -81,9 +92,20 @@ export class AerisOrderListEmptyTemplate {
               [attr.aria-label]="moveUpAriaLabel()"
               (click)="moveSelectedUp()"
             >
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="up">
-                <path d="M5 12l5-5 5 5" />
-              </svg>
+              @if (moveUpIconTemplate(); as customIcon) {
+                <span
+                  class="aeris-custom-icon"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-icon="up"
+                  data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="up">
+                  <path d="M5 12l5-5 5 5" />
+                </svg>
+              }
             </button>
             <button
               type="button"
@@ -91,9 +113,20 @@ export class AerisOrderListEmptyTemplate {
               [attr.aria-label]="moveDownAriaLabel()"
               (click)="moveSelectedDown()"
             >
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="down">
-                <path d="M5 8l5 5 5-5" />
-              </svg>
+              @if (moveDownIconTemplate(); as customIcon) {
+                <span
+                  class="aeris-custom-icon"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-icon="down"
+                  data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="down">
+                  <path d="M5 8l5 5 5-5" />
+                </svg>
+              }
             </button>
             <button
               type="button"
@@ -101,9 +134,20 @@ export class AerisOrderListEmptyTemplate {
               [attr.aria-label]="moveBottomAriaLabel()"
               (click)="moveSelectedToBottom()"
             >
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="bottom">
-                <path d="M5 8l5 5 5-5M4 16h12" />
-              </svg>
+              @if (moveBottomIconTemplate(); as customIcon) {
+                <span
+                  class="aeris-custom-icon"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-icon="bottom"
+                  data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="bottom">
+                  <path d="M5 8l5 5 5-5M4 16h12" />
+                </svg>
+              }
             </button>
           </div>
         }
@@ -158,6 +202,11 @@ export class AerisOrderListEmptyTemplate {
   styleUrl: './aeris-order-list.scss',
 })
 export class AerisOrderList<TItem extends AerisOrderListItem = AerisOrderListItem> {
+  readonly moveTopIconTemplate = input<TemplateRef<void>>();
+  readonly moveUpIconTemplate = input<TemplateRef<void>>();
+  readonly moveDownIconTemplate = input<TemplateRef<void>>();
+  readonly moveBottomIconTemplate = input<TemplateRef<void>>();
+
   readonly items = model<readonly TItem[]>([]);
   readonly selectedKeys = model<readonly string[]>([]);
   readonly optionLabel = input('label');

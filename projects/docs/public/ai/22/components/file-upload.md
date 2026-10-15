@@ -29,6 +29,9 @@ import { AerisFileUploadModule } from '@aeris-ui/core/file-upload';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `removeIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the remove icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `dropIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the drop icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `fileIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the file icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `mode` | `AerisFileUploadMode` | `'advanced'` | Renders compact basic controls or the full queue surface. Options: 'basic', 'advanced'. |
 | `multiple` | `boolean` | `false` | Allows selecting more than one file. |
 | `accept` | `string` | `''` | Native accept filter and validation rule. |

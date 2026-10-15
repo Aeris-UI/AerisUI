@@ -108,6 +108,7 @@
   transition: transform var(--aeris-motion-slow, 220ms) var(--aeris-ease-enter, ease-out);
 }
 
+.aeris-speed-dial__plus,
 .aeris-speed-dial__trigger-icon svg {
   display: block;
   width: 1.5rem;

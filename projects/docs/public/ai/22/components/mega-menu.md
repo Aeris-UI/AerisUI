@@ -29,6 +29,7 @@ import { AerisMegaMenuModule } from '@aeris-ui/core/mega-menu';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `submenuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `id` | `string` | `generated id` | Base id used for menu item and panel relationships. |
 | `model` | `readonly AerisMegaMenuItem&lt;T&gt;[]` | `[]` | Root menu items with optional grouped mega panels. |
 | `orientation` | `horizontal &#124; vertical` | `'horizontal'` | Lays root items across or stacked. |

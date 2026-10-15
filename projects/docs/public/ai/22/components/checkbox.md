@@ -29,6 +29,8 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `checkIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the check icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `mixedIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the mixed icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `checked` | `boolean (model)` | `false` | Boolean selection state and Angular Signal Forms checkbox contract. |
 | `indeterminate` | `boolean (model)` | `false` | Mixed visual and native state. User activation clears it. |
 | `inputId` | `string` | `generated` | ID assigned to the native checkbox. |

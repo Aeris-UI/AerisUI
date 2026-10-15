@@ -29,6 +29,8 @@ import { AerisMenubarModule } from '@aeris-ui/core/menubar';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `submenuIconTemplate` | `TemplateRef&lt;AerisMenubarSubmenuIconContext&gt; &#124; undefined` | `undefined` | Replaces only the submenu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `menuIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the menu icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `id` | `string` | `generated` | ID prefix for the menubar and generated submenu relationships. |
 | `model` | `readonly AerisMenubarItem&lt;T&gt;[]` | `[]` | Nested item model for root items and cascading submenu items. |
 | `openPath` | `string (model)` | `''` | Controlled path key for the open submenu branch. |
@@ -109,6 +111,11 @@ type AerisButtonSeverity =
   | 'warning'
   | 'danger'
   | 'contrast';
+
+interface AerisMenubarSubmenuIconContext {
+  readonly $implicit: boolean;
+  readonly root: boolean;
+}
 
 interface AerisMenubarItem<T = unknown> {
   readonly id?: string;

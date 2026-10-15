@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -13,9 +14,10 @@ import {
   output,
   signal,
   viewChild,
+  TemplateRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   aerisInternalClampOverlayPoint,
   aerisInternalCreateFrameScheduler,
@@ -65,7 +67,7 @@ let colorPickerId = 0;
 
 @Component({
   selector: 'aeris-color-picker',
-  imports: [ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <div
       class="aeris-color-picker"
@@ -143,7 +145,13 @@ let colorPickerId = 0;
           [attr.aria-label]="clearButtonAriaLabel()"
           (click)="clear()"
         >
-          <span aria-hidden="true"></span>
+          @if (clearIconTemplate(); as customIcon) {
+            <span aria-hidden="true" data-aeris-custom-icon
+              ><ng-container [ngTemplateOutlet]="customIcon"
+            /></span>
+          } @else {
+            <span aerisInternalIcon="close" aria-hidden="true"></span>
+          }
         </button>
       }
 
@@ -185,7 +193,13 @@ let colorPickerId = 0;
                   [attr.aria-busy]="eyeDropperActive() || null"
                   (click)="openEyeDropper($event)"
                 >
-                  <span aria-hidden="true"></span>
+                  @if (eyedropperIconTemplate(); as customIcon) {
+                    <span aria-hidden="true" data-aeris-custom-icon
+                      ><ng-container [ngTemplateOutlet]="customIcon"
+                    /></span>
+                  } @else {
+                    <span aerisInternalIcon="eyedropper" aria-hidden="true"></span>
+                  }
                 </button>
               }
               <button
@@ -194,7 +208,13 @@ let colorPickerId = 0;
                 [attr.aria-label]="closeButtonAriaLabel()"
                 (click)="close(true)"
               >
-                <span aria-hidden="true"></span>
+                @if (closeIconTemplate(); as customIcon) {
+                  <span aria-hidden="true" data-aeris-custom-icon
+                    ><ng-container [ngTemplateOutlet]="customIcon"
+                  /></span>
+                } @else {
+                  <span aerisInternalIcon="close" aria-hidden="true"></span>
+                }
               </button>
             </span>
           </header>
@@ -318,6 +338,10 @@ let colorPickerId = 0;
   },
 })
 export class AerisColorPicker implements ControlValueAccessor {
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+  readonly eyedropperIconTemplate = input<TemplateRef<void>>();
+  readonly closeIconTemplate = input<TemplateRef<void>>();
+
   protected readonly dismissOverlay = (): boolean => {
     this.close(true);
     return true;

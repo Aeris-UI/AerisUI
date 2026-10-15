@@ -318,6 +318,20 @@ interface AerisDrawerTemplateContext {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'closeIconTemplate',
+      type: 'TemplateRef<AerisDrawerTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name.',
+    },
+    {
+      name: 'maximizeIconTemplate',
+      type: 'TemplateRef<AerisDrawerTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the maximize icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
       defaultValue: "global config or 'body'",

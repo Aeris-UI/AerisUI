@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { DOCUMENT } from '@angular/common';
 import {
   Component,
@@ -11,6 +12,7 @@ import {
   numberAttribute,
   output,
   signal,
+  TemplateRef,
 } from '@angular/core';
 import { aerisInternalObserveViewport } from '@aeris-ui/core';
 
@@ -20,6 +22,7 @@ export type AerisScrollTopSize = 'sm' | 'md' | 'lg';
 export type AerisScrollTopStrategy = 'fixed' | 'absolute';
 
 @Component({
+  imports: [NgTemplateOutlet],
   selector: 'aeris-scroll-top',
   template: `
     @if (visible()) {
@@ -33,9 +36,19 @@ export type AerisScrollTopStrategy = 'fixed' | 'absolute';
         [attr.aria-label]="ariaLabel()"
         (click)="scrollToTop($event)"
       >
-        <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
-          <path d="M5 12.5 10 7.5l5 5" />
-        </svg>
+        @if (iconTemplate(); as customIcon) {
+          <span
+            class="aeris-custom-icon"
+            aria-hidden="true"
+            focusable="false"
+            data-aeris-custom-icon
+            ><ng-container [ngTemplateOutlet]="customIcon"
+          /></span>
+        } @else {
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
+            <path d="M5 12.5 10 7.5l5 5" />
+          </svg>
+        }
       </button>
     }
   `,
@@ -45,6 +58,8 @@ export type AerisScrollTopStrategy = 'fixed' | 'absolute';
   },
 })
 export class AerisScrollTop {
+  readonly iconTemplate = input<TemplateRef<void>>();
+
   private readonly scrollButton = viewChild<ElementRef<HTMLElement>>('scrollButton');
   constructor() {
     effect((onCleanup) => {

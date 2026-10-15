@@ -16,7 +16,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ɵaerisDisplayInvalid } from '@aeris-ui/core';
+import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
   ɵAerisAppendTo,
   type AerisAppendTo,
@@ -101,7 +101,7 @@ let treeSelectId = 0;
 
 @Component({
   selector: 'aeris-tree-select',
-  imports: [NgTemplateOutlet, ɵAerisAppendTo],
+  imports: [ɵAerisIcon, NgTemplateOutlet, ɵAerisAppendTo],
   template: `
     <div
       class="aeris-tree-select"
@@ -168,10 +168,26 @@ let treeSelectId = 0;
             [attr.aria-label]="clearButtonAriaLabel()"
             (click)="handleClearClick($event)"
           >
-            <span aria-hidden="true"></span>
+            @if (clearIconTemplate(); as customIcon) {
+              <span aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span aerisInternalIcon="close" aria-hidden="true"></span>
+            }
           </button>
         }
-        <span class="aeris-tree-select__chevron" aria-hidden="true"></span>
+        @if (dropdownIconTemplate(); as customIcon) {
+          <span class="aeris-tree-select__chevron" aria-hidden="true" data-aeris-custom-icon
+            ><ng-container [ngTemplateOutlet]="customIcon"
+          /></span>
+        } @else {
+          <span
+            aerisInternalIcon="chevron"
+            class="aeris-tree-select__chevron"
+            aria-hidden="true"
+          ></span>
+        }
       </div>
 
       @if (open()) {
@@ -198,7 +214,20 @@ let treeSelectId = 0;
 
           @if (filter()) {
             <div class="aeris-tree-select__filter-wrap">
-              <span class="aeris-tree-select__search-mark" aria-hidden="true"></span>
+              @if (filterIconTemplate(); as customIcon) {
+                <span
+                  class="aeris-tree-select__search-mark"
+                  aria-hidden="true"
+                  data-aeris-custom-icon
+                  ><ng-container [ngTemplateOutlet]="customIcon"
+                /></span>
+              } @else {
+                <span
+                  aerisInternalIcon="search"
+                  class="aeris-tree-select__search-mark"
+                  aria-hidden="true"
+                ></span>
+              }
               <input
                 #filterInput
                 class="aeris-tree-select__filter"
@@ -220,7 +249,13 @@ let treeSelectId = 0;
                   [attr.aria-label]="filterClearAriaLabel()"
                   (click)="clearFilter()"
                 >
-                  <span aria-hidden="true"></span>
+                  @if (filterClearIconTemplate(); as customIcon) {
+                    <span aria-hidden="true" data-aeris-custom-icon
+                      ><ng-container [ngTemplateOutlet]="customIcon"
+                    /></span>
+                  } @else {
+                    <span aerisInternalIcon="close" aria-hidden="true"></span>
+                  }
                 </button>
               }
             </div>
@@ -278,7 +313,13 @@ let treeSelectId = 0;
                     [disabled]="!hasChildren(item.node)"
                     (click)="handleToggleClick(item.node, $event)"
                   >
-                    <span aria-hidden="true"></span>
+                    @if (toggleIconTemplate(); as customIcon) {
+                      <span aria-hidden="true" data-aeris-custom-icon
+                        ><ng-container [ngTemplateOutlet]="customIcon"
+                      /></span>
+                    } @else {
+                      <span aerisInternalIcon="chevron" aria-hidden="true"></span>
+                    }
                   </button>
 
                   @if (selectionMode() !== 'single') {
@@ -289,7 +330,15 @@ let treeSelectId = 0;
                         (selectionMode() === 'checkbox' && isPartiallySelected(item.node)) || null
                       "
                       aria-hidden="true"
-                      ><span></span
+                      ><span
+                        [aerisInternalIcon]="
+                          (selectionMode() === 'checkbox' && isPartiallySelected(item.node)) || null
+                            ? 'minus'
+                            : isSelected(item.node) || null
+                              ? 'check'
+                              : null
+                        "
+                      ></span
                     ></span>
                   }
 
@@ -339,6 +388,12 @@ let treeSelectId = 0;
   },
 })
 export class AerisTreeSelectComponent implements ControlValueAccessor {
+  readonly clearIconTemplate = input<TemplateRef<void>>();
+  readonly dropdownIconTemplate = input<TemplateRef<void>>();
+  readonly filterIconTemplate = input<TemplateRef<void>>();
+  readonly filterClearIconTemplate = input<TemplateRef<void>>();
+  readonly toggleIconTemplate = input<TemplateRef<void>>();
+
   private panelPointerInteraction = false;
   protected readonly dismissOverlay = (): boolean => {
     this.closePanel(true);

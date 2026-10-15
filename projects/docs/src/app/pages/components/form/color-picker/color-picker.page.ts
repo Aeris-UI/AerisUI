@@ -127,6 +127,27 @@ interface AerisColorPickerChangeEvent {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'clearIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'eyedropperIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the eyedropper icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
+      name: 'closeIconTemplate',
+      type: 'TemplateRef<AerisDialogTemplateContext> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
+    },
+    {
       name: 'appendTo',
       type: "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
       defaultValue: "global config or 'self'",

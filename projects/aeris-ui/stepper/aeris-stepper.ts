@@ -1,3 +1,4 @@
+import { ɵAerisIcon } from '@aeris-ui/core';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -107,7 +108,7 @@ export class AerisStep {
 
 @Component({
   selector: 'aeris-stepper',
-  imports: [NgTemplateOutlet],
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   template: `
     <div class="aeris-stepper__step-source" aria-hidden="true">
       <ng-content />
@@ -153,7 +154,7 @@ export class AerisStep {
                   [ngTemplateOutletContext]="state"
                 />
               } @else if (state.completed) {
-                <span class="aeris-stepper__check"></span>
+                <span aerisInternalIcon="check" class="aeris-stepper__check"></span>
               } @else {
                 {{ state.index + 1 }}
               }
@@ -305,14 +306,18 @@ export class AerisStepper {
   next(originalEvent: Event | null = null): void {
     const states = this.stepStates();
     const currentIndex = this.activeState()?.index ?? -1;
-    const nextState = states.slice(currentIndex + 1).find((state) => !state.disabled && state.reachable);
+    const nextState = states
+      .slice(currentIndex + 1)
+      .find((state) => !state.disabled && state.reachable);
     if (nextState) this.select(nextState.value, originalEvent);
   }
 
   previous(originalEvent: Event | null = null): void {
     const states = this.stepStates();
     const currentIndex = this.activeState()?.index ?? states.length;
-    const previousState = [...states.slice(0, currentIndex)].reverse().find((state) => !state.disabled);
+    const previousState = [...states.slice(0, currentIndex)]
+      .reverse()
+      .find((state) => !state.disabled);
     if (previousState) this.select(previousState.value, originalEvent);
   }
 
@@ -325,10 +330,7 @@ export class AerisStepper {
   }
 
   protected handleListKeydown(event: KeyboardEvent): void {
-    if (
-      this.activationMode() === 'manual' &&
-      (event.key === 'Enter' || event.key === ' ')
-    ) {
+    if (this.activationMode() === 'manual' && (event.key === 'Enter' || event.key === ' ')) {
       event.preventDefault();
       const focused = this.focusedButtonState(event);
       if (focused) this.select(focused.value, event);
@@ -342,7 +344,10 @@ export class AerisStepper {
     const states = this.stepStates().filter((state) => !state.disabled && state.reachable);
     if (states.length === 0) return;
     const focused = this.focusedButtonState(event) ?? this.activeState();
-    const currentIndex = Math.max(states.findIndex((state) => state.value === focused?.value), 0);
+    const currentIndex = Math.max(
+      states.findIndex((state) => state.value === focused?.value),
+      0,
+    );
     const nextIndex =
       direction === 'first'
         ? 0

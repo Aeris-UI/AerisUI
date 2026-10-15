@@ -1,3 +1,4 @@
+import { ɵAerisIcon } from '@aeris-ui/core';
 import {
   Component,
   DestroyRef,
@@ -12,7 +13,9 @@ import {
   resource,
   viewChildren,
   booleanAttribute,
+  TemplateRef,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   highlightAerisCode,
   plainAerisCode,
@@ -35,6 +38,7 @@ let nextId = 0;
 
 @Component({
   selector: 'aeris-code-block',
+  imports: [ɵAerisIcon, NgTemplateOutlet],
   templateUrl: './aeris-code-block.html',
   styleUrl: './aeris-code-block.scss',
   host: {
@@ -46,6 +50,8 @@ let nextId = 0;
   },
 })
 export class AerisCodeBlock {
+  readonly copyIconTemplate = input<TemplateRef<void>>();
+  readonly copiedIconTemplate = input<TemplateRef<void>>();
   readonly code = input('');
   readonly language = input<string>('text');
   readonly label = input('');
