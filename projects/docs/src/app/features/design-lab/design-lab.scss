@@ -301,7 +301,7 @@
 }
 
 .design-lab__tones-heading p,
-.design-lab__tones-note {
+.design-lab .design-lab__tones-note {
   margin-top: 0.3rem;
   color: var(--text-3);
   font-size: 0.8125rem;
@@ -638,7 +638,6 @@
 }
 
 .design-lab__tones-note {
-  margin-bottom: 0;
   padding-top: 1rem;
 }
 

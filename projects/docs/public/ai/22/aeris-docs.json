@@ -1181,7 +1181,7 @@
           "id": "preview-and-apply",
           "title": "Preview in Design Lab",
           "paragraphs": [
-            "Try your colors across real components, switch between light and dark, and review the contrast report. Copy the generated theme, provider configuration, and style imports into your project before leaving or reloading."
+            "Try your colors across real components, switch between light and dark, and review the contrast report. Your draft is saved in this browser. Copy the generated configuration into your project, or export JSON to back it up and continue elsewhere."
           ],
           "note": "The report checks specific color pairs, not the accessibility of an entire application.",
           "links": [
@@ -2156,9 +2156,10 @@
           "id": "design-lab",
           "title": "Use the Design Lab",
           "paragraphs": [
-            "Choose a starter theme, adjust its five palette seeds and appearance, then preview real Aeris components. Open Advanced interaction colors for per-scheme base, hover, and pressed overrides.",
-            "Below the preview, open the Contrast report to review both schemes. The generated code includes your preset and only its changed palette values, appearance settings, and explicit scheme overrides. Save the code before leaving or reloading; custom edits are not persisted as a complete draft.",
-            "The Lab is a color and interaction editor, not a replacement for the full theme API. Set exact page backgrounds, text, borders, shadows, or custom geometry scales in the typed theme file when the product needs them."
+            "Choose a starter theme, adjust its five palette seeds and appearance, then preview real Aeris components. Advanced surfaces and text provides color pickers and grouped shadow controls for offsets, blur, spread, color, opacity, and inset. Advanced interaction colors includes all tone properties, with separate Inherit and Auto actions. Switch Color mode to edit each scheme independently. Custom imported shadow expressions stay unchanged unless you explicitly replace them.",
+            "Your theme and mode are saved locally and restored when you open Design Lab again. Browser storage can be cleared or unavailable; export JSON for a portable backup. Clear saved draft removes the stored copy without changing the current preview; the next edit starts saving again.",
+            "Under Generated configuration, export a Design Lab JSON document or import one from a file or pasted text. A plain AerisThemeOverride JSON object is also accepted and uses system mode. Import replaces the current theme; invalid documents leave it unchanged. Only JSON data is read, never TypeScript or JavaScript. Contrast issues do not block imports.",
+            "Generated TypeScript includes only overrides, including imported custom density and corner scales. Use it in your application; the exported JSON is a Design Lab document, not a build-time generator configuration. Open the Contrast report to review both schemes without changing your colors."
           ],
           "links": [
             {

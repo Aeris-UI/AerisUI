@@ -2,10 +2,25 @@ import { TestBed } from '@angular/core/testing';
 import { AerisThemeService, provideAeris, resolveAerisTheme } from '@aeris-ui/core/theming';
 import { DocsAppearanceService } from '../../shared/appearance/docs-appearance.service';
 import { DesignLab } from './design-lab';
+import { LAB_DRAFT_KEY, parseLabThemeDocument } from './design-lab-theme';
 
 describe('DesignLab workflow', () => {
   beforeEach(() => {
-    vi.spyOn(Storage.prototype, 'getItem').mockReturnValue(null);
+    const values = new Map<string, string>();
+    vi.stubGlobal('localStorage', {
+      get length() {
+        return values.size;
+      },
+      getItem: vi.fn((key: string) => values.get(key) ?? null),
+      setItem: vi.fn((key: string, value: string) => {
+        values.set(key, value);
+      }),
+      removeItem: vi.fn((key: string) => {
+        values.delete(key);
+      }),
+      clear: () => values.clear(),
+      key: (index: number) => [...values.keys()][index] ?? null,
+    } satisfies Storage);
     TestBed.configureTestingModule({
       imports: [DesignLab],
       providers: [provideAeris({ mode: 'light', themeValidation: false })],
@@ -16,6 +31,7 @@ describe('DesignLab workflow', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
   });
 
   it.each(['monochrome', 'earth', 'coastal', 'orchid'] as const)(
@@ -93,5 +109,103 @@ describe('DesignLab workflow', () => {
     lab['resetTone']('warning');
     expect(lab['themeCode']()).toContain('warning: null');
     expect(lab['themeCode']()).not.toContain("active: '#654321'");
+  });
+
+  it('edits and restores foundation overrides without affecting the other scheme', () => {
+    const lab = TestBed.createComponent(DesignLab).componentInstance;
+    lab['setMode']('light');
+    lab['updateScheme']('page', '#fafafa');
+    lab['updateScheme']('shadowSm', '0 2px 8px rgb(0 0 0 / 0.12)');
+    expect(lab['schemeFields']().find(({ key }) => key === 'page')?.state).toBe('Override');
+    lab['setMode']('dark');
+    expect(lab['schemeFields']().find(({ key }) => key === 'page')?.state).toBe('Inherited');
+    lab['setMode']('light');
+    lab['inheritScheme']('page');
+    expect(lab['themeOverride']().light?.page).toBeUndefined();
+    expect(lab['themeOverride']().light?.shadowSm).toContain('0 2px');
+  });
+
+  it('keeps automatic tone fields automatic when one field is overridden or inherited', () => {
+    const lab = TestBed.createComponent(DesignLab).componentInstance;
+    lab['resetTone']('primary');
+    lab['updateTone']('primary', 'onBase', '#ffffff');
+    expect(lab['themeOverride']().light?.tones?.primary?.hover).toBeNull();
+    expect(lab['themeOverride']().light?.tones?.primary?.onBase).toBe('#ffffff');
+    lab['resetToneField']('primary', 'onBase', false);
+    expect(lab['themeOverride']().light?.tones?.primary?.onBase).toBeUndefined();
+    expect(lab['themeOverride']().light?.tones?.primary?.hover).toBeNull();
+    lab['resetToneField']('primary', 'onBase', true);
+    expect(lab['themeOverride']().light?.tones?.primary?.onBase).toBeNull();
+  });
+
+  it('does not apply malformed JSON or unsafe field edits', () => {
+    const lab = TestBed.createComponent(DesignLab).componentInstance;
+    const before = lab['exportJson']();
+    lab['importText'].set('{ invalid');
+    lab['importTheme']();
+    expect(lab['importError']()).toBe(true);
+    expect(lab['exportJson']()).toBe(before);
+    lab['updateScheme']('page', 'url(https://example.com)');
+    expect(lab['editError']()?.id).toBe('lab-light-page');
+    expect(lab['exportJson']()).toBe(before);
+  });
+
+  it('restores a saved theme and mode only when Design Lab is created', () => {
+    vi.mocked(globalThis.localStorage.getItem).mockImplementation((key) =>
+      key === LAB_DRAFT_KEY
+        ? JSON.stringify({
+            version: 1,
+            mode: 'dark',
+            theme: { preset: 'orchid', palette: { primary: '#123456' } },
+          })
+        : null,
+    );
+    const lab = TestBed.createComponent(DesignLab).componentInstance;
+    expect(lab['mode']()).toBe('dark');
+    expect(lab['palette']().primary).toBe('#123456');
+    expect(lab['starterName']()).toBe('Orchid');
+  });
+
+  it('saves edits, clears only the stored copy, and saves again after another edit', () => {
+    const setItem = vi.mocked(globalThis.localStorage.setItem);
+    const removeItem = vi.mocked(globalThis.localStorage.removeItem);
+    const fixture = TestBed.createComponent(DesignLab);
+    const lab = fixture.componentInstance;
+    fixture.detectChanges();
+    lab['updateColor']('primary', '#123456');
+    TestBed.tick();
+    expect(setItem).toHaveBeenCalledWith(LAB_DRAFT_KEY, lab['exportJson']());
+    expect(parseLabThemeDocument(lab['exportJson']()).theme.palette?.primary).toBe('#123456');
+    setItem.mockClear();
+    lab['clearDraft']();
+    TestBed.tick();
+    expect(removeItem).toHaveBeenCalledWith(LAB_DRAFT_KEY);
+    expect(setItem).not.toHaveBeenCalled();
+    expect(lab['palette']().primary).toBe('#123456');
+    lab['setMode']('dark');
+    TestBed.tick();
+    expect(setItem).toHaveBeenCalledWith(LAB_DRAFT_KEY, lab['exportJson']());
+    lab['setMode']('light');
+    TestBed.tick();
+    expect(setItem.mock.calls.filter(([key]) => key === LAB_DRAFT_KEY).at(-1)).toEqual([
+      LAB_DRAFT_KEY,
+      lab['exportJson'](),
+    ]);
+  });
+
+  it('handles blocked storage and corrupt drafts without breaking editing', () => {
+    vi.mocked(globalThis.localStorage.getItem).mockImplementation((key) =>
+      key === LAB_DRAFT_KEY ? '{broken' : null,
+    );
+    vi.mocked(globalThis.localStorage.setItem).mockImplementation(() => {
+      throw new Error('blocked');
+    });
+    const fixture = TestBed.createComponent(DesignLab);
+    fixture.detectChanges();
+    const lab = fixture.componentInstance;
+    expect(lab['transferMessage']()).toContain('could not be restored');
+    expect(lab['draftStatus']()).toContain('unavailable');
+    lab['updateColor']('primary', '#123456');
+    expect(lab['palette']().primary).toBe('#123456');
   });
 });
