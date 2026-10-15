@@ -47,8 +47,10 @@ people or brands.
 The images are documentation-only assets and are not relicensed under the
 Aeris UI MIT License.
 
-The Aeris UI library does not ship or depend on Lucide. Lucide is used only by
-the Aeris documentation application for example and documentation icons.
+Aeris UI includes static Lucide SVG artwork for built-in control icons under
+the ISC License and applicable Feather MIT License. No Lucide package is
+imported or required by the library. The documentation uses Lucide Angular
+for examples and documentation icons.
 
 Lucide
 ------

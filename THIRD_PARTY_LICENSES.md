@@ -16,8 +16,10 @@ that inventory and are not Pexels content.
 
 ## Lucide
 
-The Aeris UI documentation uses icons from [Lucide](https://lucide.dev).
-The published Aeris UI component library does not depend on Lucide.
+Aeris UI includes a subset of static SVG icon artwork from [Lucide](https://lucide.dev)
+for built-in control icons. The documentation also uses Lucide Angular.
+The published component library does not import or depend on a Lucide package.
+The ISC and Feather MIT notices below apply to the included artwork.
 
 ISC License
 

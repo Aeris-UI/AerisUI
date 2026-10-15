@@ -45,8 +45,8 @@ export type AerisScrollTopStrategy = 'fixed' | 'absolute';
             ><ng-container [ngTemplateOutlet]="customIcon"
           /></span>
         } @else {
-          <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
-            <path d="M5 12.5 10 7.5l5 5" />
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+            <path d="m18 15-6-6-6 6" />
           </svg>
         }
       </button>

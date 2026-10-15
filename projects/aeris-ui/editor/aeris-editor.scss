@@ -126,7 +126,7 @@
   stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.9;
+  stroke-width: 2;
 }
 
 :dir(rtl) .aeris-editor__logical-icon {
@@ -138,20 +138,6 @@
   height: 1.5rem;
   margin-inline: 0.125rem;
   background: var(--aeris-border);
-}
-
-.aeris-editor__underline {
-  text-decoration: underline;
-  text-underline-offset: 0.14em;
-}
-
-.aeris-editor__strikethrough {
-  text-decoration: line-through;
-}
-
-.aeris-editor__toolbar sub,
-.aeris-editor__toolbar sup {
-  font-size: 0.65em;
 }
 
 .aeris-editor__content-shell {

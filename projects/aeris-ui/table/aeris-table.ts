@@ -371,10 +371,7 @@ export class AerisTableLoadingTemplate {
                               sort()?.field === column.field ? sort()?.direction : null
                             "
                             aria-hidden="true"
-                          >
-                            <span></span>
-                            <span></span>
-                          </span>
+                          ></span>
                         }
                       </button>
                     } @else {

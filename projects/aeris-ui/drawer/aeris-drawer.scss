@@ -1,3 +1,4 @@
+@use '../src/styles/icon-artwork' as artwork;
 @use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
@@ -318,25 +319,15 @@
   mask: var(--aeris-icon-close) center / 100% 100% no-repeat;
 }
 
-.aeris-drawer__maximize-icon::before {
-  position: absolute;
-  inset: 0.125rem;
-  border: 1.6px solid currentColor;
-  border-radius: 0.1875rem;
-  content: '';
+.aeris-drawer__maximize-icon {
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-maximize, #{artwork.$maximize}) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-maximize, #{artwork.$maximize}) center / 100% 100% no-repeat;
 }
 
-.aeris-drawer__maximize-icon[data-maximized]::before {
-  inset: 0.25rem 0.125rem 0.125rem 0.25rem;
-}
-
-.aeris-drawer__maximize-icon[data-maximized]::after {
-  position: absolute;
-  inset: 0.125rem 0.25rem 0.25rem 0.125rem;
-  border: 1.6px solid currentColor;
-  border-radius: 0.1875rem;
-  background: var(--aeris-drawer-background, var(--aeris-surface, #fff));
-  content: '';
+.aeris-drawer__maximize-icon[data-maximized] {
+  -webkit-mask-image: var(--aeris-icon-restore, #{artwork.$restore});
+  mask-image: var(--aeris-icon-restore, #{artwork.$restore});
 }
 
 .aeris-drawer__body {

@@ -1,3 +1,4 @@
+@use '../src/styles/icon-artwork' as artwork;
 @use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
@@ -539,32 +540,12 @@
   outline-offset: var(--aeris-focus-ring-offset, 2px);
 }
 
-.aeris-menubar__toggle span,
-.aeris-menubar__toggle span::before,
-.aeris-menubar__toggle span::after {
-  inline-size: 1.1rem;
-  block-size: 2px;
-  border-radius: var(--aeris-radius-pill, 999px);
-  background: currentColor;
-}
-
 .aeris-menubar__toggle span {
-  position: relative;
-}
-
-.aeris-menubar__toggle span::before,
-.aeris-menubar__toggle span::after {
-  position: absolute;
-  inset-inline-start: 0;
-  content: '';
-}
-
-.aeris-menubar__toggle span::before {
-  inset-block-start: -0.38rem;
-}
-
-.aeris-menubar__toggle span::after {
-  inset-block-start: 0.38rem;
+  inline-size: var(--aeris-icon-size, 1rem);
+  block-size: var(--aeris-icon-size, 1rem);
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-menu, #{artwork.$menu}) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-menu, #{artwork.$menu}) center / 100% 100% no-repeat;
 }
 
 :host([data-size='sm']) {

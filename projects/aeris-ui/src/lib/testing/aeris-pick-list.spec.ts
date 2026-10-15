@@ -86,10 +86,12 @@ describe('AerisPickList', () => {
       true,
     );
     expect(sourceControlIconPaths).toEqual([
-      'M4 4h12M5 12l5-5 5 5',
-      'M5 12l5-5 5 5',
-      'M5 8l5 5 5-5',
-      'M5 8l5 5 5-5M4 16h12',
+      'm17 11-5-5-5 5',
+      'm17 18-5-5-5 5',
+      'm18 15-6-6-6 6',
+      'm6 9 6 6 6-6',
+      'm7 6 5 5 5-5',
+      'm7 13 5 5 5-5',
     ]);
   });
 

@@ -1,3 +1,4 @@
+@use '../src/styles/icon-artwork' as artwork;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
@@ -298,10 +299,11 @@
 .aeris-button__spinner {
   width: 0.875rem;
   height: 0.875rem;
-  border: 2px solid color-mix(in srgb, currentColor 28%, transparent);
-  border-top-color: currentColor;
-  border-radius: 50%;
   animation: aeris-button-spin 700ms linear infinite;
+
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-loader, #{artwork.$loader}) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-loader, #{artwork.$loader}) center / 100% 100% no-repeat;
 }
 
 @keyframes aeris-button-spin {

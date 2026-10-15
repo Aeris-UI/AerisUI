@@ -47,7 +47,10 @@ describe('AerisSpeedDial', () => {
       '.aeris-speed-dial__trigger-icon',
     ) as HTMLElement;
     expect(icon.querySelector('svg')?.getAttribute('viewBox')).toBe('0 0 24 24');
-    expect(icon.querySelector('path')?.getAttribute('d')).toBe('M12 5v14M5 12h14');
+    expect(Array.from(icon.querySelectorAll('path'), (path) => path.getAttribute('d'))).toEqual([
+      'M5 12h14',
+      'M12 5v14',
+    ]);
     expect(icon.hasAttribute('data-rotate')).toBe(true);
     fixture.componentRef.setInput('visible', true);
     await fixture.whenStable();

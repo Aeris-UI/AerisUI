@@ -357,7 +357,18 @@ describe('Aeris icon-only templates', () => {
     await fixture.whenStable();
     const root: HTMLElement = fixture.nativeElement;
     expect(root.querySelector('[aria-label="Bold"] [data-test-icon]')).not.toBeNull();
-    expect(root.querySelector('[aria-label="Italic"] em')?.textContent).toBe('I');
+    expect(
+      Array.from(root.querySelectorAll('[aria-label="Italic"] svg line'), (line) => [
+        line.getAttribute('x1'),
+        line.getAttribute('x2'),
+        line.getAttribute('y1'),
+        line.getAttribute('y2'),
+      ]),
+    ).toEqual([
+      ['19', '10', '4', '4'],
+      ['14', '5', '20', '20'],
+      ['15', '9', '4', '20'],
+    ]);
     expect(root.querySelector('[aria-label="Bold"]')?.getAttribute('aria-pressed')).toBe('false');
   });
 });

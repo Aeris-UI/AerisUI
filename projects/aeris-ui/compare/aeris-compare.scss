@@ -1,3 +1,4 @@
+@use '../src/styles/icon-artwork' as artwork;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
 :host {
@@ -157,25 +158,10 @@
   block-size: 1.25rem;
 }
 
-.aeris-compare__handle-icon::before,
-.aeris-compare__handle-icon::after {
-  position: absolute;
-  inset-block-start: 50%;
-  inline-size: 0.45rem;
-  block-size: 0.45rem;
-  border-block-start: 2px solid currentColor;
-  border-inline-start: 2px solid currentColor;
-  content: '';
-}
-
-.aeris-compare__handle-icon::before {
-  inset-inline-start: 0.12rem;
-  transform: translateY(-50%) rotate(-45deg);
-}
-
-.aeris-compare__handle-icon::after {
-  inset-inline-end: 0.12rem;
-  transform: translateY(-50%) rotate(135deg);
+.aeris-compare__handle-icon {
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-compare, #{artwork.$compare}) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-compare, #{artwork.$compare}) center / 100% 100% no-repeat;
 }
 
 .aeris-compare[data-orientation='vertical'] .aeris-compare__handle-icon {

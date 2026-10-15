@@ -224,7 +224,8 @@ let speedDialId = 0;
               @if (icon === '+') {
                 <ng-template #plusArtwork>
                   <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                    <path d="M12 5v14M5 12h14" />
+                    <path d="M5 12h14" />
+                    <path d="M12 5v14" />
                   </svg>
                 </ng-template>
                 <span

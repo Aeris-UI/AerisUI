@@ -158,14 +158,11 @@
 
 .aeris-stepper__check::before {
   position: absolute;
-  top: 48%;
-  left: 50%;
-  width: 0.65rem;
-  height: 0.35rem;
-  border-bottom: 2px solid currentColor;
-  border-left: 2px solid currentColor;
+  inset: 0;
+  background: currentColor;
   content: '';
-  transform: translate(-50%, -58%) rotate(-45deg);
+  -webkit-mask: var(--aeris-icon-check) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-check) center / 100% 100% no-repeat;
   animation: aeris-stepper-check-in var(--aeris-motion-normal, 150ms)
     var(--aeris-ease-enter, ease-out) both;
 }
@@ -352,6 +349,6 @@
 @keyframes aeris-stepper-check-in {
   from {
     opacity: 0;
-    transform: translate(-50%, -58%) rotate(-45deg) scale(0.65);
+    transform: scale(0.65);
   }
 }

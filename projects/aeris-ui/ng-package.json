@@ -3,6 +3,7 @@
   "dest": "../../dist/aeris-ui",
   "assets": [
     "LICENSE",
+    "THIRD_PARTY_LICENSES.md",
     {
       "glob": "**/*",
       "input": "src/styles",

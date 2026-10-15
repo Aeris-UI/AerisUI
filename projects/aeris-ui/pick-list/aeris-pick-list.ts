@@ -144,8 +144,9 @@ let nextPickListId = 0;
                 ><ng-container [ngTemplateOutlet]="customIcon"
               /></span>
             } @else {
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
-                <path d="M4 4h12M5 12l5-5 5 5" />
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                <path d="m17 11-5-5-5 5" />
+                <path d="m17 18-5-5-5 5" />
               </svg>
             }
           </button>
@@ -164,8 +165,8 @@ let nextPickListId = 0;
                 ><ng-container [ngTemplateOutlet]="customIcon"
               /></span>
             } @else {
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
-                <path d="M5 12l5-5 5 5" />
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                <path d="m18 15-6-6-6 6" />
               </svg>
             }
           </button>
@@ -184,8 +185,8 @@ let nextPickListId = 0;
                 ><ng-container [ngTemplateOutlet]="customIcon"
               /></span>
             } @else {
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
-                <path d="M5 8l5 5 5-5" />
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                <path d="m6 9 6 6 6-6" />
               </svg>
             }
           </button>
@@ -204,8 +205,9 @@ let nextPickListId = 0;
                 ><ng-container [ngTemplateOutlet]="customIcon"
               /></span>
             } @else {
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
-                <path d="M5 8l5 5 5-5M4 16h12" />
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                <path d="m7 6 5 5 5-5" />
+                <path d="m7 13 5 5 5-5" />
               </svg>
             }
           </button>
@@ -339,8 +341,8 @@ let nextPickListId = 0;
                 ><ng-container [ngTemplateOutlet]="customIcon"
               /></span>
             } @else {
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
-                <path d="M7 5l5 5-5 5" />
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                <path d="m9 18 6-6-6-6" />
               </svg>
             }
           </button>
@@ -359,8 +361,9 @@ let nextPickListId = 0;
                 ><ng-container [ngTemplateOutlet]="customIcon"
               /></span>
             } @else {
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
-                <path d="M7 5l5 5-5 5M16 4v12" />
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                <path d="m6 17 5-5-5-5" />
+                <path d="m13 17 5-5-5-5" />
               </svg>
             }
           </button>
@@ -379,8 +382,8 @@ let nextPickListId = 0;
                 ><ng-container [ngTemplateOutlet]="customIcon"
               /></span>
             } @else {
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
-                <path d="M13 5l-5 5 5 5" />
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                <path d="m15 18-6-6 6-6" />
               </svg>
             }
           </button>
@@ -399,8 +402,9 @@ let nextPickListId = 0;
                 ><ng-container [ngTemplateOutlet]="customIcon"
               /></span>
             } @else {
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20">
-                <path d="M13 5l-5 5 5 5M4 4v12" />
+              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24">
+                <path d="m11 17-5-5 5-5" />
+                <path d="m18 17-5-5 5-5" />
               </svg>
             }
           </button>

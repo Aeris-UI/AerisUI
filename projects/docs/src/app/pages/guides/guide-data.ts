@@ -2002,14 +2002,14 @@ export const productTheme: AerisThemeOverride = {
     description:
       'Use any Angular icon library, inline SVG, icon component, or icon font with Aeris.',
     summary:
-      'Aeris does not ship or depend on a consumer icon package. Documentation uses Lucide consistently, while the library stays icon-library neutral.',
+      'Aeris works with any consumer icon library. Built-in controls include static Lucide SVG artwork without requiring a Lucide package; the documentation also uses Lucide Angular.',
     sections: [
       {
         id: 'ownership',
         title: 'Icon ownership',
         paragraphs: [
-          'Aeris-owned functional icons such as chevrons, close marks, and search indicators are rendered by the component itself. Consumer-facing slots project normal Angular content so your application can use its existing icon system.',
-          'Do not install Lucide unless your application chooses it. Lucide is a development dependency of the Aeris documentation application only and is not imported by the Aeris library.',
+          'Built-in functional icons such as chevrons, close marks, and search indicators use bundled Lucide SVG artwork rendered by the component itself. Consumer-facing slots project normal Angular content so your application can use its existing icon system.',
+          'Do not install Lucide unless your application chooses it. The library includes only the static artwork it needs, with the applicable ISC/MIT notices; it never imports Lucide Angular at runtime.',
         ],
       },
       {
@@ -2046,7 +2046,7 @@ export class SaveAction {}`,
             external: true,
           },
           {
-            label: 'Documentation third-party notices',
+            label: 'Third-party notices',
             href: '/third-party-notices',
           },
         ],
@@ -2229,6 +2229,20 @@ export class DateField {
             ['--aeris-icon-eyedropper', 'ColorPicker eyedropper action'],
             ['--aeris-icon-edit', 'Editable cell indicator'],
             ['--aeris-icon-copy', 'CodeBlock copy action'],
+            ['--aeris-icon-chevrons', 'Double down-pointing chevron for first/last navigation'],
+            ['--aeris-icon-info', 'Informational Message and Toast status'],
+            ['--aeris-icon-success', 'Successful Message and Toast status'],
+            ['--aeris-icon-warning', 'Warning Message and Toast status'],
+            ['--aeris-icon-danger', 'Error Message and Toast status'],
+            ['--aeris-icon-maximize', 'Dialog and Drawer maximize action'],
+            ['--aeris-icon-restore', 'Dialog and Drawer restore action'],
+            ['--aeris-icon-menu', 'Menubar mobile navigation toggle'],
+            ['--aeris-icon-file', 'FileUpload file placeholder'],
+            ['--aeris-icon-compare', 'Compare handle direction indicator'],
+            ['--aeris-icon-loader', 'Animated loading glyphs'],
+            ['--aeris-icon-sort', 'Unsorted Table and TreeTable column'],
+            ['--aeris-icon-sort-asc', 'Ascending Table and TreeTable column'],
+            ['--aeris-icon-sort-desc', 'Descending Table and TreeTable column'],
           ],
         },
         note: 'Use a component icon template for artwork that is not covered by a shared token, or when your application uses Angular icon components. For state-aware templates, the component API describes the available context. Icon changes do not replace control labels or status text.',

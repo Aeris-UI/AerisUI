@@ -1,4 +1,48 @@
 import { expect, test } from './fixtures';
+
+test('default SVG masks retain copied geometry and align with their controls', async ({ page }) => {
+  await page.goto('/');
+  const calendar = page.locator('[data-fixture="forms"] .aeris-date-picker__calendar-icon');
+  const geometry = await calendar.evaluate((element) => {
+    const style = getComputedStyle(element);
+    const data = /data:image\/svg\+xml,(.*?)['"]?\)$/.exec(style.maskImage)?.[1] ?? '';
+    const svg = new DOMParser().parseFromString(
+      decodeURIComponent(data).replace(/\\([^\r\n])/g, '$1'),
+      'image/svg+xml',
+    );
+    const frame = svg.querySelector('rect');
+    return {
+      parseError: Boolean(svg.querySelector('parsererror')),
+      stroke: svg.documentElement.getAttribute('stroke-width'),
+      viewBox: svg.documentElement.getAttribute('viewBox'),
+      paths: Array.from(svg.querySelectorAll('path'), (path) => path.getAttribute('d')),
+      frame: frame && [
+        frame.getAttribute('x'),
+        frame.getAttribute('y'),
+        frame.getAttribute('width'),
+        frame.getAttribute('height'),
+      ],
+      width: style.width,
+      height: style.height,
+      border: style.borderWidth,
+    };
+  });
+  expect(geometry).toEqual({
+    parseError: false,
+    stroke: '2',
+    viewBox: '0 0 24 24',
+    paths: ['M8 2v3', 'M16 2v3', 'M3 9h18'],
+    frame: ['3', '3', '18', '18'],
+    width: '16px',
+    height: '16px',
+    border: '0px',
+  });
+  const button = page.getByRole('combobox', { name: 'Deadline', exact: true });
+  await button.click();
+  await expect(page.getByRole('dialog', { name: 'Choose a date' })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(button).toBeFocused();
+});
 import AxeBuilder from '@axe-core/playwright';
 
 test('custom artwork preserves control geometry, interaction and direction', async ({ page }) => {

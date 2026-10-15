@@ -81,8 +81,9 @@ export class AerisOrderListEmptyTemplate {
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="top">
-                  <path d="M4 4h12M5 12l5-5 5 5" />
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" data-icon="top">
+                  <path d="m17 11-5-5-5 5" />
+                  <path d="m17 18-5-5-5 5" />
                 </svg>
               }
             </button>
@@ -102,8 +103,8 @@ export class AerisOrderListEmptyTemplate {
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="up">
-                  <path d="M5 12l5-5 5 5" />
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" data-icon="up">
+                  <path d="m18 15-6-6-6 6" />
                 </svg>
               }
             </button>
@@ -123,8 +124,8 @@ export class AerisOrderListEmptyTemplate {
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="down">
-                  <path d="M5 8l5 5 5-5" />
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" data-icon="down">
+                  <path d="m6 9 6 6 6-6" />
                 </svg>
               }
             </button>
@@ -144,8 +145,9 @@ export class AerisOrderListEmptyTemplate {
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <svg aria-hidden="true" focusable="false" viewBox="0 0 20 20" data-icon="bottom">
-                  <path d="M5 8l5 5 5-5M4 16h12" />
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" data-icon="bottom">
+                  <path d="m7 6 5 5 5-5" />
+                  <path d="m7 13 5 5 5-5" />
                 </svg>
               }
             </button>

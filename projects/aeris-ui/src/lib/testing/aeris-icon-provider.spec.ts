@@ -178,7 +178,8 @@ describe('provideAerisIcons public API', () => {
     );
     expect(icon.querySelectorAll('svg')).toHaveLength(1);
     expect(icon.querySelector('[data-global-close]')).not.toBeNull();
-    expect(icon.querySelector('path[d="M12 5v14M5 12h14"]')).toBeNull();
+    expect(icon.querySelector('path[d="M5 12h14"]')).toBeNull();
+    expect(icon.querySelector('path[d="M12 5v14"]')).toBeNull();
     fixture.nativeElement.querySelector('.aeris-speed-dial__trigger').click();
     await fixture.whenStable();
     expect(fixture.componentInstance.visible()).toBe(true);

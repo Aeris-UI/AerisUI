@@ -1,3 +1,4 @@
+@use '../src/styles/icon-artwork' as artwork;
 @use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
@@ -385,75 +386,27 @@
 }
 
 .aeris-toast__default-icon {
-  position: relative;
+  display: block;
   width: var(--aeris-toast-icon-size, 1.25rem);
   height: var(--aeris-toast-icon-size, 1.25rem);
-  display: block;
-  border: 2px solid currentColor;
-  border-radius: var(--aeris-radius-pill, 999px);
-}
-
-.aeris-toast__default-icon::before,
-.aeris-toast__default-icon::after {
-  position: absolute;
-  content: '';
   background: currentColor;
-}
-
-.aeris-toast__default-icon::before {
-  width: 0.125rem;
-  height: 0.4375rem;
-  top: 0.5rem;
-  left: 50%;
-  border-radius: var(--aeris-radius-pill, 999px);
-  transform: translateX(-50%);
-}
-
-.aeris-toast__default-icon::after {
-  width: 0.15625rem;
-  height: 0.15625rem;
-  top: 0.25rem;
-  left: 50%;
-  border-radius: var(--aeris-radius-pill, 999px);
-  transform: translateX(-50%);
+  -webkit-mask: var(--aeris-icon-info, #{artwork.$info}) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-info, #{artwork.$info}) center / 100% 100% no-repeat;
 }
 
 .aeris-toast__message[data-severity='success'] .aeris-toast__default-icon {
-  border-color: transparent;
+  -webkit-mask-image: var(--aeris-icon-success, #{artwork.$success});
+  mask-image: var(--aeris-icon-success, #{artwork.$success});
 }
 
-.aeris-toast__message[data-severity='success'] .aeris-toast__default-icon::before {
-  width: 0.625rem;
-  height: 0.3125rem;
-  top: 0.375rem;
-  left: 0.3125rem;
-  border: 0 solid currentColor;
-  border-left-width: 2px;
-  border-bottom-width: 2px;
-  border-radius: 0;
-  background: transparent;
-  transform: rotate(-45deg);
+.aeris-toast__message[data-severity='warning'] .aeris-toast__default-icon {
+  -webkit-mask-image: var(--aeris-icon-warning, #{artwork.$warning});
+  mask-image: var(--aeris-icon-warning, #{artwork.$warning});
 }
 
-.aeris-toast__message[data-severity='success'] .aeris-toast__default-icon::after {
-  display: none;
-}
-
-.aeris-toast__message[data-severity='danger'] .aeris-toast__default-icon::before,
-.aeris-toast__message[data-severity='danger'] .aeris-toast__default-icon::after {
-  width: 0.6875rem;
-  height: 0.125rem;
-  top: 50%;
-  left: 50%;
-  border-radius: var(--aeris-radius-pill, 999px);
-}
-
-.aeris-toast__message[data-severity='danger'] .aeris-toast__default-icon::before {
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.aeris-toast__message[data-severity='danger'] .aeris-toast__default-icon::after {
-  transform: translate(-50%, -50%) rotate(-45deg);
+.aeris-toast__message[data-severity='danger'] .aeris-toast__default-icon {
+  -webkit-mask-image: var(--aeris-icon-danger, #{artwork.$danger});
+  mask-image: var(--aeris-icon-danger, #{artwork.$danger});
 }
 
 .aeris-toast__content {

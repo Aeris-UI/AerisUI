@@ -200,8 +200,8 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M9 8H4V3" />
-                  <path d="M4 8c2.1-2.7 5-4 8.1-4A8 8 0 1 1 6 17.1" />
+                  <path d="M3 7v6h6" />
+                  <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13" />
                 </svg>
               }
             </button>
@@ -214,8 +214,8 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M15 8h5V3" />
-                  <path d="M20 8c-2.1-2.7-5-4-8.1-4A8 8 0 1 0 18 17.1" />
+                  <path d="M21 7v6h-6" />
+                  <path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7" />
                 </svg>
               }
             </button>
@@ -237,7 +237,9 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <strong>B</strong>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8" />
+                </svg>
               }
             </button>
           }
@@ -254,7 +256,11 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <em>I</em>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <line x1="19" x2="10" y1="4" y2="4" />
+                  <line x1="14" x2="5" y1="20" y2="20" />
+                  <line x1="15" x2="9" y1="4" y2="20" />
+                </svg>
               }
             </button>
           }
@@ -271,7 +277,10 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <span class="aeris-editor__underline">U</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M6 4v6a6 6 0 0 0 12 0V4" />
+                  <line x1="4" x2="20" y1="20" y2="20" />
+                </svg>
               }
             </button>
           }
@@ -288,7 +297,11 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <span class="aeris-editor__strikethrough">S</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M16 4H9a3 3 0 0 0-2.83 4" />
+                  <path d="M14 12a4 4 0 0 1 0 8H6" />
+                  <line x1="4" x2="20" y1="12" y2="12" />
+                </svg>
               }
             </button>
           }
@@ -305,7 +318,10 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <span aria-hidden="true">&lt;/&gt;</span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="m16 18 6-6-6-6" />
+                  <path d="m8 6-6 6 6 6" />
+                </svg>
               }
             </button>
           }
@@ -323,9 +339,8 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="m9 11 4 4" />
-                  <path d="m14.5 4.5 5 5L10 19H5v-5Z" />
-                  <path d="M4 21h16" />
+                  <path d="m9 11-6 6v3h9l3-3" />
+                  <path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4" />
                 </svg>
               }
             </button>
@@ -343,7 +358,13 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <span aria-hidden="true">X<sub>2</sub></span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="m4 5 8 8" />
+                  <path d="m12 5-8 8" />
+                  <path
+                    d="M20 19h-4c0-1.5.44-2 1.5-2.5S20 15.33 20 14c0-.47-.17-.93-.48-1.29a2.11 2.11 0 0 0-2.62-.44c-.42.24-.74.62-.9 1.07"
+                  />
+                </svg>
               }
             </button>
           }
@@ -360,7 +381,13 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <span aria-hidden="true">X<sup>2</sup></span>
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="m4 19 8-8" />
+                  <path d="m12 19-8-8" />
+                  <path
+                    d="M20 12h-4c0-1.5.442-2 1.5-2.5S20 8.334 20 7.002c0-.472-.17-.93-.484-1.29a2.105 2.105 0 0 0-2.617-.436c-.42.239-.738.614-.899 1.06"
+                  />
+                </svg>
               }
             </button>
           }
@@ -377,7 +404,12 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                aa
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M10 9v7" />
+                  <path d="M14 6v10" />
+                  <circle cx="17.5" cy="12.5" r="3.5" />
+                  <circle cx="6.5" cy="12.5" r="3.5" />
+                </svg>
               }
             </button>
           }
@@ -394,7 +426,13 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                AA
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path
+                    d="M15 11h4.5a1 1 0 0 1 0 5h-4a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h3a1 1 0 0 1 0 5"
+                  />
+                  <path d="m2 16 4.039-9.69a.5.5 0 0 1 .923 0L11 16" />
+                  <path d="M3.304 13h6.392" />
+                </svg>
               }
             </button>
           }
@@ -411,7 +449,12 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                Aa
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="m2 16 4.039-9.69a.5.5 0 0 1 .923 0L11 16" />
+                  <path d="M22 9v7" />
+                  <path d="M3.304 13h6.392" />
+                  <circle cx="18.5" cy="12.5" r="3.5" />
+                </svg>
               }
             </button>
           }
@@ -432,7 +475,11 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                P
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M13 4v16" />
+                  <path d="M17 4v16" />
+                  <path d="M19 4H9.5a4.5 4.5 0 0 0 0 9H13" />
+                </svg>
               }
             </button>
           }
@@ -449,7 +496,12 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                H1
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 12h8" />
+                  <path d="M4 18V6" />
+                  <path d="M12 18V6" />
+                  <path d="m17 12 3-2v8" />
+                </svg>
               }
             </button>
           }
@@ -466,7 +518,12 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                H2
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 12h8" />
+                  <path d="M4 18V6" />
+                  <path d="M12 18V6" />
+                  <path d="M21 18h-4c0-4 4-3 4-6 0-1.5-2-2.5-4-1" />
+                </svg>
               }
             </button>
           }
@@ -483,7 +540,12 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                H2
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 12h8" />
+                  <path d="M4 18V6" />
+                  <path d="M12 18V6" />
+                  <path d="M21 18h-4c0-4 4-3 4-6 0-1.5-2-2.5-4-1" />
+                </svg>
               }
             </button>
           }
@@ -500,7 +562,13 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                H3
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 12h8" />
+                  <path d="M4 18V6" />
+                  <path d="M12 18V6" />
+                  <path d="M17.5 10.5c1.7-1 3.5 0 3.5 1.5a2 2 0 0 1-2 2" />
+                  <path d="M17 17.5c2 1.5 4 .3 4-1.5a2 2 0 0 0-2-2" />
+                </svg>
               }
             </button>
           }
@@ -517,7 +585,13 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                H4
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M12 18V6" />
+                  <path d="M17 10v3a1 1 0 0 0 1 1h3" />
+                  <path d="M21 10v8" />
+                  <path d="M4 12h8" />
+                  <path d="M4 18V6" />
+                </svg>
               }
             </button>
           }
@@ -534,7 +608,13 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                H5
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 12h8" />
+                  <path d="M4 18V6" />
+                  <path d="M12 18V6" />
+                  <path d="M17 13v-3h4" />
+                  <path d="M17 17.7c.4.2.8.3 1.3.3 1.5 0 2.7-1.1 2.7-2.5S19.8 13 18.3 13H17" />
+                </svg>
               }
             </button>
           }
@@ -551,7 +631,13 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                H6
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M4 12h8" />
+                  <path d="M4 18V6" />
+                  <path d="M12 18V6" />
+                  <circle cx="19" cy="16" r="2" />
+                  <path d="M20 10c-2 2-3 3.5-3 6" />
+                </svg>
               }
             </button>
           }
@@ -570,10 +656,10 @@ let editorId = 0;
               } @else {
                 <svg aria-hidden="true" viewBox="0 0 24 24">
                   <path
-                    d="M8 6H5.8C4.8 7.7 4.3 9.3 4.3 11c0 2.1 1.1 3.6 3 3.6 1.5 0 2.7-1.1 2.7-2.7 0-1.4-1-2.5-2.4-2.7.1-.9.5-1.9 1.1-3.2Z"
+                    d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
                   />
                   <path
-                    d="M18 6h-2.2c-1 1.7-1.5 3.3-1.5 5 0 2.1 1.1 3.6 3 3.6 1.5 0 2.7-1.1 2.7-2.7 0-1.4-1-2.5-2.4-2.7.1-.9.5-1.9 1.1-3.2Z"
+                    d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
                   />
                 </svg>
               }
@@ -597,12 +683,12 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M8 6h12" />
-                  <path d="M8 12h12" />
-                  <path d="M8 18h12" />
-                  <circle cx="4" cy="6" r="1" />
-                  <circle cx="4" cy="12" r="1" />
-                  <circle cx="4" cy="18" r="1" />
+                  <path d="M3 5h.01" />
+                  <path d="M3 12h.01" />
+                  <path d="M3 19h.01" />
+                  <path d="M8 5h13" />
+                  <path d="M8 12h13" />
+                  <path d="M8 19h13" />
                 </svg>
               }
             </button>
@@ -621,17 +707,12 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M10 6h10" />
-                  <path d="M10 12h10" />
-                  <path d="M10 18h10" />
-                  <path d="M4 5h1v3" />
-                  <path d="M3.7 8h2.6" />
-                  <path
-                    d="M3.6 11.4c.3-.4.8-.6 1.4-.6.8 0 1.4.5 1.4 1.2 0 .5-.3.9-.8 1.2L4 14.5h2.5"
-                  />
-                  <path
-                    d="M3.7 17h2.1l-1 1h.3c.8 0 1.4.4 1.4 1.1 0 .7-.6 1.2-1.5 1.2-.6 0-1.1-.2-1.5-.6"
-                  />
+                  <path d="M11 5h10" />
+                  <path d="M11 12h10" />
+                  <path d="M11 19h10" />
+                  <path d="M4 4h1v5" />
+                  <path d="M4 9h2" />
+                  <path d="M6.5 20H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02" />
                 </svg>
               }
             </button>
@@ -650,11 +731,11 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <rect x="3" y="4" width="5" height="5" rx="1" />
-                  <path d="m4.5 6.5 1.2 1.2L8.3 5" />
-                  <path d="M11 6.5h10" />
-                  <rect x="3" y="15" width="5" height="5" rx="1" />
-                  <path d="M11 17.5h10" />
+                  <path d="M13 5h8" />
+                  <path d="M13 12h8" />
+                  <path d="M13 19h8" />
+                  <path d="m3 17 2 2 4-4" />
+                  <path d="m3 7 2 2 4-4" />
                 </svg>
               }
             </button>
@@ -677,7 +758,9 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M4 6h16M4 10h11M4 14h16M4 18h11" />
+                  <path d="M21 5H3" />
+                  <path d="M15 12H3" />
+                  <path d="M17 19H3" />
                 </svg>
               }
             </button>
@@ -699,7 +782,9 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg class="aeris-editor__logical-icon" aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M4 6h16M4 10h11M4 14h16M4 18h11" />
+                  <path d="M21 5H3" />
+                  <path d="M15 12H3" />
+                  <path d="M17 19H3" />
                 </svg>
               }
             </button>
@@ -718,7 +803,9 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M4 6h16M6.5 10h11M4 14h16M6.5 18h11" />
+                  <path d="M21 5H3" />
+                  <path d="M17 12H7" />
+                  <path d="M19 19H5" />
                 </svg>
               }
             </button>
@@ -737,7 +824,9 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M4 6h16M9 10h11M4 14h16M9 18h11" />
+                  <path d="M21 5H3" />
+                  <path d="M21 12H9" />
+                  <path d="M21 19H7" />
                 </svg>
               }
             </button>
@@ -759,7 +848,9 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg class="aeris-editor__logical-icon" aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M4 6h16M9 10h11M4 14h16M9 18h11" />
+                  <path d="M21 5H3" />
+                  <path d="M21 12H9" />
+                  <path d="M21 19H7" />
                 </svg>
               }
             </button>
@@ -778,7 +869,9 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                  <path d="M3 5h18" />
+                  <path d="M3 12h18" />
+                  <path d="M3 19h18" />
                 </svg>
               }
             </button>
@@ -799,9 +892,11 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M11 6h9M11 10h9M11 14h9M11 18h9" />
-                  <path d="m8 9-4 3 4 3" />
+                <svg class="aeris-editor__logical-icon" aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M21 5H11" />
+                  <path d="M21 12H11" />
+                  <path d="M21 19H11" />
+                  <path d="m7 8-4 4 4 4" />
                 </svg>
               }
             </button>
@@ -818,9 +913,11 @@ let editorId = 0;
                   ><ng-container [ngTemplateOutlet]="customIcon"
                 /></span>
               } @else {
-                <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="M11 6h9M11 10h9M11 14h9M11 18h9" />
-                  <path d="m4 9 4 3-4 3" />
+                <svg class="aeris-editor__logical-icon" aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M21 5H11" />
+                  <path d="M21 12H11" />
+                  <path d="M21 19H11" />
+                  <path d="m3 8 4 4-4 4" />
                 </svg>
               }
             </button>
@@ -838,9 +935,11 @@ let editorId = 0;
                 /></span>
               } @else {
                 <svg aria-hidden="true" viewBox="0 0 24 24">
-                  <path d="m4 20 16-16" />
-                  <path d="M6.5 4h9l-1.5 5" />
-                  <path d="m9.5 15-.5 2H5" />
+                  <path d="M4 7V4h16v3" />
+                  <path d="M5 20h6" />
+                  <path d="M13 4 8 20" />
+                  <path d="m15 15 5 5" />
+                  <path d="m20 15-5 5" />
                 </svg>
               }
             </button>

@@ -63,11 +63,7 @@ let nextPanelId = 0;
   template: `
     @if (hasHeader()) {
       <div class="aeris-panel__header">
-        <div
-          class="aeris-panel__heading"
-          role="heading"
-          [attr.aria-level]="headingLevel()"
-        >
+        <div class="aeris-panel__heading" role="heading" [attr.aria-level]="headingLevel()">
           @if (toggleable()) {
             <button
               class="aeris-panel__toggle"
@@ -97,8 +93,8 @@ let nextPanelId = 0;
                     [ngTemplateOutletContext]="toggleIconContext()"
                   />
                 } @else {
-                  <svg viewBox="0 0 20 20" focusable="false" aria-hidden="true">
-                    <path d="M5.5 7.25 10 11.75l4.5-4.5" />
+                  <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                    <path d="m6 9 6 6 6-6" />
                   </svg>
                 }
               </span>
@@ -219,7 +215,9 @@ export class AerisPanel {
     toggleable: this.toggleable(),
     disabled: this.disabled(),
   }));
-  protected readonly toggleIconContext = computed<AerisPanelToggleIconContext>(() => this.headerContext());
+  protected readonly toggleIconContext = computed<AerisPanelToggleIconContext>(() =>
+    this.headerContext(),
+  );
 
   toggle(originalEvent: Event | null = null): void {
     if (!this.toggleable() || this.disabled()) return;
