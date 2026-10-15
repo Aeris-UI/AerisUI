@@ -1,6 +1,7 @@
 @use '../src/styles/selection-icons' as selection-icons;
 @use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
+@use '../src/styles/choice-card';
 
 :host {
   display: inline-block;
@@ -170,3 +171,5 @@
   '.aeris-checkbox input:indeterminate + .aeris-checkbox__control .aeris-checkbox__mixed-mark',
   'minus'
 );
+
+@include choice-card.styles;

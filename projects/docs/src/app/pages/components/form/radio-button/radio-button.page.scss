@@ -28,32 +28,10 @@
   width: min(100%, 38rem);
 }
 
-.radio-card {
-  padding: 0.875rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 0.75rem;
-  background: var(--surface);
-  transition:
-    border-color 150ms ease,
-    background-color 150ms ease;
+.radio-card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 }
 
-.radio-card--selected {
-  border-color: color-mix(in srgb, var(--primary) 60%, var(--border));
-  background: color-mix(in srgb, var(--primary) 7%, var(--surface));
-}
-
-.radio-option-content {
-  display: inline-grid;
-  gap: 0.125rem;
-}
-
-.radio-option-content strong {
-  color: var(--text);
-  font-size: 0.875rem;
-}
-
-.radio-option-content small,
 .radio-result {
   color: var(--text-2);
   font-size: 0.8125rem;
@@ -62,10 +40,4 @@
 .error {
   color: var(--danger);
   font-size: 0.8125rem;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .radio-card {
-    transition: none;
-  }
 }

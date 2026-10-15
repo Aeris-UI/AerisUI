@@ -17,6 +17,7 @@ import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisCheckboxSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisCheckboxLabelPosition = 'start' | 'end';
+export type AerisCheckboxAppearance = 'standard' | 'card';
 
 export interface AerisCheckboxChangeEvent {
   readonly originalEvent: Event;
@@ -33,6 +34,8 @@ let checkboxId = 0;
   template: `
     <label
       class="aeris-checkbox"
+      [class.aeris-choice-card]="appearance() === 'card'"
+      [attr.data-selected]="checked() || indeterminate()"
       [attr.data-size]="size()"
       [attr.data-label-position]="labelPosition()"
       [attr.data-disabled]="effectiveDisabled() || null"
@@ -50,8 +53,8 @@ let checkboxId = 0;
         [required]="required()"
         [attr.tabindex]="tabIndex()"
         [attr.aria-label]="ariaLabel()"
-        [attr.aria-labelledby]="ariaLabelledBy()"
-        [attr.aria-describedby]="ariaDescribedBy()"
+        [attr.aria-labelledby]="resolvedLabelledBy()"
+        [attr.aria-describedby]="resolvedDescribedBy()"
         [attr.aria-invalid]="displayInvalid() || null"
         [attr.aria-required]="required() || null"
         (change)="handleChange($event)"
@@ -83,10 +86,27 @@ let checkboxId = 0;
         </span>
       </span>
       <span class="aeris-checkbox__label">
-        @if (label()) {
-          <span>{{ label() }}</span>
+        @if (iconTemplate(); as icon) {
+          <span class="aeris-choice-card__icon" data-aeris-custom-icon aria-hidden="true">
+            <ng-container [ngTemplateOutlet]="icon" />
+          </span>
         }
-        <ng-content />
+        <span class="aeris-choice-card__body">
+          <span [id]="generatedId + '-label'">
+            @if (label()) {
+              <span>{{ label() }}</span>
+            }
+            <ng-content />
+          </span>
+          @if (description()) {
+            <span
+              class="aeris-choice-card__description"
+              [id]="generatedId + '-description'"
+              aria-hidden="true"
+              >{{ description() }}</span
+            >
+          }
+        </span>
       </span>
     </label>
   `,
@@ -102,14 +122,16 @@ let checkboxId = 0;
     '[attr.data-checked]': 'checked() || null',
     '[attr.data-indeterminate]': 'indeterminate() || null',
     '[attr.data-disabled]': 'effectiveDisabled() || null',
+    '[attr.data-appearance]': 'appearance()',
   },
 })
 export class AerisCheckbox implements ControlValueAccessor {
   readonly checkIconTemplate = input<TemplateRef<void>>();
   readonly mixedIconTemplate = input<TemplateRef<void>>();
+  readonly iconTemplate = input<TemplateRef<void>>();
 
   private readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('checkboxInput');
-  private readonly generatedId = `aeris-checkbox-${++checkboxId}`;
+  protected readonly generatedId = `aeris-checkbox-${++checkboxId}`;
   private readonly formDisabled = signal(false);
   private onChange: (value: boolean) => void = () => undefined;
   private onTouched: () => void = () => undefined;
@@ -120,6 +142,8 @@ export class AerisCheckbox implements ControlValueAccessor {
   readonly name = input('');
   readonly value = input('on');
   readonly label = input('');
+  readonly appearance = input<AerisCheckboxAppearance>('standard');
+  readonly description = input('');
   readonly ariaLabel = input<string>();
   readonly ariaLabelledBy = input<string>();
   readonly ariaDescribedBy = input<string>();
@@ -141,6 +165,17 @@ export class AerisCheckbox implements ControlValueAccessor {
 
   protected readonly resolvedInputId = computed(() => this.inputId() || this.generatedId);
   protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
+  protected readonly resolvedLabelledBy = computed(
+    () =>
+      this.ariaLabelledBy() ||
+      (!this.ariaLabel() && this.description() ? `${this.generatedId}-label` : null),
+  );
+  protected readonly resolvedDescribedBy = computed(
+    () =>
+      [this.ariaDescribedBy(), this.description() ? `${this.generatedId}-description` : '']
+        .filter(Boolean)
+        .join(' ') || null,
+  );
 
   focus(options?: FocusOptions): void {
     this.inputElement()?.nativeElement.focus(options);

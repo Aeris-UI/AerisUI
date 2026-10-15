@@ -2,6 +2,8 @@ import { Component, computed, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AerisCheckbox, type AerisCheckboxChangeEvent } from '@aeris-ui/core/checkbox';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
+import { AerisButton } from '@aeris-ui/core/button';
+import { LucideDynamicIcon, LucideBell } from '@lucide/angular';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
@@ -29,6 +31,8 @@ interface Interest {
   selector: 'app-checkbox-page',
   imports: [
     AerisCheckbox,
+    AerisButton,
+    LucideDynamicIcon,
     FormsModule,
     ReactiveFormsModule,
     AerisTabsModule,
@@ -42,6 +46,10 @@ interface Interest {
   styleUrl: './checkbox.page.scss',
 })
 export class CheckboxPage {
+  protected readonly bellIcon = LucideBell;
+  protected readonly cardUpdates = signal(true);
+  protected readonly cardReports = signal(false);
+  protected readonly cardsSubmitted = signal(false);
   protected readonly notifications = signal(true);
   protected readonly termsAccepted = signal(false);
   protected readonly lastChange = signal('No interaction');
@@ -69,6 +77,7 @@ export class CheckboxPage {
     { id: 'checkbox-model', label: 'Signal model' },
     { id: 'checkbox-indeterminate', label: 'Indeterminate' },
     { id: 'checkbox-group', label: 'Selection group' },
+    { id: 'checkbox-cards', label: 'Selectable cards' },
     { id: 'checkbox-sizes', label: 'Sizes' },
     { id: 'checkbox-label-position', label: 'Label position' },
     { id: 'checkbox-rich-label', label: 'Rich label' },
@@ -110,6 +119,7 @@ protected readonly partiallySelected = computed(
   () => this.selectedInterests().length > 0 && !this.allSelected(),
 );`;
   protected readonly interfacesCode = `type AerisCheckboxSize = 'xs' | 'sm' | 'md' | 'lg';
+type AerisCheckboxAppearance = 'standard' | 'card';
 type AerisCheckboxLabelPosition = 'start' | 'end';
 
 interface AerisCheckboxChangeEvent {
@@ -120,6 +130,27 @@ interface AerisCheckboxChangeEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'appearance',
+      type: 'AerisCheckboxAppearance',
+      defaultValue: "'standard'",
+      description:
+        "Presentation. Options: 'standard', 'card'. The card uses the same native checkbox.",
+    },
+    {
+      name: 'description',
+      type: 'string',
+      defaultValue: "''",
+      description:
+        'Supporting text, automatically associated with the input as its accessible description.',
+    },
+    {
+      name: 'iconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Optional decorative leading icon beside the label. Keep its contents non-interactive.',
+    },
     {
       name: 'checkIconTemplate',
       type: 'TemplateRef<void> | undefined',

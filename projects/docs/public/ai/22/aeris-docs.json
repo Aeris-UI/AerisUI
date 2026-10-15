@@ -4992,6 +4992,24 @@
           "kind": "input",
           "entries": [
             {
+              "name": "appearance",
+              "type": "AerisCheckboxAppearance",
+              "defaultValue": "'standard'",
+              "description": "Presentation. Options: 'standard', 'card'. The card uses the same native checkbox."
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Supporting text, automatically associated with the input as its accessible description."
+            },
+            {
+              "name": "iconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Optional decorative leading icon beside the label. Keep its contents non-interactive."
+            },
+            {
               "name": "checkIconTemplate",
               "type": "TemplateRef<void> | undefined",
               "defaultValue": "undefined",
@@ -5177,10 +5195,52 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisCheckboxSize = 'xs' | 'sm' | 'md' | 'lg';\ntype AerisCheckboxLabelPosition = 'start' | 'end';\n\ninterface AerisCheckboxChangeEvent {\n  readonly originalEvent: Event;\n  readonly checked: boolean;\n  readonly indeterminate: boolean;\n  readonly value: string;\n}"
+          "code": "type AerisCheckboxSize = 'xs' | 'sm' | 'md' | 'lg';\ntype AerisCheckboxAppearance = 'standard' | 'card';\ntype AerisCheckboxLabelPosition = 'start' | 'end';\n\ninterface AerisCheckboxChangeEvent {\n  readonly originalEvent: Event;\n  readonly checked: boolean;\n  readonly indeterminate: boolean;\n  readonly value: string;\n}"
         }
       ],
       "designTokens": [
+        {
+          "name": "--aeris-choice-card-padding",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Card padding."
+        },
+        {
+          "name": "--aeris-choice-card-gap",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Space between control, icon and content."
+        },
+        {
+          "name": "--aeris-choice-card-radius",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Card corner radius."
+        },
+        {
+          "name": "--aeris-choice-card-border",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Unselected border color."
+        },
+        {
+          "name": "--aeris-choice-card-background",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Unselected background."
+        },
+        {
+          "name": "--aeris-choice-card-selected-border",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Selected and hover border color."
+        },
+        {
+          "name": "--aeris-choice-card-selected-background",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Selected background."
+        },
         {
           "name": "--aeris-primary",
           "type": "CSS custom property",
@@ -5274,12 +5334,34 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <fieldset class=\"checkbox-group\">\n    <legend>Topics of interest</legend>\n    @for (interest of interests; track interest.value) {\n      <div class=\"checkbox-option\">\n        <aeris-checkbox\n          [value]=\"interest.value\"\n          [checked]=\"isInterestSelected(interest.value)\"\n          (checkedChange)=\"setInterest(interest.value, $event)\"\n        >\n          <span class=\"checkbox-option__content\">\n            <strong>{{ interest.label }}</strong>\n            <small>{{ interest.description }}</small>\n          </span>\n        </aeris-checkbox>\n      </div>\n    }\n  </fieldset>\n</div>"
+              "code": "<div>\n  <fieldset class=\"checkbox-group\">\n    <legend>Topics of interest</legend>\n    @for (interest of interests; track interest.value) {\n      <aeris-checkbox\n        appearance=\"card\"\n        [label]=\"interest.label\"\n        [description]=\"interest.description\"\n        [value]=\"interest.value\"\n        [checked]=\"isInterestSelected(interest.value)\"\n        (checkedChange)=\"setInterest(interest.value, $event)\"\n      />\n    }\n  </fieldset>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".checkbox-group {\n  width: min(100%, 36rem);\n  display: grid;\n  gap: 0.625rem;\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n\n.checkbox-group legend {\n  margin-bottom: 0.75rem;\n  color: var(--aeris-text);\n  font-size: 0.9375rem;\n  font-weight: 650;\n}\n\n.checkbox-option {\n  padding: 0.875rem 1rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: 0.625rem;\n  background: var(--aeris-surface);\n}\n\n.checkbox-option:has(aeris-checkbox[data-checked]),\n.checkbox-option:has(aeris-checkbox[data-indeterminate]) {\n  border-color: color-mix(in srgb, var(--aeris-primary) 55%, var(--aeris-border));\n  background: color-mix(in srgb, var(--aeris-primary) 7%, var(--aeris-surface));\n}\n\n.checkbox-option__content {\n  display: inline-grid;\n  gap: 0.125rem;\n}\n\n.checkbox-option__content strong {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n}\n\n.checkbox-option__content small {\n  color: var(--aeris-text-2);\n  font-size: 0.75rem;\n}"
+              "code": ".checkbox-group {\n  width: min(100%, 36rem);\n  display: grid;\n  gap: 0.625rem;\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n\n.checkbox-group legend {\n  margin-bottom: 0.75rem;\n  color: var(--aeris-text);\n  font-size: 0.9375rem;\n  font-weight: 650;\n}"
+            }
+          ]
+        },
+        {
+          "id": "checkbox-cards",
+          "title": "Selectable cards",
+          "description": "The whole card activates the native checkbox. Use labelPosition to place the indicator at the trailing edge.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisCheckbox } from '@aeris-ui/core/checkbox';\nimport { LucideDynamicIcon } from '@lucide/angular';\n\n@Component({\n  selector: 'app-checkbox-cards-demo',\n  imports: [AerisButton, AerisCheckbox, LucideDynamicIcon],\n  templateUrl: './checkbox-cards.demo.html',\n  styleUrl: './checkbox-cards.demo.scss'\n})\nexport class CheckboxCardsSelectableCardsDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"checkbox-stack\">\n  <ng-template #updatesIcon><svg [lucideIcon]=\"bellIcon\"></svg></ng-template>\n  <fieldset class=\"checkbox-group\">\n    <legend>Notification preferences</legend>\n    <aeris-checkbox\n      appearance=\"card\"\n      label=\"Product updates\"\n      description=\"Release notes and important changes to the tools your team uses.\"\n      [iconTemplate]=\"updatesIcon\"\n      [(checked)]=\"cardUpdates\"\n      labelPosition=\"start\"\n    />\n    <aeris-checkbox\n      appearance=\"card\"\n      label=\"Weekly report\"\n      description=\"A summary of workspace activity, completed work, and upcoming deadlines.\"\n      [(checked)]=\"cardReports\"\n      [invalid]=\"!cardReports()\"\n      [touched]=\"cardsSubmitted()\"\n      ariaDescribedBy=\"card-report-help\"\n    />\n    <aeris-checkbox\n      appearance=\"card\"\n      label=\"Managed alerts\"\n      description=\"Your workspace administrator manages this preference.\"\n      disabled\n      [checked]=\"true\"\n    />\n  </fieldset>\n  <small id=\"card-report-help\">{{\n    cardsSubmitted() && !cardReports()\n      ? 'Select Weekly report to continue.'\n      : 'Weekly report is required for this demonstration.'\n  }}</small>\n  <button aerisButton type=\"button\" (click)=\"cardsSubmitted.set(true)\">\n    Save preferences\n  </button>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".checkbox-stack {\n  width: 100%;\n  display: grid;\n  gap: 0.875rem;\n}\n\n.checkbox-group {\n  width: min(100%, 36rem);\n  display: grid;\n  gap: 0.625rem;\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n\n.checkbox-group legend {\n  margin-bottom: 0.75rem;\n  color: var(--aeris-text);\n  font-size: 0.9375rem;\n  font-weight: 650;\n}"
             }
           ]
         },
@@ -5358,6 +5440,7 @@
       ],
       "accessibility": {
         "guidance": [
+          "Card appearance keeps one native input and one focus stop per option. Its entire label is clickable. Keep projected content and icon templates decorative and non-interactive; place links and extra actions outside the control. The description input is automatically associated with the native input, alongside any ariaDescribedBy help or error IDs. Use a layout grid or stack around the controls to arrange cards; no application layout is imposed.",
           "Checkbox uses a real native input type=\"checkbox\", preserving browser, keyboard, form, and assistive-technology behavior.",
           "Projected content and the label input are wrapped in one native label, expanding the pointer target.",
           "Space toggles the focused checkbox. Native tab order and disabled behavior are preserved.",
@@ -12358,6 +12441,24 @@
           "kind": "input",
           "entries": [
             {
+              "name": "appearance",
+              "type": "AerisRadioButtonAppearance",
+              "defaultValue": "'standard'",
+              "description": "Presentation. Options: 'standard', 'card'. The card retains native radio group behavior."
+            },
+            {
+              "name": "description",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Supporting text, automatically associated with the input as its accessible description."
+            },
+            {
+              "name": "iconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Optional decorative leading icon beside the label. Keep its contents non-interactive."
+            },
+            {
               "name": "selected",
               "type": "string | null (model)",
               "defaultValue": "null",
@@ -12509,10 +12610,52 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisRadioButtonSize =\n  'xs' | 'sm' | 'md' | 'lg';\n\ntype AerisRadioButtonLabelPosition = 'start' | 'end';\n\ninterface AerisRadioButtonChangeEvent {\n  readonly originalEvent: Event;\n  readonly value: string;\n}"
+          "code": "type AerisRadioButtonSize =\n  'xs' | 'sm' | 'md' | 'lg';\n\ntype AerisRadioButtonLabelPosition = 'start' | 'end';\ntype AerisRadioButtonAppearance = 'standard' | 'card';\n\ninterface AerisRadioButtonChangeEvent {\n  readonly originalEvent: Event;\n  readonly value: string;\n}"
         }
       ],
       "designTokens": [
+        {
+          "name": "--aeris-choice-card-padding",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Card padding."
+        },
+        {
+          "name": "--aeris-choice-card-gap",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Space between control, icon and content."
+        },
+        {
+          "name": "--aeris-choice-card-radius",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Card corner radius."
+        },
+        {
+          "name": "--aeris-choice-card-border",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Unselected border color."
+        },
+        {
+          "name": "--aeris-choice-card-background",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Unselected background."
+        },
+        {
+          "name": "--aeris-choice-card-selected-border",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Selected and hover border color."
+        },
+        {
+          "name": "--aeris-choice-card-selected-background",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Selected background."
+        },
         {
           "name": "--aeris-radio-label-color",
           "type": "CSS custom property",
@@ -12587,7 +12730,7 @@
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".radio-stack,\n.radio-group,\n.radio-card-group {\n  width: 100%;\n  display: grid;\n  gap: 0.75rem;\n}\n\n.radio-group,\n.radio-card-group {\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n\n.radio-group legend,\n.radio-card-group legend,\n.radio-group > strong {\n  margin-bottom: 0.125rem;\n  color: var(--aeris-text);\n  font-size: 0.9375rem;\n  font-weight: 650;\n}\n\n.radio-option-content small,\n.radio-result {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n}"
+              "code": ".radio-stack,\n.radio-group,\n.radio-card-group {\n  width: 100%;\n  display: grid;\n  gap: 0.75rem;\n}\n\n.radio-group,\n.radio-card-group {\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n\n.radio-group legend,\n.radio-card-group legend,\n.radio-group > strong {\n  margin-bottom: 0.125rem;\n  color: var(--aeris-text);\n  font-size: 0.9375rem;\n  font-weight: 650;\n}\n\n.radio-result {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n}"
             }
           ]
         },
@@ -12604,12 +12747,34 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <fieldset class=\"radio-card-group\">\n    <legend>Choose a plan</legend>\n    @for (plan of plans; track plan.value) {\n      <div\n        class=\"radio-card\"\n        [class.radio-card--selected]=\"selectedPlan() === plan.value\"\n      >\n        <aeris-radio-button\n          name=\"plan\"\n          [value]=\"plan.value\"\n          [(selected)]=\"selectedPlan\"\n        >\n          <span class=\"radio-option-content\">\n            <strong>{{ plan.label }}</strong>\n            <small>{{ plan.description }}</small>\n          </span>\n        </aeris-radio-button>\n      </div>\n    }\n  </fieldset>\n</div>"
+              "code": "<div>\n  <fieldset class=\"radio-card-group\">\n    <legend>Choose a plan</legend>\n    @for (plan of plans; track plan.value) {\n      <aeris-radio-button\n        appearance=\"card\"\n        [label]=\"plan.label\"\n        [description]=\"plan.description\"\n        name=\"plan\"\n        [value]=\"plan.value\"\n        [(selected)]=\"selectedPlan\"\n      />\n    }\n  </fieldset>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".radio-stack,\n.radio-group,\n.radio-card-group {\n  width: 100%;\n  display: grid;\n  gap: 0.75rem;\n}\n\n.radio-group,\n.radio-card-group {\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n\n.radio-group legend,\n.radio-card-group legend,\n.radio-group > strong {\n  margin-bottom: 0.125rem;\n  color: var(--aeris-text);\n  font-size: 0.9375rem;\n  font-weight: 650;\n}\n\n.radio-card-group {\n  width: min(100%, 38rem);\n}\n\n.radio-card {\n  padding: 0.875rem 1rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: 0.75rem;\n  background: var(--aeris-surface);\n  transition: border-color 150ms ease, background-color 150ms ease;\n}\n\n.radio-option-content {\n  display: inline-grid;\n  gap: 0.125rem;\n}\n\n.radio-option-content strong {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n}\n\n.radio-option-content small,\n.radio-result {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .radio-card {\n      transition: none;\n    }\n}"
+              "code": ".radio-stack,\n.radio-group,\n.radio-card-group {\n  width: 100%;\n  display: grid;\n  gap: 0.75rem;\n}\n\n.radio-group,\n.radio-card-group {\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n\n.radio-group legend,\n.radio-card-group legend,\n.radio-group > strong {\n  margin-bottom: 0.125rem;\n  color: var(--aeris-text);\n  font-size: 0.9375rem;\n  font-weight: 650;\n}\n\n.radio-card-group {\n  width: min(100%, 38rem);\n}"
+            }
+          ]
+        },
+        {
+          "id": "radio-cards",
+          "title": "Selectable cards",
+          "description": "Share a native group name and selected signal. Arrow keys move between available choices; the entire card is clickable.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisRadioButton } from '@aeris-ui/core/radio-button';\n\n@Component({\n  selector: 'app-radio-cards-demo',\n  imports: [AerisButton, AerisRadioButton],\n  templateUrl: './radio-cards.demo.html',\n  styleUrl: './radio-cards.demo.scss'\n})\nexport class RadioCardsSelectableCardsDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"radio-stack\">\n  <fieldset class=\"radio-card-group radio-card-grid\">\n    <legend>Delivery method</legend>\n    <aeris-radio-button\n      appearance=\"card\"\n      name=\"delivery\"\n      value=\"standard\"\n      label=\"Standard delivery\"\n      description=\"Arrives in three to five working days. Tracking is included for the entire journey.\"\n      [(selected)]=\"delivery\"\n      [invalid]=\"!delivery()\"\n      [touched]=\"deliverySubmitted()\"\n      ariaDescribedBy=\"delivery-help\"\n    />\n    <aeris-radio-button\n      appearance=\"card\"\n      name=\"delivery\"\n      value=\"express\"\n      label=\"Express delivery\"\n      description=\"Arrives the next working day when ordered before noon.\"\n      labelPosition=\"start\"\n      [(selected)]=\"delivery\"\n      [invalid]=\"!delivery()\"\n      [touched]=\"deliverySubmitted()\"\n      ariaDescribedBy=\"delivery-help\"\n    />\n    <aeris-radio-button\n      appearance=\"card\"\n      name=\"delivery\"\n      value=\"collection\"\n      label=\"Store collection\"\n      description=\"Not available in your region.\"\n      disabled\n      [(selected)]=\"delivery\"\n    />\n  </fieldset>\n  <small id=\"delivery-help\">{{\n    deliverySubmitted() && !delivery()\n      ? 'Choose a delivery method to continue.'\n      : 'Select one delivery method.'\n  }}</small>\n  <button aerisButton type=\"button\" (click)=\"deliverySubmitted.set(true)\">\n    Continue\n  </button>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".radio-stack,\n.radio-group,\n.radio-card-group {\n  width: 100%;\n  display: grid;\n  gap: 0.75rem;\n}\n\n.radio-group,\n.radio-card-group {\n  margin: 0;\n  padding: 0;\n  border: 0;\n}\n\n.radio-group legend,\n.radio-card-group legend,\n.radio-group > strong {\n  margin-bottom: 0.125rem;\n  color: var(--aeris-text);\n  font-size: 0.9375rem;\n  font-weight: 650;\n}\n\n.radio-card-group {\n  width: min(100%, 38rem);\n}\n\n.radio-card-grid {\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));\n}"
             }
           ]
         },
@@ -12696,6 +12861,7 @@
       ],
       "accessibility": {
         "guidance": [
+          "Card appearance keeps one native input and one focus stop per option. Its entire label is clickable. Keep projected content and icon templates decorative and non-interactive; place links and extra actions outside the control. The description input is automatically associated with the native input, alongside any ariaDescribedBy help or error IDs. Use a layout grid or stack around the controls to arrange cards; no application layout is imposed.",
           "Radio Button uses a native input type=\"radio\", preserving browser, keyboard, form, and assistive-technology behavior.",
           "Wrap related options in a fieldset with a legend, and give every option the same name.",
           "Tab enters or leaves a group. Arrow keys move and select within it, and Space selects the focused option.",

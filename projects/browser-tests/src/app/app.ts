@@ -8,6 +8,7 @@ import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisPanelModule } from '@aeris-ui/core/panel';
 import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
+import { ChoiceCardsFixture } from './choice-cards.fixture';
 import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 import { AerisDialogModule } from '@aeris-ui/core/dialog';
 import { AerisDrawerModule } from '@aeris-ui/core/drawer';
@@ -43,6 +44,7 @@ import { AerisThemeService } from '@aeris-ui/core/theming';
     AerisPanelModule,
     AerisScrollPanelModule,
     AerisCheckbox,
+    ChoiceCardsFixture,
     AerisDatePicker,
     AerisDialogModule,
     AerisDrawerModule,

@@ -22,34 +22,6 @@
   font-weight: 650;
 }
 
-.checkbox-option {
-  padding: 0.875rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 0.625rem;
-  background: var(--surface);
-}
-
-.checkbox-option:has(aeris-checkbox[data-checked]),
-.checkbox-option:has(aeris-checkbox[data-indeterminate]) {
-  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
-  background: color-mix(in srgb, var(--primary) 7%, var(--surface));
-}
-
-.checkbox-option__content {
-  display: inline-grid;
-  gap: 0.125rem;
-}
-
-.checkbox-option__content strong {
-  color: var(--text);
-  font-size: 0.875rem;
-}
-
-.checkbox-option__content small {
-  color: var(--text-2);
-  font-size: 0.75rem;
-}
-
 .checkbox-result {
   color: var(--text-2);
   font-size: 0.8125rem;

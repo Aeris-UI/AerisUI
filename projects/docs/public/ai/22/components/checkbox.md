@@ -29,6 +29,9 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appearance` | `AerisCheckboxAppearance` | `'standard'` | Presentation. Options: 'standard', 'card'. The card uses the same native checkbox. |
+| `description` | `string` | `''` | Supporting text, automatically associated with the input as its accessible description. |
+| `iconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Optional decorative leading icon beside the label. Keep its contents non-interactive. |
 | `checkIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the check icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `mixedIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the mixed icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `checked` | `boolean (model)` | `false` | Boolean selection state and Angular Signal Forms checkbox contract. |
@@ -74,6 +77,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 
 ```ts
 type AerisCheckboxSize = 'xs' | 'sm' | 'md' | 'lg';
+type AerisCheckboxAppearance = 'standard' | 'card';
 type AerisCheckboxLabelPosition = 'start' | 'end';
 
 interface AerisCheckboxChangeEvent {
@@ -88,6 +92,13 @@ interface AerisCheckboxChangeEvent {
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
+| `--aeris-choice-card-padding` | `CSS custom property` | — | Card padding. |
+| `--aeris-choice-card-gap` | `CSS custom property` | — | Space between control, icon and content. |
+| `--aeris-choice-card-radius` | `CSS custom property` | — | Card corner radius. |
+| `--aeris-choice-card-border` | `CSS custom property` | — | Unselected border color. |
+| `--aeris-choice-card-background` | `CSS custom property` | — | Unselected background. |
+| `--aeris-choice-card-selected-border` | `CSS custom property` | — | Selected and hover border color. |
+| `--aeris-choice-card-selected-background` | `CSS custom property` | — | Selected background. |
 | `--aeris-primary` | `CSS custom property` | — | Selected and mixed control background. |
 | `--aeris-on-primary` | `CSS custom property` | — | Selected icon color. |
 | `--aeris-border` | `CSS custom property` | — | Unchecked border. |
@@ -258,18 +269,14 @@ export class CheckboxGroupSelectionGroupDemo {
   <fieldset class="checkbox-group">
     <legend>Topics of interest</legend>
     @for (interest of interests; track interest.value) {
-      <div class="checkbox-option">
-        <aeris-checkbox
-          [value]="interest.value"
-          [checked]="isInterestSelected(interest.value)"
-          (checkedChange)="setInterest(interest.value, $event)"
-        >
-          <span class="checkbox-option__content">
-            <strong>{{ interest.label }}</strong>
-            <small>{{ interest.description }}</small>
-          </span>
-        </aeris-checkbox>
-      </div>
+      <aeris-checkbox
+        appearance="card"
+        [label]="interest.label"
+        [description]="interest.description"
+        [value]="interest.value"
+        [checked]="isInterestSelected(interest.value)"
+        (checkedChange)="setInterest(interest.value, $event)"
+      />
     }
   </fieldset>
 </div>
@@ -293,33 +300,96 @@ export class CheckboxGroupSelectionGroupDemo {
   font-size: 0.9375rem;
   font-weight: 650;
 }
+```
 
-.checkbox-option {
-  padding: 0.875rem 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: 0.625rem;
-  background: var(--aeris-surface);
+### Selectable cards
+
+The whole card activates the native checkbox. Use labelPosition to place the indicator at the trailing edge.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisCheckbox } from '@aeris-ui/core/checkbox';
+import { LucideDynamicIcon } from '@lucide/angular';
+
+@Component({
+  selector: 'app-checkbox-cards-demo',
+  imports: [AerisButton, AerisCheckbox, LucideDynamicIcon],
+  templateUrl: './checkbox-cards.demo.html',
+  styleUrl: './checkbox-cards.demo.scss'
+})
+export class CheckboxCardsSelectableCardsDemo {
+}
+```
+
+#### HTML
+
+```html
+<div class="checkbox-stack">
+  <ng-template #updatesIcon><svg [lucideIcon]="bellIcon"></svg></ng-template>
+  <fieldset class="checkbox-group">
+    <legend>Notification preferences</legend>
+    <aeris-checkbox
+      appearance="card"
+      label="Product updates"
+      description="Release notes and important changes to the tools your team uses."
+      [iconTemplate]="updatesIcon"
+      [(checked)]="cardUpdates"
+      labelPosition="start"
+    />
+    <aeris-checkbox
+      appearance="card"
+      label="Weekly report"
+      description="A summary of workspace activity, completed work, and upcoming deadlines."
+      [(checked)]="cardReports"
+      [invalid]="!cardReports()"
+      [touched]="cardsSubmitted()"
+      ariaDescribedBy="card-report-help"
+    />
+    <aeris-checkbox
+      appearance="card"
+      label="Managed alerts"
+      description="Your workspace administrator manages this preference."
+      disabled
+      [checked]="true"
+    />
+  </fieldset>
+  <small id="card-report-help">{{
+    cardsSubmitted() && !cardReports()
+      ? 'Select Weekly report to continue.'
+      : 'Weekly report is required for this demonstration.'
+  }}</small>
+  <button aerisButton type="button" (click)="cardsSubmitted.set(true)">
+    Save preferences
+  </button>
+</div>
+```
+
+#### CSS
+
+```css
+.checkbox-stack {
+  width: 100%;
+  display: grid;
+  gap: 0.875rem;
 }
 
-.checkbox-option:has(aeris-checkbox[data-checked]),
-.checkbox-option:has(aeris-checkbox[data-indeterminate]) {
-  border-color: color-mix(in srgb, var(--aeris-primary) 55%, var(--aeris-border));
-  background: color-mix(in srgb, var(--aeris-primary) 7%, var(--aeris-surface));
+.checkbox-group {
+  width: min(100%, 36rem);
+  display: grid;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
-.checkbox-option__content {
-  display: inline-grid;
-  gap: 0.125rem;
-}
-
-.checkbox-option__content strong {
+.checkbox-group legend {
+  margin-bottom: 0.75rem;
   color: var(--aeris-text);
-  font-size: 0.875rem;
-}
-
-.checkbox-option__content small {
-  color: var(--aeris-text-2);
-  font-size: 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 650;
 }
 ```
 
@@ -610,6 +680,7 @@ export class CheckboxAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 ## Accessibility
 
+- Card appearance keeps one native input and one focus stop per option. Its entire label is clickable. Keep projected content and icon templates decorative and non-interactive; place links and extra actions outside the control. The description input is automatically associated with the native input, alongside any ariaDescribedBy help or error IDs. Use a layout grid or stack around the controls to arrange cards; no application layout is imposed.
 - Checkbox uses a real native input type="checkbox", preserving browser, keyboard, form, and assistive-technology behavior.
 - Projected content and the label input are wrapped in one native label, expanding the pointer target.
 - Space toggles the focused checkbox. Native tab order and disabled behavior are preserved.

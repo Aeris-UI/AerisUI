@@ -129,21 +129,14 @@
                 <fieldset class="radio-card-group">
                   <legend>Choose a plan</legend>
                   @for (plan of plans; track plan.value) {
-                    <div
-                      class="radio-card"
-                      [class.radio-card--selected]="selectedPlan() === plan.value"
-                    >
-                      <aeris-radio-button
-                        name="plan"
-                        [value]="plan.value"
-                        [(selected)]="selectedPlan"
-                      >
-                        <span class="radio-option-content">
-                          <strong>{{ plan.label }}</strong>
-                          <small>{{ plan.description }}</small>
-                        </span>
-                      </aeris-radio-button>
-                    </div>
+                    <aeris-radio-button
+                      appearance="card"
+                      [label]="plan.label"
+                      [description]="plan.description"
+                      name="plan"
+                      [value]="plan.value"
+                      [(selected)]="selectedPlan"
+                    />
                   }
                 </fieldset>
               </div>
@@ -151,23 +144,113 @@
   &lt;fieldset class="radio-card-group"&gt;
     &lt;legend&gt;Choose a plan&lt;/legend&gt;
     &#64;for (plan of plans; track plan.value) &#123;
-      &lt;div
-        class="radio-card"
-        [class.radio-card--selected]="selectedPlan() === plan.value"
-      &gt;
-        &lt;aeris-radio-button
-          name="plan"
-          [value]="plan.value"
-          [(selected)]="selectedPlan"
-        &gt;
-          &lt;span class="radio-option-content"&gt;
-            &lt;strong&gt;&#123;&#123; plan.label &#125;&#125;&lt;/strong&gt;
-            &lt;small&gt;&#123;&#123; plan.description &#125;&#125;&lt;/small&gt;
-          &lt;/span&gt;
-        &lt;/aeris-radio-button&gt;
-      &lt;/div&gt;
+      &lt;aeris-radio-button
+        appearance="card"
+        [label]="plan.label"
+        [description]="plan.description"
+        name="plan"
+        [value]="plan.value"
+        [(selected)]="selectedPlan"
+      /&gt;
     &#125;
   &lt;/fieldset&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="radio-cards"
+              title="Selectable cards"
+              description="Share a native group name and selected signal. Arrow keys move between available choices; the entire card is clickable."
+            >
+              <div preview class="radio-stack">
+                <fieldset class="radio-card-group radio-card-grid">
+                  <legend>Delivery method</legend>
+                  <aeris-radio-button
+                    appearance="card"
+                    name="delivery"
+                    value="standard"
+                    label="Standard delivery"
+                    description="Arrives in three to five working days. Tracking is included for the entire journey."
+                    [(selected)]="delivery"
+                    [invalid]="!delivery()"
+                    [touched]="deliverySubmitted()"
+                    ariaDescribedBy="delivery-help"
+                  />
+                  <aeris-radio-button
+                    appearance="card"
+                    name="delivery"
+                    value="express"
+                    label="Express delivery"
+                    description="Arrives the next working day when ordered before noon."
+                    labelPosition="start"
+                    [(selected)]="delivery"
+                    [invalid]="!delivery()"
+                    [touched]="deliverySubmitted()"
+                    ariaDescribedBy="delivery-help"
+                  />
+                  <aeris-radio-button
+                    appearance="card"
+                    name="delivery"
+                    value="collection"
+                    label="Store collection"
+                    description="Not available in your region."
+                    disabled
+                    [(selected)]="delivery"
+                  />
+                </fieldset>
+                <small id="delivery-help">{{
+                  deliverySubmitted() && !delivery()
+                    ? 'Choose a delivery method to continue.'
+                    : 'Select one delivery method.'
+                }}</small>
+                <button aerisButton type="button" (click)="deliverySubmitted.set(true)">
+                  Continue
+                </button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="radio-stack"&gt;
+  &lt;fieldset class="radio-card-group radio-card-grid"&gt;
+    &lt;legend&gt;Delivery method&lt;/legend&gt;
+    &lt;aeris-radio-button
+      appearance="card"
+      name="delivery"
+      value="standard"
+      label="Standard delivery"
+      description="Arrives in three to five working days. Tracking is included for the entire journey."
+      [(selected)]="delivery"
+      [invalid]="!delivery()"
+      [touched]="deliverySubmitted()"
+      ariaDescribedBy="delivery-help"
+    /&gt;
+    &lt;aeris-radio-button
+      appearance="card"
+      name="delivery"
+      value="express"
+      label="Express delivery"
+      description="Arrives the next working day when ordered before noon."
+      labelPosition="start"
+      [(selected)]="delivery"
+      [invalid]="!delivery()"
+      [touched]="deliverySubmitted()"
+      ariaDescribedBy="delivery-help"
+    /&gt;
+    &lt;aeris-radio-button
+      appearance="card"
+      name="delivery"
+      value="collection"
+      label="Store collection"
+      description="Not available in your region."
+      disabled
+      [(selected)]="delivery"
+    /&gt;
+  &lt;/fieldset&gt;
+  &lt;small id="delivery-help"&gt;&#123;&#123;
+    deliverySubmitted() &amp;&amp; !delivery()
+      ? 'Choose a delivery method to continue.'
+      : 'Select one delivery method.'
+  &#125;&#125;&lt;/small&gt;
+  &lt;button aerisButton type="button" (click)="deliverySubmitted.set(true)"&gt;
+    Continue
+  &lt;/button&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -493,6 +576,51 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
+        <p>Card appearance shares the following tokens across Checkbox and Radio Button.</p>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="Selectable card tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-padding</code
+            ><span role="cell">Card padding.</span><code role="cell">--aeris-surface-padding</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-gap</code
+            ><span role="cell">Space between control, icon and content.</span
+            ><code role="cell">--aeris-content-gap</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-radius</code
+            ><span role="cell">Card corner radius.</span
+            ><code role="cell">--aeris-radius-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-border</code
+            ><span role="cell">Unselected border color.</span
+            ><code role="cell">--aeris-border</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-background</code
+            ><span role="cell">Unselected background.</span><code role="cell">--aeris-surface</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-selected-border</code
+            ><span role="cell">Selected and hover border color.</span
+            ><code role="cell">--aeris-primary</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-choice-card-selected-background</code
+            ><span role="cell">Selected background.</span
+            ><code role="cell">--aeris-primary-soft</code>
+          </div>
+        </div>
         <div
           class="api-table compact"
           role="table"
@@ -539,6 +667,14 @@
     <aeris-tab-panel value="accessibility" label="Accessibility">
       <section class="doc-section">
         <h2>Accessibility</h2>
+        <p>
+          Card appearance keeps one native input and one focus stop per option. Its entire label is
+          clickable. Keep projected content and icon templates decorative and non-interactive; place
+          links and extra actions outside the control. The description input is automatically
+          associated with the native input, alongside any ariaDescribedBy help or error IDs. Use a
+          layout grid or stack around the controls to arrange cards; no application layout is
+          imposed.
+        </p>
         <ul>
           <li>
             Radio Button uses a native <code>input type="radio"</code>, preserving browser,

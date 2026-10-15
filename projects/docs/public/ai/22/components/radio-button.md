@@ -29,6 +29,9 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appearance` | `AerisRadioButtonAppearance` | `'standard'` | Presentation. Options: 'standard', 'card'. The card retains native radio group behavior. |
+| `description` | `string` | `''` | Supporting text, automatically associated with the input as its accessible description. |
+| `iconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Optional decorative leading icon beside the label. Keep its contents non-interactive. |
 | `selected` | `string &#124; null (model)` | `null` | Selected value shared by every radio in a group. |
 | `value` | `string` | `required` | Value selected and submitted by this option. |
 | `name` | `string` | `''` | Native radio group name. Use the same value for related options. |
@@ -71,6 +74,7 @@ type AerisRadioButtonSize =
   'xs' | 'sm' | 'md' | 'lg';
 
 type AerisRadioButtonLabelPosition = 'start' | 'end';
+type AerisRadioButtonAppearance = 'standard' | 'card';
 
 interface AerisRadioButtonChangeEvent {
   readonly originalEvent: Event;
@@ -82,6 +86,13 @@ interface AerisRadioButtonChangeEvent {
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
+| `--aeris-choice-card-padding` | `CSS custom property` | — | Card padding. |
+| `--aeris-choice-card-gap` | `CSS custom property` | — | Space between control, icon and content. |
+| `--aeris-choice-card-radius` | `CSS custom property` | — | Card corner radius. |
+| `--aeris-choice-card-border` | `CSS custom property` | — | Unselected border color. |
+| `--aeris-choice-card-background` | `CSS custom property` | — | Unselected background. |
+| `--aeris-choice-card-selected-border` | `CSS custom property` | — | Selected and hover border color. |
+| `--aeris-choice-card-selected-background` | `CSS custom property` | — | Selected background. |
 | `--aeris-radio-label-color` | `CSS custom property` | — | Option label color. |
 | `--aeris-radio-border` | `CSS custom property` | — | Unselected border. |
 | `--aeris-radio-background` | `CSS custom property` | — | Unselected background. |
@@ -228,7 +239,6 @@ export class RadioModelSignalModelDemo {
   font-weight: 650;
 }
 
-.radio-option-content small,
 .radio-result {
   color: var(--aeris-text-2);
   font-size: 0.8125rem;
@@ -274,21 +284,14 @@ export class RadioRichOptionsRichOptionsDemo {
   <fieldset class="radio-card-group">
     <legend>Choose a plan</legend>
     @for (plan of plans; track plan.value) {
-      <div
-        class="radio-card"
-        [class.radio-card--selected]="selectedPlan() === plan.value"
-      >
-        <aeris-radio-button
-          name="plan"
-          [value]="plan.value"
-          [(selected)]="selectedPlan"
-        >
-          <span class="radio-option-content">
-            <strong>{{ plan.label }}</strong>
-            <small>{{ plan.description }}</small>
-          </span>
-        </aeris-radio-button>
-      </div>
+      <aeris-radio-button
+        appearance="card"
+        [label]="plan.label"
+        [description]="plan.description"
+        name="plan"
+        [value]="plan.value"
+        [(selected)]="selectedPlan"
+      />
     }
   </fieldset>
 </div>
@@ -324,35 +327,112 @@ export class RadioRichOptionsRichOptionsDemo {
 .radio-card-group {
   width: min(100%, 38rem);
 }
+```
 
-.radio-card {
-  padding: 0.875rem 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: 0.75rem;
-  background: var(--aeris-surface);
-  transition: border-color 150ms ease, background-color 150ms ease;
+### Selectable cards
+
+Share a native group name and selected signal. Arrow keys move between available choices; the entire card is clickable.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisRadioButton } from '@aeris-ui/core/radio-button';
+
+@Component({
+  selector: 'app-radio-cards-demo',
+  imports: [AerisButton, AerisRadioButton],
+  templateUrl: './radio-cards.demo.html',
+  styleUrl: './radio-cards.demo.scss'
+})
+export class RadioCardsSelectableCardsDemo {
+}
+```
+
+#### HTML
+
+```html
+<div class="radio-stack">
+  <fieldset class="radio-card-group radio-card-grid">
+    <legend>Delivery method</legend>
+    <aeris-radio-button
+      appearance="card"
+      name="delivery"
+      value="standard"
+      label="Standard delivery"
+      description="Arrives in three to five working days. Tracking is included for the entire journey."
+      [(selected)]="delivery"
+      [invalid]="!delivery()"
+      [touched]="deliverySubmitted()"
+      ariaDescribedBy="delivery-help"
+    />
+    <aeris-radio-button
+      appearance="card"
+      name="delivery"
+      value="express"
+      label="Express delivery"
+      description="Arrives the next working day when ordered before noon."
+      labelPosition="start"
+      [(selected)]="delivery"
+      [invalid]="!delivery()"
+      [touched]="deliverySubmitted()"
+      ariaDescribedBy="delivery-help"
+    />
+    <aeris-radio-button
+      appearance="card"
+      name="delivery"
+      value="collection"
+      label="Store collection"
+      description="Not available in your region."
+      disabled
+      [(selected)]="delivery"
+    />
+  </fieldset>
+  <small id="delivery-help">{{
+    deliverySubmitted() && !delivery()
+      ? 'Choose a delivery method to continue.'
+      : 'Select one delivery method.'
+  }}</small>
+  <button aerisButton type="button" (click)="deliverySubmitted.set(true)">
+    Continue
+  </button>
+</div>
+```
+
+#### CSS
+
+```css
+.radio-stack,
+.radio-group,
+.radio-card-group {
+  width: 100%;
+  display: grid;
+  gap: 0.75rem;
 }
 
-.radio-option-content {
-  display: inline-grid;
-  gap: 0.125rem;
+.radio-group,
+.radio-card-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
-.radio-option-content strong {
+.radio-group legend,
+.radio-card-group legend,
+.radio-group > strong {
+  margin-bottom: 0.125rem;
   color: var(--aeris-text);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
+  font-weight: 650;
 }
 
-.radio-option-content small,
-.radio-result {
-  color: var(--aeris-text-2);
-  font-size: 0.8125rem;
+.radio-card-group {
+  width: min(100%, 38rem);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .radio-card {
-      transition: none;
-    }
+.radio-card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 }
 ```
 
@@ -687,6 +767,7 @@ export class RadioAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 ## Accessibility
 
+- Card appearance keeps one native input and one focus stop per option. Its entire label is clickable. Keep projected content and icon templates decorative and non-interactive; place links and extra actions outside the control. The description input is automatically associated with the native input, alongside any ariaDescribedBy help or error IDs. Use a layout grid or stack around the controls to arrange cards; no application layout is imposed.
 - Radio Button uses a native input type="radio", preserving browser, keyboard, form, and assistive-technology behavior.
 - Wrap related options in a fieldset with a legend, and give every option the same name.
 - Tab enters or leaves a group. Arrow keys move and select within it, and Space selects the focused option.

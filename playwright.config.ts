@@ -91,12 +91,12 @@ export default defineConfig({
     {
       name: 'mobile-chromium',
       use: { ...devices['Pixel 7'] },
-      testMatch: ['**/mobile.spec.ts', '**/mobile-foundation.spec.ts'],
+      testMatch: ['**/mobile.spec.ts', '**/mobile-foundation.spec.ts', '**/choice-cards.spec.ts'],
     },
     {
       name: 'mobile-webkit',
       use: { ...devices['iPhone 15'] },
-      testMatch: ['**/mobile.spec.ts', '**/mobile-foundation.spec.ts'],
+      testMatch: ['**/mobile.spec.ts', '**/mobile-foundation.spec.ts', '**/choice-cards.spec.ts'],
     },
     {
       name: 'accessibility',

@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AerisRadioButton, type AerisRadioButtonChangeEvent } from '@aeris-ui/core/radio-button';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
+import { AerisButton } from '@aeris-ui/core/button';
 
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
@@ -29,6 +30,7 @@ interface Plan {
   selector: 'app-radio-button-page',
   imports: [
     AerisRadioButton,
+    AerisButton,
     FormsModule,
     ReactiveFormsModule,
     AerisTabsModule,
@@ -42,6 +44,8 @@ interface Plan {
   styleUrl: './radio-button.page.scss',
 })
 export class RadioButtonPage {
+  protected readonly delivery = signal<string | null>(null);
+  protected readonly deliverySubmitted = signal(false);
   protected readonly visibility = signal<string | null>('private');
   protected readonly selectedPlan = signal<string | null>('team');
   protected readonly notificationChannel = signal<string | null>('email');
@@ -71,6 +75,7 @@ export class RadioButtonPage {
     { id: 'radio-basic', label: 'Basic group' },
     { id: 'radio-model', label: 'Signal model' },
     { id: 'radio-rich-options', label: 'Rich options' },
+    { id: 'radio-cards', label: 'Selectable cards' },
     { id: 'radio-sizes', label: 'Sizes' },
     { id: 'radio-label-position', label: 'Label position' },
     { id: 'radio-states', label: 'States' },
@@ -107,6 +112,7 @@ protected templatePlan: string | null = 'starter';`;
   'xs' | 'sm' | 'md' | 'lg';
 
 type AerisRadioButtonLabelPosition = 'start' | 'end';
+type AerisRadioButtonAppearance = 'standard' | 'card';
 
 interface AerisRadioButtonChangeEvent {
   readonly originalEvent: Event;
@@ -114,6 +120,27 @@ interface AerisRadioButtonChangeEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'appearance',
+      type: 'AerisRadioButtonAppearance',
+      defaultValue: "'standard'",
+      description:
+        "Presentation. Options: 'standard', 'card'. The card retains native radio group behavior.",
+    },
+    {
+      name: 'description',
+      type: 'string',
+      defaultValue: "''",
+      description:
+        'Supporting text, automatically associated with the input as its accessible description.',
+    },
+    {
+      name: 'iconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Optional decorative leading icon beside the label. Keep its contents non-interactive.',
+    },
     {
       name: 'selected',
       type: 'string | null (model)',
