@@ -1,7 +1,7 @@
 import { vi } from 'vitest';
 import { AerisDrawerSwipe } from '../../../drawer/aeris-drawer-swipe';
 
-function setup() {
+function setup(snap?: ConstructorParameters<typeof AerisDrawerSwipe>[3]) {
   const handle = document.createElement('button');
   const captures = new Set<number>();
   handle.setPointerCapture = (id) => {
@@ -13,7 +13,7 @@ function setup() {
   };
   const changed = vi.fn<(offset: number, progress: number, dragging: boolean) => void>();
   const dismissed = vi.fn<(event: Event) => void>();
-  const swipe = new AerisDrawerSwipe(document, changed, dismissed);
+  const swipe = new AerisDrawerSwipe(document, changed, dismissed, snap);
   const pointer = (type: string, x: number, y: number, time = 0, id = 1) => {
     const event = new PointerEvent(type, {
       clientX: x,
@@ -31,6 +31,67 @@ function setup() {
 }
 
 describe('Drawer swipe gestures', () => {
+  it('settles bottom drawers to neighboring snap points in either direction', () => {
+    const settled = vi.fn();
+    const { swipe, pointer, dismissed } = setup(() => ({
+      heights: [100, 200, 300],
+      dismissible: false,
+      settled,
+    }));
+    swipe.start(pointer('pointerdown', 0, 200), 'bottom', 200);
+    swipe.move(pointer('pointermove', 0, 100, 200));
+    swipe.end(pointer('pointerup', 0, 100, 400), 0.35);
+    expect(settled).toHaveBeenLastCalledWith(2, expect.any(Event));
+    swipe.start(pointer('pointerdown', 0, 200), 'bottom', 200);
+    swipe.move(pointer('pointermove', 0, 280, 200));
+    swipe.end(pointer('pointerup', 0, 280, 400), 0.35);
+    expect(settled).toHaveBeenLastCalledWith(0, expect.any(Event));
+    expect(dismissed).not.toHaveBeenCalled();
+  });
+
+  it('never dismisses below the smallest point unless swipe dismissal is enabled', () => {
+    for (const dismissible of [false, true]) {
+      const settled = vi.fn();
+      const { swipe, pointer, dismissed } = setup(() => ({
+        heights: [100, 200, 300],
+        dismissible,
+        settled,
+      }));
+      swipe.start(pointer('pointerdown', 0, 100), 'bottom', 200);
+      swipe.move(pointer('pointermove', 0, 300, 200));
+      swipe.end(pointer('pointerup', 0, 300, 400), 0.35);
+      expect(dismissed).toHaveBeenCalledTimes(dismissible ? 1 : 0);
+      expect(settled).toHaveBeenCalledTimes(dismissible ? 0 : 1);
+    }
+  });
+
+  it('cancels snap gestures without committing a point or dismissal', () => {
+    const settled = vi.fn();
+    const { swipe, pointer, dismissed, changed } = setup(() => ({
+      heights: [100, 200, 300],
+      dismissible: true,
+      settled,
+    }));
+    swipe.start(pointer('pointerdown', 0, 200), 'bottom', 200);
+    swipe.move(pointer('pointermove', 0, 100, 200));
+    swipe.end(pointer('pointercancel', 0, 100, 400), 0.35);
+    expect(settled).not.toHaveBeenCalled();
+    expect(dismissed).not.toHaveBeenCalled();
+    expect(changed).toHaveBeenLastCalledWith(0, 0, false);
+  });
+
+  it('leaves upward body scrolling native at the largest snap point', () => {
+    const settled = vi.fn();
+    const { swipe, pointer } = setup(() => ({
+      heights: [100, 200, 300],
+      dismissible: false,
+      settled,
+    }));
+    swipe.start(pointer('pointerdown', 0, 200), 'bottom', 300);
+    expect(swipe.move(pointer('pointermove', 0, 100, 200))).toBe(false);
+    swipe.end(pointer('pointerup', 0, 100, 400), 0.35);
+    expect(settled).not.toHaveBeenCalled();
+  });
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => {
     document.getSelection()?.removeAllRanges();

@@ -28647,6 +28647,18 @@
           "kind": "input",
           "entries": [
             {
+              "name": "snapPoints",
+              "type": "readonly AerisDrawerSnapPoint[]",
+              "defaultValue": "[]",
+              "description": "Bottom-drawer heights: numbers in (0, 1] are fractions of available height; strings such as 320px are pixels. Sorted by resolved height, duplicates removed, invalid values ignored, pixels capped to the available viewport/container. Ignored for other edges, size full, maximized or mobileFullScreen. Snap sizing replaces height, mobileHeight and maxHeight; express the maximum through the largest point instead. An empty valid set retains ordinary sizing."
+            },
+            {
+              "name": "snapAriaLabel",
+              "type": "string",
+              "defaultValue": "'Resize drawer'",
+              "description": "Accessible name for the optional snap-point slider shown by swipeHandle."
+            },
+            {
               "name": "swipeToClose",
               "type": "boolean",
               "defaultValue": "false",
@@ -28656,13 +28668,13 @@
               "name": "swipeHandle",
               "type": "boolean",
               "defaultValue": "false",
-              "description": "Shows an optional draggable close button when swipeToClose is enabled. Hidden by default, with no reserved space. The handle closes on tap, Enter or Space and is hidden while maximized."
+              "description": "Shows an optional handle with no reserved space when false. With snap points it is a keyboard-operable height slider, not a close button. Otherwise swipeToClose makes it a draggable close button that closes on tap, Enter or Space. Hidden while maximized."
             },
             {
               "name": "swipeThreshold",
               "type": "number",
               "defaultValue": "0.35",
-              "description": "Fraction of the drawer width or height required to dismiss (clamped to 0.1–1). A flick of at least 32px at 0.5px/ms, released within 100ms of movement, also dismisses. Only movement toward the physical position edge counts, including in RTL."
+              "description": "Without snap points, the fraction of drawer width/height required to dismiss (clamped to 0.1–1); a recent flick of at least 32px at 0.5px/ms also dismisses. With snap points, this threshold is replaced by settling: projected release height below half the smallest point dismisses only when swipeToClose is true. Both use physical edges, including in RTL."
             },
             {
               "name": "closeIconTemplate",
@@ -28857,6 +28869,12 @@
           "kind": "model",
           "entries": [
             {
+              "name": "activeSnapPoint",
+              "type": "AerisDrawerSnapPoint | null",
+              "defaultValue": "null",
+              "description": "Requested configured point. Null or unavailable values display the smallest valid point without rewriting consumer state. Bind an initial point to select the opening height. Drag, keyboard and snapTo update the model; closing retains it."
+            },
+            {
               "name": "visible",
               "type": "boolean",
               "defaultValue": "false",
@@ -28874,6 +28892,12 @@
           "name": "Outputs",
           "kind": "output",
           "entries": [
+            {
+              "name": "activeSnapPointChange",
+              "type": "AerisDrawerSnapPoint | null",
+              "defaultValue": "-",
+              "description": "Model output emitted when a user gesture, slider key or snapTo selects a different point. Viewport resizing and fallback resolution do not emit."
+            },
             {
               "name": "opened",
               "type": "AerisDrawerVisibilityChangeEvent",
@@ -28923,6 +28947,12 @@
           "kind": "method",
           "entries": [
             {
+              "name": "snapTo(point)",
+              "type": "void",
+              "defaultValue": "point: AerisDrawerSnapPoint",
+              "description": "Selects a configured bottom-drawer point and cancels any active drag. Equivalent pixel/fraction heights resolve to the normalized point. Invalid requests or unsupported drawer configurations do nothing."
+            },
+            {
               "name": "show(originalEvent)",
               "type": "void",
               "defaultValue": "originalEvent: null",
@@ -28971,7 +29001,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask' | 'swipe';\ntype AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';\ntype AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';\ntype AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';\n\ninterface AerisDrawerVisibilityChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly visible: boolean;\n  readonly reason: AerisDrawerCloseReason;\n}\n\ninterface AerisDrawerTemplateContext {\n  readonly $implicit: AerisDrawer;\n  readonly close: (event?: Event) => void;\n  readonly position: AerisDrawerPosition;\n  readonly maximized: boolean;\n}"
+          "code": "type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask' | 'swipe';\ntype AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';\ntype AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';\ntype AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';\ntype AerisDrawerSnapPoint = number | `${number}px`;\n\ninterface AerisDrawerVisibilityChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly visible: boolean;\n  readonly reason: AerisDrawerCloseReason;\n}\n\ninterface AerisDrawerTemplateContext {\n  readonly $implicit: AerisDrawer;\n  readonly close: (event?: Event) => void;\n  readonly position: AerisDrawerPosition;\n  readonly maximized: boolean;\n}"
         }
       ],
       "designTokens": [
@@ -29198,6 +29228,28 @@
           ]
         },
         {
+          "id": "drawer-snap",
+          "title": "Snap points",
+          "description": "Bottom drawers can settle at configured heights. Drag the header or optional resize handle, use its arrow keys, or choose a height with the buttons. Resizing does not dismiss unless swipeToClose is explicitly enabled.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisDrawerModule } from '@aeris-ui/core/drawer';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\n\n@Component({\n  selector: 'app-drawer-snap-demo',\n  imports: [AerisButton, AerisDrawerModule, AerisInputText],\n  templateUrl: './drawer-snap.demo.html',\n  styleUrl: './drawer-snap.demo.scss'\n})\nexport class DrawerSnapSnapPointsDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <button aerisButton (click)=\"snapOpen.set(true)\">Open snap drawer</button>\n  <aeris-drawer\n    #snapDrawer\n    header=\"Project details\"\n    position=\"bottom\"\n    [snapPoints]=\"snapPoints\"\n    [(activeSnapPoint)]=\"snapPoint\"\n    [(visible)]=\"snapOpen\"\n    swipeHandle\n  >\n    <div class=\"drawer-form\">\n      <label>Project name <input aerisInputText value=\"Workspace refresh\" /></label>\n      @for (note of snapNotes; track note) {\n        <p>{{ note }}</p>\n      }\n    </div>\n    <ng-template aerisDrawerFooter>\n      <div class=\"drawer-controls\">\n        @for (point of snapPoints; track point) {\n          <button\n            aerisButton\n            [variant]=\"snapPoint() === point ? 'solid' : 'outline'\"\n            [attr.aria-pressed]=\"snapPoint() === point\"\n            (click)=\"snapDrawer.snapTo(point)\"\n          >\n            {{ point * 100 }}%\n          </button>\n        }\n      </div>\n    </ng-template>\n  </aeris-drawer>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".drawer-controls,\n.drawer-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n\n.drawer-form,\n.drawer-stack {\n  display: grid;\n  gap: 0.75rem;\n}\n\n.drawer-form label {\n  display: grid;\n  gap: 0.35rem;\n  color: var(--aeris-text);\n  font-weight: 700;\n}\n\n.drawer-form input,\n.drawer-form textarea {\n  width: 100%;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-sm);\n  background: var(--aeris-surface);\n  color: var(--aeris-text);\n  font: inherit;\n}\n\n.drawer-form input {\n  min-height: 2.375rem;\n  padding: 0 0.75rem;\n}\n\n.drawer-form textarea {\n  min-height: 5rem;\n  padding: 0.625rem 0.75rem;\n  resize: vertical;\n}"
+            }
+          ]
+        },
+        {
           "id": "drawer-swipe",
           "title": "Swipe dismissal",
           "description": "Swipe non-interactive content toward the drawer's screen edge. Scrolling and form controls keep their normal behavior. Short and cancelled drags return to the resting position.",
@@ -29309,9 +29361,22 @@
           "Use closeOnBackdropClick only when closing from outside the drawer cannot cause data loss.",
           "Use maximizable or bind maximized when the drawer should support full-screen workflows.",
           "Set mobileFullScreen for complex workflows that need more space on narrow screens.",
-          "Drawer motion is disabled for users who request reduced motion."
+          "Drawer motion is disabled for users who request reduced motion.",
+          "For snap points, enable swipeHandle to expose the height slider, or provide buttons that call snapTo(point). The example provides both. Points use the available visual viewport, so the sheet stays above an on-screen keyboard; its body scrolls to keep a focused form field visible. The largest snap point defines the maximum height instead of maxHeight. Choose points that leave room for your header and footer. Nested overlays retain their own gestures; only the topmost drawer can be dragged."
         ],
         "keyboard": [
+          {
+            "keys": "Arrow Up / Page Up on resize handle",
+            "behavior": "Selects the next larger snap point without closing."
+          },
+          {
+            "keys": "Arrow Down / Page Down on resize handle",
+            "behavior": "Selects the next smaller snap point without closing."
+          },
+          {
+            "keys": "Home / End on resize handle",
+            "behavior": "Selects the smallest / largest snap point."
+          },
           {
             "keys": "Tab",
             "behavior": "Moves focus to the next focusable element inside the drawer. From the last element, focus wraps to the first when focusTrap is enabled."
@@ -29326,7 +29391,7 @@
           },
           {
             "keys": "Enter / Space on swipe handle",
-            "behavior": "Closes without dragging, when swipeToClose and swipeHandle are enabled."
+            "behavior": "Closes without dragging, when swipeToClose and swipeHandle are enabled and snap points are not active."
           },
           {
             "keys": "Enter / Space",

@@ -279,6 +279,79 @@ Shared component planning and release notes.&lt;/textarea&gt;
             </app-form-demo>
 
             <app-form-demo
+              id="drawer-snap"
+              title="Snap points"
+              description="Bottom drawers can settle at configured heights. Drag the header or optional resize handle, use its arrow keys, or choose a height with the buttons. Resizing does not dismiss unless swipeToClose is explicitly enabled."
+            >
+              <div preview>
+                <button aerisButton (click)="snapOpen.set(true)">Open snap drawer</button>
+                <aeris-drawer
+                  #snapDrawer
+                  header="Project details"
+                  position="bottom"
+                  [snapPoints]="snapPoints"
+                  [(activeSnapPoint)]="snapPoint"
+                  [(visible)]="snapOpen"
+                  swipeHandle
+                >
+                  <div class="drawer-form">
+                    <label>Project name <input aerisInputText value="Workspace refresh" /></label>
+                    @for (note of snapNotes; track note) {
+                      <p>{{ note }}</p>
+                    }
+                  </div>
+                  <ng-template aerisDrawerFooter>
+                    <div class="drawer-controls">
+                      @for (point of snapPoints; track point) {
+                        <button
+                          aerisButton
+                          [variant]="snapPoint() === point ? 'solid' : 'outline'"
+                          [attr.aria-pressed]="snapPoint() === point"
+                          (click)="snapDrawer.snapTo(point)"
+                        >
+                          {{ point * 100 }}%
+                        </button>
+                      }
+                    </div>
+                  </ng-template>
+                </aeris-drawer>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;button aerisButton (click)="snapOpen.set(true)"&gt;Open snap drawer&lt;/button&gt;
+  &lt;aeris-drawer
+    #snapDrawer
+    header="Project details"
+    position="bottom"
+    [snapPoints]="snapPoints"
+    [(activeSnapPoint)]="snapPoint"
+    [(visible)]="snapOpen"
+    swipeHandle
+  &gt;
+    &lt;div class="drawer-form"&gt;
+      &lt;label&gt;Project name &lt;input aerisInputText value="Workspace refresh" /&gt;&lt;/label&gt;
+      &#64;for (note of snapNotes; track note) &#123;
+        &lt;p&gt;&#123;&#123; note &#125;&#125;&lt;/p&gt;
+      &#125;
+    &lt;/div&gt;
+    &lt;ng-template aerisDrawerFooter&gt;
+      &lt;div class="drawer-controls"&gt;
+        &#64;for (point of snapPoints; track point) &#123;
+          &lt;button
+            aerisButton
+            [variant]="snapPoint() === point ? 'solid' : 'outline'"
+            [attr.aria-pressed]="snapPoint() === point"
+            (click)="snapDrawer.snapTo(point)"
+          &gt;
+            &#123;&#123; point * 100 &#125;&#125;%
+          &lt;/button&gt;
+        &#125;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-drawer&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
               id="drawer-swipe"
               title="Swipe dismissal"
               description="Swipe non-interactive content toward the drawer's screen edge. Scrolling and form controls keep their normal behavior. Short and cancelled drags return to the resting position."
@@ -891,6 +964,15 @@ Form controls keep their normal interaction.&lt;/textarea&gt;
         </ul>
 
         <h3>Keyboard support</h3>
+        <p>
+          For snap points, enable <code>swipeHandle</code> to expose the height slider, or provide
+          buttons that call <code>snapTo(point)</code>. The example provides both. Points use the
+          available visual viewport, so the sheet stays above an on-screen keyboard; its body
+          scrolls to keep a focused form field visible. The largest snap point defines the maximum
+          height instead of <code>maxHeight</code>. Choose points that leave room for your header
+          and footer. Nested overlays retain their own gestures; only the topmost drawer can be
+          dragged.
+        </p>
         <div
           class="api-table keyboard-table"
           role="table"
@@ -899,6 +981,18 @@ Form controls keep their normal interaction.&lt;/textarea&gt;
         >
           <div class="api-head" role="row">
             <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Arrow Up / Page Up on resize handle</span>
+            <span role="cell">Selects the next larger snap point without closing.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Arrow Down / Page Down on resize handle</span>
+            <span role="cell">Selects the next smaller snap point without closing.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Home / End on resize handle</span>
+            <span role="cell">Selects the smallest / largest snap point.</span>
           </div>
           <div role="row">
             <span role="cell">Tab</span
@@ -921,7 +1015,8 @@ Form controls keep their normal interaction.&lt;/textarea&gt;
           <div role="row">
             <span role="cell">Enter / Space on swipe handle</span
             ><span role="cell"
-              >Closes without dragging, when swipeToClose and swipeHandle are enabled.</span
+              >Closes without dragging, when swipeToClose and swipeHandle are enabled and snap
+              points are not active.</span
             >
           </div>
           <div role="row">

@@ -14,6 +14,14 @@ interface SwipeSession {
   distance: number;
   velocity: number;
   time: number;
+  readonly snap: DrawerSwipeSnap | null;
+  readonly fromHandle: boolean;
+}
+
+interface DrawerSwipeSnap {
+  readonly heights: readonly number[];
+  readonly dismissible: boolean;
+  readonly settled: (index: number, event: Event) => void;
 }
 
 type SwipeInput =
@@ -39,6 +47,7 @@ export class AerisDrawerSwipe {
     private readonly document: Document,
     private readonly changed: (offset: number, progress: number, dragging: boolean) => void,
     private readonly dismissed: (event: Event) => void,
+    private readonly snap: () => DrawerSwipeSnap | null = () => null,
   ) {}
 
   start(event: PointerEvent, position: AerisDrawerPosition, extent: number): void {
@@ -81,6 +90,8 @@ export class AerisDrawerSwipe {
       distance: 0,
       velocity: 0,
       time: event.timeStamp,
+      snap: position === 'bottom' ? this.snap() : null,
+      fromHandle: !!handle,
     };
     // Eligible mouse/pen starts near a screen edge must retain the pointer before it leaves
     // the viewport. Touch stays uncaptured so native scrolling can win.
@@ -97,9 +108,20 @@ export class AerisDrawerSwipe {
     const y = event.clientY - session.y;
     const distance = (horizontal ? x : y) * direction;
     if (!session.dragging) {
+      const intended = session.snap ? Math.abs(distance) : distance;
+      // At the largest point, upward gestures in the body remain ordinary scrolling.
+      if (
+        session.snap &&
+        !session.fromHandle &&
+        distance < 0 &&
+        session.extent >= session.snap.heights[session.snap.heights.length - 1] - 1
+      ) {
+        this.cancel();
+        return false;
+      }
       if (Math.max(Math.abs(x), Math.abs(y)) < 8)
-        return distance > 0 && distance > Math.abs(horizontal ? y : x) * 1.2;
-      if (distance <= 0 || distance < Math.abs(horizontal ? y : x) * 1.2) {
+        return intended > 0 && intended > Math.abs(horizontal ? y : x) * 1.2;
+      if (intended <= 0 || intended < Math.abs(horizontal ? y : x) * 1.2) {
         this.cancel(true);
         return false;
       }
@@ -111,7 +133,13 @@ export class AerisDrawerSwipe {
       session.dragging = true;
     }
     event.preventDefault();
-    const next = Math.max(0, Math.min(session.extent, distance));
+    const minimum = session.snap && !session.snap.dismissible ? session.snap.heights[0] : 0;
+    const next = session.snap
+      ? Math.max(
+          session.extent - session.snap.heights[session.snap.heights.length - 1],
+          Math.min(session.extent - minimum, distance),
+        )
+      : Math.max(0, Math.min(session.extent, distance));
     if (next !== session.distance) {
       session.velocity = (next - session.distance) / Math.max(1, event.timeStamp - session.time);
       session.distance = next;
@@ -132,6 +160,30 @@ export class AerisDrawerSwipe {
     this.release(session);
     if (!session.dragging) return;
     guardReleaseClick(this.document, session.capture ? session.id : null);
+    if (session.snap) {
+      const originalEvent = 'originalEvent' in event ? event.originalEvent : event;
+      if (!cancelled) {
+        const recent = event.timeStamp - session.time < 100;
+        const projected = session.extent - session.distance - (recent ? session.velocity * 100 : 0);
+        if (session.snap.dismissible && projected < session.snap.heights[0] / 2) {
+          this.changed(
+            Math.max(0, session.distance),
+            Math.max(0, session.distance / session.extent),
+            false,
+          );
+          this.dismissed(originalEvent);
+          return;
+        }
+        let nearest = 0;
+        session.snap.heights.forEach((height, index, heights) => {
+          if (Math.abs(height - projected) < Math.abs(heights[nearest] - projected))
+            nearest = index;
+        });
+        session.snap.settled(nearest, originalEvent);
+      }
+      this.changed(0, 0, false);
+      return;
+    }
     const fraction = Number.isFinite(threshold) ? Math.min(1, Math.max(0.1, threshold)) : 0.35;
     const flick =
       session.distance >= 32 && session.velocity >= 0.5 && event.timeStamp - session.time < 100;

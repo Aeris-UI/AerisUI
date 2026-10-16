@@ -193,6 +193,27 @@
   opacity: 0;
 }
 
+.aeris-drawer__panel[data-snap-points] {
+  transition:
+    height var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, ease),
+    transform var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, ease),
+    opacity var(--aeris-motion-normal, 150ms) var(--aeris-ease-standard, ease);
+
+  .aeris-drawer__header {
+    grid-row: 1;
+  }
+  .aeris-drawer__body {
+    grid-row: 2;
+  }
+  .aeris-drawer__footer {
+    grid-row: 3;
+  }
+}
+
+.aeris-drawer__panel[data-snap-points][data-swiping] {
+  transition: none;
+}
+
 .aeris-drawer__panel[data-position='left'][data-state='closed'] {
   transform: translate3d(-100%, 0, 0);
 }
@@ -486,6 +507,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .aeris-drawer__panel[data-snap-points],
   .aeris-drawer__overlay[data-swipe-enabled][data-backdrop],
   .aeris-drawer__overlay,
   .aeris-drawer__panel,

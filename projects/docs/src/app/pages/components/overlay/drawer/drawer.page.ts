@@ -5,6 +5,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 import {
   AerisDrawerModule,
   type AerisDrawerPosition,
+  type AerisDrawerSnapPoint,
   type AerisDrawerVisibilityChangeEvent,
 } from '@aeris-ui/core/drawer';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
@@ -43,6 +44,17 @@ interface ApiRow {
   styleUrl: './drawer.page.scss',
 })
 export class DrawerPage {
+  protected readonly snapOpen = signal(false);
+  protected readonly snapPoint = signal<AerisDrawerSnapPoint | null>(0.6);
+  protected readonly snapPoints = [0.35, 0.6, 0.9] as const;
+  protected readonly snapNotes = [
+    'Review the workspace details and choose a height that leaves enough room for the task.',
+    'At a smaller height, the drawer body scrolls independently while the header and actions stay available.',
+    'Drag the header or resize handle upward to expand. At the largest height, upward gestures in the body scroll the content.',
+    'Scrolling content keeps downward gestures until it reaches its top. Start a new gesture there to collapse the drawer.',
+    'Form controls, links and buttons keep their usual interaction and do not initiate a drag.',
+    'The selected point is retained when the drawer closes. Fractional points adapt to the available viewport height.',
+  ];
   protected readonly swipeOpen = signal(false);
   protected readonly swipePosition = signal<AerisDrawerPosition>('bottom');
   protected readonly swipeStatus = signal(
@@ -102,6 +114,7 @@ export class DrawerPage {
     { id: 'drawer-templates', label: 'Templates' },
     { id: 'drawer-responsive', label: 'Responsive' },
     { id: 'drawer-swipe', label: 'Swipe dismissal' },
+    { id: 'drawer-snap', label: 'Snap points' },
     { id: 'drawer-fullscreen', label: 'Full screen' },
     { id: 'drawer-long-content', label: 'Long content' },
     { id: 'drawer-headless', label: 'Headless' },
@@ -320,6 +333,7 @@ protected readonly filterGroups = [
 type AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 type AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';
 type AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
+type AerisDrawerSnapPoint = number | \`\${number}px\`;
 
 interface AerisDrawerVisibilityChangeEvent {
   readonly originalEvent: Event | null;
@@ -336,6 +350,19 @@ interface AerisDrawerTemplateContext {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'snapPoints',
+      type: 'readonly AerisDrawerSnapPoint[]',
+      defaultValue: '[]',
+      description:
+        'Bottom-drawer heights: numbers in (0, 1] are fractions of available height; strings such as 320px are pixels. Sorted by resolved height, duplicates removed, invalid values ignored, pixels capped to the available viewport/container. Ignored for other edges, size full, maximized or mobileFullScreen. Snap sizing replaces height, mobileHeight and maxHeight; express the maximum through the largest point instead. An empty valid set retains ordinary sizing.',
+    },
+    {
+      name: 'snapAriaLabel',
+      type: 'string',
+      defaultValue: "'Resize drawer'",
+      description: 'Accessible name for the optional snap-point slider shown by swipeHandle.',
+    },
+    {
       name: 'swipeToClose',
       type: 'boolean',
       defaultValue: 'false',
@@ -347,14 +374,14 @@ interface AerisDrawerTemplateContext {
       type: 'boolean',
       defaultValue: 'false',
       description:
-        'Shows an optional draggable close button when swipeToClose is enabled. Hidden by default, with no reserved space. The handle closes on tap, Enter or Space and is hidden while maximized.',
+        'Shows an optional handle with no reserved space when false. With snap points it is a keyboard-operable height slider, not a close button. Otherwise swipeToClose makes it a draggable close button that closes on tap, Enter or Space. Hidden while maximized.',
     },
     {
       name: 'swipeThreshold',
       type: 'number',
       defaultValue: '0.35',
       description:
-        'Fraction of the drawer width or height required to dismiss (clamped to 0.1–1). A flick of at least 32px at 0.5px/ms, released within 100ms of movement, also dismisses. Only movement toward the physical position edge counts, including in RTL.',
+        'Without snap points, the fraction of drawer width/height required to dismiss (clamped to 0.1–1); a recent flick of at least 32px at 0.5px/ms also dismisses. With snap points, this threshold is replaced by settling: projected release height below half the smallest point dismisses only when swipeToClose is true. Both use physical edges, including in RTL.',
     },
     {
       name: 'closeIconTemplate',
@@ -547,6 +574,13 @@ interface AerisDrawerTemplateContext {
 
   protected readonly models: readonly ApiRow[] = [
     {
+      name: 'activeSnapPoint',
+      type: 'AerisDrawerSnapPoint | null',
+      defaultValue: 'null',
+      description:
+        'Requested configured point. Null or unavailable values display the smallest valid point without rewriting consumer state. Bind an initial point to select the opening height. Drag, keyboard and snapTo update the model; closing retains it.',
+    },
+    {
       name: 'visible',
       type: 'boolean',
       defaultValue: 'false',
@@ -561,6 +595,13 @@ interface AerisDrawerTemplateContext {
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
+    {
+      name: 'activeSnapPointChange',
+      type: 'AerisDrawerSnapPoint | null',
+      defaultValue: '-',
+      description:
+        'Model output emitted when a user gesture, slider key or snapTo selects a different point. Viewport resizing and fallback resolution do not emit.',
+    },
     {
       name: 'opened',
       type: 'AerisDrawerVisibilityChangeEvent',
@@ -604,6 +645,13 @@ interface AerisDrawerTemplateContext {
   ];
 
   protected readonly methods: readonly ApiRow[] = [
+    {
+      name: 'snapTo(point)',
+      type: 'void',
+      defaultValue: 'point: AerisDrawerSnapPoint',
+      description:
+        'Selects a configured bottom-drawer point and cancels any active drag. Equivalent pixel/fraction heights resolve to the normalized point. Invalid requests or unsupported drawer configurations do nothing.',
+    },
     {
       name: 'show(originalEvent)',
       type: 'void',

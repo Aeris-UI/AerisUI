@@ -29,9 +29,11 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `snapPoints` | `readonly AerisDrawerSnapPoint[]` | `[]` | Bottom-drawer heights: numbers in (0, 1] are fractions of available height; strings such as 320px are pixels. Sorted by resolved height, duplicates removed, invalid values ignored, pixels capped to the available viewport/container. Ignored for other edges, size full, maximized or mobileFullScreen. Snap sizing replaces height, mobileHeight and maxHeight; express the maximum through the largest point instead. An empty valid set retains ordinary sizing. |
+| `snapAriaLabel` | `string` | `'Resize drawer'` | Accessible name for the optional snap-point slider shown by swipeHandle. |
 | `swipeToClose` | `boolean` | `false` | Allows swiping non-interactive drawer content toward its physical screen edge. Scrollable content keeps the gesture when it can scroll in that direction. Inputs, buttons, links and nested interactive controls do not start dismissal. Disabled while maximized. |
-| `swipeHandle` | `boolean` | `false` | Shows an optional draggable close button when swipeToClose is enabled. Hidden by default, with no reserved space. The handle closes on tap, Enter or Space and is hidden while maximized. |
-| `swipeThreshold` | `number` | `0.35` | Fraction of the drawer width or height required to dismiss (clamped to 0.1–1). A flick of at least 32px at 0.5px/ms, released within 100ms of movement, also dismisses. Only movement toward the physical position edge counts, including in RTL. |
+| `swipeHandle` | `boolean` | `false` | Shows an optional handle with no reserved space when false. With snap points it is a keyboard-operable height slider, not a close button. Otherwise swipeToClose makes it a draggable close button that closes on tap, Enter or Space. Hidden while maximized. |
+| `swipeThreshold` | `number` | `0.35` | Without snap points, the fraction of drawer width/height required to dismiss (clamped to 0.1–1); a recent flick of at least 32px at 0.5px/ms also dismisses. With snap points, this threshold is replaced by settling: projected release height below half the smallest point dismisses only when swipeToClose is true. Both use physical edges, including in RTL. |
 | `closeIconTemplate` | `TemplateRef&lt;AerisDrawerTemplateContext&gt; &#124; undefined` | `undefined` | Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name. |
 | `maximizeIconTemplate` | `TemplateRef&lt;AerisDrawerTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the maximize icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target. |
@@ -68,6 +70,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `activeSnapPoint` | `AerisDrawerSnapPoint &#124; null` | `null` | Requested configured point. Null or unavailable values display the smallest valid point without rewriting consumer state. Bind an initial point to select the opening height. Drag, keyboard and snapTo update the model; closing retains it. |
 | `visible` | `boolean` | `false` | Controls whether the drawer is rendered. |
 | `maximized` | `boolean` | `false` | Controls whether the drawer fills the viewport. |
 
@@ -75,6 +78,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `activeSnapPointChange` | `AerisDrawerSnapPoint &#124; null` | `-` | Model output emitted when a user gesture, slider key or snapTo selects a different point. Viewport resizing and fallback resolution do not emit. |
 | `opened` | `AerisDrawerVisibilityChangeEvent` | `-` | Emits after the drawer becomes visible. |
 | `closed` | `AerisDrawerVisibilityChangeEvent` | `-` | Emits after the drawer closes. |
 
@@ -91,6 +95,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `snapTo(point)` | `void` | `point: AerisDrawerSnapPoint` | Selects a configured bottom-drawer point and cancels any active drag. Equivalent pixel/fraction heights resolve to the normalized point. Invalid requests or unsupported drawer configurations do nothing. |
 | `show(originalEvent)` | `void` | `originalEvent: null` | Opens the drawer. |
 | `hide(originalEvent, reason)` | `void` | `reason: 'api'` | Closes the drawer and emits the close reason. |
 | `toggle(originalEvent)` | `void` | `originalEvent: null` | Opens the drawer when closed or closes it when open. |
@@ -108,6 +113,7 @@ type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask' | 'swip
 type AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 type AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';
 type AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
+type AerisDrawerSnapPoint = number | `${number}px`;
 
 interface AerisDrawerVisibilityChangeEvent {
   readonly originalEvent: Event | null;
@@ -664,6 +670,111 @@ export class DrawerTemplatesTemplatesDemo {
 }
 ```
 
+### Snap points
+
+Bottom drawers can settle at configured heights. Drag the header or optional resize handle, use its arrow keys, or choose a height with the buttons. Resizing does not dismiss unless swipeToClose is explicitly enabled.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisDrawerModule } from '@aeris-ui/core/drawer';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+
+@Component({
+  selector: 'app-drawer-snap-demo',
+  imports: [AerisButton, AerisDrawerModule, AerisInputText],
+  templateUrl: './drawer-snap.demo.html',
+  styleUrl: './drawer-snap.demo.scss'
+})
+export class DrawerSnapSnapPointsDemo {
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <button aerisButton (click)="snapOpen.set(true)">Open snap drawer</button>
+  <aeris-drawer
+    #snapDrawer
+    header="Project details"
+    position="bottom"
+    [snapPoints]="snapPoints"
+    [(activeSnapPoint)]="snapPoint"
+    [(visible)]="snapOpen"
+    swipeHandle
+  >
+    <div class="drawer-form">
+      <label>Project name <input aerisInputText value="Workspace refresh" /></label>
+      @for (note of snapNotes; track note) {
+        <p>{{ note }}</p>
+      }
+    </div>
+    <ng-template aerisDrawerFooter>
+      <div class="drawer-controls">
+        @for (point of snapPoints; track point) {
+          <button
+            aerisButton
+            [variant]="snapPoint() === point ? 'solid' : 'outline'"
+            [attr.aria-pressed]="snapPoint() === point"
+            (click)="snapDrawer.snapTo(point)"
+          >
+            {{ point * 100 }}%
+          </button>
+        }
+      </div>
+    </ng-template>
+  </aeris-drawer>
+</div>
+```
+
+#### CSS
+
+```css
+.drawer-controls,
+.drawer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.drawer-form,
+.drawer-stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.drawer-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--aeris-text);
+  font-weight: 700;
+}
+
+.drawer-form input,
+.drawer-form textarea {
+  width: 100%;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-sm);
+  background: var(--aeris-surface);
+  color: var(--aeris-text);
+  font: inherit;
+}
+
+.drawer-form input {
+  min-height: 2.375rem;
+  padding: 0 0.75rem;
+}
+
+.drawer-form textarea {
+  min-height: 5rem;
+  padding: 0.625rem 0.75rem;
+  resize: vertical;
+}
+```
+
 ### Swipe dismissal
 
 Swipe non-interactive content toward the drawer's screen edge. Scrolling and form controls keep their normal behavior. Short and cancelled drags return to the resting position.
@@ -1202,13 +1313,17 @@ export class DrawerHeadlessHeadlessDemo {
 - Use maximizable or bind maximized when the drawer should support full-screen workflows.
 - Set mobileFullScreen for complex workflows that need more space on narrow screens.
 - Drawer motion is disabled for users who request reduced motion.
+- For snap points, enable swipeHandle to expose the height slider, or provide buttons that call snapTo(point). The example provides both. Points use the available visual viewport, so the sheet stays above an on-screen keyboard; its body scrolls to keep a focused form field visible. The largest snap point defines the maximum height instead of maxHeight. Choose points that leave room for your header and footer. Nested overlays retain their own gestures; only the topmost drawer can be dragged.
 
 ### Keyboard support
 
 | Key | Function |
 | --- | --- |
+| `Arrow Up / Page Up on resize handle` | Selects the next larger snap point without closing. |
+| `Arrow Down / Page Down on resize handle` | Selects the next smaller snap point without closing. |
+| `Home / End on resize handle` | Selects the smallest / largest snap point. |
 | `Tab` | Moves focus to the next focusable element inside the drawer. From the last element, focus wraps to the first when focusTrap is enabled. |
 | `Shift + Tab` | Moves focus to the previous focusable element inside the drawer. From the first element, focus wraps to the last when focusTrap is enabled. |
 | `Escape` | Closes the drawer when closeOnEscape is true. |
-| `Enter / Space on swipe handle` | Closes without dragging, when swipeToClose and swipeHandle are enabled. |
+| `Enter / Space on swipe handle` | Closes without dragging, when swipeToClose and swipeHandle are enabled and snap points are not active. |
 | `Enter / Space` | Activates the focused native control, including the built-in close button and projected buttons. |
