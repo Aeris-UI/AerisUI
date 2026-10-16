@@ -4,7 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCardModule } from '@aeris-ui/core/card';
-import { AerisDrawerModule } from '@aeris-ui/core/drawer';
+import { AerisDrawer } from '@aeris-ui/core/drawer';
 import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
 import { AerisThemeService } from '@aeris-ui/core/theming';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
@@ -49,7 +49,7 @@ import {
     NgTemplateOutlet,
     AerisButton,
     DocsSearchDialogComponent,
-    AerisDrawerModule,
+    AerisDrawer,
     AerisScrollTop,
     AerisCardModule,
     AerisToolbarModule,

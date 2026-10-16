@@ -411,21 +411,23 @@
     </aside>
   }
 
-  <aeris-drawer
-    class="docs-mobile-navigation"
-    header="Documentation"
-    [(visible)]="sidebarOpen"
-    [position]="activeDirectionId() === 'rtl' ? 'right' : 'left'"
-    width="17.5rem"
-    mobileWidth="min(19rem, calc(100vw - 2rem))"
-    [closeOnBackdropClick]="true"
-    closeAriaLabel="Close documentation navigation"
-  >
-    <ng-container
-      [ngTemplateOutlet]="docsNavigation"
-      [ngTemplateOutletContext]="{ idSuffix: 'mobile' }"
-    />
-  </aeris-drawer>
+  @defer (when sidebarOpen(); prefetch on idle) {
+    <aeris-drawer
+      class="docs-mobile-navigation"
+      header="Documentation"
+      [(visible)]="sidebarOpen"
+      [position]="activeDirectionId() === 'rtl' ? 'right' : 'left'"
+      width="17.5rem"
+      mobileWidth="min(19rem, calc(100vw - 2rem))"
+      [closeOnBackdropClick]="true"
+      closeAriaLabel="Close documentation navigation"
+    >
+      <ng-container
+        [ngTemplateOutlet]="docsNavigation"
+        [ngTemplateOutletContext]="{ idSuffix: 'mobile' }"
+      />
+    </aeris-drawer>
+  }
 
   <main
     id="docs-content"
