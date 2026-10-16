@@ -25556,7 +25556,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\nimport { AerisTabsModule } from '@aeris-ui/core/tabs';\n\n@Component({\n  selector: 'app-tabs-lazy-demo',\n  imports: [AerisChartModule, AerisTabsModule],\n  templateUrl: './tabs-lazy.demo.html',\n  styleUrl: './tabs-lazy.demo.scss'\n})\nexport class TabsLazyDeferredAndPreservedContentDemo {\n  protected readonly trafficData: AerisChartData = {\n    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],\n    datasets: [\n      {\n        label: 'Sessions',\n        data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],\n        tension: 0.35,\n        fill: true,\n      },\n    ],\n  };\n\n  protected readonly conversionData: AerisChartData = {\n    labels: ['Direct', 'Search', 'Social', 'Referral'],\n    datasets: [\n      { label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 },\n    ],\n  };\n\n  protected readonly statisticsOptions: AerisChartOptions = {\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\nimport { AerisTabsModule } from '@aeris-ui/core/tabs';\n\n@Component({\n  selector: 'app-tabs-lazy-demo',\n  imports: [AerisChartModule, AerisTabsModule],\n  templateUrl: './tabs-lazy.demo.html',\n  styleUrl: './tabs-lazy.demo.scss'\n})\nexport class TabsLazyDeferredAndPreservedContentDemo {\n  protected readonly trafficData: AerisChartData = {\n    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],\n    datasets: [\n      {\n        label: 'Sessions',\n        data: [1240, 1580, 1470, 1920, 2180, 1760, 2340],\n        tension: 0.35,\n        fill: true,\n      },\n    ],\n  };\n\n  protected readonly conversionData: AerisChartData = {\n    labels: ['Direct', 'Search', 'Social', 'Referral'],\n    datasets: [\n      { label: 'Conversions', data: [420, 680, 310, 250], borderRadius: 7 },\n    ],\n  };\n\n  protected readonly statisticsOptions: AerisChartOptions = {\n    devicePixelRatio:\n        typeof window === 'undefined'\n          ? 2\n          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
             },
             {
               "language": "HTML",
@@ -33990,6 +33990,54 @@
       "importCode": "npm install chart.js\n\nimport { AerisChartModule } from '@aeris-ui/core/chart';",
       "api": [
         {
+          "name": "Helper Exports",
+          "kind": "other",
+          "entries": [
+            {
+              "name": "createAerisChartAreaFill(color, opacity?)",
+              "type": "<TType extends ChartType>(context: ScriptableContext<TType>) => CanvasGradient | string",
+              "defaultValue": "-",
+              "description": "Assign the returned callback to a line dataset backgroundColor, and set fill: true. Cached per chart; rebuilds after vertical geometry or device-pixel-ratio changes. Safe to create during server rendering."
+            },
+            {
+              "name": "color (area fill)",
+              "type": "string",
+              "defaultValue": "required",
+              "description": "A solid color supported by Chart.js, such as HEX, RGB, HSL or a named color. Resolve CSS variables before passing them. Unsupported values produce a transparent fill."
+            },
+            {
+              "name": "opacity (area fill)",
+              "type": "number",
+              "defaultValue": "0.24",
+              "description": "Alpha at the top of the plotting area, fading to zero at its bottom. Clamped to 0–1; non-finite values use 0.24."
+            },
+            {
+              "name": "createAerisChartComparisonGuide(options?)",
+              "type": "AerisChartPlugin",
+              "defaultValue": "{}",
+              "description": "Pass the returned plugin in plugins. Draws a dotted vertical guide for active Cartesian elements. Configure interaction.mode: index and intersect: false to compare series. It does not alter interaction, tooltips or datasets."
+            },
+            {
+              "name": "options.color (comparison guide)",
+              "type": "string",
+              "defaultValue": "--aeris-text-3",
+              "description": "Optional solid canvas stroke color. Inherits the text token on every draw when omitted."
+            },
+            {
+              "name": "options.width (comparison guide)",
+              "type": "number",
+              "defaultValue": "1",
+              "description": "Stroke width in CSS pixels. Zero or negative values hide the guide; non-finite values use 1."
+            },
+            {
+              "name": "options.dash (comparison guide)",
+              "type": "readonly number[]",
+              "defaultValue": "[3, 4]",
+              "description": "Alternating dash and gap lengths in CSS pixels. Empty draws a solid line. Negative and non-finite entries are ignored."
+            }
+          ]
+        },
+        {
           "name": "Inputs",
           "kind": "input",
           "entries": [
@@ -34009,7 +34057,7 @@
               "name": "options",
               "type": "AerisChartOptions | null",
               "defaultValue": "null",
-              "description": "Chart.js options, merged with Aeris theme-aware defaults."
+              "description": "Chart.js options, callbacks and external tooltips override Aeris defaults. Default animation duration is 220ms; system reduced motion always disables animation. Theme changes update the existing renderer."
             },
             {
               "name": "plugins",
@@ -34051,7 +34099,7 @@
               "name": "emptyMessage",
               "type": "string",
               "defaultValue": "'No chart data available'",
-              "description": "Status message shown when data has no datasets."
+              "description": "Status message shown when data is null, has no datasets, or every dataset has an empty data array. This is not a loading indicator."
             }
           ]
         },
@@ -34108,11 +34156,11 @@
       "interfaces": [
         {
           "name": "Types",
-          "code": "import type { AerisChartData, AerisChartOptions } from '@aeris-ui/core/chart';\n\nprotected readonly radarData: AerisChartData = {\n  labels: ['Speed', 'Quality', 'Coverage', 'Reliability', 'Clarity'],\n  datasets: [{ label: 'Current', data: [82, 74, 67, 91, 78] }, { label: 'Goal', data: [88, 86, 80, 90, 84] }],\n};\n\nprotected readonly shareData: AerisChartData = {\n  labels: ['Product', 'Engineering', 'Operations', 'Growth'],\n  datasets: [{ label: 'Team allocation', data: [36, 29, 18, 17] }],\n};\n\nprotected readonly scatterData: AerisChartData = {\n  datasets: [{ label: 'Experiments', data: [{ x: 4, y: 18 }, { x: 7, y: 31 }, { x: 11, y: 42 }, { x: 14, y: 39 }, { x: 18, y: 62 }] }],\n};\n\nprotected readonly bubbleData: AerisChartData = {\n  datasets: [{ label: 'Opportunities', data: [{ x: 4, y: 14, r: 8 }, { x: 9, y: 28, r: 13 }, { x: 14, y: 20, r: 10 }, { x: 17, y: 42, r: 17 }] }],\n};\n\nprotected readonly radialOptions: AerisChartOptions = {\n  maintainAspectRatio: false,\n  plugins: { legend: { position: 'bottom' } },\n};\n\nprotected readonly scatterOptions: AerisChartOptions = {\n  maintainAspectRatio: false,\n  scales: {\n    x: { type: 'linear', position: 'bottom', title: { display: true, text: 'Reach' } },\n    y: { title: { display: true, text: 'Value' } },\n  },\n  plugins: { legend: { display: false } },\n};"
+          "code": "import type { AerisChartData, AerisChartOptions } from '@aeris-ui/core/chart';\n\nprotected readonly radarData: AerisChartData = {\n  labels: ['Speed', 'Quality', 'Coverage', 'Reliability', 'Clarity'],\n  datasets: [{ label: 'Current', data: [82, 74, 67, 91, 78] }, { label: 'Goal', data: [88, 86, 80, 90, 84] }],\n};\n\nprotected readonly shareData: AerisChartData = {\n  labels: ['Product', 'Engineering', 'Operations', 'Growth'],\n  datasets: [{ label: 'Team allocation', data: [36, 29, 18, 17] }],\n};\n\nprotected readonly scatterData: AerisChartData = {\n  datasets: [{ label: 'Experiments', data: [{ x: 4, y: 18 }, { x: 7, y: 31 }, { x: 11, y: 42 }, { x: 14, y: 39 }, { x: 18, y: 62 }] }],\n};\n\nprotected readonly bubbleData: AerisChartData = {\n  datasets: [{ label: 'Opportunities', data: [{ x: 4, y: 14, r: 8 }, { x: 9, y: 28, r: 13 }, { x: 14, y: 20, r: 10 }, { x: 17, y: 42, r: 17 }] }],\n};\n\nprotected readonly radialOptions: AerisChartOptions = {\n  devicePixelRatio:\n      typeof window === 'undefined'\n        ? 2\n        : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),\n  maintainAspectRatio: false,\n  plugins: { legend: { position: 'bottom' } },\n};\n\nprotected readonly scatterOptions: AerisChartOptions = {\n  devicePixelRatio:\n      typeof window === 'undefined'\n        ? 2\n        : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),\n  maintainAspectRatio: false,\n  scales: {\n    x: { type: 'linear', position: 'bottom', title: { display: true, text: 'Reach' } },\n    y: { title: { display: true, text: 'Value' } },\n  },\n  plugins: { legend: { display: false } },\n};"
         },
         {
           "name": "Interfaces",
-          "code": "import type { ChartData, ChartOptions, ChartType, Plugin } from 'chart.js';\n\ntype AerisChartType =\n  | 'bar'\n  | 'line'\n  | 'pie'\n  | 'doughnut'\n  | 'polarArea'\n  | 'radar'\n  | 'scatter'\n  | 'bubble';\n\ntype AerisChartData<TType extends ChartType = ChartType> = ChartData<TType>;\ntype AerisChartOptions<TType extends ChartType = ChartType> = ChartOptions<TType>;\ntype AerisChartPlugin<TType extends ChartType = ChartType> = Plugin<TType>;\n\ninterface AerisChartReadyEvent {\n  readonly chart: AerisChartInstance;\n}\n\ninterface AerisChartErrorEvent {\n  readonly error: unknown;\n}"
+          "code": "import type { ChartData, ChartOptions, ChartType, Plugin } from 'chart.js';\n\ntype AerisChartType =\n  | 'bar'\n  | 'line'\n  | 'pie'\n  | 'doughnut'\n  | 'polarArea'\n  | 'radar'\n  | 'scatter'\n  | 'bubble';\n\ntype AerisChartData<TType extends ChartType = ChartType> = ChartData<TType>;\ntype AerisChartOptions<TType extends ChartType = ChartType> = ChartOptions<TType>;\ntype AerisChartPlugin<TType extends ChartType = ChartType> = Plugin<TType>;\n\ninterface AerisChartReadyEvent {\n  readonly chart: AerisChartInstance;\n}\n\ninterface AerisChartErrorEvent {\n  readonly error: unknown;\n}\n\ninterface AerisChartComparisonGuideOptions {\n  readonly color?: string;\n  readonly width?: number;\n  readonly dash?: readonly number[];\n}"
         }
       ],
       "designTokens": [
@@ -34137,7 +34185,7 @@
         {
           "name": "--aeris-chart-radius",
           "type": "length",
-          "defaultValue": "--aeris-radius-lg",
+          "defaultValue": "--aeris-radius-surface",
           "description": "Container corner radius."
         },
         {
@@ -34168,7 +34216,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-basic-demo',\n  imports: [AerisChartModule],\n  template: `\n    <div>\n      <aeris-chart\n        type=\"bar\"\n        [data]=\"salesData\"\n        [options]=\"chartOptions\"\n        height=\"22rem\"\n        ariaLabel=\"Monthly revenue and target\"\n        ariaDescription=\"Revenue exceeds the monthly target from April through June.\"\n      />\n    </div>\n  `\n})\nexport class ChartBasicBarChartDemo {\n  protected readonly salesData: AerisChartData = {\n    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],\n    datasets: [\n      { label: 'Revenue', data: [42, 56, 49, 68, 74, 86], borderWidth: 2, borderRadius: 7 },\n      { label: 'Target', data: [48, 48, 54, 60, 66, 72], borderWidth: 2, borderRadius: 7 },\n    ],\n  };\n\n  protected readonly chartOptions: AerisChartOptions = {\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-basic-demo',\n  imports: [AerisChartModule],\n  template: `\n    <div>\n      <aeris-chart\n        type=\"bar\"\n        [data]=\"salesData\"\n        [options]=\"chartOptions\"\n        height=\"22rem\"\n        ariaLabel=\"Monthly revenue and target\"\n        ariaDescription=\"Revenue exceeds the monthly target from April through June.\"\n      />\n    </div>\n  `\n})\nexport class ChartBasicBarChartDemo {\n  protected readonly salesData: AerisChartData = {\n    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],\n    datasets: [\n      { label: 'Revenue', data: [42, 56, 49, 68, 74, 86], borderWidth: 2, borderRadius: 7 },\n      { label: 'Target', data: [48, 48, 54, 60, 66, 72], borderWidth: 2, borderRadius: 7 },\n    ],\n  };\n\n  protected readonly chartOptions: AerisChartOptions = {\n    devicePixelRatio:\n        typeof window === 'undefined'\n          ? 2\n          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
             }
           ]
         },
@@ -34180,7 +34228,68 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-line-demo',\n  imports: [AerisChartModule],\n  template: `\n    <div>\n      <aeris-chart\n        type=\"line\"\n        [data]=\"trendData\"\n        [options]=\"chartOptions\"\n        height=\"20rem\"\n        ariaLabel=\"Active projects over seven days\"\n      />\n    </div>\n  `\n})\nexport class ChartLineLineChartDemo {\n  protected readonly trendData: AerisChartData = {\n    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],\n    datasets: [{ label: 'Active projects', data: [18, 24, 22, 31, 29, 37, 42], tension: 0.35, fill: true }],\n  };\n\n  protected readonly chartOptions: AerisChartOptions = {\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-line-demo',\n  imports: [AerisChartModule],\n  template: `\n    <div>\n      <aeris-chart\n        type=\"line\"\n        [data]=\"trendData\"\n        [options]=\"chartOptions\"\n        height=\"20rem\"\n        ariaLabel=\"Active projects over seven days\"\n      />\n    </div>\n  `\n})\nexport class ChartLineLineChartDemo {\n  protected readonly trendData: AerisChartData = {\n    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],\n    datasets: [{ label: 'Active projects', data: [18, 24, 22, 31, 29, 37, 42], tension: 0.35, fill: true }],\n  };\n\n  protected readonly chartOptions: AerisChartOptions = {\n    devicePixelRatio:\n        typeof window === 'undefined'\n          ? 2\n          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "chart-area",
+          "title": "Fading area fill",
+          "description": "Use the optional area-fill helper for a translucent fade beneath a line. It caches its canvas gradient and adapts to resizing. Turn the fill off to keep the same line without an area.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisChartModule } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-area-demo',\n  imports: [AerisButton, AerisChartModule],\n  templateUrl: './chart-area.demo.html',\n  styleUrl: './chart-area.demo.scss'\n})\nexport class ChartAreaFadingAreaFillDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <aeris-chart\n    type=\"line\"\n    [data]=\"areaEnabled() ? areaData : areaLineData\"\n    [options]=\"areaOptions\"\n    height=\"20rem\"\n    ariaLabel=\"Completed orders this week\"\n    ariaDescription=\"Orders increased from 34 on Monday to 96 on Sunday, with small declines on Wednesday and Friday.\"\n  />\n  <div class=\"chart-actions\">\n    <button\n      aerisButton\n      type=\"button\"\n      variant=\"outline\"\n      [attr.aria-pressed]=\"areaEnabled()\"\n      (click)=\"areaEnabled.set(!areaEnabled())\"\n    >\n      {{ areaEnabled() ? 'Hide area fill' : 'Show area fill' }}\n    </button>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".chart-actions {\n  display: flex;\n  gap: 0.5rem;\n  margin-top: 0.875rem;\n}"
+            }
+          ]
+        },
+        {
+          "id": "chart-comparison",
+          "title": "Compare multiple series",
+          "description": "Hover or touch a month to compare both series in one tooltip. Index interaction is native Chart.js behavior; the optional comparison-guide helper adds the dotted vertical line.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-comparison-demo',\n  imports: [AerisChartModule],\n  templateUrl: './chart-comparison.demo.html'\n})\nexport class ChartComparisonCompareMultipleSeriesDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <aeris-chart\n    type=\"line\"\n    [data]=\"comparisonData\"\n    [options]=\"comparisonOptions\"\n    [plugins]=\"comparisonPlugins\"\n    height=\"22rem\"\n    ariaLabel=\"Monthly subscriptions and renewals\"\n    ariaDescription=\"June has 420 new subscriptions and 320 renewals. Both series increase overall from January to June.\"\n  />\n  <p>\n    June: 420 new subscriptions and 320 renewals. The series are overlaid, not\n    stacked.\n  </p>\n</div>"
+            }
+          ]
+        },
+        {
+          "id": "chart-radial",
+          "title": "Radial charts and gauges",
+          "description": "Slim progress fills have subtly rounded ends and become seamless when complete. Doughnut options support rings, semicircular gauges and spaced concentric series without another dependency. For a single accessible progress indicator rather than a data visualization, use ProgressSpinner.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-radial-demo',\n  imports: [AerisChartModule],\n  templateUrl: './chart-radial.demo.html',\n  styleUrl: './chart-radial.demo.scss'\n})\nexport class ChartRadialRadialChartsAndGaugesDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"chart-radial-grid\">\n    <section aria-label=\"Progress ring\">\n      <h4>Release readiness</h4>\n      <div class=\"chart-ring\">\n        <aeris-chart\n          type=\"doughnut\"\n          [data]=\"ringData\"\n          [options]=\"ringOptions\"\n          height=\"14rem\"\n          ariaLabel=\"Release readiness: 76 percent complete\"\n        />\n        <span class=\"chart-ring-value\" aria-hidden=\"true\">76<span>%</span></span>\n      </div>\n      <p>76 of 100 release checks completed.</p>\n    </section>\n    <section aria-label=\"Semicircular gauge\">\n      <h4>Capacity used</h4>\n      <aeris-chart\n        type=\"doughnut\"\n        [data]=\"gaugeData\"\n        [options]=\"gaugeOptions\"\n        height=\"14rem\"\n        ariaLabel=\"Capacity used: 76 percent\"\n      />\n      <p><strong>76%</strong> used · 24% available</p>\n    </section>\n    <section aria-label=\"Concentric goal rings\">\n      <h4>Quarterly goals</h4>\n      <aeris-chart\n        type=\"doughnut\"\n        [data]=\"goalData\"\n        [options]=\"goalOptions\"\n        height=\"14rem\"\n        ariaLabel=\"Quarterly goals: Design 88 percent, Development 72 percent, Testing 56 percent\"\n      />\n      <ul class=\"chart-goals\">\n        @for (goal of goalSeries; track goal.label) {\n          <li>\n            <span\n              class=\"chart-goal-dot\"\n              [style.background]=\"goal.color\"\n              aria-hidden=\"true\"\n            ></span>\n            <span>{{ goal.label }}</span>\n            <strong>{{ goal.value }}%</strong>\n          </li>\n        }\n      </ul>\n    </section>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".chart-radial-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));\n  gap: 1.5rem;\n}\n\n.chart-radial-grid section {\n  min-inline-size: 0;\n}\n\n.chart-radial-grid h4 {\n  margin-block: 0 1rem;\n  text-align: start;\n}\n\n.chart-radial-grid aeris-chart {\n  --aeris-chart-border: transparent;\n  --aeris-chart-padding: 0.5rem;\n  --aeris-chart-background: transparent;\n  inline-size: 100%;\n  max-inline-size: 14rem;\n  margin-inline: auto;\n}\n\n.chart-ring {\n  position: relative;\n  inline-size: 100%;\n  max-inline-size: 14rem;\n  margin-inline: auto;\n}\n\n.chart-ring-value {\n  position: absolute;\n  inset: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 2rem;\n  font-weight: 700;\n  pointer-events: none;\n}\n\n.chart-ring-value span {\n  font-size: 1rem;\n  margin-inline-start: 0.125rem;\n}\n\n.chart-goals {\n  list-style: none;\n  padding: 0;\n  margin-block: 1rem 0;\n  display: grid;\n  gap: 0.5rem;\n}\n\n.chart-goals li {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n\n.chart-goals strong {\n  margin-inline-start: auto;\n}\n\n.chart-goal-dot {\n  inline-size: 0.5rem;\n  block-size: 0.5rem;\n  border-radius: 50%;\n  flex: 0 0 auto;\n}"
             }
           ]
         },
@@ -34192,7 +34301,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-circular-demo',\n  imports: [AerisChartModule],\n  templateUrl: './chart-circular.demo.html',\n  styleUrl: './chart-circular.demo.scss'\n})\nexport class ChartCircularCircularChartsDemo {\n  protected readonly shareData: AerisChartData = {\n    labels: ['Product', 'Engineering', 'Operations', 'Growth'],\n    datasets: [{ label: 'Team allocation', data: [36, 29, 18, 17] }],\n  };\n\n  protected readonly radialOptions: AerisChartOptions = {\n    maintainAspectRatio: false,\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-circular-demo',\n  imports: [AerisChartModule],\n  templateUrl: './chart-circular.demo.html',\n  styleUrl: './chart-circular.demo.scss'\n})\nexport class ChartCircularCircularChartsDemo {\n  protected readonly shareData: AerisChartData = {\n    labels: ['Product', 'Engineering', 'Operations', 'Growth'],\n    datasets: [{ label: 'Team allocation', data: [36, 29, 18, 17] }],\n  };\n\n  protected readonly radialOptions: AerisChartOptions = {\n    devicePixelRatio:\n        typeof window === 'undefined'\n          ? 2\n          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),\n    maintainAspectRatio: false,\n    plugins: { legend: { position: 'bottom' } },\n  };\n}\n"
             },
             {
               "language": "HTML",
@@ -34214,7 +34323,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-types-demo',\n  imports: [AerisChartModule],\n  templateUrl: './chart-types.demo.html',\n  styleUrl: './chart-types.demo.scss'\n})\nexport class ChartTypesMoreChartTypesDemo {\n  protected readonly radarData: AerisChartData = {\n    labels: ['Speed', 'Quality', 'Coverage', 'Reliability', 'Clarity'],\n    datasets: [{ label: 'Current', data: [82, 74, 67, 91, 78] }, { label: 'Goal', data: [88, 86, 80, 90, 84] }],\n  };\n\n  protected readonly shareData: AerisChartData = {\n    labels: ['Product', 'Engineering', 'Operations', 'Growth'],\n    datasets: [{ label: 'Team allocation', data: [36, 29, 18, 17] }],\n  };\n\n  protected readonly scatterData: AerisChartData = {\n    datasets: [{ label: 'Experiments', data: [{ x: 4, y: 18 }, { x: 7, y: 31 }, { x: 11, y: 42 }, { x: 14, y: 39 }, { x: 18, y: 62 }] }],\n  };\n\n  protected readonly bubbleData: AerisChartData = {\n    datasets: [{ label: 'Opportunities', data: [{ x: 4, y: 14, r: 8 }, { x: 9, y: 28, r: 13 }, { x: 14, y: 20, r: 10 }, { x: 17, y: 42, r: 17 }] }],\n  };\n\n  protected readonly radialOptions: AerisChartOptions = {\n    maintainAspectRatio: false,\n    plugins: { legend: { position: 'bottom' } },\n  };\n\n  protected readonly scatterOptions: AerisChartOptions = {\n    maintainAspectRatio: false,\n    scales: {\n      x: { type: 'linear', position: 'bottom', title: { display: true, text: 'Reach' } },\n      y: { title: { display: true, text: 'Value' } },\n    },\n    plugins: { legend: { display: false } },\n  };\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-types-demo',\n  imports: [AerisChartModule],\n  templateUrl: './chart-types.demo.html',\n  styleUrl: './chart-types.demo.scss'\n})\nexport class ChartTypesMoreChartTypesDemo {\n  protected readonly radarData: AerisChartData = {\n    labels: ['Speed', 'Quality', 'Coverage', 'Reliability', 'Clarity'],\n    datasets: [{ label: 'Current', data: [82, 74, 67, 91, 78] }, { label: 'Goal', data: [88, 86, 80, 90, 84] }],\n  };\n\n  protected readonly shareData: AerisChartData = {\n    labels: ['Product', 'Engineering', 'Operations', 'Growth'],\n    datasets: [{ label: 'Team allocation', data: [36, 29, 18, 17] }],\n  };\n\n  protected readonly scatterData: AerisChartData = {\n    datasets: [{ label: 'Experiments', data: [{ x: 4, y: 18 }, { x: 7, y: 31 }, { x: 11, y: 42 }, { x: 14, y: 39 }, { x: 18, y: 62 }] }],\n  };\n\n  protected readonly bubbleData: AerisChartData = {\n    datasets: [{ label: 'Opportunities', data: [{ x: 4, y: 14, r: 8 }, { x: 9, y: 28, r: 13 }, { x: 14, y: 20, r: 10 }, { x: 17, y: 42, r: 17 }] }],\n  };\n\n  protected readonly radialOptions: AerisChartOptions = {\n    devicePixelRatio:\n        typeof window === 'undefined'\n          ? 2\n          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),\n    maintainAspectRatio: false,\n    plugins: { legend: { position: 'bottom' } },\n  };\n\n  protected readonly scatterOptions: AerisChartOptions = {\n    devicePixelRatio:\n        typeof window === 'undefined'\n          ? 2\n          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),\n    maintainAspectRatio: false,\n    scales: {\n      x: { type: 'linear', position: 'bottom', title: { display: true, text: 'Reach' } },\n      y: { title: { display: true, text: 'Value' } },\n    },\n    plugins: { legend: { display: false } },\n  };\n}\n"
             },
             {
               "language": "HTML",
@@ -34236,7 +34345,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-dynamic-demo',\n  imports: [AerisButton, AerisChartModule],\n  template: `\n    <div>\n      <aeris-chart\n        type=\"bar\"\n        [data]=\"dynamicData()\"\n        [options]=\"chartOptions\"\n        height=\"20rem\"\n        ariaLabel=\"Completed tasks by week\"\n      />\n      <div class=\"chart-actions\">\n        <button aerisButton type=\"button\" (click)=\"addWeek()\">Add week</button>\n      </div>\n    </div>\n  `,\n  styles: `\n    .chart-actions {\n      display: flex;\n      gap: 0.5rem;\n      margin-top: 0.875rem;\n    }\n    \n    .chart-actions { display: flex; gap: 0.5rem; margin-top: 0.875rem; } .chart-actions button { min-height: 2.25rem; padding: 0.45rem 0.75rem; border: 1px solid var(--border); border-radius: var(--aeris-radius-control); background: var(--surface); color: var(--text); font: inherit; font-weight: 700; cursor: pointer; } .chart-actions button:hover { background: var(--surface-2); } .chart-actions button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }\n  `\n})\nexport class ChartDynamicDynamicDataDemo {\n  protected readonly dynamicData = signal<AerisChartData>({\n    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],\n    datasets: [{ label: 'Completed tasks', data: [18, 27, 22, 34], borderRadius: 7 }],\n  });\n\n  protected readonly chartOptions: AerisChartOptions = {\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n\n  protected addWeek(): void {\n    this.dynamicData.update((data) => ({\n      labels: [...(data.labels ?? []), `Week ${(data.labels?.length ?? 0) + 1}`],\n      datasets: data.datasets.map((dataset) => ({\n        ...dataset,\n        data: [...dataset.data, 20 + Math.round(Math.random() * 25)],\n      })),\n    }));\n  }\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-dynamic-demo',\n  imports: [AerisButton, AerisChartModule],\n  template: `\n    <div>\n      <aeris-chart\n        type=\"bar\"\n        [data]=\"dynamicData()\"\n        [options]=\"chartOptions\"\n        height=\"20rem\"\n        ariaLabel=\"Completed tasks by week\"\n      />\n      <div class=\"chart-actions\">\n        <button aerisButton type=\"button\" (click)=\"addWeek()\">Add week</button>\n      </div>\n    </div>\n  `,\n  styles: `\n    .chart-actions {\n      display: flex;\n      gap: 0.5rem;\n      margin-top: 0.875rem;\n    }\n    \n    .chart-actions { display: flex; gap: 0.5rem; margin-top: 0.875rem; }\n  `\n})\nexport class ChartDynamicDynamicDataDemo {\n  protected readonly dynamicData = signal<AerisChartData>({\n    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],\n    datasets: [{ label: 'Completed tasks', data: [18, 27, 22, 34], borderRadius: 7 }],\n  });\n\n  protected readonly chartOptions: AerisChartOptions = {\n    devicePixelRatio:\n        typeof window === 'undefined'\n          ? 2\n          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),\n    maintainAspectRatio: false,\n    interaction: { mode: 'index', intersect: false },\n    plugins: { legend: { position: 'bottom' } },\n  };\n\n  protected addWeek(): void {\n    this.dynamicData.update((data) => ({\n      labels: [...(data.labels ?? []), `Week ${(data.labels?.length ?? 0) + 1}`],\n      datasets: data.datasets.map((dataset) => ({\n        ...dataset,\n        data: [...dataset.data, 20 + Math.round(Math.random() * 25)],\n      })),\n    }));\n  }\n}\n"
             }
           ]
         },
@@ -34248,7 +34357,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\nimport { type Plugin } from 'chart.js';\n\n@Component({\n  selector: 'app-chart-plugin-demo',\n  imports: [AerisChartModule],\n  template: `\n    <div>\n      <aeris-chart\n        type=\"doughnut\"\n        [data]=\"shareData\"\n        [options]=\"radialOptions\"\n        [plugins]=\"[centerLabelPlugin]\"\n        height=\"20rem\"\n        ariaLabel=\"Team allocation with total in the center\"\n      />\n    </div>\n  `\n})\nexport class ChartPluginPluginDemo {\n  protected readonly shareData: AerisChartData = {\n    labels: ['Product', 'Engineering', 'Operations', 'Growth'],\n    datasets: [{ label: 'Team allocation', data: [36, 29, 18, 17] }],\n  };\n\n  protected readonly radialOptions: AerisChartOptions = {\n    maintainAspectRatio: false,\n    plugins: { legend: { position: 'bottom' } },\n  };\n\n  protected readonly centerLabelPlugin: Plugin = {\n    id: 'aeris-center-label',\n    afterDraw: (chart) => {\n      const context = chart.ctx;\n      const area = chart.chartArea;\n      if (!area) return;\n\n      context.save();\n      context.fillStyle = getComputedStyle(chart.canvas).getPropertyValue('--aeris-text').trim() || '#222222';\n      context.font = '700 14px system-ui';\n      context.textAlign = 'center';\n      context.textBaseline = 'middle';\n      context.fillText('100%', (area.left + area.right) / 2, (area.top + area.bottom) / 2);\n      context.restore();\n    },\n  };\n}\n"
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';\nimport { type Plugin } from 'chart.js';\n\n@Component({\n  selector: 'app-chart-plugin-demo',\n  imports: [AerisChartModule],\n  template: `\n    <div>\n      <aeris-chart\n        type=\"doughnut\"\n        [data]=\"shareData\"\n        [options]=\"radialOptions\"\n        [plugins]=\"[centerLabelPlugin]\"\n        height=\"20rem\"\n        ariaLabel=\"Team allocation with total in the center\"\n      />\n    </div>\n  `\n})\nexport class ChartPluginPluginDemo {\n  protected readonly shareData: AerisChartData = {\n    labels: ['Product', 'Engineering', 'Operations', 'Growth'],\n    datasets: [{ label: 'Team allocation', data: [36, 29, 18, 17] }],\n  };\n\n  protected readonly radialOptions: AerisChartOptions = {\n    devicePixelRatio:\n        typeof window === 'undefined'\n          ? 2\n          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),\n    maintainAspectRatio: false,\n    plugins: { legend: { position: 'bottom' } },\n  };\n\n  protected readonly centerLabelPlugin: Plugin = {\n    id: 'aeris-center-label',\n    afterDraw: (chart) => {\n      const context = chart.ctx;\n      const area = chart.chartArea;\n      if (!area) return;\n\n      context.save();\n      context.fillStyle = getComputedStyle(chart.canvas).getPropertyValue('--aeris-text').trim() || '#222222';\n      context.font = '700 14px system-ui';\n      context.textAlign = 'center';\n      context.textBaseline = 'middle';\n      context.fillText('100%', (area.left + area.right) / 2, (area.top + area.bottom) / 2);\n      context.restore();\n    },\n  };\n}\n"
             }
           ]
         },
@@ -34263,15 +34372,85 @@
               "code": "import { Component } from '@angular/core';\nimport { AerisChartModule } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-empty-demo',\n  imports: [AerisChartModule],\n  template: `\n    <div>\n      <aeris-chart\n        [data]=\"null\"\n        height=\"14rem\"\n        emptyMessage=\"Reports will appear here when data is available.\"\n      />\n    </div>\n  `\n})\nexport class ChartEmptyEmptyStateDemo {\n}\n"
             }
           ]
+        },
+        {
+          "id": "chart-compact",
+          "title": "Compact KPI and sparkline",
+          "description": "Compose a small trend chart with a real Card. Keep the headline value and a written trend visible without requiring a tooltip.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCardModule } from '@aeris-ui/core/card';\nimport { AerisChartModule } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-compact-demo',\n  imports: [AerisCardModule, AerisChartModule],\n  templateUrl: './chart-compact.demo.html',\n  styleUrl: './chart-compact.demo.scss'\n})\nexport class ChartCompactCompactKPIAndSparklineDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"chart-kpi\">\n  <aeris-card>\n    <div aerisCardHeader><h4 aerisCardTitle>Orders this week</h4></div>\n    <p class=\"chart-kpi-value\">273</p>\n    <p>Daily orders increased from 28 on Monday to 52 on Sunday.</p>\n    <aeris-chart\n      class=\"chart-sparkline\"\n      type=\"line\"\n      [data]=\"compactData\"\n      [options]=\"compactOptions\"\n      height=\"5rem\"\n      ariaLabel=\"Daily orders this week\"\n    />\n  </aeris-card>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".chart-kpi {\n  max-inline-size: 24rem;\n}\n\n.chart-kpi-value {\n  margin-block: 0 0.5rem;\n  font-size: 1.75rem;\n  font-weight: 700;\n}\n\n.chart-sparkline {\n  --aeris-chart-min-height: 0;\n  --aeris-chart-padding: 0;\n  --aeris-chart-border: transparent;\n  --aeris-chart-background: transparent;\n}"
+            }
+          ]
+        },
+        {
+          "id": "chart-mixed",
+          "title": "Mixed series and formatting",
+          "description": "Combine bars and a target line. Use native Chart.js callbacks to format axis values and tooltips as currency; no extra formatter API is required.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-mixed-demo',\n  imports: [AerisChartModule],\n  template: `\n    <div>\n      <aeris-chart\n        type=\"bar\"\n        [data]=\"mixedData\"\n        [options]=\"moneyOptions\"\n        height=\"22rem\"\n        ariaLabel=\"Revenue and target in US dollars\"\n        ariaDescription=\"Revenue totals $16,300 for January through April. April revenue is $5,200, exceeding its $4,800 target.\"\n      />\n      <p>January–April revenue: $16,300. April exceeded its target by $400.</p>\n    </div>\n  `\n})\nexport class ChartMixedMixedSeriesAndFormattingDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "chart-stacked",
+          "title": "Stacked values",
+          "description": "Stack related series to compare totals and their composition. The written summary conveys the main result without relying on color or hover.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisChartModule } from '@aeris-ui/core/chart';\n\n@Component({\n  selector: 'app-chart-stacked-demo',\n  imports: [AerisChartModule],\n  template: `\n    <div>\n      <aeris-chart\n        type=\"bar\"\n        [data]=\"stackedData\"\n        [options]=\"stackedOptions\"\n        height=\"22rem\"\n        ariaLabel=\"Completed tasks by discipline\"\n        ariaDescription=\"Weekly totals are 28, 38, 42 and 52 tasks. In week four, Design completed 14, Development 26 and Testing 12.\"\n      />\n      <p>\n        Weekly totals: 28, 38, 42 and 52 tasks. Every discipline completed more tasks in\n        week four than in week one.\n      </p>\n    </div>\n  `\n})\nexport class ChartStackedStackedValuesDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "chart-loading",
+          "title": "Loading composition",
+          "description": "Use Skeleton while waiting for data, then render Chart. Keep loading state in your application rather than using an empty chart to imply an active request.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisChartModule } from '@aeris-ui/core/chart';\nimport { AerisSkeletonModule } from '@aeris-ui/core/skeleton';\n\n@Component({\n  selector: 'app-chart-loading-demo',\n  imports: [AerisButton, AerisChartModule, AerisSkeletonModule],\n  templateUrl: './chart-loading.demo.html',\n  styleUrl: './chart-loading.demo.scss'\n})\nexport class ChartLoadingLoadingCompositionDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"chart-loading-region\" [attr.aria-busy]=\"loadingReport()\">\n    @if (loadingReport()) {\n      <aeris-skeleton shape=\"rectangle\" height=\"14rem\" />\n    } @else {\n      <aeris-chart\n        type=\"line\"\n        [data]=\"trendData\"\n        [options]=\"chartOptions\"\n        height=\"14rem\"\n        ariaLabel=\"Active projects over seven days\"\n      />\n    }\n  </div>\n  <p role=\"status\">{{ loadingReport() ? 'Loading report…' : 'Report loaded.' }}</p>\n  <button aerisButton type=\"button\" (click)=\"loadingReport.set(!loadingReport())\">\n    {{ loadingReport() ? 'Show report' : 'Show loading state' }}\n  </button>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".chart-loading-region {\n  min-block-size: 14rem;\n}"
+            }
+          ]
         }
       ],
       "accessibility": {
         "guidance": [
           "Each rendered canvas exposes role=\"img\" and uses ariaLabel as its accessible name.",
           "ariaDescription provides additional context through an associated hidden description.",
-          "A concise text summary of labels and dataset values is kept available to assistive technologies.",
+          "A text summary of labels and dataset values is associated with the canvas through aria-describedby. Add a visible summary or data table when readers need to compare exact values.",
           "Empty charts replace the canvas with a named status message.",
-          "Charts are visualizations, not input controls. Provide equivalent controls outside the chart for any action or filtering workflow."
+          "Charts are visualizations, not input controls. Provide equivalent controls outside the chart for any action or filtering workflow.",
+          "Canvas tooltips and legends are pointer interactions, not keyboard controls. Do not put essential information only in a tooltip, and provide external native controls for toggling datasets when that action is required.",
+          "Aeris disables Chart.js animations when the system requests reduced motion, including when the preference changes while the chart is open."
         ],
         "keyboard": [
           {

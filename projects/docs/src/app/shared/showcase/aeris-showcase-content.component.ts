@@ -373,6 +373,10 @@ export class AerisShowcaseContentComponent {
   };
 
   protected readonly compactChartOptions: AerisChartOptions = {
+    devicePixelRatio:
+      typeof window === 'undefined'
+        ? 2
+        : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
     maintainAspectRatio: false,
     interaction: { mode: 'index', intersect: false },
     plugins: { legend: { display: false } },
@@ -817,6 +821,10 @@ export class AerisShowcaseContentComponent {
   });
 
   protected readonly chartOptions: AerisChartOptions = {
+    devicePixelRatio:
+      typeof window === 'undefined'
+        ? 2
+        : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
     maintainAspectRatio: false,
     interaction: { mode: 'index', intersect: false },
     plugins: { legend: { position: 'bottom' } },

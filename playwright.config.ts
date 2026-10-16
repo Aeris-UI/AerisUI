@@ -97,6 +97,7 @@ export default defineConfig({
         '**/choice-cards.spec.ts',
         '**/chip-removal.spec.ts',
         '**/drawer-swipe.spec.ts',
+        '**/chart-presentation.spec.ts',
       ],
     },
     {
@@ -108,6 +109,7 @@ export default defineConfig({
         '**/choice-cards.spec.ts',
         '**/chip-removal.spec.ts',
         '**/drawer-swipe.spec.ts',
+        '**/chart-presentation.spec.ts',
       ],
     },
     {

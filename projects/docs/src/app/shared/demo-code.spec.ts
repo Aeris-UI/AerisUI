@@ -1,6 +1,18 @@
 import { buildAngularDemoSources } from './demo-code';
 
 describe('Angular demo code imports', () => {
+  it('imports chart presentation helpers as values, not Angular declarations', () => {
+    const sources = buildAngularDemoSources({
+      anchor: 'area-chart',
+      title: 'Area chart',
+      template: '<aeris-chart type="line" [data]="data" [plugins]="plugins" />',
+      classCode: `protected readonly data: AerisChartData = { datasets: [{ data: [1, 2], fill: true, backgroundColor: createAerisChartAreaFill('#2563eb') }] };\nprotected readonly plugins = [createAerisChartComparisonGuide()];`,
+    });
+    const code = sources.find((source) => source.language === 'TypeScript')?.code ?? '';
+    expect(code).toContain('createAerisChartAreaFill, createAerisChartComparisonGuide');
+    expect(code).toContain('imports: [AerisChartModule]');
+    expect(code).not.toContain('imports: [AerisChartModule, createAeris');
+  });
   it('includes native-element queries used for consumer focus recovery', () => {
     const sources = buildAngularDemoSources({
       anchor: 'focus-recovery',

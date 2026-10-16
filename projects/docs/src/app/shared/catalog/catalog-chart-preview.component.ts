@@ -35,6 +35,10 @@ export class CatalogChartPreviewComponent {
     ],
   }));
   protected readonly options: AerisChartOptions = {
+    devicePixelRatio:
+      typeof window === 'undefined'
+        ? 2
+        : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
     animation: false,
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },

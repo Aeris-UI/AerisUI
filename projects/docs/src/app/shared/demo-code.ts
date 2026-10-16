@@ -434,6 +434,11 @@ function addAerisImports(
     componentImports.add(item.symbol);
   }
 
+  for (const helper of ['createAerisChartAreaFill', 'createAerisChartComparisonGuide']) {
+    if (new RegExp(`\\b${helper}\\b`).test(classCode))
+      addGroup(groups, '@aeris-ui/core/chart').values.add(helper);
+  }
+
   for (const token of classCode.match(/\bAeris[A-Za-z0-9]+\b/g) ?? []) {
     if ([...componentImports].includes(token)) continue;
     const secondary =
