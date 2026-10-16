@@ -41,6 +41,7 @@ import {
   aerisInternalToTwelveHour as toTwelveHour,
   aerisInternalFromTwelveHour as fromTwelveHour,
   aerisInternalParseDateParts,
+  aerisInternalParseTimeParts,
   aerisInternalDateFromParts,
   type AerisInternalTimeParts as AerisTimeValue,
 } from '@aeris-ui/core';
@@ -141,6 +142,12 @@ let datePickerId = 0;
                 [inputId]="resolvedInputId()"
                 [value]="typedDateValue()"
                 [granularity]="view()"
+                [mode]="mode()"
+                [hourCycle]="hourCycle()"
+                [showSeconds]="showSeconds()"
+                [minuteStep]="normalizedMinuteStep()"
+                [secondStep]="normalizedSecondStep()"
+                [clockLabels]="typedClockLabels()"
                 [locale]="locale()"
                 [min]="typedMinimum()"
                 [max]="typedMaximum()"
@@ -150,7 +157,7 @@ let datePickerId = 0;
                 [required]="required()"
                 [invalid]="displayInvalid()"
                 [touched]="touched() ?? interactionTouched()"
-                [ariaLabel]="ariaLabel() || calendarAriaLabel()"
+                [ariaLabel]="ariaLabel() || panelAriaLabel()"
                 [ariaLabelledBy]="ariaLabelledBy()"
                 [ariaDescribedBy]="ariaDescribedBy()"
                 [size]="size()"
@@ -175,7 +182,7 @@ let datePickerId = 0;
               class="aeris-date-picker__entry-trigger"
               type="button"
               aria-haspopup="dialog"
-              [attr.aria-label]="calendarAriaLabel()"
+              [attr.aria-label]="panelAriaLabel()"
               [attr.aria-expanded]="open()"
               [attr.aria-controls]="panelId"
               [disabled]="effectiveDisabled() || readonly()"
@@ -625,16 +632,18 @@ export class AerisDatePicker implements ControlValueAccessor, Validator {
   protected readonly formDisabled = signal(false);
   protected readonly interactionTouched = signal(false);
   protected readonly usesEditableField = computed(
-    () =>
-      this.editable() &&
-      !this.inline() &&
-      this.selectionMode() === 'single' &&
-      this.mode() === 'date',
+    () => this.editable() && !this.inline() && this.selectionMode() === 'single',
   );
   protected readonly typedDateValue = computed(() => {
     const value = this.value();
-    return isValidDate(value) ? dateKey(value) : null;
+    return this.formatTypedValue(value);
   });
+  protected readonly typedClockLabels = computed(() => ({
+    hour: this.hourLabel(),
+    minute: this.minuteLabel(),
+    second: this.secondLabel(),
+    dayPeriod: this.periodLabel(),
+  }));
   protected readonly typedMinimum = computed(() =>
     this.minDate() ? dateKey(this.minDate()!) : null,
   );
@@ -655,21 +664,17 @@ export class AerisDatePicker implements ControlValueAccessor, Validator {
   private readonly createTypedParser = () =>
     transformedValue(this.value, {
       format: (value) => ({
-        value: isValidDate(value) ? dateKey(value) : null,
+        value: this.formatTypedValue(value),
         error: null as AerisDatePickerInputEditEvent['error'],
       }),
       parse: (state: Pick<AerisDatePickerInputEditEvent, 'value' | 'error'>) => {
         if (state.error === 'required') return { error: { kind: 'dateRequired' } };
         if (state.error) return { error: { kind: `date${state.error}` } };
         if (state.value === null) return { value: null };
-        const parts = aerisInternalParseDateParts(state.value);
-        const date = parts
-          ? aerisInternalDateFromParts(
-              parts,
-              this.mode() === 'dateTime' ? this.timeValue() : undefined,
-            )
-          : null;
         const current = this.value();
+        if (isValidDate(current) && this.formatTypedValue(current) === state.value)
+          return { value: current };
+        const date = this.parseTypedValue(state.value);
         return date
           ? { value: isValidDate(current) && current.getTime() === date.getTime() ? current : date }
           : { error: { kind: 'dateInvalid' } };
@@ -679,12 +684,26 @@ export class AerisDatePicker implements ControlValueAccessor, Validator {
     () => this.usesEditableField() && Boolean(this.typedParser()?.parseErrors().length),
   );
   protected readonly typedDateDisabled = (value: string): boolean => {
-    const parts = aerisInternalParseDateParts(value);
-    const date = parts
-      ? aerisInternalDateFromParts(parts, this.mode() === 'dateTime' ? this.timeValue() : undefined)
-      : null;
+    const date = this.parseTypedValue(value);
     return !date || this.isDisabled(date);
   };
+  private formatTypedValue(value: AerisDatePickerValue): string | null {
+    if (!isValidDate(value)) return null;
+    if (this.mode() === 'date') return dateKey(value);
+    const time = aerisInternalFormatTimeParts(timeFromDate(value), true);
+    return this.mode() === 'time' ? time : `${dateKey(value)}T${time}`;
+  }
+  private parseTypedValue(value: string): Date | null {
+    const [date, clock] = value.split('T');
+    const base = this.mode() === 'time' ? dateKey(this.singleDateBase()) : (date ?? '');
+    const parts = aerisInternalParseDateParts(base);
+    const time =
+      this.mode() === 'date'
+        ? undefined
+        : aerisInternalParseTimeParts(this.mode() === 'time' ? value : (clock ?? ''));
+    if (!parts || time === null) return null;
+    return aerisInternalDateFromParts(parts, time);
+  }
   protected readonly visibleDate = signal(
     localDate(new Date().getFullYear(), new Date().getMonth(), 1),
   );
@@ -844,7 +863,7 @@ export class AerisDatePicker implements ControlValueAccessor, Validator {
   writeValue(value: unknown): void {
     const normalized = this.normalizeValue(value);
     this.value.set(normalized);
-    this.datePickerInput()?.writeValue(isValidDate(normalized) ? dateKey(normalized) : null);
+    this.datePickerInput()?.writeValue(this.formatTypedValue(normalized));
     const first = this.datesFromValue(normalized)[0];
     if (first) this.syncVisibleDate(first);
   }
@@ -1222,7 +1241,7 @@ export class AerisDatePicker implements ControlValueAccessor, Validator {
   private setValue(value: AerisDatePickerValue): void {
     this.value.set(value);
     if (this.usesEditableField()) {
-      const date = isValidDate(value) ? dateKey(value) : null;
+      const date = this.formatTypedValue(value);
       this.typedDateState.set({ value: date, error: null });
       this.datePickerInput()?.writeValue(date);
     }
@@ -1390,7 +1409,12 @@ export class AerisDatePicker implements ControlValueAccessor, Validator {
 
   private withTime(date: Date, time: AerisTimeValue): Date {
     const result = dateAtMidnight(date);
-    result.setHours(time.hours, time.minutes, this.showSeconds() ? time.seconds : 0, 0);
+    result.setHours(
+      time.hours,
+      time.minutes,
+      this.showSeconds() || this.usesEditableField() ? time.seconds : 0,
+      0,
+    );
     return result;
   }
 

@@ -10,6 +10,47 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
   template: `
     <section data-fixture="date-entry">
       <h2>Segmented date entry</h2>
+      <form data-time-form (submit)="saveClock($event)">
+        <label for="typed-clock">Typed clock</label>
+        <aeris-date-picker
+          editable
+          inputId="typed-clock"
+          ariaLabel="Typed clock"
+          timeAriaLabel="Clock options"
+          mode="time"
+          showSeconds
+          required
+          name="typedClock"
+          [(value)]="clock"
+        />
+        <button aerisButton type="submit">Save clock</button>
+        <output aria-label="Clock submissions">{{ clockSaves() }}</output>
+      </form>
+      <div style="max-width: 19rem">
+        <label for="typed-date-time">Typed date and time</label>
+        <aeris-date-picker
+          editable
+          inputId="typed-date-time"
+          ariaLabel="Typed date and time"
+          mode="dateTime"
+          showSeconds
+          name="typedDateTime"
+          [(value)]="dateTime"
+        />
+      </div>
+      <div dir="rtl" style="max-width: 19rem">
+        <label for="typed-arabic-time">Arabic time</label>
+        <aeris-date-picker
+          editable
+          inputId="typed-arabic-time"
+          ariaLabel="Arabic time"
+          mode="time"
+          hourCycle="12"
+          locale="ar-EG"
+          name="typedArabicTime"
+          [(value)]="arabicTime"
+        />
+      </div>
       <form data-date-form (submit)="saveNative($event)">
         <label id="native-birthday-label" for="native-birthday">Native birthday</label>
         <aeris-date-picker
@@ -90,6 +131,14 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
   `,
 })
 export class DateEntryFixture {
+  protected readonly clock = signal<Date | null>(null);
+  protected readonly clockSaves = signal(0);
+  protected readonly dateTime = signal<Date | null>(new Date(2026, 5, 11, 14, 30, 27));
+  protected readonly arabicTime = signal<Date | null>(new Date(2026, 5, 11, 10, 15));
+  protected saveClock(event: Event): void {
+    event.preventDefault();
+    this.clockSaves.update((value) => value + 1);
+  }
   protected readonly birthday = signal<Date | null>(new Date(2026, 5, 11));
   protected readonly nativeSaves = signal(0);
   protected readonly data = signal<{ birthday: Date | null }>({ birthday: null });

@@ -14,13 +14,20 @@ import {
   viewChildren,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { ɵaerisDisplayInvalid, aerisInternalDaysInMonth } from '@aeris-ui/core';
+import {
+  ɵaerisDisplayInvalid,
+  aerisInternalDaysInMonth,
+  aerisInternalFromTwelveHour,
+  aerisInternalToTwelveHour,
+} from '@aeris-ui/core';
 import {
   datePickerInputAscii,
   datePickerInputDigits,
   datePickerInputDraft,
   datePickerInputLayout,
   datePickerInputPaste,
+  datePickerInputPeriod,
+  datePickerInputPeriods,
   resolveDatePickerInput,
   type DatePickerInputRules,
 } from './aeris-date-picker-input.utils';
@@ -47,6 +54,12 @@ export class ɵAerisDatePickerInput {
   readonly inputId = input('');
   readonly locale = input('en-US');
   readonly granularity = input<AerisDatePickerInputGranularity>('day');
+  readonly mode = input<'date' | 'time' | 'dateTime'>('date');
+  readonly hourCycle = input<'12' | '24'>('24');
+  readonly showSeconds = input(false);
+  readonly minuteStep = input(1);
+  readonly secondStep = input(1);
+  readonly clockLabels = input<Readonly<Partial<Record<AerisDatePickerInputSegment, string>>>>({});
   readonly min = input<string | null | undefined>(null);
   readonly max = input<string | null | undefined>(null);
   readonly dateDisabled = input<((value: string) => boolean) | null>(null);
@@ -77,8 +90,48 @@ export class ɵAerisDatePickerInput {
     max: this.max() ?? null,
     required: this.required(),
     dateDisabled: this.dateDisabled(),
+    mode: this.mode(),
+    hourCycle: this.hourCycle(),
+    showSeconds: this.showSeconds(),
   }));
-  protected readonly draft = linkedSignal(() => datePickerInputDraft(this.value()));
+  protected readonly draft = linkedSignal({
+    source: () => ({ value: this.value(), mode: this.mode(), hourCycle: this.hourCycle() }),
+    computation: (current, previous): ReturnType<typeof datePickerInputDraft> => {
+      if (
+        previous &&
+        previous.source.value === current.value &&
+        previous.source.mode === current.mode
+      ) {
+        const draft = previous.value;
+        if (previous.source.hourCycle === current.hourCycle || draft.hour === '') return draft;
+        const hour = Number(draft.hour);
+        if (
+          !Number.isInteger(hour) ||
+          hour < (previous.source.hourCycle === '12' ? 1 : 0) ||
+          hour > (previous.source.hourCycle === '12' ? 12 : 23)
+        )
+          return draft;
+        if (
+          previous.source.hourCycle === '12' &&
+          draft.dayPeriod !== 'AM' &&
+          draft.dayPeriod !== 'PM'
+        )
+          return draft;
+        const canonical =
+          previous.source.hourCycle === '12'
+            ? aerisInternalFromTwelveHour(hour, draft.dayPeriod as 'AM' | 'PM')
+            : hour;
+        return {
+          ...draft,
+          hour: String(
+            current.hourCycle === '12' ? aerisInternalToTwelveHour(canonical) : canonical,
+          ).padStart(2, '0'),
+          dayPeriod: canonical >= 12 ? 'PM' : 'AM',
+        };
+      }
+      return datePickerInputDraft(current.value, current);
+    },
+  });
   readonly validationError = computed(
     () => resolveDatePickerInput(this.draft(), this.rules()).error,
   );
@@ -88,13 +141,21 @@ export class ɵAerisDatePickerInput {
       Boolean(this.validationError() && (this.touched() ?? this.interacted())),
   );
   private readonly digits = computed(() => datePickerInputDigits(this.locale()));
+  private readonly periods = computed(() => datePickerInputPeriods(this.locale()));
   private readonly layout = computed(() =>
-    datePickerInputLayout(this.locale(), this.granularity()),
+    datePickerInputLayout(this.locale(), this.granularity(), {
+      mode: this.mode(),
+      hourCycle: this.hourCycle(),
+      showSeconds: this.showSeconds(),
+    }),
   );
   private readonly labels = computed(() => {
     const names = new Intl.DisplayNames(this.locale(), { type: 'dateTimeField' });
     return Object.fromEntries(
-      (['year', 'month', 'day'] as const).map((part) => [part, names.of(part) || part]),
+      (['year', 'month', 'day', 'hour', 'minute', 'second', 'dayPeriod'] as const).map((part) => [
+        part,
+        this.clockLabels()[part] || names.of(part) || part,
+      ]),
     );
   });
   protected readonly entries = computed(() => {
@@ -110,21 +171,67 @@ export class ɵAerisDatePickerInput {
           maximum: 0,
           now: null,
           width: 0,
+          placeholder: '',
         };
       const raw = this.draft()[part.type];
       const [minimum, maximum] = this.bounds(part.type);
-      const now = /^\d+$/.test(raw) ? Number(raw) : null;
+      const now =
+        part.type === 'dayPeriod'
+          ? raw === 'AM'
+            ? 0
+            : raw === 'PM'
+              ? 1
+              : null
+          : /^\d+$/.test(raw)
+            ? Number(raw)
+            : null;
+      const text =
+        part.type === 'dayPeriod' && (raw === 'AM' || raw === 'PM')
+          ? this.periods()[raw]
+          : raw.replace(/\d/g, (digit) => this.digits()[Number(digit)]);
       return {
         ...part,
         id: index++ === 0 ? this.resolvedId() : `${this.resolvedId()}-${part.type}`,
         label: this.labels()[part.type],
-        text: raw.replace(/\d/g, (digit) => this.digits()[Number(digit)]),
+        text,
         minimum,
         maximum,
         now: now !== null && now >= minimum && now <= maximum ? now : null,
-        width: part.type === 'year' ? 4 : 2,
+        width:
+          part.type === 'year'
+            ? 4
+            : part.type === 'dayPeriod'
+              ? Math.max(
+                  ...Object.values(this.periods()).map((value) =>
+                    Array.from(value).reduce(
+                      (count, char) => count + ((char.codePointAt(0) ?? 0) > 255 ? 2 : 1),
+                      0,
+                    ),
+                  ),
+                )
+              : 2,
+        placeholder:
+          part.type === 'year'
+            ? 'yyyy'
+            : part.type === 'month' || part.type === 'minute'
+              ? 'mm'
+              : part.type === 'day'
+                ? 'dd'
+                : part.type === 'hour'
+                  ? 'hh'
+                  : part.type === 'second'
+                    ? 'ss'
+                    : this.periods().AM,
       };
     });
+  });
+  protected readonly groups = computed(() => {
+    const entries = this.entries();
+    if (this.mode() !== 'dateTime') return [entries];
+    const boundary = entries.findIndex(
+      (entry) => entry.type === 'hour' || entry.type === 'dayPeriod',
+    );
+    return [entries.slice(0, boundary - 1), entries.slice(boundary)];
   });
 
   constructor() {
@@ -142,7 +249,9 @@ export class ɵAerisDatePickerInput {
 
   writeValue(value: unknown): void {
     this.value.set(typeof value === 'string' ? value : null);
-    this.draft.set(datePickerInputDraft(this.value()));
+    this.draft.set(
+      datePickerInputDraft(this.value(), { mode: this.mode(), hourCycle: this.hourCycle() }),
+    );
     this.interacted.set(false);
   }
   focus(options?: FocusOptions): void {
@@ -166,16 +275,22 @@ export class ɵAerisDatePickerInput {
   }
   protected handleInput(part: AerisDatePickerInputSegment, event: Event): void {
     if (this.effectiveDisabled() || this.readonly()) return;
-    const raw = datePickerInputAscii((event.target as HTMLInputElement).value, this.digits());
+    const text = datePickerInputAscii((event.target as HTMLInputElement).value, this.digits());
+    const raw = part === 'dayPeriod' ? datePickerInputPeriod(text, this.periods()) : text;
     this.draft.update((draft) => ({ ...draft, [part]: raw }));
-    const [, maximum] = this.bounds(part);
+    if (part === 'dayPeriod') {
+      if (raw === 'AM' || raw === 'PM') this.move(part, 1);
+      this.publish(event);
+      return;
+    }
+    const [minimum, maximum] = this.bounds(part);
     if (
       /^\d+$/.test(raw) &&
       (raw.length === (part === 'year' ? 4 : 2) ||
         (part !== 'year' && Number(raw) > Math.floor(maximum / 10)))
     ) {
       this.finalize(part);
-      if (Number(raw) <= maximum && Number(raw) > 0) this.move(part, 1);
+      if (Number(raw) <= maximum && Number(raw) >= minimum) this.move(part, 1);
     }
     this.publish(event);
   }
@@ -205,24 +320,34 @@ export class ɵAerisDatePickerInput {
     const [minimum, maximum] = this.bounds(part);
     if (['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
       event.preventDefault();
-      const current = Number(this.draft()[part]) || minimum;
+      const current =
+        part === 'dayPeriod'
+          ? this.draft().dayPeriod === 'PM'
+            ? 1
+            : 0
+          : Number(this.draft()[part]) || minimum;
+      const step =
+        part === 'minute' ? this.minuteStep() : part === 'second' ? this.secondStep() : 1;
       const next =
         event.key === 'Home'
           ? minimum
           : event.key === 'End'
             ? maximum
-            : current + (event.key === 'ArrowUp' ? 1 : -1);
+            : current + (event.key === 'ArrowUp' ? step : -step);
       const number =
         part === 'year'
           ? Math.max(minimum, Math.min(maximum, next))
-          : next < minimum
-            ? maximum
-            : next > maximum
-              ? minimum
-              : next;
+          : ((((next - minimum) % (maximum - minimum + 1)) + maximum - minimum + 1) %
+              (maximum - minimum + 1)) +
+            minimum;
       this.draft.update((draft) => ({
         ...draft,
-        [part]: String(number).padStart(part === 'year' ? 4 : 2, '0'),
+        [part]:
+          part === 'dayPeriod'
+            ? number === 0
+              ? 'AM'
+              : 'PM'
+            : String(number).padStart(part === 'year' ? 4 : 2, '0'),
       }));
       this.finalize(part);
       this.publish(event);
@@ -246,20 +371,28 @@ export class ɵAerisDatePickerInput {
     event.preventDefault();
     const text = event.clipboardData?.getData('text') ?? '';
     // A canonical paste with greater precision must not silently discard its day/month.
-    const pasted = datePickerInputPaste(text, this.locale(), this.granularity());
+    const pasted = datePickerInputPaste(text, this.locale(), this.granularity(), this.rules());
     const error = pasted ? resolveDatePickerInput(pasted, this.rules()).error : 'invalid';
     if (
       pasted &&
       error !== 'invalid' &&
       error !== 'incomplete' &&
-      (this.granularity() === 'day' ||
+      (this.mode() === 'time' ||
+        this.granularity() === 'day' ||
         (pasted.day === '01' && (this.granularity() !== 'year' || pasted.month === '01')))
     )
       this.draft.set(pasted);
-    else this.draft.set({ year: text, month: '', day: '' });
+    else
+      this.draft.set({
+        ...datePickerInputDraft(null),
+        [this.mode() === 'time' ? 'hour' : 'year']: text,
+      });
     this.publish(event);
   }
   private bounds(part: AerisDatePickerInputSegment): readonly [number, number] {
+    if (part === 'hour') return this.hourCycle() === '12' ? [1, 12] : [0, 23];
+    if (part === 'minute' || part === 'second') return [0, 59];
+    if (part === 'dayPeriod') return [0, 1];
     return part === 'year'
       ? [1, 9999]
       : part === 'month'
@@ -277,7 +410,7 @@ export class ɵAerisDatePickerInput {
     if (Number(raw) < minimum || Number(raw) > maximum) return;
     let next = { ...draft, [part]: raw.padStart(part === 'year' ? 4 : 2, '0') };
     if (
-      part !== 'day' &&
+      (part === 'month' || part === 'year') &&
       /^\d{4}$/.test(next.year) &&
       /^\d{2}$/.test(next.month) &&
       /^\d{2}$/.test(next.day)
