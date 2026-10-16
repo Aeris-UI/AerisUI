@@ -96,6 +96,7 @@ export default defineConfig({
         '**/mobile-foundation.spec.ts',
         '**/choice-cards.spec.ts',
         '**/chip-removal.spec.ts',
+        '**/drawer-swipe.spec.ts',
       ],
     },
     {
@@ -106,6 +107,7 @@ export default defineConfig({
         '**/mobile-foundation.spec.ts',
         '**/choice-cards.spec.ts',
         '**/chip-removal.spec.ts',
+        '**/drawer-swipe.spec.ts',
       ],
     },
     {

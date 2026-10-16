@@ -43,6 +43,23 @@ interface ApiRow {
   styleUrl: './drawer.page.scss',
 })
 export class DrawerPage {
+  protected readonly swipeOpen = signal(false);
+  protected readonly swipePosition = signal<AerisDrawerPosition>('bottom');
+  protected readonly swipeStatus = signal(
+    'Open a drawer and swipe its content toward the screen edge.',
+  );
+  protected readonly swipePositions: readonly AerisDrawerPosition[] = [
+    'left',
+    'right',
+    'top',
+    'bottom',
+  ];
+  protected readonly swipeItems = [
+    'Release notes describe the new workflow, including the changes that team members will notice first.',
+    'Owners review access, delivery dates, and dependencies before the project moves into the next stage.',
+    'The activity feed keeps decisions visible so collaborators can pick up work without losing context.',
+    'After the final review, the team can publish the project and follow its progress from the workspace.',
+  ];
   protected readonly basicOpen = signal(false);
   protected readonly controlledOpen = signal(false);
   protected readonly dismissibleOpen = signal(false);
@@ -84,6 +101,7 @@ export class DrawerPage {
     { id: 'drawer-dismissal', label: 'Dismissal' },
     { id: 'drawer-templates', label: 'Templates' },
     { id: 'drawer-responsive', label: 'Responsive' },
+    { id: 'drawer-swipe', label: 'Swipe dismissal' },
     { id: 'drawer-fullscreen', label: 'Full screen' },
     { id: 'drawer-long-content', label: 'Long content' },
     { id: 'drawer-headless', label: 'Headless' },
@@ -298,7 +316,7 @@ protected readonly filterGroups = [
   );
 }`;
 
-  protected readonly interfacesCode = `type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';
+  protected readonly interfacesCode = `type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask' | 'swipe';
 type AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 type AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';
 type AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
@@ -317,6 +335,27 @@ interface AerisDrawerTemplateContext {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'swipeToClose',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Allows swiping non-interactive drawer content toward its physical screen edge. Scrollable content keeps the gesture when it can scroll in that direction. Inputs, buttons, links and nested interactive controls do not start dismissal. Disabled while maximized.',
+    },
+    {
+      name: 'swipeHandle',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Shows an optional draggable close button when swipeToClose is enabled. Hidden by default, with no reserved space. The handle closes on tap, Enter or Space and is hidden while maximized.',
+    },
+    {
+      name: 'swipeThreshold',
+      type: 'number',
+      defaultValue: '0.35',
+      description:
+        'Fraction of the drawer width or height required to dismiss (clamped to 0.1–1). A flick of at least 32px at 0.5px/ms, released within 100ms of movement, also dismisses. Only movement toward the physical position edge counts, including in RTL.',
+    },
     {
       name: 'closeIconTemplate',
       type: 'TemplateRef<AerisDrawerTemplateContext> | undefined',
@@ -612,6 +651,15 @@ interface AerisDrawerTemplateContext {
   protected openDrawerAt(position: AerisDrawerPosition): void {
     this.currentPosition.set(position);
     this.positionOpen.set(true);
+  }
+
+  protected openSwipeDrawer(position: AerisDrawerPosition): void {
+    this.swipePosition.set(position);
+    this.swipeOpen.set(true);
+  }
+
+  protected recordSwipeClose(event: AerisDrawerVisibilityChangeEvent): void {
+    this.swipeStatus.set(`Drawer closed by ${event.reason}.`);
   }
 
   protected recordDrawerEvent(event: AerisDrawerVisibilityChangeEvent): void {

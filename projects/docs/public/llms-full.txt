@@ -42146,6 +42146,9 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `swipeToClose` | `boolean` | `false` | Allows swiping non-interactive drawer content toward its physical screen edge. Scrollable content keeps the gesture when it can scroll in that direction. Inputs, buttons, links and nested interactive controls do not start dismissal. Disabled while maximized. |
+| `swipeHandle` | `boolean` | `false` | Shows an optional draggable close button when swipeToClose is enabled. Hidden by default, with no reserved space. The handle closes on tap, Enter or Space and is hidden while maximized. |
+| `swipeThreshold` | `number` | `0.35` | Fraction of the drawer width or height required to dismiss (clamped to 0.1–1). A flick of at least 32px at 0.5px/ms, released within 100ms of movement, also dismisses. Only movement toward the physical position edge counts, including in RTL. |
 | `closeIconTemplate` | `TemplateRef&lt;AerisDrawerTemplateContext&gt; &#124; undefined` | `undefined` | Optional close artwork. Takes precedence over the projected close-icon template; Aeris keeps the close button and its accessible name. |
 | `maximizeIconTemplate` | `TemplateRef&lt;AerisDrawerTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the maximize icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'body'` | Mounts the drawer overlay locally, in document.body, or in the supplied DOM/template target. |
@@ -42218,7 +42221,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
 ##### Interfaces
 
 ```ts
-type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask';
+type AerisDrawerCloseReason = 'api' | 'close-button' | 'escape' | 'mask' | 'swipe';
 type AerisDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 type AerisDrawerSize = 'sm' | 'md' | 'lg' | 'full';
 type AerisDrawerFooterLayout = 'responsive' | 'wrap' | 'stack' | 'inline';
@@ -42241,6 +42244,8 @@ interface AerisDrawerTemplateContext {
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
+| `--aeris-drawer-swipe-handle-color` | `CSS custom property` | — | Swipe handle color. |
+| `--aeris-drawer-swipe-handle-space` | `CSS custom property` | — | Reserved space at the draggable edge. |
 | `--aeris-drawer-width` | `CSS custom property` | — | Side drawer width. |
 | `--aeris-drawer-height` | `CSS custom property` | — | Top and bottom drawer height. |
 | `--aeris-drawer-max-width` | `CSS custom property` | — | Maximum side drawer width. |
@@ -42776,6 +42781,126 @@ export class DrawerTemplatesTemplatesDemo {
 }
 ```
 
+##### Swipe dismissal
+
+Swipe non-interactive content toward the drawer's screen edge. Scrolling and form controls keep their normal behavior. Short and cancelled drags return to the resting position.
+
+###### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisDrawerModule } from '@aeris-ui/core/drawer';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisTextarea } from '@aeris-ui/core/textarea';
+
+@Component({
+  selector: 'app-drawer-swipe-demo',
+  imports: [AerisButton, AerisDrawerModule, AerisInputText, AerisTextarea],
+  templateUrl: './drawer-swipe.demo.html',
+  styleUrl: './drawer-swipe.demo.scss'
+})
+export class DrawerSwipeSwipeDismissalDemo {
+}
+```
+
+###### HTML
+
+```html
+<div>
+                <div class="drawer-controls">
+                  @for (edge of swipePositions; track edge) {
+                    <button
+                      aerisButton
+                      variant="outline"
+                      type="button"
+                      (click)="openSwipeDrawer(edge)"
+                    >
+                      {{ edge }} drawer
+                    </button>
+                  }
+                </div>
+                <p class="drawer-status" role="status">{{ swipeStatus() }}</p>
+                <aeris-drawer
+                  header="Swipe to close"
+                  [(visible)]="swipeOpen"
+                  [position]="swipePosition()"
+                  height="28rem"
+                  swipeToClose
+                  (closed)="recordSwipeClose($event)"
+                >
+                  <p>
+                    Swipe this content toward the screen edge to close. Scrollable content must be
+                    at its dismissal boundary first. The close button is always available.
+                  </p>
+                  <div class="drawer-form">
+                    <label
+                      ><span>Project name</span><input aerisInputText value="Summer launch"
+                    /></label>
+                    <label
+                      ><span>Notes</span>
+                      <textarea aerisTextarea rows="3">
+Form controls keep their normal interaction.</textarea>
+                    </label>
+                  </div>
+                  @for (item of swipeItems; track item) {
+                    <p>{{ item }}</p>
+                  }
+                </aeris-drawer>
+              </div>
+```
+
+###### CSS
+
+```css
+.drawer-controls,
+.drawer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.drawer-status {
+  margin-top: 0.875rem;
+  color: var(--aeris-text-3);
+  font-size: 0.8125rem;
+}
+
+.drawer-form,
+.drawer-stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.drawer-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--aeris-text);
+  font-weight: 700;
+}
+
+.drawer-form input,
+.drawer-form textarea {
+  width: 100%;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-sm);
+  background: var(--aeris-surface);
+  color: var(--aeris-text);
+  font: inherit;
+}
+
+.drawer-form input {
+  min-height: 2.375rem;
+  padding: 0 0.75rem;
+}
+
+.drawer-form textarea {
+  min-height: 5rem;
+  padding: 0.625rem 0.75rem;
+  resize: vertical;
+}
+```
+
 ##### Responsive sizing
 
 Set desktop dimensions and opt into full-screen mobile layout for dense workflows.
@@ -43184,6 +43309,7 @@ export class DrawerHeadlessHeadlessDemo {
 
 #### Accessibility
 
+- With swipeToClose, non-interactive content can start dismissal. A scroll container keeps the gesture when it can scroll in that direction; start a new gesture at the boundary to dismiss. Inputs, buttons, links, editable content and nested interactive controls are excluded. Add data-aeris-swipe-ignore to a custom gesture surface to exclude it too. Selected text is preserved. The standard close button and Escape remain available. The optional swipeHandle is a native button named by closeAriaLabel; tap, Enter or Space closes it. A swipe closes toward the physical left, right, top or bottom edge; RTL does not swap these positions. The handle is hidden while maximized. Short, perpendicular, interrupted or cancelled drags do not dismiss. Reduced motion removes the return and exit animation, not direct pointer tracking.
 - Drawer renders a role="dialog" panel and sets aria-modal from the modal input.
 - Visible headers automatically label the drawer. Use ariaLabel or ariaLabelledBy when no visible title is rendered.
 - When opened, Drawer focuses initialFocus, then the first focusable element, then the drawer panel.
@@ -43201,6 +43327,7 @@ export class DrawerHeadlessHeadlessDemo {
 | `Tab` | Moves focus to the next focusable element inside the drawer. From the last element, focus wraps to the first when focusTrap is enabled. |
 | `Shift + Tab` | Moves focus to the previous focusable element inside the drawer. From the first element, focus wraps to the last when focusTrap is enabled. |
 | `Escape` | Closes the drawer when closeOnEscape is true. |
+| `Enter / Space on swipe handle` | Closes without dragging, when swipeToClose and swipeHandle are enabled. |
 | `Enter / Space` | Activates the focused native control, including the built-in close button and projected buttons. |
 
 ### DynamicDialog
