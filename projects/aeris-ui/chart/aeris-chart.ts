@@ -16,20 +16,16 @@ import {
   viewChild,
 } from '@angular/core';
 import type { InputSignal, InputSignalWithTransform } from '@angular/core';
+import { aerisInternalCreateFrameScheduler } from '@aeris-ui/core';
 import { Chart, registerables } from 'chart.js';
-import type {
-  ChartConfiguration,
-  ChartData,
-  ChartOptions,
-  ChartType,
-  Plugin,
-} from 'chart.js';
+import type { ChartConfiguration, ChartData, ChartOptions, ChartType, Plugin } from 'chart.js';
 
 export type AerisChartType = ChartType;
 export type AerisChartData<TType extends ChartType = ChartType> = ChartData<TType>;
 export type AerisChartOptions<TType extends ChartType = ChartType> = ChartOptions<TType>;
 export type AerisChartPlugin<TType extends ChartType = ChartType> = Plugin<TType>;
-export type AerisChartConfiguration<TType extends ChartType = ChartType> = ChartConfiguration<TType>;
+export type AerisChartConfiguration<TType extends ChartType = ChartType> =
+  ChartConfiguration<TType>;
 
 export interface AerisChartInstance {
   readonly config: {
@@ -78,7 +74,7 @@ let chartJsRegistered = false;
         class="aeris-chart__canvas"
         role="img"
         [attr.aria-label]="resolvedAriaLabel()"
-        [attr.aria-describedby]="ariaDescription() ? descriptionId() : null"
+        [attr.aria-describedby]="describedBy()"
         [attr.aria-hidden]="hasData() ? null : 'true'"
       ></canvas>
       @if (!hasData()) {
@@ -88,7 +84,7 @@ let chartJsRegistered = false;
     @if (ariaDescription()) {
       <p class="aeris-chart__description" [id]="descriptionId()">{{ ariaDescription() }}</p>
     }
-    <p class="aeris-chart__summary">{{ accessibleSummary() }}</p>
+    <p class="aeris-chart__summary" [id]="summaryId">{{ accessibleSummary() }}</p>
   `,
   styleUrl: './aeris-chart.scss',
   host: {
@@ -97,7 +93,7 @@ let chartJsRegistered = false;
     '[attr.data-responsive]': 'responsive() || null',
   },
 })
-export class AerisChart {
+export class AerisChart<TType extends ChartType = ChartType> {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
   private readonly host = inject(ElementRef<HTMLElement>);
@@ -107,18 +103,29 @@ export class AerisChart {
   private readonly ready = signal(false);
   private readonly chartId = `aeris-chart-${++nextChartId}`;
   private readonly browser = isPlatformBrowser(this.platformId);
-  private readonly themeObserver = this.createThemeObserver();
+  private themeObserver: MutationObserver | null = null;
+  private readonly themeFrame = aerisInternalCreateFrameScheduler(() => this.refresh());
+  private motion: MediaQueryList | null = null;
   private chart: AerisChartInstance | null = null;
   private renderedType: ChartType | null = null;
-  private renderedPlugins: readonly AerisChartPlugin[] | null = null;
+  private renderedPlugins: readonly AerisChartPlugin<TType>[] | null = null;
 
-  readonly type: InputSignal<AerisChartType> = input<AerisChartType>('bar');
-  readonly data: InputSignal<AerisChartData | null> = input<AerisChartData | null>(null);
-  readonly options: InputSignal<AerisChartOptions | null> = input<AerisChartOptions | null>(null);
-  readonly plugins: InputSignal<readonly AerisChartPlugin[]> = input<readonly AerisChartPlugin[]>([]);
+  readonly type: InputSignal<TType> = input<TType>('bar' as TType);
+  readonly data: InputSignal<AerisChartData<TType> | null> = input<AerisChartData<TType> | null>(
+    null,
+  );
+  readonly options: InputSignal<AerisChartOptions<TType> | null> =
+    input<AerisChartOptions<TType> | null>(null);
+  readonly plugins: InputSignal<readonly AerisChartPlugin<TType>[]> = input<
+    readonly AerisChartPlugin<TType>[]
+  >([]);
   readonly height: InputSignal<string> = input('20rem');
-  readonly responsive: InputSignalWithTransform<boolean, unknown> = input(true, { transform: booleanAttribute });
-  readonly redraw: InputSignalWithTransform<boolean, unknown> = input(false, { transform: booleanAttribute });
+  readonly responsive: InputSignalWithTransform<boolean, unknown> = input(true, {
+    transform: booleanAttribute,
+  });
+  readonly redraw: InputSignalWithTransform<boolean, unknown> = input(false, {
+    transform: booleanAttribute,
+  });
   readonly ariaLabel: InputSignal<string> = input('Chart');
   readonly ariaDescription: InputSignal<string> = input('');
   readonly emptyMessage: InputSignal<string> = input('No chart data available');
@@ -126,7 +133,13 @@ export class AerisChart {
   readonly chartReady = output<AerisChartReadyEvent>();
   readonly chartError = output<AerisChartErrorEvent>();
 
-  protected readonly hasData = computed(() => Boolean(this.data()?.datasets.length));
+  protected readonly hasData = computed(() =>
+    Boolean(this.data()?.datasets.some((dataset) => dataset.data.length)),
+  );
+  protected readonly summaryId = `${this.chartId}-summary`;
+  protected readonly describedBy = computed(() =>
+    [this.ariaDescription() ? this.descriptionId() : '', this.summaryId].filter(Boolean).join(' '),
+  );
   protected readonly descriptionId = computed(() => `${this.chartId}-description`);
   protected readonly resolvedAriaLabel = computed(() => this.ariaLabel() || 'Chart');
   protected readonly accessibleSummary = computed(() => this.chartSummary(this.data()));
@@ -134,14 +147,27 @@ export class AerisChart {
   constructor() {
     this.destroyRef.onDestroy(() => {
       this.themeObserver?.disconnect();
+      this.themeFrame.cancel();
       this.destroyChart();
     });
 
     afterNextRender(() => {
-      if (this.browser) this.setReady();
+      if (!this.browser) return;
+      const view = this.document.defaultView;
+      this.motion = view?.matchMedia?.('(prefers-reduced-motion: reduce)') ?? null;
+      const scheme = view?.matchMedia?.('(prefers-color-scheme: dark)');
+      const refresh = () => this.themeFrame.schedule();
+      this.motion?.addEventListener('change', refresh);
+      scheme?.addEventListener('change', refresh);
+      this.destroyRef.onDestroy(() => {
+        this.motion?.removeEventListener('change', refresh);
+        scheme?.removeEventListener('change', refresh);
+      });
+      this.themeObserver = this.createThemeObserver();
+      this.setReady();
     });
 
-    effect((onCleanup) => {
+    effect(() => {
       const canvas = this.canvas()?.nativeElement;
       const ready = this.isReady();
       const data = this.data();
@@ -151,13 +177,12 @@ export class AerisChart {
       const responsive = this.responsive();
       const redraw = this.redraw();
 
-      if (!ready || !canvas || !data?.datasets.length) {
+      if (!ready || !canvas || !data || !this.hasData()) {
         this.destroyChart();
         return;
       }
 
       this.renderChart(canvas, type, data, options, plugins, responsive, redraw);
-      onCleanup(() => undefined);
     });
   }
 
@@ -165,7 +190,7 @@ export class AerisChart {
   refresh(): void {
     const canvas = this.canvas()?.nativeElement;
     const data = this.data();
-    if (!canvas || !data?.datasets.length || !this.isReady()) return;
+    if (!canvas || !data || !this.hasData() || !this.isReady()) return;
     this.renderChart(
       canvas,
       this.type(),
@@ -202,10 +227,10 @@ export class AerisChart {
 
   private renderChart(
     canvas: HTMLCanvasElement,
-    type: AerisChartType,
-    data: AerisChartData,
-    options: AerisChartOptions | null,
-    plugins: readonly AerisChartPlugin[],
+    type: TType,
+    data: AerisChartData<TType>,
+    options: AerisChartOptions<TType> | null,
+    plugins: readonly AerisChartPlugin<TType>[],
     responsive: boolean,
     redraw: boolean,
   ): void {
@@ -231,46 +256,83 @@ export class AerisChart {
   }
 
   private configuration(
-    type: AerisChartType,
-    data: AerisChartData,
-    options: AerisChartOptions | null,
-    plugins: readonly AerisChartPlugin[],
+    type: TType,
+    data: AerisChartData<TType>,
+    options: AerisChartOptions<TType> | null,
+    plugins: readonly AerisChartPlugin<TType>[],
     responsive: boolean,
   ): ChartConfiguration {
     return {
       type,
       data: this.copyData(data),
-      options: this.themedOptions(options, responsive),
+      options: this.themedOptions(type, data, options, responsive),
       plugins: [...plugins],
     } as ChartConfiguration;
   }
 
-  private copyData(data: AerisChartData): ChartData {
+  private copyData(data: AerisChartData<TType>): ChartData {
     return {
       ...data,
       labels: data.labels ? [...data.labels] : [],
-      datasets: data.datasets.map((dataset) => ({ ...dataset })),
+      datasets: data.datasets.map((dataset) => ({ ...dataset, data: [...dataset.data] })),
     } as ChartData;
   }
 
-  private themedOptions(options: AerisChartOptions | null, responsive: boolean): ChartOptions {
-    const source = options ?? {};
+  private themedOptions(
+    type: TType,
+    data: AerisChartData<TType>,
+    options: AerisChartOptions<TType> | null,
+    responsive: boolean,
+  ): ChartOptions {
+    // Only shared options are themed; controller-specific settings pass through unchanged.
+    const source = (options ?? {}) as ChartOptions;
     const style = getComputedStyle(this.host.nativeElement);
-    const text = style.getPropertyValue('--aeris-text').trim() || '#222222';
+    const text =
+      style.getPropertyValue('--aeris-chart-color').trim() ||
+      style.getPropertyValue('--aeris-text').trim() ||
+      '#222222';
     const muted = style.getPropertyValue('--aeris-text-muted').trim() || '#6d7068';
     const border = style.getPropertyValue('--aeris-border').trim() || '#deddd7';
     const surface = style.getPropertyValue('--aeris-surface').trim() || '#ffffff';
+    const font = {
+      family: style.fontFamily || 'system-ui',
+      size: Number.parseFloat(style.fontSize) || 14,
+    };
+    const rtl = style.direction === 'rtl';
+    const plugins = source.plugins;
+    const legend = plugins?.legend;
+    const tooltip = plugins?.tooltip;
+    const defaultScales: Record<string, object> = {};
+    const radialScales = new Set<string>();
+    for (const dataset of data.datasets) {
+      const kind = dataset.type ?? type;
+      const axes = dataset as { xAxisID?: string; yAxisID?: string; rAxisID?: string };
+      if (kind === 'radar' || kind === 'polarArea') {
+        const id = axes.rAxisID ?? 'r';
+        defaultScales[id] = {};
+        radialScales.add(id);
+      } else if (kind !== 'pie' && kind !== 'doughnut') {
+        defaultScales[axes.xAxisID ?? 'x'] = {};
+        defaultScales[axes.yAxisID ?? 'y'] = {};
+      }
+    }
     const scales = Object.fromEntries(
-      Object.entries(source.scales ?? {}).map(([key, scale]) => {
+      Object.entries({ ...defaultScales, ...source.scales }).map(([key, scale]) => {
         const sourceScale = (scale ?? {}) as Record<string, unknown>;
         return [
           key,
           {
             ...sourceScale,
             grid: { color: border, ...this.objectValue(sourceScale['grid']) },
-            ticks: { color: muted, ...this.objectValue(sourceScale['ticks']) },
+            ticks: {
+              color: muted,
+              ...(radialScales.has(key) ? { backdropColor: surface } : {}),
+              ...this.objectValue(sourceScale['ticks']),
+            },
             border: { color: border, ...this.objectValue(sourceScale['border']) },
             title: { color: text, ...this.objectValue(sourceScale['title']) },
+            pointLabels: { color: muted, ...this.objectValue(sourceScale['pointLabels']) },
+            angleLines: { color: border, ...this.objectValue(sourceScale['angleLines']) },
           },
         ];
       }),
@@ -280,24 +342,44 @@ export class AerisChart {
       ...source,
       responsive,
       color: source.color ?? text,
-      plugins: {
-        ...source.plugins,
-        legend: {
-          ...source.plugins?.legend,
-          labels: {
-            color: muted,
-            ...source.plugins?.legend?.labels,
-          },
-        },
-        tooltip: {
-          ...source.plugins?.tooltip,
-          backgroundColor: source.plugins?.tooltip?.backgroundColor ?? surface,
-          titleColor: source.plugins?.tooltip?.titleColor ?? text,
-          bodyColor: source.plugins?.tooltip?.bodyColor ?? muted,
-          borderColor: source.plugins?.tooltip?.borderColor ?? border,
-          borderWidth: source.plugins?.tooltip?.borderWidth ?? 1,
-        },
-      },
+      font: { ...font, ...source.font },
+      animation: this.motion?.matches ? false : (source.animation ?? { duration: 220 }),
+      plugins:
+        (plugins as unknown) === false
+          ? false
+          : {
+              ...plugins,
+              legend:
+                (legend as unknown) === false
+                  ? false
+                  : {
+                      rtl,
+                      textDirection: rtl ? 'rtl' : 'ltr',
+                      ...legend,
+                      labels: {
+                        color: muted,
+                        ...legend?.labels,
+                      },
+                    },
+              tooltip:
+                (tooltip as unknown) === false
+                  ? false
+                  : {
+                      rtl,
+                      textDirection: rtl ? 'rtl' : 'ltr',
+                      padding: 12,
+                      titleFont: () => ({ ...font, weight: 'bold' }),
+                      bodyFont: () => font,
+                      footerFont: () => ({ ...font, weight: 'bold' }),
+                      ...tooltip,
+                      backgroundColor: tooltip?.backgroundColor ?? surface,
+                      titleColor: tooltip?.titleColor ?? text,
+                      bodyColor: tooltip?.bodyColor ?? text,
+                      footerColor: tooltip?.footerColor ?? text,
+                      borderColor: tooltip?.borderColor ?? border,
+                      borderWidth: tooltip?.borderWidth ?? 1,
+                    },
+            },
       scales,
     } as ChartOptions;
   }
@@ -317,23 +399,40 @@ export class AerisChart {
 
   private createThemeObserver(): MutationObserver | null {
     if (!this.browser || typeof MutationObserver === 'undefined') return null;
-    const observer = new MutationObserver(() => this.refresh());
-    observer.observe(this.document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class', 'data-theme', 'data-palette', 'style'],
-    });
+    const observer = new MutationObserver(() => this.themeFrame.schedule());
+    for (
+      let element: HTMLElement | null = this.host.nativeElement;
+      element;
+      element = element.parentElement
+    ) {
+      observer.observe(element, {
+        attributes: true,
+        attributeFilter: [
+          'class',
+          'data-aeris-theme',
+          'data-aeris-density',
+          'data-aeris-radius',
+          'data-theme',
+          'data-palette',
+          'dir',
+          'style',
+        ],
+      });
+    }
     return observer;
   }
 
-  private chartSummary(data: AerisChartData | null): string {
-    if (!data?.datasets.length) return this.emptyMessage();
+  private chartSummary(data: AerisChartData<TType> | null): string {
+    if (!this.hasData() || !data) return this.emptyMessage();
     const labels = (data.labels ?? []).map((label) => String(label));
     const datasets = data.datasets.map((dataset, index) => {
       const label = dataset.label || `Dataset ${index + 1}`;
       const values = dataset.data.map((value) => this.valueText(value)).join(', ');
       return `${label}: ${values}`;
     });
-    return [labels.length ? `Labels: ${labels.join(', ')}.` : '', ...datasets].filter(Boolean).join(' ');
+    return [labels.length ? `Labels: ${labels.join(', ')}.` : '', ...datasets]
+      .filter(Boolean)
+      .join(' ');
   }
 
   private valueText(value: unknown): string {
@@ -343,7 +442,11 @@ export class AerisChart {
       const x = point['x'];
       const y = point['y'];
       const r = point['r'];
-      return [x !== undefined ? `x ${x}` : '', y !== undefined ? `y ${y}` : '', r !== undefined ? `r ${r}` : '']
+      return [
+        x !== undefined ? `x ${x}` : '',
+        y !== undefined ? `y ${y}` : '',
+        r !== undefined ? `r ${r}` : '',
+      ]
         .filter(Boolean)
         .join(', ');
     }
