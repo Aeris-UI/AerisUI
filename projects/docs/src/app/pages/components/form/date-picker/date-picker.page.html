@@ -21,6 +21,13 @@
           Each example uses the same published component and shows the exact template and TypeScript
           needed for that feature.
         </p>
+        <p>
+          Values are JavaScript <code>Date</code> objects interpreted in local time;
+          <code>locale</code> changes formatting, not the time zone. For a calendar date, use
+          numeric constructor arguments: <code>new Date(2026, 5, 11)</code> means June 11. A string
+          such as <code>new Date('2026-06-11')</code> is parsed as UTC and can display a different
+          local day.
+        </p>
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <app-form-demo
@@ -53,6 +60,86 @@
     &lt;small aria-live="polite"&gt;Last change: &#123;&#123; lastChange() &#125;&#125;&lt;/small&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="date-picker-editable"
+              title="Typed entry"
+              description="Type a date or paste a complete canonical or locale-formatted value. Use the calendar button or Alt+Down to choose from the calendar. Incomplete drafts remain visible and block form submission without overwriting the last valid Date."
+            >
+              <div preview class="field">
+                <label for="typed-date">Arrival date</label
+                ><aeris-date-picker
+                  inputId="typed-date"
+                  ariaLabel="Arrival date"
+                  editable
+                  clearable
+                  [(value)]="typedDate"
+                /><small
+                  >Type the segments, use Up/Down to adjust them, or press Alt+Down for the
+                  calendar.</small
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="typed-date"&gt;Arrival date&lt;/label&gt;
+  &lt;aeris-date-picker
+    inputId="typed-date"
+    ariaLabel="Arrival date"
+    editable
+    clearable
+    [(value)]="typedDate"
+  /&gt;&lt;small
+    &gt;Type the segments, use Up/Down to adjust them, or press Alt+Down for the
+    calendar.&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="date-picker-signal-forms"
+              title="Signal Forms"
+              description="Signal Forms supplies invalid and touched automatically. Errors stay neutral until interaction or submission. Incomplete typed dates block submission while preserving the last valid Date value."
+              [tsCode]="signalFormsCode"
+            >
+              <form preview class="field" (submit)="saveProfile($event)">
+                <label for="profile-birthday">Birthday</label>
+                <aeris-date-picker
+                  inputId="profile-birthday"
+                  ariaLabel="Birthday"
+                  ariaDescribedBy="profile-birthday-help"
+                  editable
+                  [formField]="profileForm.birthday"
+                />
+                <small id="profile-birthday-help">
+                  @if (profileForm.birthday().touched() && profileForm.birthday().invalid()) {
+                    Enter a complete, valid birthday.
+                  } @else {
+                    A birthday is required.
+                  }
+                </small>
+                <button aerisButton type="submit">Save birthday</button>
+                <output aria-live="polite">{{ savedDate() }}</output>
+              </form>
+              <pre
+                code
+              ><code ngNonBindable>&lt;form class="field" (submit)="saveProfile($event)"&gt;
+  &lt;label for="profile-birthday"&gt;Birthday&lt;/label&gt;
+  &lt;aeris-date-picker
+    inputId="profile-birthday"
+    ariaLabel="Birthday"
+    ariaDescribedBy="profile-birthday-help"
+    editable
+    [formField]="profileForm.birthday"
+  /&gt;
+  &lt;small id="profile-birthday-help"&gt;
+    &#64;if (profileForm.birthday().touched() &amp;&amp; profileForm.birthday().invalid()) &#123;
+      Enter a complete, valid birthday.
+    &#125; &#64;else &#123;
+      A birthday is required.
+    &#125;
+  &lt;/small&gt;
+  &lt;button aerisButton type="submit"&gt;Save birthday&lt;/button&gt;
+  &lt;output aria-live="polite"&gt;&#123;&#123; savedDate() &#125;&#125;&lt;/output&gt;
+&lt;/form&gt;</code></pre>
             </app-form-demo>
 
             <app-form-demo
@@ -270,7 +357,7 @@
             <app-form-demo
               id="date-picker-views"
               title="Month and year views"
-              description="Use a coarser selection view when a precise day would add unnecessary input."
+              description="Select a month or year without displaying an unnecessary day. Values remain Date objects; year view displays only the year, and month view displays the month and year."
             >
               <div preview class="field-grid">
                 <div class="field">
@@ -278,6 +365,7 @@
                   <aeris-date-picker
                     inputId="billing-month"
                     view="month"
+                    editable
                     placeholder="Choose month"
                   />
                 </div>
@@ -286,6 +374,7 @@
                   <aeris-date-picker
                     inputId="reporting-year"
                     view="year"
+                    editable
                     placeholder="Choose year"
                   />
                 </div>
@@ -296,6 +385,7 @@
     &lt;aeris-date-picker
       inputId="billing-month"
       view="month"
+      editable
       placeholder="Choose month"
     /&gt;
   &lt;/div&gt;
@@ -304,6 +394,7 @@
     &lt;aeris-date-picker
       inputId="reporting-year"
       view="year"
+      editable
       placeholder="Choose year"
     /&gt;
   &lt;/div&gt;

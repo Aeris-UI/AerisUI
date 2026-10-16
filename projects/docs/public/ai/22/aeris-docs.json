@@ -6226,7 +6226,7 @@
               "name": "value",
               "type": "AerisDatePickerValue (model)",
               "defaultValue": "null",
-              "description": "Selected Date, date array, or range according to selectionMode."
+              "description": "Selected local Date, date array, or range according to selectionMode. Time-only mode still uses a Date as a clock-value carrier; it does not return a time string. Null clears the selection."
             },
             {
               "name": "selectionMode",
@@ -6238,13 +6238,25 @@
               "name": "view",
               "type": "AerisDatePickerView",
               "defaultValue": "'day'",
-              "description": "Chooses day, month, or year selection granularity."
+              "description": "Chooses day, month, or year selection granularity. The trigger matches that precision; month selections use day 1 and year selections use January 1. The model remains a local Date."
+            },
+            {
+              "name": "editable",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Enables locale-ordered typed segments for non-inline single date selection in mode date, including month/year views. Calendar entry remains available from its button or Alt+Down. Range, multiple, time and dateTime modes retain their existing presentation."
+            },
+            {
+              "name": "readonly",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Prevents user editing, clearing and opening the calendar. Editable segments remain inspectable and copyable."
             },
             {
               "name": "mode",
               "type": "AerisDatePickerMode",
               "defaultValue": "'date'",
-              "description": "Chooses date-only, date-and-time, or time-only entry. Options: 'date', 'dateTime', 'time'."
+              "description": "Chooses date-only, date-and-time, or time-only entry. Use dateTime/time with selectionMode single; multiple and range are calendar-date workflows. Options: 'date', 'dateTime', 'time'."
             },
             {
               "name": "inputId",
@@ -6310,13 +6322,13 @@
               "name": "dateStyle",
               "type": "AerisDatePickerDateStyle",
               "defaultValue": "'medium'",
-              "description": "Intl.DateTimeFormat date style used in the trigger. Options: 'short', 'medium', 'long', 'full'."
+              "description": "Intl.DateTimeFormat date style used in the trigger for day selection. Month and year views show only their selected precision. Options: 'short', 'medium', 'long', 'full'."
             },
             {
               "name": "hourCycle",
               "type": "AerisDatePickerHourCycle",
               "defaultValue": "'24'",
-              "description": "Formats and edits time with 24-hour or 12-hour controls. Options: 12, 24."
+              "description": "Formats and edits time with 00–23 hours in 24-hour mode, or 1–12 hours and AM/PM in 12-hour mode, including midnight. Options: 12, 24."
             },
             {
               "name": "showSeconds",
@@ -6328,13 +6340,13 @@
               "name": "minuteStep",
               "type": "number",
               "defaultValue": "1",
-              "description": "Native step value for the minute input, clamped from 1 through 59."
+              "description": "Native step value for the minute input, clamped from 1 through 59. Controls native stepping, not rounding of typed values. An empty intermediate edit does not overwrite the committed time."
             },
             {
               "name": "secondStep",
               "type": "number",
               "defaultValue": "1",
-              "description": "Native step value for the seconds input, clamped from 1 through 59."
+              "description": "Native step value for the seconds input, clamped from 1 through 59. Controls native stepping, not rounding of typed values."
             },
             {
               "name": "firstDayOfWeek",
@@ -6346,13 +6358,13 @@
               "name": "minDate",
               "type": "Date | undefined",
               "defaultValue": "undefined",
-              "description": "Earliest selectable date."
+              "description": "Earliest selectable local calendar day, inclusive. The clock portion is ignored; this is not a minimum time constraint."
             },
             {
               "name": "maxDate",
               "type": "Date | undefined",
               "defaultValue": "undefined",
-              "description": "Latest selectable date."
+              "description": "Latest selectable local calendar day, inclusive. The clock portion is ignored; this is not a maximum time constraint."
             },
             {
               "name": "disabledDates",
@@ -6722,6 +6734,40 @@
           ]
         },
         {
+          "id": "date-picker-editable",
+          "title": "Typed entry",
+          "description": "Type a date or paste a complete canonical or locale-formatted value. Use the calendar button or Alt+Down to choose from the calendar. Incomplete drafts remain visible and block form submission without overwriting the last valid Date.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisDatePicker } from '@aeris-ui/core/date-picker';\n\n@Component({\n  selector: 'app-date-picker-editable-demo',\n  imports: [AerisDatePicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"typed-date\">Arrival date</label>\n      <aeris-date-picker\n        inputId=\"typed-date\"\n        ariaLabel=\"Arrival date\"\n        editable\n        clearable\n        [(value)]=\"typedDate\"\n      /><small\n        >Type the segments, use Up/Down to adjust them, or press Alt+Down for the\n        calendar.</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class DatePickerEditableTypedEntryDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "date-picker-signal-forms",
+          "title": "Signal Forms",
+          "description": "Signal Forms supplies invalid and touched automatically. Errors stay neutral until interaction or submission. Incomplete typed dates block submission while preserving the last valid Date value.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisDatePicker } from '@aeris-ui/core/date-picker';\nimport { FormField, form, required, submit } from '@angular/forms/signals';\n\n@Component({\n  selector: 'app-date-picker-signal-forms-demo',\n  imports: [AerisButton, AerisDatePicker, FormField],\n  templateUrl: './date-picker-signal-forms.demo.html',\n  styleUrl: './date-picker-signal-forms.demo.scss'\n})\nexport class DatePickerSignalFormsSignalFormsDemo {\n  protected readonly profile = signal<{ birthday: Date | null }>({ birthday: null });\n  protected readonly profileForm = form(this.profile, (path) => required(path.birthday));\n  protected readonly savedDate = signal('Not saved yet');\n  protected saveProfile(event: Event): void {\n    event.preventDefault();\n    void submit(this.profileForm, async () => {\n      this.savedDate.set(this.profile().birthday?.toLocaleDateString() || 'No date');\n    });\n  }\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<form class=\"field\" (submit)=\"saveProfile($event)\">\n  <label for=\"profile-birthday\">Birthday</label>\n  <aeris-date-picker\n    inputId=\"profile-birthday\"\n    ariaLabel=\"Birthday\"\n    ariaDescribedBy=\"profile-birthday-help\"\n    editable\n    [formField]=\"profileForm.birthday\"\n  />\n  <small id=\"profile-birthday-help\">\n    @if (profileForm.birthday().touched() && profileForm.birthday().invalid()) {\n      Enter a complete, valid birthday.\n    } @else {\n      A birthday is required.\n    }\n  </small>\n  <button aerisButton type=\"submit\">Save birthday</button>\n  <output aria-live=\"polite\">{{ savedDate() }}</output>\n</form>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}"
+            }
+          ]
+        },
+        {
           "id": "date-picker-collision",
           "title": "Constrained viewport",
           "description": "The calendar flips and remains within the visual viewport. Mount it to body when an overflow container would otherwise clip it, and reserve fixed interface regions with per-edge margins.",
@@ -6824,7 +6870,7 @@
         {
           "id": "date-picker-views",
           "title": "Month and year views",
-          "description": "Use a coarser selection view when a precise day would add unnecessary input.",
+          "description": "Select a month or year without displaying an unnecessary day. Values remain Date objects; year view displays only the year, and month view displays the month and year.",
           "sources": [
             {
               "language": "TypeScript",
@@ -6834,7 +6880,7 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div class=\"field-grid\">\n  <div class=\"field\">\n    <label for=\"billing-month\">Billing month</label>\n    <aeris-date-picker\n      inputId=\"billing-month\"\n      view=\"month\"\n      placeholder=\"Choose month\"\n    />\n  </div>\n  <div class=\"field\">\n    <label for=\"reporting-year\">Reporting year</label>\n    <aeris-date-picker\n      inputId=\"reporting-year\"\n      view=\"year\"\n      placeholder=\"Choose year\"\n    />\n  </div>\n</div>"
+              "code": "<div class=\"field-grid\">\n  <div class=\"field\">\n    <label for=\"billing-month\">Billing month</label>\n    <aeris-date-picker\n      inputId=\"billing-month\"\n      view=\"month\"\n      editable\n      placeholder=\"Choose month\"\n    />\n  </div>\n  <div class=\"field\">\n    <label for=\"reporting-year\">Reporting year</label>\n    <aeris-date-picker\n      inputId=\"reporting-year\"\n      view=\"year\"\n      editable\n      placeholder=\"Choose year\"\n    />\n  </div>\n</div>"
             },
             {
               "language": "CSS",

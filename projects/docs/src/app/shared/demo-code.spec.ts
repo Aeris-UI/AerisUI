@@ -1,6 +1,19 @@
 import { buildAngularDemoSources } from './demo-code';
 
 describe('Angular demo code imports', () => {
+  it('imports Signal Forms bindings and editable date pickers as Angular declarations', () => {
+    const sources = buildAngularDemoSources({
+      anchor: 'signal-date',
+      title: 'Signal date',
+      template: '<aeris-date-picker editable [formField]="fields.date" />',
+      classCode:
+        'readonly data = signal<{ date: Date | null }>({ date: null });\nreadonly fields = form(this.data, (path) => required(path.date));',
+    });
+    const code = sources[0]?.code ?? '';
+    expect(code).toContain("from '@angular/forms/signals'");
+    expect(code).toContain('imports: [AerisDatePicker, FormField]');
+    expect(code).toContain('FormField, form, required');
+  });
   it('imports chart presentation helpers as values, not Angular declarations', () => {
     const sources = buildAngularDemoSources({
       anchor: 'area-chart',

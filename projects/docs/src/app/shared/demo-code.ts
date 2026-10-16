@@ -471,6 +471,14 @@ function addAngularFormsImports(
   classCode: string,
 ): void {
   const forms = addGroup(groups, '@angular/forms');
+  if (/\[formField\]/.test(body)) {
+    const signals = addGroup(groups, '@angular/forms/signals');
+    signals.values.add('FormField');
+    componentImports.add('FormField');
+    for (const name of ['form', 'required', 'submit']) {
+      if (new RegExp(`\\b${name}\\s*\\(`).test(classCode)) signals.values.add(name);
+    }
+  }
   if (/\bngModel\b/.test(body)) {
     forms.values.add('FormsModule');
     componentImports.add('FormsModule');
