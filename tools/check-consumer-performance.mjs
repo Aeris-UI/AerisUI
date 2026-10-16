@@ -34,6 +34,12 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';`,
     data: `readonly options = Array.from({length: 10000}, (_, i) => ({label: 'Team ' + i, value: String(i)}));`,
   },
   {
+    name: 'editable-date-picker',
+    imports: `import { AerisDatePicker } from '@aeris-ui/core/date-picker';`,
+    modules: 'AerisDatePicker',
+    template: '<aeris-date-picker editable ariaLabel="Appointment" />',
+  },
+  {
     name: 'data-overlays',
     imports: `import { AerisTableModule } from '@aeris-ui/core/table';
 import { AerisDialogModule } from '@aeris-ui/core/dialog';
@@ -142,12 +148,16 @@ bootstrapApplication(App).catch(console.error);
   const stats = JSON.parse(readFileSync(statsPath, 'utf8'));
   const inputs = Object.keys(stats.inputs);
   const optional = inputs.filter((name) =>
-    /node_modules\/(?:chart\.js|(?:@lexical\/|lexical\/)|(?:shiki\/|@shikijs\/))/.test(name.replaceAll('\\', '/')),
+    /node_modules\/(?:chart\.js|(?:@lexical\/|lexical\/)|(?:shiki\/|@shikijs\/))/.test(
+      name.replaceAll('\\', '/'),
+    ),
   );
   if (!['chart', 'editor'].includes(scenario.name) && optional.length)
     throw new Error(`${scenario.name} pulled in optional dependencies: ${optional.join(', ')}`);
   if (optional.some((name) => /\/(?:shiki|@shikijs)\//.test(name.replaceAll('\\', '/'))))
-    throw new Error(`${scenario.name} pulled in CodeBlock syntax highlighting without using CodeBlock.`);
+    throw new Error(
+      `${scenario.name} pulled in CodeBlock syntax highlighting without using CodeBlock.`,
+    );
   if (scenario.name === 'chart' && !optional.some((name) => name.includes('chart.js')))
     throw new Error('Chart fixture did not include Chart.js.');
   if (scenario.name === 'editor' && !optional.some((name) => name.includes('lexical')))
@@ -190,6 +200,13 @@ bootstrapApplication(App).catch(console.error);
         throw new Error(
           `${scenario.name} incremental ${key} ${incremental[key]} exceeds ${budget[key]}.`,
         );
+    // Bound eager forms code separately from the optional segmented editor's deferred chunk.
+    for (const key of ['raw', 'gzip']) {
+      const limit = budget[key === 'raw' ? 'initialRaw' : 'initialGzip'];
+      const eager = initialJs[key] - results[0].initialJs[key];
+      if (limit !== undefined && eager > limit)
+        throw new Error(`${scenario.name} initial incremental ${key} ${eager} exceeds ${limit}.`);
+    }
     if (css.gzip > budgets.sharedCssGzip)
       throw new Error(`${scenario.name} CSS exceeds shared CSS gzip budget.`);
   }

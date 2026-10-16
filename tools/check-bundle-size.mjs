@@ -7,8 +7,8 @@ const budgets = {
   total: { raw: 4_200_000, gzip: 710_000 },
   largestEntryPoint: { raw: 195_000, gzip: 30_000 },
   entryPoints: {
-    // Includes shared icon registration/rendering; consumer payload budgets remain unchanged.
-    'aeris-ui-core.mjs': { raw: 46_000, gzip: 10_300 },
+    // Shared icons and pure date operations consumed by DatePicker and its internal segmented input.
+    'aeris-ui-core.mjs': { raw: 52_500, gzip: 12_000 },
     'aeris-ui-core-tabs.mjs': { raw: 48_000, gzip: 10_000 },
   },
 };

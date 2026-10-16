@@ -113,6 +113,7 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
   imports: [AerisDatePicker, AerisSelect, AerisTabsModule],
   template: \`
     <aeris-date-picker ariaLabel="Start date" appendTo="body" />
+    <aeris-date-picker ariaLabel="Editable date" editable />
     <aeris-select ariaLabel="Workspace" appendTo="body" [options]="workspaces" />
     <aeris-tabs ariaLabel="Server-rendered reports">
       <aeris-tab-panel value="overview" label="Overview">Overview content</aeris-tab-panel>

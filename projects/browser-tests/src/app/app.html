@@ -246,4 +246,29 @@
   <app-choice-cards-fixture />
   <app-chip-removal-fixture />
   <app-drawer-swipe-fixture />
+  <app-date-entry-fixture />
+  <section data-fixture="date-time-foundation" class="fixture">
+    <h2>Date and time value foundation</h2>
+    <label for="foundation-meeting">Foundation meeting</label>
+    <aeris-date-picker
+      inputId="foundation-meeting"
+      name="foundationMeeting"
+      mode="dateTime"
+      hourCycle="24"
+      showSeconds
+      [(value)]="foundationMeeting"
+    />
+    <label for="foundation-early">Early calendar year</label>
+    <aeris-date-picker
+      inputId="foundation-early"
+      name="foundationEarly"
+      [(value)]="foundationEarlyDate"
+    />
+    <label for="foundation-british">British calendar</label>
+    <aeris-date-picker
+      inputId="foundation-british"
+      locale="en-GB"
+      [(value)]="foundationBritishDate"
+    />
+  </section>
 </main>

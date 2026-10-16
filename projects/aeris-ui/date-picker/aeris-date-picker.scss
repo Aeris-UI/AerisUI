@@ -51,6 +51,79 @@
   position: relative;
 }
 
+.aeris-date-picker__control > aeris-internal-date-picker-input {
+  --aeris-date-picker-input-height: var(--aeris-date-picker-height);
+  --aeris-date-picker-input-font-size: var(--aeris-date-picker-font-size);
+  --aeris-date-picker-input-padding: var(--aeris-date-picker-padding);
+  --aeris-date-picker-input-background: var(
+    --aeris-date-picker-background,
+    var(--aeris-surface, #fff)
+  );
+  --aeris-date-picker-input-border: var(--aeris-date-picker-border, var(--aeris-border, #efefef));
+  --aeris-date-picker-input-radius: var(
+    --aeris-date-picker-radius,
+    var(--aeris-radius-control, 0.4375rem)
+  );
+  --aeris-date-picker-input-padding-end: 2.5rem;
+}
+
+.aeris-date-picker__entry-trigger {
+  position: absolute;
+  inset-inline-end: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--aeris-radius-control, 0.4375rem);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.aeris-date-picker__entry-trigger span {
+  width: 1rem;
+  height: 1rem;
+}
+.aeris-date-picker__entry-icon {
+  background: currentColor;
+  -webkit-mask: var(--aeris-icon-calendar) center / 100% 100% no-repeat;
+  mask: var(--aeris-icon-calendar) center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+.aeris-date-picker__entry-icon--chevron {
+  -webkit-mask-image: var(--_aeris-chevron-mask);
+  mask-image: var(--_aeris-chevron-mask);
+}
+.aeris-date-picker__entry-trigger:focus-visible {
+  outline: 2px solid var(--aeris-focus, currentColor);
+  outline-offset: -2px;
+}
+@media (hover: hover) {
+  .aeris-date-picker__entry-trigger:hover:not(:disabled) {
+    background: var(--aeris-surface-2, #f3f3f3);
+  }
+}
+.aeris-date-picker__control:has(.aeris-date-picker__clear) > aeris-internal-date-picker-input {
+  --aeris-date-picker-input-padding-end: 4rem;
+}
+@media (pointer: coarse) {
+  .aeris-date-picker__control > aeris-internal-date-picker-input {
+    --aeris-date-picker-input-padding-end: 3rem;
+  }
+  .aeris-date-picker__control:has(.aeris-date-picker__clear) > aeris-internal-date-picker-input {
+    --aeris-date-picker-input-padding-end: 4.75rem;
+  }
+  .aeris-date-picker__control:has(> aeris-internal-date-picker-input) .aeris-date-picker__clear {
+    right: auto;
+    inset-inline-end: 3rem;
+    min-inline-size: 1.5rem;
+    min-block-size: 1.5rem;
+  }
+}
+
 .aeris-date-picker__trigger {
   width: 100%;
   min-height: var(--aeris-date-picker-height);
@@ -427,7 +500,6 @@
 
 .aeris-date-picker__day[data-other-month] {
   color: var(--aeris-text-2, #454545);
-  opacity: 0.58;
 }
 
 .aeris-date-picker__day[data-in-range] {

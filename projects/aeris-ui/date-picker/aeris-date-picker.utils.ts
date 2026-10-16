@@ -1,3 +1,13 @@
+import {
+  aerisInternalCalendarDayIndex,
+  aerisInternalDateAtMidnight as dateAtMidnight,
+  aerisInternalFormatDateParts,
+  aerisInternalLocalDate as localDate,
+  aerisInternalReadDate,
+} from '@aeris-ui/core';
+
+export { dateAtMidnight, localDate };
+
 export interface AerisCalendarCell {
   readonly date: Date;
   readonly key: string;
@@ -6,15 +16,8 @@ export interface AerisCalendarCell {
   readonly currentMonth: boolean;
 }
 
-export function dateAtMidnight(date: Date): Date {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-}
-
 export function dateKey(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  return aerisInternalFormatDateParts(aerisInternalReadDate(date));
 }
 
 export function sameDate(left: Date | null, right: Date | null): boolean {
@@ -28,23 +31,15 @@ export function addDays(date: Date, amount: number): Date {
 }
 
 export function addMonths(date: Date, amount: number): Date {
-  const target = new Date(date.getFullYear(), date.getMonth() + amount, 1);
-  const lastDay = new Date(
-    target.getFullYear(),
-    target.getMonth() + 1,
-    0,
-  ).getDate();
+  const target = localDate(date.getFullYear(), date.getMonth() + amount, 1);
+  const lastDay = localDate(target.getFullYear(), target.getMonth() + 1, 0).getDate();
   target.setDate(Math.min(date.getDate(), lastDay));
   return target;
 }
 
 export function addYears(date: Date, amount: number): Date {
-  const target = new Date(date.getFullYear() + amount, date.getMonth(), 1);
-  const lastDay = new Date(
-    target.getFullYear(),
-    target.getMonth() + 1,
-    0,
-  ).getDate();
+  const target = localDate(date.getFullYear() + amount, date.getMonth(), 1);
+  const lastDay = localDate(target.getFullYear(), target.getMonth() + 1, 0).getDate();
   target.setDate(Math.min(date.getDate(), lastDay));
   return target;
 }
@@ -60,7 +55,7 @@ export function calendarCells(
   firstDayOfWeek: number,
   locale: string,
 ): readonly AerisCalendarCell[] {
-  const monthStart = new Date(month.getFullYear(), month.getMonth(), 1);
+  const monthStart = localDate(month.getFullYear(), month.getMonth(), 1);
   const gridStart = startOfWeek(monthStart, firstDayOfWeek);
   const formatter = new Intl.DateTimeFormat(locale, { dateStyle: 'full' });
 
@@ -76,10 +71,7 @@ export function calendarCells(
   });
 }
 
-export function weekdayLabels(
-  locale: string,
-  firstDayOfWeek: number,
-): readonly string[] {
+export function weekdayLabels(locale: string, firstDayOfWeek: number): readonly string[] {
   const formatter = new Intl.DateTimeFormat(locale, { weekday: 'short' });
   const sunday = new Date(2024, 0, 7);
   return Array.from({ length: 7 }, (_, index) =>
@@ -90,19 +82,16 @@ export function weekdayLabels(
 export function weekNumber(date: Date): number {
   const target = dateAtMidnight(date);
   target.setDate(target.getDate() + 4 - (target.getDay() || 7));
-  const yearStart = new Date(target.getFullYear(), 0, 1);
-  return Math.ceil(((target.getTime() - yearStart.getTime()) / 86_400_000 + 1) / 7);
+  const yearStart = localDate(target.getFullYear(), 0, 1);
+  return Math.ceil(
+    (aerisInternalCalendarDayIndex(target) - aerisInternalCalendarDayIndex(yearStart) + 1) / 7,
+  );
 }
 
-export function isDateBetween(
-  date: Date,
-  start: Date | null,
-  end: Date | null,
-): boolean {
+export function isDateBetween(date: Date, start: Date | null, end: Date | null): boolean {
   if (!start || !end) return false;
   const timestamp = dateAtMidnight(date).getTime();
-  return timestamp > dateAtMidnight(start).getTime() &&
-    timestamp < dateAtMidnight(end).getTime();
+  return timestamp > dateAtMidnight(start).getTime() && timestamp < dateAtMidnight(end).getTime();
 }
 
 export function isValidDate(value: unknown): value is Date {

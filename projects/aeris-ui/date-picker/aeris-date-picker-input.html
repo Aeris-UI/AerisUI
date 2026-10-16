@@ -1,0 +1,47 @@
+<div
+  class="aeris-date-picker-input"
+  role="group"
+  [attr.aria-label]="ariaLabelledBy() ? null : ariaLabel()"
+  [attr.aria-labelledby]="ariaLabelledBy() || null"
+  [attr.aria-describedby]="ariaDescribedBy() || null"
+  [attr.aria-invalid]="displayInvalid() || null"
+  (click)="handleFieldClick($event)"
+  (focusout)="handleFocusOut($event)"
+>
+  @for (entry of entries(); track entry.type === 'literal' ? $index : entry.type) {
+    @if (entry.type === 'literal') {
+      <span class="aeris-date-picker-input__literal" aria-hidden="true">{{ entry.text }}</span>
+    } @else {
+      <input
+        #segment
+        type="text"
+        role="spinbutton"
+        inputmode="numeric"
+        autocomplete="off"
+        spellcheck="false"
+        dir="ltr"
+        [id]="entry.id"
+        [attr.data-segment]="entry.type"
+        [attr.aria-label]="entry.label"
+        [attr.aria-describedby]="ariaDescribedBy() || null"
+        [attr.aria-invalid]="displayInvalid() || null"
+        [attr.aria-required]="required() || null"
+        [attr.aria-valuemin]="entry.minimum"
+        [attr.aria-valuemax]="entry.maximum"
+        [attr.aria-valuenow]="entry.now"
+        [attr.aria-valuetext]="entry.text || null"
+        [style.--aeris-date-picker-input-digits]="entry.width"
+        [value]="entry.text"
+        [placeholder]="entry.type === 'year' ? 'yyyy' : entry.type === 'month' ? 'mm' : 'dd'"
+        [disabled]="effectiveDisabled()"
+        [readOnly]="readonly()"
+        (input)="handleInput(entry.type, $event)"
+        (focus)="handleFocus($event)"
+        (blur)="handleSegmentBlur(entry.type, $event)"
+        (keydown)="handleKey(entry.type, $event)"
+        (paste)="handlePaste($event)"
+        (invalid)="handleNativeInvalid($event)"
+      />
+    }
+  }
+</div>
