@@ -39,7 +39,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | `value` | `AerisDatePickerValue (model)` | `null` | Selected local Date, date array, or range according to selectionMode. Time-only mode still uses a Date as a clock-value carrier; it does not return a time string. Null clears the selection. |
 | `selectionMode` | `AerisDatePickerSelectionMode` | `'single'` | Selects one date, multiple independent dates, or a start/end range. Options: 'single', 'multiple', 'range'. |
 | `view` | `AerisDatePickerView` | `'day'` | Chooses day, month, or year selection granularity. The trigger matches that precision; month selections use day 1 and year selections use January 1. The model remains a local Date. |
-| `editable` | `boolean` | `false` | Enables locale-ordered typed segments for non-inline single date selection in mode date, including month/year views. Calendar entry remains available from its button or Alt+Down. Range, multiple, time and dateTime modes retain their existing presentation. |
+| `editable` | `boolean` | `false` | Enables locale-ordered typed date, date-time or time segments for non-inline single selection, including month/year views, 12/24-hour cycles and optional seconds. The popup remains available from its button or Alt+Down. Range and multiple modes retain their existing presentation. Incomplete drafts preserve the last valid Date but block submission. Hidden seconds are retained when editing. |
 | `readonly` | `boolean` | `false` | Prevents user editing, clearing and opening the calendar. Editable segments remain inspectable and copyable. |
 | `mode` | `AerisDatePickerMode` | `'date'` | Chooses date-only, date-and-time, or time-only entry. Use dateTime/time with selectionMode single; multiple and range are calendar-date workflows. Options: 'date', 'dateTime', 'time'. |
 | `inputId` | `string` | `generated` | ID assigned to the popup trigger. |
@@ -54,9 +54,9 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 | `locale` | `string` | `'en-US'` | BCP 47 locale used for labels and formatted values. |
 | `dateStyle` | `AerisDatePickerDateStyle` | `'medium'` | Intl.DateTimeFormat date style used in the trigger for day selection. Month and year views show only their selected precision. Options: 'short', 'medium', 'long', 'full'. |
 | `hourCycle` | `AerisDatePickerHourCycle` | `'24'` | Formats and edits time with 00–23 hours in 24-hour mode, or 1–12 hours and AM/PM in 12-hour mode, including midnight. Options: 12, 24. |
-| `showSeconds` | `boolean` | `false` | Adds a seconds field to date-time and time-only modes. |
-| `minuteStep` | `number` | `1` | Native step value for the minute input, clamped from 1 through 59. Controls native stepping, not rounding of typed values. An empty intermediate edit does not overwrite the committed time. |
-| `secondStep` | `number` | `1` | Native step value for the seconds input, clamped from 1 through 59. Controls native stepping, not rounding of typed values. |
+| `showSeconds` | `boolean` | `false` | Adds a seconds field to date-time and time-only modes, including editable entry. Existing hidden seconds are retained when editable entry changes other parts. |
+| `minuteStep` | `number` | `1` | Minute increment for native popup stepping and editable Arrow Up/Down, clamped from 1 through 59. Valid typed values are not rounded. An empty intermediate edit does not overwrite the committed time. |
+| `secondStep` | `number` | `1` | Second increment for native popup stepping and editable Arrow Up/Down, clamped from 1 through 59. Valid typed values are not rounded. |
 | `firstDayOfWeek` | `number &#124; null` | `locale` | Overrides the locale week start with Sunday 0 through Saturday 6. |
 | `minDate` | `Date &#124; undefined` | `undefined` | Earliest selectable local calendar day, inclusive. The clock portion is ignored; this is not a minimum time constraint. |
 | `maxDate` | `Date &#124; undefined` | `undefined` | Latest selectable local calendar day, inclusive. The clock portion is ignored; this is not a maximum time constraint. |
@@ -489,7 +489,7 @@ export class DatePickerCollisionConstrainedViewportDemo {
 
 ### Date and time
 
-Use date-time mode when the calendar selection needs a time. Use time-only mode when the date section should be hidden.
+Enable editable for typed date-time or time-only entry. Type or paste a complete value, adjust segments with arrow keys, and change AM/PM explicitly in 12-hour mode. Minute steps affect arrow keys, not valid typed values.
 
 #### TS
 
@@ -524,6 +524,7 @@ export class DatePickerTimeDateAndTimeDemo {
     <label for="meeting-date">Meeting date and time</label>
     <aeris-date-picker
       inputId="meeting-date"
+      editable
       mode="dateTime"
       hourCycle="12"
       showSeconds
@@ -535,6 +536,7 @@ export class DatePickerTimeDateAndTimeDemo {
     <label for="reminder-time">Reminder time</label>
     <aeris-date-picker
       inputId="reminder-time"
+      editable
       mode="time"
       [minuteStep]="15"
       [(value)]="reminderTime"
@@ -1300,11 +1302,18 @@ export class DatePickerFormsReactiveAndTemplateDrivenFormsDemo {
 - Use ariaDescribedBy for help and validation messages. Required and invalid state are synchronized with ARIA.
 - Multiple-month layouts collapse on narrow screens and all pointer targets retain clear focus indicators.
 - DatePicker uses native Date values with Reactive Forms and template-driven forms.
+- With editable, date and time segments remain in the field. Click empty field space to focus its first segment, or click a specific segment to edit it. Date-time entry wraps between its date and clock groups on narrow screens. Paste a complete value in the displayed locale, or use YYYY-MM-DD, HH:mm (including seconds when shown), or YYYY-MM-DDTHH:mm:ss. These are local values, not UTC timestamps. A time-only Date retains its calendar date; the first complete entry into an empty field uses the current calendar date. Typed nonexistent local clocks during a daylight-saving change are rejected; ambiguous clocks use the earlier occurrence. Hidden seconds are retained.
 
 ### Keyboard support
 
 | Key | Function |
 | --- | --- |
+| `Arrow Up / Down in editable segments` | Adjusts the focused part without carrying into another segment. Minute and second steps follow their inputs. On AM/PM, toggles the period. |
+| `Arrow Left / Right in editable segments` | Moves between segments in visual order, including RTL. |
+| `Home / End in editable segments` | Sets the focused part to its minimum or maximum; AM or PM for the period. |
+| `Delete / Backspace in editable segments` | Clears the focused part. Incomplete input remains invalid until completed or fully cleared. |
+| `A / P or a localized period label` | Sets AM/PM when its segment is focused. Other numeric segments are unaffected. |
+| `Alt + Arrow Down in editable segments` | Opens the calendar or time popup. Escape returns focus to the invoking segment or button. |
 | `Enter` | Opens the popup trigger or selects the focused date. |
 | `Space` | Opens the popup trigger or selects the focused date. |
 | `Arrow Down` | Opens the popup from its trigger, or moves focus one week forward in the day grid. |

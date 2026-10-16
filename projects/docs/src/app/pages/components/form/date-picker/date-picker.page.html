@@ -186,7 +186,7 @@
             <app-form-demo
               id="date-picker-time"
               title="Date and time"
-              description="Use date-time mode when the calendar selection needs a time. Use time-only mode when the date section should be hidden."
+              description="Enable editable for typed date-time or time-only entry. Type or paste a complete value, adjust segments with arrow keys, and change AM/PM explicitly in 12-hour mode. Minute steps affect arrow keys, not valid typed values."
               [tsCode]="timeCode"
             >
               <div preview class="field-grid">
@@ -194,6 +194,7 @@
                   <label for="meeting-date">Meeting date and time</label>
                   <aeris-date-picker
                     inputId="meeting-date"
+                    editable
                     mode="dateTime"
                     hourCycle="12"
                     showSeconds
@@ -205,6 +206,7 @@
                   <label for="reminder-time">Reminder time</label>
                   <aeris-date-picker
                     inputId="reminder-time"
+                    editable
                     mode="time"
                     [minuteStep]="15"
                     [(value)]="reminderTime"
@@ -217,6 +219,7 @@
     &lt;label for="meeting-date"&gt;Meeting date and time&lt;/label&gt;
     &lt;aeris-date-picker
       inputId="meeting-date"
+      editable
       mode="dateTime"
       hourCycle="12"
       showSeconds
@@ -228,6 +231,7 @@
     &lt;label for="reminder-time"&gt;Reminder time&lt;/label&gt;
     &lt;aeris-date-picker
       inputId="reminder-time"
+      editable
       mode="time"
       [minuteStep]="15"
       [(value)]="reminderTime"
@@ -787,6 +791,17 @@
           <li>DatePicker uses native Date values with Reactive Forms and template-driven forms.</li>
         </ul>
         <h3>Keyboard support</h3>
+        <p>
+          With <code>editable</code>, date and time segments remain in the field. Click empty field
+          space to focus its first segment, or click a specific segment to edit it. Date-time entry
+          wraps between its date and clock groups on narrow screens. Paste a complete value in the
+          displayed locale, or use <code>YYYY-MM-DD</code>, <code>HH:mm</code> (including seconds
+          when shown), or <code>YYYY-MM-DDTHH:mm:ss</code>. These are local values, not UTC
+          timestamps. A time-only Date retains its calendar date; the first complete entry into an
+          empty field uses the current calendar date. Typed nonexistent local clocks during a
+          daylight-saving change are rejected; ambiguous clocks use the earlier occurrence. Hidden
+          seconds are retained.
+        </p>
         <div
           class="api-table keyboard-table"
           role="table"
@@ -795,6 +810,43 @@
         >
           <div class="api-head" role="row">
             <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell">Arrow Up / Down in editable segments</span>
+            <span role="cell"
+              >Adjusts the focused part without carrying into another segment. Minute and second
+              steps follow their inputs. On AM/PM, toggles the period.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Arrow Left / Right in editable segments</span>
+            <span role="cell">Moves between segments in visual order, including RTL.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Home / End in editable segments</span>
+            <span role="cell"
+              >Sets the focused part to its minimum or maximum; AM or PM for the period.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Delete / Backspace in editable segments</span>
+            <span role="cell"
+              >Clears the focused part. Incomplete input remains invalid until completed or fully
+              cleared.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">A / P or a localized period label</span>
+            <span role="cell"
+              >Sets AM/PM when its segment is focused. Other numeric segments are unaffected.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Alt + Arrow Down in editable segments</span>
+            <span role="cell"
+              >Opens the calendar or time popup. Escape returns focus to the invoking segment or
+              button.</span
+            >
           </div>
           <div role="row">
             <kbd role="cell">Enter</kbd

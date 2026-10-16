@@ -318,7 +318,7 @@ interface AerisDatePickerChangeEvent {
       type: 'boolean',
       defaultValue: 'false',
       description:
-        'Enables locale-ordered typed segments for non-inline single date selection in mode date, including month/year views. Calendar entry remains available from its button or Alt+Down. Range, multiple, time and dateTime modes retain their existing presentation.',
+        'Enables locale-ordered typed date, date-time or time segments for non-inline single selection, including month/year views, 12/24-hour cycles and optional seconds. The popup remains available from its button or Alt+Down. Range and multiple modes retain their existing presentation. Incomplete drafts preserve the last valid Date but block submission. Hidden seconds are retained when editing.',
     },
     {
       name: 'readonly',
@@ -414,21 +414,22 @@ interface AerisDatePickerChangeEvent {
       name: 'showSeconds',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'Adds a seconds field to date-time and time-only modes.',
+      description:
+        'Adds a seconds field to date-time and time-only modes, including editable entry. Existing hidden seconds are retained when editable entry changes other parts.',
     },
     {
       name: 'minuteStep',
       type: 'number',
       defaultValue: '1',
       description:
-        'Native step value for the minute input, clamped from 1 through 59. Controls native stepping, not rounding of typed values. An empty intermediate edit does not overwrite the committed time.',
+        'Minute increment for native popup stepping and editable Arrow Up/Down, clamped from 1 through 59. Valid typed values are not rounded. An empty intermediate edit does not overwrite the committed time.',
     },
     {
       name: 'secondStep',
       type: 'number',
       defaultValue: '1',
       description:
-        'Native step value for the seconds input, clamped from 1 through 59. Controls native stepping, not rounding of typed values.',
+        'Second increment for native popup stepping and editable Arrow Up/Down, clamped from 1 through 59. Valid typed values are not rounded.',
     },
     {
       name: 'firstDayOfWeek',
