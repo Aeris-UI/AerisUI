@@ -3,8 +3,11 @@ import {
   Component,
   DestroyRef,
   Directive,
+  ElementRef,
+  Injector,
   TemplateRef,
   booleanAttribute,
+  afterNextRender,
   computed,
   contentChild,
   inject,
@@ -28,6 +31,7 @@ import {
   aerisInternalMeasureColumnWidths,
   aerisInternalPixelWidth,
   aerisInternalSetColumnPairWidths,
+  aerisInternalCreateFrameScheduler,
   type AerisAppendTo,
 } from '@aeris-ui/core';
 
@@ -40,6 +44,17 @@ export type AerisTableData = Record<string, unknown>;
 export type AerisTableCsvRows = 'all' | 'filtered' | 'page';
 export type AerisTableContextMenuDisabled =
   boolean | ((row: AerisTableData, rowIndex: number) => boolean);
+export type AerisTableRowReorderDisabled =
+  boolean | ((row: AerisTableData, rowIndex: number) => boolean);
+
+export interface AerisTableRowReorderEvent {
+  readonly originalEvent: Event | null;
+  readonly row: AerisTableData;
+  readonly key: string;
+  readonly fromIndex: number;
+  readonly toIndex: number;
+  readonly data: readonly AerisTableData[];
+}
 export type AerisTableColumnFilterPlaceholder =
   string | Readonly<Record<string, string>> | ((column: AerisTableColumn) => string);
 
@@ -283,6 +298,11 @@ export class AerisTableLoadingTemplate {
             }
             <thead>
               <tr>
+                @if (reorderableRows() && showRowReorderHandle()) {
+                  <th class="aeris-table__control-cell aeris-table__reorder-cell" scope="col">
+                    <span class="aeris-table__sr">{{ rowReorderAriaLabel() }}</span>
+                  </th>
+                }
                 @if (expandableRows()) {
                   <th class="aeris-table__control-cell" scope="col">
                     <span class="aeris-table__sr">Toggle row details</span>
@@ -425,6 +445,11 @@ export class AerisTableLoadingTemplate {
               </tr>
               @if (columnFilter()) {
                 <tr class="aeris-table__filter-row">
+                  @if (reorderableRows() && showRowReorderHandle()) {
+                    <th class="aeris-table__control-cell aeris-table__reorder-cell" scope="col">
+                      <span class="aeris-table__sr">{{ rowReorderAriaLabel() }}</span>
+                    </th>
+                  }
                   @if (expandableRows()) {
                     <th
                       class="aeris-table__control-cell"
@@ -505,6 +530,15 @@ export class AerisTableLoadingTemplate {
               } @else {
                 @for (row of pageRows(); track rowKey(row); let rowIndex = $index) {
                   <tr
+                    [attr.data-row-reorder-key]="reorderableRows() ? rowKey(row) : null"
+                    [attr.data-row-dragging]="draggedRowIndex() === rowIndex || null"
+                    [attr.data-row-drop]="
+                      rowDropIndex() === rowIndex
+                        ? (draggedRowIndex() ?? rowIndex) < rowIndex
+                          ? 'after'
+                          : 'before'
+                        : null
+                    "
                     [attr.data-selected]="isSelected(row) || null"
                     [attr.data-expanded]="isExpanded(row) || null"
                     [attr.data-context-menu-active]="isContextMenuRow(row) || null"
@@ -520,6 +554,42 @@ export class AerisTableLoadingTemplate {
                     (dblclick)="handleRowDoubleClick($event)"
                     (keydown)="handleRowKeydown($event, row)"
                   >
+                    @if (reorderableRows() && showRowReorderHandle()) {
+                      <td class="aeris-table__control-cell aeris-table__reorder-cell">
+                        <button
+                          type="button"
+                          class="aeris-table__icon-button aeris-table__row-reorder"
+                          [disabled]="!rowReorderEnabled() || rowReorderIsDisabled(row, rowIndex)"
+                          [attr.aria-label]="rowReorderAriaLabel() + ' ' + (rowIndex + 1)"
+                          [attr.aria-describedby]="tableId + '-reorder-help'"
+                          [attr.aria-pressed]="pickedRowKey() === rowKey(row)"
+                          (pointerdown)="startRowReorder(rowIndex, $event)"
+                          (keydown)="handleRowReorderKeydown(rowIndex, $event)"
+                          (click)="handleRowReorderClick(rowIndex, $event)"
+                        >
+                          @if (rowReorderIconTemplate(); as icon) {
+                            <span aria-hidden="true" data-aeris-custom-icon
+                              ><ng-container [ngTemplateOutlet]="icon"
+                            /></span>
+                          } @else {
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              aria-hidden="true"
+                            >
+                              <circle cx="9" cy="5" r="1" />
+                              <circle cx="9" cy="12" r="1" />
+                              <circle cx="9" cy="19" r="1" />
+                              <circle cx="15" cy="5" r="1" />
+                              <circle cx="15" cy="12" r="1" />
+                              <circle cx="15" cy="19" r="1" />
+                            </svg>
+                          }
+                        </button>
+                      </td>
+                    }
                     @if (expandableRows()) {
                       <td class="aeris-table__control-cell">
                         <button
@@ -641,6 +711,14 @@ export class AerisTableLoadingTemplate {
         </div>
       </div>
 
+      @if (reorderableRows()) {
+        <span class="aeris-table__sr" [id]="tableId + '-reorder-help'">{{
+          rowReorderInstructions()
+        }}</span>
+        <span class="aeris-table__sr" role="status" aria-live="polite" aria-atomic="true">{{
+          rowReorderAnnouncement()
+        }}</span>
+      }
       @if (paginator()) {
         <aeris-paginator
           [ariaLabel]="paginatorAriaLabel()"
@@ -661,11 +739,14 @@ export class AerisTable {
   readonly sortIconTemplate = input<TemplateRef<AerisTableSortIconContext>>();
   readonly toggleIconTemplate = input<TemplateRef<void>>();
   readonly loadingIconTemplate = input<TemplateRef<void>>();
+  readonly rowReorderIconTemplate = input<TemplateRef<void>>();
 
   private readonly document = inject(DOCUMENT);
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly injector = inject(Injector);
   private readonly destroyRef = inject(DestroyRef);
   private resizeListenersCleanup: (() => void) | null = null;
-  readonly data = input<readonly AerisTableData[]>([]);
+  readonly data = model<readonly AerisTableData[]>([]);
   readonly columns = model<readonly AerisTableColumn[]>([]);
   readonly rowKeyField = input('id');
   readonly caption = input('');
@@ -703,6 +784,13 @@ export class AerisTable {
   readonly editable = input(false, { transform: booleanAttribute });
   readonly resizableColumns = input(false, { transform: booleanAttribute });
   readonly reorderableColumns = input(false, { transform: booleanAttribute });
+  readonly reorderableRows = input(false, { transform: booleanAttribute });
+  readonly showRowReorderHandle = input(true, { transform: booleanAttribute });
+  readonly rowReorderDisabled = input<AerisTableRowReorderDisabled>(false);
+  readonly rowReorderAriaLabel = input('Reorder row');
+  readonly rowReorderInstructions = input(
+    'Drag, or activate this handle and then a destination handle. Alt plus Arrow Up or Arrow Down also moves the row. Escape cancels.',
+  );
   readonly minColumnWidth = input(96);
   readonly showOverflowTooltip = input(false, { transform: booleanAttribute });
   readonly scrollable = input(false, { transform: booleanAttribute });
@@ -735,6 +823,7 @@ export class AerisTable {
   readonly editCancelled = output<AerisTableCellEditStartEvent>();
   readonly columnResized = output<AerisTableColumnResizeEvent>();
   readonly columnReordered = output<AerisTableColumnReorderEvent>();
+  readonly rowReordered = output<AerisTableRowReorderEvent>();
   readonly stateSaved = output<AerisTableState>();
   readonly stateRestored = output<AerisTableState>();
   readonly csvExported = output<AerisTableCsvExportEvent>();
@@ -747,6 +836,47 @@ export class AerisTable {
   protected readonly loadingTemplate = contentChild(AerisTableLoadingTemplate);
   protected readonly editingCell = signal('');
   protected readonly editValue = signal('');
+  protected readonly draggedRowIndex = signal<number | null>(null);
+  protected readonly rowDropIndex = signal<number | null>(null);
+  protected readonly rowReorderAnnouncement = signal('');
+  private stopRowReorder: (() => void) | null = null;
+  private suppressRowReorderClick = false;
+  private readonly pickedRow = signal<{
+    readonly key: string;
+    readonly data: readonly AerisTableData[];
+    readonly handle: HTMLButtonElement;
+  } | null>(null);
+  protected readonly pickedRowKey = computed(() => {
+    const picked = this.pickedRow();
+    return picked?.data === this.data() && this.rowReorderEnabled() ? picked.key : null;
+  });
+  protected readonly rowReorderEnabled = computed(() => {
+    if (
+      !this.reorderableRows() ||
+      this.loading() ||
+      this.lazy() ||
+      this.paginator() ||
+      this.sort() ||
+      this.filterValue().trim() ||
+      this.editingCell() ||
+      Object.values(this.columnFilters()).some((value) => value.trim())
+    )
+      return false;
+    const keys = new Set<string>();
+    return this.data().every((row) => {
+      const value = row[this.rowKeyField()];
+      if (
+        (typeof value !== 'string' && typeof value !== 'number') ||
+        (typeof value === 'number' && !Number.isFinite(value)) ||
+        String(value).trim() === ''
+      )
+        return false;
+      const key = String(value);
+      if (keys.has(key)) return false;
+      keys.add(key);
+      return true;
+    });
+  });
   private readonly resizeState = signal<TableResizeState | null>(null);
   protected readonly resizingField = computed(() => this.resizeState()?.field ?? null);
   protected readonly resizeHandleValues = computed(() =>
@@ -785,7 +915,8 @@ export class AerisTable {
     () =>
       this.columns().length +
       (this.selectionMode() && this.selectionControl() === 'control' ? 1 : 0) +
-      (this.expandableRows() ? 1 : 0),
+      (this.expandableRows() ? 1 : 0) +
+      (this.reorderableRows() && this.showRowReorderHandle() ? 1 : 0),
   );
   protected readonly allVisibleRowsSelected = computed(
     () =>
@@ -806,7 +937,208 @@ export class AerisTable {
   });
 
   constructor() {
-    this.destroyRef.onDestroy(() => this.stopResizeListeners());
+    this.destroyRef.onDestroy(() => {
+      this.stopResizeListeners();
+      this.stopRowReorder?.();
+    });
+  }
+
+  /** Move within the unfiltered, unsorted local dataset. Returns false for unsupported moves. */
+  moveRow(fromIndex: number, toIndex: number, originalEvent: Event | null = null): boolean {
+    if (!this.canMoveRow(fromIndex, toIndex)) return false;
+    const data = [...this.data()];
+    const row = data[fromIndex];
+    if (!row) return false;
+    data.splice(fromIndex, 1);
+    data.splice(toIndex, 0, row);
+    const key = this.rowKey(row);
+    const focused = this.document.activeElement as HTMLElement | null;
+    const restoreFocus =
+      focused &&
+      typeof focused.focus === 'function' &&
+      this.element.nativeElement.contains(focused) &&
+      focused.closest('tr')?.getAttribute('data-row-reorder-key') === key
+        ? focused
+        : null;
+    this.pickedRow.set(null);
+    this.data.set(data);
+    if (restoreFocus) this.restoreRowReorderFocus(restoreFocus);
+    this.rowReorderAnnouncement.set(
+      `Row ${fromIndex + 1} moved to position ${toIndex + 1} of ${data.length}.`,
+    );
+    this.rowReordered.emit({ originalEvent, row, key, fromIndex, toIndex, data });
+    return true;
+  }
+
+  private restoreRowReorderFocus(target: HTMLElement): void {
+    afterNextRender(
+      () => {
+        if (target.isConnected) target.focus({ preventScroll: true });
+      },
+      { injector: this.injector },
+    );
+  }
+
+  protected rowReorderIsDisabled(row: AerisTableData, index: number): boolean {
+    const disabled = this.rowReorderDisabled();
+    return typeof disabled === 'function' ? disabled(row, index) : disabled;
+  }
+
+  private canMoveRow(fromIndex: number, toIndex: number): boolean {
+    if (
+      !this.rowReorderEnabled() ||
+      !Number.isInteger(fromIndex) ||
+      !Number.isInteger(toIndex) ||
+      fromIndex === toIndex ||
+      fromIndex < 0 ||
+      toIndex < 0 ||
+      fromIndex >= this.data().length ||
+      toIndex >= this.data().length
+    )
+      return false;
+    // Disabled rows keep their position: moves cannot cross one either.
+    for (let index = Math.min(fromIndex, toIndex); index <= Math.max(fromIndex, toIndex); index++) {
+      const row = this.data()[index];
+      if (!row || this.rowReorderIsDisabled(row, index)) return false;
+    }
+    return true;
+  }
+
+  protected handleRowReorderKeydown(index: number, event: KeyboardEvent): void {
+    event.stopPropagation();
+    if (event.key === 'Escape') {
+      this.pickedRow.set(null);
+      this.rowReorderAnnouncement.set('Row move cancelled.');
+      return;
+    }
+    if (!event.altKey || (event.key !== 'ArrowUp' && event.key !== 'ArrowDown')) return;
+    event.preventDefault();
+    this.moveRow(index, index + (event.key === 'ArrowUp' ? -1 : 1), event);
+  }
+
+  protected handleRowReorderClick(index: number, event: MouseEvent): void {
+    event.stopPropagation();
+    if (this.suppressRowReorderClick && event.detail > 0) {
+      this.suppressRowReorderClick = false;
+      return;
+    }
+    const row = this.data()[index];
+    if (!row || !this.rowReorderEnabled() || this.rowReorderIsDisabled(row, index)) return;
+    const picked = this.pickedRow();
+    if (picked && this.pickedRowKey() !== null) {
+      const source = this.data().findIndex((item) => this.rowKey(item) === picked.key);
+      this.pickedRow.set(null);
+      if (source === index) this.rowReorderAnnouncement.set('Row move cancelled.');
+      else if (this.moveRow(source, index, event)) this.restoreRowReorderFocus(picked.handle);
+      else this.rowReorderAnnouncement.set('This row cannot move across a fixed row.');
+    } else {
+      this.pickedRow.set({
+        key: this.rowKey(row),
+        data: this.data(),
+        handle: event.currentTarget as HTMLButtonElement,
+      });
+      this.rowReorderAnnouncement.set(
+        `Row ${index + 1} selected to move. Activate a destination row handle, or press Escape to cancel.`,
+      );
+    }
+  }
+
+  protected startRowReorder(index: number, event: PointerEvent): void {
+    const row = this.data()[index];
+    if (
+      !event.isPrimary ||
+      event.button !== 0 ||
+      !this.rowReorderEnabled() ||
+      !row ||
+      this.rowReorderIsDisabled(row, index)
+    )
+      return;
+    const handle = event.currentTarget as HTMLButtonElement;
+    const table = handle.closest('table');
+    if (!table) return;
+    this.stopRowReorder?.();
+    this.suppressRowReorderClick = false;
+    // WebKit suppresses the later tap click if touch pointerdown is cancelled.
+    // The handle's touch-action/user-select styles already arbitrate touch dragging.
+    if (event.pointerType !== 'touch') event.preventDefault();
+    handle.focus({ preventScroll: true });
+    const initialData = this.data();
+    let latest = event;
+    let dragging = false;
+    const valid = () => this.data() === initialData && this.rowReorderEnabled();
+    const update = () => {
+      if (!valid()) {
+        cleanup();
+        return;
+      }
+      if (
+        !dragging &&
+        Math.hypot(latest.clientX - event.clientX, latest.clientY - event.clientY) < 6
+      )
+        return;
+      dragging = true;
+      this.pickedRow.set(null);
+      this.draggedRowIndex.set(index);
+      const target = this.document
+        .elementFromPoint(latest.clientX, latest.clientY)
+        ?.closest('tr[data-row-reorder-key]');
+      const targetKey = target?.getAttribute('data-row-reorder-key');
+      const targetIndex =
+        target?.closest('table') === table
+          ? initialData.findIndex((item) => this.rowKey(item) === targetKey)
+          : -1;
+      this.rowDropIndex.set(this.canMoveRow(index, targetIndex) ? targetIndex : null);
+    };
+    const scheduler = aerisInternalCreateFrameScheduler(update);
+    const move = (next: PointerEvent) => {
+      if (next.pointerId !== event.pointerId) return;
+      latest = next;
+      if (next.pointerType !== 'touch') next.preventDefault();
+      scheduler.schedule();
+    };
+    const finish = (next: PointerEvent) => {
+      if (next.pointerId !== event.pointerId) return;
+      latest = next;
+      scheduler.cancel();
+      update();
+      const targetIndex = this.rowDropIndex();
+      const accepted = valid() && dragging && targetIndex !== null;
+      cleanup();
+      if (accepted && targetIndex !== null) this.moveRow(index, targetIndex, next);
+    };
+    const cancel = (next: PointerEvent) => {
+      if (next.pointerId === event.pointerId) cleanup();
+    };
+    const escape = (next: KeyboardEvent) => {
+      if (next.key !== 'Escape') return;
+      next.preventDefault();
+      next.stopPropagation();
+      this.rowReorderAnnouncement.set('Row move cancelled.');
+      cleanup();
+    };
+    const cleanup = () => {
+      if (dragging) this.suppressRowReorderClick = true;
+      scheduler.cancel();
+      this.document.removeEventListener('pointermove', move, true);
+      this.document.removeEventListener('pointerup', finish, true);
+      this.document.removeEventListener('pointercancel', cancel, true);
+      this.document.removeEventListener('keydown', escape, true);
+      this.document.defaultView?.removeEventListener('blur', cleanup);
+      handle.removeEventListener('lostpointercapture', cancel);
+      if (handle.hasPointerCapture?.(event.pointerId))
+        handle.releasePointerCapture(event.pointerId);
+      this.draggedRowIndex.set(null);
+      this.rowDropIndex.set(null);
+      this.stopRowReorder = null;
+    };
+    this.stopRowReorder = cleanup;
+    this.document.addEventListener('pointermove', move, { capture: true, passive: false });
+    this.document.addEventListener('pointerup', finish, true);
+    this.document.addEventListener('pointercancel', cancel, true);
+    this.document.addEventListener('keydown', escape, true);
+    this.document.defaultView?.addEventListener('blur', cleanup);
+    handle.addEventListener('lostpointercapture', cancel);
+    handle.setPointerCapture?.(event.pointerId);
   }
 
   protected value(row: AerisTableData, field: string): unknown {

@@ -49,6 +49,7 @@ for (const kind of ['table', 'tree-table'] as const) {
         exact: true,
       });
       await expect(scope).toHaveCSS('direction', direction);
+      await expect(scope.locator('thead th[data-field="name"]')).toHaveCSS('text-align', 'start');
       await selectRow();
       await expect(count).toContainText('1 ');
       await scope.getByRole('button', { name: 'Next page', exact: true }).click();

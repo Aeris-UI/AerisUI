@@ -20,6 +20,7 @@ import {
   type AerisTableSelectionEvent,
   type AerisTableSortEvent,
   type AerisTableSort,
+  type AerisTableRowReorderEvent,
 } from '@aeris-ui/core/table';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 import { type AerisContextMenuItemEvent } from '@aeris-ui/core/context-menu';
@@ -66,6 +67,37 @@ const SELECTION_MEMBERS: readonly AerisTableData[] = [
   styleUrl: './table.page.scss',
 })
 export class TablePage {
+  protected readonly reorderColumns: readonly AerisTableColumn[] = [
+    { field: 'name', header: 'Name', width: '60%' },
+    { field: 'team', header: 'Team', width: '40%' },
+  ];
+  protected readonly reorderMembers = signal<readonly AerisTableData[]>([
+    { id: '1', name: 'Maya Chen', team: 'Design' },
+    { id: '2', name: 'Noah Williams', team: 'Engineering' },
+    { id: '3', name: 'Sofia Rossi', team: 'Research' },
+    { id: '4', name: 'Liam Novak', team: 'Quality' },
+  ]);
+  protected readonly pinnedMember = (row: AerisTableData): boolean => row['id'] === '4';
+  protected readonly reorderStatus = signal('Liam is fixed in the last position.');
+  protected readonly rowReorderCode = `protected readonly reorderMembers = signal<readonly AerisTableData[]>([
+  { id: '1', name: 'Maya Chen', team: 'Design' },
+  { id: '2', name: 'Noah Williams', team: 'Engineering' },
+  { id: '3', name: 'Sofia Rossi', team: 'Research' },
+  { id: '4', name: 'Liam Novak', team: 'Quality' },
+]);
+protected readonly reorderColumns: readonly AerisTableColumn[] = [
+  { field: 'name', header: 'Name', width: '60%' },
+  { field: 'team', header: 'Team', width: '40%' },
+];
+protected readonly pinnedMember = (row: AerisTableData): boolean => row['id'] === '4';
+protected readonly reorderStatus = signal('Liam is fixed in the last position.');
+protected handleRowReorder(event: AerisTableRowReorderEvent): void {
+  this.reorderStatus.set(\`\${event.row['name']} moved to position \${event.toIndex + 1}.\`);
+}`;
+
+  protected handleRowReorder(event: AerisTableRowReorderEvent): void {
+    this.reorderStatus.set(`${event.row['name']} moved to position ${event.toIndex + 1}.`);
+  }
   private readonly destroyRef = inject(DestroyRef);
   protected readonly selectedMembers = signal<readonly string[]>(['1']);
   protected readonly singleSelectedMember = signal<readonly string[]>(['2']);
@@ -277,6 +309,7 @@ export class TablePage {
     { id: 'table-context-menu', label: 'Context menu' },
     { id: 'table-appearance', label: 'Appearance' },
     { id: 'table-resizing', label: 'Column controls' },
+    { id: 'table-row-reordering', label: 'Row reordering' },
     { id: 'table-expansion', label: 'Row expansion' },
     { id: 'table-editing', label: 'Cell editing' },
     { id: 'table-scrolling', label: 'Scrolling' },
@@ -476,6 +509,17 @@ interface AerisTableColumnReorderEvent {
   readonly columns: readonly AerisTableColumn[];
 }
 
+type AerisTableRowReorderDisabled = boolean | ((row: AerisTableData, rowIndex: number) => boolean);
+
+interface AerisTableRowReorderEvent {
+  readonly originalEvent: Event | null;
+  readonly row: AerisTableData;
+  readonly key: string;
+  readonly fromIndex: number;
+  readonly toIndex: number;
+  readonly data: readonly AerisTableData[];
+}
+
 interface AerisTableCsvExportOptions {
   readonly filename?: string;
   readonly separator?: string;
@@ -485,6 +529,45 @@ interface AerisTableCsvExportOptions {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'reorderableRows',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Enables local row reordering with stable unique rowKeyField values. Disabled during sorting, active filters, pagination, lazy loading, loading, or cell editing.',
+    },
+    {
+      name: 'showRowReorderHandle',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Shows dedicated drag/keyboard handles when reorderableRows is enabled. Hide when providing external controls through moveRow().',
+    },
+    {
+      name: 'rowReorderDisabled',
+      type: 'boolean | ((row: AerisTableData, rowIndex: number) => boolean)',
+      defaultValue: 'false',
+      description: 'Fixes rows in place. Other rows cannot move across a disabled row.',
+    },
+    {
+      name: 'rowReorderAriaLabel',
+      type: 'string',
+      defaultValue: "'Reorder row'",
+      description: 'Handle name prefix, followed by the one-based row position.',
+    },
+    {
+      name: 'rowReorderInstructions',
+      type: 'string',
+      defaultValue:
+        "'Drag, or activate this handle and then a destination handle. Alt plus Arrow Up or Arrow Down also moves the row. Escape cancels.'",
+      description: 'Accessible instructions associated with each handle.',
+    },
+    {
+      name: 'rowReorderIconTemplate',
+      type: 'TemplateRef<void> | undefined',
+      defaultValue: 'undefined',
+      description: 'Decorative replacement for the default six-dot drag handle icon.',
+    },
     {
       name: 'toggleIconTemplate',
       type: 'TemplateRef<void> | undefined',
@@ -514,9 +597,10 @@ interface AerisTableCsvExportOptions {
     },
     {
       name: 'data',
-      type: 'readonly AerisTableData[]',
+      type: 'readonly AerisTableData[] (model)',
       defaultValue: '[]',
-      description: 'Rows rendered by the table.',
+      description:
+        'Rows rendered by the table. Bind [(data)] to retain row reorder changes in the parent.',
     },
     {
       name: 'columns',
@@ -882,6 +966,19 @@ interface AerisTableCsvExportOptions {
       defaultValue: '-',
       description:
         'Emitted after pointer or keyboard column reordering updates the controlled columns model.',
+    },
+    {
+      name: 'dataChange',
+      type: 'readonly AerisTableData[]',
+      defaultValue: '-',
+      description: 'Emitted with a new immutable row array when a reorder updates the data model.',
+    },
+    {
+      name: 'rowReordered',
+      type: 'AerisTableRowReorderEvent',
+      defaultValue: '-',
+      description:
+        'Emitted after an accepted pointer, keyboard, or moveRow request, with the stable key, zero-based indices, and updated data.',
     },
     {
       name: 'stateSaved',

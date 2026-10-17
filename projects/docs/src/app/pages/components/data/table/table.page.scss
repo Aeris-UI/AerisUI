@@ -1,5 +1,16 @@
 @use '../../form/shared/form-docs';
 
+.row-reorder-demo {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: 1rem;
+}
+
+.row-reorder-demo > button {
+  justify-self: start;
+}
+
 .selection-workflow {
   display: grid;
   width: 100%;

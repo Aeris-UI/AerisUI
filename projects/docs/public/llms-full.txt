@@ -29612,11 +29612,17 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `reorderableRows` | `boolean` | `false` | Enables local row reordering with stable unique rowKeyField values. Disabled during sorting, active filters, pagination, lazy loading, loading, or cell editing. |
+| `showRowReorderHandle` | `boolean` | `true` | Shows dedicated drag/keyboard handles when reorderableRows is enabled. Hide when providing external controls through moveRow(). |
+| `rowReorderDisabled` | `boolean &#124; ((row: AerisTableData, rowIndex: number) =&gt; boolean)` | `false` | Fixes rows in place. Other rows cannot move across a disabled row. |
+| `rowReorderAriaLabel` | `string` | `'Reorder row'` | Handle name prefix, followed by the one-based row position. |
+| `rowReorderInstructions` | `string` | `'Drag, or activate this handle and then a destination handle. Alt plus Arrow Up or Arrow Down also moves the row. Escape cancels.'` | Accessible instructions associated with each handle. |
+| `rowReorderIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Decorative replacement for the default six-dot drag handle icon. |
 | `toggleIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Decorative row-expander artwork. Supply a down-pointing icon; Aeris rotates it for the collapsed state. |
 | `sortIconTemplate` | `TemplateRef&lt;AerisTableSortIconContext&gt; &#124; undefined` | `undefined` | Artwork for sortable headers. Context: $implicit is the column; direction is asc, desc, or null. Header buttons retain sorting and aria-sort. |
 | `loadingIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the loading icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `paginatorDropdownAppendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Forwards the mounting target to the paginator rows-per-page menu. |
-| `data` | `readonly AerisTableData[]` | `[]` | Rows rendered by the table. |
+| `data` | `readonly AerisTableData[] (model)` | `[]` | Rows rendered by the table. Bind [(data)] to retain row reorder changes in the parent. |
 | `columns` | `readonly AerisTableColumn[] (model)` | `[]` | Column definitions used for headers, cells, sorting, filtering, and controlled resized widths. |
 | `rowKeyField` | `string` | `'id'` | Row field used for selection, expansion, and tracking. |
 | `caption` | `string` | `''` | Accessible table caption and optional visible description. |
@@ -29681,6 +29687,8 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 | `editCompleted` | `AerisTableCellEditEvent` | `-` | Emitted after an editable cell commits. |
 | `columnResized` | `AerisTableColumnResizeEvent` | `-` | Emitted after pointer or keyboard resizing updates the controlled columns model. |
 | `columnReordered` | `AerisTableColumnReorderEvent` | `-` | Emitted after pointer or keyboard column reordering updates the controlled columns model. |
+| `dataChange` | `readonly AerisTableData[]` | `-` | Emitted with a new immutable row array when a reorder updates the data model. |
+| `rowReordered` | `AerisTableRowReorderEvent` | `-` | Emitted after an accepted pointer, keyboard, or moveRow request, with the stable key, zero-based indices, and updated data. |
 | `stateSaved` | `AerisTableState` | `-` | Emitted when saveState returns current table state. |
 | `stateRestored` | `AerisTableState` | `-` | Emitted when restoreState applies table state. |
 | `csvExported` | `AerisTableCsvExportEvent` | `-` | Emitted after exportCSV creates CSV text. |
@@ -29699,6 +29707,7 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 
 | Name | Returns | Description |
 | --- | --- | --- |
+| moveRow(fromIndex, toIndex, originalEvent?) | boolean | Moves a row using zero-based data indices; returns false without events for invalid, disabled, or unsupported moves. The optional Event defaults to null. |
 | reset() | void | Clears sort, filter, pagination, selection, and expansion state. |
 | clearSort() | void | Clears the current sort state and emits sorted. |
 | clearFilters() | void | Clears global and column filters, resets to first page, and emits filtered. |
@@ -29799,6 +29808,17 @@ interface AerisTableColumnReorderEvent {
   readonly fromIndex: number;
   readonly toIndex: number;
   readonly columns: readonly AerisTableColumn[];
+}
+
+type AerisTableRowReorderDisabled = boolean | ((row: AerisTableData, rowIndex: number) => boolean);
+
+interface AerisTableRowReorderEvent {
+  readonly originalEvent: Event | null;
+  readonly row: AerisTableData;
+  readonly key: string;
+  readonly fromIndex: number;
+  readonly toIndex: number;
+  readonly data: readonly AerisTableData[];
 }
 
 interface AerisTableCsvExportOptions {
@@ -30396,6 +30416,84 @@ export class TableResizingColumnControlsDemo {
 }
 ```
 
+##### Row reordering
+
+Drag a dedicated handle, or click/tap a source handle and then a destination handle. Keyboard users can also press Alt + Arrow Up/Down. Liam stays fixed in place. The external button demonstrates the same moveRow method.
+
+###### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData, type AerisTableRowReorderEvent } from '@aeris-ui/core/table';
+
+@Component({
+  selector: 'app-table-row-reordering-demo',
+  imports: [AerisButton, AerisTableModule],
+  templateUrl: './table-row-reordering.demo.html',
+  styleUrl: './table-row-reordering.demo.scss'
+})
+export class TableRowReorderingRowReorderingDemo {
+  protected readonly reorderMembers = signal<readonly AerisTableData[]>([
+    { id: '1', name: 'Maya Chen', team: 'Design' },
+    { id: '2', name: 'Noah Williams', team: 'Engineering' },
+    { id: '3', name: 'Sofia Rossi', team: 'Research' },
+    { id: '4', name: 'Liam Novak', team: 'Quality' },
+  ]);
+  protected readonly reorderColumns: readonly AerisTableColumn[] = [
+    { field: 'name', header: 'Name', width: '60%' },
+    { field: 'team', header: 'Team', width: '40%' },
+  ];
+  protected readonly pinnedMember = (row: AerisTableData): boolean => row['id'] === '4';
+  protected readonly reorderStatus = signal('Liam is fixed in the last position.');
+  protected handleRowReorder(event: AerisTableRowReorderEvent): void {
+    this.reorderStatus.set(`${event.row['name']} moved to position ${event.toIndex + 1}.`);
+  }
+}
+```
+
+###### HTML
+
+```html
+<div class="row-reorder-demo">
+  <button aerisButton variant="outline" (click)="reorderTable.moveRow(0, 1)">
+    Move first row down
+  </button>
+  <aeris-table
+    #reorderTable
+    caption="Team priority order"
+    [(data)]="reorderMembers"
+    [columns]="reorderColumns"
+    reorderableRows
+    [rowReorderDisabled]="pinnedMember"
+    (rowReordered)="handleRowReorder($event)"
+  />
+  <p class="workflow-note">{{ reorderStatus() }}</p>
+</div>
+```
+
+###### CSS
+
+```css
+.row-reorder-demo {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: 1rem;
+}
+
+.row-reorder-demo > button {
+  justify-self: start;
+}
+
+.workflow-note {
+  margin: 0;
+  color: var(--aeris-text-2);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+```
+
 ##### Row expansion
 
 Expandable rows keep the disclosure button, aria-expanded state, and expanded content synchronized.
@@ -30765,6 +30863,8 @@ export class TableEventsEventsDemo {
 
 #### Accessibility
 
+- Click or tap a row handle, then a destination handle to move without dragging. The pressed state and live instructions identify the picked row. Activate the same handle again or press Escape to cancel.
+- Row reorder handles are named native buttons with instructions. Use Alt + Arrow Up/Down to move a focused row; focus stays on that row and its new position is announced. Escape cancels pointer dragging. For non-drag pointer alternatives, provide buttons calling moveRow(), as in the Row reordering example.
 - Table uses native table, caption, thead, tbody, th, and td semantics.
 - Sortable headers are native buttons and synchronize aria-sort.
 - Selection uses native checkbox or radio controls, including a visible-row select-all checkbox for multiple mode.
@@ -30787,6 +30887,9 @@ export class TableEventsEventsDemo {
 | `Context menu gesture` | Opens the configured row context menu when contextMenu is bound and the row is not disabled for context-menu handling. |
 | `Arrow keys` | Use native browser scrolling inside the table viewport when content overflows. |
 | `Arrow Left / Arrow Right` | Resizes the column beside a focused resize separator in 16-pixel increments. |
+| `Alt + Arrow Up / Arrow Down` | Moves the row whose reorder handle has focus. Bounds and fixed rows are respected. |
+| `Enter / Space on a reorder handle` | Picks a source row, then places it at the next activated destination handle. |
+| `Escape` | Cancels row dragging or a picked row without changing data. |
 | `Alt + Arrow Left / Arrow Right` | Moves a focused reorderable header one position in the requested visual direction. |
 
 ### Timeline

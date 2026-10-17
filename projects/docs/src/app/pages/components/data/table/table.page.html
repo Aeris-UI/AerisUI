@@ -529,6 +529,44 @@
             </app-form-demo>
 
             <app-form-demo
+              id="table-row-reordering"
+              title="Row reordering"
+              description="Drag a dedicated handle, or click/tap a source handle and then a destination handle. Keyboard users can also press Alt + Arrow Up/Down. Liam stays fixed in place. The external button demonstrates the same moveRow method."
+              [tsCode]="rowReorderCode"
+            >
+              <div preview class="row-reorder-demo">
+                <button aerisButton variant="outline" (click)="reorderTable.moveRow(0, 1)">
+                  Move first row down
+                </button>
+                <aeris-table
+                  #reorderTable
+                  caption="Team priority order"
+                  [(data)]="reorderMembers"
+                  [columns]="reorderColumns"
+                  reorderableRows
+                  [rowReorderDisabled]="pinnedMember"
+                  (rowReordered)="handleRowReorder($event)"
+                />
+                <p class="workflow-note">{{ reorderStatus() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="row-reorder-demo"&gt;
+  &lt;button aerisButton variant="outline" (click)="reorderTable.moveRow(0, 1)"&gt;
+    Move first row down
+  &lt;/button&gt;
+  &lt;aeris-table
+    #reorderTable
+    caption="Team priority order"
+    [(data)]="reorderMembers"
+    [columns]="reorderColumns"
+    reorderableRows
+    [rowReorderDisabled]="pinnedMember"
+    (rowReordered)="handleRowReorder($event)"
+  /&gt;
+  &lt;p class="workflow-note"&gt;&#123;&#123; reorderStatus() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
               id="table-expansion"
               title="Row expansion"
               description="Expandable rows keep the disclosure button, aria-expanded state, and expanded content synchronized."
@@ -858,10 +896,27 @@
             </div>
 
             <h3 id="table-api-methods" tabindex="-1">Methods</h3>
+            <p>
+              Row reordering requires a unique, non-empty string or finite number in rowKeyField for
+              every row. Sorting, non-empty global/column filters, paginator, lazy, loading, and
+              active cell editing disable moves. Disabled rows stay fixed and cannot be crossed.
+              Selection and expansion remain attached to their keys. Table state does not serialize
+              row order: persist the data array in your application. TreeTable hierarchical
+              reordering is not supported.
+            </p>
             <div class="api-table compact" role="table" aria-label="Table methods" tabindex="0">
               <div class="api-head" role="row">
                 <b role="columnheader">Name</b><b role="columnheader">Returns</b
                 ><b role="columnheader">Description</b>
+              </div>
+              <div role="row">
+                <code role="cell">moveRow(fromIndex, toIndex, originalEvent?)</code
+                ><span role="cell">boolean</span
+                ><span role="cell"
+                  >Moves a row using zero-based data indices; returns false without events for
+                  invalid, disabled, or unsupported moves. The optional Event defaults to
+                  null.</span
+                >
               </div>
               <div role="row">
                 <code role="cell">reset()</code><span role="cell">void</span
@@ -989,6 +1044,17 @@
     <aeris-tab-panel value="accessibility" label="Accessibility">
       <section class="doc-section">
         <h2>Accessibility</h2>
+        <p>
+          Click or tap a row handle, then a destination handle to move without dragging. The pressed
+          state and live instructions identify the picked row. Activate the same handle again or
+          press Escape to cancel.
+        </p>
+        <p>
+          Row reorder handles are named native buttons with instructions. Use Alt + Arrow Up/Down to
+          move a focused row; focus stays on that row and its new position is announced. Escape
+          cancels pointer dragging. For non-drag pointer alternatives, provide buttons calling
+          moveRow(), as in the Row reordering example.
+        </p>
         <ul>
           <li>
             Table uses native <code>table</code>, <code>caption</code>, <code>thead</code>,
@@ -1082,7 +1148,24 @@
             >
           </div>
           <div role="row">
-            <span role="cell"><kbd>Alt</kbd> + <kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span
+            <span role="cell"><kbd>Alt</kbd> + <kbd>Arrow Up</kbd> / <kbd>Arrow Down</kbd></span
+            ><span role="cell"
+              >Moves the row whose reorder handle has focus. Bounds and fixed rows are
+              respected.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd> on a reorder handle</span
+            ><span role="cell"
+              >Picks a source row, then places it at the next activated destination handle.</span
+            >
+          </div>
+          <div role="row">
+            <kbd role="cell">Escape</kbd
+            ><span role="cell">Cancels row dragging or a picked row without changing data.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Alt</kbd> + <kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span>
             ><span role="cell"
               >Moves a focused reorderable header one position in the requested visual
               direction.</span

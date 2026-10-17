@@ -173,6 +173,7 @@ export const DOC_EXAMPLE_STYLES: Readonly<Record<string, string>> = {
   "table-appearance": ".table-state-grid {\n  width: 100%;\n  display: grid;\n  gap: 1rem;\n}\n\n.table-state-grid > .aeris-button {\n  justify-self: start;\n}",
   "table-csv": ".table-state-grid {\n  width: 100%;\n  display: grid;\n  gap: 1rem;\n}\n\n.table-state-grid > .aeris-button {\n  justify-self: start;\n}",
   "table-responsive": ".table-state-grid {\n  width: 100%;\n  display: grid;\n  gap: 1rem;\n}\n\n.table-state-grid > .aeris-button {\n  justify-self: start;\n}",
+  "table-row-reordering": ".row-reorder-demo {\n  display: grid;\n  width: 100%;\n  min-width: 0;\n  gap: 1rem;\n}\n\n.row-reorder-demo > button {\n  justify-self: start;\n}\n\n.workflow-note {\n  margin: 0;\n  color: var(--aeris-text-2);\n  font-size: 0.875rem;\n  line-height: 1.6;\n}",
   "table-selection": ".table-state-grid {\n  width: 100%;\n  display: grid;\n  gap: 1rem;\n}\n\n.table-state-grid > .aeris-button {\n  justify-self: start;\n}",
   "table-selection-workflow": ".selection-workflow {\n  display: grid;\n  width: 100%;\n  min-width: 0;\n  gap: 1rem;\n}\n\n.workflow-note {\n  margin: 0;\n  color: var(--aeris-text-2);\n  font-size: 0.875rem;\n  line-height: 1.6;\n}\n\n.selection-workflow [aerisToolbarStart] {\n  flex: 1 1 12rem;\n}\n\n.selection-workflow [aerisToolbarEnd] {\n  flex: 2 1 24rem;\n}",
   "table-states": ".table-state-grid {\n  width: 100%;\n  display: grid;\n  gap: 1rem;\n}\n\n.table-state-grid > .aeris-button {\n  justify-self: start;\n}",

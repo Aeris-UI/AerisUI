@@ -19645,6 +19645,42 @@
           "kind": "input",
           "entries": [
             {
+              "name": "reorderableRows",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Enables local row reordering with stable unique rowKeyField values. Disabled during sorting, active filters, pagination, lazy loading, loading, or cell editing."
+            },
+            {
+              "name": "showRowReorderHandle",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Shows dedicated drag/keyboard handles when reorderableRows is enabled. Hide when providing external controls through moveRow()."
+            },
+            {
+              "name": "rowReorderDisabled",
+              "type": "boolean | ((row: AerisTableData, rowIndex: number) => boolean)",
+              "defaultValue": "false",
+              "description": "Fixes rows in place. Other rows cannot move across a disabled row."
+            },
+            {
+              "name": "rowReorderAriaLabel",
+              "type": "string",
+              "defaultValue": "'Reorder row'",
+              "description": "Handle name prefix, followed by the one-based row position."
+            },
+            {
+              "name": "rowReorderInstructions",
+              "type": "string",
+              "defaultValue": "'Drag, or activate this handle and then a destination handle. Alt plus Arrow Up or Arrow Down also moves the row. Escape cancels.'",
+              "description": "Accessible instructions associated with each handle."
+            },
+            {
+              "name": "rowReorderIconTemplate",
+              "type": "TemplateRef<void> | undefined",
+              "defaultValue": "undefined",
+              "description": "Decorative replacement for the default six-dot drag handle icon."
+            },
+            {
               "name": "toggleIconTemplate",
               "type": "TemplateRef<void> | undefined",
               "defaultValue": "undefined",
@@ -19670,9 +19706,9 @@
             },
             {
               "name": "data",
-              "type": "readonly AerisTableData[]",
+              "type": "readonly AerisTableData[] (model)",
               "defaultValue": "[]",
-              "description": "Rows rendered by the table."
+              "description": "Rows rendered by the table. Bind [(data)] to retain row reorder changes in the parent."
             },
             {
               "name": "columns",
@@ -20035,6 +20071,18 @@
               "description": "Emitted after pointer or keyboard column reordering updates the controlled columns model."
             },
             {
+              "name": "dataChange",
+              "type": "readonly AerisTableData[]",
+              "defaultValue": "-",
+              "description": "Emitted with a new immutable row array when a reorder updates the data model."
+            },
+            {
+              "name": "rowReordered",
+              "type": "AerisTableRowReorderEvent",
+              "defaultValue": "-",
+              "description": "Emitted after an accepted pointer, keyboard, or moveRow request, with the stable key, zero-based indices, and updated data."
+            },
+            {
               "name": "stateSaved",
               "type": "AerisTableState",
               "defaultValue": "-",
@@ -20099,6 +20147,11 @@
             "Description"
           ],
           "rows": [
+            [
+              "moveRow(fromIndex, toIndex, originalEvent?)",
+              "boolean",
+              "Moves a row using zero-based data indices; returns false without events for invalid, disabled, or unsupported moves. The optional Event defaults to null."
+            ],
             [
               "reset()",
               "void",
@@ -20175,7 +20228,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisTableSize = 'sm' | 'md' | 'lg';\ntype AerisTableSortDirection = 'asc' | 'desc';\ntype AerisTableSelectionMode = 'single' | 'multiple';\ntype AerisTableResponsiveMode = 'scroll' | 'stack';\ntype AerisTableData = Record<string, unknown>;\ntype AerisTableContextMenuDisabled =\n  | boolean\n  | ((row: AerisTableData, rowIndex: number) => boolean);\n\ninterface AerisTableColumn {\n  readonly field: string;\n  readonly header: string;\n  readonly sortable?: boolean;\n  readonly filterable?: boolean;\n  readonly width?: string;\n  readonly align?: 'start' | 'center' | 'end';\n}\n\ninterface AerisTableSortIconContext {\n  readonly $implicit: AerisTableColumn;\n  readonly direction: AerisTableSortDirection | null;\n}\n\ninterface AerisTableSort {\n  readonly field: string;\n  readonly direction: AerisTableSortDirection;\n}\n\ninterface AerisTableSortEvent {\n  readonly originalEvent: Event;\n  readonly sort: AerisTableSort | null;\n}\n\ninterface AerisTablePageEvent {\n  readonly first: number;\n  readonly rows: number;\n  readonly page: number;\n  readonly pageCount: number;\n}\n\ninterface AerisTableFilterEvent {\n  readonly originalEvent: Event | null;\n  readonly filterValue: string;\n  readonly columnFilters: Readonly<Record<string, string>>;\n  readonly rows: readonly AerisTableData[];\n}\n\ninterface AerisTableSelectionEvent {\n  readonly originalEvent: Event;\n  readonly keys: readonly string[];\n  readonly row: AerisTableData;\n}\n\ninterface AerisTableContextMenuEvent {\n  readonly originalEvent: MouseEvent;\n  readonly row: AerisTableData;\n  readonly rowIndex: number;\n  readonly key: string;\n}\n\ninterface AerisTableCellEditEvent {\n  readonly originalEvent: Event;\n  readonly row: AerisTableData;\n  readonly field: string;\n  readonly value: string;\n}\n\ninterface AerisTableColumnResizeEvent {\n  readonly originalEvent: Event;\n  readonly field: string;\n  readonly width: string;\n  readonly columns: readonly AerisTableColumn[];\n}\n\ninterface AerisTableColumnReorderEvent {\n  readonly originalEvent: Event;\n  readonly field: string;\n  readonly fromIndex: number;\n  readonly toIndex: number;\n  readonly columns: readonly AerisTableColumn[];\n}\n\ninterface AerisTableCsvExportOptions {\n  readonly filename?: string;\n  readonly separator?: string;\n  readonly includeHeaders?: boolean;\n  readonly rows?: 'all' | 'filtered' | 'page';\n  readonly download?: boolean;\n}"
+          "code": "type AerisTableSize = 'sm' | 'md' | 'lg';\ntype AerisTableSortDirection = 'asc' | 'desc';\ntype AerisTableSelectionMode = 'single' | 'multiple';\ntype AerisTableResponsiveMode = 'scroll' | 'stack';\ntype AerisTableData = Record<string, unknown>;\ntype AerisTableContextMenuDisabled =\n  | boolean\n  | ((row: AerisTableData, rowIndex: number) => boolean);\n\ninterface AerisTableColumn {\n  readonly field: string;\n  readonly header: string;\n  readonly sortable?: boolean;\n  readonly filterable?: boolean;\n  readonly width?: string;\n  readonly align?: 'start' | 'center' | 'end';\n}\n\ninterface AerisTableSortIconContext {\n  readonly $implicit: AerisTableColumn;\n  readonly direction: AerisTableSortDirection | null;\n}\n\ninterface AerisTableSort {\n  readonly field: string;\n  readonly direction: AerisTableSortDirection;\n}\n\ninterface AerisTableSortEvent {\n  readonly originalEvent: Event;\n  readonly sort: AerisTableSort | null;\n}\n\ninterface AerisTablePageEvent {\n  readonly first: number;\n  readonly rows: number;\n  readonly page: number;\n  readonly pageCount: number;\n}\n\ninterface AerisTableFilterEvent {\n  readonly originalEvent: Event | null;\n  readonly filterValue: string;\n  readonly columnFilters: Readonly<Record<string, string>>;\n  readonly rows: readonly AerisTableData[];\n}\n\ninterface AerisTableSelectionEvent {\n  readonly originalEvent: Event;\n  readonly keys: readonly string[];\n  readonly row: AerisTableData;\n}\n\ninterface AerisTableContextMenuEvent {\n  readonly originalEvent: MouseEvent;\n  readonly row: AerisTableData;\n  readonly rowIndex: number;\n  readonly key: string;\n}\n\ninterface AerisTableCellEditEvent {\n  readonly originalEvent: Event;\n  readonly row: AerisTableData;\n  readonly field: string;\n  readonly value: string;\n}\n\ninterface AerisTableColumnResizeEvent {\n  readonly originalEvent: Event;\n  readonly field: string;\n  readonly width: string;\n  readonly columns: readonly AerisTableColumn[];\n}\n\ninterface AerisTableColumnReorderEvent {\n  readonly originalEvent: Event;\n  readonly field: string;\n  readonly fromIndex: number;\n  readonly toIndex: number;\n  readonly columns: readonly AerisTableColumn[];\n}\n\ntype AerisTableRowReorderDisabled = boolean | ((row: AerisTableData, rowIndex: number) => boolean);\n\ninterface AerisTableRowReorderEvent {\n  readonly originalEvent: Event | null;\n  readonly row: AerisTableData;\n  readonly key: string;\n  readonly fromIndex: number;\n  readonly toIndex: number;\n  readonly data: readonly AerisTableData[];\n}\n\ninterface AerisTableCsvExportOptions {\n  readonly filename?: string;\n  readonly separator?: string;\n  readonly includeHeaders?: boolean;\n  readonly rows?: 'all' | 'filtered' | 'page';\n  readonly download?: boolean;\n}"
         }
       ],
       "designTokens": [
@@ -20391,6 +20444,28 @@
           ]
         },
         {
+          "id": "table-row-reordering",
+          "title": "Row reordering",
+          "description": "Drag a dedicated handle, or click/tap a source handle and then a destination handle. Keyboard users can also press Alt + Arrow Up/Down. Liam stays fixed in place. The external button demonstrates the same moveRow method.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisTableModule, type AerisTableColumn, type AerisTableData, type AerisTableRowReorderEvent } from '@aeris-ui/core/table';\n\n@Component({\n  selector: 'app-table-row-reordering-demo',\n  imports: [AerisButton, AerisTableModule],\n  templateUrl: './table-row-reordering.demo.html',\n  styleUrl: './table-row-reordering.demo.scss'\n})\nexport class TableRowReorderingRowReorderingDemo {\n  protected readonly reorderMembers = signal<readonly AerisTableData[]>([\n    { id: '1', name: 'Maya Chen', team: 'Design' },\n    { id: '2', name: 'Noah Williams', team: 'Engineering' },\n    { id: '3', name: 'Sofia Rossi', team: 'Research' },\n    { id: '4', name: 'Liam Novak', team: 'Quality' },\n  ]);\n  protected readonly reorderColumns: readonly AerisTableColumn[] = [\n    { field: 'name', header: 'Name', width: '60%' },\n    { field: 'team', header: 'Team', width: '40%' },\n  ];\n  protected readonly pinnedMember = (row: AerisTableData): boolean => row['id'] === '4';\n  protected readonly reorderStatus = signal('Liam is fixed in the last position.');\n  protected handleRowReorder(event: AerisTableRowReorderEvent): void {\n    this.reorderStatus.set(`${event.row['name']} moved to position ${event.toIndex + 1}.`);\n  }\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"row-reorder-demo\">\n  <button aerisButton variant=\"outline\" (click)=\"reorderTable.moveRow(0, 1)\">\n    Move first row down\n  </button>\n  <aeris-table\n    #reorderTable\n    caption=\"Team priority order\"\n    [(data)]=\"reorderMembers\"\n    [columns]=\"reorderColumns\"\n    reorderableRows\n    [rowReorderDisabled]=\"pinnedMember\"\n    (rowReordered)=\"handleRowReorder($event)\"\n  />\n  <p class=\"workflow-note\">{{ reorderStatus() }}</p>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".row-reorder-demo {\n  display: grid;\n  width: 100%;\n  min-width: 0;\n  gap: 1rem;\n}\n\n.row-reorder-demo > button {\n  justify-self: start;\n}\n\n.workflow-note {\n  margin: 0;\n  color: var(--aeris-text-2);\n  font-size: 0.875rem;\n  line-height: 1.6;\n}"
+            }
+          ]
+        },
+        {
           "id": "table-expansion",
           "title": "Row expansion",
           "description": "Expandable rows keep the disclosure button, aria-expanded state, and expanded content synchronized.",
@@ -20509,6 +20584,8 @@
       ],
       "accessibility": {
         "guidance": [
+          "Click or tap a row handle, then a destination handle to move without dragging. The pressed state and live instructions identify the picked row. Activate the same handle again or press Escape to cancel.",
+          "Row reorder handles are named native buttons with instructions. Use Alt + Arrow Up/Down to move a focused row; focus stays on that row and its new position is announced. Escape cancels pointer dragging. For non-drag pointer alternatives, provide buttons calling moveRow(), as in the Row reordering example.",
           "Table uses native table, caption, thead, tbody, th, and td semantics.",
           "Sortable headers are native buttons and synchronize aria-sort.",
           "Selection uses native checkbox or radio controls, including a visible-row select-all checkbox for multiple mode.",
@@ -20548,6 +20625,18 @@
           {
             "keys": "Arrow Left / Arrow Right",
             "behavior": "Resizes the column beside a focused resize separator in 16-pixel increments."
+          },
+          {
+            "keys": "Alt + Arrow Up / Arrow Down",
+            "behavior": "Moves the row whose reorder handle has focus. Bounds and fixed rows are respected."
+          },
+          {
+            "keys": "Enter / Space on a reorder handle",
+            "behavior": "Picks a source row, then places it at the next activated destination handle."
+          },
+          {
+            "keys": "Escape",
+            "behavior": "Cancels row dragging or a picked row without changing data."
           },
           {
             "keys": "Alt + Arrow Left / Arrow Right",

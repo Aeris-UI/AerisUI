@@ -165,7 +165,7 @@ td {
   padding: var(--aeris-tree-table-cell-padding, 0.9rem 1rem);
   border: 0;
   border-block-end: 1px solid var(--aeris-border);
-  text-align: left;
+  text-align: start;
   vertical-align: middle;
 }
 
@@ -330,7 +330,7 @@ td[data-align='center'] {
 
 th[data-align='end'],
 td[data-align='end'] {
-  text-align: right;
+  text-align: end;
 }
 
 th[data-frozen='true'],
@@ -652,7 +652,7 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
     min-height: var(--aeris-tree-table-stack-row-height);
     border-block-end: 1px solid var(--aeris-border);
     background: transparent;
-    text-align: left;
+    text-align: start;
     box-shadow: none;
   }
 
@@ -673,7 +673,7 @@ th:has(> .aeris-tree-table__resize:focus-visible) {
     color: var(--aeris-text-2, #454545);
     font-size: var(--aeris-font-size-sm, 0.75rem);
     font-weight: var(--aeris-font-weight-bold, 700);
-    text-align: left;
+    text-align: start;
     content: attr(data-label);
   }
 
