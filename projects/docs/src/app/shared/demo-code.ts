@@ -394,6 +394,8 @@ function rule(symbol: string, secondary: string, ...tests: readonly RegExp[]): A
 
 function addAngularCoreImports(core: Set<string>, body: string, cssCode: string): void {
   const checks: readonly [string, RegExp][] = [
+    ['DestroyRef', /\bDestroyRef\b/],
+    ['inject', /\binject\s*(?:<[^>]+>)?\s*\(/],
     ['ElementRef', /\bElementRef\b/],
     ['computed', /\bcomputed\s*(?:<[^>]+>)?\s*\(/],
     ['effect', /\beffect\s*\(/],

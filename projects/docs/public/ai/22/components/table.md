@@ -55,12 +55,12 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 | `paginator` | `boolean` | `false` | Shows the built-in paginator. |
 | `first` | `number (model)` | `0` | Index of the first visible row. |
 | `rows` | `number (model)` | `10` | Rows displayed per page. |
-| `lazy` | `boolean` | `false` | Emits lazyLoad metadata instead of assuming all data changes are local. |
+| `lazy` | `boolean` | `false` | Emits lazyLoad request state on sort, filter, and page actions. Local processing of supplied data still applies; it does not select or represent unloaded server records. |
 | `pageLinkSize` | `number` | `5` | Paginator page button count. |
 | `rowsPerPageOptions` | `readonly number[]` | `[]` | Rows-per-page menu options. |
 | `selectionMode` | `single &#124; multiple &#124; null` | `null` | Enables single or multiple row selection. |
 | `selectionControl` | `row &#124; control` | `'control'` | Uses row clicks or rendered checkbox/radio controls. |
-| `selectedKeys` | `readonly string[] (model)` | `[]` | Controlled selected row keys. |
+| `selectedKeys` | `readonly string[] (model)` | `[]` | Controlled selected row keys, retained across filters and pages. The header checkbox changes only the current filtered page; the key count can include off-page or unloaded records. |
 | `contextMenu` | `AerisContextMenu &#124; null` | `null` | ContextMenu instance opened from body rows on right-click. |
 | `contextMenuDisabled` | `boolean &#124; function` | `false` | Disables row context-menu handling globally or per row. |
 | `contextMenuRow` | `AerisTableData &#124; null (model)` | `null` | Controlled row currently associated with the context menu. |
@@ -518,6 +518,135 @@ export class TableSelectionSelectionDemo {
 
 .table-state-grid > .aeris-button {
   justify-self: start;
+}
+```
+
+### Selection workflow
+
+Keep one selectedKeys model for counts and bulk actions across pages and filters. Use the column menu to hide or restore fields, or reorder visible headers with their keyboard controls.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisMenuModule } from '@aeris-ui/core/menu';
+import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
+
+@Component({
+  selector: 'app-table-selection-workflow-demo',
+  imports: [AerisButton, AerisMenuModule, AerisTableModule, AerisToolbarModule],
+  templateUrl: './table-selection-workflow.demo.html',
+  styleUrl: './table-selection-workflow.demo.scss'
+})
+export class TableSelectionWorkflowSelectionWorkflowDemo {
+}
+```
+
+#### HTML
+
+```html
+<div class="selection-workflow">
+  <aeris-toolbar variant="plain" role="group" ariaLabel="Member bulk actions">
+    <span aerisToolbarStart aria-live="polite"
+      >{{ workflowSelected().length }} selected across all pages</span>
+    <div aerisToolbarEnd>
+      <button
+        aerisButton
+        type="button"
+        variant="ghost"
+        [disabled]="!workflowSelected().length || workflowBusy()"
+        (click)="clearWorkflowSelection(workflowFocusTarget()?.nativeElement)"
+      >
+        Clear selection
+      </button>
+      <button
+        aerisButton
+        type="button"
+        severity="danger"
+        [disabled]="!workflowSelected().length || workflowBusy()"
+        [loading]="workflowBusy()"
+        (click)="removeWorkflowMembers(workflowFocusTarget()?.nativeElement)"
+      >
+        Remove selected members
+      </button>
+      <button
+        #workflowColumnsButton
+        aerisButton
+        type="button"
+        variant="outline"
+        (click)="workflowMenu.toggle($event)"
+      >
+        Columns
+      </button>
+      <button
+        aerisButton
+        type="button"
+        variant="ghost"
+        [disabled]="workflowBusy()"
+        (click)="restoreWorkflowMembers()"
+      >
+        Restore members
+      </button>
+    </div>
+  </aeris-toolbar>
+  <aeris-menu
+    #workflowMenu
+    popup
+    [model]="workflowColumnItems()"
+    ariaLabel="Member columns"
+  />
+  <aeris-table
+    caption="Member selection workspace"
+    rowKeyField="id"
+    [data]="workflowMembers()"
+    [columns]="workflowColumns()"
+    (columnsChange)="orderWorkflowColumns($event)"
+    [(selectedKeys)]="workflowSelected"
+    [(filterValue)]="workflowQuery"
+    [(first)]="workflowFirst"
+    [(sort)]="workflowSort"
+    [(columnFilters)]="workflowFilters"
+    selectionMode="multiple"
+    paginator
+    [rows]="2"
+    globalFilter
+    columnFilter
+    reorderableColumns
+    filterLabel="Find members"
+    filterPlaceholder="Search visible columns"
+    [loading]="workflowBusy()"
+    loadingMessage="Removing members"
+    emptyMessage="No matching members. Clear filters or restore the example data."
+  />
+  <p class="workflow-note" role="status">{{ workflowStatus() }}</p>
+</div>
+```
+
+#### CSS
+
+```css
+.selection-workflow {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: 1rem;
+}
+
+.workflow-note {
+  margin: 0;
+  color: var(--aeris-text-2);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.selection-workflow [aerisToolbarStart] {
+  flex: 1 1 12rem;
+}
+
+.selection-workflow [aerisToolbarEnd] {
+  flex: 2 1 24rem;
 }
 ```
 

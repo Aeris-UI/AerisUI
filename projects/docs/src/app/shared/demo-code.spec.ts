@@ -1,6 +1,20 @@
 import { buildAngularDemoSources } from './demo-code';
 
 describe('Angular demo code imports', () => {
+  it('includes destruction guards for asynchronous consumer examples', () => {
+    const sources = buildAngularDemoSources({
+      anchor: 'async-action',
+      title: 'Async action',
+      template: '<button aerisButton type="button" (click)="run()">Run</button>',
+      classCode:
+        'private readonly destroyRef = inject(DestroyRef);\nprotected async run(): Promise<void> { await Promise.resolve(); if (this.destroyRef.destroyed) return; }',
+    });
+    const code = sources.find((source) => source.language === 'TypeScript')?.code ?? '';
+    expect(code).toContain('DestroyRef');
+    expect(code).toContain('inject');
+    expect(code).toContain("from '@angular/core'");
+    expect(code).not.toContain('imports: [DestroyRef');
+  });
   it('imports Signal Forms bindings and editable date pickers as Angular declarations', () => {
     const sources = buildAngularDemoSources({
       anchor: 'signal-date',

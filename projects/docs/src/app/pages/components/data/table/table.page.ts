@@ -1,5 +1,15 @@
-import { Component, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  computed,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
+import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 import {
   AerisTable,
   AerisTableContextMenuModule,
@@ -9,6 +19,7 @@ import {
   type AerisTableData,
   type AerisTableSelectionEvent,
   type AerisTableSortEvent,
+  type AerisTableSort,
 } from '@aeris-ui/core/table';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 import { type AerisContextMenuItemEvent } from '@aeris-ui/core/context-menu';
@@ -29,10 +40,20 @@ interface ApiRow {
   readonly description: string;
 }
 
+const SELECTION_MEMBERS: readonly AerisTableData[] = [
+  { id: '1', name: 'Maya Chen', team: 'Design', status: 'Active' },
+  { id: '2', name: 'Noah Williams', team: 'Engineering', status: 'Invited' },
+  { id: '3', name: 'Sofia Rossi', team: 'Research', status: 'Offline' },
+  { id: '4', name: 'Liam Novak', team: 'Quality', status: 'Active' },
+  { id: '5', name: 'Ava Patel', team: 'Product', status: 'Active' },
+];
+
 @Component({
   selector: 'app-table-page',
   imports: [
     AerisButton,
+    AerisMenuModule,
+    AerisToolbarModule,
     AerisTableContextMenuModule,
     AerisTabsModule,
     CodeBlockComponent,
@@ -45,6 +66,7 @@ interface ApiRow {
   styleUrl: './table.page.scss',
 })
 export class TablePage {
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly selectedMembers = signal<readonly string[]>(['1']);
   protected readonly singleSelectedMember = signal<readonly string[]>(['2']);
   protected readonly rowSelectedMembers = signal<readonly string[]>([]);
@@ -154,6 +176,95 @@ export class TablePage {
     { label: 'Archive member' },
   ];
 
+  protected readonly workflowMembers = signal(SELECTION_MEMBERS);
+  protected readonly workflowFocusTarget = viewChild('workflowColumnsButton', {
+    read: ElementRef<HTMLButtonElement>,
+  });
+  protected readonly workflowSelected = signal<readonly string[]>([]);
+  protected readonly workflowFirst = signal(0);
+  protected readonly workflowQuery = signal('');
+  protected readonly workflowBusy = signal(false);
+  protected readonly workflowStatus = signal('Select members on any page to remove them together.');
+  protected readonly workflowSort = signal<AerisTableSort | null>(null);
+  protected readonly workflowFilters = signal<Readonly<Record<string, string>>>({});
+  protected readonly workflowHidden = signal<readonly string[]>([]);
+  protected readonly workflowAllColumns = signal<readonly AerisTableColumn[]>([
+    { field: 'name', header: 'Name', sortable: true },
+    { field: 'team', header: 'Team', sortable: true },
+    { field: 'status', header: 'Status', sortable: true },
+  ]);
+  protected readonly workflowColumns = computed(() =>
+    this.workflowAllColumns().filter((column) => !this.workflowHidden().includes(column.field)),
+  );
+  protected readonly workflowColumnItems = computed<readonly AerisMenuItem[]>(() =>
+    this.workflowAllColumns().map((column) => ({
+      label:
+        column.field === 'name'
+          ? 'Name (required)'
+          : `${this.workflowHidden().includes(column.field) ? 'Show' : 'Hide'} ${column.header}`,
+      disabled: column.field === 'name' || this.workflowBusy(),
+      command: () => this.toggleWorkflowColumn(column.field),
+    })),
+  );
+
+  protected toggleWorkflowColumn(field: string): void {
+    if (field === 'name' || this.workflowBusy()) return;
+    this.workflowHidden.update((fields) =>
+      fields.includes(field) ? fields.filter((item) => item !== field) : [...fields, field],
+    );
+    this.workflowFilters.update((filters) =>
+      Object.fromEntries(Object.entries(filters).filter(([key]) => key !== field)),
+    );
+    if (this.workflowSort()?.field === field) this.workflowSort.set(null);
+    this.workflowFirst.set(0);
+  }
+
+  protected orderWorkflowColumns(columns: readonly AerisTableColumn[]): void {
+    let index = 0;
+    this.workflowAllColumns.update((all) =>
+      all.map((column) =>
+        this.workflowHidden().includes(column.field) ? column : (columns[index++] ?? column),
+      ),
+    );
+  }
+
+  protected clearWorkflowSelection(fallback?: HTMLButtonElement): void {
+    this.workflowSelected.set([]);
+    this.workflowStatus.set('Selection cleared on every page, including filtered-out members.');
+    fallback?.focus();
+  }
+
+  protected async removeWorkflowMembers(fallback?: HTMLButtonElement): Promise<void> {
+    if (this.workflowBusy() || !this.workflowSelected().length) return;
+    const keys = new Set(this.workflowSelected());
+    this.workflowBusy.set(true);
+    this.workflowStatus.set(`Removing ${keys.size} selected members…`);
+    // Replace this delay with your application's API request; update rows only on success.
+    await new Promise<void>((resolve) => setTimeout(resolve, 300));
+    if (this.destroyRef.destroyed) return;
+    this.workflowMembers.update((members) =>
+      members.filter((member) => !keys.has(String(member['id']))),
+    );
+    this.workflowSelected.set([]);
+    this.workflowFirst.set(0);
+    this.workflowBusy.set(false);
+    this.workflowStatus.set(
+      `Removed ${keys.size} members. Selection cleared; focus returned to Columns.`,
+    );
+    fallback?.focus();
+  }
+
+  protected restoreWorkflowMembers(): void {
+    if (this.workflowBusy()) return;
+    this.workflowMembers.set(SELECTION_MEMBERS);
+    this.workflowSelected.set([]);
+    this.workflowFirst.set(0);
+    this.workflowQuery.set('');
+    this.workflowFilters.set({});
+    this.workflowSort.set(null);
+    this.workflowStatus.set('Example members restored.');
+  }
+
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'table-basic', label: 'Basic' },
     { id: 'table-dynamic', label: 'Dynamic columns' },
@@ -162,6 +273,7 @@ export class TablePage {
     { id: 'table-column-filter', label: 'Column filtering' },
     { id: 'table-pagination', label: 'Pagination' },
     { id: 'table-selection', label: 'Selection' },
+    { id: 'table-selection-workflow', label: 'Selection workflow' },
     { id: 'table-context-menu', label: 'Context menu' },
     { id: 'table-appearance', label: 'Appearance' },
     { id: 'table-resizing', label: 'Column controls' },
@@ -538,7 +650,8 @@ interface AerisTableCsvExportOptions {
       name: 'lazy',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'Emits lazyLoad metadata instead of assuming all data changes are local.',
+      description:
+        'Emits lazyLoad request state on sort, filter, and page actions. Local processing of supplied data still applies; it does not select or represent unloaded server records.',
     },
     {
       name: 'pageLinkSize',
@@ -568,7 +681,8 @@ interface AerisTableCsvExportOptions {
       name: 'selectedKeys',
       type: 'readonly string[] (model)',
       defaultValue: '[]',
-      description: 'Controlled selected row keys.',
+      description:
+        'Controlled selected row keys, retained across filters and pages. The header checkbox changes only the current filtered page; the key count can include off-page or unloaded records.',
     },
     {
       name: 'contextMenu',

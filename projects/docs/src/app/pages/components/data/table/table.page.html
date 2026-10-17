@@ -235,6 +235,187 @@
             </app-form-demo>
 
             <app-form-demo
+              id="table-selection-workflow"
+              title="Selection workflow"
+              description="Keep one selectedKeys model for counts and bulk actions across pages and filters. Use the column menu to hide or restore fields, or reorder visible headers with their keyboard controls."
+            >
+              <div preview class="selection-workflow">
+                <aeris-toolbar variant="plain" role="group" ariaLabel="Member bulk actions">
+                  <span aerisToolbarStart aria-live="polite"
+                    >{{ workflowSelected().length }} selected across all pages</span
+                  >
+                  <div aerisToolbarEnd>
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="ghost"
+                      [disabled]="!workflowSelected().length || workflowBusy()"
+                      (click)="clearWorkflowSelection(workflowFocusTarget()?.nativeElement)"
+                    >
+                      Clear selection
+                    </button>
+                    <button
+                      aerisButton
+                      type="button"
+                      severity="danger"
+                      [disabled]="!workflowSelected().length || workflowBusy()"
+                      [loading]="workflowBusy()"
+                      (click)="removeWorkflowMembers(workflowFocusTarget()?.nativeElement)"
+                    >
+                      Remove selected members
+                    </button>
+                    <button
+                      #workflowColumnsButton
+                      aerisButton
+                      type="button"
+                      variant="outline"
+                      (click)="workflowMenu.toggle($event)"
+                    >
+                      Columns
+                    </button>
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="ghost"
+                      [disabled]="workflowBusy()"
+                      (click)="restoreWorkflowMembers()"
+                    >
+                      Restore members
+                    </button>
+                  </div>
+                </aeris-toolbar>
+                <aeris-menu
+                  #workflowMenu
+                  popup
+                  [model]="workflowColumnItems()"
+                  ariaLabel="Member columns"
+                />
+                <aeris-table
+                  caption="Member selection workspace"
+                  rowKeyField="id"
+                  [data]="workflowMembers()"
+                  [columns]="workflowColumns()"
+                  (columnsChange)="orderWorkflowColumns($event)"
+                  [(selectedKeys)]="workflowSelected"
+                  [(filterValue)]="workflowQuery"
+                  [(first)]="workflowFirst"
+                  [(sort)]="workflowSort"
+                  [(columnFilters)]="workflowFilters"
+                  selectionMode="multiple"
+                  paginator
+                  [rows]="2"
+                  globalFilter
+                  columnFilter
+                  reorderableColumns
+                  filterLabel="Find members"
+                  filterPlaceholder="Search visible columns"
+                  [loading]="workflowBusy()"
+                  loadingMessage="Removing members"
+                  emptyMessage="No matching members. Clear filters or restore the example data."
+                />
+                <p class="workflow-note" role="status">{{ workflowStatus() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="selection-workflow"&gt;
+  &lt;aeris-toolbar variant="plain" role="group" ariaLabel="Member bulk actions"&gt;
+    &lt;span aerisToolbarStart aria-live="polite"
+      &gt;&#123;&#123; workflowSelected().length &#125;&#125; selected across all pages&lt;/span&gt;
+    &lt;div aerisToolbarEnd&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="ghost"
+        [disabled]="!workflowSelected().length || workflowBusy()"
+        (click)="clearWorkflowSelection(workflowFocusTarget()?.nativeElement)"
+      &gt;
+        Clear selection
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        severity="danger"
+        [disabled]="!workflowSelected().length || workflowBusy()"
+        [loading]="workflowBusy()"
+        (click)="removeWorkflowMembers(workflowFocusTarget()?.nativeElement)"
+      &gt;
+        Remove selected members
+      &lt;/button&gt;
+      &lt;button
+        #workflowColumnsButton
+        aerisButton
+        type="button"
+        variant="outline"
+        (click)="workflowMenu.toggle($event)"
+      &gt;
+        Columns
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="ghost"
+        [disabled]="workflowBusy()"
+        (click)="restoreWorkflowMembers()"
+      &gt;
+        Restore members
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/aeris-toolbar&gt;
+  &lt;aeris-menu
+    #workflowMenu
+    popup
+    [model]="workflowColumnItems()"
+    ariaLabel="Member columns"
+  /&gt;
+  &lt;aeris-table
+    caption="Member selection workspace"
+    rowKeyField="id"
+    [data]="workflowMembers()"
+    [columns]="workflowColumns()"
+    (columnsChange)="orderWorkflowColumns($event)"
+    [(selectedKeys)]="workflowSelected"
+    [(filterValue)]="workflowQuery"
+    [(first)]="workflowFirst"
+    [(sort)]="workflowSort"
+    [(columnFilters)]="workflowFilters"
+    selectionMode="multiple"
+    paginator
+    [rows]="2"
+    globalFilter
+    columnFilter
+    reorderableColumns
+    filterLabel="Find members"
+    filterPlaceholder="Search visible columns"
+    [loading]="workflowBusy()"
+    loadingMessage="Removing members"
+    emptyMessage="No matching members. Clear filters or restore the example data."
+  /&gt;
+  &lt;p class="workflow-note" role="status"&gt;&#123;&#123; workflowStatus() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <p>
+              The count is the number of keys in <code>selectedKeys</code>, including selections on
+              other pages or hidden by filtering. The header checkbox changes only the current
+              filtered page; clearing selection clears every key. Bulk removal in this example
+              applies to all selected keys, not just the visible rows, and returns focus to Columns.
+              The delay simulates a request; a real application should retain data and selection
+              until its server confirms success and announce failures without clearing selection.
+            </p>
+            <p>
+              The column chooser clears a hidden column's filter and sort, preserves visible-column
+              order, and keeps Name available. Global search uses visible filterable columns. CSV
+              export also follows the current <code>columns</code> order; hidden fields are
+              excluded. Column visibility is presentation, not permission control: remove sensitive
+              fields from data returned by your server.
+            </p>
+            <p>
+              With <code>lazy</code>, Table emits request state through <code>lazyLoad</code> but
+              still filters, sorts, and paginates the supplied <code>data</code> locally. The header
+              checkbox cannot select unloaded server records. For remote datasets, preserve stable
+              keys in your controlled model and resolve selected records on the server; do not
+              interpret the loaded rows or selection count as every matching record. The
+              <code>selectRows()</code> helper accepts only keys present in the supplied data.
+            </p>
+
+            <app-form-demo
               id="table-context-menu"
               title="Context menu"
               description="Bind an Aeris ContextMenu instance to the table. Right-clicking a body row opens the menu and exposes the row through controlled contextMenuRow state."

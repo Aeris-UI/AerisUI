@@ -19804,7 +19804,7 @@
               "name": "lazy",
               "type": "boolean",
               "defaultValue": "false",
-              "description": "Emits lazyLoad metadata instead of assuming all data changes are local."
+              "description": "Emits lazyLoad request state on sort, filter, and page actions. Local processing of supplied data still applies; it does not select or represent unloaded server records."
             },
             {
               "name": "pageLinkSize",
@@ -19834,7 +19834,7 @@
               "name": "selectedKeys",
               "type": "readonly string[] (model)",
               "defaultValue": "[]",
-              "description": "Controlled selected row keys."
+              "description": "Controlled selected row keys, retained across filters and pages. The header checkbox changes only the current filtered page; the key count can include off-page or unloaded records."
             },
             {
               "name": "contextMenu",
@@ -20314,6 +20314,28 @@
               "language": "CSS",
               "label": "CSS",
               "code": ".table-state-grid {\n  width: 100%;\n  display: grid;\n  gap: 1rem;\n}\n\n.table-state-grid > .aeris-button {\n  justify-self: start;\n}"
+            }
+          ]
+        },
+        {
+          "id": "table-selection-workflow",
+          "title": "Selection workflow",
+          "description": "Keep one selectedKeys model for counts and bulk actions across pages and filters. Use the column menu to hide or restore fields, or reorder visible headers with their keyboard controls.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisMenuModule } from '@aeris-ui/core/menu';\nimport { AerisTableModule } from '@aeris-ui/core/table';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\n\n@Component({\n  selector: 'app-table-selection-workflow-demo',\n  imports: [AerisButton, AerisMenuModule, AerisTableModule, AerisToolbarModule],\n  templateUrl: './table-selection-workflow.demo.html',\n  styleUrl: './table-selection-workflow.demo.scss'\n})\nexport class TableSelectionWorkflowSelectionWorkflowDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"selection-workflow\">\n  <aeris-toolbar variant=\"plain\" role=\"group\" ariaLabel=\"Member bulk actions\">\n    <span aerisToolbarStart aria-live=\"polite\"\n      >{{ workflowSelected().length }} selected across all pages</span>\n    <div aerisToolbarEnd>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"ghost\"\n        [disabled]=\"!workflowSelected().length || workflowBusy()\"\n        (click)=\"clearWorkflowSelection(workflowFocusTarget()?.nativeElement)\"\n      >\n        Clear selection\n      </button>\n      <button\n        aerisButton\n        type=\"button\"\n        severity=\"danger\"\n        [disabled]=\"!workflowSelected().length || workflowBusy()\"\n        [loading]=\"workflowBusy()\"\n        (click)=\"removeWorkflowMembers(workflowFocusTarget()?.nativeElement)\"\n      >\n        Remove selected members\n      </button>\n      <button\n        #workflowColumnsButton\n        aerisButton\n        type=\"button\"\n        variant=\"outline\"\n        (click)=\"workflowMenu.toggle($event)\"\n      >\n        Columns\n      </button>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"ghost\"\n        [disabled]=\"workflowBusy()\"\n        (click)=\"restoreWorkflowMembers()\"\n      >\n        Restore members\n      </button>\n    </div>\n  </aeris-toolbar>\n  <aeris-menu\n    #workflowMenu\n    popup\n    [model]=\"workflowColumnItems()\"\n    ariaLabel=\"Member columns\"\n  />\n  <aeris-table\n    caption=\"Member selection workspace\"\n    rowKeyField=\"id\"\n    [data]=\"workflowMembers()\"\n    [columns]=\"workflowColumns()\"\n    (columnsChange)=\"orderWorkflowColumns($event)\"\n    [(selectedKeys)]=\"workflowSelected\"\n    [(filterValue)]=\"workflowQuery\"\n    [(first)]=\"workflowFirst\"\n    [(sort)]=\"workflowSort\"\n    [(columnFilters)]=\"workflowFilters\"\n    selectionMode=\"multiple\"\n    paginator\n    [rows]=\"2\"\n    globalFilter\n    columnFilter\n    reorderableColumns\n    filterLabel=\"Find members\"\n    filterPlaceholder=\"Search visible columns\"\n    [loading]=\"workflowBusy()\"\n    loadingMessage=\"Removing members\"\n    emptyMessage=\"No matching members. Clear filters or restore the example data.\"\n  />\n  <p class=\"workflow-note\" role=\"status\">{{ workflowStatus() }}</p>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".selection-workflow {\n  display: grid;\n  width: 100%;\n  min-width: 0;\n  gap: 1rem;\n}\n\n.workflow-note {\n  margin: 0;\n  color: var(--aeris-text-2);\n  font-size: 0.875rem;\n  line-height: 1.6;\n}\n\n.selection-workflow [aerisToolbarStart] {\n  flex: 1 1 12rem;\n}\n\n.selection-workflow [aerisToolbarEnd] {\n  flex: 2 1 24rem;\n}"
             }
           ]
         },
@@ -21512,7 +21534,7 @@
               "name": "propagateSelection",
               "type": "boolean",
               "defaultValue": "true",
-              "description": "Cascades checkbox state through selectable descendants."
+              "description": "Cascades checkbox state through loaded selectable nodes in the rendered branch, including the parent. Path filtering can restrict that branch to matching descendants; unloaded children cannot be selected."
             },
             {
               "name": "sortMode",
@@ -21704,7 +21726,7 @@
               "name": "selectionKeys",
               "type": "readonly string[]",
               "defaultValue": "[]",
-              "description": "Selected node keys."
+              "description": "Controlled selected node keys, retained across filters, collapsed branches, and root pages. With checkbox propagation, keys can include both parent folders and descendants; the length is not necessarily a leaf-file count."
             },
             {
               "name": "sorts",
@@ -22064,6 +22086,28 @@
               "language": "TypeScript",
               "label": "TS",
               "code": "import { Component, signal } from '@angular/core';\nimport { AerisTreeModule } from '@aeris-ui/core/tree';\nimport { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';\n\ntype FileRecord = AerisTreeTableData & {\n  readonly name: string;\n  readonly size: number;\n  readonly type: string;\n  readonly modified: string;\n  readonly status: 'active' | 'review' | 'archived';\n};\n\n@Component({\n  selector: 'app-tree-table-checkbox-selection-demo',\n  imports: [AerisTreeModule, AerisTreeTableModule],\n  template: `\n    <div class=\"tree-table-demo\">\n      <aeris-tree-table\n        selectionMode=\"checkbox\"\n        ariaLabel=\"Checkbox project files\"\n        [value]=\"files\"\n        [columns]=\"columns\"\n        [expandedKeys]=\"['workspace', 'assets']\"\n        [(selectionKeys)]=\"checkboxSelection\"\n      />\n    </div>\n  `,\n  styles: `\n    .tree-table-demo {\n      width: 100%;\n    }\n    \n    .tree-table-demo small {\n      color: var(--aeris-text-2);\n      font-weight: 600;\n    }\n  `\n})\nexport class TreeTableCheckboxSelectionCheckboxSelectionDemo {\n  protected readonly columns: readonly AerisTreeTableColumn[] = [\n    { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },\n    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },\n    { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },\n    { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },\n  ];\n\n  protected readonly files: readonly AerisTreeTableNode<FileRecord>[] = [\n    {\n      key: 'workspace',\n      data: { name: 'Aeris workspace', size: 48, type: 'folder', modified: 'Today', status: 'active' },\n      children: [\n        {\n          key: 'source',\n          data: { name: 'Source', size: 24, type: 'folder', modified: 'Today', status: 'active' },\n          children: [\n            { key: 'app', data: { name: 'app.ts', size: 6, type: 'typescript', modified: 'Today', status: 'active' }, leaf: true },\n            { key: 'tokens', data: { name: 'tokens.scss', size: 8, type: 'stylesheet', modified: 'Yesterday', status: 'review' }, leaf: true },\n          ],\n        },\n        { key: 'readme', data: { name: 'README.md', size: 10, type: 'document', modified: 'Monday', status: 'active' }, leaf: true },\n      ],\n    },\n  ];\n\n  protected readonly checkboxSelection = signal<readonly string[]>(['assets', 'logo', 'cover']);\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "tree-table-selection-workflow",
+          "title": "Selection workflow",
+          "description": "Select files across root pages and collapsed branches, then remove them together. A column menu controls visible fields without introducing another selection store.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisMenuModule } from '@aeris-ui/core/menu';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { AerisTreeModule } from '@aeris-ui/core/tree';\nimport { AerisTreeTableModule } from '@aeris-ui/core/tree-table';\n\n@Component({\n  selector: 'app-tree-table-selection-workflow-demo',\n  imports: [AerisButton, AerisMenuModule, AerisToolbarModule, AerisTreeModule, AerisTreeTableModule],\n  templateUrl: './tree-table-selection-workflow.demo.html',\n  styleUrl: './tree-table-selection-workflow.demo.scss'\n})\nexport class TreeTableSelectionWorkflowSelectionWorkflowDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"selection-workflow\">\n  <aeris-toolbar variant=\"plain\" role=\"group\" ariaLabel=\"File bulk actions\">\n    <span aerisToolbarStart aria-live=\"polite\"\n      >{{ workflowSelection().length }} files selected across all root pages</span>\n    <div aerisToolbarEnd>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"ghost\"\n        [disabled]=\"!workflowSelection().length || workflowBusy()\"\n        (click)=\"clearWorkflowSelection(workflowFocusTarget()?.nativeElement)\"\n      >\n        Clear selection\n      </button>\n      <button\n        aerisButton\n        type=\"button\"\n        severity=\"danger\"\n        [disabled]=\"!workflowSelection().length || workflowBusy()\"\n        [loading]=\"workflowBusy()\"\n        (click)=\"removeWorkflowFiles(workflowFocusTarget()?.nativeElement)\"\n      >\n        Remove selected files\n      </button>\n      <button\n        #workflowColumnsButton\n        aerisButton\n        type=\"button\"\n        variant=\"outline\"\n        (click)=\"workflowMenu.toggle($event)\"\n      >\n        Columns\n      </button>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"ghost\"\n        [disabled]=\"workflowBusy()\"\n        (click)=\"restoreWorkflowFiles()\"\n      >\n        Restore files\n      </button>\n    </div>\n  </aeris-toolbar>\n  <aeris-menu\n    #workflowMenu\n    popup\n    [model]=\"workflowColumnItems()\"\n    ariaLabel=\"File columns\"\n  />\n  <aeris-tree-table\n    ariaLabel=\"File selection workspace\"\n    [value]=\"workflowFiles()\"\n    [columns]=\"workflowColumns()\"\n    (columnsChange)=\"orderWorkflowColumns($event)\"\n    [(selectionKeys)]=\"workflowSelection\"\n    [(globalFilterValue)]=\"workflowQuery\"\n    [(expandedKeys)]=\"workflowExpanded\"\n    [(first)]=\"workflowFirst\"\n    [(sorts)]=\"workflowSorts\"\n    [(columnFilters)]=\"workflowFilters\"\n    selectionMode=\"checkbox\"\n    [propagateSelection]=\"false\"\n    paginator\n    [rows]=\"1\"\n    globalFilter\n    columnFilter\n    reorderableColumns\n    globalFilterLabel=\"Find files\"\n    globalFilterPlaceholder=\"Search visible columns\"\n    [loading]=\"workflowBusy()\"\n    loadingMessage=\"Removing files\"\n    emptyMessage=\"No files remain. Restore the example data.\"\n    emptyFilterMessage=\"No matching files. Clear the search and column filters.\"\n  />\n  <p class=\"workflow-note\" role=\"status\">{{ workflowStatus() }}</p>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".selection-workflow {\n  display: grid;\n  width: 100%;\n  min-width: 0;\n  gap: 1rem;\n}\n\n.workflow-note {\n  margin: 0;\n  color: var(--aeris-text-2);\n  font-size: 0.875rem;\n  line-height: 1.6;\n}\n\n.selection-workflow [aerisToolbarStart] {\n  flex: 1 1 12rem;\n}\n\n.selection-workflow [aerisToolbarEnd] {\n  flex: 2 1 24rem;\n}"
             }
           ]
         },

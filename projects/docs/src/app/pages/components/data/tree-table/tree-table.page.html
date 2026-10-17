@@ -233,6 +233,193 @@
             </app-form-demo>
 
             <app-form-demo
+              id="tree-table-selection-workflow"
+              title="Selection workflow"
+              description="Select files across root pages and collapsed branches, then remove them together. A column menu controls visible fields without introducing another selection store."
+            >
+              <div preview class="selection-workflow">
+                <aeris-toolbar variant="plain" role="group" ariaLabel="File bulk actions">
+                  <span aerisToolbarStart aria-live="polite"
+                    >{{ workflowSelection().length }} files selected across all root pages</span
+                  >
+                  <div aerisToolbarEnd>
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="ghost"
+                      [disabled]="!workflowSelection().length || workflowBusy()"
+                      (click)="clearWorkflowSelection(workflowFocusTarget()?.nativeElement)"
+                    >
+                      Clear selection
+                    </button>
+                    <button
+                      aerisButton
+                      type="button"
+                      severity="danger"
+                      [disabled]="!workflowSelection().length || workflowBusy()"
+                      [loading]="workflowBusy()"
+                      (click)="removeWorkflowFiles(workflowFocusTarget()?.nativeElement)"
+                    >
+                      Remove selected files
+                    </button>
+                    <button
+                      #workflowColumnsButton
+                      aerisButton
+                      type="button"
+                      variant="outline"
+                      (click)="workflowMenu.toggle($event)"
+                    >
+                      Columns
+                    </button>
+                    <button
+                      aerisButton
+                      type="button"
+                      variant="ghost"
+                      [disabled]="workflowBusy()"
+                      (click)="restoreWorkflowFiles()"
+                    >
+                      Restore files
+                    </button>
+                  </div>
+                </aeris-toolbar>
+                <aeris-menu
+                  #workflowMenu
+                  popup
+                  [model]="workflowColumnItems()"
+                  ariaLabel="File columns"
+                />
+                <aeris-tree-table
+                  ariaLabel="File selection workspace"
+                  [value]="workflowFiles()"
+                  [columns]="workflowColumns()"
+                  (columnsChange)="orderWorkflowColumns($event)"
+                  [(selectionKeys)]="workflowSelection"
+                  [(globalFilterValue)]="workflowQuery"
+                  [(expandedKeys)]="workflowExpanded"
+                  [(first)]="workflowFirst"
+                  [(sorts)]="workflowSorts"
+                  [(columnFilters)]="workflowFilters"
+                  selectionMode="checkbox"
+                  [propagateSelection]="false"
+                  paginator
+                  [rows]="1"
+                  globalFilter
+                  columnFilter
+                  reorderableColumns
+                  globalFilterLabel="Find files"
+                  globalFilterPlaceholder="Search visible columns"
+                  [loading]="workflowBusy()"
+                  loadingMessage="Removing files"
+                  emptyMessage="No files remain. Restore the example data."
+                  emptyFilterMessage="No matching files. Clear the search and column filters."
+                />
+                <p class="workflow-note" role="status">{{ workflowStatus() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="selection-workflow"&gt;
+  &lt;aeris-toolbar variant="plain" role="group" ariaLabel="File bulk actions"&gt;
+    &lt;span aerisToolbarStart aria-live="polite"
+      &gt;&#123;&#123; workflowSelection().length &#125;&#125; files selected across all root pages&lt;/span&gt;
+    &lt;div aerisToolbarEnd&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="ghost"
+        [disabled]="!workflowSelection().length || workflowBusy()"
+        (click)="clearWorkflowSelection(workflowFocusTarget()?.nativeElement)"
+      &gt;
+        Clear selection
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        severity="danger"
+        [disabled]="!workflowSelection().length || workflowBusy()"
+        [loading]="workflowBusy()"
+        (click)="removeWorkflowFiles(workflowFocusTarget()?.nativeElement)"
+      &gt;
+        Remove selected files
+      &lt;/button&gt;
+      &lt;button
+        #workflowColumnsButton
+        aerisButton
+        type="button"
+        variant="outline"
+        (click)="workflowMenu.toggle($event)"
+      &gt;
+        Columns
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        type="button"
+        variant="ghost"
+        [disabled]="workflowBusy()"
+        (click)="restoreWorkflowFiles()"
+      &gt;
+        Restore files
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/aeris-toolbar&gt;
+  &lt;aeris-menu
+    #workflowMenu
+    popup
+    [model]="workflowColumnItems()"
+    ariaLabel="File columns"
+  /&gt;
+  &lt;aeris-tree-table
+    ariaLabel="File selection workspace"
+    [value]="workflowFiles()"
+    [columns]="workflowColumns()"
+    (columnsChange)="orderWorkflowColumns($event)"
+    [(selectionKeys)]="workflowSelection"
+    [(globalFilterValue)]="workflowQuery"
+    [(expandedKeys)]="workflowExpanded"
+    [(first)]="workflowFirst"
+    [(sorts)]="workflowSorts"
+    [(columnFilters)]="workflowFilters"
+    selectionMode="checkbox"
+    [propagateSelection]="false"
+    paginator
+    [rows]="1"
+    globalFilter
+    columnFilter
+    reorderableColumns
+    globalFilterLabel="Find files"
+    globalFilterPlaceholder="Search visible columns"
+    [loading]="workflowBusy()"
+    loadingMessage="Removing files"
+    emptyMessage="No files remain. Restore the example data."
+    emptyFilterMessage="No matching files. Clear the search and column filters."
+  /&gt;
+  &lt;p class="workflow-note" role="status"&gt;&#123;&#123; workflowStatus() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <p>
+              This example counts selected file keys in <code>selectionKeys</code>, including files
+              hidden by filtering, collapsed branches, or other root pages. Folders are marked
+              <code>selectable: false</code> and propagation is disabled, so the count does not
+              include ancestor keys. Removing files acts on every selected key and restores focus to
+              Columns. The delay simulates a request; retain nodes and selection until a real server
+              confirms success, and announce failures without clearing selection.
+            </p>
+            <p>
+              TreeTable paginates root nodes, not individual descendants. Filtering and collapsing
+              do not clear selected keys. In multiple row-selection mode, <kbd>Ctrl</kbd> or
+              <kbd>Meta</kbd> + <kbd>A</kbd> selects only currently rendered selectable rows.
+              Checkbox mode has no header select-all. With propagation enabled, selecting a checkbox
+              affects the loaded selectable nodes in that rendered branch; under path filtering this
+              can be only the matching descendants. A selected-key count can then include both
+              folders and files, not just leaf records.
+            </p>
+            <p>
+              In lazy mode the server owns filtering, sorting, and root pagination. Selection
+              persists by key, but checkbox propagation cannot select children that have not been
+              loaded. <code>totalRecords</code> describes the remote root count, not selected files.
+              Use stable keys and server-side authorization for bulk actions across unloaded data.
+              Hiding a column here clears its filter and sort and preserves the remaining order;
+              Name stays visible for tree navigation. Visibility is not an access-control boundary.
+            </p>
+
+            <app-form-demo
               id="tree-table-pagination"
               title="Pagination"
               description="Pagination counts root nodes while descendants remain attached to their parent page."
@@ -628,8 +815,7 @@
           </div>
           <div role="row">
             <code role="cell">--aeris-tree-table-border</code
-            ><span role="cell">Viewport border color.</span
-            ><code role="cell">--aeris-border</code>
+            ><span role="cell">Viewport border color.</span><code role="cell">--aeris-border</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-tree-table-radius</code

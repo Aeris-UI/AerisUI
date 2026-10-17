@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 const fixtureUrl = 'http://127.0.0.1:4300';
 const builtApps = process.env['AERIS_E2E_BUILT_APPS'] === 'true';
 const docsLayoutTests = [
+  '**/table-selection-workflows.spec.ts',
   '**/geometry-consistency.spec.ts',
   '**/cascade-select-responsive.spec.ts',
   '**/multi-select-responsive.spec.ts',
@@ -81,7 +82,12 @@ export default defineConfig({
     {
       name: 'docs-quality-firefox',
       use: { ...devices['Desktop Firefox'], baseURL: 'http://127.0.0.1:4301' },
-      testMatch: ['**/catalog-quality.spec.ts', '**/home-page.spec.ts', '**/theming-guide.spec.ts'],
+      testMatch: [
+        '**/catalog-quality.spec.ts',
+        '**/home-page.spec.ts',
+        '**/theming-guide.spec.ts',
+        '**/table-selection-workflows.spec.ts',
+      ],
     },
     {
       name: 'visual-baselines',
@@ -101,6 +107,7 @@ export default defineConfig({
         '**/date-time-foundation.spec.ts',
         '**/date-picker-time-entry.spec.ts',
         '**/color-picker-alpha.spec.ts',
+        '**/table-selection-workflows.spec.ts',
         '**/chart-presentation.spec.ts',
       ],
     },
@@ -117,6 +124,7 @@ export default defineConfig({
         '**/date-time-foundation.spec.ts',
         '**/date-picker-time-entry.spec.ts',
         '**/color-picker-alpha.spec.ts',
+        '**/table-selection-workflows.spec.ts',
         '**/chart-presentation.spec.ts',
       ],
     },
