@@ -272,6 +272,55 @@
   box-shadow: 0 0 0 1px var(--aeris-border, #efefef);
 }
 
+// Only translucent colors use a checkerboard; opaque swatches stay pixel-exact.
+.aeris-color-picker__swatch[data-translucent],
+.aeris-color-picker__preview[data-translucent],
+.aeris-color-picker__presets button[data-translucent] {
+  background-image:
+    linear-gradient(
+      var(--aeris-color-picker-preview-color),
+      var(--aeris-color-picker-preview-color)
+    ),
+    conic-gradient(
+      var(--aeris-color-picker-checker-light, #fff) 25%,
+      var(--aeris-color-picker-checker-dark, #b8b8b8) 0 50%,
+      var(--aeris-color-picker-checker-light, #fff) 0 75%,
+      var(--aeris-color-picker-checker-dark, #b8b8b8) 0
+    );
+  background-size:
+    auto,
+    var(--aeris-color-picker-checker-size, 0.625rem)
+      var(--aeris-color-picker-checker-size, 0.625rem);
+}
+
+.aeris-color-picker__hue.aeris-color-picker__alpha
+  input[type='range']::-webkit-slider-runnable-track {
+  background:
+    linear-gradient(to right, transparent, var(--aeris-color-picker-alpha-color)),
+    repeating-conic-gradient(
+        var(--aeris-color-picker-checker-light, #fff) 0 25%,
+        var(--aeris-color-picker-checker-dark, #b8b8b8) 0 50%
+      )
+      0 / var(--aeris-color-picker-checker-size, 0.625rem)
+      var(--aeris-color-picker-checker-size, 0.625rem);
+  // Paint through the border box without repeating the transparent gradient start at the far edge.
+  background-origin: border-box;
+  background-repeat: no-repeat, repeat;
+}
+
+.aeris-color-picker__hue.aeris-color-picker__alpha input[type='range']::-moz-range-track {
+  background:
+    linear-gradient(to right, transparent, var(--aeris-color-picker-alpha-color)),
+    repeating-conic-gradient(
+        var(--aeris-color-picker-checker-light, #fff) 0 25%,
+        var(--aeris-color-picker-checker-dark, #b8b8b8) 0 50%
+      )
+      0 / var(--aeris-color-picker-checker-size, 0.625rem)
+      var(--aeris-color-picker-checker-size, 0.625rem);
+  background-origin: border-box;
+  background-repeat: no-repeat, repeat;
+}
+
 .aeris-color-picker__panel-header > span:nth-child(2) {
   min-width: 0;
   display: grid;

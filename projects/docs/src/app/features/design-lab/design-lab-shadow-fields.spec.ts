@@ -1,9 +1,35 @@
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
+import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 import { DesignLabShadowFields } from './design-lab-shadow-fields';
 
 describe('Design Lab grouped shadow fields', () => {
+  it('opts shadow colors into opacity without putting alpha into the opaque color seed', () => {
+    const fixture = TestBed.createComponent(DesignLabShadowFields);
+    fixture.componentRef.setInput('fields', [
+      {
+        key: 'shadowSm',
+        label: 'shadowSm',
+        id: 'lab-shadow-color',
+        state: 'Override',
+        value: '1px 2px 3px 4px rgb(10 20 30 / .14)',
+      },
+    ]);
+    const changed = vi.fn();
+    fixture.componentInstance.valueChange.subscribe(changed);
+    fixture.detectChanges();
+    const picker = fixture.debugElement.query(By.directive(AerisColorPicker))
+      .componentInstance as AerisColorPicker;
+    expect(picker.alpha()).toBe(true);
+    expect(picker.value()).toBe('rgba(10, 20, 30, 0.14)');
+    picker.value.set('rgba(51, 102, 153, 0.5)');
+    expect(changed).toHaveBeenCalledWith({
+      key: 'shadowSm',
+      value: '1px 2px 3px 4px rgb(51 102 153 / 0.5)',
+    });
+  });
+
   it('groups and labels each parameter and keeps opacity when dimensions change', () => {
     const fixture = TestBed.createComponent(DesignLabShadowFields);
     fixture.componentRef.setInput('fields', [

@@ -29,9 +29,12 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `alpha` | `boolean` | `false` | Enables opacity editing and transparent colors. HEX output uses #RRGGBBAA below full opacity; RGB and HSL use rgba() and hsla(). Opaque values keep their existing format. |
+| `opacityLabel` | `string` | `'Opacity'` | Visible label above the optional opacity slider. |
+| `alphaAriaLabel` | `string` | `'Opacity'` | Accessible name for the optional opacity slider, which reports its value as a percentage. |
 | `clearIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the clear icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `eyedropperIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the eyedropper icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
-| `closeIconTemplate` | `TemplateRef&lt;AerisDialogTemplateContext&gt; &#124; undefined` | `undefined` | Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
+| `closeIconTemplate` | `TemplateRef&lt;void&gt; &#124; undefined` | `undefined` | Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior. |
 | `appendTo` | `'self' &#124; 'body' &#124; HTMLElement &#124; ElementRef&lt;HTMLElement&gt; &#124; TemplateRef&lt;unknown&gt; &#124; null &#124; undefined` | `global config or 'self'` | Mounts the overlay locally by default and automatically moves it to document.body when a clipping ancestor is detected. Set 'self', 'body', or a DOM/template target explicitly to override detection. |
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `'#2c694b'` | Current color value with two-way binding and Forms support. |
@@ -58,7 +61,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | `eyeDropperAriaLabel` | `string` | `'Pick a color from the screen'` | Accessible name for the optional browser-provided eyedropper action. |
 | `size` | `AerisColorPickerSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisColorPickerAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
-| `presets` | `readonly string[]` | `[]` | Preset colors shown inside the picker panel. Hex, rgb(), and hsl() strings are accepted. |
+| `presets` | `readonly string[]` | `[]` | Preset colors shown inside the picker panel. Hex, rgb(), and hsl() strings are accepted. With alpha enabled, presets without explicit opacity inherit the current slider opacity: their swatch previews update with the slider, and selecting one preserves that opacity. Presets with explicit alpha use their own opacity; for example, #336699ff always selects full opacity. |
 | `showInput` | `boolean` | `true` | Shows the editable text value input next to the trigger. |
 | `showValue` | `boolean` | `true` | Shows the formatted color text inside the trigger. When false, the trigger becomes a square swatch button. |
 | `showFormat` | `boolean` | `true` | Shows the format selector when more than one format is available. |
@@ -116,6 +119,9 @@ interface AerisColorPickerChangeEvent {
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
+| `--aeris-color-picker-checker-light` | `CSS custom property` | — | Light transparency checker square. |
+| `--aeris-color-picker-checker-dark` | `CSS custom property` | — | Dark transparency checker square. |
+| `--aeris-color-picker-checker-size` | `CSS custom property` | — | Size of a repeating checker tile. |
 | `--aeris-surface` | `CSS custom property` | — | Control, panel, and active format backgrounds. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled surface and clear hover. |
 | `--aeris-border` | `CSS custom property` | — | Default field and swatch borders. |
@@ -299,6 +305,65 @@ import { AerisColorPicker, type AerisColorFormat } from '@aeris-ui/core/color-pi
 export class ColorPickerFormatsSelectableFormatsDemo {
   protected readonly formatColor = signal('#2c694b');
   protected readonly selectedFormat = signal<AerisColorFormat>('hex');
+}
+```
+
+### Opacity
+
+Enable alpha to edit opacity with a percentage slider or text. The checkerboard distinguishes transparent colors from opaque colors.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisColorPicker } from '@aeris-ui/core/color-picker';
+
+@Component({
+  selector: 'app-color-picker-opacity-demo',
+  imports: [AerisColorPicker],
+  template: `
+    <div class="field">
+      <label for="color-opacity">Overlay color</label>
+      <aeris-color-picker
+        inputId="color-opacity"
+        alpha
+        format="rgb"
+        [(value)]="translucentColor"
+        [presets]="['#336699', '#33669940', '#336699ff', 'transparent']"
+      />
+      <small aria-live="polite">Selected: {{ translucentColor() }}</small>
+    </div>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+  `
+})
+export class ColorPickerOpacityOpacityDemo {
+  protected readonly translucentColor = signal('rgba(51, 102, 153, 0.5)');
 }
 ```
 
@@ -916,7 +981,7 @@ export class ColorPickerEventsEventsDemo {
 - Use a visible label and connect it with inputId. Use ariaDescribedBy for help and validation text.
 - Text entry accepts hex, rgb(), and hsl() strings so color can be edited without pointer interaction.
 - The color plane reports saturation and brightness through slider semantics and supports full keyboard adjustment.
-- Hue uses a native range input. Format choices and preset colors are native buttons with pressed state.
+- Hue and optional opacity use native range inputs. Opacity is announced as a percentage. Format choices and preset colors are native buttons with pressed state.
 - Where supported, screen sampling uses the browser-provided EyeDropper API after an explicit button press. Canceling it does not change the selected color.
 - Do not rely on a color swatch alone when naming presets in surrounding application UI.
 - Invalid state is visual and semantic through aria-invalid; pair it with text that explains the problem.
@@ -929,10 +994,10 @@ export class ColorPickerEventsEventsDemo {
 | --- | --- |
 | `Tab / Shift + Tab` | Moves through the trigger, text input, plane, hue slider, format choices, and presets. |
 | `Enter / Space` | Opens the panel from the trigger or activates the focused eyedropper, format, preset, clear, or close button. |
-| `Arrow Left / Arrow Right` | Decreases or increases saturation on the color plane. Native arrow behavior adjusts hue on its slider. |
+| `Arrow Left / Arrow Right` | Decreases or increases saturation on the color plane. Native arrow behavior adjusts hue or opacity on its slider. |
 | `Arrow Up / Arrow Down` | Increases or decreases brightness on the color plane. |
 | `Shift + Arrow` | Adjusts saturation or brightness in ten-percent steps. |
-| `Home / End` | Moves saturation to its minimum or maximum on the color plane. |
+| `Home / End` | Moves saturation to its minimum or maximum on the color plane, or moves a native slider to its minimum or maximum. |
 | `Page Up / Page Down` | Adjusts brightness in ten-percent steps. |
 | `Escape` | Closes the panel and restores focus to its trigger. |
 | `Backspace / Delete` | Edits the focused text input using native browser behavior. |

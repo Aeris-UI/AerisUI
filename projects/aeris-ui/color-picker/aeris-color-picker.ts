@@ -19,8 +19,6 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 import {
-  aerisInternalClampOverlayPoint,
-  aerisInternalCreateFrameScheduler,
   ɵAerisAppendTo,
   type AerisAppendTo,
   type AerisOverlayCollisionPadding,
@@ -57,11 +55,6 @@ interface EyeDropperInstance {
 }
 
 type EyeDropperConstructor = new () => EyeDropperInstance;
-
-interface PanelPosition {
-  readonly top: number;
-  readonly left: number;
-}
 
 let colorPickerId = 0;
 
@@ -106,7 +99,9 @@ let colorPickerId = 0;
       >
         <span
           class="aeris-color-picker__swatch"
-          [style.background-color]="hexValue()"
+          [style.background-color]="previewColor()"
+          [style.--aeris-color-picker-preview-color]="previewColor()"
+          [attr.data-translucent]="opacity() < 1 || null"
           aria-hidden="true"
         ></span>
         @if (showValue()) {
@@ -163,20 +158,20 @@ let colorPickerId = 0;
           [aerisInternalAppendToDismiss]="dismissOverlay"
           [aerisInternalAppendToAnchor]="this.triggerButton()?.nativeElement ?? null"
           [aerisInternalAppendToCollisionPadding]="viewportMargin()"
+          [aerisInternalAppendToOffset]="8"
           (aerisInternalAppendToOutside)="close(false)"
           role="dialog"
           [id]="panelId"
           [attr.aria-label]="resolvedPanelAriaLabel()"
-          [attr.data-positioned]="panelPositioned() || null"
-          [style.top.px]="panelTop()"
-          [style.left.px]="panelLeft()"
           (pointerdown)="handlePanelPointerDown()"
           (keydown)="handlePanelKeydown($event)"
         >
           <header class="aeris-color-picker__panel-header">
             <span
               class="aeris-color-picker__preview"
-              [style.background-color]="hexValue()"
+              [style.background-color]="previewColor()"
+              [style.--aeris-color-picker-preview-color]="previewColor()"
+              [attr.data-translucent]="opacity() < 1 || null"
               aria-hidden="true"
             ></span>
             <span>
@@ -266,6 +261,29 @@ let colorPickerId = 0;
             />
           </label>
 
+          @if (alpha()) {
+            <label class="aeris-color-picker__hue aeris-color-picker__alpha">
+              <span
+                >{{ opacityLabel() }} <output>{{ opacityPercent() }}%</output></span
+              >
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="1"
+                [value]="opacityPercent()"
+                [attr.aria-label]="alphaAriaLabel()"
+                [attr.aria-valuetext]="opacityPercent() + '%'"
+                [style.--aeris-color-picker-alpha-color]="opaqueHex()"
+                [style.--aeris-color-picker-hue-color]="opaqueHex()"
+                (input)="handleAlphaInput($event)"
+                (change)="emitCommitted($event)"
+                (focus)="focused.emit($event)"
+                (blur)="handleBlur($event)"
+              />
+            </label>
+          }
+
           @if (showFormat() && normalizedFormats().length > 1) {
             <div
               class="aeris-color-picker__formats"
@@ -309,13 +327,15 @@ let colorPickerId = 0;
                 role="group"
                 [attr.aria-label]="presetsAriaLabel()"
               >
-                @for (preset of normalizedPresets(); track preset) {
+                @for (preset of normalizedPresets(); track preset.value) {
                   <button
                     type="button"
-                    [attr.aria-label]="'Select ' + preset"
-                    [attr.aria-pressed]="preset === hexValue()"
-                    [style.background-color]="preset"
-                    (click)="selectPreset(preset, $event)"
+                    [attr.aria-label]="'Select ' + preset.value"
+                    [attr.aria-pressed]="preset.selected"
+                    [style.background-color]="preset.color"
+                    [style.--aeris-color-picker-preview-color]="preset.color"
+                    [attr.data-translucent]="preset.translucent || null"
+                    (click)="selectPreset(preset.value, $event)"
                   ></button>
                 }
               </div>
@@ -348,7 +368,6 @@ export class AerisColorPicker implements ControlValueAccessor {
   };
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly repositionFrame = aerisInternalCreateFrameScheduler(() => this.positionPanel());
   private readonly injector = inject(Injector);
   private readonly pickerPanel = viewChild<ElementRef<HTMLElement>>('pickerPanel');
   private readonly panelPortal = viewChild(ɵAerisAppendTo);
@@ -383,6 +402,9 @@ export class AerisColorPicker implements ControlValueAccessor {
   readonly textAriaLabel = input('Color value');
   readonly formatAriaLabel = input('Color format');
   readonly hueAriaLabel = input('Hue');
+  readonly alpha = input(false, { transform: booleanAttribute });
+  readonly opacityLabel = input('Opacity');
+  readonly alphaAriaLabel = input('Opacity');
   readonly planeAriaLabel = input('Saturation and brightness');
   readonly presetsAriaLabel = input('Preset colors');
   readonly presetsLabel = input('Presets');
@@ -417,9 +439,6 @@ export class AerisColorPicker implements ControlValueAccessor {
   readonly closed = output<void>();
 
   protected readonly isOpen = signal(false);
-  protected readonly panelPositioned = signal(false);
-  protected readonly panelTop = signal(0);
-  protected readonly panelLeft = signal(0);
   protected readonly eyeDropperAvailable = signal(false);
   protected readonly eyeDropperActive = signal(false);
   protected readonly resolvedInputId = computed(() => this.inputId() || this.generatedId);
@@ -427,8 +446,20 @@ export class AerisColorPicker implements ControlValueAccessor {
     () => this.panelAriaLabel() || this.nativeAriaLabel(),
   );
   protected readonly effectiveDisabled = computed(() => this.disabled() || this.formDisabled());
-  protected readonly parsedValue = computed(() => parseColor(this.value()));
-  protected readonly hexValue = computed(() => this.parsedValue()?.hex ?? '#000000');
+  protected readonly parsedValue = computed(() => parseColor(this.value(), this.alpha()));
+  protected readonly opacity = computed(() => this.parsedValue()?.alpha ?? 1);
+  protected readonly opacityPercent = computed(() => Math.round(this.opacity() * 100));
+  protected readonly opaqueHex = computed(() => this.parsedValue()?.hex ?? '#000000');
+  protected readonly hexValue = computed(() => {
+    const parsed = this.parsedValue();
+    return parsed ? formatColor(parsed.rgb, 'hex', parsed.alpha) : '#000000';
+  });
+  protected readonly previewColor = computed(() => {
+    const parsed = this.parsedValue();
+    return parsed
+      ? formatColor(parsed.rgb, parsed.alpha < 1 ? 'rgb' : 'hex', parsed.alpha)
+      : '#000000';
+  });
   protected readonly hsvValue = computed(() => {
     const parsed = this.parsedValue();
     const draft = this.hsvDraft();
@@ -441,7 +472,7 @@ export class AerisColorPicker implements ControlValueAccessor {
   );
   protected readonly textValue = computed(() => this.textDraft() || this.value());
   protected readonly textInvalid = computed(
-    () => Boolean(this.textDraft()) && !parseColor(this.textDraft()),
+    () => Boolean(this.textDraft()) && !parseColor(this.textDraft(), this.alpha()),
   );
   protected readonly normalizedFormats = computed<readonly AerisColorFormat[]>(() => {
     const configuredFormats = [...new Set(this.formats().filter(isColorFormat))];
@@ -449,13 +480,28 @@ export class AerisColorPicker implements ControlValueAccessor {
       ? configuredFormats
       : [...configuredFormats, this.format()];
   });
-  protected readonly normalizedPresets = computed(() => [
-    ...new Set(
-      this.presets()
-        .map((preset) => parseColor(preset)?.hex)
-        .filter((preset): preset is string => Boolean(preset)),
-    ),
-  ]);
+  protected readonly normalizedPresets = computed(() => {
+    const unique = new Map<
+      string,
+      { value: string; color: string; selected: boolean; translucent: boolean }
+    >();
+    for (const preset of this.presets()) {
+      const parsed = parseColor(preset, this.alpha());
+      if (!parsed) continue;
+      // Keep explicit alpha (including 1) and decimal precision when a preset is activated.
+      const value = parsed.hasAlpha ? preset.trim() : parsed.hex;
+      const opacity = parsed.hasAlpha ? parsed.alpha : this.opacity();
+      unique.set(`${parsed.hex}:${parsed.hasAlpha ? parsed.alpha : 'inherit'}`, {
+        value,
+        color: formatColor(parsed.rgb, opacity < 1 ? 'rgb' : 'hex', opacity),
+        selected:
+          parsed.hex === this.opaqueHex() &&
+          (!parsed.hasAlpha || Math.round(parsed.alpha * 255) === Math.round(this.opacity() * 255)),
+        translucent: opacity < 1,
+      });
+    }
+    return [...unique.values()];
+  });
   private readonly closeUnavailablePanel = effect(() => {
     if ((this.effectiveDisabled() || this.readonly()) && this.isOpen()) this.close(false);
   });
@@ -467,18 +513,12 @@ export class AerisColorPicker implements ControlValueAccessor {
     effect((onCleanup) => {
       if (!this.isOpen()) return;
       const view = this.host.nativeElement.ownerDocument.defaultView;
-      const reposition = this.repositionFrame.schedule;
       const endPointerInteraction = () => this.endPanelPointerInteraction();
-      view?.addEventListener('resize', reposition);
-      view?.addEventListener('scroll', reposition);
       view?.addEventListener('pointerup', endPointerInteraction);
       view?.addEventListener('pointercancel', endPointerInteraction);
       onCleanup(() => {
-        view?.removeEventListener('resize', reposition);
-        view?.removeEventListener('scroll', reposition);
         view?.removeEventListener('pointerup', endPointerInteraction);
         view?.removeEventListener('pointercancel', endPointerInteraction);
-        this.repositionFrame.cancel();
       });
     });
   }
@@ -507,14 +547,11 @@ export class AerisColorPicker implements ControlValueAccessor {
 
   open(): void {
     if (this.effectiveDisabled() || this.readonly() || this.isOpen()) return;
-    this.panelPositioned.set(false);
     this.isOpen.set(true);
     this.opened.emit();
     afterNextRender(
       {
-        earlyRead: () => this.calculatePanelPosition(),
-        write: (position) => {
-          this.applyPanelPosition(position);
+        write: () => {
           this.colorPlane()?.nativeElement.focus();
         },
       },
@@ -526,7 +563,6 @@ export class AerisColorPicker implements ControlValueAccessor {
     if (!this.isOpen()) return;
     this.panelPortal()?.restore();
     this.isOpen.set(false);
-    this.panelPositioned.set(false);
     this.planeDragging.set(false);
     this.panelPointerInteraction = false;
     this.textDraft.set('');
@@ -544,7 +580,7 @@ export class AerisColorPicker implements ControlValueAccessor {
 
   reset(): void {
     if (this.effectiveDisabled() || this.readonly()) return;
-    this.setFromHex('#2c694b');
+    this.setValue(formatColor({ r: 44, g: 105, b: 75 }, this.format()));
     this.textDraft.set('');
   }
 
@@ -554,10 +590,6 @@ export class AerisColorPicker implements ControlValueAccessor {
     this.textDraft.set('');
     this.cleared.emit();
     this.focus();
-  }
-
-  protected positionPanel(): void {
-    this.applyPanelPosition(this.calculatePanelPosition());
   }
 
   protected openEyeDropper(event: Event): void {
@@ -583,41 +615,6 @@ export class AerisColorPicker implements ControlValueAccessor {
         this.eyeDropperActive.set(false);
         if (this.isOpen()) queueMicrotask(() => this.colorPlane()?.nativeElement.focus());
       });
-  }
-
-  private calculatePanelPosition(): PanelPosition | null {
-    if (!this.isOpen()) return null;
-    const trigger = this.triggerButton()?.nativeElement;
-    const panel = this.pickerPanel()?.nativeElement;
-    if (!trigger || !panel) return null;
-
-    const triggerRect = trigger.getBoundingClientRect();
-    const panelRect = panel.getBoundingClientRect();
-    const viewportWidth = document.documentElement.clientWidth;
-    const viewportHeight = document.documentElement.clientHeight;
-    const margin = 8;
-    const gap = 8;
-    const below = triggerRect.bottom + gap;
-    const above = triggerRect.top - panelRect.height - gap;
-    const top =
-      below + panelRect.height <= viewportHeight - margin ? below : Math.max(margin, above);
-    const position = aerisInternalClampOverlayPoint(
-      { x: triggerRect.left, y: top },
-      panelRect.width,
-      panelRect.height,
-      viewportWidth,
-      viewportHeight,
-      margin,
-    );
-
-    return { left: Math.round(position.x), top: Math.round(position.y) };
-  }
-
-  private applyPanelPosition(position: PanelPosition | null): void {
-    if (!position || !this.isOpen()) return;
-    this.panelLeft.set(position.left);
-    this.panelTop.set(position.top);
-    this.panelPositioned.set(true);
   }
 
   protected handleTriggerKeydown(event: KeyboardEvent): void {
@@ -700,18 +697,33 @@ export class AerisColorPicker implements ControlValueAccessor {
   }
 
   protected handleHueInput(event: Event): void {
+    if (this.effectiveDisabled() || this.readonly()) return;
     const hue = Number((event.target as HTMLInputElement).value);
     const current = this.hsvValue();
     this.setFromHsv({ ...current, h: hue });
+  }
+
+  protected handleAlphaInput(event: Event): void {
+    if (!this.alpha() || this.effectiveDisabled() || this.readonly()) return;
+    const opacity = Number((event.target as HTMLInputElement).value) / 100;
+    if (!Number.isFinite(opacity)) return;
+    this.setValue(
+      formatColor(
+        this.parsedValue()?.rgb ?? { r: 0, g: 0, b: 0 },
+        this.format(),
+        clamp(opacity, 0, 1),
+      ),
+    );
+    this.textDraft.set('');
   }
 
   protected handleTextInput(event: Event): void {
     if (this.effectiveDisabled() || this.readonly()) return;
     const draft = (event.target as HTMLInputElement).value;
     this.textDraft.set(draft);
-    const parsed = parseColor(draft);
+    const parsed = parseColor(draft, this.alpha());
     if (parsed && isContinuousCommitValue(draft)) {
-      this.setValue(formatColor(parsed.rgb, this.format()));
+      this.setValue(formatColor(parsed.rgb, this.format(), parsed.alpha));
       this.textDraft.set('');
     }
   }
@@ -735,7 +747,12 @@ export class AerisColorPicker implements ControlValueAccessor {
 
   protected handleFocusOut(event: FocusEvent): void {
     const nextTarget = event.relatedTarget;
-    if (nextTarget instanceof Node && this.host.nativeElement.contains(nextTarget)) return;
+    if (
+      nextTarget instanceof Node &&
+      (this.host.nativeElement.contains(nextTarget) ||
+        this.pickerPanel()?.nativeElement.contains(nextTarget))
+    )
+      return;
     if (this.eyeDropperActive() || this.panelPointerInteraction) return;
 
     // Browsers may report no related target while a pointer activates an internal
@@ -750,23 +767,26 @@ export class AerisColorPicker implements ControlValueAccessor {
   }
 
   protected selectFormat(nextFormat: AerisColorFormat, event: Event): void {
+    if (this.effectiveDisabled() || this.readonly()) return;
     if (this.format() === nextFormat) return;
     const parsed = this.parsedValue();
     this.format.set(nextFormat);
-    if (parsed) this.setValue(formatColor(parsed.rgb, nextFormat));
+    if (parsed) this.setValue(formatColor(parsed.rgb, nextFormat, parsed.alpha));
     this.textDraft.set('');
     this.emitCommitted(event);
   }
 
   protected selectPreset(hex: string, event: Event): void {
+    if (this.effectiveDisabled() || this.readonly()) return;
     this.setFromHex(hex);
     this.emitCommitted(event);
   }
 
   protected emitCommitted(event: Event): void {
+    if (this.effectiveDisabled() || this.readonly()) return;
     const parsed = this.parsedValue();
     if (!parsed) return;
-    this.changed.emit({ originalEvent: event, value: this.value(), hex: parsed.hex });
+    this.changed.emit({ originalEvent: event, value: this.value(), hex: this.hexValue() });
   }
 
   private updateFromPlanePointer(event: PointerEvent): void {
@@ -783,22 +803,25 @@ export class AerisColorPicker implements ControlValueAccessor {
   }
 
   private commitText(draft: string, event: Event): void {
-    const parsed = parseColor(draft);
+    if (this.effectiveDisabled() || this.readonly()) return;
+    const parsed = parseColor(draft, this.alpha());
     if (!parsed) return;
-    this.setValue(formatColor(parsed.rgb, this.format()));
+    this.setValue(formatColor(parsed.rgb, this.format(), parsed.alpha));
     this.textDraft.set('');
     this.emitCommitted(event);
   }
 
   private setFromHex(hex: string): void {
-    const parsed = parseColor(hex);
+    const parsed = parseColor(hex, this.alpha());
     if (!parsed) return;
-    this.setValue(formatColor(parsed.rgb, this.format()));
+    this.setValue(
+      formatColor(parsed.rgb, this.format(), parsed.hasAlpha ? parsed.alpha : this.opacity()),
+    );
   }
 
   private setFromHsv(color: HsvColor): void {
     this.hsvDraft.set(color);
-    this.setValue(formatColor(hsvToRgb(color), this.format()));
+    this.setValue(formatColor(hsvToRgb(color), this.format(), this.opacity()));
   }
 
   private setValue(value: string): void {
@@ -809,8 +832,8 @@ export class AerisColorPicker implements ControlValueAccessor {
 
   private coerceValue(value: unknown): string {
     if (typeof value !== 'string') return '';
-    const parsed = parseColor(value);
-    return parsed ? formatColor(parsed.rgb, this.format()) : value;
+    const parsed = parseColor(value, this.alpha());
+    return parsed ? formatColor(parsed.rgb, this.format(), parsed.alpha) : value;
   }
 }
 
@@ -828,16 +851,58 @@ function getEyeDropperConstructor(): EyeDropperConstructor | undefined {
 
 function isContinuousCommitValue(value: string): boolean {
   const trimmed = value.trim();
-  return /^#?[\da-f]{6}$/i.test(trimmed) || /^rgb\(/i.test(trimmed) || /^hsl\(/i.test(trimmed);
+  return /^#?(?:[\da-f]{6}|[\da-f]{8})$/i.test(trimmed) || /^(?:rgba?|hsla?)\(/i.test(trimmed);
 }
 
-function parseColor(value: string): { readonly hex: string; readonly rgb: RgbColor } | null {
+interface ParsedColor {
+  readonly hex: string;
+  readonly rgb: RgbColor;
+  readonly alpha: number;
+  readonly hasAlpha: boolean;
+}
+
+function parseColor(value: string, allowAlpha = false): ParsedColor | null {
   const trimmed = value.trim();
   if (!trimmed) return null;
+  if (allowAlpha) {
+    if (trimmed.toLowerCase() === 'transparent') {
+      return { hex: '#000000', rgb: { r: 0, g: 0, b: 0 }, alpha: 0, hasAlpha: true };
+    }
+    const hexAlpha = /^#?([\da-f]{4}|[\da-f]{8})$/i.exec(trimmed)?.[1];
+    if (hexAlpha) {
+      const expanded =
+        hexAlpha.length === 4 ? [...hexAlpha].map((digit) => digit + digit).join('') : hexAlpha;
+      const hex = `#${expanded.slice(0, 6).toLowerCase()}`;
+      return {
+        hex,
+        rgb: hexToRgb(hex),
+        alpha: Number.parseInt(expanded.slice(6), 16) / 255,
+        hasAlpha: true,
+      };
+    }
+    const functional = /^(rgba?|hsla?)\(([^()]+)\)$/i.exec(trimmed);
+    if (functional) {
+      const name = functional[1]?.toLowerCase() ?? '';
+      const body = functional[2] ?? '';
+      const parts = body.includes(',')
+        ? body.split(',').map((part) => part.trim())
+        : body.trim().split(/\s*\/\s*|\s+/);
+      if (parts.length === 4) {
+        const rawAlpha = parts[3] ?? '';
+        if (!/^(?:\d+(?:\.\d+)?|\.\d+)%?$/.test(rawAlpha)) return null;
+        const alpha = Number.parseFloat(rawAlpha) / (rawAlpha.endsWith('%') ? 100 : 1);
+        if (!Number.isFinite(alpha) || alpha < 0 || alpha > 1) return null;
+        const rgb = name.startsWith('rgb')
+          ? parseRgb(`rgb(${parts.slice(0, 3).join(',')})`)
+          : parseHsl(`hsl(${parts.slice(0, 3).join(',')})`);
+        return rgb ? { hex: rgbToHex(rgb), rgb, alpha, hasAlpha: true } : null;
+      }
+    }
+  }
   const hex = parseHex(trimmed);
-  if (hex) return { hex, rgb: hexToRgb(hex) };
+  if (hex) return { hex, rgb: hexToRgb(hex), alpha: 1, hasAlpha: false };
   const rgb = parseRgb(trimmed) ?? parseHsl(trimmed);
-  return rgb ? { hex: rgbToHex(rgb), rgb } : null;
+  return rgb ? { hex: rgbToHex(rgb), rgb, alpha: 1, hasAlpha: false } : null;
 }
 
 function parseHex(value: string): string | null {
@@ -892,13 +957,20 @@ function toHex(value: number): string {
   return Math.round(value).toString(16).padStart(2, '0');
 }
 
-function formatColor(color: RgbColor, format: AerisColorFormat): string {
-  if (format === 'rgb') return `rgb(${color.r}, ${color.g}, ${color.b})`;
+function formatColor(color: RgbColor, format: AerisColorFormat, alpha = 1): string {
+  // Eight decimal places retain every 8-bit HEX alpha during format round trips.
+  const opacity = Math.round(alpha * 100_000_000) / 100_000_000;
+  if (format === 'rgb')
+    return alpha < 1
+      ? `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`
+      : `rgb(${color.r}, ${color.g}, ${color.b})`;
   if (format === 'hsl') {
     const hsl = rgbToHsl(color);
-    return `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+    return alpha < 1
+      ? `hsla(${hsl.h}, ${hsl.s}%, ${hsl.l}%, ${opacity})`
+      : `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
   }
-  return rgbToHex(color);
+  return `${rgbToHex(color)}${alpha < 1 ? toHex(alpha * 255) : ''}`;
 }
 
 function rgbToHsl(color: RgbColor): { readonly h: number; readonly s: number; readonly l: number } {

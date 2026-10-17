@@ -98,3 +98,10 @@ export function serializeLabShadow(shadow: LabShadow): string {
   if (!rgb) throw new Error('Choose a regular shadow color.');
   return `${shadow.inset ? 'inset ' : ''}${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.spread}px rgb(${rgb.red} ${rgb.green} ${rgb.blue} / ${Number(shadow.opacity.toFixed(4))})`;
 }
+
+/** Keep the color editor's decimal opacity separate from opaque theme seeds. */
+export function serializeLabShadowColor(shadow: LabShadow): string {
+  const rgb = parseAerisColor(shadow.color);
+  if (!rgb) throw new Error('Choose a regular shadow color.');
+  return `rgba(${rgb.red}, ${rgb.green}, ${rgb.blue}, ${shadow.opacity})`;
+}

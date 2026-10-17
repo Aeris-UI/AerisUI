@@ -5480,6 +5480,24 @@
           "kind": "input",
           "entries": [
             {
+              "name": "alpha",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Enables opacity editing and transparent colors. HEX output uses #RRGGBBAA below full opacity; RGB and HSL use rgba() and hsla(). Opaque values keep their existing format."
+            },
+            {
+              "name": "opacityLabel",
+              "type": "string",
+              "defaultValue": "'Opacity'",
+              "description": "Visible label above the optional opacity slider."
+            },
+            {
+              "name": "alphaAriaLabel",
+              "type": "string",
+              "defaultValue": "'Opacity'",
+              "description": "Accessible name for the optional opacity slider, which reports its value as a percentage."
+            },
+            {
               "name": "clearIconTemplate",
               "type": "TemplateRef<void> | undefined",
               "defaultValue": "undefined",
@@ -5493,7 +5511,7 @@
             },
             {
               "name": "closeIconTemplate",
-              "type": "TemplateRef<AerisDialogTemplateContext> | undefined",
+              "type": "TemplateRef<void> | undefined",
               "defaultValue": "undefined",
               "description": "Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior."
             },
@@ -5657,7 +5675,7 @@
               "name": "presets",
               "type": "readonly string[]",
               "defaultValue": "[]",
-              "description": "Preset colors shown inside the picker panel. Hex, rgb(), and hsl() strings are accepted."
+              "description": "Preset colors shown inside the picker panel. Hex, rgb(), and hsl() strings are accepted. With alpha enabled, presets without explicit opacity inherit the current slider opacity: their swatch previews update with the slider, and selecting one preserves that opacity. Presets with explicit alpha use their own opacity; for example, #336699ff always selects full opacity."
             },
             {
               "name": "showInput",
@@ -5839,6 +5857,24 @@
       ],
       "designTokens": [
         {
+          "name": "--aeris-color-picker-checker-light",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Light transparency checker square."
+        },
+        {
+          "name": "--aeris-color-picker-checker-dark",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Dark transparency checker square."
+        },
+        {
+          "name": "--aeris-color-picker-checker-size",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Size of a repeating checker tile."
+        },
+        {
           "name": "--aeris-surface",
           "type": "CSS custom property",
           "defaultValue": "",
@@ -5957,6 +5993,18 @@
               "language": "TypeScript",
               "label": "TS",
               "code": "import { Component, signal } from '@angular/core';\nimport { AerisColorPicker, type AerisColorFormat } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-formats-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-format\">Interface color</label>\n      <aeris-color-picker\n        inputId=\"color-format\"\n        [(value)]=\"formatColor\"\n        [(format)]=\"selectedFormat\"\n      />\n      <small aria-live=\"polite\">\n        {{ selectedFormat().toUpperCase() }} · {{ formatColor() }}\n      </small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerFormatsSelectableFormatsDemo {\n  protected readonly formatColor = signal('#2c694b');\n  protected readonly selectedFormat = signal<AerisColorFormat>('hex');\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "color-picker-opacity",
+          "title": "Opacity",
+          "description": "Enable alpha to edit opacity with a percentage slider or text. The checkerboard distinguishes transparent colors from opaque colors.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-opacity-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <label for=\"color-opacity\">Overlay color</label>\n      <aeris-color-picker\n        inputId=\"color-opacity\"\n        alpha\n        format=\"rgb\"\n        [(value)]=\"translucentColor\"\n        [presets]=\"['#336699', '#33669940', '#336699ff', 'transparent']\"\n      />\n      <small aria-live=\"polite\">Selected: {{ translucentColor() }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerOpacityOpacityDemo {\n  protected readonly translucentColor = signal('rgba(51, 102, 153, 0.5)');\n}\n"
             }
           ]
         },
@@ -6117,7 +6165,7 @@
           "Use a visible label and connect it with inputId. Use ariaDescribedBy for help and validation text.",
           "Text entry accepts hex, rgb(), and hsl() strings so color can be edited without pointer interaction.",
           "The color plane reports saturation and brightness through slider semantics and supports full keyboard adjustment.",
-          "Hue uses a native range input. Format choices and preset colors are native buttons with pressed state.",
+          "Hue and optional opacity use native range inputs. Opacity is announced as a percentage. Format choices and preset colors are native buttons with pressed state.",
           "Where supported, screen sampling uses the browser-provided EyeDropper API after an explicit button press. Canceling it does not change the selected color.",
           "Do not rely on a color swatch alone when naming presets in surrounding application UI.",
           "Invalid state is visual and semantic through aria-invalid; pair it with text that explains the problem.",
@@ -6135,7 +6183,7 @@
           },
           {
             "keys": "Arrow Left / Arrow Right",
-            "behavior": "Decreases or increases saturation on the color plane. Native arrow behavior adjusts hue on its slider."
+            "behavior": "Decreases or increases saturation on the color plane. Native arrow behavior adjusts hue or opacity on its slider."
           },
           {
             "keys": "Arrow Up / Arrow Down",
@@ -6147,7 +6195,7 @@
           },
           {
             "keys": "Home / End",
-            "behavior": "Moves saturation to its minimum or maximum on the color plane."
+            "behavior": "Moves saturation to its minimum or maximum on the color plane, or moves a native slider to its minimum or maximum."
           },
           {
             "keys": "Page Up / Page Down",

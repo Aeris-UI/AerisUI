@@ -44,6 +44,7 @@ export class ColorPickerPage {
   protected readonly accentColor = signal('#a88245');
   protected readonly formatColor = signal('#2c694b');
   protected readonly selectedFormat = signal<AerisColorFormat>('hex');
+  protected readonly translucentColor = signal('rgba(51, 102, 153, 0.5)');
   protected readonly invalidColor = signal('');
   protected readonly touched = signal(false);
   protected readonly lastChange = signal('No color change yet');
@@ -65,6 +66,7 @@ export class ColorPickerPage {
     { id: 'color-picker-basic', label: 'Basic' },
     { id: 'color-picker-signal', label: 'Signal value' },
     { id: 'color-picker-formats', label: 'Selectable formats' },
+    { id: 'color-picker-opacity', label: 'Opacity' },
     { id: 'color-picker-eyedropper', label: 'Screen sampling' },
     { id: 'color-picker-presets', label: 'Presets' },
     { id: 'color-picker-swatch-only', label: 'Swatch only' },
@@ -89,6 +91,8 @@ export class ColorPickerPage {
 
   protected readonly formatCode = `protected readonly formatColor = signal('#2c694b');
 protected readonly selectedFormat = signal<AerisColorFormat>('hex');`;
+
+  protected readonly opacityCode = `protected readonly translucentColor = signal('rgba(51, 102, 153, 0.5)');`;
 
   protected readonly presetsCode = `protected readonly presets: readonly string[] = [
   '#f1f4f2',
@@ -127,6 +131,26 @@ interface AerisColorPickerChangeEvent {
 
   protected readonly inputs: readonly ApiRow[] = [
     {
+      name: 'alpha',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Enables opacity editing and transparent colors. HEX output uses #RRGGBBAA below full opacity; RGB and HSL use rgba() and hsla(). Opaque values keep their existing format.',
+    },
+    {
+      name: 'opacityLabel',
+      type: 'string',
+      defaultValue: "'Opacity'",
+      description: 'Visible label above the optional opacity slider.',
+    },
+    {
+      name: 'alphaAriaLabel',
+      type: 'string',
+      defaultValue: "'Opacity'",
+      description:
+        'Accessible name for the optional opacity slider, which reports its value as a percentage.',
+    },
+    {
       name: 'clearIconTemplate',
       type: 'TemplateRef<void> | undefined',
       defaultValue: 'undefined',
@@ -142,7 +166,7 @@ interface AerisColorPickerChangeEvent {
     },
     {
       name: 'closeIconTemplate',
-      type: 'TemplateRef<AerisDialogTemplateContext> | undefined',
+      type: 'TemplateRef<void> | undefined',
       defaultValue: 'undefined',
       description:
         'Replaces only the close icon artwork. Keep the icon decorative and non-interactive; Aeris retains the control behavior.',
@@ -311,7 +335,7 @@ interface AerisColorPickerChangeEvent {
       type: 'readonly string[]',
       defaultValue: '[]',
       description:
-        'Preset colors shown inside the picker panel. Hex, rgb(), and hsl() strings are accepted.',
+        'Preset colors shown inside the picker panel. Hex, rgb(), and hsl() strings are accepted. With alpha enabled, presets without explicit opacity inherit the current slider opacity: their swatch previews update with the slider, and selecting one preserves that opacity. Presets with explicit alpha use their own opacity; for example, #336699ff always selects full opacity.',
     },
     {
       name: 'showInput',

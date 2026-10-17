@@ -24,6 +24,7 @@ describe('Design Lab color fields', () => {
     );
     const picker = fixture.debugElement.query(By.directive(AerisColorPicker))
       .componentInstance as AerisColorPicker;
+    expect(picker.alpha()).toBe(false);
     picker.value.set('#123456');
     expect(changes).toHaveBeenCalledWith({ key: 'page', value: '#123456' });
     host.querySelector<HTMLButtonElement>('[aria-label="Inherit page"]')?.click();

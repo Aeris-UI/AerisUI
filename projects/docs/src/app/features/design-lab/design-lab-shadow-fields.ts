@@ -8,6 +8,7 @@ import {
   LAB_DEFAULT_SHADOW,
   parseLabShadow,
   serializeLabShadow,
+  serializeLabShadowColor,
   type LabShadow,
 } from './design-lab-shadow';
 
@@ -56,12 +57,14 @@ import {
             <div class="parameter">
               <label [for]="row.id + '-color'">Color</label>
               <aeris-color-picker
+                alpha
+                format="rgb"
                 size="sm"
                 [inputId]="row.id + '-color'"
                 [ariaLabel]="row.label + ' color'"
                 [showInput]="false"
                 [showFormat]="false"
-                [value]="shadow.color"
+                [value]="row.pickerColor"
                 (valueChange)="setColor(row.key, shadow, $event)"
               />
             </div>
@@ -151,6 +154,7 @@ export class DesignLabShadowFields<T extends string> {
         ...field,
         shadow,
         opacityPercent: shadow ? Number((shadow.opacity * 100).toFixed(2)) : 0,
+        pickerColor: shadow ? serializeLabShadowColor(shadow) : '',
       };
     }),
   );
@@ -180,7 +184,8 @@ export class DesignLabShadowFields<T extends string> {
       this.change(key, { ...shadow, opacity: Math.min(100, Math.max(0, value)) / 100 });
   }
   protected setColor(key: T, shadow: LabShadow, color: string): void {
-    this.change(key, { ...shadow, color });
+    const parsed = parseLabShadow(`0px 0px ${color}`);
+    if (parsed) this.change(key, { ...shadow, color: parsed.color, opacity: parsed.opacity });
   }
   protected setInset(key: T, shadow: LabShadow, inset: boolean): void {
     this.change(key, { ...shadow, inset });

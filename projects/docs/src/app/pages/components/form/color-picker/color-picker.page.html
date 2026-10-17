@@ -98,6 +98,56 @@
             </app-form-demo>
 
             <app-form-demo
+              id="color-picker-opacity"
+              title="Opacity"
+              description="Enable alpha to edit opacity with a percentage slider or text. The checkerboard distinguishes transparent colors from opaque colors."
+              [tsCode]="opacityCode"
+            >
+              <div preview class="field">
+                <label for="color-opacity">Overlay color</label>
+                <aeris-color-picker
+                  inputId="color-opacity"
+                  alpha
+                  format="rgb"
+                  [(value)]="translucentColor"
+                  [presets]="['#336699', '#33669940', '#336699ff', 'transparent']"
+                />
+                <small aria-live="polite">Selected: {{ translucentColor() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;label for="color-opacity"&gt;Overlay color&lt;/label&gt;
+  &lt;aeris-color-picker
+    inputId="color-opacity"
+    alpha
+    format="rgb"
+    [(value)]="translucentColor"
+    [presets]="['#336699', '#33669940', '#336699ff', 'transparent']"
+  /&gt;
+  &lt;small aria-live="polite"&gt;Selected: &#123;&#123; translucentColor() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <p>
+              With <code>alpha</code>, text entry also accepts <code>#RGBA</code>,
+              <code>#RRGGBBAA</code>, <code>rgba(51, 102, 153, 0.5)</code>,
+              <code>hsla(210, 50%, 40%, 0.5)</code>, space-separated RGB/HSL with slash opacity, and
+              <code>transparent</code>. Opacity can be a number from 0 to 1 or a percentage. HEX
+              stores opacity in 255 steps, so switching to HEX can round it slightly; RGB and HSL
+              retain up to eight decimal places.
+            </p>
+            <p>
+              Hue, saturation, brightness, and screen sampling retain the current opacity. With
+              <code>alpha</code> enabled, presets without explicit opacity inherit the current
+              slider opacity. Their swatch previews update as you move the slider, and selecting one
+              keeps that opacity. For example, <code>#336699</code> inherits the slider value, while
+              <code>#33669980</code> always applies approximately 50% opacity and
+              <code>#336699ff</code> always restores 100% opacity. Typed opaque values and
+              <code>reset()</code> also restore full opacity. The <code>changed.hex</code> value
+              includes alpha when translucent. Screen sampling reads a composited screen pixel, not
+              the original transparent color. Leave alpha disabled for theme seeds and other values
+              that require opaque colors, as the Design Lab does.
+            </p>
+
+            <app-form-demo
               id="color-picker-eyedropper"
               title="Screen sampling"
               description="In secure contexts, supported browsers add a pipette action that can sample a pixel from anywhere on screen. The action is omitted when the browser does not provide the EyeDropper API, while every other color input remains available."
@@ -461,6 +511,20 @@
             ><b role="columnheader">Fallback</b>
           </div>
           <div role="row">
+            <code role="cell">--aeris-color-picker-checker-light</code>
+            <span role="cell">Light transparency checker square.</span><code role="cell">#fff</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-color-picker-checker-dark</code>
+            <span role="cell">Dark transparency checker square.</span
+            ><code role="cell">#b8b8b8</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-color-picker-checker-size</code>
+            <span role="cell">Size of a repeating checker tile.</span
+            ><code role="cell">0.625rem</code>
+          </div>
+          <div role="row">
             <code role="cell">--aeris-surface</code
             ><span role="cell">Control, panel, and active format backgrounds.</span
             ><code role="cell">#fff</code>
@@ -547,8 +611,8 @@
             full keyboard adjustment.
           </li>
           <li>
-            Hue uses a native range input. Format choices and preset colors are native buttons with
-            pressed state.
+            Hue and optional opacity use native range inputs. Opacity is announced as a percentage.
+            Format choices and preset colors are native buttons with pressed state.
           </li>
           <li>
             Where supported, screen sampling uses the browser-provided EyeDropper API after an
@@ -598,7 +662,7 @@
             <span role="cell"><kbd>Arrow Left</kbd> / <kbd>Arrow Right</kbd></span
             ><span role="cell"
               >Decreases or increases saturation on the color plane. Native arrow behavior adjusts
-              hue on its slider.</span
+              hue or opacity on its slider.</span
             >
           </div>
           <div role="row">
@@ -611,7 +675,10 @@
           </div>
           <div role="row">
             <span role="cell"><kbd>Home</kbd> / <kbd>End</kbd></span
-            ><span role="cell">Moves saturation to its minimum or maximum on the color plane.</span>
+            ><span role="cell"
+              >Moves saturation to its minimum or maximum on the color plane, or moves a native
+              slider to its minimum or maximum.</span
+            >
           </div>
           <div role="row">
             <span role="cell"><kbd>Page Up</kbd> / <kbd>Page Down</kbd></span

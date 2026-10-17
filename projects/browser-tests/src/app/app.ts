@@ -16,6 +16,7 @@ import { ChoiceCardsFixture } from './choice-cards.fixture';
 import { ChipRemovalFixture } from './chip-removal.fixture';
 import { DrawerSwipeFixture } from './drawer-swipe.fixture';
 import { DateEntryFixture } from './date-entry.fixture';
+import { ColorPickerAlphaFixture } from './color-picker-alpha.fixture';
 import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 import { AerisDialogModule } from '@aeris-ui/core/dialog';
 import { AerisDrawerModule } from '@aeris-ui/core/drawer';
@@ -55,6 +56,7 @@ import { AerisThemeService } from '@aeris-ui/core/theming';
     ChipRemovalFixture,
     DrawerSwipeFixture,
     DateEntryFixture,
+    ColorPickerAlphaFixture,
     AerisDatePicker,
     AerisDialogModule,
     AerisDrawerModule,
