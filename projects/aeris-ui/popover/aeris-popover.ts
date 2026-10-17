@@ -2,6 +2,7 @@ import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Directive,
+  DestroyRef,
   ElementRef,
   TemplateRef,
   booleanAttribute,
@@ -183,6 +184,8 @@ export class AerisPopover {
   };
   private readonly repositionFrame = aerisInternalCreateFrameScheduler(() => this.reposition());
   private readonly document = inject(DOCUMENT);
+  private readonly destroyRef = inject(DestroyRef);
+  private destroyed = false;
   private readonly activeTarget = signal<Element | null>(null);
   private readonly triggerAttributes = signal<{
     readonly target: Element;
@@ -249,6 +252,11 @@ export class AerisPopover {
   readonly titleId = `${this.popoverId}-title`;
 
   constructor() {
+    this.destroyRef.onDestroy(() => {
+      this.destroyed = true;
+      this.repositionFrame.cancel();
+      this.updateTriggerAttributes(false);
+    });
     effect(() => {
       const visible = this.visible();
       if (visible === this.previousVisible) return;
@@ -336,6 +344,7 @@ export class AerisPopover {
       height,
       placement: this.placement(),
       alignment: this.alignment(),
+      direction: view.getComputedStyle(target).direction === 'rtl' ? 'rtl' : 'ltr',
       offset: this.offset(),
       margin: 0,
       collisionPadding: this.viewportMargin(),
@@ -355,18 +364,31 @@ export class AerisPopover {
   }
 
   protected handlePanelKeydown(event: KeyboardEvent): void {
-    if (event.key !== 'Tab' || !this.focusTrap()) return;
+    if (
+      event.defaultPrevented ||
+      event.key !== 'Tab' ||
+      !this.focusTrap() ||
+      !this.panelPortal()?.isTopmost()
+    )
+      return;
     this.trapTab(event);
   }
 
   protected handleDocumentKeydown(event: KeyboardEvent): void {
-    if (!this.visible() || event.key !== 'Escape' || !this.closeOnEscape()) return;
+    if (
+      !this.visible() ||
+      event.defaultPrevented ||
+      event.key !== 'Escape' ||
+      !this.closeOnEscape() ||
+      !this.panelPortal()?.isTopmost()
+    )
+      return;
     event.preventDefault();
     this.hide(event, 'escape');
   }
 
   protected handleDocumentPointerdown(event: PointerEvent): void {
-    if (!this.visible() || !this.closeOnOutsideClick()) return;
+    if (!this.visible() || !this.closeOnOutsideClick() || !this.panelPortal()?.isTopmost()) return;
     const target = event.target;
     if (!(target instanceof Node)) return;
     const panel = this.popoverPanel()?.nativeElement;
@@ -392,6 +414,7 @@ export class AerisPopover {
     this.pendingOriginalEvent = null;
     this.opened.emit(event);
     queueMicrotask(() => {
+      if (this.destroyed || !this.visible()) return;
       this.reposition();
       if (this.autoFocus()) this.focusInitial();
     });
@@ -415,7 +438,9 @@ export class AerisPopover {
     this.closed.emit(event);
 
     if (shouldRestoreFocus && target instanceof HTMLElement) {
-      queueMicrotask(() => target.focus());
+      queueMicrotask(() => {
+        if (!this.destroyed && !this.visible() && target.isConnected) target.focus();
+      });
     }
   }
 

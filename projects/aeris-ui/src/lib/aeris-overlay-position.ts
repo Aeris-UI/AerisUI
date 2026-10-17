@@ -19,6 +19,7 @@ export interface AerisInternalAnchoredOverlayPositionOptions {
   readonly height: number;
   readonly placement: AerisInternalOverlayPlacement | 'auto';
   readonly alignment: AerisInternalOverlayAlignment;
+  readonly direction?: 'ltr' | 'rtl';
   readonly offset: number;
   readonly margin: number;
   readonly viewportWidth: number;
@@ -76,9 +77,7 @@ export function aerisInternalPositionAnchoredOverlay(
   );
   return {
     placement,
-    ...(options.tetherToAnchor
-      ? tetheredPoint(placement, point, clampedPoint)
-      : clampedPoint),
+    ...(options.tetherToAnchor ? tetheredPoint(placement, point, clampedPoint) : clampedPoint),
   };
 }
 
@@ -177,7 +176,16 @@ function rawPosition(
 ): AerisInternalOverlayPoint {
   if (placement === 'top' || placement === 'bottom') {
     return {
-      x: aligned(options.target.left, options.target.width, options.width, options.alignment),
+      x: aligned(
+        options.target.left,
+        options.target.width,
+        options.width,
+        options.direction === 'rtl' && options.alignment !== 'center'
+          ? options.alignment === 'start'
+            ? 'end'
+            : 'start'
+          : options.alignment,
+      ),
       y:
         placement === 'bottom'
           ? options.target.bottom + options.offset

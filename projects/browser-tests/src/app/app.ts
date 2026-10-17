@@ -17,6 +17,7 @@ import { ChipRemovalFixture } from './chip-removal.fixture';
 import { DrawerSwipeFixture } from './drawer-swipe.fixture';
 import { DateEntryFixture } from './date-entry.fixture';
 import { ColorPickerAlphaFixture } from './color-picker-alpha.fixture';
+import { HoverOverlayFixture } from './hover-overlay.fixture';
 import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 import { AerisDialogModule } from '@aeris-ui/core/dialog';
 import { AerisDrawerModule } from '@aeris-ui/core/drawer';
@@ -40,6 +41,7 @@ import { AerisThemeService } from '@aeris-ui/core/theming';
 @Component({
   selector: 'app-root',
   imports: [
+    HoverOverlayFixture,
     GlobalIconsFixture,
     IconCustomizationFixture,
     AerisInputGroup,

@@ -20,7 +20,11 @@ import {
 } from './aeris-overlay-position';
 
 import { aerisInternalObserveViewport, aerisInternalViewportBounds } from './aeris-viewport';
-import { ɵregisterAerisOverlay, ɵunregisterAerisOverlay } from './aeris-scroll-lock';
+import {
+  ɵisTopmostAerisOverlay,
+  ɵregisterAerisOverlay,
+  ɵunregisterAerisOverlay,
+} from './aeris-scroll-lock';
 let nextAppendToZIndex = 1100;
 const positionedTargets = new WeakMap<HTMLElement, { count: number; readonly previous: string }>();
 
@@ -73,6 +77,11 @@ export class ɵAerisAppendTo {
 
   constructor() {
     effect((onCleanup) => {
+      const dismiss = this.aerisInternalAppendToDismiss();
+      if (dismiss) {
+        ɵregisterAerisOverlay(this.document, this.element, dismiss);
+        onCleanup(() => ɵunregisterAerisOverlay(this.document, this.element));
+      }
       const target = aerisInternalResolveAppendTo(
         this.aerisInternalAppendTo() ?? this.defaultAppendTo ?? this.aerisInternalAppendToDefault(),
         this.document,
@@ -97,8 +106,6 @@ export class ɵAerisAppendTo {
       if (!positioningTarget) return;
 
       const inheritedStyles = this.preserveInheritedStyles();
-      const dismiss = this.aerisInternalAppendToDismiss();
-      if (dismiss) ɵregisterAerisOverlay(this.document, this.element, dismiss);
       const stopViewport =
         !anchor && effectiveTarget === this.document.body
           ? aerisInternalObserveViewport(this.element, this.document)
@@ -162,7 +169,6 @@ export class ɵAerisAppendTo {
 
       onCleanup(() => {
         stopViewport();
-        if (dismiss) ɵunregisterAerisOverlay(this.document, this.element);
         view?.removeEventListener('resize', reposition);
         visualViewport?.removeEventListener('resize', reposition);
         visualViewport?.removeEventListener('scroll', reposition);
@@ -192,6 +198,10 @@ export class ɵAerisAppendTo {
   restore(): void {
     ɵunregisterAerisOverlay(this.document, this.element);
     this.restoreToOrigin();
+  }
+
+  isTopmost(): boolean {
+    return ɵisTopmostAerisOverlay(this.document, this.element);
   }
 
   private schedulePosition(anchor: HTMLElement | null, target: HTMLElement): void {

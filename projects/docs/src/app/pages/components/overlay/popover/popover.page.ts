@@ -226,7 +226,8 @@ interface AerisPopoverTemplateContext {
       name: 'alignment',
       type: 'AerisPopoverAlignment',
       defaultValue: "'center'",
-      description: "Alignment along the target edge. Options: 'start', 'center', 'end'.",
+      description:
+        "Alignment along the target edge. Horizontal start/end follow the trigger's text direction. Options: 'start', 'center', 'end'.",
     },
     { name: 'width', type: 'string', defaultValue: "''", description: 'Custom popover width.' },
     { name: 'maxWidth', type: 'string', defaultValue: "''", description: 'Custom maximum width.' },

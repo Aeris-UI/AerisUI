@@ -100,6 +100,7 @@ export default defineConfig({
       name: 'mobile-chromium',
       use: { ...devices['Pixel 7'] },
       testMatch: [
+        '**/hover-overlay.spec.ts',
         '**/table-row-reorder.spec.ts',
         '**/mobile.spec.ts',
         '**/mobile-foundation.spec.ts',
@@ -118,6 +119,7 @@ export default defineConfig({
       name: 'mobile-webkit',
       use: { ...devices['iPhone 15'] },
       testMatch: [
+        '**/hover-overlay.spec.ts',
         '**/table-row-reorder.spec.ts',
         '**/mobile.spec.ts',
         '**/mobile-foundation.spec.ts',

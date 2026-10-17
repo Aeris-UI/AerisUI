@@ -30196,7 +30196,7 @@
               "name": "alignment",
               "type": "AerisPopoverAlignment",
               "defaultValue": "'center'",
-              "description": "Alignment along the target edge. Options: 'start', 'center', 'end'."
+              "description": "Alignment along the target edge. Horizontal start/end follow the trigger's text direction. Options: 'start', 'center', 'end'."
             },
             {
               "name": "width",
@@ -30598,6 +30598,7 @@
           "The trigger receives aria-haspopup=\"dialog\", aria-expanded, and aria-controls while the popover is open, then its previous values are restored.",
           "Focus moves into the popover by default, remains trapped while open, and returns to the trigger when closed.",
           "Use a native button or another keyboard-focusable element as the trigger.",
+          "With nested overlays, only the topmost popover handles outside dismissal and focus trapping. Escape closes one eligible layer at a time; a descendant that handles Escape can keep its popover open.",
           "Motion respects reduced-motion preferences."
         ],
         "keyboard": [

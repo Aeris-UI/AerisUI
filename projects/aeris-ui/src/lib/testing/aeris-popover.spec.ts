@@ -103,9 +103,111 @@ class TemplatedPopoverHost {}
 })
 class HeadlessPopoverHost {}
 
+@Component({
+  imports: [AerisPopoverModule],
+  template: `
+    <button #launcher id="parent-launcher" (click)="outer.show(launcher)">Parent</button>
+    <aeris-popover #outer header="Parent" [appendTo]="mount()">
+      <button #child id="child-launcher" (click)="inner.show(child)">Child</button>
+      <aeris-popover #inner header="Child" [appendTo]="mount()" [closeOnEscape]="escape()">
+        <button id="nested-action">Nested action</button>
+      </aeris-popover>
+    </aeris-popover>
+  `,
+})
+class NestedPopoverHost {
+  readonly mount = signal<'self' | 'body'>('body');
+  readonly escape = signal(true);
+  readonly outer = viewChild.required<AerisPopover>('outer');
+  readonly inner = viewChild.required<AerisPopover>('inner');
+}
+
 describe('AerisPopover', () => {
   afterEach(() => {
     vi.restoreAllMocks();
+  });
+
+  it.each(['body', 'self'] as const)(
+    'dismisses and traps only the topmost nested %s popover',
+    async (mount) => {
+      const fixture = TestBed.createComponent(NestedPopoverHost);
+      fixture.componentInstance.mount.set(mount);
+      fixture.detectChanges();
+      const parent = fixture.nativeElement.querySelector('#parent-launcher') as HTMLButtonElement;
+      parent.click();
+      fixture.detectChanges();
+      await settle();
+      const child = document.querySelector('#child-launcher') as HTMLButtonElement;
+      child.click();
+      fixture.detectChanges();
+      await settle();
+      const action = document.querySelector('#nested-action') as HTMLButtonElement;
+      action.focus();
+      action.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true }),
+      );
+      expect(document.activeElement).toBe(action);
+      fixture.componentInstance.escape.set(false);
+      fixture.detectChanges();
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      );
+      fixture.detectChanges();
+      expect(fixture.componentInstance.outer().visible()).toBe(true);
+      expect(fixture.componentInstance.inner().visible()).toBe(true);
+      fixture.componentInstance.escape.set(true);
+      fixture.detectChanges();
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      );
+      fixture.detectChanges();
+      await settle();
+      expect(fixture.componentInstance.outer().visible()).toBe(true);
+      expect(fixture.componentInstance.inner().visible()).toBe(false);
+      expect(document.activeElement).toBe(child);
+      document.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+      fixture.detectChanges();
+      await settle();
+      expect(fixture.componentInstance.outer().visible()).toBe(false);
+      expect(document.activeElement).toBe(parent);
+    },
+  );
+
+  it('restores original trigger attributes on destruction without queued autofocus', async () => {
+    const fixture = TestBed.createComponent(BasicPopoverHost);
+    fixture.detectChanges();
+    const launcher = fixture.nativeElement.querySelector('#launcher') as HTMLButtonElement;
+    launcher.setAttribute('aria-expanded', 'false');
+    launcher.setAttribute('aria-controls', 'existing');
+    launcher.click();
+    fixture.detectChanges();
+    expect(launcher.getAttribute('aria-expanded')).toBe('true');
+    fixture.destroy();
+    await settle();
+    expect(launcher.getAttribute('aria-expanded')).toBe('false');
+    expect(launcher.getAttribute('aria-controls')).toBe('existing');
+    expect(launcher.hasAttribute('aria-haspopup')).toBe(false);
+    expect(document.querySelector('.aeris-popover__layer')).toBeNull();
+  });
+
+  it('lets a descendant consume Escape without closing its popover', async () => {
+    const fixture = TestBed.createComponent(BasicPopoverHost);
+    fixture.detectChanges();
+    (fixture.nativeElement.querySelector('#launcher') as HTMLButtonElement).click();
+    fixture.detectChanges();
+    await settle();
+    const action = document.querySelector('#first-action') as HTMLButtonElement;
+    action.addEventListener('keydown', (event) => event.preventDefault(), { once: true });
+    action.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+    );
+    fixture.detectChanges();
+    expect(document.querySelector('.aeris-popover__panel')).not.toBeNull();
+    action.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+    );
+    fixture.detectChanges();
+    expect(document.querySelector('.aeris-popover__panel')).toBeNull();
   });
 
   it('opens relative to a trigger with dialog semantics and restores trigger state on close', async () => {

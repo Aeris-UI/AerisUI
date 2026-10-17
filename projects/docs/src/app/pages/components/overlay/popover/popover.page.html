@@ -530,6 +530,11 @@
             trigger when closed.
           </li>
           <li>Use a native button or another keyboard-focusable element as the trigger.</li>
+          <li>
+            With nested overlays, only the topmost popover handles outside dismissal and focus
+            trapping. Escape closes one eligible layer at a time; a descendant that handles Escape
+            can keep its popover open.
+          </li>
           <li>Motion respects reduced-motion preferences.</li>
         </ul>
         <div class="api-table keyboard-table" role="table" aria-label="Popover keyboard support">

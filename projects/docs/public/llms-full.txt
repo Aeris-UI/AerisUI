@@ -44707,7 +44707,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
 | `target` | `AerisPopoverTarget` | `null` | Element or trigger event used when visible is controlled directly. |
 | `header` | `string` | `''` | Visible popover title. |
 | `placement` | `AerisPopoverPlacement` | `'auto'` | Preferred placement around the target. Options: 'auto', 'top', 'right', 'bottom', 'left'. |
-| `alignment` | `AerisPopoverAlignment` | `'center'` | Alignment along the target edge. Options: 'start', 'center', 'end'. |
+| `alignment` | `AerisPopoverAlignment` | `'center'` | Alignment along the target edge. Horizontal start/end follow the trigger's text direction. Options: 'start', 'center', 'end'. |
 | `width` | `string` | `''` | Custom popover width. |
 | `maxWidth` | `string` | `''` | Custom maximum width. |
 | `offset` | `number` | `10` | Distance between target and popover in pixels. |
@@ -45329,6 +45329,7 @@ export class PopoverOptionsOptionsDemo {
 - The trigger receives aria-haspopup="dialog", aria-expanded, and aria-controls while the popover is open, then its previous values are restored.
 - Focus moves into the popover by default, remains trapped while open, and returns to the trigger when closed.
 - Use a native button or another keyboard-focusable element as the trigger.
+- With nested overlays, only the topmost popover handles outside dismissal and focus trapping. Escape closes one eligible layer at a time; a descendant that handles Escape can keep its popover open.
 - Motion respects reduced-motion preferences.
 
 ##### Keyboard support
