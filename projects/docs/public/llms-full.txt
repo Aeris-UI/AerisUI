@@ -25032,7 +25032,7 @@ export class GroupLinksButtonsAndLinksDemo {
 #### Accessibility
 
 - The host exposes role="group" and should receive ariaLabel or ariaLabelledBy.
-- Every child remains a native button or link and keeps its standard keyboard interaction.
+- Every child remains a native button or link and keeps its standard keyboard interaction. Button Group connects actions visually; it does not manage selected values or turn its children into radio buttons, pressed toggles, or tabs.
 - Tab moves through children in DOM order. Arrow keys are not added because these are independent actions.
 - Icon-only children still require their own accessible names.
 - Disabled and loading states belong to individual children and are announced by those controls.

@@ -85,7 +85,87 @@ class ButtonTestHost {
   readonly blurs = signal(0);
 }
 
+@Component({
+  imports: [AerisButton],
+  template: `
+    <button aerisButton type="button" [attr.aria-pressed]="pressed()" (click)="toggle()">
+      Bold
+    </button>
+    <button
+      aerisButton
+      type="button"
+      [disabled]="disabled()"
+      [loading]="loading()"
+      (click)="actions.update(increment)"
+    >
+      Action
+    </button>
+    <aeris-button
+      label="Wrapped action"
+      [disabled]="disabled()"
+      [loading]="loading()"
+      (clicked)="actions.update(increment)"
+    />
+  `,
+})
+class ButtonCompositionHost {
+  readonly pressed = signal(false);
+  readonly disabled = signal(false);
+  readonly loading = signal(false);
+  readonly actions = signal(0);
+  readonly increment = (count: number) => count + 1;
+  toggle(): void {
+    this.pressed.update((pressed) => !pressed);
+  }
+}
+
 describe('AerisButton', () => {
+  it('preserves consumer-owned pressed semantics without adding selection state to actions', async () => {
+    const fixture = TestBed.createComponent(ButtonCompositionHost);
+    await fixture.whenStable();
+    const buttons = fixture.nativeElement.querySelectorAll(
+      'button',
+    ) as NodeListOf<HTMLButtonElement>;
+    const toggle = buttons.item(0);
+    expect(toggle.getAttribute('aria-pressed')).toBe('false');
+    toggle.click();
+    await fixture.whenStable();
+    expect(toggle.getAttribute('aria-pressed')).toBe('true');
+    fixture.componentInstance.pressed.set(false);
+    await fixture.whenStable();
+    expect(toggle.getAttribute('aria-pressed')).toBe('false');
+    for (const action of [...buttons].slice(1)) {
+      action.click();
+      expect(action.hasAttribute('aria-pressed')).toBe(false);
+      expect(action.hasAttribute('aria-checked')).toBe(false);
+      expect(action.hasAttribute('role')).toBe(false);
+    }
+    expect(fixture.componentInstance.actions()).toBe(2);
+  });
+
+  it('keeps native and wrapper activation disabled across dynamic loading and disabled changes', async () => {
+    const fixture = TestBed.createComponent(ButtonCompositionHost);
+    await fixture.whenStable();
+    const buttons = [...fixture.nativeElement.querySelectorAll('button')].slice(
+      1,
+    ) as HTMLButtonElement[];
+    for (const state of [fixture.componentInstance.loading, fixture.componentInstance.disabled]) {
+      state.set(true);
+      await fixture.whenStable();
+      for (const button of buttons) {
+        expect(button.disabled).toBe(true);
+        button.click();
+      }
+      expect(fixture.componentInstance.actions()).toBe(0);
+      state.set(false);
+      await fixture.whenStable();
+      expect(buttons.every((button) => !button.disabled && !button.hasAttribute('aria-busy'))).toBe(
+        true,
+      );
+    }
+    for (const button of buttons) button.click();
+    expect(fixture.componentInstance.actions()).toBe(2);
+  });
   it('applies documented visual inputs to native elements', async () => {
     const fixture = TestBed.createComponent(ButtonTestHost);
     await fixture.whenStable();
