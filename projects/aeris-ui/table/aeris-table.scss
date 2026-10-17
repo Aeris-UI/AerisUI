@@ -75,6 +75,8 @@
 }
 
 .aeris-table__viewport {
+  // Keep absolute captions and selection inputs inside the scrolling boundary in RTL.
+  position: relative;
   min-width: 0;
   overflow: auto;
   overscroll-behavior-inline: contain;
