@@ -39881,6 +39881,12 @@
               "description": "ID of visible text that labels the meter track."
             },
             {
+              "name": "ariaDescribedBy",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Space-separated IDs of supporting text describing the inner meter track."
+            },
+            {
               "name": "ariaValueText",
               "type": "string",
               "defaultValue": "''",
@@ -39943,6 +39949,28 @@
               "language": "TypeScript",
               "label": "TS",
               "code": "import { Component } from '@angular/core';\nimport { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/meter-group';\n\n@Component({\n  selector: 'app-meter-group-basic-demo',\n  imports: [AerisMeterGroupModule],\n  template: `\n    <div>\n      <aeris-meter-group ariaLabel=\"Space used\" [items]=\"basicItems\" />\n    </div>\n  `\n})\nexport class MeterGroupBasicBasicDemo {\n  protected readonly basicItems: readonly AerisMeterGroupItem[] = [\n    { label: 'Space used', value: 45, tone: 'primary' },\n  ];\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "meter-group-capacity",
+          "title": "Capacity",
+          "description": "Measure storage in GB instead of percentages. Clear or restore sample cache to update the segments, legend, accessible summary, and remaining capacity.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, computed, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisMeterGroupModule, type AerisMeterGroupItem, type AerisMeterGroupItemContext } from '@aeris-ui/core/meter-group';\n\n@Component({\n  selector: 'app-meter-group-capacity-demo',\n  imports: [AerisButton, AerisMeterGroupModule],\n  templateUrl: './meter-group-capacity.demo.html',\n  styleUrl: './meter-group-capacity.demo.scss'\n})\nexport class MeterGroupCapacityCapacityDemo {\n  protected readonly includeCache = signal(true);\n  protected readonly capacityItems = computed<readonly AerisMeterGroupItem[]>(() => [\n    { label: 'Projects', value: 48, tone: 'primary' },\n    { label: 'Assets', value: 32, tone: 'info' },\n    { label: 'Cache', value: this.includeCache() ? 16 : 0, tone: 'warning' },\n  ]);\n  protected readonly capacityFormatter = ({ value }: AerisMeterGroupItemContext): string => `${value} GB`;\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"meter-stack\">\n    <strong id=\"capacity-title\">Workspace storage</strong>\n    <aeris-meter-group\n      [items]=\"capacityItems()\"\n      [max]=\"128\"\n      valueSuffix=\" GB\"\n      [valueFormatter]=\"capacityFormatter\"\n      ariaLabelledBy=\"capacity-title\"\n      ariaDescribedBy=\"capacity-help\"\n    >\n      <ng-template aerisMeterGroupFooter let-remaining=\"remaining\">\n        <p id=\"capacity-help\">{{ remaining }} GB available out of 128 GB.</p>\n      </ng-template>\n    </aeris-meter-group>\n    <div>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"outline\"\n        (click)=\"includeCache.set(!includeCache())\"\n      >\n        {{ includeCache() ? 'Clear sample cache' : 'Restore sample cache' }}\n      </button>\n    </div>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".meter-stack { display: grid; gap: 1.25rem; }"
             }
           ]
         },
@@ -40092,6 +40120,7 @@
           "Custom label icons are decorative; the generated accessible item text remains available to assistive technology.",
           "Values that exceed capacity are visually capped without hiding their original legend values.",
           "MeterGroup is non-interactive and does not enter the tab order.",
+          "Use ariaLabelledBy and ariaDescribedBy to associate visible labels and supporting text with the inner meter. It describes capacity or measurements, not task completion; use ProgressBar or ProgressSpinner for ongoing work. Value changes do not create automatic live announcements.",
           "Logical layout supports RTL, and segment reveal animation is disabled under reduced motion."
         ],
         "keyboard": [
@@ -40195,6 +40224,12 @@
               "type": "string",
               "defaultValue": "''",
               "description": "ID of visible text that labels the bar."
+            },
+            {
+              "name": "ariaDescribedBy",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Space-separated IDs of supporting text describing the progressbar."
             },
             {
               "name": "ariaValueText",
@@ -40342,6 +40377,28 @@
           ]
         },
         {
+          "id": "progress-bar-processing",
+          "title": "File processing",
+          "description": "Simulate preparation followed by eight files. Buttons stand in for application callbacks; a separate status announces phases, not every numeric update.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, computed, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisProgressBarModule, type AerisProgressBarStep } from '@aeris-ui/core/progress-bar';\n\n@Component({\n  selector: 'app-progress-bar-processing-demo',\n  imports: [AerisButton, AerisProgressBarModule],\n  templateUrl: './progress-bar-processing.demo.html',\n  styleUrl: './progress-bar-processing.demo.scss'\n})\nexport class ProgressBarProcessingFileProcessingDemo {\n  protected readonly processedFiles = signal(0);\n  protected readonly processingStarted = signal(false);\n  protected readonly processingStatus = computed(() => !this.processingStarted()\n    ? 'Preparing files. Continue when preparation finishes.'\n    : this.processedFiles() < 8 ? 'Processing files.' : 'All files processed.');\n  protected readonly processingValueText = computed(() => `${this.processedFiles()} of 8 files processed`);\n  protected readonly processingSteps: readonly AerisProgressBarStep[] = [\n    { label: 'Prepare', value: 0 }, { label: 'Process', value: 4 }, { label: 'Complete', value: 8 },\n  ];\n  protected processNextFile(): void {\n    if (!this.processingStarted()) this.processingStarted.set(true);\n    else this.processedFiles.update((value) => Math.min(8, value + 1));\n  }\n  protected restartProcessing(): void {\n    this.processedFiles.set(0);\n    this.processingStarted.set(false);\n  }\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"progress-stack\" [attr.aria-busy]=\"processedFiles() < 8\">\n    <strong id=\"processing-title\">Prepare and process files</strong>\n    <p id=\"processing-help\">\n      Keep this page open until all eight files are processed.\n    </p>\n    <aeris-progress-bar\n      [mode]=\"processingStarted() ? 'determinate' : 'indeterminate'\"\n      [value]=\"processedFiles()\"\n      [max]=\"8\"\n      [showValue]=\"false\"\n      [ariaValueText]=\"processingStarted() ? processingValueText() : ''\"\n      ariaLabelledBy=\"processing-title\"\n      ariaDescribedBy=\"processing-help\"\n      [steps]=\"processingSteps\"\n      [activeStep]=\"!processingStarted() ? 0 : processedFiles() < 8 ? 1 : 2\"\n    />\n    <span>{{ processingValueText() }}</span>\n  </div>\n  <p role=\"status\">{{ processingStatus() }}</p>\n  <div class=\"progress-actions\">\n    <button\n      aerisButton\n      type=\"button\"\n      [disabled]=\"processedFiles() === 8\"\n      (click)=\"processNextFile()\"\n    >\n      {{ processingStarted() ? 'Process next file' : 'Finish preparation' }}\n    </button>\n    <button aerisButton type=\"button\" variant=\"outline\" (click)=\"restartProcessing()\">\n      Restart\n    </button>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".progress-stack { display: grid; gap: 1rem; }\n.progress-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.875rem; }"
+            }
+          ]
+        },
+        {
           "id": "progress-bar-dynamic",
           "title": "Dynamic",
           "description": "Bind value to reactive state so updates change visual and accessible progress together.",
@@ -40447,6 +40504,7 @@
       "accessibility": {
         "guidance": [
           "The host uses role=\"progressbar\".",
+          "Connect supporting text with ariaDescribedBy (space-separated IDs). Progress values are not live announcements. If background work needs announcements, use one nearby status for meaningful phase changes, outside any busy region; avoid announcing every percentage update. Keep custom value templates decorative and supply equivalent plain text through ariaValueText or valueFormatter.",
           "Determinate progress exposes aria-valuemin, aria-valuemax, aria-valuenow, and value text.",
           "Indeterminate progress omits numeric value attributes because no exact value is known.",
           "Use ariaLabel or ariaLabelledBy so assistive technology can identify what process the bar describes.",
@@ -40554,6 +40612,12 @@
               "type": "string",
               "defaultValue": "''",
               "description": "ID of visible text that labels the progressbar."
+            },
+            {
+              "name": "ariaDescribedBy",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Space-separated IDs of supporting text describing the progressbar."
             },
             {
               "name": "ariaValueText",
@@ -40715,6 +40779,7 @@
           "Determinate mode exposes clamped minimum, maximum, current value, and formatted value text.",
           "The decorative SVG and centered duplicate text are hidden from assistive technology.",
           "The component is non-interactive and never enters the tab order.",
+          "Use ariaLabelledBy for a visible label and ariaDescribedBy for supporting text (space-separated IDs). Mark the affected region busy while loading. The spinner is not a live region; use one separate status for important phase changes, outside the busy region, rather than announcing every numeric update.",
           "Reduced-motion mode stops rotation and retains a static arc so loading remains visually indicated."
         ],
         "keyboard": [

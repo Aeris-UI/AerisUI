@@ -42,6 +42,7 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
 | `rounded` | `boolean` | `true` | Uses pill-shaped track corners. |
 | `ariaLabel` | `string` | `''` | Accessible name when no visible label names the bar. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the bar. |
+| `ariaDescribedBy` | `string` | `''` | Space-separated IDs of supporting text describing the progressbar. |
 | `ariaValueText` | `string` | `''` | Custom accessible value text. |
 | `steps` | `readonly AerisProgressBarStep[]` | `[]` | Optional visual step markers. |
 | `activeStep` | `number &#124; null` | `null` | Optional explicit active step index. |
@@ -139,6 +140,90 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
 })
 export class ProgressBarBasicBasicDemo {
 }
+```
+
+### File processing
+
+Simulate preparation followed by eight files. Buttons stand in for application callbacks; a separate status announces phases, not every numeric update.
+
+#### TS
+
+```ts
+import { Component, computed, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisProgressBarModule, type AerisProgressBarStep } from '@aeris-ui/core/progress-bar';
+
+@Component({
+  selector: 'app-progress-bar-processing-demo',
+  imports: [AerisButton, AerisProgressBarModule],
+  templateUrl: './progress-bar-processing.demo.html',
+  styleUrl: './progress-bar-processing.demo.scss'
+})
+export class ProgressBarProcessingFileProcessingDemo {
+  protected readonly processedFiles = signal(0);
+  protected readonly processingStarted = signal(false);
+  protected readonly processingStatus = computed(() => !this.processingStarted()
+    ? 'Preparing files. Continue when preparation finishes.'
+    : this.processedFiles() < 8 ? 'Processing files.' : 'All files processed.');
+  protected readonly processingValueText = computed(() => `${this.processedFiles()} of 8 files processed`);
+  protected readonly processingSteps: readonly AerisProgressBarStep[] = [
+    { label: 'Prepare', value: 0 }, { label: 'Process', value: 4 }, { label: 'Complete', value: 8 },
+  ];
+  protected processNextFile(): void {
+    if (!this.processingStarted()) this.processingStarted.set(true);
+    else this.processedFiles.update((value) => Math.min(8, value + 1));
+  }
+  protected restartProcessing(): void {
+    this.processedFiles.set(0);
+    this.processingStarted.set(false);
+  }
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <div class="progress-stack" [attr.aria-busy]="processedFiles() < 8">
+    <strong id="processing-title">Prepare and process files</strong>
+    <p id="processing-help">
+      Keep this page open until all eight files are processed.
+    </p>
+    <aeris-progress-bar
+      [mode]="processingStarted() ? 'determinate' : 'indeterminate'"
+      [value]="processedFiles()"
+      [max]="8"
+      [showValue]="false"
+      [ariaValueText]="processingStarted() ? processingValueText() : ''"
+      ariaLabelledBy="processing-title"
+      ariaDescribedBy="processing-help"
+      [steps]="processingSteps"
+      [activeStep]="!processingStarted() ? 0 : processedFiles() < 8 ? 1 : 2"
+    />
+    <span>{{ processingValueText() }}</span>
+  </div>
+  <p role="status">{{ processingStatus() }}</p>
+  <div class="progress-actions">
+    <button
+      aerisButton
+      type="button"
+      [disabled]="processedFiles() === 8"
+      (click)="processNextFile()"
+    >
+      {{ processingStarted() ? 'Process next file' : 'Finish preparation' }}
+    </button>
+    <button aerisButton type="button" variant="outline" (click)="restartProcessing()">
+      Restart
+    </button>
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+.progress-stack { display: grid; gap: 1rem; }
+.progress-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.875rem; }
 ```
 
 ### Dynamic
@@ -460,6 +545,7 @@ export class ProgressBarOptionsOptionsDemo {
 ## Accessibility
 
 - The host uses role="progressbar".
+- Connect supporting text with ariaDescribedBy (space-separated IDs). Progress values are not live announcements. If background work needs announcements, use one nearby status for meaningful phase changes, outside any busy region; avoid announcing every percentage update. Keep custom value templates decorative and supply equivalent plain text through ariaValueText or valueFormatter.
 - Determinate progress exposes aria-valuemin, aria-valuemax, aria-valuenow, and value text.
 - Indeterminate progress omits numeric value attributes because no exact value is known.
 - Use ariaLabel or ariaLabelledBy so assistive technology can identify what process the bar describes.

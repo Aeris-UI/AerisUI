@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 const fixtureUrl = 'http://127.0.0.1:4300';
 const builtApps = process.env['AERIS_E2E_BUILT_APPS'] === 'true';
 const docsLayoutTests = [
+  '**/progress-composition.spec.ts',
   '**/table-row-reorder.spec.ts',
   '**/table-selection-workflows.spec.ts',
   '**/geometry-consistency.spec.ts',
@@ -84,6 +85,7 @@ export default defineConfig({
       name: 'docs-quality-firefox',
       use: { ...devices['Desktop Firefox'], baseURL: 'http://127.0.0.1:4301' },
       testMatch: [
+        '**/progress-composition.spec.ts',
         '**/table-row-reorder.spec.ts',
         '**/catalog-quality.spec.ts',
         '**/home-page.spec.ts',
@@ -100,6 +102,7 @@ export default defineConfig({
       name: 'mobile-chromium',
       use: { ...devices['Pixel 7'] },
       testMatch: [
+        '**/progress-composition.spec.ts',
         '**/button-foundation.spec.ts',
         '**/hover-overlay.spec.ts',
         '**/table-row-reorder.spec.ts',
@@ -120,6 +123,7 @@ export default defineConfig({
       name: 'mobile-webkit',
       use: { ...devices['iPhone 15'] },
       testMatch: [
+        '**/progress-composition.spec.ts',
         '**/button-foundation.spec.ts',
         '**/hover-overlay.spec.ts',
         '**/table-row-reorder.spec.ts',

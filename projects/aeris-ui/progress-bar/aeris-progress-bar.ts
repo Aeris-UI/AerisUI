@@ -13,14 +13,7 @@ import {
 
 export type AerisProgressBarMode = 'determinate' | 'indeterminate';
 export type AerisProgressBarSeverity =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'danger'
-  | 'neutral'
-  | 'contrast';
+  'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'neutral' | 'contrast';
 export type AerisProgressBarSize = 'sm' | 'md' | 'lg';
 
 export interface AerisProgressBarStep {
@@ -72,9 +65,12 @@ let nextProgressBarId = 0;
   imports: [NgTemplateOutlet],
   template: `
     <div class="aeris-progress-bar__track">
-      <span class="aeris-progress-bar__fill" [style.inline-size.%]="mode() === 'determinate' ? percent() : null"></span>
+      <span class="aeris-progress-bar__fill" [style.inline-size.%]="percent()"></span>
+      <span class="aeris-progress-bar__activity" aria-hidden="true">
+        <span class="aeris-progress-bar__sweep"></span>
+      </span>
       @if (showValue() && mode() === 'determinate') {
-        <span class="aeris-progress-bar__value">
+        <span class="aeris-progress-bar__value" aria-hidden="true">
           @if (valueTemplate(); as template) {
             <ng-container
               [ngTemplateOutlet]="template.template"
@@ -98,7 +94,22 @@ let nextProgressBarId = 0;
             [attr.data-edge-end]="item.percentValue === 100 || null"
             [style.--aeris-progress-bar-step-position]="item.percent"
           >
-            <span class="aeris-progress-bar__step-marker"></span>
+            <svg
+              class="aeris-progress-bar__step-marker"
+              viewBox="0 0 20 20"
+              aria-hidden="true"
+              focusable="false"
+            >
+              @if (item.active) {
+                <path
+                  class="aeris-progress-bar__step-selected"
+                  fill-rule="evenodd"
+                  d="M19 10a9 9 0 1 1-18 0a9 9 0 1 1 18 0Z M18 10a8 8 0 1 1-16 0a8 8 0 1 1 16 0Z M16 10a6 6 0 1 1-12 0a6 6 0 1 1 12 0Z"
+                />
+              } @else {
+                <circle class="aeris-progress-bar__step-dot" cx="10" cy="10" r="5" />
+              }
+            </svg>
             <span class="aeris-progress-bar__step-label">
               @if (stepTemplate(); as template) {
                 <ng-container
@@ -119,12 +130,13 @@ let nextProgressBarId = 0;
     class: 'aeris-progress-bar',
     '[attr.id]': 'id()',
     role: 'progressbar',
-    '[attr.aria-valuemin]': 'mode() === "determinate" ? min() : null',
-    '[attr.aria-valuemax]': 'mode() === "determinate" ? max() : null',
+    '[attr.aria-valuemin]': 'mode() === "determinate" ? normalizedMin() : null',
+    '[attr.aria-valuemax]': 'mode() === "determinate" ? normalizedMax() : null',
     '[attr.aria-valuenow]': 'mode() === "determinate" ? clampedValue() : null',
     '[attr.aria-valuetext]': 'resolvedAriaValueText()',
     '[attr.aria-label]': 'ariaLabel() || null',
     '[attr.aria-labelledby]': 'ariaLabelledBy() || null',
+    '[attr.aria-describedby]': 'ariaDescribedBy() || null',
     '[attr.data-mode]': 'mode()',
     '[attr.data-severity]': 'severity()',
     '[attr.data-size]': 'size()',
@@ -151,6 +163,7 @@ export class AerisProgressBar {
   readonly rounded = input(true, { transform: booleanAttribute });
   readonly ariaLabel = input('');
   readonly ariaLabelledBy = input('');
+  readonly ariaDescribedBy = input('');
   readonly ariaValueText = input('');
   readonly steps = input<readonly AerisProgressBarStep[]>([]);
   readonly activeStep = input<number | null>(null);

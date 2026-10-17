@@ -42,6 +42,7 @@ import { AerisMeterGroupModule } from '@aeris-ui/core/meter-group';
 | `valueSuffix` | `string` | `'%'` | Suffix used by the default item-value formatter. |
 | `ariaLabel` | `string` | `'Meter group'` | Accessible name for the meter track. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the meter track. |
+| `ariaDescribedBy` | `string` | `''` | Space-separated IDs of supporting text describing the inner meter track. |
 | `ariaValueText` | `string` | `''` | Overrides the generated combined measurement summary. |
 | `valueFormatter` | `((context: AerisMeterGroupItemContext) =&gt; string) &#124; null` | `null` | Formats visible and accessible item values. |
 
@@ -125,6 +126,72 @@ export class MeterGroupBasicBasicDemo {
     { label: 'Space used', value: 45, tone: 'primary' },
   ];
 }
+```
+
+### Capacity
+
+Measure storage in GB instead of percentages. Clear or restore sample cache to update the segments, legend, accessible summary, and remaining capacity.
+
+#### TS
+
+```ts
+import { Component, computed, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisMeterGroupModule, type AerisMeterGroupItem, type AerisMeterGroupItemContext } from '@aeris-ui/core/meter-group';
+
+@Component({
+  selector: 'app-meter-group-capacity-demo',
+  imports: [AerisButton, AerisMeterGroupModule],
+  templateUrl: './meter-group-capacity.demo.html',
+  styleUrl: './meter-group-capacity.demo.scss'
+})
+export class MeterGroupCapacityCapacityDemo {
+  protected readonly includeCache = signal(true);
+  protected readonly capacityItems = computed<readonly AerisMeterGroupItem[]>(() => [
+    { label: 'Projects', value: 48, tone: 'primary' },
+    { label: 'Assets', value: 32, tone: 'info' },
+    { label: 'Cache', value: this.includeCache() ? 16 : 0, tone: 'warning' },
+  ]);
+  protected readonly capacityFormatter = ({ value }: AerisMeterGroupItemContext): string => `${value} GB`;
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <div class="meter-stack">
+    <strong id="capacity-title">Workspace storage</strong>
+    <aeris-meter-group
+      [items]="capacityItems()"
+      [max]="128"
+      valueSuffix=" GB"
+      [valueFormatter]="capacityFormatter"
+      ariaLabelledBy="capacity-title"
+      ariaDescribedBy="capacity-help"
+    >
+      <ng-template aerisMeterGroupFooter let-remaining="remaining">
+        <p id="capacity-help">{{ remaining }} GB available out of 128 GB.</p>
+      </ng-template>
+    </aeris-meter-group>
+    <div>
+      <button
+        aerisButton
+        type="button"
+        variant="outline"
+        (click)="includeCache.set(!includeCache())"
+      >
+        {{ includeCache() ? 'Clear sample cache' : 'Restore sample cache' }}
+      </button>
+    </div>
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+.meter-stack { display: grid; gap: 1.25rem; }
 ```
 
 ### Multiple
@@ -613,6 +680,7 @@ export class MeterGroupTokensTokenCustomizationDemo {
 - Custom label icons are decorative; the generated accessible item text remains available to assistive technology.
 - Values that exceed capacity are visually capped without hiding their original legend values.
 - MeterGroup is non-interactive and does not enter the tab order.
+- Use ariaLabelledBy and ariaDescribedBy to associate visible labels and supporting text with the inner meter. It describes capacity or measurements, not task completion; use ProgressBar or ProgressSpinner for ongoing work. Value changes do not create automatic live announcements.
 - Logical layout supports RTL, and segment reveal animation is disabled under reduced motion.
 
 ### Keyboard support

@@ -40,6 +40,7 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
 | `rounded` | `boolean` | `true` | Uses rounded or square indicator line caps. |
 | `ariaLabel` | `string` | `'Loading'` | Accessible name for the progressbar. |
 | `ariaLabelledBy` | `string` | `''` | ID of visible text that labels the progressbar. |
+| `ariaDescribedBy` | `string` | `''` | Space-separated IDs of supporting text describing the progressbar. |
 | `ariaValueText` | `string` | `''` | Overrides generated determinate value text. |
 | `valueFormatter` | `((context: AerisProgressSpinnerValueContext) =&gt; string) &#124; null` | `null` | Formats the default visible and accessible value text. |
 
@@ -429,6 +430,7 @@ export class ProgressSpinnerTokensTokenCustomizationDemo {
 - Determinate mode exposes clamped minimum, maximum, current value, and formatted value text.
 - The decorative SVG and centered duplicate text are hidden from assistive technology.
 - The component is non-interactive and never enters the tab order.
+- Use ariaLabelledBy for a visible label and ariaDescribedBy for supporting text (space-separated IDs). Mark the affected region busy while loading. The spinner is not a live region; use one separate status for important phase changes, outside the busy region, rather than announcing every numeric update.
 - Reduced-motion mode stops rotation and retains a static arc so loading remains visually indicated.
 
 ### Keyboard support

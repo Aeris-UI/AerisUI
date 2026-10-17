@@ -39,6 +39,53 @@ interface ApiRow {
   styleUrl: './progress-bar.page.scss',
 })
 export class ProgressBarPage {
+  protected readonly processingCssCode = `.progress-stack { display: grid; gap: 1rem; }
+.progress-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.875rem; }`;
+  protected readonly processedFiles = signal(0);
+  protected readonly processingStarted = signal(false);
+  protected readonly processingStatus = computed(() =>
+    !this.processingStarted()
+      ? 'Preparing files. Continue when preparation finishes.'
+      : this.processedFiles() < 8
+        ? 'Processing files.'
+        : 'All files processed.',
+  );
+  protected readonly processingValueText = computed(
+    () => `${this.processedFiles()} of 8 files processed`,
+  );
+  protected readonly processingSteps: readonly AerisProgressBarStep[] = [
+    { label: 'Prepare', value: 0 },
+    { label: 'Process', value: 4 },
+    { label: 'Complete', value: 8 },
+  ];
+  protected processNextFile(): void {
+    if (!this.processingStarted()) this.processingStarted.set(true);
+    else this.processedFiles.update((value) => Math.min(8, value + 1));
+  }
+  protected restartProcessing(): void {
+    this.processedFiles.set(0);
+    this.processingStarted.set(false);
+  }
+  protected readonly processingTsCode = `import { computed, signal } from '@angular/core';
+import { type AerisProgressBarStep } from '@aeris-ui/core/progress-bar';
+
+protected readonly processedFiles = signal(0);
+protected readonly processingStarted = signal(false);
+protected readonly processingStatus = computed(() => !this.processingStarted()
+  ? 'Preparing files. Continue when preparation finishes.'
+  : this.processedFiles() < 8 ? 'Processing files.' : 'All files processed.');
+protected readonly processingValueText = computed(() => \`\${this.processedFiles()} of 8 files processed\`);
+protected readonly processingSteps: readonly AerisProgressBarStep[] = [
+  { label: 'Prepare', value: 0 }, { label: 'Process', value: 4 }, { label: 'Complete', value: 8 },
+];
+protected processNextFile(): void {
+  if (!this.processingStarted()) this.processingStarted.set(true);
+  else this.processedFiles.update((value) => Math.min(8, value + 1));
+}
+protected restartProcessing(): void {
+  this.processedFiles.set(0);
+  this.processingStarted.set(false);
+}`;
   protected readonly uploadValue = signal(35);
   protected readonly uploadStatus = computed(() => `${this.uploadValue()}% uploaded`);
   protected readonly orderStep = signal(1);
@@ -51,6 +98,7 @@ export class ProgressBarPage {
 
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'progress-bar-basic', label: 'Basic' },
+    { id: 'progress-bar-processing', label: 'File processing' },
     { id: 'progress-bar-dynamic', label: 'Dynamic' },
     { id: 'progress-bar-severity', label: 'Severity' },
     { id: 'progress-bar-template', label: 'Template' },
@@ -230,6 +278,12 @@ interface AerisProgressBarStepContext {
       type: 'string',
       defaultValue: "''",
       description: 'ID of visible text that labels the bar.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Space-separated IDs of supporting text describing the progressbar.',
     },
     {
       name: 'ariaValueText',

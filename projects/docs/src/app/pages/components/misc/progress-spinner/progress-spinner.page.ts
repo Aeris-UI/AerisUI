@@ -224,6 +224,12 @@ interface AerisProgressSpinnerValueContext {
       description: 'ID of visible text that labels the progressbar.',
     },
     {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Space-separated IDs of supporting text describing the progressbar.',
+    },
+    {
       name: 'ariaValueText',
       type: 'string',
       defaultValue: "''",
