@@ -62,6 +62,28 @@ test('localized periods and numeric time segments work with RTL keyboard navigat
   await expect(picker.locator('[data-segment="hour"]')).toBeFocused();
 });
 
+for (const direction of ['ltr', 'rtl']) {
+  test(`editable date clear action does not cover segments in ${direction}`, async ({ page }) => {
+    await page.goto('/?direction=' + direction);
+    const picker = page
+      .locator('aeris-date-picker')
+      .filter({ has: page.locator('#typed-booking') });
+    await picker.scrollIntoViewIfNeeded();
+    const clear = picker.getByRole('button', { name: 'Clear date', exact: true });
+    const bounds = await clear.boundingBox();
+    expect(bounds).not.toBeNull();
+    for (const segment of await picker.locator('[data-segment]').all()) {
+      const part = await segment.boundingBox();
+      expect(part).not.toBeNull();
+      if (bounds && part) {
+        expect(part.x + part.width <= bounds.x || part.x >= bounds.x + bounds.width).toBe(true);
+      }
+    }
+    await clear.click();
+    await expect(picker.locator('[data-segment="day"]')).toHaveValue('');
+  });
+}
+
 test.describe('checked local clock bridge', () => {
   test.use({ timezoneId: 'Europe/Belgrade' });
   test('rejects a DST gap instead of silently changing the entered time', async ({ page }) => {

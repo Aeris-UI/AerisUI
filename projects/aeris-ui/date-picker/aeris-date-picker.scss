@@ -109,6 +109,10 @@
 .aeris-date-picker__control:has(.aeris-date-picker__clear) > aeris-internal-date-picker-input {
   --aeris-date-picker-input-padding-end: 4rem;
 }
+.aeris-date-picker__control:has(> aeris-internal-date-picker-input) .aeris-date-picker__clear {
+  right: auto;
+  inset-inline-end: 2.25rem;
+}
 @media (pointer: coarse) {
   .aeris-date-picker__control > aeris-internal-date-picker-input {
     --aeris-date-picker-input-padding-end: 3rem;
@@ -117,7 +121,6 @@
     --aeris-date-picker-input-padding-end: 4.75rem;
   }
   .aeris-date-picker__control:has(> aeris-internal-date-picker-input) .aeris-date-picker__clear {
-    right: auto;
     inset-inline-end: 3rem;
     min-inline-size: 1.5rem;
     min-block-size: 1.5rem;
