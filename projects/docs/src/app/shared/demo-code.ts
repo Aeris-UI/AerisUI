@@ -419,12 +419,20 @@ function addAerisImports(
   classCode: string,
 ): void {
   const usesTableContextMenu = /<aeris-table\b/.test(body) && /<aeris-context-menu\b/.test(body);
+  const usesButtonForms =
+    /\baerisButtonToggle\b/.test(body) &&
+    /\[(?:formControl|formControlName|\(ngModel\))\]|\b(?:formControlName|ngModel)\b/.test(body);
+  if (usesButtonForms) {
+    addGroup(groups, '@aeris-ui/core/button/forms').values.add('AerisButtonForms');
+    componentImports.add('AerisButtonForms');
+  }
   if (usesTableContextMenu) {
     addGroup(groups, '@aeris-ui/core/table').values.add('AerisTableContextMenuModule');
     componentImports.add('AerisTableContextMenuModule');
   }
 
   for (const item of AERIS_IMPORTS) {
+    if (usesButtonForms && item.symbol === 'AerisButton') continue;
     if (
       usesTableContextMenu &&
       (item.symbol === 'AerisTableModule' || item.symbol === 'AerisContextMenuModule')

@@ -12,6 +12,8 @@ import {
   output,
 } from '@angular/core';
 import type { AerisSeverity } from '@aeris-ui/core';
+import { aerisInternalButtonSelection } from './aeris-button-selection';
+import { AerisButtonToggle } from './aeris-button-toggle';
 
 export type AerisButtonVariant = 'solid' | 'outline' | 'ghost' | 'link';
 
@@ -63,7 +65,10 @@ export class AerisButtonDirective {
   readonly rounded = input(false, { transform: booleanAttribute });
   readonly fluid = input(false, { transform: booleanAttribute });
   protected readonly effectiveVariant = this.variant;
-  protected readonly effectiveDisabled = computed(() => this.disabled() || this.loading());
+  private readonly selection = inject(aerisInternalButtonSelection, { optional: true, self: true });
+  protected readonly effectiveDisabled = computed(
+    () => this.disabled() || this.loading() || !!this.selection?.selectionDisabled(),
+  );
 
   constructor() {
     const element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
@@ -182,4 +187,4 @@ export class AerisButtonComponent {
   readonly blurred = output<FocusEvent>();
 }
 
-export const AerisButton = [AerisButtonDirective, AerisButtonComponent] as const;
+export const AerisButton = [AerisButtonDirective, AerisButtonComponent, AerisButtonToggle] as const;

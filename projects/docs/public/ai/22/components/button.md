@@ -1,6 +1,6 @@
 # Button
 
-> Trigger actions with clear hierarchy, sizes, loading states, and icon support.
+> Trigger actions or opt into accessible toggles, with sizes, loading states, and icon support.
 
 Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
@@ -24,6 +24,18 @@ import { AerisButton } from '@aeris-ui/core/button';
 ```
 
 ## API
+
+### Toggle Api
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `aerisButtonToggle` | `directive` | `not applied` | Opt-in behavior on button[aerisButton] only. Sets type=button. Not supported on anchors or aeris-button wrappers; do not combine with aerisButtonGroupItem. |
+| `checked` | `model&lt;boolean&gt;` | `false` | Controlled pressed state; Signal Forms discovers this model automatically. |
+| `disabled` | `boolean` | `false` | Disables activation; also respects Button loading and forms-disabled state. |
+| `invalid` | `boolean` | `false` | Invalid presentation, gated by touched when supplied. |
+| `touched` | `boolean &#124; null` | `null` | false delays invalid presentation; true shows errors; null preserves explicit invalid behavior. |
+| `checkedChange` | `output&lt;boolean&gt;` | `—` | Emits when the checked model changes. |
+| `touch` | `output&lt;void&gt;` | `—` | Emits on blur; Signal Forms uses it to mark the field touched. |
 
 ### Directive Inputs
 
@@ -86,6 +98,9 @@ interface AerisButtonContentTemplateContext {
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
+| `--aeris-button-selected-background` | `CSS custom property` | — | Selected toggle/group item background. |
+| `--aeris-button-selected-color` | `CSS custom property` | — | Selected toggle/group item foreground. |
+| `--aeris-button-selected-border` | `CSS custom property` | — | Selected toggle/group item boundary. |
 | `--aeris-primary` | `CSS custom property` | — | Primary button background. |
 | `--aeris-primary-boundary` | `CSS custom property` | — | Solid and outline button boundary, independently configurable for inverse treatments. |
 | `--aeris-primary-hover` | `CSS custom property` | — | Primary hover background, derived from the primary base. |
@@ -138,6 +153,139 @@ import { AerisButton } from '@aeris-ui/core/button';
   `
 })
 export class FeatureBasicBasicDemo {
+}
+```
+
+### Toggle state
+
+Opt a native Aeris button into controlled pressed behavior. Keep its accessible label stable.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+
+@Component({
+  selector: 'app-feature-toggle-demo',
+  imports: [AerisButton],
+  template: `
+    <div class="aeris-example-row">
+      <button aerisButton aerisButtonToggle variant="outline" [(checked)]="toggled">
+        Bold
+      </button>
+      <button aerisButton aerisButtonToggle variant="outline" [checked]="true" disabled>
+        Disabled toggle
+      </button>
+    </div>
+  `,
+  styles: `
+    .aeris-example-row {
+      display: flex;
+      gap: 0.5625rem;
+      min-width: 0;
+    }
+
+    @media (max-width: 42rem) {
+      .aeris-example-row {
+        max-width: 100%;
+        flex-wrap: wrap;
+      }
+    }
+  `
+})
+export class FeatureToggleToggleStateDemo {
+}
+```
+
+### Toggle forms
+
+Signal Forms receives checked changes and touch events automatically using the normal AerisButton import.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { FormField } from '@angular/forms/signals';
+
+@Component({
+  selector: 'app-feature-toggle-forms-demo',
+  imports: [AerisButton, FormField],
+  template: `
+    <div class="aeris-example-row">
+      <button
+        aerisButton
+        aerisButtonToggle
+        variant="outline"
+        [formField]="toggleForm.enabled"
+      >
+        Enabled
+      </button>
+      <output>Checked: {{ toggleData().enabled }}</output>
+    </div>
+  `,
+  styles: `
+    .aeris-example-row {
+      display: flex;
+      gap: 0.5625rem;
+      min-width: 0;
+    }
+
+    @media (max-width: 42rem) {
+      .aeris-example-row {
+        max-width: 100%;
+        flex-wrap: wrap;
+      }
+    }
+  `
+})
+export class FeatureToggleFormsToggleFormsDemo {
+}
+```
+
+### Reactive toggle
+
+Use the optional AerisButtonForms import for classic forms. It includes Button and the toggle value accessor; no second Aeris import is needed.
+
+#### TS
+
+```ts
+import { Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AerisButtonForms } from '@aeris-ui/core/button/forms';
+
+@Component({
+  selector: 'app-feature-toggle-reactive-demo',
+  imports: [AerisButtonForms, ReactiveFormsModule],
+  template: `
+    <div class="aeris-example-row">
+      <button
+        aerisButton
+        aerisButtonToggle
+        variant="outline"
+        [formControl]="toggleControl"
+      >
+        Enabled
+      </button>
+    </div>
+  `,
+  styles: `
+    .aeris-example-row {
+      display: flex;
+      gap: 0.5625rem;
+      min-width: 0;
+    }
+
+    @media (max-width: 42rem) {
+      .aeris-example-row {
+        max-width: 100%;
+        flex-wrap: wrap;
+      }
+    }
+  `
+})
+export class FeatureToggleReactiveReactiveToggleDemo {
 }
 ```
 
@@ -644,6 +792,7 @@ export class FeatureLinksNativeLinksDemo {
 
 ## Accessibility
 
+- With aerisButtonToggle, Enter or Space changes checked and aria-pressed. Disabled/loading toggles do not change state. Signal Forms receives invalid and touched automatically; pristine invalid fields remain neutral. A manual invalid=true remains immediate unless touched=false is supplied.
 - Pressed colors follow the button's severity. Disabled and loading links keep their resting appearance and do not activate. Reduced motion removes hover displacement without suppressing pressed colors or keyboard focus.
 - Native buttons activate with Enter and Space; anchors preserve link keyboard behavior.
 - Icon-only buttons require aria-label or equivalent visible text.

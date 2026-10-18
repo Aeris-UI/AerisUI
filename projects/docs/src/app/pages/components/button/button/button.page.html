@@ -34,7 +34,83 @@
   &lt;button aerisButton variant="solid" severity="secondary"&gt;Cancel&lt;/button&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
+            <app-button-demo
+              id="feature-toggle"
+              title="Toggle state"
+              description="Opt a native Aeris button into controlled pressed behavior. Keep its accessible label stable."
+            >
+              <div preview>
+                <button aerisButton aerisButtonToggle variant="outline" [(checked)]="toggled">
+                  Bold
+                </button>
+                <button aerisButton aerisButtonToggle variant="outline" [checked]="true" disabled>
+                  Disabled toggle
+                </button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
+  &lt;button aerisButton aerisButtonToggle variant="outline" [(checked)]="toggled"&gt;
+    Bold
+  &lt;/button&gt;
+  &lt;button aerisButton aerisButtonToggle variant="outline" [checked]="true" disabled&gt;
+    Disabled toggle
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
+            <app-button-demo
+              id="feature-toggle-forms"
+              title="Toggle forms"
+              description="Signal Forms receives checked changes and touch events automatically using the normal AerisButton import."
+            >
+              <div preview>
+                <button
+                  aerisButton
+                  aerisButtonToggle
+                  variant="outline"
+                  [formField]="toggleForm.enabled"
+                >
+                  Enabled
+                </button>
+                <output>Checked: {{ toggleData().enabled }}</output>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
+  &lt;button
+    aerisButton
+    aerisButtonToggle
+    variant="outline"
+    [formField]="toggleForm.enabled"
+  &gt;
+    Enabled
+  &lt;/button&gt;
+  &lt;output&gt;Checked: &#123;&#123; toggleData().enabled &#125;&#125;&lt;/output&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
 
+            <app-button-demo
+              id="feature-toggle-reactive"
+              title="Reactive toggle"
+              description="Use the optional AerisButtonForms import for classic forms. It includes Button and the toggle value accessor; no second Aeris import is needed."
+            >
+              <div preview>
+                <button
+                  aerisButton
+                  aerisButtonToggle
+                  variant="outline"
+                  [formControl]="toggleControl"
+                >
+                  Enabled
+                </button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
+  &lt;button
+    aerisButton
+    aerisButtonToggle
+    variant="outline"
+    [formControl]="toggleControl"
+  &gt;
+    Enabled
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-button-demo>
             <app-button-demo
               id="feature-wrapper"
               title="Wrapper component"
@@ -341,6 +417,33 @@
               </div>
             </div>
 
+            <h3 id="api-toggle" tabindex="-1">Toggle directive</h3>
+            <p>
+              Signal Forms and controlled checked bindings use the normal AerisButton import. For a
+              toggle with formControl, formControlName or ngModel, use AerisButtonForms instead; it
+              includes all Button APIs and the classic-forms adapter. Do not import both arrays.
+              This optional entry keeps classic form code out of ordinary buttons.
+            </p>
+            <app-code-block [code]="toggleFormsImport" language="TypeScript" />
+            <p>
+              The existing AerisButton import includes this optional native-button directive. It
+              exposes aria-pressed, not checkbox semantics. Do not register both a group form
+              control and child toggle form controls.
+            </p>
+            <div class="api-table" role="table" aria-label="Button toggle API" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of toggleApi; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
             <h3 id="api-templates" tabindex="-1">Templates</h3>
             <div class="api-table compact" role="table" aria-label="Button templates" tabindex="0">
               <div class="api-head" role="row">
@@ -379,6 +482,32 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section id="tokens" class="doc-section">
         <h2>Design tokens</h2>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="Button selection tokens"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Token</b><b role="columnheader">Purpose</b
+            ><b role="columnheader">Fallback</b>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-button-selected-background</code
+            ><span role="cell">Selected toggle/group item background.</span
+            ><code role="cell">severity active fill</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-button-selected-color</code
+            ><span role="cell">Selected toggle/group item foreground.</span
+            ><code role="cell">severity on-active</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-button-selected-border</code
+            ><span role="cell">Selected toggle/group item boundary.</span
+            ><code role="cell">severity boundary</code>
+          </div>
+        </div>
         <div class="api-table compact" role="table" aria-label="Button design tokens" tabindex="0">
           <div class="api-head" role="row">
             <b role="columnheader">Token</b><b role="columnheader">Purpose</b
@@ -463,6 +592,12 @@
       <section id="accessibility" class="doc-section">
         <h2>Accessibility</h2>
         <ul>
+          <li>
+            With aerisButtonToggle, Enter or Space changes checked and aria-pressed.
+            Disabled/loading toggles do not change state. Signal Forms receives invalid and touched
+            automatically; pristine invalid fields remain neutral. A manual invalid=true remains
+            immediate unless touched=false is supplied.
+          </li>
           <li>
             Pressed colors follow the button's severity. Disabled and loading links keep their
             resting appearance and do not activate. Reduced motion removes hover displacement

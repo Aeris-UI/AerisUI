@@ -66,8 +66,8 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 
 ## Button components
 
-- [Button](https://aeris-ui.dev/ai/22/components/button.md): Trigger actions with clear hierarchy, sizes, loading states, and icon support.
-- [ButtonGroup](https://aeris-ui.dev/ai/22/components/button-group.md): Connect related buttons and links with responsive horizontal or vertical layouts.
+- [Button](https://aeris-ui.dev/ai/22/components/button.md): Trigger actions or opt into accessible toggles, with sizes, loading states, and icon support.
+- [ButtonGroup](https://aeris-ui.dev/ai/22/components/button-group.md): Connect related actions or manage single and multiple button selection with keyboard and forms support.
 - [SpeedDial](https://aeris-ui.dev/ai/22/components/speed-dial.md): Reveal contextual actions in animated linear and radial layouts.
 - [SplitButton](https://aeris-ui.dev/ai/22/components/split-button.md): Pair a primary action with an accessible popup of related commands.
 

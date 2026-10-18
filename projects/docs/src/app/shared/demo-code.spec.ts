@@ -1,6 +1,27 @@
 import { buildAngularDemoSources } from './demo-code';
 
 describe('Angular demo code imports', () => {
+  it('includes the optional Button forms import only for classic toggle fields', () => {
+    const classic = buildAngularDemoSources({
+      anchor: 'toggle-classic',
+      title: 'Classic toggle',
+      template: '<button aerisButton aerisButtonToggle [formControl]="control">Enabled</button>',
+      classCode: 'readonly control = new FormControl(false);',
+    });
+    const code = classic.find((source) => source.language === 'TypeScript')?.code ?? '';
+    expect(code).toContain("from '@aeris-ui/core/button/forms'");
+    expect(code).toContain('imports: [AerisButtonForms, ReactiveFormsModule]');
+    expect(code).not.toContain("from '@aeris-ui/core/button';");
+    const signal = buildAngularDemoSources({
+      anchor: 'toggle-signal',
+      title: 'Signal toggle',
+      template: '<button aerisButton aerisButtonToggle [(checked)]="enabled">Enabled</button>',
+      classCode: 'readonly enabled = signal(false);',
+    });
+    expect(signal.find((source) => source.language === 'TypeScript')?.code).not.toContain(
+      'button/forms',
+    );
+  });
   it('includes destruction guards for asynchronous consumer examples', () => {
     const sources = buildAngularDemoSources({
       anchor: 'async-action',

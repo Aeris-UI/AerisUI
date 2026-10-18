@@ -16421,7 +16421,7 @@
       "name": "Button",
       "slug": "button",
       "category": "Button",
-      "description": "Trigger actions with clear hierarchy, sizes, loading states, and icon support.",
+      "description": "Trigger actions or opt into accessible toggles, with sizes, loading states, and icon support.",
       "entryPoint": "@aeris-ui/core/button",
       "documentationUrl": "https://aeris-ui.dev/components/button",
       "imports": [
@@ -16429,6 +16429,54 @@
       ],
       "importCode": "import { AerisButton } from '@aeris-ui/core/button';",
       "api": [
+        {
+          "name": "Toggle Api",
+          "kind": "other",
+          "entries": [
+            {
+              "name": "aerisButtonToggle",
+              "type": "directive",
+              "defaultValue": "not applied",
+              "description": "Opt-in behavior on button[aerisButton] only. Sets type=button. Not supported on anchors or aeris-button wrappers; do not combine with aerisButtonGroupItem."
+            },
+            {
+              "name": "checked",
+              "type": "model<boolean>",
+              "defaultValue": "false",
+              "description": "Controlled pressed state; Signal Forms discovers this model automatically."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Disables activation; also respects Button loading and forms-disabled state."
+            },
+            {
+              "name": "invalid",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Invalid presentation, gated by touched when supplied."
+            },
+            {
+              "name": "touched",
+              "type": "boolean | null",
+              "defaultValue": "null",
+              "description": "false delays invalid presentation; true shows errors; null preserves explicit invalid behavior."
+            },
+            {
+              "name": "checkedChange",
+              "type": "output<boolean>",
+              "defaultValue": "—",
+              "description": "Emits when the checked model changes."
+            },
+            {
+              "name": "touch",
+              "type": "output<void>",
+              "defaultValue": "—",
+              "description": "Emits on blur; Signal Forms uses it to mark the field touched."
+            }
+          ]
+        },
         {
           "name": "Directive Inputs",
           "kind": "input",
@@ -16562,6 +16610,24 @@
       ],
       "designTokens": [
         {
+          "name": "--aeris-button-selected-background",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Selected toggle/group item background."
+        },
+        {
+          "name": "--aeris-button-selected-color",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Selected toggle/group item foreground."
+        },
+        {
+          "name": "--aeris-button-selected-border",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Selected toggle/group item boundary."
+        },
+        {
           "name": "--aeris-primary",
           "type": "CSS custom property",
           "defaultValue": "",
@@ -16656,6 +16722,42 @@
               "language": "TypeScript",
               "label": "TS",
               "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\n\n@Component({\n  selector: 'app-feature-basic-demo',\n  imports: [AerisButton],\n  template: `\n    <div class=\"aeris-example-row\">\n      <button aerisButton>Save changes</button>\n      <button aerisButton variant=\"solid\" severity=\"secondary\">Cancel</button>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class FeatureBasicBasicDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "feature-toggle",
+          "title": "Toggle state",
+          "description": "Opt a native Aeris button into controlled pressed behavior. Keep its accessible label stable.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\n\n@Component({\n  selector: 'app-feature-toggle-demo',\n  imports: [AerisButton],\n  template: `\n    <div class=\"aeris-example-row\">\n      <button aerisButton aerisButtonToggle variant=\"outline\" [(checked)]=\"toggled\">\n        Bold\n      </button>\n      <button aerisButton aerisButtonToggle variant=\"outline\" [checked]=\"true\" disabled>\n        Disabled toggle\n      </button>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class FeatureToggleToggleStateDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "feature-toggle-forms",
+          "title": "Toggle forms",
+          "description": "Signal Forms receives checked changes and touch events automatically using the normal AerisButton import.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { FormField } from '@angular/forms/signals';\n\n@Component({\n  selector: 'app-feature-toggle-forms-demo',\n  imports: [AerisButton, FormField],\n  template: `\n    <div class=\"aeris-example-row\">\n      <button\n        aerisButton\n        aerisButtonToggle\n        variant=\"outline\"\n        [formField]=\"toggleForm.enabled\"\n      >\n        Enabled\n      </button>\n      <output>Checked: {{ toggleData().enabled }}</output>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class FeatureToggleFormsToggleFormsDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "feature-toggle-reactive",
+          "title": "Reactive toggle",
+          "description": "Use the optional AerisButtonForms import for classic forms. It includes Button and the toggle value accessor; no second Aeris import is needed.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { ReactiveFormsModule } from '@angular/forms';\nimport { AerisButtonForms } from '@aeris-ui/core/button/forms';\n\n@Component({\n  selector: 'app-feature-toggle-reactive-demo',\n  imports: [AerisButtonForms, ReactiveFormsModule],\n  template: `\n    <div class=\"aeris-example-row\">\n      <button\n        aerisButton\n        aerisButtonToggle\n        variant=\"outline\"\n        [formControl]=\"toggleControl\"\n      >\n        Enabled\n      </button>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class FeatureToggleReactiveReactiveToggleDemo {\n}\n"
             }
           ]
         },
@@ -16782,6 +16884,7 @@
       ],
       "accessibility": {
         "guidance": [
+          "With aerisButtonToggle, Enter or Space changes checked and aria-pressed. Disabled/loading toggles do not change state. Signal Forms receives invalid and touched automatically; pristine invalid fields remain neutral. A manual invalid=true remains immediate unless touched=false is supplied.",
           "Pressed colors follow the button's severity. Disabled and loading links keep their resting appearance and do not activate. Reduced motion removes hover displacement without suppressing pressed colors or keyboard focus.",
           "Native buttons activate with Enter and Space; anchors preserve link keyboard behavior.",
           "Icon-only buttons require aria-label or equivalent visible text.",
@@ -16810,7 +16913,7 @@
       "name": "ButtonGroup",
       "slug": "button-group",
       "category": "Button",
-      "description": "Connect related buttons and links with responsive horizontal or vertical layouts.",
+      "description": "Connect related actions or manage single and multiple button selection with keyboard and forms support.",
       "entryPoint": "@aeris-ui/core/button-group",
       "documentationUrl": "https://aeris-ui.dev/components/button-group",
       "imports": [
@@ -16819,9 +16922,93 @@
       "importCode": "import { AerisButtonGroup } from '@aeris-ui/core/button-group';",
       "api": [
         {
+          "name": "Item Api",
+          "kind": "other",
+          "entries": [
+            {
+              "name": "aerisButtonGroupItem",
+              "type": "directive",
+              "defaultValue": "not applied",
+              "description": "Opt-in native button[aerisButton] member. Direct child of a ButtonGroup; sets type=button. Do not combine with aerisButtonToggle or child form registrations. Ordinary wrappers/links remain action-only."
+            },
+            {
+              "name": "value",
+              "type": "string",
+              "defaultValue": "required",
+              "description": "Unique stable item identity; required for each selectable member."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Disables this item and removes it from arrow navigation; group disabled also applies."
+            },
+            {
+              "name": "loading",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Uses existing Button loading presentation and skips this item during navigation."
+            },
+            {
+              "name": "focus(options?)",
+              "type": "method: void",
+              "defaultValue": "—",
+              "description": "Focuses the native member. A disabled native button cannot receive focus."
+            }
+          ]
+        },
+        {
           "name": "Inputs",
           "kind": "input",
           "entries": [
+            {
+              "name": "selectionMode",
+              "type": "AerisButtonGroupSelectionMode",
+              "defaultValue": "'none'",
+              "description": "Options: 'none', 'single', 'multiple'. Opt in with native aerisButtonGroupItem children; none preserves independent actions."
+            },
+            {
+              "name": "value",
+              "type": "model<AerisButtonGroupValue>",
+              "defaultValue": "null",
+              "description": "single: string or null. multiple: readonly string[] (bind [] initially). Controlled updates and Signal Forms share this model; mode changes do not rewrite supplied values."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Disables selectable members; also receives forms-disabled state. Does not disable ordinary action groups."
+            },
+            {
+              "name": "required",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Prevents clearing the final selection. Use Signal Forms required or Angular Validators.required for validity; this input is not itself a validator."
+            },
+            {
+              "name": "allowEmpty",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "In single mode, permits clicking the selected item to clear it unless required is true. Multiple mode permits clearing unless required."
+            },
+            {
+              "name": "invalid",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Invalid appearance and aria-invalid for selection groups, gated by touched when provided."
+            },
+            {
+              "name": "touched",
+              "type": "boolean | null",
+              "defaultValue": "null",
+              "description": "false hides invalid presentation; true reveals it; null preserves manual invalid=true behavior. Signal Forms supplies it automatically."
+            },
+            {
+              "name": "ariaDescribedBy",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "IDs of existing hint/error text describing the group."
+            },
             {
               "name": "ariaLabel",
               "type": "string | undefined",
@@ -16857,6 +17044,41 @@
       ],
       "referenceTables": [
         {
+          "caption": "Button Group outputs",
+          "columns": [
+            "Name",
+            "Type",
+            "Description"
+          ],
+          "rows": [
+            [
+              "valueChange",
+              "AerisButtonGroupValue",
+              "Model output; emits when selection changes."
+            ],
+            [
+              "touch",
+              "void",
+              "Emits when focus leaves a selectable group. Internal focus moves do not mark it touched."
+            ]
+          ]
+        },
+        {
+          "caption": "Button Group methods",
+          "columns": [
+            "Method",
+            "Parameters",
+            "Description"
+          ],
+          "rows": [
+            [
+              "focus(options?)",
+              "FocusOptions",
+              "Focuses the selected/active enabled selection member, or the first enabled member. No-op for action-only, empty or fully disabled groups."
+            ]
+          ]
+        },
+        {
           "caption": "Button Group projected content",
           "columns": [
             "Slot",
@@ -16875,7 +17097,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisButtonGroupOrientation =\n  | 'horizontal'\n  | 'vertical';"
+          "code": "type AerisButtonGroupOrientation =\n  | 'horizontal'\n  | 'vertical';\n\ntype AerisButtonGroupSelectionMode = 'none' | 'single' | 'multiple';\ntype AerisButtonGroupValue = string | readonly string[] | null;"
         }
       ],
       "designTokens": [
@@ -16908,6 +17130,128 @@
               "language": "TypeScript",
               "label": "TS",
               "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-basic-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group ariaLabel=\"Document actions\">\n        <button aerisButton variant=\"solid\" severity=\"primary\">Save</button>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Preview</button>\n        <button aerisButton variant=\"solid\" severity=\"primary\">Publish</button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupBasicBasicDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "group-single",
+          "title": "Single selection",
+          "description": "A single-choice segmented group uses radio semantics and one Tab stop. Arrow keys move focus and selection.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-single-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  templateUrl: './group-single.demo.html',\n  styleUrl: './group-single.demo.scss'\n})\nexport class GroupSingleSingleSelectionDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"stack aeris-example-row\">\n  <aeris-button-group\n    selectionMode=\"single\"\n    ariaLabel=\"Single selection\"\n    [(value)]=\"single\"\n  >\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"day\">\n      Day\n    </button>\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"week\">\n      Week\n    </button>\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"month\">\n      Month\n    </button>\n  </aeris-button-group>\n  <output>Selected: {{ single() }}</output>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".aeris-example-row {\n  display: flex;\n  gap: 0.5625rem;\n  min-width: 0;\n}\n\n.stack {\n  width: 100%;\n  display: grid;\n  gap: 0.75rem;\n}\n\n@media (max-width: 42rem) {\n  .aeris-example-row {\n    max-width: 100%;\n    flex-wrap: wrap;\n  }\n}"
+            }
+          ]
+        },
+        {
+          "id": "group-multiple",
+          "title": "Multiple selection",
+          "description": "Independent choices expose pressed states. Arrows move focus without changing selection; Space or Enter toggles the focused item.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-multiple-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  templateUrl: './group-multiple.demo.html',\n  styleUrl: './group-multiple.demo.scss'\n})\nexport class GroupMultipleMultipleSelectionDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"stack aeris-example-row\">\n  <aeris-button-group\n    selectionMode=\"multiple\"\n    ariaLabel=\"Multiple selection\"\n    [(value)]=\"multiple\"\n  >\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"bold\">\n      Bold\n    </button>\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"italic\">\n      Italic\n    </button>\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"underline\">\n      Underline\n    </button>\n  </aeris-button-group>\n  <output>Selected: {{ multiple() }}</output>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".aeris-example-row {\n  display: flex;\n  gap: 0.5625rem;\n  min-width: 0;\n}\n\n.stack {\n  width: 100%;\n  display: grid;\n  gap: 0.75rem;\n}\n\n@media (max-width: 42rem) {\n  .aeris-example-row {\n    max-width: 100%;\n    flex-wrap: wrap;\n  }\n}"
+            }
+          ]
+        },
+        {
+          "id": "group-optional",
+          "title": "Empty selection",
+          "description": "allowEmpty lets an optional single-choice group clear its selected item. required prevents clearing the final selection.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-optional-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  templateUrl: './group-optional.demo.html',\n  styleUrl: './group-optional.demo.scss'\n})\nexport class GroupOptionalEmptySelectionDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"stack aeris-example-row\">\n  <aeris-button-group\n    selectionMode=\"single\"\n    allowEmpty\n    ariaLabel=\"Optional selection\"\n    [(value)]=\"optional\"\n  >\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"start\">\n      Start\n    </button>\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"end\">\n      End\n    </button>\n  </aeris-button-group>\n  <output>Selected: {{ optional() ?? 'None' }}</output>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".aeris-example-row {\n  display: flex;\n  gap: 0.5625rem;\n  min-width: 0;\n}\n\n.stack {\n  width: 100%;\n  display: grid;\n  gap: 0.75rem;\n}\n\n@media (max-width: 42rem) {\n  .aeris-example-row {\n    max-width: 100%;\n    flex-wrap: wrap;\n  }\n}"
+            }
+          ]
+        },
+        {
+          "id": "group-controlled",
+          "title": "Controlled selection",
+          "description": "Update selection externally. Disabled and loading members are skipped; vertical groups use Up/Down navigation.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-controlled-demo',\n  imports: [AerisButton, AerisButtonGroup],\n  templateUrl: './group-controlled.demo.html',\n  styleUrl: './group-controlled.demo.scss'\n})\nexport class GroupControlledControlledSelectionDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"stack aeris-example-row\">\n  <div class=\"wrap\">\n    <button aerisButton variant=\"outline\" (click)=\"controlled.set('four')\">\n      Select fourth\n    </button>\n    <button\n      aerisButton\n      variant=\"outline\"\n      (click)=\"groupDisabled.set(!groupDisabled())\"\n    >\n      Toggle disabled\n    </button>\n  </div>\n  <aeris-button-group\n    selectionMode=\"single\"\n    orientation=\"vertical\"\n    ariaLabel=\"Controlled selection\"\n    [(value)]=\"controlled\"\n    [disabled]=\"groupDisabled()\"\n  >\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"one\">\n      First\n    </button>\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"two\" disabled>\n      Second (disabled)\n    </button>\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"three\" loading>\n      Third (loading)\n    </button>\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"four\">\n      Fourth\n    </button>\n  </aeris-button-group>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".aeris-example-row {\n  display: flex;\n  gap: 0.5625rem;\n  min-width: 0;\n}\n\n.wrap {\n  display: flex;\n  gap: 0.5625rem;\n  flex-wrap: wrap;\n}\n\n.stack {\n  width: 100%;\n  display: grid;\n  gap: 0.75rem;\n}\n\n@media (max-width: 42rem) {\n  .aeris-example-row {\n    max-width: 100%;\n    flex-wrap: wrap;\n  }\n}"
+            }
+          ]
+        },
+        {
+          "id": "group-signal-forms",
+          "title": "Signal Forms",
+          "description": "Attach the form to the group, not its members. Required pristine fields stay neutral until touched; selecting an item clears the error.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\nimport { AerisMessageModule } from '@aeris-ui/core/message';\nimport { FormField } from '@angular/forms/signals';\n\n@Component({\n  selector: 'app-group-signal-forms-demo',\n  imports: [AerisButton, AerisButtonGroup, AerisMessageModule, FormField],\n  templateUrl: './group-signal-forms.demo.html',\n  styleUrl: './group-signal-forms.demo.scss'\n})\nexport class GroupSignalFormsSignalFormsDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"stack aeris-example-row\">\n  <aeris-button-group\n    selectionMode=\"single\"\n    ariaLabel=\"Required selection\"\n    [formField]=\"selectionForm.choice\"\n    [ariaDescribedBy]=\"selectionError() ? 'group-selection-error' : ''\"\n  >\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"one\">\n      One\n    </button>\n    <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"two\">\n      Two\n    </button>\n  </aeris-button-group>\n  <button\n    aerisButton\n    variant=\"outline\"\n    (click)=\"selectionForm.choice().markAsTouched()\"\n  >\n    Mark touched\n  </button>\n  @if (selectionError()) {\n    <aeris-message id=\"group-selection-error\" severity=\"danger\"\n      >Choose one option.</aeris-message>\n  }\n  <output>Selected: {{ selectionData().choice ?? 'None' }}</output>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".aeris-example-row {\n  display: flex;\n  gap: 0.5625rem;\n  min-width: 0;\n}\n\n.stack {\n  width: 100%;\n  display: grid;\n  gap: 0.75rem;\n}\n\n@media (max-width: 42rem) {\n  .aeris-example-row {\n    max-width: 100%;\n    flex-wrap: wrap;\n  }\n}"
+            }
+          ]
+        },
+        {
+          "id": "group-reactive-forms",
+          "title": "Reactive Forms",
+          "description": "The group also supports formControl, formControlName and ngModel. Use a string or null for single mode and an array for multiple mode.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { ReactiveFormsModule } from '@angular/forms';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisButtonGroup } from '@aeris-ui/core/button-group';\n\n@Component({\n  selector: 'app-group-reactive-forms-demo',\n  imports: [AerisButton, AerisButtonGroup, ReactiveFormsModule],\n  template: `\n    <div class=\"aeris-example-row\">\n      <aeris-button-group\n        selectionMode=\"multiple\"\n        ariaLabel=\"Reactive selection\"\n        [formControl]=\"selectionControl\"\n      >\n        <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"one\">\n          One\n        </button>\n        <button aerisButton aerisButtonGroupItem variant=\"outline\" value=\"two\">\n          Two\n        </button>\n      </aeris-button-group>\n    </div>\n  `,\n  styles: `\n    .aeris-example-row {\n      display: flex;\n      gap: 0.5625rem;\n      min-width: 0;\n    }\n    \n    @media (max-width: 42rem) {\n      .aeris-example-row {\n        max-width: 100%;\n        flex-wrap: wrap;\n      }\n    }\n  `\n})\nexport class GroupReactiveFormsReactiveFormsDemo {\n}\n"
             }
           ]
         },
@@ -17020,9 +17364,12 @@
       ],
       "accessibility": {
         "guidance": [
+          "By default, ButtonGroup only connects independent actions. Opt-in single selection uses radiogroup/radio and aria-checked; multiple selection uses group/buttons and aria-pressed. Neither mode represents tab panels. Selection members must be direct native button children with unique value strings; wrapper buttons and links are supported only in ordinary action groups.",
+          "Only one enabled selection member enters the Tab sequence. Home/End move to the first/last enabled item. Horizontal Left/Right follows RTL; vertical groups use Up/Down. Navigation selects in single mode and only focuses in multiple mode. Disabled/loading members are skipped. Controlled values referencing missing/disabled items remain consumer-owned; the next enabled member stays reachable. An all-disabled or empty group has no member Tab stop.",
+          "Signal Forms forwards invalid and touched automatically; invalid styling and aria-invalid stay synchronized. Manually supplied invalid=true is immediate unless touched=false is supplied. Responsive stacking changes visual layout, not the configured keyboard orientation. For narrow selectable groups, prefer fluid with wrapping labels or explicit vertical orientation.",
           "The host exposes role=\"group\" and should receive ariaLabel or ariaLabelledBy.",
-          "Every child remains a native button or link and keeps its standard keyboard interaction. Button Group connects actions visually; it does not manage selected values or turn its children into radio buttons, pressed toggles, or tabs.",
-          "Tab moves through children in DOM order. Arrow keys are not added because these are independent actions.",
+          "Every child remains a native button or link and keeps its standard keyboard interaction. In the default selectionMode=none, Button Group does not manage selection or change child roles.",
+          "In action-only groups, Tab moves through children in DOM order; no arrow navigation is added.",
           "Icon-only children still require their own accessible names.",
           "Disabled and loading states belong to individual children and are announced by those controls.",
           "Responsive stacking changes only visual layout, not reading order or focus order."
@@ -17030,7 +17377,7 @@
         "keyboard": [
           {
             "keys": "Tab / Shift + Tab",
-            "behavior": "Moves through enabled child actions in document order."
+            "behavior": "Action groups: moves through enabled actions. Selection groups: enters/leaves the single enabled member Tab stop."
           },
           {
             "keys": "Enter",
@@ -17039,6 +17386,14 @@
           {
             "keys": "Space",
             "behavior": "Activates the focused native button."
+          },
+          {
+            "keys": "Arrow keys",
+            "behavior": "Selection only: Left/Right horizontally (mirrored in RTL), Up/Down vertically; wraps and skips disabled/loading items. Single mode also selects."
+          },
+          {
+            "keys": "Home / End",
+            "behavior": "Selection only: focuses first/last enabled member and selects it in single mode."
           }
         ]
       }

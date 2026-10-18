@@ -2,6 +2,25 @@
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
 
+// Selection is opt-in; ordinary action buttons do not receive these attributes.
+:host(.aeris-button[data-selected='true']),
+:host(
+  .aeris-button[data-selected='true']:is(:hover, :active):not(:disabled):not([aria-disabled='true'])
+) {
+  background: var(--aeris-button-selected-background, var(--_aeris-button-active-fill));
+  border-color: var(--aeris-button-selected-border, var(--_aeris-button-boundary));
+  color: var(--aeris-button-selected-color, var(--_aeris-button-on-active));
+}
+
+:host(.aeris-button[aria-invalid='true']) {
+  --_aeris-button-boundary: var(--aeris-control-invalid-border, var(--aeris-danger));
+  border-color: var(--_aeris-button-boundary);
+}
+
+:host(.aeris-button[aria-invalid='true']:focus-visible) {
+  outline-color: var(--aeris-control-invalid-focus-ring-color, var(--aeris-danger));
+}
+
 :host {
   --_height: var(--aeris-action-height, var(--aeris-control-height, 2.625rem));
   --_aeris-button-fill: var(--aeris-primary, #{aeris-fallbacks.$primary});

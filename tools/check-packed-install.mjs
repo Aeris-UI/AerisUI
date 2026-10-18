@@ -87,6 +87,16 @@ try {
     existsSync(resolve(installedPackageRoot, 'fesm2022/aeris-ui-core-tabs.mjs')),
     'Installed tarball is missing the Tabs secondary entry point.',
   );
+  assert(
+    existsSync(resolve(installedPackageRoot, 'fesm2022/aeris-ui-core-button-forms.mjs')),
+    'Installed tarball is missing the optional Button forms entry point.',
+  );
+  assert(
+    !/from\s+['"]@angular\/forms(?:\/signals)?['"]/.test(
+      readFileSync(resolve(installedPackageRoot, 'fesm2022/aeris-ui-core-button.mjs'), 'utf8'),
+    ),
+    'The default Button entry must not eagerly import classic/Signal Forms runtime code.',
+  );
 
   writeFileSync(
     resolve(workspace, 'consumer.ts'),
@@ -121,6 +131,9 @@ export class PackedConsumer {}
 import { Component } from '@angular/core';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { renderApplication } from '@angular/platform-server';
+import { AerisButtonForms } from '@aeris-ui/core/button/forms';
+import { AerisButtonGroup } from '@aeris-ui/core/button-group';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 import { AerisSelect } from '@aeris-ui/core/select';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
@@ -135,11 +148,17 @@ import { AerisTable } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'aeris-ssr-consumer',
-  imports: [AerisDatePicker, AerisSelect, AerisTabsModule, AerisCheckbox, AerisChip,
+  imports: [AerisButtonForms, ReactiveFormsModule, AerisButtonGroup, AerisDatePicker, AerisSelect, AerisTabsModule, AerisCheckbox, AerisChip,
     AerisColorPicker, AerisDrawer, AerisInputNumber, AerisProgressBar, AerisRadioButton,
     AerisTable],
   template: \`
     <aeris-date-picker ariaLabel="Start date" appendTo="body" />
+    <button aerisButton aerisButtonToggle>Toggle</button>
+    <button aerisButton aerisButtonToggle [formControl]="toggle">Classic toggle</button>
+    <aeris-button-group selectionMode="single" value="one" ariaLabel="Packed choices">
+      <button aerisButton aerisButtonGroupItem value="one">One</button>
+      <button aerisButton aerisButtonGroupItem value="two">Two</button>
+    </aeris-button-group>
     <aeris-date-picker ariaLabel="Editable date" editable />
     <aeris-date-picker ariaLabel="Editable time" mode="time" editable />
     <aeris-date-picker ariaLabel="Editable date and time" mode="dateTime" editable />
@@ -163,6 +182,7 @@ import { AerisTable } from '@aeris-ui/core/table';
   \`,
 })
 class SsrConsumer {
+  readonly toggle = new FormControl(true, { nonNullable: true });
   readonly workspaces = [{ label: 'Design', value: 'design' }];
   readonly steps = [{ label: 'Started', value: 0 }, { label: 'Complete', value: 100 }];
   readonly columns = [{ field: 'name', header: 'Name', sortable: true }];
@@ -184,6 +204,9 @@ const html = await renderApplication(
 );
 
 assert(html.includes('ngh='), 'SSR output is missing hydration metadata.');
+assert(html.includes('aria-pressed="false"'), 'The toggle state is missing on the server.');
+assert(html.includes('aria-pressed="true"'), 'The classic-forms toggle state is missing on the server.');
+assert((html.match(/role="radio"/g) ?? []).length === 2, 'Selection members did not render on the server.');
 assert(html.includes('<aeris-date-picker'), 'DatePicker did not render on the server.');
 assert(html.includes('<aeris-select'), 'Select did not render on the server.');
 for (const component of ['checkbox', 'radio-button', 'chip', 'color-picker', 'input-number',

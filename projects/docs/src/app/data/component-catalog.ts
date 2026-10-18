@@ -40,9 +40,9 @@ const define = (
 const descriptions: Readonly<Record<string, string>> = {
   avatar:
     'Represent people and entities with images, initials, icons, fallbacks, theme-aware tones, and responsive groups.',
-  button: 'Trigger actions with clear hierarchy, sizes, loading states, and icon support.',
+  button: 'Trigger actions or opt into accessible toggles, with sizes, loading states, and icon support.',
   'button-group':
-    'Connect related buttons and links with responsive horizontal or vertical layouts.',
+    'Connect related actions or manage single and multiple button selection with keyboard and forms support.',
   'speed-dial': 'Reveal contextual actions in animated linear and radial layouts.',
   'split-button': 'Pair a primary action with an accessible popup of related commands.',
   'auto-complete':

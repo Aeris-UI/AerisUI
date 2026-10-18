@@ -4,6 +4,19 @@
   isolation: isolate;
 }
 
+.aeris-button-group[aria-invalid='true'] {
+  outline: var(--aeris-focus-ring-width, 3px) solid
+    var(--aeris-control-invalid-border, var(--aeris-danger));
+  outline-offset: var(--aeris-focus-ring-offset, 2px);
+  border-radius: var(--aeris-radius-control);
+}
+
+.aeris-button-group[data-selection] > button {
+  min-inline-size: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .aeris-button-group[data-orientation='vertical'] {
   flex-direction: column;
 }
