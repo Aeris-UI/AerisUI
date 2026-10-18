@@ -140,7 +140,7 @@ import { AerisListbox } from '@aeris-ui/core/listbox';
 import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
-import { AerisChip } from '@aeris-ui/core/chip';
+import { AerisChipModule } from '@aeris-ui/core/chip';
 import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 import { AerisDrawer } from '@aeris-ui/core/drawer';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
@@ -150,7 +150,7 @@ import { AerisTable } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'aeris-ssr-consumer',
-  imports: [AerisCommandPalette, AerisListbox, AerisButtonForms, ReactiveFormsModule, AerisButtonGroup, AerisDatePicker, AerisSelect, AerisTabsModule, AerisCheckbox, AerisChip,
+  imports: [AerisCommandPalette, AerisListbox, AerisChipModule, AerisButtonForms, ReactiveFormsModule, AerisButtonGroup, AerisDatePicker, AerisSelect, AerisTabsModule, AerisCheckbox,
     AerisColorPicker, AerisDrawer, AerisInputNumber, AerisProgressBar, AerisRadioButton,
     AerisTable],
   template: \`
@@ -170,6 +170,7 @@ import { AerisTable } from '@aeris-ui/core/table';
     <aeris-checkbox label="Email updates" appearance="card" description="Weekly updates" />
     <aeris-radio-button label="Standard" appearance="card" name="plan" value="standard" />
     <aeris-chip label="Design" removable [autoHide]="false" />
+    <aeris-chip-group ariaLabel="Packed chips" selectionMode="single" value="one" [items]="[{ id: 'one', label: 'Packed choice' }]" />
     <aeris-color-picker ariaLabel="Accent" value="#33445580" alpha />
     <aeris-input-number ariaLabel="Quantity" [value]="2" />
     <aeris-progress-bar ariaLabel="Progress" [value]="50" [steps]="steps" />
@@ -215,6 +216,7 @@ assert(html.includes('<aeris-date-picker'), 'DatePicker did not render on the se
 assert(html.includes('<aeris-select'), 'Select did not render on the server.');
 assert(html.includes('<aeris-listbox') && html.includes('aria-label="Packed listbox"'), 'Listbox did not render accessible selection on the server.');
 assert(html.includes('<aeris-command-palette') && html.includes('aria-label="Packed command"'), 'CommandPalette did not render accessible commands on the server.');
+assert(html.includes('<aeris-chip-group') && html.includes('aria-pressed="true"'), 'ChipGroup did not render pressed choices on the server.');
 for (const component of ['checkbox', 'radio-button', 'chip', 'color-picker', 'input-number',
   'progress-bar', 'drawer', 'table']) {
   assert(html.includes('<aeris-' + component), component + ' did not render on the server.');

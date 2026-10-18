@@ -85,6 +85,7 @@ export class AerisChipRemoveIconTemplate {
           class="aeris-chip__remove"
           type="button"
           [disabled]="disabled()"
+          [tabIndex]="removeTabIndex()"
           [attr.aria-label]="resolvedRemoveLabelledBy() ? null : resolvedRemoveAriaLabel()"
           [attr.aria-labelledby]="resolvedRemoveLabelledBy()"
           (click)="remove($event)"
@@ -138,6 +139,7 @@ export class AerisChip {
   readonly tone = input<AerisChipTone>('neutral');
   readonly shape = input<AerisChipShape>('pill');
   readonly removeAriaLabel = input('');
+  readonly removeTabIndex = input(0);
   readonly ariaLabel = input('');
   readonly ariaLabelledBy = input('');
   readonly visible = model(true);
@@ -215,5 +217,3 @@ export class AerisChip {
     this.failedImageSrc.set(this.imageSrc());
   }
 }
-
-export const AerisChipModule = [AerisChip, AerisChipLeading, AerisChipRemoveIconTemplate] as const;

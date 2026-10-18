@@ -1,0 +1,36 @@
+@for (entry of renderedItems(); track entry.item.id) {
+  <aeris-chip
+    class="aeris-chip-group__chip"
+    [attr.data-selected]="entry.selected || null"
+    [label]="selectionMode() === 'none' ? entry.item.label : ''"
+    [ariaLabel]="selectionMode() === 'none' ? '' : entry.item.label"
+    [removable]="entry.removable"
+    [autoHide]="false"
+    [disabled]="entry.disabled"
+    [removeTabIndex]="selectionMode() === 'none' ? entry.tabIndex : -1"
+    [size]="size()"
+    [variant]="variant()"
+    [tone]="tone()"
+    [shape]="shape()"
+    (focusin)="activate(entry.item.id)"
+    (keydown)="onKeydown($event, entry.item.id)"
+    (removing)="requestRemoval($event, entry.item.id)"
+    (removed)="removeItem($event.originalEvent, entry.item.id)"
+  >
+    @if (selectionMode() !== 'none') {
+      <button
+        #choice
+        type="button"
+        class="aeris-chip-group__choice"
+        [disabled]="entry.disabled"
+        [tabIndex]="entry.tabIndex"
+        [attr.aria-pressed]="entry.selected"
+        (click)="choose($event, entry.item.id)"
+      >
+        {{ entry.item.label }}
+      </button>
+    }
+  </aeris-chip>
+} @empty {
+  <span class="aeris-chip-group__empty">{{ emptyMessage() }}</span>
+}

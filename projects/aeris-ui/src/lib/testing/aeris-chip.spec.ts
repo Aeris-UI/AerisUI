@@ -3,11 +3,12 @@ import { TestBed } from '@angular/core/testing';
 
 import {
   AerisChip,
+  AerisChipGroupComponent,
   AerisChipLeading,
   AerisChipModule,
   AerisChipRemoveIconTemplate,
   type AerisChipRemoveEvent,
-} from '../../../chip/aeris-chip';
+} from '@aeris-ui/core/chip';
 
 @Component({
   imports: [AerisChipModule],
@@ -295,7 +296,12 @@ describe('AerisChip', () => {
     expect(getComputedStyle(label).textOverflow).toBe('ellipsis');
   });
 
-  it('exports Chip and its projection helpers through one module-array import', () => {
-    expect(AerisChipModule).toEqual([AerisChip, AerisChipLeading, AerisChipRemoveIconTemplate]);
+  it('exports Chip, ChipGroup and all projection helpers through one module-array import', () => {
+    expect(AerisChipModule).toEqual([
+      AerisChip,
+      AerisChipLeading,
+      AerisChipRemoveIconTemplate,
+      AerisChipGroupComponent,
+    ]);
   });
 });
