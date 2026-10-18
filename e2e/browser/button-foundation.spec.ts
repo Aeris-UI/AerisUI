@@ -125,6 +125,46 @@ for (const direction of ['ltr', 'rtl']) {
   });
 }
 
+for (const direction of ['ltr', 'rtl']) {
+  test(`shared button borders keep the same paint order on hover in ${direction}`, async ({
+    page,
+  }) => {
+    await page.goto(`/?direction=${direction}`);
+    await page
+      .locator('html')
+      .evaluate((element, dir) => element.setAttribute('dir', dir), direction);
+    const group = page.getByRole('group', { name: 'Foundation actions' });
+    const first = group.getByRole('button', { name: 'Save', exact: true });
+    const second = group.getByRole('button', { name: 'Preview', exact: true });
+    for (const width of [1280, 390, 320]) {
+      await page.setViewportSize({ width, height: 844 });
+      await group.scrollIntoViewIfNeeded();
+      await page.mouse.move(0, 0);
+      const a = await first.boundingBox();
+      const b = await second.boundingBox();
+      if (!a || !b) throw new Error('Both connected buttons must be visible.');
+      const left = Math.max(a.x, b.x);
+      const right = Math.min(a.x + a.width, b.x + b.width);
+      const top = Math.max(a.y, b.y);
+      const bottom = Math.min(a.y + a.height, b.y + b.height);
+      expect(right - left).toBeGreaterThan(0);
+      expect(bottom - top).toBeGreaterThan(0);
+      const point = { x: (left + right) / 2, y: (top + bottom) / 2 };
+      const owner = () =>
+        page.evaluate(
+          ({ x, y }) => document.elementFromPoint(x, y)?.closest('button')?.textContent?.trim(),
+          point,
+        );
+      const resting = await owner();
+      expect(resting).toBe('Preview');
+      await first.hover();
+      expect(await owner()).toBe(resting);
+      await second.hover();
+      expect(await owner()).toBe(resting);
+    }
+  });
+}
+
 test('touch actions activate once without leaving a hovered or selected state', async ({
   page,
   hasTouch,

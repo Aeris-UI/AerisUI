@@ -38,12 +38,6 @@
 .aeris-button-group > aeris-button:has(.aeris-button:focus-visible) {
   z-index: 1;
 }
-@media (hover: hover) {
-  .aeris-button-group > .aeris-button:hover,
-  .aeris-button-group > aeris-button:has(.aeris-button:hover) {
-    z-index: 1;
-  }
-}
 .aeris-button-group[data-orientation='horizontal'] > :not(:first-child) {
   margin-inline-start: -1px;
 }
