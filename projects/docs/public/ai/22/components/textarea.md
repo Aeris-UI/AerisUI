@@ -1014,6 +1014,7 @@ export class TextareaAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 ## Accessibility
 
+- The component buffers unfinished IME input until composition ends; ordinary text and pasted text update immediately. To opt into intermediate composition updates, provide Angular's COMPOSITION_BUFFER_MODE token with false. Native textarea keyboard behavior is preserved: Enter and Shift+Enter insert line breaks.
 - The native directive preserves textarea semantics, keyboard editing, selection, resizing, and form submission.
 - Associate a visible label using matching for and id values. Do not rely on placeholder text as the accessible name.
 - Use aria-describedby for help text and validation messages. The invalid input synchronizes aria-invalid.

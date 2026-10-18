@@ -7,13 +7,14 @@ import {
   computed,
   forwardRef,
   input,
+  inject,
   model,
   output,
   signal,
   viewChild,
   TemplateRef,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { COMPOSITION_BUFFER_MODE, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ɵAerisIcon, ɵaerisDisplayInvalid } from '@aeris-ui/core';
 
 export type AerisTextareaSize = 'xs' | 'sm' | 'md' | 'lg';
@@ -90,6 +91,8 @@ let textareaId = 0;
           [style.height.px]="autoResize() ? autoHeight() : null"
           [style.overflow-y]="autoResize() && atMaximumHeight() ? 'auto' : null"
           (input)="handleInput($event)"
+          (compositionstart)="composing = true"
+          (compositionend)="handleCompositionEnd($event)"
           (focus)="focused.emit($event)"
           (blur)="handleBlur($event)"
           (scroll)="scrolled.emit($event)"
@@ -140,6 +143,8 @@ let textareaId = 0;
   },
 })
 export class AerisTextareaComponent implements ControlValueAccessor {
+  private readonly bufferComposition = inject(COMPOSITION_BUFFER_MODE, { optional: true }) ?? true;
+  protected composing = false;
   readonly clearIconTemplate = input<TemplateRef<void>>();
 
   readonly value = model('');
@@ -256,8 +261,15 @@ export class AerisTextareaComponent implements ControlValueAccessor {
   }
 
   protected handleInput(event: Event): void {
-    this.setValue((event.target as HTMLTextAreaElement).value);
+    if (!this.bufferComposition || !(this.composing || (event as InputEvent).isComposing)) {
+      this.setValue((event.target as HTMLTextAreaElement).value);
+    }
     this.resizeToContent();
+  }
+
+  protected handleCompositionEnd(event: CompositionEvent): void {
+    this.composing = false;
+    if (this.bufferComposition) this.handleInput(event);
   }
 
   protected handleBlur(event: FocusEvent): void {

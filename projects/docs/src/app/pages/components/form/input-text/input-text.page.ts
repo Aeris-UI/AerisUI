@@ -41,6 +41,8 @@ interface ApiRow {
   styleUrl: './input-text.page.scss',
 })
 export class InputTextPage {
+  protected readonly componentText = signal('');
+  protected readonly componentCode = `protected readonly componentText = signal('');`;
   protected readonly icons = DOC_ICONS;
   protected readonly name = signal('');
   protected readonly search = signal('Aeris components');
@@ -54,6 +56,7 @@ export class InputTextPage {
 
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'input-basic', label: 'Basic' },
+    { id: 'input-component', label: 'Component value' },
     { id: 'input-types', label: 'Input types' },
     { id: 'input-sizes', label: 'Sizes' },
     { id: 'input-appearances', label: 'Appearances' },

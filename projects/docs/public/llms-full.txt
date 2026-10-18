@@ -14150,6 +14150,59 @@ export class InputBasicBasicDemo {
 }
 ```
 
+##### Component value
+
+Use the component's value model for two-way string binding. Unfinished IME input stays visible in the field, while the bound value updates once composition finishes.
+
+###### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+
+@Component({
+  selector: 'app-input-component-demo',
+  imports: [AerisInputText],
+  template: `
+    <div class="field">
+      <label for="component-text">Text</label>
+      <aeris-input-text inputId="component-text" [(value)]="componentText" fluid />
+      <small aria-live="polite">Committed value: {{ componentText() || 'Empty' }}</small>
+    </div>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+  `
+})
+export class InputComponentComponentValueDemo {
+  protected readonly componentText = signal('');
+}
+```
+
 ##### Input types
 
 The directive supports applicable native single-line input types without changing browser behavior.
@@ -14942,6 +14995,7 @@ export class InputAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 #### Accessibility
 
+- The component buffers IME edits until composition ends, avoiding partial model and form updates. Applications that require intermediate updates can provide Angular's COMPOSITION_BUFFER_MODE token with false. The native directive keeps Angular's native value-accessor behavior. Aeris does not add an Enter-to-submit policy.
 - InputText preserves native input semantics, keyboard behavior, autofill, selection, and form submission.
 - Provide a visible label associated through matching for and id values.
 - Use aria-describedby to connect help or validation text. Avoid placeholder-only labels.
@@ -22525,6 +22579,7 @@ export class TextareaAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 #### Accessibility
 
+- The component buffers unfinished IME input until composition ends; ordinary text and pasted text update immediately. To opt into intermediate composition updates, provide Angular's COMPOSITION_BUFFER_MODE token with false. Native textarea keyboard behavior is preserved: Enter and Shift+Enter insert line breaks.
 - The native directive preserves textarea semantics, keyboard editing, selection, resizing, and form submission.
 - Associate a visible label using matching for and id values. Do not rely on placeholder text as the accessible name.
 - Use aria-describedby for help text and validation messages. The invalid input synchronizes aria-invalid.

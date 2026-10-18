@@ -10768,6 +10768,18 @@
           ]
         },
         {
+          "id": "input-component",
+          "title": "Component value",
+          "description": "Use the component's value model for two-way string binding. Unfinished IME input stays visible in the field, while the bound value updates once composition finishes.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\n\n@Component({\n  selector: 'app-input-component-demo',\n  imports: [AerisInputText],\n  template: `\n    <div class=\"field\">\n      <label for=\"component-text\">Text</label>\n      <aeris-input-text inputId=\"component-text\" [(value)]=\"componentText\" fluid />\n      <small aria-live=\"polite\">Committed value: {{ componentText() || 'Empty' }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class InputComponentComponentValueDemo {\n  protected readonly componentText = signal('');\n}\n"
+            }
+          ]
+        },
+        {
           "id": "input-types",
           "title": "Input types",
           "description": "The directive supports applicable native single-line input types without changing browser behavior.",
@@ -10950,6 +10962,7 @@
       ],
       "accessibility": {
         "guidance": [
+          "The component buffers IME edits until composition ends, avoiding partial model and form updates. Applications that require intermediate updates can provide Angular's COMPOSITION_BUFFER_MODE token with false. The native directive keeps Angular's native value-accessor behavior. Aeris does not add an Enter-to-submit policy.",
           "InputText preserves native input semantics, keyboard behavior, autofill, selection, and form submission.",
           "Provide a visible label associated through matching for and id values.",
           "Use aria-describedby to connect help or validation text. Avoid placeholder-only labels.",
@@ -15411,6 +15424,7 @@
       ],
       "accessibility": {
         "guidance": [
+          "The component buffers unfinished IME input until composition ends; ordinary text and pasted text update immediately. To opt into intermediate composition updates, provide Angular's COMPOSITION_BUFFER_MODE token with false. Native textarea keyboard behavior is preserved: Enter and Shift+Enter insert line breaks.",
           "The native directive preserves textarea semantics, keyboard editing, selection, resizing, and form submission.",
           "Associate a visible label using matching for and id values. Do not rely on placeholder text as the accessible name.",
           "Use aria-describedby for help text and validation messages. The invalid input synchronizes aria-invalid.",

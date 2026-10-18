@@ -627,6 +627,12 @@ Approved content&lt;/textarea&gt;
         <h2>Accessibility</h2>
         <ul>
           <li>
+            The component buffers unfinished IME input until composition ends; ordinary text and
+            pasted text update immediately. To opt into intermediate composition updates, provide
+            Angular's <code>COMPOSITION_BUFFER_MODE</code> token with <code>false</code>. Native
+            textarea keyboard behavior is preserved: Enter and Shift+Enter insert line breaks.
+          </li>
+          <li>
             The native directive preserves textarea semantics, keyboard editing, selection,
             resizing, and form submission.
           </li>
