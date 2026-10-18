@@ -223,17 +223,22 @@ aeris-input-group.aeris-input-group .aeris-input-group__stack > .aeris-button {
 }
 
 @media (hover: hover) {
-  aeris-input-group.aeris-input-group .aeris-button:hover:not(:disabled),
-  aeris-input-group.aeris-input-group button:hover:not(:disabled) {
+  aeris-input-group.aeris-input-group
+    .aeris-button:hover:not(:disabled):not([aria-disabled='true']),
+  aeris-input-group.aeris-input-group button:hover:not(:disabled):not([aria-disabled='true']) {
     transform: none;
   }
 }
 @media (hover: hover) and (pointer: fine) {
   aeris-input-group.aeris-input-group
-    > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):hover:not(:disabled),
+    > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):hover:not(:disabled):not(
+      [aria-disabled='true']
+    ),
   aeris-input-group.aeris-input-group
     .aeris-input-group__stack
-    > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):hover:not(:disabled) {
+    > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):hover:not(:disabled):not(
+      [aria-disabled='true']
+    ) {
     background:
       linear-gradient(
         color-mix(in srgb, var(--_aeris-button-on-hover) 8%, transparent),
@@ -244,10 +249,14 @@ aeris-input-group.aeris-input-group .aeris-input-group__stack > .aeris-button {
 }
 
 aeris-input-group.aeris-input-group
-  > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):active:not(:disabled),
+  > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):active:not(:disabled):not(
+    [aria-disabled='true']
+  ),
 aeris-input-group.aeris-input-group
   .aeris-input-group__stack
-  > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):active:not(:disabled) {
+  > .aeris-button:is(.aeris-button--solid, .aeris-button--outline):active:not(:disabled):not(
+    [aria-disabled='true']
+  ) {
   background:
     linear-gradient(
       color-mix(in srgb, var(--_aeris-button-on-active) 12%, transparent),
@@ -294,10 +303,11 @@ aeris-input-group.aeris-input-group
 }
 
 @media (hover: hover) {
-  .aeris-input-group--filled > button:not(.aeris-button):hover:not(:disabled),
+  .aeris-input-group--filled
+    > button:not(.aeris-button):hover:not(:disabled):not([aria-disabled='true']),
   .aeris-input-group--filled
     > .aeris-input-group__stack
-    > button:not(.aeris-button):hover:not(:disabled) {
+    > button:not(.aeris-button):hover:not(:disabled):not([aria-disabled='true']) {
     background: color-mix(in srgb, var(--aeris-surface-2, #f3f3f3) 82%, var(--aeris-text, #111111));
   }
 }

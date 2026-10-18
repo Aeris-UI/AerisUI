@@ -5,6 +5,28 @@ import { AerisButton } from '../../../button/aeris-button';
 
 @Component({
   imports: [AerisButton],
+  template: `
+    <div (click)="parentClicks.set(parentClicks() + 1)">
+      <a
+        aerisButton
+        href="#action"
+        [disabled]="disabled()"
+        [loading]="loading()"
+        (click)="clicks.set(clicks() + 1)"
+        ><span>Action</span></a
+      >
+    </div>
+  `,
+})
+class ButtonAnchorHost {
+  readonly disabled = signal(false);
+  readonly loading = signal(false);
+  readonly clicks = signal(0);
+  readonly parentClicks = signal(0);
+}
+
+@Component({
+  imports: [AerisButton],
   styleUrl: '../../styles/aeris.css',
   encapsulation: ViewEncapsulation.None,
   template: `
@@ -120,6 +142,49 @@ class ButtonCompositionHost {
 }
 
 describe('AerisButton', () => {
+  for (const state of ['disabled', 'loading'] as const) {
+    it(`blocks Angular click callbacks and bubbling for ${state} anchors, then restores activation`, async () => {
+      const fixture = TestBed.createComponent(ButtonAnchorHost);
+      fixture.componentInstance[state].set(true);
+      await fixture.whenStable();
+      const anchor = fixture.nativeElement.querySelector('a') as HTMLAnchorElement;
+      const child = anchor.querySelector('.aeris-button__content span') as HTMLSpanElement;
+      const blocked = new MouseEvent('click', { bubbles: true, cancelable: true });
+      child.dispatchEvent(blocked);
+      expect(blocked.defaultPrevented).toBe(true);
+      expect(fixture.componentInstance.clicks()).toBe(0);
+      expect(fixture.componentInstance.parentClicks()).toBe(0);
+      fixture.componentInstance[state].set(false);
+      await fixture.whenStable();
+      const active = new MouseEvent('click', { bubbles: true, cancelable: true });
+      // Avoid jsdom navigation; the consumer still receives this enabled activation.
+      anchor.addEventListener('click', (event) => event.preventDefault(), { once: true });
+      child.dispatchEvent(active);
+      expect(fixture.componentInstance.clicks()).toBe(1);
+      expect(fixture.componentInstance.parentClicks()).toBe(1);
+    });
+  }
+
+  it('removes the anchor capture guard when destroyed', async () => {
+    const fixture = TestBed.createComponent(ButtonAnchorHost);
+    fixture.componentInstance.disabled.set(true);
+    await fixture.whenStable();
+    const anchor = fixture.nativeElement.querySelector('a') as HTMLAnchorElement;
+    fixture.destroy();
+    const click = new MouseEvent('click', { bubbles: true, cancelable: true });
+    // Prevent navigation independently, recording whether Aeris leaked its old guard.
+    let wasBlocked: boolean | undefined;
+    anchor.addEventListener(
+      'click',
+      (event) => {
+        wasBlocked = event.defaultPrevented;
+        event.preventDefault();
+      },
+      { once: true },
+    );
+    anchor.dispatchEvent(click);
+    expect(wasBlocked).toBe(false);
+  });
   it('preserves consumer-owned pressed semantics without adding selection state to actions', async () => {
     const fixture = TestBed.createComponent(ButtonCompositionHost);
     await fixture.whenStable();

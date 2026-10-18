@@ -73,43 +73,43 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  :host(:hover:not(:disabled)) {
+  :host(:hover:not(:disabled):not([aria-disabled='true'])) {
     transform: translateY(-1px);
   }
 
-  :host(.aeris-button--solid:hover:not(:disabled)) {
+  :host(.aeris-button--solid:hover:not(:disabled):not([aria-disabled='true'])) {
     background: var(--_aeris-button-hover-fill);
     color: var(--_aeris-button-on-hover);
   }
 
-  :host(.aeris-button--outline:hover:not(:disabled)) {
+  :host(.aeris-button--outline:hover:not(:disabled):not([aria-disabled='true'])) {
     border-color: var(--_aeris-button-boundary);
     background: var(--_aeris-button-hover-fill);
     color: var(--_aeris-button-on-hover);
   }
 
-  :host(.aeris-button--ghost:hover:not(:disabled)) {
+  :host(.aeris-button--ghost:hover:not(:disabled):not([aria-disabled='true'])) {
     background: var(--_aeris-button-soft);
     color: var(--_aeris-button-on-soft);
   }
 }
 
-:host(:active:not(:disabled)) {
+:host(:active:not(:disabled):not([aria-disabled='true'])) {
   transform: translateY(0);
 }
 
-:host(.aeris-button--solid:active:not(:disabled)) {
+:host(.aeris-button--solid:active:not(:disabled):not([aria-disabled='true'])) {
   background: var(--_aeris-button-active-fill);
   color: var(--_aeris-button-on-active);
 }
 
-:host(.aeris-button--outline:active:not(:disabled)) {
+:host(.aeris-button--outline:active:not(:disabled):not([aria-disabled='true'])) {
   border-color: var(--_aeris-button-boundary);
   background: var(--_aeris-button-active-fill);
   color: var(--_aeris-button-on-active);
 }
 
-:host(.aeris-button--ghost:active:not(:disabled)) {
+:host(.aeris-button--ghost:active:not(:disabled):not([aria-disabled='true'])) {
   background: color-mix(in srgb, var(--_aeris-button-fill) 22%, var(--aeris-surface, #fff));
   color: var(--_aeris-button-on-soft);
 }
@@ -315,6 +315,11 @@
 @media (prefers-reduced-motion: reduce) {
   :host {
     transition-duration: 0.01ms;
+  }
+
+  :host(:hover:not(:disabled):not([aria-disabled='true'])),
+  :host(:active:not(:disabled):not([aria-disabled='true'])) {
+    transform: none;
   }
 
   .aeris-button__spinner {

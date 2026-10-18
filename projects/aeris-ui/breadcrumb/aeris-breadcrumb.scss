@@ -180,6 +180,12 @@ button.aeris-breadcrumb__item--ellipsis:active {
   transform: scale(0.92);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  button.aeris-breadcrumb__item--ellipsis:active {
+    transform: none;
+  }
+}
+
 .aeris-breadcrumb__list-item--enter {
   animation: aeris-breadcrumb-item-enter var(--aeris-motion-normal, 150ms)
     var(--aeris-ease-enter, ease-out) both;

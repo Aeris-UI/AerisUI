@@ -1,11 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { AerisButton, type AerisButtonSize, type AerisButtonVariant } from '@aeris-ui/core/button';
 import { AerisButtonGroup } from '@aeris-ui/core/button-group';
+import { AerisInputGroup } from '@aeris-ui/core/input-group';
+import { AerisInputText } from '@aeris-ui/core/input-text';
 
 /** Ordinary action buttons only; selection controls belong to their own entry points. */
 @Component({
   selector: 'app-button-foundation-fixture',
-  imports: [AerisButton, AerisButtonGroup],
+  imports: [AerisButton, AerisButtonGroup, AerisInputGroup, AerisInputText],
   template: `
     <section data-fixture="button-foundation" aria-labelledby="button-foundation-title">
       <h2 id="button-foundation-title">Button selection foundation</h2>
@@ -19,13 +21,18 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
         </div>
       }
       <div class="samples" data-sample="icons">
-        <button aerisButton type="button" variant="outline">
+        <button aerisButton type="button" variant="outline" (click)="actions.update(increment)">
           <svg width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M5 12h14M12 5v14" fill="none" stroke="currentColor" stroke-width="2" />
           </svg>
           Create
         </button>
-        <aeris-button label="Create" variant="outline" [iconTemplate]="icon" />
+        <aeris-button
+          label="Create"
+          variant="outline"
+          [iconTemplate]="icon"
+          (clicked)="actions.update(increment)"
+        />
         <ng-template #icon>
           <svg width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M5 12h14M12 5v14" fill="none" stroke="currentColor" stroke-width="2" />
@@ -43,6 +50,48 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       </aeris-button-group>
       <output aria-label="Foundation activations">{{ actions() }}</output>
       <button aerisButton type="button" variant="ghost">After actions</button>
+      <div class="samples" data-sample="inactive-links">
+        @for (variant of variants; track variant) {
+          <a
+            aerisButton
+            [variant]="variant"
+            href="#inactive-link"
+            disabled
+            (click)="actions.update(increment)"
+            >Disabled {{ variant }} link</a
+          >
+          <a
+            aerisButton
+            [variant]="variant"
+            href="#inactive-link"
+            loading
+            (click)="actions.update(increment)"
+            >Loading {{ variant }} link</a
+          >
+        }
+      </div>
+      <aeris-input-group>
+        <input aerisInputText aria-label="Attached disabled link field" />
+        <a
+          aerisButton
+          variant="outline"
+          href="#inactive-link"
+          disabled
+          (click)="actions.update(increment)"
+          >Disabled attached link</a
+        >
+      </aeris-input-group>
+      <aeris-input-group>
+        <input aerisInputText aria-label="Attached loading link field" />
+        <a
+          aerisButton
+          variant="solid"
+          href="#inactive-link"
+          loading
+          (click)="actions.update(increment)"
+          >Loading attached link</a
+        >
+      </aeris-input-group>
     </section>
   `,
   styles: `

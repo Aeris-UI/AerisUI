@@ -644,6 +644,7 @@ export class FeatureLinksNativeLinksDemo {
 
 ## Accessibility
 
+- Pressed colors follow the button's severity. Disabled and loading links keep their resting appearance and do not activate. Reduced motion removes hover displacement without suppressing pressed colors or keyboard focus.
 - Native buttons activate with Enter and Space; anchors preserve link keyboard behavior.
 - Icon-only buttons require aria-label or equivalent visible text.
 - Loading sets aria-busy="true". The wrapper disables repeated activation while loading.

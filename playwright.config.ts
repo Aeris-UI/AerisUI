@@ -108,6 +108,7 @@ export default defineConfig({
       name: 'mobile-chromium',
       use: { ...devices['Pixel 7'] },
       testMatch: [
+        '**/press-feedback.spec.ts',
         '**/text-composition.spec.ts',
         '**/card-content.spec.ts',
         '**/input-number-features.spec.ts',
@@ -132,6 +133,7 @@ export default defineConfig({
       name: 'mobile-webkit',
       use: { ...devices['iPhone 15'] },
       testMatch: [
+        '**/press-feedback.spec.ts',
         '**/text-composition.spec.ts',
         '**/card-content.spec.ts',
         '**/input-number-features.spec.ts',
