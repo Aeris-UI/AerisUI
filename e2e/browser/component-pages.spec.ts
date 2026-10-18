@@ -949,10 +949,10 @@ test('documentation search loads on demand and focuses its search field', async 
   await page.getByRole('button', { name: 'Search documentation', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Search documentation', exact: true });
   await expect(dialog).toBeVisible();
-  const input = dialog.getByRole('searchbox');
+  const input = dialog.getByRole('combobox');
   await expect(input).toBeFocused();
   await input.fill('select');
-  await expect(dialog.getByRole('link', { name: /^Select / })).toBeVisible();
+  await expect(dialog.getByRole('option', { name: 'Select', exact: true })).toBeVisible();
   await input.press('Escape');
   await expect(dialog).not.toBeVisible();
 });

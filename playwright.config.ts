@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 const fixtureUrl = 'http://127.0.0.1:4300';
 const builtApps = process.env['AERIS_E2E_BUILT_APPS'] === 'true';
 const docsLayoutTests = [
+  '**/docs-search.spec.ts',
   '**/command-palette.spec.ts',
   '**/listbox.spec.ts',
   '**/button-selection.spec.ts',
@@ -91,6 +92,7 @@ export default defineConfig({
       name: 'docs-quality-firefox',
       use: { ...devices['Desktop Firefox'], baseURL: 'http://127.0.0.1:4301' },
       testMatch: [
+        '**/docs-search.spec.ts',
         '**/button-selection.spec.ts',
         '**/listbox.spec.ts',
         '**/command-palette.spec.ts',
@@ -114,6 +116,7 @@ export default defineConfig({
       name: 'mobile-chromium',
       use: { ...devices['Pixel 7'] },
       testMatch: [
+        '**/docs-search.spec.ts',
         '**/button-selection.spec.ts',
         '**/listbox.spec.ts',
         '**/command-palette.spec.ts',
@@ -142,6 +145,7 @@ export default defineConfig({
       name: 'mobile-webkit',
       use: { ...devices['iPhone 15'] },
       testMatch: [
+        '**/docs-search.spec.ts',
         '**/button-selection.spec.ts',
         '**/listbox.spec.ts',
         '**/command-palette.spec.ts',
