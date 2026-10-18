@@ -27221,6 +27221,452 @@
       }
     },
     {
+      "name": "CommandPalette",
+      "slug": "command-palette",
+      "category": "Overlay",
+      "description": "Search and execute grouped commands with keyboard navigation, inline or modal presentation, templates, and opt-in launcher shortcuts.",
+      "entryPoint": "@aeris-ui/core/command-palette",
+      "documentationUrl": "https://aeris-ui.dev/components/command-palette",
+      "imports": [
+        "AerisCommandPalette"
+      ],
+      "importCode": "import { AerisCommandPalette } from '@aeris-ui/core/command-palette';",
+      "api": [
+        {
+          "name": "Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "commands",
+              "type": "readonly AerisCommandPaletteCommand[]",
+              "defaultValue": "[]",
+              "description": "Flat commands with unique stable string IDs. Optional groups organize results; nested commands and routing are application-owned. Replace arrays to update results."
+            },
+            {
+              "name": "open",
+              "type": "boolean (model)",
+              "defaultValue": "false",
+              "description": "Controls modal visibility. Inline mode is always rendered and ignores this model."
+            },
+            {
+              "name": "query",
+              "type": "string (model)",
+              "defaultValue": "''",
+              "description": "Search text. Preserved when closing/reopening; assign an empty string to reset."
+            },
+            {
+              "name": "inline",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Embeds the palette without a dialog, backdrop, automatic focus or focus trapping. Executing a command leaves the inline palette visible."
+            },
+            {
+              "name": "filter",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Case-insensitive contains matching across label, description, group and keywords. Set false to render consumer-filtered or remote commands unchanged."
+            },
+            {
+              "name": "loading",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Announces busy state and prevents execution. Existing results remain visible but inactive."
+            },
+            {
+              "name": "closeOnExecute",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Closes modal presentation before emitting executed. Does not affect inline presentation."
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "defaultValue": "'Commands'",
+              "description": "Dialog title and accessible name."
+            },
+            {
+              "name": "searchAriaLabel",
+              "type": "string",
+              "defaultValue": "'Search commands'",
+              "description": "Accessible name of the combobox search field."
+            },
+            {
+              "name": "resultsAriaLabel",
+              "type": "string",
+              "defaultValue": "'Command results'",
+              "description": "Accessible name of the results listbox."
+            },
+            {
+              "name": "placeholder",
+              "type": "string",
+              "defaultValue": "'Search commands…'",
+              "description": "Search field placeholder."
+            },
+            {
+              "name": "emptyMessage",
+              "type": "string",
+              "defaultValue": "'No commands found'",
+              "description": "Empty-result text and live announcement."
+            },
+            {
+              "name": "loadingMessage",
+              "type": "string",
+              "defaultValue": "'Loading commands'",
+              "description": "Loading text and live announcement."
+            },
+            {
+              "name": "resultsLabel",
+              "type": "string",
+              "defaultValue": "'results'",
+              "description": "Word following the result count in live announcements; replace for localization."
+            },
+            {
+              "name": "helpText",
+              "type": "string",
+              "defaultValue": "'Use arrow keys to navigate and Enter to run.'",
+              "description": "Default footer guidance. Empty string hides the default footer."
+            },
+            {
+              "name": "closeAriaLabel",
+              "type": "string",
+              "defaultValue": "'Close command palette'",
+              "description": "Accessible name of the Dialog close button."
+            },
+            {
+              "name": "width",
+              "type": "string",
+              "defaultValue": "'38rem'",
+              "description": "CSS dialog width; Dialog bounds it to the available viewport."
+            },
+            {
+              "name": "appendTo",
+              "type": "'self' | 'body' | HTMLElement | ElementRef<HTMLElement> | TemplateRef<unknown> | null | undefined",
+              "defaultValue": "undefined (body)",
+              "description": "Dialog portal target. Undefined uses Dialog body mounting. Ignored inline."
+            },
+            {
+              "name": "autoFocus",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Dialog moves focus to the search field when opened. Inline mode never takes focus automatically."
+            },
+            {
+              "name": "restoreFocus",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Dialog restores the previously focused element on dismissal."
+            },
+            {
+              "name": "closeOnBackdropClick",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Allows Dialog backdrop dismissal."
+            },
+            {
+              "name": "backdropBlur",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Uses the shared optional frosted backdrop."
+            },
+            {
+              "name": "backdropBlurAmount",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "CSS blur length. Empty inherits the subtle shared backdrop token."
+            },
+            {
+              "name": "shortcut",
+              "type": "AerisCommandPaletteShortcut | null",
+              "defaultValue": "null",
+              "description": "Opt-in one-character launcher with required mod, ctrl or meta modifier. Exact optional shift/alt flags; ignores editable targets, IME, repeats and prevented events. First eligible registered instance wins; listeners clean up on changes/destruction. Inline does not register a launcher. Command shortcut labels never register actions."
+            }
+          ]
+        },
+        {
+          "name": "Outputs",
+          "kind": "output",
+          "entries": [
+            {
+              "name": "openChange",
+              "type": "boolean",
+              "defaultValue": "—",
+              "description": "Open model updates, including Dialog dismissal and command execution."
+            },
+            {
+              "name": "queryChange",
+              "type": "string",
+              "defaultValue": "—",
+              "description": "Query model updates; use to drive application-owned searches."
+            },
+            {
+              "name": "executed",
+              "type": "AerisCommandPaletteExecuteEvent",
+              "defaultValue": "—",
+              "description": "Current command, query and original event from click/tap or Enter. Disabled, missing, filtered-out and loading commands cannot execute. Perform navigation or actions in this handler."
+            },
+            {
+              "name": "opened",
+              "type": "void",
+              "defaultValue": "—",
+              "description": "Dialog opened. Not emitted for inline presentation."
+            },
+            {
+              "name": "closed",
+              "type": "void",
+              "defaultValue": "—",
+              "description": "Dialog closed. Not emitted for inline presentation."
+            }
+          ]
+        },
+        {
+          "name": "Templates",
+          "kind": "template",
+          "entries": [
+            {
+              "name": "aerisCommandPaletteItem",
+              "type": "AerisCommandPaletteItemContext",
+              "defaultValue": "Label, description and shortcut",
+              "description": "let-command; let-active=\"active\". Keep content non-interactive and include its label. Render consumer icons here; icon identifiers are not interpreted by Aeris."
+            },
+            {
+              "name": "aerisCommandPaletteGroup",
+              "type": "AerisCommandPaletteGroupContext",
+              "defaultValue": "Group label",
+              "description": "let-group is the section string. Keep section names visible."
+            },
+            {
+              "name": "aerisCommandPaletteEmpty",
+              "type": "void",
+              "defaultValue": "emptyMessage",
+              "description": "Custom empty content. Set emptyMessage to provide the equivalent live announcement."
+            },
+            {
+              "name": "aerisCommandPaletteLoading",
+              "type": "void",
+              "defaultValue": "loadingMessage",
+              "description": "Custom loading content. Set loadingMessage for its live announcement."
+            },
+            {
+              "name": "aerisCommandPaletteFooter",
+              "type": "void",
+              "defaultValue": "helpText",
+              "description": "Optional footer content. Interactive footer controls join the Dialog tab order."
+            }
+          ]
+        },
+        {
+          "name": "Methods",
+          "kind": "method",
+          "entries": [
+            {
+              "name": "show()",
+              "type": "() => void",
+              "defaultValue": "—",
+              "description": "Opens modal presentation. No effect inline."
+            },
+            {
+              "name": "hide()",
+              "type": "() => void",
+              "defaultValue": "—",
+              "description": "Sets open false. Does not remove an inline palette."
+            },
+            {
+              "name": "focus(options?)",
+              "type": "(options?: FocusOptions) => void",
+              "defaultValue": "—",
+              "description": "Focuses the rendered search input. Open a modal first; use autoFocus for initial modal focus."
+            }
+          ]
+        }
+      ],
+      "referenceTables": [],
+      "interfaces": [
+        {
+          "name": "Interfaces",
+          "code": "interface AerisCommandPaletteCommand {\n  readonly id: string;\n  readonly label: string;\n  readonly description?: string;\n  readonly group?: string;\n  readonly keywords?: readonly string[];\n  readonly disabled?: boolean;\n  readonly icon?: string; // Consumer-owned identifier; use an item template.\n  readonly shortcut?: string; // Display only; not registered.\n}\ninterface AerisCommandPaletteExecuteEvent {\n  readonly originalEvent: Event;\n  readonly command: AerisCommandPaletteCommand;\n  readonly query: string;\n}\ninterface AerisCommandPaletteShortcut {\n  readonly key: string; // One character.\n  readonly modifier: 'mod' | 'ctrl' | 'meta';\n  readonly shift?: boolean;\n  readonly alt?: boolean;\n}\ninterface AerisCommandPaletteItemContext {\n  readonly $implicit: AerisCommandPaletteCommand;\n  readonly command: AerisCommandPaletteCommand;\n  readonly active: boolean;\n}\ninterface AerisCommandPaletteGroupContext {\n  readonly $implicit: string;\n  readonly group: string;\n}"
+        }
+      ],
+      "designTokens": [
+        {
+          "name": "--aeris-command-palette-background",
+          "type": "color",
+          "defaultValue": "--aeris-surface",
+          "description": "Surface background."
+        },
+        {
+          "name": "--aeris-command-palette-padding",
+          "type": "length",
+          "defaultValue": "0.75rem",
+          "description": "Search-area padding."
+        },
+        {
+          "name": "--aeris-command-palette-list-height",
+          "type": "length",
+          "defaultValue": "20rem",
+          "description": "Maximum result height, additionally constrained to the viewport."
+        },
+        {
+          "name": "--aeris-command-palette-active-background",
+          "type": "color",
+          "defaultValue": "--aeris-interactive-hover",
+          "description": "Active result background."
+        }
+      ],
+      "examples": [
+        {
+          "id": "command-palette-basic",
+          "title": "Basic",
+          "description": "Open the dialog, search labels or keywords, then use arrows and Enter. Execution emits an event; the application owns the action.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisCommandPalette } from '@aeris-ui/core/command-palette';\n\n@Component({\n  selector: 'app-command-palette-basic-demo',\n  imports: [AerisButton, AerisCommandPalette],\n  template: `\n    <div class=\"command-demo\">\n      <button aerisButton (click)=\"basicOpen.set(true)\">Open commands</button>\n      <aeris-command-palette\n        [(open)]=\"basicOpen\"\n        [commands]=\"commands\"\n        (executed)=\"recordExecution($event)\"\n      />\n      <p aria-live=\"polite\">Last command: {{ lastExecuted() }}</p>\n    </div>\n  `,\n  styles: `\n    .command-demo {\n      display: grid;\n      gap: 1rem;\n      inline-size: 100%;\n      max-inline-size: 32rem;\n      min-inline-size: 0;\n    }\n    \n    .command-demo > button {\n      justify-self: start;\n    }\n    \n    .command-demo p {\n      margin: 0;\n      overflow-wrap: anywhere;\n      color: var(--aeris-text-2);\n    }\n  `\n})\nexport class CommandPaletteBasicBasicDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "command-palette-inline",
+          "title": "Inline and groups",
+          "description": "Inline presentation stays visible and does not take focus automatically. Group labels organize commands; disabled commands are skipped.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCommandPalette } from '@aeris-ui/core/command-palette';\n\n@Component({\n  selector: 'app-command-palette-inline-demo',\n  imports: [AerisCommandPalette],\n  template: `\n    <div class=\"command-demo\">\n      <aeris-command-palette\n        inline\n        searchAriaLabel=\"Inline commands\"\n        [commands]=\"commands\"\n        (executed)=\"recordExecution($event)\"\n      />\n      <p>Last command: {{ lastExecuted() }}</p>\n    </div>\n  `,\n  styles: `\n    .command-demo {\n      display: grid;\n      gap: 1rem;\n      inline-size: 100%;\n      max-inline-size: 32rem;\n      min-inline-size: 0;\n    }\n    \n    .command-demo > button {\n      justify-self: start;\n    }\n    \n    .command-demo p {\n      margin: 0;\n      overflow-wrap: anywhere;\n      color: var(--aeris-text-2);\n    }\n  `\n})\nexport class CommandPaletteInlineInlineAndGroupsDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "command-palette-controlled",
+          "title": "Controlled state and methods",
+          "description": "Set open and query externally, or use show, hide and focus. Keep the dialog open after executing with closeOnExecute=false.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisCommandPalette } from '@aeris-ui/core/command-palette';\n\n@Component({\n  selector: 'app-command-palette-controlled-demo',\n  imports: [AerisButton, AerisCommandPalette],\n  templateUrl: './command-palette-controlled.demo.html',\n  styleUrl: './command-palette-controlled.demo.scss'\n})\nexport class CommandPaletteControlledControlledStateAndMethodsDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"command-demo\">\n  <button\n    aerisButton\n    variant=\"outline\"\n    (click)=\"controlledQuery.set('theme'); controlledOpen.set(true)\"\n  >\n    Find theme command\n  </button>\n  <button aerisButton variant=\"ghost\" (click)=\"controlledPalette.show()\">\n    Show with method\n  </button>\n  <aeris-command-palette\n    #controlledPalette\n    title=\"Controlled commands\"\n    [(open)]=\"controlledOpen\"\n    [(query)]=\"controlledQuery\"\n    [commands]=\"commands\"\n    [closeOnExecute]=\"false\"\n    width=\"30rem\"\n    [backdropBlur]=\"false\"\n    (executed)=\"recordExecution($event)\"\n  >\n    <ng-template aerisCommandPaletteFooter\n      ><div class=\"command-actions\">\n        <button\n          aerisButton\n          variant=\"ghost\"\n          size=\"sm\"\n          (click)=\"controlledPalette.focus()\"\n        >\n          Focus search</button>\n          <button\n          aerisButton\n          variant=\"outline\"\n          size=\"sm\"\n          (click)=\"controlledPalette.hide()\"\n        >\n          Close\n        </button>\n      </div></ng-template>\n  </aeris-command-palette>\n  <p>Query: {{ controlledQuery() }}. Last command: {{ lastExecuted() }}</p>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".command-demo {\n  display: grid;\n  gap: 1rem;\n  inline-size: 100%;\n  max-inline-size: 32rem;\n  min-inline-size: 0;\n}\n\n.command-demo > button {\n  justify-self: start;\n}\n\n.command-demo p {\n  margin: 0;\n  overflow-wrap: anywhere;\n  color: var(--aeris-text-2);\n}\n\n.command-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}"
+            }
+          ]
+        },
+        {
+          "id": "command-palette-templates",
+          "title": "Templates and icons",
+          "description": "Provide icons and item content from any icon library. Aeris owns the built-in search and Dialog close icons.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCommandPalette } from '@aeris-ui/core/command-palette';\nimport { LucideDynamicIcon } from '@lucide/angular';\n\n@Component({\n  selector: 'app-command-palette-templates-demo',\n  imports: [AerisCommandPalette, LucideDynamicIcon],\n  templateUrl: './command-palette-templates.demo.html',\n  styleUrl: './command-palette-templates.demo.scss'\n})\nexport class CommandPaletteTemplatesTemplatesAndIconsDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"command-demo\">\n  <aeris-command-palette\n    inline\n    searchAriaLabel=\"Templated commands\"\n    [commands]=\"commands\"\n  >\n    <ng-template aerisCommandPaletteGroup let-group>{{ group }} commands</ng-template>\n    <ng-template aerisCommandPaletteItem let-command let-active=\"active\"\n      ><span class=\"command-item\"\n        ><svg [lucideIcon]=\"searchIcon\" aria-hidden=\"true\"></svg>\n        <span>{{ command.label }}</span>\n        @if (active) {\n          <small>Enter</small>\n        }\n      </span></ng-template>\n  </aeris-command-palette>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".command-demo {\n  display: grid;\n  gap: 1rem;\n  inline-size: 100%;\n  max-inline-size: 32rem;\n  min-inline-size: 0;\n}\n\n.command-demo > button {\n  justify-self: start;\n}\n\n.command-demo p {\n  margin: 0;\n  overflow-wrap: anywhere;\n  color: var(--aeris-text-2);\n}\n\n.command-item {\n  display: flex;\n  align-items: center;\n  gap: 0.625rem;\n  min-inline-size: 0;\n  inline-size: 100%;\n}\n\n.command-item svg {\n  inline-size: var(--aeris-icon-size, 1rem);\n  block-size: var(--aeris-icon-size, 1rem);\n  flex: 0 0 auto;\n}\n\n.command-item small {\n  margin-inline-start: auto;\n}"
+            }
+          ]
+        },
+        {
+          "id": "command-palette-external",
+          "title": "External filtering",
+          "description": "Disable built-in filtering to own matching. This example matches label prefixes. For remote results, cancel stale requests and apply only the latest response in your data layer.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisCommandPalette } from '@aeris-ui/core/command-palette';\n\n@Component({\n  selector: 'app-command-palette-external-demo',\n  imports: [AerisCommandPalette],\n  template: `\n    <div class=\"command-demo\">\n      <aeris-command-palette\n        inline\n        searchAriaLabel=\"External commands\"\n        [filter]=\"false\"\n        [(query)]=\"externalQuery\"\n        [commands]=\"externalCommands()\"\n      />\n    </div>\n  `,\n  styles: `\n    .command-demo {\n      display: grid;\n      gap: 1rem;\n      inline-size: 100%;\n      max-inline-size: 32rem;\n      min-inline-size: 0;\n    }\n    \n    .command-demo > button {\n      justify-self: start;\n    }\n    \n    .command-demo p {\n      margin: 0;\n      overflow-wrap: anywhere;\n      color: var(--aeris-text-2);\n    }\n  `\n})\nexport class CommandPaletteExternalExternalFilteringDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "command-palette-states",
+          "title": "Loading and empty",
+          "description": "Loading preserves the results while preventing execution. Empty and loading templates customize the visual content; matching messages provide live announcements.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisCommandPalette } from '@aeris-ui/core/command-palette';\n\n@Component({\n  selector: 'app-command-palette-states-demo',\n  imports: [AerisButton, AerisCommandPalette],\n  templateUrl: './command-palette-states.demo.html',\n  styleUrl: './command-palette-states.demo.scss'\n})\nexport class CommandPaletteStatesLoadingAndEmptyDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"command-demo\">\n  <button aerisButton variant=\"outline\" (click)=\"loading.set(!loading())\">\n    Toggle loading\n  </button>\n  <aeris-command-palette\n    inline\n    searchAriaLabel=\"Loading commands\"\n    [commands]=\"commands\"\n    [loading]=\"loading()\"\n    loadingMessage=\"Fetching commands\"\n    ><ng-template aerisCommandPaletteLoading\n      >Fetching commands…</ng-template>\n      </aeris-command-palette>\n  <aeris-command-palette\n    inline\n    searchAriaLabel=\"Empty commands\"\n    [commands]=\"[]\"\n    emptyMessage=\"No commands available\"\n    ><ng-template aerisCommandPaletteEmpty\n      >No commands available.</ng-template>\n      </aeris-command-palette>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".command-demo {\n  display: grid;\n  gap: 1rem;\n  inline-size: 100%;\n  max-inline-size: 32rem;\n  min-inline-size: 0;\n}\n\n.command-demo > button {\n  justify-self: start;\n}\n\n.command-demo p {\n  margin: 0;\n  overflow-wrap: anywhere;\n  color: var(--aeris-text-2);\n}"
+            }
+          ]
+        },
+        {
+          "id": "command-palette-shortcut",
+          "title": "Launcher shortcut",
+          "description": "Ctrl or Command + J opens this palette outside editable fields. The launcher is explicitly registered; shortcut labels on individual commands are display-only.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisCommandPalette } from '@aeris-ui/core/command-palette';\n\n@Component({\n  selector: 'app-command-palette-shortcut-demo',\n  imports: [AerisButton, AerisCommandPalette],\n  template: `\n    <div class=\"command-demo\">\n      <button aerisButton variant=\"outline\" (click)=\"shortcutOpen.set(true)\">\n        Open shortcut palette</button>\n        <aeris-command-palette\n        title=\"Shortcut commands\"\n        [(open)]=\"shortcutOpen\"\n        [commands]=\"commands\"\n        [shortcut]=\"launchShortcut\"\n      />\n    </div>\n  `,\n  styles: `\n    .command-demo {\n      display: grid;\n      gap: 1rem;\n      inline-size: 100%;\n      max-inline-size: 32rem;\n      min-inline-size: 0;\n    }\n    \n    .command-demo > button {\n      justify-self: start;\n    }\n    \n    .command-demo p {\n      margin: 0;\n      overflow-wrap: anywhere;\n      color: var(--aeris-text-2);\n    }\n  `\n})\nexport class CommandPaletteShortcutLauncherShortcutDemo {\n}\n"
+            }
+          ]
+        }
+      ],
+      "accessibility": {
+        "guidance": [
+          "The search field is a combobox controlling a named listbox. Focus stays in the field while aria-activedescendant identifies the active command. Disabled commands are skipped. Active means the current execution target, not persistent selection. Groups, descriptions, busy state and result-count announcements are associated automatically.",
+          "Modal presentation delegates focus trapping, Escape, focus restoration, backdrop dismissal, reduced motion and safe-area/viewport handling to Dialog. Inline presentation does not trap or automatically move focus. Keep item and group templates non-interactive; additional actions belong in the footer. Translate labels, messages, result wording and helpText for your application.",
+          "Launchers require a modifier and ignore editable targets, IME composition, repeated keys and prevented events. The first eligible registered palette claims a matching event; destroying or reconfiguring it cleans up its listener. Command shortcut text does not enable that shortcut. Nested navigation and remote-search cancellation belong to the application; replace command arrays atomically and reject stale responses there. Result replacement always repairs the active target before execution."
+        ],
+        "keyboard": [
+          {
+            "keys": "Arrow Up / Down",
+            "behavior": "Move the active command, skipping disabled commands and wrapping at the ends."
+          },
+          {
+            "keys": "Home / End",
+            "behavior": "Activate the first or last enabled command. Modified text-editing shortcuts retain native behavior."
+          },
+          {
+            "keys": "Enter",
+            "behavior": "Execute the active enabled command unless loading."
+          },
+          {
+            "keys": "Escape",
+            "behavior": "Close the modal through Dialog. Does not dismiss inline presentation or interrupt IME composition."
+          },
+          {
+            "keys": "Tab / Shift + Tab",
+            "behavior": "Navigate search, Dialog close and footer controls; trapped only in modal presentation."
+          },
+          {
+            "keys": "Printable characters / Space",
+            "behavior": "Edit the query normally; Space does not execute a command."
+          },
+          {
+            "keys": "Configured modified launcher",
+            "behavior": "Open the palette from a non-editable target. No global key is registered by default."
+          }
+        ]
+      }
+    },
+    {
       "name": "ConfirmDialog",
       "slug": "confirm-dialog",
       "category": "Overlay",

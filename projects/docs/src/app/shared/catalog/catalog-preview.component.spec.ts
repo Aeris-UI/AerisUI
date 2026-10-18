@@ -20,6 +20,7 @@ describe('CatalogPreviewComponent', () => {
   const families: readonly { kind: string; category: ComponentCategory; selector: string }[] = [
     { kind: 'select', category: 'Form', selector: 'aeris-select' },
     { kind: 'listbox', category: 'Form', selector: 'aeris-listbox' },
+    { kind: 'command-palette', category: 'Overlay', selector: 'aeris-command-palette' },
     { kind: 'split-button', category: 'Button', selector: 'aeris-split-button' },
     { kind: 'table', category: 'Data', selector: 'aeris-table' },
     { kind: 'tabs', category: 'Panel', selector: 'aeris-tabs' },

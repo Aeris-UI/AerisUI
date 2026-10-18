@@ -1,0 +1,176 @@
+<ng-template #searchArtwork>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="11" cy="11" r="8" />
+    <path d="m21 21-4.3-4.3" />
+  </svg>
+</ng-template>
+<ng-template #content>
+  <div class="aeris-command-palette" [attr.data-inline]="inline() || null">
+    <div class="aeris-command-palette__search">
+      <aeris-icon-field fluid>
+        <span
+          aerisIconStart
+          class="aeris-command-palette__search-icon"
+          aerisInternalIcon="search"
+          [aerisInternalIconFallback]="searchArtwork"
+        ></span>
+        <input
+          #searchInput
+          aerisInputText
+          fluid
+          type="text"
+          role="combobox"
+          autocomplete="off"
+          spellcheck="false"
+          [id]="id + '-input'"
+          [placeholder]="placeholder()"
+          [value]="query()"
+          [attr.aria-label]="searchAriaLabel()"
+          aria-autocomplete="list"
+          [attr.aria-expanded]="inline() || open()"
+          [attr.aria-controls]="id + '-results'"
+          [attr.aria-activedescendant]="activeDescendant()"
+          (focus)="revealActive()"
+          (input)="updateQuery($event)"
+          (keydown)="onKeydown($event)"
+        />
+      </aeris-icon-field>
+    </div>
+    <div
+      #results
+      class="aeris-command-palette__results"
+      role="listbox"
+      [id]="id + '-results'"
+      [attr.aria-label]="resultsAriaLabel()"
+      [attr.aria-busy]="loading() || null"
+    >
+      @for (group of groups(); track group.label) {
+        <div
+          [attr.role]="group.label ? 'group' : 'presentation'"
+          [attr.aria-labelledby]="group.label ? group.id : null"
+        >
+          @if (group.label) {
+            <div class="aeris-command-palette__group" [id]="group.id">
+              @if (groupTemplate(); as custom) {
+                <ng-container
+                  [ngTemplateOutlet]="custom.template"
+                  [ngTemplateOutletContext]="group.context"
+                />
+              } @else {
+                {{ group.label }}
+              }
+            </div>
+          }
+          @for (item of group.items; track item.command.id) {
+            <div
+              #optionElement
+              class="aeris-command-palette__option"
+              role="option"
+              [id]="item.id"
+              [attr.aria-label]="item.command.label"
+              [attr.aria-selected]="item.active"
+              [attr.aria-disabled]="item.command.disabled || loading() || null"
+              [attr.aria-describedby]="item.command.description ? item.id + '-description' : null"
+              [attr.data-active]="item.active || null"
+              [attr.data-disabled]="item.command.disabled || loading() || null"
+              (pointerdown)="keepSearchFocus($event)"
+              (pointermove)="hover($event, item.command.id)"
+              (click)="execute($event, item.command.id)"
+            >
+              @if (itemTemplate(); as custom) {
+                <ng-container
+                  [ngTemplateOutlet]="custom.template"
+                  [ngTemplateOutletContext]="item.context"
+                />
+                @if (item.command.description) {
+                  <span class="aeris-command-palette__sr-only" [id]="item.id + '-description'">{{
+                    item.command.description
+                  }}</span>
+                }
+              } @else {
+                <span class="aeris-command-palette__copy"
+                  ><span>{{ item.command.label }}</span>
+                  @if (item.command.description) {
+                    <small [id]="item.id + '-description'">{{ item.command.description }}</small>
+                  }
+                </span>
+                @if (item.command.shortcut) {
+                  <kbd class="aeris-command-palette__shortcut">{{ item.command.shortcut }}</kbd>
+                }
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+    @if (loading()) {
+      <div class="aeris-command-palette__message">
+        @if (loadingTemplate(); as custom) {
+          <ng-container [ngTemplateOutlet]="custom.template" />
+        } @else {
+          {{ loadingMessage() }}
+        }
+      </div>
+    } @else if (!groups().length) {
+      <div class="aeris-command-palette__message">
+        @if (emptyTemplate(); as custom) {
+          <ng-container [ngTemplateOutlet]="custom.template" />
+        } @else {
+          {{ emptyMessage() }}
+        }
+      </div>
+    }
+    @if (footerTemplate() || helpText()) {
+      <div class="aeris-command-palette__footer">
+        @if (footerTemplate(); as custom) {
+          <ng-container [ngTemplateOutlet]="custom.template" />
+        } @else {
+          {{ helpText() }}
+        }
+      </div>
+    }
+    <span
+      class="aeris-command-palette__sr-only"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+      >{{ status() }}</span
+    >
+  </div>
+</ng-template>
+@if (inline()) {
+  <ng-container [ngTemplateOutlet]="content" />
+} @else {
+  <aeris-dialog
+    class="aeris-command-palette-dialog"
+    style="--aeris-dialog-body-padding: 0px"
+    [visible]="open()"
+    (visibleChange)="open.set($event)"
+    [header]="title()"
+    [ariaLabel]="title()"
+    [closeAriaLabel]="closeAriaLabel()"
+    [width]="width()"
+    position="top"
+    [appendTo]="appendTo()"
+    [initialFocus]="initialFocus"
+    [autoFocus]="autoFocus()"
+    [restoreFocus]="restoreFocus()"
+    [closeOnBackdropClick]="closeOnBackdropClick()"
+    [backdropBlur]="backdropBlur()"
+    [backdropBlurAmount]="backdropBlurAmount()"
+    (opened)="opened.emit()"
+    (closed)="closed.emit()"
+  >
+    @if (open()) {
+      <ng-container [ngTemplateOutlet]="content" />
+    }
+  </aeris-dialog>
+}

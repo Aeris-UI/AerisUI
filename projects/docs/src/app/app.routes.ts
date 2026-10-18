@@ -476,6 +476,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'components/command-palette',
+    title: 'CommandPalette - Aeris UI',
+    loadComponent: () =>
+      import('./pages/components/overlay/command-palette/command-palette.page').then(
+        (page) => page.CommandPalettePage,
+      ),
+  },
+  {
     path: 'components/confirm-popup',
     title: 'ConfirmPopup - Aeris UI',
     loadComponent: () =>

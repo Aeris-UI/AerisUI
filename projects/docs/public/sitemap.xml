@@ -205,6 +205,9 @@
     <loc>https://aeris-ui.dev/components/confirm-dialog</loc>
   </url>
   <url>
+    <loc>https://aeris-ui.dev/components/command-palette</loc>
+  </url>
+  <url>
     <loc>https://aeris-ui.dev/components/confirm-popup</loc>
   </url>
   <url>

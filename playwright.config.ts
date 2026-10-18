@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 const fixtureUrl = 'http://127.0.0.1:4300';
 const builtApps = process.env['AERIS_E2E_BUILT_APPS'] === 'true';
 const docsLayoutTests = [
+  '**/command-palette.spec.ts',
   '**/listbox.spec.ts',
   '**/button-selection.spec.ts',
   '**/text-composition.spec.ts',
@@ -92,6 +93,7 @@ export default defineConfig({
       testMatch: [
         '**/button-selection.spec.ts',
         '**/listbox.spec.ts',
+        '**/command-palette.spec.ts',
         '**/text-composition.spec.ts',
         '**/card-content.spec.ts',
         '**/input-number-features.spec.ts',
@@ -114,6 +116,7 @@ export default defineConfig({
       testMatch: [
         '**/button-selection.spec.ts',
         '**/listbox.spec.ts',
+        '**/command-palette.spec.ts',
         '**/press-feedback.spec.ts',
         '**/text-composition.spec.ts',
         '**/card-content.spec.ts',
@@ -141,6 +144,7 @@ export default defineConfig({
       testMatch: [
         '**/button-selection.spec.ts',
         '**/listbox.spec.ts',
+        '**/command-palette.spec.ts',
         '**/press-feedback.spec.ts',
         '**/text-composition.spec.ts',
         '**/card-content.spec.ts',

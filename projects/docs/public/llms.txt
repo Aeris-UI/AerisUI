@@ -97,6 +97,7 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 
 ## Overlay components
 
+- [CommandPalette](https://aeris-ui.dev/ai/22/components/command-palette.md): Search and execute grouped commands with keyboard navigation, inline or modal presentation, templates, and opt-in launcher shortcuts.
 - [ConfirmDialog](https://aeris-ui.dev/ai/22/components/confirm-dialog.md): Confirmation dialog with service prompts, safe focus defaults, templates, and explicit accept or reject outcomes.
 - [ConfirmPopup](https://aeris-ui.dev/ai/22/components/confirm-popup.md): Target-relative confirmation popup with service prompts, trigger ARIA state, templates, and explicit outcomes.
 - [Dialog](https://aeris-ui.dev/ai/22/components/dialog.md): Modal surface with focus management, dismissal rules, and responsive sizing.

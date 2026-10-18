@@ -134,6 +134,8 @@ const descriptions: Readonly<Record<string, string>> = {
     'Chart.js-powered data visualization with responsive rendering, theme-aware defaults, and accessible summaries.',
   chip: 'Represent compact entities with labels, images, consumer icons, custom content, and accessible removal.',
   dialog: 'Modal surface with focus management, dismissal rules, and responsive sizing.',
+  'command-palette':
+    'Search and execute grouped commands with keyboard navigation, inline or modal presentation, templates, and opt-in launcher shortcuts.',
   'confirm-dialog':
     'Confirmation dialog with service prompts, safe focus defaults, templates, and explicit accept or reject outcomes.',
   'confirm-popup':
@@ -229,6 +231,7 @@ export const COMPONENT_CATALOG: readonly ComponentCatalogItem[] = [
     'Toolbar',
   ]),
   ...define('Overlay', [
+    'CommandPalette',
     'ConfirmDialog',
     'ConfirmPopup',
     'Dialog',
