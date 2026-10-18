@@ -1,0 +1,31 @@
+@use '../shared/form-docs';
+
+.listbox-demo {
+  display: grid;
+  gap: 1rem;
+  inline-size: 100%;
+  max-inline-size: 24rem;
+  min-inline-size: 0;
+}
+.listbox-demo p {
+  margin: 0;
+  color: var(--aeris-text-2);
+  overflow-wrap: anywhere;
+}
+.listbox-demo > button {
+  justify-self: start;
+}
+.listbox-option {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-inline-size: 0;
+}
+.listbox-option svg {
+  inline-size: var(--aeris-icon-size, 1rem);
+  block-size: var(--aeris-icon-size, 1rem);
+  flex: 0 0 auto;
+}
+.listbox-option small {
+  margin-inline-start: auto;
+}

@@ -1,0 +1,105 @@
+@if (filter()) {
+  <div class="aeris-listbox__filter">
+    <input
+      type="search"
+      [value]="query()"
+      [placeholder]="filterPlaceholder()"
+      [attr.aria-label]="filterAriaLabel()"
+      [attr.aria-controls]="id"
+      [disabled]="isDisabled()"
+      (input)="onFilter($event)"
+      (keydown)="onFilterKeydown($event)"
+    />
+  </div>
+}
+<div
+  #list
+  class="aeris-listbox__list"
+  role="listbox"
+  [id]="id"
+  [tabindex]="isDisabled() ? -1 : 0"
+  [style.max-height]="scrollHeight()"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-labelledby]="ariaLabelledBy()"
+  [attr.aria-describedby]="ariaDescribedBy()"
+  [attr.aria-multiselectable]="selectionMode() === 'multiple' ? 'true' : null"
+  [attr.aria-disabled]="isDisabled() || null"
+  [attr.aria-required]="required() || null"
+  [attr.aria-invalid]="displayInvalid() || null"
+  [attr.aria-busy]="loading() || null"
+  [attr.aria-activedescendant]="activeId()"
+  (focus)="revealActive()"
+  (keydown)="onKeydown($event)"
+>
+  @for (group of groups(); track group.label) {
+    <div
+      [attr.role]="group.label ? 'group' : 'presentation'"
+      [attr.aria-labelledby]="group.label ? group.id : null"
+    >
+      @if (group.label) {
+        <div class="aeris-listbox__group" [id]="group.id">
+          @if (groupTemplate(); as custom) {
+            <ng-container
+              [ngTemplateOutlet]="custom.template"
+              [ngTemplateOutletContext]="group.context"
+            />
+          } @else {
+            {{ group.label }}
+          }
+        </div>
+      }
+      @for (item of group.items; track item.option.value) {
+        <div
+          #optionElement
+          class="aeris-listbox__option"
+          role="option"
+          [id]="item.id"
+          [attr.aria-label]="item.option.label"
+          [attr.aria-selected]="item.selected"
+          [attr.aria-disabled]="item.option.disabled || null"
+          [attr.aria-describedby]="item.option.description ? item.id + '-description' : null"
+          [attr.data-active]="item.active || null"
+          [attr.data-selected]="item.selected || null"
+          [attr.data-disabled]="item.option.disabled || null"
+          (click)="choose($event, item.option)"
+        >
+          @if (optionTemplate(); as custom) {
+            <ng-container
+              [ngTemplateOutlet]="custom.template"
+              [ngTemplateOutletContext]="item.context"
+            />
+            @if (item.option.description) {
+              <span class="aeris-listbox__sr-only" [id]="item.id + '-description'">{{
+                item.option.description
+              }}</span>
+            }
+          } @else {
+            <span class="aeris-listbox__label">{{ item.option.label }}</span>
+            @if (item.option.description) {
+              <span class="aeris-listbox__description" [id]="item.id + '-description'">{{
+                item.option.description
+              }}</span>
+            }
+          }
+        </div>
+      }
+    </div>
+  }
+</div>
+@if (loading()) {
+  <div class="aeris-listbox__status" role="status">
+    @if (loadingTemplate(); as custom) {
+      <ng-container [ngTemplateOutlet]="custom.template" />
+    } @else {
+      {{ loadingMessage() }}
+    }
+  </div>
+} @else if (!filteredOptions().length) {
+  <div class="aeris-listbox__status" role="status">
+    @if (emptyTemplate(); as custom) {
+      <ng-container [ngTemplateOutlet]="custom.template" />
+    } @else {
+      {{ emptyMessage() }}
+    }
+  </div>
+}

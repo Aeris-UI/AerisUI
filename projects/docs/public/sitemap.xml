@@ -133,6 +133,9 @@
     <loc>https://aeris-ui.dev/components/select</loc>
   </url>
   <url>
+    <loc>https://aeris-ui.dev/components/listbox</loc>
+  </url>
+  <url>
     <loc>https://aeris-ui.dev/components/textarea</loc>
   </url>
   <url>

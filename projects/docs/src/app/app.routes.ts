@@ -312,6 +312,12 @@ export const routes: Routes = [
       import('./pages/components/form/select/select.page').then((page) => page.SelectPage),
   },
   {
+    path: 'components/listbox',
+    title: 'Listbox - Aeris UI',
+    loadComponent: () =>
+      import('./pages/components/form/listbox/listbox.page').then((page) => page.ListboxPage),
+  },
+  {
     path: 'components/textarea',
     title: 'Textarea - Aeris UI',
     loadComponent: () =>

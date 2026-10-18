@@ -40,7 +40,8 @@ const define = (
 const descriptions: Readonly<Record<string, string>> = {
   avatar:
     'Represent people and entities with images, initials, icons, fallbacks, theme-aware tones, and responsive groups.',
-  button: 'Trigger actions or opt into accessible toggles, with sizes, loading states, and icon support.',
+  button:
+    'Trigger actions or opt into accessible toggles, with sizes, loading states, and icon support.',
   'button-group':
     'Connect related actions or manage single and multiple button selection with keyboard and forms support.',
   'speed-dial': 'Reveal contextual actions in animated linear and radial layouts.',
@@ -55,7 +56,8 @@ const descriptions: Readonly<Record<string, string>> = {
     'Hierarchical navigation trail with links, actions, current-page semantics, templates, separators, and ellipsis collapsing.',
   'cascade-select': 'Hierarchical selection with cascading columns, templates, and Forms support.',
   card: 'Composable content surface with media, semantic regions, responsive layouts, and theme tokens.',
-  'code-block': 'Display syntax-highlighted code with source tabs, line numbers, focused lines, and accessible copy actions.',
+  'code-block':
+    'Display syntax-highlighted code with source tabs, line numbers, focused lines, and accessible copy actions.',
   carousel:
     'Responsive item carousel with controlled paging, templates, autoplay, swipe, and keyboard navigation.',
   galleria:
@@ -68,6 +70,8 @@ const descriptions: Readonly<Record<string, string>> = {
   'input-otp':
     'Segmented one-time-code entry with paste, masking, and complete keyboard navigation.',
   select: 'Keyboard-first selection control with searchable, grouped, and templated options.',
+  listbox:
+    'Always-visible single or multiple selection with filtering, groups, templates, and forms support.',
   slider: 'Single and range value selection with pointer, touch, and complete keyboard support.',
   'multi-select': 'Multiple selection with filtering, chips, groups, limits, and virtualization.',
   password:
@@ -191,6 +195,7 @@ export const COMPONENT_CATALOG: readonly ComponentCatalogItem[] = [
     'InputOtp',
     'InputText',
     'KeyFilter',
+    'Listbox',
     'MultiSelect',
     'Password',
     'RadioButton',

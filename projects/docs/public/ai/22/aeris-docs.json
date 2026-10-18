@@ -11258,6 +11258,456 @@
       }
     },
     {
+      "name": "Listbox",
+      "slug": "listbox",
+      "category": "Form",
+      "description": "Always-visible single or multiple selection with filtering, groups, templates, and forms support.",
+      "entryPoint": "@aeris-ui/core/listbox",
+      "documentationUrl": "https://aeris-ui.dev/components/listbox",
+      "imports": [
+        "AerisListbox"
+      ],
+      "importCode": "import { AerisListbox } from '@aeris-ui/core/listbox';",
+      "api": [
+        {
+          "name": "Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "options",
+              "type": "readonly AerisListboxOption[]",
+              "defaultValue": "[]",
+              "description": "Options with unique stable string values. Replace the array to update results. Missing selections remain in the controlled model; the control never silently discards them."
+            },
+            {
+              "name": "selectionMode",
+              "type": "'single' | 'multiple'",
+              "defaultValue": "'single'",
+              "description": "Single uses string or null; multiple uses a readonly string array. Set a matching value when changing mode."
+            },
+            {
+              "name": "value",
+              "type": "AerisListboxValue (model)",
+              "defaultValue": "null",
+              "description": "Controlled selection. Filtering never clears selected values. Disabled choices cannot be changed by user interaction."
+            },
+            {
+              "name": "filter",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Adds a search input. Case-insensitive contains matching across label, description and group."
+            },
+            {
+              "name": "query",
+              "type": "string (model)",
+              "defaultValue": "''",
+              "description": "Filter query. Only applied when filter is enabled. For remote data, own cancellation and response ordering in the application and replace options."
+            },
+            {
+              "name": "filterPlaceholder",
+              "type": "string",
+              "defaultValue": "'Search options'",
+              "description": "Search input placeholder."
+            },
+            {
+              "name": "filterAriaLabel",
+              "type": "string",
+              "defaultValue": "'Filter options'",
+              "description": "Accessible name of the search input."
+            },
+            {
+              "name": "emptyMessage",
+              "type": "string",
+              "defaultValue": "'No options available'",
+              "description": "Status when no options match."
+            },
+            {
+              "name": "loadingMessage",
+              "type": "string",
+              "defaultValue": "'Loading options'",
+              "description": "Loading status text."
+            },
+            {
+              "name": "loading",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Marks the list busy and prevents selection changes; existing options remain visible."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Disables filtering, selection and the list tab stop."
+            },
+            {
+              "name": "required",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Exposes aria-required. Configure form validators separately; multiple selection may still be cleared."
+            },
+            {
+              "name": "invalid",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Explicit invalid state; synchronized with aria-invalid."
+            },
+            {
+              "name": "touched",
+              "type": "boolean | null",
+              "defaultValue": "null",
+              "description": "Null preserves immediate manual invalid styling; false hides errors until interaction. Signal Forms forwards this automatically."
+            },
+            {
+              "name": "ariaLabel",
+              "type": "string | undefined",
+              "defaultValue": "undefined",
+              "description": "Accessible name when no visible label is associated."
+            },
+            {
+              "name": "ariaLabelledBy",
+              "type": "string | undefined",
+              "defaultValue": "undefined",
+              "description": "Space-separated IDs of visible labels; preferred over ariaLabel."
+            },
+            {
+              "name": "ariaDescribedBy",
+              "type": "string | undefined",
+              "defaultValue": "undefined",
+              "description": "Space-separated help and visible error IDs."
+            },
+            {
+              "name": "scrollHeight",
+              "type": "string",
+              "defaultValue": "'16rem'",
+              "description": "CSS maximum list height. Native scrolling supports variable-height descriptions and templates; every option stays mounted, without virtualization."
+            }
+          ]
+        },
+        {
+          "name": "Outputs",
+          "kind": "output",
+          "entries": [
+            {
+              "name": "valueChange",
+              "type": "AerisListboxValue",
+              "defaultValue": "—",
+              "description": "Value model updates. Use two-way binding or handle controlled updates."
+            },
+            {
+              "name": "queryChange",
+              "type": "string",
+              "defaultValue": "—",
+              "description": "Query model updates from the search input."
+            },
+            {
+              "name": "changed",
+              "type": "AerisListboxChangeEvent",
+              "defaultValue": "—",
+              "description": "User selection event, selected value and matching options. Pure focus movement and external value updates do not emit it."
+            },
+            {
+              "name": "touch",
+              "type": "void",
+              "defaultValue": "—",
+              "description": "Focus left the whole control, not merely the search input. Signal Forms uses this to mark touched."
+            }
+          ]
+        },
+        {
+          "name": "Templates",
+          "kind": "template",
+          "entries": [
+            {
+              "name": "aerisListboxOption",
+              "type": "AerisListboxOptionContext",
+              "defaultValue": "Label and description",
+              "description": "let-option, let-selected=\"selected\", let-active=\"active\". Decorative content only; no nested links, buttons or inputs. Keep the label represented in the content."
+            },
+            {
+              "name": "aerisListboxGroup",
+              "type": "AerisListboxGroupContext",
+              "defaultValue": "Group label",
+              "description": "let-group is the group string. Keep the group name readable."
+            },
+            {
+              "name": "aerisListboxEmpty",
+              "type": "void",
+              "defaultValue": "emptyMessage",
+              "description": "Custom content in the empty status region."
+            },
+            {
+              "name": "aerisListboxLoading",
+              "type": "void",
+              "defaultValue": "loadingMessage",
+              "description": "Custom content in the loading status region."
+            }
+          ]
+        },
+        {
+          "name": "Methods",
+          "kind": "method",
+          "entries": [
+            {
+              "name": "focus(options?)",
+              "type": "(options?: FocusOptions) => void",
+              "defaultValue": "—",
+              "description": "Focus the list, preserving its active option. Does nothing when disabled."
+            }
+          ]
+        }
+      ],
+      "referenceTables": [],
+      "interfaces": [
+        {
+          "name": "Interfaces",
+          "code": "type AerisListboxSelectionMode = 'single' | 'multiple';\ntype AerisListboxValue = string | readonly string[] | null;\n\ninterface AerisListboxOption {\n  readonly label: string;\n  readonly value: string;\n  readonly disabled?: boolean;\n  readonly description?: string;\n  readonly group?: string;\n}\n\ninterface AerisListboxChangeEvent {\n  readonly originalEvent: Event;\n  readonly value: AerisListboxValue;\n  readonly options: readonly AerisListboxOption[];\n}\n\ninterface AerisListboxOptionContext {\n  readonly $implicit: AerisListboxOption;\n  readonly option: AerisListboxOption;\n  readonly selected: boolean;\n  readonly active: boolean;\n}\n\ninterface AerisListboxGroupContext {\n  readonly $implicit: string;\n  readonly group: string;\n}"
+        }
+      ],
+      "designTokens": [
+        {
+          "name": "--aeris-listbox-background",
+          "type": "color",
+          "defaultValue": "--aeris-surface",
+          "description": "Container background."
+        },
+        {
+          "name": "--aeris-listbox-border",
+          "type": "color",
+          "defaultValue": "--aeris-border",
+          "description": "Container border."
+        },
+        {
+          "name": "--aeris-listbox-radius",
+          "type": "length",
+          "defaultValue": "--aeris-radius-surface",
+          "description": "Container corners; options use the shared item radius."
+        },
+        {
+          "name": "--aeris-listbox-padding",
+          "type": "length",
+          "defaultValue": "0.35rem",
+          "description": "List inset."
+        },
+        {
+          "name": "--aeris-listbox-option-height",
+          "type": "length",
+          "defaultValue": "--aeris-item-height",
+          "description": "Minimum option height; content may grow."
+        },
+        {
+          "name": "--aeris-listbox-selected-background",
+          "type": "color",
+          "defaultValue": "--aeris-primary-soft",
+          "description": "Selected background."
+        },
+        {
+          "name": "--aeris-listbox-selected-color",
+          "type": "color",
+          "defaultValue": "--aeris-on-primary-soft",
+          "description": "Selected text color."
+        }
+      ],
+      "examples": [
+        {
+          "id": "listbox-basic",
+          "title": "Single selection",
+          "description": "Click an option, or move focus with arrows and press Space or Enter. Disabled choices are skipped.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisListbox } from '@aeris-ui/core/listbox';\n\n@Component({\n  selector: 'app-listbox-basic-demo',\n  imports: [AerisListbox],\n  template: `\n    <div class=\"listbox-demo\">\n      <aeris-listbox\n        ariaLabel=\"Single selection\"\n        [options]=\"options\"\n        [(value)]=\"single\"\n      />\n      <p>Selected: {{ single() || 'None' }}</p>\n    </div>\n  `,\n  styles: `\n    .listbox-demo {\n      display: grid;\n      gap: 1rem;\n      inline-size: 100%;\n      max-inline-size: 24rem;\n      min-inline-size: 0;\n    }\n    \n    .listbox-demo p {\n      margin: 0;\n      color: var(--aeris-text-2);\n      overflow-wrap: anywhere;\n    }\n    \n    .listbox-demo > button {\n      justify-self: start;\n    }\n  `\n})\nexport class ListboxBasicSingleSelectionDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "listbox-multiple",
+          "title": "Multiple selection",
+          "description": "Toggle independently without holding a modifier. Shift extends a range; Ctrl or Command + A toggles all enabled filtered options.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisListbox } from '@aeris-ui/core/listbox';\n\n@Component({\n  selector: 'app-listbox-multiple-demo',\n  imports: [AerisListbox],\n  template: `\n    <div class=\"listbox-demo\">\n      <aeris-listbox\n        ariaLabel=\"Multiple selection\"\n        selectionMode=\"multiple\"\n        [options]=\"options\"\n        [(value)]=\"multiple\"\n      />\n      <p>Selected: {{ multiple() }}</p>\n    </div>\n  `,\n  styles: `\n    .listbox-demo {\n      display: grid;\n      gap: 1rem;\n      inline-size: 100%;\n      max-inline-size: 24rem;\n      min-inline-size: 0;\n    }\n    \n    .listbox-demo p {\n      margin: 0;\n      color: var(--aeris-text-2);\n      overflow-wrap: anywhere;\n    }\n    \n    .listbox-demo > button {\n      justify-self: start;\n    }\n  `\n})\nexport class ListboxMultipleMultipleSelectionDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "listbox-groups",
+          "title": "Groups",
+          "description": "A shared group string creates a labelled section. Groups retain their first-seen order.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisListbox } from '@aeris-ui/core/listbox';\n\n@Component({\n  selector: 'app-listbox-groups-demo',\n  imports: [AerisListbox],\n  template: `\n    <div class=\"listbox-demo\">\n      <aeris-listbox ariaLabel=\"Grouped selection\" [options]=\"groupedOptions\" />\n    </div>\n  `,\n  styles: `\n    .listbox-demo {\n      display: grid;\n      gap: 1rem;\n      inline-size: 100%;\n      max-inline-size: 24rem;\n      min-inline-size: 0;\n    }\n    \n    .listbox-demo p {\n      margin: 0;\n      color: var(--aeris-text-2);\n      overflow-wrap: anywhere;\n    }\n    \n    .listbox-demo > button {\n      justify-self: start;\n    }\n  `\n})\nexport class ListboxGroupsGroupsDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "listbox-templates",
+          "title": "Templates",
+          "description": "Customize option and group content while the component owns selection and accessibility. Keep templates non-interactive.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisListbox } from '@aeris-ui/core/listbox';\nimport { LucideDynamicIcon } from '@lucide/angular';\n\n@Component({\n  selector: 'app-listbox-templates-demo',\n  imports: [AerisListbox, LucideDynamicIcon],\n  templateUrl: './listbox-templates.demo.html',\n  styleUrl: './listbox-templates.demo.scss'\n})\nexport class ListboxTemplatesTemplatesDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"listbox-demo\">\n  <aeris-listbox ariaLabel=\"Templated selection\" [options]=\"groupedOptions\">\n    <ng-template aerisListboxGroup let-group\n      ><span>{{ group }} team</span></ng-template>\n    <ng-template aerisListboxOption let-option let-selected=\"selected\">\n      <span class=\"listbox-option\"\n        ><svg [lucideIcon]=\"paletteIcon\" aria-hidden=\"true\"></svg>\n        <span>{{ option.label }}</span>\n        @if (selected) {\n          <small>Selected</small>\n        }\n      </span>\n    </ng-template>\n  </aeris-listbox>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".listbox-demo {\n  display: grid;\n  gap: 1rem;\n  inline-size: 100%;\n  max-inline-size: 24rem;\n  min-inline-size: 0;\n}\n\n.listbox-demo p {\n  margin: 0;\n  color: var(--aeris-text-2);\n  overflow-wrap: anywhere;\n}\n\n.listbox-demo > button {\n  justify-self: start;\n}\n\n.listbox-option {\n  display: flex;\n  align-items: center;\n  gap: 0.625rem;\n  min-inline-size: 0;\n}\n\n.listbox-option svg {\n  inline-size: var(--aeris-icon-size, 1rem);\n  block-size: var(--aeris-icon-size, 1rem);\n  flex: 0 0 auto;\n}\n\n.listbox-option small {\n  margin-inline-start: auto;\n}"
+            }
+          ]
+        },
+        {
+          "id": "listbox-filter",
+          "title": "Filtering",
+          "description": "Search labels, descriptions and groups. Hidden selected values remain selected; Arrow Down moves from the search field into the list.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisListbox } from '@aeris-ui/core/listbox';\n\n@Component({\n  selector: 'app-listbox-filter-demo',\n  imports: [AerisListbox],\n  template: `\n    <div class=\"listbox-demo\">\n      <aeris-listbox\n        ariaLabel=\"Filtered selection\"\n        selectionMode=\"multiple\"\n        [options]=\"groupedOptions\"\n        filter\n        [value]=\"['design']\"\n      >\n        <ng-template aerisListboxEmpty>No matching options.</ng-template>\n      </aeris-listbox>\n    </div>\n  `,\n  styles: `\n    .listbox-demo {\n      display: grid;\n      gap: 1rem;\n      inline-size: 100%;\n      max-inline-size: 24rem;\n      min-inline-size: 0;\n    }\n    \n    .listbox-demo p {\n      margin: 0;\n      color: var(--aeris-text-2);\n      overflow-wrap: anywhere;\n    }\n    \n    .listbox-demo > button {\n      justify-self: start;\n    }\n  `\n})\nexport class ListboxFilterFilteringDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "listbox-states",
+          "title": "States",
+          "description": "Loading prevents selection while preserving results. Disabled controls leave the tab order; empty and loading content can be customized.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisListbox } from '@aeris-ui/core/listbox';\n\n@Component({\n  selector: 'app-listbox-states-demo',\n  imports: [AerisButton, AerisListbox],\n  templateUrl: './listbox-states.demo.html',\n  styleUrl: './listbox-states.demo.scss'\n})\nexport class ListboxStatesStatesDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"listbox-demo\">\n  <button aerisButton variant=\"outline\" (click)=\"loading.set(!loading())\">\n    Toggle loading\n  </button>\n  <aeris-listbox\n    ariaLabel=\"Loading selection\"\n    [options]=\"options\"\n    [loading]=\"loading()\"\n    ><ng-template aerisListboxLoading>Fetching options…</ng-template></aeris-listbox>\n  <aeris-listbox\n    ariaLabel=\"Disabled selection\"\n    [options]=\"options\"\n    disabled\n    value=\"design\"\n  />\n  <aeris-listbox ariaLabel=\"Empty selection\" [options]=\"[]\" />\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".listbox-demo {\n  display: grid;\n  gap: 1rem;\n  inline-size: 100%;\n  max-inline-size: 24rem;\n  min-inline-size: 0;\n}\n\n.listbox-demo p {\n  margin: 0;\n  color: var(--aeris-text-2);\n  overflow-wrap: anywhere;\n}\n\n.listbox-demo > button {\n  justify-self: start;\n}"
+            }
+          ]
+        },
+        {
+          "id": "listbox-controlled",
+          "title": "Controlled selection",
+          "description": "Update the model externally and observe user selection events. Moving keyboard focus alone does not change the value.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisListbox } from '@aeris-ui/core/listbox';\n\n@Component({\n  selector: 'app-listbox-controlled-demo',\n  imports: [AerisButton, AerisListbox],\n  templateUrl: './listbox-controlled.demo.html',\n  styleUrl: './listbox-controlled.demo.scss'\n})\nexport class ListboxControlledControlledSelectionDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"listbox-demo\">\n  <button aerisButton variant=\"outline\" (click)=\"controlled.set('research')\">\n    Select Research\n  </button>\n  <aeris-listbox\n    #controlledList\n    ariaLabel=\"Controlled selection\"\n    [options]=\"options\"\n    [(value)]=\"controlled\"\n    (changed)=\"recordChange($event)\"\n  />\n  <button aerisButton variant=\"ghost\" (click)=\"controlledList.focus()\">\n    Focus list\n  </button>\n  <p aria-live=\"polite\">Last user selection: {{ lastChange() }}</p>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".listbox-demo {\n  display: grid;\n  gap: 1rem;\n  inline-size: 100%;\n  max-inline-size: 24rem;\n  min-inline-size: 0;\n}\n\n.listbox-demo p {\n  margin: 0;\n  color: var(--aeris-text-2);\n  overflow-wrap: anywhere;\n}\n\n.listbox-demo > button {\n  justify-self: start;\n}"
+            }
+          ]
+        },
+        {
+          "id": "listbox-long",
+          "title": "Scrolling",
+          "description": "A maximum height keeps long lists contained. Keyboard navigation scrolls only the list to reveal its active option. All options remain mounted.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisListbox } from '@aeris-ui/core/listbox';\n\n@Component({\n  selector: 'app-listbox-long-demo',\n  imports: [AerisListbox],\n  template: `\n    <div class=\"listbox-demo\">\n      <aeris-listbox\n        ariaLabel=\"Long selection\"\n        [options]=\"longOptions\"\n        scrollHeight=\"12rem\"\n      />\n    </div>\n  `,\n  styles: `\n    .listbox-demo {\n      display: grid;\n      gap: 1rem;\n      inline-size: 100%;\n      max-inline-size: 24rem;\n      min-inline-size: 0;\n    }\n    \n    .listbox-demo p {\n      margin: 0;\n      color: var(--aeris-text-2);\n      overflow-wrap: anywhere;\n    }\n    \n    .listbox-demo > button {\n      justify-self: start;\n    }\n  `\n})\nexport class ListboxLongScrollingDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "listbox-signal-forms",
+          "title": "Signal Forms",
+          "description": "Signal Forms forwards value, invalid, touched, required and disabled state. Errors stay hidden until touched.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisListbox } from '@aeris-ui/core/listbox';\nimport { AerisMessageModule } from '@aeris-ui/core/message';\nimport { FormField } from '@angular/forms/signals';\n\n@Component({\n  selector: 'app-listbox-signal-forms-demo',\n  imports: [AerisButton, AerisListbox, AerisMessageModule, FormField],\n  templateUrl: './listbox-signal-forms.demo.html',\n  styleUrl: './listbox-signal-forms.demo.scss'\n})\nexport class ListboxSignalFormsSignalFormsDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"listbox-demo\">\n  <aeris-listbox\n    ariaLabel=\"Required choice\"\n    [options]=\"options\"\n    [formField]=\"fields.choice\"\n    [ariaDescribedBy]=\"showError() ? 'listbox-error' : undefined\"\n  />\n  <p>Selected: {{ selectionData().choice || 'None' }}</p>\n  @if (showError()) {\n    <aeris-message id=\"listbox-error\" severity=\"danger\"\n      >Choose an option.</aeris-message>\n  }\n  <button aerisButton variant=\"outline\" (click)=\"fields.choice().markAsTouched()\">\n    Validate\n  </button>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".listbox-demo {\n  display: grid;\n  gap: 1rem;\n  inline-size: 100%;\n  max-inline-size: 24rem;\n  min-inline-size: 0;\n}\n\n.listbox-demo p {\n  margin: 0;\n  color: var(--aeris-text-2);\n  overflow-wrap: anywhere;\n}\n\n.listbox-demo > button {\n  justify-self: start;\n}"
+            }
+          ]
+        },
+        {
+          "id": "listbox-reactive",
+          "title": "Reactive Forms",
+          "description": "Classic forms synchronize value, touched and disabled state through ControlValueAccessor.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { ReactiveFormsModule } from '@angular/forms';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisListbox } from '@aeris-ui/core/listbox';\n\n@Component({\n  selector: 'app-listbox-reactive-demo',\n  imports: [AerisButton, AerisListbox, ReactiveFormsModule],\n  template: `\n    <div class=\"listbox-demo\">\n      <aeris-listbox\n        ariaLabel=\"Reactive choices\"\n        selectionMode=\"multiple\"\n        [options]=\"options\"\n        [formControl]=\"reactive\"\n      />\n      <p>Selected: {{ reactive.value }}</p>\n      <button aerisButton variant=\"outline\" (click)=\"reactive.reset([])\">Reset</button>\n    </div>\n  `,\n  styles: `\n    .listbox-demo {\n      display: grid;\n      gap: 1rem;\n      inline-size: 100%;\n      max-inline-size: 24rem;\n      min-inline-size: 0;\n    }\n    \n    .listbox-demo p {\n      margin: 0;\n      color: var(--aeris-text-2);\n      overflow-wrap: anywhere;\n    }\n    \n    .listbox-demo > button {\n      justify-self: start;\n    }\n  `\n})\nexport class ListboxReactiveReactiveFormsDemo {\n}\n"
+            }
+          ]
+        }
+      ],
+      "accessibility": {
+        "guidance": [
+          "Use ariaLabelledBy for a visible label or ariaLabel for an accessible name. The list is one focus stop using aria-activedescendant. Arrow movement changes the active option, not selection. Selected and active styling are distinct. Disabled options are skipped. Group labels and descriptions are associated automatically.",
+          "Option templates must not contain interactive children: Listbox is a selection control, not a menu of actions. Loading is announced and blocks selection; empty content has a status region. Supply translated messages and filter labels as needed. Associate help and visible validation errors with ariaDescribedBy. Native form submission does not serialize this custom control: use Angular forms or your controlled value.",
+          "In multiple mode, Shift range selection replaces enabled visible selections within the range while retaining hidden or disabled selections. Ctrl or Command + A toggles enabled filtered options only. Removing an option does not mutate the value; the application owns reconciliation. RTL preserves vertical Up/Down behavior. Motion respects reduced-motion preferences."
+        ],
+        "keyboard": [
+          {
+            "keys": "Tab / Shift + Tab",
+            "behavior": "Enter or leave the search field and list; selected option is the initial active target."
+          },
+          {
+            "keys": "Arrow Up / Down",
+            "behavior": "Move active focus, skipping disabled options and wrapping at the ends. Down from search focuses the list."
+          },
+          {
+            "keys": "Home / End",
+            "behavior": "Focus the first or last enabled option."
+          },
+          {
+            "keys": "Space / Enter",
+            "behavior": "Select the active option; multiple mode toggles it."
+          },
+          {
+            "keys": "Printable characters",
+            "behavior": "Typeahead focuses matching labels; repeated characters cycle matches. Search input retains normal text editing."
+          },
+          {
+            "keys": "Shift + arrows / Home / End; Shift + click",
+            "behavior": "Select a range in multiple mode."
+          },
+          {
+            "keys": "Ctrl / Command + A",
+            "behavior": "Toggle selection of enabled filtered options in multiple mode."
+          }
+        ]
+      }
+    },
+    {
       "name": "MultiSelect",
       "slug": "multi-select",
       "category": "Form",

@@ -54,6 +54,7 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [InputOtp](https://aeris-ui.dev/ai/22/components/input-otp.md): Segmented one-time-code entry with paste, masking, and complete keyboard navigation.
 - [InputText](https://aeris-ui.dev/ai/22/components/input-text.md): Single-line text input with validation, adornments, and Signal Forms support.
 - [KeyFilter](https://aeris-ui.dev/ai/22/components/key-filter.md): Directive for filtering native text input with presets, custom patterns, and paste handling.
+- [Listbox](https://aeris-ui.dev/ai/22/components/listbox.md): Always-visible single or multiple selection with filtering, groups, templates, and forms support.
 - [MultiSelect](https://aeris-ui.dev/ai/22/components/multi-select.md): Multiple selection with filtering, chips, groups, limits, and virtualization.
 - [Password](https://aeris-ui.dev/ai/22/components/password.md): Password entry with visibility controls, strength feedback, and secure autofill semantics.
 - [RadioButton](https://aeris-ui.dev/ai/22/components/radio-button.md): Single-choice control designed for accessible grouped selection.

@@ -17,6 +17,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
 import { AerisRadioButton } from '@aeris-ui/core/radio-button';
 import { AerisRating } from '@aeris-ui/core/rating';
 import { AerisSelect, AerisSelectComponent } from '@aeris-ui/core/select';
+import { AerisListbox } from '@aeris-ui/core/listbox';
 import { AerisSlider } from '@aeris-ui/core/slider';
 import { AerisTextarea } from '@aeris-ui/core/textarea';
 import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
@@ -27,6 +28,7 @@ import { DOC_ICONS } from '../documentation/doc-icons';
 @Component({
   selector: 'app-catalog-form-preview',
   imports: [
+    AerisListbox,
     AerisAutoComplete,
     AerisCascadeSelect,
     AerisCheckbox,
@@ -203,6 +205,14 @@ import { DOC_ICONS } from '../documentation/doc-icons';
           ariaLabel="Team"
         />
       }
+      @case ('listbox') {
+        <aeris-listbox
+          ariaLabel="Departments"
+          [options]="listboxOptions"
+          [value]="active() ? 'engineering' : 'design'"
+          scrollHeight="12rem"
+        />
+      }
       @case ('slider') {
         <div class="stack">
           <small>Volume · 65%</small><aeris-slider [value]="65" ariaLabel="Volume" />
@@ -275,6 +285,11 @@ export class CatalogFormPreviewComponent {
   protected readonly options = [
     { label: 'Design', value: 'design' },
     { label: 'Research', value: 'research' },
+  ];
+  protected readonly listboxOptions = [
+    { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
+    { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },
+    { label: 'Research', value: 'research', description: 'Insights and discovery' },
   ];
   protected readonly locations = [
     { label: 'Europe', value: 'europe', children: [{ label: 'Belgrade', value: 'belgrade' }] },
