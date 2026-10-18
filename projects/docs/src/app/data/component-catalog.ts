@@ -132,7 +132,7 @@ const descriptions: Readonly<Record<string, string>> = {
     'Hierarchical team chart with templates, selection, and collapsible branches.',
   chart:
     'Chart.js-powered data visualization with responsive rendering, theme-aware defaults, and accessible summaries.',
-  chip: 'Represent compact entities with labels, images, consumer icons, custom content, and accessible removal.',
+  chip: 'Compact labels, images and custom content, with accessible removal and optional grouped selection.',
   dialog: 'Modal surface with focus management, dismissal rules, and responsive sizing.',
   'command-palette':
     'Search and execute grouped commands with keyboard navigation, inline or modal presentation, templates, and opt-in launcher shortcuts.',

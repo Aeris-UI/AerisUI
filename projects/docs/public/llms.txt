@@ -139,7 +139,7 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [Avatar](https://aeris-ui.dev/ai/22/components/avatar.md): Represent people and entities with images, initials, icons, fallbacks, theme-aware tones, and responsive groups.
 - [Badge](https://aeris-ui.dev/ai/22/components/badge.md): Compact status, count, and overlay indicator with severity, size, shape, and accessible semantics.
 - [BlockUI](https://aeris-ui.dev/ai/22/components/block-ui.md): Temporarily block a content region or the full viewport with a dark interaction-blocking layer.
-- [Chip](https://aeris-ui.dev/ai/22/components/chip.md): Represent compact entities with labels, images, consumer icons, custom content, and accessible removal.
+- [Chip](https://aeris-ui.dev/ai/22/components/chip.md): Compact labels, images and custom content, with accessible removal and optional grouped selection.
 - [CodeBlock](https://aeris-ui.dev/ai/22/components/code-block.md): Display syntax-highlighted code with source tabs, line numbers, focused lines, and accessible copy actions.
 - [Fluid](https://aeris-ui.dev/ai/22/components/fluid.md): Make compatible Aeris controls fill the available width through one responsive layout wrapper.
 - [Inplace](https://aeris-ui.dev/ai/22/components/inplace.md): Switch between a compact display and lazily rendered content with controlled state and accessible focus management.

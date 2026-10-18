@@ -78,7 +78,12 @@ const AERIS_IMPORTS: readonly AerisImportRule[] = [
     /\saerisCascadeSelect[A-Z]\w*/,
   ),
   rule('AerisChartModule', 'chart', /<aeris-chart\b/),
-  rule('AerisChipModule', 'chip', /<aeris-chip\b/, /\saerisChip(?:Leading|RemoveIcon)\b/),
+  rule(
+    'AerisChipModule',
+    'chip',
+    /<aeris-chip(?:-group)?(?=[\s/>])/,
+    /\saerisChip(?:Leading|RemoveIcon)\b/,
+  ),
   rule('AerisCheckbox', 'checkbox', /<aeris-checkbox\b/),
   rule('AerisColorPicker', 'color-picker', /<aeris-color-picker\b/),
   rule('AerisCodeBlockModule', 'code-block', /<aeris-code-block\b/),
@@ -494,7 +499,7 @@ function addAngularFormsImports(
     const signals = addGroup(groups, '@angular/forms/signals');
     signals.values.add('FormField');
     componentImports.add('FormField');
-    for (const name of ['form', 'required', 'submit']) {
+    for (const name of ['form', 'required', 'submit', 'validate']) {
       if (new RegExp(`\\b${name}\\s*\\(`).test(classCode)) signals.values.add(name);
     }
   }

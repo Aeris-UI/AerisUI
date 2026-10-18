@@ -1,6 +1,27 @@
 import { buildAngularDemoSources } from './demo-code';
+import { DOC_EXAMPLE_CODE } from './generated-example-code';
 
 describe('Angular demo code imports', () => {
+  it('keeps generated form signals before the fields initialized from them', () => {
+    const code = DOC_EXAMPLE_CODE['chip-group-forms'];
+    expect(code).toContain('readonly groupData');
+    expect(code.indexOf('readonly groupData')).toBeLessThan(code.indexOf('readonly groupFields'));
+  });
+  it('imports group companions and Signal Forms custom validators', () => {
+    const sources = buildAngularDemoSources({
+      anchor: 'chip-group-validation',
+      title: 'Chip group validation',
+      template: '<aeris-chip-group selectionMode="multiple" [formField]="fields.choices" />',
+      classCode: `readonly data = signal({ choices: [] as string[] });
+readonly fields = form(this.data, (path) => validate(path.choices, ({ value }) =>
+  value().length ? undefined : { kind: 'required' }));`,
+    });
+    const code = sources[0]?.code ?? '';
+    expect(code).toContain('AerisChipModule');
+    expect(code).toContain('validate');
+    expect(code).toContain('FormField, form, validate');
+    expect(code).not.toContain('AerisChipGroup');
+  });
   it('includes the optional Button forms import only for classic toggle fields', () => {
     const classic = buildAngularDemoSources({
       anchor: 'toggle-classic',

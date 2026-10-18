@@ -2,13 +2,13 @@
   <app-component-page-header
     category="Misc"
     title="Chip"
-    description="Represent compact entities with labels, images, consumer-provided icons, custom content, and accessible removal."
+    description="Represent compact entities with labels, images, consumer-provided icons, accessible removal and optional grouped selection."
   />
 
   <section id="chip-import" class="import-section" aria-labelledby="chip-import-title">
     <div>
       <h2 id="chip-import-title">Import</h2>
-      <p>One import provides Chip and its projection helpers.</p>
+      <p>One import provides Chip, ChipGroup and all related helpers.</p>
     </div>
     <app-code-block [code]="importCode" language="TypeScript" />
   </section>
@@ -390,6 +390,317 @@
   &lt;/aeris-chip&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
+            <app-form-demo
+              id="chip-group-single"
+              title="Single selection"
+              description="One pressed choice at a time. Arrow keys move focus without selecting; activate again to clear. Controlled buttons use the same model."
+              [cssCode]="removableCssCode"
+            >
+              <div preview>
+                <div class="chip-removable-demo">
+                  <aeris-chip-group
+                    #singleGroup
+                    ariaLabel="Single choices"
+                    selectionMode="single"
+                    [items]="groupOptions"
+                    [(value)]="groupSingle"
+                  />
+                  <p>Selected: {{ groupSingle() || 'None' }}</p>
+                  <div class="chip-row">
+                    <button aerisButton variant="outline" (click)="groupSingle.set('fourth')">
+                      Select fourth
+                    </button>
+                    <button aerisButton variant="outline" (click)="singleGroup.focus()">
+                      Focus group
+                    </button>
+                    <button
+                      aerisButton
+                      variant="outline"
+                      type="button"
+                      (click)="groupSingle.set(null)"
+                    >
+                      Clear selection
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="chip-removable-demo"&gt;
+    &lt;aeris-chip-group
+      #singleGroup
+      ariaLabel="Single choices"
+      selectionMode="single"
+      [items]="groupOptions"
+      [(value)]="groupSingle"
+    /&gt;
+    &lt;p&gt;Selected: &#123;&#123; groupSingle() || 'None' &#125;&#125;&lt;/p&gt;
+    &lt;div class="chip-row"&gt;
+      &lt;button aerisButton variant="outline" (click)="groupSingle.set('fourth')"&gt;
+        Select fourth
+      &lt;/button&gt;
+      &lt;button aerisButton variant="outline" (click)="singleGroup.focus()"&gt;
+        Focus group
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        variant="outline"
+        type="button"
+        (click)="groupSingle.set(null)"
+      &gt;
+        Clear selection
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="chip-group-multiple"
+              title="Multiple selection"
+              description="Toggle choices independently without modifier keys. Disabled members are skipped. Chips wrap naturally when space is limited."
+              [cssCode]="removableCssCode"
+            >
+              <div preview>
+                <div class="chip-removable-demo">
+                  <aeris-chip-group
+                    ariaLabel="Multiple choices"
+                    selectionMode="multiple"
+                    [items]="groupOptions"
+                    [(value)]="groupMultiple"
+                  />
+                  <p>Selected: {{ groupMultipleLabel() }}</p>
+                  <button
+                    aerisButton
+                    variant="outline"
+                    type="button"
+                    (click)="groupMultiple.set([])"
+                  >
+                    Clear selection
+                  </button>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="chip-removable-demo"&gt;
+    &lt;aeris-chip-group
+      ariaLabel="Multiple choices"
+      selectionMode="multiple"
+      [items]="groupOptions"
+      [(value)]="groupMultiple"
+    /&gt;
+    &lt;p&gt;Selected: &#123;&#123; groupMultipleLabel() &#125;&#125;&lt;/p&gt;
+    &lt;button
+      aerisButton
+      variant="outline"
+      type="button"
+      (click)="groupMultiple.set([])"
+    &gt;
+      Clear selection
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="chip-group-removal"
+              title="Grouped removal and cancellation"
+              description="The group owns the collection and restores focus after removal. Cancel synchronous requests without changing data, or allow removal and empty the collection."
+              [cssCode]="removableCssCode"
+            >
+              <div preview>
+                <div class="chip-removable-demo">
+                  <aeris-chip-group
+                    ariaLabel="Removable choices"
+                    removable
+                    [(items)]="groupItems"
+                    (removing)="guardGroupRemoval($event)"
+                    (removed)="groupStatus.set('Removed ' + $event.item.label + '.')"
+                  />
+                  <p role="status">{{ groupStatus() }}</p>
+                  <div class="chip-row">
+                    <button
+                      aerisButton
+                      variant="outline"
+                      type="button"
+                      (click)="toggleGroupRemoval()"
+                    >
+                      {{
+                        groupRemovalAllowed()
+                          ? 'Disallow protected removal'
+                          : 'Allow protected removal'
+                      }}
+                    </button>
+                    <button
+                      aerisButton
+                      variant="outline"
+                      type="button"
+                      (click)="resetGroupRemoval()"
+                    >
+                      Reset chips
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="chip-removable-demo"&gt;
+    &lt;aeris-chip-group
+      ariaLabel="Removable choices"
+      removable
+      [(items)]="groupItems"
+      (removing)="guardGroupRemoval($event)"
+      (removed)="groupStatus.set('Removed ' + $event.item.label + '.')"
+    /&gt;
+    &lt;p role="status"&gt;&#123;&#123; groupStatus() &#125;&#125;&lt;/p&gt;
+    &lt;div class="chip-row"&gt;
+      &lt;button
+        aerisButton
+        variant="outline"
+        type="button"
+        (click)="toggleGroupRemoval()"
+      &gt;
+        &#123;&#123;
+          groupRemovalAllowed()
+            ? 'Disallow protected removal'
+            : 'Allow protected removal'
+        &#125;&#125;
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        variant="outline"
+        type="button"
+        (click)="resetGroupRemoval()"
+      &gt;
+        Reset chips
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="chip-group-forms"
+              title="Signal Forms"
+              description="The selection value integrates with Signal Forms. Invalid styling stays neutral until touched, and the error message is associated with the group."
+              [cssCode]="removableCssCode"
+            >
+              <div preview>
+                <div class="chip-removable-demo">
+                  <aeris-chip-group
+                    ariaLabel="Required choices"
+                    selectionMode="multiple"
+                    [items]="groupOptions"
+                    [formField]="groupFields.choices"
+                    [ariaDescribedBy]="groupFeedbackId()"
+                    (changed)="groupValidated.set(false)"
+                  />
+                  @if (groupError()) {
+                    <aeris-message id="chip-group-error" severity="danger"
+                      >Choose at least one item.</aeris-message
+                    >
+                  } @else if (groupValidationSuccess()) {
+                    <aeris-message id="chip-group-success" severity="success"
+                      >Selection is valid.</aeris-message
+                    >
+                  }
+                  <div class="chip-row">
+                    <button aerisButton variant="outline" type="button" (click)="validateGroup()">
+                      Validate group
+                    </button>
+                    <button aerisButton variant="outline" type="button" (click)="resetGroupForm()">
+                      Reset form
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="chip-removable-demo"&gt;
+    &lt;aeris-chip-group
+      ariaLabel="Required choices"
+      selectionMode="multiple"
+      [items]="groupOptions"
+      [formField]="groupFields.choices"
+      [ariaDescribedBy]="groupFeedbackId()"
+      (changed)="groupValidated.set(false)"
+    /&gt;
+    &#64;if (groupError()) &#123;
+      &lt;aeris-message id="chip-group-error" severity="danger"
+        &gt;Choose at least one item.&lt;/aeris-message&gt;
+    &#125; &#64;else if (groupValidationSuccess()) &#123;
+      &lt;aeris-message id="chip-group-success" severity="success"
+        &gt;Selection is valid.&lt;/aeris-message&gt;
+    &#125;
+    &lt;div class="chip-row"&gt;
+      &lt;button aerisButton variant="outline" type="button" (click)="validateGroup()"&gt;
+        Validate group
+      &lt;/button&gt;
+      &lt;button aerisButton variant="outline" type="button" (click)="resetGroupForm()"&gt;
+        Reset form
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="chip-group-reactive"
+              title="Reactive Forms"
+              description="Classic forms synchronize the selection and disabled state through ControlValueAccessor."
+              [cssCode]="removableCssCode"
+            >
+              <div preview>
+                <div class="chip-removable-demo">
+                  <aeris-chip-group
+                    ariaLabel="Reactive choices"
+                    selectionMode="single"
+                    [items]="groupOptions"
+                    [formControl]="groupControl"
+                  />
+                  <p>Selected: {{ groupControl.value || 'None' }}</p>
+                  <div class="chip-row">
+                    <button
+                      aerisButton
+                      variant="outline"
+                      type="button"
+                      (click)="toggleGroupControl()"
+                    >
+                      {{ groupControl.disabled ? 'Enable group' : 'Disable group' }}
+                    </button>
+                    <button
+                      aerisButton
+                      variant="outline"
+                      type="button"
+                      (click)="groupControl.reset({ value: 'third', disabled: false })"
+                    >
+                      Reset control
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="chip-removable-demo"&gt;
+    &lt;aeris-chip-group
+      ariaLabel="Reactive choices"
+      selectionMode="single"
+      [items]="groupOptions"
+      [formControl]="groupControl"
+    /&gt;
+    &lt;p&gt;Selected: &#123;&#123; groupControl.value || 'None' &#125;&#125;&lt;/p&gt;
+    &lt;div class="chip-row"&gt;
+      &lt;button
+        aerisButton
+        variant="outline"
+        type="button"
+        (click)="toggleGroupControl()"
+      &gt;
+        &#123;&#123; groupControl.disabled ? 'Enable group' : 'Disable group' &#125;&#125;
+      &lt;/button&gt;
+      &lt;button
+        aerisButton
+        variant="outline"
+        type="button"
+        (click)="groupControl.reset(&#123; value: 'third', disabled: false &#125;)"
+      &gt;
+        Reset control
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
           </div>
 
           <app-page-toc title="On this page" ariaLabel="Chip features" [links]="featureLinks" />
@@ -491,6 +802,27 @@
                 }
               </div>
             </section>
+            <section id="chip-group-api" class="api-section">
+              <h3>Optional ChipGroup</h3>
+              <p>
+                AerisChipModule includes ChipGroup alongside Chip and its helpers. No additional
+                Aeris import, item templates or free-form text-entry API are needed.
+              </p>
+              <div class="api-table" role="table" aria-label="ChipGroup API" tabindex="0">
+                <div class="api-head" role="row">
+                  <b role="columnheader">Name</b><b role="columnheader">Type</b
+                  ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+                </div>
+                @for (row of groupApi; track row.name) {
+                  <div role="row">
+                    <code role="cell">{{ row.name }}</code
+                    ><span role="cell">{{ row.type }}</span
+                    ><code role="cell">{{ row.defaultValue }}</code
+                    ><span role="cell">{{ row.description }}</span>
+                  </div>
+                }
+              </div>
+            </section>
           </div>
 
           <app-page-toc title="API sections" ariaLabel="Chip API" [links]="apiLinks" />
@@ -505,6 +837,8 @@
           Chip exposes narrow unions for visual choices and typed removal and template contexts.
         </p>
         <app-code-block [code]="interfacesCode" language="TypeScript" />
+        <h3>ChipGroup</h3>
+        <app-code-block [code]="groupInterfacesCode" language="TypeScript" />
       </section>
     </aeris-tab-panel>
 
@@ -536,9 +870,9 @@
       <section class="doc-section">
         <h2>Accessibility</h2>
         <p>
-          Chip is not a selectable item or a keyboard collection. Static chips do not receive focus,
-          and removable chips expose only their native remove button. Keep projected content and
-          custom remove artwork non-interactive.
+          Standalone Chip is not a selectable item or a keyboard collection. Static chips do not
+          receive focus, and removable chips expose only their native remove button. Keep projected
+          content and custom remove artwork non-interactive.
         </p>
         <p>
           Cancellation leaves focus on the remove button. After accepted removal, choose a
@@ -579,6 +913,69 @@
         </ul>
 
         <h3>Keyboard support</h3>
+        <p>
+          The optional ChipGroup owns collection behavior. No-selection groups use native remove
+          buttons. Selectable groups are named toolbars of native pressed buttons, with separate
+          sibling remove buttons rather than nested interactive controls. Single mode permits zero
+          or one pressed item; multiple mode permits any number. Selection and focus are
+          independent. Selected remove actions stay available by pointer and assistive-technology
+          button navigation; Delete/Backspace offers the equivalent action from the focused choice.
+        </p>
+        <p>
+          Grouped chips use autoHide=false internally. Accepted removal updates items and prunes
+          that item's selected key once, then restores focus to the next enabled member, previous
+          member, or the empty group. Cancel removing synchronously to retain the item and focus.
+          External removal/disabled-state changes also repair focus while it remains in the group;
+          the group does not steal focus after you leave. Hidden keys from unrelated external value
+          updates are not automatically discarded. This is not a tag-entry field. Signal Forms and
+          classic forms bind the selection value, not the collection; native form serialization is
+          application-owned.
+        </p>
+        <div
+          class="api-table keyboard-table"
+          role="table"
+          aria-label="ChipGroup keyboard support"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Key</b><b role="columnheader">Behavior</b>
+          </div>
+          <div role="row">
+            <span role="cell">Tab / Shift + Tab</span
+            ><span role="cell"
+              >One entry stop for the enabled collection; then leave it. Empty/static-only groups
+              focus their entry target.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Left / Right</span
+            ><span role="cell"
+              >Previous/next enabled member in horizontal mode; reversed in RTL. Wraps across rows
+              in item order.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Up / Down</span
+            ><span role="cell">Previous/next enabled member in vertical mode.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Home / End</span><span role="cell">First/last enabled member.</span>
+          </div>
+          <div role="row">
+            <span role="cell">Enter / Space</span
+            ><span role="cell"
+              >Toggle the focused choice, or remove the focused member in no-selection mode.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Delete / Backspace</span
+            ><span role="cell"
+              >Request removal of the focused removable member. Cancellation preserves focus and
+              state.</span
+            >
+          </div>
+        </div>
+        <h3>Standalone Chip keyboard support</h3>
         <div
           class="api-table keyboard-table"
           role="table"

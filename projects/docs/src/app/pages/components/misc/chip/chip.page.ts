@@ -1,11 +1,17 @@
-import { Component, ElementRef, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, computed, signal, viewChild } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormField, form, validate } from '@angular/forms/signals';
 import { AerisButton } from '@aeris-ui/core/button';
 import {
   AerisChipModule,
+  type AerisChipGroupItem,
+  type AerisChipGroupValue,
+  type AerisChipGroupRemovingEvent,
   type AerisChipRemoveEvent,
   type AerisChipRemovingEvent,
 } from '@aeris-ui/core/chip';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
+import { AerisMessageModule } from '@aeris-ui/core/message';
 import {
   LucideCamera,
   LucideCode2,
@@ -41,6 +47,9 @@ interface TokenRow {
   imports: [
     AerisButton,
     AerisChipModule,
+    AerisMessageModule,
+    FormField,
+    ReactiveFormsModule,
     AerisTabsModule,
     LucideDynamicIcon,
     CodeBlockComponent,
@@ -53,6 +62,275 @@ interface TokenRow {
   styleUrl: './chip.page.scss',
 })
 export class ChipPage {
+  protected readonly groupApi: readonly ApiRow[] = [
+    {
+      name: 'items',
+      type: 'readonly AerisChipGroupItem[] (model)',
+      defaultValue: '[]',
+      description:
+        'Controlled collection with unique stable IDs. Accepted removal updates items; do not also remove in the removed handler.',
+    },
+    {
+      name: 'value',
+      type: 'AerisChipGroupValue (model)',
+      defaultValue: 'null',
+      description:
+        'Single string/null or multiple readonly string array. Ignored in none mode. Changing mode requires the corresponding value shape.',
+    },
+    {
+      name: 'selectionMode',
+      type: "'none' | 'single' | 'multiple'",
+      defaultValue: "'none'",
+      description:
+        'No selection, one pressed choice, or multiple pressed choices. Arrow keys move focus without changing value; pressing a selected choice clears it.',
+    },
+    {
+      name: 'removable',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Default remove-button visibility. Each item can override it.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Disables selection, removal and keyboard entry for the collection.',
+    },
+    {
+      name: 'orientation',
+      type: "'horizontal' | 'vertical'",
+      defaultValue: "'horizontal'",
+      description:
+        'Horizontal wrapping uses logical Left/Right; vertical uses Up/Down. Both wrap at the ends.',
+    },
+    {
+      name: 'ariaLabel',
+      type: 'string',
+      defaultValue: "'Chips'",
+      description: 'Accessible collection name; use a specific label.',
+    },
+    {
+      name: 'ariaLabelledBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'ID of visible collection label; takes precedence over ariaLabel.',
+    },
+    {
+      name: 'ariaDescribedBy',
+      type: 'string',
+      defaultValue: "''",
+      description: 'Space-separated IDs of help/error messages.',
+    },
+    {
+      name: 'emptyMessage',
+      type: 'string',
+      defaultValue: "'No chips'",
+      description:
+        'Visible empty-state text. Empty or entirely non-interactive collections have a focusable entry target unless disabled.',
+    },
+    {
+      name: 'size',
+      type: 'AerisChipSize',
+      defaultValue: "'md'",
+      description: "Member size: 'sm', 'md', 'lg'.",
+    },
+    {
+      name: 'variant',
+      type: 'AerisChipVariant',
+      defaultValue: "'soft'",
+      description: "Member appearance: 'soft', 'outline'.",
+    },
+    {
+      name: 'tone',
+      type: 'AerisChipTone',
+      defaultValue: "'neutral'",
+      description:
+        "Member tone: 'primary', 'neutral', 'success', 'info', 'warning', 'danger'. Selected state uses primary tokens.",
+    },
+    {
+      name: 'shape',
+      type: 'AerisChipShape',
+      defaultValue: "'pill'",
+      description: "Member shape: 'pill', 'rounded'.",
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description: 'Presented invalid state for selection modes, gated by touched when supplied.',
+    },
+    {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Signal Forms supplies interaction state automatically. Null preserves immediate manual invalid presentation.',
+    },
+    {
+      name: 'itemsChange',
+      type: 'readonly AerisChipGroupItem[]',
+      defaultValue: '—',
+      description: 'Model output after an accepted collection update.',
+    },
+    {
+      name: 'valueChange',
+      type: 'AerisChipGroupValue',
+      defaultValue: '—',
+      description: 'Model output after selection changes or selected-item removal.',
+    },
+    {
+      name: 'changed',
+      type: 'AerisChipGroupChangeEvent',
+      defaultValue: '—',
+      description:
+        'User selection change or selected-item removal. External model writes do not emit changed.',
+    },
+    {
+      name: 'removing',
+      type: 'AerisChipGroupRemovingEvent',
+      defaultValue: '—',
+      description:
+        'Synchronous request. Call preventDefault() to preserve collection, value and focus. Do not mutate the collection here; accept normally or cancel.',
+    },
+    {
+      name: 'removed',
+      type: 'AerisChipGroupRemoveEvent',
+      defaultValue: '—',
+      description:
+        'Once after accepted removal. The group already updated items and selection; use for notifications, not a second deletion.',
+    },
+    {
+      name: 'touch',
+      type: 'void',
+      defaultValue: '—',
+      description: 'Emitted when focus leaves the collection; used by Signal Forms.',
+    },
+    {
+      name: 'focus(options?)',
+      type: '(FocusOptions) => void',
+      defaultValue: '—',
+      description:
+        'Focuses the current enabled entry or the host if there is no interactive item. Disabled groups do nothing.',
+    },
+    {
+      name: 'writeValue(value)',
+      type: '(AerisChipGroupValue) => void',
+      defaultValue: '—',
+      description: 'ControlValueAccessor value synchronization for Reactive Forms/ngModel.',
+    },
+    {
+      name: 'registerOnChange(fn)',
+      type: '((value: AerisChipGroupValue) => void) => void',
+      defaultValue: '—',
+      description:
+        'ControlValueAccessor change registration; applications normally use forms bindings.',
+    },
+    {
+      name: 'registerOnTouched(fn)',
+      type: '(() => void) => void',
+      defaultValue: '—',
+      description: 'ControlValueAccessor touched registration.',
+    },
+    {
+      name: 'setDisabledState(disabled)',
+      type: '(boolean) => void',
+      defaultValue: '—',
+      description: 'ControlValueAccessor disabled synchronization.',
+    },
+  ];
+  protected readonly groupInterfacesCode = `type AerisChipGroupSelectionMode = 'none' | 'single' | 'multiple';
+type AerisChipGroupValue = string | readonly string[] | null;
+interface AerisChipGroupItem {
+  readonly id: string;
+  readonly label: string;
+  readonly disabled?: boolean;
+  readonly removable?: boolean;
+}
+interface AerisChipGroupChangeEvent {
+  readonly originalEvent: Event | null;
+  readonly value: AerisChipGroupValue;
+}
+interface AerisChipGroupRemoveEvent {
+  readonly originalEvent: Event | null;
+  readonly item: AerisChipGroupItem;
+}
+interface AerisChipGroupRemovingEvent extends AerisChipGroupRemoveEvent {
+  readonly defaultPrevented: boolean;
+  preventDefault(): void;
+}`;
+  protected readonly groupOptions: readonly AerisChipGroupItem[] = [
+    { id: 'first', label: 'First' },
+    { id: 'second', label: 'Second', disabled: true },
+    { id: 'third', label: 'Third' },
+    { id: 'fourth', label: 'Fourth' },
+  ];
+  protected readonly initialGroupItems: readonly AerisChipGroupItem[] = [
+    { id: 'first', label: 'First' },
+    { id: 'protected', label: 'Protected' },
+    { id: 'last', label: 'Last' },
+  ];
+  protected readonly groupItems = signal(this.initialGroupItems);
+  protected readonly groupSingle = signal<AerisChipGroupValue>('first');
+  protected readonly groupMultiple = signal<AerisChipGroupValue>(['first']);
+  protected readonly groupMultipleLabel = computed(() => {
+    const value = this.groupMultiple();
+    return Array.isArray(value) && value.length ? value.join(', ') : 'None';
+  });
+  protected readonly groupStatus = signal('Remove any chip except Protected.');
+  protected readonly groupRemovalAllowed = signal(false);
+  protected readonly groupData = signal<{ choices: AerisChipGroupValue }>({ choices: [] });
+  protected readonly groupFields = form(this.groupData, (schema) =>
+    validate(schema.choices, ({ value }) => {
+      const choices = value();
+      return Array.isArray(choices) && choices.length > 0
+        ? undefined
+        : { kind: 'required', message: 'Choose at least one item.' };
+    }),
+  );
+  protected readonly groupError = computed(
+    () => this.groupFields.choices().touched() && this.groupFields.choices().invalid(),
+  );
+  protected readonly groupValidated = signal(false);
+  protected readonly groupValidationSuccess = computed(
+    () => this.groupValidated() && !this.groupFields.choices().invalid(),
+  );
+  protected readonly groupFeedbackId = computed(() =>
+    this.groupError()
+      ? 'chip-group-error'
+      : this.groupValidationSuccess()
+        ? 'chip-group-success'
+        : '',
+  );
+  protected readonly groupControl = new FormControl<AerisChipGroupValue>('third');
+  protected toggleGroupRemoval(): void {
+    this.groupRemovalAllowed.update((allowed) => !allowed);
+    this.groupStatus.set(
+      this.groupRemovalAllowed() ? 'Protected can now be removed.' : 'Protected cannot be removed.',
+    );
+  }
+  protected resetGroupRemoval(): void {
+    this.groupItems.set(this.initialGroupItems);
+    this.groupRemovalAllowed.set(false);
+    this.groupStatus.set('Chips reset. Remove any chip except Protected.');
+  }
+  protected validateGroup(): void {
+    this.groupFields.choices().markAsTouched();
+    this.groupValidated.set(true);
+  }
+  protected resetGroupForm(): void {
+    this.groupFields.choices().reset([]);
+    this.groupValidated.set(false);
+  }
+  protected toggleGroupControl(): void {
+    if (this.groupControl.disabled) this.groupControl.enable();
+    else this.groupControl.disable();
+  }
+  protected guardGroupRemoval(event: AerisChipGroupRemovingEvent): void {
+    if (event.item.id === 'protected' && !this.groupRemovalAllowed()) {
+      event.preventDefault();
+      this.groupStatus.set('Protected cannot be removed.');
+    }
+  }
   private readonly restoreElement = viewChild('restoreButton', {
     read: ElementRef<HTMLButtonElement>,
   });
@@ -76,7 +354,6 @@ export class ChipPage {
   protected readonly importCode = `import { AerisChipModule } from '@aeris-ui/core/chip';`;
 
   protected readonly featureLinks: readonly PageTocLink[] = [
-    { id: 'chip-import', label: 'Import' },
     { id: 'chip-basic', label: 'Basic' },
     { id: 'chip-icons', label: 'Icons' },
     { id: 'chip-images', label: 'Images' },
@@ -86,15 +363,20 @@ export class ChipPage {
     { id: 'chip-controlled-removal', label: 'Parent-managed removal' },
     { id: 'chip-content', label: 'Custom content' },
     { id: 'chip-custom', label: 'Tokens' },
+    { id: 'chip-group-single', label: 'Single selection' },
+    { id: 'chip-group-multiple', label: 'Multiple selection' },
+    { id: 'chip-group-removal', label: 'Grouped removal' },
+    { id: 'chip-group-forms', label: 'Group Signal Forms' },
+    { id: 'chip-group-reactive', label: 'Group Reactive Forms' },
   ];
 
   protected readonly apiLinks: readonly PageTocLink[] = [
-    { id: 'chip-import', label: 'Import' },
     { id: 'chip-api-models', label: 'Models' },
     { id: 'chip-api-inputs', label: 'Inputs' },
     { id: 'chip-api-outputs', label: 'Outputs' },
     { id: 'chip-api-content', label: 'Content' },
     { id: 'chip-api-methods', label: 'Methods' },
+    { id: 'chip-group-api', label: 'Group API' },
   ];
 
   protected readonly rowCssCode = `.chip-row {
@@ -179,6 +461,13 @@ interface AerisChipRemoveIconContext {
   ];
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'removeTabIndex',
+      type: 'number',
+      defaultValue: '0',
+      description:
+        'Native remove-button tab index. The optional ChipGroup manages it automatically for roving focus.',
+    },
     {
       name: 'label',
       type: 'string',
@@ -324,6 +613,21 @@ interface AerisChipRemoveIconContext {
   ];
 
   protected readonly tokens: readonly TokenRow[] = [
+    {
+      name: '--aeris-chip-group-gap',
+      purpose: 'Space between grouped chips.',
+      fallback: '--aeris-density-gap',
+    },
+    {
+      name: '--aeris-chip-group-selected-border',
+      purpose: 'Selected group-chip border.',
+      fallback: '--aeris-primary',
+    },
+    {
+      name: '--aeris-chip-group-selected-background',
+      purpose: 'Selected group-chip background.',
+      fallback: '--aeris-primary-soft',
+    },
     {
       name: '--aeris-chip-height',
       purpose: 'Default chip height.',
