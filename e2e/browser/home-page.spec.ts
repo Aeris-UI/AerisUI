@@ -75,6 +75,7 @@ test('Design Lab seed edits, explicit tones, automatic resets, and exports share
   await page.getByRole('button', { name: 'Close color picker', exact: true }).click();
   await expect.poll(() => token('--aeris-primary')).toBe('#2563eb');
 
+  await page.getByText('Advanced interaction colors', { exact: true }).click();
   await primaryRow.getByRole('button', { name: 'Choose Primary Hover color', exact: true }).click();
   await page.getByRole('textbox', { name: 'HEX value', exact: true }).fill('#1d4ed8');
   await page.getByRole('button', { name: 'Close color picker', exact: true }).click();
@@ -99,7 +100,7 @@ test('Design Lab seed edits, explicit tones, automatic resets, and exports share
     .click();
   await expect(root).toHaveAttribute('data-aeris-theme', 'dark');
   await expect.poll(() => token('--aeris-primary')).not.toBe('#f5f5f5');
-  await page.getByRole('button', { name: 'Reset theme', exact: true }).click();
+  await page.getByRole('button', { name: 'Reset to defaults', exact: true }).click();
   await page
     .locator('.design-lab__choices')
     .getByRole('button', { name: 'light', exact: true })

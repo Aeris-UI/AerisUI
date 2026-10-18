@@ -54,13 +54,30 @@ try {
 
   const installedPackageRoot = resolve(workspace, 'node_modules/@aeris-ui/core');
   const installedManifest = readJson(resolve(installedPackageRoot, 'package.json'));
+  const optionalPeers = [
+    'shiki',
+    'chart.js',
+    'lexical',
+    '@lexical/history',
+    '@lexical/html',
+    '@lexical/list',
+    '@lexical/rich-text',
+    '@lexical/selection',
+  ];
+  for (const name of optionalPeers) {
+    assert(
+      installedManifest.peerDependenciesMeta?.[name]?.optional === true,
+      `${name} must remain an optional peer dependency.`,
+    );
+    assert(
+      !existsSync(resolve(workspace, 'node_modules', name)),
+      `Installing basic Aeris controls must not install optional peer ${name}.`,
+    );
+  }
   assert(
-    installedManifest.peerDependenciesMeta?.shiki?.optional === true,
-    'Shiki must remain an optional peer dependency.',
-  );
-  assert(
-    !existsSync(resolve(workspace, 'node_modules/shiki')),
-    'Installing Aeris without CodeBlock must not install Shiki.',
+    !existsSync(resolve(workspace, 'node_modules/@lucide/angular')) &&
+      !existsSync(resolve(workspace, 'node_modules/lucide-angular')),
+    'Installing Aeris must not install a consumer icon library.',
   );
   assert(
     installedManifest.version === packageManifest.version,
@@ -107,14 +124,34 @@ import { renderApplication } from '@angular/platform-server';
 import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 import { AerisSelect } from '@aeris-ui/core/select';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
+import { AerisCheckbox } from '@aeris-ui/core/checkbox';
+import { AerisChip } from '@aeris-ui/core/chip';
+import { AerisColorPicker } from '@aeris-ui/core/color-picker';
+import { AerisDrawer } from '@aeris-ui/core/drawer';
+import { AerisInputNumber } from '@aeris-ui/core/input-number';
+import { AerisProgressBar } from '@aeris-ui/core/progress-bar';
+import { AerisRadioButton } from '@aeris-ui/core/radio-button';
+import { AerisTable } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'aeris-ssr-consumer',
-  imports: [AerisDatePicker, AerisSelect, AerisTabsModule],
+  imports: [AerisDatePicker, AerisSelect, AerisTabsModule, AerisCheckbox, AerisChip,
+    AerisColorPicker, AerisDrawer, AerisInputNumber, AerisProgressBar, AerisRadioButton,
+    AerisTable],
   template: \`
     <aeris-date-picker ariaLabel="Start date" appendTo="body" />
     <aeris-date-picker ariaLabel="Editable date" editable />
+    <aeris-date-picker ariaLabel="Editable time" mode="time" editable />
+    <aeris-date-picker ariaLabel="Editable date and time" mode="dateTime" editable />
     <aeris-select ariaLabel="Workspace" appendTo="body" [options]="workspaces" />
+    <aeris-checkbox label="Email updates" appearance="card" description="Weekly updates" />
+    <aeris-radio-button label="Standard" appearance="card" name="plan" value="standard" />
+    <aeris-chip label="Design" removable [autoHide]="false" />
+    <aeris-color-picker ariaLabel="Accent" value="#33445580" alpha />
+    <aeris-input-number ariaLabel="Quantity" [value]="2" />
+    <aeris-progress-bar ariaLabel="Progress" [value]="50" [steps]="steps" />
+    <aeris-drawer header="Details" position="bottom" [snapPoints]="[0.5, 1]" swipeToClose />
+    <aeris-table [columns]="columns" [data]="records" reorderableRows />
     <aeris-tabs ariaLabel="Server-rendered reports">
       <aeris-tab-panel value="overview" label="Overview">Overview content</aeris-tab-panel>
       <aeris-tab-panel value="statistics" label="Statistics">
@@ -127,6 +164,9 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
 })
 class SsrConsumer {
   readonly workspaces = [{ label: 'Design', value: 'design' }];
+  readonly steps = [{ label: 'Started', value: 0 }, { label: 'Complete', value: 100 }];
+  readonly columns = [{ field: 'name', header: 'Name', sortable: true }];
+  readonly records = [{ id: 'design', name: 'Design' }];
 }
 
 const html = await renderApplication(
@@ -137,7 +177,7 @@ const html = await renderApplication(
       context,
     ),
   {
-    document: '<!doctype html><html><body><aeris-ssr-consumer /></body></html>',
+    document: '<!doctype html><html dir="rtl"><body><aeris-ssr-consumer /></body></html>',
     url: 'http://localhost/ssr-test',
     allowedHosts: ['localhost'],
   },
@@ -146,6 +186,12 @@ const html = await renderApplication(
 assert(html.includes('ngh='), 'SSR output is missing hydration metadata.');
 assert(html.includes('<aeris-date-picker'), 'DatePicker did not render on the server.');
 assert(html.includes('<aeris-select'), 'Select did not render on the server.');
+for (const component of ['checkbox', 'radio-button', 'chip', 'color-picker', 'input-number',
+  'progress-bar', 'drawer', 'table']) {
+  assert(html.includes('<aeris-' + component), component + ' did not render on the server.');
+}
+assert(html.includes('Weekly updates'), 'Selectable card description is missing.');
+assert(html.includes('aria-valuenow="50"'), 'Progress semantics are missing.');
 assert((html.match(/role="tab"/g) ?? []).length === 2, 'Tabs did not render two tabs.');
 assert((html.match(/role="tabpanel"/g) ?? []).length === 2, 'Tabs did not render two panels.');
 assert(html.includes('Overview content'), 'The active tab content is missing.');

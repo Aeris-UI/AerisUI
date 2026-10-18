@@ -8,6 +8,11 @@ test.beforeEach(async ({ page }) => {
 
 test('popup menu stays anchored through viewport scrolling', async ({ page }) => {
   const trigger = page.getByRole('button', { name: 'Open popup menu' });
+  // Keep space below the trigger throughout this check. Viewport-edge flipping is
+  // valid behavior, but changes the offset that this anchoring assertion measures.
+  await trigger.evaluate((element) => {
+    window.scrollBy(0, element.getBoundingClientRect().top - 200);
+  });
   await trigger.click();
   const panel = page.locator('.aeris-menu__panel[data-popup]');
   await expect(panel).toBeVisible();

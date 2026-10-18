@@ -1068,7 +1068,12 @@ test('IconField search clear uses the Aeris button hover and clears the value', 
     const style = getComputedStyle(element);
     return style.maskImage || style.webkitMaskImage;
   });
-  expect(iconMask).toContain('M6');
+  const closeIcon = await clear.evaluate((element) =>
+    getComputedStyle(element).getPropertyValue('--aeris-icon-close').trim(),
+  );
+  expect(closeIcon).not.toBe('');
+  // CSSOM serializes URL quotes differently from custom property token text.
+  expect(iconMask.replaceAll('\\', '')).toContain(closeIcon.slice(5, -2));
   await clear.click();
   await expect(search).toHaveValue('');
   await expect(search).toBeFocused();

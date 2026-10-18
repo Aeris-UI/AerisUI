@@ -30,14 +30,20 @@ for (const direction of ['ltr', 'rtl']) {
     await expect(card).toHaveAccessibleDescription('LongUnbrokenContent'.repeat(10));
     for (const width of [1280, 390, 320]) {
       await page.setViewportSize({ width, height: 844 });
-      const layout = await card.evaluate((element) => {
-        const surface = element.querySelector('.aeris-card');
-        if (!surface) throw new Error('A card surface is required.');
-        const bounds = surface.getBoundingClientRect();
-        return { overflow: surface.scrollWidth - surface.clientWidth, width: bounds.width };
-      });
-      expect(layout.width).toBeGreaterThan(0);
-      expect(layout.overflow).toBeLessThanOrEqual(1);
+      // Resizing also changes the docs navigation layout. Wait for reflow rather
+      // than measuring the transient zero-width card between viewport layouts.
+      await expect
+        .poll(() =>
+          card.evaluate((element) => {
+            const surface = element.querySelector('.aeris-card');
+            if (!surface) throw new Error('A card surface is required.');
+            return (
+              surface.getBoundingClientRect().width > 0 &&
+              surface.scrollWidth - surface.clientWidth <= 1
+            );
+          }),
+        )
+        .toBe(true);
       const textBounds = await card.evaluate((element) => {
         const bounds = element.getBoundingClientRect();
         return Array.from(
