@@ -550,19 +550,38 @@
 
             <app-form-demo
               id="number-signals"
-              title="Signal Forms contract"
-              description="The value model supports direct signal binding and structurally satisfies Angular 22 FormValueControl."
+              title="Signal Forms"
+              description="Bind with FormField to synchronize the numeric model and interaction state. Define min and max in the form schema; Angular forwards those bounds to InputNumber automatically."
               [tsCode]="signalCode"
             >
               <div preview class="field">
-                <label for="number-signal">Quantity</label>
-                <aeris-input-number inputId="number-signal" [(value)]="quantity" showButtons />
-                <small aria-live="polite">Current value: {{ quantity() ?? 'Empty' }}</small>
+                <label for="number-signal">Value (1–5)</label>
+                <aeris-input-number
+                  inputId="number-signal"
+                  [formField]="numberForm.amount"
+                  [allowEmpty]="false"
+                  [maxFractionDigits]="0"
+                  showButtons
+                  buttonLayout="horizontal"
+                  [buttonTabIndex]="0"
+                />
+                <small aria-live="polite"
+                  >Current value: {{ numberModel().amount ?? 'Empty' }}</small
+                >
               </div>
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
-  &lt;label for="number-signal"&gt;Quantity&lt;/label&gt;
-  &lt;aeris-input-number inputId="number-signal" [(value)]="quantity" showButtons /&gt;
-  &lt;small aria-live="polite"&gt;Current value: &#123;&#123; quantity() ?? 'Empty' &#125;&#125;&lt;/small&gt;
+  &lt;label for="number-signal"&gt;Value (1–5)&lt;/label&gt;
+  &lt;aeris-input-number
+    inputId="number-signal"
+    [formField]="numberForm.amount"
+    [allowEmpty]="false"
+    [maxFractionDigits]="0"
+    showButtons
+    buttonLayout="horizontal"
+    [buttonTabIndex]="0"
+  /&gt;
+  &lt;small aria-live="polite"
+    &gt;Current value: &#123;&#123; numberModel().amount ?? 'Empty' &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -802,7 +821,9 @@
           </li>
           <li>
             Increment and decrement controls use SVG icons with configurable accessible names and
-            are excluded from the default tab order.
+            are excluded from the default tab order. Set <code>buttonTabIndex="0"</code> to include
+            them. Horizontal and vertical steppers retain touch-sized buttons on coarse-pointer
+            devices even with a compact size.
           </li>
           <li>
             The clear button has a configurable accessible name, appears only when usable, and
@@ -830,7 +851,8 @@
           <div role="row">
             <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
             ><span role="cell"
-              >Moves focus to or away from the numeric input and clear action.</span
+              >Moves focus to or away from the numeric input and clear action, plus stepper buttons
+              when <code>buttonTabIndex="0"</code>.</span
             >
           </div>
           <div role="row">
@@ -855,7 +877,7 @@
           </div>
           <div role="row">
             <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span
-            ><span role="cell">Activates the clear button when that button is focused.</span>
+            ><span role="cell">Activates a focused clear or stepper button.</span>
           </div>
         </div>
       </section>

@@ -12905,24 +12905,34 @@ export class NumberFluidFluidLayoutDemo {
 }
 ```
 
-##### Signal Forms contract
+##### Signal Forms
 
-The value model supports direct signal binding and structurally satisfies Angular 22 FormValueControl.
+Bind with FormField to synchronize the numeric model and interaction state. Define min and max in the form schema; Angular forwards those bounds to InputNumber automatically.
 
 ###### TS
 
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
+import { FormField, form, max, min } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-number-signals-demo',
-  imports: [AerisInputNumber],
+  imports: [AerisInputNumber, FormField],
   template: `
     <div class="field">
-      <label for="number-signal">Quantity</label>
-      <aeris-input-number inputId="number-signal" [(value)]="quantity" showButtons />
-      <small aria-live="polite">Current value: {{ quantity() ?? 'Empty' }}</small>
+      <label for="number-signal">Value (1–5)</label>
+      <aeris-input-number
+        inputId="number-signal"
+        [formField]="numberForm.amount"
+        [allowEmpty]="false"
+        [maxFractionDigits]="0"
+        showButtons
+        buttonLayout="horizontal"
+        [buttonTabIndex]="0"
+      />
+      <small aria-live="polite"
+        >Current value: {{ numberModel().amount ?? 'Empty' }}</small>
     </div>
   `,
   styles: `
@@ -12953,11 +12963,12 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
     }
   `
 })
-export class NumberSignalsSignalFormsContractDemo {
-  protected readonly quantity = signal<number | null>(4);
-
-  // The value model also satisfies Angular 22 Signal Forms'
-  // FormValueControl<number | null> contract.
+export class NumberSignalsSignalFormsDemo {
+  protected readonly numberModel = signal<{ amount: number | null }>({ amount: 3 });
+  protected readonly numberForm = form(this.numberModel, (path) => {
+    min(path.amount, 1);
+    max(path.amount, 5);
+  });
 }
 ```
 
@@ -13063,7 +13074,7 @@ export class NumberAngularFormsReactiveAndTemplateDrivenFormsDemo {
 - Associate a visible label through inputId, or provide ariaLabel when no visible label exists.
 - Connect help and error messages through ariaDescribedBy. The invalid input synchronizes aria-invalid.
 - Unsupported characters, duplicate decimal separators, and misplaced signs are removed consistently. A sign, the locale decimal separator, or their combination remains available while the user continues typing.
-- Increment and decrement controls use SVG icons with configurable accessible names and are excluded from the default tab order.
+- Increment and decrement controls use SVG icons with configurable accessible names and are excluded from the default tab order. Set buttonTabIndex="0" to include them. Horizontal and vertical steppers retain touch-sized buttons on coarse-pointer devices even with a compact size.
 - The clear button has a configurable accessible name, appears only when usable, and restores focus after clearing.
 - ControlValueAccessor support synchronizes values, touched state, and disabled state with Reactive Forms and template-driven forms.
 - Disabled and read-only behavior are exposed on the internal input; motion transitions respect reduced-motion preferences.
@@ -13072,12 +13083,12 @@ export class NumberAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 | Key | Function |
 | --- | --- |
-| `Tab / Shift + Tab` | Moves focus to or away from the numeric input and clear action. |
+| `Tab / Shift + Tab` | Moves focus to or away from the numeric input and clear action, plus stepper buttons when buttonTabIndex="0". |
 | `Arrow Up` | Increases the value by the configured step. |
 | `Arrow Down` | Decreases the value by the configured step. |
 | `Home` | Sets the configured minimum value when min is present. |
 | `End` | Sets the configured maximum value when max is present. |
-| `Enter / Space` | Activates the clear button when that button is focused. |
+| `Enter / Space` | Activates a focused clear or stepper button. |
 
 ### InputOtp
 

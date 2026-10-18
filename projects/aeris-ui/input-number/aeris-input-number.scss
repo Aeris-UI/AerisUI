@@ -369,5 +369,10 @@
 
 @include aeris-mobile.input-font('input');
 
+// Compact desktop controls retain comfortable, connected stepper targets on touch screens.
+@include aeris-mobile.targets(
+  ".aeris-input-number[data-button-layout='horizontal'] .aeris-input-number__button, .aeris-input-number[data-button-layout='vertical'] .aeris-input-number__button"
+);
+
 @include aeris-icons.custom-icon;
 @include aeris-icons.rotate('.aeris-input-number__chevron--up', 180deg);

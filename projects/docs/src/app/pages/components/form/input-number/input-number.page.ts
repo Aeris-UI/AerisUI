@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormField, form, min, max } from '@angular/forms/signals';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
@@ -22,6 +23,7 @@ interface ApiRow {
 @Component({
   selector: 'app-input-number-page',
   imports: [
+    FormField,
     AerisInputNumber,
     FormsModule,
     ReactiveFormsModule,
@@ -36,6 +38,11 @@ interface ApiRow {
   styleUrl: './input-number.page.scss',
 })
 export class InputNumberPage {
+  protected readonly numberModel = signal<{ amount: number | null }>({ amount: 3 });
+  protected readonly numberForm = form(this.numberModel, (path) => {
+    min(path.amount, 1);
+    max(path.amount, 5);
+  });
   protected readonly quantity = signal<number | null>(4);
   protected readonly price = signal<number | null>(1299.5);
   protected readonly percentage = signal<number | null>(72);
@@ -54,7 +61,7 @@ export class InputNumberPage {
     { id: 'number-sizes', label: 'Sizes' },
     { id: 'number-states', label: 'States' },
     { id: 'number-fluid', label: 'Fluid layout' },
-    { id: 'number-signals', label: 'Signal Forms contract' },
+    { id: 'number-signals', label: 'Signal Forms' },
     { id: 'number-angular-forms', label: 'Angular Forms' },
   ];
   protected readonly apiLinks: readonly PageTocLink[] = [
@@ -64,11 +71,14 @@ export class InputNumberPage {
   ];
 
   protected readonly importCode = `import { AerisInputNumber } from '@aeris-ui/core/input-number';`;
-  protected readonly signalCode = `protected readonly quantity = signal<number | null>(4);
+  protected readonly signalCode = `import { signal } from '@angular/core';
+import { FormField, form, min, max } from '@angular/forms/signals';
 
-// The value model also satisfies Angular 22 Signal Forms'
-// FormValueControl<number | null> contract.
-`;
+protected readonly numberModel = signal<{ amount: number | null }>({ amount: 3 });
+protected readonly numberForm = form(this.numberModel, (path) => {
+  min(path.amount, 1);
+  max(path.amount, 5);
+});`;
   protected readonly formsCode = `protected readonly reactiveNumber =
   new FormControl<number | null>(24);
 

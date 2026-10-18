@@ -9931,13 +9931,13 @@
         },
         {
           "id": "number-signals",
-          "title": "Signal Forms contract",
-          "description": "The value model supports direct signal binding and structurally satisfies Angular 22 FormValueControl.",
+          "title": "Signal Forms",
+          "description": "Bind with FormField to synchronize the numeric model and interaction state. Define min and max in the form schema; Angular forwards those bounds to InputNumber automatically.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisInputNumber } from '@aeris-ui/core/input-number';\n\n@Component({\n  selector: 'app-number-signals-demo',\n  imports: [AerisInputNumber],\n  template: `\n    <div class=\"field\">\n      <label for=\"number-signal\">Quantity</label>\n      <aeris-input-number inputId=\"number-signal\" [(value)]=\"quantity\" showButtons />\n      <small aria-live=\"polite\">Current value: {{ quantity() ?? 'Empty' }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class NumberSignalsSignalFormsContractDemo {\n  protected readonly quantity = signal<number | null>(4);\n\n  // The value model also satisfies Angular 22 Signal Forms'\n  // FormValueControl<number | null> contract.\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisInputNumber } from '@aeris-ui/core/input-number';\nimport { FormField, form, max, min } from '@angular/forms/signals';\n\n@Component({\n  selector: 'app-number-signals-demo',\n  imports: [AerisInputNumber, FormField],\n  template: `\n    <div class=\"field\">\n      <label for=\"number-signal\">Value (1–5)</label>\n      <aeris-input-number\n        inputId=\"number-signal\"\n        [formField]=\"numberForm.amount\"\n        [allowEmpty]=\"false\"\n        [maxFractionDigits]=\"0\"\n        showButtons\n        buttonLayout=\"horizontal\"\n        [buttonTabIndex]=\"0\"\n      />\n      <small aria-live=\"polite\"\n        >Current value: {{ numberModel().amount ?? 'Empty' }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class NumberSignalsSignalFormsDemo {\n  protected readonly numberModel = signal<{ amount: number | null }>({ amount: 3 });\n  protected readonly numberForm = form(this.numberModel, (path) => {\n    min(path.amount, 1);\n    max(path.amount, 5);\n  });\n}\n"
             }
           ]
         },
@@ -9972,7 +9972,7 @@
           "Associate a visible label through inputId, or provide ariaLabel when no visible label exists.",
           "Connect help and error messages through ariaDescribedBy. The invalid input synchronizes aria-invalid.",
           "Unsupported characters, duplicate decimal separators, and misplaced signs are removed consistently. A sign, the locale decimal separator, or their combination remains available while the user continues typing.",
-          "Increment and decrement controls use SVG icons with configurable accessible names and are excluded from the default tab order.",
+          "Increment and decrement controls use SVG icons with configurable accessible names and are excluded from the default tab order. Set buttonTabIndex=\"0\" to include them. Horizontal and vertical steppers retain touch-sized buttons on coarse-pointer devices even with a compact size.",
           "The clear button has a configurable accessible name, appears only when usable, and restores focus after clearing.",
           "ControlValueAccessor support synchronizes values, touched state, and disabled state with Reactive Forms and template-driven forms.",
           "Disabled and read-only behavior are exposed on the internal input; motion transitions respect reduced-motion preferences."
@@ -9980,7 +9980,7 @@
         "keyboard": [
           {
             "keys": "Tab / Shift + Tab",
-            "behavior": "Moves focus to or away from the numeric input and clear action."
+            "behavior": "Moves focus to or away from the numeric input and clear action, plus stepper buttons when buttonTabIndex=\"0\"."
           },
           {
             "keys": "Arrow Up",
@@ -10000,7 +10000,7 @@
           },
           {
             "keys": "Enter / Space",
-            "behavior": "Activates the clear button when that button is focused."
+            "behavior": "Activates a focused clear or stepper button."
           }
         ]
       }
