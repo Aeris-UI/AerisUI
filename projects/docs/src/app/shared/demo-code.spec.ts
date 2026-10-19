@@ -104,4 +104,18 @@ protected focusRestore(): void { this.restore()?.nativeElement.focus(); }`,
     expect(sources[0]?.code).not.toContain('ElementRef');
     expect(sources[0]?.code).not.toContain('viewChild');
   });
+  it('uses one Sidebar family import for native items, groups, slots and the toggle', () => {
+    const sources = buildAngularDemoSources({
+      anchor: 'sidebar-basic',
+      title: 'Sidebar',
+      template:
+        '<button [aerisSidebarToggle]="nav">Navigation</button><aeris-sidebar #nav [(collapsed)]="collapsed"><aeris-sidebar-group label="Workspace"><a aerisSidebarItem href="/home" label="Home"><span aerisSidebarIcon></span></a></aeris-sidebar-group></aeris-sidebar>',
+      classCode: 'readonly collapsed = signal(false);',
+    });
+    const code = sources.find((source) => source.language === 'TypeScript')?.code ?? '';
+    expect(code).toContain("import { AerisSidebarModule } from '@aeris-ui/core/sidebar';");
+    expect(code).toContain('imports: [AerisSidebarModule]');
+    expect(code).toContain('readonly collapsed = signal(false)');
+    expect(code).toContain('Component, signal');
+  });
 });

@@ -332,8 +332,8 @@ The same four edge-center placements provide room for actions to fan inward arou
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { Component, signal } from '@angular/core';
+import { AerisSpeedDial, type AerisSpeedDialItem } from '@aeris-ui/core/speed-dial';
 import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
@@ -345,6 +345,16 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
 export class SpeedDialSemiCircleSemiCircleDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+
+  protected readonly lastAction = signal('None');
+
+  protected readonly actions: readonly AerisSpeedDialItem[] = [
+      { label: 'Edit', icon: 'edit', command: () => this.lastAction.set('Edit') },
+      { label: 'Delete', icon: 'delete', command: () => this.lastAction.set('Delete') },
+      { label: 'Save', icon: 'save', command: () => this.lastAction.set('Save') },
+      { label: 'Copy', icon: 'copy', command: () => this.lastAction.set('Copy') },
+      { label: 'Upload', icon: 'upload', command: () => this.lastAction.set('Upload') },
+    ];
 }
 ```
 
@@ -531,8 +541,8 @@ Place one Speed Dial in every corner and direct each action arc toward the cente
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { Component, signal } from '@angular/core';
+import { AerisSpeedDial, type AerisSpeedDialItem } from '@aeris-ui/core/speed-dial';
 import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
@@ -544,6 +554,16 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
 export class SpeedDialQuarterCircleQuarterCircleDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+
+  protected readonly lastAction = signal('None');
+
+  protected readonly actions: readonly AerisSpeedDialItem[] = [
+      { label: 'Edit', icon: 'edit', command: () => this.lastAction.set('Edit') },
+      { label: 'Delete', icon: 'delete', command: () => this.lastAction.set('Delete') },
+      { label: 'Save', icon: 'save', command: () => this.lastAction.set('Save') },
+      { label: 'Copy', icon: 'copy', command: () => this.lastAction.set('Copy') },
+      { label: 'Upload', icon: 'upload', command: () => this.lastAction.set('Upload') },
+    ];
 }
 ```
 
@@ -726,8 +746,8 @@ A centered trigger distributes its actions evenly around the full circumference.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { Component, signal } from '@angular/core';
+import { AerisSpeedDial, type AerisSpeedDialItem } from '@aeris-ui/core/speed-dial';
 import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
@@ -739,6 +759,16 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
 export class SpeedDialCircleCircleDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+
+  protected readonly lastAction = signal('None');
+
+  protected readonly actions: readonly AerisSpeedDialItem[] = [
+      { label: 'Edit', icon: 'edit', command: () => this.lastAction.set('Edit') },
+      { label: 'Delete', icon: 'delete', command: () => this.lastAction.set('Delete') },
+      { label: 'Save', icon: 'save', command: () => this.lastAction.set('Save') },
+      { label: 'Copy', icon: 'copy', command: () => this.lastAction.set('Copy') },
+      { label: 'Upload', icon: 'upload', command: () => this.lastAction.set('Upload') },
+    ];
 }
 ```
 
@@ -840,7 +870,7 @@ Use two-way model binding when application state controls whether the menu is op
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { AerisSpeedDial, type AerisSpeedDialItem } from '@aeris-ui/core/speed-dial';
 import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
@@ -852,6 +882,18 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
 export class SpeedDialControlledControlledVisibilityDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+
+  protected readonly controlledOpen = signal(false);
+
+  protected readonly lastAction = signal('None');
+
+  protected readonly actions: readonly AerisSpeedDialItem[] = [
+      { label: 'Edit', icon: 'edit', command: () => this.lastAction.set('Edit') },
+      { label: 'Delete', icon: 'delete', command: () => this.lastAction.set('Delete') },
+      { label: 'Save', icon: 'save', command: () => this.lastAction.set('Save') },
+      { label: 'Copy', icon: 'copy', command: () => this.lastAction.set('Copy') },
+      { label: 'Upload', icon: 'upload', command: () => this.lastAction.set('Upload') },
+    ];
 
   protected readonly open = signal(false);
 
@@ -963,8 +1005,8 @@ A dismissible mask focuses attention on the available actions.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { Component, signal } from '@angular/core';
+import { AerisSpeedDial, type AerisSpeedDialItem } from '@aeris-ui/core/speed-dial';
 import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
@@ -976,6 +1018,16 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
 export class SpeedDialMaskMaskDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+
+  protected readonly lastAction = signal('None');
+
+  protected readonly actions: readonly AerisSpeedDialItem[] = [
+      { label: 'Edit', icon: 'edit', command: () => this.lastAction.set('Edit') },
+      { label: 'Delete', icon: 'delete', command: () => this.lastAction.set('Delete') },
+      { label: 'Save', icon: 'save', command: () => this.lastAction.set('Save') },
+      { label: 'Copy', icon: 'copy', command: () => this.lastAction.set('Copy') },
+      { label: 'Upload', icon: 'upload', command: () => this.lastAction.set('Upload') },
+    ];
 }
 ```
 
@@ -1193,8 +1245,8 @@ Customize the trigger icon or item content with typed template contexts.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { Component, signal } from '@angular/core';
+import { AerisSpeedDial, type AerisSpeedDialItem } from '@aeris-ui/core/speed-dial';
 import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
@@ -1206,6 +1258,16 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
 export class SpeedDialTemplatesTemplatesDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+
+  protected readonly lastAction = signal('None');
+
+  protected readonly actions: readonly AerisSpeedDialItem[] = [
+      { label: 'Edit', icon: 'edit', command: () => this.lastAction.set('Edit') },
+      { label: 'Delete', icon: 'delete', command: () => this.lastAction.set('Delete') },
+      { label: 'Save', icon: 'save', command: () => this.lastAction.set('Save') },
+      { label: 'Copy', icon: 'copy', command: () => this.lastAction.set('Copy') },
+      { label: 'Upload', icon: 'upload', command: () => this.lastAction.set('Upload') },
+    ];
 }
 ```
 
@@ -1304,8 +1366,8 @@ Transition delay controls the stagger. Reduced-motion preferences remove the sta
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSpeedDial } from '@aeris-ui/core/speed-dial';
+import { Component, signal } from '@angular/core';
+import { AerisSpeedDial, type AerisSpeedDialItem } from '@aeris-ui/core/speed-dial';
 import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, LucideTrash2, LucideUpload } from '@lucide/angular';
 
 @Component({
@@ -1317,6 +1379,16 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
 export class SpeedDialAnimationAnimationDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
+
+  protected readonly lastAction = signal('None');
+
+  protected readonly actions: readonly AerisSpeedDialItem[] = [
+      { label: 'Edit', icon: 'edit', command: () => this.lastAction.set('Edit') },
+      { label: 'Delete', icon: 'delete', command: () => this.lastAction.set('Delete') },
+      { label: 'Save', icon: 'save', command: () => this.lastAction.set('Save') },
+      { label: 'Copy', icon: 'copy', command: () => this.lastAction.set('Copy') },
+      { label: 'Upload', icon: 'upload', command: () => this.lastAction.set('Upload') },
+    ];
 }
 ```
 

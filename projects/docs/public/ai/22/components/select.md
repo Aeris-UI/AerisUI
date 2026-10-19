@@ -247,8 +247,8 @@ Use the value model for local state and the typed changed output when option met
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSelect } from '@aeris-ui/core/select';
+import { Component, signal } from '@angular/core';
+import { AerisSelect, type AerisSelectChangeEvent, type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-select-model-demo',
@@ -295,6 +295,20 @@ import { AerisSelect } from '@aeris-ui/core/select';
   `
 })
 export class SelectModelSignalModelAndEventsDemo {
+  protected readonly role = signal<string | null>('engineer');
+
+  protected readonly lastChange = signal('No interaction');
+
+  protected readonly roles: readonly AerisSelectOption[] = [
+      { label: 'Product designer', value: 'designer' },
+      { label: 'Software engineer', value: 'engineer' },
+      { label: 'Product manager', value: 'manager' },
+      { label: 'Quality engineer', value: 'quality', disabled: true },
+    ];
+
+  protected recordChange(event: AerisSelectChangeEvent): void {
+      this.lastChange.set(`Selected ${event.option.label}`);
+    }
 }
 ```
 
@@ -306,7 +320,7 @@ Show or hide the selected-option mark independently from selection styling.
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-select-checkmark-demo',
@@ -315,6 +329,12 @@ import { AerisSelect } from '@aeris-ui/core/select';
   styleUrl: './select-checkmark.demo.scss'
 })
 export class SelectCheckmarkSelectionMarkDemo {
+  protected readonly roles: readonly AerisSelectOption[] = [
+      { label: 'Product designer', value: 'designer' },
+      { label: 'Software engineer', value: 'engineer' },
+      { label: 'Product manager', value: 'manager' },
+      { label: 'Quality engineer', value: 'quality', disabled: true },
+    ];
 }
 ```
 
@@ -394,8 +414,8 @@ Accept a listed option or a free-form value through a native editable combobox.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSelect } from '@aeris-ui/core/select';
+import { Component, signal } from '@angular/core';
+import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-select-editable-demo',
@@ -443,6 +463,14 @@ import { AerisSelect } from '@aeris-ui/core/select';
   `
 })
 export class SelectEditableEditableValueDemo {
+  protected readonly editableRole = signal<string | null>('Custom specialist');
+
+  protected readonly roles: readonly AerisSelectOption[] = [
+      { label: 'Product designer', value: 'designer' },
+      { label: 'Software engineer', value: 'engineer' },
+      { label: 'Product manager', value: 'manager' },
+      { label: 'Quality engineer', value: 'quality', disabled: true },
+    ];
 }
 ```
 
@@ -453,8 +481,8 @@ The optional search field filters option labels without changing the selected va
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSelect } from '@aeris-ui/core/select';
+import { Component, signal } from '@angular/core';
+import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-select-filter-demo',
@@ -501,6 +529,14 @@ import { AerisSelect } from '@aeris-ui/core/select';
   `
 })
 export class SelectFilterFilteringDemo {
+  protected readonly role = signal<string | null>('engineer');
+
+  protected readonly roles: readonly AerisSelectOption[] = [
+      { label: 'Product designer', value: 'designer' },
+      { label: 'Software engineer', value: 'engineer' },
+      { label: 'Product manager', value: 'manager' },
+      { label: 'Quality engineer', value: 'quality', disabled: true },
+    ];
 }
 ```
 
@@ -512,7 +548,7 @@ Control the query, matching strategy, searched fields, clear action, locale, aut
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-select-filter-options-demo',
@@ -561,6 +597,12 @@ import { AerisSelect } from '@aeris-ui/core/select';
   `
 })
 export class SelectFilterOptionsFilterOptionsDemo {
+  protected readonly roles: readonly AerisSelectOption[] = [
+      { label: 'Product designer', value: 'designer' },
+      { label: 'Software engineer', value: 'engineer' },
+      { label: 'Product manager', value: 'manager' },
+      { label: 'Quality engineer', value: 'quality', disabled: true },
+    ];
 }
 ```
 
@@ -804,7 +846,7 @@ Customize group headings, panel header and footer, and empty states without repl
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-select-panel-content-demo',
@@ -852,6 +894,17 @@ import { AerisSelect } from '@aeris-ui/core/select';
   `
 })
 export class SelectPanelContentPanelContentAndStateTemplatesDemo {
+  protected readonly countries: readonly AerisSelectOption[] = [
+      { label: 'Austria', value: 'at', group: 'Europe' },
+      { label: 'Germany', value: 'de', group: 'Europe' },
+      { label: 'Serbia', value: 'rs', group: 'Europe' },
+      { label: 'Canada', value: 'ca', group: 'North America' },
+      { label: 'Mexico', value: 'mx', group: 'North America' },
+      { label: 'United States', value: 'us', group: 'North America' },
+      { label: 'Japan', value: 'jp', group: 'Asia Pacific' },
+      { label: 'New Zealand', value: 'nz', group: 'Asia Pacific' },
+      { label: 'Singapore', value: 'sg', group: 'Asia Pacific' },
+    ];
 }
 ```
 
@@ -872,6 +925,8 @@ import { AerisSelect, type AerisSelectLazyLoadEvent, type AerisSelectOption } fr
   styleUrl: './select-virtual-scroll.demo.scss'
 })
 export class SelectVirtualScrollVirtualScrollingAndLazyRangesDemo {
+  protected readonly virtualRange = signal('No range requested');
+
   protected readonly virtualRole =
     signal<string | null>(null);
 
@@ -947,8 +1002,8 @@ A separate accessible suffix button clears the model and restores focus to the c
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSelect } from '@aeris-ui/core/select';
+import { Component, signal } from '@angular/core';
+import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-select-clearable-demo',
@@ -995,6 +1050,14 @@ import { AerisSelect } from '@aeris-ui/core/select';
   `
 })
 export class SelectClearableClearButtonDemo {
+  protected readonly clearableRole = signal<string | null>('designer');
+
+  protected readonly roles: readonly AerisSelectOption[] = [
+      { label: 'Product designer', value: 'designer' },
+      { label: 'Software engineer', value: 'engineer' },
+      { label: 'Product manager', value: 'manager' },
+      { label: 'Quality engineer', value: 'quality', disabled: true },
+    ];
 }
 ```
 
@@ -1006,7 +1069,7 @@ Four sizes align Select with the Aeris control density scale.
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-select-sizes-demo',
@@ -1015,6 +1078,12 @@ import { AerisSelect } from '@aeris-ui/core/select';
   styleUrl: './select-sizes.demo.scss'
 })
 export class SelectSizesSizesDemo {
+  protected readonly roles: readonly AerisSelectOption[] = [
+      { label: 'Product designer', value: 'designer' },
+      { label: 'Software engineer', value: 'engineer' },
+      { label: 'Product manager', value: 'manager' },
+      { label: 'Quality engineer', value: 'quality', disabled: true },
+    ];
 }
 ```
 
@@ -1089,7 +1158,7 @@ Outlined, filled, invalid, required, and disabled states preserve clear contrast
 
 ```ts
 import { Component, computed, signal } from '@angular/core';
-import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-select-states-demo',
@@ -1098,6 +1167,13 @@ import { AerisSelect } from '@aeris-ui/core/select';
   styleUrl: './select-states.demo.scss'
 })
 export class SelectStatesAppearancesAndStatesDemo {
+  protected readonly roles: readonly AerisSelectOption[] = [
+      { label: 'Product designer', value: 'designer' },
+      { label: 'Software engineer', value: 'engineer' },
+      { label: 'Product manager', value: 'manager' },
+      { label: 'Quality engineer', value: 'quality', disabled: true },
+    ];
+
   protected readonly invalidRole =
     signal<string | null>(null);
 
@@ -1223,7 +1299,7 @@ Busy and empty messages are announced as status updates inside the options panel
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-select-feedback-demo',
@@ -1232,6 +1308,12 @@ import { AerisSelect } from '@aeris-ui/core/select';
   styleUrl: './select-feedback.demo.scss'
 })
 export class SelectFeedbackLoadingAndEmptyStatesDemo {
+  protected readonly roles: readonly AerisSelectOption[] = [
+      { label: 'Product designer', value: 'designer' },
+      { label: 'Software engineer', value: 'engineer' },
+      { label: 'Product manager', value: 'manager' },
+      { label: 'Quality engineer', value: 'quality', disabled: true },
+    ];
 }
 ```
 
@@ -1306,7 +1388,7 @@ For a browser-submitted HTML form, name mirrors the selected value into FormData
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-select-native-form-demo',
@@ -1352,6 +1434,12 @@ import { AerisSelect } from '@aeris-ui/core/select';
   `
 })
 export class SelectNativeFormHTMLFormSubmissionDemo {
+  protected readonly roles: readonly AerisSelectOption[] = [
+      { label: 'Product designer', value: 'designer' },
+      { label: 'Software engineer', value: 'engineer' },
+      { label: 'Product manager', value: 'manager' },
+      { label: 'Quality engineer', value: 'quality', disabled: true },
+    ];
 }
 ```
 
@@ -1364,7 +1452,7 @@ Select implements ControlValueAccessor while retaining its signal model API.
 ```ts
 import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
 
 @Component({
   selector: 'app-select-angular-forms-demo',
@@ -1373,6 +1461,13 @@ import { AerisSelect } from '@aeris-ui/core/select';
   styleUrl: './select-angular-forms.demo.scss'
 })
 export class SelectAngularFormsReactiveAndTemplateDrivenFormsDemo {
+  protected readonly roles: readonly AerisSelectOption[] = [
+      { label: 'Product designer', value: 'designer' },
+      { label: 'Software engineer', value: 'engineer' },
+      { label: 'Product manager', value: 'manager' },
+      { label: 'Quality engineer', value: 'quality', disabled: true },
+    ];
+
   protected readonly reactiveRole =
     new FormControl<string | null>('engineer');
 

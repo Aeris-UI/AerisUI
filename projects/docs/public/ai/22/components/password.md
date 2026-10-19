@@ -194,7 +194,7 @@ The suffix button changes the native input type, updates aria-pressed, and resto
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisPassword } from '@aeris-ui/core/password';
 
 @Component({
@@ -241,6 +241,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
   `
 })
 export class PasswordVisibilityVisibilityToggleDemo {
+  protected readonly visiblePassword = signal('Aeris2026!');
 }
 ```
 
@@ -309,7 +310,7 @@ Replace the presentation policy with a pure evaluator that returns score, label,
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisPassword, type AerisPasswordStrengthResult } from '@aeris-ui/core/password';
 
 @Component({
@@ -357,6 +358,9 @@ import { AerisPassword, type AerisPasswordStrengthResult } from '@aeris-ui/core/
   `
 })
 export class PasswordPolicyCustomStrengthPolicyDemo {
+  protected readonly password = signal('');
+
+
   protected readonly companyPolicy = (
     value: string,
     minLength: number,
@@ -456,7 +460,7 @@ The optional clear action empties the model and restores focus without affecting
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisPassword } from '@aeris-ui/core/password';
 
 @Component({
@@ -505,6 +509,7 @@ import { AerisPassword } from '@aeris-ui/core/password';
   `
 })
 export class PasswordClearClearButtonDemo {
+  protected readonly clearablePassword = signal('Temporary1!');
 }
 ```
 

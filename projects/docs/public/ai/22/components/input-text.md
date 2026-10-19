@@ -560,6 +560,10 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   styleUrl: './input-validation.demo.scss'
 })
 export class InputValidationValidationDemo {
+  protected updateEmail(event: Event): void {
+      this.email.set((event.target as HTMLInputElement).value);
+    }
+
   protected readonly email = signal('alex@');
   protected readonly emailTouched = signal(false);
   protected readonly emailInvalid = computed(
@@ -688,7 +692,7 @@ Compose decorative icons and actions around the native input. Focus-within keeps
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 import { LucideDynamicIcon, LucideSearch, LucideX } from '@lucide/angular';
@@ -702,6 +706,11 @@ import { LucideDynamicIcon, LucideSearch, LucideX } from '@lucide/angular';
 export class InputAffixesIconsAndAffixesDemo {
 
   protected readonly icons = { Search: LucideSearch, X: LucideX };
+
+  protected clearSearch(input: HTMLInputElement): void {
+      input.value = '';
+      input.focus();
+    }
 }
 ```
 
@@ -855,7 +864,7 @@ The wrapper component adds an accessible suffix button that clears the value and
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 
 @Component({
@@ -904,6 +913,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   `
 })
 export class InputClearableClearButtonDemo {
+  protected readonly search = signal('Aeris components');
 }
 ```
 

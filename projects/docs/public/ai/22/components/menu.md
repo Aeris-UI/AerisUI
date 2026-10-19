@@ -322,10 +322,10 @@ Popup mode anchors the menu to the triggering element and restores focus when cl
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
+import { AerisMenuModule, type AerisMenu, type AerisMenuItem } from '@aeris-ui/core/menu';
 import { LucideArchive, LucideBriefcaseBusiness, LucideChartColumn, LucideCopy, LucideCreditCard, LucideDynamicIcon, LucideExternalLink, LucideFilePlus, LucideFolder, LucideLayoutDashboard, LucideLogOut, LucideMessageCircle, LucideRoute, LucideSearch, LucideSettings, LucideUser, type LucideIconInput } from '@lucide/angular';
 
 @Component({
@@ -335,6 +335,9 @@ import { LucideArchive, LucideBriefcaseBusiness, LucideChartColumn, LucideCopy, 
   styleUrl: './menu-popup.demo.scss'
 })
 export class MenuPopupPopupDemo {
+  protected readonly popupMenu = viewChild<AerisMenu>('popupMenu');
+
+
   protected readonly menuIcons: Readonly<Record<string, LucideIconInput>> = {
     Archive: LucideArchive,
     BriefcaseBusiness: LucideBriefcaseBusiness,

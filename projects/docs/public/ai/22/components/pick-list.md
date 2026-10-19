@@ -251,6 +251,13 @@ Each pane can filter across one or more item properties with independently contr
 import { Component } from '@angular/core';
 import { AerisPickListModule } from '@aeris-ui/core/pick-list';
 
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly status: string;
+}
+
 @Component({
   selector: 'app-pick-list-filtering-demo',
   imports: [AerisPickListModule],
@@ -290,6 +297,13 @@ Drag one selected item or an existing selection between panes. Drop within the s
 ```ts
 import { Component } from '@angular/core';
 import { AerisPickListModule } from '@aeris-ui/core/pick-list';
+
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly status: string;
+}
 
 @Component({
   selector: 'app-pick-list-drag-drop-demo',
@@ -393,6 +407,13 @@ Limit target capacity while keeping source transfer controls and drag-and-drop b
 import { Component } from '@angular/core';
 import { AerisPickListModule } from '@aeris-ui/core/pick-list';
 
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly status: string;
+}
+
 @Component({
   selector: 'app-pick-list-limit-demo',
   imports: [AerisPickListModule],
@@ -431,6 +452,13 @@ Long collections scroll inside each pane while headers, filters, and controls re
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisPickListModule } from '@aeris-ui/core/pick-list';
+
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly status: string;
+}
 
 @Component({
   selector: 'app-pick-list-scrolling-demo',
@@ -555,6 +583,13 @@ Typed outputs cover selection, filtering, transfer, reordering, and drag lifecyc
 ```ts
 import { Component } from '@angular/core';
 import { AerisPickListModule } from '@aeris-ui/core/pick-list';
+
+interface Product {
+  readonly id: string;
+  readonly label: string;
+  readonly category: string;
+  readonly status: string;
+}
 
 @Component({
   selector: 'app-pick-list-events-demo',

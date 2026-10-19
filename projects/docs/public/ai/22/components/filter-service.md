@@ -97,6 +97,16 @@ interface Product {
   styleUrl: './filter-service-basic.demo.scss'
 })
 export class FilterServiceBasicCollectionFilteringDemo {
+  protected readonly basicResults = computed(() =>
+      this.filterService.filter(this.products, {
+        query: this.query(),
+        fields: ['name', 'category'],
+        mode: 'contains',
+      }),
+    );
+
+
+
   private readonly filterService = inject(AerisFilterService);
 
   protected readonly products: readonly Product[] = [
@@ -245,6 +255,9 @@ import { AerisFilterService, type AerisFilterMode } from '@aeris-ui/core/filter-
   `
 })
 export class FilterServiceModesMatchModesDemo {
+  protected readonly query = signal('light');
+
+
   private readonly filterService = inject(AerisFilterService);
   protected readonly selectedMode = signal<AerisFilterMode>('starts-with');
   protected readonly modeQuery = signal('lu');
@@ -284,6 +297,9 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   styleUrl: './filter-service-comparisons.demo.scss'
 })
 export class FilterServiceComparisonsNumbersAndDatesDemo {
+  protected readonly query = signal('light');
+
+
   private readonly filterService = inject(AerisFilterService);
   protected readonly products = [
     { id: 1, name: 'Halo desk lamp', price: 68, added: '2026-01-12' },
@@ -496,6 +512,9 @@ import { AerisFilterService, type AerisFilterFieldOperator } from '@aeris-ui/cor
   `
 })
 export class FilterServiceFieldsFieldsAndOperatorsDemo {
+  protected readonly query = signal('light');
+
+
   private readonly filterService = inject(AerisFilterService);
   protected readonly fieldProducts = [
     { id: 1, name: 'Denmark desk lamp', category: 'Lighting', price: 68, added: '2026-01-12', supplier: { country: 'Denmark' } },
@@ -535,6 +554,15 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
   styleUrl: './filter-service-custom.demo.scss'
 })
 export class FilterServiceCustomCustomConstraintDemo {
+  protected readonly customCode = signal('UI-314');
+
+  protected readonly customCodes = ['AE-103', 'AE-208', 'UI-314', 'UI-420'] as const;
+
+  protected readonly customMatches = computed(() =>
+      this.filterService.matches(this.customCode(), true, 'even-suffix'),
+    );
+
+
   private readonly filterService = inject(AerisFilterService);
   private readonly destroyRef = inject(DestroyRef);
   protected readonly code = signal('UI-314');
@@ -619,6 +647,18 @@ import { AerisFilterService } from '@aeris-ui/core/filter-service';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 import { AerisTableModule, type AerisTableColumn } from '@aeris-ui/core/table';
 
+interface Product {
+  readonly [key: string]: unknown;
+  readonly id: number;
+  readonly name: string;
+  readonly category: string;
+  readonly price: number;
+  readonly added: string;
+  readonly supplier: {
+    readonly country: string;
+  };
+}
+
 @Component({
   selector: 'app-filter-service-table-demo',
   imports: [AerisInputText, AerisTableModule],
@@ -626,6 +666,22 @@ import { AerisTableModule, type AerisTableColumn } from '@aeris-ui/core/table';
   styleUrl: './filter-service-table.demo.scss'
 })
 export class FilterServiceTableTableIntegrationDemo {
+  protected readonly tableQuery = signal('');
+
+  protected readonly tableRows = computed(() =>
+      this.filterService.filter(this.products, {
+        query: this.tableQuery(),
+        fields: ['name', 'category', 'supplier.country'],
+      }),
+    );
+
+  protected readonly tableColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Product', width: '50%' },
+      { field: 'category', header: 'Category', width: '32%' },
+      { field: 'price', header: 'Price', align: 'end', width: '7rem' },
+    ];
+
+
   private readonly filterService = inject(AerisFilterService);
   protected readonly query = signal('');
   protected readonly products = [

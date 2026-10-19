@@ -309,9 +309,9 @@ Popup mode anchors the root tier to a trigger and restores focus when the popup 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisTieredMenuModule, type AerisTieredMenuItem } from '@aeris-ui/core/tiered-menu';
+import { AerisTieredMenuModule, type AerisTieredMenu, type AerisTieredMenuItem } from '@aeris-ui/core/tiered-menu';
 import { LucideArchive, LucideCopy, LucideDynamicIcon, LucideExternalLink, LucideFilePlus, LucideFolder, LucideFolderOpen, LucideGlobe, LucideRefreshCw, LucideRoute, LucideSearch, LucideSend, LucideSettings, LucideShare2, LucideTrash2, LucideUser, type LucideIconInput } from '@lucide/angular';
 
 @Component({
@@ -321,6 +321,9 @@ import { LucideArchive, LucideCopy, LucideDynamicIcon, LucideExternalLink, Lucid
   styleUrl: './tiered-menu-popup.demo.scss'
 })
 export class TieredMenuPopupPopupDemo {
+  protected readonly popupMenu = viewChild<AerisTieredMenu>('popupMenu');
+
+
   protected readonly menuIcons: Readonly<Record<string, LucideIconInput>> = {
     Archive: LucideArchive,
     Copy: LucideCopy,

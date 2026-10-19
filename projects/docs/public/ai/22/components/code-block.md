@@ -113,6 +113,13 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
   `
 })
 export class CodeBlockBasicBasicDemo {
+  protected readonly exampleCode = `export interface Greeting {
+    readonly message: string;
+  }
+
+  export function greet(name: string): Greeting {
+    return { message: 'Hello, ' + name };
+  }`;
 }
 ```
 
@@ -124,7 +131,7 @@ Group related files without hiding empty source files. Use left and right arrows
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
+import { AerisCodeBlockModule, type AerisCodeSource } from '@aeris-ui/core/code-block';
 
 @Component({
   selector: 'app-code-block-sources-demo',
@@ -134,6 +141,15 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
   `
 })
 export class CodeBlockSourcesSourceTabsDemo {
+  protected readonly sourceFiles: readonly AerisCodeSource[] = [
+      { label: 'greeting.html', language: 'html', code: '<h1>{{ greeting }}</h1>' },
+      {
+        label: 'greeting.ts',
+        language: 'typescript',
+        code: "export class Greeting {\n  readonly greeting = 'Hello, Aeris';\n}",
+      },
+      { label: 'greeting.scss', language: 'scss', code: 'h1 {\n  color: var(--aeris-text);\n}' },
+    ];
 }
 ```
 
@@ -162,6 +178,13 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
   `
 })
 export class CodeBlockLinesLineNumbersAndFocusedLinesDemo {
+  protected readonly exampleCode = `export interface Greeting {
+    readonly message: string;
+  }
+
+  export function greet(name: string): Greeting {
+    return { message: 'Hello, ' + name };
+  }`;
 }
 ```
 
@@ -185,6 +208,11 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
   `
 })
 export class CodeBlockWrapWrappingDemo {
+  protected readonly longCode = Array.from(
+      { length: 28 },
+      (_, index) =>
+        `const result${index + 1} = 'A long line of code can be read without forcing its parent layout to become wider.';`,
+    ).join('\n');
 }
 ```
 
@@ -208,6 +236,11 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
   `
 })
 export class CodeBlockScrollScrollingDemo {
+  protected readonly longCode = Array.from(
+      { length: 28 },
+      (_, index) =>
+        `const result${index + 1} = 'A long line of code can be read without forcing its parent layout to become wider.';`,
+    ).join('\n');
 }
 ```
 
@@ -218,8 +251,8 @@ Customize visible labels and react to successful or failed copies.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
+import { Component, signal } from '@angular/core';
+import { AerisCodeBlockModule, type AerisCodeCopyEvent } from '@aeris-ui/core/code-block';
 
 @Component({
   selector: 'app-code-block-copy-demo',
@@ -247,6 +280,23 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
   `
 })
 export class CodeBlockCopyCopyEventsAndLabelsDemo {
+  protected readonly exampleCode = `export interface Greeting {
+    readonly message: string;
+  }
+
+  export function greet(name: string): Greeting {
+    return { message: 'Hello, ' + name };
+  }`;
+
+  protected readonly copyMessage = signal('Copy the example to see its result.');
+
+  protected onCopied(event: AerisCodeCopyEvent): void {
+      this.copyMessage.set('Copied ' + event.language + ' source.');
+    }
+
+  protected onCopyError(): void {
+      this.copyMessage.set('Clipboard access is unavailable. Select and copy the code manually.');
+    }
 }
 ```
 
@@ -311,6 +361,13 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
   `
 })
 export class CodeBlockCustomTokenCustomizationDemo {
+  protected readonly exampleCode = `export interface Greeting {
+    readonly message: string;
+  }
+
+  export function greet(name: string): Greeting {
+    return { message: 'Hello, ' + name };
+  }`;
 }
 ```
 

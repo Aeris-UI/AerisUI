@@ -432,7 +432,7 @@ Presets are simple color strings and remain keyboard reachable buttons.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 @Component({
@@ -477,6 +477,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   `
 })
 export class ColorPickerPresetsPresetsDemo {
+  protected readonly accentColor = signal('#a88245');
+
   protected readonly presets: readonly string[] = [
     '#f1f4f2',
     '#2c694b',

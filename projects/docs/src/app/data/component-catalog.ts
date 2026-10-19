@@ -38,6 +38,8 @@ const define = (
   });
 
 const descriptions: Readonly<Record<string, string>> = {
+  sidebar:
+    'Responsive navigation with native links, collapsible groups, icon-only presentation, and an accessible mobile drawer.',
   avatar:
     'Represent people and entities with images, initials, icons, fallbacks, theme-aware tones, and responsive groups.',
   button:
@@ -241,7 +243,15 @@ export const COMPONENT_CATALOG: readonly ComponentCatalogItem[] = [
     'Tooltip',
   ]),
   ...define('File', ['FileUpload']),
-  ...define('Menu', ['Breadcrumb', 'ContextMenu', 'MegaMenu', 'Menu', 'Menubar', 'TieredMenu']),
+  ...define('Menu', [
+    'Breadcrumb',
+    'ContextMenu',
+    'MegaMenu',
+    'Menu',
+    'Menubar',
+    'Sidebar',
+    'TieredMenu',
+  ]),
   ...define('Chart', ['Chart']),
   ...define('Messages', ['Message', 'Toast']),
   ...define('Media', ['Carousel', 'Compare', 'Galleria']),

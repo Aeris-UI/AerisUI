@@ -73,10 +73,20 @@ for (const path of files) {
       continue;
     }
 
-    const previewSource = source.slice(
+    let previewSource = source.slice(
       preview.sourceSpan.start.offset,
       preview.sourceSpan.end.offset,
     );
+    const previewTemplate = attributeValue(demo, 'data-preview-template');
+    if (previewTemplate) {
+      const template = namedTemplates.get(previewTemplate);
+      if (!template) throw new Error(`${path}: unknown preview template ${previewTemplate}.`);
+      // Isolated browser previews copy the real example, not their documentation frame.
+      previewSource = template
+        .replace(/^<ng-template\b[^>]*>/, '')
+        .replace(/<\/ng-template>\s*$/, '')
+        .trim();
+    }
     const previewMarkup = normalizeCode(
       normalizePreviewSource(previewSource, demo.name === 'app-button-demo'),
     );

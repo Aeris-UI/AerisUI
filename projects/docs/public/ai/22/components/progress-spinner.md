@@ -325,7 +325,7 @@ Replace centered determinate content while a formatter supplies concise assistiv
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisProgressSpinnerModule, type AerisProgressSpinnerValueContext } from '@aeris-ui/core/progress-spinner';
 
 @Component({
@@ -335,6 +335,9 @@ import { AerisProgressSpinnerModule, type AerisProgressSpinnerValueContext } fro
   styleUrl: './progress-spinner-template.demo.scss'
 })
 export class ProgressSpinnerTemplateValueTemplateDemo {
+  protected readonly progress = signal(35);
+
+
   protected readonly fileFormatter = (
     context: AerisProgressSpinnerValueContext,
   ): string => `${context.value} of ${context.max} files processed`;

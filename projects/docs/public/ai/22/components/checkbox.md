@@ -140,7 +140,7 @@ Use two-way binding for local state and the typed changed output when event deta
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisCheckbox } from '@aeris-ui/core/checkbox';
+import { AerisCheckbox, type AerisCheckboxChangeEvent } from '@aeris-ui/core/checkbox';
 
 @Component({
   selector: 'app-checkbox-model-demo',
@@ -173,6 +173,12 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
   `
 })
 export class CheckboxModelSignalModelDemo {
+  protected readonly lastChange = signal('No interaction');
+
+  protected recordChange(event: AerisCheckboxChangeEvent): void {
+      this.lastChange.set(`${event.value}: ${event.checked ? 'checked' : 'unchecked'}`);
+    }
+
   protected readonly notifications = signal(true);
 }
 ```
@@ -184,8 +190,14 @@ Mixed state represents partial selection. Activating it clears mixed state and s
 #### TS
 
 ```ts
-import { Component, computed } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
+
+interface Interest {
+  readonly value: string;
+  readonly label: string;
+  readonly description: string;
+}
 
 @Component({
   selector: 'app-checkbox-indeterminate-demo',
@@ -218,6 +230,22 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
   `
 })
 export class CheckboxIndeterminateIndeterminateDemo {
+  protected readonly selectedInterests = signal<readonly string[]>(['accessibility']);
+
+  protected readonly interests: readonly Interest[] = [
+      { value: 'angular', label: 'Angular', description: 'Framework releases and patterns' },
+      { value: 'accessibility', label: 'Accessibility', description: 'Inclusive interface guidance' },
+      {
+        value: 'performance',
+        label: 'Performance',
+        description: 'Rendering and delivery techniques',
+      },
+    ];
+
+  protected setAll(checked: boolean): void {
+      this.selectedInterests.set(checked ? this.interests.map((item) => item.value) : []);
+    }
+
   protected readonly allSelected = computed(
     () => this.selectedInterests().length === this.interests.length,
   );
@@ -238,6 +266,12 @@ Compose independent checkboxes in a semantic fieldset for multiple-choice data.
 import { Component, signal } from '@angular/core';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 
+interface Interest {
+  readonly value: string;
+  readonly label: string;
+  readonly description: string;
+}
+
 @Component({
   selector: 'app-checkbox-group-demo',
   imports: [AerisCheckbox],
@@ -245,6 +279,16 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
   styleUrl: './checkbox-group.demo.scss'
 })
 export class CheckboxGroupSelectionGroupDemo {
+  protected readonly interests: readonly Interest[] = [
+      { value: 'angular', label: 'Angular', description: 'Framework releases and patterns' },
+      { value: 'accessibility', label: 'Accessibility', description: 'Inclusive interface guidance' },
+      {
+        value: 'performance',
+        label: 'Performance',
+        description: 'Rendering and delivery techniques',
+      },
+    ];
+
   protected readonly selectedInterests =
     signal<readonly string[]>(['accessibility']);
 
@@ -309,10 +353,10 @@ The whole card activates the native checkbox. Use labelPosition to place the ind
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
-import { LucideDynamicIcon } from '@lucide/angular';
+import { LucideBell, LucideDynamicIcon } from '@lucide/angular';
 
 @Component({
   selector: 'app-checkbox-cards-demo',
@@ -321,6 +365,13 @@ import { LucideDynamicIcon } from '@lucide/angular';
   styleUrl: './checkbox-cards.demo.scss'
 })
 export class CheckboxCardsSelectableCardsDemo {
+  protected readonly bellIcon = LucideBell;
+
+  protected readonly cardUpdates = signal(true);
+
+  protected readonly cardReports = signal(false);
+
+  protected readonly cardsSubmitted = signal(false);
 }
 ```
 
@@ -485,7 +536,7 @@ Projected semantic content supports titles, descriptions, and inline links while
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 
 @Component({
@@ -518,6 +569,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
   `
 })
 export class CheckboxRichLabelRichLabelDemo {
+  protected readonly termsAccepted = signal(false);
 }
 ```
 

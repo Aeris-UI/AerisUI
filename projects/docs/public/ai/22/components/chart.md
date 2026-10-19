@@ -263,9 +263,9 @@ Use the optional area-fill helper for a translucent fade beneath a line. It cach
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisChartModule } from '@aeris-ui/core/chart';
+import { AerisChartModule, createAerisChartAreaFill, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 
 @Component({
   selector: 'app-chart-area-demo',
@@ -274,6 +274,49 @@ import { AerisChartModule } from '@aeris-ui/core/chart';
   styleUrl: './chart-area.demo.scss'
 })
 export class ChartAreaFadingAreaFillDemo {
+  protected readonly areaEnabled = signal(true);
+
+  protected readonly areaData: AerisChartData<'line'> = {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      datasets: [
+        {
+          label: 'Completed orders',
+          data: [34, 52, 44, 69, 62, 84, 96],
+          borderColor: '#2563eb',
+          pointBackgroundColor: '#2563eb',
+          backgroundColor: createAerisChartAreaFill('#2563eb'),
+          fill: true,
+          borderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          tension: 0.3,
+        },
+      ],
+    };
+
+  protected readonly areaLineData: AerisChartData<'line'> = {
+      ...this.areaData,
+      datasets: this.areaData.datasets.map((dataset) => ({ ...dataset, fill: false })),
+    };
+
+  protected readonly areaOptions: AerisChartOptions<'line'> = {
+      devicePixelRatio:
+        typeof window === 'undefined'
+          ? 2
+          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false, axis: 'x' },
+      plugins: { legend: { display: false }, tooltip: { displayColors: false } },
+      scales: {
+        x: { grid: { display: false }, border: { display: false } },
+        y: {
+          beginAtZero: true,
+          border: { display: false },
+          grid: { drawTicks: false },
+          ticks: { maxTicksLimit: 5 },
+        },
+      },
+    };
 }
 ```
 
@@ -321,7 +364,7 @@ Hover or touch a month to compare both series in one tooltip. Index interaction 
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisChartModule } from '@aeris-ui/core/chart';
+import { AerisChartModule, createAerisChartAreaFill, createAerisChartComparisonGuide, type AerisChartData, type AerisChartOptions, type AerisChartPlugin } from '@aeris-ui/core/chart';
 
 @Component({
   selector: 'app-chart-comparison-demo',
@@ -329,6 +372,77 @@ import { AerisChartModule } from '@aeris-ui/core/chart';
   templateUrl: './chart-comparison.demo.html'
 })
 export class ChartComparisonCompareMultipleSeriesDemo {
+  protected readonly comparisonData: AerisChartData<'line'> = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      datasets: [
+        {
+          label: 'New subscriptions',
+          data: [180, 240, 220, 340, 310, 420],
+          borderColor: '#2563eb',
+          pointBackgroundColor: '#2563eb',
+          backgroundColor: createAerisChartAreaFill('#2563eb', 0.18),
+          fill: true,
+          tension: 0.3,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          borderWidth: 2,
+        },
+        {
+          label: 'Renewals',
+          data: [120, 160, 190, 210, 270, 320],
+          borderColor: '#d97706',
+          pointBackgroundColor: '#d97706',
+          backgroundColor: createAerisChartAreaFill('#d97706', 0.14),
+          fill: true,
+          tension: 0.3,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          borderWidth: 2,
+        },
+      ],
+    };
+
+  protected readonly comparisonPlugins: readonly AerisChartPlugin<'line'>[] = [
+      createAerisChartComparisonGuide<'line'>(),
+    ];
+
+  protected readonly comparisonOptions: AerisChartOptions<'line'> = {
+      devicePixelRatio:
+        typeof window === 'undefined'
+          ? 2
+          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false, axis: 'x' },
+      scales: {
+        x: { grid: { display: false }, border: { display: false } },
+        y: {
+          beginAtZero: true,
+          border: { display: false },
+          grid: { drawTicks: false },
+          ticks: { maxTicksLimit: 5 },
+        },
+      },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            usePointStyle: true,
+            pointStyle: 'circle',
+            boxWidth: 8,
+            boxHeight: 8,
+            padding: 20,
+          },
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+          usePointStyle: true,
+          boxWidth: 8,
+          boxHeight: 8,
+          boxPadding: 6,
+        },
+      },
+    };
 }
 ```
 
@@ -360,7 +474,7 @@ Slim progress fills have subtly rounded ends and become seamless when complete. 
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisChartModule } from '@aeris-ui/core/chart';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 
 @Component({
   selector: 'app-chart-radial-demo',
@@ -369,6 +483,80 @@ import { AerisChartModule } from '@aeris-ui/core/chart';
   styleUrl: './chart-radial.demo.scss'
 })
 export class ChartRadialRadialChartsAndGaugesDemo {
+  protected readonly ringData: AerisChartData<'doughnut'> = {
+      labels: ['Completed', 'Remaining'],
+      datasets: [
+        {
+          label: 'Release readiness',
+          data: [76, 24],
+          backgroundColor: ['#2563eb', 'rgba(128,128,128,0.14)'],
+          borderWidth: 0,
+          borderRadius: (context) =>
+            context.dataIndex === 0 && context.parsed > 0 && context.parsed < 100 ? 3 : 0,
+          spacing: 0,
+          hoverOffset: 0,
+        },
+      ],
+    };
+
+  protected readonly ringOptions: AerisChartOptions<'doughnut'> = {
+      devicePixelRatio:
+        typeof window === 'undefined'
+          ? 2
+          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
+      maintainAspectRatio: false,
+      cutout: '88%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          filter: (item) => item.dataIndex === 0,
+          callbacks: { label: (item) => `${item.dataset.label}: ${item.parsed}%` },
+        },
+      },
+    };
+
+  protected readonly gaugeData: AerisChartData<'doughnut'> = {
+      ...this.ringData,
+      datasets: this.ringData.datasets.map((dataset) => ({
+        ...dataset,
+        label: 'Capacity used',
+        backgroundColor: ['#7c3aed', 'rgba(128,128,128,0.14)'],
+      })),
+    };
+
+  protected readonly gaugeOptions: AerisChartOptions<'doughnut'> = {
+      ...this.ringOptions,
+      rotation: -90,
+      circumference: 180,
+      cutout: '88%',
+    };
+
+  protected readonly goalSeries = [
+      { label: 'Design', value: 88, color: '#2563eb' },
+      { label: 'Development', value: 72, color: '#7c3aed' },
+      { label: 'Testing', value: 56, color: '#d97706' },
+    ];
+
+  protected readonly goalData: AerisChartData<'doughnut'> = {
+      labels: ['Completed', 'Remaining'],
+      datasets: this.goalSeries.map((goal) => ({
+        label: goal.label,
+        data: [goal.value, 100 - goal.value],
+        backgroundColor: [goal.color, 'rgba(128,128,128,0.14)'],
+        borderWidth: 0,
+        borderRadius: (context) =>
+          context.dataIndex === 0 && context.parsed > 0 && context.parsed < 100 ? 3 : 0,
+        spacing: 0,
+        hoverOffset: 0,
+      })),
+    };
+
+  protected readonly goalOptions: AerisChartOptions<'doughnut'> = {
+      ...this.ringOptions,
+      cutout: '62%',
+      // Inset successive rings without separating their completed and remaining arcs.
+      radius: (context) => `${100 - context.datasetIndex * 2}%`,
+    };
 }
 ```
 
@@ -852,7 +1040,7 @@ Compose a small trend chart with a real Card. Keep the headline value and a writ
 ```ts
 import { Component } from '@angular/core';
 import { AerisCardModule } from '@aeris-ui/core/card';
-import { AerisChartModule } from '@aeris-ui/core/chart';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 
 @Component({
   selector: 'app-chart-compact-demo',
@@ -861,6 +1049,29 @@ import { AerisChartModule } from '@aeris-ui/core/chart';
   styleUrl: './chart-compact.demo.scss'
 })
 export class ChartCompactCompactKPIAndSparklineDemo {
+  protected readonly compactData: AerisChartData = {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      datasets: [
+        {
+          label: 'Orders',
+          data: [28, 35, 32, 41, 38, 47, 52],
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.3,
+        },
+      ],
+    };
+
+  protected readonly compactOptions: AerisChartOptions = {
+      devicePixelRatio:
+        typeof window === 'undefined'
+          ? 2
+          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { x: { display: false }, y: { display: false } },
+      interaction: { mode: 'index', intersect: false },
+    };
 }
 ```
 
@@ -913,7 +1124,7 @@ Combine bars and a target line. Use native Chart.js callbacks to format axis val
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisChartModule } from '@aeris-ui/core/chart';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 
 @Component({
   selector: 'app-chart-mixed-demo',
@@ -933,6 +1144,38 @@ import { AerisChartModule } from '@aeris-ui/core/chart';
   `
 })
 export class ChartMixedMixedSeriesAndFormattingDemo {
+  protected readonly revenueFormat = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0,
+    });
+
+  protected readonly mixedData: AerisChartData = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+      datasets: [
+        { type: 'bar', label: 'Revenue', data: [3200, 4100, 3800, 5200], order: 2 },
+        { type: 'line', label: 'Target', data: [3500, 3800, 4200, 4800], borderWidth: 2, order: 1 },
+      ],
+    };
+
+  protected readonly moneyOptions: AerisChartOptions = {
+      devicePixelRatio:
+        typeof window === 'undefined'
+          ? 2
+          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'bottom' },
+        tooltip: {
+          callbacks: {
+            label: (item) =>
+              `${item.dataset.label}: ${this.revenueFormat.format(item.parsed.y ?? 0)}`,
+          },
+        },
+      },
+      scales: { y: { ticks: { callback: (value) => this.revenueFormat.format(Number(value)) } } },
+    };
 }
 ```
 
@@ -944,7 +1187,7 @@ Stack related series to compare totals and their composition. The written summar
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisChartModule } from '@aeris-ui/core/chart';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 
 @Component({
   selector: 'app-chart-stacked-demo',
@@ -967,6 +1210,27 @@ import { AerisChartModule } from '@aeris-ui/core/chart';
   `
 })
 export class ChartStackedStackedValuesDemo {
+  protected readonly stackedData: AerisChartData = {
+      labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+      datasets: [
+        { label: 'Design', data: [8, 12, 10, 14] },
+        { label: 'Development', data: [14, 18, 22, 26] },
+        { label: 'Testing', data: [6, 8, 10, 12] },
+      ],
+    };
+
+  protected readonly stackedOptions: AerisChartOptions = {
+      devicePixelRatio:
+        typeof window === 'undefined'
+          ? 2
+          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
+      maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom' } },
+      scales: {
+        x: { stacked: true },
+        y: { stacked: true, beginAtZero: true, title: { display: true, text: 'Completed tasks' } },
+      },
+    };
 }
 ```
 
@@ -977,9 +1241,9 @@ Use Skeleton while waiting for data, then render Chart. Keep loading state in yo
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisChartModule } from '@aeris-ui/core/chart';
+import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@aeris-ui/core/chart';
 import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
 
 @Component({
@@ -989,6 +1253,24 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
   styleUrl: './chart-loading.demo.scss'
 })
 export class ChartLoadingLoadingCompositionDemo {
+  protected readonly loadingReport = signal(true);
+
+  protected readonly trendData: AerisChartData = {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      datasets: [
+        { label: 'Active projects', data: [18, 24, 22, 31, 29, 37, 42], tension: 0.35, fill: true },
+      ],
+    };
+
+  protected readonly chartOptions: AerisChartOptions = {
+      devicePixelRatio:
+        typeof window === 'undefined'
+          ? 2
+          : Math.max(window.devicePixelRatio, Math.min(4, window.devicePixelRatio * 2)),
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { position: 'bottom' } },
+    };
 }
 ```
 

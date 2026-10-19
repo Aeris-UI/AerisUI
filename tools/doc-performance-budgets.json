@@ -2,5 +2,5 @@
   "initialJavaScript": { "raw": 840000, "gzip": 184320 },
   "globalStyles": { "raw": 49152, "gzip": 8192 },
   "catalogRoute": { "raw": 73728, "gzip": 20480 },
-  "catalogPreviews": { "raw": 2310000, "gzip": 622592 }
+  "catalogPreviews": { "raw": 2340000, "gzip": 628736 }
 }

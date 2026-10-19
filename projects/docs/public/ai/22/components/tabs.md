@@ -461,7 +461,7 @@ Arrow keys move focus without changing content. Enter or Space activates the foc
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
 @Component({
@@ -493,6 +493,7 @@ import { AerisTabsModule } from '@aeris-ui/core/tabs';
   `
 })
 export class TabsManualManualActivationDemo {
+  protected readonly manualTab = signal('overview');
 }
 ```
 

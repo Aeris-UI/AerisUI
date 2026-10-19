@@ -34,6 +34,7 @@ interface AerisImportRule {
 const MAX_INLINE_TEMPLATE_LINES = 14;
 
 const AERIS_IMPORTS: readonly AerisImportRule[] = [
+  rule('AerisSidebarModule', 'sidebar', /<aeris-sidebar\b/, /[\s[]aerisSidebar[A-Z]\w*/),
   rule(
     'AerisAccordionModule',
     'accordion',
@@ -229,6 +230,7 @@ const AERIS_IMPORTS: readonly AerisImportRule[] = [
 ];
 
 const AERIS_TYPE_PREFIXES: readonly [prefix: string, secondary: string][] = [
+  ['AerisSidebar', 'sidebar'],
   ['AerisAccordion', 'accordion'],
   ['AerisAnimateOnScroll', 'animate-on-scroll'],
   ['AerisAutoFocus', 'auto-focus'],

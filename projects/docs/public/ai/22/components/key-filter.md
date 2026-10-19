@@ -416,7 +416,7 @@ Use validateOnly when you want to observe invalid attempts without blocking nati
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 import { AerisKeyFilter, type AerisKeyFilterRejectEvent } from '@aeris-ui/core/key-filter';
@@ -469,6 +469,8 @@ import { AerisKeyFilter, type AerisKeyFilterRejectEvent } from '@aeris-ui/core/k
   `
 })
 export class KeyFilterValidateOnlyValidateOnlyDemo {
+  protected readonly rejectedValue = signal('No rejected input yet.');
+
   protected validateOnlyValue = '';
 
   protected recordRejected(event: AerisKeyFilterRejectEvent): void {

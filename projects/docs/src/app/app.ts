@@ -114,6 +114,13 @@ export class App {
     const path = (event?.urlAfterRedirects ?? this.router.url).split(/[?#]/)[0];
     return path === '' || path === '/';
   });
+  protected readonly isEmbeddedPreview = computed(() => {
+    const url = this.navigationEnd()?.urlAfterRedirects ?? this.router.url;
+    return (
+      url.split(/[?#]/)[0] === '/components/sidebar' &&
+      this.router.parseUrl(url).queryParams['preview'] === 'responsive-sidebar'
+    );
+  });
   private lastScrolledPath = '';
 
   constructor() {

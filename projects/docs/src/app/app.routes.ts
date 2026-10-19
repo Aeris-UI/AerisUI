@@ -420,6 +420,12 @@ export const routes: Routes = [
       import('./pages/components/panel/tabs/tabs.page').then((page) => page.TabsPage),
   },
   {
+    path: 'components/sidebar',
+    title: 'Sidebar - Aeris UI',
+    loadComponent: () =>
+      import('./pages/components/menu/sidebar/sidebar.page').then((page) => page.SidebarPage),
+  },
+  {
     path: 'components/toolbar',
     title: 'Toolbar - Aeris UI',
     loadComponent: () =>

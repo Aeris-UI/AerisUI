@@ -238,6 +238,8 @@ import { AerisDatePicker, type AerisDatePickerChangeEvent, type AerisDatePickerV
   `
 })
 export class DatePickerBasicBasicDemo {
+  protected readonly lastChange = signal('No selection change yet');
+
   protected readonly basicDate =
     signal<AerisDatePickerValue>(
       new Date(2026, 5, 18),
@@ -263,8 +265,8 @@ Type a date or paste a complete canonical or locale-formatted value. Use the cal
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';
 
 @Component({
   selector: 'app-date-picker-editable-demo',
@@ -312,6 +314,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
   `
 })
 export class DatePickerEditableTypedEntryDemo {
+  protected readonly typedDate = signal<AerisDatePickerValue>(new Date(2026, 5, 11));
 }
 ```
 
@@ -697,8 +700,8 @@ Combine minimum and maximum boundaries, recurring weekdays, explicit dates, and 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';
 
 @Component({
   selector: 'app-date-picker-constraints-demo',
@@ -707,6 +710,8 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
   styleUrl: './date-picker-constraints.demo.scss'
 })
 export class DatePickerConstraintsConstraintsAndDisabledDatesDemo {
+  protected readonly constrainedDate = signal<AerisDatePickerValue>(null);
+
   protected readonly minDate =
     new Date(2026, 5, 5);
   protected readonly maxDate =
@@ -780,8 +785,8 @@ Show up to three months in one calendar. The layout collapses to one column on n
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';
 
 @Component({
   selector: 'app-date-picker-multiple-months-demo',
@@ -811,6 +816,10 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
   `
 })
 export class DatePickerMultipleMonthsMultipleMonthsAndWeekNumbersDemo {
+  protected readonly range = signal<AerisDatePickerValue>({
+      start: new Date(2026, 5, 8),
+      end: new Date(2026, 5, 12),
+    });
 }
 ```
 
@@ -909,8 +918,8 @@ Inline mode keeps the calendar visible and removes popup-only focus and dismissa
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';
 
 @Component({
   selector: 'app-date-picker-inline-demo',
@@ -933,6 +942,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
   `
 })
 export class DatePickerInlineInlineCalendarDemo {
+  protected readonly basicDate = signal<AerisDatePickerValue>(new Date(2026, 5, 18));
 }
 ```
 
@@ -943,8 +953,8 @@ Locale controls formatted values, month names, weekday labels, and the default f
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-picker';
 
 @Component({
   selector: 'app-date-picker-localization-demo',
@@ -953,6 +963,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
   styleUrl: './date-picker-localization.demo.scss'
 })
 export class DatePickerLocalizationLocalizationDemo {
+  protected readonly basicDate = signal<AerisDatePickerValue>(new Date(2026, 5, 18));
 }
 ```
 

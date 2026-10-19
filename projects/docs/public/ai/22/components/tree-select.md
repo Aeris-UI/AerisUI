@@ -153,7 +153,7 @@ Bind a single node value. Expandable parent categories can be selected the same 
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
+import { AerisTreeSelect, type AerisTreeNode, type AerisTreeSelectChangeEvent } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-basic-demo',
@@ -202,6 +202,16 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
   `
 })
 export class TreeSelectBasicBasicDemo {
+  protected readonly lastChange = signal('No selection yet.');
+
+  protected recordChange(event: AerisTreeSelectChangeEvent): void {
+      this.lastChange.set(
+        event.node
+          ? `${event.selected ? 'Selected' : 'Removed'} ${event.node.label}`
+          : 'Selection changed',
+      );
+    }
+
   protected readonly workspace =
     signal<string | null>('product');
 
@@ -241,7 +251,7 @@ Checkbox mode stores an array of values. Parent selection can cascade to enabled
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-checkbox-demo',
@@ -289,6 +299,52 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
   `
 })
 export class TreeSelectCheckboxCheckboxSelectionDemo {
+  protected readonly workspace = signal<string | null>('product');
+
+  protected readonly nodes: readonly AerisTreeNode[] = [
+      {
+        label: 'Product',
+        value: 'product',
+        expanded: true,
+        children: [
+          { label: 'Roadmap', value: 'roadmap' },
+          { label: 'Research', value: 'research' },
+        ],
+      },
+      {
+        label: 'Workspaces',
+        value: 'workspaces',
+        expanded: true,
+        children: [
+          {
+            label: 'Design system',
+            value: 'workspace-design',
+            children: [
+              {
+                label: 'Foundations',
+                value: 'workspace-design-foundations',
+                children: [
+                  { label: 'Tokens', value: 'workspace-design-tokens' },
+                  { label: 'Accessibility', value: 'workspace-design-a11y' },
+                ],
+              },
+              { label: 'Components', value: 'workspace-design-components' },
+            ],
+          },
+          { label: 'Web platform', value: 'workspace-web' },
+          { label: 'Mobile app', value: 'workspace-mobile', disabled: true },
+        ],
+      },
+      {
+        label: 'Knowledge base',
+        value: 'knowledge',
+        children: [
+          { label: 'Documentation', value: 'docs' },
+          { label: 'Release notes', value: 'releases' },
+        ],
+      },
+    ];
+
   protected readonly checkboxValues =
     signal<readonly string[]>(['docs', 'roadmap']);
 }
@@ -301,9 +357,9 @@ Filtering keeps matching branches visible and can focus the search field when th
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-filter-demo',
@@ -351,6 +407,53 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
   `
 })
 export class TreeSelectFilterFilteringDemo {
+  protected readonly workspace = signal<string | null>('product');
+
+  protected readonly filteredValue = signal<string | null>(null);
+
+  protected readonly nodes: readonly AerisTreeNode[] = [
+      {
+        label: 'Product',
+        value: 'product',
+        expanded: true,
+        children: [
+          { label: 'Roadmap', value: 'roadmap' },
+          { label: 'Research', value: 'research' },
+        ],
+      },
+      {
+        label: 'Workspaces',
+        value: 'workspaces',
+        expanded: true,
+        children: [
+          {
+            label: 'Design system',
+            value: 'workspace-design',
+            children: [
+              {
+                label: 'Foundations',
+                value: 'workspace-design-foundations',
+                children: [
+                  { label: 'Tokens', value: 'workspace-design-tokens' },
+                  { label: 'Accessibility', value: 'workspace-design-a11y' },
+                ],
+              },
+              { label: 'Components', value: 'workspace-design-components' },
+            ],
+          },
+          { label: 'Web platform', value: 'workspace-web' },
+          { label: 'Mobile app', value: 'workspace-mobile', disabled: true },
+        ],
+      },
+      {
+        label: 'Knowledge base',
+        value: 'knowledge',
+        children: [
+          { label: 'Documentation', value: 'docs' },
+          { label: 'Release notes', value: 'releases' },
+        ],
+      },
+    ];
 }
 ```
 
@@ -372,6 +475,8 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
   styleUrl: './tree-select-templates.demo.scss'
 })
 export class TreeSelectTemplatesTemplatesDemo {
+  protected readonly templateValue = signal<string | null>('workspace-web');
+
   protected readonly workspace =
     signal<string | null>('product');
 
@@ -491,9 +596,9 @@ Four sizes match the Aeris control density scale.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-sizes-demo',
@@ -502,6 +607,51 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
   styleUrl: './tree-select-sizes.demo.scss'
 })
 export class TreeSelectSizesSizesDemo {
+  protected readonly workspace = signal<string | null>('product');
+
+  protected readonly nodes: readonly AerisTreeNode[] = [
+      {
+        label: 'Product',
+        value: 'product',
+        expanded: true,
+        children: [
+          { label: 'Roadmap', value: 'roadmap' },
+          { label: 'Research', value: 'research' },
+        ],
+      },
+      {
+        label: 'Workspaces',
+        value: 'workspaces',
+        expanded: true,
+        children: [
+          {
+            label: 'Design system',
+            value: 'workspace-design',
+            children: [
+              {
+                label: 'Foundations',
+                value: 'workspace-design-foundations',
+                children: [
+                  { label: 'Tokens', value: 'workspace-design-tokens' },
+                  { label: 'Accessibility', value: 'workspace-design-a11y' },
+                ],
+              },
+              { label: 'Components', value: 'workspace-design-components' },
+            ],
+          },
+          { label: 'Web platform', value: 'workspace-web' },
+          { label: 'Mobile app', value: 'workspace-mobile', disabled: true },
+        ],
+      },
+      {
+        label: 'Knowledge base',
+        value: 'knowledge',
+        children: [
+          { label: 'Documentation', value: 'docs' },
+          { label: 'Release notes', value: 'releases' },
+        ],
+      },
+    ];
 }
 ```
 
@@ -585,9 +735,9 @@ Outlined, filled, required, invalid, and disabled states preserve layout and ARI
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-states-demo',
@@ -596,6 +746,53 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
   styleUrl: './tree-select-states.demo.scss'
 })
 export class TreeSelectStatesAppearancesAndStatesDemo {
+  protected readonly workspace = signal<string | null>('product');
+
+  protected readonly invalidValue = signal<string | null>(null);
+
+  protected readonly nodes: readonly AerisTreeNode[] = [
+      {
+        label: 'Product',
+        value: 'product',
+        expanded: true,
+        children: [
+          { label: 'Roadmap', value: 'roadmap' },
+          { label: 'Research', value: 'research' },
+        ],
+      },
+      {
+        label: 'Workspaces',
+        value: 'workspaces',
+        expanded: true,
+        children: [
+          {
+            label: 'Design system',
+            value: 'workspace-design',
+            children: [
+              {
+                label: 'Foundations',
+                value: 'workspace-design-foundations',
+                children: [
+                  { label: 'Tokens', value: 'workspace-design-tokens' },
+                  { label: 'Accessibility', value: 'workspace-design-a11y' },
+                ],
+              },
+              { label: 'Components', value: 'workspace-design-components' },
+            ],
+          },
+          { label: 'Web platform', value: 'workspace-web' },
+          { label: 'Mobile app', value: 'workspace-mobile', disabled: true },
+        ],
+      },
+      {
+        label: 'Knowledge base',
+        value: 'knowledge',
+        children: [
+          { label: 'Documentation', value: 'docs' },
+          { label: 'Release notes', value: 'releases' },
+        ],
+      },
+    ];
 }
 ```
 
@@ -728,10 +925,10 @@ TreeSelect implements ControlValueAccessor while retaining its signal model API.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
+import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select';
 
 @Component({
   selector: 'app-tree-select-forms-demo',
@@ -740,6 +937,52 @@ import { AerisTreeSelect } from '@aeris-ui/core/tree-select';
   styleUrl: './tree-select-forms.demo.scss'
 })
 export class TreeSelectFormsReactiveAndTemplateDrivenFormsDemo {
+  protected readonly workspace = signal<string | null>('product');
+
+  protected readonly nodes: readonly AerisTreeNode[] = [
+      {
+        label: 'Product',
+        value: 'product',
+        expanded: true,
+        children: [
+          { label: 'Roadmap', value: 'roadmap' },
+          { label: 'Research', value: 'research' },
+        ],
+      },
+      {
+        label: 'Workspaces',
+        value: 'workspaces',
+        expanded: true,
+        children: [
+          {
+            label: 'Design system',
+            value: 'workspace-design',
+            children: [
+              {
+                label: 'Foundations',
+                value: 'workspace-design-foundations',
+                children: [
+                  { label: 'Tokens', value: 'workspace-design-tokens' },
+                  { label: 'Accessibility', value: 'workspace-design-a11y' },
+                ],
+              },
+              { label: 'Components', value: 'workspace-design-components' },
+            ],
+          },
+          { label: 'Web platform', value: 'workspace-web' },
+          { label: 'Mobile app', value: 'workspace-mobile', disabled: true },
+        ],
+      },
+      {
+        label: 'Knowledge base',
+        value: 'knowledge',
+        children: [
+          { label: 'Documentation', value: 'docs' },
+          { label: 'Release notes', value: 'releases' },
+        ],
+      },
+    ];
+
   protected readonly reactiveValue =
     new FormControl<string | null>('workspace-design');
 

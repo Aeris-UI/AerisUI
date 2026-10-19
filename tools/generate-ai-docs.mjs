@@ -8,6 +8,7 @@ const COMPONENT_ROOT = 'projects/docs/src/app/pages/components';
 const CATALOG_PATH = 'projects/docs/src/app/data/component-catalog.ts';
 const DEMO_CODE_PATH = 'projects/docs/src/app/shared/demo-code.ts';
 const GENERATED_STYLES_PATH = 'projects/docs/src/app/shared/generated-example-styles.ts';
+const GENERATED_CODE_PATH = 'projects/docs/src/app/shared/generated-example-code.ts';
 const GUIDE_DATA_PATH = 'projects/docs/src/app/pages/guides/guide-data.ts';
 const RELEASE_DATA_PATH = 'projects/docs/src/app/pages/guides/release-data.ts';
 const PALETTE_DATA_PATH = 'projects/docs/src/app/data/docs-palettes.ts';
@@ -21,13 +22,19 @@ const shouldCheck = process.argv.includes('--check') || !shouldWrite;
 const parser = new HtmlParser();
 const unsupported = Symbol('unsupported');
 
-const [{ COMPONENT_CATALOG, COMPONENT_CATEGORIES }, { buildAngularDemoSources }, stylesModule] =
-  await Promise.all([
-    loadSelfContainedModule(CATALOG_PATH),
-    loadSelfContainedModule(DEMO_CODE_PATH),
-    loadSelfContainedModule(GENERATED_STYLES_PATH),
-  ]);
+const [
+  { COMPONENT_CATALOG, COMPONENT_CATEGORIES },
+  { buildAngularDemoSources },
+  stylesModule,
+  codeModule,
+] = await Promise.all([
+  loadSelfContainedModule(CATALOG_PATH),
+  loadSelfContainedModule(DEMO_CODE_PATH),
+  loadSelfContainedModule(GENERATED_STYLES_PATH),
+  loadSelfContainedModule(GENERATED_CODE_PATH),
+]);
 const DOC_EXAMPLE_STYLES = stylesModule.DOC_EXAMPLE_STYLES;
+const DOC_EXAMPLE_CODE = codeModule.DOC_EXAMPLE_CODE;
 const packageJson = JSON.parse(await readFile(PACKAGE_PATH, 'utf8'));
 const angularMajor = packageJson.version.split('.')[0];
 const JSON_OUTPUT_PATH = `projects/docs/public/ai/${angularMajor}/aeris-docs.json`;
@@ -289,7 +296,10 @@ function extractExamples(nodes, values, buildSources) {
       anchor: id,
       title,
       template,
-      classCode: typeof classCode === 'string' ? classCode : undefined,
+      classCode:
+        [DOC_EXAMPLE_CODE[id], classCode]
+          .filter((value) => typeof value === 'string' && value.trim())
+          .join('\n\n') || undefined,
       cssCode: cssCode || undefined,
     });
     result.push({ id, title, description, sources });

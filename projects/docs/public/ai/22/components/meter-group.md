@@ -276,8 +276,13 @@ import { LucideAppWindow, LucideDynamicIcon, LucideImage, LucideMessageCircle, L
   styleUrl: './meter-group-icons.demo.scss'
 })
 export class MeterGroupIconsIconsDemo {
+  protected readonly icons = {
+      AppWindow: LucideAppWindow,
+      Image: LucideImage,
+      MessageCircle: LucideMessageCircle,
+      Settings: LucideSettings,
+    };
 
-  protected readonly icons = { AppWindow: LucideAppWindow, Image: LucideImage, MessageCircle: LucideMessageCircle, Settings: LucideSettings };
 
   protected readonly storageItems: readonly AerisMeterGroupItem[] = [
     { label: 'Applications', value: 14, tone: 'primary' },

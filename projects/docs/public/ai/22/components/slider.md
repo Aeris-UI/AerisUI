@@ -396,8 +396,8 @@ Vertical sliders retain the same pointer, keyboard, value, and range API.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSlider } from '@aeris-ui/core/slider';
+import { Component, signal } from '@angular/core';
+import { AerisSlider, type AerisSliderValue } from '@aeris-ui/core/slider';
 
 @Component({
   selector: 'app-slider-orientation-demo',
@@ -406,6 +406,7 @@ import { AerisSlider } from '@aeris-ui/core/slider';
   styleUrl: './slider-orientation.demo.scss'
 })
 export class SliderOrientationOrientationDemo {
+  protected readonly temperature = signal<AerisSliderValue>(20);
 }
 ```
 
@@ -681,8 +682,8 @@ sliding reports continuous updates. changed fires for each keyboard update and o
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisSlider, type AerisSliderChangeEvent, type AerisSliderInputEvent } from '@aeris-ui/core/slider';
+import { Component, signal } from '@angular/core';
+import { AerisSlider, type AerisSliderChangeEvent, type AerisSliderInputEvent, type AerisSliderValue } from '@aeris-ui/core/slider';
 
 @Component({
   selector: 'app-slider-events-demo',
@@ -709,6 +710,12 @@ import { AerisSlider, type AerisSliderChangeEvent, type AerisSliderInputEvent } 
   `
 })
 export class SliderEventsInputAndCommittedEventsDemo {
+  protected readonly eventValue = signal<AerisSliderValue>(35);
+
+  protected readonly liveEvent = signal('No interaction');
+
+  protected readonly changeEvent = signal('No committed change');
+
   protected handleSliding(
     event: AerisSliderInputEvent,
   ): void {

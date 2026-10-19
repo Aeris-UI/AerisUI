@@ -397,8 +397,8 @@ Container-based options move side thumbnails below the stage and hide them in es
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisGalleriaModule, type AerisGalleriaImage, type AerisGalleriaResponsiveOption } from '@aeris-ui/core/galleria';
+import { Component, signal } from '@angular/core';
+import { AerisGalleriaModule, type AerisGalleriaImage, type AerisGalleriaResponsiveOption, type AerisGalleriaThumbnailPosition } from '@aeris-ui/core/galleria';
 
 @Component({
   selector: 'app-galleria-responsive-demo',
@@ -415,6 +415,9 @@ import { AerisGalleriaModule, type AerisGalleriaImage, type AerisGalleriaRespons
   `
 })
 export class GalleriaResponsiveResponsiveDemo {
+  protected readonly thumbnailPosition = signal<AerisGalleriaThumbnailPosition>('bottom');
+
+
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',

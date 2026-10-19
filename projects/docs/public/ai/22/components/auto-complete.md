@@ -221,7 +221,7 @@ Bind the value model to a signal when the surrounding component owns the state.
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
+import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/auto-complete';
 
 @Component({
   selector: 'app-autocomplete-signal-demo',
@@ -268,6 +268,15 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
   `
 })
 export class AutocompleteSignalSignalValueDemo {
+  protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
+      { label: 'Angular', value: 'Angular' },
+      { label: 'Astro', value: 'Astro' },
+      { label: 'Next.js', value: 'Next.js' },
+      { label: 'Nuxt', value: 'Nuxt' },
+      { label: 'SvelteKit', value: 'SvelteKit' },
+      { label: 'Vue', value: 'Vue' },
+    ];
+
   protected readonly frameworkValue = signal('');
 }
 ```
@@ -280,7 +289,7 @@ Use dropdown with completeOnFocus when users should be able to browse all sugges
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
+import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/auto-complete';
 
 @Component({
   selector: 'app-autocomplete-dropdown-demo',
@@ -327,6 +336,14 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
   `
 })
 export class AutocompleteDropdownDropdownTriggerDemo {
+  protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
+      { label: 'Angular', value: 'Angular' },
+      { label: 'Astro', value: 'Astro' },
+      { label: 'Next.js', value: 'Next.js' },
+      { label: 'Nuxt', value: 'Nuxt' },
+      { label: 'SvelteKit', value: 'SvelteKit' },
+      { label: 'Vue', value: 'Vue' },
+    ];
 }
 ```
 
@@ -337,8 +354,8 @@ Force selection clears unmatched text on blur so the value always comes from the
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
+import { Component, signal } from '@angular/core';
+import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/auto-complete';
 
 @Component({
   selector: 'app-autocomplete-force-demo',
@@ -387,6 +404,16 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
   `
 })
 export class AutocompleteForceForceSelectionDemo {
+  protected readonly forcedValue = signal('');
+
+  protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
+      { label: 'Angular', value: 'Angular' },
+      { label: 'Astro', value: 'Astro' },
+      { label: 'Next.js', value: 'Next.js' },
+      { label: 'Nuxt', value: 'Nuxt' },
+      { label: 'SvelteKit', value: 'SvelteKit' },
+      { label: 'Vue', value: 'Vue' },
+    ];
 }
 ```
 
@@ -523,7 +550,7 @@ Customize option and group content without changing the value contract.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/auto-complete';
 import { AerisAvatarModule } from '@aeris-ui/core/avatar';
 
@@ -534,6 +561,8 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
   styleUrl: './autocomplete-templates.demo.scss'
 })
 export class AutocompleteTemplatesTemplatesDemo {
+  protected readonly skillValue = signal('');
+
   protected readonly skills: readonly AerisAutoCompleteOption[] = [
     { label: 'Angular', value: 'Angular', group: 'Frontend' },
     { label: 'TypeScript', value: 'TypeScript', group: 'Frontend' },
@@ -637,7 +666,7 @@ Clearable controls place the clear action inside the field before the optional d
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
+import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/auto-complete';
 
 @Component({
   selector: 'app-autocomplete-clear-demo',
@@ -684,6 +713,14 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
   `
 })
 export class AutocompleteClearClearButtonDemo {
+  protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
+      { label: 'Angular', value: 'Angular' },
+      { label: 'Astro', value: 'Astro' },
+      { label: 'Next.js', value: 'Next.js' },
+      { label: 'Nuxt', value: 'Nuxt' },
+      { label: 'SvelteKit', value: 'SvelteKit' },
+      { label: 'Vue', value: 'Vue' },
+    ];
 }
 ```
 
@@ -695,7 +732,7 @@ Filled, invalid, read-only, and disabled states keep the same keyboard and form 
 
 ```ts
 import { Component, computed, signal } from '@angular/core';
-import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
+import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/auto-complete';
 
 @Component({
   selector: 'app-autocomplete-states-demo',
@@ -704,6 +741,15 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
   styleUrl: './autocomplete-states.demo.scss'
 })
 export class AutocompleteStatesAppearancesAndStatesDemo {
+  protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
+      { label: 'Angular', value: 'Angular' },
+      { label: 'Astro', value: 'Astro' },
+      { label: 'Next.js', value: 'Next.js' },
+      { label: 'Nuxt', value: 'Nuxt' },
+      { label: 'SvelteKit', value: 'SvelteKit' },
+      { label: 'Vue', value: 'Vue' },
+    ];
+
   protected readonly invalidValue = signal('');
   protected readonly touched = signal(false);
   protected readonly invalid = computed(
@@ -821,7 +867,7 @@ Four sizes align AutoComplete with the Aeris form density scale.
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
+import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/auto-complete';
 
 @Component({
   selector: 'app-autocomplete-sizes-demo',
@@ -830,6 +876,14 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
   styleUrl: './autocomplete-sizes.demo.scss'
 })
 export class AutocompleteSizesSizesDemo {
+  protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
+      { label: 'Angular', value: 'Angular' },
+      { label: 'Astro', value: 'Astro' },
+      { label: 'Next.js', value: 'Next.js' },
+      { label: 'Nuxt', value: 'Nuxt' },
+      { label: 'SvelteKit', value: 'SvelteKit' },
+      { label: 'Vue', value: 'Vue' },
+    ];
 }
 ```
 
@@ -883,7 +937,7 @@ AutoComplete implements ControlValueAccessor and works with Reactive Forms and t
 ```ts
 import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
+import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/auto-complete';
 
 @Component({
   selector: 'app-autocomplete-forms-demo',
@@ -892,6 +946,16 @@ import { AerisAutoComplete } from '@aeris-ui/core/auto-complete';
   styleUrl: './autocomplete-forms.demo.scss'
 })
 export class AutocompleteFormsReactiveAndTemplateDrivenFormsDemo {
+  protected readonly skills: readonly AerisAutoCompleteOption[] = [
+      { label: 'Angular', value: 'Angular', group: 'Frontend' },
+      { label: 'TypeScript', value: 'TypeScript', group: 'Frontend' },
+      { label: 'RxJS', value: 'RxJS', group: 'Frontend' },
+      { label: 'Node.js', value: 'Node.js', group: 'Backend' },
+      { label: 'PostgreSQL', value: 'PostgreSQL', group: 'Backend' },
+      { label: 'Accessibility', value: 'Accessibility', group: 'Quality' },
+      { label: 'Performance', value: 'Performance', group: 'Quality' },
+    ];
+
   protected readonly reactiveSkill = new FormControl('Angular');
   protected templateSkill = 'TypeScript';
 }
@@ -976,7 +1040,7 @@ Use completed for remote search and selected for committed option selection.
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisAutoComplete, type AerisAutoCompleteCompleteEvent, type AerisAutoCompleteSelectEvent } from '@aeris-ui/core/auto-complete';
+import { AerisAutoComplete, type AerisAutoCompleteCompleteEvent, type AerisAutoCompleteOption, type AerisAutoCompleteSelectEvent } from '@aeris-ui/core/auto-complete';
 
 @Component({
   selector: 'app-autocomplete-events-demo',
@@ -1025,6 +1089,15 @@ import { AerisAutoComplete, type AerisAutoCompleteCompleteEvent, type AerisAutoC
   `
 })
 export class AutocompleteEventsEventsDemo {
+  protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
+      { label: 'Angular', value: 'Angular' },
+      { label: 'Astro', value: 'Astro' },
+      { label: 'Next.js', value: 'Next.js' },
+      { label: 'Nuxt', value: 'Nuxt' },
+      { label: 'SvelteKit', value: 'SvelteKit' },
+      { label: 'Vue', value: 'Vue' },
+    ];
+
   protected readonly lastEvent = signal('No selection yet');
 
   protected recordComplete(event: AerisAutoCompleteCompleteEvent): void {

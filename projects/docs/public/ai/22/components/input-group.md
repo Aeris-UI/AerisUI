@@ -142,7 +142,7 @@ Addons can appear before and after a control for currencies, units, and fixed te
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AerisInputGroup } from '@aeris-ui/core/input-group';
 import { AerisInputText } from '@aeris-ui/core/input-text';
@@ -189,6 +189,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   `
 })
 export class InputGroupPrefixSuffixPrefixAndSuffixDemo {
+  protected readonly price = signal('129');
 }
 ```
 
@@ -365,7 +366,7 @@ Attached addons can contain buttons, checkboxes, radio buttons, icons, text, or 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 import { AerisInputGroup } from '@aeris-ui/core/input-group';
@@ -379,6 +380,9 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   styleUrl: './input-group-selection.demo.scss'
 })
 export class InputGroupSelectionSelectionAddonsDemo {
+  protected readonly selectedVisibility = signal('public');
+
+  protected readonly includeArchived = signal(false);
 }
 ```
 

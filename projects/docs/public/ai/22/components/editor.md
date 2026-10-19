@@ -461,7 +461,7 @@ Limit the toolbar to the actions that make sense for a specific field.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisEditor, type AerisEditorFormat } from '@aeris-ui/core/editor';
 
 @Component({
@@ -512,6 +512,9 @@ import { AerisEditor, type AerisEditorFormat } from '@aeris-ui/core/editor';
   `
 })
 export class EditorCustomToolbarCustomToolbarDemo {
+  protected readonly compactContent = signal('<p>Only inline formatting is available here.</p>');
+
+
   protected readonly inlineFormats: readonly AerisEditorFormat[] = [
     'undo',
     'redo',
@@ -736,7 +739,7 @@ Editor implements ControlValueAccessor and synchronizes HTML value, disabled sta
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AerisEditor } from '@aeris-ui/core/editor';
 
@@ -747,6 +750,8 @@ import { AerisEditor } from '@aeris-ui/core/editor';
   styleUrl: './editor-forms.demo.scss'
 })
 export class EditorFormsReactiveAndTemplateDrivenFormsDemo {
+  protected readonly content = signal('<p>Write clear product notes with Aeris.</p>');
+
   protected readonly reactiveContent =
     new FormControl('<p>Reactive form content.</p>');
 

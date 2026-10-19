@@ -162,7 +162,7 @@ Render the exact number of slots required by the verification flow.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 
 @Component({
@@ -208,6 +208,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
   `
 })
 export class OtpLengthConfigurableLengthDemo {
+  protected readonly sixDigitCode = signal('');
 }
 ```
 
@@ -218,7 +219,7 @@ Alphanumeric mode accepts ASCII letters and digits while retaining the same navi
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 
 @Component({
@@ -265,6 +266,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
   `
 })
 export class OtpAlphanumericAlphanumericCodesDemo {
+  protected readonly alphanumericCode = signal('A2');
 }
 ```
 
@@ -275,7 +277,7 @@ Mask sensitive access codes while preserving paste, navigation, and the complete
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 
 @Component({
@@ -316,6 +318,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
   `
 })
 export class OtpMaskMaskedEntryDemo {
+  protected readonly maskedCode = signal('42');
 }
 ```
 
@@ -326,7 +329,7 @@ Insert original visual grouping without changing the model or slot semantics.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputOtp } from '@aeris-ui/core/input-otp';
 
 @Component({
@@ -382,6 +385,7 @@ import { AerisInputOtp } from '@aeris-ui/core/input-otp';
   `
 })
 export class OtpSeparatorSeparatorTemplateDemo {
+  protected readonly groupedCode = signal('');
 }
 ```
 

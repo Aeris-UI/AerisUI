@@ -213,7 +213,7 @@ Bind the selected value to a signal. The visible value shows the full selected p
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
+import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/core/cascade-select';
 
 @Component({
   selector: 'app-cascade-signal-demo',
@@ -264,6 +264,53 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
   `
 })
 export class CascadeSignalSignalValueDemo {
+  protected readonly locations: readonly AerisCascadeSelectOption[] = [
+      {
+        label: 'Europe',
+        value: 'europe',
+        children: [
+          {
+            label: 'Portugal',
+            value: 'portugal',
+            children: [
+              { label: 'Lisbon', value: 'lisbon', description: 'Capital city' },
+              { label: 'Porto', value: 'porto' },
+            ],
+          },
+          {
+            label: 'Serbia',
+            value: 'serbia',
+            children: [
+              { label: 'Belgrade', value: 'belgrade', description: 'Aeris docs timezone' },
+              { label: 'Novi Sad', value: 'novi-sad' },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'North America',
+        value: 'north-america',
+        children: [
+          {
+            label: 'United States',
+            value: 'united-states',
+            children: [
+              { label: 'Austin', value: 'austin' },
+              { label: 'San Francisco', value: 'san-francisco' },
+            ],
+          },
+          {
+            label: 'Canada',
+            value: 'canada',
+            children: [
+              { label: 'Toronto', value: 'toronto' },
+              { label: 'Vancouver', value: 'vancouver', disabled: true },
+            ],
+          },
+        ],
+      },
+    ];
+
   protected readonly locationValue = signal<string | null>(null);
 }
 ```
@@ -275,8 +322,8 @@ By default branches open the next level. Enable selectBranches when branch recor
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
+import { Component, signal } from '@angular/core';
+import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/core/cascade-select';
 
 @Component({
   selector: 'app-cascade-branches-demo',
@@ -327,6 +374,54 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
   `
 })
 export class CascadeBranchesBranchSelectionDemo {
+  protected readonly branchValue = signal<string | null>(null);
+
+  protected readonly locations: readonly AerisCascadeSelectOption[] = [
+      {
+        label: 'Europe',
+        value: 'europe',
+        children: [
+          {
+            label: 'Portugal',
+            value: 'portugal',
+            children: [
+              { label: 'Lisbon', value: 'lisbon', description: 'Capital city' },
+              { label: 'Porto', value: 'porto' },
+            ],
+          },
+          {
+            label: 'Serbia',
+            value: 'serbia',
+            children: [
+              { label: 'Belgrade', value: 'belgrade', description: 'Aeris docs timezone' },
+              { label: 'Novi Sad', value: 'novi-sad' },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'North America',
+        value: 'north-america',
+        children: [
+          {
+            label: 'United States',
+            value: 'united-states',
+            children: [
+              { label: 'Austin', value: 'austin' },
+              { label: 'San Francisco', value: 'san-francisco' },
+            ],
+          },
+          {
+            label: 'Canada',
+            value: 'canada',
+            children: [
+              { label: 'Toronto', value: 'toronto' },
+              { label: 'Vancouver', value: 'vancouver', disabled: true },
+            ],
+          },
+        ],
+      },
+    ];
 }
 ```
 
@@ -463,7 +558,7 @@ Enable the clear action when an empty value is valid for the surrounding form.
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
+import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/core/cascade-select';
 
 @Component({
   selector: 'app-cascade-clear-demo',
@@ -513,6 +608,52 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
   `
 })
 export class CascadeClearClearButtonDemo {
+  protected readonly locations: readonly AerisCascadeSelectOption[] = [
+      {
+        label: 'Europe',
+        value: 'europe',
+        children: [
+          {
+            label: 'Portugal',
+            value: 'portugal',
+            children: [
+              { label: 'Lisbon', value: 'lisbon', description: 'Capital city' },
+              { label: 'Porto', value: 'porto' },
+            ],
+          },
+          {
+            label: 'Serbia',
+            value: 'serbia',
+            children: [
+              { label: 'Belgrade', value: 'belgrade', description: 'Aeris docs timezone' },
+              { label: 'Novi Sad', value: 'novi-sad' },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'North America',
+        value: 'north-america',
+        children: [
+          {
+            label: 'United States',
+            value: 'united-states',
+            children: [
+              { label: 'Austin', value: 'austin' },
+              { label: 'San Francisco', value: 'san-francisco' },
+            ],
+          },
+          {
+            label: 'Canada',
+            value: 'canada',
+            children: [
+              { label: 'Toronto', value: 'toronto' },
+              { label: 'Vancouver', value: 'vancouver', disabled: true },
+            ],
+          },
+        ],
+      },
+    ];
 }
 ```
 
@@ -524,7 +665,7 @@ Filled, invalid, and disabled states preserve the same trigger and listbox seman
 
 ```ts
 import { Component, computed, signal } from '@angular/core';
-import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
+import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/core/cascade-select';
 
 @Component({
   selector: 'app-cascade-states-demo',
@@ -533,6 +674,53 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
   styleUrl: './cascade-states.demo.scss'
 })
 export class CascadeStatesAppearancesAndStatesDemo {
+  protected readonly locations: readonly AerisCascadeSelectOption[] = [
+      {
+        label: 'Europe',
+        value: 'europe',
+        children: [
+          {
+            label: 'Portugal',
+            value: 'portugal',
+            children: [
+              { label: 'Lisbon', value: 'lisbon', description: 'Capital city' },
+              { label: 'Porto', value: 'porto' },
+            ],
+          },
+          {
+            label: 'Serbia',
+            value: 'serbia',
+            children: [
+              { label: 'Belgrade', value: 'belgrade', description: 'Aeris docs timezone' },
+              { label: 'Novi Sad', value: 'novi-sad' },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'North America',
+        value: 'north-america',
+        children: [
+          {
+            label: 'United States',
+            value: 'united-states',
+            children: [
+              { label: 'Austin', value: 'austin' },
+              { label: 'San Francisco', value: 'san-francisco' },
+            ],
+          },
+          {
+            label: 'Canada',
+            value: 'canada',
+            children: [
+              { label: 'Toronto', value: 'toronto' },
+              { label: 'Vancouver', value: 'vancouver', disabled: true },
+            ],
+          },
+        ],
+      },
+    ];
+
   protected readonly invalidValue = signal<string | null>(null);
   protected readonly touched = signal(false);
   protected readonly invalid = computed(
@@ -638,7 +826,7 @@ Four sizes align CascadeSelect with the Aeris form density scale.
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
+import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/core/cascade-select';
 
 @Component({
   selector: 'app-cascade-sizes-demo',
@@ -664,6 +852,52 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
   `
 })
 export class CascadeSizesSizesDemo {
+  protected readonly locations: readonly AerisCascadeSelectOption[] = [
+      {
+        label: 'Europe',
+        value: 'europe',
+        children: [
+          {
+            label: 'Portugal',
+            value: 'portugal',
+            children: [
+              { label: 'Lisbon', value: 'lisbon', description: 'Capital city' },
+              { label: 'Porto', value: 'porto' },
+            ],
+          },
+          {
+            label: 'Serbia',
+            value: 'serbia',
+            children: [
+              { label: 'Belgrade', value: 'belgrade', description: 'Aeris docs timezone' },
+              { label: 'Novi Sad', value: 'novi-sad' },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'North America',
+        value: 'north-america',
+        children: [
+          {
+            label: 'United States',
+            value: 'united-states',
+            children: [
+              { label: 'Austin', value: 'austin' },
+              { label: 'San Francisco', value: 'san-francisco' },
+            ],
+          },
+          {
+            label: 'Canada',
+            value: 'canada',
+            children: [
+              { label: 'Toronto', value: 'toronto' },
+              { label: 'Vancouver', value: 'vancouver', disabled: true },
+            ],
+          },
+        ],
+      },
+    ];
 }
 ```
 
@@ -676,7 +910,7 @@ CascadeSelect implements ControlValueAccessor and works with Reactive Forms and 
 ```ts
 import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
+import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/core/cascade-select';
 
 @Component({
   selector: 'app-cascade-forms-demo',
@@ -685,6 +919,53 @@ import { AerisCascadeSelect } from '@aeris-ui/core/cascade-select';
   styleUrl: './cascade-forms.demo.scss'
 })
 export class CascadeFormsReactiveAndTemplateDrivenFormsDemo {
+  protected readonly locations: readonly AerisCascadeSelectOption[] = [
+      {
+        label: 'Europe',
+        value: 'europe',
+        children: [
+          {
+            label: 'Portugal',
+            value: 'portugal',
+            children: [
+              { label: 'Lisbon', value: 'lisbon', description: 'Capital city' },
+              { label: 'Porto', value: 'porto' },
+            ],
+          },
+          {
+            label: 'Serbia',
+            value: 'serbia',
+            children: [
+              { label: 'Belgrade', value: 'belgrade', description: 'Aeris docs timezone' },
+              { label: 'Novi Sad', value: 'novi-sad' },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'North America',
+        value: 'north-america',
+        children: [
+          {
+            label: 'United States',
+            value: 'united-states',
+            children: [
+              { label: 'Austin', value: 'austin' },
+              { label: 'San Francisco', value: 'san-francisco' },
+            ],
+          },
+          {
+            label: 'Canada',
+            value: 'canada',
+            children: [
+              { label: 'Toronto', value: 'toronto' },
+              { label: 'Vancouver', value: 'vancouver', disabled: true },
+            ],
+          },
+        ],
+      },
+    ];
+
   protected readonly reactiveLocation =
     new FormControl<string | null>('lisbon');
 
@@ -775,7 +1056,7 @@ Use changed when you need both the selected value and the full path metadata.
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisCascadeSelect, type AerisCascadeSelectChangeEvent } from '@aeris-ui/core/cascade-select';
+import { AerisCascadeSelect, type AerisCascadeSelectChangeEvent, type AerisCascadeSelectOption } from '@aeris-ui/core/cascade-select';
 
 @Component({
   selector: 'app-cascade-events-demo',
@@ -826,6 +1107,53 @@ import { AerisCascadeSelect, type AerisCascadeSelectChangeEvent } from '@aeris-u
   `
 })
 export class CascadeEventsEventsDemo {
+  protected readonly locations: readonly AerisCascadeSelectOption[] = [
+      {
+        label: 'Europe',
+        value: 'europe',
+        children: [
+          {
+            label: 'Portugal',
+            value: 'portugal',
+            children: [
+              { label: 'Lisbon', value: 'lisbon', description: 'Capital city' },
+              { label: 'Porto', value: 'porto' },
+            ],
+          },
+          {
+            label: 'Serbia',
+            value: 'serbia',
+            children: [
+              { label: 'Belgrade', value: 'belgrade', description: 'Aeris docs timezone' },
+              { label: 'Novi Sad', value: 'novi-sad' },
+            ],
+          },
+        ],
+      },
+      {
+        label: 'North America',
+        value: 'north-america',
+        children: [
+          {
+            label: 'United States',
+            value: 'united-states',
+            children: [
+              { label: 'Austin', value: 'austin' },
+              { label: 'San Francisco', value: 'san-francisco' },
+            ],
+          },
+          {
+            label: 'Canada',
+            value: 'canada',
+            children: [
+              { label: 'Toronto', value: 'toronto' },
+              { label: 'Vancouver', value: 'vancouver', disabled: true },
+            ],
+          },
+        ],
+      },
+    ];
+
   protected readonly lastEvent = signal('No selection yet');
 
   protected recordChange(event: AerisCascadeSelectChangeEvent): void {

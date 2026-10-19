@@ -119,7 +119,7 @@ A phone mask accepts only characters allowed by each slot and inserts literals a
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputMask } from '@aeris-ui/core/input-mask';
 
 @Component({
@@ -174,6 +174,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
   `
 })
 export class MaskBasicBasicDemo {
+  protected readonly phone = signal('');
 }
 ```
 
@@ -328,7 +329,7 @@ Set unmask when the model should contain only accepted slot characters while the
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputMask } from '@aeris-ui/core/input-mask';
 
 @Component({
@@ -384,6 +385,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
   `
 })
 export class MaskUnmaskedUnmaskedValueDemo {
+  protected readonly rawPhone = signal('');
 }
 ```
 
@@ -522,7 +524,7 @@ An optional suffix button clears the value and restores focus to the field.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputMask } from '@aeris-ui/core/input-mask';
 
 @Component({
@@ -577,6 +579,7 @@ import { AerisInputMask } from '@aeris-ui/core/input-mask';
   `
 })
 export class MaskClearableClearButtonDemo {
+  protected readonly serial = signal('AE42UI');
 }
 ```
 

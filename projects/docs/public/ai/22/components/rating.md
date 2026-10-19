@@ -623,7 +623,7 @@ Use changed when a pointer or keyboard interaction commits a new rating.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisRating, type AerisRatingChangeEvent } from '@aeris-ui/core/rating';
 
 @Component({
@@ -668,6 +668,10 @@ import { AerisRating, type AerisRatingChangeEvent } from '@aeris-ui/core/rating'
   `
 })
 export class RatingEventsEventsDemo {
+  protected readonly eventRating = signal(2);
+
+  protected readonly lastEvent = signal('No rating change yet.');
+
   protected handleChanged(
     event: AerisRatingChangeEvent,
   ): void {

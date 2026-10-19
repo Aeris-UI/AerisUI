@@ -127,7 +127,7 @@ Bind the numeric value through the signal model and associate a visible label wi
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
 
 @Component({
@@ -175,6 +175,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   `
 })
 export class NumberBasicBasicDemo {
+  protected readonly quantity = signal<number | null>(4);
 }
 ```
 
@@ -275,7 +276,7 @@ Currency mode uses Intl.NumberFormat and an ISO 4217 currency code.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
 
 @Component({
@@ -285,6 +286,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   styleUrl: './number-currency.demo.scss'
 })
 export class NumberCurrencyCurrencyDemo {
+  protected readonly price = signal<number | null>(1299.5);
 }
 ```
 
@@ -472,7 +474,7 @@ Add visible context without including affix text in the numeric model.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
 
 @Component({
@@ -482,6 +484,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   styleUrl: './number-affixes.demo.scss'
 })
 export class NumberAffixesPrefixAndSuffixDemo {
+  protected readonly percentage = signal<number | null>(72);
 }
 ```
 
@@ -668,7 +671,7 @@ An optional suffix button clears the numeric model to null and returns focus to 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
 
 @Component({
@@ -717,6 +720,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   `
 })
 export class NumberClearableClearButtonDemo {
+  protected readonly price = signal<number | null>(1299.5);
 }
 ```
 

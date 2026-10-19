@@ -278,7 +278,7 @@ Dynamic columns render hierarchical records while expandedKeys controls which de
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { type AerisBadgeSeverity } from '@aeris-ui/core/badge';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
 import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
@@ -316,6 +316,9 @@ type FileRecord = AerisTreeTableData & {
   `
 })
 export class TreeTableBasicBasicDemo {
+  protected readonly basicExpanded = signal<readonly string[]>(['workspace', 'source']);
+
+
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
@@ -577,6 +580,9 @@ type FileRecord = AerisTreeTableData & {
   `
 })
 export class TreeTableFilteringGlobalAndColumnFilteringDemo {
+  protected readonly eventText = signal('No TreeTable event yet.');
+
+
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
@@ -664,6 +670,9 @@ type FileRecord = AerisTreeTableData & {
   `
 })
 export class TreeTableSingleSelectionSingleSelectionDemo {
+  protected readonly eventText = signal('No TreeTable event yet.');
+
+
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
@@ -854,12 +863,69 @@ Select files across root pages and collapsed branches, then remove them together
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, DestroyRef, ElementRef, computed, inject, signal, viewChild } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisMenuModule } from '@aeris-ui/core/menu';
+import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
-import { AerisTreeTableModule } from '@aeris-ui/core/tree-table';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode, type AerisTreeTableSort } from '@aeris-ui/core/tree-table';
+
+const SELECTION_FILES: readonly AerisTreeTableNode[] = [
+  {
+    key: 'design-files',
+    data: { name: 'Design', type: 'Folder', owner: 'Maya' },
+    selectable: false,
+    children: [
+      { key: 'brief', data: { name: 'Brief.md', type: 'Document', owner: 'Maya' }, leaf: true },
+      { key: 'palette', data: { name: 'Palette.json', type: 'JSON', owner: 'Ava' }, leaf: true },
+    ],
+  },
+  {
+    key: 'engineering-files',
+    data: { name: 'Engineering', type: 'Folder', owner: 'Noah' },
+    selectable: false,
+    children: [
+      {
+        key: 'component',
+        data: { name: 'Component.ts', type: 'TypeScript', owner: 'Noah' },
+        leaf: true,
+      },
+      {
+        key: 'spec',
+        data: { name: 'Component.spec.ts', type: 'TypeScript', owner: 'Liam' },
+        leaf: true,
+      },
+    ],
+  },
+  {
+    key: 'release-notes',
+    data: { name: 'Release notes.md', type: 'Document', owner: 'Sofia' },
+    leaf: true,
+  },
+];
+
+const FILE_COLUMNS: readonly AerisTreeTableColumn[] = [
+  { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
+  {
+    field: 'size',
+    header: 'Size (KB)',
+    sortable: true,
+    filterable: true,
+    editable: true,
+    align: 'end',
+    width: '8rem',
+  },
+  { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
+  { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
+];
+
+type FileRecord = AerisTreeTableData & {
+  readonly name: string;
+  readonly size: number;
+  readonly type: string;
+  readonly modified: string;
+  readonly status: 'active' | 'review' | 'archived';
+};
 
 @Component({
   selector: 'app-tree-table-selection-workflow-demo',
@@ -868,6 +934,192 @@ import { AerisTreeTableModule } from '@aeris-ui/core/tree-table';
   styleUrl: './tree-table-selection-workflow.demo.scss'
 })
 export class TreeTableSelectionWorkflowSelectionWorkflowDemo {
+  private readonly destroyRef = inject(DestroyRef);
+
+  protected readonly files = this.createFiles();
+
+  protected readonly columns = FILE_COLUMNS;
+
+  protected readonly sorts = signal<readonly AerisTreeTableSort[]>([]);
+
+  protected readonly workflowFiles = signal(SELECTION_FILES);
+
+  protected readonly workflowFocusTarget = viewChild('workflowColumnsButton', {
+      read: ElementRef<HTMLButtonElement>,
+    });
+
+  protected readonly workflowSelection = signal<readonly string[]>([]);
+
+  protected readonly workflowExpanded = signal<readonly string[]>([
+      'design-files',
+      'engineering-files',
+    ]);
+
+  protected readonly workflowFirst = signal(0);
+
+  protected readonly workflowQuery = signal('');
+
+  protected readonly workflowBusy = signal(false);
+
+  protected readonly workflowStatus = signal(
+      'Select files across root pages. Folders are not selectable.',
+    );
+
+  protected readonly workflowSorts = signal<readonly AerisTreeTableSort[]>([]);
+
+  protected readonly workflowFilters = signal<Readonly<Record<string, string>>>({});
+
+  protected readonly workflowHidden = signal<readonly string[]>([]);
+
+  protected readonly workflowAllColumns = signal<readonly AerisTreeTableColumn[]>([
+      { field: 'name', header: 'Name', sortable: true },
+      { field: 'type', header: 'Type', sortable: true },
+      { field: 'owner', header: 'Owner', sortable: true },
+    ]);
+
+  protected readonly workflowColumns = computed(() =>
+      this.workflowAllColumns().filter((column) => !this.workflowHidden().includes(column.field)),
+    );
+
+  protected readonly workflowColumnItems = computed<readonly AerisMenuItem[]>(() =>
+      this.workflowAllColumns().map((column) => ({
+        label:
+          column.field === 'name'
+            ? 'Name (required)'
+            : `${this.workflowHidden().includes(column.field) ? 'Show' : 'Hide'} ${column.header}`,
+        disabled: column.field === 'name' || this.workflowBusy(),
+        command: () => this.toggleWorkflowColumn(column.field),
+      })),
+    );
+
+  protected toggleWorkflowColumn(field: string): void {
+      if (field === 'name' || this.workflowBusy()) return;
+      this.workflowHidden.update((fields) =>
+        fields.includes(field) ? fields.filter((item) => item !== field) : [...fields, field],
+      );
+      this.workflowFilters.update((filters) =>
+        Object.fromEntries(Object.entries(filters).filter(([key]) => key !== field)),
+      );
+      this.workflowSorts.update((sorts) => sorts.filter((sort) => sort.field !== field));
+      this.workflowFirst.set(0);
+    }
+
+  protected orderWorkflowColumns(columns: readonly AerisTreeTableColumn[]): void {
+      let index = 0;
+      this.workflowAllColumns.update((all) =>
+        all.map((column) =>
+          this.workflowHidden().includes(column.field) ? column : (columns[index++] ?? column),
+        ),
+      );
+    }
+
+  protected clearWorkflowSelection(fallback?: HTMLButtonElement): void {
+      this.workflowSelection.set([]);
+      this.workflowStatus.set('Selection cleared across every root page and collapsed branch.');
+      fallback?.focus();
+    }
+
+  protected async removeWorkflowFiles(fallback?: HTMLButtonElement): Promise<void> {
+      if (this.workflowBusy() || !this.workflowSelection().length) return;
+      const keys = new Set(this.workflowSelection());
+      this.workflowBusy.set(true);
+      this.workflowStatus.set(`Removing ${keys.size} selected files…`);
+      // Replace this delay with your application's API request; update nodes only on success.
+      await new Promise<void>((resolve) => setTimeout(resolve, 300));
+      if (this.destroyRef.destroyed) return;
+      this.workflowFiles.update((nodes) => this.removeWorkflowNodes(nodes, keys));
+      this.workflowSelection.set([]);
+      this.workflowFirst.set(0);
+      this.workflowBusy.set(false);
+      this.workflowStatus.set(
+        `Removed ${keys.size} files. Selection cleared; focus returned to Columns.`,
+      );
+      fallback?.focus();
+    }
+
+  private removeWorkflowNodes(
+      nodes: readonly AerisTreeTableNode[],
+      keys: ReadonlySet<string>,
+    ): readonly AerisTreeTableNode[] {
+      return nodes
+        .filter((node) => !keys.has(node.key))
+        .map((node) =>
+          node.children ? { ...node, children: this.removeWorkflowNodes(node.children, keys) } : node,
+        );
+    }
+
+  protected restoreWorkflowFiles(): void {
+      if (this.workflowBusy()) return;
+      this.workflowFiles.set(SELECTION_FILES);
+      this.workflowSelection.set([]);
+      this.workflowFirst.set(0);
+      this.workflowQuery.set('');
+      this.workflowFilters.set({});
+      this.workflowSorts.set([]);
+      this.workflowExpanded.set(['design-files', 'engineering-files']);
+      this.workflowStatus.set('Example files restored.');
+    }
+
+  private fileNode(
+      key: string,
+      name: string,
+      size: number,
+      type: string,
+      modified: string,
+      status: FileRecord['status'],
+      leaf: boolean,
+    ): AerisTreeTableNode<FileRecord> {
+      return { key, data: { name, size, type, modified, status }, leaf };
+    }
+
+  private createFiles(): readonly AerisTreeTableNode<FileRecord>[] {
+      return [
+        {
+          key: 'workspace',
+          data: {
+            name: 'Aeris workspace',
+            size: 48,
+            type: 'folder',
+            modified: 'Today',
+            status: 'active',
+          },
+          children: [
+            {
+              key: 'source',
+              data: { name: 'Source', size: 24, type: 'folder', modified: 'Today', status: 'active' },
+              children: [
+                this.fileNode('app', 'app.ts', 6, 'typescript', 'Today', 'active', true),
+                this.fileNode('tokens', 'tokens.scss', 8, 'stylesheet', 'Yesterday', 'review', true),
+              ],
+            },
+            {
+              key: 'assets',
+              data: {
+                name: 'Assets',
+                size: 14,
+                type: 'folder',
+                modified: 'Tuesday',
+                status: 'review',
+              },
+              children: [
+                this.fileNode('logo', 'logo.svg', 4, 'image', 'Tuesday', 'active', true),
+                this.fileNode('cover', 'cover.webp', 10, 'image', 'Tuesday', 'review', true),
+              ],
+            },
+            this.fileNode('readme', 'README.md', 10, 'document', 'Monday', 'active', true),
+          ],
+        },
+        {
+          key: 'packages',
+          data: { name: 'Packages', size: 62, type: 'folder', modified: 'Friday', status: 'active' },
+          children: [
+            this.fileNode('core', 'core', 36, 'package', 'Friday', 'active', true),
+            this.fileNode('docs', 'docs', 26, 'package', 'Thursday', 'review', true),
+          ],
+        },
+        this.fileNode('archive', 'Archive', 120, 'folder', 'May 12', 'archived', true),
+      ];
+    }
 }
 ```
 
@@ -1108,6 +1360,11 @@ type FileRecord = AerisTreeTableData & {
   `
 })
 export class TreeTableEditingCellEditingDemo {
+  protected readonly editableExpanded = signal<readonly string[]>(['workspace', 'source']);
+
+  protected readonly eventText = signal('No TreeTable event yet.');
+
+
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
@@ -1152,6 +1409,21 @@ import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
 import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableColumnReorderEvent, type AerisTreeTableColumnResizeEvent, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
 
+const FILE_COLUMNS: readonly AerisTreeTableColumn[] = [
+  { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
+  {
+    field: 'size',
+    header: 'Size (KB)',
+    sortable: true,
+    filterable: true,
+    editable: true,
+    align: 'end',
+    width: '8rem',
+  },
+  { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
+  { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
+];
+
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
   readonly size: number;
@@ -1167,6 +1439,9 @@ type FileRecord = AerisTreeTableData & {
   styleUrl: './tree-table-columns.demo.scss'
 })
 export class TreeTableColumnsColumnResizingAndReorderingDemo {
+  protected readonly eventText = signal('No TreeTable event yet.');
+
+
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
@@ -1382,6 +1657,15 @@ type FileRecord = AerisTreeTableData & {
   styleUrl: './tree-table-lazy.demo.scss'
 })
 export class TreeTableLazyLazyLoadingDemo {
+  protected readonly lazyExpanded = signal<readonly string[]>([]);
+
+  protected readonly lazyFirst = signal(0);
+
+  protected readonly lazyPageRows = signal(5);
+
+  protected readonly eventText = signal('No TreeTable event yet.');
+
+
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },

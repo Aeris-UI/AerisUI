@@ -124,7 +124,6 @@ import { LucideDynamicIcon, LucideUserRound } from '@lucide/angular';
   `
 })
 export class AvatarBasicBasicDemo {
-
   protected readonly icons = { UserRound: LucideUserRound };
 }
 ```

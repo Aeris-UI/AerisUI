@@ -29,6 +29,18 @@ function normalizePath(url: string): string {
 }
 
 export function resolveDocsSeo(url: string): DocsSeoMetadata {
+  if (
+    normalizePath(url) === '/components/sidebar' &&
+    new URLSearchParams(url.split('?')[1]?.split('#')[0]).get('preview') === 'responsive-sidebar'
+  ) {
+    return {
+      title: 'Responsive Sidebar Preview - Aeris UI',
+      description: 'An isolated responsive navigation example.',
+      path: '/components/sidebar',
+      kind: 'page',
+      noIndex: true,
+    };
+  }
   const path = normalizePath(url);
 
   if (path === '/') {

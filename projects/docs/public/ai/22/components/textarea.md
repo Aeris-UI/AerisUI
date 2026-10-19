@@ -370,7 +370,7 @@ Display the current count with an optional native maximum length.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisTextarea } from '@aeris-ui/core/textarea';
 
 @Component({
@@ -417,6 +417,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   `
 })
 export class TextareaCounterCharacterCounterDemo {
+  protected readonly summary = signal('A concise project summary.');
 }
 ```
 
@@ -739,6 +740,10 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   styleUrl: './textarea-validation.demo.scss'
 })
 export class TextareaValidationValidationDemo {
+  protected updateFeedback(event: Event): void {
+      this.feedback.set((event.target as HTMLTextAreaElement).value);
+    }
+
   protected readonly feedback = signal('');
   protected readonly feedbackTouched = signal(false);
   protected readonly feedbackInvalid = computed(

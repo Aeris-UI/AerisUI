@@ -163,7 +163,7 @@ Opt a native Aeris button into controlled pressed behavior. Keep its accessible 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 
 @Component({
@@ -195,6 +195,7 @@ import { AerisButton } from '@aeris-ui/core/button';
   `
 })
 export class FeatureToggleToggleStateDemo {
+  protected readonly toggled = signal(false);
 }
 ```
 
@@ -205,9 +206,9 @@ Signal Forms receives checked changes and touch events automatically using the n
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { FormField } from '@angular/forms/signals';
+import { FormField, form } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-feature-toggle-forms-demo',
@@ -241,6 +242,9 @@ import { FormField } from '@angular/forms/signals';
   `
 })
 export class FeatureToggleFormsToggleFormsDemo {
+  protected readonly toggleData = signal({ enabled: false });
+
+  protected readonly toggleForm = form(this.toggleData);
 }
 ```
 
@@ -252,7 +256,7 @@ Use the optional AerisButtonForms import for classic forms. It includes Button a
 
 ```ts
 import { Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AerisButtonForms } from '@aeris-ui/core/button/forms';
 
 @Component({
@@ -286,6 +290,7 @@ import { AerisButtonForms } from '@aeris-ui/core/button/forms';
   `
 })
 export class FeatureToggleReactiveReactiveToggleDemo {
+  protected readonly toggleControl = new FormControl(false, { nonNullable: true });
 }
 ```
 
@@ -715,7 +720,7 @@ Typed TemplateRef inputs customize content, idle icons, and loading indicators.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 
 @Component({
@@ -744,6 +749,7 @@ import { AerisButton } from '@aeris-ui/core/button';
   `
 })
 export class FeatureTemplatesCustomTemplatesDemo {
+  protected readonly loading = signal(false);
 }
 ```
 

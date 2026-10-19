@@ -281,6 +281,12 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
   `
 })
 export class TableBasicBasicDemo {
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
   protected readonly columns: readonly AerisTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, width: '42%' },
     { field: 'team', header: 'Team', width: '34%' },
@@ -319,6 +325,12 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
   `
 })
 export class TableDynamicDynamicColumnsDemo {
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
   protected readonly columns: readonly AerisTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, width: '42%' },
     { field: 'team', header: 'Team', width: '34%' },
@@ -340,7 +352,7 @@ Sortable headers cycle through ascending, descending, and cleared state with ari
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-sort-demo',
@@ -352,6 +364,61 @@ import { AerisTableModule } from '@aeris-ui/core/table';
   `
 })
 export class TableSortSortingDemo {
+  protected readonly columns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '22%' },
+      { field: 'role', header: 'Role', sortable: true, width: '26%' },
+      { field: 'team', header: 'Team', sortable: true, width: '20%' },
+      { field: 'status', header: 'Status', align: 'center', width: '14%' },
+      { field: 'lastActive', header: 'Last active', sortable: true, width: '18%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
 }
 ```
 
@@ -363,7 +430,7 @@ Enable a built-in search field and bind filterValue when application state needs
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-filter-demo',
@@ -381,6 +448,60 @@ import { AerisTableModule } from '@aeris-ui/core/table';
   `
 })
 export class TableFilterGlobalFilteringDemo {
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
+
   protected readonly selectedMembers =
     signal<readonly string[]>(['1']);
 
@@ -399,7 +520,7 @@ Column filters are independent text inputs in the header. They combine with the 
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-column-filter-demo',
@@ -418,6 +539,62 @@ import { AerisTableModule } from '@aeris-ui/core/table';
   `
 })
 export class TableColumnFilterColumnFilteringDemo {
+  protected readonly columns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '22%' },
+      { field: 'role', header: 'Role', sortable: true, width: '26%' },
+      { field: 'team', header: 'Team', sortable: true, width: '20%' },
+      { field: 'status', header: 'Status', align: 'center', width: '14%' },
+      { field: 'lastActive', header: 'Last active', sortable: true, width: '18%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
+
   protected readonly columnFilters =
     signal<Readonly<Record<string, string>>>({});
 
@@ -439,7 +616,7 @@ Client-side pagination exposes page metadata and keeps the visible row range ann
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-pagination-demo',
@@ -458,6 +635,71 @@ import { AerisTableModule } from '@aeris-ui/core/table';
   `
 })
 export class TablePaginationPaginationDemo {
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
+
+  protected readonly manyMembers: readonly AerisTableData[] = Array.from(
+      { length: 24 },
+      (_, index) => {
+        const base = this.members[index % this.members.length];
+        return {
+          ...base,
+          id: `member-${index + 1}`,
+          name: `${String(base['name'])} ${index + 1}`,
+        };
+      },
+    );
 }
 ```
 
@@ -469,7 +711,7 @@ Use highlighted row selection, checkbox selection, or radio-button selection dep
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-selection-demo',
@@ -478,6 +720,66 @@ import { AerisTableModule } from '@aeris-ui/core/table';
   styleUrl: './table-selection.demo.scss'
 })
 export class TableSelectionSelectionDemo {
+  protected readonly singleSelectedMember = signal<readonly string[]>(['2']);
+
+  protected readonly rowSelectedMembers = signal<readonly string[]>([]);
+
+  protected readonly singleRowSelectedMember = signal<readonly string[]>(['3']);
+
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
+
   protected readonly selectedMembers =
     signal<readonly string[]>(['1']);
 
@@ -548,11 +850,19 @@ Keep one selectedKeys model for counts and bulk actions across pages and filters
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, DestroyRef, ElementRef, computed, inject, signal, viewChild } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisMenuModule } from '@aeris-ui/core/menu';
-import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData, type AerisTableSort } from '@aeris-ui/core/table';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
+
+const SELECTION_MEMBERS: readonly AerisTableData[] = [
+  { id: '1', name: 'Maya Chen', team: 'Design', status: 'Active' },
+  { id: '2', name: 'Noah Williams', team: 'Engineering', status: 'Invited' },
+  { id: '3', name: 'Sofia Rossi', team: 'Research', status: 'Offline' },
+  { id: '4', name: 'Liam Novak', team: 'Quality', status: 'Active' },
+  { id: '5', name: 'Ava Patel', team: 'Product', status: 'Active' },
+];
 
 @Component({
   selector: 'app-table-selection-workflow-demo',
@@ -561,6 +871,166 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
   styleUrl: './table-selection-workflow.demo.scss'
 })
 export class TableSelectionWorkflowSelectionWorkflowDemo {
+  private readonly destroyRef = inject(DestroyRef);
+
+  protected readonly filter = signal('');
+
+  protected readonly columns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '22%' },
+      { field: 'role', header: 'Role', sortable: true, width: '26%' },
+      { field: 'team', header: 'Team', sortable: true, width: '20%' },
+      { field: 'status', header: 'Status', align: 'center', width: '14%' },
+      { field: 'lastActive', header: 'Last active', sortable: true, width: '18%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
+
+  protected readonly workflowMembers = signal(SELECTION_MEMBERS);
+
+  protected readonly workflowFocusTarget = viewChild('workflowColumnsButton', {
+      read: ElementRef<HTMLButtonElement>,
+    });
+
+  protected readonly workflowSelected = signal<readonly string[]>([]);
+
+  protected readonly workflowFirst = signal(0);
+
+  protected readonly workflowQuery = signal('');
+
+  protected readonly workflowBusy = signal(false);
+
+  protected readonly workflowStatus = signal('Select members on any page to remove them together.');
+
+  protected readonly workflowSort = signal<AerisTableSort | null>(null);
+
+  protected readonly workflowFilters = signal<Readonly<Record<string, string>>>({});
+
+  protected readonly workflowHidden = signal<readonly string[]>([]);
+
+  protected readonly workflowAllColumns = signal<readonly AerisTableColumn[]>([
+      { field: 'name', header: 'Name', sortable: true },
+      { field: 'team', header: 'Team', sortable: true },
+      { field: 'status', header: 'Status', sortable: true },
+    ]);
+
+  protected readonly workflowColumns = computed(() =>
+      this.workflowAllColumns().filter((column) => !this.workflowHidden().includes(column.field)),
+    );
+
+  protected readonly workflowColumnItems = computed<readonly AerisMenuItem[]>(() =>
+      this.workflowAllColumns().map((column) => ({
+        label:
+          column.field === 'name'
+            ? 'Name (required)'
+            : `${this.workflowHidden().includes(column.field) ? 'Show' : 'Hide'} ${column.header}`,
+        disabled: column.field === 'name' || this.workflowBusy(),
+        command: () => this.toggleWorkflowColumn(column.field),
+      })),
+    );
+
+  protected toggleWorkflowColumn(field: string): void {
+      if (field === 'name' || this.workflowBusy()) return;
+      this.workflowHidden.update((fields) =>
+        fields.includes(field) ? fields.filter((item) => item !== field) : [...fields, field],
+      );
+      this.workflowFilters.update((filters) =>
+        Object.fromEntries(Object.entries(filters).filter(([key]) => key !== field)),
+      );
+      if (this.workflowSort()?.field === field) this.workflowSort.set(null);
+      this.workflowFirst.set(0);
+    }
+
+  protected orderWorkflowColumns(columns: readonly AerisTableColumn[]): void {
+      let index = 0;
+      this.workflowAllColumns.update((all) =>
+        all.map((column) =>
+          this.workflowHidden().includes(column.field) ? column : (columns[index++] ?? column),
+        ),
+      );
+    }
+
+  protected clearWorkflowSelection(fallback?: HTMLButtonElement): void {
+      this.workflowSelected.set([]);
+      this.workflowStatus.set('Selection cleared on every page, including filtered-out members.');
+      fallback?.focus();
+    }
+
+  protected async removeWorkflowMembers(fallback?: HTMLButtonElement): Promise<void> {
+      if (this.workflowBusy() || !this.workflowSelected().length) return;
+      const keys = new Set(this.workflowSelected());
+      this.workflowBusy.set(true);
+      this.workflowStatus.set(`Removing ${keys.size} selected members…`);
+      // Replace this delay with your application's API request; update rows only on success.
+      await new Promise<void>((resolve) => setTimeout(resolve, 300));
+      if (this.destroyRef.destroyed) return;
+      this.workflowMembers.update((members) =>
+        members.filter((member) => !keys.has(String(member['id']))),
+      );
+      this.workflowSelected.set([]);
+      this.workflowFirst.set(0);
+      this.workflowBusy.set(false);
+      this.workflowStatus.set(
+        `Removed ${keys.size} members. Selection cleared; focus returned to Columns.`,
+      );
+      fallback?.focus();
+    }
+
+  protected restoreWorkflowMembers(): void {
+      if (this.workflowBusy()) return;
+      this.workflowMembers.set(SELECTION_MEMBERS);
+      this.workflowSelected.set([]);
+      this.workflowFirst.set(0);
+      this.workflowQuery.set('');
+      this.workflowFilters.set({});
+      this.workflowSort.set(null);
+      this.workflowStatus.set('Example members restored.');
+    }
 }
 ```
 
@@ -679,7 +1149,7 @@ Bind an Aeris ContextMenu instance to the table. Right-clicking a body row opens
 ```ts
 import { Component, signal } from '@angular/core';
 import { type AerisContextMenuItemEvent } from '@aeris-ui/core/context-menu';
-import { AerisTableContextMenuModule, type AerisTableContextMenuEvent, type AerisTableData } from '@aeris-ui/core/table';
+import { AerisTableContextMenuModule, type AerisTableColumn, type AerisTableContextMenuEvent, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-context-menu-demo',
@@ -687,6 +1157,62 @@ import { AerisTableContextMenuModule, type AerisTableContextMenuEvent, type Aeri
   templateUrl: './table-context-menu.demo.html'
 })
 export class TableContextMenuContextMenuDemo {
+  protected readonly contextMenuStatus = signal('Right-click a row to open member actions.');
+
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
+
   protected readonly contextMenuMember =
     signal<AerisTableData | null>(null);
 
@@ -743,7 +1269,7 @@ Three density sizes change cell padding. Striped rows and gridlines are independ
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-appearance-demo',
@@ -752,6 +1278,59 @@ import { AerisTableModule } from '@aeris-ui/core/table';
   styleUrl: './table-appearance.demo.scss'
 })
 export class TableAppearanceStripedRowsSizesAndGridlinesDemo {
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
 }
 ```
 
@@ -919,7 +1498,7 @@ Expandable rows keep the disclosure button, aria-expanded state, and expanded co
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-expansion-demo',
@@ -941,6 +1520,60 @@ import { AerisTableModule } from '@aeris-ui/core/table';
   `
 })
 export class TableExpansionRowExpansionDemo {
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
+
   protected readonly selectedMembers =
     signal<readonly string[]>(['1']);
 
@@ -959,7 +1592,7 @@ Double-click a cell to edit. Aeris emits the edit event and lets the app decide 
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTableModule, type AerisTableCellEditEvent, type AerisTableData } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTableCellEditEvent, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-editing-demo',
@@ -977,6 +1610,12 @@ import { AerisTableModule, type AerisTableCellEditEvent, type AerisTableData } f
   `
 })
 export class TableEditingInCellEditingDemo {
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
   protected readonly editableMembers =
     signal<readonly AerisTableData[]>([
       { id: '1', name: 'Maya Chen', team: 'Design', status: 'Active' },
@@ -1004,7 +1643,7 @@ Scrollable tables constrain the body viewport while headers remain sticky. Use h
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-scrolling-demo',
@@ -1022,6 +1661,73 @@ import { AerisTableModule } from '@aeris-ui/core/table';
   `
 })
 export class TableScrollingScrollingDemo {
+  protected readonly columns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '22%' },
+      { field: 'role', header: 'Role', sortable: true, width: '26%' },
+      { field: 'team', header: 'Team', sortable: true, width: '20%' },
+      { field: 'status', header: 'Status', align: 'center', width: '14%' },
+      { field: 'lastActive', header: 'Last active', sortable: true, width: '18%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
+
+  protected readonly manyMembers: readonly AerisTableData[] = Array.from(
+      { length: 24 },
+      (_, index) => {
+        const base = this.members[index % this.members.length];
+        return {
+          ...base,
+          id: `member-${index + 1}`,
+          name: `${String(base['name'])} ${index + 1}`,
+        };
+      },
+    );
 }
 ```
 
@@ -1033,7 +1739,7 @@ Cell templates receive value, row, column, and rowIndex while Table preserves na
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-templates-demo',
@@ -1042,6 +1748,59 @@ import { AerisTableModule } from '@aeris-ui/core/table';
   styleUrl: './table-templates.demo.scss'
 })
 export class TableTemplatesCellTemplatesDemo {
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
 }
 ```
 
@@ -1100,7 +1859,7 @@ Default scroll mode keeps wide tables horizontally scrollable. Stack mode turns 
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-responsive-demo',
@@ -1109,6 +1868,67 @@ import { AerisTableModule } from '@aeris-ui/core/table';
   styleUrl: './table-responsive.demo.scss'
 })
 export class TableResponsiveResponsiveLayoutsDemo {
+  protected readonly columns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '22%' },
+      { field: 'role', header: 'Role', sortable: true, width: '26%' },
+      { field: 'team', header: 'Team', sortable: true, width: '20%' },
+      { field: 'status', header: 'Status', align: 'center', width: '14%' },
+      { field: 'lastActive', header: 'Last active', sortable: true, width: '18%' },
+    ];
+
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
 }
 ```
 
@@ -1155,7 +1975,7 @@ Call exportCSV from a template reference to download CSV for all, filtered, or c
 ```ts
 import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisTableModule, type AerisTable } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTable, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-csv-demo',
@@ -1184,6 +2004,60 @@ import { AerisTableModule, type AerisTable } from '@aeris-ui/core/table';
   `
 })
 export class TableCsvCSVExportDemo {
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
+
   protected exportCsv(table: AerisTable): void {
     table.exportCSV({
       filename: 'team-members.csv',
@@ -1201,7 +2075,7 @@ Loading and empty content are announced with status semantics and can be replace
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisTableModule } from '@aeris-ui/core/table';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-states-demo',
@@ -1235,6 +2109,59 @@ import { AerisTableModule } from '@aeris-ui/core/table';
   `
 })
 export class TableStatesLoadingAndEmptyStatesDemo {
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
 }
 ```
 
@@ -1245,8 +2172,8 @@ Sort and selection events provide typed metadata without requiring consumers to 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisTableModule, type AerisTableSelectionEvent, type AerisTableSortEvent } from '@aeris-ui/core/table';
+import { Component, signal } from '@angular/core';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData, type AerisTableSelectionEvent, type AerisTableSortEvent } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'app-table-events-demo',
@@ -1268,6 +2195,66 @@ import { AerisTableModule, type AerisTableSelectionEvent, type AerisTableSortEve
   `
 })
 export class TableEventsEventsDemo {
+  protected readonly selectedMembers = signal<readonly string[]>(['1']);
+
+  protected readonly eventText = signal('No table event yet');
+
+  protected readonly sortState = signal<{ field: string; direction: 'asc' | 'desc' } | null>(null);
+
+  protected readonly compactColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', sortable: true, width: '42%' },
+      { field: 'team', header: 'Team', width: '34%' },
+      { field: 'status', header: 'Status', align: 'end', width: '24%' },
+    ];
+
+  protected readonly members: readonly AerisTableData[] = [
+      {
+        id: '1',
+        name: 'Maya Chen',
+        role: 'Product designer',
+        team: 'Design',
+        status: 'Active',
+        lastActive: 'Just now',
+        notes: 'Owns the design system rollout.',
+      },
+      {
+        id: '2',
+        name: 'Noah Williams',
+        role: 'Frontend engineer',
+        team: 'Engineering',
+        status: 'Invited',
+        lastActive: '2 hours ago',
+        notes: 'Works on Angular component architecture.',
+      },
+      {
+        id: '3',
+        name: 'Sofia Rossi',
+        role: 'Researcher',
+        team: 'Research',
+        status: 'Offline',
+        lastActive: 'Yesterday',
+        notes: 'Runs usability research for forms.',
+      },
+      {
+        id: '4',
+        name: 'Liam Novak',
+        role: 'QA engineer',
+        team: 'Quality',
+        status: 'Active',
+        lastActive: 'Today',
+        notes: 'Maintains accessibility test plans.',
+      },
+      {
+        id: '5',
+        name: 'Ava Patel',
+        role: 'Product manager',
+        team: 'Product',
+        status: 'Active',
+        lastActive: '1 day ago',
+        notes: 'Coordinates roadmap decisions.',
+      },
+    ];
+
   protected handleSort(event: AerisTableSortEvent): void {
     this.eventText.set(event.sort ? `Sorted by ${event.sort.field}` : 'Sorting cleared');
   }

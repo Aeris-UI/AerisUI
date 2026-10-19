@@ -25,6 +25,7 @@ describe('CatalogPreviewComponent', () => {
     { kind: 'table', category: 'Data', selector: 'aeris-table' },
     { kind: 'tabs', category: 'Panel', selector: 'aeris-tabs' },
     { kind: 'menu', category: 'Menu', selector: 'aeris-menu' },
+    { kind: 'sidebar', category: 'Menu', selector: 'aeris-sidebar' },
     { kind: 'carousel', category: 'Media', selector: 'aeris-carousel' },
     { kind: 'avatar', category: 'Misc', selector: 'aeris-avatar' },
     { kind: 'glass', category: 'Utilities', selector: 'aeris-card[aerisGlass]' },
@@ -57,6 +58,31 @@ describe('CatalogPreviewComponent', () => {
     expect(buttons).toHaveLength(2);
     expect(buttons[1]?.nativeElement.classList.contains('aeris-button--outline')).toBe(true);
     expect(buttons.every((button) => button.nativeElement.tabIndex === -1)).toBe(true);
+  });
+  it('shows a real icon-only Sidebar and expands the same navigation when activated', async () => {
+    const fixture = TestBed.createComponent(CatalogPreviewComponent);
+    fixture.componentRef.setInput('kind', 'sidebar');
+    fixture.componentRef.setInput('category', 'Menu');
+    fixture.detectChanges();
+    await (await fixture.getDeferBlocks())[0].render(DeferBlockState.Complete);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const sidebar = element.querySelector('aeris-sidebar');
+    expect(sidebar?.hasAttribute('data-icon-only')).toBe(true);
+    expect(sidebar?.querySelector('.aeris-sidebar__collapse')?.getAttribute('aria-label')).toBe(
+      'Expand navigation',
+    );
+    expect(sidebar?.querySelectorAll('svg[aerisSidebarIcon]')).toHaveLength(4);
+    fixture.componentRef.setInput('active', true);
+    fixture.detectChanges();
+    expect(sidebar?.hasAttribute('data-icon-only')).toBe(false);
+    expect(sidebar?.querySelector('.aeris-sidebar__collapse')?.getAttribute('aria-label')).toBe(
+      'Collapse navigation',
+    );
+    expect(sidebar?.textContent).toContain('Workspace');
+    fixture.componentRef.setInput('active', false);
+    fixture.detectChanges();
+    expect(sidebar?.hasAttribute('data-icon-only')).toBe(true);
   });
 
   const hoverScenes: readonly { kind: string; category: ComponentCategory; selector: string }[] = [

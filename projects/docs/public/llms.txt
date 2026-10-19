@@ -117,6 +117,7 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [MegaMenu](https://aeris-ui.dev/ai/22/components/mega-menu.md): Large navigation menu with grouped panels, horizontal or vertical orientation, templates, commands, and keyboard support.
 - [Menu](https://aeris-ui.dev/ai/22/components/menu.md): Vertical command and navigation menu with grouped items, popup mode, controlled expansion, templates, commands, and links.
 - [Menubar](https://aeris-ui.dev/ai/22/components/menubar.md): Horizontal application menu with cascading submenus, templates, commands, links, and responsive collapse.
+- [Sidebar](https://aeris-ui.dev/ai/22/components/sidebar.md): Responsive navigation with native links, collapsible groups, icon-only presentation, and an accessible mobile drawer.
 - [TieredMenu](https://aeris-ui.dev/ai/22/components/tiered-menu.md): Vertical command menu with cascading submenu overlays, popup mode, templates, commands, links, and keyboard support.
 
 ## Chart components

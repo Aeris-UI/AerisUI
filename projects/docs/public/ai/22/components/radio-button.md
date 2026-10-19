@@ -168,7 +168,7 @@ Bind every option to one writable signal and observe detailed user changes when 
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisRadioButton } from '@aeris-ui/core/radio-button';
+import { AerisRadioButton, type AerisRadioButtonChangeEvent } from '@aeris-ui/core/radio-button';
 
 @Component({
   selector: 'app-radio-model-demo',
@@ -177,6 +177,12 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   styleUrl: './radio-model.demo.scss'
 })
 export class RadioModelSignalModelDemo {
+  protected readonly lastChange = signal('No interaction');
+
+  protected recordChange(event: AerisRadioButtonChangeEvent): void {
+      this.lastChange.set(`Selected ${event.value}`);
+    }
+
   protected readonly notificationChannel = signal<string | null>('email');
 }
 ```
@@ -336,7 +342,7 @@ Share a native group name and selected signal. Arrow keys move between available
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisRadioButton } from '@aeris-ui/core/radio-button';
 
@@ -347,6 +353,9 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   styleUrl: './radio-cards.demo.scss'
 })
 export class RadioCardsSelectableCardsDemo {
+  protected readonly delivery = signal<string | null>(null);
+
+  protected readonly deliverySubmitted = signal(false);
 }
 ```
 
@@ -533,7 +542,7 @@ State is synchronized with the internal native input and exposed to assistive te
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisRadioButton } from '@aeris-ui/core/radio-button';
 
 @Component({
@@ -543,6 +552,7 @@ import { AerisRadioButton } from '@aeris-ui/core/radio-button';
   styleUrl: './radio-states.demo.scss'
 })
 export class RadioStatesRequiredInvalidAndDisabledDemo {
+  protected readonly deliverySpeed = signal<string | null>(null);
 }
 ```
 

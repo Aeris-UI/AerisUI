@@ -69,7 +69,9 @@
         <div
           aerisCardMedia
           class="catalog-preview-scene"
-          [class.catalog-preview-scene--overlay]="item.category === 'Overlay'"
+          [class.catalog-preview-scene--overlay]="
+            item.category === 'Overlay' || item.slug === 'sidebar'
+          "
           inert
           aria-hidden="true"
         >

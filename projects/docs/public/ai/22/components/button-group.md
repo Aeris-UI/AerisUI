@@ -144,9 +144,9 @@ A single-choice segmented group uses radio semantics and one Tab stop. Arrow key
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisButtonGroup } from '@aeris-ui/core/button-group';
+import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/button-group';
 
 @Component({
   selector: 'app-group-single-demo',
@@ -155,6 +155,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
   styleUrl: './group-single.demo.scss'
 })
 export class GroupSingleSingleSelectionDemo {
+  protected readonly single = signal<AerisButtonGroupValue>('day');
 }
 ```
 
@@ -211,9 +212,9 @@ Independent choices expose pressed states. Arrows move focus without changing se
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisButtonGroup } from '@aeris-ui/core/button-group';
+import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/button-group';
 
 @Component({
   selector: 'app-group-multiple-demo',
@@ -222,6 +223,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
   styleUrl: './group-multiple.demo.scss'
 })
 export class GroupMultipleMultipleSelectionDemo {
+  protected readonly multiple = signal<AerisButtonGroupValue>(['bold']);
 }
 ```
 
@@ -278,9 +280,9 @@ allowEmpty lets an optional single-choice group clear its selected item. require
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisButtonGroup } from '@aeris-ui/core/button-group';
+import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/button-group';
 
 @Component({
   selector: 'app-group-optional-demo',
@@ -289,6 +291,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
   styleUrl: './group-optional.demo.scss'
 })
 export class GroupOptionalEmptySelectionDemo {
+  protected readonly optional = signal<AerisButtonGroupValue>(null);
 }
 ```
 
@@ -343,9 +346,9 @@ Update selection externally. Disabled and loading members are skipped; vertical 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisButtonGroup } from '@aeris-ui/core/button-group';
+import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/button-group';
 
 @Component({
   selector: 'app-group-controlled-demo',
@@ -354,6 +357,9 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
   styleUrl: './group-controlled.demo.scss'
 })
 export class GroupControlledControlledSelectionDemo {
+  protected readonly controlled = signal<AerisButtonGroupValue>('one');
+
+  protected readonly groupDisabled = signal(false);
 }
 ```
 
@@ -432,11 +438,11 @@ Attach the form to the group, not its members. Required pristine fields stay neu
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisButtonGroup } from '@aeris-ui/core/button-group';
+import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/button-group';
 import { AerisMessageModule } from '@aeris-ui/core/message';
-import { FormField } from '@angular/forms/signals';
+import { FormField, form, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-group-signal-forms-demo',
@@ -445,6 +451,13 @@ import { FormField } from '@angular/forms/signals';
   styleUrl: './group-signal-forms.demo.scss'
 })
 export class GroupSignalFormsSignalFormsDemo {
+  protected readonly selectionData = signal<{ choice: AerisButtonGroupValue }>({ choice: null });
+
+  protected readonly selectionForm = form(this.selectionData, (schema) => required(schema.choice));
+
+  protected readonly selectionError = computed(
+      () => this.selectionForm.choice().touched() && this.selectionForm.choice().invalid(),
+    );
 }
 ```
 
@@ -511,9 +524,9 @@ The group also supports formControl, formControlName and ngModel. Use a string o
 
 ```ts
 import { Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisButtonGroup } from '@aeris-ui/core/button-group';
+import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/button-group';
 
 @Component({
   selector: 'app-group-reactive-forms-demo',
@@ -550,6 +563,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
   `
 })
 export class GroupReactiveFormsReactiveFormsDemo {
+  protected readonly selectionControl = new FormControl<AerisButtonGroupValue>(['one']);
 }
 ```
 
@@ -656,8 +670,11 @@ import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideDynamicIcon
   styleUrl: './group-icons.demo.scss'
 })
 export class GroupIconsIconsDemo {
-
-  protected readonly icons = { AlignCenter: LucideAlignCenter, AlignLeft: LucideAlignLeft, AlignRight: LucideAlignRight };
+  protected readonly icons = {
+      AlignLeft: LucideAlignLeft,
+      AlignCenter: LucideAlignCenter,
+      AlignRight: LucideAlignRight,
+    };
 }
 ```
 

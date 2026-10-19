@@ -299,6 +299,15 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   styleUrl: './form-field-validation.demo.scss'
 })
 export class FormFieldValidationValidationAndAlignmentDemo {
+  protected validateEmail(): void {
+      this.validationTouched.set(true);
+    }
+
+  protected resetValidation(): void {
+      this.validationEmail.set('alex@');
+      this.validationTouched.set(false);
+    }
+
   protected readonly validationEmail = signal('alex@');
   protected readonly validationTouched = signal(false);
   protected readonly validationInvalid = computed(

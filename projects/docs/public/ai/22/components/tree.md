@@ -246,7 +246,14 @@ Keep expansion in application state and replace the complete key set to expand o
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisTreeModule } from '@aeris-ui/core/tree';
+import { AerisTreeModule, type AerisTreeNode } from '@aeris-ui/core/tree';
+import { LucideDynamicIcon, LucideFileText, LucideFolder, LucideImage, type LucideIconInput } from '@lucide/angular';
+
+interface FileDetails {
+  readonly type: 'folder' | 'typescript' | 'image' | 'document';
+  readonly detail: string;
+  readonly icon: LucideIconInput;
+}
 
 @Component({
   selector: 'app-tree-controlled-demo',
@@ -291,6 +298,69 @@ import { AerisTreeModule } from '@aeris-ui/core/tree';
   `
 })
 export class TreeControlledControlledExpansionDemo {
+  private createFiles(): readonly AerisTreeNode<FileDetails>[] {
+      return [
+        {
+          key: 'workspace',
+          label: 'Aeris workspace',
+          data: { type: 'folder', detail: 'Project root', icon: LucideFolder },
+          children: [
+            {
+              key: 'source',
+              label: 'Source',
+              data: { type: 'folder', detail: 'Application code', icon: LucideFolder },
+              children: [
+                {
+                  key: 'button',
+                  label: 'button.ts',
+                  leaf: true,
+                  data: { type: 'typescript', detail: '4 KB', icon: LucideFileText },
+                },
+                {
+                  key: 'tokens',
+                  label: 'tokens.scss',
+                  leaf: true,
+                  data: { type: 'document', detail: '8 KB', icon: LucideFileText },
+                },
+              ],
+            },
+            {
+              key: 'assets',
+              label: 'Assets',
+              data: { type: 'folder', detail: 'Brand media', icon: LucideFolder },
+              children: [
+                {
+                  key: 'logo',
+                  label: 'logo.svg',
+                  leaf: true,
+                  data: { type: 'image', detail: '12 KB', icon: LucideImage },
+                },
+                {
+                  key: 'cover',
+                  label: 'cover.webp',
+                  leaf: true,
+                  data: { type: 'image', detail: '84 KB', icon: LucideImage },
+                },
+              ],
+            },
+            {
+              key: 'readme',
+              label: 'README.md',
+              leaf: true,
+              data: { type: 'document', detail: '12 KB', icon: LucideFileText },
+            },
+          ],
+        },
+        {
+          key: 'archive',
+          label: 'Archive',
+          disabled: true,
+          leaf: true,
+          data: { type: 'folder', detail: 'Read only', icon: LucideFolder },
+        },
+      ];
+    }
+
   protected readonly files = this.createFiles();
   protected readonly controlledExpanded = signal<readonly string[]>(['workspace']);
 
@@ -312,7 +382,14 @@ Single selection keeps one selected key and emits a typed event for selection an
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTreeModule, type AerisTreeSelectionEvent } from '@aeris-ui/core/tree';
+import { AerisTreeModule, type AerisTreeNode, type AerisTreeSelectionEvent } from '@aeris-ui/core/tree';
+import { LucideDynamicIcon, LucideFileText, LucideFolder, LucideImage, type LucideIconInput } from '@lucide/angular';
+
+interface FileDetails {
+  readonly type: 'folder' | 'typescript' | 'image' | 'document';
+  readonly detail: string;
+  readonly icon: LucideIconInput;
+}
 
 @Component({
   selector: 'app-tree-single-selection-demo',
@@ -349,6 +426,69 @@ import { AerisTreeModule, type AerisTreeSelectionEvent } from '@aeris-ui/core/tr
   `
 })
 export class TreeSingleSelectionSingleSelectionDemo {
+  private createFiles(): readonly AerisTreeNode<FileDetails>[] {
+      return [
+        {
+          key: 'workspace',
+          label: 'Aeris workspace',
+          data: { type: 'folder', detail: 'Project root', icon: LucideFolder },
+          children: [
+            {
+              key: 'source',
+              label: 'Source',
+              data: { type: 'folder', detail: 'Application code', icon: LucideFolder },
+              children: [
+                {
+                  key: 'button',
+                  label: 'button.ts',
+                  leaf: true,
+                  data: { type: 'typescript', detail: '4 KB', icon: LucideFileText },
+                },
+                {
+                  key: 'tokens',
+                  label: 'tokens.scss',
+                  leaf: true,
+                  data: { type: 'document', detail: '8 KB', icon: LucideFileText },
+                },
+              ],
+            },
+            {
+              key: 'assets',
+              label: 'Assets',
+              data: { type: 'folder', detail: 'Brand media', icon: LucideFolder },
+              children: [
+                {
+                  key: 'logo',
+                  label: 'logo.svg',
+                  leaf: true,
+                  data: { type: 'image', detail: '12 KB', icon: LucideImage },
+                },
+                {
+                  key: 'cover',
+                  label: 'cover.webp',
+                  leaf: true,
+                  data: { type: 'image', detail: '84 KB', icon: LucideImage },
+                },
+              ],
+            },
+            {
+              key: 'readme',
+              label: 'README.md',
+              leaf: true,
+              data: { type: 'document', detail: '12 KB', icon: LucideFileText },
+            },
+          ],
+        },
+        {
+          key: 'archive',
+          label: 'Archive',
+          disabled: true,
+          leaf: true,
+          data: { type: 'folder', detail: 'Read only', icon: LucideFolder },
+        },
+      ];
+    }
+
   protected readonly files = this.createFiles();
   protected readonly basicExpanded = signal<readonly string[]>(['workspace', 'source']);
   protected readonly singleSelection = signal<readonly string[]>(['button']);
@@ -372,7 +512,14 @@ Multiple selection toggles independent nodes without changing branch expansion.
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTreeModule } from '@aeris-ui/core/tree';
+import { AerisTreeModule, type AerisTreeNode } from '@aeris-ui/core/tree';
+import { LucideDynamicIcon, LucideFileText, LucideFolder, LucideImage, type LucideIconInput } from '@lucide/angular';
+
+interface FileDetails {
+  readonly type: 'folder' | 'typescript' | 'image' | 'document';
+  readonly detail: string;
+  readonly icon: LucideIconInput;
+}
 
 @Component({
   selector: 'app-tree-multiple-selection-demo',
@@ -402,6 +549,69 @@ import { AerisTreeModule } from '@aeris-ui/core/tree';
   `
 })
 export class TreeMultipleSelectionMultipleSelectionDemo {
+  private createFiles(): readonly AerisTreeNode<FileDetails>[] {
+      return [
+        {
+          key: 'workspace',
+          label: 'Aeris workspace',
+          data: { type: 'folder', detail: 'Project root', icon: LucideFolder },
+          children: [
+            {
+              key: 'source',
+              label: 'Source',
+              data: { type: 'folder', detail: 'Application code', icon: LucideFolder },
+              children: [
+                {
+                  key: 'button',
+                  label: 'button.ts',
+                  leaf: true,
+                  data: { type: 'typescript', detail: '4 KB', icon: LucideFileText },
+                },
+                {
+                  key: 'tokens',
+                  label: 'tokens.scss',
+                  leaf: true,
+                  data: { type: 'document', detail: '8 KB', icon: LucideFileText },
+                },
+              ],
+            },
+            {
+              key: 'assets',
+              label: 'Assets',
+              data: { type: 'folder', detail: 'Brand media', icon: LucideFolder },
+              children: [
+                {
+                  key: 'logo',
+                  label: 'logo.svg',
+                  leaf: true,
+                  data: { type: 'image', detail: '12 KB', icon: LucideImage },
+                },
+                {
+                  key: 'cover',
+                  label: 'cover.webp',
+                  leaf: true,
+                  data: { type: 'image', detail: '84 KB', icon: LucideImage },
+                },
+              ],
+            },
+            {
+              key: 'readme',
+              label: 'README.md',
+              leaf: true,
+              data: { type: 'document', detail: '12 KB', icon: LucideFileText },
+            },
+          ],
+        },
+        {
+          key: 'archive',
+          label: 'Archive',
+          disabled: true,
+          leaf: true,
+          data: { type: 'folder', detail: 'Read only', icon: LucideFolder },
+        },
+      ];
+    }
+
   protected readonly files = this.createFiles();
   protected readonly basicExpanded = signal<readonly string[]>(['workspace', 'source']);
   protected readonly multipleSelection = signal<readonly string[]>(['button', 'tokens']);
@@ -416,7 +626,14 @@ Checkbox mode cascades through selectable descendants and exposes mixed parent s
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTreeModule } from '@aeris-ui/core/tree';
+import { AerisTreeModule, type AerisTreeNode } from '@aeris-ui/core/tree';
+import { LucideDynamicIcon, LucideFileText, LucideFolder, LucideImage, type LucideIconInput } from '@lucide/angular';
+
+interface FileDetails {
+  readonly type: 'folder' | 'typescript' | 'image' | 'document';
+  readonly detail: string;
+  readonly icon: LucideIconInput;
+}
 
 @Component({
   selector: 'app-tree-checkbox-selection-demo',
@@ -446,6 +663,69 @@ import { AerisTreeModule } from '@aeris-ui/core/tree';
   `
 })
 export class TreeCheckboxSelectionCheckboxSelectionDemo {
+  private createFiles(): readonly AerisTreeNode<FileDetails>[] {
+      return [
+        {
+          key: 'workspace',
+          label: 'Aeris workspace',
+          data: { type: 'folder', detail: 'Project root', icon: LucideFolder },
+          children: [
+            {
+              key: 'source',
+              label: 'Source',
+              data: { type: 'folder', detail: 'Application code', icon: LucideFolder },
+              children: [
+                {
+                  key: 'button',
+                  label: 'button.ts',
+                  leaf: true,
+                  data: { type: 'typescript', detail: '4 KB', icon: LucideFileText },
+                },
+                {
+                  key: 'tokens',
+                  label: 'tokens.scss',
+                  leaf: true,
+                  data: { type: 'document', detail: '8 KB', icon: LucideFileText },
+                },
+              ],
+            },
+            {
+              key: 'assets',
+              label: 'Assets',
+              data: { type: 'folder', detail: 'Brand media', icon: LucideFolder },
+              children: [
+                {
+                  key: 'logo',
+                  label: 'logo.svg',
+                  leaf: true,
+                  data: { type: 'image', detail: '12 KB', icon: LucideImage },
+                },
+                {
+                  key: 'cover',
+                  label: 'cover.webp',
+                  leaf: true,
+                  data: { type: 'image', detail: '84 KB', icon: LucideImage },
+                },
+              ],
+            },
+            {
+              key: 'readme',
+              label: 'README.md',
+              leaf: true,
+              data: { type: 'document', detail: '12 KB', icon: LucideFileText },
+            },
+          ],
+        },
+        {
+          key: 'archive',
+          label: 'Archive',
+          disabled: true,
+          leaf: true,
+          data: { type: 'folder', detail: 'Read only', icon: LucideFolder },
+        },
+      ];
+    }
+
   protected readonly files = this.createFiles();
   protected readonly checkboxSelection = signal<readonly string[]>(['assets', 'logo', 'cover']);
 }
@@ -459,7 +739,14 @@ The controlled filter finds node labels and preserves the ancestor path to every
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTreeModule, type AerisTreeFilterEvent } from '@aeris-ui/core/tree';
+import { AerisTreeModule, type AerisTreeFilterEvent, type AerisTreeNode } from '@aeris-ui/core/tree';
+import { LucideDynamicIcon, LucideFileText, LucideFolder, LucideImage, type LucideIconInput } from '@lucide/angular';
+
+interface FileDetails {
+  readonly type: 'folder' | 'typescript' | 'image' | 'document';
+  readonly detail: string;
+  readonly icon: LucideIconInput;
+}
 
 @Component({
   selector: 'app-tree-filtering-demo',
@@ -497,6 +784,71 @@ import { AerisTreeModule, type AerisTreeFilterEvent } from '@aeris-ui/core/tree'
   `
 })
 export class TreeFilteringFilteringDemo {
+  protected readonly eventText = signal('No tree event yet.');
+
+  private createFiles(): readonly AerisTreeNode<FileDetails>[] {
+      return [
+        {
+          key: 'workspace',
+          label: 'Aeris workspace',
+          data: { type: 'folder', detail: 'Project root', icon: LucideFolder },
+          children: [
+            {
+              key: 'source',
+              label: 'Source',
+              data: { type: 'folder', detail: 'Application code', icon: LucideFolder },
+              children: [
+                {
+                  key: 'button',
+                  label: 'button.ts',
+                  leaf: true,
+                  data: { type: 'typescript', detail: '4 KB', icon: LucideFileText },
+                },
+                {
+                  key: 'tokens',
+                  label: 'tokens.scss',
+                  leaf: true,
+                  data: { type: 'document', detail: '8 KB', icon: LucideFileText },
+                },
+              ],
+            },
+            {
+              key: 'assets',
+              label: 'Assets',
+              data: { type: 'folder', detail: 'Brand media', icon: LucideFolder },
+              children: [
+                {
+                  key: 'logo',
+                  label: 'logo.svg',
+                  leaf: true,
+                  data: { type: 'image', detail: '12 KB', icon: LucideImage },
+                },
+                {
+                  key: 'cover',
+                  label: 'cover.webp',
+                  leaf: true,
+                  data: { type: 'image', detail: '84 KB', icon: LucideImage },
+                },
+              ],
+            },
+            {
+              key: 'readme',
+              label: 'README.md',
+              leaf: true,
+              data: { type: 'document', detail: '12 KB', icon: LucideFileText },
+            },
+          ],
+        },
+        {
+          key: 'archive',
+          label: 'Archive',
+          disabled: true,
+          leaf: true,
+          data: { type: 'folder', detail: 'Read only', icon: LucideFolder },
+        },
+      ];
+    }
+
   protected readonly files = this.createFiles();
   protected readonly filterExpanded = signal<readonly string[]>(['workspace']);
   protected readonly filterQuery = signal('');
@@ -516,7 +868,13 @@ Mark an unloaded branch with leaf: false, respond to nodeExpanded, and identify 
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule, type AerisTreeNode, type AerisTreeNodeEvent } from '@aeris-ui/core/tree';
-import { LucideFileText, LucideFolder } from '@lucide/angular';
+import { LucideDynamicIcon, LucideFileText, LucideFolder, LucideImage, type LucideIconInput } from '@lucide/angular';
+
+interface FileDetails {
+  readonly type: 'folder' | 'typescript' | 'image' | 'document';
+  readonly detail: string;
+  readonly icon: LucideIconInput;
+}
 
 @Component({
   selector: 'app-tree-lazy-demo',
@@ -597,6 +955,13 @@ Reorder nodes before, inside, or after another node. The value model receives an
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule, type AerisTreeDropEvent, type AerisTreeNode } from '@aeris-ui/core/tree';
+import { LucideDynamicIcon, LucideFileText, LucideFolder, LucideImage, type LucideIconInput } from '@lucide/angular';
+
+interface FileDetails {
+  readonly type: 'folder' | 'typescript' | 'image' | 'document';
+  readonly detail: string;
+  readonly icon: LucideIconInput;
+}
 
 @Component({
   selector: 'app-tree-drag-drop-demo',
@@ -632,6 +997,69 @@ import { AerisTreeModule, type AerisTreeDropEvent, type AerisTreeNode } from '@a
   `
 })
 export class TreeDragDropDragAndDropDemo {
+  private createFiles(): readonly AerisTreeNode<FileDetails>[] {
+      return [
+        {
+          key: 'workspace',
+          label: 'Aeris workspace',
+          data: { type: 'folder', detail: 'Project root', icon: LucideFolder },
+          children: [
+            {
+              key: 'source',
+              label: 'Source',
+              data: { type: 'folder', detail: 'Application code', icon: LucideFolder },
+              children: [
+                {
+                  key: 'button',
+                  label: 'button.ts',
+                  leaf: true,
+                  data: { type: 'typescript', detail: '4 KB', icon: LucideFileText },
+                },
+                {
+                  key: 'tokens',
+                  label: 'tokens.scss',
+                  leaf: true,
+                  data: { type: 'document', detail: '8 KB', icon: LucideFileText },
+                },
+              ],
+            },
+            {
+              key: 'assets',
+              label: 'Assets',
+              data: { type: 'folder', detail: 'Brand media', icon: LucideFolder },
+              children: [
+                {
+                  key: 'logo',
+                  label: 'logo.svg',
+                  leaf: true,
+                  data: { type: 'image', detail: '12 KB', icon: LucideImage },
+                },
+                {
+                  key: 'cover',
+                  label: 'cover.webp',
+                  leaf: true,
+                  data: { type: 'image', detail: '84 KB', icon: LucideImage },
+                },
+              ],
+            },
+            {
+              key: 'readme',
+              label: 'README.md',
+              leaf: true,
+              data: { type: 'document', detail: '12 KB', icon: LucideFileText },
+            },
+          ],
+        },
+        {
+          key: 'archive',
+          label: 'Archive',
+          disabled: true,
+          leaf: true,
+          data: { type: 'folder', detail: 'Read only', icon: LucideFolder },
+        },
+      ];
+    }
+
   protected readonly dragFiles = signal<readonly AerisTreeNode<FileDetails>[]>(
     this.createFiles(),
   );
@@ -742,7 +1170,14 @@ Loading, empty, and disabled states remain named and expose status text where co
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisTreeModule } from '@aeris-ui/core/tree';
+import { AerisTreeModule, type AerisTreeNode } from '@aeris-ui/core/tree';
+import { LucideDynamicIcon, LucideFileText, LucideFolder, LucideImage, type LucideIconInput } from '@lucide/angular';
+
+interface FileDetails {
+  readonly type: 'folder' | 'typescript' | 'image' | 'document';
+  readonly detail: string;
+  readonly icon: LucideIconInput;
+}
 
 @Component({
   selector: 'app-tree-states-demo',
@@ -751,6 +1186,70 @@ import { AerisTreeModule } from '@aeris-ui/core/tree';
   styleUrl: './tree-states.demo.scss'
 })
 export class TreeStatesStatesDemo {
+  protected readonly files = this.createFiles();
+
+  private createFiles(): readonly AerisTreeNode<FileDetails>[] {
+      return [
+        {
+          key: 'workspace',
+          label: 'Aeris workspace',
+          data: { type: 'folder', detail: 'Project root', icon: LucideFolder },
+          children: [
+            {
+              key: 'source',
+              label: 'Source',
+              data: { type: 'folder', detail: 'Application code', icon: LucideFolder },
+              children: [
+                {
+                  key: 'button',
+                  label: 'button.ts',
+                  leaf: true,
+                  data: { type: 'typescript', detail: '4 KB', icon: LucideFileText },
+                },
+                {
+                  key: 'tokens',
+                  label: 'tokens.scss',
+                  leaf: true,
+                  data: { type: 'document', detail: '8 KB', icon: LucideFileText },
+                },
+              ],
+            },
+            {
+              key: 'assets',
+              label: 'Assets',
+              data: { type: 'folder', detail: 'Brand media', icon: LucideFolder },
+              children: [
+                {
+                  key: 'logo',
+                  label: 'logo.svg',
+                  leaf: true,
+                  data: { type: 'image', detail: '12 KB', icon: LucideImage },
+                },
+                {
+                  key: 'cover',
+                  label: 'cover.webp',
+                  leaf: true,
+                  data: { type: 'image', detail: '84 KB', icon: LucideImage },
+                },
+              ],
+            },
+            {
+              key: 'readme',
+              label: 'README.md',
+              leaf: true,
+              data: { type: 'document', detail: '12 KB', icon: LucideFileText },
+            },
+          ],
+        },
+        {
+          key: 'archive',
+          label: 'Archive',
+          disabled: true,
+          leaf: true,
+          data: { type: 'folder', detail: 'Read only', icon: LucideFolder },
+        },
+      ];
+    }
 }
 ```
 
@@ -812,7 +1311,14 @@ Typed outputs report selection, expansion, collapse, filtering, and drops while 
 
 ```ts
 import { Component, signal } from '@angular/core';
-import { AerisTreeModule, type AerisTreeFilterEvent, type AerisTreeNodeEvent, type AerisTreeSelectionEvent } from '@aeris-ui/core/tree';
+import { AerisTreeModule, type AerisTreeFilterEvent, type AerisTreeNode, type AerisTreeNodeEvent, type AerisTreeSelectionEvent } from '@aeris-ui/core/tree';
+import { LucideDynamicIcon, LucideFileText, LucideFolder, LucideImage, type LucideIconInput } from '@lucide/angular';
+
+interface FileDetails {
+  readonly type: 'folder' | 'typescript' | 'image' | 'document';
+  readonly detail: string;
+  readonly icon: LucideIconInput;
+}
 
 @Component({
   selector: 'app-tree-events-demo',
@@ -852,6 +1358,69 @@ import { AerisTreeModule, type AerisTreeFilterEvent, type AerisTreeNodeEvent, ty
   `
 })
 export class TreeEventsEventsDemo {
+  private createFiles(): readonly AerisTreeNode<FileDetails>[] {
+      return [
+        {
+          key: 'workspace',
+          label: 'Aeris workspace',
+          data: { type: 'folder', detail: 'Project root', icon: LucideFolder },
+          children: [
+            {
+              key: 'source',
+              label: 'Source',
+              data: { type: 'folder', detail: 'Application code', icon: LucideFolder },
+              children: [
+                {
+                  key: 'button',
+                  label: 'button.ts',
+                  leaf: true,
+                  data: { type: 'typescript', detail: '4 KB', icon: LucideFileText },
+                },
+                {
+                  key: 'tokens',
+                  label: 'tokens.scss',
+                  leaf: true,
+                  data: { type: 'document', detail: '8 KB', icon: LucideFileText },
+                },
+              ],
+            },
+            {
+              key: 'assets',
+              label: 'Assets',
+              data: { type: 'folder', detail: 'Brand media', icon: LucideFolder },
+              children: [
+                {
+                  key: 'logo',
+                  label: 'logo.svg',
+                  leaf: true,
+                  data: { type: 'image', detail: '12 KB', icon: LucideImage },
+                },
+                {
+                  key: 'cover',
+                  label: 'cover.webp',
+                  leaf: true,
+                  data: { type: 'image', detail: '84 KB', icon: LucideImage },
+                },
+              ],
+            },
+            {
+              key: 'readme',
+              label: 'README.md',
+              leaf: true,
+              data: { type: 'document', detail: '12 KB', icon: LucideFileText },
+            },
+          ],
+        },
+        {
+          key: 'archive',
+          label: 'Archive',
+          disabled: true,
+          leaf: true,
+          data: { type: 'folder', detail: 'Read only', icon: LucideFolder },
+        },
+      ];
+    }
+
   protected readonly files = this.createFiles();
   protected readonly basicExpanded = signal<readonly string[]>(['workspace', 'source']);
   protected readonly singleSelection = signal<readonly string[]>(['button']);

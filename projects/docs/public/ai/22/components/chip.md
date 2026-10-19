@@ -208,7 +208,7 @@ Project icons from any consumer-selected icon library and mark them with aerisCh
 ```ts
 import { Component } from '@angular/core';
 import { AerisChipModule } from '@aeris-ui/core/chip';
-import { LucideCamera, LucideCode2, LucideDynamicIcon, LucidePalette } from '@lucide/angular';
+import { LucideCamera, LucideCode2, LucideDynamicIcon, LucidePalette, LucideXCircle } from '@lucide/angular';
 
 @Component({
   selector: 'app-chip-icons-demo',
@@ -238,8 +238,12 @@ import { LucideCamera, LucideCode2, LucideDynamicIcon, LucidePalette } from '@lu
   `
 })
 export class ChipIconsIconsDemo {
-
-  protected readonly icons = { Camera: LucideCamera, Code2: LucideCode2, Palette: LucidePalette };
+  protected readonly icons = {
+      Camera: LucideCamera,
+      Code2: LucideCode2,
+      Palette: LucidePalette,
+      XCircle: LucideXCircle,
+    };
 }
 ```
 
@@ -327,9 +331,9 @@ The native remove button updates visible, emits removed, and supports Enter, Spa
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, ElementRef, signal, viewChild } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisChipModule } from '@aeris-ui/core/chip';
+import { AerisChipModule, type AerisChipRemoveEvent } from '@aeris-ui/core/chip';
 
 @Component({
   selector: 'app-chip-removable-demo',
@@ -338,6 +342,23 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
   styleUrl: './chip-removable.demo.scss'
 })
 export class ChipRemovableRemovableDemo {
+  private readonly restoreElement = viewChild('restoreButton', {
+      read: ElementRef<HTMLButtonElement>,
+    });
+
+  protected readonly removableVisible = signal(true);
+
+  protected readonly removalStatus = signal('Photography is selected.');
+
+  protected recordRemoval(event: AerisChipRemoveEvent): void {
+      this.removalStatus.set(`Removed ${event.label}.`);
+      this.restoreElement()?.nativeElement.focus();
+    }
+
+  protected restoreChip(): void {
+      this.removableVisible.set(true);
+      this.removalStatus.set('Photography is selected.');
+    }
 }
 ```
 
@@ -389,9 +410,9 @@ Call preventDefault() synchronously on removing to reject the request. A cancell
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisChipModule } from '@aeris-ui/core/chip';
+import { AerisChipModule, type AerisChipRemovingEvent } from '@aeris-ui/core/chip';
 
 @Component({
   selector: 'app-chip-cancel-removal-demo',
@@ -400,6 +421,13 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
   styleUrl: './chip-cancel-removal.demo.scss'
 })
 export class ChipCancelRemovalCancellableRemovalDemo {
+  protected readonly protectedVisible = signal(true);
+
+  protected readonly removalAllowed = signal(false);
+
+  protected guardRemoval(event: AerisChipRemovingEvent): void {
+      if (!this.removalAllowed()) event.preventDefault();
+    }
 }
 ```
 
@@ -465,7 +493,7 @@ Set autoHide to false to receive accepted requests without changing visible. The
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, ElementRef, signal, viewChild } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisChipModule } from '@aeris-ui/core/chip';
 
@@ -476,6 +504,26 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
   styleUrl: './chip-controlled-removal.demo.scss'
 })
 export class ChipControlledRemovalParentManagedRemovalDemo {
+  private readonly restoreControlledElement = viewChild('restoreControlledButton', {
+      read: ElementRef<HTMLButtonElement>,
+    });
+
+  protected readonly controlledVisible = signal(true);
+
+  protected readonly controlledRequested = signal(false);
+
+  protected readonly controlledStatus = signal('The parent controls visibility.');
+
+  protected acceptControlledRemoval(): void {
+      this.controlledVisible.set(false);
+      this.controlledStatus.set('The parent accepted the request and hid the chip.');
+      this.restoreControlledElement()?.nativeElement.focus();
+    }
+
+  protected requestControlledRemoval(): void {
+      this.controlledRequested.set(true);
+      this.controlledStatus.set('Removal requested. Confirm to hide the chip.');
+    }
 }
 ```
 
@@ -548,7 +596,7 @@ Project richer content and replace the remove icon while keeping the native remo
 ```ts
 import { Component } from '@angular/core';
 import { AerisChipModule } from '@aeris-ui/core/chip';
-import { LucideDynamicIcon, LucideXCircle } from '@lucide/angular';
+import { LucideCamera, LucideCode2, LucideDynamicIcon, LucidePalette, LucideXCircle } from '@lucide/angular';
 
 @Component({
   selector: 'app-chip-content-demo',
@@ -557,8 +605,12 @@ import { LucideDynamicIcon, LucideXCircle } from '@lucide/angular';
   styleUrl: './chip-content.demo.scss'
 })
 export class ChipContentCustomContentDemo {
-
-  protected readonly icons = { XCircle: LucideXCircle };
+  protected readonly icons = {
+      Camera: LucideCamera,
+      Code2: LucideCode2,
+      Palette: LucidePalette,
+      XCircle: LucideXCircle,
+    };
 }
 ```
 
@@ -613,7 +665,7 @@ Scope tokens to one chip while preserving palette, density, focus, and removal b
 ```ts
 import { Component } from '@angular/core';
 import { AerisChipModule } from '@aeris-ui/core/chip';
-import { LucideDynamicIcon, LucidePalette } from '@lucide/angular';
+import { LucideCamera, LucideCode2, LucideDynamicIcon, LucidePalette, LucideXCircle } from '@lucide/angular';
 
 @Component({
   selector: 'app-chip-custom-demo',
@@ -645,8 +697,12 @@ import { LucideDynamicIcon, LucidePalette } from '@lucide/angular';
   `
 })
 export class ChipCustomTokenCustomizationDemo {
-
-  protected readonly icons = { Palette: LucidePalette };
+  protected readonly icons = {
+      Camera: LucideCamera,
+      Code2: LucideCode2,
+      Palette: LucidePalette,
+      XCircle: LucideXCircle,
+    };
 }
 ```
 
@@ -657,9 +713,9 @@ One pressed choice at a time. Arrow keys move focus without selecting; activate 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisChipModule } from '@aeris-ui/core/chip';
+import { AerisChipModule, type AerisChipGroupItem, type AerisChipGroupValue } from '@aeris-ui/core/chip';
 
 @Component({
   selector: 'app-chip-group-single-demo',
@@ -668,6 +724,14 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
   styleUrl: './chip-group-single.demo.scss'
 })
 export class ChipGroupSingleSingleSelectionDemo {
+  protected readonly groupOptions: readonly AerisChipGroupItem[] = [
+      { id: 'first', label: 'First' },
+      { id: 'second', label: 'Second', disabled: true },
+      { id: 'third', label: 'Third' },
+      { id: 'fourth', label: 'Fourth' },
+    ];
+
+  protected readonly groupSingle = signal<AerisChipGroupValue>('first');
 }
 ```
 
@@ -733,9 +797,9 @@ Toggle choices independently without modifier keys. Disabled members are skipped
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisChipModule } from '@aeris-ui/core/chip';
+import { AerisChipModule, type AerisChipGroupItem, type AerisChipGroupValue } from '@aeris-ui/core/chip';
 
 @Component({
   selector: 'app-chip-group-multiple-demo',
@@ -744,6 +808,19 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
   styleUrl: './chip-group-multiple.demo.scss'
 })
 export class ChipGroupMultipleMultipleSelectionDemo {
+  protected readonly groupOptions: readonly AerisChipGroupItem[] = [
+      { id: 'first', label: 'First' },
+      { id: 'second', label: 'Second', disabled: true },
+      { id: 'third', label: 'Third' },
+      { id: 'fourth', label: 'Fourth' },
+    ];
+
+  protected readonly groupMultiple = signal<AerisChipGroupValue>(['first']);
+
+  protected readonly groupMultipleLabel = computed(() => {
+      const value = this.groupMultiple();
+      return Array.isArray(value) && value.length ? value.join(', ') : 'None';
+    });
 }
 ```
 
@@ -793,9 +870,9 @@ The group owns the collection and restores focus after removal. Cancel synchrono
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisChipModule } from '@aeris-ui/core/chip';
+import { AerisChipModule, type AerisChipGroupItem, type AerisChipGroupRemovingEvent } from '@aeris-ui/core/chip';
 
 @Component({
   selector: 'app-chip-group-removal-demo',
@@ -804,6 +881,37 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
   styleUrl: './chip-group-removal.demo.scss'
 })
 export class ChipGroupRemovalGroupedRemovalAndCancellationDemo {
+  protected readonly initialGroupItems: readonly AerisChipGroupItem[] = [
+      { id: 'first', label: 'First' },
+      { id: 'protected', label: 'Protected' },
+      { id: 'last', label: 'Last' },
+    ];
+
+  protected readonly groupItems = signal(this.initialGroupItems);
+
+  protected readonly groupStatus = signal('Remove any chip except Protected.');
+
+  protected readonly groupRemovalAllowed = signal(false);
+
+  protected toggleGroupRemoval(): void {
+      this.groupRemovalAllowed.update((allowed) => !allowed);
+      this.groupStatus.set(
+        this.groupRemovalAllowed() ? 'Protected can now be removed.' : 'Protected cannot be removed.',
+      );
+    }
+
+  protected resetGroupRemoval(): void {
+      this.groupItems.set(this.initialGroupItems);
+      this.groupRemovalAllowed.set(false);
+      this.groupStatus.set('Chips reset. Remove any chip except Protected.');
+    }
+
+  protected guardGroupRemoval(event: AerisChipGroupRemovingEvent): void {
+      if (event.item.id === 'protected' && !this.groupRemovalAllowed()) {
+        event.preventDefault();
+        this.groupStatus.set('Protected cannot be removed.');
+      }
+    }
 }
 ```
 
@@ -875,11 +983,11 @@ The selection value integrates with Signal Forms. Invalid styling stays neutral 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisChipModule } from '@aeris-ui/core/chip';
+import { AerisChipModule, type AerisChipGroupItem, type AerisChipGroupValue } from '@aeris-ui/core/chip';
 import { AerisMessageModule } from '@aeris-ui/core/message';
-import { FormField } from '@angular/forms/signals';
+import { FormField, form, validate } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-chip-group-forms-demo',
@@ -888,6 +996,51 @@ import { FormField } from '@angular/forms/signals';
   styleUrl: './chip-group-forms.demo.scss'
 })
 export class ChipGroupFormsSignalFormsDemo {
+  protected readonly groupOptions: readonly AerisChipGroupItem[] = [
+      { id: 'first', label: 'First' },
+      { id: 'second', label: 'Second', disabled: true },
+      { id: 'third', label: 'Third' },
+      { id: 'fourth', label: 'Fourth' },
+    ];
+
+  protected readonly groupData = signal<{ choices: AerisChipGroupValue }>({ choices: [] });
+
+  protected readonly groupFields = form(this.groupData, (schema) =>
+      validate(schema.choices, ({ value }) => {
+        const choices = value();
+        return Array.isArray(choices) && choices.length > 0
+          ? undefined
+          : { kind: 'required', message: 'Choose at least one item.' };
+      }),
+    );
+
+  protected readonly groupError = computed(
+      () => this.groupFields.choices().touched() && this.groupFields.choices().invalid(),
+    );
+
+  protected readonly groupValidated = signal(false);
+
+  protected readonly groupValidationSuccess = computed(
+      () => this.groupValidated() && !this.groupFields.choices().invalid(),
+    );
+
+  protected readonly groupFeedbackId = computed(() =>
+      this.groupError()
+        ? 'chip-group-error'
+        : this.groupValidationSuccess()
+          ? 'chip-group-success'
+          : '',
+    );
+
+  protected validateGroup(): void {
+      this.groupFields.choices().markAsTouched();
+      this.groupValidated.set(true);
+    }
+
+  protected resetGroupForm(): void {
+      this.groupFields.choices().reset([]);
+      this.groupValidated.set(false);
+    }
 }
 ```
 
@@ -953,9 +1106,9 @@ Classic forms synchronize the selection and disabled state through ControlValueA
 
 ```ts
 import { Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisChipModule } from '@aeris-ui/core/chip';
+import { AerisChipModule, type AerisChipGroupItem, type AerisChipGroupValue } from '@aeris-ui/core/chip';
 
 @Component({
   selector: 'app-chip-group-reactive-demo',
@@ -964,6 +1117,19 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
   styleUrl: './chip-group-reactive.demo.scss'
 })
 export class ChipGroupReactiveReactiveFormsDemo {
+  protected readonly groupOptions: readonly AerisChipGroupItem[] = [
+      { id: 'first', label: 'First' },
+      { id: 'second', label: 'Second', disabled: true },
+      { id: 'third', label: 'Third' },
+      { id: 'fourth', label: 'Fourth' },
+    ];
+
+  protected readonly groupControl = new FormControl<AerisChipGroupValue>('third');
+
+  protected toggleGroupControl(): void {
+      if (this.groupControl.disabled) this.groupControl.enable();
+      else this.groupControl.disable();
+    }
 }
 ```
 

@@ -128,8 +128,8 @@ Click an option, or move focus with arrows and press Space or Enter. Disabled ch
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisListbox } from '@aeris-ui/core/listbox';
+import { Component, signal } from '@angular/core';
+import { AerisListbox, type AerisListboxOption, type AerisListboxValue } from '@aeris-ui/core/listbox';
 
 @Component({
   selector: 'app-listbox-basic-demo',
@@ -165,6 +165,14 @@ import { AerisListbox } from '@aeris-ui/core/listbox';
   `
 })
 export class ListboxBasicSingleSelectionDemo {
+  protected readonly options: readonly AerisListboxOption[] = [
+      { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
+      { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },
+      { label: 'Research', value: 'research', description: 'Insights and discovery' },
+      { label: 'Operations', value: 'operations', disabled: true, description: 'Unavailable' },
+    ];
+
+  protected readonly single = signal<AerisListboxValue>('design');
 }
 ```
 
@@ -175,8 +183,8 @@ Toggle independently without holding a modifier. Shift extends a range; Ctrl or 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisListbox } from '@aeris-ui/core/listbox';
+import { Component, signal } from '@angular/core';
+import { AerisListbox, type AerisListboxOption, type AerisListboxValue } from '@aeris-ui/core/listbox';
 
 @Component({
   selector: 'app-listbox-multiple-demo',
@@ -213,6 +221,14 @@ import { AerisListbox } from '@aeris-ui/core/listbox';
   `
 })
 export class ListboxMultipleMultipleSelectionDemo {
+  protected readonly options: readonly AerisListboxOption[] = [
+      { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
+      { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },
+      { label: 'Research', value: 'research', description: 'Insights and discovery' },
+      { label: 'Operations', value: 'operations', disabled: true, description: 'Unavailable' },
+    ];
+
+  protected readonly multiple = signal<AerisListboxValue>(['design']);
 }
 ```
 
@@ -224,7 +240,7 @@ A shared group string creates a labelled section. Groups retain their first-seen
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisListbox } from '@aeris-ui/core/listbox';
+import { AerisListbox, type AerisListboxOption } from '@aeris-ui/core/listbox';
 
 @Component({
   selector: 'app-listbox-groups-demo',
@@ -255,6 +271,12 @@ import { AerisListbox } from '@aeris-ui/core/listbox';
   `
 })
 export class ListboxGroupsGroupsDemo {
+  protected readonly groupedOptions: readonly AerisListboxOption[] = [
+      { label: 'Design', value: 'design', group: 'Product' },
+      { label: 'Engineering', value: 'engineering', group: 'Product' },
+      { label: 'Research', value: 'research', group: 'Discovery' },
+      { label: 'Analytics', value: 'analytics', group: 'Discovery' },
+    ];
 }
 ```
 
@@ -266,8 +288,8 @@ Customize option and group content while the component owns selection and access
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisListbox } from '@aeris-ui/core/listbox';
-import { LucideDynamicIcon } from '@lucide/angular';
+import { AerisListbox, type AerisListboxOption } from '@aeris-ui/core/listbox';
+import { LucideDynamicIcon, LucidePalette } from '@lucide/angular';
 
 @Component({
   selector: 'app-listbox-templates-demo',
@@ -276,6 +298,14 @@ import { LucideDynamicIcon } from '@lucide/angular';
   styleUrl: './listbox-templates.demo.scss'
 })
 export class ListboxTemplatesTemplatesDemo {
+  protected readonly groupedOptions: readonly AerisListboxOption[] = [
+      { label: 'Design', value: 'design', group: 'Product' },
+      { label: 'Engineering', value: 'engineering', group: 'Product' },
+      { label: 'Research', value: 'research', group: 'Discovery' },
+      { label: 'Analytics', value: 'analytics', group: 'Discovery' },
+    ];
+
+  protected readonly paletteIcon = LucidePalette;
 }
 ```
 
@@ -346,7 +376,7 @@ Search labels, descriptions and groups. Hidden selected values remain selected; 
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisListbox } from '@aeris-ui/core/listbox';
+import { AerisListbox, type AerisListboxOption } from '@aeris-ui/core/listbox';
 
 @Component({
   selector: 'app-listbox-filter-demo',
@@ -385,6 +415,12 @@ import { AerisListbox } from '@aeris-ui/core/listbox';
   `
 })
 export class ListboxFilterFilteringDemo {
+  protected readonly groupedOptions: readonly AerisListboxOption[] = [
+      { label: 'Design', value: 'design', group: 'Product' },
+      { label: 'Engineering', value: 'engineering', group: 'Product' },
+      { label: 'Research', value: 'research', group: 'Discovery' },
+      { label: 'Analytics', value: 'analytics', group: 'Discovery' },
+    ];
 }
 ```
 
@@ -395,9 +431,9 @@ Loading prevents selection while preserving results. Disabled controls leave the
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisListbox } from '@aeris-ui/core/listbox';
+import { AerisListbox, type AerisListboxOption } from '@aeris-ui/core/listbox';
 
 @Component({
   selector: 'app-listbox-states-demo',
@@ -406,6 +442,14 @@ import { AerisListbox } from '@aeris-ui/core/listbox';
   styleUrl: './listbox-states.demo.scss'
 })
 export class ListboxStatesStatesDemo {
+  protected readonly options: readonly AerisListboxOption[] = [
+      { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
+      { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },
+      { label: 'Research', value: 'research', description: 'Insights and discovery' },
+      { label: 'Operations', value: 'operations', disabled: true, description: 'Unavailable' },
+    ];
+
+  protected readonly loading = signal(false);
 }
 ```
 
@@ -460,9 +504,9 @@ Update the model externally and observe user selection events. Moving keyboard f
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisListbox } from '@aeris-ui/core/listbox';
+import { AerisListbox, type AerisListboxChangeEvent, type AerisListboxOption, type AerisListboxValue } from '@aeris-ui/core/listbox';
 
 @Component({
   selector: 'app-listbox-controlled-demo',
@@ -471,6 +515,20 @@ import { AerisListbox } from '@aeris-ui/core/listbox';
   styleUrl: './listbox-controlled.demo.scss'
 })
 export class ListboxControlledControlledSelectionDemo {
+  protected readonly options: readonly AerisListboxOption[] = [
+      { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
+      { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },
+      { label: 'Research', value: 'research', description: 'Insights and discovery' },
+      { label: 'Operations', value: 'operations', disabled: true, description: 'Unavailable' },
+    ];
+
+  protected readonly controlled = signal<AerisListboxValue>('design');
+
+  protected readonly lastChange = signal('No selection change');
+
+  protected recordChange(event: AerisListboxChangeEvent): void {
+      this.lastChange.set(event.options.map((option) => option.label).join(', ') || 'None');
+    }
 }
 ```
 
@@ -525,7 +583,7 @@ A maximum height keeps long lists contained. Keyboard navigation scrolls only th
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisListbox } from '@aeris-ui/core/listbox';
+import { AerisListbox, type AerisListboxOption } from '@aeris-ui/core/listbox';
 
 @Component({
   selector: 'app-listbox-long-demo',
@@ -560,6 +618,10 @@ import { AerisListbox } from '@aeris-ui/core/listbox';
   `
 })
 export class ListboxLongScrollingDemo {
+  protected readonly longOptions: readonly AerisListboxOption[] = Array.from(
+      { length: 60 },
+      (_, index) => ({ value: `option-${index + 1}`, label: `Option ${index + 1}` }),
+    );
 }
 ```
 
@@ -570,11 +632,11 @@ Signal Forms forwards value, invalid, touched, required and disabled state. Erro
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisListbox } from '@aeris-ui/core/listbox';
+import { AerisListbox, type AerisListboxOption, type AerisListboxValue } from '@aeris-ui/core/listbox';
 import { AerisMessageModule } from '@aeris-ui/core/message';
-import { FormField } from '@angular/forms/signals';
+import { FormField, form, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-listbox-signal-forms-demo',
@@ -583,6 +645,20 @@ import { FormField } from '@angular/forms/signals';
   styleUrl: './listbox-signal-forms.demo.scss'
 })
 export class ListboxSignalFormsSignalFormsDemo {
+  protected readonly options: readonly AerisListboxOption[] = [
+      { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
+      { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },
+      { label: 'Research', value: 'research', description: 'Insights and discovery' },
+      { label: 'Operations', value: 'operations', disabled: true, description: 'Unavailable' },
+    ];
+
+  protected readonly selectionData = signal<{ choice: AerisListboxValue }>({ choice: null });
+
+  protected readonly fields = form(this.selectionData, (schema) => required(schema.choice));
+
+  protected readonly showError = computed(
+      () => this.fields.choice().touched() && this.fields.choice().invalid(),
+    );
 }
 ```
 
@@ -637,9 +713,9 @@ Classic forms synchronize value, touched and disabled state through ControlValue
 
 ```ts
 import { Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisListbox } from '@aeris-ui/core/listbox';
+import { AerisListbox, type AerisListboxOption, type AerisListboxValue } from '@aeris-ui/core/listbox';
 
 @Component({
   selector: 'app-listbox-reactive-demo',
@@ -677,6 +753,14 @@ import { AerisListbox } from '@aeris-ui/core/listbox';
   `
 })
 export class ListboxReactiveReactiveFormsDemo {
+  protected readonly options: readonly AerisListboxOption[] = [
+      { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
+      { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },
+      { label: 'Research', value: 'research', description: 'Insights and discovery' },
+      { label: 'Operations', value: 'operations', disabled: true, description: 'Unavailable' },
+    ];
+
+  protected readonly reactive = new FormControl<AerisListboxValue>(['design']);
 }
 ```
 

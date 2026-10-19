@@ -236,6 +236,12 @@ Adapt visible and scroll counts to the carousel’s available width.
 import { Component } from '@angular/core';
 import { AerisCarouselModule, type AerisCarouselResponsiveOption } from '@aeris-ui/core/carousel';
 
+interface Destination {
+  readonly name: string;
+  readonly detail: string;
+  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';
+}
+
 @Component({
   selector: 'app-carousel-responsive-demo',
   imports: [AerisCarouselModule],
@@ -289,6 +295,15 @@ import { AerisCarouselModule, type AerisCarouselResponsiveOption } from '@aeris-
   `
 })
 export class CarouselResponsiveResponsiveDemo {
+  protected readonly destinations: readonly Destination[] = [
+      { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },
+      { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },
+      { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },
+      { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },
+      { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },
+    ];
+
+
   protected readonly responsiveOptions: readonly AerisCarouselResponsiveOption[] = [
     { breakpoint: '56rem', numVisible: 2, numScroll: 1 },
     { breakpoint: '38rem', numVisible: 1, numScroll: 1 },
@@ -307,6 +322,12 @@ import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCarouselModule, type AerisCarouselPageEvent } from '@aeris-ui/core/carousel';
 
+interface Destination {
+  readonly name: string;
+  readonly detail: string;
+  readonly tone: 'sage' | 'blue' | 'gold' | 'rose' | 'sky';
+}
+
 @Component({
   selector: 'app-carousel-controlled-demo',
   imports: [AerisButton, AerisCarouselModule],
@@ -314,6 +335,15 @@ import { AerisCarouselModule, type AerisCarouselPageEvent } from '@aeris-ui/core
   styleUrl: './carousel-controlled.demo.scss'
 })
 export class CarouselControlledControlledDemo {
+  protected readonly destinations: readonly Destination[] = [
+      { name: 'Milo', detail: 'A curious explorer with a wagging tail.', tone: 'sage' },
+      { name: 'Luna', detail: 'Always ready for a bright new adventure.', tone: 'blue' },
+      { name: 'Biscuit', detail: 'Small paws, big heart, and endless naps.', tone: 'gold' },
+      { name: 'Poppy', detail: 'A playful friend who loves every visitor.', tone: 'rose' },
+      { name: 'Nova', detail: 'Gentle, clever, and quick to make friends.', tone: 'sky' },
+    ];
+
+
   protected readonly controlledPage = signal(0);
   protected readonly pageMessage = signal('Showing the first slide.');
 

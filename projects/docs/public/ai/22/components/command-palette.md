@@ -137,9 +137,9 @@ Open the dialog, search labels or keywords, then use arrows and Enter. Execution
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
+import { AerisCommandPalette, type AerisCommandPaletteCommand, type AerisCommandPaletteExecuteEvent } from '@aeris-ui/core/command-palette';
 
 @Component({
   selector: 'app-command-palette-basic-demo',
@@ -176,6 +176,37 @@ import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
   `
 })
 export class CommandPaletteBasicBasicDemo {
+  protected readonly commands: readonly AerisCommandPaletteCommand[] = [
+      {
+        id: 'documents',
+        label: 'Search documents',
+        description: 'Find a document by name',
+        group: 'Navigation',
+        keywords: ['files'],
+        shortcut: 'G + D',
+      },
+      {
+        id: 'settings',
+        label: 'Open settings',
+        description: 'Manage preferences',
+        group: 'Navigation',
+      },
+      {
+        id: 'theme',
+        label: 'Change theme',
+        group: 'Appearance',
+        keywords: ['color', 'dark', 'light'],
+      },
+      { id: 'archive', label: 'Archive selection', group: 'Actions', disabled: true },
+    ];
+
+  protected readonly basicOpen = signal(false);
+
+  protected readonly lastExecuted = signal('None');
+
+  protected recordExecution(event: AerisCommandPaletteExecuteEvent): void {
+      this.lastExecuted.set(event.command.label);
+    }
 }
 ```
 
@@ -186,8 +217,8 @@ Inline presentation stays visible and does not take focus automatically. Group l
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
+import { Component, signal } from '@angular/core';
+import { AerisCommandPalette, type AerisCommandPaletteCommand, type AerisCommandPaletteExecuteEvent } from '@aeris-ui/core/command-palette';
 
 @Component({
   selector: 'app-command-palette-inline-demo',
@@ -224,6 +255,35 @@ import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
   `
 })
 export class CommandPaletteInlineInlineAndGroupsDemo {
+  protected readonly commands: readonly AerisCommandPaletteCommand[] = [
+      {
+        id: 'documents',
+        label: 'Search documents',
+        description: 'Find a document by name',
+        group: 'Navigation',
+        keywords: ['files'],
+        shortcut: 'G + D',
+      },
+      {
+        id: 'settings',
+        label: 'Open settings',
+        description: 'Manage preferences',
+        group: 'Navigation',
+      },
+      {
+        id: 'theme',
+        label: 'Change theme',
+        group: 'Appearance',
+        keywords: ['color', 'dark', 'light'],
+      },
+      { id: 'archive', label: 'Archive selection', group: 'Actions', disabled: true },
+    ];
+
+  protected readonly lastExecuted = signal('None');
+
+  protected recordExecution(event: AerisCommandPaletteExecuteEvent): void {
+      this.lastExecuted.set(event.command.label);
+    }
 }
 ```
 
@@ -234,9 +294,9 @@ Set open and query externally, or use show, hide and focus. Keep the dialog open
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
+import { AerisCommandPalette, type AerisCommandPaletteCommand, type AerisCommandPaletteExecuteEvent } from '@aeris-ui/core/command-palette';
 
 @Component({
   selector: 'app-command-palette-controlled-demo',
@@ -245,6 +305,39 @@ import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
   styleUrl: './command-palette-controlled.demo.scss'
 })
 export class CommandPaletteControlledControlledStateAndMethodsDemo {
+  protected readonly commands: readonly AerisCommandPaletteCommand[] = [
+      {
+        id: 'documents',
+        label: 'Search documents',
+        description: 'Find a document by name',
+        group: 'Navigation',
+        keywords: ['files'],
+        shortcut: 'G + D',
+      },
+      {
+        id: 'settings',
+        label: 'Open settings',
+        description: 'Manage preferences',
+        group: 'Navigation',
+      },
+      {
+        id: 'theme',
+        label: 'Change theme',
+        group: 'Appearance',
+        keywords: ['color', 'dark', 'light'],
+      },
+      { id: 'archive', label: 'Archive selection', group: 'Actions', disabled: true },
+    ];
+
+  protected readonly controlledOpen = signal(false);
+
+  protected readonly controlledQuery = signal('theme');
+
+  protected readonly lastExecuted = signal('None');
+
+  protected recordExecution(event: AerisCommandPaletteExecuteEvent): void {
+      this.lastExecuted.set(event.command.label);
+    }
 }
 ```
 
@@ -332,8 +425,8 @@ Provide icons and item content from any icon library. Aeris owns the built-in se
 
 ```ts
 import { Component } from '@angular/core';
-import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
-import { LucideDynamicIcon } from '@lucide/angular';
+import { AerisCommandPalette, type AerisCommandPaletteCommand } from '@aeris-ui/core/command-palette';
+import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
 
 @Component({
   selector: 'app-command-palette-templates-demo',
@@ -342,6 +435,31 @@ import { LucideDynamicIcon } from '@lucide/angular';
   styleUrl: './command-palette-templates.demo.scss'
 })
 export class CommandPaletteTemplatesTemplatesAndIconsDemo {
+  protected readonly commands: readonly AerisCommandPaletteCommand[] = [
+      {
+        id: 'documents',
+        label: 'Search documents',
+        description: 'Find a document by name',
+        group: 'Navigation',
+        keywords: ['files'],
+        shortcut: 'G + D',
+      },
+      {
+        id: 'settings',
+        label: 'Open settings',
+        description: 'Manage preferences',
+        group: 'Navigation',
+      },
+      {
+        id: 'theme',
+        label: 'Change theme',
+        group: 'Appearance',
+        keywords: ['color', 'dark', 'light'],
+      },
+      { id: 'archive', label: 'Archive selection', group: 'Actions', disabled: true },
+    ];
+
+  protected readonly searchIcon = LucideSearch;
 }
 ```
 
@@ -414,8 +532,8 @@ Disable built-in filtering to own matching. This example matches label prefixes.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
-import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
+import { Component, computed, signal } from '@angular/core';
+import { AerisCommandPalette, type AerisCommandPaletteCommand } from '@aeris-ui/core/command-palette';
 
 @Component({
   selector: 'app-command-palette-external-demo',
@@ -452,6 +570,37 @@ import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
   `
 })
 export class CommandPaletteExternalExternalFilteringDemo {
+  protected readonly commands: readonly AerisCommandPaletteCommand[] = [
+      {
+        id: 'documents',
+        label: 'Search documents',
+        description: 'Find a document by name',
+        group: 'Navigation',
+        keywords: ['files'],
+        shortcut: 'G + D',
+      },
+      {
+        id: 'settings',
+        label: 'Open settings',
+        description: 'Manage preferences',
+        group: 'Navigation',
+      },
+      {
+        id: 'theme',
+        label: 'Change theme',
+        group: 'Appearance',
+        keywords: ['color', 'dark', 'light'],
+      },
+      { id: 'archive', label: 'Archive selection', group: 'Actions', disabled: true },
+    ];
+
+  protected readonly externalQuery = signal('');
+
+  protected readonly externalCommands = computed(() =>
+      this.commands.filter((command) =>
+        command.label.toLowerCase().startsWith(this.externalQuery().toLowerCase()),
+      ),
+    );
 }
 ```
 
@@ -462,9 +611,9 @@ Loading preserves the results while preventing execution. Empty and loading temp
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
+import { AerisCommandPalette, type AerisCommandPaletteCommand } from '@aeris-ui/core/command-palette';
 
 @Component({
   selector: 'app-command-palette-states-demo',
@@ -473,6 +622,31 @@ import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
   styleUrl: './command-palette-states.demo.scss'
 })
 export class CommandPaletteStatesLoadingAndEmptyDemo {
+  protected readonly commands: readonly AerisCommandPaletteCommand[] = [
+      {
+        id: 'documents',
+        label: 'Search documents',
+        description: 'Find a document by name',
+        group: 'Navigation',
+        keywords: ['files'],
+        shortcut: 'G + D',
+      },
+      {
+        id: 'settings',
+        label: 'Open settings',
+        description: 'Manage preferences',
+        group: 'Navigation',
+      },
+      {
+        id: 'theme',
+        label: 'Change theme',
+        group: 'Appearance',
+        keywords: ['color', 'dark', 'light'],
+      },
+      { id: 'archive', label: 'Archive selection', group: 'Actions', disabled: true },
+    ];
+
+  protected readonly loading = signal(false);
 }
 ```
 
@@ -532,9 +706,9 @@ Ctrl or Command + J opens this palette outside editable fields. The launcher is 
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
+import { AerisCommandPalette, type AerisCommandPaletteCommand, type AerisCommandPaletteShortcut } from '@aeris-ui/core/command-palette';
 
 @Component({
   selector: 'app-command-palette-shortcut-demo',
@@ -572,6 +746,33 @@ import { AerisCommandPalette } from '@aeris-ui/core/command-palette';
   `
 })
 export class CommandPaletteShortcutLauncherShortcutDemo {
+  protected readonly commands: readonly AerisCommandPaletteCommand[] = [
+      {
+        id: 'documents',
+        label: 'Search documents',
+        description: 'Find a document by name',
+        group: 'Navigation',
+        keywords: ['files'],
+        shortcut: 'G + D',
+      },
+      {
+        id: 'settings',
+        label: 'Open settings',
+        description: 'Manage preferences',
+        group: 'Navigation',
+      },
+      {
+        id: 'theme',
+        label: 'Change theme',
+        group: 'Appearance',
+        keywords: ['color', 'dark', 'light'],
+      },
+      { id: 'archive', label: 'Archive selection', group: 'Actions', disabled: true },
+    ];
+
+  protected readonly shortcutOpen = signal(false);
+
+  protected readonly launchShortcut: AerisCommandPaletteShortcut = { key: 'j', modifier: 'mod' };
 }
 ```
 

@@ -219,7 +219,7 @@ Hover or focus the button to preview content. On touch screens, tap to toggle.
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, ElementRef, viewChild } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisPopoverModule } from '@aeris-ui/core/popover';
 
@@ -229,6 +229,12 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
   templateUrl: './popover-hover.demo.html'
 })
 export class PopoverHoverHoverAndFocusDemo {
+  protected readonly hoverTarget = viewChild<unknown, ElementRef<HTMLButtonElement>>(
+      'hoverButton',
+      {
+        read: ElementRef,
+      },
+    );
 }
 ```
 

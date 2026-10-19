@@ -677,9 +677,9 @@ Bottom drawers can settle at configured heights. Drag the header or optional res
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisDrawerModule } from '@aeris-ui/core/drawer';
+import { AerisDrawerModule, type AerisDrawerSnapPoint } from '@aeris-ui/core/drawer';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 
 @Component({
@@ -689,6 +689,20 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   styleUrl: './drawer-snap.demo.scss'
 })
 export class DrawerSnapSnapPointsDemo {
+  protected readonly snapOpen = signal(false);
+
+  protected readonly snapPoint = signal<AerisDrawerSnapPoint | null>(0.6);
+
+  protected readonly snapPoints = [0.35, 0.6, 0.9] as const;
+
+  protected readonly snapNotes = [
+      'Review the workspace details and choose a height that leaves enough room for the task.',
+      'At a smaller height, the drawer body scrolls independently while the header and actions stay available.',
+      'Drag the header or resize handle upward to expand. At the largest height, upward gestures in the body scroll the content.',
+      'Scrolling content keeps downward gestures until it reaches its top. Start a new gesture there to collapse the drawer.',
+      'Form controls, links and buttons keep their usual interaction and do not initiate a drag.',
+      'The selected point is retained when the drawer closes. Fractional points adapt to the available viewport height.',
+    ];
 }
 ```
 
@@ -782,9 +796,9 @@ Swipe non-interactive content toward the drawer's screen edge. Scrolling and for
 #### TS
 
 ```ts
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
-import { AerisDrawerModule } from '@aeris-ui/core/drawer';
+import { AerisDrawerModule, type AerisDrawerPosition, type AerisDrawerVisibilityChangeEvent } from '@aeris-ui/core/drawer';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 import { AerisTextarea } from '@aeris-ui/core/textarea';
 
@@ -795,6 +809,36 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   styleUrl: './drawer-swipe.demo.scss'
 })
 export class DrawerSwipeSwipeDismissalDemo {
+  protected readonly swipeOpen = signal(false);
+
+  protected readonly swipePosition = signal<AerisDrawerPosition>('bottom');
+
+  protected readonly swipeStatus = signal(
+      'Open a drawer and swipe its content toward the screen edge.',
+    );
+
+  protected readonly swipePositions: readonly AerisDrawerPosition[] = [
+      'left',
+      'right',
+      'top',
+      'bottom',
+    ];
+
+  protected readonly swipeItems = [
+      'Release notes describe the new workflow, including the changes that team members will notice first.',
+      'Owners review access, delivery dates, and dependencies before the project moves into the next stage.',
+      'The activity feed keeps decisions visible so collaborators can pick up work without losing context.',
+      'After the final review, the team can publish the project and follow its progress from the workspace.',
+    ];
+
+  protected openSwipeDrawer(position: AerisDrawerPosition): void {
+      this.swipePosition.set(position);
+      this.swipeOpen.set(true);
+    }
+
+  protected recordSwipeClose(event: AerisDrawerVisibilityChangeEvent): void {
+      this.swipeStatus.set(`Drawer closed by ${event.reason}.`);
+    }
 }
 ```
 

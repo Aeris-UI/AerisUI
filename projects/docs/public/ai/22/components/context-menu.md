@@ -282,6 +282,13 @@ import { Component } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisContextMenuModule, type AerisContextMenuItem } from '@aeris-ui/core/context-menu';
 
+interface ApiRow {
+  readonly name: string;
+  readonly type: string;
+  readonly defaultValue: string;
+  readonly description: string;
+}
+
 @Component({
   selector: 'app-context-menu-global-demo',
   imports: [AerisButton, AerisContextMenuModule],
@@ -316,6 +323,118 @@ import { AerisContextMenuModule, type AerisContextMenuItem } from '@aeris-ui/cor
   `
 })
 export class ContextMenuGlobalGlobalDemo {
+  protected readonly tokens: readonly ApiRow[] = [
+      {
+        name: '--aeris-context-menu-z-index',
+        type: 'number',
+        defaultValue: '1060',
+        description: 'Floating layer z-index.',
+      },
+      {
+        name: '--aeris-context-menu-width',
+        type: 'length',
+        defaultValue: '14rem',
+        description: 'Default panel width.',
+      },
+      {
+        name: '--aeris-context-menu-max-width',
+        type: 'length',
+        defaultValue: 'min(22rem, calc(100vw - 1rem))',
+        description: 'Panel max width.',
+      },
+      {
+        name: '--aeris-context-menu-max-height',
+        type: 'length',
+        defaultValue: 'min(26rem, calc(100vh - 1rem))',
+        description: 'Root menu max height.',
+      },
+      {
+        name: '--aeris-context-menu-padding',
+        type: 'length',
+        defaultValue: '--aeris-overlay-padding',
+        description: 'Panel padding.',
+      },
+      {
+        name: '--aeris-context-menu-border',
+        type: 'color',
+        defaultValue: '--aeris-border',
+        description: 'Panel border color.',
+      },
+      {
+        name: '--aeris-context-menu-radius',
+        type: 'length',
+        defaultValue: '--aeris-radius-overlay',
+        description: 'Panel radius shared by Aeris overlay surfaces.',
+      },
+      {
+        name: '--aeris-context-menu-background',
+        type: 'color',
+        defaultValue: '--aeris-surface',
+        description: 'Panel background.',
+      },
+      {
+        name: '--aeris-context-menu-color',
+        type: 'color',
+        defaultValue: '--aeris-text',
+        description: 'Panel text color.',
+      },
+      {
+        name: '--aeris-context-menu-shadow',
+        type: 'shadow',
+        defaultValue: 'overlay shadow',
+        description: 'Panel and submenu shadow.',
+      },
+      {
+        name: '--aeris-context-menu-item-gap',
+        type: 'length',
+        defaultValue: '0.625rem',
+        description: 'Gap inside item rows.',
+      },
+      {
+        name: '--aeris-context-menu-item-min-height',
+        type: 'length',
+        defaultValue: '2.25rem',
+        description: 'Default item height.',
+      },
+      {
+        name: '--aeris-context-menu-item-radius',
+        type: 'length',
+        defaultValue: '--aeris-radius-item',
+        description: 'Item radius shared across root items and nested submenus.',
+      },
+      {
+        name: '--aeris-context-menu-item-hover-background',
+        type: 'color',
+        defaultValue: 'primary mix',
+        description: 'Hover and active item background.',
+      },
+      {
+        name: '--aeris-context-menu-icon-size',
+        type: 'length',
+        defaultValue: '--aeris-icon-size',
+        description: 'Default icon box size.',
+      },
+      {
+        name: '--aeris-context-menu-disabled-opacity',
+        type: 'number',
+        defaultValue: '0.52',
+        description: 'Disabled item opacity.',
+      },
+      {
+        name: '--aeris-context-menu-separator-color',
+        type: 'color',
+        defaultValue: '--aeris-border',
+        description: 'Separator color.',
+      },
+      {
+        name: '--aeris-context-menu-submenu-width',
+        type: 'length',
+        defaultValue: '14rem',
+        description: 'Submenu width.',
+      },
+    ];
+
+
   protected readonly globalItems: readonly AerisContextMenuItem[] = [
     { label: 'Refresh view' },
     { label: 'Copy page link' },
