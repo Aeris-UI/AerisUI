@@ -53,8 +53,8 @@ function cross(point: Point, a: Point, b: Point): number {
 }
 
 /**
- * @internal No automatic event binding to triggers or focus stealing. A future preview
- * component forwards its region events and calls reset() when controlled visibility closes.
+ * @internal No automatic event binding to triggers or focus stealing. The owning
+ * popover forwards its region events and suppresses pending work when visibility closes.
  * Touch hover is ignored: activate() belongs on an explicit preview action, not a link.
  */
 export function aerisInternalCreateHoverInteraction(options: AerisInternalHoverOptions) {
@@ -154,7 +154,13 @@ export function aerisInternalCreateHoverInteraction(options: AerisInternalHoverO
     clearTransit();
     pointer.trigger = pointer.content = focused = suppressed = pointerFocus = false;
   };
+  const suppress = () => {
+    cancelTimers();
+    clearTransit();
+    suppressed = occupied();
+  };
   return {
+    suppress,
     /** Forward pointerdown so focus preceding an explicit activation cannot open then toggle shut. */
     pointerDown(): void {
       if (!destroyed) pointerFocus = true;
@@ -205,9 +211,7 @@ export function aerisInternalCreateHoverInteraction(options: AerisInternalHoverO
     },
     dismiss(): void {
       if (destroyed) return;
-      cancelTimers();
-      clearTransit();
-      suppressed = occupied();
+      suppress();
       if (options.isOpen()) options.close();
     },
     reset,

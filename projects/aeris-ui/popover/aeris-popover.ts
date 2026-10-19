@@ -14,22 +14,26 @@ import {
   model,
   output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import {
   ɵAerisIcon,
   ɵAerisAppendTo,
   aerisInternalFocusInitialElement,
+  aerisInternalFocusableElements,
   aerisInternalCreateFrameScheduler,
   aerisInternalPositionAnchoredOverlay,
   aerisInternalTrapTabFocus,
   type AerisAppendTo,
   type AerisOverlayCollisionPadding,
 } from '@aeris-ui/core';
+import { aerisInternalCreateHoverInteraction } from './aeris-hover-interaction';
 
 export type AerisPopoverPlacement = 'auto' | 'top' | 'right' | 'bottom' | 'left';
 export type AerisPopoverAlignment = 'start' | 'center' | 'end';
-export type AerisPopoverCloseReason = 'api' | 'close-button' | 'escape' | 'outside';
+export type AerisPopoverTrigger = 'manual' | 'hover';
+export type AerisPopoverCloseReason = 'api' | 'close-button' | 'escape' | 'outside' | 'interaction';
 export type AerisPopoverTarget = Element | EventTarget | Event | null | undefined;
 
 export interface AerisPopoverVisibilityChangeEvent {
@@ -86,7 +90,7 @@ let nextPopoverId = 0;
           role="dialog"
           tabindex="-1"
           [id]="popoverId"
-          [attr.aria-modal]="focusTrap() || null"
+          [attr.aria-modal]="(trigger() === 'manual' && focusTrap()) || null"
           [attr.aria-label]="ariaLabel() || null"
           [attr.aria-labelledby]="computedAriaLabelledBy()"
           [attr.aria-describedby]="ariaDescribedBy() || null"
@@ -97,6 +101,8 @@ let nextPopoverId = 0;
           [style.--aeris-popover-width]="width() || null"
           [style.--aeris-popover-max-width]="maxWidth() || null"
           (keydown)="handlePanelKeydown($event)"
+          (pointerenter)="handleHoverEnter($event)"
+          (pointerleave)="handleHoverLeave($event)"
         >
           @if (showArrow()) {
             <span class="aeris-popover__arrow" aria-hidden="true"></span>
@@ -179,7 +185,7 @@ export class AerisPopover {
   );
   protected readonly dismissOverlay = (): boolean => {
     if (!this.closeOnEscape()) return false;
-    this.hide();
+    this.hide(null, 'escape');
     return true;
   };
   private readonly repositionFrame = aerisInternalCreateFrameScheduler(() => this.reposition());
@@ -196,6 +202,22 @@ export class AerisPopover {
   private previousVisible = false;
   private pendingOriginalEvent: Event | null = null;
   private pendingCloseReason: AerisPopoverCloseReason = 'api';
+  private pendingRestoreHoverFocus = false;
+  private hoverContentFocused = false;
+  private readonly hoverInteraction = aerisInternalCreateHoverInteraction({
+    document: this.document,
+    trigger: () => {
+      const target = this.localTarget();
+      return target instanceof HTMLElement ? target : null;
+    },
+    content: () => this.popoverPanel()?.nativeElement ?? null,
+    isOpen: () => this.visible(),
+    open: () => this.show(),
+    close: () => this.hide(null, 'interaction'),
+    openDelay: () => this.openDelay(),
+    closeDelay: () => this.closeDelay(),
+    ownsTarget: (target) => this.ownsHoverTarget(target),
+  });
 
   protected readonly popoverPanel = viewChild<ElementRef<HTMLElement>>('popoverPanel');
   private readonly panelPortal = viewChild(ɵAerisAppendTo);
@@ -225,6 +247,9 @@ export class AerisPopover {
   readonly visible = model(false);
   readonly appendTo = input<AerisAppendTo>();
   readonly target = input<AerisPopoverTarget>(null);
+  readonly trigger = input<AerisPopoverTrigger>('manual');
+  readonly openDelay = input(200);
+  readonly closeDelay = input(150);
   readonly header = input('');
   readonly placement = input<AerisPopoverPlacement>('auto');
   readonly alignment = input<AerisPopoverAlignment>('center');
@@ -254,8 +279,64 @@ export class AerisPopover {
   constructor() {
     this.destroyRef.onDestroy(() => {
       this.destroyed = true;
+      this.hoverInteraction.destroy();
       this.repositionFrame.cancel();
       this.updateTriggerAttributes(false);
+    });
+    effect((onCleanup) => {
+      const mode = this.trigger();
+      const target = this.resolveTarget(this.target());
+      if (mode !== 'hover' || !target) return;
+      const enter = (event: PointerEvent) => this.hoverInteraction.pointerEnter('trigger', event);
+      const leave = (event: PointerEvent) => this.hoverInteraction.pointerLeave('trigger', event);
+      const down = (event: PointerEvent) => {
+        if (this.ownsHoverTarget(event.target)) this.hoverInteraction.pointerDown();
+      };
+      const focusIn = (event: FocusEvent) => {
+        this.hoverContentFocused =
+          this.ownsHoverTarget(event.target) &&
+          event.target instanceof Node &&
+          !target.contains(event.target);
+        if (this.ownsHoverTarget(event.target)) this.hoverInteraction.focusIn();
+      };
+      const focusOut = (event: FocusEvent) => {
+        if (this.ownsHoverTarget(event.target)) this.hoverInteraction.focusOut(event.relatedTarget);
+      };
+      const click = (event: MouseEvent) => {
+        // Never intercept navigation or add activation to a link. Use a separate button instead.
+        if (event.defaultPrevented || !(event.target instanceof Element)) return;
+        if (event.target.closest('a[href]')) return;
+        if (target instanceof HTMLButtonElement || target.getAttribute('role') === 'button')
+          this.hoverInteraction.activate();
+      };
+      const keydown = (event: KeyboardEvent) => {
+        if (event.key === 'Tab' && !event.shiftKey && this.visible() && !event.defaultPrevented) {
+          const panel = this.popoverPanel()?.nativeElement;
+          if (panel && this.panelPortal()?.isTopmost()) {
+            event.preventDefault();
+            this.focusInitial();
+          }
+        }
+      };
+      target.addEventListener('pointerenter', enter as EventListener);
+      target.addEventListener('pointerleave', leave as EventListener);
+      target.addEventListener('click', click as EventListener);
+      target.addEventListener('keydown', keydown as EventListener);
+      this.document.addEventListener('pointerdown', down, true);
+      this.document.addEventListener('focusin', focusIn);
+      this.document.addEventListener('focusout', focusOut);
+      onCleanup(() => {
+        target.removeEventListener('pointerenter', enter as EventListener);
+        target.removeEventListener('pointerleave', leave as EventListener);
+        target.removeEventListener('click', click as EventListener);
+        target.removeEventListener('keydown', keydown as EventListener);
+        this.document.removeEventListener('pointerdown', down, true);
+        this.document.removeEventListener('focusin', focusIn);
+        this.document.removeEventListener('focusout', focusOut);
+        this.hoverInteraction.reset();
+        this.hoverContentFocused = false;
+        untracked(() => this.hide());
+      });
     });
     effect(() => {
       const visible = this.visible();
@@ -302,13 +383,24 @@ export class AerisPopover {
       throw new Error('AerisPopover requires a target Element or trigger Event.');
     }
 
+    const retargeting = this.visible() && this.activeTarget() !== resolvedTarget;
+    if (retargeting) this.updateTriggerAttributes(false);
     this.activeTarget.set(resolvedTarget);
+    if (retargeting) {
+      this.updateTriggerAttributes(true);
+      this.repositionFrame.schedule();
+    }
     this.pendingOriginalEvent = originalEvent ?? (target instanceof Event ? target : null);
     this.visible.set(true);
   }
 
   hide(originalEvent: Event | null = null, reason: AerisPopoverCloseReason = 'api'): void {
+    this.hoverInteraction.suppress();
     if (!this.visible()) return;
+    this.pendingRestoreHoverFocus =
+      reason !== 'outside' &&
+      reason !== 'interaction' &&
+      (reason === 'escape' || this.hoverContentFocused);
     this.pendingOriginalEvent = originalEvent;
     this.pendingCloseReason = reason;
     this.visible.set(false);
@@ -364,6 +456,23 @@ export class AerisPopover {
   }
 
   protected handlePanelKeydown(event: KeyboardEvent): void {
+    if (this.trigger() === 'hover') {
+      const panel = this.popoverPanel()?.nativeElement;
+      if (
+        event.key === 'Tab' &&
+        event.shiftKey &&
+        !event.defaultPrevented &&
+        panel &&
+        this.panelPortal()?.isTopmost() &&
+        (this.document.activeElement === panel ||
+          this.document.activeElement === aerisInternalFocusableElements(panel)[0])
+      ) {
+        event.preventDefault();
+        const target = this.activeTarget();
+        if (target instanceof HTMLElement) target.focus();
+      }
+      return;
+    }
     if (
       event.defaultPrevented ||
       event.key !== 'Tab' ||
@@ -372,6 +481,14 @@ export class AerisPopover {
     )
       return;
     this.trapTab(event);
+  }
+
+  protected handleHoverEnter(event: PointerEvent): void {
+    if (this.trigger() === 'hover') this.hoverInteraction.pointerEnter('content', event);
+  }
+
+  protected handleHoverLeave(event: PointerEvent): void {
+    if (this.trigger() === 'hover') this.hoverInteraction.pointerLeave('content', event);
   }
 
   protected handleDocumentKeydown(event: KeyboardEvent): void {
@@ -416,14 +533,20 @@ export class AerisPopover {
     queueMicrotask(() => {
       if (this.destroyed || !this.visible()) return;
       this.reposition();
-      if (this.autoFocus()) this.focusInitial();
+      if (this.trigger() === 'manual' && this.autoFocus()) this.focusInitial();
     });
   }
 
   private handleHidden(): void {
     this.panelPortal()?.restore();
     const target = this.activeTarget();
-    const shouldRestoreFocus = this.restoreFocus();
+    const shouldRestoreFocus =
+      this.restoreFocus() &&
+      (this.trigger() === 'manual' ||
+        this.pendingRestoreHoverFocus ||
+        (this.pendingCloseReason === 'api' && this.hoverContentFocused) ||
+        this.pendingCloseReason === 'escape');
+    this.hoverInteraction.suppress();
     const event = this.visibilityEvent(
       false,
       this.pendingCloseReason,
@@ -434,12 +557,18 @@ export class AerisPopover {
     this.positioned.set(false);
     this.pendingOriginalEvent = null;
     this.pendingCloseReason = 'api';
+    this.pendingRestoreHoverFocus = false;
+    this.hoverContentFocused = false;
     this.activeTarget.set(null);
     this.closed.emit(event);
 
     if (shouldRestoreFocus && target instanceof HTMLElement) {
       queueMicrotask(() => {
-        if (!this.destroyed && !this.visible() && target.isConnected) target.focus();
+        if (!this.destroyed && !this.visible() && target.isConnected) {
+          if (this.trigger() === 'hover') this.hoverInteraction.pointerDown();
+          target.focus();
+          if (this.trigger() === 'hover') this.hoverInteraction.suppress();
+        }
       });
     }
   }
@@ -522,6 +651,29 @@ export class AerisPopover {
       return this.resolveTarget(target.currentTarget ?? target.target);
     }
     return target instanceof Element ? target : null;
+  }
+
+  private ownsHoverTarget(target: EventTarget | null): boolean {
+    if (!(target instanceof Node)) return false;
+    const roots: Element[] = [];
+    const trigger = this.localTarget();
+    const panel = this.popoverPanel()?.nativeElement;
+    if (trigger) roots.push(trigger);
+    if (panel) roots.push(panel);
+    const visited = new Set<Element>();
+    // Follow only controls owned by this popover, including their portaled descendants.
+    for (const root of roots) {
+      if (visited.has(root)) continue;
+      visited.add(root);
+      if (root.contains(target)) return true;
+      for (const controller of [root, ...root.querySelectorAll('[aria-controls]')]) {
+        for (const id of controller.getAttribute('aria-controls')?.split(/\s+/) ?? []) {
+          const owned = this.document.getElementById(id);
+          if (owned && !visited.has(owned)) roots.push(owned);
+        }
+      }
+    }
+    return false;
   }
 }
 

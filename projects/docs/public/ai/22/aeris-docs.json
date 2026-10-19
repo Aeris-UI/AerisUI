@@ -31434,6 +31434,24 @@
           "kind": "input",
           "entries": [
             {
+              "name": "trigger",
+              "type": "AerisPopoverTrigger",
+              "defaultValue": "'manual'",
+              "description": "Options: 'manual', 'hover'. Hover binds pointer and keyboard-focus events to target. Buttons also toggle on click/tap; links keep normal navigation. Hover mode never autofocuses or traps focus."
+            },
+            {
+              "name": "openDelay",
+              "type": "number",
+              "defaultValue": "200",
+              "description": "Pointer opening delay in milliseconds in hover mode. Keyboard focus opens immediately. Negative or non-finite values are treated as zero."
+            },
+            {
+              "name": "closeDelay",
+              "type": "number",
+              "defaultValue": "150",
+              "description": "Closing delay in milliseconds after pointer and focus leave both regions in hover mode. Safe pointer travel across the gap is allowed first. Negative or non-finite values are treated as zero."
+            },
+            {
               "name": "closeIconTemplate",
               "type": "TemplateRef<AerisPopoverTemplateContext> | undefined",
               "defaultValue": "undefined",
@@ -31449,7 +31467,7 @@
               "name": "target",
               "type": "AerisPopoverTarget",
               "defaultValue": "null",
-              "description": "Element or trigger event used when visible is controlled directly."
+              "description": "Element or trigger event used when visible is controlled directly. Required as a stable element reference for automatic hover/focus triggering."
             },
             {
               "name": "header",
@@ -31515,19 +31533,19 @@
               "name": "focusTrap",
               "type": "boolean",
               "defaultValue": "true",
-              "description": "Keeps Tab navigation inside the popover."
+              "description": "Keeps Tab navigation inside a manual popover. Ignored in hover mode."
             },
             {
               "name": "restoreFocus",
               "type": "boolean",
               "defaultValue": "true",
-              "description": "Returns focus to the trigger after close."
+              "description": "Returns focus to the trigger after close. In hover mode, only Escape or closing while focus is inside returns focus; pointer departure and outside clicks never steal focus."
             },
             {
               "name": "autoFocus",
               "type": "boolean",
               "defaultValue": "true",
-              "description": "Moves focus into the popover after open."
+              "description": "Moves focus into a manual popover after open. Ignored in hover mode; Tab from the trigger enters its content."
             },
             {
               "name": "initialFocus",
@@ -31653,7 +31671,7 @@
               "name": "hide(event?, reason?)",
               "type": "(Event | null, AerisPopoverCloseReason) => void",
               "defaultValue": "reason: 'api'",
-              "description": "Closes the popover and records the close reason. Options: 'api', 'close-button', 'escape', 'outside'."
+              "description": "Closes the popover and records the close reason. Options: 'api', 'close-button', 'escape', 'outside', 'interaction'."
             },
             {
               "name": "toggle(targetOrEvent?, originalEvent?)",
@@ -31680,7 +31698,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisPopoverPlacement = 'auto' | 'top' | 'right' | 'bottom' | 'left';\ntype AerisPopoverAlignment = 'start' | 'center' | 'end';\ntype AerisPopoverCloseReason = 'api' | 'close-button' | 'escape' | 'outside';\ntype AerisPopoverTarget = Element | EventTarget | Event | null | undefined;\n\ninterface AerisPopoverVisibilityChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly visible: boolean;\n  readonly reason: AerisPopoverCloseReason;\n  readonly target: Element | null;\n}\n\ninterface AerisPopoverTemplateContext {\n  readonly $implicit: AerisPopover;\n  readonly close: (event?: Event) => void;\n  readonly placement: Exclude<AerisPopoverPlacement, 'auto'>;\n  readonly target: Element | null;\n}"
+          "code": "type AerisPopoverPlacement = 'auto' | 'top' | 'right' | 'bottom' | 'left';\ntype AerisPopoverAlignment = 'start' | 'center' | 'end';\ntype AerisPopoverTrigger = 'manual' | 'hover';\ntype AerisPopoverCloseReason = 'api' | 'close-button' | 'escape' | 'outside' | 'interaction';\ntype AerisPopoverTarget = Element | EventTarget | Event | null | undefined;\n\ninterface AerisPopoverVisibilityChangeEvent {\n  readonly originalEvent: Event | null;\n  readonly visible: boolean;\n  readonly reason: AerisPopoverCloseReason;\n  readonly target: Element | null;\n}\n\ninterface AerisPopoverTemplateContext {\n  readonly $implicit: AerisPopover;\n  readonly close: (event?: Event) => void;\n  readonly placement: Exclude<AerisPopoverPlacement, 'auto'>;\n  readonly target: Element | null;\n}"
         }
       ],
       "designTokens": [
@@ -31759,6 +31777,23 @@
               "language": "CSS",
               "label": "CSS",
               "code": ".demo-actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n\n.placement-grid {\n  display: grid;\n  grid-template-columns: repeat(5, minmax(0, 1fr));\n  gap: 0.5rem;\n  max-width: 34rem;\n}\n\n.popover-card {\n  display: grid;\n  gap: 0.5rem;\n}\n\n.popover-card strong {\n  color: var(--text);\n}\n\n.popover-card p {\n  margin: 0;\n  color: var(--text-2);\n}\n\n.demo-status {\n  width: 100%;\n  margin: 0.875rem 0 0;\n  color: var(--text-3);\n  font-size: 0.8125rem;\n}"
+            }
+          ]
+        },
+        {
+          "id": "popover-hover",
+          "title": "Hover and focus",
+          "description": "Hover or focus the button to preview content. On touch screens, tap to toggle.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisPopoverModule } from '@aeris-ui/core/popover';\n\n@Component({\n  selector: 'app-popover-hover-demo',\n  imports: [AerisButton, AerisPopoverModule],\n  templateUrl: './popover-hover.demo.html'\n})\nexport class PopoverHoverHoverAndFocusDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <button #hoverButton aerisButton type=\"button\">Preview content</button>\n  <aeris-popover\n    #hoverPopover\n    trigger=\"hover\"\n    [target]=\"hoverTarget()?.nativeElement\"\n    [openDelay]=\"200\"\n    [closeDelay]=\"150\"\n    header=\"Content preview\"\n    closable\n  >\n    <p>Move from the trigger into this panel without closing it.</p>\n    <button aerisButton type=\"button\" (click)=\"hoverPopover.hide()\">Done</button>\n  </aeris-popover>\n</div>"
             }
           ]
         },
@@ -31867,7 +31902,9 @@
         "guidance": [
           "The popover uses role=\"dialog\" and receives an accessible name from header, aerisPopoverHeader, ariaLabel, or ariaLabelledBy.",
           "The trigger receives aria-haspopup=\"dialog\", aria-expanded, and aria-controls while the popover is open, then its previous values are restored.",
-          "Focus moves into the popover by default, remains trapped while open, and returns to the trigger when closed.",
+          "Manual popovers move focus into their content by default, trap Tab navigation, and return focus when closed. These settings are unchanged for existing click/API usage.",
+          "With trigger=\"hover\", supply a stable [target] element. Pointer entry waits for openDelay; keyboard focus opens immediately. Neither moves focus nor traps it. Tab from the trigger enters the panel; Shift + Tab from its first control returns to the trigger. Focus and pointer can move between the trigger and content, including owned portaled controls. Leaving both closes after closeDelay. Escape dismisses without reopening until a fresh interaction.",
+          "Use a native button for a preview that must also work on touch: tapping toggles it. Links keep their navigation and are never intercepted for touch previews; provide a separate preview button or keep essential information available at the destination. Do not add a second click toggle handler to an automatically triggered button. The visible model and existing methods remain available in both modes.",
           "Use a native button or another keyboard-focusable element as the trigger.",
           "With nested overlays, only the topmost popover handles outside dismissal and focus trapping. Escape closes one eligible layer at a time; a descendant that handles Escape can keep its popover open.",
           "Motion respects reduced-motion preferences."
@@ -31875,11 +31912,11 @@
         "keyboard": [
           {
             "keys": "Tab",
-            "behavior": "Moves to the next focusable control inside the popover."
+            "behavior": "Moves through content. In hover mode, Tab from the trigger enters the panel and can leave without being trapped."
           },
           {
             "keys": "Shift + Tab",
-            "behavior": "Moves to the previous focusable control inside the popover."
+            "behavior": "Moves backward. In hover mode, the first panel control returns to the trigger."
           },
           {
             "keys": "Escape",

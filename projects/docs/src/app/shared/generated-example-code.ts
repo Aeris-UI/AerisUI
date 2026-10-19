@@ -160,6 +160,7 @@ export const DOC_EXAMPLE_CODE: Readonly<Record<string, string>> = {
   "pick-list-filtering": "interface Product {\n  readonly id: string;\n  readonly label: string;\n  readonly category: string;\n  readonly status: string;\n}",
   "pick-list-limit": "interface Product {\n  readonly id: string;\n  readonly label: string;\n  readonly category: string;\n  readonly status: string;\n}",
   "pick-list-scrolling": "interface Product {\n  readonly id: string;\n  readonly label: string;\n  readonly category: string;\n  readonly status: string;\n}",
+  "popover-hover": "protected readonly hoverTarget = viewChild<unknown, ElementRef<HTMLButtonElement>>(\n    'hoverButton',\n    {\n      read: ElementRef,\n    },\n  );",
   "progress-spinner-template": "protected readonly progress = signal(35);",
   "radio-cards": "protected readonly delivery = signal<string | null>(null);\n\nprotected readonly deliverySubmitted = signal(false);",
   "radio-model": "protected readonly lastChange = signal('No interaction');\n\nprotected recordChange(event: AerisRadioButtonChangeEvent): void {\n    this.lastChange.set(`Selected ${event.value}`);\n  }",
