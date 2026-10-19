@@ -13,6 +13,7 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
 import { AerisScrollPanelModule } from '@aeris-ui/core/scroll-panel';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 import { ChoiceCardsFixture } from './choice-cards.fixture';
+import { NativeChoiceGroupsFixture } from './native-choice-groups.fixture';
 import { ChipRemovalFixture } from './chip-removal.fixture';
 import { DrawerSwipeFixture } from './drawer-swipe.fixture';
 import { DateEntryFixture } from './date-entry.fixture';
@@ -42,6 +43,7 @@ import { AerisThemeService } from '@aeris-ui/core/theming';
 @Component({
   selector: 'app-root',
   imports: [
+    NativeChoiceGroupsFixture,
     ButtonFoundationFixture,
     HoverOverlayFixture,
     GlobalIconsFixture,

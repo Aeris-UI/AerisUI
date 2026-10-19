@@ -1,6 +1,71 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from './fixtures';
 
+test('native fieldsets disable both appearances without hover feedback, preserving legend exceptions', async ({
+  page,
+  hasTouch,
+}) => {
+  await page.goto('/');
+  const area = page.locator('[data-fixture="native-choice-groups"]');
+  await area.getByRole('button', { name: 'Disable fieldsets' }).click();
+  for (const appearance of ['standard', 'card']) {
+    const group = area.locator(`fieldset[data-appearance="${appearance}"]`);
+    const checkbox = group.getByRole('checkbox', { name: 'Enabled checkbox', exact: true });
+    await expect(checkbox).toBeDisabled();
+    const label = checkbox.locator('..');
+    await expect(label).toHaveCSS('cursor', 'not-allowed');
+    expect(Number(await label.evaluate((el) => getComputedStyle(el).opacity))).toBeLessThan(1);
+    const legend = group.getByRole('checkbox', { name: `${appearance} legend exception` });
+    await expect(legend).toBeEnabled();
+    await legend.locator('..').click();
+    await expect(legend).toBeChecked();
+    const first = group.getByRole('radio', { name: 'First choice', exact: true });
+    await expect(first).toBeDisabled();
+    await expect(first.locator('..')).toHaveCSS('cursor', 'not-allowed');
+    if (!hasTouch) {
+      const control = first.locator('..').locator('.aeris-radio__control');
+      const border = await control.evaluate((el) => getComputedStyle(el).borderColor);
+      const surfaceBorder = await label.evaluate((el) => getComputedStyle(el).borderColor);
+      await first.locator('..').hover();
+      await expect(control).toHaveCSS('border-color', border);
+      await label.hover();
+      await expect(label).toHaveCSS('border-color', surfaceBorder);
+    }
+  }
+  await area.getByRole('button', { name: 'Enable fieldsets' }).click();
+  for (const appearance of ['standard', 'card']) {
+    const group = area.locator(`fieldset[data-appearance="${appearance}"]`);
+    await expect(
+      group.getByRole('checkbox', { name: 'Enabled checkbox', exact: true }),
+    ).toBeEnabled();
+    await expect(group.getByRole('checkbox', { name: 'Locked checkbox' })).toBeDisabled();
+    await expect(group.getByRole('radio', { name: 'Locked choice' })).toBeDisabled();
+  }
+});
+
+test('native radios share keyboard selection within form owners, not between forms', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const area = page.locator('[data-fixture="native-choice-groups"]');
+  const standard = area.locator('fieldset[data-appearance="standard"]');
+  const card = area.locator('fieldset[data-appearance="card"]');
+  const first = standard.getByRole('radio', { name: 'First choice', exact: true });
+  await first.focus();
+  await first.press('Space');
+  await first.press('ArrowDown');
+  await expect(standard.getByRole('radio', { name: 'Last choice' })).toBeChecked();
+  await card.getByRole('radio', { name: 'First choice', exact: true }).locator('..').click();
+  await expect(card.getByRole('radio', { name: 'First choice', exact: true })).toBeChecked();
+  await expect(standard.getByRole('radio', { name: 'Last choice' })).toBeChecked();
+  expect(await first.evaluate((el: HTMLInputElement) => el.validity.valueMissing)).toBe(false);
+  const result = await new AxeBuilder({ page })
+    .include('[data-fixture="native-choice-groups"]')
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+    .analyze();
+  expect(result.violations).toEqual([]);
+});
+
 test('choice cards use native Space and radio arrow navigation with one change per activation', async ({
   page,
 }) => {

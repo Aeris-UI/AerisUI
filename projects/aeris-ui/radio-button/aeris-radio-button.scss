@@ -107,7 +107,7 @@
 }
 
 @media (hover: hover) {
-  .aeris-radio:hover .aeris-radio__control {
+  .aeris-radio:has(input:enabled):hover .aeris-radio__control {
     border-color: var(--aeris-radio-hover-border, var(--aeris-primary, #768653));
   }
 }
@@ -138,16 +138,11 @@
   outline-color: var(--aeris-control-invalid-focus-ring-color, transparent);
 }
 
-.aeris-radio[data-disabled='true'] {
+.aeris-radio:has(input:disabled) {
   opacity: var(--aeris-disabled-opacity, 0.5);
   cursor: not-allowed;
 }
 
-@media (hover: hover) {
-  .aeris-radio[data-disabled='true']:hover .aeris-radio__control {
-    border-color: var(--aeris-radio-border, var(--aeris-border, #efefef));
-  }
-}
 @media (prefers-reduced-motion: reduce) {
   .aeris-radio__control,
   .aeris-radio__dot {

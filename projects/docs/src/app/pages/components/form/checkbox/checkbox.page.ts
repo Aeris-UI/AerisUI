@@ -242,7 +242,8 @@ interface AerisCheckboxChangeEvent {
       name: 'required',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'Exposes native required validation semantics.',
+      description:
+        'Requires this specific checkbox to be checked. Use a form-model validator for a collection minimum such as at least one selected option.',
     },
     {
       name: 'invalid',

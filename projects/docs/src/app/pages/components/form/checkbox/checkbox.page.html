@@ -568,6 +568,21 @@
       <section class="doc-section">
         <h2>Accessibility</h2>
         <p>
+          Group related checkboxes with a native <code>fieldset</code> and visible
+          <code>legend</code>. A disabled fieldset blocks its descendant controls; controls in its
+          first legend remain enabled according to native HTML rules. Individually disabled options
+          stay disabled when the fieldset is enabled again. No Aeris group wrapper is needed.
+        </p>
+        <p>
+          <code>required</code> means this specific checkbox must be checked. For “choose at least
+          one” or a minimum count, validate the collection in your form model and associate shared
+          help/error text using <code>ariaDescribedBy</code>. Signal Forms binds each checkbox to
+          its own boolean field with <code>[formField]</code>; do not also bind
+          <code>checked</code> or register the same state with another form control. A disabled
+          fieldset controls browser interaction, not programmatic model writes or the form model's
+          validation/disabled state.
+        </p>
+        <p>
           Card appearance keeps one native input and one focus stop per option. Its entire label is
           clickable. Keep projected content and icon templates decorative and non-interactive; place
           links and extra actions outside the control. The description input is automatically

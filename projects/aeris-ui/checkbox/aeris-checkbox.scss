@@ -73,7 +73,7 @@
 }
 
 @media (hover: hover) {
-  .aeris-checkbox:hover:not([data-disabled]) .aeris-checkbox__control {
+  .aeris-checkbox:has(input:enabled):hover .aeris-checkbox__control {
     border-color: var(--aeris-primary, #{aeris-fallbacks.$primary});
   }
 }
@@ -122,7 +122,7 @@
   outline-color: var(--aeris-control-invalid-focus-ring-color, transparent);
 }
 
-.aeris-checkbox[data-disabled] {
+.aeris-checkbox:has(input:disabled) {
   opacity: 0.5;
   cursor: not-allowed;
 }

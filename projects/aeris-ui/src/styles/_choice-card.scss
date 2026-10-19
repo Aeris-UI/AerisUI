@@ -80,7 +80,7 @@
   }
 
   @media (hover: hover) {
-    .aeris-choice-card:not([data-disabled='true']):hover {
+    .aeris-choice-card:has(input:enabled):hover {
       border-color: var(--aeris-choice-card-selected-border, var(--aeris-primary));
     }
   }
