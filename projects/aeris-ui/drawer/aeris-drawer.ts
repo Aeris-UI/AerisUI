@@ -109,7 +109,7 @@ const DRAWER_FOCUS_OPTIONS = {
         [attr.inert]="visible() ? null : ''"
         (click)="handleOverlayClick($event)"
       >
-        <aside
+        <section
           #drawerPanel
           class="aeris-drawer__panel"
           role="dialog"
@@ -263,7 +263,7 @@ const DRAWER_FOCUS_OPTIONS = {
               </footer>
             }
           }
-        </aside>
+        </section>
       </div>
     }
   `,
