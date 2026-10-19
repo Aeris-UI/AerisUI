@@ -1,0 +1,163 @@
+<aeris-sidebar
+  #sidebar
+  [mode]="landing() ? 'mobile' : 'auto'"
+  [breakpoint]="breakpoint()"
+  [(open)]="open"
+  [collapsible]="false"
+  width="17rem"
+  mobileWidth="min(19rem, calc(100vw - 2rem))"
+  ariaLabel="Documentation"
+  expandAriaLabel="Open documentation navigation"
+  closeAriaLabel="Close documentation navigation"
+>
+  <strong aerisSidebarHeader class="docs-sidebar__title" [hidden]="!sidebar.mobile()"
+    >Documentation</strong
+  >
+  <div class="docs-navigation">
+    <div class="docs-navigation__sections">
+      <section>
+        <h2>Overview</h2>
+        <a
+          aerisSidebarItem
+          label="Home"
+          routerLink="/"
+          routerLinkActive="active"
+          #home="routerLinkActive"
+          [routerLinkActiveOptions]="{ exact: true }"
+          [active]="home.isActive"
+        ></a>
+        <a
+          aerisSidebarItem
+          label="Guides"
+          routerLink="/guides"
+          routerLinkActive="active"
+          #guides="routerLinkActive"
+          [routerLinkActiveOptions]="{ exact: true }"
+          [active]="guides.isActive"
+        ></a>
+      </section>
+      <section>
+        <h2>Guides</h2>
+        @for (group of guideGroups; track group.title) {
+          <aeris-sidebar-group
+            [label]="group.title + ' (' + group.guideIds.length + ')'"
+            [expanded]="expandedGuideGroups().has(group.title)"
+            (expandedChange)="setGuideGroupExpanded(group.title, $event)"
+          >
+            @if (expandedGuideGroups().has(group.title)) {
+              <div class="docs-navigation__items">
+                @for (guideId of group.guideIds; track guideId) {
+                  @let guide = guideArticleById.get(guideId);
+                  @if (guide) {
+                    <a
+                      aerisSidebarItem
+                      [label]="guide.title"
+                      [routerLink]="guide.path"
+                      routerLinkActive="active"
+                      #guideRoute="routerLinkActive"
+                      [active]="guideRoute.isActive"
+                      (pointerenter)="prefetchRoute(guide.path)"
+                      (pointerdown)="prefetchRoute(guide.path)"
+                      (focus)="prefetchRoute(guide.path)"
+                    ></a>
+                  }
+                }
+              </div>
+            }
+          </aeris-sidebar-group>
+        }
+      </section>
+      <section>
+        <h2>Library</h2>
+        <a
+          aerisSidebarItem
+          label="All components"
+          routerLink="/components"
+          routerLinkActive="active"
+          #catalog="routerLinkActive"
+          [routerLinkActiveOptions]="{ exact: true }"
+          [active]="catalog.isActive"
+          ><span aerisSidebarBadge>{{ componentCount }}</span></a
+        >
+        @for (group of componentGroups; track group.category) {
+          <aeris-sidebar-group
+            [label]="group.category + ' (' + group.items.length + ')'"
+            [expanded]="expandedGroups().has(group.category)"
+            (expandedChange)="setComponentGroupExpanded(group.category, $event)"
+          >
+            @if (expandedGroups().has(group.category)) {
+              <div class="docs-navigation__items">
+                @for (item of group.items; track item.slug) {
+                  <a
+                    aerisSidebarItem
+                    [label]="item.name"
+                    [routerLink]="['/components', item.slug]"
+                    routerLinkActive="active"
+                    #componentRoute="routerLinkActive"
+                    [active]="componentRoute.isActive"
+                    (pointerenter)="prefetchRoute('/components/' + item.slug)"
+                    (pointerdown)="prefetchRoute('/components/' + item.slug)"
+                    (focus)="prefetchRoute('/components/' + item.slug)"
+                  ></a>
+                }
+              </div>
+            }
+          </aeris-sidebar-group>
+        }
+      </section>
+      <section>
+        <h2>Resources</h2>
+        <a
+          aerisSidebarItem
+          label="Design Lab"
+          routerLink="/design-lab"
+          routerLinkActive="active"
+          #lab="routerLinkActive"
+          [active]="lab.isActive"
+        ></a>
+        <a
+          aerisSidebarItem
+          label="GitHub"
+          href="https://github.com/Aeris-UI/AerisUI"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><svg aerisSidebarBadge [lucideIcon]="icons.ExternalLink" aria-hidden="true"></svg
+        ></a>
+        <a
+          aerisSidebarItem
+          label="Angular 22"
+          href="https://angular.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><svg aerisSidebarBadge [lucideIcon]="icons.ExternalLink" aria-hidden="true"></svg
+        ></a>
+      </section>
+    </div>
+    <footer class="docs-sidebar__footer">
+      <span>Aeris {{ currentVersion }} · Angular 22</span>
+      <small class="docs-sidebar__alpha">Alpha software · Not production ready</small>
+      <small>WCAG 2.2 AA target</small>
+      <small>Free and open source under the MIT License.</small>
+      <small>Responsive by default. Compatible with Tailwind CSS 4 and Bootstrap 5.3.</small>
+      <small
+        >Built-in icons use bundled Lucide SVG artwork; no icon package is required. Examples use
+        Lucide; any icon component, SVG, or icon font can be used.</small
+      >
+      <a
+        aerisButton
+        class="docs-sidebar__support"
+        size="sm"
+        variant="solid"
+        severity="secondary"
+        routerLink="/support"
+        (click)="open.set(false)"
+        ><svg [lucideIcon]="icons.Heart" aria-hidden="true"></svg>Support Aeris</a
+      >
+      <nav class="docs-sidebar__footer-links" aria-label="Documentation resources">
+        <a routerLink="/guides/version-compatibility" (click)="open.set(false)">Compatibility</a>
+        <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a>
+        <a routerLink="/third-party-notices" (click)="open.set(false)">Third-party notices</a>
+      </nav>
+    </footer>
+  </div>
+</aeris-sidebar>

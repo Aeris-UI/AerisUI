@@ -8,14 +8,18 @@
       <button
         aerisButton
         data-docs-menu
+        #navigationTrigger
         data-docs-icon-button
         type="button"
         variant="ghost"
         size="sm"
         iconOnly
-        aria-label="Open documentation navigation"
+        [attr.aria-label]="
+          sidebarOpen() ? 'Close documentation navigation' : 'Open documentation navigation'
+        "
         [attr.aria-expanded]="sidebarOpen()"
-        (click)="sidebarOpen.update((open) => !open)"
+        [attr.aria-controls]="navigation()?.sidebar()?.navigationId || null"
+        (click)="toggleNavigation($event)"
       >
         <svg [lucideIcon]="icons.Menu"></svg>
       </button>
@@ -249,191 +253,17 @@
     </nav>
   </aeris-toolbar>
 
-  <ng-template #docsNavigation let-idSuffix="idSuffix">
-    <div class="docs-navigation">
-      <nav>
-        <section>
-          <h2>Overview</h2>
-          <a
-            routerLink="/"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="closeNavigation()"
-            >Home</a
-          >
-          <a
-            routerLink="/guides"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="closeNavigation()"
-            >Guides</a
-          >
-        </section>
-        <section>
-          <h2>Guides</h2>
-          <div class="docs-guide-groups">
-            @for (group of guideGroups; track group.title) {
-              <section class="docs-guide-group">
-                <h3>
-                  <button
-                    type="button"
-                    [attr.aria-expanded]="expandedGuideGroups().has(group.title)"
-                    [attr.aria-controls]="guideGroupId(group.title) + '-' + idSuffix"
-                    (click)="toggleGuideGroup(group.title)"
-                  >
-                    <span>{{ group.title }}</span>
-                    <small>{{ group.guideIds.length }}</small>
-                    <svg [lucideIcon]="icons.ChevronRight"></svg>
-                  </button>
-                </h3>
-                @if (expandedGuideGroups().has(group.title)) {
-                  <div
-                    [id]="guideGroupId(group.title) + '-' + idSuffix"
-                    class="docs-guide-group__items"
-                    animate.enter="docs-navigation-group--enter"
-                    animate.leave="docs-navigation-group--leave"
-                  >
-                    @for (guideId of group.guideIds; track guideId) {
-                      @if (guideArticleById.get(guideId); as guide) {
-                        <a
-                          [routerLink]="guide.path"
-                          routerLinkActive="active"
-                          (pointerenter)="prefetchRoute(guide.path)"
-                          (pointerdown)="prefetchRoute(guide.path)"
-                          (focus)="prefetchRoute(guide.path)"
-                          (click)="closeNavigation()"
-                        >
-                          {{ guide.title }}
-                        </a>
-                      }
-                    }
-                  </div>
-                }
-              </section>
-            }
-          </div>
-        </section>
-        <section>
-          <h2>Library</h2>
-          <a
-            routerLink="/components"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="closeNavigation()"
-            >All components <span>{{ componentCount }}</span></a
-          >
-          <div class="docs-component-groups">
-            @for (group of componentGroups; track group.category) {
-              <section class="docs-component-group">
-                <h3>
-                  <button
-                    type="button"
-                    [attr.aria-expanded]="expandedGroups().has(group.category)"
-                    [attr.aria-controls]="componentGroupId(group.category) + '-' + idSuffix"
-                    (click)="toggleComponentGroup(group.category)"
-                  >
-                    <span>{{ group.category }}</span>
-                    <small>{{ group.items.length }}</small>
-                    <svg [lucideIcon]="icons.ChevronRight"></svg>
-                  </button>
-                </h3>
-                @if (expandedGroups().has(group.category)) {
-                  <div
-                    [id]="componentGroupId(group.category) + '-' + idSuffix"
-                    class="docs-component-group__items"
-                    animate.enter="docs-navigation-group--enter"
-                    animate.leave="docs-navigation-group--leave"
-                  >
-                    @for (item of group.items; track item.slug) {
-                      <a
-                        [routerLink]="['/components', item.slug]"
-                        routerLinkActive="active"
-                        (pointerenter)="prefetchRoute('/components/' + item.slug)"
-                        (pointerdown)="prefetchRoute('/components/' + item.slug)"
-                        (focus)="prefetchRoute('/components/' + item.slug)"
-                        (click)="closeNavigation()"
-                      >
-                        {{ item.name }}
-                      </a>
-                    }
-                  </div>
-                }
-              </section>
-            }
-          </div>
-        </section>
-        <section>
-          <h2>Resources</h2>
-          <a routerLink="/design-lab" routerLinkActive="active" (click)="closeNavigation()"
-            >Design Lab</a
-          >
-          <a href="https://github.com/Aeris-UI/AerisUI" target="_blank" rel="noopener noreferrer"
-            >GitHub <span>↗</span></a
-          >
-          <a href="https://angular.dev" target="_blank" rel="noreferrer"
-            >Angular 22 <span>↗</span></a
-          >
-        </section>
-      </nav>
-      <div class="docs-sidebar__footer">
-        <span>Aeris {{ currentVersion }} · Angular 22</span>
-        <small class="docs-sidebar__alpha">Alpha software · Not production ready</small>
-        <small>WCAG 2.2 AA target</small>
-        <small>Free and open source under the MIT License.</small>
-        <small>Responsive by default. Compatible with Tailwind CSS 4 and Bootstrap 5.3.</small>
-        <small>
-          Built-in icons use bundled Lucide SVG artwork; no icon package is required. Examples use
-          Lucide; any icon component, SVG, or icon font can be used.
-        </small>
-        <a
-          aerisButton
-          class="docs-sidebar__support"
-          size="sm"
-          variant="solid"
-          severity="secondary"
-          routerLink="/support"
-          (click)="closeNavigation()"
-        >
-          <svg [lucideIcon]="icons.Heart" aria-hidden="true"></svg>
-          Support Aeris
-        </a>
-        <nav class="docs-sidebar__footer-links" aria-label="Documentation resources">
-          <a routerLink="/guides/version-compatibility" (click)="closeNavigation()"
-            >Compatibility</a
-          >
-          <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer">Lucide</a>
-          <a routerLink="/third-party-notices" (click)="closeNavigation()">Third-party notices</a>
-        </nav>
-      </div>
-    </div>
-  </ng-template>
-
   <div class="docs-layout">
-    @if (!isLandingPage()) {
-      <aside class="docs-sidebar" aria-label="Documentation navigation">
-        <ng-container
-          [ngTemplateOutlet]="docsNavigation"
-          [ngTemplateOutletContext]="{ idSuffix: 'desktop' }"
-        />
-      </aside>
-    }
-
-    @defer (when sidebarOpen(); prefetch on idle) {
-      <aeris-drawer
-        class="docs-mobile-navigation"
-        header="Documentation"
-        [(visible)]="sidebarOpen"
-        [position]="activeDirectionId() === 'rtl' ? 'right' : 'left'"
-        width="17.5rem"
-        mobileWidth="min(19rem, calc(100vw - 2rem))"
-        [closeOnBackdropClick]="true"
-        closeAriaLabel="Close documentation navigation"
-      >
-        <ng-container
-          [ngTemplateOutlet]="docsNavigation"
-          [ngTemplateOutletContext]="{ idSuffix: 'mobile' }"
-        />
-      </aeris-drawer>
+    @defer (on immediate) {
+      <app-docs-navigation
+        #docsSidebarShell
+        class="docs-sidebar"
+        [landing]="isLandingPage()"
+        [breakpoint]="navigationBreakpoint"
+        [(open)]="sidebarOpen"
+      />
+    } @placeholder {
+      <div class="docs-sidebar" aria-hidden="true"></div>
     }
 
     <main

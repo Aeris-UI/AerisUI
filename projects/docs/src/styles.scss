@@ -95,8 +95,8 @@ svg {
 
 docs-route-outlet .docs-route-view > router-outlet + * {
   display: block;
-  animation: docs-route-enter var(--aeris-motion-normal, 150ms)
-    var(--aeris-ease-enter, ease-out) backwards;
+  animation: docs-route-enter var(--aeris-motion-normal, 150ms) var(--aeris-ease-enter, ease-out)
+    backwards;
 }
 
 .docs-header__nav a::after {
@@ -115,8 +115,7 @@ docs-route-outlet .docs-route-view > router-outlet + * {
     transform var(--aeris-motion-normal, 150ms) var(--aeris-ease-emphasized, ease);
 }
 
-.docs-header__nav a,
-.docs-navigation a:not(.aeris-button) {
+.docs-header__nav a {
   transition:
     background-color var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease),
     color var(--aeris-motion-fast, 100ms) var(--aeris-ease-standard, ease);
@@ -125,30 +124,6 @@ docs-route-outlet .docs-route-view > router-outlet + * {
 .docs-header__nav a.active::after {
   opacity: 1;
   transform: scaleX(1);
-}
-
-.docs-navigation-group--enter {
-  animation: docs-navigation-group-enter var(--aeris-motion-normal, 150ms)
-    var(--aeris-ease-enter, ease-out);
-}
-
-.docs-navigation-group--leave {
-  animation: docs-navigation-group-leave var(--aeris-motion-fast, 100ms)
-    var(--aeris-ease-exit, ease-in);
-}
-
-@keyframes docs-navigation-group-enter {
-  from {
-    opacity: 0;
-    transform: translateY(calc(var(--aeris-motion-distance-sm, 0.25rem) * -1));
-  }
-}
-
-@keyframes docs-navigation-group-leave {
-  to {
-    opacity: 0;
-    transform: translateY(calc(var(--aeris-motion-distance-sm, 0.25rem) * -1));
-  }
 }
 
 @keyframes docs-route-enter {
@@ -226,11 +201,6 @@ docs-route-outlet .docs-route-view > router-outlet + * {
   }
 
   docs-route-outlet .docs-route-view > router-outlet + * {
-    animation: none;
-  }
-
-  .docs-navigation-group--enter,
-  .docs-navigation-group--leave {
     animation: none;
   }
 }

@@ -1,29 +1,19 @@
-import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCardModule } from '@aeris-ui/core/card';
-import { AerisDrawer } from '@aeris-ui/core/drawer';
 import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
 import { AerisThemeService } from '@aeris-ui/core/theming';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 import { LucideDynamicIcon } from '@lucide/angular';
 import { filter } from 'rxjs';
 
-import {
-  COMPONENT_CATALOG,
-  COMPONENT_GROUPS,
-  type ComponentCategory,
-} from './data/component-catalog';
+import { COMPONENT_CATALOG } from './data/component-catalog';
 import { AERIS_CURRENT_VERSION } from './data/aeris-version';
 import type { DocsPaletteId } from './data/docs-palettes';
-import {
-  GUIDE_GROUPS,
-  GUIDE_SUMMARIES,
-  GUIDE_SUMMARY_BY_ID,
-  type GuideGroupTitle,
-} from './pages/guides/guide-navigation';
+import { GUIDE_SUMMARIES } from './pages/guides/guide-navigation';
 import {
   DocsAppearanceService,
   type DocsDensityId,
@@ -33,7 +23,7 @@ import {
 import { AerisLogoMarkComponent } from './shared/branding/aeris-logo-mark.component';
 import { DOC_ICONS } from './shared/documentation/doc-icons';
 import { DocsRouteOutletComponent } from './shared/navigation/docs-route-outlet.component';
-import { DocsRoutePrefetchService } from './shared/navigation/docs-route-prefetch.service';
+import { DocsNavigationComponent } from './shared/navigation/docs-navigation.component';
 import { DocsSeoService } from './shared/seo/docs-seo.service';
 import {
   DocsSearchDialogComponent,
@@ -46,10 +36,9 @@ import {
     RouterLink,
     RouterLinkActive,
     DocsRouteOutletComponent,
-    NgTemplateOutlet,
     AerisButton,
     DocsSearchDialogComponent,
-    AerisDrawer,
+    DocsNavigationComponent,
     AerisScrollTop,
     AerisCardModule,
     AerisToolbarModule,
@@ -65,17 +54,22 @@ import {
   },
 })
 export class App {
-  private readonly appearanceTrigger =
-    viewChild<ElementRef<HTMLButtonElement>>('appearanceTrigger');
+  private readonly appearanceTrigger = viewChild('appearanceTrigger', {
+    read: ElementRef<HTMLButtonElement>,
+  });
+  private readonly navigationTrigger = viewChild('navigationTrigger', {
+    read: ElementRef<HTMLButtonElement>,
+  });
+  protected readonly navigation = viewChild<DocsNavigationComponent>('docsSidebarShell');
   protected readonly icons = DOC_ICONS;
   private readonly document = inject(DOCUMENT);
   private readonly router = inject(Router);
-  private readonly routePrefetcher = inject(DocsRoutePrefetchService);
   private readonly seo = inject(DocsSeoService);
   private readonly docsAppearance = inject(DocsAppearanceService);
   protected readonly themeService = inject(AerisThemeService);
 
   protected readonly sidebarOpen = signal(false);
+  protected readonly navigationBreakpoint = 1120;
   protected readonly searchOpen = signal(false);
   protected readonly appearanceOpen = signal(false);
   protected readonly palettes = this.docsAppearance.palettes;
@@ -92,17 +86,7 @@ export class App {
   protected readonly activeDirection = this.docsAppearance.activeDirection;
   protected readonly query = signal('');
   protected readonly theme = this.themeService.mode;
-  protected readonly componentCount = COMPONENT_CATALOG.length;
   protected readonly currentVersion = AERIS_CURRENT_VERSION;
-  protected readonly componentGroups = COMPONENT_GROUPS;
-  protected readonly guideGroups = GUIDE_GROUPS;
-  protected readonly guideArticleById = GUIDE_SUMMARY_BY_ID;
-  protected readonly expandedGuideGroups = signal<ReadonlySet<GuideGroupTitle>>(
-    new Set<GuideGroupTitle>(),
-  );
-  protected readonly expandedGroups = signal<ReadonlySet<ComponentCategory>>(
-    new Set<ComponentCategory>(),
-  );
   private readonly navigationEnd = toSignal(
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -157,30 +141,6 @@ export class App {
       .slice(0, 10);
   });
 
-  private readonly expandActiveComponentGroup = effect(() => {
-    this.navigationEnd();
-    const slug = this.router.url.split(/[?#]/)[0]?.split('/')[2];
-    const category = COMPONENT_CATALOG.find((item) => item.slug === slug)?.category;
-    if (!category) return;
-
-    this.expandedGroups.update((current) => {
-      if (current.has(category)) return current;
-      return new Set([...current, category]);
-    });
-  });
-
-  private readonly expandActiveGuideGroup = effect(() => {
-    const event = this.navigationEnd();
-    const path = (event?.urlAfterRedirects ?? this.router.url).split(/[?#]/)[0];
-    const group = GUIDE_SUMMARIES.find((guide) => guide.path === path)?.group;
-    if (!group) return;
-
-    this.expandedGuideGroups.update((current) => {
-      if (current.has(group)) return current;
-      return new Set([...current, group]);
-    });
-  });
-
   private readonly scrollToTopOnNavigation = effect(() => {
     const event = this.navigationEnd();
     if (!event) return;
@@ -220,46 +180,6 @@ export class App {
     this.appearanceOpen.set(false);
   }
 
-  protected closeNavigation(): void {
-    this.sidebarOpen.set(false);
-  }
-
-  protected prefetchRoute(path: string): void {
-    this.routePrefetcher.prefetch(path);
-  }
-
-  protected toggleComponentGroup(category: ComponentCategory): void {
-    this.expandedGroups.update((current) => {
-      const next = new Set(current);
-      if (next.has(category)) {
-        next.delete(category);
-      } else {
-        next.add(category);
-      }
-      return next;
-    });
-  }
-
-  protected toggleGuideGroup(group: GuideGroupTitle): void {
-    this.expandedGuideGroups.update((current) => {
-      const next = new Set(current);
-      if (next.has(group)) {
-        next.delete(group);
-      } else {
-        next.add(group);
-      }
-      return next;
-    });
-  }
-
-  protected guideGroupId(group: GuideGroupTitle): string {
-    return `sidebar-guides-${group.toLowerCase().replaceAll(' ', '-')}`;
-  }
-
-  protected componentGroupId(category: ComponentCategory): string {
-    return `sidebar-components-${category.toLowerCase()}`;
-  }
-
   protected handleGlobalKeydown(event: KeyboardEvent): void {
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
       event.preventDefault();
@@ -276,8 +196,24 @@ export class App {
   }
 
   protected handleViewportResize(): void {
-    if ((this.document.defaultView?.innerWidth ?? 0) > 960) {
+    const width = this.document.defaultView?.innerWidth ?? 0;
+    const sidebar = this.navigation()?.sidebar();
+    if (
+      width <= this.navigationBreakpoint &&
+      sidebar &&
+      !sidebar.mobile() &&
+      this.document.getElementById(sidebar.navigationId)?.contains(this.document.activeElement)
+    ) {
+      this.navigationTrigger()?.nativeElement.focus({ preventScroll: true });
+    }
+    if (this.isLandingPage() && width > this.navigationBreakpoint) {
       this.sidebarOpen.set(false);
     }
+  }
+  protected toggleNavigation(event: MouseEvent): void {
+    // Pointer activation must also provide a reliable Drawer return target in Safari.
+    if (event.currentTarget instanceof HTMLElement)
+      event.currentTarget.focus({ preventScroll: true });
+    this.sidebarOpen.update((open) => !open);
   }
 }
