@@ -550,24 +550,31 @@ export class RadioStatesRequiredInvalidAndDisabledDemo {
 
 ```html
 <div class="radio-stack">
-  <fieldset class="radio-group" aria-describedby="delivery-error">
+  <fieldset
+    class="radio-group"
+    [attr.aria-describedby]="deliverySpeed() ? null : 'delivery-error'"
+  >
     <legend>Delivery speed</legend>
     <aeris-radio-button
-      name="delivery"
+      name="delivery-speed"
       value="standard"
+      [(selected)]="deliverySpeed"
       required
-      invalid
-      ariaDescribedBy="delivery-error"
+      [invalid]="!deliverySpeed()"
+      [ariaDescribedBy]="deliverySpeed() ? '' : 'delivery-error'"
       >Standard</aeris-radio-button>
     <aeris-radio-button
-      name="delivery"
+      name="delivery-speed"
       value="express"
+      [(selected)]="deliverySpeed"
       required
-      invalid
-      ariaDescribedBy="delivery-error"
+      [invalid]="!deliverySpeed()"
+      [ariaDescribedBy]="deliverySpeed() ? '' : 'delivery-error'"
       >Express</aeris-radio-button>
   </fieldset>
-  <small id="delivery-error" class="error">Choose a delivery speed.</small>
+  @if (!deliverySpeed()) {
+    <small id="delivery-error" class="error">Choose a delivery speed.</small>
+  }
   <aeris-radio-button name="disabled-demo" value="disabled" disabled
     >Unavailable option</aeris-radio-button>
   <aeris-radio-button
@@ -767,6 +774,9 @@ export class RadioAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 ## Accessibility
 
+- Native fieldset/legend provide the group name. Related radios share a name and selected value; use a different name for an independent group in the same form. Identical names in separate native forms remain independent. Applying required to an enabled member requires one selected radio in its native group.
+- A disabled fieldset blocks descendant radios and removes them from keyboard navigation; its first legend follows the native exception. Standard and card appearances reflect that disabled state. Explicitly disabled options remain disabled when the fieldset is enabled. Fieldset disabled state does not change your form model, validation or programmatic writes.
+- With Signal Forms, bind each radio to the same field through [formField] and keep the same group name with distinct option values. The existing forms integration synchronizes selection, touched, invalid and disabled state. Do not also bind selected or add a competing group form control. Share help/error IDs through ariaDescribedBy. No extra grouping directive is required.
 - Card appearance keeps one native input and one focus stop per option. Its entire label is clickable. Keep projected content and icon templates decorative and non-interactive; place links and extra actions outside the control. The description input is automatically associated with the native input, alongside any ariaDescribedBy help or error IDs. Use a layout grid or stack around the controls to arrange cards; no application layout is imposed.
 - Radio Button uses a native input type="radio", preserving browser, keyboard, form, and assistive-technology behavior.
 - Wrap related options in a fieldset with a legend, and give every option the same name.

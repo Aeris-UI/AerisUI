@@ -5103,7 +5103,7 @@
               "name": "required",
               "type": "boolean",
               "defaultValue": "false",
-              "description": "Exposes native required validation semantics."
+              "description": "Requires this specific checkbox to be checked. Use a form-model validator for a collection minimum such as at least one selected option."
             },
             {
               "name": "invalid",
@@ -5440,6 +5440,8 @@
       ],
       "accessibility": {
         "guidance": [
+          "Group related checkboxes with a native fieldset and visible legend. A disabled fieldset blocks its descendant controls; controls in its first legend remain enabled according to native HTML rules. Individually disabled options stay disabled when the fieldset is enabled again. No Aeris group wrapper is needed.",
+          "required means this specific checkbox must be checked. For “choose at least one” or a minimum count, validate the collection in your form model and associate shared help/error text using ariaDescribedBy. Signal Forms binds each checkbox to its own boolean field with [formField]; do not also bind checked or register the same state with another form control. A disabled fieldset controls browser interaction, not programmatic model writes or the form model's validation/disabled state.",
           "Card appearance keeps one native input and one focus stop per option. Its entire label is clickable. Keep projected content and icon templates decorative and non-interactive; place links and extra actions outside the control. The description input is automatically associated with the native input, alongside any ariaDescribedBy help or error IDs. Use a layout grid or stack around the controls to arrange cards; no application layout is imposed.",
           "Checkbox uses a real native input type=\"checkbox\", preserving browser, keyboard, form, and assistive-technology behavior.",
           "Projected content and the label input are wrapped in one native label, expanding the pointer target.",
@@ -13397,7 +13399,7 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div class=\"radio-stack\">\n  <fieldset class=\"radio-group\" aria-describedby=\"delivery-error\">\n    <legend>Delivery speed</legend>\n    <aeris-radio-button\n      name=\"delivery\"\n      value=\"standard\"\n      required\n      invalid\n      ariaDescribedBy=\"delivery-error\"\n      >Standard</aeris-radio-button>\n    <aeris-radio-button\n      name=\"delivery\"\n      value=\"express\"\n      required\n      invalid\n      ariaDescribedBy=\"delivery-error\"\n      >Express</aeris-radio-button>\n  </fieldset>\n  <small id=\"delivery-error\" class=\"error\">Choose a delivery speed.</small>\n  <aeris-radio-button name=\"disabled-demo\" value=\"disabled\" disabled\n    >Unavailable option</aeris-radio-button>\n  <aeris-radio-button\n    name=\"disabled-selected\"\n    value=\"selected\"\n    selected=\"selected\"\n    disabled\n    >Selected and unavailable</aeris-radio-button>\n</div>"
+              "code": "<div class=\"radio-stack\">\n  <fieldset\n    class=\"radio-group\"\n    [attr.aria-describedby]=\"deliverySpeed() ? null : 'delivery-error'\"\n  >\n    <legend>Delivery speed</legend>\n    <aeris-radio-button\n      name=\"delivery-speed\"\n      value=\"standard\"\n      [(selected)]=\"deliverySpeed\"\n      required\n      [invalid]=\"!deliverySpeed()\"\n      [ariaDescribedBy]=\"deliverySpeed() ? '' : 'delivery-error'\"\n      >Standard</aeris-radio-button>\n    <aeris-radio-button\n      name=\"delivery-speed\"\n      value=\"express\"\n      [(selected)]=\"deliverySpeed\"\n      required\n      [invalid]=\"!deliverySpeed()\"\n      [ariaDescribedBy]=\"deliverySpeed() ? '' : 'delivery-error'\"\n      >Express</aeris-radio-button>\n  </fieldset>\n  @if (!deliverySpeed()) {\n    <small id=\"delivery-error\" class=\"error\">Choose a delivery speed.</small>\n  }\n  <aeris-radio-button name=\"disabled-demo\" value=\"disabled\" disabled\n    >Unavailable option</aeris-radio-button>\n  <aeris-radio-button\n    name=\"disabled-selected\"\n    value=\"selected\"\n    selected=\"selected\"\n    disabled\n    >Selected and unavailable</aeris-radio-button>\n</div>"
             },
             {
               "language": "CSS",
@@ -13443,6 +13445,9 @@
       ],
       "accessibility": {
         "guidance": [
+          "Native fieldset/legend provide the group name. Related radios share a name and selected value; use a different name for an independent group in the same form. Identical names in separate native forms remain independent. Applying required to an enabled member requires one selected radio in its native group.",
+          "A disabled fieldset blocks descendant radios and removes them from keyboard navigation; its first legend follows the native exception. Standard and card appearances reflect that disabled state. Explicitly disabled options remain disabled when the fieldset is enabled. Fieldset disabled state does not change your form model, validation or programmatic writes.",
+          "With Signal Forms, bind each radio to the same field through [formField] and keep the same group name with distinct option values. The existing forms integration synchronizes selection, touched, invalid and disabled state. Do not also bind selected or add a competing group form control. Share help/error IDs through ariaDescribedBy. No extra grouping directive is required.",
           "Card appearance keeps one native input and one focus stop per option. Its entire label is clickable. Keep projected content and icon templates decorative and non-interactive; place links and extra actions outside the control. The description input is automatically associated with the native input, alongside any ariaDescribedBy help or error IDs. Use a layout grid or stack around the controls to arrange cards; no application layout is imposed.",
           "Radio Button uses a native input type=\"radio\", preserving browser, keyboard, form, and assistive-technology behavior.",
           "Wrap related options in a fieldset with a legend, and give every option the same name.",

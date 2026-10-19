@@ -1,6 +1,29 @@
 import { expect, test } from './fixtures';
 import { COMPONENT_CATALOG } from '../../projects/docs/src/app/data/component-catalog';
 
+test('required radio example clears its error when a delivery speed is selected', async ({
+  page,
+}) => {
+  await page.goto('/components/radio-button');
+  const example = page.locator('#radio-states .preview');
+  const standard = example.getByRole('radio', { name: 'Standard', exact: true });
+  const express = example.getByRole('radio', { name: 'Express', exact: true });
+  await expect(standard).toHaveAttribute('aria-invalid', 'true');
+  await expect(express).toHaveAttribute('aria-invalid', 'true');
+  await expect(example.locator('#delivery-error')).toBeVisible();
+
+  for (const option of [standard, express]) {
+    await option.locator('..').click();
+    await expect(option).toBeChecked();
+    await expect(example.locator('[aria-invalid="true"]')).toHaveCount(0);
+    await expect(example.locator('[data-invalid]')).toHaveCount(0);
+    await expect(example.locator('#delivery-error')).toHaveCount(0);
+    await expect(example.locator('[aria-describedby="delivery-error"]')).toHaveCount(0);
+  }
+  await expect(standard).not.toBeChecked();
+  await expect(example.getByRole('radio', { name: 'Selected and unavailable' })).toBeChecked();
+});
+
 test('catalog editor formats its phrase and toolbar only while hovered', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/components');

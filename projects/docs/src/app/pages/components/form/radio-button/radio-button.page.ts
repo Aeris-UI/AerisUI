@@ -44,6 +44,7 @@ interface Plan {
   styleUrl: './radio-button.page.scss',
 })
 export class RadioButtonPage {
+  protected readonly deliverySpeed = signal<string | null>(null);
   protected readonly delivery = signal<string | null>(null);
   protected readonly deliverySubmitted = signal(false);
   protected readonly visibility = signal<string | null>('private');

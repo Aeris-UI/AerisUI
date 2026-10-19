@@ -47,7 +47,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 | `labelPosition` | `AerisCheckboxLabelPosition` | `'end'` | Places the visible label before or after the control. Options: 'start', 'end'. |
 | `tabIndex` | `number` | `0` | Native tab order value for composite widgets that manage focus. |
 | `disabled` | `boolean` | `false` | Disables native interaction and form submission. |
-| `required` | `boolean` | `false` | Exposes native required validation semantics. |
+| `required` | `boolean` | `false` | Requires this specific checkbox to be checked. Use a form-model validator for a collection minimum such as at least one selected option. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and aria-invalid. |
 | `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 
@@ -680,6 +680,8 @@ export class CheckboxAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 ## Accessibility
 
+- Group related checkboxes with a native fieldset and visible legend. A disabled fieldset blocks its descendant controls; controls in its first legend remain enabled according to native HTML rules. Individually disabled options stay disabled when the fieldset is enabled again. No Aeris group wrapper is needed.
+- required means this specific checkbox must be checked. For “choose at least one” or a minimum count, validate the collection in your form model and associate shared help/error text using ariaDescribedBy. Signal Forms binds each checkbox to its own boolean field with [formField]; do not also bind checked or register the same state with another form control. A disabled fieldset controls browser interaction, not programmatic model writes or the form model's validation/disabled state.
 - Card appearance keeps one native input and one focus stop per option. Its entire label is clickable. Keep projected content and icon templates decorative and non-interactive; place links and extra actions outside the control. The description input is automatically associated with the native input, alongside any ariaDescribedBy help or error IDs. Use a layout grid or stack around the controls to arrange cards; no application layout is imposed.
 - Checkbox uses a real native input type="checkbox", preserving browser, keyboard, form, and assistive-technology behavior.
 - Projected content and the label input are wrapped in one native label, expanding the pointer target.
