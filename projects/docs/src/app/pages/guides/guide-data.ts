@@ -2102,6 +2102,7 @@ export const appConfig: ApplicationConfig = {
             ],
             ['check', 'Selected, completed and copied marks'],
             ['calendar', 'DatePicker calendar glyph'],
+            ['menu', 'Navbar mobile navigation toggle'],
             ['eye / eyeOff', 'Visible and masked Password indicators'],
             ['copy', 'CodeBlock copy action'],
             ['upload', 'FileUpload upload and drop-zone glyphs'],

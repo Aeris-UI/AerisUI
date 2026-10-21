@@ -1,0 +1,65 @@
+@use '../../form/shared/form-docs';
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+.navbar-demo-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.navbar-demo-mark {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 1.625rem;
+  block-size: 1.625rem;
+  border-radius: var(--aeris-radius-sm);
+  background: var(--aeris-text);
+  color: var(--aeris-surface);
+  font-size: 0.8125rem;
+  letter-spacing: -0.08em;
+}
+@container (max-width: 22rem) {
+  .navbar-demo-brand > span:last-child {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+@media (max-width: 40rem) {
+  .navbar-secondary-action {
+    display: none;
+  }
+}
+.navbar-stack {
+  display: grid;
+  gap: 1rem;
+}
+.navbar-preview-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block-end: 1rem;
+}
+.navbar-preview-frame {
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+.navbar-scroll-region {
+  block-size: 16rem;
+  overflow: auto;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-surface);
+}
+.navbar-scroll-content {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+.navbar-scroll-content p {
+  margin: 0;
+}

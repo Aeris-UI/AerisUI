@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { AerisBreadcrumbModule } from '@aeris-ui/core/breadcrumb';
 import { AerisSidebarModule } from '@aeris-ui/core/sidebar';
+import { AerisNavbarModule } from '@aeris-ui/core/navbar';
 import { AerisContextMenuModule, AerisContextMenu } from '@aeris-ui/core/context-menu';
 import { AerisMenuModule } from '@aeris-ui/core/menu';
 import { AerisMenubarModule } from '@aeris-ui/core/menubar';
@@ -28,6 +29,7 @@ import {
   encapsulation: ViewEncapsulation.None,
   imports: [
     AerisSidebarModule,
+    AerisNavbarModule,
     AerisBreadcrumbModule,
     AerisContextMenuModule,
     AerisMenuModule,
@@ -38,6 +40,21 @@ import {
   ],
   template: `
     @switch (kind()) {
+      @case ('navbar') {
+        <aeris-navbar
+          mode="mobile"
+          ariaLabel="Navbar preview"
+          [expanded]="active()"
+          [closeOnOutsideClick]="false"
+        >
+          <strong aerisNavbarBrand>Workspace</strong>
+          <div aerisNavbarLinks>
+            <button aerisNavbarItem active tabindex="-1">Overview</button>
+            <button aerisNavbarItem tabindex="-1">Projects</button>
+            <button aerisNavbarItem tabindex="-1">Settings</button>
+          </div>
+        </aeris-navbar>
+      }
       @case ('sidebar') {
         <div class="catalog-sidebar-scene">
           <aeris-sidebar

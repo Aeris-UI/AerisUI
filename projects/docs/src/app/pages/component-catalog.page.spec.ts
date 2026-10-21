@@ -148,7 +148,8 @@ describe('ComponentCatalogPage previews', () => {
     expect(menuCategory).toBeDefined();
     menuCategory?.click();
     fixture.detectChanges();
-    expect(element.querySelectorAll('.catalog-preview-card')).toHaveLength(7);
+    expect(element.querySelectorAll('.catalog-preview-card')).toHaveLength(8);
+    expect(element.querySelector('a[href="/components/navbar"]')).not.toBeNull();
     expect(element.querySelector('a[href="/components/sidebar"]')).not.toBeNull();
     expect(element.querySelector('a[href="/components/menu"]')).not.toBeNull();
   });

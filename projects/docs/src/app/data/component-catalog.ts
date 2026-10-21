@@ -38,6 +38,8 @@ const define = (
   });
 
 const descriptions: Readonly<Record<string, string>> = {
+  navbar:
+    'Responsive native navigation with brand and action slots, inline mobile expansion, disclosures, and sticky positioning.',
   sidebar:
     'Responsive navigation with native links, collapsible groups, icon-only presentation, and an accessible mobile drawer.',
   avatar:
@@ -249,6 +251,7 @@ export const COMPONENT_CATALOG: readonly ComponentCatalogItem[] = [
     'MegaMenu',
     'Menu',
     'Menubar',
+    'Navbar',
     'Sidebar',
     'TieredMenu',
   ]),

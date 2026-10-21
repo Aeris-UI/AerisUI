@@ -12,6 +12,7 @@ import {
 
 /** Shared decorative artwork. Directional glyphs use the documented base orientation. */
 export type AerisIconName =
+  | 'menu'
   | 'close'
   | 'chevron'
   | 'chevrons'

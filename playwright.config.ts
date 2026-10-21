@@ -5,6 +5,7 @@ const builtApps = process.env['AERIS_E2E_BUILT_APPS'] === 'true';
 const docsLayoutTests = [
   '**/docs-navigation.spec.ts',
   '**/sidebar.spec.ts',
+  '**/navbar.spec.ts',
   '**/popover-hover.spec.ts',
   '**/chip-group.spec.ts',
   '**/docs-search.spec.ts',
@@ -98,6 +99,7 @@ export default defineConfig({
       testMatch: [
         '**/docs-navigation.spec.ts',
         '**/sidebar.spec.ts',
+        '**/navbar.spec.ts',
         '**/popover-hover.spec.ts',
         '**/chip-group.spec.ts',
         '**/docs-search.spec.ts',
@@ -126,6 +128,7 @@ export default defineConfig({
       testMatch: [
         '**/docs-navigation.spec.ts',
         '**/sidebar.spec.ts',
+        '**/navbar.spec.ts',
         '**/popover-hover.spec.ts',
         '**/chip-group.spec.ts',
         '**/docs-search.spec.ts',
@@ -159,6 +162,7 @@ export default defineConfig({
       testMatch: [
         '**/docs-navigation.spec.ts',
         '**/sidebar.spec.ts',
+        '**/navbar.spec.ts',
         '**/popover-hover.spec.ts',
         '**/chip-group.spec.ts',
         '**/docs-search.spec.ts',

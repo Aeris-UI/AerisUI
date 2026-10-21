@@ -144,6 +144,7 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
 import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 import { AerisDrawer } from '@aeris-ui/core/drawer';
 import { AerisSidebarModule } from '@aeris-ui/core/sidebar';
+import { AerisNavbarModule } from '@aeris-ui/core/navbar';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
 import { AerisProgressBar } from '@aeris-ui/core/progress-bar';
 import { AerisRadioButton } from '@aeris-ui/core/radio-button';
@@ -151,7 +152,7 @@ import { AerisTable } from '@aeris-ui/core/table';
 
 @Component({
   selector: 'aeris-ssr-consumer',
-  imports: [AerisSidebarModule, AerisCommandPalette, AerisListbox, AerisChipModule, AerisButtonForms, ReactiveFormsModule, AerisButtonGroup, AerisDatePicker, AerisSelect, AerisTabsModule, AerisCheckbox,
+  imports: [AerisNavbarModule, AerisSidebarModule, AerisCommandPalette, AerisListbox, AerisChipModule, AerisButtonForms, ReactiveFormsModule, AerisButtonGroup, AerisDatePicker, AerisSelect, AerisTabsModule, AerisCheckbox,
     AerisColorPicker, AerisDrawer, AerisInputNumber, AerisProgressBar, AerisRadioButton,
     AerisTable],
   template: \`
@@ -181,6 +182,13 @@ import { AerisTable } from '@aeris-ui/core/table';
       <aeris-sidebar-group label="Resources"><a aerisSidebarItem label="Guide" href="/guide"></a></aeris-sidebar-group>
     </aeris-sidebar>
     <aeris-table [columns]="columns" [data]="records" reorderableRows />
+    <aeris-navbar ariaLabel="Packed navbar">
+      <strong aerisNavbarBrand>Workspace</strong>
+      <div aerisNavbarLinks>
+        <a aerisNavbarItem href="/home" active>Home</a>
+        <aeris-navbar-dropdown  label="Resources"><a aerisNavbarItem href="/guide">Guide</a></aeris-navbar-dropdown>
+      </div>
+    </aeris-navbar>
     <aeris-tabs ariaLabel="Server-rendered reports">
       <aeris-tab-panel value="overview" label="Overview">Overview content</aeris-tab-panel>
       <aeris-tab-panel value="statistics" label="Statistics">
@@ -223,6 +231,7 @@ assert(html.includes('<aeris-listbox') && html.includes('aria-label="Packed list
 assert(html.includes('<aeris-command-palette') && html.includes('aria-label="Packed command"'), 'CommandPalette did not render accessible commands on the server.');
 assert(html.includes('<aeris-chip-group') && html.includes('aria-pressed="true"'), 'ChipGroup did not render pressed choices on the server.');
 assert(html.includes('<aeris-sidebar') && html.includes('aria-label="Packed sidebar"'), 'Sidebar did not render native navigation on the server.');
+assert(html.includes('<aeris-navbar') && html.includes('aria-label="Packed navbar"') && html.includes('aeris-navbar-dropdown'), 'Navbar did not render native navigation and disclosures on the server.');
 for (const component of ['checkbox', 'radio-button', 'chip', 'color-picker', 'input-number',
   'progress-bar', 'drawer', 'table']) {
   assert(html.includes('<aeris-' + component), component + ' did not render on the server.');

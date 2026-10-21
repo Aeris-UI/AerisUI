@@ -2327,6 +2327,10 @@
                 "DatePicker calendar glyph"
               ],
               [
+                "menu",
+                "Navbar mobile navigation toggle"
+              ],
+              [
                 "eye / eyeOff",
                 "Visible and masked Password indicators"
               ],
@@ -35101,6 +35105,464 @@
           {
             "keys": "End",
             "behavior": "Moves to the last enabled item in the current menu level."
+          }
+        ]
+      }
+    },
+    {
+      "name": "Navbar",
+      "slug": "navbar",
+      "category": "Menu",
+      "description": "Responsive native navigation with brand and action slots, inline mobile expansion, disclosures, and sticky positioning.",
+      "entryPoint": "@aeris-ui/core/navbar",
+      "documentationUrl": "https://aeris-ui.dev/components/navbar",
+      "imports": [
+        "AerisNavbarModule"
+      ],
+      "importCode": "import { AerisNavbarModule } from '@aeris-ui/core/navbar';",
+      "api": [
+        {
+          "name": "Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "maxWidth",
+              "type": "string",
+              "defaultValue": "'72rem'",
+              "description": "Maximum inner content width. The header surface still spans its container. Use 100% for a full-width inner layout."
+            },
+            {
+              "name": "alignment",
+              "type": "'start' | 'center' | 'end'",
+              "defaultValue": "'center'",
+              "description": "Desktop navigation alignment between the brand and actions."
+            },
+            {
+              "name": "mode",
+              "type": "AerisNavbarMode",
+              "defaultValue": "'auto'",
+              "description": "Options: 'auto', 'desktop', 'mobile'. Auto observes this component's available width, not the whole browser."
+            },
+            {
+              "name": "breakpoint",
+              "type": "number | 'auto'",
+              "defaultValue": "768",
+              "description": "A number sets the maximum available width in pixels for mobile expansion. Use 'auto' to switch when the brand, links, actions and spacing no longer fit; it responds to content, fonts and container resizing. Applies only when mode is 'auto'. Defaults to 768; negative numbers use zero and non-finite numbers use 768."
+            },
+            {
+              "name": "variant",
+              "type": "AerisNavbarVariant",
+              "defaultValue": "'standard'",
+              "description": "Options: 'standard', 'floating', 'transparent'. Changes only the container surface."
+            },
+            {
+              "name": "sticky",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Uses CSS sticky positioning inside the nearest scrolling ancestor. Set --aeris-navbar-top for an offset."
+            },
+            {
+              "name": "closeOnNavigate",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Closes mobile navigation and navigation dropdowns when an enabled item is activated. Modified and new-tab links remain open."
+            },
+            {
+              "name": "closeOnOutsideClick",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Closes expanded mobile navigation on an outside pointer press. Does not trap focus or block the page."
+            },
+            {
+              "name": "ariaLabel",
+              "type": "string",
+              "defaultValue": "'Primary navigation'",
+              "description": "Accessible name of the native navigation landmark."
+            },
+            {
+              "name": "ariaLabelledBy",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Visible heading ID instead of ariaLabel. Keep the heading outside the collapsible region."
+            },
+            {
+              "name": "openAriaLabel",
+              "type": "string",
+              "defaultValue": "'Open navigation'",
+              "description": "Name of the closed mobile toggle, including a custom toggle."
+            },
+            {
+              "name": "closeAriaLabel",
+              "type": "string",
+              "defaultValue": "'Close navigation'",
+              "description": "Name of the expanded mobile toggle, including a custom toggle."
+            }
+          ]
+        },
+        {
+          "name": "State",
+          "kind": "other",
+          "entries": [
+            {
+              "name": "expanded",
+              "type": "boolean (model)",
+              "defaultValue": "false",
+              "description": "Controls mobile expansion. Returning from mobile to desktop clears it; desktop navigation stays visible."
+            },
+            {
+              "name": "expandedChange",
+              "type": "boolean (output)",
+              "defaultValue": "—",
+              "description": "Emits changes to expanded, including toggle, Escape, outside press and item activation."
+            },
+            {
+              "name": "mobile",
+              "type": "Signal<boolean>",
+              "defaultValue": "derived",
+              "description": "Read-only effective mobile mode."
+            },
+            {
+              "name": "navigationId",
+              "type": "string",
+              "defaultValue": "generated",
+              "description": "Unique navigation ID used by the built-in and custom toggle aria-controls."
+            },
+            {
+              "name": "toggle()",
+              "type": "() => void",
+              "defaultValue": "—",
+              "description": "Toggles expanded in mobile mode. Does nothing in desktop mode."
+            },
+            {
+              "name": "close()",
+              "type": "() => void",
+              "defaultValue": "—",
+              "description": "Clears expanded without hiding desktop navigation."
+            }
+          ]
+        },
+        {
+          "name": "Items",
+          "kind": "other",
+          "entries": [
+            {
+              "name": "aerisNavbarItem",
+              "type": "native a or button directive",
+              "defaultValue": "—",
+              "description": "Preserves native links, RouterLink, buttons and Tab order. Consumer content supplies the accessible name."
+            },
+            {
+              "name": "active",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Adds active styling and aria-current=\"page\". Route state remains consumer-owned."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Disables native buttons and prevents links before RouterLink or consumer click handlers. Disabled links leave Tab order; previous tabindex is restored."
+            }
+          ]
+        },
+        {
+          "name": "Disclosures",
+          "kind": "other",
+          "entries": [
+            {
+              "name": "active",
+              "type": "Signal<boolean> (read-only)",
+              "defaultValue": "derived",
+              "description": "True when an enabled descendant item is active, including nested dropdowns. Highlights its trigger and moves the desktop Navbar underline to the top-level dropdown. Bind active on the destination item; the dropdown derives its state automatically."
+            },
+            {
+              "name": "appendTo",
+              "type": "AerisAppendTo",
+              "defaultValue": "undefined",
+              "description": "Desktop panel target, including nested flyouts: 'self', 'body', HTMLElement, ElementRef<HTMLElement>, TemplateRef<unknown>, null or undefined. Defaults to body; mobile dropdowns always expand inline."
+            },
+            {
+              "name": "close(restoreFocus?)",
+              "type": "(restoreFocus?: boolean) => void",
+              "defaultValue": "false",
+              "description": "Closes the dropdown and optionally restores trigger focus."
+            },
+            {
+              "name": "aeris-navbar-dropdown",
+              "type": "dropdown component",
+              "defaultValue": "—",
+              "description": "A navigation dropdown within Navbar links. Desktop panels are anchored to their button; mobile content expands inline. It is not a menu or dialog."
+            },
+            {
+              "name": "label",
+              "type": "string",
+              "defaultValue": "required",
+              "description": "Visible dropdown button and accessible name."
+            },
+            {
+              "name": "expanded",
+              "type": "boolean (model)",
+              "defaultValue": "false",
+              "description": "Controls the dropdown. Sibling dropdowns close when another opens; nested dropdowns keep their parent open."
+            },
+            {
+              "name": "expandedChange",
+              "type": "boolean (output)",
+              "defaultValue": "—",
+              "description": "Emits button, Escape, outside press and navigation changes."
+            }
+          ]
+        },
+        {
+          "name": "Slots",
+          "kind": "template",
+          "entries": [
+            {
+              "name": "aerisNavbarBrand",
+              "type": "projected directive",
+              "defaultValue": "—",
+              "description": "Brand content before navigation. Long text truncates visually without changing its accessible text."
+            },
+            {
+              "name": "aerisNavbarLinks",
+              "type": "projected directive",
+              "defaultValue": "—",
+              "description": "Native navigation links and disclosures. Only one navigation tree is rendered."
+            },
+            {
+              "name": "aerisNavbarActions",
+              "type": "projected directive",
+              "defaultValue": "—",
+              "description": "Actions remain visible while navigation collapses. At narrow widths they wrap onto their own row."
+            },
+            {
+              "name": "aerisNavbarToggle",
+              "type": "native button directive",
+              "defaultValue": "—",
+              "description": "Optional custom toggle inside Navbar. Replaces the built-in toggle, supplies its state, name and controls relationship, and remains hidden on desktop."
+            },
+            {
+              "name": "aerisNavbarIcon",
+              "type": "projected directive",
+              "defaultValue": "—",
+              "description": "Normalizes decorative icons from any library to Aeris icon geometry and hides them from assistive technology."
+            }
+          ]
+        }
+      ],
+      "referenceTables": [],
+      "interfaces": [
+        {
+          "name": "Interfaces",
+          "code": "type AerisNavbarMode = 'auto' | 'desktop' | 'mobile';\ntype AerisNavbarVariant = 'standard' | 'floating' | 'transparent';"
+        }
+      ],
+      "designTokens": [],
+      "examples": [
+        {
+          "id": "navbar-basic",
+          "title": "Navigation",
+          "description": "Items preserve native button or link behavior. This example controls active state; real destinations can use anchors or RouterLink.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisNavbarModule } from '@aeris-ui/core/navbar';\n\n@Component({\n  selector: 'app-navbar-basic-demo',\n  imports: [AerisNavbarModule],\n  templateUrl: './navbar-basic.demo.html',\n  styleUrl: './navbar-basic.demo.scss'\n})\nexport class NavbarBasicNavigationDemo {\n  protected readonly active = signal('Overview');\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <aeris-navbar [breakpoint]=\"480\" ariaLabel=\"Basic example navigation\">\n    <strong aerisNavbarBrand class=\"navbar-demo-brand\"\n      ><span class=\"navbar-demo-mark\" aria-hidden=\"true\">W</span>\n      <span>Workspace</span></strong>\n    <div aerisNavbarLinks>\n      @for (label of ['Overview', 'Projects', 'Settings']; track label) {\n        <button\n          aerisNavbarItem\n          [active]=\"active() === label\"\n          (click)=\"active.set(label)\"\n        >\n          {{ label }}\n        </button>\n      }\n    </div>\n  </aeris-navbar>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".navbar-demo-brand {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.625rem;\n}\n\n.navbar-demo-mark {\n  display: inline-grid;\n  place-items: center;\n  flex: 0 0 1.625rem;\n  block-size: 1.625rem;\n  border-radius: var(--aeris-radius-sm);\n  background: var(--aeris-text);\n  color: var(--aeris-surface);\n  font-size: 0.8125rem;\n  letter-spacing: -0.08em;\n}\n\n@container (max-width: 22rem) {\n  .navbar-demo-brand > span:last-child {\n      position: absolute;\n      inline-size: 1px;\n      block-size: 1px;\n      overflow: hidden;\n      clip-path: inset(50%);\n      white-space: nowrap;\n    }\n}"
+            }
+          ]
+        },
+        {
+          "id": "navbar-responsive",
+          "title": "Responsive expansion",
+          "description": "Auto mode follows the Navbar's available width. Narrow this example to see the same links move below the brand. This example uses a 560px breakpoint; the default is 768px.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, ElementRef, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisNavbarModule } from '@aeris-ui/core/navbar';\n\ninterface ApiRow {\n  readonly name: string;\n  readonly type: string;\n  readonly defaultValue: string;\n  readonly description: string;\n}\n\n@Component({\n  selector: 'app-navbar-responsive-demo',\n  imports: [AerisButton, AerisNavbarModule],\n  templateUrl: './navbar-responsive.demo.html',\n  styleUrl: './navbar-responsive.demo.scss'\n})\nexport class NavbarResponsiveResponsiveExpansionDemo {\n  protected readonly active = signal('Overview');\n\n  protected readonly selections = signal<Record<string, string>>({\n      responsive: 'Overview',\n      fit: 'Overview',\n      controlled: 'Overview',\n      disclosures: 'Overview',\n      custom: 'Overview',\n      standard: 'Overview',\n      floating: 'Overview',\n      transparent: 'Overview',\n      sticky: 'Overview',\n    });\n\n  protected select(example: string, label: string): void {\n      this.selections.update((current) => ({ ...current, [example]: label }));\n    }\n\n  protected readonly compact = signal(false);\n\n  protected readonly state: readonly ApiRow[] = [\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls mobile expansion. Returning from mobile to desktop clears it; desktop navigation stays visible.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description:\n          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',\n      },\n      {\n        name: 'mobile',\n        type: 'Signal<boolean>',\n        defaultValue: 'derived',\n        description: 'Read-only effective mobile mode.',\n      },\n      {\n        name: 'navigationId',\n        type: 'string',\n        defaultValue: 'generated',\n        description: 'Unique navigation ID used by the built-in and custom toggle aria-controls.',\n      },\n      {\n        name: 'toggle()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Toggles expanded in mobile mode. Does nothing in desktop mode.',\n      },\n      {\n        name: 'close()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Clears expanded without hiding desktop navigation.',\n      },\n    ];\n\n  protected readonly disclosures: readonly ApiRow[] = [\n      {\n        name: 'active',\n        type: 'Signal<boolean> (read-only)',\n        defaultValue: 'derived',\n        description:\n          'True when an enabled descendant item is active, including nested dropdowns. Highlights its trigger and moves the desktop Navbar underline to the top-level dropdown. Bind active on the destination item; the dropdown derives its state automatically.',\n      },\n      {\n        name: 'appendTo',\n        type: 'AerisAppendTo',\n        defaultValue: 'undefined',\n        description:\n          \"Desktop panel target, including nested flyouts: 'self', 'body', HTMLElement, ElementRef<HTMLElement>, TemplateRef<unknown>, null or undefined. Defaults to body; mobile dropdowns always expand inline.\",\n      },\n      {\n        name: 'close(restoreFocus?)',\n        type: '(restoreFocus?: boolean) => void',\n        defaultValue: 'false',\n        description: 'Closes the dropdown and optionally restores trigger focus.',\n      },\n      {\n        name: 'aeris-navbar-dropdown',\n        type: 'dropdown component',\n        defaultValue: '—',\n        description:\n          'A navigation dropdown within Navbar links. Desktop panels are anchored to their button; mobile content expands inline. It is not a menu or dialog.',\n      },\n      {\n        name: 'label',\n        type: 'string',\n        defaultValue: 'required',\n        description: 'Visible dropdown button and accessible name.',\n      },\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls the dropdown. Sibling dropdowns close when another opens; nested dropdowns keep their parent open.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description: 'Emits button, Escape, outside press and navigation changes.',\n      },\n    ];\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"navbar-preview-controls\">\n    <button\n      aerisButton\n      [variant]=\"compact() ? 'outline' : 'solid'\"\n      [attr.aria-pressed]=\"!compact()\"\n      (click)=\"compact.set(false)\"\n    >\n      Available width\n    </button>\n    <button\n      aerisButton\n      [variant]=\"compact() ? 'solid' : 'outline'\"\n      [attr.aria-pressed]=\"compact()\"\n      (click)=\"compact.set(true)\"\n    >\n      Compact width\n    </button>\n  </div>\n  <div\n    class=\"navbar-preview-frame\"\n    [style.inline-size]=\"compact() ? 'min(22rem, 100%)' : '100%'\"\n  >\n    <aeris-navbar [breakpoint]=\"560\" ariaLabel=\"Responsive example navigation\">\n      <strong aerisNavbarBrand class=\"navbar-demo-brand\"\n        ><span class=\"navbar-demo-mark\" aria-hidden=\"true\">W</span>\n        <span>Workspace</span></strong>\n      <div aerisNavbarLinks>\n        @for (label of ['Overview', 'Projects', 'Settings']; track label) {\n          <button\n            aerisNavbarItem\n            [active]=\"selections()['responsive'] === label\"\n            (click)=\"select('responsive', label)\"\n          >\n            {{ label }}\n          </button>\n        }\n      </div>\n      <div aerisNavbarActions>\n        <button aerisButton variant=\"ghost\">Sign in</button>\n      </div>\n    </aeris-navbar>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".navbar-demo-brand {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.625rem;\n}\n\n.navbar-demo-mark {\n  display: inline-grid;\n  place-items: center;\n  flex: 0 0 1.625rem;\n  block-size: 1.625rem;\n  border-radius: var(--aeris-radius-sm);\n  background: var(--aeris-text);\n  color: var(--aeris-surface);\n  font-size: 0.8125rem;\n  letter-spacing: -0.08em;\n}\n\n@container (max-width: 22rem) {\n  .navbar-demo-brand > span:last-child {\n      position: absolute;\n      inline-size: 1px;\n      block-size: 1px;\n      overflow: hidden;\n      clip-path: inset(50%);\n      white-space: nowrap;\n    }\n}\n\n.navbar-preview-controls {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 0.5rem;\n  margin-block-end: 1rem;\n}\n\n.navbar-preview-frame {\n  inline-size: 100%;\n  min-inline-size: 0;\n}"
+            }
+          ]
+        },
+        {
+          "id": "navbar-content-fit",
+          "title": "Automatic content fit",
+          "description": "Set breakpoint to auto to collapse only when the desktop content no longer fits. Change the available width or the labels: the same navigation expands again as soon as there is enough room. Numeric breakpoints remain available when you want a fixed threshold.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, ElementRef, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisNavbarModule } from '@aeris-ui/core/navbar';\n\ninterface ApiRow {\n  readonly name: string;\n  readonly type: string;\n  readonly defaultValue: string;\n  readonly description: string;\n}\n\n@Component({\n  selector: 'app-navbar-content-fit-demo',\n  imports: [AerisButton, AerisNavbarModule],\n  templateUrl: './navbar-content-fit.demo.html',\n  styleUrl: './navbar-content-fit.demo.scss'\n})\nexport class NavbarContentFitAutomaticContentFitDemo {\n  protected readonly active = signal('Overview');\n\n  protected readonly selections = signal<Record<string, string>>({\n      responsive: 'Overview',\n      fit: 'Overview',\n      controlled: 'Overview',\n      disclosures: 'Overview',\n      custom: 'Overview',\n      standard: 'Overview',\n      floating: 'Overview',\n      transparent: 'Overview',\n      sticky: 'Overview',\n    });\n\n  protected select(example: string, label: string): void {\n      this.selections.update((current) => ({ ...current, [example]: label }));\n    }\n\n  protected readonly fitCompact = signal(false);\n\n  protected readonly fitLongLabels = signal(false);\n\n  protected readonly state: readonly ApiRow[] = [\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls mobile expansion. Returning from mobile to desktop clears it; desktop navigation stays visible.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description:\n          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',\n      },\n      {\n        name: 'mobile',\n        type: 'Signal<boolean>',\n        defaultValue: 'derived',\n        description: 'Read-only effective mobile mode.',\n      },\n      {\n        name: 'navigationId',\n        type: 'string',\n        defaultValue: 'generated',\n        description: 'Unique navigation ID used by the built-in and custom toggle aria-controls.',\n      },\n      {\n        name: 'toggle()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Toggles expanded in mobile mode. Does nothing in desktop mode.',\n      },\n      {\n        name: 'close()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Clears expanded without hiding desktop navigation.',\n      },\n    ];\n\n  protected readonly disclosures: readonly ApiRow[] = [\n      {\n        name: 'active',\n        type: 'Signal<boolean> (read-only)',\n        defaultValue: 'derived',\n        description:\n          'True when an enabled descendant item is active, including nested dropdowns. Highlights its trigger and moves the desktop Navbar underline to the top-level dropdown. Bind active on the destination item; the dropdown derives its state automatically.',\n      },\n      {\n        name: 'appendTo',\n        type: 'AerisAppendTo',\n        defaultValue: 'undefined',\n        description:\n          \"Desktop panel target, including nested flyouts: 'self', 'body', HTMLElement, ElementRef<HTMLElement>, TemplateRef<unknown>, null or undefined. Defaults to body; mobile dropdowns always expand inline.\",\n      },\n      {\n        name: 'close(restoreFocus?)',\n        type: '(restoreFocus?: boolean) => void',\n        defaultValue: 'false',\n        description: 'Closes the dropdown and optionally restores trigger focus.',\n      },\n      {\n        name: 'aeris-navbar-dropdown',\n        type: 'dropdown component',\n        defaultValue: '—',\n        description:\n          'A navigation dropdown within Navbar links. Desktop panels are anchored to their button; mobile content expands inline. It is not a menu or dialog.',\n      },\n      {\n        name: 'label',\n        type: 'string',\n        defaultValue: 'required',\n        description: 'Visible dropdown button and accessible name.',\n      },\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls the dropdown. Sibling dropdowns close when another opens; nested dropdowns keep their parent open.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description: 'Emits button, Escape, outside press and navigation changes.',\n      },\n    ];\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"navbar-preview-controls\">\n    <button\n      aerisButton\n      variant=\"outline\"\n      [attr.aria-pressed]=\"fitCompact()\"\n      (click)=\"fitCompact.set(!fitCompact())\"\n    >\n      {{ fitCompact() ? 'Widen container' : 'Narrow container' }}\n    </button>\n    <button\n      aerisButton\n      variant=\"outline\"\n      [attr.aria-pressed]=\"fitLongLabels()\"\n      (click)=\"fitLongLabels.set(!fitLongLabels())\"\n    >\n      {{ fitLongLabels() ? 'Short labels' : 'Long labels' }}\n    </button>\n  </div>\n  <div\n    class=\"navbar-preview-frame\"\n    [style.inline-size]=\"fitCompact() ? 'min(24rem, 100%)' : 'min(38rem, 100%)'\"\n  >\n    <aeris-navbar breakpoint=\"auto\" ariaLabel=\"Content fit example navigation\">\n      <strong aerisNavbarBrand>Workspace</strong>\n      <div aerisNavbarLinks>\n        @for (\n          label of fitLongLabels()\n            ? ['Workspace overview', 'Active projects', 'Team permissions']\n            : ['Overview', 'Projects', 'Team'];\n          track $index\n        ) {\n          <button\n            aerisNavbarItem\n            [active]=\"selections()['fit'] === label\"\n            (click)=\"select('fit', label)\"\n          >\n            {{ label }}\n          </button>\n        }\n      </div>\n      <div aerisNavbarActions>\n        <button aerisButton variant=\"ghost\">Sign in</button>\n      </div>\n    </aeris-navbar>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".navbar-preview-controls {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 0.5rem;\n  margin-block-end: 1rem;\n}\n\n.navbar-preview-frame {\n  inline-size: 100%;\n  min-inline-size: 0;\n}"
+            }
+          ]
+        },
+        {
+          "id": "navbar-controlled",
+          "title": "Controlled expansion",
+          "description": "Control the mobile model from outside Navbar. Outside dismissal is disabled here so the external controls do not dismiss navigation before their click handlers run.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, ElementRef, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisNavbarModule } from '@aeris-ui/core/navbar';\n\ninterface ApiRow {\n  readonly name: string;\n  readonly type: string;\n  readonly defaultValue: string;\n  readonly description: string;\n}\n\n@Component({\n  selector: 'app-navbar-controlled-demo',\n  imports: [AerisButton, AerisNavbarModule],\n  templateUrl: './navbar-controlled.demo.html',\n  styleUrl: './navbar-controlled.demo.scss'\n})\nexport class NavbarControlledControlledExpansionDemo {\n  protected readonly active = signal('Overview');\n\n  protected readonly selections = signal<Record<string, string>>({\n      responsive: 'Overview',\n      fit: 'Overview',\n      controlled: 'Overview',\n      disclosures: 'Overview',\n      custom: 'Overview',\n      standard: 'Overview',\n      floating: 'Overview',\n      transparent: 'Overview',\n      sticky: 'Overview',\n    });\n\n  protected select(example: string, label: string): void {\n      this.selections.update((current) => ({ ...current, [example]: label }));\n    }\n\n  protected readonly navigationExpanded = signal(false);\n\n  protected readonly state: readonly ApiRow[] = [\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls mobile expansion. Returning from mobile to desktop clears it; desktop navigation stays visible.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description:\n          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',\n      },\n      {\n        name: 'mobile',\n        type: 'Signal<boolean>',\n        defaultValue: 'derived',\n        description: 'Read-only effective mobile mode.',\n      },\n      {\n        name: 'navigationId',\n        type: 'string',\n        defaultValue: 'generated',\n        description: 'Unique navigation ID used by the built-in and custom toggle aria-controls.',\n      },\n      {\n        name: 'toggle()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Toggles expanded in mobile mode. Does nothing in desktop mode.',\n      },\n      {\n        name: 'close()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Clears expanded without hiding desktop navigation.',\n      },\n    ];\n\n  protected readonly disclosures: readonly ApiRow[] = [\n      {\n        name: 'active',\n        type: 'Signal<boolean> (read-only)',\n        defaultValue: 'derived',\n        description:\n          'True when an enabled descendant item is active, including nested dropdowns. Highlights its trigger and moves the desktop Navbar underline to the top-level dropdown. Bind active on the destination item; the dropdown derives its state automatically.',\n      },\n      {\n        name: 'appendTo',\n        type: 'AerisAppendTo',\n        defaultValue: 'undefined',\n        description:\n          \"Desktop panel target, including nested flyouts: 'self', 'body', HTMLElement, ElementRef<HTMLElement>, TemplateRef<unknown>, null or undefined. Defaults to body; mobile dropdowns always expand inline.\",\n      },\n      {\n        name: 'close(restoreFocus?)',\n        type: '(restoreFocus?: boolean) => void',\n        defaultValue: 'false',\n        description: 'Closes the dropdown and optionally restores trigger focus.',\n      },\n      {\n        name: 'aeris-navbar-dropdown',\n        type: 'dropdown component',\n        defaultValue: '—',\n        description:\n          'A navigation dropdown within Navbar links. Desktop panels are anchored to their button; mobile content expands inline. It is not a menu or dialog.',\n      },\n      {\n        name: 'label',\n        type: 'string',\n        defaultValue: 'required',\n        description: 'Visible dropdown button and accessible name.',\n      },\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls the dropdown. Sibling dropdowns close when another opens; nested dropdowns keep their parent open.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description: 'Emits button, Escape, outside press and navigation changes.',\n      },\n    ];\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"navbar-preview-controls\">\n    <button aerisButton (click)=\"navigationExpanded.set(true)\">Expand</button>\n    <button aerisButton variant=\"outline\" (click)=\"navigationExpanded.set(false)\">\n      Collapse</button>\n      <span role=\"status\">{{ navigationExpanded() ? 'Expanded' : 'Collapsed' }}</span>\n  </div>\n  <aeris-navbar\n    mode=\"mobile\"\n    [(expanded)]=\"navigationExpanded\"\n    [closeOnOutsideClick]=\"false\"\n    ariaLabel=\"Controlled example navigation\"\n  >\n    <strong aerisNavbarBrand class=\"navbar-demo-brand\"\n      ><span class=\"navbar-demo-mark\" aria-hidden=\"true\">W</span>\n      <span>Workspace</span></strong>\n    <div aerisNavbarLinks>\n      @for (label of ['Overview', 'Projects']; track label) {\n        <button\n          aerisNavbarItem\n          [active]=\"selections()['controlled'] === label\"\n          (click)=\"select('controlled', label)\"\n        >\n          {{ label }}\n        </button>\n      }\n      <button aerisNavbarItem disabled>Unavailable</button>\n    </div>\n  </aeris-navbar>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".navbar-demo-brand {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.625rem;\n}\n\n.navbar-demo-mark {\n  display: inline-grid;\n  place-items: center;\n  flex: 0 0 1.625rem;\n  block-size: 1.625rem;\n  border-radius: var(--aeris-radius-sm);\n  background: var(--aeris-text);\n  color: var(--aeris-surface);\n  font-size: 0.8125rem;\n  letter-spacing: -0.08em;\n}\n\n@container (max-width: 22rem) {\n  .navbar-demo-brand > span:last-child {\n      position: absolute;\n      inline-size: 1px;\n      block-size: 1px;\n      overflow: hidden;\n      clip-path: inset(50%);\n      white-space: nowrap;\n    }\n}\n\n.navbar-preview-controls {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  gap: 0.5rem;\n  margin-block-end: 1rem;\n}"
+            }
+          ]
+        },
+        {
+          "id": "navbar-disclosures",
+          "title": "Disclosures",
+          "description": "Desktop dropdowns open below the header; nested menus open beside their item and flip at viewport edges. Hover or use the directional arrow key to open a submenu. Mobile menus expand inline. Selecting a nested item keeps its top-level dropdown marked as active.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, ElementRef, signal } from '@angular/core';\nimport { AerisNavbarModule } from '@aeris-ui/core/navbar';\n\ninterface ApiRow {\n  readonly name: string;\n  readonly type: string;\n  readonly defaultValue: string;\n  readonly description: string;\n}\n\n@Component({\n  selector: 'app-navbar-disclosures-demo',\n  imports: [AerisNavbarModule],\n  templateUrl: './navbar-disclosures.demo.html',\n  styleUrl: './navbar-disclosures.demo.scss'\n})\nexport class NavbarDisclosuresDisclosuresDemo {\n  protected readonly active = signal('Overview');\n\n  protected readonly selections = signal<Record<string, string>>({\n      responsive: 'Overview',\n      fit: 'Overview',\n      controlled: 'Overview',\n      disclosures: 'Overview',\n      custom: 'Overview',\n      standard: 'Overview',\n      floating: 'Overview',\n      transparent: 'Overview',\n      sticky: 'Overview',\n    });\n\n  protected select(example: string, label: string): void {\n      this.selections.update((current) => ({ ...current, [example]: label }));\n    }\n\n  protected readonly disclosure = signal(false);\n\n  protected readonly state: readonly ApiRow[] = [\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls mobile expansion. Returning from mobile to desktop clears it; desktop navigation stays visible.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description:\n          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',\n      },\n      {\n        name: 'mobile',\n        type: 'Signal<boolean>',\n        defaultValue: 'derived',\n        description: 'Read-only effective mobile mode.',\n      },\n      {\n        name: 'navigationId',\n        type: 'string',\n        defaultValue: 'generated',\n        description: 'Unique navigation ID used by the built-in and custom toggle aria-controls.',\n      },\n      {\n        name: 'toggle()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Toggles expanded in mobile mode. Does nothing in desktop mode.',\n      },\n      {\n        name: 'close()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Clears expanded without hiding desktop navigation.',\n      },\n    ];\n\n  protected readonly disclosures: readonly ApiRow[] = [\n      {\n        name: 'active',\n        type: 'Signal<boolean> (read-only)',\n        defaultValue: 'derived',\n        description:\n          'True when an enabled descendant item is active, including nested dropdowns. Highlights its trigger and moves the desktop Navbar underline to the top-level dropdown. Bind active on the destination item; the dropdown derives its state automatically.',\n      },\n      {\n        name: 'appendTo',\n        type: 'AerisAppendTo',\n        defaultValue: 'undefined',\n        description:\n          \"Desktop panel target, including nested flyouts: 'self', 'body', HTMLElement, ElementRef<HTMLElement>, TemplateRef<unknown>, null or undefined. Defaults to body; mobile dropdowns always expand inline.\",\n      },\n      {\n        name: 'close(restoreFocus?)',\n        type: '(restoreFocus?: boolean) => void',\n        defaultValue: 'false',\n        description: 'Closes the dropdown and optionally restores trigger focus.',\n      },\n      {\n        name: 'aeris-navbar-dropdown',\n        type: 'dropdown component',\n        defaultValue: '—',\n        description:\n          'A navigation dropdown within Navbar links. Desktop panels are anchored to their button; mobile content expands inline. It is not a menu or dialog.',\n      },\n      {\n        name: 'label',\n        type: 'string',\n        defaultValue: 'required',\n        description: 'Visible dropdown button and accessible name.',\n      },\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls the dropdown. Sibling dropdowns close when another opens; nested dropdowns keep their parent open.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description: 'Emits button, Escape, outside press and navigation changes.',\n      },\n    ];\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <aeris-navbar [breakpoint]=\"480\" ariaLabel=\"Disclosure example navigation\">\n    <strong aerisNavbarBrand class=\"navbar-demo-brand\"\n      ><span class=\"navbar-demo-mark\" aria-hidden=\"true\">W</span>\n      <span>Workspace</span></strong>\n    <div aerisNavbarLinks>\n      @for (label of ['Overview', 'Projects']; track label) {\n        <button\n          aerisNavbarItem\n          [active]=\"selections()['disclosures'] === label\"\n          (click)=\"select('disclosures', label)\"\n        >\n          {{ label }}\n        </button>\n      }\n      <aeris-navbar-dropdown label=\"Resources\" [(expanded)]=\"disclosure\">\n        @for (label of ['Documentation', 'Examples']; track label) {\n          <button\n            aerisNavbarItem\n            [active]=\"selections()['disclosures'] === label\"\n            (click)=\"select('disclosures', label)\"\n          >\n            {{ label }}\n          </button>\n        }\n        <aeris-navbar-dropdown label=\"More resources\">\n          @for (label of ['Release notes', 'Support']; track label) {\n            <button\n              aerisNavbarItem\n              [active]=\"selections()['disclosures'] === label\"\n              (click)=\"select('disclosures', label)\"\n            >\n              {{ label }}\n            </button>\n          }\n        </aeris-navbar-dropdown>\n      </aeris-navbar-dropdown>\n      <aeris-navbar-dropdown label=\"Company\">\n        @for (label of ['About', 'Contact']; track label) {\n          <button\n            aerisNavbarItem\n            [active]=\"selections()['disclosures'] === label\"\n            (click)=\"select('disclosures', label)\"\n          >\n            {{ label }}\n          </button>\n        }\n      </aeris-navbar-dropdown>\n    </div>\n  </aeris-navbar>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".navbar-demo-brand {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.625rem;\n}\n\n.navbar-demo-mark {\n  display: inline-grid;\n  place-items: center;\n  flex: 0 0 1.625rem;\n  block-size: 1.625rem;\n  border-radius: var(--aeris-radius-sm);\n  background: var(--aeris-text);\n  color: var(--aeris-surface);\n  font-size: 0.8125rem;\n  letter-spacing: -0.08em;\n}\n\n@container (max-width: 22rem) {\n  .navbar-demo-brand > span:last-child {\n      position: absolute;\n      inline-size: 1px;\n      block-size: 1px;\n      overflow: hidden;\n      clip-path: inset(50%);\n      white-space: nowrap;\n    }\n}"
+            }
+          ]
+        },
+        {
+          "id": "navbar-custom",
+          "title": "Brand and actions",
+          "description": "Keep brand and action slots visible, and replace the mobile toggle with consumer-provided icons. The mobile toggle and primary action keep their space at narrow widths.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, ElementRef, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisNavbarModule } from '@aeris-ui/core/navbar';\nimport { LucideDynamicIcon, LucideMenu, LucideX } from '@lucide/angular';\n\ninterface ApiRow {\n  readonly name: string;\n  readonly type: string;\n  readonly defaultValue: string;\n  readonly description: string;\n}\n\n@Component({\n  selector: 'app-navbar-custom-demo',\n  imports: [AerisButton, AerisNavbarModule, LucideDynamicIcon],\n  templateUrl: './navbar-custom.demo.html',\n  styleUrl: './navbar-custom.demo.scss'\n})\nexport class NavbarCustomBrandAndActionsDemo {\n  protected readonly active = signal('Overview');\n\n  protected readonly selections = signal<Record<string, string>>({\n      responsive: 'Overview',\n      fit: 'Overview',\n      controlled: 'Overview',\n      disclosures: 'Overview',\n      custom: 'Overview',\n      standard: 'Overview',\n      floating: 'Overview',\n      transparent: 'Overview',\n      sticky: 'Overview',\n    });\n\n  protected select(example: string, label: string): void {\n      this.selections.update((current) => ({ ...current, [example]: label }));\n    }\n\n  protected readonly menuIcon = LucideMenu;\n\n  protected readonly closeIcon = LucideX;\n\n  protected readonly state: readonly ApiRow[] = [\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls mobile expansion. Returning from mobile to desktop clears it; desktop navigation stays visible.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description:\n          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',\n      },\n      {\n        name: 'mobile',\n        type: 'Signal<boolean>',\n        defaultValue: 'derived',\n        description: 'Read-only effective mobile mode.',\n      },\n      {\n        name: 'navigationId',\n        type: 'string',\n        defaultValue: 'generated',\n        description: 'Unique navigation ID used by the built-in and custom toggle aria-controls.',\n      },\n      {\n        name: 'toggle()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Toggles expanded in mobile mode. Does nothing in desktop mode.',\n      },\n      {\n        name: 'close()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Clears expanded without hiding desktop navigation.',\n      },\n    ];\n\n  protected readonly disclosures: readonly ApiRow[] = [\n      {\n        name: 'active',\n        type: 'Signal<boolean> (read-only)',\n        defaultValue: 'derived',\n        description:\n          'True when an enabled descendant item is active, including nested dropdowns. Highlights its trigger and moves the desktop Navbar underline to the top-level dropdown. Bind active on the destination item; the dropdown derives its state automatically.',\n      },\n      {\n        name: 'appendTo',\n        type: 'AerisAppendTo',\n        defaultValue: 'undefined',\n        description:\n          \"Desktop panel target, including nested flyouts: 'self', 'body', HTMLElement, ElementRef<HTMLElement>, TemplateRef<unknown>, null or undefined. Defaults to body; mobile dropdowns always expand inline.\",\n      },\n      {\n        name: 'close(restoreFocus?)',\n        type: '(restoreFocus?: boolean) => void',\n        defaultValue: 'false',\n        description: 'Closes the dropdown and optionally restores trigger focus.',\n      },\n      {\n        name: 'aeris-navbar-dropdown',\n        type: 'dropdown component',\n        defaultValue: '—',\n        description:\n          'A navigation dropdown within Navbar links. Desktop panels are anchored to their button; mobile content expands inline. It is not a menu or dialog.',\n      },\n      {\n        name: 'label',\n        type: 'string',\n        defaultValue: 'required',\n        description: 'Visible dropdown button and accessible name.',\n      },\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls the dropdown. Sibling dropdowns close when another opens; nested dropdowns keep their parent open.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description: 'Emits button, Escape, outside press and navigation changes.',\n      },\n    ];\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <aeris-navbar #navbar mode=\"mobile\" ariaLabel=\"Custom toggle example navigation\">\n    <strong aerisNavbarBrand class=\"navbar-demo-brand\"\n      ><span class=\"navbar-demo-mark\" aria-hidden=\"true\">W</span>\n      <span>Workspace</span></strong>\n    <div aerisNavbarLinks>\n      @for (label of ['Overview', 'Projects']; track label) {\n        <button\n          aerisNavbarItem\n          [active]=\"selections()['custom'] === label\"\n          (click)=\"select('custom', label)\"\n        >\n          {{ label }}\n        </button>\n      }\n    </div>\n    <div aerisNavbarActions>\n      <button aerisButton variant=\"ghost\" class=\"navbar-secondary-action\">\n        Sign in</button>\n        <button aerisButton>Get started</button>\n    </div>\n    <button aerisNavbarToggle>\n      @if (navbar.expanded()) {\n        <svg aerisNavbarIcon [lucideIcon]=\"closeIcon\"></svg>\n      } @else {\n        <svg aerisNavbarIcon [lucideIcon]=\"menuIcon\"></svg>\n      }\n    </button>\n  </aeris-navbar>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".navbar-demo-brand {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.625rem;\n}\n\n.navbar-demo-mark {\n  display: inline-grid;\n  place-items: center;\n  flex: 0 0 1.625rem;\n  block-size: 1.625rem;\n  border-radius: var(--aeris-radius-sm);\n  background: var(--aeris-text);\n  color: var(--aeris-surface);\n  font-size: 0.8125rem;\n  letter-spacing: -0.08em;\n}\n\n@container (max-width: 22rem) {\n  .navbar-demo-brand > span:last-child {\n      position: absolute;\n      inline-size: 1px;\n      block-size: 1px;\n      overflow: hidden;\n      clip-path: inset(50%);\n      white-space: nowrap;\n    }\n}\n\n@media (max-width: 40rem) {\n  .navbar-secondary-action {\n      display: none;\n    }\n}"
+            }
+          ]
+        },
+        {
+          "id": "navbar-variants",
+          "title": "Variants",
+          "description": "Standard, floating and transparent surfaces share the same navigation geometry and interaction behavior.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, ElementRef, signal } from '@angular/core';\nimport { AerisNavbarModule } from '@aeris-ui/core/navbar';\n\ninterface ApiRow {\n  readonly name: string;\n  readonly type: string;\n  readonly defaultValue: string;\n  readonly description: string;\n}\n\n@Component({\n  selector: 'app-navbar-variants-demo',\n  imports: [AerisNavbarModule],\n  templateUrl: './navbar-variants.demo.html',\n  styleUrl: './navbar-variants.demo.scss'\n})\nexport class NavbarVariantsVariantsDemo {\n  protected readonly active = signal('Overview');\n\n  protected readonly selections = signal<Record<string, string>>({\n      responsive: 'Overview',\n      fit: 'Overview',\n      controlled: 'Overview',\n      disclosures: 'Overview',\n      custom: 'Overview',\n      standard: 'Overview',\n      floating: 'Overview',\n      transparent: 'Overview',\n      sticky: 'Overview',\n    });\n\n  protected select(example: string, label: string): void {\n      this.selections.update((current) => ({ ...current, [example]: label }));\n    }\n\n  protected readonly variants = ['standard', 'floating', 'transparent'] as const;\n\n  protected readonly state: readonly ApiRow[] = [\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls mobile expansion. Returning from mobile to desktop clears it; desktop navigation stays visible.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description:\n          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',\n      },\n      {\n        name: 'mobile',\n        type: 'Signal<boolean>',\n        defaultValue: 'derived',\n        description: 'Read-only effective mobile mode.',\n      },\n      {\n        name: 'navigationId',\n        type: 'string',\n        defaultValue: 'generated',\n        description: 'Unique navigation ID used by the built-in and custom toggle aria-controls.',\n      },\n      {\n        name: 'toggle()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Toggles expanded in mobile mode. Does nothing in desktop mode.',\n      },\n      {\n        name: 'close()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Clears expanded without hiding desktop navigation.',\n      },\n    ];\n\n  protected readonly disclosures: readonly ApiRow[] = [\n      {\n        name: 'active',\n        type: 'Signal<boolean> (read-only)',\n        defaultValue: 'derived',\n        description:\n          'True when an enabled descendant item is active, including nested dropdowns. Highlights its trigger and moves the desktop Navbar underline to the top-level dropdown. Bind active on the destination item; the dropdown derives its state automatically.',\n      },\n      {\n        name: 'appendTo',\n        type: 'AerisAppendTo',\n        defaultValue: 'undefined',\n        description:\n          \"Desktop panel target, including nested flyouts: 'self', 'body', HTMLElement, ElementRef<HTMLElement>, TemplateRef<unknown>, null or undefined. Defaults to body; mobile dropdowns always expand inline.\",\n      },\n      {\n        name: 'close(restoreFocus?)',\n        type: '(restoreFocus?: boolean) => void',\n        defaultValue: 'false',\n        description: 'Closes the dropdown and optionally restores trigger focus.',\n      },\n      {\n        name: 'aeris-navbar-dropdown',\n        type: 'dropdown component',\n        defaultValue: '—',\n        description:\n          'A navigation dropdown within Navbar links. Desktop panels are anchored to their button; mobile content expands inline. It is not a menu or dialog.',\n      },\n      {\n        name: 'label',\n        type: 'string',\n        defaultValue: 'required',\n        description: 'Visible dropdown button and accessible name.',\n      },\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls the dropdown. Sibling dropdowns close when another opens; nested dropdowns keep their parent open.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description: 'Emits button, Escape, outside press and navigation changes.',\n      },\n    ];\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"navbar-stack\">\n  @for (variant of variants; track variant) {\n    <aeris-navbar\n      [breakpoint]=\"480\"\n      [variant]=\"variant\"\n      [ariaLabel]=\"variant + ' example navigation'\"\n      ><strong aerisNavbarBrand>{{ variant }}</strong>\n      <div aerisNavbarLinks>\n        @for (label of ['Overview', 'Projects']; track label) {\n          <button\n            aerisNavbarItem\n            [active]=\"selections()[variant] === label\"\n            (click)=\"select(variant, label)\"\n          >\n            {{ label }}\n          </button>\n        }\n      </div></aeris-navbar>\n  }\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".navbar-stack {\n  display: grid;\n  gap: 1rem;\n}"
+            }
+          ]
+        },
+        {
+          "id": "navbar-sticky",
+          "title": "Sticky positioning",
+          "description": "Scroll this region. Sticky positioning stays within its scrolling ancestor, not fixed over the documentation header.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, ElementRef, signal } from '@angular/core';\nimport { AerisNavbarModule } from '@aeris-ui/core/navbar';\n\ninterface ApiRow {\n  readonly name: string;\n  readonly type: string;\n  readonly defaultValue: string;\n  readonly description: string;\n}\n\n@Component({\n  selector: 'app-navbar-sticky-demo',\n  imports: [AerisNavbarModule],\n  templateUrl: './navbar-sticky.demo.html',\n  styleUrl: './navbar-sticky.demo.scss'\n})\nexport class NavbarStickyStickyPositioningDemo {\n  protected readonly active = signal('Overview');\n\n  protected readonly selections = signal<Record<string, string>>({\n      responsive: 'Overview',\n      fit: 'Overview',\n      controlled: 'Overview',\n      disclosures: 'Overview',\n      custom: 'Overview',\n      standard: 'Overview',\n      floating: 'Overview',\n      transparent: 'Overview',\n      sticky: 'Overview',\n    });\n\n  protected select(example: string, label: string): void {\n      this.selections.update((current) => ({ ...current, [example]: label }));\n    }\n\n  protected readonly state: readonly ApiRow[] = [\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls mobile expansion. Returning from mobile to desktop clears it; desktop navigation stays visible.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description:\n          'Emits changes to expanded, including toggle, Escape, outside press and item activation.',\n      },\n      {\n        name: 'mobile',\n        type: 'Signal<boolean>',\n        defaultValue: 'derived',\n        description: 'Read-only effective mobile mode.',\n      },\n      {\n        name: 'navigationId',\n        type: 'string',\n        defaultValue: 'generated',\n        description: 'Unique navigation ID used by the built-in and custom toggle aria-controls.',\n      },\n      {\n        name: 'toggle()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Toggles expanded in mobile mode. Does nothing in desktop mode.',\n      },\n      {\n        name: 'close()',\n        type: '() => void',\n        defaultValue: '—',\n        description: 'Clears expanded without hiding desktop navigation.',\n      },\n    ];\n\n  protected readonly disclosures: readonly ApiRow[] = [\n      {\n        name: 'active',\n        type: 'Signal<boolean> (read-only)',\n        defaultValue: 'derived',\n        description:\n          'True when an enabled descendant item is active, including nested dropdowns. Highlights its trigger and moves the desktop Navbar underline to the top-level dropdown. Bind active on the destination item; the dropdown derives its state automatically.',\n      },\n      {\n        name: 'appendTo',\n        type: 'AerisAppendTo',\n        defaultValue: 'undefined',\n        description:\n          \"Desktop panel target, including nested flyouts: 'self', 'body', HTMLElement, ElementRef<HTMLElement>, TemplateRef<unknown>, null or undefined. Defaults to body; mobile dropdowns always expand inline.\",\n      },\n      {\n        name: 'close(restoreFocus?)',\n        type: '(restoreFocus?: boolean) => void',\n        defaultValue: 'false',\n        description: 'Closes the dropdown and optionally restores trigger focus.',\n      },\n      {\n        name: 'aeris-navbar-dropdown',\n        type: 'dropdown component',\n        defaultValue: '—',\n        description:\n          'A navigation dropdown within Navbar links. Desktop panels are anchored to their button; mobile content expands inline. It is not a menu or dialog.',\n      },\n      {\n        name: 'label',\n        type: 'string',\n        defaultValue: 'required',\n        description: 'Visible dropdown button and accessible name.',\n      },\n      {\n        name: 'expanded',\n        type: 'boolean (model)',\n        defaultValue: 'false',\n        description:\n          'Controls the dropdown. Sibling dropdowns close when another opens; nested dropdowns keep their parent open.',\n      },\n      {\n        name: 'expandedChange',\n        type: 'boolean (output)',\n        defaultValue: '—',\n        description: 'Emits button, Escape, outside press and navigation changes.',\n      },\n    ];\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"navbar-scroll-region\">\n    <aeris-navbar sticky ariaLabel=\"Sticky example navigation\"\n      ><strong aerisNavbarBrand class=\"navbar-demo-brand\"\n        ><span class=\"navbar-demo-mark\" aria-hidden=\"true\">W</span>\n        <span>Workspace</span></strong>\n      <div aerisNavbarLinks>\n        @for (label of ['Overview', 'Projects']; track label) {\n          <button\n            aerisNavbarItem\n            [active]=\"selections()['sticky'] === label\"\n            (click)=\"select('sticky', label)\"\n          >\n            {{ label }}\n          </button>\n        }\n      </div></aeris-navbar>\n    <div class=\"navbar-scroll-content\">\n      @for (section of [1, 2, 3, 4, 5, 6, 7, 8]; track section) {\n        <p>\n          Section {{ section }}. Scroll to see the navigation stay within this region.\n        </p>\n      }\n    </div>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".navbar-demo-brand {\n  display: inline-flex;\n  align-items: center;\n  gap: 0.625rem;\n}\n\n.navbar-demo-mark {\n  display: inline-grid;\n  place-items: center;\n  flex: 0 0 1.625rem;\n  block-size: 1.625rem;\n  border-radius: var(--aeris-radius-sm);\n  background: var(--aeris-text);\n  color: var(--aeris-surface);\n  font-size: 0.8125rem;\n  letter-spacing: -0.08em;\n}\n\n@container (max-width: 22rem) {\n  .navbar-demo-brand > span:last-child {\n      position: absolute;\n      inline-size: 1px;\n      block-size: 1px;\n      overflow: hidden;\n      clip-path: inset(50%);\n      white-space: nowrap;\n    }\n}\n\n.navbar-scroll-region {\n  block-size: 16rem;\n  overflow: auto;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-surface);\n}\n\n.navbar-scroll-content {\n  display: grid;\n  gap: 1.5rem;\n  padding: 1rem;\n}\n\n.navbar-scroll-content p {\n  margin: 0;\n}"
+            }
+          ]
+        }
+      ],
+      "accessibility": {
+        "guidance": [
+          "Navbar uses a named native navigation landmark. Links and buttons keep their native semantics and Tab order; no menu roles or arrow-key menu model are added. Give every action an accessible name and provide distinct labels for multiple navigation regions.",
+          "Mobile navigation expands inline. It does not trap focus, blur the page, or block scrolling. Collapsed links leave the keyboard sequence. The toggle exposes expanded state and its controls relationship. Escape and controlled closing return focus to the toggle when focus would otherwise be hidden. Actions remain visible.",
+          "Dropdown buttons expose names and expanded state. Desktop panels can be portaled without losing keyboard access: Tab enters an open panel and returns to the next header control after its last item. Escape closes only the current dropdown before closing mobile navigation on a second press. Disabled items cannot activate or receive Tab focus. Decorative icons are hidden from assistive technology; default artwork supports provideAerisIcons, including menu, close and chevron.",
+          "Reduced motion disables the entrance and chevron transitions. Sticky content stays inside its scrolling ancestor; use a top token if your application already has a fixed header."
+        ],
+        "keyboard": [
+          {
+            "keys": "Tab / Shift+Tab",
+            "behavior": "Moves between visible native controls. Focus is not trapped."
+          },
+          {
+            "keys": "Enter",
+            "behavior": "Activates links, buttons and dropdown buttons."
+          },
+          {
+            "keys": "Space",
+            "behavior": "Activates buttons and dropdown buttons."
+          },
+          {
+            "keys": "Escape",
+            "behavior": "Closes the active disclosure and focuses its trigger, or closes expanded mobile navigation and focuses the toggle."
+          },
+          {
+            "keys": "Arrow keys",
+            "behavior": "Arrow Down opens a dropdown and focuses its first item. Arrow Right opens a nested submenu; Arrow Left closes it and returns focus to its trigger. These horizontal keys are reversed in RTL."
           }
         ]
       }

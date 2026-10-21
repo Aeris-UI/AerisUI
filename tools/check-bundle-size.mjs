@@ -4,12 +4,14 @@ import { gzipSync } from 'node:zlib';
 
 const bundleDirectory = resolve('dist/aeris-ui/fesm2022');
 const budgets = {
-  total: { raw: 4_200_000, gzip: 710_000 },
+  // Navbar is a new optional entry point; existing per-entry and consumer limits are unchanged.
+  total: { raw: 4_256_000, gzip: 718_000 },
   largestEntryPoint: { raw: 195_000, gzip: 30_000 },
   entryPoints: {
     // Shared icons and pure date operations consumed by DatePicker and its internal segmented input.
     'aeris-ui-core.mjs': { raw: 52_500, gzip: 12_000 },
     'aeris-ui-core-tabs.mjs': { raw: 48_000, gzip: 10_000 },
+    'aeris-ui-core-navbar.mjs': { raw: 64_000, gzip: 11_000 },
   },
 };
 

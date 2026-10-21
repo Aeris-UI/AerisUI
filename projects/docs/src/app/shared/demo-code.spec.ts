@@ -118,4 +118,17 @@ protected focusRestore(): void { this.restore()?.nativeElement.focus(); }`,
     expect(code).toContain('readonly collapsed = signal(false)');
     expect(code).toContain('Component, signal');
   });
+  it('uses one Navbar family import for native links, disclosures, slots and the toggle', () => {
+    const sources = buildAngularDemoSources({
+      anchor: 'navbar-basic',
+      title: 'Navbar',
+      template:
+        '<aeris-navbar mode="mobile" [(expanded)]="expanded"><strong aerisNavbarBrand>Workspace</strong><div aerisNavbarLinks><aeris-navbar-dropdown label="Resources"><a aerisNavbarItem href="/guide">Guide</a></aeris-navbar-dropdown></div><button aerisNavbarToggle><span aerisNavbarIcon></span></button></aeris-navbar>',
+      classCode: 'readonly expanded = signal(false);',
+    });
+    const code = sources.find((source) => source.language === 'TypeScript')?.code ?? '';
+    expect(code).toContain("import { AerisNavbarModule } from '@aeris-ui/core/navbar';");
+    expect(code).toContain('imports: [AerisNavbarModule]');
+    expect(code).toContain('readonly expanded = signal(false)');
+  });
 });

@@ -1,0 +1,754 @@
+<article class="button-docs">
+  <app-component-page-header
+    category="Menu"
+    title="Navbar"
+    description="Responsive navigation with native links, persistent brand and actions, inline mobile expansion, and navigation dropdowns."
+  />
+  <section id="navbar-import" class="import-section" aria-labelledby="navbar-import-title">
+    <div>
+      <h2 id="navbar-import-title">Import</h2>
+      <p>One import includes Navbar, links, dropdowns, slots and the mobile toggle.</p>
+    </div>
+    <app-code-block [code]="importCode" language="TypeScript" />
+  </section>
+  <aeris-tabs ariaLabel="Navbar documentation">
+    <aeris-tab-panel value="features" label="Features">
+      <section class="doc-section">
+        <h2>Features showcase</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            <app-form-demo
+              id="navbar-basic"
+              title="Navigation"
+              description="Items preserve native button or link behavior. This example controls active state; real destinations can use anchors or RouterLink."
+            >
+              <div preview>
+                <aeris-navbar [breakpoint]="480" ariaLabel="Basic example navigation">
+                  <strong aerisNavbarBrand class="navbar-demo-brand"
+                    ><span class="navbar-demo-mark" aria-hidden="true">W</span
+                    ><span>Workspace</span></strong
+                  >
+                  <div aerisNavbarLinks>
+                    @for (label of ['Overview', 'Projects', 'Settings']; track label) {
+                      <button
+                        aerisNavbarItem
+                        [active]="active() === label"
+                        (click)="active.set(label)"
+                      >
+                        {{ label }}
+                      </button>
+                    }
+                  </div>
+                </aeris-navbar>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-navbar [breakpoint]="480" ariaLabel="Basic example navigation"&gt;
+    &lt;strong aerisNavbarBrand class="navbar-demo-brand"
+      &gt;&lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
+      &lt;span&gt;Workspace&lt;/span&gt;&lt;/strong&gt;
+    &lt;div aerisNavbarLinks&gt;
+      &#64;for (label of ['Overview', 'Projects', 'Settings']; track label) &#123;
+        &lt;button
+          aerisNavbarItem
+          [active]="active() === label"
+          (click)="active.set(label)"
+        &gt;
+          &#123;&#123; label &#125;&#125;
+        &lt;/button&gt;
+      &#125;
+    &lt;/div&gt;
+  &lt;/aeris-navbar&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="navbar-responsive"
+              title="Responsive expansion"
+              description="Auto mode follows the Navbar's available width. Narrow this example to see the same links move below the brand. This example uses a 560px breakpoint; the default is 768px."
+            >
+              <div preview>
+                <div class="navbar-preview-controls">
+                  <button
+                    aerisButton
+                    [variant]="compact() ? 'outline' : 'solid'"
+                    [attr.aria-pressed]="!compact()"
+                    (click)="compact.set(false)"
+                  >
+                    Available width
+                  </button>
+                  <button
+                    aerisButton
+                    [variant]="compact() ? 'solid' : 'outline'"
+                    [attr.aria-pressed]="compact()"
+                    (click)="compact.set(true)"
+                  >
+                    Compact width
+                  </button>
+                </div>
+                <div
+                  class="navbar-preview-frame"
+                  [style.inline-size]="compact() ? 'min(22rem, 100%)' : '100%'"
+                >
+                  <aeris-navbar [breakpoint]="560" ariaLabel="Responsive example navigation">
+                    <strong aerisNavbarBrand class="navbar-demo-brand"
+                      ><span class="navbar-demo-mark" aria-hidden="true">W</span
+                      ><span>Workspace</span></strong
+                    >
+                    <div aerisNavbarLinks>
+                      @for (label of ['Overview', 'Projects', 'Settings']; track label) {
+                        <button
+                          aerisNavbarItem
+                          [active]="selections()['responsive'] === label"
+                          (click)="select('responsive', label)"
+                        >
+                          {{ label }}
+                        </button>
+                      }
+                    </div>
+                    <div aerisNavbarActions>
+                      <button aerisButton variant="ghost">Sign in</button>
+                    </div>
+                  </aeris-navbar>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="navbar-preview-controls"&gt;
+    &lt;button
+      aerisButton
+      [variant]="compact() ? 'outline' : 'solid'"
+      [attr.aria-pressed]="!compact()"
+      (click)="compact.set(false)"
+    &gt;
+      Available width
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      [variant]="compact() ? 'solid' : 'outline'"
+      [attr.aria-pressed]="compact()"
+      (click)="compact.set(true)"
+    &gt;
+      Compact width
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div
+    class="navbar-preview-frame"
+    [style.inline-size]="compact() ? 'min(22rem, 100%)' : '100%'"
+  &gt;
+    &lt;aeris-navbar [breakpoint]="560" ariaLabel="Responsive example navigation"&gt;
+      &lt;strong aerisNavbarBrand class="navbar-demo-brand"
+        &gt;&lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
+        &lt;span&gt;Workspace&lt;/span&gt;&lt;/strong&gt;
+      &lt;div aerisNavbarLinks&gt;
+        &#64;for (label of ['Overview', 'Projects', 'Settings']; track label) &#123;
+          &lt;button
+            aerisNavbarItem
+            [active]="selections()['responsive'] === label"
+            (click)="select('responsive', label)"
+          &gt;
+            &#123;&#123; label &#125;&#125;
+          &lt;/button&gt;
+        &#125;
+      &lt;/div&gt;
+      &lt;div aerisNavbarActions&gt;
+        &lt;button aerisButton variant="ghost"&gt;Sign in&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/aeris-navbar&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="navbar-content-fit"
+              title="Automatic content fit"
+              description="Set breakpoint to auto to collapse only when the desktop content no longer fits. Change the available width or the labels: the same navigation expands again as soon as there is enough room. Numeric breakpoints remain available when you want a fixed threshold."
+            >
+              <div preview>
+                <div class="navbar-preview-controls">
+                  <button
+                    aerisButton
+                    variant="outline"
+                    [attr.aria-pressed]="fitCompact()"
+                    (click)="fitCompact.set(!fitCompact())"
+                  >
+                    {{ fitCompact() ? 'Widen container' : 'Narrow container' }}
+                  </button>
+                  <button
+                    aerisButton
+                    variant="outline"
+                    [attr.aria-pressed]="fitLongLabels()"
+                    (click)="fitLongLabels.set(!fitLongLabels())"
+                  >
+                    {{ fitLongLabels() ? 'Short labels' : 'Long labels' }}
+                  </button>
+                </div>
+                <div
+                  class="navbar-preview-frame"
+                  [style.inline-size]="fitCompact() ? 'min(24rem, 100%)' : 'min(38rem, 100%)'"
+                >
+                  <aeris-navbar breakpoint="auto" ariaLabel="Content fit example navigation">
+                    <strong aerisNavbarBrand>Workspace</strong>
+                    <div aerisNavbarLinks>
+                      @for (
+                        label of fitLongLabels()
+                          ? ['Workspace overview', 'Active projects', 'Team permissions']
+                          : ['Overview', 'Projects', 'Team'];
+                        track $index
+                      ) {
+                        <button
+                          aerisNavbarItem
+                          [active]="selections()['fit'] === label"
+                          (click)="select('fit', label)"
+                        >
+                          {{ label }}
+                        </button>
+                      }
+                    </div>
+                    <div aerisNavbarActions>
+                      <button aerisButton variant="ghost">Sign in</button>
+                    </div>
+                  </aeris-navbar>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="navbar-preview-controls"&gt;
+    &lt;button
+      aerisButton
+      variant="outline"
+      [attr.aria-pressed]="fitCompact()"
+      (click)="fitCompact.set(!fitCompact())"
+    &gt;
+      &#123;&#123; fitCompact() ? 'Widen container' : 'Narrow container' &#125;&#125;
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      variant="outline"
+      [attr.aria-pressed]="fitLongLabels()"
+      (click)="fitLongLabels.set(!fitLongLabels())"
+    &gt;
+      &#123;&#123; fitLongLabels() ? 'Short labels' : 'Long labels' &#125;&#125;
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div
+    class="navbar-preview-frame"
+    [style.inline-size]="fitCompact() ? 'min(24rem, 100%)' : 'min(38rem, 100%)'"
+  &gt;
+    &lt;aeris-navbar breakpoint="auto" ariaLabel="Content fit example navigation"&gt;
+      &lt;strong aerisNavbarBrand&gt;Workspace&lt;/strong&gt;
+      &lt;div aerisNavbarLinks&gt;
+        &#64;for (
+          label of fitLongLabels()
+            ? ['Workspace overview', 'Active projects', 'Team permissions']
+            : ['Overview', 'Projects', 'Team'];
+          track $index
+        ) &#123;
+          &lt;button
+            aerisNavbarItem
+            [active]="selections()['fit'] === label"
+            (click)="select('fit', label)"
+          &gt;
+            &#123;&#123; label &#125;&#125;
+          &lt;/button&gt;
+        &#125;
+      &lt;/div&gt;
+      &lt;div aerisNavbarActions&gt;
+        &lt;button aerisButton variant="ghost"&gt;Sign in&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/aeris-navbar&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="navbar-controlled"
+              title="Controlled expansion"
+              description="Control the mobile model from outside Navbar. Outside dismissal is disabled here so the external controls do not dismiss navigation before their click handlers run."
+            >
+              <div preview>
+                <div class="navbar-preview-controls">
+                  <button aerisButton (click)="navigationExpanded.set(true)">Expand</button
+                  ><button aerisButton variant="outline" (click)="navigationExpanded.set(false)">
+                    Collapse</button
+                  ><span role="status">{{ navigationExpanded() ? 'Expanded' : 'Collapsed' }}</span>
+                </div>
+                <aeris-navbar
+                  mode="mobile"
+                  [(expanded)]="navigationExpanded"
+                  [closeOnOutsideClick]="false"
+                  ariaLabel="Controlled example navigation"
+                >
+                  <strong aerisNavbarBrand class="navbar-demo-brand"
+                    ><span class="navbar-demo-mark" aria-hidden="true">W</span
+                    ><span>Workspace</span></strong
+                  >
+                  <div aerisNavbarLinks>
+                    @for (label of ['Overview', 'Projects']; track label) {
+                      <button
+                        aerisNavbarItem
+                        [active]="selections()['controlled'] === label"
+                        (click)="select('controlled', label)"
+                      >
+                        {{ label }}
+                      </button>
+                    }
+                    <button aerisNavbarItem disabled>Unavailable</button>
+                  </div>
+                </aeris-navbar>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="navbar-preview-controls"&gt;
+    &lt;button aerisButton (click)="navigationExpanded.set(true)"&gt;Expand&lt;/button&gt;
+    &lt;button aerisButton variant="outline" (click)="navigationExpanded.set(false)"&gt;
+      Collapse&lt;/button&gt;
+      &lt;span role="status"&gt;&#123;&#123; navigationExpanded() ? 'Expanded' : 'Collapsed' &#125;&#125;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;aeris-navbar
+    mode="mobile"
+    [(expanded)]="navigationExpanded"
+    [closeOnOutsideClick]="false"
+    ariaLabel="Controlled example navigation"
+  &gt;
+    &lt;strong aerisNavbarBrand class="navbar-demo-brand"
+      &gt;&lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
+      &lt;span&gt;Workspace&lt;/span&gt;&lt;/strong&gt;
+    &lt;div aerisNavbarLinks&gt;
+      &#64;for (label of ['Overview', 'Projects']; track label) &#123;
+        &lt;button
+          aerisNavbarItem
+          [active]="selections()['controlled'] === label"
+          (click)="select('controlled', label)"
+        &gt;
+          &#123;&#123; label &#125;&#125;
+        &lt;/button&gt;
+      &#125;
+      &lt;button aerisNavbarItem disabled&gt;Unavailable&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/aeris-navbar&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="navbar-disclosures"
+              title="Disclosures"
+              description="Desktop dropdowns open below the header; nested menus open beside their item and flip at viewport edges. Hover or use the directional arrow key to open a submenu. Mobile menus expand inline. Selecting a nested item keeps its top-level dropdown marked as active."
+            >
+              <div preview>
+                <aeris-navbar [breakpoint]="480" ariaLabel="Disclosure example navigation">
+                  <strong aerisNavbarBrand class="navbar-demo-brand"
+                    ><span class="navbar-demo-mark" aria-hidden="true">W</span
+                    ><span>Workspace</span></strong
+                  >
+                  <div aerisNavbarLinks>
+                    @for (label of ['Overview', 'Projects']; track label) {
+                      <button
+                        aerisNavbarItem
+                        [active]="selections()['disclosures'] === label"
+                        (click)="select('disclosures', label)"
+                      >
+                        {{ label }}
+                      </button>
+                    }
+                    <aeris-navbar-dropdown label="Resources" [(expanded)]="disclosure">
+                      @for (label of ['Documentation', 'Examples']; track label) {
+                        <button
+                          aerisNavbarItem
+                          [active]="selections()['disclosures'] === label"
+                          (click)="select('disclosures', label)"
+                        >
+                          {{ label }}
+                        </button>
+                      }
+                      <aeris-navbar-dropdown label="More resources">
+                        @for (label of ['Release notes', 'Support']; track label) {
+                          <button
+                            aerisNavbarItem
+                            [active]="selections()['disclosures'] === label"
+                            (click)="select('disclosures', label)"
+                          >
+                            {{ label }}
+                          </button>
+                        }
+                      </aeris-navbar-dropdown>
+                    </aeris-navbar-dropdown>
+                    <aeris-navbar-dropdown label="Company">
+                      @for (label of ['About', 'Contact']; track label) {
+                        <button
+                          aerisNavbarItem
+                          [active]="selections()['disclosures'] === label"
+                          (click)="select('disclosures', label)"
+                        >
+                          {{ label }}
+                        </button>
+                      }
+                    </aeris-navbar-dropdown>
+                  </div>
+                </aeris-navbar>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-navbar [breakpoint]="480" ariaLabel="Disclosure example navigation"&gt;
+    &lt;strong aerisNavbarBrand class="navbar-demo-brand"
+      &gt;&lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
+      &lt;span&gt;Workspace&lt;/span&gt;&lt;/strong&gt;
+    &lt;div aerisNavbarLinks&gt;
+      &#64;for (label of ['Overview', 'Projects']; track label) &#123;
+        &lt;button
+          aerisNavbarItem
+          [active]="selections()['disclosures'] === label"
+          (click)="select('disclosures', label)"
+        &gt;
+          &#123;&#123; label &#125;&#125;
+        &lt;/button&gt;
+      &#125;
+      &lt;aeris-navbar-dropdown label="Resources" [(expanded)]="disclosure"&gt;
+        &#64;for (label of ['Documentation', 'Examples']; track label) &#123;
+          &lt;button
+            aerisNavbarItem
+            [active]="selections()['disclosures'] === label"
+            (click)="select('disclosures', label)"
+          &gt;
+            &#123;&#123; label &#125;&#125;
+          &lt;/button&gt;
+        &#125;
+        &lt;aeris-navbar-dropdown label="More resources"&gt;
+          &#64;for (label of ['Release notes', 'Support']; track label) &#123;
+            &lt;button
+              aerisNavbarItem
+              [active]="selections()['disclosures'] === label"
+              (click)="select('disclosures', label)"
+            &gt;
+              &#123;&#123; label &#125;&#125;
+            &lt;/button&gt;
+          &#125;
+        &lt;/aeris-navbar-dropdown&gt;
+      &lt;/aeris-navbar-dropdown&gt;
+      &lt;aeris-navbar-dropdown label="Company"&gt;
+        &#64;for (label of ['About', 'Contact']; track label) &#123;
+          &lt;button
+            aerisNavbarItem
+            [active]="selections()['disclosures'] === label"
+            (click)="select('disclosures', label)"
+          &gt;
+            &#123;&#123; label &#125;&#125;
+          &lt;/button&gt;
+        &#125;
+      &lt;/aeris-navbar-dropdown&gt;
+    &lt;/div&gt;
+  &lt;/aeris-navbar&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="navbar-custom"
+              title="Brand and actions"
+              description="Keep brand and action slots visible, and replace the mobile toggle with consumer-provided icons. The mobile toggle and primary action keep their space at narrow widths."
+            >
+              <div preview>
+                <aeris-navbar #navbar mode="mobile" ariaLabel="Custom toggle example navigation">
+                  <strong aerisNavbarBrand class="navbar-demo-brand"
+                    ><span class="navbar-demo-mark" aria-hidden="true">W</span
+                    ><span>Workspace</span></strong
+                  >
+                  <div aerisNavbarLinks>
+                    @for (label of ['Overview', 'Projects']; track label) {
+                      <button
+                        aerisNavbarItem
+                        [active]="selections()['custom'] === label"
+                        (click)="select('custom', label)"
+                      >
+                        {{ label }}
+                      </button>
+                    }
+                  </div>
+                  <div aerisNavbarActions>
+                    <button aerisButton variant="ghost" class="navbar-secondary-action">
+                      Sign in</button
+                    ><button aerisButton>Get started</button>
+                  </div>
+                  <button aerisNavbarToggle>
+                    @if (navbar.expanded()) {
+                      <svg aerisNavbarIcon [lucideIcon]="closeIcon"></svg>
+                    } @else {
+                      <svg aerisNavbarIcon [lucideIcon]="menuIcon"></svg>
+                    }
+                  </button>
+                </aeris-navbar>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;aeris-navbar #navbar mode="mobile" ariaLabel="Custom toggle example navigation"&gt;
+    &lt;strong aerisNavbarBrand class="navbar-demo-brand"
+      &gt;&lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
+      &lt;span&gt;Workspace&lt;/span&gt;&lt;/strong&gt;
+    &lt;div aerisNavbarLinks&gt;
+      &#64;for (label of ['Overview', 'Projects']; track label) &#123;
+        &lt;button
+          aerisNavbarItem
+          [active]="selections()['custom'] === label"
+          (click)="select('custom', label)"
+        &gt;
+          &#123;&#123; label &#125;&#125;
+        &lt;/button&gt;
+      &#125;
+    &lt;/div&gt;
+    &lt;div aerisNavbarActions&gt;
+      &lt;button aerisButton variant="ghost" class="navbar-secondary-action"&gt;
+        Sign in&lt;/button&gt;
+        &lt;button aerisButton&gt;Get started&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;button aerisNavbarToggle&gt;
+      &#64;if (navbar.expanded()) &#123;
+        &lt;svg aerisNavbarIcon [lucideIcon]="closeIcon"&gt;&lt;/svg&gt;
+      &#125; &#64;else &#123;
+        &lt;svg aerisNavbarIcon [lucideIcon]="menuIcon"&gt;&lt;/svg&gt;
+      &#125;
+    &lt;/button&gt;
+  &lt;/aeris-navbar&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="navbar-variants"
+              title="Variants"
+              description="Standard, floating and transparent surfaces share the same navigation geometry and interaction behavior."
+            >
+              <div preview class="navbar-stack">
+                @for (variant of variants; track variant) {
+                  <aeris-navbar
+                    [breakpoint]="480"
+                    [variant]="variant"
+                    [ariaLabel]="variant + ' example navigation'"
+                    ><strong aerisNavbarBrand>{{ variant }}</strong>
+                    <div aerisNavbarLinks>
+                      @for (label of ['Overview', 'Projects']; track label) {
+                        <button
+                          aerisNavbarItem
+                          [active]="selections()[variant] === label"
+                          (click)="select(variant, label)"
+                        >
+                          {{ label }}
+                        </button>
+                      }
+                    </div></aeris-navbar
+                  >
+                }
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="navbar-stack"&gt;
+  &#64;for (variant of variants; track variant) &#123;
+    &lt;aeris-navbar
+      [breakpoint]="480"
+      [variant]="variant"
+      [ariaLabel]="variant + ' example navigation'"
+      &gt;&lt;strong aerisNavbarBrand&gt;&#123;&#123; variant &#125;&#125;&lt;/strong&gt;
+      &lt;div aerisNavbarLinks&gt;
+        &#64;for (label of ['Overview', 'Projects']; track label) &#123;
+          &lt;button
+            aerisNavbarItem
+            [active]="selections()[variant] === label"
+            (click)="select(variant, label)"
+          &gt;
+            &#123;&#123; label &#125;&#125;
+          &lt;/button&gt;
+        &#125;
+      &lt;/div&gt;&lt;/aeris-navbar&gt;
+  &#125;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="navbar-sticky"
+              title="Sticky positioning"
+              description="Scroll this region. Sticky positioning stays within its scrolling ancestor, not fixed over the documentation header."
+            >
+              <div preview>
+                <div class="navbar-scroll-region">
+                  <aeris-navbar sticky ariaLabel="Sticky example navigation"
+                    ><strong aerisNavbarBrand class="navbar-demo-brand"
+                      ><span class="navbar-demo-mark" aria-hidden="true">W</span
+                      ><span>Workspace</span></strong
+                    >
+                    <div aerisNavbarLinks>
+                      @for (label of ['Overview', 'Projects']; track label) {
+                        <button
+                          aerisNavbarItem
+                          [active]="selections()['sticky'] === label"
+                          (click)="select('sticky', label)"
+                        >
+                          {{ label }}
+                        </button>
+                      }
+                    </div></aeris-navbar
+                  >
+                  <div class="navbar-scroll-content">
+                    @for (section of [1, 2, 3, 4, 5, 6, 7, 8]; track section) {
+                      <p>
+                        Section {{ section }}. Scroll to see the navigation stay within this region.
+                      </p>
+                    }
+                  </div>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div&gt;
+  &lt;div class="navbar-scroll-region"&gt;
+    &lt;aeris-navbar sticky ariaLabel="Sticky example navigation"
+      &gt;&lt;strong aerisNavbarBrand class="navbar-demo-brand"
+        &gt;&lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
+        &lt;span&gt;Workspace&lt;/span&gt;&lt;/strong&gt;
+      &lt;div aerisNavbarLinks&gt;
+        &#64;for (label of ['Overview', 'Projects']; track label) &#123;
+          &lt;button
+            aerisNavbarItem
+            [active]="selections()['sticky'] === label"
+            (click)="select('sticky', label)"
+          &gt;
+            &#123;&#123; label &#125;&#125;
+          &lt;/button&gt;
+        &#125;
+      &lt;/div&gt;&lt;/aeris-navbar&gt;
+    &lt;div class="navbar-scroll-content"&gt;
+      &#64;for (section of [1, 2, 3, 4, 5, 6, 7, 8]; track section) &#123;
+        &lt;p&gt;
+          Section &#123;&#123; section &#125;&#125;. Scroll to see the navigation stay within this region.
+        &lt;/p&gt;
+      &#125;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+          </div>
+          <app-page-toc
+            title="On this page"
+            ariaLabel="Navbar feature quick links"
+            [links]="featureLinks"
+          />
+        </div>
+      </section>
+    </aeris-tab-panel>
+    <aeris-tab-panel value="api" label="API"
+      ><section class="doc-section">
+        <h2>API</h2>
+        <div class="doc-content-layout">
+          <div class="doc-content-main">
+            @for (
+              section of [
+                { id: 'navbar-inputs', title: 'Navbar inputs', rows: inputs },
+                { id: 'navbar-state', title: 'Models, outputs, state and methods', rows: state },
+                { id: 'navbar-items', title: 'Native items', rows: items },
+                { id: 'navbar-disclosure-api', title: 'Navigation dropdowns', rows: disclosures },
+                { id: 'navbar-slots', title: 'Slots and toggle', rows: slots },
+              ];
+              track section.id
+            ) {
+              <section [id]="section.id">
+                <h3>{{ section.title }}</h3>
+                <div class="api-table" role="table" [attr.aria-label]="section.title">
+                  <div role="row">
+                    <span role="columnheader">Name</span><span role="columnheader">Type</span
+                    ><span role="columnheader">Default</span
+                    ><span role="columnheader">Description</span>
+                  </div>
+                  @for (row of section.rows; track row.name) {
+                    <div role="row">
+                      <code role="cell">{{ row.name }}</code
+                      ><code role="cell">{{ row.type }}</code
+                      ><code role="cell">{{ row.defaultValue }}</code
+                      ><span role="cell">{{ row.description }}</span>
+                    </div>
+                  }
+                </div>
+              </section>
+            }
+            <p>
+              Routing remains application-owned. Import RouterLink and RouterLinkActive for routed
+              anchors, and bind the route's isActive state to the item's active input. Ordinary
+              links retain native browser behavior. Dropdown panels reuse Aeris anchored overlay
+              positioning. Use appendTo to choose a desktop panel target, including nested flyouts.
+              Mobile dropdowns stay inline.
+            </p>
+          </div>
+          <app-page-toc
+            title="On this page"
+            ariaLabel="Navbar API quick links"
+            [links]="apiLinks"
+          />
+        </div></section
+    ></aeris-tab-panel>
+    <aeris-tab-panel value="interfaces" label="Interfaces"
+      ><section id="navbar-interfaces" class="doc-section">
+        <h2>Interfaces</h2>
+        <app-code-block [code]="interfacesCode" language="TypeScript" /></section
+    ></aeris-tab-panel>
+    <aeris-tab-panel value="tokens" label="Tokens"
+      ><section id="navbar-tokens" class="doc-section">
+        <h2>Design tokens</h2>
+        <p>
+          Shared action height, typography, density, icon and focus tokens keep navigation aligned
+          with Aeris buttons.
+        </p>
+        <div class="api-table" role="table" aria-label="Navbar tokens">
+          <div role="row">
+            <span role="columnheader">Token</span><span role="columnheader">Default</span
+            ><span role="columnheader">Description</span>
+          </div>
+          @for (token of tokens; track token[0]) {
+            <div role="row">
+              <code role="cell">{{ token[0] }}</code
+              ><code role="cell">{{ token[1] }}</code
+              ><span role="cell">{{ token[2] }}</span>
+            </div>
+          }
+        </div>
+      </section></aeris-tab-panel
+    >
+    <aeris-tab-panel value="accessibility" label="Accessibility"
+      ><section id="navbar-accessibility" class="doc-section">
+        <h2>Accessibility</h2>
+        <p>
+          Navbar uses a named native navigation landmark. Links and buttons keep their native
+          semantics and Tab order; no menu roles or arrow-key menu model are added. Give every
+          action an accessible name and provide distinct labels for multiple navigation regions.
+        </p>
+        <p>
+          Mobile navigation expands inline. It does not trap focus, blur the page, or block
+          scrolling. Collapsed links leave the keyboard sequence. The toggle exposes expanded state
+          and its controls relationship. Escape and controlled closing return focus to the toggle
+          when focus would otherwise be hidden. Actions remain visible.
+        </p>
+        <p>
+          Dropdown buttons expose names and expanded state. Desktop panels can be portaled without
+          losing keyboard access: Tab enters an open panel and returns to the next header control
+          after its last item. Escape closes only the current dropdown before closing mobile
+          navigation on a second press. Disabled items cannot activate or receive Tab focus.
+          Decorative icons are hidden from assistive technology; default artwork supports
+          provideAerisIcons, including menu, close and chevron.
+        </p>
+        <p>
+          Reduced motion disables the entrance and chevron transitions. Sticky content stays inside
+          its scrolling ancestor; use a top token if your application already has a fixed header.
+        </p>
+        <div class="api-table" role="table" aria-label="Navbar keyboard support">
+          <div role="row">
+            <span role="columnheader">Key</span><span role="columnheader">Behavior</span>
+          </div>
+          <div role="row">
+            <code role="cell">Tab / Shift+Tab</code
+            ><span role="cell">Moves between visible native controls. Focus is not trapped.</span>
+          </div>
+          <div role="row">
+            <code role="cell">Enter</code
+            ><span role="cell">Activates links, buttons and dropdown buttons.</span>
+          </div>
+          <div role="row">
+            <code role="cell">Space</code
+            ><span role="cell">Activates buttons and dropdown buttons.</span>
+          </div>
+          <div role="row">
+            <code role="cell">Escape</code
+            ><span role="cell"
+              >Closes the active disclosure and focuses its trigger, or closes expanded mobile
+              navigation and focuses the toggle.</span
+            >
+          </div>
+          <div role="row">
+            <code role="cell">Arrow keys</code
+            ><span role="cell"
+              >Arrow Down opens a dropdown and focuses its first item. Arrow Right opens a nested
+              submenu; Arrow Left closes it and returns focus to its trigger. These horizontal keys
+              are reversed in RTL.</span
+            >
+          </div>
+        </div>
+      </section></aeris-tab-panel
+    >
+  </aeris-tabs>
+</article>

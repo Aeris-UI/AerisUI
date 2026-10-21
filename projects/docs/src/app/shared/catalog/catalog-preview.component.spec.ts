@@ -26,6 +26,7 @@ describe('CatalogPreviewComponent', () => {
     { kind: 'tabs', category: 'Panel', selector: 'aeris-tabs' },
     { kind: 'menu', category: 'Menu', selector: 'aeris-menu' },
     { kind: 'sidebar', category: 'Menu', selector: 'aeris-sidebar' },
+    { kind: 'navbar', category: 'Menu', selector: 'aeris-navbar' },
     { kind: 'carousel', category: 'Media', selector: 'aeris-carousel' },
     { kind: 'avatar', category: 'Misc', selector: 'aeris-avatar' },
     { kind: 'glass', category: 'Utilities', selector: 'aeris-card[aerisGlass]' },
@@ -58,6 +59,22 @@ describe('CatalogPreviewComponent', () => {
     expect(buttons).toHaveLength(2);
     expect(buttons[1]?.nativeElement.classList.contains('aeris-button--outline')).toBe(true);
     expect(buttons.every((button) => button.nativeElement.tabIndex === -1)).toBe(true);
+  });
+  it('expands the real Navbar preview only during playback', async () => {
+    const fixture = TestBed.createComponent(CatalogPreviewComponent);
+    fixture.componentRef.setInput('kind', 'navbar');
+    fixture.componentRef.setInput('category', 'Menu');
+    fixture.detectChanges();
+    await (await fixture.getDeferBlocks())[0].render(DeferBlockState.Complete);
+    fixture.detectChanges();
+    const navbar = (fixture.nativeElement as HTMLElement).querySelector('aeris-navbar');
+    expect(navbar?.querySelector('nav')?.hidden).toBe(true);
+    fixture.componentRef.setInput('active', true);
+    fixture.detectChanges();
+    expect(navbar?.querySelector('nav')?.hidden).toBe(false);
+    fixture.componentRef.setInput('active', false);
+    fixture.detectChanges();
+    expect(navbar?.querySelector('nav')?.hidden).toBe(true);
   });
   it('shows a real icon-only Sidebar and expands the same navigation when activated', async () => {
     const fixture = TestBed.createComponent(CatalogPreviewComponent);
