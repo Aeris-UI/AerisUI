@@ -3,6 +3,15 @@ import { TestBed } from '@angular/core/testing';
 import { CodeBlockComponent, type CodeSource } from './code-block.component';
 
 describe('CodeBlockComponent', () => {
+  it('passes a specific accessible name to the code region', () => {
+    const fixture = TestBed.createComponent(CodeBlockComponent);
+    fixture.componentRef.setInput('code', 'const key = "Escape";');
+    fixture.componentRef.setInput('ariaLabel', 'Kbd import code');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('[role="region"]')?.getAttribute('aria-label')).toBe(
+      'Kbd import code',
+    );
+  });
   const sources: readonly CodeSource[] = [
     {
       language: 'Shell',

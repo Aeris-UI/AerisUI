@@ -11,7 +11,12 @@ export interface CodeSource {
 @Component({
   selector: 'app-code-block',
   imports: [AerisCodeBlockModule],
-  template: `<aeris-code-block [code]="code()" [language]="language()" [sources]="sources()" />`,
+  template: `<aeris-code-block
+    [code]="code()"
+    [language]="language()"
+    [sources]="sources()"
+    [ariaLabel]="ariaLabel()"
+  />`,
   styles: `
     :host {
       display: block;
@@ -22,6 +27,7 @@ export interface CodeSource {
 })
 export class CodeBlockComponent {
   readonly code = input('');
+  readonly ariaLabel = input('Code example');
   readonly language = input('HTML');
   readonly sources = input<readonly CodeSource[]>([]);
 }
