@@ -34,6 +34,7 @@ interface AerisImportRule {
 const MAX_INLINE_TEMPLATE_LINES = 14;
 
 const AERIS_IMPORTS: readonly AerisImportRule[] = [
+  rule('AerisNativeSelect', 'select/native', /\saerisNativeSelect\b/),
   rule('AerisKbdModule', 'kbd', /[\s[]aerisKbd(?:Key|Content)?\b/),
   rule('AerisSidebarModule', 'sidebar', /<aeris-sidebar\b/, /[\s[]aerisSidebar[A-Z]\w*/),
   rule('AerisNavbarModule', 'navbar', /<aeris-navbar\b/, /[\s[]aerisNavbar[A-Z]\w*/),
@@ -239,6 +240,7 @@ const AERIS_TYPE_PREFIXES: readonly [prefix: string, secondary: string][] = [
   ['AerisAutoFocus', 'auto-focus'],
   ['AerisClassNames', 'class-names'],
   ['AerisKbd', 'kbd'],
+  ['AerisNativeSelect', 'select/native'],
   ['AerisFilter', 'filter-service'],
   ['AerisStyleClass', 'style-class'],
   ['AerisAvatar', 'avatar'],

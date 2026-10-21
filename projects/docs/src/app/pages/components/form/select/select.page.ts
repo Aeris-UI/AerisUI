@@ -1,5 +1,8 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormField, form, required, submit } from '@angular/forms/signals';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisNativeSelect } from '@aeris-ui/core/select/native';
 import {
   AerisSelect,
   type AerisSelectChangeEvent,
@@ -27,6 +30,9 @@ interface ApiRow {
 @Component({
   selector: 'app-select-page',
   imports: [
+    AerisNativeSelect,
+    AerisButton,
+    FormField,
     AerisSelect,
     FormsModule,
     ReactiveFormsModule,
@@ -41,6 +47,10 @@ interface ApiRow {
   styleUrl: './select.page.scss',
 })
 export class SelectPage {
+  protected readonly nativeData = signal({ region: '' });
+  protected readonly nativeFields = form(this.nativeData, (path) => required(path.region));
+  protected readonly nativeSubmitted = signal(false);
+  protected readonly nativeMultiple = new FormControl(['design'], { nonNullable: true });
   protected readonly role = signal<string | null>('engineer');
   protected readonly country = signal<string | null>(null);
   protected readonly invalidRole = signal<string | null>(null);
@@ -121,9 +131,14 @@ export class SelectPage {
     { id: 'select-feedback', label: 'Loading and empty' },
     { id: 'select-native-form', label: 'Native form value' },
     { id: 'select-angular-forms', label: 'Angular Forms' },
+    { id: 'select-native', label: 'Native select' },
+    { id: 'select-native-sizes', label: 'Native sizing and appearance' },
+    { id: 'select-native-multiple', label: 'Native multiple selection' },
+    { id: 'select-native-forms', label: 'Native Signal Forms' },
   ];
 
   protected readonly apiLinks: readonly PageTocLink[] = [
+    { id: 'select-native-api', label: 'Native select inputs' },
     { id: 'select-api-inputs', label: 'Inputs' },
     { id: 'select-api-outputs', label: 'Outputs' },
     { id: 'select-api-templates', label: 'Templates' },
@@ -131,6 +146,44 @@ export class SelectPage {
   ];
 
   protected readonly importCode = `import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';`;
+  protected readonly nativeImportCode = `import { AerisNativeSelect } from '@aeris-ui/core/select/native';`;
+  protected readonly nativeInputs: readonly ApiRow[] = [
+    {
+      name: 'controlSize',
+      type: "AerisNativeSelectSize: 'xs' | 'sm' | 'md' | 'lg'",
+      defaultValue: "'md'",
+      description:
+        'Visual field size. This deliberately does not replace the native numeric size attribute, which controls visible option rows.',
+    },
+    {
+      name: 'appearance',
+      type: "AerisNativeSelectAppearance: 'outline' | 'filled'",
+      defaultValue: "'outline'",
+      description:
+        'Closed-control surface. Options: outline, filled. The native browser picker and option rendering remain platform-owned.',
+    },
+    {
+      name: 'fluid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Fills the available inline width. Also supported as a descendant of Aeris Fluid.',
+    },
+    {
+      name: 'invalid',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Explicit invalid state, synchronized with aria-invalid. Native required validation uses :user-invalid independently.',
+    },
+    {
+      name: 'touched',
+      type: 'boolean | null',
+      defaultValue: 'null',
+      description:
+        'Null preserves immediate explicit invalid presentation; false defers it; true displays invalid state. Signal Forms supplies invalid and touched automatically.',
+    },
+  ];
   protected readonly modelCode = `protected readonly role = signal<string | null>('engineer');
 
 protected readonly roles: readonly AerisSelectOption[] = [
@@ -207,7 +260,9 @@ protected recordLazyRange(event: AerisSelectLazyLoadEvent): void {
   new FormControl<string | null>('engineer');
 
 protected templateRole: string | null = 'designer';`;
-  protected readonly interfacesCode = `type AerisSelectSize = 'xs' | 'sm' | 'md' | 'lg';
+  protected readonly interfacesCode = `type AerisNativeSelectSize = 'xs' | 'sm' | 'md' | 'lg';
+type AerisNativeSelectAppearance = 'outline' | 'filled';
+type AerisSelectSize = 'xs' | 'sm' | 'md' | 'lg';
 type AerisSelectAppearance = 'outline' | 'filled';
 type AerisSelectFilterMatchMode =
   | 'contains'
@@ -552,6 +607,11 @@ interface AerisSelectLazyLoadEvent {
 
   protected recordChange(event: AerisSelectChangeEvent): void {
     this.lastChange.set(`Selected ${event.option.label}`);
+  }
+
+  protected async validateNativeSelect(event: Event): Promise<void> {
+    event.preventDefault();
+    this.nativeSubmitted.set(await submit(this.nativeFields, async () => undefined));
   }
 
   protected recordLazyRange(event: AerisSelectLazyLoadEvent): void {

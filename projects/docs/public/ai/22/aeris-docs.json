@@ -11000,6 +11000,18 @@
           ]
         },
         {
+          "id": "input-search",
+          "title": "Search form",
+          "description": "Compose a normal search form with a clearable InputText. Enter and the submit button use native form submission; the application owns searching and timing. Text composition is buffered until it completes.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\n\n@Component({\n  selector: 'app-input-search-demo',\n  imports: [AerisButton, AerisInputText],\n  template: `\n    <form class=\"field\" role=\"search\" (submit)=\"submitSearch($event)\">\n      <label for=\"search-form-query\">Search query</label>\n      <aeris-input-text\n        inputId=\"search-form-query\"\n        type=\"search\"\n        clearable\n        fluid\n        [(value)]=\"searchQuery\"\n      />\n      <button aerisButton type=\"submit\">Search</button>\n      <small role=\"status\">Submitted: {{ submittedSearch() }}</small>\n    </form>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class InputSearchSearchFormDemo {\n  protected readonly searchQuery = signal('');\n\n  protected readonly submittedSearch = signal('No search submitted');\n\n  protected readonly search = signal('Aeris components');\n\n  protected submitSearch(event: Event): void {\n      event.preventDefault();\n      this.submittedSearch.set(this.searchQuery() || 'Empty search');\n    }\n}\n"
+            }
+          ]
+        },
+        {
           "id": "input-angular-forms",
           "title": "Reactive and template-driven forms",
           "description": "The native directive uses Angular's built-in value accessor. The wrapper component provides its own ControlValueAccessor for formControl and ngModel.",
@@ -13948,6 +13960,42 @@
       "importCode": "import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';",
       "api": [
         {
+          "name": "Native Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "controlSize",
+              "type": "AerisNativeSelectSize: 'xs' | 'sm' | 'md' | 'lg'",
+              "defaultValue": "'md'",
+              "description": "Visual field size. This deliberately does not replace the native numeric size attribute, which controls visible option rows."
+            },
+            {
+              "name": "appearance",
+              "type": "AerisNativeSelectAppearance: 'outline' | 'filled'",
+              "defaultValue": "'outline'",
+              "description": "Closed-control surface. Options: outline, filled. The native browser picker and option rendering remain platform-owned."
+            },
+            {
+              "name": "fluid",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Fills the available inline width. Also supported as a descendant of Aeris Fluid."
+            },
+            {
+              "name": "invalid",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Explicit invalid state, synchronized with aria-invalid. Native required validation uses :user-invalid independently."
+            },
+            {
+              "name": "touched",
+              "type": "boolean | null",
+              "defaultValue": "null",
+              "description": "Null preserves immediate explicit invalid presentation; false defers it; true displays invalid state. Signal Forms supplies invalid and touched automatically."
+            }
+          ]
+        },
+        {
           "name": "Inputs",
           "kind": "input",
           "entries": [
@@ -14404,7 +14452,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisSelectSize = 'xs' | 'sm' | 'md' | 'lg';\ntype AerisSelectAppearance = 'outline' | 'filled';\ntype AerisSelectFilterMatchMode =\n  | 'contains'\n  | 'startsWith'\n  | 'endsWith'\n  | 'equals';\n\ninterface AerisSelectOption {\n  readonly label: string;\n  readonly value: string;\n  readonly disabled?: boolean;\n  readonly description?: string;\n  readonly group?: string;\n}\n\ninterface AerisSelectChangeEvent {\n  readonly originalEvent: Event;\n  readonly value: string;\n  readonly option: AerisSelectOption;\n}\n\ninterface AerisSelectFilterEvent {\n  readonly originalEvent: Event;\n  readonly query: string;\n}\n\ninterface AerisSelectLazyLoadEvent {\n  readonly first: number;\n  readonly last: number;\n  readonly query: string;\n}"
+          "code": "type AerisNativeSelectSize = 'xs' | 'sm' | 'md' | 'lg';\ntype AerisNativeSelectAppearance = 'outline' | 'filled';\ntype AerisSelectSize = 'xs' | 'sm' | 'md' | 'lg';\ntype AerisSelectAppearance = 'outline' | 'filled';\ntype AerisSelectFilterMatchMode =\n  | 'contains'\n  | 'startsWith'\n  | 'endsWith'\n  | 'equals';\n\ninterface AerisSelectOption {\n  readonly label: string;\n  readonly value: string;\n  readonly disabled?: boolean;\n  readonly description?: string;\n  readonly group?: string;\n}\n\ninterface AerisSelectChangeEvent {\n  readonly originalEvent: Event;\n  readonly value: string;\n  readonly option: AerisSelectOption;\n}\n\ninterface AerisSelectFilterEvent {\n  readonly originalEvent: Event;\n  readonly query: string;\n}\n\ninterface AerisSelectLazyLoadEvent {\n  readonly first: number;\n  readonly last: number;\n  readonly query: string;\n}"
         }
       ],
       "designTokens": [
@@ -14749,6 +14797,84 @@
               "code": ".field-grid {\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n}\n\n.field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n@media (max-width: 42rem) {\n  .field-grid {\n    grid-template-columns: 1fr;\n  }\n}"
             }
           ]
+        },
+        {
+          "id": "select-native",
+          "title": "Native select",
+          "description": "Style a real select while retaining the browser's picker, options and optgroups. Its arrow, expanded choices and mobile picker remain platform-specific; no Aeris overlay is created.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisNativeSelect } from '@aeris-ui/core/select/native';\n\n@Component({\n  selector: 'app-select-native-demo',\n  imports: [AerisNativeSelect],\n  template: `\n    <div class=\"field native-select-field\">\n      <label for=\"native-basic-region\">Region</label>\n      <select aerisNativeSelect id=\"native-basic-region\" name=\"region\">\n        <option value=\"\">Choose a region</option>\n        <optgroup label=\"Europe\">\n          <option value=\"rs\">Serbia</option>\n          <option value=\"de\">Germany</option>\n        </optgroup>\n        <optgroup label=\"Asia Pacific\">\n          <option value=\"jp\">Japan</option>\n          <option value=\"nz\" disabled>New Zealand (unavailable)</option>\n        </optgroup>\n      </select>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n    \n    .native-select-field {\n      max-inline-size: 22rem;\n    }\n  `\n})\nexport class SelectNativeNativeSelectDemo {\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "select-native-sizes",
+          "title": "Native sizing and appearance",
+          "description": "controlSize changes field geometry without replacing native size. Use appearance for the field surface and the native disabled attribute to prevent interaction.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { AerisNativeSelect } from '@aeris-ui/core/select/native';\n\n@Component({\n  selector: 'app-select-native-sizes-demo',\n  imports: [AerisNativeSelect],\n  templateUrl: './select-native-sizes.demo.html',\n  styleUrl: './select-native-sizes.demo.scss'\n})\nexport class SelectNativeSizesNativeSizingAndAppearanceDemo {\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"field-grid\">\n  <div class=\"field\">\n    <label for=\"native-xs\">Extra small</label>\n    <select aerisNativeSelect id=\"native-xs\" controlSize=\"xs\">\n      <option>Design</option>\n      <option>Engineering</option>\n    </select>\n  </div>\n  <div class=\"field\">\n    <label for=\"native-sm\">Small</label>\n    <select aerisNativeSelect id=\"native-sm\" controlSize=\"sm\">\n      <option>Design</option>\n      <option>Engineering</option>\n    </select>\n  </div>\n  <div class=\"field\">\n    <label for=\"native-md\">Medium</label>\n    <select aerisNativeSelect id=\"native-md\">\n      <option>Design</option>\n      <option>Engineering</option>\n    </select>\n  </div>\n  <div class=\"field\">\n    <label for=\"native-lg\">Large</label>\n    <select aerisNativeSelect id=\"native-lg\" controlSize=\"lg\">\n      <option>Design</option>\n      <option>Engineering</option>\n    </select>\n  </div>\n  <div class=\"field\">\n    <label for=\"native-filled\">Filled</label>\n    <select aerisNativeSelect id=\"native-filled\" appearance=\"filled\">\n      <option>Design</option>\n      <option>Engineering</option>\n    </select>\n  </div>\n  <div class=\"field\">\n    <label for=\"native-disabled\">Disabled</label>\n    <select aerisNativeSelect id=\"native-disabled\" disabled>\n      <option>Design</option>\n    </select>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".field-grid {\n  width: 100%;\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1.25rem;\n}\n\n.field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n@media (max-width: 42rem) {\n  .field-grid {\n    grid-template-columns: 1fr;\n  }\n}"
+            }
+          ]
+        },
+        {
+          "id": "select-native-multiple",
+          "title": "Native multiple selection",
+          "description": "Native multiple and size retain their browser behavior. Angular's built-in multiple-select value accessor handles the array; Aeris does not replace it.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component } from '@angular/core';\nimport { FormControl, ReactiveFormsModule } from '@angular/forms';\nimport { AerisNativeSelect } from '@aeris-ui/core/select/native';\n\n@Component({\n  selector: 'app-select-native-multiple-demo',\n  imports: [AerisNativeSelect, ReactiveFormsModule],\n  templateUrl: './select-native-multiple.demo.html',\n  styleUrl: './select-native-multiple.demo.scss'\n})\nexport class SelectNativeMultipleNativeMultipleSelectionDemo {\n  protected readonly nativeMultiple = new FormControl(['design'], { nonNullable: true });\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"field native-select-field\">\n  <label for=\"native-multiple\">Teams</label>\n  <select\n    aerisNativeSelect\n    id=\"native-multiple\"\n    name=\"teams\"\n    multiple\n    size=\"4\"\n    [formControl]=\"nativeMultiple\"\n    aria-describedby=\"native-multiple-help\"\n  >\n    <option value=\"design\">Design</option>\n    <option value=\"engineering\">Engineering</option>\n    <option value=\"operations\">Operations</option>\n    <option value=\"support\">Support</option>\n  </select>\n  <small id=\"native-multiple-help\"\n    >Use your platform's multiple-selection controls. Selected:\n    {{ nativeMultiple.value }}</small>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n.native-select-field {\n  max-inline-size: 22rem;\n}"
+            }
+          ]
+        },
+        {
+          "id": "select-native-forms",
+          "title": "Native Signal Forms",
+          "description": "Signal Forms supplies invalid and touched automatically. Pristine required fields stay neutral; blurring or submitting reveals invalid state. A valid selection clears it.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisNativeSelect } from '@aeris-ui/core/select/native';\nimport { FormField, form, required, submit } from '@angular/forms/signals';\n\n@Component({\n  selector: 'app-select-native-forms-demo',\n  imports: [AerisButton, AerisNativeSelect, FormField],\n  templateUrl: './select-native-forms.demo.html',\n  styleUrl: './select-native-forms.demo.scss'\n})\nexport class SelectNativeFormsNativeSignalFormsDemo {\n  protected readonly nativeData = signal({ region: '' });\n\n  protected readonly nativeFields = form(this.nativeData, (path) => required(path.region));\n\n  protected readonly nativeSubmitted = signal(false);\n\n  protected async validateNativeSelect(event: Event): Promise<void> {\n      event.preventDefault();\n      this.nativeSubmitted.set(await submit(this.nativeFields, async () => undefined));\n    }\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<form\n  class=\"field native-select-field\"\n  novalidate\n  (submit)=\"validateNativeSelect($event)\"\n>\n  <label for=\"native-required\">Required region</label>\n  <select\n    aerisNativeSelect\n    id=\"native-required\"\n    [formField]=\"nativeFields.region\"\n    aria-describedby=\"native-required-help\"\n  >\n    <option value=\"\">Choose a region</option>\n    <option value=\"rs\">Serbia</option>\n    <option value=\"jp\">Japan</option>\n  </select>\n  <small id=\"native-required-help\" aria-live=\"polite\">\n    @if (nativeFields.region().touched() && nativeFields.region().invalid()) {\n      Choose a region.\n    } @else if (nativeSubmitted()) {\n      Validation successful.\n    } @else {\n      Validate the empty field or select a region.\n    }\n  </small>\n  <button aerisButton type=\"submit\">Validate</button>\n</form>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}\n\n.native-select-field {\n  max-inline-size: 22rem;\n}"
+            }
+          ]
         }
       ],
       "accessibility": {
@@ -14762,9 +14888,14 @@
           "Connect help and error messages through ariaDescribedBy. Required and invalid state are synchronized with ARIA.",
           "The clear action is a separate native button with a configurable accessible name and focus restoration.",
           "ControlValueAccessor synchronizes value, touched, and disabled state with Reactive Forms and template-driven forms.",
-          "Loading and empty messages use status semantics, focus remains predictable, and motion respects reduced-motion preferences."
+          "Loading and empty messages use status semantics, focus remains predictable, and motion respects reduced-motion preferences.",
+          "The native directive reuses the same control border, surface, typography, density, corner, focus and invalid tokens as InputText. Its browser-owned popup cannot be restyled or portaled with appendTo. The closed field uses the shared Aeris chevron, aligned to the inline end; forced-colors mode restores the browser arrow. Multiple and size-based listboxes have no chevron. Native required controls use :user-invalid; explicit invalid/touched state stays synchronized with aria-invalid. Label native selects with a real label/for pair and native aria-describedby."
         ],
         "keyboard": [
+          {
+            "keys": "Native select: Tab, arrows, typing, Space/Enter, Escape and multiple-selection modifiers",
+            "behavior": "Browser and operating-system behavior is preserved without interception. Tab focuses the native control; opening, typeahead, selection and dismissal vary by platform. Numeric size and multiple use the browser's listbox behavior."
+          },
           {
             "keys": "Enter / Space",
             "behavior": "Opens the closed panel or selects the active option."

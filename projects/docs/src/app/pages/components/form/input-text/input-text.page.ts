@@ -41,6 +41,8 @@ interface ApiRow {
   styleUrl: './input-text.page.scss',
 })
 export class InputTextPage {
+  protected readonly searchQuery = signal('');
+  protected readonly submittedSearch = signal('No search submitted');
   protected readonly componentText = signal('');
   protected readonly componentCode = `protected readonly componentText = signal('');`;
   protected readonly icons = DOC_ICONS;
@@ -66,6 +68,7 @@ export class InputTextPage {
     { id: 'input-affixes', label: 'Icons and affixes' },
     { id: 'input-signals', label: 'Signal state' },
     { id: 'input-clearable', label: 'Clear button' },
+    { id: 'input-search', label: 'Search form' },
     { id: 'input-angular-forms', label: 'Angular Forms' },
   ];
   protected readonly apiLinks: readonly PageTocLink[] = [
@@ -248,5 +251,9 @@ type AerisControlSize = AerisInputTextSize;`;
   protected clearSearch(input: HTMLInputElement): void {
     input.value = '';
     input.focus();
+  }
+  protected submitSearch(event: Event): void {
+    event.preventDefault();
+    this.submittedSearch.set(this.searchQuery() || 'Empty search');
   }
 }

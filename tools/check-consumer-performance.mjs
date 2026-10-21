@@ -25,6 +25,13 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';`,
       '<label>Name <input aerisInputText /></label><textarea aerisTextarea aria-label="Notes"></textarea><button aerisButton>Save</button>',
   },
   {
+    name: 'native-select',
+    imports: `import { AerisNativeSelect } from '@aeris-ui/core/select/native';`,
+    modules: 'AerisNativeSelect',
+    template:
+      '<label>Region <select aerisNativeSelect><option value="rs">Serbia</option></select></label>',
+  },
+  {
     name: 'forms',
     imports: `import { AerisSelect } from '@aeris-ui/core/select';
 import { AerisDatePicker } from '@aeris-ui/core/date-picker';`,
@@ -169,6 +176,13 @@ bootstrapApplication(App).catch(console.error);
   const entryPoints = inputs
     .filter((name) => /fesm2022\/.+\.mjs$/.test(name.replaceAll('\\', '/')))
     .map((name) => name.split(/[\\/]/).at(-1));
+  if (
+    scenario.name === 'native-select' &&
+    entryPoints.some((name) =>
+      /aeris-ui-core-(?:select|date-picker|dialog|popover)\.mjs$/.test(name),
+    )
+  )
+    throw new Error('Native Select pulled in popup component machinery.');
   for (const unrelated of ['galleria', 'tree-table', 'mega-menu']) {
     if (entryPoints.some((name) => name === `aeris-ui-core-${unrelated}.mjs`))
       throw new Error(`${scenario.name} pulled in unrelated ${unrelated}.`);

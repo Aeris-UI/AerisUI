@@ -1,6 +1,7 @@
 {
-  "sharedCssGzip": 6656,
+  "sharedCssGzip": 6912,
   "scenarios": {
+    "native-select": { "raw": 12000, "gzip": 4096 },
     "basic": { "raw": 45000, "gzip": 12288 },
     "forms": { "raw": 210000, "gzip": 56000, "initialRaw": 190000, "initialGzip": 50000 },
     "editable-date-picker": { "raw": 165000, "gzip": 45000 },

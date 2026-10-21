@@ -447,6 +447,38 @@
             </app-form-demo>
 
             <app-form-demo
+              id="input-search"
+              title="Search form"
+              description="Compose a normal search form with a clearable InputText. Enter and the submit button use native form submission; the application owns searching and timing. Text composition is buffered until it completes."
+            >
+              <form preview class="field" role="search" (submit)="submitSearch($event)">
+                <label for="search-form-query">Search query</label>
+                <aeris-input-text
+                  inputId="search-form-query"
+                  type="search"
+                  clearable
+                  fluid
+                  [(value)]="searchQuery"
+                />
+                <button aerisButton type="submit">Search</button>
+                <small role="status">Submitted: {{ submittedSearch() }}</small>
+              </form>
+              <pre
+                code
+              ><code ngNonBindable>&lt;form class="field" role="search" (submit)="submitSearch($event)"&gt;
+  &lt;label for="search-form-query"&gt;Search query&lt;/label&gt;
+  &lt;aeris-input-text
+    inputId="search-form-query"
+    type="search"
+    clearable
+    fluid
+    [(value)]="searchQuery"
+  /&gt;
+  &lt;button aerisButton type="submit"&gt;Search&lt;/button&gt;
+  &lt;small role="status"&gt;Submitted: &#123;&#123; submittedSearch() &#125;&#125;&lt;/small&gt;
+&lt;/form&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
               id="input-angular-forms"
               title="Reactive and template-driven forms"
               description="The native directive uses Angular's built-in value accessor. The wrapper component provides its own ControlValueAccessor for formControl and ngModel."

@@ -146,6 +146,7 @@ import { AerisDrawer } from '@aeris-ui/core/drawer';
 import { AerisSidebarModule } from '@aeris-ui/core/sidebar';
 import { AerisNavbarModule } from '@aeris-ui/core/navbar';
 import { AerisKbdModule } from '@aeris-ui/core/kbd';
+import { AerisNativeSelect } from '@aeris-ui/core/select/native';
 import { AerisInputNumber } from '@aeris-ui/core/input-number';
 import { AerisProgressBar } from '@aeris-ui/core/progress-bar';
 import { AerisRadioButton } from '@aeris-ui/core/radio-button';
@@ -155,10 +156,11 @@ import { AerisTable } from '@aeris-ui/core/table';
   selector: 'aeris-ssr-consumer',
   imports: [AerisKbdModule, AerisNavbarModule, AerisSidebarModule, AerisCommandPalette, AerisListbox, AerisChipModule, AerisButtonForms, ReactiveFormsModule, AerisButtonGroup, AerisDatePicker, AerisSelect, AerisTabsModule, AerisCheckbox,
     AerisColorPicker, AerisDrawer, AerisInputNumber, AerisProgressBar, AerisRadioButton,
-    AerisTable],
+    AerisTable, AerisNativeSelect],
   template: \`
     <aeris-date-picker ariaLabel="Start date" appendTo="body" />
     <kbd aerisKbd size="sm">Escape</kbd>
+    <select aerisNativeSelect aria-label="Packed native region" name="native-region"><option value="rs">Serbia</option></select>
     <kbd aerisKbd [keys]="['command', 'shift']"><span aerisKbdContent>K</span></kbd>
     <aeris-color-picker presentation="palette" ariaLabel="Packed palette" value="#336699" [presets]="[{ value: '#336699', label: 'Packed ocean' }]" />
     <button aerisButton aerisButtonToggle>Toggle</button>
@@ -239,6 +241,7 @@ assert(html.includes('<aeris-navbar') && html.includes('aria-label="Packed navba
 assert(html.includes('<kbd') && html.includes('aeris-kbd') && html.includes('Escape'), 'Kbd did not preserve native keyboard markup on the server.');
 assert(html.includes('aeris-kbd__readable') && html.includes('Command ') && html.includes('Shift '), 'Kbd did not render accessible combined shortcuts on the server.');
 assert(html.includes('Packed ocean') && html.includes('aeris-color-picker__preset-check'), 'Inline ColorPicker presets did not render on the server.');
+assert(html.includes('aeris-native-select') && html.includes('Packed native region'), 'Native Select did not render its original element on the server.');
 for (const component of ['checkbox', 'radio-button', 'chip', 'color-picker', 'input-number',
   'progress-bar', 'drawer', 'table']) {
   assert(html.includes('<aeris-' + component), component + ' did not render on the server.');

@@ -2,6 +2,16 @@ import { buildAngularDemoSources } from './demo-code';
 import { DOC_EXAMPLE_CODE } from './generated-example-code';
 
 describe('Angular demo code imports', () => {
+  it('imports only the native Select directive for native consumer examples', () => {
+    const sources = buildAngularDemoSources({
+      anchor: 'select-native-example',
+      title: 'Native Select',
+      template: '<select aerisNativeSelect controlSize="sm"><option>Design</option></select>',
+    });
+    expect(sources[0]?.code).toContain("from '@aeris-ui/core/select/native'");
+    expect(sources[0]?.code).not.toContain("from '@aeris-ui/core/select';");
+    expect(sources[0]?.code).toContain('imports: [AerisNativeSelect]');
+  });
   it('imports the native keyboard hint family for consumer examples', () => {
     const sources = buildAngularDemoSources({
       anchor: 'kbd-example',

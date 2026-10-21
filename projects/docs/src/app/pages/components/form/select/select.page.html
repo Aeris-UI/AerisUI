@@ -13,6 +13,15 @@
       </p>
     </div>
     <app-code-block [code]="importCode" language="TypeScript" />
+    <p>
+      For a browser-native select without the popup component, import only the lightweight
+      directive:
+    </p>
+    <app-code-block
+      [code]="nativeImportCode"
+      language="TypeScript"
+      ariaLabel="Native select import"
+    />
   </section>
 
   <aeris-tabs ariaLabel="Select documentation">
@@ -712,6 +721,240 @@
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
+            <app-form-demo
+              id="select-native"
+              title="Native select"
+              description="Style a real select while retaining the browser's picker, options and optgroups. Its arrow, expanded choices and mobile picker remain platform-specific; no Aeris overlay is created."
+            >
+              <div preview class="field native-select-field">
+                <label for="native-basic-region">Region</label>
+                <select aerisNativeSelect id="native-basic-region" name="region">
+                  <option value="">Choose a region</option>
+                  <optgroup label="Europe">
+                    <option value="rs">Serbia</option>
+                    <option value="de">Germany</option>
+                  </optgroup>
+                  <optgroup label="Asia Pacific">
+                    <option value="jp">Japan</option>
+                    <option value="nz" disabled>New Zealand (unavailable)</option>
+                  </optgroup>
+                </select>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field native-select-field"&gt;
+  &lt;label for="native-basic-region"&gt;Region&lt;/label&gt;
+  &lt;select aerisNativeSelect id="native-basic-region" name="region"&gt;
+    &lt;option value=""&gt;Choose a region&lt;/option&gt;
+    &lt;optgroup label="Europe"&gt;
+      &lt;option value="rs"&gt;Serbia&lt;/option&gt;
+      &lt;option value="de"&gt;Germany&lt;/option&gt;
+    &lt;/optgroup&gt;
+    &lt;optgroup label="Asia Pacific"&gt;
+      &lt;option value="jp"&gt;Japan&lt;/option&gt;
+      &lt;option value="nz" disabled&gt;New Zealand (unavailable)&lt;/option&gt;
+    &lt;/optgroup&gt;
+  &lt;/select&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="select-native-sizes"
+              title="Native sizing and appearance"
+              description="controlSize changes field geometry without replacing native size. Use appearance for the field surface and the native disabled attribute to prevent interaction."
+            >
+              <div preview class="field-grid">
+                <div class="field">
+                  <label for="native-xs">Extra small</label
+                  ><select aerisNativeSelect id="native-xs" controlSize="xs">
+                    <option>Design</option>
+                    <option>Engineering</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="native-sm">Small</label
+                  ><select aerisNativeSelect id="native-sm" controlSize="sm">
+                    <option>Design</option>
+                    <option>Engineering</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="native-md">Medium</label
+                  ><select aerisNativeSelect id="native-md">
+                    <option>Design</option>
+                    <option>Engineering</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="native-lg">Large</label
+                  ><select aerisNativeSelect id="native-lg" controlSize="lg">
+                    <option>Design</option>
+                    <option>Engineering</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="native-filled">Filled</label
+                  ><select aerisNativeSelect id="native-filled" appearance="filled">
+                    <option>Design</option>
+                    <option>Engineering</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="native-disabled">Disabled</label
+                  ><select aerisNativeSelect id="native-disabled" disabled>
+                    <option>Design</option>
+                  </select>
+                </div>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="native-xs"&gt;Extra small&lt;/label&gt;
+    &lt;select aerisNativeSelect id="native-xs" controlSize="xs"&gt;
+      &lt;option&gt;Design&lt;/option&gt;
+      &lt;option&gt;Engineering&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="native-sm"&gt;Small&lt;/label&gt;
+    &lt;select aerisNativeSelect id="native-sm" controlSize="sm"&gt;
+      &lt;option&gt;Design&lt;/option&gt;
+      &lt;option&gt;Engineering&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="native-md"&gt;Medium&lt;/label&gt;
+    &lt;select aerisNativeSelect id="native-md"&gt;
+      &lt;option&gt;Design&lt;/option&gt;
+      &lt;option&gt;Engineering&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="native-lg"&gt;Large&lt;/label&gt;
+    &lt;select aerisNativeSelect id="native-lg" controlSize="lg"&gt;
+      &lt;option&gt;Design&lt;/option&gt;
+      &lt;option&gt;Engineering&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="native-filled"&gt;Filled&lt;/label&gt;
+    &lt;select aerisNativeSelect id="native-filled" appearance="filled"&gt;
+      &lt;option&gt;Design&lt;/option&gt;
+      &lt;option&gt;Engineering&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="native-disabled"&gt;Disabled&lt;/label&gt;
+    &lt;select aerisNativeSelect id="native-disabled" disabled&gt;
+      &lt;option&gt;Design&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="select-native-multiple"
+              title="Native multiple selection"
+              description="Native multiple and size retain their browser behavior. Angular's built-in multiple-select value accessor handles the array; Aeris does not replace it."
+            >
+              <div preview class="field native-select-field">
+                <label for="native-multiple">Teams</label>
+                <select
+                  aerisNativeSelect
+                  id="native-multiple"
+                  name="teams"
+                  multiple
+                  size="4"
+                  [formControl]="nativeMultiple"
+                  aria-describedby="native-multiple-help"
+                >
+                  <option value="design">Design</option>
+                  <option value="engineering">Engineering</option>
+                  <option value="operations">Operations</option>
+                  <option value="support">Support</option>
+                </select>
+                <small id="native-multiple-help"
+                  >Use your platform's multiple-selection controls. Selected:
+                  {{ nativeMultiple.value }}</small
+                >
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field native-select-field"&gt;
+  &lt;label for="native-multiple"&gt;Teams&lt;/label&gt;
+  &lt;select
+    aerisNativeSelect
+    id="native-multiple"
+    name="teams"
+    multiple
+    size="4"
+    [formControl]="nativeMultiple"
+    aria-describedby="native-multiple-help"
+  &gt;
+    &lt;option value="design"&gt;Design&lt;/option&gt;
+    &lt;option value="engineering"&gt;Engineering&lt;/option&gt;
+    &lt;option value="operations"&gt;Operations&lt;/option&gt;
+    &lt;option value="support"&gt;Support&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;small id="native-multiple-help"
+    &gt;Use your platform's multiple-selection controls. Selected:
+    &#123;&#123; nativeMultiple.value &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="select-native-forms"
+              title="Native Signal Forms"
+              description="Signal Forms supplies invalid and touched automatically. Pristine required fields stay neutral; blurring or submitting reveals invalid state. A valid selection clears it."
+            >
+              <form
+                preview
+                class="field native-select-field"
+                novalidate
+                (submit)="validateNativeSelect($event)"
+              >
+                <label for="native-required">Required region</label>
+                <select
+                  aerisNativeSelect
+                  id="native-required"
+                  [formField]="nativeFields.region"
+                  aria-describedby="native-required-help"
+                >
+                  <option value="">Choose a region</option>
+                  <option value="rs">Serbia</option>
+                  <option value="jp">Japan</option>
+                </select>
+                <small id="native-required-help" aria-live="polite">
+                  @if (nativeFields.region().touched() && nativeFields.region().invalid()) {
+                    Choose a region.
+                  } @else if (nativeSubmitted()) {
+                    Validation successful.
+                  } @else {
+                    Validate the empty field or select a region.
+                  }
+                </small>
+                <button aerisButton type="submit">Validate</button>
+              </form>
+              <pre code><code ngNonBindable>&lt;form
+  class="field native-select-field"
+  novalidate
+  (submit)="validateNativeSelect($event)"
+&gt;
+  &lt;label for="native-required"&gt;Required region&lt;/label&gt;
+  &lt;select
+    aerisNativeSelect
+    id="native-required"
+    [formField]="nativeFields.region"
+    aria-describedby="native-required-help"
+  &gt;
+    &lt;option value=""&gt;Choose a region&lt;/option&gt;
+    &lt;option value="rs"&gt;Serbia&lt;/option&gt;
+    &lt;option value="jp"&gt;Japan&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;small id="native-required-help" aria-live="polite"&gt;
+    &#64;if (nativeFields.region().touched() &amp;&amp; nativeFields.region().invalid()) &#123;
+      Choose a region.
+    &#125; &#64;else if (nativeSubmitted()) &#123;
+      Validation successful.
+    &#125; &#64;else &#123;
+      Validate the empty field or select a region.
+    &#125;
+  &lt;/small&gt;
+  &lt;button aerisButton type="submit"&gt;Validate&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+            </app-form-demo>
           </div>
           <app-page-toc
             title="Features"
@@ -727,7 +970,29 @@
         <h2>API</h2>
         <div class="doc-content-layout">
           <div class="doc-content-main">
-            <h3 id="select-api-inputs" tabindex="-1">Inputs</h3>
+            <h3 id="select-native-api" tabindex="-1">Native select inputs</h3>
+            <p>
+              <code>select[aerisNativeSelect]</code> uses the browser's value, change/input events,
+              options, optgroups, name, disabled, required, multiple and numeric size attributes. It
+              adds no wrapper, model, output, method or value accessor. There is no native readonly
+              select: use disabled when editing must be prevented; disabled controls are omitted
+              from native form submission.
+            </p>
+            <div class="api-table" role="table" aria-label="Native select inputs" tabindex="0">
+              <div class="api-head" role="row">
+                <b role="columnheader">Name</b><b role="columnheader">Type</b
+                ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+              </div>
+              @for (property of nativeInputs; track property.name) {
+                <div role="row">
+                  <code role="cell">{{ property.name }}</code
+                  ><span role="cell">{{ property.type }}</span
+                  ><code role="cell">{{ property.defaultValue }}</code
+                  ><span role="cell">{{ property.description }}</span>
+                </div>
+              }
+            </div>
+            <h3 id="select-api-inputs" tabindex="-1">Popup select inputs</h3>
             <div class="api-table" role="table" aria-label="Select inputs" tabindex="0">
               <div class="api-head" role="row">
                 <b role="columnheader">Name</b><b role="columnheader">Type</b
@@ -885,6 +1150,14 @@
     <aeris-tab-panel value="tokens" label="Tokens">
       <section class="doc-section">
         <h2>Design tokens</h2>
+        <p>
+          Native selects use the shared control tokens: <code>--aeris-control-height</code>,
+          <code>--aeris-control-padding-x</code>, <code>--aeris-border</code>,
+          <code>--aeris-surface</code>, <code>--aeris-surface-2</code>, <code>--aeris-text</code>,
+          control/structured-control corner tokens and control focus/invalid tokens. Browser-owned
+          arrows, options and picker surfaces remain platform-specific rather than using popup
+          Select tokens.
+        </p>
         <div class="api-table compact" role="table" aria-label="Select design tokens" tabindex="0">
           <div class="api-head" role="row">
             <b role="columnheader">Token</b><b role="columnheader">Purpose</b
@@ -987,6 +1260,15 @@
             respects reduced-motion preferences.
           </li>
         </ul>
+        <p>
+          The native directive reuses the same control border, surface, typography, density, corner,
+          focus and invalid tokens as InputText. Its browser-owned popup cannot be restyled or
+          portaled with appendTo. The closed field uses the shared Aeris chevron, aligned to the
+          inline end; forced-colors mode restores the browser arrow. Multiple and size-based
+          listboxes have no chevron. Native required controls use :user-invalid; explicit
+          invalid/touched state stays synchronized with aria-invalid. Label native selects with a
+          real label/for pair and native aria-describedby.
+        </p>
         <h3>Keyboard support</h3>
         <div
           class="api-table keyboard-table"
@@ -996,6 +1278,16 @@
         >
           <div class="api-head" role="row">
             <b role="columnheader">Key</b><b role="columnheader">Function</b>
+          </div>
+          <div role="row">
+            <span role="cell"
+              >Native select: Tab, arrows, typing, Space/Enter, Escape and multiple-selection
+              modifiers</span
+            ><span role="cell"
+              >Browser and operating-system behavior is preserved without interception. Tab focuses
+              the native control; opening, typeahead, selection and dismissal vary by platform.
+              Numeric size and multiple use the browser's listbox behavior.</span
+            >
           </div>
           <div role="row">
             <span role="cell"><kbd>Enter</kbd> / <kbd>Space</kbd></span

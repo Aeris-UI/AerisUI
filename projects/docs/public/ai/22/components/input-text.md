@@ -917,6 +917,76 @@ export class InputClearableClearButtonDemo {
 }
 ```
 
+### Search form
+
+Compose a normal search form with a clearable InputText. Enter and the submit button use native form submission; the application owns searching and timing. Text composition is buffered until it completes.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+
+@Component({
+  selector: 'app-input-search-demo',
+  imports: [AerisButton, AerisInputText],
+  template: `
+    <form class="field" role="search" (submit)="submitSearch($event)">
+      <label for="search-form-query">Search query</label>
+      <aeris-input-text
+        inputId="search-form-query"
+        type="search"
+        clearable
+        fluid
+        [(value)]="searchQuery"
+      />
+      <button aerisButton type="submit">Search</button>
+      <small role="status">Submitted: {{ submittedSearch() }}</small>
+    </form>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+  `
+})
+export class InputSearchSearchFormDemo {
+  protected readonly searchQuery = signal('');
+
+  protected readonly submittedSearch = signal('No search submitted');
+
+  protected readonly search = signal('Aeris components');
+
+  protected submitSearch(event: Event): void {
+      event.preventDefault();
+      this.submittedSearch.set(this.searchQuery() || 'Empty search');
+    }
+}
+```
+
 ### Reactive and template-driven forms
 
 The native directive uses Angular's built-in value accessor. The wrapper component provides its own ControlValueAccessor for formControl and ngModel.
