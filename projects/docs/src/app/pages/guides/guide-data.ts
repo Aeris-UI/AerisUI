@@ -1532,6 +1532,8 @@ export const appConfig: ApplicationConfig = {
         paragraphs: [
           'Aeris components share one compact foundation for typography, elevation, focus, and motion. These tokens keep controls and surfaces visually consistent and remain available for deliberate application-level customization.',
           'Prefer changing a foundation token at an application boundary over repeating component-specific overrides. Reduced-motion preferences automatically collapse the shared motion durations while preserving state changes.',
+          'Set your application font family in your own stylesheet; Aeris controls inherit it. Use native headings and paragraphs for application content. Font-size tokens control appearance, not document hierarchy: choose the heading level for the page structure, then apply tokens in a scoped class. For example, h2 aerisCardTitle remains an h2; the title directive does not choose a heading level or create a landmark.',
+          'Use Card for grouped content, Panel when you need its header and optional disclosure behavior, and aerisGlass to add a translucent treatment to an existing surface. Glass does not create a new container or change its semantics. Keep text readable over the actual background; blur alone does not guarantee contrast.',
         ],
         table: {
           caption: 'Shared visual foundation tokens',
@@ -1541,6 +1543,21 @@ export const appConfig: ApplicationConfig = {
               'Typography',
               '--aeris-font-size-xs through --aeris-font-size-3xl, --aeris-line-height-*, --aeris-font-weight-*',
               'Consistent labels, body copy, titles, and supporting text',
+            ],
+            [
+              'Typography roles',
+              '--aeris-heading-font-size, --aeris-body-font-size, --aeris-item-font-size, --aeris-action-font-size',
+              'Shared component title, body, selectable-item, and action sizes; native application content is not globally restyled',
+            ],
+            [
+              'Surface hierarchy',
+              '--aeris-surface, --aeris-surface-2, --aeris-surface-3, --aeris-text, --aeris-text-2, --aeris-border',
+              'Mode-aware backgrounds, ordinary and supporting text, and quiet boundaries',
+            ],
+            [
+              'Surface geometry',
+              '--aeris-radius-surface, --aeris-surface-padding, --aeris-surface-padding-sm, --aeris-surface-padding-lg, --aeris-content-gap',
+              'Shared container corners, padding, and content spacing; documented component tokens allow local overrides',
             ],
             [
               'Elevation',

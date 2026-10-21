@@ -99,4 +99,17 @@ describe('Consumer theming guides', () => {
       }
     }
   });
+
+  it('explains native typography and existing surface roles without adding a parallel API', () => {
+    const foundation = reference.sections.find(({ id }) => id === 'visual-foundation');
+    const text = foundation?.paragraphs?.join(' ');
+    expect(text).toContain('Aeris controls inherit it');
+    expect(text).toContain('not document hierarchy');
+    expect(text).toContain('h2 aerisCardTitle remains an h2');
+    expect(text).toContain('Glass does not create a new container');
+    expect(text).toContain('blur alone does not guarantee contrast');
+    expect(foundation?.table?.rows.map(([purpose]) => purpose)).toEqual(
+      expect.arrayContaining(['Typography roles', 'Surface hierarchy', 'Surface geometry']),
+    );
+  });
 });

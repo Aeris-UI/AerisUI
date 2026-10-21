@@ -112,7 +112,7 @@ interface AerisPanelToggleIconContext extends AerisPanelHeaderContext {}
 | --- | --- | --- | --- |
 | `--aeris-panel-background` | `CSS custom property` | `--aeris-surface` | Panel surface. |
 | `--aeris-panel-border` | `CSS custom property` | `--aeris-border` | Outer border. |
-| `--aeris-panel-radius` | `CSS custom property` | `--aeris-radius-lg` | Outer corner radius. |
+| `--aeris-panel-radius` | `CSS custom property` | `--aeris-radius-surface` | Outer corner radius. |
 | `--aeris-panel-shadow` | `CSS custom property` | `none` | Default elevation. |
 | `--aeris-panel-header-background` | `CSS custom property` | `surface mix` | Header surface. |
 | `--aeris-panel-header-border` | `CSS custom property` | `--aeris-border` | Header separator. |

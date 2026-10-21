@@ -1400,11 +1400,18 @@ Aeris components share one compact foundation for typography, elevation, focus, 
 
 Prefer changing a foundation token at an application boundary over repeating component-specific overrides. Reduced-motion preferences automatically collapse the shared motion durations while preserving state changes.
 
+Set your application font family in your own stylesheet; Aeris controls inherit it. Use native headings and paragraphs for application content. Font-size tokens control appearance, not document hierarchy: choose the heading level for the page structure, then apply tokens in a scoped class. For example, h2 aerisCardTitle remains an h2; the title directive does not choose a heading level or create a landmark.
+
+Use Card for grouped content, Panel when you need its header and optional disclosure behavior, and aerisGlass to add a translucent treatment to an existing surface. Glass does not create a new container or change its semantics. Keep text readable over the actual background; blur alone does not guarantee contrast.
+
 > Note: The four shadow values can also be configured per light or dark scheme through shadowXs, shadowSm, shadowMd, and shadowLg.
 
 | Purpose | Tokens | Use |
 | --- | --- | --- |
 | Typography | --aeris-font-size-xs through --aeris-font-size-3xl, --aeris-line-height-*, --aeris-font-weight-* | Consistent labels, body copy, titles, and supporting text |
+| Typography roles | --aeris-heading-font-size, --aeris-body-font-size, --aeris-item-font-size, --aeris-action-font-size | Shared component title, body, selectable-item, and action sizes; native application content is not globally restyled |
+| Surface hierarchy | --aeris-surface, --aeris-surface-2, --aeris-surface-3, --aeris-text, --aeris-text-2, --aeris-border | Mode-aware backgrounds, ordinary and supporting text, and quiet boundaries |
+| Surface geometry | --aeris-radius-surface, --aeris-surface-padding, --aeris-surface-padding-sm, --aeris-surface-padding-lg, --aeris-content-gap | Shared container corners, padding, and content spacing; documented component tokens allow local overrides |
 | Elevation | --aeris-shadow-xs, --aeris-shadow-sm, --aeris-shadow-md, --aeris-shadow-lg | Raised controls, surfaces, floating panels, and modal layers |
 | Focus | --aeris-focus-ring-width, --aeris-focus-ring-offset, --aeris-focus-ring-color, --aeris-control-focus-border, --aeris-control-focus-ring-color | Consistent focus geometry and color across native and composite controls |
 | Control states | --aeris-control-hover-border, --aeris-control-invalid-border, --aeris-control-invalid-focus-ring-color | Shared hover and validation treatment for the complete form-control family |
@@ -41312,7 +41319,7 @@ interface AerisPanelToggleIconContext extends AerisPanelHeaderContext {}
 | --- | --- | --- | --- |
 | `--aeris-panel-background` | `CSS custom property` | `--aeris-surface` | Panel surface. |
 | `--aeris-panel-border` | `CSS custom property` | `--aeris-border` | Outer border. |
-| `--aeris-panel-radius` | `CSS custom property` | `--aeris-radius-lg` | Outer corner radius. |
+| `--aeris-panel-radius` | `CSS custom property` | `--aeris-radius-surface` | Outer corner radius. |
 | `--aeris-panel-shadow` | `CSS custom property` | `none` | Default elevation. |
 | `--aeris-panel-header-background` | `CSS custom property` | `surface mix` | Header surface. |
 | `--aeris-panel-header-border` | `CSS custom property` | `--aeris-border` | Header separator. |
