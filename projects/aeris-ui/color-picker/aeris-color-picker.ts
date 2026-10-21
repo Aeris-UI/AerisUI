@@ -27,6 +27,22 @@ import {
 export type AerisColorPickerSize = 'xs' | 'sm' | 'md' | 'lg';
 export type AerisColorPickerAppearance = 'outline' | 'filled';
 export type AerisColorFormat = 'hex' | 'rgb' | 'hsl';
+export type AerisColorPickerPresentation = 'picker' | 'palette';
+
+export interface AerisColorPickerPreset {
+  readonly value: string;
+  readonly label?: string;
+  readonly disabled?: boolean;
+}
+
+interface PresetView {
+  readonly value: string;
+  readonly label: string;
+  readonly disabled: boolean;
+  readonly color: string;
+  readonly selected: boolean;
+  readonly translucent: boolean;
+}
 
 export interface AerisColorPickerChangeEvent {
   readonly originalEvent: Event;
@@ -71,278 +87,303 @@ let colorPickerId = 0;
       [attr.data-invalid]="displayInvalid() || null"
       [attr.data-fluid]="fluid() || null"
       [attr.data-open]="isOpen() || null"
+      [attr.data-presentation]="presentation()"
       (focusout)="handleFocusOut($event)"
     >
       @if (name()) {
         <input type="hidden" [name]="name()" [value]="value()" [disabled]="effectiveDisabled()" />
       }
 
-      <button
-        #triggerButton
-        class="aeris-color-picker__trigger"
-        type="button"
-        [id]="resolvedInputId()"
-        [disabled]="effectiveDisabled() || readonly()"
-        [attr.aria-label]="ariaLabel() || triggerAriaLabel()"
-        [attr.aria-labelledby]="ariaLabelledBy()"
-        [attr.aria-describedby]="ariaDescribedBy()"
-        [attr.aria-invalid]="displayInvalid() || null"
-        [attr.aria-required]="required() || null"
-        [attr.aria-expanded]="isOpen()"
-        [attr.aria-controls]="panelId"
-        aria-haspopup="dialog"
-        [attr.data-swatch-only]="!showValue() || null"
-        (click)="toggle()"
-        (keydown)="handleTriggerKeydown($event)"
-        (focus)="focused.emit($event)"
-        (blur)="handleBlur($event)"
-      >
-        <span
-          class="aeris-color-picker__swatch"
-          [style.background-color]="previewColor()"
-          [style.--aeris-color-picker-preview-color]="previewColor()"
-          [attr.data-translucent]="opacity() < 1 || null"
-          aria-hidden="true"
-        ></span>
-        @if (showValue()) {
-          <span class="aeris-color-picker__value">{{ value() || emptyLabel() }}</span>
-        }
-        <span class="aeris-color-picker__indicator" aria-hidden="true"></span>
-      </button>
-
-      @if (showInput()) {
-        <input
-          class="aeris-color-picker__text"
-          type="text"
-          [value]="textValue()"
-          [placeholder]="placeholder()"
-          [disabled]="effectiveDisabled()"
-          [readOnly]="readonly()"
-          [required]="required()"
-          [attr.aria-label]="textAriaLabel()"
+      @if (presentation() === 'palette') {
+        <ng-container [ngTemplateOutlet]="presetPalette" />
+      } @else {
+        <button
+          #triggerButton
+          class="aeris-color-picker__trigger"
+          type="button"
+          [id]="resolvedInputId()"
+          [disabled]="effectiveDisabled() || readonly()"
+          [attr.aria-label]="ariaLabel() || triggerAriaLabel()"
+          [attr.aria-labelledby]="ariaLabelledBy()"
           [attr.aria-describedby]="ariaDescribedBy()"
-          [attr.aria-invalid]="displayInvalid() || textInvalid() || null"
-          autocomplete="off"
-          spellcheck="false"
-          (input)="handleTextInput($event)"
-          (change)="handleTextChange($event)"
-          (keydown)="handleTextKeydown($event)"
+          [attr.aria-invalid]="displayInvalid() || null"
+          [attr.aria-required]="required() || null"
+          [attr.aria-expanded]="isOpen()"
+          [attr.aria-controls]="panelId"
+          aria-haspopup="dialog"
+          [attr.data-swatch-only]="!showValue() || null"
+          (click)="toggle()"
+          (keydown)="handleTriggerKeydown($event)"
           (focus)="focused.emit($event)"
           (blur)="handleBlur($event)"
-        />
-      }
-
-      @if (clearable() && value()) {
-        <button
-          class="aeris-color-picker__clear"
-          type="button"
-          [disabled]="effectiveDisabled() || readonly()"
-          [attr.aria-label]="clearButtonAriaLabel()"
-          (click)="clear()"
         >
-          @if (clearIconTemplate(); as customIcon) {
-            <span aria-hidden="true" data-aeris-custom-icon
-              ><ng-container [ngTemplateOutlet]="customIcon"
-            /></span>
-          } @else {
-            <span aerisInternalIcon="close" aria-hidden="true"></span>
+          <span
+            class="aeris-color-picker__swatch"
+            [style.background-color]="previewColor()"
+            [style.--aeris-color-picker-preview-color]="previewColor()"
+            [attr.data-translucent]="opacity() < 1 || null"
+            aria-hidden="true"
+          ></span>
+          @if (showValue()) {
+            <span class="aeris-color-picker__value">{{ value() || emptyLabel() }}</span>
           }
+          <span class="aeris-color-picker__indicator" aria-hidden="true"></span>
         </button>
-      }
 
-      @if (isOpen()) {
-        <section
-          #pickerPanel
-          class="aeris-color-picker__panel"
-          [aerisInternalAppendTo]="appendTo()"
-          [aerisInternalAppendToDismiss]="dismissOverlay"
-          [aerisInternalAppendToAnchor]="this.triggerButton()?.nativeElement ?? null"
-          [aerisInternalAppendToCollisionPadding]="viewportMargin()"
-          [aerisInternalAppendToOffset]="8"
-          (aerisInternalAppendToOutside)="close(false)"
-          role="dialog"
-          [id]="panelId"
-          [attr.aria-label]="resolvedPanelAriaLabel()"
-          (pointerdown)="handlePanelPointerDown()"
-          (keydown)="handlePanelKeydown($event)"
-        >
-          <header class="aeris-color-picker__panel-header">
-            <span
-              class="aeris-color-picker__preview"
-              [style.background-color]="previewColor()"
-              [style.--aeris-color-picker-preview-color]="previewColor()"
-              [attr.data-translucent]="opacity() < 1 || null"
-              aria-hidden="true"
-            ></span>
-            <span>
-              <strong>{{ value() || emptyLabel() }}</strong>
-              <small>{{ format().toUpperCase() }} color</small>
-            </span>
-            <span class="aeris-color-picker__panel-actions">
-              @if (showEyeDropper() && eyeDropperAvailable()) {
+        @if (showInput()) {
+          <input
+            class="aeris-color-picker__text"
+            type="text"
+            [value]="textValue()"
+            [placeholder]="placeholder()"
+            [disabled]="effectiveDisabled()"
+            [readOnly]="readonly()"
+            [required]="required()"
+            [attr.aria-label]="textAriaLabel()"
+            [attr.aria-describedby]="ariaDescribedBy()"
+            [attr.aria-invalid]="displayInvalid() || textInvalid() || null"
+            autocomplete="off"
+            spellcheck="false"
+            (input)="handleTextInput($event)"
+            (change)="handleTextChange($event)"
+            (keydown)="handleTextKeydown($event)"
+            (focus)="focused.emit($event)"
+            (blur)="handleBlur($event)"
+          />
+        }
+
+        @if (clearable() && value()) {
+          <button
+            class="aeris-color-picker__clear"
+            type="button"
+            [disabled]="effectiveDisabled() || readonly()"
+            [attr.aria-label]="clearButtonAriaLabel()"
+            (click)="clear()"
+          >
+            @if (clearIconTemplate(); as customIcon) {
+              <span aria-hidden="true" data-aeris-custom-icon
+                ><ng-container [ngTemplateOutlet]="customIcon"
+              /></span>
+            } @else {
+              <span aerisInternalIcon="close" aria-hidden="true"></span>
+            }
+          </button>
+        }
+
+        @if (isOpen()) {
+          <section
+            #pickerPanel
+            class="aeris-color-picker__panel"
+            [aerisInternalAppendTo]="appendTo()"
+            [aerisInternalAppendToDismiss]="dismissOverlay"
+            [aerisInternalAppendToAnchor]="this.triggerButton()?.nativeElement ?? null"
+            [aerisInternalAppendToCollisionPadding]="viewportMargin()"
+            [aerisInternalAppendToOffset]="8"
+            (aerisInternalAppendToOutside)="close(false)"
+            role="dialog"
+            [id]="panelId"
+            [attr.aria-label]="resolvedPanelAriaLabel()"
+            (pointerdown)="handlePanelPointerDown()"
+            (keydown)="handlePanelKeydown($event)"
+          >
+            <header class="aeris-color-picker__panel-header">
+              <span
+                class="aeris-color-picker__preview"
+                [style.background-color]="previewColor()"
+                [style.--aeris-color-picker-preview-color]="previewColor()"
+                [attr.data-translucent]="opacity() < 1 || null"
+                aria-hidden="true"
+              ></span>
+              <span>
+                <strong>{{ value() || emptyLabel() }}</strong>
+                <small>{{ format().toUpperCase() }} color</small>
+              </span>
+              <span class="aeris-color-picker__panel-actions">
+                @if (showEyeDropper() && eyeDropperAvailable()) {
+                  <button
+                    class="aeris-color-picker__eyedropper"
+                    type="button"
+                    [disabled]="eyeDropperActive()"
+                    [attr.aria-label]="eyeDropperAriaLabel()"
+                    [attr.aria-busy]="eyeDropperActive() || null"
+                    (click)="openEyeDropper($event)"
+                  >
+                    @if (eyedropperIconTemplate(); as customIcon) {
+                      <span aria-hidden="true" data-aeris-custom-icon
+                        ><ng-container [ngTemplateOutlet]="customIcon"
+                      /></span>
+                    } @else {
+                      <span aerisInternalIcon="eyedropper" aria-hidden="true"></span>
+                    }
+                  </button>
+                }
                 <button
-                  class="aeris-color-picker__eyedropper"
+                  class="aeris-color-picker__close"
                   type="button"
-                  [disabled]="eyeDropperActive()"
-                  [attr.aria-label]="eyeDropperAriaLabel()"
-                  [attr.aria-busy]="eyeDropperActive() || null"
-                  (click)="openEyeDropper($event)"
+                  [attr.aria-label]="closeButtonAriaLabel()"
+                  (click)="close(true)"
                 >
-                  @if (eyedropperIconTemplate(); as customIcon) {
+                  @if (closeIconTemplate(); as customIcon) {
                     <span aria-hidden="true" data-aeris-custom-icon
                       ><ng-container [ngTemplateOutlet]="customIcon"
                     /></span>
                   } @else {
-                    <span aerisInternalIcon="eyedropper" aria-hidden="true"></span>
+                    <span aerisInternalIcon="close" aria-hidden="true"></span>
                   }
                 </button>
-              }
-              <button
-                class="aeris-color-picker__close"
-                type="button"
-                [attr.aria-label]="closeButtonAriaLabel()"
-                (click)="close(true)"
-              >
-                @if (closeIconTemplate(); as customIcon) {
-                  <span aria-hidden="true" data-aeris-custom-icon
-                    ><ng-container [ngTemplateOutlet]="customIcon"
-                  /></span>
-                } @else {
-                  <span aerisInternalIcon="close" aria-hidden="true"></span>
-                }
-              </button>
-            </span>
-          </header>
+              </span>
+            </header>
 
-          <div
-            #colorPlane
-            class="aeris-color-picker__plane"
-            role="slider"
-            tabindex="0"
-            aria-orientation="horizontal"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            [attr.aria-label]="planeAriaLabel()"
-            [attr.aria-valuenow]="hsvValue().v"
-            [attr.aria-valuetext]="planeAriaValue()"
-            [style.--aeris-color-picker-plane-hue]="hueColor()"
-            (pointerdown)="handlePlanePointerDown($event)"
-            (pointermove)="handlePlanePointerMove($event)"
-            (pointerup)="handlePlanePointerUp($event)"
-            (pointercancel)="handlePlanePointerCancel($event)"
-            (keydown)="handlePlaneKeydown($event)"
-            (focus)="focused.emit($event)"
-            (blur)="handleBlur($event)"
-          >
-            <span
-              class="aeris-color-picker__plane-thumb"
-              [style.left.%]="hsvValue().s"
-              [style.top.%]="100 - hsvValue().v"
-              aria-hidden="true"
-            ></span>
-          </div>
-
-          <label class="aeris-color-picker__hue">
-            <span
-              >Hue <output>{{ hsvValue().h }}°</output></span
-            >
-            <input
-              type="range"
-              min="0"
-              max="359"
-              step="1"
-              [value]="hsvValue().h"
-              [attr.aria-label]="hueAriaLabel()"
-              [style.--aeris-color-picker-hue-color]="hueColor()"
-              (input)="handleHueInput($event)"
-              (change)="emitCommitted($event)"
+            <div
+              #colorPlane
+              class="aeris-color-picker__plane"
+              role="slider"
+              tabindex="0"
+              aria-orientation="horizontal"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              [attr.aria-label]="planeAriaLabel()"
+              [attr.aria-valuenow]="hsvValue().v"
+              [attr.aria-valuetext]="planeAriaValue()"
+              [style.--aeris-color-picker-plane-hue]="hueColor()"
+              (pointerdown)="handlePlanePointerDown($event)"
+              (pointermove)="handlePlanePointerMove($event)"
+              (pointerup)="handlePlanePointerUp($event)"
+              (pointercancel)="handlePlanePointerCancel($event)"
+              (keydown)="handlePlaneKeydown($event)"
               (focus)="focused.emit($event)"
               (blur)="handleBlur($event)"
-            />
-          </label>
-
-          @if (alpha()) {
-            <label class="aeris-color-picker__hue aeris-color-picker__alpha">
+            >
               <span
-                >{{ opacityLabel() }} <output>{{ opacityPercent() }}%</output></span
+                class="aeris-color-picker__plane-thumb"
+                [style.left.%]="hsvValue().s"
+                [style.top.%]="100 - hsvValue().v"
+                aria-hidden="true"
+              ></span>
+            </div>
+
+            <label class="aeris-color-picker__hue">
+              <span
+                >Hue <output>{{ hsvValue().h }}°</output></span
               >
               <input
                 type="range"
                 min="0"
-                max="100"
+                max="359"
                 step="1"
-                [value]="opacityPercent()"
-                [attr.aria-label]="alphaAriaLabel()"
-                [attr.aria-valuetext]="opacityPercent() + '%'"
-                [style.--aeris-color-picker-alpha-color]="opaqueHex()"
-                [style.--aeris-color-picker-hue-color]="opaqueHex()"
-                (input)="handleAlphaInput($event)"
+                [value]="hsvValue().h"
+                [attr.aria-label]="hueAriaLabel()"
+                [style.--aeris-color-picker-hue-color]="hueColor()"
+                (input)="handleHueInput($event)"
                 (change)="emitCommitted($event)"
                 (focus)="focused.emit($event)"
                 (blur)="handleBlur($event)"
               />
             </label>
-          }
 
-          @if (showFormat() && normalizedFormats().length > 1) {
-            <div
-              class="aeris-color-picker__formats"
-              role="group"
-              [attr.aria-label]="formatAriaLabel()"
-            >
-              @for (option of normalizedFormats(); track option) {
-                <button
-                  type="button"
-                  [attr.aria-pressed]="format() === option"
-                  (click)="selectFormat(option, $event)"
+            @if (alpha()) {
+              <label class="aeris-color-picker__hue aeris-color-picker__alpha">
+                <span
+                  >{{ opacityLabel() }} <output>{{ opacityPercent() }}%</output></span
                 >
-                  {{ option.toUpperCase() }}
-                </button>
-              }
-            </div>
-          }
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  [value]="opacityPercent()"
+                  [attr.aria-label]="alphaAriaLabel()"
+                  [attr.aria-valuetext]="opacityPercent() + '%'"
+                  [style.--aeris-color-picker-alpha-color]="opaqueHex()"
+                  [style.--aeris-color-picker-hue-color]="opaqueHex()"
+                  (input)="handleAlphaInput($event)"
+                  (change)="emitCommitted($event)"
+                  (focus)="focused.emit($event)"
+                  (blur)="handleBlur($event)"
+                />
+              </label>
+            }
 
-          <label class="aeris-color-picker__panel-value">
-            <span>{{ format().toUpperCase() }} value</span>
-            <input
-              type="text"
-              [value]="textValue()"
-              [placeholder]="placeholder()"
-              [attr.aria-invalid]="textInvalid() || null"
-              autocomplete="off"
-              spellcheck="false"
-              (input)="handleTextInput($event)"
-              (change)="handleTextChange($event)"
-              (keydown)="handleTextKeydown($event)"
-              (focus)="focused.emit($event)"
-              (blur)="handleBlur($event)"
-            />
-          </label>
-
-          @if (normalizedPresets().length) {
-            <div class="aeris-color-picker__preset-section">
-              <span>{{ presetsLabel() }}</span>
+            @if (showFormat() && normalizedFormats().length > 1) {
               <div
-                class="aeris-color-picker__presets"
+                class="aeris-color-picker__formats"
                 role="group"
-                [attr.aria-label]="presetsAriaLabel()"
+                [attr.aria-label]="formatAriaLabel()"
               >
-                @for (preset of normalizedPresets(); track preset.value) {
+                @for (option of normalizedFormats(); track option) {
                   <button
                     type="button"
-                    [attr.aria-label]="'Select ' + preset.value"
-                    [attr.aria-pressed]="preset.selected"
-                    [style.background-color]="preset.color"
-                    [style.--aeris-color-picker-preview-color]="preset.color"
-                    [attr.data-translucent]="preset.translucent || null"
-                    (click)="selectPreset(preset.value, $event)"
-                  ></button>
+                    [attr.aria-pressed]="format() === option"
+                    (click)="selectFormat(option, $event)"
+                  >
+                    {{ option.toUpperCase() }}
+                  </button>
                 }
               </div>
-            </div>
-          }
-        </section>
+            }
+
+            <label class="aeris-color-picker__panel-value">
+              <span>{{ format().toUpperCase() }} value</span>
+              <input
+                type="text"
+                [value]="textValue()"
+                [placeholder]="placeholder()"
+                [attr.aria-invalid]="textInvalid() || null"
+                autocomplete="off"
+                spellcheck="false"
+                (input)="handleTextInput($event)"
+                (change)="handleTextChange($event)"
+                (keydown)="handleTextKeydown($event)"
+                (focus)="focused.emit($event)"
+                (blur)="handleBlur($event)"
+              />
+            </label>
+
+            @if (normalizedPresets().length) {
+              <div class="aeris-color-picker__preset-section">
+                <span>{{ presetsLabel() }}</span>
+                <ng-container [ngTemplateOutlet]="presetPalette" />
+              </div>
+            }
+          </section>
+        }
       }
+      <ng-template #presetPalette>
+        <div
+          class="aeris-color-picker__presets"
+          role="group"
+          [id]="presentation() === 'palette' ? resolvedInputId() : null"
+          [attr.aria-label]="
+            presentation() === 'palette' ? ariaLabel() || presetsAriaLabel() : presetsAriaLabel()
+          "
+          [attr.aria-labelledby]="presentation() === 'palette' ? ariaLabelledBy() : null"
+          [attr.aria-describedby]="presentation() === 'palette' ? ariaDescribedBy() : null"
+          [attr.aria-invalid]="displayInvalid() || null"
+          (keydown)="handlePresetKeydown($event)"
+        >
+          @for (preset of normalizedPresets(); track preset.value) {
+            <button
+              type="button"
+              [disabled]="effectiveDisabled() || readonly() || preset.disabled"
+              [tabIndex]="preset.value === presetTabStop() ? 0 : -1"
+              [attr.aria-label]="preset.label"
+              [attr.aria-pressed]="preset.selected"
+              [style.background-color]="preset.color"
+              [style.--aeris-color-picker-preview-color]="preset.color"
+              [attr.data-translucent]="preset.translucent || null"
+              (focus)="presetFocus.set(preset.value); focused.emit($event)"
+              (blur)="handleBlur($event)"
+              (click)="selectPreset(preset, $event)"
+            >
+              @if (preset.selected) {
+                <span class="aeris-color-picker__preset-check" aria-hidden="true"
+                  ><span aerisInternalIcon="check"></span
+                ></span>
+              }
+            </button>
+          }
+        </div>
+      </ng-template>
     </div>
   `,
   styleUrl: './aeris-color-picker.scss',
@@ -414,7 +455,8 @@ export class AerisColorPicker implements ControlValueAccessor {
   readonly eyeDropperAriaLabel = input('Pick a color from the screen');
   readonly size = input<AerisColorPickerSize>('md');
   readonly appearance = input<AerisColorPickerAppearance>('outline');
-  readonly presets = input<readonly string[]>([]);
+  readonly presentation = input<AerisColorPickerPresentation>('picker');
+  readonly presets = input<readonly (string | AerisColorPickerPreset)[]>([]);
   readonly showInput = input(true, { transform: booleanAttribute });
   readonly showValue = input(true, { transform: booleanAttribute });
   readonly showFormat = input(true, { transform: booleanAttribute });
@@ -439,6 +481,8 @@ export class AerisColorPicker implements ControlValueAccessor {
   readonly closed = output<void>();
 
   protected readonly isOpen = signal(false);
+  protected readonly presetFocus = signal<string | null>(null);
+  private readonly selectedPreset = signal<string | null>(null);
   protected readonly eyeDropperAvailable = signal(false);
   protected readonly eyeDropperActive = signal(false);
   protected readonly resolvedInputId = computed(() => this.inputId() || this.generatedId);
@@ -481,29 +525,49 @@ export class AerisColorPicker implements ControlValueAccessor {
       : [...configuredFormats, this.format()];
   });
   protected readonly normalizedPresets = computed(() => {
-    const unique = new Map<
-      string,
-      { value: string; color: string; selected: boolean; translucent: boolean }
-    >();
+    const unique = new Map<string, PresetView>();
     for (const preset of this.presets()) {
-      const parsed = parseColor(preset, this.alpha());
+      const entry = typeof preset === 'string' ? { value: preset } : preset;
+      const parsed = parseColor(entry.value, this.alpha());
       if (!parsed) continue;
       // Keep explicit alpha (including 1) and decimal precision when a preset is activated.
-      const value = parsed.hasAlpha ? preset.trim() : parsed.hex;
+      const value = parsed.hasAlpha ? entry.value.trim() : parsed.hex;
       const opacity = parsed.hasAlpha ? parsed.alpha : this.opacity();
       unique.set(`${parsed.hex}:${parsed.hasAlpha ? parsed.alpha : 'inherit'}`, {
         value,
+        label: entry.label?.trim() || `Select ${value}`,
+        disabled: entry.disabled ?? false,
         color: formatColor(parsed.rgb, opacity < 1 ? 'rgb' : 'hex', opacity),
         selected:
+          Boolean(this.parsedValue()) &&
           parsed.hex === this.opaqueHex() &&
-          (!parsed.hasAlpha || Math.round(parsed.alpha * 255) === Math.round(this.opacity() * 255)),
+          (!parsed.hasAlpha || Math.abs(parsed.alpha - this.opacity()) <= 0.00000001),
         translucent: opacity < 1,
       });
     }
-    return [...unique.values()];
+    const candidates = [...unique.values()];
+    const selected =
+      candidates.find((preset) => preset.selected && preset.value === this.selectedPreset()) ??
+      candidates.find((preset) => preset.selected);
+    return candidates.map((preset) => ({ ...preset, selected: preset === selected }));
+  });
+  protected readonly presetTabStop = computed(() => {
+    if (this.effectiveDisabled() || this.readonly()) return null;
+    const enabled = this.normalizedPresets().filter((preset) => !preset.disabled);
+    return (
+      (
+        enabled.find((preset) => preset.value === this.presetFocus()) ??
+        enabled.find((preset) => preset.selected) ??
+        enabled[0]
+      )?.value ?? null
+    );
   });
   private readonly closeUnavailablePanel = effect(() => {
-    if ((this.effectiveDisabled() || this.readonly()) && this.isOpen()) this.close(false);
+    if (
+      (this.effectiveDisabled() || this.readonly() || this.presentation() === 'palette') &&
+      this.isOpen()
+    )
+      this.close(false);
   });
 
   constructor() {
@@ -542,11 +606,23 @@ export class AerisColorPicker implements ControlValueAccessor {
   }
 
   focus(options?: FocusOptions): void {
+    if (this.presentation() === 'palette') {
+      this.host.nativeElement
+        .querySelector<HTMLButtonElement>('.aeris-color-picker__presets button[tabindex="0"]')
+        ?.focus(options);
+      return;
+    }
     this.triggerButton()?.nativeElement.focus(options);
   }
 
   open(): void {
-    if (this.effectiveDisabled() || this.readonly() || this.isOpen()) return;
+    if (
+      this.effectiveDisabled() ||
+      this.readonly() ||
+      this.isOpen() ||
+      this.presentation() === 'palette'
+    )
+      return;
     this.isOpen.set(true);
     this.opened.emit();
     afterNextRender(
@@ -776,10 +852,45 @@ export class AerisColorPicker implements ControlValueAccessor {
     this.emitCommitted(event);
   }
 
-  protected selectPreset(hex: string, event: Event): void {
-    if (this.effectiveDisabled() || this.readonly()) return;
-    this.setFromHex(hex);
+  protected selectPreset(preset: PresetView, event: Event): void {
+    if (this.effectiveDisabled() || this.readonly() || preset.disabled) return;
+    this.selectedPreset.set(preset.value);
+    this.setFromHex(preset.value);
     this.emitCommitted(event);
+  }
+
+  protected handlePresetKeydown(event: KeyboardEvent): void {
+    if (this.effectiveDisabled() || this.readonly()) return;
+    const group = event.currentTarget as HTMLElement;
+    const buttons = Array.from(group.querySelectorAll<HTMLButtonElement>('button:not(:disabled)'));
+    const current = buttons.indexOf(event.target as HTMLButtonElement);
+    if (current < 0) return;
+    const rtl = group.ownerDocument.defaultView?.getComputedStyle(group).direction === 'rtl';
+    let next: number;
+    switch (event.key) {
+      case 'Home':
+        next = 0;
+        break;
+      case 'End':
+        next = buttons.length - 1;
+        break;
+      case 'ArrowRight':
+        next = current + (rtl ? -1 : 1);
+        break;
+      case 'ArrowLeft':
+        next = current + (rtl ? 1 : -1);
+        break;
+      case 'ArrowDown':
+        next = current + 1;
+        break;
+      case 'ArrowUp':
+        next = current - 1;
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+    buttons[(next + buttons.length) % buttons.length]?.focus();
   }
 
   protected emitCommitted(event: Event): void {

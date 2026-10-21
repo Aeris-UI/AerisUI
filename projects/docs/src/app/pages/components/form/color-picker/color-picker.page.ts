@@ -4,6 +4,7 @@ import {
   AerisColorPicker,
   type AerisColorFormat,
   type AerisColorPickerChangeEvent,
+  type AerisColorPickerPreset,
 } from '@aeris-ui/core/color-picker';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 
@@ -45,6 +46,16 @@ export class ColorPickerPage {
   protected readonly formatColor = signal('#2c694b');
   protected readonly selectedFormat = signal<AerisColorFormat>('hex');
   protected readonly translucentColor = signal('rgba(51, 102, 153, 0.5)');
+  protected readonly paletteColor = signal('#2c694b');
+  protected readonly paletteOpacity = signal('rgba(51, 102, 153, 0.5)');
+  protected readonly namedPresets: readonly AerisColorPickerPreset[] = [
+    { value: '#2c694b', label: 'Forest' },
+    { value: '#bc6c25', label: 'Copper' },
+    { value: '#336699', label: 'Ocean' },
+    { value: '#171717', label: 'Ink' },
+    { value: '#fafafa', label: 'Paper' },
+    { value: '#dda15e', label: 'Caramel (unavailable)', disabled: true },
+  ];
   protected readonly invalidColor = signal('');
   protected readonly touched = signal(false);
   protected readonly lastChange = signal('No color change yet');
@@ -69,6 +80,8 @@ export class ColorPickerPage {
     { id: 'color-picker-opacity', label: 'Opacity' },
     { id: 'color-picker-eyedropper', label: 'Screen sampling' },
     { id: 'color-picker-presets', label: 'Presets' },
+    { id: 'color-picker-palette', label: 'Inline palette' },
+    { id: 'color-picker-palette-opacity', label: 'Palette opacity' },
     { id: 'color-picker-swatch-only', label: 'Swatch only' },
     { id: 'color-picker-sizes', label: 'Sizes' },
     { id: 'color-picker-appearances', label: 'Appearances' },
@@ -122,6 +135,13 @@ protected recordChange(event: AerisColorPickerChangeEvent): void {
   protected readonly interfacesCode = `type AerisColorPickerSize = 'xs' | 'sm' | 'md' | 'lg';
 type AerisColorPickerAppearance = 'outline' | 'filled';
 type AerisColorFormat = 'hex' | 'rgb' | 'hsl';
+type AerisColorPickerPresentation = 'picker' | 'palette';
+
+interface AerisColorPickerPreset {
+  readonly value: string;
+  readonly label?: string;
+  readonly disabled?: boolean;
+}
 
 interface AerisColorPickerChangeEvent {
   readonly originalEvent: Event;
@@ -130,6 +150,13 @@ interface AerisColorPickerChangeEvent {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'presentation',
+      type: "AerisColorPickerPresentation: 'picker' | 'palette'",
+      defaultValue: "'picker'",
+      description:
+        'Picker renders the trigger and full popup editor; palette renders only the preset choices inline, with no trigger, text input or overlay. Both share value, format, opacity, events and forms support. Label the palette with ariaLabel or ariaLabelledBy.',
+    },
     {
       name: 'alpha',
       type: 'boolean',
@@ -332,10 +359,10 @@ interface AerisColorPickerChangeEvent {
     },
     {
       name: 'presets',
-      type: 'readonly string[]',
+      type: 'readonly (string | AerisColorPickerPreset)[]',
       defaultValue: '[]',
       description:
-        'Preset colors shown inside the picker panel. Hex, rgb(), and hsl() strings are accepted. With alpha enabled, presets without explicit opacity inherit the current slider opacity: their swatch previews update with the slider, and selecting one preserves that opacity. Presets with explicit alpha use their own opacity; for example, #336699ff always selects full opacity.',
+        'Preset colors in the panel or inline palette. Accepts color strings or objects with value, optional accessible label and disabled state. Invalid colors are omitted and equivalent presets are deduplicated. With alpha enabled, presets without explicit opacity inherit the current opacity; explicit alpha uses its own opacity, including #336699ff for full opacity. A check mark identifies the selected color without relying on hue.',
     },
     {
       name: 'showInput',
@@ -385,7 +412,8 @@ interface AerisColorPickerChangeEvent {
       name: 'required',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'Exposes native required validation semantics.',
+      description:
+        'Sets required semantics on the picker text input. For palette presentation, configure a required validator in your Angular form; the palette has no native text input.',
     },
     {
       name: 'invalid',
@@ -472,13 +500,15 @@ interface AerisColorPickerChangeEvent {
       name: 'focus(options?)',
       type: 'void',
       defaultValue: '-',
-      description: 'Moves focus to the visible trigger button.',
+      description:
+        'Moves focus to the trigger, or to the current enabled preset tab stop in palette presentation.',
     },
     {
       name: 'open()',
       type: 'void',
       defaultValue: '-',
-      description: 'Opens the custom picker panel and focuses the color plane.',
+      description:
+        'Opens the custom picker panel and focuses the color plane. Has no effect in palette presentation.',
     },
     {
       name: 'close(restoreFocus?)',

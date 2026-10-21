@@ -5486,6 +5486,12 @@
           "kind": "input",
           "entries": [
             {
+              "name": "presentation",
+              "type": "AerisColorPickerPresentation: 'picker' | 'palette'",
+              "defaultValue": "'picker'",
+              "description": "Picker renders the trigger and full popup editor; palette renders only the preset choices inline, with no trigger, text input or overlay. Both share value, format, opacity, events and forms support. Label the palette with ariaLabel or ariaLabelledBy."
+            },
+            {
               "name": "alpha",
               "type": "boolean",
               "defaultValue": "false",
@@ -5679,9 +5685,9 @@
             },
             {
               "name": "presets",
-              "type": "readonly string[]",
+              "type": "readonly (string | AerisColorPickerPreset)[]",
               "defaultValue": "[]",
-              "description": "Preset colors shown inside the picker panel. Hex, rgb(), and hsl() strings are accepted. With alpha enabled, presets without explicit opacity inherit the current slider opacity: their swatch previews update with the slider, and selecting one preserves that opacity. Presets with explicit alpha use their own opacity; for example, #336699ff always selects full opacity."
+              "description": "Preset colors in the panel or inline palette. Accepts color strings or objects with value, optional accessible label and disabled state. Invalid colors are omitted and equivalent presets are deduplicated. With alpha enabled, presets without explicit opacity inherit the current opacity; explicit alpha uses its own opacity, including #336699ff for full opacity. A check mark identifies the selected color without relying on hue."
             },
             {
               "name": "showInput",
@@ -5729,7 +5735,7 @@
               "name": "required",
               "type": "boolean",
               "defaultValue": "false",
-              "description": "Exposes native required validation semantics."
+              "description": "Sets required semantics on the picker text input. For palette presentation, configure a required validator in your Angular form; the palette has no native text input."
             },
             {
               "name": "invalid",
@@ -5819,13 +5825,13 @@
               "name": "focus(options?)",
               "type": "void",
               "defaultValue": "-",
-              "description": "Moves focus to the visible trigger button."
+              "description": "Moves focus to the trigger, or to the current enabled preset tab stop in palette presentation."
             },
             {
               "name": "open()",
               "type": "void",
               "defaultValue": "-",
-              "description": "Opens the custom picker panel and focuses the color plane."
+              "description": "Opens the custom picker panel and focuses the color plane. Has no effect in palette presentation."
             },
             {
               "name": "close(restoreFocus?)",
@@ -5858,7 +5864,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisColorPickerSize = 'xs' | 'sm' | 'md' | 'lg';\ntype AerisColorPickerAppearance = 'outline' | 'filled';\ntype AerisColorFormat = 'hex' | 'rgb' | 'hsl';\n\ninterface AerisColorPickerChangeEvent {\n  readonly originalEvent: Event;\n  readonly value: string;\n  readonly hex: string;\n}"
+          "code": "type AerisColorPickerSize = 'xs' | 'sm' | 'md' | 'lg';\ntype AerisColorPickerAppearance = 'outline' | 'filled';\ntype AerisColorFormat = 'hex' | 'rgb' | 'hsl';\ntype AerisColorPickerPresentation = 'picker' | 'palette';\n\ninterface AerisColorPickerPreset {\n  readonly value: string;\n  readonly label?: string;\n  readonly disabled?: boolean;\n}\n\ninterface AerisColorPickerChangeEvent {\n  readonly originalEvent: Event;\n  readonly value: string;\n  readonly hex: string;\n}"
         }
       ],
       "designTokens": [
@@ -5873,6 +5879,18 @@
           "type": "CSS custom property",
           "defaultValue": "",
           "description": "Dark transparency checker square."
+        },
+        {
+          "name": "--aeris-color-picker-preset-size",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Square preset size; also supports local overrides for inline palettes."
+        },
+        {
+          "name": "--aeris-color-picker-preset-gap",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Spacing between wrapping preset choices."
         },
         {
           "name": "--aeris-color-picker-checker-size",
@@ -6039,6 +6057,40 @@
           ]
         },
         {
+          "id": "color-picker-palette",
+          "title": "Inline palette",
+          "description": "Show a fixed palette without opening a popup. Named presets provide accessible labels; disabled colors cannot be selected. The check mark identifies the current choice independently of its color.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisColorPicker, type AerisColorPickerPreset } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-palette-demo',\n  imports: [AerisColorPicker],\n  template: `\n    <div class=\"field\">\n      <span id=\"palette-label\">Accent color</span>\n      <aeris-color-picker\n        presentation=\"palette\"\n        ariaLabelledBy=\"palette-label\"\n        [(value)]=\"paletteColor\"\n        [presets]=\"namedPresets\"\n      />\n      <small aria-live=\"polite\">Selected: {{ paletteColor() }}</small>\n    </div>\n  `,\n  styles: `\n    .field {\n      min-width: 0;\n      display: grid;\n      align-content: start;\n      grid-auto-rows: max-content;\n      gap: 0.45rem;\n    }\n    \n    .field > label,\n    .field > span:first-child {\n      color: var(--aeris-text);\n      font-size: 0.875rem;\n      font-weight: 600;\n      line-height: 1.4;\n    }\n    \n    .field small {\n      color: var(--aeris-text-2);\n      font-size: 0.8125rem;\n      line-height: 1.5;\n    }\n    \n    .field small.error {\n      color: var(--aeris-danger);\n    }\n  `\n})\nexport class ColorPickerPaletteInlinePaletteDemo {\n  protected readonly paletteColor = signal('#2c694b');\n\n  protected readonly namedPresets: readonly AerisColorPickerPreset[] = [\n      { value: '#2c694b', label: 'Forest' },\n      { value: '#bc6c25', label: 'Copper' },\n      { value: '#336699', label: 'Ocean' },\n      { value: '#171717', label: 'Ink' },\n      { value: '#fafafa', label: 'Paper' },\n      { value: '#dda15e', label: 'Caramel (unavailable)', disabled: true },\n    ];\n}\n"
+            }
+          ]
+        },
+        {
+          "id": "color-picker-palette-opacity",
+          "title": "Palette opacity",
+          "description": "Presets without explicit alpha inherit the current value's opacity. Explicit alpha selects that exact opacity, including fully opaque and fully transparent colors.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisColorPicker } from '@aeris-ui/core/color-picker';\n\n@Component({\n  selector: 'app-color-picker-palette-opacity-demo',\n  imports: [AerisColorPicker],\n  templateUrl: './color-picker-palette-opacity.demo.html',\n  styleUrl: './color-picker-palette-opacity.demo.scss'\n})\nexport class ColorPickerPaletteOpacityPaletteOpacityDemo {\n  protected readonly paletteOpacity = signal('rgba(51, 102, 153, 0.5)');\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"field\">\n  <span id=\"palette-opacity-label\">Transparent colors</span>\n  <aeris-color-picker\n    presentation=\"palette\"\n    alpha\n    format=\"rgb\"\n    ariaLabelledBy=\"palette-opacity-label\"\n    [(value)]=\"paletteOpacity\"\n    [presets]=\"[\n      { value: '#336699', label: 'Ocean, inherited opacity' },\n      { value: '#993366', label: 'Plum, inherited opacity' },\n      { value: '#33669940', label: 'Ocean, quarter opacity' },\n      { value: '#336699ff', label: 'Ocean, full opacity' },\n      { value: 'transparent', label: 'Transparent' },\n    ]\"\n  />\n  <small aria-live=\"polite\">Selected: {{ paletteOpacity() }}</small>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".field {\n  min-width: 0;\n  display: grid;\n  align-content: start;\n  grid-auto-rows: max-content;\n  gap: 0.45rem;\n}\n\n.field > label,\n.field > span:first-child {\n  color: var(--aeris-text);\n  font-size: 0.875rem;\n  font-weight: 600;\n  line-height: 1.4;\n}\n\n.field small {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n  line-height: 1.5;\n}\n\n.field small.error {\n  color: var(--aeris-danger);\n}"
+            }
+          ]
+        },
+        {
           "id": "color-picker-swatch-only",
           "title": "Swatch only",
           "description": "Hide both value text and text entry when the UI only needs the square color trigger. The selected value remains available through value binding and forms.",
@@ -6168,12 +6220,12 @@
       "accessibility": {
         "guidance": [
           "The trigger exposes aria-haspopup=\"dialog\", expanded state, and a stable relationship to the custom picker panel.",
-          "Use a visible label and connect it with inputId. Use ariaDescribedBy for help and validation text.",
+          "For the picker, use a visible label and connect it with inputId. Inline palettes use ariaLabelledBy to reference a visible label. Use ariaDescribedBy for help and validation text.",
           "Text entry accepts hex, rgb(), and hsl() strings so color can be edited without pointer interaction.",
           "The color plane reports saturation and brightness through slider semantics and supports full keyboard adjustment.",
           "Hue and optional opacity use native range inputs. Opacity is announced as a percentage. Format choices and preset colors are native buttons with pressed state.",
           "Where supported, screen sampling uses the browser-provided EyeDropper API after an explicit button press. Canceling it does not change the selected color.",
-          "Do not rely on a color swatch alone when naming presets in surrounding application UI.",
+          "Do not rely on a color swatch alone when naming presets in surrounding application UI. Use preset objects with a readable label. Inline palettes accept ariaLabel or ariaLabelledBy for the group; the selected preset has pressed state and a visible check mark.",
           "Invalid state is visual and semantic through aria-invalid; pair it with text that explains the problem.",
           "ColorPicker implements ControlValueAccessor for Reactive Forms and template-driven forms.",
           "The panel remains within the viewport at narrow sizes, and its opening animation is removed when reduced motion is requested."
@@ -6181,7 +6233,11 @@
         "keyboard": [
           {
             "keys": "Tab / Shift + Tab",
-            "behavior": "Moves through the trigger, text input, plane, hue slider, format choices, and presets."
+            "behavior": "Moves through the trigger, text input, plane, hue slider, format choices, and presets. Each preset group has one tab stop; disabled presets are skipped."
+          },
+          {
+            "keys": "Arrow keys; Home / End (presets)",
+            "behavior": "Moves focus between enabled presets without changing the value. Left/Right follow text direction; Up/Down move to the previous/next preset. Home/End focus the first/last enabled preset. Enter or Space selects it."
           },
           {
             "keys": "Enter / Space",

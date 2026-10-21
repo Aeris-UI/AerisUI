@@ -5850,6 +5850,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `presentation` | `AerisColorPickerPresentation: 'picker' &#124; 'palette'` | `'picker'` | Picker renders the trigger and full popup editor; palette renders only the preset choices inline, with no trigger, text input or overlay. Both share value, format, opacity, events and forms support. Label the palette with ariaLabel or ariaLabelledBy. |
 | `alpha` | `boolean` | `false` | Enables opacity editing and transparent colors. HEX output uses #RRGGBBAA below full opacity; RGB and HSL use rgba() and hsla(). Opaque values keep their existing format. |
 | `opacityLabel` | `string` | `'Opacity'` | Visible label above the optional opacity slider. |
 | `alphaAriaLabel` | `string` | `'Opacity'` | Accessible name for the optional opacity slider, which reports its value as a percentage. |
@@ -5882,7 +5883,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | `eyeDropperAriaLabel` | `string` | `'Pick a color from the screen'` | Accessible name for the optional browser-provided eyedropper action. |
 | `size` | `AerisColorPickerSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
 | `appearance` | `AerisColorPickerAppearance` | `'outline'` | Outlined or filled visual treatment. Options: 'outline', 'filled'. |
-| `presets` | `readonly string[]` | `[]` | Preset colors shown inside the picker panel. Hex, rgb(), and hsl() strings are accepted. With alpha enabled, presets without explicit opacity inherit the current slider opacity: their swatch previews update with the slider, and selecting one preserves that opacity. Presets with explicit alpha use their own opacity; for example, #336699ff always selects full opacity. |
+| `presets` | `readonly (string &#124; AerisColorPickerPreset)[]` | `[]` | Preset colors in the panel or inline palette. Accepts color strings or objects with value, optional accessible label and disabled state. Invalid colors are omitted and equivalent presets are deduplicated. With alpha enabled, presets without explicit opacity inherit the current opacity; explicit alpha uses its own opacity, including #336699ff for full opacity. A check mark identifies the selected color without relying on hue. |
 | `showInput` | `boolean` | `true` | Shows the editable text value input next to the trigger. |
 | `showValue` | `boolean` | `true` | Shows the formatted color text inside the trigger. When false, the trigger becomes a square swatch button. |
 | `showFormat` | `boolean` | `true` | Shows the format selector when more than one format is available. |
@@ -5890,7 +5891,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | `clearable` | `boolean` | `false` | Shows a clear action while a value exists. |
 | `disabled` | `boolean` | `false` | Disables interaction and form submission. |
 | `readonly` | `boolean` | `false` | Allows the value to be read without editing. |
-| `required` | `boolean` | `false` | Exposes native required validation semantics. |
+| `required` | `boolean` | `false` | Sets required semantics on the picker text input. For palette presentation, configure a required validator in your Angular form; the palette has no native text input. |
 | `invalid` | `boolean` | `false` | Applies invalid styling and synchronizes aria-invalid. |
 | `touched` | `boolean &#124; null` | `null` | Controls when invalid presentation is shown. Null preserves immediate manual invalid state; false defers it; true displays it. |
 | `fluid` | `boolean` | `false` | Fills the available inline space. |
@@ -5913,8 +5914,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `focus(options?)` | `void` | `-` | Moves focus to the visible trigger button. |
-| `open()` | `void` | `-` | Opens the custom picker panel and focuses the color plane. |
+| `focus(options?)` | `void` | `-` | Moves focus to the trigger, or to the current enabled preset tab stop in palette presentation. |
+| `open()` | `void` | `-` | Opens the custom picker panel and focuses the color plane. Has no effect in palette presentation. |
 | `close(restoreFocus?)` | `void` | `-` | Closes the panel and optionally restores trigger focus. |
 | `toggle()` | `void` | `-` | Toggles the custom picker panel. |
 | `clear()` | `void` | `-` | Clears the value and restores focus. |
@@ -5928,6 +5929,13 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 type AerisColorPickerSize = 'xs' | 'sm' | 'md' | 'lg';
 type AerisColorPickerAppearance = 'outline' | 'filled';
 type AerisColorFormat = 'hex' | 'rgb' | 'hsl';
+type AerisColorPickerPresentation = 'picker' | 'palette';
+
+interface AerisColorPickerPreset {
+  readonly value: string;
+  readonly label?: string;
+  readonly disabled?: boolean;
+}
 
 interface AerisColorPickerChangeEvent {
   readonly originalEvent: Event;
@@ -5942,6 +5950,8 @@ interface AerisColorPickerChangeEvent {
 | --- | --- | --- | --- |
 | `--aeris-color-picker-checker-light` | `CSS custom property` | — | Light transparency checker square. |
 | `--aeris-color-picker-checker-dark` | `CSS custom property` | — | Dark transparency checker square. |
+| `--aeris-color-picker-preset-size` | `CSS custom property` | — | Square preset size; also supports local overrides for inline palettes. |
+| `--aeris-color-picker-preset-gap` | `CSS custom property` | — | Spacing between wrapping preset choices. |
 | `--aeris-color-picker-checker-size` | `CSS custom property` | — | Size of a repeating checker tile. |
 | `--aeris-surface` | `CSS custom property` | — | Control, panel, and active format backgrounds. |
 | `--aeris-surface-2` | `CSS custom property` | — | Filled surface and clear hover. |
@@ -6307,6 +6317,147 @@ export class ColorPickerPresetsPresetsDemo {
     '#a88245',
     '#343b37',
   ];
+}
+```
+
+##### Inline palette
+
+Show a fixed palette without opening a popup. Named presets provide accessible labels; disabled colors cannot be selected. The check mark identifies the current choice independently of its color.
+
+###### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisColorPicker, type AerisColorPickerPreset } from '@aeris-ui/core/color-picker';
+
+@Component({
+  selector: 'app-color-picker-palette-demo',
+  imports: [AerisColorPicker],
+  template: `
+    <div class="field">
+      <span id="palette-label">Accent color</span>
+      <aeris-color-picker
+        presentation="palette"
+        ariaLabelledBy="palette-label"
+        [(value)]="paletteColor"
+        [presets]="namedPresets"
+      />
+      <small aria-live="polite">Selected: {{ paletteColor() }}</small>
+    </div>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+  `
+})
+export class ColorPickerPaletteInlinePaletteDemo {
+  protected readonly paletteColor = signal('#2c694b');
+
+  protected readonly namedPresets: readonly AerisColorPickerPreset[] = [
+      { value: '#2c694b', label: 'Forest' },
+      { value: '#bc6c25', label: 'Copper' },
+      { value: '#336699', label: 'Ocean' },
+      { value: '#171717', label: 'Ink' },
+      { value: '#fafafa', label: 'Paper' },
+      { value: '#dda15e', label: 'Caramel (unavailable)', disabled: true },
+    ];
+}
+```
+
+##### Palette opacity
+
+Presets without explicit alpha inherit the current value's opacity. Explicit alpha selects that exact opacity, including fully opaque and fully transparent colors.
+
+###### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisColorPicker } from '@aeris-ui/core/color-picker';
+
+@Component({
+  selector: 'app-color-picker-palette-opacity-demo',
+  imports: [AerisColorPicker],
+  templateUrl: './color-picker-palette-opacity.demo.html',
+  styleUrl: './color-picker-palette-opacity.demo.scss'
+})
+export class ColorPickerPaletteOpacityPaletteOpacityDemo {
+  protected readonly paletteOpacity = signal('rgba(51, 102, 153, 0.5)');
+}
+```
+
+###### HTML
+
+```html
+<div class="field">
+  <span id="palette-opacity-label">Transparent colors</span>
+  <aeris-color-picker
+    presentation="palette"
+    alpha
+    format="rgb"
+    ariaLabelledBy="palette-opacity-label"
+    [(value)]="paletteOpacity"
+    [presets]="[
+      { value: '#336699', label: 'Ocean, inherited opacity' },
+      { value: '#993366', label: 'Plum, inherited opacity' },
+      { value: '#33669940', label: 'Ocean, quarter opacity' },
+      { value: '#336699ff', label: 'Ocean, full opacity' },
+      { value: 'transparent', label: 'Transparent' },
+    ]"
+  />
+  <small aria-live="polite">Selected: {{ paletteOpacity() }}</small>
+</div>
+```
+
+###### CSS
+
+```css
+.field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  grid-auto-rows: max-content;
+  gap: 0.45rem;
+}
+
+.field > label,
+.field > span:first-child {
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.field small {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.field small.error {
+  color: var(--aeris-danger);
 }
 ```
 
@@ -6801,12 +6952,12 @@ export class ColorPickerEventsEventsDemo {
 #### Accessibility
 
 - The trigger exposes aria-haspopup="dialog", expanded state, and a stable relationship to the custom picker panel.
-- Use a visible label and connect it with inputId. Use ariaDescribedBy for help and validation text.
+- For the picker, use a visible label and connect it with inputId. Inline palettes use ariaLabelledBy to reference a visible label. Use ariaDescribedBy for help and validation text.
 - Text entry accepts hex, rgb(), and hsl() strings so color can be edited without pointer interaction.
 - The color plane reports saturation and brightness through slider semantics and supports full keyboard adjustment.
 - Hue and optional opacity use native range inputs. Opacity is announced as a percentage. Format choices and preset colors are native buttons with pressed state.
 - Where supported, screen sampling uses the browser-provided EyeDropper API after an explicit button press. Canceling it does not change the selected color.
-- Do not rely on a color swatch alone when naming presets in surrounding application UI.
+- Do not rely on a color swatch alone when naming presets in surrounding application UI. Use preset objects with a readable label. Inline palettes accept ariaLabel or ariaLabelledBy for the group; the selected preset has pressed state and a visible check mark.
 - Invalid state is visual and semantic through aria-invalid; pair it with text that explains the problem.
 - ColorPicker implements ControlValueAccessor for Reactive Forms and template-driven forms.
 - The panel remains within the viewport at narrow sizes, and its opening animation is removed when reduced motion is requested.
@@ -6815,7 +6966,8 @@ export class ColorPickerEventsEventsDemo {
 
 | Key | Function |
 | --- | --- |
-| `Tab / Shift + Tab` | Moves through the trigger, text input, plane, hue slider, format choices, and presets. |
+| `Tab / Shift + Tab` | Moves through the trigger, text input, plane, hue slider, format choices, and presets. Each preset group has one tab stop; disabled presets are skipped. |
+| `Arrow keys; Home / End (presets)` | Moves focus between enabled presets without changing the value. Left/Right follow text direction; Up/Down move to the previous/next preset. Home/End focus the first/last enabled preset. Enter or Space selects it. |
 | `Enter / Space` | Opens the panel from the trigger or activates the focused eyedropper, format, preset, clear, or close button. |
 | `Arrow Left / Arrow Right` | Decreases or increases saturation on the color plane. Native arrow behavior adjusts hue or opacity on its slider. |
 | `Arrow Up / Arrow Down` | Increases or decreases brightness on the color plane. |

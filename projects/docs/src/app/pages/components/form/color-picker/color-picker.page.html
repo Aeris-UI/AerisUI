@@ -202,6 +202,76 @@
             </app-form-demo>
 
             <app-form-demo
+              id="color-picker-palette"
+              title="Inline palette"
+              description="Show a fixed palette without opening a popup. Named presets provide accessible labels; disabled colors cannot be selected. The check mark identifies the current choice independently of its color."
+            >
+              <div preview class="field">
+                <span id="palette-label">Accent color</span>
+                <aeris-color-picker
+                  presentation="palette"
+                  ariaLabelledBy="palette-label"
+                  [(value)]="paletteColor"
+                  [presets]="namedPresets"
+                />
+                <small aria-live="polite">Selected: {{ paletteColor() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="palette-label"&gt;Accent color&lt;/span&gt;
+  &lt;aeris-color-picker
+    presentation="palette"
+    ariaLabelledBy="palette-label"
+    [(value)]="paletteColor"
+    [presets]="namedPresets"
+  /&gt;
+  &lt;small aria-live="polite"&gt;Selected: &#123;&#123; paletteColor() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="color-picker-palette-opacity"
+              title="Palette opacity"
+              description="Presets without explicit alpha inherit the current value's opacity. Explicit alpha selects that exact opacity, including fully opaque and fully transparent colors."
+            >
+              <div preview class="field">
+                <span id="palette-opacity-label">Transparent colors</span>
+                <aeris-color-picker
+                  presentation="palette"
+                  alpha
+                  format="rgb"
+                  ariaLabelledBy="palette-opacity-label"
+                  [(value)]="paletteOpacity"
+                  [presets]="[
+                    { value: '#336699', label: 'Ocean, inherited opacity' },
+                    { value: '#993366', label: 'Plum, inherited opacity' },
+                    { value: '#33669940', label: 'Ocean, quarter opacity' },
+                    { value: '#336699ff', label: 'Ocean, full opacity' },
+                    { value: 'transparent', label: 'Transparent' },
+                  ]"
+                />
+                <small aria-live="polite">Selected: {{ paletteOpacity() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="field"&gt;
+  &lt;span id="palette-opacity-label"&gt;Transparent colors&lt;/span&gt;
+  &lt;aeris-color-picker
+    presentation="palette"
+    alpha
+    format="rgb"
+    ariaLabelledBy="palette-opacity-label"
+    [(value)]="paletteOpacity"
+    [presets]="[
+      &#123; value: '#336699', label: 'Ocean, inherited opacity' &#125;,
+      &#123; value: '#993366', label: 'Plum, inherited opacity' &#125;,
+      &#123; value: '#33669940', label: 'Ocean, quarter opacity' &#125;,
+      &#123; value: '#336699ff', label: 'Ocean, full opacity' &#125;,
+      &#123; value: 'transparent', label: 'Transparent' &#125;,
+    ]"
+  /&gt;
+  &lt;small aria-live="polite"&gt;Selected: &#123;&#123; paletteOpacity() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
               id="color-picker-swatch-only"
               title="Swatch only"
               description="Hide both value text and text entry when the UI only needs the square color trigger. The selected value remains available through value binding and forms."
@@ -520,6 +590,18 @@
             ><code role="cell">#b8b8b8</code>
           </div>
           <div role="row">
+            <code role="cell">--aeris-color-picker-preset-size</code>
+            <span role="cell"
+              >Square preset size; also supports local overrides for inline palettes.</span
+            >
+            <code role="cell">1.75rem (picker), 2.25rem (palette)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-color-picker-preset-gap</code>
+            <span role="cell">Spacing between wrapping preset choices.</span>
+            <code role="cell">0.625rem</code>
+          </div>
+          <div role="row">
             <code role="cell">--aeris-color-picker-checker-size</code>
             <span role="cell">Size of a repeating checker tile.</span
             ><code role="cell">0.625rem</code>
@@ -599,7 +681,8 @@
             relationship to the custom picker panel.
           </li>
           <li>
-            Use a visible label and connect it with <code>inputId</code>. Use
+            For the picker, use a visible label and connect it with <code>inputId</code>. Inline
+            palettes use <code>ariaLabelledBy</code> to reference a visible label. Use
             <code>ariaDescribedBy</code> for help and validation text.
           </li>
           <li>
@@ -620,6 +703,9 @@
           </li>
           <li>
             Do not rely on a color swatch alone when naming presets in surrounding application UI.
+            Use preset objects with a readable <code>label</code>. Inline palettes accept
+            <code>ariaLabel</code> or <code>ariaLabelledBy</code> for the group; the selected preset
+            has pressed state and a visible check mark.
           </li>
           <li>
             Invalid state is visual and semantic through <code>aria-invalid</code>; pair it with
@@ -648,7 +734,15 @@
             <span role="cell"><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd></span
             ><span role="cell"
               >Moves through the trigger, text input, plane, hue slider, format choices, and
-              presets.</span
+              presets. Each preset group has one tab stop; disabled presets are skipped.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell">Arrow keys; Home / End (presets)</span>
+            <span role="cell"
+              >Moves focus between enabled presets without changing the value. Left/Right follow
+              text direction; Up/Down move to the previous/next preset. Home/End focus the
+              first/last enabled preset. Enter or Space selects it.</span
             >
           </div>
           <div role="row">

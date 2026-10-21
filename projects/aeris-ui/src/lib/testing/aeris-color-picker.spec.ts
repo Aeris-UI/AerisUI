@@ -1,11 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormField, form, required } from '@angular/forms/signals';
 
 import {
   AerisColorPicker,
   type AerisColorFormat,
   type AerisColorPickerChangeEvent,
+  type AerisColorPickerPreset,
 } from '../../../color-picker/aeris-color-picker';
 
 @Component({
@@ -70,6 +72,177 @@ class AlphaColorPickerHost {
   readonly presets = ['#ff0000', '#00ff0040', '#0000ffff', 'transparent', 'invalid'];
   readonly lastChange = signal<AerisColorPickerChangeEvent | null>(null);
 }
+
+@Component({
+  imports: [AerisColorPicker, ReactiveFormsModule],
+  template: `<aeris-color-picker
+    presentation="palette"
+    alpha
+    ariaLabel="Accent colors"
+    name="accent"
+    [formControl]="control"
+    [presets]="presets()"
+    (changed)="lastChange.set($event)"
+  />`,
+})
+class PaletteHost {
+  readonly control = new FormControl('#ff000080');
+  readonly presets = signal<readonly (string | AerisColorPickerPreset)[]>([
+    { value: '#ff0000', label: 'Red' },
+    { value: '#00ff00', label: 'Green', disabled: true },
+    { value: '#0000ff40', label: 'Blue glass' },
+    'transparent',
+    'invalid',
+  ]);
+  readonly lastChange = signal<AerisColorPickerChangeEvent | null>(null);
+}
+
+@Component({
+  imports: [AerisColorPicker, FormField],
+  template: `<aeris-color-picker
+    presentation="palette"
+    ariaLabel="Required color"
+    [formField]="fields.color"
+    [presets]="['#000000', '#ffffff']"
+  />`,
+})
+class SignalPaletteHost {
+  readonly data = signal({ color: '' });
+  readonly fields = form(this.data, (path) => required(path.color));
+}
+
+describe('AerisColorPicker palettes', () => {
+  it('shares named/disabled presets with the popup and closes it when switching presentation', async () => {
+    const fixture = TestBed.createComponent(AerisColorPicker);
+    fixture.componentRef.setInput('value', '#ffffff');
+    fixture.componentRef.setInput('presets', [
+      { value: '#ffffff', label: 'Paper' },
+      { value: '#000000', label: 'Ink', disabled: true },
+    ]);
+    await openPicker(fixture);
+    const root = fixture.nativeElement as HTMLElement;
+    expect(
+      root.querySelector('.aeris-color-picker__presets button')?.getAttribute('aria-label'),
+    ).toBe('Paper');
+    expect(
+      root.querySelector<HTMLButtonElement>('.aeris-color-picker__presets button:last-child')
+        ?.disabled,
+    ).toBe(true);
+    fixture.componentRef.setInput('presentation', 'palette');
+    await fixture.whenStable();
+    expect(fixture.componentInstance.value()).toBe('#ffffff');
+    expect(root.querySelector('[role="dialog"], .aeris-color-picker__trigger')).toBeNull();
+    fixture.componentInstance.focus();
+    expect(document.activeElement?.getAttribute('aria-label')).toBe('Paper');
+    fixture.componentRef.setInput('presets', []);
+    await fixture.whenStable();
+    expect(root.querySelector('button')).toBeNull();
+    expect(() => fixture.componentInstance.focus()).not.toThrow();
+  });
+  it('receives Signal Forms invalid/touched state and synchronizes palette selection', async () => {
+    const fixture = TestBed.createComponent(SignalPaletteHost);
+    await fixture.whenStable();
+    const state = fixture.componentInstance.fields.color();
+    const root = fixture.nativeElement as HTMLElement;
+    const group = root.querySelector('[role="group"]');
+    expect(state.invalid()).toBe(true);
+    expect(group?.getAttribute('aria-invalid')).toBeNull();
+    state.markAsTouched();
+    await fixture.whenStable();
+    expect(group?.getAttribute('aria-invalid')).toBe('true');
+    expect(root.querySelector('[data-invalid]')).not.toBeNull();
+    root.querySelector<HTMLButtonElement>('.aeris-color-picker__presets button')?.click();
+    await fixture.whenStable();
+    expect(fixture.componentInstance.data().color).toBe('#000000');
+    expect(state.valid()).toBe(true);
+    expect(group?.getAttribute('aria-invalid')).toBeNull();
+  });
+  it('renders named choices inline without a trigger, text editor or overlay', async () => {
+    const fixture = TestBed.createComponent(PaletteHost);
+    await fixture.whenStable();
+    const root = fixture.nativeElement as HTMLElement;
+    const group = root.querySelector('[role="group"]');
+    expect(group?.getAttribute('aria-label')).toBe('Accent colors');
+    expect(
+      root.querySelector(
+        '.aeris-color-picker__trigger, .aeris-color-picker__text, [role="dialog"]',
+      ),
+    ).toBeNull();
+    const buttons = root.querySelectorAll<HTMLButtonElement>('.aeris-color-picker__presets button');
+    expect(buttons).toHaveLength(4);
+    expect(buttons[0].getAttribute('aria-label')).toBe('Red');
+    expect(buttons[0].getAttribute('aria-pressed')).toBe('true');
+    expect(buttons[0].querySelector('.aeris-color-picker__preset-check')).not.toBeNull();
+    expect(buttons[1].disabled).toBe(true);
+    expect(root.querySelectorAll('button[tabindex="0"]')).toHaveLength(1);
+    buttons[1].click();
+    expect(fixture.componentInstance.lastChange()).toBeNull();
+    buttons[2].click();
+    await fixture.whenStable();
+    expect(fixture.componentInstance.control.value).toBe('#0000ff40');
+    expect(fixture.componentInstance.lastChange()?.value).toBe('#0000ff40');
+    expect(root.querySelector<HTMLInputElement>('input[type="hidden"]')?.value).toBe('#0000ff40');
+    buttons[0].click();
+    await fixture.whenStable();
+    expect(fixture.componentInstance.control.value).toBe('#ff000040');
+  });
+
+  it('moves focus with arrows and Home/End, skips disabled choices and touches on exit', async () => {
+    const fixture = TestBed.createComponent(PaletteHost);
+    await fixture.whenStable();
+    const root = fixture.nativeElement as HTMLElement;
+    const buttons = root.querySelectorAll<HTMLButtonElement>('.aeris-color-picker__presets button');
+    buttons[0].focus();
+    buttons[0].dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }),
+    );
+    expect(document.activeElement).toBe(buttons[2]);
+    expect(fixture.componentInstance.control.value).toBe('#ff000080');
+    buttons[2].dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }));
+    expect(document.activeElement).toBe(buttons[3]);
+    buttons[3].dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
+    expect(document.activeElement).toBe(buttons[0]);
+    root.querySelector('.aeris-color-picker__presets')?.setAttribute('style', 'direction: rtl');
+    buttons[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
+    expect(document.activeElement).toBe(buttons[2]);
+    buttons[2].dispatchEvent(
+      new FocusEvent('focusout', { bubbles: true, relatedTarget: document.body }),
+    );
+    await fixture.whenStable();
+    expect(fixture.componentInstance.control.touched).toBe(true);
+    fixture.componentInstance.control.disable();
+    await fixture.whenStable();
+    expect(Array.from(buttons).every((button) => button.disabled)).toBe(true);
+    expect(root.querySelector<HTMLInputElement>('input[type="hidden"]')?.disabled).toBe(true);
+  });
+
+  it('keeps only one selected equivalent preset and never selects black for an empty value', async () => {
+    const fixture = TestBed.createComponent(AerisColorPicker);
+    fixture.componentRef.setInput('presentation', 'palette');
+    fixture.componentRef.setInput('alpha', true);
+    fixture.componentRef.setInput('presets', ['#ff0000', '#ff0000ff', '#000000']);
+    fixture.componentRef.setInput('value', '#ff0000');
+    await fixture.whenStable();
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelectorAll('[aria-pressed="true"]')).toHaveLength(1);
+    const explicit = root.querySelectorAll<HTMLButtonElement>(
+      '.aeris-color-picker__presets button',
+    )[1];
+    explicit.click();
+    await fixture.whenStable();
+    expect(explicit.getAttribute('aria-pressed')).toBe('true');
+    expect(root.querySelectorAll('[aria-pressed="true"]')).toHaveLength(1);
+    fixture.componentRef.setInput('value', '');
+    await fixture.whenStable();
+    expect(root.querySelector('[aria-pressed="true"]')).toBeNull();
+    fixture.componentRef.setInput('readonly', true);
+    await fixture.whenStable();
+    expect(root.querySelector('button:not(:disabled)')).toBeNull();
+    fixture.componentInstance.open();
+    await fixture.whenStable();
+    expect(root.querySelector('[role="dialog"]')).toBeNull();
+  });
+});
 
 describe('AerisColorPicker opacity', () => {
   it('keeps a body-mounted panel open when focus transfers from its trigger into the panel', async () => {
@@ -687,6 +860,8 @@ describe('AerisColorPicker', () => {
 });
 
 async function openPicker<T>(fixture: ComponentFixture<T>): Promise<void> {
+  fixture.detectChanges();
+  await fixture.whenStable();
   const trigger = fixture.nativeElement.querySelector(
     '.aeris-color-picker__trigger',
   ) as HTMLButtonElement;

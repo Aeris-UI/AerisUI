@@ -160,6 +160,7 @@ import { AerisTable } from '@aeris-ui/core/table';
     <aeris-date-picker ariaLabel="Start date" appendTo="body" />
     <kbd aerisKbd size="sm">Escape</kbd>
     <kbd aerisKbd [keys]="['command', 'shift']"><span aerisKbdContent>K</span></kbd>
+    <aeris-color-picker presentation="palette" ariaLabel="Packed palette" value="#336699" [presets]="[{ value: '#336699', label: 'Packed ocean' }]" />
     <button aerisButton aerisButtonToggle>Toggle</button>
     <button aerisButton aerisButtonToggle [formControl]="toggle">Classic toggle</button>
     <aeris-button-group selectionMode="single" value="one" ariaLabel="Packed choices">
@@ -237,6 +238,7 @@ assert(html.includes('<aeris-sidebar') && html.includes('aria-label="Packed side
 assert(html.includes('<aeris-navbar') && html.includes('aria-label="Packed navbar"') && html.includes('aeris-navbar-dropdown'), 'Navbar did not render native navigation and disclosures on the server.');
 assert(html.includes('<kbd') && html.includes('aeris-kbd') && html.includes('Escape'), 'Kbd did not preserve native keyboard markup on the server.');
 assert(html.includes('aeris-kbd__readable') && html.includes('Command ') && html.includes('Shift '), 'Kbd did not render accessible combined shortcuts on the server.');
+assert(html.includes('Packed ocean') && html.includes('aeris-color-picker__preset-check'), 'Inline ColorPicker presets did not render on the server.');
 for (const component of ['checkbox', 'radio-button', 'chip', 'color-picker', 'input-number',
   'progress-bar', 'drawer', 'table']) {
   assert(html.includes('<aeris-' + component), component + ' did not render on the server.');
