@@ -383,7 +383,7 @@ type AerisSidebarSide = 'start' | 'end';`;
     ],
     ['--aeris-sidebar-hover-background', '--aeris-interactive-hover', 'Hover surface.'],
     ['--aeris-sidebar-active-background', '--aeris-primary-soft', 'Active item surface.'],
-    ['--aeris-sidebar-active-color', '--aeris-primary-text', 'Active item text.'],
+    ['--aeris-sidebar-active-color', '--aeris-on-primary-soft', 'Active item text.'],
     ['--aeris-sidebar-indent', '0.75rem', 'Nested group indentation.'],
   ] as const;
 }

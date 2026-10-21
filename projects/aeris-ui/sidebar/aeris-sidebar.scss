@@ -153,7 +153,7 @@
 }
 .aeris-sidebar__item[data-active] {
   background: var(--aeris-sidebar-active-background, var(--aeris-primary-soft));
-  color: var(--aeris-sidebar-active-color, var(--aeris-primary-text));
+  color: var(--aeris-sidebar-active-color, var(--aeris-on-primary-soft, var(--aeris-primary-text)));
   font-weight: 600;
 }
 .aeris-sidebar__item[data-active]:hover {
