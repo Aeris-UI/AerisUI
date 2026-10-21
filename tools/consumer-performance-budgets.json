@@ -1,5 +1,5 @@
 {
-  "sharedCssGzip": 6144,
+  "sharedCssGzip": 6656,
   "scenarios": {
     "basic": { "raw": 45000, "gzip": 12288 },
     "forms": { "raw": 210000, "gzip": 56000, "initialRaw": 190000, "initialGzip": 50000 },

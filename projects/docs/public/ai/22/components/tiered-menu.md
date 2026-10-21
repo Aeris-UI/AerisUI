@@ -162,12 +162,13 @@ Use nested item models to show cascading submenu panels from a static menu.
 ```ts
 import { Component } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import { AerisTieredMenuModule, type AerisTieredMenuItem } from '@aeris-ui/core/tiered-menu';
 import { LucideArchive, LucideCopy, LucideDynamicIcon, LucideExternalLink, LucideFilePlus, LucideFolder, LucideFolderOpen, LucideGlobe, LucideRefreshCw, LucideRoute, LucideSearch, LucideSend, LucideSettings, LucideShare2, LucideTrash2, LucideUser, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-tiered-menu-basic-demo',
-  imports: [AerisBadgeModule, AerisTieredMenuModule, LucideDynamicIcon],
+  imports: [AerisBadgeModule, AerisKbdModule, AerisTieredMenuModule, LucideDynamicIcon],
   templateUrl: './tiered-menu-basic.demo.html',
   styleUrl: './tiered-menu-basic.demo.scss'
 })
@@ -234,7 +235,7 @@ export class TieredMenuBasicBasicDemo {
           />
         }
         @if (item.shortcut) {
-          <kbd>{{ item.shortcut }}</kbd>
+          <kbd aerisKbd size="sm">{{ item.shortcut }}</kbd>
         }
         @if (hasSubmenu) {
           <svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true">
@@ -285,7 +286,6 @@ export class TieredMenuBasicBasicDemo {
   white-space: nowrap;
 }
 
-.tiered-menu-item kbd,
 .tiered-menu-status {
   color: var(--text-2);
   font: inherit;
@@ -421,7 +421,6 @@ export class TieredMenuPopupPopupDemo {
   white-space: nowrap;
 }
 
-.tiered-menu-item kbd,
 .tiered-menu-status {
   color: var(--text-2);
   font: inherit;
@@ -570,7 +569,6 @@ export class TieredMenuTemplateTemplateDemo {
   white-space: nowrap;
 }
 
-.tiered-menu-item kbd,
 .tiered-menu-status {
   color: var(--text-2);
   font: inherit;
@@ -702,7 +700,6 @@ export class TieredMenuCommandCommandDemo {
   white-space: nowrap;
 }
 
-.tiered-menu-item kbd,
 .tiered-menu-status {
   color: var(--text-2);
   font: inherit;
@@ -837,7 +834,6 @@ export class TieredMenuRouterRouterAndURLDemo {
   white-space: nowrap;
 }
 
-.tiered-menu-item kbd,
 .tiered-menu-status {
   color: var(--text-2);
   font: inherit;

@@ -5,6 +5,7 @@ import { AerisClassNamesModule } from '@aeris-ui/core/class-names';
 import { AerisFilterService } from '@aeris-ui/core/filter-service';
 import { AerisFocusTrapModule } from '@aeris-ui/core/focus-trap';
 import { AerisGlassModule } from '@aeris-ui/core/glass';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
 import { AerisStyleClassModule, AerisStyleClassDirective } from '@aeris-ui/core/style-class';
 import { AerisButton } from '@aeris-ui/core/button';
@@ -18,6 +19,7 @@ import { AerisCardModule } from '@aeris-ui/core/card';
     AerisClassNamesModule,
     AerisFocusTrapModule,
     AerisGlassModule,
+    AerisKbdModule,
     AerisScrollTop,
     AerisStyleClassModule,
     AerisButton,
@@ -26,6 +28,14 @@ import { AerisCardModule } from '@aeris-ui/core/card';
   ],
   template: `
     @switch (kind()) {
+      @case ('kbd') {
+        <div class="stack">
+          <span>Keyboard shortcuts</span>
+          <kbd class="row"
+            ><kbd aerisKbd>Ctrl</kbd> + <kbd aerisKbd>Shift</kbd> + <kbd aerisKbd>K</kbd></kbd
+          >
+        </div>
+      }
       @case ('animate-on-scroll') {
         <div class="entrance-preview">
           @for (step of entranceSteps; track step.title) {

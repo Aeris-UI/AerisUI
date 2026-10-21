@@ -151,12 +151,16 @@ aeris-tabs::ng-deep .aeris-tabs__list {
   line-height: 1.65;
 }
 
-.doc-section kbd {
+.doc-section kbd:not(.aeris-kbd):not(.kbd-shortcut) {
   padding: 0.15rem 0.4rem;
   border: 1px solid var(--border);
   border-radius: 0.3rem;
   background: var(--surface-2);
-  font: 0.8125rem ui-monospace, SFMono-Regular, Consolas, monospace;
+  font:
+    0.8125rem ui-monospace,
+    SFMono-Regular,
+    Consolas,
+    monospace;
 }
 
 .result {
@@ -203,7 +207,6 @@ svg {
     background: transparent;
     backdrop-filter: none;
   }
-
 }
 
 @media (max-width: 30rem) {
@@ -214,5 +217,4 @@ svg {
   .import-section {
     padding: 1rem;
   }
-
 }

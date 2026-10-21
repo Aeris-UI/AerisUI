@@ -674,6 +674,12 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'components/kbd',
+    title: 'Kbd - Aeris UI',
+    loadComponent: () =>
+      import('./pages/components/utilities/kbd/kbd.page').then((page) => page.KbdPage),
+  },
+  {
     path: 'components/filter-service',
     title: 'FilterService - Aeris UI',
     loadComponent: () =>

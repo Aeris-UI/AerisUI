@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 const fixtureUrl = 'http://127.0.0.1:4300';
 const builtApps = process.env['AERIS_E2E_BUILT_APPS'] === 'true';
 const docsLayoutTests = [
+  '**/kbd.spec.ts',
   '**/docs-navigation.spec.ts',
   '**/sidebar.spec.ts',
   '**/navbar.spec.ts',
@@ -100,6 +101,7 @@ export default defineConfig({
         '**/docs-navigation.spec.ts',
         '**/sidebar.spec.ts',
         '**/navbar.spec.ts',
+        '**/kbd.spec.ts',
         '**/popover-hover.spec.ts',
         '**/chip-group.spec.ts',
         '**/docs-search.spec.ts',
@@ -129,6 +131,7 @@ export default defineConfig({
         '**/docs-navigation.spec.ts',
         '**/sidebar.spec.ts',
         '**/navbar.spec.ts',
+        '**/kbd.spec.ts',
         '**/popover-hover.spec.ts',
         '**/chip-group.spec.ts',
         '**/docs-search.spec.ts',
@@ -163,6 +166,7 @@ export default defineConfig({
         '**/docs-navigation.spec.ts',
         '**/sidebar.spec.ts',
         '**/navbar.spec.ts',
+        '**/kbd.spec.ts',
         '**/popover-hover.spec.ts',
         '**/chip-group.spec.ts',
         '**/docs-search.spec.ts',

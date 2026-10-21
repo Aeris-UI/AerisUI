@@ -38,6 +38,7 @@ const define = (
   });
 
 const descriptions: Readonly<Record<string, string>> = {
+  kbd: 'Present native keyboard hints with readable labels, sizes, symbols, and theme-aware styling.',
   navbar:
     'Responsive native navigation with brand and action slots, inline mobile expansion, disclosures, and sticky positioning.',
   sidebar:
@@ -278,6 +279,7 @@ export const COMPONENT_CATALOG: readonly ComponentCatalogItem[] = [
     'FilterService',
     'FocusTrap',
     'Glass',
+    'Kbd',
     'ScrollTop',
     'StyleClass',
   ]),

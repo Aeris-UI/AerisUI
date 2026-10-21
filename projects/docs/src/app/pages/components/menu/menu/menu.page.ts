@@ -9,6 +9,7 @@ import {
   type AerisMenuItemEvent,
 } from '@aeris-ui/core/menu';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import {
   LucideArchive,
   LucideBriefcaseBusiness,
@@ -52,6 +53,7 @@ interface ApiRow {
     AerisButton,
     AerisMenuModule,
     AerisTabsModule,
+    AerisKbdModule,
     CodeBlockComponent,
     ComponentPageHeaderComponent,
     PageTocComponent,
@@ -363,13 +365,6 @@ protected readonly templateItems: readonly AerisMenuItem[] = [
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.menu-icon-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
 }
 
 .menu-icon-item__chevron {

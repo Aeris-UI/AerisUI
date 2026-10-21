@@ -195,12 +195,13 @@ Use nested items, separators, disabled entries, badges, and shortcuts in a horiz
 ```ts
 import { Component } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';
 import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menubar-basic-demo',
-  imports: [AerisBadgeModule, AerisMenubarModule, LucideDynamicIcon],
+  imports: [AerisBadgeModule, AerisKbdModule, AerisMenubarModule, LucideDynamicIcon],
   templateUrl: './menubar-basic.demo.html',
   styleUrl: './menubar-basic.demo.scss'
 })
@@ -284,7 +285,7 @@ export class MenubarBasicBasicDemo {
           />
         }
         @if (item.shortcut) {
-          <kbd>{{ item.shortcut }}</kbd>
+          <kbd aerisKbd size="sm">{{ item.shortcut }}</kbd>
         }
         @if (hasSubmenu) {
           <svg
@@ -332,13 +333,6 @@ export class MenubarBasicBasicDemo {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.menubar-doc-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
 }
 
 .menubar-doc-item__chevron {
@@ -490,13 +484,6 @@ export class MenubarAppearanceAppearanceAndActiveRouteDemo {
   white-space: nowrap;
 }
 
-.menubar-doc-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
-}
-
 .menubar-doc-item__chevron {
   fill: none;
   stroke: currentColor;
@@ -632,13 +619,6 @@ export class MenubarSubmenusSubmenusDemo {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.menubar-doc-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
 }
 
 .menubar-doc-item__chevron {
@@ -820,13 +800,6 @@ export class MenubarControlledControlledAndResponsiveDemo {
   white-space: nowrap;
 }
 
-.menubar-doc-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
-}
-
 .menubar-doc-item__chevron {
   fill: none;
   stroke: currentColor;
@@ -975,13 +948,6 @@ export class MenubarCommandCommandAndLinksDemo {
   white-space: nowrap;
 }
 
-.menubar-doc-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
-}
-
 .menubar-doc-item__chevron {
   fill: none;
   stroke: currentColor;
@@ -1000,12 +966,13 @@ Project brand and user content around the menubar and customize each item row.
 ```ts
 import { Component } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import { AerisMenubarModule, type AerisMenubarItem } from '@aeris-ui/core/menubar';
 import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideExternalLink, LucideFileText, LucideFolderOpen, LucideHelpCircle, LucideHome, LucidePackage, LucideRefreshCw, LucideSave, LucideScissors, LucideSearch, LucideSettings, LucideUndo2, LucideUpload, LucideUser, LucideZoomIn, LucideZoomOut, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menubar-template-demo',
-  imports: [AerisBadgeModule, AerisMenubarModule, LucideDynamicIcon],
+  imports: [AerisBadgeModule, AerisKbdModule, AerisMenubarModule, LucideDynamicIcon],
   templateUrl: './menubar-template.demo.html',
   styleUrl: './menubar-template.demo.scss'
 })
@@ -1078,7 +1045,7 @@ export class MenubarTemplateTemplateDemo {
           />
         }
         @if (item.shortcut) {
-          <kbd>{{ item.shortcut }}</kbd>
+          <kbd aerisKbd size="sm">{{ item.shortcut }}</kbd>
         }
         @if (hasSubmenu) {
           <svg
@@ -1130,13 +1097,6 @@ export class MenubarTemplateTemplateDemo {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.menubar-doc-item kbd {
-  color: var(--aeris-text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
 }
 
 .menubar-doc-item__chevron {
@@ -1198,13 +1158,6 @@ small[aria-live] {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.menubar-doc-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
 }
 
 .menubar-doc-item__chevron {

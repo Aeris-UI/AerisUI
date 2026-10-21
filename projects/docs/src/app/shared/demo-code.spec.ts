@@ -2,6 +2,26 @@ import { buildAngularDemoSources } from './demo-code';
 import { DOC_EXAMPLE_CODE } from './generated-example-code';
 
 describe('Angular demo code imports', () => {
+  it('imports the native keyboard hint family for consumer examples', () => {
+    const sources = buildAngularDemoSources({
+      anchor: 'kbd-example',
+      title: 'Keyboard hint',
+      template: '<kbd aerisKbd size="sm">Escape</kbd>',
+    });
+    expect(sources[0]?.code).toContain("from '@aeris-ui/core/kbd'");
+    expect(sources[0]?.code).toContain('imports: [AerisKbdModule]');
+  });
+  it('imports the keyboard family for standalone key symbols and content parts', () => {
+    for (const template of [
+      '<span aerisKbdKey="enter"></span>',
+      '<span [aerisKbdKey]="key"></span>',
+      '<span aerisKbdContent>K</span>',
+    ]) {
+      const sources = buildAngularDemoSources({ anchor: 'kbd-part', title: 'Key part', template });
+      expect(sources[0]?.code).toContain("from '@aeris-ui/core/kbd'");
+      expect(sources[0]?.code).toContain('imports: [AerisKbdModule]');
+    }
+  });
   it('keeps generated form signals before the fields initialized from them', () => {
     const code = DOC_EXAMPLE_CODE['chip-group-forms'];
     expect(code).toContain('readonly groupData');

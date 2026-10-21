@@ -47,7 +47,7 @@
                         />
                       }
                       @if (item.shortcut) {
-                        <kbd>{{ item.shortcut }}</kbd>
+                        <kbd aerisKbd size="sm">{{ item.shortcut }}</kbd>
                       }
                       @if (hasSubmenu) {
                         <svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true">
@@ -75,7 +75,7 @@
           /&gt;
         &#125;
         &#64;if (item.shortcut) &#123;
-          &lt;kbd&gt;&#123;&#123; item.shortcut &#125;&#125;&lt;/kbd&gt;
+          &lt;kbd aerisKbd size="sm"&gt;&#123;&#123; item.shortcut &#125;&#125;&lt;/kbd&gt;
         &#125;
         &#64;if (hasSubmenu) &#123;
           &lt;svg class="tiered-menu-chevron" viewBox="0 0 20 20" aria-hidden="true"&gt;

@@ -156,12 +156,13 @@ Use groups, separators, badges, shortcuts, and nested toggleable sections in one
 ```ts
 import { Component } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
 import { LucideArchive, LucideBriefcaseBusiness, LucideChartColumn, LucideCopy, LucideCreditCard, LucideDynamicIcon, LucideExternalLink, LucideFilePlus, LucideFolder, LucideLayoutDashboard, LucideLogOut, LucideMessageCircle, LucideRoute, LucideSearch, LucideSettings, LucideUser, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menu-basic-demo',
-  imports: [AerisBadgeModule, AerisMenuModule, LucideDynamicIcon],
+  imports: [AerisBadgeModule, AerisKbdModule, AerisMenuModule, LucideDynamicIcon],
   templateUrl: './menu-basic.demo.html',
   styleUrl: './menu-basic.demo.scss'
 })
@@ -244,7 +245,7 @@ export class MenuBasicBasicDemo {
           />
         }
         @if (item.shortcut) {
-          <kbd>{{ item.shortcut }}</kbd>
+          <kbd aerisKbd size="sm">{{ item.shortcut }}</kbd>
         }
         @if (hasChildren) {
           <svg
@@ -294,13 +295,6 @@ export class MenuBasicBasicDemo {
   white-space: nowrap;
 }
 
-.menu-icon-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
-}
-
 .menu-icon-item__chevron {
   fill: none;
   stroke: currentColor;
@@ -325,12 +319,13 @@ Popup mode anchors the menu to the triggering element and restores focus when cl
 import { Component, viewChild } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import { AerisMenuModule, type AerisMenu, type AerisMenuItem } from '@aeris-ui/core/menu';
 import { LucideArchive, LucideBriefcaseBusiness, LucideChartColumn, LucideCopy, LucideCreditCard, LucideDynamicIcon, LucideExternalLink, LucideFilePlus, LucideFolder, LucideLayoutDashboard, LucideLogOut, LucideMessageCircle, LucideRoute, LucideSearch, LucideSettings, LucideUser, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menu-popup-demo',
-  imports: [AerisBadgeModule, AerisButton, AerisMenuModule, LucideDynamicIcon],
+  imports: [AerisBadgeModule, AerisButton, AerisKbdModule, AerisMenuModule, LucideDynamicIcon],
   templateUrl: './menu-popup.demo.html',
   styleUrl: './menu-popup.demo.scss'
 })
@@ -393,7 +388,7 @@ export class MenuPopupPopupDemo {
           />
         }
         @if (item.shortcut) {
-          <kbd>{{ item.shortcut }}</kbd>
+          <kbd aerisKbd size="sm">{{ item.shortcut }}</kbd>
         }
         @if (hasChildren) {
           <svg
@@ -450,13 +445,6 @@ export class MenuPopupPopupDemo {
   white-space: nowrap;
 }
 
-.menu-icon-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
-}
-
 .menu-icon-item__chevron {
   fill: none;
   stroke: currentColor;
@@ -481,12 +469,13 @@ Bind expandedKeys when application state owns which groups are open.
 import { Component, signal } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import { AerisMenuModule, type AerisMenuExpandedKeys, type AerisMenuItem } from '@aeris-ui/core/menu';
 import { LucideArchive, LucideBriefcaseBusiness, LucideChartColumn, LucideCopy, LucideCreditCard, LucideDynamicIcon, LucideExternalLink, LucideFilePlus, LucideFolder, LucideLayoutDashboard, LucideLogOut, LucideMessageCircle, LucideRoute, LucideSearch, LucideSettings, LucideUser, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menu-controlled-demo',
-  imports: [AerisBadgeModule, AerisButton, AerisMenuModule, LucideDynamicIcon],
+  imports: [AerisBadgeModule, AerisButton, AerisKbdModule, AerisMenuModule, LucideDynamicIcon],
   templateUrl: './menu-controlled.demo.html',
   styleUrl: './menu-controlled.demo.scss'
 })
@@ -594,7 +583,7 @@ export class MenuControlledControlledDemo {
           />
         }
         @if (item.shortcut) {
-          <kbd>{{ item.shortcut }}</kbd>
+          <kbd aerisKbd size="sm">{{ item.shortcut }}</kbd>
         }
         @if (hasChildren) {
           <svg
@@ -656,13 +645,6 @@ export class MenuControlledControlledDemo {
   white-space: nowrap;
 }
 
-.menu-icon-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
-}
-
 .menu-icon-item__chevron {
   fill: none;
   stroke: currentColor;
@@ -686,12 +668,13 @@ Customize item rows, group headers, and content before or after the menu without
 ```ts
 import { Component } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
 import { LucideArchive, LucideBriefcaseBusiness, LucideChartColumn, LucideCopy, LucideCreditCard, LucideDynamicIcon, LucideExternalLink, LucideFilePlus, LucideFolder, LucideLayoutDashboard, LucideLogOut, LucideMessageCircle, LucideRoute, LucideSearch, LucideSettings, LucideUser, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menu-template-demo',
-  imports: [AerisBadgeModule, AerisMenuModule, LucideDynamicIcon],
+  imports: [AerisBadgeModule, AerisKbdModule, AerisMenuModule, LucideDynamicIcon],
   templateUrl: './menu-template.demo.html',
   styleUrl: './menu-template.demo.scss'
 })
@@ -773,7 +756,7 @@ export class MenuTemplateTemplateDemo {
           />
         }
         @if (item.shortcut) {
-          <kbd>{{ item.shortcut }}</kbd>
+          <kbd aerisKbd size="sm">{{ item.shortcut }}</kbd>
         }
       </span>
     </ng-template>
@@ -814,13 +797,6 @@ export class MenuTemplateTemplateDemo {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.menu-icon-item kbd {
-  color: var(--aeris-text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
 }
 
 .menu-template-brand {
@@ -868,13 +844,6 @@ small[aria-live] {
   white-space: nowrap;
 }
 
-.menu-icon-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
-}
-
 .menu-icon-item__chevron {
   fill: none;
   stroke: currentColor;
@@ -913,12 +882,13 @@ Items can run commands, use routerLink with an app-owned navigation handler, or 
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisBadgeModule } from '@aeris-ui/core/badge';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import { AerisMenuModule, type AerisMenuItem, type AerisMenuItemEvent } from '@aeris-ui/core/menu';
 import { LucideArchive, LucideBriefcaseBusiness, LucideChartColumn, LucideCopy, LucideCreditCard, LucideDynamicIcon, LucideExternalLink, LucideFilePlus, LucideFolder, LucideLayoutDashboard, LucideLogOut, LucideMessageCircle, LucideRoute, LucideSearch, LucideSettings, LucideUser, type LucideIconInput } from '@lucide/angular';
 
 @Component({
   selector: 'app-menu-command-demo',
-  imports: [AerisBadgeModule, AerisMenuModule, LucideDynamicIcon],
+  imports: [AerisBadgeModule, AerisKbdModule, AerisMenuModule, LucideDynamicIcon],
   templateUrl: './menu-command.demo.html',
   styleUrl: './menu-command.demo.scss'
 })
@@ -986,7 +956,7 @@ export class MenuCommandCommandAndLinksDemo {
           />
         }
         @if (item.shortcut) {
-          <kbd>{{ item.shortcut }}</kbd>
+          <kbd aerisKbd size="sm">{{ item.shortcut }}</kbd>
         }
         @if (hasChildren) {
           <svg
@@ -1035,13 +1005,6 @@ export class MenuCommandCommandAndLinksDemo {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.menu-icon-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
 }
 
 .menu-icon-item__chevron {

@@ -158,6 +158,7 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [FilterService](https://aeris-ui.dev/ai/22/components/filter-service.md): Filter values and typed collections with locale-aware built-ins, nested fields, and custom match constraints.
 - [FocusTrap](https://aeris-ui.dev/ai/22/components/focus-trap.md): Contain forward and backward keyboard focus within dynamic interactive regions.
 - [Glass](https://aeris-ui.dev/ai/22/components/glass.md): Apply configurable, theme-aware translucent backgrounds and backdrop blur to compatible surfaces.
+- [Kbd](https://aeris-ui.dev/ai/22/components/kbd.md): Present native keyboard hints with readable labels, sizes, symbols, and theme-aware styling.
 - [ScrollTop](https://aeris-ui.dev/ai/22/components/scroll-top.md): Floating action that returns long pages to the top with accessible controls.
 - [StyleClass](https://aeris-ui.dev/ai/22/components/style-class.md): Toggle application classes and coordinate enter or leave transitions declaratively.
 

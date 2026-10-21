@@ -7,6 +7,7 @@ import {
   type AerisMenubarItemEvent,
 } from '@aeris-ui/core/menubar';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
+import { AerisKbdModule } from '@aeris-ui/core/kbd';
 import {
   LucideClipboard,
   LucideCopy,
@@ -54,6 +55,7 @@ interface ApiRow {
     AerisButton,
     AerisMenubarModule,
     AerisTabsModule,
+    AerisKbdModule,
     CodeBlockComponent,
     ComponentPageHeaderComponent,
     PageTocComponent,
@@ -476,13 +478,6 @@ protected readonly templateItems: readonly AerisMenubarItem[] = [
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.menubar-doc-item kbd {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
 }
 
 .menubar-doc-item__chevron {

@@ -153,4 +153,13 @@ describe('ComponentCatalogPage previews', () => {
     expect(element.querySelector('a[href="/components/sidebar"]')).not.toBeNull();
     expect(element.querySelector('a[href="/components/menu"]')).not.toBeNull();
   });
+  it('keeps the native keyboard hint directive discoverable in Utilities', async () => {
+    const { fixture, element } = await setup();
+    const utilities = Array.from(
+      element.querySelectorAll<HTMLButtonElement>('.catalog-controls button'),
+    ).find((button) => button.textContent?.trim() === 'Utilities');
+    utilities?.click();
+    fixture.detectChanges();
+    expect(element.querySelector('a[href="/components/kbd"]')).not.toBeNull();
+  });
 });

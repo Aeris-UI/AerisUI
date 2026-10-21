@@ -30,6 +30,7 @@ describe('CatalogPreviewComponent', () => {
     { kind: 'carousel', category: 'Media', selector: 'aeris-carousel' },
     { kind: 'avatar', category: 'Misc', selector: 'aeris-avatar' },
     { kind: 'glass', category: 'Utilities', selector: 'aeris-card[aerisGlass]' },
+    { kind: 'kbd', category: 'Utilities', selector: 'kbd.aeris-kbd' },
     { kind: 'dialog', category: 'Overlay', selector: 'aeris-dialog' },
     { kind: 'message', category: 'Messages', selector: 'aeris-message' },
     { kind: 'editor', category: 'Form', selector: 'aeris-editor' },
