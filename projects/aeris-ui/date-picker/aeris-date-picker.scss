@@ -20,6 +20,10 @@
   width: 100%;
 }
 
+:host([data-fluid]) {
+  min-width: 0;
+}
+
 .aeris-date-picker {
   --aeris-date-picker-height: var(--aeris-control-height, 2.625rem);
   --aeris-date-picker-font-size: var(--aeris-font-size-lg, 0.875rem);
