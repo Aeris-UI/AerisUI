@@ -118,9 +118,9 @@ export class ButtonGroupPage {
   protected readonly apiLinks: readonly PageTocLink[] = [
     { id: 'group-api-inputs', label: 'Inputs' },
     { id: 'group-api-outputs', label: 'Outputs' },
-    { id: 'group-api-content', label: 'Content' },
     { id: 'group-api-items', label: 'Selection items' },
     { id: 'group-api-methods', label: 'Methods' },
+    { id: 'group-api-content', label: 'Content' },
   ];
 
   protected readonly importCode = `import { AerisButtonGroup } from '@aeris-ui/core/button-group';`;

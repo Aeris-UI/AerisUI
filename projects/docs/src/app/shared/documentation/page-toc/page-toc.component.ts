@@ -132,7 +132,9 @@ export class PageTocComponent {
       .filter(
         (entry): entry is { link: PageTocLink; element: HTMLElement } =>
           entry.element !== null && entry.element.getClientRects().length > 0,
-      );
+      )
+      .map(({ link, element }) => ({ link, top: element.getBoundingClientRect().top }))
+      .sort((a, b) => a.top - b.top);
     if (!targets.length) {
       this.activeId.set(this.showTopLink() ? this.topLinkId : null);
       return;
@@ -141,7 +143,7 @@ export class PageTocComponent {
     const trackingLine = this.headerOffset() + 8;
     let active = this.showTopLink() ? this.topLinkId : targets[0]!.link.id;
     for (const target of targets) {
-      if (target.element.getBoundingClientRect().top > trackingLine) break;
+      if (target.top > trackingLine) break;
       active = target.link.id;
     }
 

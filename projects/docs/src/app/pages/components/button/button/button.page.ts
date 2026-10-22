@@ -112,8 +112,8 @@ export class ButtonPage {
     { id: 'api-directive-inputs', label: 'Directive inputs' },
     { id: 'api-component-inputs', label: 'Component inputs' },
     { id: 'api-emitters', label: 'Emitters' },
-    { id: 'api-templates', label: 'Templates' },
     { id: 'api-toggle', label: 'Toggle directive' },
+    { id: 'api-templates', label: 'Templates' },
   ];
   protected readonly importCode = `import { AerisButton } from '@aeris-ui/core/button';`;
   protected readonly wrapperTsCode = `protected readonly clickCount = signal(0);

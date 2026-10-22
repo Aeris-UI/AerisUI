@@ -3,6 +3,37 @@ import { expect, test } from './fixtures';
 
 test.use({ baseURL: 'http://127.0.0.1:4301' });
 
+for (const route of [
+  '/components/table',
+  '/components/tree-table',
+  '/components/button',
+  '/guides/installation',
+]) {
+  test(`quick links follow every section on ${route}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(route);
+    const toc = page.locator('app-page-toc:visible').first();
+    await expect(toc).toBeVisible();
+    const links = toc.locator('a');
+    const count = await links.count();
+    expect(count).toBeGreaterThan(2);
+    for (let index = 0; index < count; index++) {
+      const link = links.nth(index);
+      await link.click();
+      await page.evaluate(
+        () =>
+          new Promise<void>((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+          ),
+      );
+      await expect(link).toHaveAttribute('aria-current', 'location');
+      await expect(toc.locator('a[aria-current="location"]')).toHaveCount(1);
+    }
+    await links.first().click();
+    await expect(links.first()).toHaveAttribute('aria-current', 'location');
+  });
+}
+
 test('header appearance controls still restore native button focus after Escape', async ({
   page,
 }) => {
