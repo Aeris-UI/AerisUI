@@ -9,12 +9,14 @@ import {
   booleanAttribute,
   afterNextRender,
   computed,
+  effect,
   contentChild,
   inject,
   input,
   model,
   output,
   signal,
+  untracked,
 } from '@angular/core';
 import { AerisPaginator, type AerisPaginatorPageEvent } from '@aeris-ui/core/paginator';
 import { AerisCheckbox } from '@aeris-ui/core/checkbox';
@@ -22,6 +24,8 @@ import { AerisContextMenu, AerisContextMenuItemTemplate } from '@aeris-ui/core/c
 import { AerisTooltip } from '@aeris-ui/core/tooltip';
 import {
   ɵAerisIcon,
+  ɵAerisCellEditor,
+  type AerisCellEditor,
   aerisInternalApplyMeasuredColumnWidths,
   aerisInternalClampColumnResizeDelta,
   aerisInternalColumnResizeDirection,
@@ -41,6 +45,10 @@ export type AerisTableSelectionMode = 'single' | 'multiple';
 export type AerisTableSelectionControl = 'row' | 'control';
 export type AerisTableResponsiveMode = 'scroll' | 'stack';
 export type AerisTableData = Record<string, unknown>;
+export type AerisTableCellEditable = (
+  row: AerisTableData,
+  column: AerisTableColumn,
+) => boolean | undefined;
 export type AerisTableCsvRows = 'all' | 'filtered' | 'page';
 export type AerisTableContextMenuDisabled =
   boolean | ((row: AerisTableData, rowIndex: number) => boolean);
@@ -63,6 +71,7 @@ export interface AerisTableColumn {
   readonly header: string;
   readonly sortable?: boolean;
   readonly filterable?: boolean;
+  readonly editable?: boolean;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
 }
@@ -95,14 +104,14 @@ export interface AerisTableCellEditEvent {
   readonly originalEvent: Event;
   readonly row: AerisTableData;
   readonly field: string;
-  readonly value: string;
+  readonly value: unknown;
 }
 
 export interface AerisTableCellEditStartEvent {
   readonly originalEvent: Event;
   readonly row: AerisTableData;
   readonly field: string;
-  readonly value: string;
+  readonly value: unknown;
 }
 
 export interface AerisTableColumnResizeEvent {
@@ -194,6 +203,25 @@ interface AerisTableCellContext {
   readonly rowIndex: number;
 }
 
+export interface AerisTableEditorContext {
+  readonly $implicit: AerisCellEditor;
+  readonly editor: AerisCellEditor;
+  readonly row: AerisTableData;
+  readonly column: AerisTableColumn;
+  readonly rowIndex: number;
+}
+
+@Directive({ selector: 'ng-template[aerisTableEditor]' })
+export class AerisTableEditorTemplate {
+  readonly template = inject<TemplateRef<AerisTableEditorContext>>(TemplateRef);
+  static ngTemplateContextGuard(
+    _directive: AerisTableEditorTemplate,
+    context: unknown,
+  ): context is AerisTableEditorContext {
+    return true;
+  }
+}
+
 interface AerisTableRowExpansionContext {
   readonly $implicit: AerisTableData;
   readonly row: AerisTableData;
@@ -253,7 +281,14 @@ export class AerisTableLoadingTemplate {
 
 @Component({
   selector: 'aeris-table',
-  imports: [ɵAerisIcon, NgTemplateOutlet, AerisCheckbox, AerisPaginator, AerisTooltip],
+  imports: [
+    ɵAerisIcon,
+    ɵAerisCellEditor,
+    NgTemplateOutlet,
+    AerisCheckbox,
+    AerisPaginator,
+    AerisTooltip,
+  ],
   template: `
     <div
       class="aeris-table"
@@ -632,29 +667,44 @@ export class AerisTableLoadingTemplate {
                       </td>
                     }
                     @for (column of columns(); track column.field) {
+                      @let cellEditable =
+                        editableCells().get(rowKey(row))?.has(column.field) === true;
                       <td
                         [attr.data-label]="column.header"
                         [attr.data-align]="column.align || 'start'"
-                        [attr.data-editable]="editable() || null"
+                        [attr.data-editable]="cellEditable || null"
+                        [attr.tabindex]="cellEditable ? 0 : null"
+                        (keydown)="handleCellKeydown(row, column, $event)"
                         (dblclick)="startCellEdit(row, column, $event)"
                       >
-                        @if (editable()) {
+                        @if (cellEditable) {
                           <span
                             aerisInternalIcon="edit"
                             class="aeris-table__edit-icon"
                             aria-hidden="true"
                           ></span>
                         }
-                        @if (isEditing(row, column.field)) {
-                          <input
-                            class="aeris-table__cell-editor"
-                            type="text"
-                            [value]="editValue()"
-                            (input)="editValue.set($any($event.target).value)"
-                            (keydown)="handleEditKeydown($event, row, column.field)"
-                            (blur)="commitCellEdit($event, row, column.field)"
-                            autofocus
-                          />
+                        @if (isEditing(row, column.field) && editorContext(); as context) {
+                          <div [aerisInternalCellEditor]="context.editor">
+                            @if (editorTemplate(); as customEditor) {
+                              <ng-container
+                                [ngTemplateOutlet]="customEditor.template"
+                                [ngTemplateOutletContext]="editorContext()"
+                              />
+                            } @else {
+                              <input
+                                class="aeris-table__cell-editor"
+                                type="text"
+                                [attr.aria-label]="'Edit ' + column.header"
+                                [value]="editValue()"
+                                (input)="
+                                  editorContext()?.editor.value.set($any($event.target).value)
+                                "
+                                (keydown)="handleEditKeydown($event, row, column.field)"
+                                (blur)="commitCellEdit($event, row, column.field)"
+                              />
+                            }
+                          </div>
                         } @else {
                           <div
                             class="aeris-table__cell-content"
@@ -782,6 +832,7 @@ export class AerisTable {
   readonly contextMenuRow = model<AerisTableData | null>(null);
   readonly contextMenuRowKey = model('');
   readonly editable = input(false, { transform: booleanAttribute });
+  readonly cellEditable = input<AerisTableCellEditable>();
   readonly resizableColumns = input(false, { transform: booleanAttribute });
   readonly reorderableColumns = input(false, { transform: booleanAttribute });
   readonly reorderableRows = input(false, { transform: booleanAttribute });
@@ -831,11 +882,61 @@ export class AerisTable {
   protected readonly tableId = `aeris-table-${Math.random().toString(36).slice(2)}`;
   protected readonly headerTemplate = contentChild(AerisTableHeaderTemplate);
   protected readonly cellTemplate = contentChild(AerisTableCellTemplate);
+  protected readonly editorTemplate = contentChild(AerisTableEditorTemplate);
+  protected readonly editorContext = signal<AerisTableEditorContext | null>(null);
+  private returnCell: HTMLElement | null = null;
+  protected readonly editableCells = computed(() => {
+    const fallback = this.editable();
+    const predicate = this.cellEditable();
+    const columns = this.columns();
+    if (!fallback && !predicate && !columns.some((column) => column.editable === true))
+      return new Map<string, ReadonlySet<string>>();
+    return new Map(
+      this.pageRows().map((row) => [
+        this.rowKey(row),
+        new Set(
+          columns
+            .filter((column) => predicate?.(row, column) ?? column.editable ?? fallback)
+            .map((column) => column.field),
+        ),
+      ]),
+    );
+  });
+  private readonly maintainEditor = effect(() => {
+    const context = this.editorContext();
+    if (!context) return;
+    const rows = this.pageRows();
+    const key = context.row[this.rowKeyField()];
+    const row =
+      key == null
+        ? rows[context.rowIndex - this.first()]
+        : rows.find((candidate) => candidate[this.rowKeyField()] === key);
+    if (row && this.editableCells().get(this.rowKey(row))?.has(context.column.field)) {
+      if (row !== context.row) untracked(() => this.editorContext.set({ ...context, row }));
+      return;
+    }
+    untracked(() => {
+      const value = context.editor.value();
+      this.finishCellEdit(false);
+      this.editCancelled.emit({
+        originalEvent: new Event('editcancel'),
+        row: context.row,
+        field: context.column.field,
+        value,
+      });
+    });
+  });
   protected readonly expansionTemplate = contentChild(AerisTableExpansionTemplate);
   protected readonly emptyTemplate = contentChild(AerisTableEmptyTemplate);
   protected readonly loadingTemplate = contentChild(AerisTableLoadingTemplate);
-  protected readonly editingCell = signal('');
-  protected readonly editValue = signal('');
+  protected readonly editingCell = computed(() => {
+    const context = this.editorContext();
+    return context ? `${this.rowKey(context.row)}:${context.column.field}` : '';
+  });
+  protected readonly editValue = computed(() => {
+    const context = this.editorContext();
+    return context ? context.editor.value() : '';
+  });
   protected readonly draggedRowIndex = signal<number | null>(null);
   protected readonly rowDropIndex = signal<number | null>(null);
   protected readonly rowReorderAnnouncement = signal('');
@@ -1410,6 +1511,7 @@ export class AerisTable {
   }
 
   protected handleRowKeydown(event: KeyboardEvent, row: AerisTableData): void {
+    if (event.target !== event.currentTarget || event.defaultPrevented) return;
     if (event.key === 'Enter' && this.expandableRows()) {
       event.preventDefault();
       this.toggleExpanded(row);
@@ -1665,12 +1767,50 @@ export class AerisTable {
   protected startCellEdit(
     row: AerisTableData,
     column: AerisTableColumn,
-    originalEvent: MouseEvent,
+    originalEvent: Event,
   ): void {
-    if (!this.editable()) return;
+    if (
+      !this.editableCells().get(this.rowKey(row))?.has(column.field) ||
+      this.isEditing(row, column.field)
+    )
+      return;
+    if (
+      originalEvent.target instanceof Element &&
+      originalEvent.target.closest('button,input,a,select,textarea,[contenteditable="true"]')
+    )
+      return;
     originalEvent.stopPropagation();
-    this.editingCell.set(`${this.rowKey(row)}:${column.field}`);
-    this.editValue.set(this.displayValue(row, column.field));
+    const key = this.rowKey(row);
+    const previous = this.editorContext();
+    if (previous) {
+      previous.editor.commit(originalEvent);
+      if (this.editorContext() === previous) previous.editor.cancel(originalEvent);
+    }
+    row = this.pageRows().find((candidate) => this.rowKey(candidate) === key) ?? row;
+    this.returnCell = originalEvent.currentTarget as HTMLElement | null;
+    const editor: AerisCellEditor = {
+      valid: signal(true),
+      originalValue: row[column.field],
+      ariaLabel: 'Edit ' + column.header,
+      value: signal(
+        this.editorTemplate() ? row[column.field] : this.displayValue(row, column.field),
+      ),
+      commit: (event = originalEvent) => {
+        const context = this.editorContext();
+        if (context?.editor === editor) this.commitCellEdit(event, context.row, column.field);
+      },
+      cancel: (event = originalEvent) => {
+        const context = this.editorContext();
+        if (context?.editor === editor) this.cancelCellEdit(event, context.row, column.field);
+      },
+    };
+    this.editorContext.set({
+      $implicit: editor,
+      editor,
+      row,
+      column,
+      rowIndex: this.first() + this.pageRows().indexOf(row),
+    });
     this.editStarted.emit({
       originalEvent,
       row,
@@ -1684,37 +1824,70 @@ export class AerisTable {
   }
 
   protected handleEditKeydown(event: KeyboardEvent, row: AerisTableData, field: string): void {
+    if (event.defaultPrevented || event.isComposing) return;
     if (event.key === 'Enter') {
       event.preventDefault();
+      event.stopPropagation();
       this.commitCellEdit(event, row, field);
-    }
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      this.editCancelled.emit({
-        originalEvent: event,
-        row,
-        field,
-        value: this.editValue(),
-      });
-      this.editingCell.set('');
     }
   }
 
-  protected commitCellEdit(originalEvent: Event, row: AerisTableData, field: string): void {
+  protected handleCellKeydown(
+    row: AerisTableData,
+    column: AerisTableColumn,
+    event: KeyboardEvent,
+  ): void {
+    if (event.target !== event.currentTarget || event.defaultPrevented || event.isComposing) return;
+    if (!this.editableCells().get(this.rowKey(row))?.has(column.field)) return;
+    if (event.key !== 'Enter' && event.key !== 'F2') return;
+    event.preventDefault();
+    this.startCellEdit(row, column, event);
+  }
+
+  protected cancelCellEdit(originalEvent: Event, row: AerisTableData, field: string): void {
     if (!this.isEditing(row, field)) return;
+    const value = this.editValue();
+    this.finishCellEdit(
+      !['blur', 'focusout', 'focusin', 'pointerdown', 'dblclick'].includes(originalEvent.type),
+    );
+    this.editCancelled.emit({ originalEvent, row, field, value });
+  }
+
+  private finishCellEdit(restoreFocus = true): void {
+    const cell = this.returnCell;
+    this.returnCell = null;
+    this.editorContext.set(null);
+    if (restoreFocus)
+      afterNextRender(
+        () => {
+          if (cell?.isConnected) cell.focus({ preventScroll: true });
+        },
+        { injector: this.injector },
+      );
+  }
+
+  protected commitCellEdit(originalEvent: Event, row: AerisTableData, field: string): void {
+    if (
+      !this.isEditing(row, field) ||
+      !this.editorContext()?.editor.valid() ||
+      !this.editableCells().get(this.rowKey(row))?.has(field)
+    )
+      return;
     const event = {
       originalEvent,
       row,
       field,
       value: this.editValue(),
     };
+    this.finishCellEdit(
+      !['blur', 'focusout', 'focusin', 'pointerdown', 'dblclick'].includes(originalEvent.type),
+    );
     this.cellEdited.emit(event);
     this.editCompleted.emit(event);
-    this.editingCell.set('');
   }
 
   protected handleRowDoubleClick(event: MouseEvent): void {
-    if (this.editable()) {
+    if (event.target instanceof Element && event.target.closest('[data-editable="true"]')) {
       event.stopPropagation();
     }
   }
@@ -1815,6 +1988,7 @@ export const AerisTableModule = [
   AerisTable,
   AerisTableHeaderTemplate,
   AerisTableCellTemplate,
+  AerisTableEditorTemplate,
   AerisTableExpansionTemplate,
   AerisTableEmptyTemplate,
   AerisTableLoadingTemplate,
@@ -1825,6 +1999,7 @@ export const AerisTableContextMenuModule = [
   AerisTable,
   AerisTableHeaderTemplate,
   AerisTableCellTemplate,
+  AerisTableEditorTemplate,
   AerisTableExpansionTemplate,
   AerisTableEmptyTemplate,
   AerisTableLoadingTemplate,

@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AerisTreeTable,
   AerisTreeTableModule,
+  AerisTreeTableEditorTemplate,
   type AerisTreeTableCellEditEvent,
   type AerisTreeTableColumn,
   type AerisTreeTableColumnReorderEvent,
@@ -20,7 +21,15 @@ type FileRow = AerisTreeTableData & {
 };
 
 const COLUMNS: readonly AerisTreeTableColumn[] = [
-  { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '12rem' },
+  {
+    field: 'name',
+    header: 'Name',
+    sortable: true,
+    filterable: true,
+    frozen: true,
+    width: '12rem',
+    editable: false,
+  },
   {
     field: 'size',
     header: 'Size',
@@ -30,7 +39,14 @@ const COLUMNS: readonly AerisTreeTableColumn[] = [
     width: '8rem',
     align: 'end',
   },
-  { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
+  {
+    field: 'type',
+    header: 'Type',
+    sortable: true,
+    filterable: true,
+    width: '9rem',
+    editable: false,
+  },
 ];
 
 const NODES: readonly AerisTreeTableNode<FileRow>[] = [
@@ -193,7 +209,8 @@ describe('AerisTreeTable', () => {
 
   it('exports one module-array import with the component and templates', () => {
     expect(AerisTreeTableModule[0]).toBe(AerisTreeTable);
-    expect(AerisTreeTableModule.length).toBe(5);
+    expect(AerisTreeTableModule.length).toBe(6);
+    expect(AerisTreeTableModule).toContain(AerisTreeTableEditorTemplate);
   });
 
   it('allows page scrolling unless vertical tree-table scrolling is enabled', () => {

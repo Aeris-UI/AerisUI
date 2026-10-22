@@ -8,12 +8,17 @@ import {
   viewChild,
 } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisInputTextComponent } from '@aeris-ui/core/input-text';
+import { AerisInputNumber } from '@aeris-ui/core/input-number';
+import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 import {
   AerisTable,
   AerisTableContextMenuModule,
   type AerisTableCellEditEvent,
+  type AerisTableCellEditable,
   type AerisTableColumn,
   type AerisTableContextMenuEvent,
   type AerisTableData,
@@ -53,6 +58,10 @@ const SELECTION_MEMBERS: readonly AerisTableData[] = [
   selector: 'app-table-page',
   imports: [
     AerisButton,
+    AerisInputTextComponent,
+    AerisInputNumber,
+    AerisSelect,
+    AerisDatePicker,
     AerisMenuModule,
     AerisToolbarModule,
     AerisTableContextMenuModule,
@@ -67,6 +76,54 @@ const SELECTION_MEMBERS: readonly AerisTableData[] = [
   styleUrl: './table.page.scss',
 })
 export class TablePage {
+  protected readonly permissionDefault = signal(true);
+  protected readonly permissionColumns: readonly AerisTableColumn[] = [
+    { field: 'name', header: 'Name', width: '40%' },
+    { field: 'team', header: 'Team', editable: true, width: '30%' },
+    { field: 'status', header: 'Status', editable: false, width: '30%' },
+  ];
+  protected readonly permissionRows = signal<readonly AerisTableData[]>([
+    { id: 'one', name: 'Maya', team: 'Design', status: 'Active' },
+    { id: 'two', name: 'Noah', team: 'Engineering', status: 'Archived' },
+    { id: 'three', name: 'Sofia', team: 'Research', status: 'Active' },
+  ]);
+  protected readonly canEditCell: AerisTableCellEditable = (row, column) =>
+    row['status'] === 'Archived' || (row['id'] === 'three' && column.field === 'team')
+      ? false
+      : undefined;
+  protected savePermissionEdit(event: AerisTableCellEditEvent): void {
+    this.permissionRows.update((rows) =>
+      rows.map((row) => (row === event.row ? { ...row, [event.field]: event.value } : row)),
+    );
+  }
+  protected readonly isDate = (value: unknown): value is Date => value instanceof Date;
+  protected readonly customEditorColumns: readonly AerisTableColumn[] = [
+    { field: 'name', header: 'Name', width: '30%' },
+    { field: 'quantity', header: 'Quantity', width: '20%' },
+    { field: 'status', header: 'Status', width: '25%' },
+    { field: 'date', header: 'Date', width: '25%' },
+  ];
+  protected readonly customEditorRows = signal<readonly AerisTableData[]>([
+    { id: 'one', name: 'Release notes', quantity: 3, status: 'draft', date: new Date(2026, 9, 21) },
+    {
+      id: 'two',
+      name: 'API reference',
+      quantity: 5,
+      status: 'published',
+      date: new Date(2026, 9, 22),
+    },
+  ]);
+  protected readonly editorStatuses = [
+    { label: 'Draft', value: 'draft' },
+    { label: 'Published', value: 'published' },
+  ];
+  protected readonly editorResult = signal('Double-click a cell or focus it and press F2 to edit.');
+  protected saveCustomEditor(event: AerisTableCellEditEvent): void {
+    this.customEditorRows.update((rows) =>
+      rows.map((row) => (row === event.row ? { ...row, [event.field]: event.value } : row)),
+    );
+    this.editorResult.set(`Saved ${event.field}.`);
+  }
   protected readonly reorderColumns: readonly AerisTableColumn[] = [
     { field: 'name', header: 'Name', width: '60%' },
     { field: 'team', header: 'Team', width: '40%' },
@@ -312,6 +369,8 @@ protected handleRowReorder(event: AerisTableRowReorderEvent): void {
     { id: 'table-row-reordering', label: 'Row reordering' },
     { id: 'table-expansion', label: 'Row expansion' },
     { id: 'table-editing', label: 'Cell editing' },
+    { id: 'table-editing-permissions', label: 'Editing permissions' },
+    { id: 'table-custom-editors', label: 'Custom editors' },
     { id: 'table-scrolling', label: 'Scrolling' },
     { id: 'table-templates', label: 'Templates' },
     { id: 'table-responsive', label: 'Responsive' },
@@ -427,11 +486,33 @@ protected handleSelection(event: AerisTableSelectionEvent): void {
   });
 }`;
 
+  protected readonly editorInterfacesCode = `import type { WritableSignal } from '@angular/core';
+
+interface AerisCellEditor {
+  readonly value: WritableSignal<unknown>;
+  readonly valid: WritableSignal<boolean>;
+  readonly originalValue: unknown;
+  readonly ariaLabel: string;
+  readonly commit: (event?: Event) => void;
+  readonly cancel: (event?: Event) => void;
+}
+
+interface AerisTableEditorContext {
+  readonly $implicit: AerisCellEditor;
+  readonly editor: AerisCellEditor;
+  readonly row: AerisTableData;
+  readonly column: AerisTableColumn;
+  readonly rowIndex: number;
+}`;
+
   protected readonly interfacesCode = `type AerisTableSize = 'sm' | 'md' | 'lg';
 type AerisTableSortDirection = 'asc' | 'desc';
 type AerisTableSelectionMode = 'single' | 'multiple';
 type AerisTableResponsiveMode = 'scroll' | 'stack';
 type AerisTableData = Record<string, unknown>;
+type AerisTableCellEditable = (
+  row: AerisTableData, column: AerisTableColumn,
+) => boolean | undefined;
 type AerisTableContextMenuDisabled =
   | boolean
   | ((row: AerisTableData, rowIndex: number) => boolean);
@@ -441,6 +522,7 @@ interface AerisTableColumn {
   readonly header: string;
   readonly sortable?: boolean;
   readonly filterable?: boolean;
+  readonly editable?: boolean;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
 }
@@ -491,7 +573,7 @@ interface AerisTableCellEditEvent {
   readonly originalEvent: Event;
   readonly row: AerisTableData;
   readonly field: string;
-  readonly value: string;
+  readonly value: unknown;
 }
 
 interface AerisTableColumnResizeEvent {
@@ -808,7 +890,15 @@ interface AerisTableCsvExportOptions {
       name: 'editable',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'Enables double-click in-cell editing.',
+      description:
+        'Default editing permission. Columns override it; cellEditable has final priority. Not a master switch.',
+    },
+    {
+      name: 'cellEditable',
+      type: 'AerisTableCellEditable | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Pure (row, column) callback: true allows editing, false prevents it, undefined inherits column.editable then table editable. Supports row-wide and individual-cell rules. Permission revocation cancels the draft.',
     },
     {
       name: 'resizableColumns',
@@ -945,7 +1035,8 @@ interface AerisTableCsvExportOptions {
       name: 'cellEdited',
       type: 'AerisTableCellEditEvent',
       defaultValue: '-',
-      description: 'Emitted when an editable cell commits a new string value.',
+      description:
+        'Emitted when an editable cell commits. Built-in editors produce strings; custom editors preserve the draft value type.',
     },
     {
       name: 'editCompleted',

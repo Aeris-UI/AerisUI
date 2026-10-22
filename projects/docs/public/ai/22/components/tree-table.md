@@ -65,7 +65,8 @@ import { AerisTreeTableModule } from '@aeris-ui/core/tree-table';
 | `loadingMessage` | `string` | `'Loading rows'` | Default loading status text. |
 | `emptyMessage` | `string` | `'No rows available'` | Default empty status text. |
 | `emptyFilterMessage` | `string` | `'No matching rows'` | Default no-results status text. |
-| `editable` | `boolean` | `false` | Marks editable cells and enables double-click editing for editable columns. |
+| `editable` | `boolean` | `false` | Default editing permission. Columns override it; cellEditable has final priority. Disabled nodes remain non-editable. |
+| `cellEditable` | `AerisTreeTableCellEditable&lt;TData&gt; &#124; undefined` | `undefined` | Pure (data, column, node) callback: true allows editing, false prevents it, undefined inherits column.editable then table editable. Supports row-wide and cell rules. Disabled nodes cannot be overridden. Permission revocation cancels the draft. |
 | `resizableColumns` | `boolean` | `false` | Adds width-preserving pointer and keyboard column resize separators. |
 | `reorderableColumns` | `boolean` | `false` | Enables header dragging and Alt+Arrow column reordering. |
 | `minColumnWidth` | `number` | `96` | Minimum resized column width in pixels. |
@@ -113,7 +114,8 @@ import { AerisTreeTableModule } from '@aeris-ui/core/tree-table';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `aerisTreeTableHeader` | `AerisTreeTableHeaderContext` | `column.header` | Custom header content with column and sort state. |
-| `aerisTreeTableCell` | `AerisTreeTableCellContext&lt;TData&gt;` | `Formatted field value` | Custom content for every body cell. |
+| `aerisTreeTableCell` | `AerisTreeTableCellContext&lt;TData&gt;` | `Formatted field value` | Custom body content outside editing. Use aerisTreeTableEditor to replace the editing view. |
+| `aerisTreeTableEditor` | `AerisTreeTableEditorContext&lt;TData&gt;` | `Named text input` | Custom editing view with editor ($implicit), node, data, key, column and rowIndex. Included in AerisTreeTableModule. |
 | `aerisTreeTableEmpty` | `none` | `emptyMessage / emptyFilterMessage` | Custom empty and no-results content. |
 | `aerisTreeTableLoading` | `none` | `Spinner and loadingMessage` | Custom loading content. |
 
@@ -127,7 +129,43 @@ import { AerisTreeTableModule } from '@aeris-ui/core/tree-table';
 | `clearFilters()` | `void` | `-` | Clears global and column filter models. |
 | `startEdit(key, field)` | `void` | `-` | Starts editing a visible editable cell. |
 
+### TreeTable custom editor state
+
+| Member | Type | Behavior |
+| --- | --- | --- |
+| value | WritableSignal&lt;unknown&gt; | Draft value. Replace it with value.set(next); preserve number, boolean, Date, array, object, or null types. |
+| originalValue | unknown | Value at edit start. Treat objects and dates as immutable; no deep cloning is performed. |
+| valid | WritableSignal&lt;boolean&gt; | Whether the draft may commit. Defaults to true. Update this from your form validation; invalid drafts stay open on blur and are discarded when switching cells. |
+| ariaLabel | string | Default accessible name: Edit followed by the column header. Bind it to your editor control. |
+| commit(event?) | (event?: Event) =&gt; void | Saves a valid draft and finishes editing. Also runs automatically when focus or a pointer leaves the owned editor, or on an unconsumed Enter outside multiline fields. |
+| cancel(event?) | (event?: Event) =&gt; void | Discards the draft and finishes editing. Escape also cancels unless a child control consumes it or has an open picker. |
+
 ## Interfaces and types
+
+### Editor Interfaces
+
+```ts
+import type { WritableSignal } from '@angular/core';
+
+interface AerisCellEditor {
+  readonly value: WritableSignal<unknown>;
+  readonly valid: WritableSignal<boolean>;
+  readonly originalValue: unknown;
+  readonly ariaLabel: string;
+  readonly commit: (event?: Event) => void;
+  readonly cancel: (event?: Event) => void;
+}
+
+interface AerisTreeTableEditorContext<TData extends AerisTreeTableData> {
+  readonly $implicit: AerisCellEditor;
+  readonly editor: AerisCellEditor;
+  readonly node: AerisTreeTableNode<TData>;
+  readonly data: TData;
+  readonly key: string;
+  readonly column: AerisTreeTableColumn;
+  readonly rowIndex: number;
+}
+```
 
 ### Interfaces
 
@@ -139,6 +177,9 @@ type AerisTreeTableSortDirection = 'asc' | 'desc';
 type AerisTreeTableSortMode = 'single' | 'multiple';
 type AerisTreeTableFilterStrategy = 'subtree' | 'path';
 type AerisTreeTableResponsiveMode = 'scroll' | 'stack';
+type AerisTreeTableCellEditable<TData extends AerisTreeTableData = AerisTreeTableData> = (
+  data: TData, column: AerisTreeTableColumn, node: AerisTreeTableNode<TData>,
+) => boolean | undefined;
 
 interface AerisTreeTableNode<TData extends AerisTreeTableData = AerisTreeTableData> {
   readonly key: string;
@@ -321,7 +362,7 @@ export class TreeTableBasicBasicDemo {
 
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -416,7 +457,7 @@ type FileRecord = AerisTreeTableData & {
 export class TreeTableControlledControlledExpansionDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -499,7 +540,7 @@ type FileRecord = AerisTreeTableData & {
 export class TreeTableSortingSingleAndMultipleSortingDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -585,7 +626,7 @@ export class TreeTableFilteringGlobalAndColumnFilteringDemo {
 
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -675,7 +716,7 @@ export class TreeTableSingleSelectionSingleSelectionDemo {
 
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -754,7 +795,7 @@ type FileRecord = AerisTreeTableData & {
 export class TreeTableMultipleSelectionMultipleSelectionDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -829,7 +870,7 @@ type FileRecord = AerisTreeTableData & {
 export class TreeTableCheckboxSelectionCheckboxSelectionDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -911,7 +952,6 @@ const FILE_COLUMNS: readonly AerisTreeTableColumn[] = [
     header: 'Size (KB)',
     sortable: true,
     filterable: true,
-    editable: true,
     align: 'end',
     width: '8rem',
   },
@@ -1280,7 +1320,7 @@ type FileRecord = AerisTreeTableData & {
 export class TreeTablePaginationPaginationDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -1310,7 +1350,7 @@ export class TreeTablePaginationPaginationDemo {
 
 ### Cell editing
 
-Editable cells are visually indicated. Double-click one, press Enter or move focus to commit, and press Escape to cancel. Value updates are immutable.
+Editable cells use a built-in text input and are visually indicated. Double-click one, press Enter or move focus to commit, and press Escape to cancel. Value updates are immutable.
 
 #### TS
 
@@ -1318,6 +1358,20 @@ Editable cells are visually indicated. Double-click one, press Enter or move foc
 import { Component, signal } from '@angular/core';
 import { AerisTreeModule } from '@aeris-ui/core/tree';
 import { AerisTreeTableModule, type AerisTreeTableCellEditEvent, type AerisTreeTableColumn, type AerisTreeTableData, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+
+const FILE_COLUMNS: readonly AerisTreeTableColumn[] = [
+  { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
+  {
+    field: 'size',
+    header: 'Size (KB)',
+    sortable: true,
+    filterable: true,
+    align: 'end',
+    width: '8rem',
+  },
+  { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
+  { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
+];
 
 type FileRecord = AerisTreeTableData & {
   readonly name: string;
@@ -1336,7 +1390,7 @@ type FileRecord = AerisTreeTableData & {
         editable
         ariaLabel="Editable project files"
         [(value)]="editableFiles"
-        [columns]="columns"
+        [columns]="editingColumns"
         [(expandedKeys)]="editableExpanded"
         (cellEdited)="handleEdit($event)"
       />
@@ -1360,6 +1414,13 @@ type FileRecord = AerisTreeTableData & {
   `
 })
 export class TreeTableEditingCellEditingDemo {
+  protected readonly editingColumns: readonly AerisTreeTableColumn[] = FILE_COLUMNS.map(
+      (column) => ({
+        ...column,
+        editable: column.field === 'size',
+      }),
+    );
+
   protected readonly editableExpanded = signal<readonly string[]>(['workspace', 'source']);
 
   protected readonly eventText = signal('No TreeTable event yet.');
@@ -1367,7 +1428,7 @@ export class TreeTableEditingCellEditingDemo {
 
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -1398,6 +1459,221 @@ export class TreeTableEditingCellEditingDemo {
 }
 ```
 
+### Editing permissions
+
+Name inherits the table default. Team opts in at column level. Status opts out. The cell predicate locks Noah's entire row and Sofia's Team cell. Toggle the default to see which cells inherit it.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisTreeModule } from '@aeris-ui/core/tree';
+import { AerisTreeTableModule, type AerisTreeTableCellEditable, type AerisTreeTableColumn, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+
+@Component({
+  selector: 'app-tree-table-editing-permissions-demo',
+  imports: [AerisButton, AerisTreeModule, AerisTreeTableModule],
+  templateUrl: './tree-table-editing-permissions.demo.html',
+  styleUrl: './tree-table-editing-permissions.demo.scss'
+})
+export class TreeTableEditingPermissionsEditingPermissionsDemo {
+  protected readonly permissionDefault = signal(true);
+
+  protected readonly permissionColumns: readonly AerisTreeTableColumn[] = [
+      { field: 'name', header: 'Name', width: '40%' },
+      { field: 'team', header: 'Team', editable: true, width: '30%' },
+      { field: 'status', header: 'Status', editable: false, width: '30%' },
+    ];
+
+  protected readonly permissionNodes = signal<readonly AerisTreeTableNode[]>([
+      { key: 'one', data: { name: 'Maya', team: 'Design', status: 'Active' } },
+      { key: 'two', data: { name: 'Noah', team: 'Engineering', status: 'Archived' } },
+      { key: 'three', data: { name: 'Sofia', team: 'Research', status: 'Active' } },
+    ]);
+
+  protected readonly canEditCell: AerisTreeTableCellEditable = (data, column, node) =>
+      data['status'] === 'Archived' || (node.key === 'three' && column.field === 'team')
+        ? false
+        : undefined;
+}
+```
+
+#### HTML
+
+```html
+<div class="custom-editor-demo">
+  <button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="permissionDefault()"
+    (click)="permissionDefault.set(!permissionDefault())"
+  >
+    Table default: {{ permissionDefault() ? 'editable' : 'read-only' }}
+  </button>
+  <aeris-tree-table
+    ariaLabel="Editing permissions"
+    [(value)]="permissionNodes"
+    [columns]="permissionColumns"
+    [editable]="permissionDefault()"
+    [cellEditable]="canEditCell"
+  />
+</div>
+```
+
+#### CSS
+
+```css
+.custom-editor-demo,
+.custom-cell-editor {
+  display: grid;
+  min-inline-size: 0;
+  inline-size: 100%;
+  gap: 0.75rem;
+}
+```
+
+### Custom editors
+
+Edit text, quantities, dates, and selections directly. Leaving a cell commits its valid draft. Double-click another cell to switch immediately; Escape cancels. Body-mounted pickers remain part of the editor.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { AerisInputNumber } from '@aeris-ui/core/input-number';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisTreeModule } from '@aeris-ui/core/tree';
+import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNode } from '@aeris-ui/core/tree-table';
+
+@Component({
+  selector: 'app-tree-table-custom-editors-demo',
+  imports: [AerisDatePicker, AerisInputNumber, AerisInputText, AerisSelect, AerisTreeModule, AerisTreeTableModule],
+  templateUrl: './tree-table-custom-editors.demo.html',
+  styleUrl: './tree-table-custom-editors.demo.scss'
+})
+export class TreeTableCustomEditorsCustomEditorsDemo {
+  protected readonly isDate = (value: unknown): value is Date => value instanceof Date;
+
+  protected readonly customEditorColumns: readonly AerisTreeTableColumn[] = [
+      { field: 'name', header: 'Name', editable: true, width: '30%' },
+      { field: 'quantity', header: 'Quantity', editable: true, width: '20%' },
+      { field: 'status', header: 'Status', editable: true, width: '25%' },
+      { field: 'date', header: 'Date', editable: true, width: '25%' },
+    ];
+
+  protected readonly customEditorNodes = signal<readonly AerisTreeTableNode[]>([
+      {
+        key: 'docs',
+        data: { name: 'Documentation', quantity: 2, status: 'draft', date: new Date(2026, 9, 21) },
+        children: [
+          {
+            key: 'api',
+            data: {
+              name: 'API reference',
+              quantity: 5,
+              status: 'published',
+              date: new Date(2026, 9, 22),
+            },
+          },
+        ],
+      },
+    ]);
+
+  protected readonly editorStatuses = [
+      { label: 'Draft', value: 'draft' },
+      { label: 'Published', value: 'published' },
+    ];
+
+  protected readonly editorResult = signal('Double-click a cell or focus it and press F2 to edit.');
+
+  protected readonly editorExpanded = ['docs'];
+}
+```
+
+#### HTML
+
+```html
+<div class="custom-editor-demo">
+  <aeris-tree-table
+    ariaLabel="Custom editor files"
+    [(value)]="customEditorNodes"
+    [expandedKeys]="editorExpanded"
+    [columns]="customEditorColumns"
+    editable
+    (cellEdited)="editorResult.set('Saved ' + $event.field + '.')"
+    (editCancelled)="editorResult.set('Edit cancelled.')"
+  >
+    <ng-template aerisTreeTableEditor let-editor let-column="column">
+      @let draft = editor.value();
+      <div class="custom-cell-editor">
+        @switch (column.field) {
+          @case ('quantity') {
+            <aeris-input-number
+              [ariaLabel]="editor.ariaLabel"
+              [value]="typeof draft === 'number' ? draft : null"
+              (valueChange)="
+                editor.value.set($event);
+                editor.valid.set($event !== null && $event >= 0)
+              "
+              [invalid]="typeof draft !== 'number' || draft < 0"
+              fluid
+            />
+            @if (typeof draft !== 'number' || draft < 0) {
+              <small role="alert">Enter a quantity of zero or greater.</small>
+            }
+          }
+          @case ('status') {
+            <aeris-select
+              [ariaLabel]="editor.ariaLabel"
+              [options]="editorStatuses"
+              [value]="typeof draft === 'string' ? draft : null"
+              (valueChange)="editor.value.set($event)"
+              appendTo="body"
+              fluid
+            />
+          }
+          @case ('date') {
+            @if (isDate(draft) || draft === null) {
+              <aeris-date-picker
+                [ariaLabel]="editor.ariaLabel"
+                [value]="draft"
+                (valueChange)="editor.value.set($event)"
+                appendTo="body"
+                fluid
+              />
+            }
+          }
+          @default {
+            <aeris-input-text
+              [ariaLabel]="editor.ariaLabel"
+              [value]="typeof draft === 'string' ? draft : ''"
+              (valueChange)="editor.value.set($event)"
+              fluid
+            />
+          }
+        }
+      </div>
+    </ng-template>
+  </aeris-tree-table>
+  <small role="status">{{ editorResult() }}</small>
+</div>
+```
+
+#### CSS
+
+```css
+.custom-editor-demo,
+.custom-cell-editor {
+  display: grid;
+  min-inline-size: 0;
+  inline-size: 100%;
+  gap: 0.75rem;
+}
+```
+
 ### Column resizing and reordering
 
 Resize separators support pointer dragging and Arrow keys. Resizing adjusts the next column to keep the table width stable. Headers support drag reordering and Alt plus horizontal Arrow keys.
@@ -1416,7 +1692,6 @@ const FILE_COLUMNS: readonly AerisTreeTableColumn[] = [
     header: 'Size (KB)',
     sortable: true,
     filterable: true,
-    editable: true,
     align: 'end',
     width: '8rem',
   },
@@ -1444,7 +1719,7 @@ export class TreeTableColumnsColumnResizingAndReorderingDemo {
 
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -1547,7 +1822,7 @@ type FileRecord = AerisTreeTableData & {
 export class TreeTableScrollingScrollingFrozenColumnsAndResponsiveStackingDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -1668,7 +1943,7 @@ export class TreeTableLazyLazyLoadingDemo {
 
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -1796,7 +2071,7 @@ type FileRecord = AerisTreeTableData & {
 export class TreeTableTemplatesHeaderAndCellTemplatesDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -1885,7 +2160,7 @@ type FileRecord = AerisTreeTableData & {
 export class TreeTableStatesStatesDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+    { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
     { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
     { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
   ];
@@ -1973,7 +2248,7 @@ export class TreeTableStatesStatesDemo {
 - Sortable headers are native buttons and expose aria-sort. Resize separators are named and keyboard adjustable.
 - Checkbox mode uses native checkboxes with checked and mixed states. Single and multiple modes use row selection without checkbox visuals.
 - Scrollable viewports are keyboard focusable. Frozen columns retain native header and cell semantics, and stack mode keeps visible column labels.
-- Editing uses a named native text input. Enter commits, Escape cancels, blur commits, and focus returns to the row.
+- Editing uses a named native text input. Enter commits, Escape cancels, blur commits, and focus returns to the cell after keyboard completion. Custom editors commit valid drafts when you leave them or press an unconsumed Enter outside multiline fields. Nested pickers keep their own keyboard behavior and remain part of the editor when portaled.
 - When showOverflowTooltip is enabled, truncated headers and cells use Aeris Tooltip to reveal their complete value.
 - Loading, empty, and no-results states use polite status regions. The integrated paginator supplies its own navigation semantics.
 
@@ -1992,4 +2267,6 @@ export class TreeTableStatesStatesDemo {
 | `Enter / Space on a sortable header` | Cycles that column sort state. |
 | `Alt + ArrowLeft / ArrowRight on a header` | Reorders the column when enabled. |
 | `ArrowLeft / ArrowRight on a resize separator` | Decreases or increases the column width by 16 pixels while the next column absorbs the inverse change. |
-| `Enter / Escape while editing` | Commits or cancels the active cell edit. |
+| `Enter / F2 on an editable cell` | Starts editing and focuses its first available control. |
+| `Enter in the built-in editor` | Commits a valid draft. Custom editors also commit on an unconsumed Enter outside multiline fields; child controls may handle the key first. |
+| `Escape while editing` | Cancels the edit unless a nested control consumes Escape or has an open picker to dismiss first. |

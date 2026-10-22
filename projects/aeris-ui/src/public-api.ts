@@ -96,3 +96,4 @@ export {
   aerisInternalCreateFrameScheduler,
   type AerisInternalFrameScheduler,
 } from './lib/aeris-frame-scheduler';
+export { ɵAerisCellEditor, type AerisCellEditor } from './lib/aeris-cell-editor';

@@ -9,11 +9,16 @@ import {
 } from '@angular/core';
 import { AerisBadgeModule, type AerisBadgeSeverity } from '@aeris-ui/core/badge';
 import { AerisButton } from '@aeris-ui/core/button';
+import { AerisInputTextComponent } from '@aeris-ui/core/input-text';
+import { AerisInputNumber } from '@aeris-ui/core/input-number';
+import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisDatePicker } from '@aeris-ui/core/date-picker';
 import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 import {
   AerisTreeTableModule,
   type AerisTreeTableCellEditEvent,
+  type AerisTreeTableCellEditable,
   type AerisTreeTableColumn,
   type AerisTreeTableColumnReorderEvent,
   type AerisTreeTableColumnResizeEvent,
@@ -58,7 +63,6 @@ const FILE_COLUMNS: readonly AerisTreeTableColumn[] = [
     header: 'Size (KB)',
     sortable: true,
     filterable: true,
-    editable: true,
     align: 'end',
     width: '8rem',
   },
@@ -105,6 +109,10 @@ const SELECTION_FILES: readonly AerisTreeTableNode[] = [
   imports: [
     AerisBadgeModule,
     AerisButton,
+    AerisInputTextComponent,
+    AerisInputNumber,
+    AerisSelect,
+    AerisDatePicker,
     AerisMenuModule,
     AerisToolbarModule,
     AerisTreeTableModule,
@@ -119,9 +127,60 @@ const SELECTION_FILES: readonly AerisTreeTableNode[] = [
   styleUrl: './tree-table.page.scss',
 })
 export class TreeTablePage {
+  protected readonly permissionDefault = signal(true);
+  protected readonly permissionColumns: readonly AerisTreeTableColumn[] = [
+    { field: 'name', header: 'Name', width: '40%' },
+    { field: 'team', header: 'Team', editable: true, width: '30%' },
+    { field: 'status', header: 'Status', editable: false, width: '30%' },
+  ];
+  protected readonly permissionNodes = signal<readonly AerisTreeTableNode[]>([
+    { key: 'one', data: { name: 'Maya', team: 'Design', status: 'Active' } },
+    { key: 'two', data: { name: 'Noah', team: 'Engineering', status: 'Archived' } },
+    { key: 'three', data: { name: 'Sofia', team: 'Research', status: 'Active' } },
+  ]);
+  protected readonly canEditCell: AerisTreeTableCellEditable = (data, column, node) =>
+    data['status'] === 'Archived' || (node.key === 'three' && column.field === 'team')
+      ? false
+      : undefined;
+  protected readonly isDate = (value: unknown): value is Date => value instanceof Date;
+  protected readonly customEditorColumns: readonly AerisTreeTableColumn[] = [
+    { field: 'name', header: 'Name', editable: true, width: '30%' },
+    { field: 'quantity', header: 'Quantity', editable: true, width: '20%' },
+    { field: 'status', header: 'Status', editable: true, width: '25%' },
+    { field: 'date', header: 'Date', editable: true, width: '25%' },
+  ];
+  protected readonly customEditorNodes = signal<readonly AerisTreeTableNode[]>([
+    {
+      key: 'docs',
+      data: { name: 'Documentation', quantity: 2, status: 'draft', date: new Date(2026, 9, 21) },
+      children: [
+        {
+          key: 'api',
+          data: {
+            name: 'API reference',
+            quantity: 5,
+            status: 'published',
+            date: new Date(2026, 9, 22),
+          },
+        },
+      ],
+    },
+  ]);
+  protected readonly editorStatuses = [
+    { label: 'Draft', value: 'draft' },
+    { label: 'Published', value: 'published' },
+  ];
+  protected readonly editorResult = signal('Double-click a cell or focus it and press F2 to edit.');
+  protected readonly editorExpanded = ['docs'];
   private readonly destroyRef = inject(DestroyRef);
   protected readonly files = this.createFiles();
   protected readonly columns = FILE_COLUMNS;
+  protected readonly editingColumns: readonly AerisTreeTableColumn[] = FILE_COLUMNS.map(
+    (column) => ({
+      ...column,
+      editable: column.field === 'size',
+    }),
+  );
   protected readonly statusSeverities: Readonly<Record<FileRecord['status'], AerisBadgeSeverity>> =
     {
       active: 'success',
@@ -269,6 +328,8 @@ export class TreeTablePage {
     { id: 'tree-table-selection-workflow', label: 'Selection workflow' },
     { id: 'tree-table-pagination', label: 'Pagination' },
     { id: 'tree-table-editing', label: 'Editing' },
+    { id: 'tree-table-editing-permissions', label: 'Editing permissions' },
+    { id: 'tree-table-custom-editors', label: 'Custom editors' },
     { id: 'tree-table-columns', label: 'Column controls' },
     { id: 'tree-table-scrolling', label: 'Scrolling and responsive' },
     { id: 'tree-table-lazy', label: 'Lazy loading' },
@@ -296,7 +357,7 @@ export class TreeTablePage {
 
 protected readonly columns: readonly AerisTreeTableColumn[] = [
   { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
-  { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, editable: true, align: 'end', width: '8rem' },
+  { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
   { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
   { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
 ];
@@ -459,6 +520,27 @@ protected readonly statusSeverities: Readonly<
   protected readonly templateCssCode = `.column-heading[data-sorted] { color: var(--primary-text); }
 `;
 
+  protected readonly editorInterfacesCode = `import type { WritableSignal } from '@angular/core';
+
+interface AerisCellEditor {
+  readonly value: WritableSignal<unknown>;
+  readonly valid: WritableSignal<boolean>;
+  readonly originalValue: unknown;
+  readonly ariaLabel: string;
+  readonly commit: (event?: Event) => void;
+  readonly cancel: (event?: Event) => void;
+}
+
+interface AerisTreeTableEditorContext<TData extends AerisTreeTableData> {
+  readonly $implicit: AerisCellEditor;
+  readonly editor: AerisCellEditor;
+  readonly node: AerisTreeTableNode<TData>;
+  readonly data: TData;
+  readonly key: string;
+  readonly column: AerisTreeTableColumn;
+  readonly rowIndex: number;
+}`;
+
   protected readonly interfacesCode = `type AerisTreeTableData = Readonly<Record<string, unknown>>;
 type AerisTreeTableSize = 'sm' | 'md' | 'lg';
 type AerisTreeTableSelectionMode = 'single' | 'multiple' | 'checkbox';
@@ -466,6 +548,9 @@ type AerisTreeTableSortDirection = 'asc' | 'desc';
 type AerisTreeTableSortMode = 'single' | 'multiple';
 type AerisTreeTableFilterStrategy = 'subtree' | 'path';
 type AerisTreeTableResponsiveMode = 'scroll' | 'stack';
+type AerisTreeTableCellEditable<TData extends AerisTreeTableData = AerisTreeTableData> = (
+  data: TData, column: AerisTreeTableColumn, node: AerisTreeTableNode<TData>,
+) => boolean | undefined;
 
 interface AerisTreeTableNode<TData extends AerisTreeTableData = AerisTreeTableData> {
   readonly key: string;
@@ -799,7 +884,15 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
       name: 'editable',
       type: 'boolean',
       defaultValue: 'false',
-      description: 'Marks editable cells and enables double-click editing for editable columns.',
+      description:
+        'Default editing permission. Columns override it; cellEditable has final priority. Disabled nodes remain non-editable.',
+    },
+    {
+      name: 'cellEditable',
+      type: 'AerisTreeTableCellEditable<TData> | undefined',
+      defaultValue: 'undefined',
+      description:
+        'Pure (data, column, node) callback: true allows editing, false prevents it, undefined inherits column.editable then table editable. Supports row-wide and cell rules. Disabled nodes cannot be overridden. Permission revocation cancels the draft.',
     },
     {
       name: 'resizableColumns',
@@ -998,7 +1091,15 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
       name: 'aerisTreeTableCell',
       type: 'AerisTreeTableCellContext<TData>',
       defaultValue: 'Formatted field value',
-      description: 'Custom content for every body cell.',
+      description:
+        'Custom body content outside editing. Use aerisTreeTableEditor to replace the editing view.',
+    },
+    {
+      name: 'aerisTreeTableEditor',
+      type: 'AerisTreeTableEditorContext<TData>',
+      defaultValue: 'Named text input',
+      description:
+        'Custom editing view with editor ($implicit), node, data, key, column and rowIndex. Included in AerisTreeTableModule.',
     },
     {
       name: 'aerisTreeTableEmpty',

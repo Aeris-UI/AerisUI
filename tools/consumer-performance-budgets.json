@@ -5,7 +5,7 @@
     "basic": { "raw": 45000, "gzip": 12288 },
     "forms": { "raw": 210000, "gzip": 56000, "initialRaw": 190000, "initialGzip": 50000 },
     "editable-date-picker": { "raw": 165000, "gzip": 45000 },
-    "data-overlays": { "raw": 240000, "gzip": 57344 },
+    "data-overlays": { "raw": 243072, "gzip": 57856 },
     "chart": { "raw": 315000, "gzip": 104448 },
     "editor": { "raw": 410000, "gzip": 126976 }
   }

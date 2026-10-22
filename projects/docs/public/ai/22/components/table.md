@@ -73,7 +73,8 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 | `contextMenuRowKey` | `string (model)` | `''` | Controlled key for the row currently associated with the context menu. |
 | `expandableRows` | `boolean` | `false` | Enables row detail expansion. |
 | `expandedKeys` | `readonly string[] (model)` | `[]` | Controlled expanded row keys. |
-| `editable` | `boolean` | `false` | Enables double-click in-cell editing. |
+| `editable` | `boolean` | `false` | Default editing permission. Columns override it; cellEditable has final priority. Not a master switch. |
+| `cellEditable` | `AerisTableCellEditable &#124; undefined` | `undefined` | Pure (row, column) callback: true allows editing, false prevents it, undefined inherits column.editable then table editable. Supports row-wide and individual-cell rules. Permission revocation cancels the draft. |
 | `resizableColumns` | `boolean` | `false` | Adds pointer and keyboard resize separators that preserve the total table width. |
 | `reorderableColumns` | `boolean` | `false` | Allows pointer dragging and Alt plus arrow keys to reorder columns. |
 | `minColumnWidth` | `number` | `96` | Minimum width in pixels for either column affected by resizing. |
@@ -100,7 +101,7 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 | `rowCollapsed` | `AerisTableData` | `-` | Emitted when a detail row closes. |
 | `editStarted` | `AerisTableCellEditStartEvent` | `-` | Emitted when cell editing starts. |
 | `editCancelled` | `AerisTableCellEditStartEvent` | `-` | Emitted when cell editing is cancelled. |
-| `cellEdited` | `AerisTableCellEditEvent` | `-` | Emitted when an editable cell commits a new string value. |
+| `cellEdited` | `AerisTableCellEditEvent` | `-` | Emitted when an editable cell commits. Built-in editors produce strings; custom editors preserve the draft value type. |
 | `editCompleted` | `AerisTableCellEditEvent` | `-` | Emitted after an editable cell commits. |
 | `columnResized` | `AerisTableColumnResizeEvent` | `-` | Emitted after pointer or keyboard resizing updates the controlled columns model. |
 | `columnReordered` | `AerisTableColumnReorderEvent` | `-` | Emitted after pointer or keyboard column reordering updates the controlled columns model. |
@@ -115,10 +116,22 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 | Directive | Context | Description |
 | --- | --- | --- |
 | aerisTableHeader | column | Custom header content. |
-| aerisTableCell | value, row, column, rowIndex | Custom body cells. |
+| aerisTableCell | value, row, column, rowIndex | Custom body content outside editing. Use aerisTableEditor to replace the editing view. |
+| aerisTableEditor | editor ($implicit), row, column, rowIndex | Custom editing view. Included in AerisTableModule and AerisTableContextMenuModule; no additional table import. |
 | aerisTableExpansion | row, rowIndex | Expandable detail row content. |
 | aerisTableEmpty | none | Custom empty state. |
 | aerisTableLoading | none | Custom loading state. |
+
+### Table custom editor state
+
+| Member | Type | Behavior |
+| --- | --- | --- |
+| value | WritableSignal&lt;unknown&gt; | Draft value. Replace it with value.set(next); preserve number, boolean, Date, array, object, or null types. |
+| originalValue | unknown | Value at edit start. Treat objects and dates as immutable; no deep cloning is performed. |
+| valid | WritableSignal&lt;boolean&gt; | Whether the draft may commit. Defaults to true. Update this from your form validation; invalid drafts stay open on blur and are discarded when switching cells. |
+| ariaLabel | string | Default accessible name: Edit followed by the column header. Bind it to your editor control. |
+| commit(event?) | (event?: Event) =&gt; void | Saves a valid draft and finishes editing. Also runs automatically when focus or a pointer leaves the owned editor, or on an unconsumed Enter outside multiline fields. |
+| cancel(event?) | (event?: Event) =&gt; void | Discards the draft and finishes editing. Escape also cancels unless a child control consumes it or has an open picker. |
 
 ### Table methods
 
@@ -142,6 +155,29 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 
 ## Interfaces and types
 
+### Editor Interfaces
+
+```ts
+import type { WritableSignal } from '@angular/core';
+
+interface AerisCellEditor {
+  readonly value: WritableSignal<unknown>;
+  readonly valid: WritableSignal<boolean>;
+  readonly originalValue: unknown;
+  readonly ariaLabel: string;
+  readonly commit: (event?: Event) => void;
+  readonly cancel: (event?: Event) => void;
+}
+
+interface AerisTableEditorContext {
+  readonly $implicit: AerisCellEditor;
+  readonly editor: AerisCellEditor;
+  readonly row: AerisTableData;
+  readonly column: AerisTableColumn;
+  readonly rowIndex: number;
+}
+```
+
 ### Interfaces
 
 ```ts
@@ -150,6 +186,9 @@ type AerisTableSortDirection = 'asc' | 'desc';
 type AerisTableSelectionMode = 'single' | 'multiple';
 type AerisTableResponsiveMode = 'scroll' | 'stack';
 type AerisTableData = Record<string, unknown>;
+type AerisTableCellEditable = (
+  row: AerisTableData, column: AerisTableColumn,
+) => boolean | undefined;
 type AerisTableContextMenuDisabled =
   | boolean
   | ((row: AerisTableData, rowIndex: number) => boolean);
@@ -159,6 +198,7 @@ interface AerisTableColumn {
   readonly header: string;
   readonly sortable?: boolean;
   readonly filterable?: boolean;
+  readonly editable?: boolean;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
 }
@@ -209,7 +249,7 @@ interface AerisTableCellEditEvent {
   readonly originalEvent: Event;
   readonly row: AerisTableData;
   readonly field: string;
-  readonly value: string;
+  readonly value: unknown;
 }
 
 interface AerisTableColumnResizeEvent {
@@ -1586,7 +1626,7 @@ export class TableExpansionRowExpansionDemo {
 
 ### In-cell editing
 
-Double-click a cell to edit. Aeris emits the edit event and lets the app decide how to persist the value.
+Double-click a cell to edit using the built-in text input. Aeris emits the edit event and lets the app decide how to persist the value.
 
 #### TS
 
@@ -1632,6 +1672,223 @@ export class TableEditingInCellEditingDemo {
       ),
     );
   }
+}
+```
+
+### Editing permissions
+
+Name inherits the table default. Team opts in at column level. Status opts out. The cell predicate locks Noah's entire row and Sofia's Team cell. Toggle the default to see which cells inherit it.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisTableModule, type AerisTableCellEditEvent, type AerisTableCellEditable, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
+
+@Component({
+  selector: 'app-table-editing-permissions-demo',
+  imports: [AerisButton, AerisTableModule],
+  templateUrl: './table-editing-permissions.demo.html',
+  styleUrl: './table-editing-permissions.demo.scss'
+})
+export class TableEditingPermissionsEditingPermissionsDemo {
+  protected readonly permissionDefault = signal(true);
+
+  protected readonly permissionColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', width: '40%' },
+      { field: 'team', header: 'Team', editable: true, width: '30%' },
+      { field: 'status', header: 'Status', editable: false, width: '30%' },
+    ];
+
+  protected readonly permissionRows = signal<readonly AerisTableData[]>([
+      { id: 'one', name: 'Maya', team: 'Design', status: 'Active' },
+      { id: 'two', name: 'Noah', team: 'Engineering', status: 'Archived' },
+      { id: 'three', name: 'Sofia', team: 'Research', status: 'Active' },
+    ]);
+
+  protected readonly canEditCell: AerisTableCellEditable = (row, column) =>
+      row['status'] === 'Archived' || (row['id'] === 'three' && column.field === 'team')
+        ? false
+        : undefined;
+
+  protected savePermissionEdit(event: AerisTableCellEditEvent): void {
+      this.permissionRows.update((rows) =>
+        rows.map((row) => (row === event.row ? { ...row, [event.field]: event.value } : row)),
+      );
+    }
+}
+```
+
+#### HTML
+
+```html
+<div class="custom-editor-demo">
+  <button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="permissionDefault()"
+    (click)="permissionDefault.set(!permissionDefault())"
+  >
+    Table default: {{ permissionDefault() ? 'editable' : 'read-only' }}
+  </button>
+  <aeris-table
+    caption="Editing permissions"
+    [data]="permissionRows()"
+    [columns]="permissionColumns"
+    [editable]="permissionDefault()"
+    [cellEditable]="canEditCell"
+    (cellEdited)="savePermissionEdit($event)"
+  />
+</div>
+```
+
+#### CSS
+
+```css
+.custom-editor-demo,
+.custom-cell-editor {
+  display: grid;
+  min-inline-size: 0;
+  inline-size: 100%;
+  gap: 0.75rem;
+}
+```
+
+### Custom editors
+
+Edit text, quantities, dates, and selections directly. Leaving a cell commits its valid draft. Double-click another cell to switch immediately; Escape cancels. Body-mounted pickers remain part of the editor.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisDatePicker } from '@aeris-ui/core/date-picker';
+import { AerisInputNumber } from '@aeris-ui/core/input-number';
+import { AerisInputText } from '@aeris-ui/core/input-text';
+import { AerisSelect } from '@aeris-ui/core/select';
+import { AerisTableModule, type AerisTableCellEditEvent, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
+
+@Component({
+  selector: 'app-table-custom-editors-demo',
+  imports: [AerisDatePicker, AerisInputNumber, AerisInputText, AerisSelect, AerisTableModule],
+  templateUrl: './table-custom-editors.demo.html',
+  styleUrl: './table-custom-editors.demo.scss'
+})
+export class TableCustomEditorsCustomEditorsDemo {
+  protected readonly isDate = (value: unknown): value is Date => value instanceof Date;
+
+  protected readonly customEditorColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', width: '30%' },
+      { field: 'quantity', header: 'Quantity', width: '20%' },
+      { field: 'status', header: 'Status', width: '25%' },
+      { field: 'date', header: 'Date', width: '25%' },
+    ];
+
+  protected readonly customEditorRows = signal<readonly AerisTableData[]>([
+      { id: 'one', name: 'Release notes', quantity: 3, status: 'draft', date: new Date(2026, 9, 21) },
+      {
+        id: 'two',
+        name: 'API reference',
+        quantity: 5,
+        status: 'published',
+        date: new Date(2026, 9, 22),
+      },
+    ]);
+
+  protected readonly editorStatuses = [
+      { label: 'Draft', value: 'draft' },
+      { label: 'Published', value: 'published' },
+    ];
+
+  protected readonly editorResult = signal('Double-click a cell or focus it and press F2 to edit.');
+
+  protected saveCustomEditor(event: AerisTableCellEditEvent): void {
+      this.customEditorRows.update((rows) =>
+        rows.map((row) => (row === event.row ? { ...row, [event.field]: event.value } : row)),
+      );
+      this.editorResult.set(`Saved ${event.field}.`);
+    }
+}
+```
+
+#### HTML
+
+```html
+<div class="custom-editor-demo">
+  <aeris-table
+    caption="Custom editor records"
+    [data]="customEditorRows()"
+    [columns]="customEditorColumns"
+    editable
+    (cellEdited)="saveCustomEditor($event)"
+    (editCancelled)="editorResult.set('Edit cancelled.')"
+  >
+    <ng-template aerisTableEditor let-editor let-column="column">
+      @let draft = editor.value();
+      <div class="custom-cell-editor">
+        @switch (column.field) {
+          @case ('quantity') {
+            <aeris-input-number
+              [ariaLabel]="editor.ariaLabel"
+              [value]="typeof draft === 'number' ? draft : null"
+              (valueChange)="
+                editor.value.set($event);
+                editor.valid.set($event !== null && $event >= 0)
+              "
+              [invalid]="typeof draft !== 'number' || draft < 0"
+              fluid
+            />
+            @if (typeof draft !== 'number' || draft < 0) {
+              <small role="alert">Enter a quantity of zero or greater.</small>
+            }
+          }
+          @case ('status') {
+            <aeris-select
+              [ariaLabel]="editor.ariaLabel"
+              [options]="editorStatuses"
+              [value]="typeof draft === 'string' ? draft : null"
+              (valueChange)="editor.value.set($event)"
+              appendTo="body"
+              fluid
+            />
+          }
+          @case ('date') {
+            @if (isDate(draft) || draft === null) {
+              <aeris-date-picker
+                [ariaLabel]="editor.ariaLabel"
+                [value]="draft"
+                (valueChange)="editor.value.set($event)"
+                appendTo="body"
+                fluid
+              />
+            }
+          }
+          @default {
+            <aeris-input-text
+              [ariaLabel]="editor.ariaLabel"
+              [value]="typeof draft === 'string' ? draft : ''"
+              (valueChange)="editor.value.set($event)"
+              fluid
+            />
+          }
+        }
+      </div>
+    </ng-template>
+  </aeris-table>
+  <small role="status">{{ editorResult() }}</small>
+</div>
+```
+
+#### CSS
+
+```css
+.custom-editor-demo,
+.custom-cell-editor {
+  display: grid;
+  min-inline-size: 0;
+  inline-size: 100%;
+  gap: 0.75rem;
 }
 ```
 
@@ -2276,14 +2533,18 @@ export class TableEventsEventsDemo {
 - Expandable rows use native buttons with synchronized aria-expanded.
 - Resizable columns expose named separator controls and keep the combined width of each adjusted column pair stable. Reorderable headers support pointer dragging and keyboard movement.
 - When showOverflowTooltip is enabled, truncated headers and cells use Aeris Tooltip to reveal their complete value.
+- Read-only cells have no edit indicator or editing tab stop. Double-click, Enter and F2 cannot start editing them.
 - Loading and empty states use status semantics and remain inside the table body.
 - Stack responsive mode preserves cell labels through generated row labels on narrow screens.
 - Use a meaningful caption for every data table, even when the visible description is brief.
+- Editors commit valid drafts when you leave the cell or press an unconsumed Enter. Textareas keep Enter for new lines, and nested pickers handle their own keys. Escape cancels. The first available control receives focus on entry; keyboard completion returns focus to the cell without stealing focus from outside controls on blur.
 
 ### Keyboard support
 
 | Key | Function |
 | --- | --- |
+| `Enter / F2 on an editable cell` | Starts editing and focuses the first available editor control. |
+| `Escape while editing` | Cancels the edit after any nested picker has handled its own Escape. Custom editors commit valid drafts when you leave the cell. |
 | `Tab` | Moves through global filter, sortable headers, selection controls, expansion controls, table viewport, and paginator buttons. |
 | `Enter / Space` | Activates sortable headers, selection controls, expansion controls, and paginator buttons. |
 | `Enter` | Expands or collapses a focused row when row navigation and expandableRows are enabled. |

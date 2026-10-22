@@ -452,7 +452,7 @@
             <app-form-demo
               id="tree-table-editing"
               title="Cell editing"
-              description="Editable cells are visually indicated. Double-click one, press Enter or move focus to commit, and press Escape to cancel. Value updates are immutable."
+              description="Editable cells use a built-in text input and are visually indicated. Double-click one, press Enter or move focus to commit, and press Escape to cancel. Value updates are immutable."
               [tsCode]="editingTsCode"
             >
               <div preview class="tree-table-demo tree-table-demo--stack">
@@ -460,7 +460,7 @@
                   editable
                   ariaLabel="Editable project files"
                   [(value)]="editableFiles"
-                  [columns]="columns"
+                  [columns]="editingColumns"
                   [(expandedKeys)]="editableExpanded"
                   (cellEdited)="handleEdit($event)"
                 />
@@ -473,11 +473,187 @@
     editable
     ariaLabel="Editable project files"
     [(value)]="editableFiles"
-    [columns]="columns"
+    [columns]="editingColumns"
     [(expandedKeys)]="editableExpanded"
     (cellEdited)="handleEdit($event)"
   /&gt;
   &lt;small aria-live="polite"&gt;&#123;&#123; eventText() &#125;&#125;&lt;/small&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-table-editing-permissions"
+              title="Editing permissions"
+              description="Name inherits the table default. Team opts in at column level. Status opts out. The cell predicate locks Noah's entire row and Sofia's Team cell. Toggle the default to see which cells inherit it."
+            >
+              <div preview class="custom-editor-demo">
+                <button
+                  aerisButton
+                  variant="outline"
+                  [attr.aria-pressed]="permissionDefault()"
+                  (click)="permissionDefault.set(!permissionDefault())"
+                >
+                  Table default: {{ permissionDefault() ? 'editable' : 'read-only' }}
+                </button>
+                <aeris-tree-table
+                  ariaLabel="Editing permissions"
+                  [(value)]="permissionNodes"
+                  [columns]="permissionColumns"
+                  [editable]="permissionDefault()"
+                  [cellEditable]="canEditCell"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="permissionDefault()"
+    (click)="permissionDefault.set(!permissionDefault())"
+  &gt;
+    Table default: &#123;&#123; permissionDefault() ? 'editable' : 'read-only' &#125;&#125;
+  &lt;/button&gt;
+  &lt;aeris-tree-table
+    ariaLabel="Editing permissions"
+    [(value)]="permissionNodes"
+    [columns]="permissionColumns"
+    [editable]="permissionDefault()"
+    [cellEditable]="canEditCell"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="tree-table-custom-editors"
+              title="Custom editors"
+              description="Edit text, quantities, dates, and selections directly. Leaving a cell commits its valid draft. Double-click another cell to switch immediately; Escape cancels. Body-mounted pickers remain part of the editor."
+            >
+              <div preview class="custom-editor-demo">
+                <aeris-tree-table
+                  ariaLabel="Custom editor files"
+                  [(value)]="customEditorNodes"
+                  [expandedKeys]="editorExpanded"
+                  [columns]="customEditorColumns"
+                  editable
+                  (cellEdited)="editorResult.set('Saved ' + $event.field + '.')"
+                  (editCancelled)="editorResult.set('Edit cancelled.')"
+                >
+                  <ng-template aerisTreeTableEditor let-editor let-column="column">
+                    @let draft = editor.value();
+                    <div class="custom-cell-editor">
+                      @switch (column.field) {
+                        @case ('quantity') {
+                          <aeris-input-number
+                            [ariaLabel]="editor.ariaLabel"
+                            [value]="typeof draft === 'number' ? draft : null"
+                            (valueChange)="
+                              editor.value.set($event);
+                              editor.valid.set($event !== null && $event >= 0)
+                            "
+                            [invalid]="typeof draft !== 'number' || draft < 0"
+                            fluid
+                          />
+                          @if (typeof draft !== 'number' || draft < 0) {
+                            <small role="alert">Enter a quantity of zero or greater.</small>
+                          }
+                        }
+                        @case ('status') {
+                          <aeris-select
+                            [ariaLabel]="editor.ariaLabel"
+                            [options]="editorStatuses"
+                            [value]="typeof draft === 'string' ? draft : null"
+                            (valueChange)="editor.value.set($event)"
+                            appendTo="body"
+                            fluid
+                          />
+                        }
+                        @case ('date') {
+                          @if (isDate(draft) || draft === null) {
+                            <aeris-date-picker
+                              [ariaLabel]="editor.ariaLabel"
+                              [value]="draft"
+                              (valueChange)="editor.value.set($event)"
+                              appendTo="body"
+                              fluid
+                            />
+                          }
+                        }
+                        @default {
+                          <aeris-input-text
+                            [ariaLabel]="editor.ariaLabel"
+                            [value]="typeof draft === 'string' ? draft : ''"
+                            (valueChange)="editor.value.set($event)"
+                            fluid
+                          />
+                        }
+                      }
+                    </div>
+                  </ng-template>
+                </aeris-tree-table>
+                <small role="status">{{ editorResult() }}</small>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;aeris-tree-table
+    ariaLabel="Custom editor files"
+    [(value)]="customEditorNodes"
+    [expandedKeys]="editorExpanded"
+    [columns]="customEditorColumns"
+    editable
+    (cellEdited)="editorResult.set('Saved ' + $event.field + '.')"
+    (editCancelled)="editorResult.set('Edit cancelled.')"
+  &gt;
+    &lt;ng-template aerisTreeTableEditor let-editor let-column="column"&gt;
+      &#64;let draft = editor.value();
+      &lt;div class="custom-cell-editor"&gt;
+        &#64;switch (column.field) &#123;
+          &#64;case ('quantity') &#123;
+            &lt;aeris-input-number
+              [ariaLabel]="editor.ariaLabel"
+              [value]="typeof draft === 'number' ? draft : null"
+              (valueChange)="
+                editor.value.set($event);
+                editor.valid.set($event !== null &amp;&amp; $event &gt;= 0)
+              "
+              [invalid]="typeof draft !== 'number' || draft &lt; 0"
+              fluid
+            /&gt;
+            &#64;if (typeof draft !== 'number' || draft &lt; 0) &#123;
+              &lt;small role="alert"&gt;Enter a quantity of zero or greater.&lt;/small&gt;
+            &#125;
+          &#125;
+          &#64;case ('status') &#123;
+            &lt;aeris-select
+              [ariaLabel]="editor.ariaLabel"
+              [options]="editorStatuses"
+              [value]="typeof draft === 'string' ? draft : null"
+              (valueChange)="editor.value.set($event)"
+              appendTo="body"
+              fluid
+            /&gt;
+          &#125;
+          &#64;case ('date') &#123;
+            &#64;if (isDate(draft) || draft === null) &#123;
+              &lt;aeris-date-picker
+                [ariaLabel]="editor.ariaLabel"
+                [value]="draft"
+                (valueChange)="editor.value.set($event)"
+                appendTo="body"
+                fluid
+              /&gt;
+            &#125;
+          &#125;
+          &#64;default &#123;
+            &lt;aeris-input-text
+              [ariaLabel]="editor.ariaLabel"
+              [value]="typeof draft === 'string' ? draft : ''"
+              (valueChange)="editor.value.set($event)"
+              fluid
+            /&gt;
+          &#125;
+        &#125;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-tree-table&gt;
+  &lt;small role="status"&gt;&#123;&#123; editorResult() &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -773,6 +949,72 @@
                 </div>
               }
             </div>
+            <h3>Custom editor state</h3>
+            <p>
+              The template receives the editor as its implicit value and as editor. Use the row or
+              node metadata for application validation. Bind the control's accessible name and
+              connect its value changes to the draft. Leaving the editor commits a valid draft.
+              Switching cells commits the previous draft, or discards it if invalid, and opens the
+              new cell immediately. Portaled controls must link their panels with aria-controls or
+              aria-owns.
+            </p>
+            <div
+              class="api-table"
+              role="table"
+              aria-label="TreeTable custom editor state"
+              tabindex="0"
+            >
+              <div class="api-head" role="row">
+                <b role="columnheader">Member</b><b role="columnheader">Type</b
+                ><b role="columnheader">Behavior</b>
+              </div>
+              <div role="row">
+                <code role="cell">value</code><code role="cell">WritableSignal&lt;unknown&gt;</code
+                ><span role="cell"
+                  >Draft value. Replace it with value.set(next); preserve number, boolean, Date,
+                  array, object, or null types.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">originalValue</code><code role="cell">unknown</code
+                ><span role="cell"
+                  >Value at edit start. Treat objects and dates as immutable; no deep cloning is
+                  performed.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">valid</code><code role="cell">WritableSignal&lt;boolean&gt;</code>
+                <span role="cell"
+                  >Whether the draft may commit. Defaults to true. Update this from your form
+                  validation; invalid drafts stay open on blur and are discarded when switching
+                  cells.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">ariaLabel</code><code role="cell">string</code
+                ><span role="cell"
+                  >Default accessible name: Edit followed by the column header. Bind it to your
+                  editor control.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">commit(event?)</code
+                ><code role="cell">(event?: Event) =&gt; void</code
+                ><span role="cell"
+                  >Saves a valid draft and finishes editing. Also runs automatically when focus or a
+                  pointer leaves the owned editor, or on an unconsumed Enter outside multiline
+                  fields.</span
+                >
+              </div>
+              <div role="row">
+                <code role="cell">cancel(event?)</code
+                ><code role="cell">(event?: Event) =&gt; void</code
+                ><span role="cell"
+                  >Discards the draft and finishes editing. Escape also cancels unless a child
+                  control consumes it or has an open picker.</span
+                >
+              </div>
+            </div>
             <h3 id="tree-table-api-methods" tabindex="-1">Methods</h3>
             <div class="api-table" role="table" aria-label="TreeTable methods" tabindex="0">
               <div class="api-head" role="row">
@@ -797,8 +1039,41 @@
     <aeris-tab-panel value="interfaces" label="Interfaces"
       ><section class="doc-section">
         <h2>Interfaces</h2>
-        <app-code-block [code]="interfacesCode" language="TypeScript" /></section
-    ></aeris-tab-panel>
+        <app-code-block [code]="editorInterfacesCode" language="TypeScript" />
+        <app-code-block [code]="interfacesCode" language="TypeScript" />
+        <h3>Editing permissions</h3>
+        <p>
+          The final permission is
+          <code>cellEditable(data, column, node) ?? column.editable ?? editable</code>. True allows
+          editing, false prevents it, and undefined inherits. The table setting is a default, not a
+          master switch. The pure predicate can restrict whole rows or individual cells and receives
+          the node as its third argument. Disabled nodes always remain non-editable, even when the
+          predicate returns true. Each descendant keeps its own disabled state and editing
+          permissions. Revoking permission cancels an active draft without saving. Read-only cells
+          have no edit indicator or editing tab stop; double-click, Enter and F2 do not start an
+          editor.
+        </p>
+        <div
+          class="api-table compact"
+          role="table"
+          aria-label="Column editing permission"
+          tabindex="0"
+        >
+          <div class="api-head" role="row">
+            <b role="columnheader">Property</b><b role="columnheader">Type</b
+            ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+          </div>
+          <div role="row">
+            <code role="cell">AerisTreeTableColumn.editable</code
+            ><code role="cell">boolean | undefined</code><code role="cell">undefined</code
+            ><span role="cell"
+              >Overrides the table default for a column. cellEditable has final priority unless the
+              node is disabled.</span
+            >
+          </div>
+        </div>
+      </section></aeris-tab-panel
+    >
 
     <aeris-tab-panel value="tokens" label="Tokens"
       ><section class="doc-section">
@@ -903,7 +1178,9 @@
           </li>
           <li>
             Editing uses a named native text input. Enter commits, Escape cancels, blur commits, and
-            focus returns to the row.
+            focus returns to the cell after keyboard completion. Custom editors commit valid drafts
+            when you leave them or press an unconsumed Enter outside multiline fields. Nested
+            pickers keep their own keyboard behavior and remain part of the editor when portaled.
           </li>
           <li>
             When <code>showOverflowTooltip</code> is enabled, truncated headers and cells use Aeris
@@ -982,8 +1259,22 @@
             >
           </div>
           <div role="row">
-            <span role="cell"><kbd>Enter</kbd> / <kbd>Escape</kbd> while editing</span
-            ><span role="cell">Commits or cancels the active cell edit.</span>
+            <span role="cell"><kbd>Enter</kbd> / <kbd>F2</kbd> on an editable cell</span>
+            <span role="cell">Starts editing and focuses its first available control.</span>
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Enter</kbd> in the built-in editor</span>
+            <span role="cell"
+              >Commits a valid draft. Custom editors also commit on an unconsumed Enter outside
+              multiline fields; child controls may handle the key first.</span
+            >
+          </div>
+          <div role="row">
+            <span role="cell"><kbd>Escape</kbd> while editing</span>
+            <span role="cell"
+              >Cancels the edit unless a nested control consumes Escape or has an open picker to
+              dismiss first.</span
+            >
           </div>
         </div>
       </section></aeris-tab-panel
