@@ -41,29 +41,13 @@ for (const component of ['table', 'tree-table']) {
     await expect(team).toHaveText('Quality');
   });
 
-  test(`${component} supports direct cell editing, switching and owned pickers`, async ({
-    page,
-  }) => {
+  test(`${component} switches custom editors and rejects invalid drafts`, async ({ page }) => {
     await page.goto(`/components/${component}`);
     const example = page.locator(`#${component}-custom-editors`);
     const row = example.locator('tbody tr').first();
     const status = row.locator('td[data-label="Status"]');
     const quantity = row.locator('td[data-label="Quantity"]');
     const name = row.locator('td[data-label="Name"]');
-    const date = row.locator('td[data-label="Date"]');
-    const expectDateToFit = async () => {
-      const fits = await date.locator('aeris-date-picker').evaluate((element) => {
-        const cell = element.closest('td');
-        const trigger = element.querySelector('[role="combobox"]');
-        if (!cell || !trigger) return false;
-        const boundary = cell.getBoundingClientRect();
-        return [element, trigger].every((control) => {
-          const bounds = control.getBoundingClientRect();
-          return bounds.left >= boundary.left + 2 && bounds.right <= boundary.right - 2;
-        });
-      });
-      expect(fits).toBe(true);
-    };
     await status.dblclick();
     const trigger = example.getByRole('combobox', { name: 'Edit Status', exact: true });
     await expect(trigger).toBeFocused();
@@ -91,6 +75,43 @@ for (const component of ['table', 'tree-table']) {
     const text = example.getByRole('textbox', { name: 'Edit Name', exact: true });
     await expect(text).toBeFocused();
     await text.fill('Updated name');
+    await quantity.dblclick();
+    await expect(name).toHaveText('Updated name');
+    await number.fill('8');
+    await name.dblclick();
+    await expect(quantity).toHaveText('8');
+    await text.fill('Discard this');
+    await text.press('Escape');
+    await expect(name).toHaveText('Updated name');
+    await expect(name).toBeFocused();
+    await expect(example.getByRole('button', { name: /^(Save|Cancel)$/ })).toHaveCount(0);
+  });
+
+  test(`${component} keeps owned date editors bounded through narrow RTL switching`, async ({
+    page,
+  }) => {
+    await page.goto(`/components/${component}`);
+    const example = page.locator(`#${component}-custom-editors`);
+    const row = example.locator('tbody tr').first();
+    const name = row.locator('td[data-label="Name"]');
+    const quantity = row.locator('td[data-label="Quantity"]');
+    const date = row.locator('td[data-label="Date"]');
+    const number = example.getByRole('spinbutton', { name: 'Edit Quantity', exact: true });
+    const expectDateToFit = async () => {
+      const fits = await date.locator('aeris-date-picker').evaluate((element) => {
+        const cell = element.closest('td');
+        const trigger = element.querySelector('[role="combobox"]');
+        if (!cell || !trigger) return false;
+        const boundary = cell.getBoundingClientRect();
+        return [element, trigger].every((control) => {
+          const bounds = control.getBoundingClientRect();
+          return bounds.left >= boundary.left + 2 && bounds.right <= boundary.right - 2;
+        });
+      });
+      expect(fits).toBe(true);
+    };
+    await name.dblclick();
+    await example.getByRole('textbox', { name: 'Edit Name', exact: true }).fill('Updated name');
     await date.dblclick();
     await expect(name).toHaveText('Updated name');
     const calendar = example.getByRole('combobox', { name: 'Edit Date', exact: true });
@@ -101,14 +122,7 @@ for (const component of ['table', 'tree-table']) {
     await calendarPanel.locator('[data-date="2026-10-23"]').click();
     await expect(calendar).toBeVisible();
     await quantity.dblclick();
-    await number.fill('8');
-    await name.dblclick();
-    await expect(quantity).toHaveText('8');
-    await text.fill('Discard this');
-    await text.press('Escape');
-    await expect(name).toHaveText('Updated name');
-    await expect(name).toBeFocused();
-    await expect(example.getByRole('button', { name: /^(Save|Cancel)$/ })).toHaveCount(0);
+    await expect(date).toContainText('23');
     await page.setViewportSize({ width: 320, height: 740 });
     await page.locator('html').evaluate((element) => element.setAttribute('dir', 'rtl'));
     await quantity.dblclick();

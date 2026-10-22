@@ -60,9 +60,7 @@ for (const component of ['table', 'tree-table']) {
       .toBeLessThan(-30);
   });
 
-  test(`${component} combines row and column pins with editing, resizing and RTL`, async ({
-    page,
-  }) => {
+  test(`${component} combines row and column pins with editing and resizing`, async ({ page }) => {
     await page.setViewportSize({ width: 1160, height: 900 });
     await page.goto(`/components/${component}`);
     const example = page.locator(`#${component}-combined-pinning`);
@@ -139,6 +137,28 @@ for (const component of ['table', 'tree-table']) {
     await expect
       .poll(async () => Math.abs((await bounds(name)).left - (await bounds(viewport)).left))
       .toBeLessThan(2);
+    expect(
+      (await new AxeBuilder({ page }).include(`#${component}-combined-pinning`).analyze())
+        .violations,
+    ).toEqual([]);
+  });
+
+  test(`${component} preserves pinned branches and logical RTL columns`, async ({ page }) => {
+    await page.setViewportSize({ width: 1160, height: 900 });
+    await page.goto(`/components/${component}`);
+    const viewport = page.locator(`#${component}-combined-pinning [data-sticky-header]`);
+    const row = viewport.locator('tr[data-row-key="pin-3"]');
+    const name = row.locator('td[data-field="name"]');
+    const status = row.locator('td[data-field="status"]');
+    await viewport.scrollIntoViewIfNeeded();
+    await viewport.evaluate((element) => {
+      element.scrollTop = 220;
+      element.scrollLeft = 260;
+    });
+    const nameHeader = viewport.locator('thead tr').first().locator('th[data-field="name"]');
+    const before = (await bounds(nameHeader)).width;
+    await nameHeader.getByRole('separator').press('ArrowRight');
+    await expect.poll(async () => (await bounds(nameHeader)).width).toBeGreaterThan(before + 5);
     if (component === 'tree-table') {
       await expect(viewport.locator('tr[data-pinned-row="top"]')).toHaveCount(3);
       await name.locator('button[aria-expanded]').click();
@@ -177,9 +197,7 @@ for (const component of ['table', 'tree-table']) {
     ).toEqual([]);
   });
 
-  test(`${component} adapts pinning to themes and constrained viewports`, async ({
-    page,
-  }, testInfo) => {
+  test(`${component} adapts pinning to theme and density presets`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width: 1160, height: 900 });
     await page.goto(`/components/${component}`);
     const example = page.locator(`#${component}-combined-pinning`);
@@ -217,6 +235,24 @@ for (const component of ['table', 'tree-table']) {
       (await new AxeBuilder({ page }).include(`#${component}-combined-pinning`).analyze())
         .violations,
     ).toEqual([]);
+  });
+
+  test(`${component} falls back safely in constrained viewports`, async ({ page }) => {
+    await page.setViewportSize({ width: 1160, height: 900 });
+    await page.goto(`/components/${component}`);
+    const viewport = page.locator(`#${component}-combined-pinning [data-sticky-header]`);
+    const name = viewport
+      .locator('tbody tr[data-pinned-row="top"]')
+      .first()
+      .locator('td[data-field="name"]');
+    await viewport.scrollIntoViewIfNeeded();
+    await page.getByRole('button', { name: 'Switch to dark theme', exact: true }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-aeris-theme', 'dark');
+    await page.locator(`#${component}-combined-pinning`).evaluate((element) => {
+      element.setAttribute('data-aeris-density', 'comfortable');
+      element.setAttribute('data-aeris-radius', 'pill');
+    });
+    await page.locator('html').evaluate((element) => element.setAttribute('dir', 'rtl'));
     await viewport.evaluate((element) => {
       element.style.maxHeight = '130px';
     });

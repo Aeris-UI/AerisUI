@@ -3,35 +3,44 @@ import { expect, test } from './fixtures';
 
 test.use({ baseURL: 'http://127.0.0.1:4301' });
 
-for (const route of [
-  '/components/table',
-  '/components/tree-table',
-  '/components/button',
-  '/guides/installation',
+// Bound repeated touch scrolling per case without skipping any section or raising timeouts.
+for (const { route, parts } of [
+  { route: '/components/table', parts: 4 },
+  { route: '/components/tree-table', parts: 4 },
+  { route: '/components/button', parts: 1 },
+  { route: '/guides/installation', parts: 1 },
 ]) {
-  test(`quick links follow every section on ${route}`, async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 1000 });
-    await page.goto(route);
-    const toc = page.locator('app-page-toc:visible').first();
-    await expect(toc).toBeVisible();
-    const links = toc.locator('a');
-    const count = await links.count();
-    expect(count).toBeGreaterThan(2);
-    for (let index = 0; index < count; index++) {
-      const link = links.nth(index);
-      await link.click();
-      await page.evaluate(
-        () =>
-          new Promise<void>((resolve) =>
-            requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
-          ),
-      );
-      await expect(link).toHaveAttribute('aria-current', 'location');
-      await expect(toc.locator('a[aria-current="location"]')).toHaveCount(1);
-    }
-    await links.first().click();
-    await expect(links.first()).toHaveAttribute('aria-current', 'location');
-  });
+  for (let part = 0; part < parts; part++) {
+    test(`quick links follow every section on ${route} (${part + 1}/${parts})`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      await page.goto(route);
+      const toc = page.locator('app-page-toc:visible').first();
+      await expect(toc).toBeVisible();
+      const links = toc.locator('a');
+      const count = await links.count();
+      expect(count).toBeGreaterThan(2);
+      for (
+        let index = Math.floor((count * part) / parts);
+        index < Math.floor((count * (part + 1)) / parts);
+        index++
+      ) {
+        const link = links.nth(index);
+        await link.click();
+        await page.evaluate(
+          () =>
+            new Promise<void>((resolve) =>
+              requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+            ),
+        );
+        await expect(link).toHaveAttribute('aria-current', 'location');
+        await expect(toc.locator('a[aria-current="location"]')).toHaveCount(1);
+      }
+      await links.first().click();
+      await expect(links.first()).toHaveAttribute('aria-current', 'location');
+    });
+  }
 }
 
 test('header appearance controls still restore native button focus after Escape', async ({

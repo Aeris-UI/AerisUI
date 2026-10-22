@@ -14,6 +14,7 @@ for (const kind of ['table', 'tree-table'] as const) {
       );
       await page.goto(`/components/${kind}`);
       const scope = page.locator(`#${kind}-selection-workflow .selection-workflow`);
+      const headers = scope.locator('thead tr').first();
       // Escaping absolute table content can widen the mobile layout viewport in RTL,
       // shifting touch hit targets even when the workflow itself has no overflow.
       const expectPageFits = async () => {
@@ -49,7 +50,11 @@ for (const kind of ['table', 'tree-table'] as const) {
         exact: true,
       });
       await expect(scope).toHaveCSS('direction', direction);
-      await expect(scope.locator('thead th[data-field="name"]')).toHaveCSS('text-align', 'start');
+      await expect(headers.locator('th[data-field="name"]')).toHaveCSS('text-align', 'start');
+      await expect(scope.locator('thead tr').nth(1).locator('th[data-field="name"]')).toHaveCSS(
+        'text-align',
+        'start',
+      );
       await selectRow();
       await expect(count).toContainText('1 ');
       await scope.getByRole('button', { name: 'Next page', exact: true }).click();
@@ -69,21 +74,17 @@ for (const kind of ['table', 'tree-table'] as const) {
       await scope
         .getByRole('searchbox', { name: `Filter ${label}`, exact: true })
         .fill(kind === 'table' ? 'Design' : 'Maya');
-      await scope.locator(`thead th[data-field="${field}"] button`).first().click();
+      await headers.locator(`th[data-field="${field}"] button`).first().click();
       await columns.click();
       await menu.getByRole('menuitem', { name: `Hide ${label}`, exact: true }).click();
       await expect(scope.locator(`thead th[data-field="${field}"]`)).toHaveCount(0);
       await expect(scope.locator('tbody input[type="checkbox"]:enabled')).toHaveCount(2);
       await columns.click();
       await menu.getByRole('menuitem', { name: `Show ${label}`, exact: true }).click();
-      await expect(scope.locator(`thead th[data-field="${field}"]`)).not.toHaveAttribute(
-        'aria-sort',
-      );
-      const nameHeader = scope.locator('thead th[data-field="name"] button').first();
+      await expect(headers.locator(`th[data-field="${field}"]`)).not.toHaveAttribute('aria-sort');
+      const nameHeader = headers.locator('th[data-field="name"] button').first();
       await nameHeader.press(direction === 'rtl' ? 'Alt+ArrowLeft' : 'Alt+ArrowRight');
-      const fields = await scope
-        .locator('thead tr')
-        .first()
+      const fields = await headers
         .locator('th[data-field]')
         .evaluateAll((cells) => cells.map((cell) => cell.getAttribute('data-field')));
       expect(fields).toEqual(

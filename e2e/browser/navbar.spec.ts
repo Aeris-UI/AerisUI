@@ -213,7 +213,10 @@ test('Navbar slides one active underline, including RTL and reduced motion', asy
         { once: true },
       );
     });
-    await nav.getByRole('button', { name: 'Projects', exact: true }).click();
+    // Keep animation measurement independent of mobile input dispatch latency.
+    await nav
+      .getByRole('button', { name: 'Projects', exact: true })
+      .evaluate((element) => element.click());
     await expect
       .poll(() => indicator.evaluate((element) => element.getAnimations().length))
       .toBeGreaterThan(0);
@@ -338,6 +341,7 @@ test('Navbar follows theme palettes and corner presets', async ({ page }, testIn
         .analyze();
       expect(result.violations).toEqual([]);
       await page.goto('/components/sidebar');
+      await expect(page.locator('#sidebar-basic aeris-sidebar')).toBeVisible();
       const sidebarResult = await new AxeBuilder({ page })
         .include('#sidebar-basic aeris-sidebar')
         .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
