@@ -43,8 +43,8 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [AutoComplete](https://aeris-ui.dev/ai/22/components/auto-complete.md): Text input with keyboard-first suggestions, filtering, grouping, and templates.
 - [CascadeSelect](https://aeris-ui.dev/ai/22/components/cascade-select.md): Hierarchical selection with cascading columns, templates, and Forms support.
 - [Checkbox](https://aeris-ui.dev/ai/22/components/checkbox.md): Binary and mixed-state selection with native form semantics.
-- [ColorPicker](https://aeris-ui.dev/ai/22/components/color-picker.md): Lightweight color input with native picker behavior, text entry, presets, and forms support.
-- [DatePicker](https://aeris-ui.dev/ai/22/components/date-picker.md): Locale-aware date, range, month, and year selection with complete keyboard support.
+- [ColorPicker](https://aeris-ui.dev/ai/22/components/color-picker.md): Visual color editing with format selection, opacity, presets, inline palettes, and forms support.
+- [DatePicker](https://aeris-ui.dev/ai/22/components/date-picker.md): Locale-aware date and time selection with typed entry, ranges, month and year views, and forms support.
 - [Editor](https://aeris-ui.dev/ai/22/components/editor.md): Rich text editing with optional Lexical peers, accessible toolbar controls, and Forms support.
 - [FormField](https://aeris-ui.dev/ai/22/components/form-field.md): Compose labels, controls, hints, and validation messages with stable spacing and accessible relationships.
 - [IconField](https://aeris-ui.dev/ai/22/components/icon-field.md): Composable field shell for placing icons around native and Aeris form controls.
@@ -59,7 +59,7 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [Password](https://aeris-ui.dev/ai/22/components/password.md): Password entry with visibility controls, strength feedback, and secure autofill semantics.
 - [RadioButton](https://aeris-ui.dev/ai/22/components/radio-button.md): Single-choice control designed for accessible grouped selection.
 - [Rating](https://aeris-ui.dev/ai/22/components/rating.md): Accessible star rating input with half values, clearing, keyboard support, and forms integration.
-- [Select](https://aeris-ui.dev/ai/22/components/select.md): Keyboard-first selection control with searchable, grouped, and templated options.
+- [Select](https://aeris-ui.dev/ai/22/components/select.md): Searchable single-value selection with groups and templates, plus a lightweight native select directive.
 - [Slider](https://aeris-ui.dev/ai/22/components/slider.md): Single and range value selection with pointer, touch, and complete keyboard support.
 - [Textarea](https://aeris-ui.dev/ai/22/components/textarea.md): Accessible textarea component for Angular.
 - [ToggleSwitch](https://aeris-ui.dev/ai/22/components/toggle-switch.md): Accessible toggleswitch component for Angular.
@@ -78,10 +78,10 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [OrganizationChart](https://aeris-ui.dev/ai/22/components/organization-chart.md): Hierarchical team chart with templates, selection, and collapsible branches.
 - [Paginator](https://aeris-ui.dev/ai/22/components/paginator.md): Navigate large record sets with page links, row count selection, and controlled state.
 - [PickList](https://aeris-ui.dev/ai/22/components/pick-list.md): Transfer and reorder items across two collections with filtering and drag-and-drop.
-- [Table](https://aeris-ui.dev/ai/22/components/table.md): High-performance data table with sorting, filtering, editing, and virtualization.
+- [Table](https://aeris-ui.dev/ai/22/components/table.md): Tabular data with sorting, filtering, pagination, custom cell editors, row reordering, and row and column pinning.
 - [Timeline](https://aeris-ui.dev/ai/22/components/timeline.md): Chronological event display with responsive orientation, progress, alignment, and templates.
 - [Tree](https://aeris-ui.dev/ai/22/components/tree.md): Hierarchical data navigation with controlled expansion, selection, filtering, lazy loading, and drag-drop reordering.
-- [TreeTable](https://aeris-ui.dev/ai/22/components/tree-table.md): Hierarchical tabular data with controlled expansion, sorting, filtering, selection, editing, pagination, and lazy loading.
+- [TreeTable](https://aeris-ui.dev/ai/22/components/tree-table.md): Hierarchical tabular data with expansion, filtering, custom editors, pagination, lazy loading, and branch and column pinning.
 
 ## Panel components
 
@@ -103,7 +103,7 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [Dialog](https://aeris-ui.dev/ai/22/components/dialog.md): Modal surface with focus management, dismissal rules, and responsive sizing.
 - [Drawer](https://aeris-ui.dev/ai/22/components/drawer.md): Edge-anchored overlay panel with modal behavior, templates, positions, and responsive sizing.
 - [DynamicDialog](https://aeris-ui.dev/ai/22/components/dynamic-dialog.md): Service-created dialog shell that renders any Angular component as dynamic content.
-- [Popover](https://aeris-ui.dev/ai/22/components/popover.md): Target-anchored overlay content with controlled visibility, templates, focus management, and responsive placement.
+- [Popover](https://aeris-ui.dev/ai/22/components/popover.md): Anchored content with controlled, click, or hover/focus opening, templates, and responsive placement.
 - [Tooltip](https://aeris-ui.dev/ai/22/components/tooltip.md): Advisory target text with hover, focus, delays, templates, and accessible tooltip semantics.
 
 ## File components

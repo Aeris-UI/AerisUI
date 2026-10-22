@@ -101,6 +101,25 @@ type AerisSidebarMode = 'auto' | 'desktop' | 'mobile';
 type AerisSidebarSide = 'start' | 'end';
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-sidebar-width` | `CSS custom property` | `16rem` | Expanded desktop width. |
+| `--aeris-sidebar-collapsed-width` | `CSS custom property` | `4.25rem` | Icon-only desktop width. |
+| `--aeris-sidebar-padding` | `CSS custom property` | `--aeris-overlay-padding` | Navigation padding. |
+| `--aeris-sidebar-gap` | `CSS custom property` | `--aeris-density-gap` | Space between header, body and footer. |
+| `--aeris-sidebar-background` | `CSS custom property` | `--aeris-surface` | Surface color. |
+| `--aeris-sidebar-color` | `CSS custom property` | `--aeris-text` | Text color. |
+| `--aeris-sidebar-border` | `CSS custom property` | `--aeris-border` | Edge divider color. |
+| `--aeris-sidebar-font-size` | `CSS custom property` | `--aeris-body-font-size` | Navigation typography. |
+| `--aeris-sidebar-item-radius` | `CSS custom property` | `--aeris-radius-item` | Item and control corners. |
+| `--aeris-sidebar-item-height` | `CSS custom property` | `--aeris-item-height` | Minimum item height; long labels grow. |
+| `--aeris-sidebar-hover-background` | `CSS custom property` | `--aeris-interactive-hover` | Hover surface. |
+| `--aeris-sidebar-active-background` | `CSS custom property` | `--aeris-primary-soft` | Active item surface. |
+| `--aeris-sidebar-active-color` | `CSS custom property` | `--aeris-on-primary-soft` | Active item text. |
+| `--aeris-sidebar-indent` | `CSS custom property` | `0.75rem` | Nested group indentation. |
+
 ## Examples
 
 ### Basic navigation

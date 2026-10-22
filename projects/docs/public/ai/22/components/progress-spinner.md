@@ -75,6 +75,20 @@ interface AerisProgressSpinnerValueContext {
 }
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-progress-spinner-size` | `CSS custom property` | `3rem` | Medium or custom spinner diameter. |
+| `--aeris-progress-spinner-sm-size` | `CSS custom property` | `1.75rem` | Small spinner diameter. |
+| `--aeris-progress-spinner-lg-size` | `CSS custom property` | `4.5rem` | Large spinner diameter. |
+| `--aeris-progress-spinner-indicator` | `CSS custom property` | `selected tone` | Indicator stroke color. |
+| `--aeris-progress-spinner-track` | `CSS custom property` | `16% selected tone` | Background track color. |
+| `--aeris-progress-spinner-duration` | `CSS custom property` | `1.1s` | Indeterminate animation duration. |
+| `--aeris-progress-spinner-value-color` | `CSS custom property` | `--aeris-text` | Centered value color. |
+| `--aeris-progress-spinner-value-font-size` | `CSS custom property` | `0.6875rem` | Medium centered value size. |
+| `--aeris-progress-spinner-lg-value-font-size` | `CSS custom property` | `0.875rem` | Large centered value size. |
+
 ## Examples
 
 ### Indeterminate

@@ -37,7 +37,7 @@
     "sync:doc-examples": "node tools/sync-doc-examples.mjs --write",
     "check:doc-api-options": "node tools/check-doc-api-options.mjs",
     "sync:doc-api-options": "node tools/check-doc-api-options.mjs --write",
-    "check:ai-docs": "node tools/generate-ai-docs.mjs --check",
+    "check:ai-docs": "node tools/generate-ai-docs.mjs --check && node --test tools/documentation/*.spec.mjs",
     "generate:ai-docs": "node tools/generate-ai-docs.mjs --write",
     "check:seo": "node tools/generate-seo.mjs --check",
     "generate:seo": "node tools/generate-seo.mjs --write",

@@ -1,6 +1,6 @@
 # DatePicker
 
-> Locale-aware date, range, month, and year selection with complete keyboard support.
+> Locale-aware date and time selection with typed entry, ranges, month and year views, and forms support.
 
 Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 

@@ -93,6 +93,22 @@ interface AerisCodeCopyEvent {
 }
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-code-block-background` | `CSS custom property` | `--aeris-surface-2` | Code surface. |
+| `--aeris-code-block-color` | `CSS custom property` | `--aeris-text` | Uncolored text. |
+| `--aeris-code-block-border` | `CSS custom property` | `--aeris-border` | Outer and header borders. |
+| `--aeris-code-block-radius` | `CSS custom property` | `--aeris-radius-surface` | Outer corners. |
+| `--aeris-code-block-padding` | `CSS custom property` | `--aeris-surface-padding` | Code area padding. |
+| `--aeris-code-block-max-height` | `CSS custom property` | `min(34rem, 68dvh)` | Default desktop scroll height; maxHeight input overrides it. |
+| `--aeris-code-block-font-size` | `CSS custom property` | `0.8125rem` | Code font size. |
+| `--aeris-code-block-font-family` | `CSS custom property` | `ui-monospace, SFMono-Regular, Consolas, monospace` | Monospace stack. |
+| `--aeris-code-block-line-height` | `CSS custom property` | `1.75` | Line height. |
+| `--aeris-code-block-line-highlight` | `CSS custom property` | `--aeris-primary-soft` | Emphasized line background. |
+| `--aeris-code-block-token-color` | `CSS custom property` | `Shiki GitHub light / dark token colors` | Override all Shiki token colors; omit to retain syntax themes. |
+
 ## Examples
 
 ### Basic

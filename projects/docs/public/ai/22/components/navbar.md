@@ -92,6 +92,28 @@ type AerisNavbarMode = 'auto' | 'desktop' | 'mobile';
 type AerisNavbarVariant = 'standard' | 'floating' | 'transparent';
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-navbar-background` | `CSS custom property` | `--aeris-surface` | Bar and disclosure surface. |
+| `--aeris-navbar-border` | `CSS custom property` | `--aeris-border` | Container boundary. |
+| `--aeris-navbar-color` | `CSS custom property` | `--aeris-text` | Default content color. |
+| `--aeris-navbar-font-size` | `CSS custom property` | `--aeris-action-font-size` | Navigation typography. |
+| `--aeris-navbar-radius` | `CSS custom property` | `--aeris-radius-surface` | Floating surface and dropdown corners. |
+| `--aeris-navbar-item-radius` | `CSS custom property` | `--aeris-radius-item` | Item corners. |
+| `--aeris-navbar-padding` | `CSS custom property` | `1.25rem` | Bar padding; sticky bars also respect horizontal safe-area insets. |
+| `--aeris-navbar-gap` | `CSS custom property` | `1.5rem` | Slot and item spacing. |
+| `--aeris-navbar-max-width` | `CSS custom property` | `72rem` | Maximum inner content width. |
+| `--aeris-navbar-height` | `CSS custom property` | `control height + 1.5rem` | Header height. |
+| `--aeris-navbar-dropdown-width` | `CSS custom property` | `17rem` | Desktop dropdown width. |
+| `--aeris-navbar-hover-background` | `CSS custom property` | `--aeris-interactive-hover` | Hover surface. |
+| `--aeris-navbar-active-background` | `CSS custom property` | `--aeris-primary-soft` | Active surface. |
+| `--aeris-navbar-active-color` | `CSS custom property` | `--aeris-text` | Active desktop link and underline. |
+| `--aeris-navbar-top` | `CSS custom property` | `0px` | Sticky offset. |
+| `--aeris-navbar-z-index` | `CSS custom property` | `30` | Sticky layer. |
+| `--aeris-navbar-mobile-max-height` | `CSS custom property` | `60dvh` | Maximum mobile navigation height before scrolling. |
+
 ## Examples
 
 ### Navigation

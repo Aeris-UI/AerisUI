@@ -14,10 +14,14 @@ import { DOC_ICONS } from '../documentation/doc-icons';
   template: `
     @switch (kind()) {
       @case ('button-group') {
-        <aeris-button-group size="sm"
-          ><button aerisButton variant="outline" size="sm">Day</button
-          ><button aerisButton size="sm">Week</button
-          ><button aerisButton variant="outline" size="sm">Month</button></aeris-button-group
+        <aeris-button-group size="sm" selectionMode="single" value="week" ariaLabel="Period"
+          ><button aerisButton aerisButtonGroupItem value="day" variant="outline" size="sm">
+            Day</button
+          ><button aerisButton aerisButtonGroupItem value="week" variant="outline" size="sm">
+            Week</button
+          ><button aerisButton aerisButtonGroupItem value="month" variant="outline" size="sm">
+            Month
+          </button></aeris-button-group
         >
       }
       @case ('speed-dial') {

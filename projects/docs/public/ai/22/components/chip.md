@@ -162,6 +162,26 @@ interface AerisChipRemoveIconContext {
 }
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-chip-group-gap` | `CSS custom property` | `--aeris-density-gap` | Space between grouped chips. |
+| `--aeris-chip-group-selected-border` | `CSS custom property` | `--aeris-primary` | Selected group-chip border. |
+| `--aeris-chip-group-selected-background` | `CSS custom property` | `--aeris-primary-soft` | Selected group-chip background. |
+| `--aeris-chip-height` | `CSS custom property` | `control height − 0.5rem` | Default chip height. |
+| `--aeris-chip-sm-height` | `CSS custom property` | `control height − 0.875rem` | Small chip height. |
+| `--aeris-chip-lg-height` | `CSS custom property` | `control height + 0.125rem` | Large chip height. |
+| `--aeris-chip-padding-block` | `CSS custom property` | `0.25rem` | Vertical padding. |
+| `--aeris-chip-padding-inline` | `CSS custom property` | `0.75rem` | Horizontal padding. |
+| `--aeris-chip-gap` | `CSS custom property` | `density gap × 0.75` | Internal content gap. |
+| `--aeris-chip-font-size` | `CSS custom property` | `0.8125rem` | Default label size. |
+| `--aeris-chip-font-weight` | `CSS custom property` | `650` | Label weight. |
+| `--aeris-chip-radius` | `CSS custom property` | `--aeris-radius-md` | Rounded shape radius. |
+| `--aeris-chip-icon-size` | `CSS custom property` | `--aeris-icon-size` | Leading icon size. |
+| `--aeris-chip-remove-size` | `CSS custom property` | `1.25rem` | Remove button dimensions. |
+| `--aeris-chip-remove-icon-size` | `CSS custom property` | `0.75rem` | Default remove icon dimensions. |
+
 ## Examples
 
 ### Basic

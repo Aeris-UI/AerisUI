@@ -12,5 +12,20 @@ describe('Consumer control selection guidance', () => {
     expect(text).toContain('Menu for actions or navigation');
     expect(text).toContain('fieldset with legend');
     expect(text).toContain('does not replace form or fieldset semantics');
+    expect(text).toContain('@aeris-ui/core/select/native');
+    expect(text).toContain('typed date/time entry');
+    expect(text).toContain('optional opacity');
+  });
+
+  it('distinguishes navigation and command overlays without adding installation requirements', () => {
+    const section = GUIDE_ARTICLES.find(({ id }) => id === 'overlays')?.sections.find(
+      ({ id }) => id === 'choose-overlay',
+    );
+    expect(section?.table?.rows).toContainEqual([
+      'Searchable application commands with a launcher',
+      'CommandPalette',
+    ]);
+    expect(section?.paragraphs?.join(' ')).toContain('not ARIA command menus');
+    expect(section?.paragraphs?.join(' ')).toContain('hover and keyboard focus');
   });
 });

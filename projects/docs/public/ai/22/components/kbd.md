@@ -48,6 +48,20 @@ type AerisKbdKeyValue =
   | 'pageUp' | 'pageDown' | 'home' | 'end' | 'fn';
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-kbd-background` | `CSS custom property` | `--aeris-surface-2` | Key surface. |
+| `--aeris-kbd-color` | `CSS custom property` | `--aeris-text` | Readable key text. |
+| `--aeris-kbd-border` | `CSS custom property` | `--aeris-border` | Subtle key boundary. |
+| `--aeris-kbd-radius` | `CSS custom property` | `item radius, capped at 0.375rem` | Compact key corners; never pill-shaped by default. |
+| `--aeris-kbd-padding` | `CSS custom property` | `density gap × 0.4 / 0.8` | Inner key spacing follows the active density. |
+| `--aeris-kbd-font-family` | `CSS custom property` | `system monospace stack` | Keyboard-input typeface. |
+| `--aeris-kbd-symbol-font-family` | `CSS custom property` | `system-ui, sans-serif` | Standard key-symbol typeface. |
+| `--aeris-kbd-content-font-weight` | `CSS custom property` | `600` | Weight of span[aerisKbdContent] main-key text. |
+| `--aeris-kbd-font-size` | `CSS custom property` | `sm / md / lg typography token` | Override the size preset when needed. |
+
 ## Examples
 
 ### Single keys

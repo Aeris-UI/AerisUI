@@ -19,16 +19,21 @@ describe('CatalogPreviewComponent', () => {
 
   const families: readonly { kind: string; category: ComponentCategory; selector: string }[] = [
     { kind: 'select', category: 'Form', selector: 'aeris-select' },
+    { kind: 'date-picker', category: 'Form', selector: 'aeris-date-picker' },
+    { kind: 'color-picker', category: 'Form', selector: 'aeris-color-picker' },
     { kind: 'listbox', category: 'Form', selector: 'aeris-listbox' },
     { kind: 'command-palette', category: 'Overlay', selector: 'aeris-command-palette' },
     { kind: 'split-button', category: 'Button', selector: 'aeris-split-button' },
+    { kind: 'button-group', category: 'Button', selector: 'aeris-button-group' },
     { kind: 'table', category: 'Data', selector: 'aeris-table' },
+    { kind: 'tree-table', category: 'Data', selector: 'aeris-tree-table' },
     { kind: 'tabs', category: 'Panel', selector: 'aeris-tabs' },
     { kind: 'menu', category: 'Menu', selector: 'aeris-menu' },
     { kind: 'sidebar', category: 'Menu', selector: 'aeris-sidebar' },
     { kind: 'navbar', category: 'Menu', selector: 'aeris-navbar' },
     { kind: 'carousel', category: 'Media', selector: 'aeris-carousel' },
     { kind: 'avatar', category: 'Misc', selector: 'aeris-avatar' },
+    { kind: 'chip', category: 'Misc', selector: 'aeris-chip' },
     { kind: 'glass', category: 'Utilities', selector: 'aeris-card[aerisGlass]' },
     { kind: 'kbd', category: 'Utilities', selector: 'kbd.aeris-kbd' },
     { kind: 'dialog', category: 'Overlay', selector: 'aeris-dialog' },
@@ -101,6 +106,20 @@ describe('CatalogPreviewComponent', () => {
     fixture.componentRef.setInput('active', false);
     fixture.detectChanges();
     expect(sidebar?.hasAttribute('data-icon-only')).toBe(true);
+  });
+
+  it('uses ButtonGroup selection semantics instead of manually coloring the active preview button', async () => {
+    const fixture = TestBed.createComponent(CatalogPreviewComponent);
+    fixture.componentRef.setInput('kind', 'button-group');
+    fixture.componentRef.setInput('category', 'Button');
+    fixture.detectChanges();
+    await (await fixture.getDeferBlocks())[0].render(DeferBlockState.Complete);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelector('[role="radiogroup"]')?.getAttribute('aria-label')).toBe('Period');
+    expect(element.querySelectorAll('[role="radio"]')).toHaveLength(3);
+    expect(element.querySelector('[aria-checked="true"]')?.textContent?.trim()).toBe('Week');
   });
 
   const hoverScenes: readonly { kind: string; category: ComponentCategory; selector: string }[] = [

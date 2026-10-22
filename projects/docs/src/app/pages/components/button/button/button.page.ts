@@ -279,13 +279,7 @@ interface AerisButtonContentTemplateContext {
       defaultValue: 'false',
       description: 'Requests focus when rendered.',
     },
-    {
-      name: 'disabled',
-      type: 'boolean',
-      defaultValue: 'false',
-      description: 'Disables interaction.',
-    },
-    ...this.directiveInputs.filter((row) => row.name !== 'disabled'),
+    ...this.directiveInputs,
     {
       name: 'contentTemplate',
       type: 'TemplateRef<AerisButtonContentTemplateContext>',

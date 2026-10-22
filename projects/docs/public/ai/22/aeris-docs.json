@@ -1049,6 +1049,7 @@
           "paragraphs": [
             "Every form component page documents its value type, Angular Forms behavior, invalid input, naming inputs, and touched or blur events. Some controls use a native input while composite controls expose camel-cased ARIA inputs such as ariaDescribedBy; copy the spelling shown on that component page.",
             "Choose Select for choosing a value from options, AutoComplete for text entry with suggestions, and Menu for actions or navigation rather than form values. Listbox keeps choices visible; ButtonGroup supports single or multiple selection with its selection directives. Their value types and keyboard contracts are not interchangeable.",
+            "For a browser-owned option list, use the native select directive from @aeris-ui/core/select/native instead of the popup component. DatePicker supports both calendar selection and typed date/time entry; ColorPicker includes inline palettes and optional opacity. These features stay in their existing component families.",
             "Use a native form for submission and fieldset with legend to name a related set of controls. FormField connects a control with its label, help text, and error message; it does not replace form or fieldset semantics."
           ],
           "links": [
@@ -1059,6 +1060,14 @@
             {
               "label": "Select forms examples",
               "href": "/components/select"
+            },
+            {
+              "label": "Typed date and time entry",
+              "href": "/components/date-picker"
+            },
+            {
+              "label": "Color palettes and opacity",
+              "href": "/components/color-picker"
             },
             {
               "label": "Accessibility guide",
@@ -2673,6 +2682,9 @@
         {
           "id": "choose-overlay",
           "title": "Choose the right overlay",
+          "paragraphs": [
+            "Popover can open on hover and keyboard focus for non-modal supporting content. Use its click trigger for an explicitly opened panel. Sidebar and Navbar are navigation components, not ARIA command menus; choose Menu or CommandPalette for actions."
+          ],
           "note": "Do not use a tooltip for content that must be clicked, selected, copied, or read at length. Use a popover or dialog instead.",
           "table": {
             "caption": "Common overlay choices",
@@ -2690,12 +2702,24 @@
                 "Drawer"
               ],
               [
+                "Responsive application navigation with an icon-only rail",
+                "Sidebar"
+              ],
+              [
+                "Website navigation with inline compact expansion",
+                "Navbar"
+              ],
+              [
                 "Rich content anchored to a control",
                 "Popover"
               ],
               [
                 "A compact action list",
                 "Menu or TieredMenu in popup mode"
+              ],
+              [
+                "Searchable application commands with a launcher",
+                "CommandPalette"
               ],
               [
                 "A short non-interactive explanation",
@@ -5492,7 +5516,7 @@
       "name": "ColorPicker",
       "slug": "color-picker",
       "category": "Form",
-      "description": "Lightweight color input with native picker behavior, text entry, presets, and forms support.",
+      "description": "Visual color editing with format selection, opacity, presets, inline palettes, and forms support.",
       "entryPoint": "@aeris-ui/core/color-picker",
       "documentationUrl": "https://aeris-ui.dev/components/color-picker",
       "imports": [
@@ -6297,7 +6321,7 @@
       "name": "DatePicker",
       "slug": "date-picker",
       "category": "Form",
-      "description": "Locale-aware date, range, month, and year selection with complete keyboard support.",
+      "description": "Locale-aware date and time selection with typed entry, ranges, month and year views, and forms support.",
       "entryPoint": "@aeris-ui/core/date-picker",
       "documentationUrl": "https://aeris-ui.dev/components/date-picker",
       "imports": [
@@ -13969,7 +13993,7 @@
       "name": "Select",
       "slug": "select",
       "category": "Form",
-      "description": "Keyboard-first selection control with searchable, grouped, and templated options.",
+      "description": "Searchable single-value selection with groups and templates, plus a lightweight native select directive.",
       "entryPoint": "@aeris-ui/core/select",
       "documentationUrl": "https://aeris-ui.dev/components/select",
       "imports": [
@@ -17211,6 +17235,138 @@
               "type": "boolean",
               "defaultValue": "false",
               "description": "Fills the available inline width."
+            }
+          ]
+        },
+        {
+          "name": "Component Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "type",
+              "type": "'button' | 'submit' | 'reset'",
+              "defaultValue": "'button'",
+              "description": "Native button type."
+            },
+            {
+              "name": "label",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Text rendered inside the button."
+            },
+            {
+              "name": "badge",
+              "type": "string | undefined",
+              "defaultValue": "undefined",
+              "description": "Optional badge value."
+            },
+            {
+              "name": "badgeSeverity",
+              "type": "AerisButtonSeverity",
+              "defaultValue": "'secondary'",
+              "description": "Semantic badge color. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'."
+            },
+            {
+              "name": "ariaLabel",
+              "type": "string | undefined",
+              "defaultValue": "undefined",
+              "description": "Accessible name, required for icon-only wrapper buttons."
+            },
+            {
+              "name": "tabIndex",
+              "type": "number | undefined",
+              "defaultValue": "undefined",
+              "description": "Native tabindex override."
+            },
+            {
+              "name": "autofocus",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Requests focus when rendered."
+            },
+            {
+              "name": "variant",
+              "type": "AerisButtonVariant",
+              "defaultValue": "'solid'",
+              "description": "Presentation treatment independent of color. Options: 'solid', 'outline', 'ghost', 'link'."
+            },
+            {
+              "name": "severity",
+              "type": "AerisButtonSeverity",
+              "defaultValue": "'primary'",
+              "description": "Semantic color applied to the selected variant. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'."
+            },
+            {
+              "name": "size",
+              "type": "AerisButtonSize",
+              "defaultValue": "'md'",
+              "description": "Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'."
+            },
+            {
+              "name": "iconPosition",
+              "type": "AerisButtonIconPosition",
+              "defaultValue": "'left'",
+              "description": "Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically. Options: 'left', 'right', 'top', 'bottom'."
+            },
+            {
+              "name": "loading",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Displays progress and exposes aria-busy."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Disables native button activation or marks an anchor as unavailable."
+            },
+            {
+              "name": "showSpinner",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Controls the built-in loading spinner."
+            },
+            {
+              "name": "iconOnly",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Creates a square icon button. Requires an accessible name."
+            },
+            {
+              "name": "raised",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Adds elevation."
+            },
+            {
+              "name": "rounded",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Uses a pill-shaped radius."
+            },
+            {
+              "name": "fluid",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Fills the available inline width."
+            },
+            {
+              "name": "contentTemplate",
+              "type": "TemplateRef<AerisButtonContentTemplateContext>",
+              "defaultValue": "undefined",
+              "description": "Replaces all default content and receives effective loading and disabled state."
+            },
+            {
+              "name": "iconTemplate",
+              "type": "TemplateRef<AerisButtonIconTemplateContext>",
+              "defaultValue": "undefined",
+              "description": "Custom idle icon."
+            },
+            {
+              "name": "loadingIconTemplate",
+              "type": "TemplateRef<AerisButtonIconTemplateContext>",
+              "defaultValue": "undefined",
+              "description": "Custom loading indicator."
             }
           ]
         }
@@ -20667,7 +20823,7 @@
       "name": "Table",
       "slug": "table",
       "category": "Data",
-      "description": "High-performance data table with sorting, filtering, editing, and virtualization.",
+      "description": "Tabular data with sorting, filtering, pagination, custom cell editors, row reordering, and row and column pinning.",
       "entryPoint": "@aeris-ui/core/table",
       "documentationUrl": "https://aeris-ui.dev/components/table",
       "imports": [
@@ -20842,6 +20998,18 @@
               "description": "Shows the built-in global search field."
             },
             {
+              "name": "filterLabel",
+              "type": "string",
+              "defaultValue": "'Search'",
+              "description": "Visible and accessible label of the built-in global search input."
+            },
+            {
+              "name": "filterPlaceholder",
+              "type": "string",
+              "defaultValue": "'Search records'",
+              "description": "Placeholder of the built-in global search input; not a replacement for its label."
+            },
+            {
               "name": "filterValue",
               "type": "string (model)",
               "defaultValue": "''",
@@ -20912,6 +21080,42 @@
               "type": "row | control",
               "defaultValue": "'control'",
               "description": "Uses row clicks or rendered checkbox/radio controls."
+            },
+            {
+              "name": "rowNavigation",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Makes data rows keyboard-focusable. Embedded controls retain their own focus behavior."
+            },
+            {
+              "name": "selectAllAriaLabel",
+              "type": "string",
+              "defaultValue": "'Select all visible rows'",
+              "description": "Accessible name of the header selection checkbox."
+            },
+            {
+              "name": "rowSelectionAriaLabel",
+              "type": "string",
+              "defaultValue": "'Select row'",
+              "description": "Accessible name of each row selection control and its selection column."
+            },
+            {
+              "name": "expandRowAriaLabel",
+              "type": "string",
+              "defaultValue": "'Expand row'",
+              "description": "Accessible name of a collapsed row expansion button and its expansion column."
+            },
+            {
+              "name": "collapseRowAriaLabel",
+              "type": "string",
+              "defaultValue": "'Collapse row'",
+              "description": "Accessible name of an expanded row expansion button."
+            },
+            {
+              "name": "paginatorAriaLabel",
+              "type": "string",
+              "defaultValue": "'Table pagination'",
+              "description": "Accessible name of the built-in paginator navigation."
             },
             {
               "name": "selectedKeys",
@@ -22745,7 +22949,7 @@
       "name": "TreeTable",
       "slug": "tree-table",
       "category": "Data",
-      "description": "Hierarchical tabular data with controlled expansion, sorting, filtering, selection, editing, pagination, and lazy loading.",
+      "description": "Hierarchical tabular data with expansion, filtering, custom editors, pagination, lazy loading, and branch and column pinning.",
       "entryPoint": "@aeris-ui/core/tree-table",
       "documentationUrl": "https://aeris-ui.dev/components/tree-table",
       "imports": [
@@ -32035,7 +32239,7 @@
       "name": "Popover",
       "slug": "popover",
       "category": "Overlay",
-      "description": "Target-anchored overlay content with controlled visibility, templates, focus management, and responsive placement.",
+      "description": "Anchored content with controlled, click, or hover/focus opening, templates, and responsive placement.",
       "entryPoint": "@aeris-ui/core/popover",
       "documentationUrl": "https://aeris-ui.dev/components/popover",
       "imports": [
@@ -35967,7 +36171,110 @@
           "code": "type AerisNavbarMode = 'auto' | 'desktop' | 'mobile';\ntype AerisNavbarVariant = 'standard' | 'floating' | 'transparent';"
         }
       ],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-navbar-background",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-surface",
+          "description": "Bar and disclosure surface."
+        },
+        {
+          "name": "--aeris-navbar-border",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-border",
+          "description": "Container boundary."
+        },
+        {
+          "name": "--aeris-navbar-color",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-text",
+          "description": "Default content color."
+        },
+        {
+          "name": "--aeris-navbar-font-size",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-action-font-size",
+          "description": "Navigation typography."
+        },
+        {
+          "name": "--aeris-navbar-radius",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-radius-surface",
+          "description": "Floating surface and dropdown corners."
+        },
+        {
+          "name": "--aeris-navbar-item-radius",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-radius-item",
+          "description": "Item corners."
+        },
+        {
+          "name": "--aeris-navbar-padding",
+          "type": "CSS custom property",
+          "defaultValue": "1.25rem",
+          "description": "Bar padding; sticky bars also respect horizontal safe-area insets."
+        },
+        {
+          "name": "--aeris-navbar-gap",
+          "type": "CSS custom property",
+          "defaultValue": "1.5rem",
+          "description": "Slot and item spacing."
+        },
+        {
+          "name": "--aeris-navbar-max-width",
+          "type": "CSS custom property",
+          "defaultValue": "72rem",
+          "description": "Maximum inner content width."
+        },
+        {
+          "name": "--aeris-navbar-height",
+          "type": "CSS custom property",
+          "defaultValue": "control height + 1.5rem",
+          "description": "Header height."
+        },
+        {
+          "name": "--aeris-navbar-dropdown-width",
+          "type": "CSS custom property",
+          "defaultValue": "17rem",
+          "description": "Desktop dropdown width."
+        },
+        {
+          "name": "--aeris-navbar-hover-background",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-interactive-hover",
+          "description": "Hover surface."
+        },
+        {
+          "name": "--aeris-navbar-active-background",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-primary-soft",
+          "description": "Active surface."
+        },
+        {
+          "name": "--aeris-navbar-active-color",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-text",
+          "description": "Active desktop link and underline."
+        },
+        {
+          "name": "--aeris-navbar-top",
+          "type": "CSS custom property",
+          "defaultValue": "0px",
+          "description": "Sticky offset."
+        },
+        {
+          "name": "--aeris-navbar-z-index",
+          "type": "CSS custom property",
+          "defaultValue": "30",
+          "description": "Sticky layer."
+        },
+        {
+          "name": "--aeris-navbar-mobile-max-height",
+          "type": "CSS custom property",
+          "defaultValue": "60dvh",
+          "description": "Maximum mobile navigation height before scrolling."
+        }
+      ],
       "examples": [
         {
           "id": "navbar-basic",
@@ -36455,7 +36762,92 @@
           "code": "type AerisSidebarMode = 'auto' | 'desktop' | 'mobile';\ntype AerisSidebarSide = 'start' | 'end';"
         }
       ],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-sidebar-width",
+          "type": "CSS custom property",
+          "defaultValue": "16rem",
+          "description": "Expanded desktop width."
+        },
+        {
+          "name": "--aeris-sidebar-collapsed-width",
+          "type": "CSS custom property",
+          "defaultValue": "4.25rem",
+          "description": "Icon-only desktop width."
+        },
+        {
+          "name": "--aeris-sidebar-padding",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-overlay-padding",
+          "description": "Navigation padding."
+        },
+        {
+          "name": "--aeris-sidebar-gap",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-density-gap",
+          "description": "Space between header, body and footer."
+        },
+        {
+          "name": "--aeris-sidebar-background",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-surface",
+          "description": "Surface color."
+        },
+        {
+          "name": "--aeris-sidebar-color",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-text",
+          "description": "Text color."
+        },
+        {
+          "name": "--aeris-sidebar-border",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-border",
+          "description": "Edge divider color."
+        },
+        {
+          "name": "--aeris-sidebar-font-size",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-body-font-size",
+          "description": "Navigation typography."
+        },
+        {
+          "name": "--aeris-sidebar-item-radius",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-radius-item",
+          "description": "Item and control corners."
+        },
+        {
+          "name": "--aeris-sidebar-item-height",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-item-height",
+          "description": "Minimum item height; long labels grow."
+        },
+        {
+          "name": "--aeris-sidebar-hover-background",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-interactive-hover",
+          "description": "Hover surface."
+        },
+        {
+          "name": "--aeris-sidebar-active-background",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-primary-soft",
+          "description": "Active item surface."
+        },
+        {
+          "name": "--aeris-sidebar-active-color",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-on-primary-soft",
+          "description": "Active item text."
+        },
+        {
+          "name": "--aeris-sidebar-indent",
+          "type": "CSS custom property",
+          "defaultValue": "0.75rem",
+          "description": "Nested group indentation."
+        }
+      ],
       "examples": [
         {
           "id": "sidebar-basic",
@@ -40637,7 +41029,116 @@
           "code": "type AerisAvatarSize = 'sm' | 'md' | 'lg' | 'xl';\ntype AerisAvatarShape = 'circle' | 'rounded' | 'square';\ntype AerisAvatarTone =\n  | 'primary'\n  | 'neutral'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger';\ntype AerisAvatarImageFit = 'cover' | 'contain';\ntype AerisAvatarImageLoading = 'eager' | 'lazy';\ntype AerisAvatarGroupOverlap = 'subtle' | 'default' | 'strong';"
         }
       ],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-avatar-size",
+          "type": "CSS custom property",
+          "defaultValue": "semantic size token",
+          "description": "Final per-instance size override for every semantic size."
+        },
+        {
+          "name": "--aeris-avatar-sm-size",
+          "type": "CSS custom property",
+          "defaultValue": "control height − 0.625rem",
+          "description": "Small avatar size."
+        },
+        {
+          "name": "--aeris-avatar-md-size",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-control-height",
+          "description": "Medium avatar size used when no general override is set."
+        },
+        {
+          "name": "--aeris-avatar-lg-size",
+          "type": "CSS custom property",
+          "defaultValue": "control height + 0.75rem",
+          "description": "Large avatar size."
+        },
+        {
+          "name": "--aeris-avatar-xl-size",
+          "type": "CSS custom property",
+          "defaultValue": "control height + 1.75rem",
+          "description": "Extra-large avatar size."
+        },
+        {
+          "name": "--aeris-avatar-background",
+          "type": "CSS custom property",
+          "defaultValue": "tone color mix",
+          "description": "Fallback background."
+        },
+        {
+          "name": "--aeris-avatar-color",
+          "type": "CSS custom property",
+          "defaultValue": "tone color mix",
+          "description": "Fallback text and icon color."
+        },
+        {
+          "name": "--aeris-avatar-border",
+          "type": "CSS custom property",
+          "defaultValue": "tone and border mix",
+          "description": "Avatar border color."
+        },
+        {
+          "name": "--aeris-avatar-border-width",
+          "type": "CSS custom property",
+          "defaultValue": "1px",
+          "description": "Avatar border width."
+        },
+        {
+          "name": "--aeris-avatar-radius",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-radius-lg",
+          "description": "Rounded shape radius."
+        },
+        {
+          "name": "--aeris-avatar-square-radius",
+          "type": "CSS custom property",
+          "defaultValue": "0.25rem",
+          "description": "Square shape radius."
+        },
+        {
+          "name": "--aeris-avatar-font-size",
+          "type": "CSS custom property",
+          "defaultValue": "0.8125rem",
+          "description": "Default label font size."
+        },
+        {
+          "name": "--aeris-avatar-font-weight",
+          "type": "CSS custom property",
+          "defaultValue": "800",
+          "description": "Label font weight."
+        },
+        {
+          "name": "--aeris-avatar-icon-size",
+          "type": "CSS custom property",
+          "defaultValue": "52%",
+          "description": "Projected icon size."
+        },
+        {
+          "name": "--aeris-avatar-shadow",
+          "type": "CSS custom property",
+          "defaultValue": "subtle shadow",
+          "description": "Avatar surface shadow."
+        },
+        {
+          "name": "--aeris-avatar-group-overlap",
+          "type": "CSS custom property",
+          "defaultValue": "0.65rem",
+          "description": "Default group overlap."
+        },
+        {
+          "name": "--aeris-avatar-group-ring-size",
+          "type": "CSS custom property",
+          "defaultValue": "2px",
+          "description": "Group separation ring width."
+        },
+        {
+          "name": "--aeris-avatar-group-ring-color",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-surface",
+          "description": "Group separation ring color."
+        }
+      ],
       "examples": [
         {
           "id": "avatar-basic",
@@ -41745,7 +42246,98 @@
           "code": "type AerisChipSize = 'sm' | 'md' | 'lg';\ntype AerisChipVariant = 'soft' | 'outline';\ntype AerisChipTone =\n  | 'primary'\n  | 'neutral'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger';\ntype AerisChipShape = 'pill' | 'rounded';\n\ninterface AerisChipRemoveEvent {\n  readonly originalEvent: Event | null;\n  readonly label: string;\n}\n\ninterface AerisChipRemovingEvent extends AerisChipRemoveEvent {\n  readonly defaultPrevented: boolean;\n  preventDefault(): void;\n}\n\ninterface AerisChipRemoveIconContext {\n  readonly $implicit: AerisChip;\n  readonly disabled: boolean;\n}"
         }
       ],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-chip-group-gap",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-density-gap",
+          "description": "Space between grouped chips."
+        },
+        {
+          "name": "--aeris-chip-group-selected-border",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-primary",
+          "description": "Selected group-chip border."
+        },
+        {
+          "name": "--aeris-chip-group-selected-background",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-primary-soft",
+          "description": "Selected group-chip background."
+        },
+        {
+          "name": "--aeris-chip-height",
+          "type": "CSS custom property",
+          "defaultValue": "control height − 0.5rem",
+          "description": "Default chip height."
+        },
+        {
+          "name": "--aeris-chip-sm-height",
+          "type": "CSS custom property",
+          "defaultValue": "control height − 0.875rem",
+          "description": "Small chip height."
+        },
+        {
+          "name": "--aeris-chip-lg-height",
+          "type": "CSS custom property",
+          "defaultValue": "control height + 0.125rem",
+          "description": "Large chip height."
+        },
+        {
+          "name": "--aeris-chip-padding-block",
+          "type": "CSS custom property",
+          "defaultValue": "0.25rem",
+          "description": "Vertical padding."
+        },
+        {
+          "name": "--aeris-chip-padding-inline",
+          "type": "CSS custom property",
+          "defaultValue": "0.75rem",
+          "description": "Horizontal padding."
+        },
+        {
+          "name": "--aeris-chip-gap",
+          "type": "CSS custom property",
+          "defaultValue": "density gap × 0.75",
+          "description": "Internal content gap."
+        },
+        {
+          "name": "--aeris-chip-font-size",
+          "type": "CSS custom property",
+          "defaultValue": "0.8125rem",
+          "description": "Default label size."
+        },
+        {
+          "name": "--aeris-chip-font-weight",
+          "type": "CSS custom property",
+          "defaultValue": "650",
+          "description": "Label weight."
+        },
+        {
+          "name": "--aeris-chip-radius",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-radius-md",
+          "description": "Rounded shape radius."
+        },
+        {
+          "name": "--aeris-chip-icon-size",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-icon-size",
+          "description": "Leading icon size."
+        },
+        {
+          "name": "--aeris-chip-remove-size",
+          "type": "CSS custom property",
+          "defaultValue": "1.25rem",
+          "description": "Remove button dimensions."
+        },
+        {
+          "name": "--aeris-chip-remove-icon-size",
+          "type": "CSS custom property",
+          "defaultValue": "0.75rem",
+          "description": "Default remove icon dimensions."
+        }
+      ],
       "examples": [
         {
           "id": "chip-basic",
@@ -42260,7 +42852,74 @@
           "code": "type AerisCodeLanguage = 'html' | 'typescript' | 'javascript' | 'css' | 'scss' | 'json' | 'shell' | 'text';\n\ninterface AerisCodeSource {\n  readonly code: string;\n  readonly language: string;\n  readonly label: string;\n}\n\ninterface AerisCodeCopyEvent {\n  readonly code: string;\n  readonly language: string;\n  readonly index: number;\n}"
         }
       ],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-code-block-background",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-surface-2",
+          "description": "Code surface."
+        },
+        {
+          "name": "--aeris-code-block-color",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-text",
+          "description": "Uncolored text."
+        },
+        {
+          "name": "--aeris-code-block-border",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-border",
+          "description": "Outer and header borders."
+        },
+        {
+          "name": "--aeris-code-block-radius",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-radius-surface",
+          "description": "Outer corners."
+        },
+        {
+          "name": "--aeris-code-block-padding",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-surface-padding",
+          "description": "Code area padding."
+        },
+        {
+          "name": "--aeris-code-block-max-height",
+          "type": "CSS custom property",
+          "defaultValue": "min(34rem, 68dvh)",
+          "description": "Default desktop scroll height; maxHeight input overrides it."
+        },
+        {
+          "name": "--aeris-code-block-font-size",
+          "type": "CSS custom property",
+          "defaultValue": "0.8125rem",
+          "description": "Code font size."
+        },
+        {
+          "name": "--aeris-code-block-font-family",
+          "type": "CSS custom property",
+          "defaultValue": "ui-monospace, SFMono-Regular, Consolas, monospace",
+          "description": "Monospace stack."
+        },
+        {
+          "name": "--aeris-code-block-line-height",
+          "type": "CSS custom property",
+          "defaultValue": "1.75",
+          "description": "Line height."
+        },
+        {
+          "name": "--aeris-code-block-line-highlight",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-primary-soft",
+          "description": "Emphasized line background."
+        },
+        {
+          "name": "--aeris-code-block-token-color",
+          "type": "CSS custom property",
+          "defaultValue": "Shiki GitHub light / dark token colors",
+          "description": "Override all Shiki token colors; omit to retain syntax themes."
+        }
+      ],
       "examples": [
         {
           "id": "code-block-basic",
@@ -42432,7 +43091,20 @@
       ],
       "referenceTables": [],
       "interfaces": [],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-fluid-inline-size",
+          "type": "CSS custom property",
+          "defaultValue": "100%",
+          "description": "Inline size of the Fluid host and compatible descendants."
+        },
+        {
+          "name": "--aeris-fluid-min-inline-size",
+          "type": "CSS custom property",
+          "defaultValue": "0",
+          "description": "Minimum inline size used to prevent overflow in flexible layouts."
+        }
+      ],
       "examples": [
         {
           "id": "fluid-basic",
@@ -42733,7 +43405,86 @@
           "code": "type AerisInplaceChangeReason =\n  | 'display'\n  | 'close'\n  | 'escape'\n  | 'api';\n\ntype AerisInplaceAriaLive = 'off' | 'polite' | 'assertive';\n\ninterface AerisInplaceStateEvent {\n  readonly active: boolean;\n  readonly originalEvent: Event | null;\n  readonly reason: AerisInplaceChangeReason;\n}\n\ninterface AerisInplaceDisplayContext {\n  readonly $implicit: AerisInplace;\n  readonly active: boolean;\n  readonly activate: () => void;\n}\n\ninterface AerisInplaceContentContext {\n  readonly $implicit: AerisInplace;\n  readonly active: boolean;\n  readonly close: () => void;\n}"
         }
       ],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-inplace-text",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-text",
+          "description": "Component foreground color."
+        },
+        {
+          "name": "--aeris-inplace-radius",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-radius-control",
+          "description": "Display and content corner radius."
+        },
+        {
+          "name": "--aeris-inplace-display-min-height",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-control-height",
+          "description": "Minimum display-button height."
+        },
+        {
+          "name": "--aeris-inplace-display-padding-block",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-item-padding-y",
+          "description": "Display-button block padding."
+        },
+        {
+          "name": "--aeris-inplace-display-padding-inline",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-item-padding-x",
+          "description": "Display-button inline padding."
+        },
+        {
+          "name": "--aeris-inplace-display-border",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-border",
+          "description": "Display-button hover border."
+        },
+        {
+          "name": "--aeris-inplace-display-hover",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-surface-2",
+          "description": "Interactive hover background."
+        },
+        {
+          "name": "--aeris-inplace-content-background",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-surface",
+          "description": "Active content background."
+        },
+        {
+          "name": "--aeris-inplace-content-border",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-border",
+          "description": "Active content border."
+        },
+        {
+          "name": "--aeris-inplace-content-padding",
+          "type": "CSS custom property",
+          "defaultValue": "1rem",
+          "description": "Active content padding."
+        },
+        {
+          "name": "--aeris-inplace-content-shadow",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-shadow-sm",
+          "description": "Active content shadow."
+        },
+        {
+          "name": "--aeris-inplace-close-size",
+          "type": "CSS custom property",
+          "defaultValue": "1.75rem",
+          "description": "Owned close-button size."
+        },
+        {
+          "name": "--aeris-inplace-close-icon-size",
+          "type": "CSS custom property",
+          "defaultValue": "0.75rem",
+          "description": "Owned close-icon size."
+        }
+      ],
       "examples": [
         {
           "id": "inplace-basic",
@@ -43039,7 +43790,110 @@
           "code": "type AerisMeterGroupOrientation = 'horizontal' | 'vertical';\ntype AerisMeterGroupLegendLayout = 'auto' | 'row' | 'column';\ntype AerisMeterGroupLegendPosition = 'before' | 'after';\ntype AerisMeterGroupSize = 'sm' | 'md' | 'lg';\ntype AerisMeterGroupTone =\n  | 'primary'\n  | 'secondary'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'neutral'\n  | 'contrast';\n\ninterface AerisMeterGroupItem {\n  readonly label: string;\n  readonly value: number;\n  readonly color?: string;\n  readonly tone?: AerisMeterGroupTone;\n}\n\ninterface AerisMeterGroupItemContext {\n  readonly $implicit: AerisMeterGroupItem;\n  readonly item: AerisMeterGroupItem;\n  readonly index: number;\n  readonly value: number;\n  readonly percent: number;\n  readonly formattedValue: string;\n}\n\ninterface AerisMeterGroupSummaryContext {\n  readonly $implicit: number;\n  readonly total: number;\n  readonly min: number;\n  readonly max: number;\n  readonly percent: number;\n  readonly remaining: number;\n}"
         }
       ],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-meter-group-track-size",
+          "type": "CSS custom property",
+          "defaultValue": "0.875rem",
+          "description": "Medium track thickness."
+        },
+        {
+          "name": "--aeris-meter-group-sm-track-size",
+          "type": "CSS custom property",
+          "defaultValue": "0.5rem",
+          "description": "Small track thickness."
+        },
+        {
+          "name": "--aeris-meter-group-lg-track-size",
+          "type": "CSS custom property",
+          "defaultValue": "1.25rem",
+          "description": "Large track thickness."
+        },
+        {
+          "name": "--aeris-meter-group-vertical-size",
+          "type": "CSS custom property",
+          "defaultValue": "14rem",
+          "description": "Vertical track height."
+        },
+        {
+          "name": "--aeris-meter-group-gap",
+          "type": "CSS custom property",
+          "defaultValue": "0.875rem",
+          "description": "Gap between header, layout, and footer."
+        },
+        {
+          "name": "--aeris-meter-group-layout-gap",
+          "type": "CSS custom property",
+          "defaultValue": "1rem",
+          "description": "Gap between track and legend."
+        },
+        {
+          "name": "--aeris-meter-group-radius",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-radius-control",
+          "description": "Non-pill track radius."
+        },
+        {
+          "name": "--aeris-meter-group-track-background",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-surface-2",
+          "description": "Unfilled track background."
+        },
+        {
+          "name": "--aeris-meter-group-track-border",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-border",
+          "description": "Track border color."
+        },
+        {
+          "name": "--aeris-meter-group-track-shadow",
+          "type": "CSS custom property",
+          "defaultValue": "inset subtle shadow",
+          "description": "Track inset shadow."
+        },
+        {
+          "name": "--aeris-meter-group-legend-gap",
+          "type": "CSS custom property",
+          "defaultValue": "0.625rem 1rem",
+          "description": "Legend row and column gaps."
+        },
+        {
+          "name": "--aeris-meter-group-label-gap",
+          "type": "CSS custom property",
+          "defaultValue": "0.4375rem",
+          "description": "Gap within a legend item."
+        },
+        {
+          "name": "--aeris-meter-group-marker-size",
+          "type": "CSS custom property",
+          "defaultValue": "0.625rem",
+          "description": "Legend marker size."
+        },
+        {
+          "name": "--aeris-meter-group-marker-radius",
+          "type": "CSS custom property",
+          "defaultValue": "50%",
+          "description": "Legend marker radius."
+        },
+        {
+          "name": "--aeris-meter-group-label-font-size",
+          "type": "CSS custom property",
+          "defaultValue": "0.8125rem",
+          "description": "Legend label size."
+        },
+        {
+          "name": "--aeris-meter-group-label-text",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-text-2",
+          "description": "Legend label color."
+        },
+        {
+          "name": "--aeris-meter-group-value-text",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-text",
+          "description": "Legend value color."
+        }
+      ],
       "examples": [
         {
           "id": "meter-group-basic",
@@ -43754,7 +44608,62 @@
           "code": "type AerisProgressSpinnerSize = 'sm' | 'md' | 'lg';\ntype AerisProgressSpinnerTone =\n  | 'primary'\n  | 'secondary'\n  | 'success'\n  | 'info'\n  | 'warning'\n  | 'danger'\n  | 'neutral'\n  | 'contrast';\n\ninterface AerisProgressSpinnerValueContext {\n  readonly $implicit: number;\n  readonly value: number;\n  readonly min: number;\n  readonly max: number;\n  readonly percent: number;\n}"
         }
       ],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-progress-spinner-size",
+          "type": "CSS custom property",
+          "defaultValue": "3rem",
+          "description": "Medium or custom spinner diameter."
+        },
+        {
+          "name": "--aeris-progress-spinner-sm-size",
+          "type": "CSS custom property",
+          "defaultValue": "1.75rem",
+          "description": "Small spinner diameter."
+        },
+        {
+          "name": "--aeris-progress-spinner-lg-size",
+          "type": "CSS custom property",
+          "defaultValue": "4.5rem",
+          "description": "Large spinner diameter."
+        },
+        {
+          "name": "--aeris-progress-spinner-indicator",
+          "type": "CSS custom property",
+          "defaultValue": "selected tone",
+          "description": "Indicator stroke color."
+        },
+        {
+          "name": "--aeris-progress-spinner-track",
+          "type": "CSS custom property",
+          "defaultValue": "16% selected tone",
+          "description": "Background track color."
+        },
+        {
+          "name": "--aeris-progress-spinner-duration",
+          "type": "CSS custom property",
+          "defaultValue": "1.1s",
+          "description": "Indeterminate animation duration."
+        },
+        {
+          "name": "--aeris-progress-spinner-value-color",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-text",
+          "description": "Centered value color."
+        },
+        {
+          "name": "--aeris-progress-spinner-value-font-size",
+          "type": "CSS custom property",
+          "defaultValue": "0.6875rem",
+          "description": "Medium centered value size."
+        },
+        {
+          "name": "--aeris-progress-spinner-lg-value-font-size",
+          "type": "CSS custom property",
+          "defaultValue": "0.875rem",
+          "description": "Large centered value size."
+        }
+      ],
       "examples": [
         {
           "id": "progress-spinner-indeterminate",
@@ -43947,7 +44856,44 @@
           "code": "type AerisSkeletonShape = 'text' | 'rectangle' | 'circle';\ntype AerisSkeletonAnimation = 'wave' | 'pulse' | 'none';"
         }
       ],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-skeleton-background",
+          "type": "CSS custom property",
+          "defaultValue": "16% --aeris-text mixed with --aeris-surface-2",
+          "description": "Placeholder base color."
+        },
+        {
+          "name": "--aeris-skeleton-highlight",
+          "type": "CSS custom property",
+          "defaultValue": "12% --aeris-text mixed with transparent",
+          "description": "Wave highlight color."
+        },
+        {
+          "name": "--aeris-skeleton-radius",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-radius-pill",
+          "description": "Text placeholder radius."
+        },
+        {
+          "name": "--aeris-skeleton-rectangle-radius",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-radius-md",
+          "description": "Rectangle placeholder radius."
+        },
+        {
+          "name": "--aeris-skeleton-duration",
+          "type": "CSS custom property",
+          "defaultValue": "1.45s",
+          "description": "Wave and pulse animation duration."
+        },
+        {
+          "name": "--aeris-skeleton-pulse-opacity",
+          "type": "CSS custom property",
+          "defaultValue": "0.48",
+          "description": "Lowest pulse opacity."
+        }
+      ],
       "examples": [
         {
           "id": "skeleton-basic",
@@ -44205,7 +45151,38 @@
           "code": "export type AerisAnimateOnScrollEffect =\n  | 'fade'\n  | 'fade-up'\n  | 'fade-down'\n  | 'slide-start'\n  | 'slide-end'\n  | 'scale';\n\nexport interface AerisAnimateOnScrollEvent {\n  readonly element: HTMLElement;\n  readonly entry: IntersectionObserverEntry | null;\n}"
         }
       ],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-animate-on-scroll-distance",
+          "type": "CSS custom property",
+          "defaultValue": "1.5rem",
+          "description": "Translation distance for directional effects."
+        },
+        {
+          "name": "--aeris-animate-on-scroll-scale",
+          "type": "CSS custom property",
+          "defaultValue": "0.96",
+          "description": "Initial scale for the scale effect."
+        },
+        {
+          "name": "--aeris-animate-on-scroll-duration",
+          "type": "CSS custom property",
+          "defaultValue": "480ms",
+          "description": "Resolved transition duration set by the duration input."
+        },
+        {
+          "name": "--aeris-animate-on-scroll-delay",
+          "type": "CSS custom property",
+          "defaultValue": "0ms",
+          "description": "Resolved transition delay set by the delay input."
+        },
+        {
+          "name": "--aeris-animate-on-scroll-easing",
+          "type": "CSS custom property",
+          "defaultValue": "cubic-bezier(0.22, 1, 0.36, 1)",
+          "description": "Resolved transition timing function set by the easing input."
+        }
+      ],
       "examples": [
         {
           "id": "animate-on-scroll-basic",
@@ -45005,7 +45982,32 @@
       ],
       "referenceTables": [],
       "interfaces": [],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-glass-blur",
+          "type": "CSS custom property",
+          "defaultValue": "0.25rem",
+          "description": "Default blur radius for glass surfaces."
+        },
+        {
+          "name": "--aeris-glass-saturation",
+          "type": "CSS custom property",
+          "defaultValue": "125%",
+          "description": "Backdrop color saturation applied with the blur."
+        },
+        {
+          "name": "--aeris-glass-background",
+          "type": "CSS custom property",
+          "defaultValue": "76% surface color",
+          "description": "Translucent surface color shared by compatible surfaces."
+        },
+        {
+          "name": "--aeris-backdrop-blur",
+          "type": "CSS custom property",
+          "defaultValue": "0.25rem",
+          "description": "Default blur radius for modal masks and other blocking backdrops."
+        }
+      ],
       "examples": [
         {
           "id": "glass-basic",
@@ -45152,7 +46154,62 @@
           "code": "type AerisKbdSize = 'sm' | 'md' | 'lg';\ntype AerisKbdVariant = 'filled' | 'ghost';\ntype AerisKbdKeyValue =\n  | 'command' | 'control' | 'shift' | 'option' | 'alt' | 'meta' | 'win' | 'help'\n  | 'enter' | 'backspace' | 'delete' | 'escape' | 'tab' | 'space' | 'capsLock'\n  | 'arrowUp' | 'arrowDown' | 'arrowLeft' | 'arrowRight'\n  | 'pageUp' | 'pageDown' | 'home' | 'end' | 'fn';"
         }
       ],
-      "designTokens": [],
+      "designTokens": [
+        {
+          "name": "--aeris-kbd-background",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-surface-2",
+          "description": "Key surface."
+        },
+        {
+          "name": "--aeris-kbd-color",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-text",
+          "description": "Readable key text."
+        },
+        {
+          "name": "--aeris-kbd-border",
+          "type": "CSS custom property",
+          "defaultValue": "--aeris-border",
+          "description": "Subtle key boundary."
+        },
+        {
+          "name": "--aeris-kbd-radius",
+          "type": "CSS custom property",
+          "defaultValue": "item radius, capped at 0.375rem",
+          "description": "Compact key corners; never pill-shaped by default."
+        },
+        {
+          "name": "--aeris-kbd-padding",
+          "type": "CSS custom property",
+          "defaultValue": "density gap × 0.4 / 0.8",
+          "description": "Inner key spacing follows the active density."
+        },
+        {
+          "name": "--aeris-kbd-font-family",
+          "type": "CSS custom property",
+          "defaultValue": "system monospace stack",
+          "description": "Keyboard-input typeface."
+        },
+        {
+          "name": "--aeris-kbd-symbol-font-family",
+          "type": "CSS custom property",
+          "defaultValue": "system-ui, sans-serif",
+          "description": "Standard key-symbol typeface."
+        },
+        {
+          "name": "--aeris-kbd-content-font-weight",
+          "type": "CSS custom property",
+          "defaultValue": "600",
+          "description": "Weight of span[aerisKbdContent] main-key text."
+        },
+        {
+          "name": "--aeris-kbd-font-size",
+          "type": "CSS custom property",
+          "defaultValue": "sm / md / lg typography token",
+          "description": "Override the size preset when needed."
+        }
+      ],
       "examples": [
         {
           "id": "kbd-basic",

@@ -91,6 +91,7 @@ for (const catalogItem of COMPONENT_CATALOG) {
     .map(([name, entries]) => ({ name, kind: classifyApiGroup(name), entries }));
   const designTokens = uniqueApiEntries([
     ...apiArrays.filter((group) => group.kind === 'token').flatMap((group) => group.entries),
+    ...extractTokenArrays(values),
     ...extractStaticTokens(parsed.rootNodes),
   ]);
   const api = apiArrays
@@ -335,6 +336,42 @@ function extractAccessibility(nodes) {
     guidance: uniqueBy(guidance, (item) => item),
     keyboard,
   };
+}
+
+function extractTokenArrays(values) {
+  const entries = [];
+  for (const [name, value] of values) {
+    if (!/token/i.test(name) || !Array.isArray(value) || isApiEntryArray(value)) continue;
+    for (const row of value) {
+      if (
+        Array.isArray(row) &&
+        row.length === 3 &&
+        row.every((cell) => typeof cell === 'string') &&
+        row[0].startsWith('--aeris-')
+      ) {
+        entries.push({
+          name: row[0],
+          type: 'CSS custom property',
+          defaultValue: row[1],
+          description: row[2],
+        });
+      } else if (
+        isRecord(row) &&
+        typeof row.name === 'string' &&
+        row.name.startsWith('--aeris-') &&
+        typeof row.purpose === 'string' &&
+        typeof row.fallback === 'string'
+      ) {
+        entries.push({
+          name: row.name,
+          type: 'CSS custom property',
+          defaultValue: row.fallback,
+          description: row.purpose,
+        });
+      }
+    }
+  }
+  return entries;
 }
 
 function extractStaticTokens(nodes) {

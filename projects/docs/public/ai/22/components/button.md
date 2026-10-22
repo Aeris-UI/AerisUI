@@ -53,6 +53,32 @@ import { AerisButton } from '@aeris-ui/core/button';
 | `rounded` | `boolean` | `false` | Uses a pill-shaped radius. |
 | `fluid` | `boolean` | `false` | Fills the available inline width. |
 
+### Component Inputs
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `'button' &#124; 'submit' &#124; 'reset'` | `'button'` | Native button type. |
+| `label` | `string` | `''` | Text rendered inside the button. |
+| `badge` | `string &#124; undefined` | `undefined` | Optional badge value. |
+| `badgeSeverity` | `AerisButtonSeverity` | `'secondary'` | Semantic badge color. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name, required for icon-only wrapper buttons. |
+| `tabIndex` | `number &#124; undefined` | `undefined` | Native tabindex override. |
+| `autofocus` | `boolean` | `false` | Requests focus when rendered. |
+| `variant` | `AerisButtonVariant` | `'solid'` | Presentation treatment independent of color. Options: 'solid', 'outline', 'ghost', 'link'. |
+| `severity` | `AerisButtonSeverity` | `'primary'` | Semantic color applied to the selected variant. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `size` | `AerisButtonSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `iconPosition` | `AerisButtonIconPosition` | `'left'` | Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically. Options: 'left', 'right', 'top', 'bottom'. |
+| `loading` | `boolean` | `false` | Displays progress and exposes aria-busy. |
+| `disabled` | `boolean` | `false` | Disables native button activation or marks an anchor as unavailable. |
+| `showSpinner` | `boolean` | `true` | Controls the built-in loading spinner. |
+| `iconOnly` | `boolean` | `false` | Creates a square icon button. Requires an accessible name. |
+| `raised` | `boolean` | `false` | Adds elevation. |
+| `rounded` | `boolean` | `false` | Uses a pill-shaped radius. |
+| `fluid` | `boolean` | `false` | Fills the available inline width. |
+| `contentTemplate` | `TemplateRef&lt;AerisButtonContentTemplateContext&gt;` | `undefined` | Replaces all default content and receives effective loading and disabled state. |
+| `iconTemplate` | `TemplateRef&lt;AerisButtonIconTemplateContext&gt;` | `undefined` | Custom idle icon. |
+| `loadingIconTemplate` | `TemplateRef&lt;AerisButtonIconTemplateContext&gt;` | `undefined` | Custom loading indicator. |
+
 ### Button emitters
 
 | Name | Type | Description |

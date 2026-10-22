@@ -37,6 +37,13 @@ import { AerisFluidModule } from '@aeris-ui/core/fluid';
 | --- | --- | --- | --- |
 | `default content` | `content projection` | `-` | Layout and compatible Aeris controls that receive fluid sizing. |
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-fluid-inline-size` | `CSS custom property` | `100%` | Inline size of the Fluid host and compatible descendants. |
+| `--aeris-fluid-min-inline-size` | `CSS custom property` | `0` | Minimum inline size used to prevent overflow in flexible layouts. |
+
 ## Examples
 
 ### Basic

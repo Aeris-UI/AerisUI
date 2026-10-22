@@ -87,6 +87,29 @@ type AerisAvatarImageLoading = 'eager' | 'lazy';
 type AerisAvatarGroupOverlap = 'subtle' | 'default' | 'strong';
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-avatar-size` | `CSS custom property` | `semantic size token` | Final per-instance size override for every semantic size. |
+| `--aeris-avatar-sm-size` | `CSS custom property` | `control height − 0.625rem` | Small avatar size. |
+| `--aeris-avatar-md-size` | `CSS custom property` | `--aeris-control-height` | Medium avatar size used when no general override is set. |
+| `--aeris-avatar-lg-size` | `CSS custom property` | `control height + 0.75rem` | Large avatar size. |
+| `--aeris-avatar-xl-size` | `CSS custom property` | `control height + 1.75rem` | Extra-large avatar size. |
+| `--aeris-avatar-background` | `CSS custom property` | `tone color mix` | Fallback background. |
+| `--aeris-avatar-color` | `CSS custom property` | `tone color mix` | Fallback text and icon color. |
+| `--aeris-avatar-border` | `CSS custom property` | `tone and border mix` | Avatar border color. |
+| `--aeris-avatar-border-width` | `CSS custom property` | `1px` | Avatar border width. |
+| `--aeris-avatar-radius` | `CSS custom property` | `--aeris-radius-lg` | Rounded shape radius. |
+| `--aeris-avatar-square-radius` | `CSS custom property` | `0.25rem` | Square shape radius. |
+| `--aeris-avatar-font-size` | `CSS custom property` | `0.8125rem` | Default label font size. |
+| `--aeris-avatar-font-weight` | `CSS custom property` | `800` | Label font weight. |
+| `--aeris-avatar-icon-size` | `CSS custom property` | `52%` | Projected icon size. |
+| `--aeris-avatar-shadow` | `CSS custom property` | `subtle shadow` | Avatar surface shadow. |
+| `--aeris-avatar-group-overlap` | `CSS custom property` | `0.65rem` | Default group overlap. |
+| `--aeris-avatar-group-ring-size` | `CSS custom property` | `2px` | Group separation ring width. |
+| `--aeris-avatar-group-ring-color` | `CSS custom property` | `--aeris-surface` | Group separation ring color. |
+
 ## Examples
 
 ### Basic

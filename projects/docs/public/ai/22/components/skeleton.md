@@ -44,6 +44,17 @@ type AerisSkeletonShape = 'text' | 'rectangle' | 'circle';
 type AerisSkeletonAnimation = 'wave' | 'pulse' | 'none';
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-skeleton-background` | `CSS custom property` | `16% --aeris-text mixed with --aeris-surface-2` | Placeholder base color. |
+| `--aeris-skeleton-highlight` | `CSS custom property` | `12% --aeris-text mixed with transparent` | Wave highlight color. |
+| `--aeris-skeleton-radius` | `CSS custom property` | `--aeris-radius-pill` | Text placeholder radius. |
+| `--aeris-skeleton-rectangle-radius` | `CSS custom property` | `--aeris-radius-md` | Rectangle placeholder radius. |
+| `--aeris-skeleton-duration` | `CSS custom property` | `1.45s` | Wave and pulse animation duration. |
+| `--aeris-skeleton-pulse-opacity` | `CSS custom property` | `0.48` | Lowest pulse opacity. |
+
 ## Examples
 
 ### Basic

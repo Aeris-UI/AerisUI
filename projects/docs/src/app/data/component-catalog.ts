@@ -74,7 +74,8 @@ const descriptions: Readonly<Record<string, string>> = {
   'input-text': 'Single-line text input with validation, adornments, and Signal Forms support.',
   'input-otp':
     'Segmented one-time-code entry with paste, masking, and complete keyboard navigation.',
-  select: 'Keyboard-first selection control with searchable, grouped, and templated options.',
+  select:
+    'Searchable single-value selection with groups and templates, plus a lightweight native select directive.',
   listbox:
     'Always-visible single or multiple selection with filtering, groups, templates, and forms support.',
   slider: 'Single and range value selection with pointer, touch, and complete keyboard support.',
@@ -88,9 +89,9 @@ const descriptions: Readonly<Record<string, string>> = {
   tabs: 'Accessible automatic and manual tab navigation with responsive layouts and custom headers.',
   checkbox: 'Binary and mixed-state selection with native form semantics.',
   'color-picker':
-    'Lightweight color input with native picker behavior, text entry, presets, and forms support.',
+    'Visual color editing with format selection, opacity, presets, inline palettes, and forms support.',
   'date-picker':
-    'Locale-aware date, range, month, and year selection with complete keyboard support.',
+    'Locale-aware date and time selection with typed entry, ranges, month and year views, and forms support.',
   editor:
     'Rich text editing with optional Lexical peers, accessible toolbar controls, and Forms support.',
   'file-upload':
@@ -155,7 +156,7 @@ const descriptions: Readonly<Record<string, string>> = {
   'tiered-menu':
     'Vertical command menu with cascading submenu overlays, popup mode, templates, commands, links, and keyboard support.',
   popover:
-    'Target-anchored overlay content with controlled visibility, templates, focus management, and responsive placement.',
+    'Anchored content with controlled, click, or hover/focus opening, templates, and responsive placement.',
   panel:
     'Composable content container with optional collapse behavior, templates, actions, and accessible disclosure semantics.',
   tooltip:
@@ -170,12 +171,13 @@ const descriptions: Readonly<Record<string, string>> = {
     'Communicate determinate or indeterminate process status with responsive circular progress and accessible value text.',
   divider:
     'Semantic separator for grouping content with horizontal, vertical, labelled, and decorative layouts.',
-  table: 'High-performance data table with sorting, filtering, editing, and virtualization.',
+  table:
+    'Tabular data with sorting, filtering, pagination, custom cell editors, row reordering, and row and column pinning.',
   timeline:
     'Chronological event display with responsive orientation, progress, alignment, and templates.',
   tree: 'Hierarchical data navigation with controlled expansion, selection, filtering, lazy loading, and drag-drop reordering.',
   'tree-table':
-    'Hierarchical tabular data with controlled expansion, sorting, filtering, selection, editing, pagination, and lazy loading.',
+    'Hierarchical tabular data with expansion, filtering, custom editors, pagination, lazy loading, and branch and column pinning.',
   toolbar:
     'Responsive action surface for grouping controls, status, and navigation with accessible toolbar semantics.',
   message:

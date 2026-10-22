@@ -1,6 +1,6 @@
 # ColorPicker
 
-> Lightweight color input with native picker behavior, text entry, presets, and forms support.
+> Visual color editing with format selection, opacity, presets, inline palettes, and forms support.
 
 Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 

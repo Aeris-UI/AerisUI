@@ -1,6 +1,6 @@
 # Table
 
-> High-performance data table with sorting, filtering, editing, and virtualization.
+> Tabular data with sorting, filtering, pagination, custom cell editors, row reordering, and row and column pinning.
 
 Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 
@@ -56,6 +56,8 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 | `emptyMessage` | `string` | `'No records found'` | Default text shown when no rows are available. |
 | `sort` | `AerisTableSort &#124; null (model)` | `null` | Controlled sort state. |
 | `globalFilter` | `boolean` | `false` | Shows the built-in global search field. |
+| `filterLabel` | `string` | `'Search'` | Visible and accessible label of the built-in global search input. |
+| `filterPlaceholder` | `string` | `'Search records'` | Placeholder of the built-in global search input; not a replacement for its label. |
 | `filterValue` | `string (model)` | `''` | Controlled global filter value. |
 | `columnFilter` | `boolean` | `false` | Shows per-column filter inputs. |
 | `columnFilters` | `Record&lt;string, string&gt; (model)` | `{}` | Controlled per-column filter values. |
@@ -68,6 +70,12 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 | `rowsPerPageOptions` | `readonly number[]` | `[]` | Rows-per-page menu options. |
 | `selectionMode` | `single &#124; multiple &#124; null` | `null` | Enables single or multiple row selection. |
 | `selectionControl` | `row &#124; control` | `'control'` | Uses row clicks or rendered checkbox/radio controls. |
+| `rowNavigation` | `boolean` | `true` | Makes data rows keyboard-focusable. Embedded controls retain their own focus behavior. |
+| `selectAllAriaLabel` | `string` | `'Select all visible rows'` | Accessible name of the header selection checkbox. |
+| `rowSelectionAriaLabel` | `string` | `'Select row'` | Accessible name of each row selection control and its selection column. |
+| `expandRowAriaLabel` | `string` | `'Expand row'` | Accessible name of a collapsed row expansion button and its expansion column. |
+| `collapseRowAriaLabel` | `string` | `'Collapse row'` | Accessible name of an expanded row expansion button. |
+| `paginatorAriaLabel` | `string` | `'Table pagination'` | Accessible name of the built-in paginator navigation. |
 | `selectedKeys` | `readonly string[] (model)` | `[]` | Controlled selected row keys, retained across filters and pages. The header checkbox changes only the current filtered page; the key count can include off-page or unloaded records. |
 | `contextMenu` | `AerisContextMenu &#124; null` | `null` | ContextMenu instance opened from body rows on right-click. |
 | `contextMenuDisabled` | `boolean &#124; function` | `false` | Disables row context-menu handling globally or per row. |

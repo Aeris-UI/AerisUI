@@ -823,6 +823,19 @@ interface AerisTableCsvExportOptions {
       description: 'Shows the built-in global search field.',
     },
     {
+      name: 'filterLabel',
+      type: 'string',
+      defaultValue: "'Search'",
+      description: 'Visible and accessible label of the built-in global search input.',
+    },
+    {
+      name: 'filterPlaceholder',
+      type: 'string',
+      defaultValue: "'Search records'",
+      description:
+        'Placeholder of the built-in global search input; not a replacement for its label.',
+    },
+    {
       name: 'filterValue',
       type: 'string (model)',
       defaultValue: "''",
@@ -895,6 +908,43 @@ interface AerisTableCsvExportOptions {
       type: 'row | control',
       defaultValue: "'control'",
       description: 'Uses row clicks or rendered checkbox/radio controls.',
+    },
+    {
+      name: 'rowNavigation',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Makes data rows keyboard-focusable. Embedded controls retain their own focus behavior.',
+    },
+    {
+      name: 'selectAllAriaLabel',
+      type: 'string',
+      defaultValue: "'Select all visible rows'",
+      description: 'Accessible name of the header selection checkbox.',
+    },
+    {
+      name: 'rowSelectionAriaLabel',
+      type: 'string',
+      defaultValue: "'Select row'",
+      description: 'Accessible name of each row selection control and its selection column.',
+    },
+    {
+      name: 'expandRowAriaLabel',
+      type: 'string',
+      defaultValue: "'Expand row'",
+      description: 'Accessible name of a collapsed row expansion button and its expansion column.',
+    },
+    {
+      name: 'collapseRowAriaLabel',
+      type: 'string',
+      defaultValue: "'Collapse row'",
+      description: 'Accessible name of an expanded row expansion button.',
+    },
+    {
+      name: 'paginatorAriaLabel',
+      type: 'string',
+      defaultValue: "'Table pagination'",
+      description: 'Accessible name of the built-in paginator navigation.',
     },
     {
       name: 'selectedKeys',

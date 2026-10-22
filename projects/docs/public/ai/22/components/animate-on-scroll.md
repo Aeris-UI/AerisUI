@@ -64,6 +64,16 @@ export interface AerisAnimateOnScrollEvent {
 }
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-animate-on-scroll-distance` | `CSS custom property` | `1.5rem` | Translation distance for directional effects. |
+| `--aeris-animate-on-scroll-scale` | `CSS custom property` | `0.96` | Initial scale for the scale effect. |
+| `--aeris-animate-on-scroll-duration` | `CSS custom property` | `480ms` | Resolved transition duration set by the duration input. |
+| `--aeris-animate-on-scroll-delay` | `CSS custom property` | `0ms` | Resolved transition delay set by the delay input. |
+| `--aeris-animate-on-scroll-easing` | `CSS custom property` | `cubic-bezier(0.22, 1, 0.36, 1)` | Resolved transition timing function set by the easing input. |
+
 ## Examples
 
 ### Scroll showcase

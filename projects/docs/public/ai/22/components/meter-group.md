@@ -100,6 +100,28 @@ interface AerisMeterGroupSummaryContext {
 }
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-meter-group-track-size` | `CSS custom property` | `0.875rem` | Medium track thickness. |
+| `--aeris-meter-group-sm-track-size` | `CSS custom property` | `0.5rem` | Small track thickness. |
+| `--aeris-meter-group-lg-track-size` | `CSS custom property` | `1.25rem` | Large track thickness. |
+| `--aeris-meter-group-vertical-size` | `CSS custom property` | `14rem` | Vertical track height. |
+| `--aeris-meter-group-gap` | `CSS custom property` | `0.875rem` | Gap between header, layout, and footer. |
+| `--aeris-meter-group-layout-gap` | `CSS custom property` | `1rem` | Gap between track and legend. |
+| `--aeris-meter-group-radius` | `CSS custom property` | `--aeris-radius-control` | Non-pill track radius. |
+| `--aeris-meter-group-track-background` | `CSS custom property` | `--aeris-surface-2` | Unfilled track background. |
+| `--aeris-meter-group-track-border` | `CSS custom property` | `--aeris-border` | Track border color. |
+| `--aeris-meter-group-track-shadow` | `CSS custom property` | `inset subtle shadow` | Track inset shadow. |
+| `--aeris-meter-group-legend-gap` | `CSS custom property` | `0.625rem 1rem` | Legend row and column gaps. |
+| `--aeris-meter-group-label-gap` | `CSS custom property` | `0.4375rem` | Gap within a legend item. |
+| `--aeris-meter-group-marker-size` | `CSS custom property` | `0.625rem` | Legend marker size. |
+| `--aeris-meter-group-marker-radius` | `CSS custom property` | `50%` | Legend marker radius. |
+| `--aeris-meter-group-label-font-size` | `CSS custom property` | `0.8125rem` | Legend label size. |
+| `--aeris-meter-group-label-text` | `CSS custom property` | `--aeris-text-2` | Legend label color. |
+| `--aeris-meter-group-value-text` | `CSS custom property` | `--aeris-text` | Legend value color. |
+
 ## Examples
 
 ### Basic

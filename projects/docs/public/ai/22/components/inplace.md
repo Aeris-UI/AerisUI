@@ -106,6 +106,24 @@ interface AerisInplaceContentContext {
 }
 ```
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-inplace-text` | `CSS custom property` | `--aeris-text` | Component foreground color. |
+| `--aeris-inplace-radius` | `CSS custom property` | `--aeris-radius-control` | Display and content corner radius. |
+| `--aeris-inplace-display-min-height` | `CSS custom property` | `--aeris-control-height` | Minimum display-button height. |
+| `--aeris-inplace-display-padding-block` | `CSS custom property` | `--aeris-item-padding-y` | Display-button block padding. |
+| `--aeris-inplace-display-padding-inline` | `CSS custom property` | `--aeris-item-padding-x` | Display-button inline padding. |
+| `--aeris-inplace-display-border` | `CSS custom property` | `--aeris-border` | Display-button hover border. |
+| `--aeris-inplace-display-hover` | `CSS custom property` | `--aeris-surface-2` | Interactive hover background. |
+| `--aeris-inplace-content-background` | `CSS custom property` | `--aeris-surface` | Active content background. |
+| `--aeris-inplace-content-border` | `CSS custom property` | `--aeris-border` | Active content border. |
+| `--aeris-inplace-content-padding` | `CSS custom property` | `1rem` | Active content padding. |
+| `--aeris-inplace-content-shadow` | `CSS custom property` | `--aeris-shadow-sm` | Active content shadow. |
+| `--aeris-inplace-close-size` | `CSS custom property` | `1.75rem` | Owned close-button size. |
+| `--aeris-inplace-close-icon-size` | `CSS custom property` | `0.75rem` | Owned close-icon size. |
+
 ## Examples
 
 ### Basic

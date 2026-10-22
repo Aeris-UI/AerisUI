@@ -47,6 +47,7 @@ for (const width of [390, 768, 1280, 1920]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/components');
     await page.getByRole('button', { name: 'Button', exact: true }).click();
+    await expect(page.locator('.catalog-preview-card')).toHaveCount(4);
     for (const card of await page.locator('.catalog-preview-card').all()) {
       await card.scrollIntoViewIfNeeded();
       await expect(card.locator('app-catalog-preview')).toHaveCount(1);

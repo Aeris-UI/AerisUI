@@ -1,6 +1,6 @@
 # TreeTable
 
-> Hierarchical tabular data with controlled expansion, sorting, filtering, selection, editing, pagination, and lazy loading.
+> Hierarchical tabular data with expansion, filtering, custom editors, pagination, lazy loading, and branch and column pinning.
 
 Aeris 22.0.0-alpha.10 is alpha software for Angular >=22.0.6 <23.0.0. It is not production ready.
 

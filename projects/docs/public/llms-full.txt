@@ -882,10 +882,14 @@ Every form component page documents its value type, Angular Forms behavior, inva
 
 Choose Select for choosing a value from options, AutoComplete for text entry with suggestions, and Menu for actions or navigation rather than form values. Listbox keeps choices visible; ButtonGroup supports single or multiple selection with its selection directives. Their value types and keyboard contracts are not interchangeable.
 
+For a browser-owned option list, use the native select directive from @aeris-ui/core/select/native instead of the popup component. DatePicker supports both calendar selection and typed date/time entry; ColorPicker includes inline palettes and optional opacity. These features stay in their existing component families.
+
 Use a native form for submission and fieldset with legend to name a related set of controls. FormField connects a control with its label, help text, and error message; it does not replace form or fieldset semantics.
 
 - [InputText forms examples](https://aeris-ui.dev/components/input-text)
 - [Select forms examples](https://aeris-ui.dev/components/select)
+- [Typed date and time entry](https://aeris-ui.dev/components/date-picker)
+- [Color palettes and opacity](https://aeris-ui.dev/components/color-picker)
 - [Accessibility guide](https://aeris-ui.dev/guides/accessibility)
 
 #### Related guides
@@ -2042,14 +2046,19 @@ Human-readable documentation: [https://aeris-ui.dev/guides/overlays](https://aer
 
 #### Choose the right overlay
 
+Popover can open on hover and keyboard focus for non-modal supporting content. Use its click trigger for an explicitly opened panel. Sidebar and Navbar are navigation components, not ARIA command menus; choose Menu or CommandPalette for actions.
+
 > Note: Do not use a tooltip for content that must be clicked, selected, copied, or read at length. Use a popover or dialog instead.
 
 | Need | Use |
 | --- | --- |
 | A focused task that interrupts the page | Dialog or DynamicDialog |
 | Navigation or supporting content from a viewport edge | Drawer |
+| Responsive application navigation with an icon-only rail | Sidebar |
+| Website navigation with inline compact expansion | Navbar |
 | Rich content anchored to a control | Popover |
 | A compact action list | Menu or TieredMenu in popup mode |
+| Searchable application commands with a launcher | CommandPalette |
 | A short non-interactive explanation | Tooltip |
 | Confirmation before a consequential action | ConfirmDialog or ConfirmPopup |
 
@@ -5847,7 +5856,7 @@ export class CheckboxAngularFormsReactiveAndTemplateDrivenFormsDemo {
 
 ### ColorPicker
 
-> Lightweight color input with native picker behavior, text entry, presets, and forms support.
+> Visual color editing with format selection, opacity, presets, inline palettes, and forms support.
 
 #### Import
 
@@ -6990,7 +6999,7 @@ export class ColorPickerEventsEventsDemo {
 
 ### DatePicker
 
-> Locale-aware date, range, month, and year selection with complete keyboard support.
+> Locale-aware date and time selection with typed entry, ranges, month and year views, and forms support.
 
 #### Import
 
@@ -20913,7 +20922,7 @@ export class RatingFormsReactiveAndTemplateDrivenFormsDemo {
 
 ### Select
 
-> Keyboard-first selection control with searchable, grouped, and templated options.
+> Searchable single-value selection with groups and templates, plus a lightweight native select directive.
 
 #### Import
 
@@ -26357,6 +26366,32 @@ import { AerisButton } from '@aeris-ui/core/button';
 | `raised` | `boolean` | `false` | Adds elevation. |
 | `rounded` | `boolean` | `false` | Uses a pill-shaped radius. |
 | `fluid` | `boolean` | `false` | Fills the available inline width. |
+
+##### Component Inputs
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `'button' &#124; 'submit' &#124; 'reset'` | `'button'` | Native button type. |
+| `label` | `string` | `''` | Text rendered inside the button. |
+| `badge` | `string &#124; undefined` | `undefined` | Optional badge value. |
+| `badgeSeverity` | `AerisButtonSeverity` | `'secondary'` | Semantic badge color. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name, required for icon-only wrapper buttons. |
+| `tabIndex` | `number &#124; undefined` | `undefined` | Native tabindex override. |
+| `autofocus` | `boolean` | `false` | Requests focus when rendered. |
+| `variant` | `AerisButtonVariant` | `'solid'` | Presentation treatment independent of color. Options: 'solid', 'outline', 'ghost', 'link'. |
+| `severity` | `AerisButtonSeverity` | `'primary'` | Semantic color applied to the selected variant. Options: 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'neutral', 'contrast'. |
+| `size` | `AerisButtonSize` | `'md'` | Control height and typography size. Options: 'xs', 'sm', 'md', 'lg'. |
+| `iconPosition` | `AerisButtonIconPosition` | `'left'` | Sets icon layout direction. Native projected content follows DOM order; wrapper icon templates are positioned automatically. Options: 'left', 'right', 'top', 'bottom'. |
+| `loading` | `boolean` | `false` | Displays progress and exposes aria-busy. |
+| `disabled` | `boolean` | `false` | Disables native button activation or marks an anchor as unavailable. |
+| `showSpinner` | `boolean` | `true` | Controls the built-in loading spinner. |
+| `iconOnly` | `boolean` | `false` | Creates a square icon button. Requires an accessible name. |
+| `raised` | `boolean` | `false` | Adds elevation. |
+| `rounded` | `boolean` | `false` | Uses a pill-shaped radius. |
+| `fluid` | `boolean` | `false` | Fills the available inline width. |
+| `contentTemplate` | `TemplateRef&lt;AerisButtonContentTemplateContext&gt;` | `undefined` | Replaces all default content and receives effective loading and disabled state. |
+| `iconTemplate` | `TemplateRef&lt;AerisButtonIconTemplateContext&gt;` | `undefined` | Custom idle icon. |
+| `loadingIconTemplate` | `TemplateRef&lt;AerisButtonIconTemplateContext&gt;` | `undefined` | Custom loading indicator. |
 
 ##### Button emitters
 
@@ -33260,7 +33295,7 @@ export class PickListEventsEventsDemo {
 
 ### Table
 
-> High-performance data table with sorting, filtering, editing, and virtualization.
+> Tabular data with sorting, filtering, pagination, custom cell editors, row reordering, and row and column pinning.
 
 #### Import
 
@@ -33301,6 +33336,8 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 | `emptyMessage` | `string` | `'No records found'` | Default text shown when no rows are available. |
 | `sort` | `AerisTableSort &#124; null (model)` | `null` | Controlled sort state. |
 | `globalFilter` | `boolean` | `false` | Shows the built-in global search field. |
+| `filterLabel` | `string` | `'Search'` | Visible and accessible label of the built-in global search input. |
+| `filterPlaceholder` | `string` | `'Search records'` | Placeholder of the built-in global search input; not a replacement for its label. |
 | `filterValue` | `string (model)` | `''` | Controlled global filter value. |
 | `columnFilter` | `boolean` | `false` | Shows per-column filter inputs. |
 | `columnFilters` | `Record&lt;string, string&gt; (model)` | `{}` | Controlled per-column filter values. |
@@ -33313,6 +33350,12 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 | `rowsPerPageOptions` | `readonly number[]` | `[]` | Rows-per-page menu options. |
 | `selectionMode` | `single &#124; multiple &#124; null` | `null` | Enables single or multiple row selection. |
 | `selectionControl` | `row &#124; control` | `'control'` | Uses row clicks or rendered checkbox/radio controls. |
+| `rowNavigation` | `boolean` | `true` | Makes data rows keyboard-focusable. Embedded controls retain their own focus behavior. |
+| `selectAllAriaLabel` | `string` | `'Select all visible rows'` | Accessible name of the header selection checkbox. |
+| `rowSelectionAriaLabel` | `string` | `'Select row'` | Accessible name of each row selection control and its selection column. |
+| `expandRowAriaLabel` | `string` | `'Expand row'` | Accessible name of a collapsed row expansion button and its expansion column. |
+| `collapseRowAriaLabel` | `string` | `'Collapse row'` | Accessible name of an expanded row expansion button. |
+| `paginatorAriaLabel` | `string` | `'Table pagination'` | Accessible name of the built-in paginator navigation. |
 | `selectedKeys` | `readonly string[] (model)` | `[]` | Controlled selected row keys, retained across filters and pages. The header checkbox changes only the current filtered page; the key count can include off-page or unloaded records. |
 | `contextMenu` | `AerisContextMenu &#124; null` | `null` | ContextMenu instance opened from body rows on right-click. |
 | `contextMenuDisabled` | `boolean &#124; function` | `false` | Disables row context-menu handling globally or per row. |
@@ -38237,7 +38280,7 @@ export class TreeEventsEventsDemo {
 
 ### TreeTable
 
-> Hierarchical tabular data with controlled expansion, sorting, filtering, selection, editing, pagination, and lazy loading.
+> Hierarchical tabular data with expansion, filtering, custom editors, pagination, lazy loading, and branch and column pinning.
 
 #### Import
 
@@ -52422,7 +52465,7 @@ export class DynamicDialogManageManageReferencesDemo {
 
 ### Popover
 
-> Target-anchored overlay content with controlled visibility, templates, focus management, and responsive placement.
+> Anchored content with controlled, click, or hover/focus opening, templates, and responsive placement.
 
 #### Import
 
@@ -58290,6 +58333,28 @@ type AerisNavbarMode = 'auto' | 'desktop' | 'mobile';
 type AerisNavbarVariant = 'standard' | 'floating' | 'transparent';
 ```
 
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-navbar-background` | `CSS custom property` | `--aeris-surface` | Bar and disclosure surface. |
+| `--aeris-navbar-border` | `CSS custom property` | `--aeris-border` | Container boundary. |
+| `--aeris-navbar-color` | `CSS custom property` | `--aeris-text` | Default content color. |
+| `--aeris-navbar-font-size` | `CSS custom property` | `--aeris-action-font-size` | Navigation typography. |
+| `--aeris-navbar-radius` | `CSS custom property` | `--aeris-radius-surface` | Floating surface and dropdown corners. |
+| `--aeris-navbar-item-radius` | `CSS custom property` | `--aeris-radius-item` | Item corners. |
+| `--aeris-navbar-padding` | `CSS custom property` | `1.25rem` | Bar padding; sticky bars also respect horizontal safe-area insets. |
+| `--aeris-navbar-gap` | `CSS custom property` | `1.5rem` | Slot and item spacing. |
+| `--aeris-navbar-max-width` | `CSS custom property` | `72rem` | Maximum inner content width. |
+| `--aeris-navbar-height` | `CSS custom property` | `control height + 1.5rem` | Header height. |
+| `--aeris-navbar-dropdown-width` | `CSS custom property` | `17rem` | Desktop dropdown width. |
+| `--aeris-navbar-hover-background` | `CSS custom property` | `--aeris-interactive-hover` | Hover surface. |
+| `--aeris-navbar-active-background` | `CSS custom property` | `--aeris-primary-soft` | Active surface. |
+| `--aeris-navbar-active-color` | `CSS custom property` | `--aeris-text` | Active desktop link and underline. |
+| `--aeris-navbar-top` | `CSS custom property` | `0px` | Sticky offset. |
+| `--aeris-navbar-z-index` | `CSS custom property` | `30` | Sticky layer. |
+| `--aeris-navbar-mobile-max-height` | `CSS custom property` | `60dvh` | Maximum mobile navigation height before scrolling. |
+
 #### Examples
 
 ##### Navigation
@@ -59950,6 +60015,25 @@ import { AerisSidebarModule } from '@aeris-ui/core/sidebar';
 type AerisSidebarMode = 'auto' | 'desktop' | 'mobile';
 type AerisSidebarSide = 'start' | 'end';
 ```
+
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-sidebar-width` | `CSS custom property` | `16rem` | Expanded desktop width. |
+| `--aeris-sidebar-collapsed-width` | `CSS custom property` | `4.25rem` | Icon-only desktop width. |
+| `--aeris-sidebar-padding` | `CSS custom property` | `--aeris-overlay-padding` | Navigation padding. |
+| `--aeris-sidebar-gap` | `CSS custom property` | `--aeris-density-gap` | Space between header, body and footer. |
+| `--aeris-sidebar-background` | `CSS custom property` | `--aeris-surface` | Surface color. |
+| `--aeris-sidebar-color` | `CSS custom property` | `--aeris-text` | Text color. |
+| `--aeris-sidebar-border` | `CSS custom property` | `--aeris-border` | Edge divider color. |
+| `--aeris-sidebar-font-size` | `CSS custom property` | `--aeris-body-font-size` | Navigation typography. |
+| `--aeris-sidebar-item-radius` | `CSS custom property` | `--aeris-radius-item` | Item and control corners. |
+| `--aeris-sidebar-item-height` | `CSS custom property` | `--aeris-item-height` | Minimum item height; long labels grow. |
+| `--aeris-sidebar-hover-background` | `CSS custom property` | `--aeris-interactive-hover` | Hover surface. |
+| `--aeris-sidebar-active-background` | `CSS custom property` | `--aeris-primary-soft` | Active item surface. |
+| `--aeris-sidebar-active-color` | `CSS custom property` | `--aeris-on-primary-soft` | Active item text. |
+| `--aeris-sidebar-indent` | `CSS custom property` | `0.75rem` | Nested group indentation. |
 
 #### Examples
 
@@ -66290,6 +66374,29 @@ type AerisAvatarImageLoading = 'eager' | 'lazy';
 type AerisAvatarGroupOverlap = 'subtle' | 'default' | 'strong';
 ```
 
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-avatar-size` | `CSS custom property` | `semantic size token` | Final per-instance size override for every semantic size. |
+| `--aeris-avatar-sm-size` | `CSS custom property` | `control height − 0.625rem` | Small avatar size. |
+| `--aeris-avatar-md-size` | `CSS custom property` | `--aeris-control-height` | Medium avatar size used when no general override is set. |
+| `--aeris-avatar-lg-size` | `CSS custom property` | `control height + 0.75rem` | Large avatar size. |
+| `--aeris-avatar-xl-size` | `CSS custom property` | `control height + 1.75rem` | Extra-large avatar size. |
+| `--aeris-avatar-background` | `CSS custom property` | `tone color mix` | Fallback background. |
+| `--aeris-avatar-color` | `CSS custom property` | `tone color mix` | Fallback text and icon color. |
+| `--aeris-avatar-border` | `CSS custom property` | `tone and border mix` | Avatar border color. |
+| `--aeris-avatar-border-width` | `CSS custom property` | `1px` | Avatar border width. |
+| `--aeris-avatar-radius` | `CSS custom property` | `--aeris-radius-lg` | Rounded shape radius. |
+| `--aeris-avatar-square-radius` | `CSS custom property` | `0.25rem` | Square shape radius. |
+| `--aeris-avatar-font-size` | `CSS custom property` | `0.8125rem` | Default label font size. |
+| `--aeris-avatar-font-weight` | `CSS custom property` | `800` | Label font weight. |
+| `--aeris-avatar-icon-size` | `CSS custom property` | `52%` | Projected icon size. |
+| `--aeris-avatar-shadow` | `CSS custom property` | `subtle shadow` | Avatar surface shadow. |
+| `--aeris-avatar-group-overlap` | `CSS custom property` | `0.65rem` | Default group overlap. |
+| `--aeris-avatar-group-ring-size` | `CSS custom property` | `2px` | Group separation ring width. |
+| `--aeris-avatar-group-ring-color` | `CSS custom property` | `--aeris-surface` | Group separation ring color. |
+
 #### Examples
 
 ##### Basic
@@ -67443,6 +67550,26 @@ interface AerisChipRemoveIconContext {
 }
 ```
 
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-chip-group-gap` | `CSS custom property` | `--aeris-density-gap` | Space between grouped chips. |
+| `--aeris-chip-group-selected-border` | `CSS custom property` | `--aeris-primary` | Selected group-chip border. |
+| `--aeris-chip-group-selected-background` | `CSS custom property` | `--aeris-primary-soft` | Selected group-chip background. |
+| `--aeris-chip-height` | `CSS custom property` | `control height − 0.5rem` | Default chip height. |
+| `--aeris-chip-sm-height` | `CSS custom property` | `control height − 0.875rem` | Small chip height. |
+| `--aeris-chip-lg-height` | `CSS custom property` | `control height + 0.125rem` | Large chip height. |
+| `--aeris-chip-padding-block` | `CSS custom property` | `0.25rem` | Vertical padding. |
+| `--aeris-chip-padding-inline` | `CSS custom property` | `0.75rem` | Horizontal padding. |
+| `--aeris-chip-gap` | `CSS custom property` | `density gap × 0.75` | Internal content gap. |
+| `--aeris-chip-font-size` | `CSS custom property` | `0.8125rem` | Default label size. |
+| `--aeris-chip-font-weight` | `CSS custom property` | `650` | Label weight. |
+| `--aeris-chip-radius` | `CSS custom property` | `--aeris-radius-md` | Rounded shape radius. |
+| `--aeris-chip-icon-size` | `CSS custom property` | `--aeris-icon-size` | Leading icon size. |
+| `--aeris-chip-remove-size` | `CSS custom property` | `1.25rem` | Remove button dimensions. |
+| `--aeris-chip-remove-icon-size` | `CSS custom property` | `0.75rem` | Default remove icon dimensions. |
+
 #### Examples
 
 ##### Basic
@@ -68575,6 +68702,22 @@ interface AerisCodeCopyEvent {
 }
 ```
 
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-code-block-background` | `CSS custom property` | `--aeris-surface-2` | Code surface. |
+| `--aeris-code-block-color` | `CSS custom property` | `--aeris-text` | Uncolored text. |
+| `--aeris-code-block-border` | `CSS custom property` | `--aeris-border` | Outer and header borders. |
+| `--aeris-code-block-radius` | `CSS custom property` | `--aeris-radius-surface` | Outer corners. |
+| `--aeris-code-block-padding` | `CSS custom property` | `--aeris-surface-padding` | Code area padding. |
+| `--aeris-code-block-max-height` | `CSS custom property` | `min(34rem, 68dvh)` | Default desktop scroll height; maxHeight input overrides it. |
+| `--aeris-code-block-font-size` | `CSS custom property` | `0.8125rem` | Code font size. |
+| `--aeris-code-block-font-family` | `CSS custom property` | `ui-monospace, SFMono-Regular, Consolas, monospace` | Monospace stack. |
+| `--aeris-code-block-line-height` | `CSS custom property` | `1.75` | Line height. |
+| `--aeris-code-block-line-highlight` | `CSS custom property` | `--aeris-primary-soft` | Emphasized line background. |
+| `--aeris-code-block-token-color` | `CSS custom property` | `Shiki GitHub light / dark token colors` | Override all Shiki token colors; omit to retain syntax themes. |
+
 #### Examples
 
 ##### Basic
@@ -68896,6 +69039,13 @@ import { AerisFluidModule } from '@aeris-ui/core/fluid';
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `default content` | `content projection` | `-` | Layout and compatible Aeris controls that receive fluid sizing. |
+
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-fluid-inline-size` | `CSS custom property` | `100%` | Inline size of the Fluid host and compatible descendants. |
+| `--aeris-fluid-min-inline-size` | `CSS custom property` | `0` | Minimum inline size used to prevent overflow in flexible layouts. |
 
 #### Examples
 
@@ -69293,6 +69443,24 @@ interface AerisInplaceContentContext {
   readonly close: () => void;
 }
 ```
+
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-inplace-text` | `CSS custom property` | `--aeris-text` | Component foreground color. |
+| `--aeris-inplace-radius` | `CSS custom property` | `--aeris-radius-control` | Display and content corner radius. |
+| `--aeris-inplace-display-min-height` | `CSS custom property` | `--aeris-control-height` | Minimum display-button height. |
+| `--aeris-inplace-display-padding-block` | `CSS custom property` | `--aeris-item-padding-y` | Display-button block padding. |
+| `--aeris-inplace-display-padding-inline` | `CSS custom property` | `--aeris-item-padding-x` | Display-button inline padding. |
+| `--aeris-inplace-display-border` | `CSS custom property` | `--aeris-border` | Display-button hover border. |
+| `--aeris-inplace-display-hover` | `CSS custom property` | `--aeris-surface-2` | Interactive hover background. |
+| `--aeris-inplace-content-background` | `CSS custom property` | `--aeris-surface` | Active content background. |
+| `--aeris-inplace-content-border` | `CSS custom property` | `--aeris-border` | Active content border. |
+| `--aeris-inplace-content-padding` | `CSS custom property` | `1rem` | Active content padding. |
+| `--aeris-inplace-content-shadow` | `CSS custom property` | `--aeris-shadow-sm` | Active content shadow. |
+| `--aeris-inplace-close-size` | `CSS custom property` | `1.75rem` | Owned close-button size. |
+| `--aeris-inplace-close-icon-size` | `CSS custom property` | `0.75rem` | Owned close-icon size. |
 
 #### Examples
 
@@ -69897,6 +70065,28 @@ interface AerisMeterGroupSummaryContext {
   readonly remaining: number;
 }
 ```
+
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-meter-group-track-size` | `CSS custom property` | `0.875rem` | Medium track thickness. |
+| `--aeris-meter-group-sm-track-size` | `CSS custom property` | `0.5rem` | Small track thickness. |
+| `--aeris-meter-group-lg-track-size` | `CSS custom property` | `1.25rem` | Large track thickness. |
+| `--aeris-meter-group-vertical-size` | `CSS custom property` | `14rem` | Vertical track height. |
+| `--aeris-meter-group-gap` | `CSS custom property` | `0.875rem` | Gap between header, layout, and footer. |
+| `--aeris-meter-group-layout-gap` | `CSS custom property` | `1rem` | Gap between track and legend. |
+| `--aeris-meter-group-radius` | `CSS custom property` | `--aeris-radius-control` | Non-pill track radius. |
+| `--aeris-meter-group-track-background` | `CSS custom property` | `--aeris-surface-2` | Unfilled track background. |
+| `--aeris-meter-group-track-border` | `CSS custom property` | `--aeris-border` | Track border color. |
+| `--aeris-meter-group-track-shadow` | `CSS custom property` | `inset subtle shadow` | Track inset shadow. |
+| `--aeris-meter-group-legend-gap` | `CSS custom property` | `0.625rem 1rem` | Legend row and column gaps. |
+| `--aeris-meter-group-label-gap` | `CSS custom property` | `0.4375rem` | Gap within a legend item. |
+| `--aeris-meter-group-marker-size` | `CSS custom property` | `0.625rem` | Legend marker size. |
+| `--aeris-meter-group-marker-radius` | `CSS custom property` | `50%` | Legend marker radius. |
+| `--aeris-meter-group-label-font-size` | `CSS custom property` | `0.8125rem` | Legend label size. |
+| `--aeris-meter-group-label-text` | `CSS custom property` | `--aeris-text-2` | Legend label color. |
+| `--aeris-meter-group-value-text` | `CSS custom property` | `--aeris-text` | Legend value color. |
 
 #### Examples
 
@@ -71102,6 +71292,20 @@ interface AerisProgressSpinnerValueContext {
 }
 ```
 
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-progress-spinner-size` | `CSS custom property` | `3rem` | Medium or custom spinner diameter. |
+| `--aeris-progress-spinner-sm-size` | `CSS custom property` | `1.75rem` | Small spinner diameter. |
+| `--aeris-progress-spinner-lg-size` | `CSS custom property` | `4.5rem` | Large spinner diameter. |
+| `--aeris-progress-spinner-indicator` | `CSS custom property` | `selected tone` | Indicator stroke color. |
+| `--aeris-progress-spinner-track` | `CSS custom property` | `16% selected tone` | Background track color. |
+| `--aeris-progress-spinner-duration` | `CSS custom property` | `1.1s` | Indeterminate animation duration. |
+| `--aeris-progress-spinner-value-color` | `CSS custom property` | `--aeris-text` | Centered value color. |
+| `--aeris-progress-spinner-value-font-size` | `CSS custom property` | `0.6875rem` | Medium centered value size. |
+| `--aeris-progress-spinner-lg-value-font-size` | `CSS custom property` | `0.875rem` | Large centered value size. |
+
 #### Examples
 
 ##### Indeterminate
@@ -71499,6 +71703,17 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
 type AerisSkeletonShape = 'text' | 'rectangle' | 'circle';
 type AerisSkeletonAnimation = 'wave' | 'pulse' | 'none';
 ```
+
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-skeleton-background` | `CSS custom property` | `16% --aeris-text mixed with --aeris-surface-2` | Placeholder base color. |
+| `--aeris-skeleton-highlight` | `CSS custom property` | `12% --aeris-text mixed with transparent` | Wave highlight color. |
+| `--aeris-skeleton-radius` | `CSS custom property` | `--aeris-radius-pill` | Text placeholder radius. |
+| `--aeris-skeleton-rectangle-radius` | `CSS custom property` | `--aeris-radius-md` | Rectangle placeholder radius. |
+| `--aeris-skeleton-duration` | `CSS custom property` | `1.45s` | Wave and pulse animation duration. |
+| `--aeris-skeleton-pulse-opacity` | `CSS custom property` | `0.48` | Lowest pulse opacity. |
 
 #### Examples
 
@@ -72076,6 +72291,16 @@ export interface AerisAnimateOnScrollEvent {
   readonly entry: IntersectionObserverEntry | null;
 }
 ```
+
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-animate-on-scroll-distance` | `CSS custom property` | `1.5rem` | Translation distance for directional effects. |
+| `--aeris-animate-on-scroll-scale` | `CSS custom property` | `0.96` | Initial scale for the scale effect. |
+| `--aeris-animate-on-scroll-duration` | `CSS custom property` | `480ms` | Resolved transition duration set by the duration input. |
+| `--aeris-animate-on-scroll-delay` | `CSS custom property` | `0ms` | Resolved transition delay set by the delay input. |
+| `--aeris-animate-on-scroll-easing` | `CSS custom property` | `cubic-bezier(0.22, 1, 0.36, 1)` | Resolved transition timing function set by the easing input. |
 
 #### Examples
 
@@ -74679,6 +74904,15 @@ import { AerisGlassModule } from '@aeris-ui/core/glass';
 | `Picker surfaces` | `AutoComplete, CascadeSelect, Select, TreeSelect, DatePicker` | `supported` | Applies to the control and its owned panel without changing nested controls. |
 | `Native containers` | `div, section, article, aside, nav, form, header, footer, main` | `supported` | Provides the same background and blur treatment to semantic application containers. |
 
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-glass-blur` | `CSS custom property` | `0.25rem` | Default blur radius for glass surfaces. |
+| `--aeris-glass-saturation` | `CSS custom property` | `125%` | Backdrop color saturation applied with the blur. |
+| `--aeris-glass-background` | `CSS custom property` | `76% surface color` | Translucent surface color shared by compatible surfaces. |
+| `--aeris-backdrop-blur` | `CSS custom property` | `0.25rem` | Default blur radius for modal masks and other blocking backdrops. |
+
 #### Examples
 
 ##### Basic
@@ -75000,6 +75234,20 @@ type AerisKbdKeyValue =
   | 'arrowUp' | 'arrowDown' | 'arrowLeft' | 'arrowRight'
   | 'pageUp' | 'pageDown' | 'home' | 'end' | 'fn';
 ```
+
+#### Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-kbd-background` | `CSS custom property` | `--aeris-surface-2` | Key surface. |
+| `--aeris-kbd-color` | `CSS custom property` | `--aeris-text` | Readable key text. |
+| `--aeris-kbd-border` | `CSS custom property` | `--aeris-border` | Subtle key boundary. |
+| `--aeris-kbd-radius` | `CSS custom property` | `item radius, capped at 0.375rem` | Compact key corners; never pill-shaped by default. |
+| `--aeris-kbd-padding` | `CSS custom property` | `density gap × 0.4 / 0.8` | Inner key spacing follows the active density. |
+| `--aeris-kbd-font-family` | `CSS custom property` | `system monospace stack` | Keyboard-input typeface. |
+| `--aeris-kbd-symbol-font-family` | `CSS custom property` | `system-ui, sans-serif` | Standard key-symbol typeface. |
+| `--aeris-kbd-content-font-weight` | `CSS custom property` | `600` | Weight of span[aerisKbdContent] main-key text. |
+| `--aeris-kbd-font-size` | `CSS custom property` | `sm / md / lg typography token` | Override the size preset when needed. |
 
 #### Examples
 

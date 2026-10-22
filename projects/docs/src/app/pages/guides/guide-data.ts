@@ -861,11 +861,14 @@ export class SignalProfileForm {
         paragraphs: [
           'Every form component page documents its value type, Angular Forms behavior, invalid input, naming inputs, and touched or blur events. Some controls use a native input while composite controls expose camel-cased ARIA inputs such as ariaDescribedBy; copy the spelling shown on that component page.',
           'Choose Select for choosing a value from options, AutoComplete for text entry with suggestions, and Menu for actions or navigation rather than form values. Listbox keeps choices visible; ButtonGroup supports single or multiple selection with its selection directives. Their value types and keyboard contracts are not interchangeable.',
+          'For a browser-owned option list, use the native select directive from @aeris-ui/core/select/native instead of the popup component. DatePicker supports both calendar selection and typed date/time entry; ColorPicker includes inline palettes and optional opacity. These features stay in their existing component families.',
           'Use a native form for submission and fieldset with legend to name a related set of controls. FormField connects a control with its label, help text, and error message; it does not replace form or fieldset semantics.',
         ],
         links: [
           { label: 'InputText forms examples', href: '/components/input-text' },
           { label: 'Select forms examples', href: '/components/select' },
+          { label: 'Typed date and time entry', href: '/components/date-picker' },
+          { label: 'Color palettes and opacity', href: '/components/color-picker' },
           { label: 'Accessibility guide', href: '/guides/accessibility' },
         ],
       },
@@ -2404,13 +2407,19 @@ export class DirectionControls {
           rows: [
             ['A focused task that interrupts the page', 'Dialog or DynamicDialog'],
             ['Navigation or supporting content from a viewport edge', 'Drawer'],
+            ['Responsive application navigation with an icon-only rail', 'Sidebar'],
+            ['Website navigation with inline compact expansion', 'Navbar'],
             ['Rich content anchored to a control', 'Popover'],
             ['A compact action list', 'Menu or TieredMenu in popup mode'],
+            ['Searchable application commands with a launcher', 'CommandPalette'],
             ['A short non-interactive explanation', 'Tooltip'],
             ['Confirmation before a consequential action', 'ConfirmDialog or ConfirmPopup'],
           ],
         },
         note: 'Do not use a tooltip for content that must be clicked, selected, copied, or read at length. Use a popover or dialog instead.',
+        paragraphs: [
+          'Popover can open on hover and keyboard focus for non-modal supporting content. Use its click trigger for an explicitly opened panel. Sidebar and Navbar are navigation components, not ARIA command menus; choose Menu or CommandPalette for actions.',
+        ],
       },
       {
         id: 'declarative-dialog',

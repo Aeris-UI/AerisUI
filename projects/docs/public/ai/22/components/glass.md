@@ -43,6 +43,15 @@ import { AerisGlassModule } from '@aeris-ui/core/glass';
 | `Picker surfaces` | `AutoComplete, CascadeSelect, Select, TreeSelect, DatePicker` | `supported` | Applies to the control and its owned panel without changing nested controls. |
 | `Native containers` | `div, section, article, aside, nav, form, header, footer, main` | `supported` | Provides the same background and blur treatment to semantic application containers. |
 
+## Design tokens
+
+| Token | Type | Default | Description |
+| --- | --- | --- | --- |
+| `--aeris-glass-blur` | `CSS custom property` | `0.25rem` | Default blur radius for glass surfaces. |
+| `--aeris-glass-saturation` | `CSS custom property` | `125%` | Backdrop color saturation applied with the blur. |
+| `--aeris-glass-background` | `CSS custom property` | `76% surface color` | Translucent surface color shared by compatible surfaces. |
+| `--aeris-backdrop-blur` | `CSS custom property` | `0.25rem` | Default blur radius for modal masks and other blocking backdrops. |
+
 ## Examples
 
 ### Basic
