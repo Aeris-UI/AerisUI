@@ -25,6 +25,12 @@ import { AerisTooltip } from '@aeris-ui/core/tooltip';
 import {
   ɵAerisIcon,
   ɵAerisCellEditor,
+  ɵAerisTablePinning,
+  aerisInternalOrderPinnedColumns,
+  aerisInternalOrderPinnedRows,
+  aerisInternalPinnedRowSides,
+  type AerisTableColumnPin,
+  type AerisTablePinnedRows,
   type AerisCellEditor,
   aerisInternalApplyMeasuredColumnWidths,
   aerisInternalClampColumnResizeDelta,
@@ -72,6 +78,7 @@ export interface AerisTableColumn {
   readonly sortable?: boolean;
   readonly filterable?: boolean;
   readonly editable?: boolean;
+  readonly pinned?: AerisTableColumnPin;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
 }
@@ -284,6 +291,7 @@ export class AerisTableLoadingTemplate {
   imports: [
     ɵAerisIcon,
     ɵAerisCellEditor,
+    ɵAerisTablePinning,
     NgTemplateOutlet,
     AerisCheckbox,
     AerisPaginator,
@@ -320,6 +328,7 @@ export class AerisTableLoadingTemplate {
       <div class="aeris-table__frame">
         <div
           class="aeris-table__viewport"
+          [aerisInternalTablePinning]="stickyHeader()"
           tabindex="0"
           [attr.data-scrollable]="scrollable() || null"
         >
@@ -358,10 +367,11 @@ export class AerisTableLoadingTemplate {
                     }
                   </th>
                 }
-                @for (column of columns(); track column.field; let columnIndex = $index) {
+                @for (column of renderedColumns(); track column.field; let columnIndex = $index) {
                   <th
                     scope="col"
                     [attr.data-field]="column.field"
+                    [attr.data-pinned-column]="column.pinned || null"
                     [attr.data-resizing-column]="resizingField() === column.field ? true : null"
                     [style.width]="column.width || null"
                     [attr.data-align]="column.align || 'start'"
@@ -503,9 +513,11 @@ export class AerisTableLoadingTemplate {
                       <span class="aeris-table__sr">{{ rowSelectionAriaLabel() }}</span>
                     </th>
                   }
-                  @for (column of columns(); track column.field) {
+                  @for (column of renderedColumns(); track column.field) {
                     <th
                       scope="col"
+                      [attr.data-field]="column.field"
+                      [attr.data-pinned-column]="column.pinned || null"
                       [attr.aria-label]="column.header"
                       [attr.data-align]="column.align || 'start'"
                     >
@@ -565,6 +577,8 @@ export class AerisTableLoadingTemplate {
               } @else {
                 @for (row of pageRows(); track rowKey(row); let rowIndex = $index) {
                   <tr
+                    [attr.data-row-key]="rowKey(row)"
+                    [attr.data-pinned-row]="rowPinSides().get(rowKey(row)) || null"
                     [attr.data-row-reorder-key]="reorderableRows() ? rowKey(row) : null"
                     [attr.data-row-dragging]="draggedRowIndex() === rowIndex || null"
                     [attr.data-row-drop]="
@@ -666,11 +680,13 @@ export class AerisTableLoadingTemplate {
                         }
                       </td>
                     }
-                    @for (column of columns(); track column.field) {
+                    @for (column of renderedColumns(); track column.field) {
                       @let cellEditable =
                         editableCells().get(rowKey(row))?.has(column.field) === true;
                       <td
                         [attr.data-label]="column.header"
+                        [attr.data-field]="column.field"
+                        [attr.data-pinned-column]="column.pinned || null"
                         [attr.data-align]="column.align || 'start'"
                         [attr.data-editable]="cellEditable || null"
                         [attr.tabindex]="cellEditable ? 0 : null"
@@ -737,7 +753,10 @@ export class AerisTableLoadingTemplate {
                     }
                   </tr>
                   @if (expandableRows() && isExpanded(row)) {
-                    <tr class="aeris-table__expansion-row">
+                    <tr
+                      class="aeris-table__expansion-row"
+                      [attr.data-pinned-row]="rowPinSides().get(rowKey(row)) || null"
+                    >
                       <td [attr.colspan]="columnSpan()">
                         @if (expansionTemplate(); as expansion) {
                           <ng-container
@@ -846,6 +865,8 @@ export class AerisTable {
   readonly showOverflowTooltip = input(false, { transform: booleanAttribute });
   readonly scrollable = input(false, { transform: booleanAttribute });
   readonly scrollHeight = input('');
+  readonly stickyHeader = input(true, { transform: booleanAttribute });
+  readonly pinnedRows = model<AerisTablePinnedRows>({ top: [], bottom: [] });
   readonly expandableRows = input(false, { transform: booleanAttribute });
   readonly expandedKeys = model<readonly string[]>([]);
   readonly rowNavigation = input(true, { transform: booleanAttribute });
@@ -957,6 +978,7 @@ export class AerisTable {
       this.loading() ||
       this.lazy() ||
       this.paginator() ||
+      this.rowPinSides().size ||
       this.sort() ||
       this.filterValue().trim() ||
       this.editingCell() ||
@@ -982,7 +1004,7 @@ export class AerisTable {
   protected readonly resizingField = computed(() => this.resizeState()?.field ?? null);
   protected readonly resizeHandleValues = computed(() =>
     aerisInternalColumnSeparatorValues(
-      this.columns().map((column) => column.width),
+      this.renderedColumns().map((column) => column.width),
       this.minColumnWidth(),
     ),
   );
@@ -1008,9 +1030,28 @@ export class AerisTable {
   protected readonly pageCount = computed(() =>
     Math.max(1, Math.ceil(this.filteredSortedRows().length / Math.max(1, this.rows()))),
   );
+  protected readonly renderedColumns = computed(() =>
+    aerisInternalOrderPinnedColumns(this.columns()),
+  );
+  protected readonly rowPinSides = computed(() => {
+    const sides = aerisInternalPinnedRowSides(this.pinnedRows());
+    if (!sides.size) return sides;
+    const keys = new Set(
+      this.data().flatMap((row) => {
+        const key = row[this.rowKeyField()];
+        return (typeof key === 'string' && key.trim()) ||
+          (typeof key === 'number' && Number.isFinite(key))
+          ? [String(key)]
+          : [];
+      }),
+    );
+    return new Map([...sides].filter(([key]) => keys.has(key)));
+  });
   protected readonly pageRows = computed(() => {
-    if (!this.paginator()) return this.filteredSortedRows();
-    return this.filteredSortedRows().slice(this.first(), this.first() + this.rows());
+    const rows = this.paginator()
+      ? this.filteredSortedRows().slice(this.first(), this.first() + this.rows())
+      : this.filteredSortedRows();
+    return aerisInternalOrderPinnedRows(rows, this.rowPinSides(), (row) => this.rowKey(row));
   });
   protected readonly columnSpan = computed(
     () =>
@@ -1259,8 +1300,8 @@ export class AerisTable {
     originalEvent: PointerEvent,
   ): void {
     if (!this.resizableColumns()) return;
-    const column = this.columns()[columnIndex];
-    const adjacentColumn = this.columns()[columnIndex + 1];
+    const column = this.renderedColumns()[columnIndex];
+    const adjacentColumn = this.renderedColumns()[columnIndex + 1];
     if (!column || !adjacentColumn) return;
 
     originalEvent.preventDefault();
@@ -1313,7 +1354,7 @@ export class AerisTable {
   protected handleResizeKeydown(field: string, originalEvent: KeyboardEvent): void {
     if (originalEvent.key !== 'ArrowLeft' && originalEvent.key !== 'ArrowRight') return;
     originalEvent.preventDefault();
-    const columns = this.columns();
+    const columns = this.renderedColumns();
     const columnIndex = columns.findIndex((item) => item.field === field);
     const column = columns[columnIndex];
     const adjacentColumn = columns[columnIndex + 1];
@@ -1377,7 +1418,7 @@ export class AerisTable {
     if (!this.reorderableColumns() || !originalEvent.altKey) return;
     if (originalEvent.key !== 'ArrowLeft' && originalEvent.key !== 'ArrowRight') return;
     originalEvent.preventDefault();
-    const columns = this.columns();
+    const columns = this.renderedColumns();
     const index = columns.findIndex((column) => column.field === field);
     const visualOffset = originalEvent.key === 'ArrowRight' ? 1 : -1;
     const direction = this.resizeDirection(originalEvent.currentTarget as HTMLElement);
@@ -1650,7 +1691,7 @@ export class AerisTable {
   exportCSV(options: AerisTableCsvExportOptions = {}): string {
     const normalized = this.normalizeCsvOptions(options);
     const rows = this.csvRows(normalized.rows);
-    const columns = this.columns();
+    const columns = this.renderedColumns();
     const lines = rows.map((row) =>
       columns
         .map((column) => this.escapeCsvValue(this.displayValue(row, column.field)))
@@ -1723,6 +1764,7 @@ export class AerisTable {
     const fromIndex = columns.findIndex((column) => column.field === sourceField);
     const targetIndex = columns.findIndex((column) => column.field === targetField);
     if (fromIndex < 0 || targetIndex < 0) return;
+    if (columns[fromIndex].pinned !== columns[targetIndex].pinned) return;
     const [column] = columns.splice(fromIndex, 1);
     if (!column) return;
     const targetAfterRemoval = columns.findIndex((item) => item.field === targetField);

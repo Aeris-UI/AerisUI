@@ -803,6 +803,159 @@
             </app-form-demo>
 
             <app-form-demo
+              id="table-sticky-headers"
+              title="Sticky headers"
+              description="Headers and filters stay aligned at measured offsets. Toggle stickyHeader to let both scroll normally."
+            >
+              <div preview class="custom-editor-demo">
+                <button
+                  aerisButton
+                  variant="outline"
+                  [attr.aria-pressed]="pinHeaders()"
+                  (click)="pinHeaders.set(!pinHeaders())"
+                >
+                  Sticky headers: {{ pinHeaders() ? 'on' : 'off' }}
+                </button>
+                <aeris-table
+                  caption="Sticky headers and filters"
+                  [data]="pinningRows()"
+                  [columns]="pinningPlainColumns"
+                  scrollable
+                  scrollHeight="22rem"
+                  columnFilter
+                  [stickyHeader]="pinHeaders()"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="pinHeaders()"
+    (click)="pinHeaders.set(!pinHeaders())"
+  &gt;
+    Sticky headers: &#123;&#123; pinHeaders() ? 'on' : 'off' &#125;&#125;
+  &lt;/button&gt;
+  &lt;aeris-table
+    caption="Sticky headers and filters"
+    [data]="pinningRows()"
+    [columns]="pinningPlainColumns"
+    scrollable
+    scrollHeight="22rem"
+    columnFilter
+    [stickyHeader]="pinHeaders()"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="table-pinned-columns"
+              title="Pinned columns"
+              description="Name stays at the logical start and Status at the end. Both sides follow RTL automatically. Scroll horizontally; if pinned columns leave less than 44px for normal content, they scroll normally instead."
+            >
+              <div preview class="custom-editor-demo">
+                <aeris-table
+                  caption="Start and end columns"
+                  [data]="pinningRows()"
+                  [columns]="pinnedColumns()"
+                  scrollable
+                  scrollHeight="22rem"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;aeris-table
+    caption="Start and end columns"
+    [data]="pinningRows()"
+    [columns]="pinnedColumns()"
+    scrollable
+    scrollHeight="22rem"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="table-pinned-rows"
+              title="Pinned rows"
+              description="Record 3 stays below the header and Record 18 stays at the bottom. Pinning changes only the displayed order, not your data or pagination. Filtered-out and off-page records are not brought back by pinning."
+            >
+              <div preview class="custom-editor-demo">
+                <button
+                  aerisButton
+                  variant="outline"
+                  [attr.aria-pressed]="pinRows().top.length > 0"
+                  (click)="
+                    pinRows.set(pinRows().top.length ? { top: [], bottom: [] } : defaultPinRows)
+                  "
+                >
+                  {{ pinRows().top.length ? 'Unpin rows' : 'Pin rows' }}
+                </button>
+                <aeris-table
+                  caption="Top and bottom rows"
+                  [data]="pinningRows()"
+                  [columns]="pinningPlainColumns"
+                  scrollable
+                  scrollHeight="26rem"
+                  [(pinnedRows)]="pinRows"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="pinRows().top.length &gt; 0"
+    (click)="
+      pinRows.set(pinRows().top.length ? &#123; top: [], bottom: [] &#125; : defaultPinRows)
+    "
+  &gt;
+    &#123;&#123; pinRows().top.length ? 'Unpin rows' : 'Pin rows' &#125;&#125;
+  &lt;/button&gt;
+  &lt;aeris-table
+    caption="Top and bottom rows"
+    [data]="pinningRows()"
+    [columns]="pinningPlainColumns"
+    scrollable
+    scrollHeight="26rem"
+    [(pinnedRows)]="pinRows"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="table-combined-pinning"
+              title="Combined pinning"
+              description="Pinned rows and columns meet without content showing through. Try sorting, filtering, resizing or editing a cell. Columns reorder within their pin group; row reordering is unavailable while rows are pinned."
+            >
+              <div preview class="custom-editor-demo">
+                <aeris-table
+                  caption="Combined pinning"
+                  striped
+                  [data]="pinningRows()"
+                  [(columns)]="pinnedColumns"
+                  [pinnedRows]="defaultPinRows"
+                  scrollable
+                  scrollHeight="26rem"
+                  columnFilter
+                  resizableColumns
+                  reorderableColumns
+                  editable
+                  (cellEdited)="savePinnedEdit($event)"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;aeris-table
+    caption="Combined pinning"
+    striped
+    [data]="pinningRows()"
+    [(columns)]="pinnedColumns"
+    [pinnedRows]="defaultPinRows"
+    scrollable
+    scrollHeight="26rem"
+    columnFilter
+    resizableColumns
+    reorderableColumns
+    editable
+    (cellEdited)="savePinnedEdit($event)"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
               id="table-scrolling"
               title="Scrolling"
               description="Scrollable tables constrain the body viewport while headers remain sticky. Use horizontal scroll for wide column sets."
@@ -1268,6 +1421,32 @@
             ><code role="cell">boolean | undefined</code><code role="cell">undefined</code
             ><span role="cell"
               >Overrides the table default for a column. cellEditable has final priority.</span
+            >
+          </div>
+        </div>
+        <h3>Pinning</h3>
+        <p>
+          Both tables use stickyHeader, column pinned and the pinnedRows model. Column pinned
+          accepts <code>'start'</code> or <code>'end'</code>; omit it for normal scrolling. Columns
+          are displayed in start, normal and end groups without mutating your configuration.
+          Reordering stays within a pin group. Pin keys refer to stable, unique row keys; top wins
+          if a key appears on both sides. Normal filters and pagination apply first, then visible
+          rows are grouped top, normal and bottom in their current sorted order. Pinning never
+          fetches missing lazy data or duplicates records. Persist pin state through your own model;
+          saveState, restoreState and reset do not own it. Oversized pinned regions revert to
+          scrolling to leave at least 44px for normal content. Responsive stack mode disables
+          sticking. Table expansion detail rows travel with their parent.
+        </p>
+        <div class="api-table compact" role="table" aria-label="Column pinning option" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Property</b><b role="columnheader">Type</b
+            ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+          </div>
+          <div role="row">
+            <code role="cell">AerisTableColumn.pinned</code
+            ><code role="cell">'start' | 'end' | undefined</code><code role="cell">undefined</code
+            ><span role="cell"
+              >Pins the column to a logical edge, including its header and filter cell.</span
             >
           </div>
         </div>

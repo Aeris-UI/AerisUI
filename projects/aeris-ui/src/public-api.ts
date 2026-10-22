@@ -97,3 +97,11 @@ export {
   type AerisInternalFrameScheduler,
 } from './lib/aeris-frame-scheduler';
 export { ɵAerisCellEditor, type AerisCellEditor } from './lib/aeris-cell-editor';
+export {
+  ɵAerisTablePinning,
+  aerisInternalOrderPinnedColumns,
+  aerisInternalOrderPinnedRows,
+  aerisInternalPinnedRowSides,
+  type AerisTableColumnPin,
+  type AerisTablePinnedRows,
+} from './lib/aeris-table-pinning';

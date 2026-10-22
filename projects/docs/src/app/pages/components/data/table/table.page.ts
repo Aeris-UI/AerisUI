@@ -19,6 +19,7 @@ import {
   AerisTableContextMenuModule,
   type AerisTableCellEditEvent,
   type AerisTableCellEditable,
+  type AerisTablePinnedRows,
   type AerisTableColumn,
   type AerisTableContextMenuEvent,
   type AerisTableData,
@@ -76,6 +77,34 @@ const SELECTION_MEMBERS: readonly AerisTableData[] = [
   styleUrl: './table.page.scss',
 })
 export class TablePage {
+  protected readonly pinHeaders = signal(true);
+  protected readonly defaultPinRows: AerisTablePinnedRows = { top: ['pin-3'], bottom: ['pin-18'] };
+  protected readonly pinRows = signal<AerisTablePinnedRows>(this.defaultPinRows);
+  protected readonly pinningRows = signal<readonly AerisTableData[]>(
+    Array.from({ length: 24 }, (_, index) => ({
+      id: `pin-${index + 1}`,
+      name: `Record ${index + 1}`,
+      team: index % 2 ? 'Engineering' : 'Design',
+      details: `Milestone ${index + 1}: review the latest updates with the team.`,
+      status: index % 3 ? 'Active' : 'Review',
+    })),
+  );
+  protected readonly pinningPlainColumns: readonly AerisTableColumn[] = [
+    { field: 'name', header: 'Name', width: '45%', sortable: true },
+    { field: 'team', header: 'Team', width: '30%' },
+    { field: 'status', header: 'Status', width: '25%' },
+  ];
+  protected readonly pinnedColumns = signal<readonly AerisTableColumn[]>([
+    { field: 'name', header: 'Name', width: '12rem', pinned: 'start', sortable: true },
+    { field: 'team', header: 'Team', width: '12rem' },
+    { field: 'details', header: 'Details', width: '24rem' },
+    { field: 'status', header: 'Status', width: '10rem', pinned: 'end' },
+  ]);
+  protected savePinnedEdit(event: AerisTableCellEditEvent): void {
+    this.pinningRows.update((rows) =>
+      rows.map((row) => (row === event.row ? { ...row, [event.field]: event.value } : row)),
+    );
+  }
   protected readonly permissionDefault = signal(true);
   protected readonly permissionColumns: readonly AerisTableColumn[] = [
     { field: 'name', header: 'Name', width: '40%' },
@@ -371,6 +400,10 @@ protected handleRowReorder(event: AerisTableRowReorderEvent): void {
     { id: 'table-editing', label: 'Cell editing' },
     { id: 'table-editing-permissions', label: 'Editing permissions' },
     { id: 'table-custom-editors', label: 'Custom editors' },
+    { id: 'table-sticky-headers', label: 'Sticky headers' },
+    { id: 'table-pinned-columns', label: 'Pinned columns' },
+    { id: 'table-pinned-rows', label: 'Pinned rows' },
+    { id: 'table-combined-pinning', label: 'Combined pinning' },
     { id: 'table-scrolling', label: 'Scrolling' },
     { id: 'table-templates', label: 'Templates' },
     { id: 'table-responsive', label: 'Responsive' },
@@ -510,6 +543,11 @@ type AerisTableSortDirection = 'asc' | 'desc';
 type AerisTableSelectionMode = 'single' | 'multiple';
 type AerisTableResponsiveMode = 'scroll' | 'stack';
 type AerisTableData = Record<string, unknown>;
+type AerisTableColumnPin = 'start' | 'end';
+interface AerisTablePinnedRows {
+  readonly top: readonly string[];
+  readonly bottom: readonly string[];
+}
 type AerisTableCellEditable = (
   row: AerisTableData, column: AerisTableColumn,
 ) => boolean | undefined;
@@ -523,6 +561,7 @@ interface AerisTableColumn {
   readonly sortable?: boolean;
   readonly filterable?: boolean;
   readonly editable?: boolean;
+  readonly pinned?: AerisTableColumnPin;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
 }
@@ -611,6 +650,20 @@ interface AerisTableCsvExportOptions {
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'stickyHeader',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Keeps header and filter rows at measured offsets while the table viewport scrolls vertically. False disables vertical header pinning. Oversized headers scroll normally to keep data accessible.',
+    },
+    {
+      name: 'pinnedRows',
+      type: 'AerisTablePinnedRows (model)',
+      defaultValue: '{ top: [], bottom: [] }',
+      description:
+        'Stable unique row keys to pin at top/bottom of the current filtered page. Top wins duplicates; missing keys are ignored. Sorting order within each group is preserved. Oversized pinned regions revert to normal scrolling. Consumer-owned; not serialized by saveState(). Row reordering is disabled while rows are pinned.',
+    },
     {
       name: 'reorderableRows',
       type: 'boolean',
@@ -953,6 +1006,13 @@ interface AerisTableCsvExportOptions {
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
+    {
+      name: 'pinnedRowsChange',
+      type: 'AerisTablePinnedRows',
+      defaultValue: '—',
+      description:
+        'Emits when the component model is changed programmatically. Bind [(pinnedRows)] for controlled pin state; normal view reordering never mutates it.',
+    },
     {
       name: 'sorted',
       type: 'AerisTableSortEvent',

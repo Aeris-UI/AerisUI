@@ -29,6 +29,8 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `stickyHeader` | `boolean` | `true` | Keeps header and filter rows at measured offsets while the table viewport scrolls vertically. False disables vertical header pinning. Oversized headers scroll normally to keep data accessible. |
+| `pinnedRows` | `AerisTablePinnedRows (model)` | `{ top: [], bottom: [] }` | Stable unique row keys to pin at top/bottom of the current filtered page. Top wins duplicates; missing keys are ignored. Sorting order within each group is preserved. Oversized pinned regions revert to normal scrolling. Consumer-owned; not serialized by saveState(). Row reordering is disabled while rows are pinned. |
 | `reorderableRows` | `boolean` | `false` | Enables local row reordering with stable unique rowKeyField values. Disabled during sorting, active filters, pagination, lazy loading, loading, or cell editing. |
 | `showRowReorderHandle` | `boolean` | `true` | Shows dedicated drag/keyboard handles when reorderableRows is enabled. Hide when providing external controls through moveRow(). |
 | `rowReorderDisabled` | `boolean &#124; ((row: AerisTableData, rowIndex: number) =&gt; boolean)` | `false` | Fixes rows in place. Other rows cannot move across a disabled row. |
@@ -88,6 +90,7 @@ import { AerisTableModule } from '@aeris-ui/core/table';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `pinnedRowsChange` | `AerisTablePinnedRows` | `—` | Emits when the component model is changed programmatically. Bind [(pinnedRows)] for controlled pin state; normal view reordering never mutates it. |
 | `sorted` | `AerisTableSortEvent` | `-` | Emitted when a sortable header changes state. |
 | `filtered` | `AerisTableFilterEvent` | `-` | Emitted when global or column filters change. |
 | `pageChanged` | `AerisTablePageEvent` | `-` | Emitted when paginator buttons change the page. |
@@ -186,6 +189,11 @@ type AerisTableSortDirection = 'asc' | 'desc';
 type AerisTableSelectionMode = 'single' | 'multiple';
 type AerisTableResponsiveMode = 'scroll' | 'stack';
 type AerisTableData = Record<string, unknown>;
+type AerisTableColumnPin = 'start' | 'end';
+interface AerisTablePinnedRows {
+  readonly top: readonly string[];
+  readonly bottom: readonly string[];
+}
 type AerisTableCellEditable = (
   row: AerisTableData, column: AerisTableColumn,
 ) => boolean | undefined;
@@ -199,6 +207,7 @@ interface AerisTableColumn {
   readonly sortable?: boolean;
   readonly filterable?: boolean;
   readonly editable?: boolean;
+  readonly pinned?: AerisTableColumnPin;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
 }
@@ -1877,6 +1886,288 @@ export class TableCustomEditorsCustomEditorsDemo {
     </ng-template>
   </aeris-table>
   <small role="status">{{ editorResult() }}</small>
+</div>
+```
+
+#### CSS
+
+```css
+.custom-editor-demo,
+.custom-cell-editor {
+  display: grid;
+  min-inline-size: 0;
+  inline-size: 100%;
+  gap: 0.75rem;
+}
+```
+
+### Sticky headers
+
+Headers and filters stay aligned at measured offsets. Toggle stickyHeader to let both scroll normally.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
+
+@Component({
+  selector: 'app-table-sticky-headers-demo',
+  imports: [AerisButton, AerisTableModule],
+  templateUrl: './table-sticky-headers.demo.html',
+  styleUrl: './table-sticky-headers.demo.scss'
+})
+export class TableStickyHeadersStickyHeadersDemo {
+  protected readonly pinHeaders = signal(true);
+
+  protected readonly pinningRows = signal<readonly AerisTableData[]>(
+      Array.from({ length: 24 }, (_, index) => ({
+        id: `pin-${index + 1}`,
+        name: `Record ${index + 1}`,
+        team: index % 2 ? 'Engineering' : 'Design',
+        details: `Milestone ${index + 1}: review the latest updates with the team.`,
+        status: index % 3 ? 'Active' : 'Review',
+      })),
+    );
+
+  protected readonly pinningPlainColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', width: '45%', sortable: true },
+      { field: 'team', header: 'Team', width: '30%' },
+      { field: 'status', header: 'Status', width: '25%' },
+    ];
+}
+```
+
+#### HTML
+
+```html
+<div class="custom-editor-demo">
+  <button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="pinHeaders()"
+    (click)="pinHeaders.set(!pinHeaders())"
+  >
+    Sticky headers: {{ pinHeaders() ? 'on' : 'off' }}
+  </button>
+  <aeris-table
+    caption="Sticky headers and filters"
+    [data]="pinningRows()"
+    [columns]="pinningPlainColumns"
+    scrollable
+    scrollHeight="22rem"
+    columnFilter
+    [stickyHeader]="pinHeaders()"
+  />
+</div>
+```
+
+#### CSS
+
+```css
+.custom-editor-demo,
+.custom-cell-editor {
+  display: grid;
+  min-inline-size: 0;
+  inline-size: 100%;
+  gap: 0.75rem;
+}
+```
+
+### Pinned columns
+
+Name stays at the logical start and Status at the end. Both sides follow RTL automatically. Scroll horizontally; if pinned columns leave less than 44px for normal content, they scroll normally instead.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@aeris-ui/core/table';
+
+@Component({
+  selector: 'app-table-pinned-columns-demo',
+  imports: [AerisTableModule],
+  template: `
+    <div class="custom-editor-demo">
+      <aeris-table
+        caption="Start and end columns"
+        [data]="pinningRows()"
+        [columns]="pinnedColumns()"
+        scrollable
+        scrollHeight="22rem"
+      />
+    </div>
+  `,
+  styles: `
+    .custom-editor-demo,
+    .custom-cell-editor {
+      display: grid;
+      min-inline-size: 0;
+      inline-size: 100%;
+      gap: 0.75rem;
+    }
+  `
+})
+export class TablePinnedColumnsPinnedColumnsDemo {
+  protected readonly pinningRows = signal<readonly AerisTableData[]>(
+      Array.from({ length: 24 }, (_, index) => ({
+        id: `pin-${index + 1}`,
+        name: `Record ${index + 1}`,
+        team: index % 2 ? 'Engineering' : 'Design',
+        details: `Milestone ${index + 1}: review the latest updates with the team.`,
+        status: index % 3 ? 'Active' : 'Review',
+      })),
+    );
+
+  protected readonly pinnedColumns = signal<readonly AerisTableColumn[]>([
+      { field: 'name', header: 'Name', width: '12rem', pinned: 'start', sortable: true },
+      { field: 'team', header: 'Team', width: '12rem' },
+      { field: 'details', header: 'Details', width: '24rem' },
+      { field: 'status', header: 'Status', width: '10rem', pinned: 'end' },
+    ]);
+}
+```
+
+### Pinned rows
+
+Record 3 stays below the header and Record 18 stays at the bottom. Pinning changes only the displayed order, not your data or pagination. Filtered-out and off-page records are not brought back by pinning.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisTableModule, type AerisTableColumn, type AerisTableData, type AerisTablePinnedRows } from '@aeris-ui/core/table';
+
+@Component({
+  selector: 'app-table-pinned-rows-demo',
+  imports: [AerisButton, AerisTableModule],
+  templateUrl: './table-pinned-rows.demo.html',
+  styleUrl: './table-pinned-rows.demo.scss'
+})
+export class TablePinnedRowsPinnedRowsDemo {
+  protected readonly defaultPinRows: AerisTablePinnedRows = { top: ['pin-3'], bottom: ['pin-18'] };
+
+  protected readonly pinRows = signal<AerisTablePinnedRows>(this.defaultPinRows);
+
+  protected readonly pinningRows = signal<readonly AerisTableData[]>(
+      Array.from({ length: 24 }, (_, index) => ({
+        id: `pin-${index + 1}`,
+        name: `Record ${index + 1}`,
+        team: index % 2 ? 'Engineering' : 'Design',
+        details: `Milestone ${index + 1}: review the latest updates with the team.`,
+        status: index % 3 ? 'Active' : 'Review',
+      })),
+    );
+
+  protected readonly pinningPlainColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'Name', width: '45%', sortable: true },
+      { field: 'team', header: 'Team', width: '30%' },
+      { field: 'status', header: 'Status', width: '25%' },
+    ];
+}
+```
+
+#### HTML
+
+```html
+<div class="custom-editor-demo">
+  <button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="pinRows().top.length > 0"
+    (click)="
+      pinRows.set(pinRows().top.length ? { top: [], bottom: [] } : defaultPinRows)
+    "
+  >
+    {{ pinRows().top.length ? 'Unpin rows' : 'Pin rows' }}
+  </button>
+  <aeris-table
+    caption="Top and bottom rows"
+    [data]="pinningRows()"
+    [columns]="pinningPlainColumns"
+    scrollable
+    scrollHeight="26rem"
+    [(pinnedRows)]="pinRows"
+  />
+</div>
+```
+
+#### CSS
+
+```css
+.custom-editor-demo,
+.custom-cell-editor {
+  display: grid;
+  min-inline-size: 0;
+  inline-size: 100%;
+  gap: 0.75rem;
+}
+```
+
+### Combined pinning
+
+Pinned rows and columns meet without content showing through. Try sorting, filtering, resizing or editing a cell. Columns reorder within their pin group; row reordering is unavailable while rows are pinned.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisTableModule, type AerisTableCellEditEvent, type AerisTableColumn, type AerisTableData, type AerisTablePinnedRows } from '@aeris-ui/core/table';
+
+@Component({
+  selector: 'app-table-combined-pinning-demo',
+  imports: [AerisTableModule],
+  templateUrl: './table-combined-pinning.demo.html',
+  styleUrl: './table-combined-pinning.demo.scss'
+})
+export class TableCombinedPinningCombinedPinningDemo {
+  protected readonly defaultPinRows: AerisTablePinnedRows = { top: ['pin-3'], bottom: ['pin-18'] };
+
+  protected readonly pinningRows = signal<readonly AerisTableData[]>(
+      Array.from({ length: 24 }, (_, index) => ({
+        id: `pin-${index + 1}`,
+        name: `Record ${index + 1}`,
+        team: index % 2 ? 'Engineering' : 'Design',
+        details: `Milestone ${index + 1}: review the latest updates with the team.`,
+        status: index % 3 ? 'Active' : 'Review',
+      })),
+    );
+
+  protected readonly pinnedColumns = signal<readonly AerisTableColumn[]>([
+      { field: 'name', header: 'Name', width: '12rem', pinned: 'start', sortable: true },
+      { field: 'team', header: 'Team', width: '12rem' },
+      { field: 'details', header: 'Details', width: '24rem' },
+      { field: 'status', header: 'Status', width: '10rem', pinned: 'end' },
+    ]);
+
+  protected savePinnedEdit(event: AerisTableCellEditEvent): void {
+      this.pinningRows.update((rows) =>
+        rows.map((row) => (row === event.row ? { ...row, [event.field]: event.value } : row)),
+      );
+    }
+}
+```
+
+#### HTML
+
+```html
+<div class="custom-editor-demo">
+  <aeris-table
+    caption="Combined pinning"
+    striped
+    [data]="pinningRows()"
+    [(columns)]="pinnedColumns"
+    [pinnedRows]="defaultPinRows"
+    scrollable
+    scrollHeight="26rem"
+    columnFilter
+    resizableColumns
+    reorderableColumns
+    editable
+    (cellEdited)="savePinnedEdit($event)"
+  />
 </div>
 ```
 

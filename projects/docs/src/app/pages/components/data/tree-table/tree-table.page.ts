@@ -19,6 +19,7 @@ import {
   AerisTreeTableModule,
   type AerisTreeTableCellEditEvent,
   type AerisTreeTableCellEditable,
+  type AerisTablePinnedRows,
   type AerisTreeTableColumn,
   type AerisTreeTableColumnReorderEvent,
   type AerisTreeTableColumnResizeEvent,
@@ -57,7 +58,14 @@ type FileRecord = AerisTreeTableData & {
 };
 
 const FILE_COLUMNS: readonly AerisTreeTableColumn[] = [
-  { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
+  {
+    field: 'name',
+    header: 'Name',
+    sortable: true,
+    filterable: true,
+    pinned: 'start',
+    width: '15rem',
+  },
   {
     field: 'size',
     header: 'Size (KB)',
@@ -127,6 +135,56 @@ const SELECTION_FILES: readonly AerisTreeTableNode[] = [
   styleUrl: './tree-table.page.scss',
 })
 export class TreeTablePage {
+  protected readonly pinHeaders = signal(true);
+  protected readonly defaultPinRows: AerisTablePinnedRows = { top: ['pin-3'], bottom: ['pin-18'] };
+  protected readonly pinRows = signal<AerisTablePinnedRows>(this.defaultPinRows);
+  protected readonly pinningNodes = signal<readonly AerisTreeTableNode[]>(
+    Array.from({ length: 24 }, (_, index) => ({
+      key: `pin-${index + 1}`,
+      data: {
+        name: `Record ${index + 1}`,
+        team: index % 2 ? 'Engineering' : 'Design',
+        details: `Milestone ${index + 1}: review the latest updates with the team.`,
+        status: index % 3 ? 'Active' : 'Review',
+      },
+      ...(index === 2
+        ? {
+            children: [
+              {
+                key: 'pin-3-a',
+                data: {
+                  name: 'Draft',
+                  team: 'Design',
+                  details: 'Prepare the milestone.',
+                  status: 'Review',
+                },
+              },
+              {
+                key: 'pin-3-b',
+                data: {
+                  name: 'Approval',
+                  team: 'Engineering',
+                  details: 'Confirm the milestone.',
+                  status: 'Active',
+                },
+              },
+            ],
+          }
+        : {}),
+    })),
+  );
+  protected readonly pinningExpanded = signal<readonly string[]>(['pin-3']);
+  protected readonly pinningPlainColumns: readonly AerisTreeTableColumn[] = [
+    { field: 'name', header: 'Name', width: '45%', sortable: true },
+    { field: 'team', header: 'Team', width: '30%' },
+    { field: 'status', header: 'Status', width: '25%' },
+  ];
+  protected readonly pinnedColumns = signal<readonly AerisTreeTableColumn[]>([
+    { field: 'name', header: 'Name', width: '12rem', pinned: 'start', sortable: true },
+    { field: 'team', header: 'Team', width: '12rem' },
+    { field: 'details', header: 'Details', width: '24rem' },
+    { field: 'status', header: 'Status', width: '10rem', pinned: 'end' },
+  ]);
   protected readonly permissionDefault = signal(true);
   protected readonly permissionColumns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', width: '40%' },
@@ -331,6 +389,10 @@ export class TreeTablePage {
     { id: 'tree-table-editing-permissions', label: 'Editing permissions' },
     { id: 'tree-table-custom-editors', label: 'Custom editors' },
     { id: 'tree-table-columns', label: 'Column controls' },
+    { id: 'tree-table-sticky-headers', label: 'Sticky headers' },
+    { id: 'tree-table-pinned-columns', label: 'Pinned columns' },
+    { id: 'tree-table-pinned-rows', label: 'Pinned rows' },
+    { id: 'tree-table-combined-pinning', label: 'Combined pinning' },
     { id: 'tree-table-scrolling', label: 'Scrolling and responsive' },
     { id: 'tree-table-lazy', label: 'Lazy loading' },
     { id: 'tree-table-templates', label: 'Templates' },
@@ -356,7 +418,7 @@ export class TreeTablePage {
 };
 
 protected readonly columns: readonly AerisTreeTableColumn[] = [
-  { field: 'name', header: 'Name', sortable: true, filterable: true, frozen: true, width: '15rem' },
+  { field: 'name', header: 'Name', sortable: true, filterable: true, pinned: 'start', width: '15rem' },
   { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
   { field: 'type', header: 'Type', sortable: true, filterable: true, width: '9rem' },
   { field: 'modified', header: 'Modified', sortable: true, filterable: true, width: '10rem' },
@@ -542,6 +604,11 @@ interface AerisTreeTableEditorContext<TData extends AerisTreeTableData> {
 }`;
 
   protected readonly interfacesCode = `type AerisTreeTableData = Readonly<Record<string, unknown>>;
+type AerisTableColumnPin = 'start' | 'end';
+interface AerisTablePinnedRows {
+  readonly top: readonly string[];
+  readonly bottom: readonly string[];
+}
 type AerisTreeTableSize = 'sm' | 'md' | 'lg';
 type AerisTreeTableSelectionMode = 'single' | 'multiple' | 'checkbox';
 type AerisTreeTableSortDirection = 'asc' | 'desc';
@@ -567,7 +634,7 @@ interface AerisTreeTableColumn {
   readonly sortable?: boolean;
   readonly filterable?: boolean;
   readonly editable?: boolean;
-  readonly frozen?: boolean;
+  readonly pinned?: AerisTableColumnPin;
   readonly width?: string;
   readonly align?: 'start' | 'center' | 'end';
 }
@@ -663,6 +730,20 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
 }`;
 
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'stickyHeader',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Keeps header and filter rows at measured offsets while the table viewport scrolls vertically. False disables vertical header pinning. Oversized headers scroll normally to keep data accessible.',
+    },
+    {
+      name: 'pinnedRows',
+      type: 'AerisTablePinnedRows (model)',
+      defaultValue: '{ top: [], bottom: [] }',
+      description:
+        'Loaded root keys to pin at top/bottom of the current filtered root page. Expanded descendants stay with their pinned root. Child and missing keys are ignored; top wins duplicates. Sorting order within groups is preserved. Oversized pinned regions revert to normal scrolling. Pinning never fetches unloaded data.',
+    },
     {
       name: 'sortIconTemplate',
       type: 'TemplateRef<AerisTreeTableSortIconContext> | undefined',
@@ -994,6 +1075,13 @@ interface AerisTreeTableCellContext<TData extends AerisTreeTableData = AerisTree
   ];
 
   protected readonly outputs: readonly ApiRow[] = [
+    {
+      name: 'pinnedRowsChange',
+      type: 'AerisTablePinnedRows',
+      defaultValue: '—',
+      description:
+        'Emits when the component model is changed programmatically. Bind [(pinnedRows)] for controlled pin state; normal view reordering never mutates it.',
+    },
     {
       name: 'nodeExpanded',
       type: 'AerisTreeTableNodeEvent<TData>',

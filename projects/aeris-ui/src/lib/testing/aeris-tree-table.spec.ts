@@ -26,7 +26,7 @@ const COLUMNS: readonly AerisTreeTableColumn[] = [
     header: 'Name',
     sortable: true,
     filterable: true,
-    frozen: true,
+    pinned: 'start',
     width: '12rem',
     editable: false,
   },
@@ -487,6 +487,9 @@ describe('AerisTreeTable', () => {
 
   it('resizes and reorders columns with keyboard controls', () => {
     const fixture = setup();
+    fixture.componentInstance.columns.update((columns) =>
+      columns.map((column) => ({ ...column, pinned: undefined })),
+    );
     fixture.componentInstance.resizable.set(true);
     fixture.componentInstance.reorderable.set(true);
     fixture.detectChanges();
@@ -588,18 +591,23 @@ describe('AerisTreeTable', () => {
     );
   });
 
-  it('exposes responsive and frozen-column structure', () => {
+  it('exposes responsive and pinned-column structure', async () => {
     const fixture = setup();
     fixture.componentInstance.responsiveMode.set('stack');
+    await fixture.whenStable();
     fixture.detectChanges();
     expect(
       fixture.nativeElement.querySelector('.aeris-tree-table')?.getAttribute('data-responsive'),
     ).toBe('stack');
     expect(
-      fixture.nativeElement.querySelector('th[data-field="name"]')?.getAttribute('data-frozen'),
-    ).toBe('true');
+      fixture.nativeElement
+        .querySelector('th[data-field="name"]')
+        ?.getAttribute('data-pinned-column'),
+    ).toBe('start');
     expect(
-      (fixture.nativeElement.querySelector('td[data-frozen="true"]') as HTMLElement).style.left,
+      (
+        fixture.nativeElement.querySelector('td[data-pinned-column="start"]') as HTMLElement
+      ).style.getPropertyValue('--aeris-table-pin-start'),
     ).toBe('0px');
   });
 });

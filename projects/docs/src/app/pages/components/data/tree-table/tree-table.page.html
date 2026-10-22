@@ -698,6 +698,161 @@
             </app-form-demo>
 
             <app-form-demo
+              id="tree-table-sticky-headers"
+              title="Sticky headers"
+              description="Headers and filters stay aligned at measured offsets. Toggle stickyHeader to let both scroll normally."
+            >
+              <div preview class="custom-editor-demo">
+                <button
+                  aerisButton
+                  variant="outline"
+                  [attr.aria-pressed]="pinHeaders()"
+                  (click)="pinHeaders.set(!pinHeaders())"
+                >
+                  Sticky headers: {{ pinHeaders() ? 'on' : 'off' }}
+                </button>
+                <aeris-tree-table
+                  ariaLabel="Sticky headers and filters"
+                  [value]="pinningNodes()"
+                  [columns]="pinningPlainColumns"
+                  scrollable
+                  scrollHeight="22rem"
+                  columnFilter
+                  [stickyHeader]="pinHeaders()"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="pinHeaders()"
+    (click)="pinHeaders.set(!pinHeaders())"
+  &gt;
+    Sticky headers: &#123;&#123; pinHeaders() ? 'on' : 'off' &#125;&#125;
+  &lt;/button&gt;
+  &lt;aeris-tree-table
+    ariaLabel="Sticky headers and filters"
+    [value]="pinningNodes()"
+    [columns]="pinningPlainColumns"
+    scrollable
+    scrollHeight="22rem"
+    columnFilter
+    [stickyHeader]="pinHeaders()"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="tree-table-pinned-columns"
+              title="Pinned columns"
+              description="Name stays at the logical start and Status at the end. Both sides follow RTL automatically. Scroll horizontally; if pinned columns leave less than 44px for normal content, they scroll normally instead."
+            >
+              <div preview class="custom-editor-demo">
+                <aeris-tree-table
+                  ariaLabel="Start and end columns"
+                  [value]="pinningNodes()"
+                  [columns]="pinnedColumns()"
+                  scrollable
+                  scrollHeight="22rem"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;aeris-tree-table
+    ariaLabel="Start and end columns"
+    [value]="pinningNodes()"
+    [columns]="pinnedColumns()"
+    scrollable
+    scrollHeight="22rem"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="tree-table-pinned-rows"
+              title="Pinned rows"
+              description="Root Record 3 and its expanded descendants stay together at the top; Record 18 stays at the bottom. Only root keys can be pinned. Expand or collapse the pinned branch; if pinned rows become too tall, they scroll normally instead."
+            >
+              <div preview class="custom-editor-demo">
+                <button
+                  aerisButton
+                  variant="outline"
+                  [attr.aria-pressed]="pinRows().top.length > 0"
+                  (click)="
+                    pinRows.set(pinRows().top.length ? { top: [], bottom: [] } : defaultPinRows)
+                  "
+                >
+                  {{ pinRows().top.length ? 'Unpin rows' : 'Pin rows' }}
+                </button>
+                <aeris-tree-table
+                  ariaLabel="Top and bottom rows"
+                  [value]="pinningNodes()"
+                  [columns]="pinningPlainColumns"
+                  scrollable
+                  scrollHeight="26rem"
+                  [(pinnedRows)]="pinRows"
+                  [(expandedKeys)]="pinningExpanded"
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;button
+    aerisButton
+    variant="outline"
+    [attr.aria-pressed]="pinRows().top.length &gt; 0"
+    (click)="
+      pinRows.set(pinRows().top.length ? &#123; top: [], bottom: [] &#125; : defaultPinRows)
+    "
+  &gt;
+    &#123;&#123; pinRows().top.length ? 'Unpin rows' : 'Pin rows' &#125;&#125;
+  &lt;/button&gt;
+  &lt;aeris-tree-table
+    ariaLabel="Top and bottom rows"
+    [value]="pinningNodes()"
+    [columns]="pinningPlainColumns"
+    scrollable
+    scrollHeight="26rem"
+    [(pinnedRows)]="pinRows"
+    [(expandedKeys)]="pinningExpanded"
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+            <app-form-demo
+              id="tree-table-combined-pinning"
+              title="Combined pinning"
+              description="Pinned branches and columns meet without content showing through. Try sorting, filtering, resizing or editing a cell. Columns reorder within their pin group. Root pagination and lazy data remain authoritative."
+            >
+              <div preview class="custom-editor-demo">
+                <aeris-tree-table
+                  ariaLabel="Combined pinning"
+                  striped
+                  [(value)]="pinningNodes"
+                  [(columns)]="pinnedColumns"
+                  [pinnedRows]="defaultPinRows"
+                  [(expandedKeys)]="pinningExpanded"
+                  scrollable
+                  scrollHeight="26rem"
+                  columnFilter
+                  resizableColumns
+                  reorderableColumns
+                  editable
+                />
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="custom-editor-demo"&gt;
+  &lt;aeris-tree-table
+    ariaLabel="Combined pinning"
+    striped
+    [(value)]="pinningNodes"
+    [(columns)]="pinnedColumns"
+    [pinnedRows]="defaultPinRows"
+    [(expandedKeys)]="pinningExpanded"
+    scrollable
+    scrollHeight="26rem"
+    columnFilter
+    resizableColumns
+    reorderableColumns
+    editable
+  /&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
               id="tree-table-scrolling"
               title="Scrolling, frozen columns, and responsive stacking"
               description="Frozen columns remain visible during horizontal scrolling. Stack mode replaces overflow with labeled cell rows on narrow screens."
@@ -1072,6 +1227,32 @@
             >
           </div>
         </div>
+        <h3>Pinning</h3>
+        <p>
+          Both tables use stickyHeader, column pinned and the pinnedRows model. Column pinned
+          accepts <code>'start'</code> or <code>'end'</code>; omit it for normal scrolling. Columns
+          are displayed in start, normal and end groups without changing your configuration.
+          Reordering stays within a pin group. Only loaded root keys are eligible for row pinning;
+          child keys are ignored and expanded descendants stay with their root. Top wins duplicate
+          keys. Normal filtering and root pagination apply first; within each pin group, current
+          sorted order is preserved. Pinning never fetches unloaded nodes, duplicates ancestors or
+          mutates source order. Persist pin state through your model. Oversized pinned regions
+          revert to normal scrolling to leave at least 44px for normal content. Responsive stack
+          mode disables sticking.
+        </p>
+        <div class="api-table compact" role="table" aria-label="Column pinning option" tabindex="0">
+          <div class="api-head" role="row">
+            <b role="columnheader">Property</b><b role="columnheader">Type</b
+            ><b role="columnheader">Default</b><b role="columnheader">Description</b>
+          </div>
+          <div role="row">
+            <code role="cell">AerisTreeTableColumn.pinned</code
+            ><code role="cell">'start' | 'end' | undefined</code><code role="cell">undefined</code
+            ><span role="cell"
+              >Pins the column to a logical edge, including its header and filter cell.</span
+            >
+          </div>
+        </div>
       </section></aeris-tab-panel
     >
 
@@ -1118,11 +1299,6 @@
           <div role="row">
             <code role="cell">--aeris-tree-table-scroll-height</code
             ><span role="cell">Maximum scroll viewport height.</span><code role="cell">24rem</code>
-          </div>
-          <div role="row">
-            <code role="cell">--aeris-tree-table-header-height</code
-            ><span role="cell">Sticky header offset used by column filters.</span
-            ><code role="cell">2.8rem</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-tree-table-indent</code

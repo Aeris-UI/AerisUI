@@ -1,4 +1,5 @@
 @use '../src/styles/icon-artwork' as artwork;
+@use '../src/styles/table-pinning' as pinning;
 @use '../src/styles/icon-template' as aeris-icons;
 @use '../src/styles/mobile' as aeris-mobile;
 @use '../src/styles/fallback-colors' as aeris-fallbacks;
@@ -767,3 +768,5 @@ tr[data-expanded] .aeris-table__icon-button [data-aeris-custom-icon] {
     transition: none;
   }
 }
+
+@include pinning.styles('.aeris-table');
