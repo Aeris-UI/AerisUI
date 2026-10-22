@@ -860,6 +860,8 @@ export class SignalProfileForm {
         title: 'Check the component contract',
         paragraphs: [
           'Every form component page documents its value type, Angular Forms behavior, invalid input, naming inputs, and touched or blur events. Some controls use a native input while composite controls expose camel-cased ARIA inputs such as ariaDescribedBy; copy the spelling shown on that component page.',
+          'Choose Select for choosing a value from options, AutoComplete for text entry with suggestions, and Menu for actions or navigation rather than form values. Listbox keeps choices visible; ButtonGroup supports single or multiple selection with its selection directives. Their value types and keyboard contracts are not interchangeable.',
+          'Use a native form for submission and fieldset with legend to name a related set of controls. FormField connects a control with its label, help text, and error message; it does not replace form or fieldset semantics.',
         ],
         links: [
           { label: 'InputText forms examples', href: '/components/input-text' },
