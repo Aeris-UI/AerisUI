@@ -70,7 +70,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class AutoFocusBasicBasicDemo {
+export class AutoFocusBasicDemo {
 }
 ```
 
@@ -93,7 +93,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   templateUrl: './auto-focus-conditional.demo.html',
   styleUrl: './auto-focus-conditional.demo.scss'
 })
-export class AutoFocusConditionalConditionalContentDemo {
+export class AutoFocusConditionalDemo {
   protected readonly formVisible = signal(false);
 
   protected toggleForm(): void {
@@ -118,20 +118,19 @@ export class AutoFocusConditionalConditionalContentDemo {
     </button>
     @if (formVisible()) {
       <form class="conditional-form" (submit)="$event.preventDefault()">
-        <label for="auto-focus-email"
-          >Email address<input
+        <label for="auto-focus-email">
+          Email address
+          <input
             id="auto-focus-email"
             aerisInputText
             aerisAutoFocus
             type="email"
             autocomplete="email"
-        /></label>
-        <label for="auto-focus-note"
-          >Account note<textarea
-            id="auto-focus-note"
-            aerisTextarea
-            rows="3"
-          ></textarea>
+          />
+        </label>
+        <label for="auto-focus-note">
+          Account note
+          <textarea id="auto-focus-note" aerisTextarea rows="3"></textarea>
         </label>
         <button aerisButton type="submit">Continue</button>
       </form>
@@ -143,9 +142,11 @@ export class AutoFocusConditionalConditionalContentDemo {
 #### CSS
 
 ```css
-.conditional-demo {
+.conditional-demo,
+.controlled-demo,
+.method-demo {
   display: grid;
-  gap: 1rem;
+  gap: 0.875rem;
 }
 
 .conditional-form {
@@ -182,7 +183,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './auto-focus-controlled.demo.html',
   styleUrl: './auto-focus-controlled.demo.scss'
 })
-export class AutoFocusControlledControlledDemo {
+export class AutoFocusControlledDemo {
   protected readonly controlledFocus = signal(false);
   protected readonly controlledStatus = signal('Automatic focus is disabled.');
 
@@ -220,13 +221,15 @@ export class AutoFocusControlledControlledDemo {
         Disable automatic focus
       </button>
     </div>
-    <label class="auto-focus-field" for="controlled-search"
-      >Search documentation<input
+    <label class="auto-focus-field" for="controlled-search">
+      Search documentation
+      <input
         id="controlled-search"
         aerisInputText
         [aerisAutoFocus]="controlledFocus()"
         (focus)="recordControlledFocus()"
-    /></label>
+      />
+    </label>
     <p class="auto-focus-status" aria-live="polite">{{ controlledStatus() }}</p>
   </div>
 </div>
@@ -235,6 +238,13 @@ export class AutoFocusControlledControlledDemo {
 #### CSS
 
 ```css
+.conditional-demo,
+.controlled-demo,
+.method-demo {
+  display: grid;
+  gap: 0.875rem;
+}
+
 .auto-focus-field {
   width: min(100%, 24rem);
   display: grid;
@@ -244,11 +254,6 @@ export class AutoFocusControlledControlledDemo {
 .auto-focus-status {
   margin: 0;
   color: var(--aeris-text-2);
-}
-
-.controlled-demo {
-  display: grid;
-  gap: 0.875rem;
 }
 
 .auto-focus-actions {
@@ -276,7 +281,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   templateUrl: './auto-focus-method.demo.html',
   styleUrl: './auto-focus-method.demo.scss'
 })
-export class AutoFocusMethodFocusMethodDemo {
+export class AutoFocusMethodDemo {
 }
 ```
 
@@ -303,9 +308,14 @@ export class AutoFocusMethodFocusMethodDemo {
 #### CSS
 
 ```css
+.conditional-demo,
+.controlled-demo,
 .method-demo {
   display: grid;
   gap: 0.875rem;
+}
+
+.method-demo {
   justify-items: start;
 }
 

@@ -172,7 +172,7 @@ import { LucideArchive, LucideCopy, LucideDynamicIcon, LucideExternalLink, Lucid
   templateUrl: './tiered-menu-basic.demo.html',
   styleUrl: './tiered-menu-basic.demo.scss'
 })
-export class TieredMenuBasicBasicDemo {
+export class TieredMenuBasicDemo {
   protected readonly menuIcons: Readonly<Record<string, LucideIconInput>> = {
     Archive: LucideArchive,
     Copy: LucideCopy,
@@ -251,6 +251,56 @@ export class TieredMenuBasicBasicDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
+.tiered-menu-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.tiered-menu-item svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tiered-menu-item__label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tiered-menu-item__badge {
+  max-inline-size: min(7rem, 36vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tiered-menu-status {
+  color: var(--aeris-text-2);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.tiered-menu-chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
 .tiered-menu-template-preview,
 .tiered-menu-basic-preview {
   min-block-size: 10rem;
@@ -286,13 +336,6 @@ export class TieredMenuBasicBasicDemo {
   white-space: nowrap;
 }
 
-.tiered-menu-status {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
-}
-
 .tiered-menu-chevron {
   fill: none;
   stroke: currentColor;
@@ -320,7 +363,7 @@ import { LucideArchive, LucideCopy, LucideDynamicIcon, LucideExternalLink, Lucid
   templateUrl: './tiered-menu-popup.demo.html',
   styleUrl: './tiered-menu-popup.demo.scss'
 })
-export class TieredMenuPopupPopupDemo {
+export class TieredMenuPopupDemo {
   protected readonly popupMenu = viewChild<AerisTieredMenu>('popupMenu');
 
 
@@ -386,11 +429,11 @@ export class TieredMenuPopupPopupDemo {
 #### CSS
 
 ```css
-.tiered-menu-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  align-items: center;
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 .tiered-menu-item {
@@ -422,10 +465,46 @@ export class TieredMenuPopupPopupDemo {
 }
 
 .tiered-menu-status {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font: inherit;
   font-size: 0.75rem;
   font-weight: 750;
+}
+
+.tiered-menu-chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.tiered-menu-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.tiered-menu-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.tiered-menu-item svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tiered-menu-item__label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tiered-menu-chevron {
@@ -455,7 +534,7 @@ import { LucideArchive, LucideCopy, LucideDynamicIcon, LucideExternalLink, Lucid
   templateUrl: './tiered-menu-template.demo.html',
   styleUrl: './tiered-menu-template.demo.scss'
 })
-export class TieredMenuTemplateTemplateDemo {
+export class TieredMenuTemplateDemo {
   protected readonly menuIcons: Readonly<Record<string, LucideIconInput>> = {
     Archive: LucideArchive,
     Copy: LucideCopy,
@@ -501,12 +580,7 @@ export class TieredMenuTemplateTemplateDemo {
 ```html
 <div class="tiered-menu-template-preview">
   <aeris-tiered-menu [model]="templateItems" ariaLabel="Template tiered menu">
-    <ng-template
-      aerisTieredMenuItem
-      let-item
-      let-hasSubmenu="hasSubmenu"
-      let-open="open"
-    >
+    <ng-template aerisTieredMenuItem let-item let-hasSubmenu="hasSubmenu" let-open="open">
       <span class="tiered-menu-item" [attr.data-open]="open || null">
         @if (item.icon) {
           <svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"></svg>
@@ -534,6 +608,56 @@ export class TieredMenuTemplateTemplateDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
+.tiered-menu-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.tiered-menu-item svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tiered-menu-item__label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tiered-menu-item__badge {
+  max-inline-size: min(7rem, 36vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tiered-menu-status {
+  color: var(--aeris-text-2);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.tiered-menu-chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
 .tiered-menu-template-preview,
 .tiered-menu-basic-preview {
   min-block-size: 10rem;
@@ -569,13 +693,6 @@ export class TieredMenuTemplateTemplateDemo {
   white-space: nowrap;
 }
 
-.tiered-menu-status {
-  color: var(--text-2);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 750;
-}
-
 .tiered-menu-chevron {
   fill: none;
   stroke: currentColor;
@@ -602,7 +719,7 @@ import { LucideArchive, LucideCopy, LucideDynamicIcon, LucideExternalLink, Lucid
   templateUrl: './tiered-menu-command.demo.html',
   styleUrl: './tiered-menu-command.demo.scss'
 })
-export class TieredMenuCommandCommandDemo {
+export class TieredMenuCommandDemo {
   protected readonly menuIcons: Readonly<Record<string, LucideIconInput>> = {
     Archive: LucideArchive,
     Copy: LucideCopy,
@@ -672,6 +789,13 @@ export class TieredMenuCommandCommandDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .tiered-menu-item {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto auto;
@@ -701,10 +825,51 @@ export class TieredMenuCommandCommandDemo {
 }
 
 .tiered-menu-status {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font: inherit;
   font-size: 0.75rem;
   font-weight: 750;
+}
+
+.tiered-menu-chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.tiered-menu-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.tiered-menu-item svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tiered-menu-item__label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tiered-menu-status {
+  color: var(--aeris-text-2);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.tiered-menu-status {
+  display: block;
+  margin-top: 0.75rem;
 }
 
 .tiered-menu-chevron {
@@ -733,7 +898,7 @@ import { LucideArchive, LucideCopy, LucideDynamicIcon, LucideExternalLink, Lucid
   templateUrl: './tiered-menu-router.demo.html',
   styleUrl: './tiered-menu-router.demo.scss'
 })
-export class TieredMenuRouterRouterAndURLDemo {
+export class TieredMenuRouterDemo {
   protected readonly menuIcons: Readonly<Record<string, LucideIconInput>> = {
     Archive: LucideArchive,
     Copy: LucideCopy,
@@ -797,15 +962,20 @@ export class TieredMenuRouterRouterAndURLDemo {
       </span>
     </ng-template>
   </aeris-tiered-menu>
-  <small class="tiered-menu-status" aria-live="polite">{{
-    navigationMessage()
-  }}</small>
+  <small class="tiered-menu-status" aria-live="polite">{{ navigationMessage() }}</small>
 </div>
 ```
 
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .tiered-menu-item {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto auto;
@@ -835,10 +1005,51 @@ export class TieredMenuRouterRouterAndURLDemo {
 }
 
 .tiered-menu-status {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font: inherit;
   font-size: 0.75rem;
   font-weight: 750;
+}
+
+.tiered-menu-chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.tiered-menu-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.tiered-menu-item svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.tiered-menu-item__label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tiered-menu-status {
+  color: var(--aeris-text-2);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.tiered-menu-status {
+  display: block;
+  margin-top: 0.75rem;
 }
 
 .tiered-menu-chevron {

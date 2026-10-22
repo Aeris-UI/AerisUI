@@ -4,6 +4,13 @@
   padding: 2.75rem 3rem 7rem;
 }
 
+:where([preview]) svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .import-section {
   min-width: 0;
   display: grid;

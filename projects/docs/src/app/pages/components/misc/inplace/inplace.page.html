@@ -112,9 +112,7 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="inplace-controlled"&gt;
     &lt;div class="inplace-actions"&gt;
-      &lt;button aerisButton type="button" (click)="activateControlled()"&gt;
-        Activate
-      &lt;/button&gt;
+      &lt;button aerisButton type="button" (click)="activateControlled()"&gt;Activate&lt;/button&gt;
       &lt;button
         aerisButton
         variant="solid"
@@ -124,19 +122,13 @@
       &gt;
         Deactivate
       &lt;/button&gt;
-      &lt;button
-        aerisButton
-        variant="outline"
-        type="button"
-        (click)="toggleControlled()"
-      &gt;
+      &lt;button aerisButton variant="outline" type="button" (click)="toggleControlled()"&gt;
         Toggle
       &lt;/button&gt;
     &lt;/div&gt;
     &lt;aeris-inplace label="Show release notes" [(active)]="controlledActive"&gt;
       &lt;p class="inplace-note"&gt;
-        Version 1.0 adds accessible components, responsive layouts, and theme
-        controls.
+        Version 1.0 adds accessible components, responsive layouts, and theme controls.
       &lt;/p&gt;
     &lt;/aeris-inplace&gt;
     &lt;p class="inplace-note" aria-live="polite"&gt;
@@ -189,8 +181,10 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;aeris-inplace ariaLabel="Edit profile name"&gt;
     &lt;ng-template aerisInplaceDisplay&gt;
-      &lt;span
-        &gt;Name: &lt;strong&gt;&#123;&#123; savedName() &#125;&#125;&lt;/strong&gt;&lt;/span&gt;
+      &lt;span&gt;
+        Name:
+        &lt;strong&gt;&#123;&#123; savedName() &#125;&#125;&lt;/strong&gt;
+      &lt;/span&gt;
     &lt;/ng-template&gt;
     &lt;ng-template aerisInplaceContent let-close="close"&gt;
       &lt;div class="inplace-editor"&gt;
@@ -310,11 +304,7 @@
                 </aeris-inplace>
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
-  &lt;aeris-inplace
-    label="View recent activity"
-    closable
-    (activated)="loadActivity($event)"
-  &gt;
+  &lt;aeris-inplace label="View recent activity" closable (activated)="loadActivity($event)"&gt;
     &lt;ng-template aerisInplaceContent&gt;
       &lt;div class="inplace-activity"&gt;
         &#64;if (lazyLoaded()) &#123;

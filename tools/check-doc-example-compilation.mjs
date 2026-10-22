@@ -65,7 +65,7 @@ try {
       const classCode = resolveBoundString(demo, '[tsCode]', pageValues, diagnostics, htmlPath);
       const cssCode = resolveBoundString(demo, '[cssCode]', pageValues, diagnostics, htmlPath);
       const template = htmlCode ?? normalizeCode(textContent(codeElement));
-      const combinedCss = [generatedStyles[anchor], cssCode].filter(Boolean).join('\n\n');
+      const combinedCss = generatedStyles[anchor] ?? cssCode;
       const sources = buildAngularDemoSources({
         anchor,
         title,

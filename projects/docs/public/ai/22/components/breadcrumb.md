@@ -161,7 +161,7 @@ import { AerisBreadcrumbModule, type AerisBreadcrumbItem } from '@aeris-ui/core/
     </div>
   `
 })
-export class BreadcrumbBasicBasicDemo {
+export class BreadcrumbBasicDemo {
   protected readonly productTrail: readonly AerisBreadcrumbItem[] = [
     { label: 'Products' },
     { label: 'Electronics' },
@@ -188,7 +188,7 @@ import { LucideDynamicIcon, LucideEllipsis, LucideHome, LucideZap, type LucideIc
   templateUrl: './breadcrumb-home.demo.html',
   styleUrl: './breadcrumb-home.demo.scss'
 })
-export class BreadcrumbHomeIconsDemo {
+export class BreadcrumbHomeDemo {
   protected readonly breadcrumbIcons: Readonly<Record<string, LucideIconInput>> = {
     Ellipsis: LucideEllipsis,
     Home: LucideHome,
@@ -233,6 +233,13 @@ export class BreadcrumbHomeIconsDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .breadcrumb-icon-item {
   display: inline-flex;
   align-items: center;
@@ -265,20 +272,18 @@ import { AerisBreadcrumbModule, type AerisBreadcrumbItem, type AerisBreadcrumbIt
         ariaLabel="Admin path"
         (itemSelected)="recordSelection($event)"
       />
-      <p class="breadcrumb-status" aria-live="polite">
-        Last selected: {{ lastSelection }}
-      </p>
+      <p class="breadcrumb-status" aria-live="polite">Last selected: {{ lastSelection }}</p>
     </div>
   `,
   styles: `
     .breadcrumb-status {
       margin: 0.75rem 0 0;
-      color: var(--text-2);
+      color: var(--aeris-text-2);
       font-size: 0.8125rem;
     }
   `
 })
-export class BreadcrumbActionsLinksAndActionsDemo {
+export class BreadcrumbActionsDemo {
   protected readonly adminTrail: readonly AerisBreadcrumbItem[] = [
     { label: 'Admin' },
     { label: 'Users', disabled: true },
@@ -316,7 +321,7 @@ import { AerisBreadcrumbModule, type AerisBreadcrumbItem } from '@aeris-ui/core/
     </div>
   `
 })
-export class BreadcrumbSeparatorSeparatorDemo {
+export class BreadcrumbSeparatorDemo {
   protected readonly productTrail: readonly AerisBreadcrumbItem[] = [
     { label: 'Products' },
     { label: 'Electronics' },
@@ -353,12 +358,12 @@ import { AerisBreadcrumbModule, type AerisBreadcrumbEllipsisEvent, type AerisBre
   styles: `
     .breadcrumb-status {
       margin: 0.75rem 0 0;
-      color: var(--text-2);
+      color: var(--aeris-text-2);
       font-size: 0.8125rem;
     }
   `
 })
-export class BreadcrumbEllipsisEllipsisDemo {
+export class BreadcrumbEllipsisDemo {
   protected readonly longTrail: readonly AerisBreadcrumbItem[] = [
     { label: 'Workspace' },
     { label: 'Projects' },
@@ -424,7 +429,7 @@ import { AerisBreadcrumbModule, type AerisBreadcrumbItem } from '@aeris-ui/core/
     }
   `
 })
-export class BreadcrumbTemplateItemTemplateDemo {
+export class BreadcrumbTemplateDemo {
   protected readonly customTrail: readonly AerisBreadcrumbItem[] = [
     { label: 'Catalog' },
     { label: 'Laptops', data: { count: 42 } },
@@ -454,7 +459,7 @@ import { AerisBreadcrumbModule, type AerisBreadcrumbItem } from '@aeris-ui/core/
   templateUrl: './breadcrumb-variants.demo.html',
   styleUrl: './breadcrumb-variants.demo.scss'
 })
-export class BreadcrumbVariantsVariantsAndSizesDemo {
+export class BreadcrumbVariantsDemo {
   protected readonly productTrail: readonly AerisBreadcrumbItem[] = [
     { label: 'Products' },
     { label: 'Electronics' },

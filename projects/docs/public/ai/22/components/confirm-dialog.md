@@ -314,12 +314,25 @@ import { AerisConfirmDialogService } from '@aeris-ui/core/confirm-dialog';
 
     .demo-status {
       margin: 0.875rem 0 0;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
+      font-size: 0.8125rem;
+    }
+
+    .demo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .demo-status {
+      width: 100%;
+      margin: 0.875rem 0 0;
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class ConfirmDialogBasicBasicDemo {
+export class ConfirmDialogBasicDemo {
   private readonly confirmations = inject(AerisConfirmDialogService);
   protected readonly lastResult = signal('No confirmation has completed.');
 
@@ -358,7 +371,7 @@ import { AerisConfirmDialogService, type AerisConfirmDialogSeverity } from '@aer
   templateUrl: './confirm-dialog-severity.demo.html',
   styleUrl: './confirm-dialog-severity.demo.scss'
 })
-export class ConfirmDialogSeveritySeverityDemo {
+export class ConfirmDialogSeverityDemo {
   private readonly confirmations = inject(AerisConfirmDialogService);
   protected readonly lastResult = signal('No confirmation has completed.');
 
@@ -381,12 +394,7 @@ export class ConfirmDialogSeveritySeverityDemo {
 ```html
 <div>
   <div class="demo-actions">
-    <button
-      aerisButton
-      severity="info"
-      type="button"
-      (click)="confirmSeverity('info')"
-    >
+    <button aerisButton severity="info" type="button" (click)="confirmSeverity('info')">
       Info
     </button>
     <button
@@ -436,7 +444,20 @@ export class ConfirmDialogSeveritySeverityDemo {
 
 .demo-status {
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
+  font-size: 0.8125rem;
+}
+
+.demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.demo-status {
+  width: 100%;
+  margin: 0.875rem 0 0;
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
 }
 ```
@@ -458,7 +479,7 @@ import { AerisConfirmDialogService } from '@aeris-ui/core/confirm-dialog';
   templateUrl: './confirm-dialog-positions.demo.html',
   styleUrl: './confirm-dialog-positions.demo.scss'
 })
-export class ConfirmDialogPositionsPositionsDemo {
+export class ConfirmDialogPositionsDemo {
   private readonly confirmations = inject(AerisConfirmDialogService);
 
   protected confirmAt(
@@ -488,13 +509,9 @@ export class ConfirmDialogPositionsPositionsDemo {
 ```html
 <div>
   <div class="position-grid">
-    <button aerisButton type="button" (click)="confirmAt('top-left')">
-      Top left
-    </button>
+    <button aerisButton type="button" (click)="confirmAt('top-left')">Top left</button>
     <button aerisButton type="button" (click)="confirmAt('top')">Top</button>
-    <button aerisButton type="button" (click)="confirmAt('top-right')">
-      Top right
-    </button>
+    <button aerisButton type="button" (click)="confirmAt('top-right')">Top right</button>
     <button aerisButton type="button" (click)="confirmAt('left')">Left</button>
     <button aerisButton type="button" (click)="confirmAt('center')">Center</button>
     <button aerisButton type="button" (click)="confirmAt('right')">Right</button>
@@ -527,8 +544,15 @@ export class ConfirmDialogPositionsPositionsDemo {
 
 .demo-status {
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.position-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  max-width: 28rem;
 }
 ```
 
@@ -549,7 +573,7 @@ import { AerisConfirmDialogModule, type AerisConfirmDialogCloseEvent } from '@ae
   templateUrl: './confirm-dialog-controlled.demo.html',
   styleUrl: './confirm-dialog-controlled.demo.scss'
 })
-export class ConfirmDialogControlledControlledDemo {
+export class ConfirmDialogControlledDemo {
   protected readonly controlledOpen = signal(false);
   protected readonly controlledResult = signal('Controlled confirmation is closed.');
 
@@ -598,7 +622,14 @@ export class ConfirmDialogControlledControlledDemo {
 
 .demo-status {
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
+  font-size: 0.8125rem;
+}
+
+.demo-status {
+  width: 100%;
+  margin: 0.875rem 0 0;
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
 }
 ```
@@ -620,7 +651,7 @@ import { AerisConfirmDialogModule, AerisConfirmDialogService } from '@aeris-ui/c
   templateUrl: './confirm-dialog-templates.demo.html',
   styleUrl: './confirm-dialog-templates.demo.scss'
 })
-export class ConfirmDialogTemplatesTemplatesDemo {
+export class ConfirmDialogTemplatesDemo {
   private readonly confirmations = inject(AerisConfirmDialogService);
   protected readonly releaseName = 'Aeris UI 1.0';
 
@@ -650,9 +681,10 @@ export class ConfirmDialogTemplatesTemplatesDemo {
     <ng-template aerisConfirmDialogMessage let-data="data">
       <span class="confirm-message">
         <strong>{{ data }}</strong>
-        <span
-          >Confirm that release notes, accessibility checks, and package metadata are
-          ready.</span>
+        <span>
+          Confirm that release notes, accessibility checks, and package metadata are
+          ready.
+        </span>
       </span>
     </ng-template>
     <ng-template aerisConfirmDialogFooter let-accept="accept" let-reject="reject">
@@ -684,7 +716,7 @@ export class ConfirmDialogTemplatesTemplatesDemo {
 }
 
 .confirm-message strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .custom-confirm-icon {
@@ -694,8 +726,8 @@ export class ConfirmDialogTemplatesTemplatesDemo {
   display: inline-grid;
   place-items: center;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--warning) 18%, transparent);
-  color: var(--warning-text);
+  background: color-mix(in srgb, var(--aeris-warning) 18%, transparent);
+  color: var(--aeris-warning-text);
   font-weight: 900;
 }
 
@@ -705,7 +737,7 @@ export class ConfirmDialogTemplatesTemplatesDemo {
   border: solid currentColor;
   border-width: 0 0 2px 2px;
   transform: rotate(-45deg) translate(0.08rem, -0.08rem);
-  content: '';
+  content: "";
 }
 
 .confirm-footer {
@@ -758,12 +790,18 @@ import { AerisConfirmDialogService } from '@aeris-ui/core/confirm-dialog';
 
     .demo-status {
       margin: 0.875rem 0 0;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
+    }
+
+    .demo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
   `
 })
-export class ConfirmDialogOptionsOptionsDemo {
+export class ConfirmDialogOptionsDemo {
   private readonly confirmations = inject(AerisConfirmDialogService);
 
   protected confirmWithoutBackdrop(): void {

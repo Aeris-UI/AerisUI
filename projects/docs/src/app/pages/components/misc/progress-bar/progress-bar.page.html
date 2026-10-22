@@ -80,9 +80,7 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="progress-stack" [attr.aria-busy]="processedFiles() &lt; 8"&gt;
     &lt;strong id="processing-title"&gt;Prepare and process files&lt;/strong&gt;
-    &lt;p id="processing-help"&gt;
-      Keep this page open until all eight files are processed.
-    &lt;/p&gt;
+    &lt;p id="processing-help"&gt;Keep this page open until all eight files are processed.&lt;/p&gt;
     &lt;aeris-progress-bar
       [mode]="processingStarted() ? 'determinate' : 'indeterminate'"
       [value]="processedFiles()"
@@ -178,28 +176,12 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="progress-stack"&gt;
-    &lt;aeris-progress-bar
-      [value]="25"
-      severity="primary"
-      ariaLabel="Primary progress"
-    /&gt;
+    &lt;aeris-progress-bar [value]="25" severity="primary" ariaLabel="Primary progress" /&gt;
     &lt;aeris-progress-bar [value]="35" severity="info" ariaLabel="Info progress" /&gt;
-    &lt;aeris-progress-bar
-      [value]="50"
-      severity="success"
-      ariaLabel="Success progress"
-    /&gt;
-    &lt;aeris-progress-bar
-      [value]="65"
-      severity="warning"
-      ariaLabel="Warning progress"
-    /&gt;
+    &lt;aeris-progress-bar [value]="50" severity="success" ariaLabel="Success progress" /&gt;
+    &lt;aeris-progress-bar [value]="65" severity="warning" ariaLabel="Warning progress" /&gt;
     &lt;aeris-progress-bar [value]="80" severity="danger" ariaLabel="Danger progress" /&gt;
-    &lt;aeris-progress-bar
-      [value]="95"
-      severity="contrast"
-      ariaLabel="Contrast progress"
-    /&gt;
+    &lt;aeris-progress-bar [value]="95" severity="contrast" ariaLabel="Contrast progress" /&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>

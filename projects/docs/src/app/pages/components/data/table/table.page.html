@@ -317,8 +317,9 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="selection-workflow"&gt;
   &lt;aeris-toolbar variant="plain" role="group" ariaLabel="Member bulk actions"&gt;
-    &lt;span aerisToolbarStart aria-live="polite"
-      &gt;&#123;&#123; workflowSelected().length &#125;&#125; selected across all pages&lt;/span&gt;
+    &lt;span aerisToolbarStart aria-live="polite"&gt;
+      &#123;&#123; workflowSelected().length &#125;&#125; selected across all pages
+    &lt;/span&gt;
     &lt;div aerisToolbarEnd&gt;
       &lt;button
         aerisButton
@@ -594,7 +595,8 @@
     [(expandedKeys)]="expandedMembers"
   &gt;
     &lt;ng-template aerisTableExpansion let-row&gt;
-      &lt;strong&gt;&#123;&#123; row['name'] &#125;&#125;&lt;/strong&gt; - &#123;&#123; row['notes'] &#125;&#125;
+      &lt;strong&gt;&#123;&#123; row['name'] &#125;&#125;&lt;/strong&gt;
+      - &#123;&#123; row['notes'] &#125;&#125;
     &lt;/ng-template&gt;
   &lt;/aeris-table&gt;
 &lt;/div&gt;</code></pre>
@@ -755,8 +757,7 @@
               [ariaLabel]="editor.ariaLabel"
               [value]="typeof draft === 'number' ? draft : null"
               (valueChange)="
-                editor.value.set($event);
-                editor.valid.set($event !== null &amp;&amp; $event &gt;= 0)
+                editor.value.set($event); editor.valid.set($event !== null &amp;&amp; $event &gt;= 0)
               "
               [invalid]="typeof draft !== 'number' || draft &lt; 0"
               fluid
@@ -900,9 +901,7 @@
     aerisButton
     variant="outline"
     [attr.aria-pressed]="pinRows().top.length &gt; 0"
-    (click)="
-      pinRows.set(pinRows().top.length ? &#123; top: [], bottom: [] &#125; : defaultPinRows)
-    "
+    (click)="pinRows.set(pinRows().top.length ? &#123; top: [], bottom: [] &#125; : defaultPinRows)"
   &gt;
     &#123;&#123; pinRows().top.length ? 'Unpin rows' : 'Pin rows' &#125;&#125;
   &lt;/button&gt;

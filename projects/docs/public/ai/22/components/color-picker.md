@@ -199,9 +199,30 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 28rem);
+    }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
   `
 })
-export class ColorPickerBasicBasicDemo {
+export class ColorPickerBasicDemo {
 }
 ```
 
@@ -251,9 +272,30 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 28rem);
+    }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
   `
 })
-export class ColorPickerSignalSignalValueDemo {
+export class ColorPickerSignalDemo {
   protected readonly brandColor = signal('#2c694b');
 }
 ```
@@ -310,9 +352,30 @@ import { AerisColorPicker, type AerisColorFormat } from '@aeris-ui/core/color-pi
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 28rem);
+    }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
   `
 })
-export class ColorPickerFormatsSelectableFormatsDemo {
+export class ColorPickerFormatsDemo {
   protected readonly formatColor = signal('#2c694b');
   protected readonly selectedFormat = signal<AerisColorFormat>('hex');
 }
@@ -370,9 +433,30 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 28rem);
+    }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
   `
 })
-export class ColorPickerOpacityOpacityDemo {
+export class ColorPickerOpacityDemo {
   protected readonly translucentColor = signal('rgba(51, 102, 153, 0.5)');
 }
 ```
@@ -398,9 +482,9 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
         value="#2f6f8f"
         eyeDropperAriaLabel="Sample a color from the screen"
       />
-      <small
-        >Open the picker and use the pipette action when it is available in your
-        browser.</small>
+      <small>
+        Open the picker and use the pipette action when it is available in your browser.
+      </small>
     </div>
   `,
   styles: `
@@ -429,9 +513,30 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 28rem);
+    }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
   `
 })
-export class ColorPickerEyedropperScreenSamplingDemo {
+export class ColorPickerEyedropperDemo {
 }
 ```
 
@@ -484,9 +589,30 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 28rem);
+    }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
   `
 })
-export class ColorPickerPresetsPresetsDemo {
+export class ColorPickerPresetsDemo {
   protected readonly accentColor = signal('#a88245');
 
   protected readonly presets: readonly string[] = [
@@ -550,9 +676,30 @@ import { AerisColorPicker, type AerisColorPickerPreset } from '@aeris-ui/core/co
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 28rem);
+    }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
   `
 })
-export class ColorPickerPaletteInlinePaletteDemo {
+export class ColorPickerPaletteDemo {
   protected readonly paletteColor = signal('#2c694b');
 
   protected readonly namedPresets: readonly AerisColorPickerPreset[] = [
@@ -582,7 +729,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   templateUrl: './color-picker-palette-opacity.demo.html',
   styleUrl: './color-picker-palette-opacity.demo.scss'
 })
-export class ColorPickerPaletteOpacityPaletteOpacityDemo {
+export class ColorPickerPaletteOpacityDemo {
   protected readonly paletteOpacity = signal('rgba(51, 102, 153, 0.5)');
 }
 ```
@@ -638,6 +785,27 @@ export class ColorPickerPaletteOpacityPaletteOpacityDemo {
 .field small.error {
   color: var(--aeris-danger);
 }
+
+.field {
+  width: min(100%, 28rem);
+}
+
+.field,
+.field-grid {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.field label,
+.field-grid label {
+  color: var(--aeris-text);
+  font-weight: 700;
+}
+
+.field small,
+.field-grid small {
+  color: var(--aeris-text-2);
+}
 ```
 
 ### Swatch only
@@ -656,7 +824,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   templateUrl: './color-picker-swatch-only.demo.html',
   styleUrl: './color-picker-swatch-only.demo.scss'
 })
-export class ColorPickerSwatchOnlySwatchOnlyDemo {
+export class ColorPickerSwatchOnlyDemo {
 }
 ```
 
@@ -691,7 +859,7 @@ export class ColorPickerSwatchOnlySwatchOnlyDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -726,6 +894,33 @@ export class ColorPickerSwatchOnlySwatchOnlyDemo {
     grid-template-columns: 1fr;
   }
 }
+
+.field {
+  width: min(100%, 28rem);
+}
+
+.field,
+.field-grid {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.field-grid {
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  align-items: start;
+}
+
+.field label,
+.field-grid label {
+  color: var(--aeris-text);
+  font-weight: 700;
+}
+
+.field small,
+.field-grid small {
+  color: var(--aeris-text-2);
+}
 ```
 
 ### Sizes
@@ -753,7 +948,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
     .field-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
       gap: 1.25rem;
     }
 
@@ -762,9 +957,32 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
         grid-template-columns: 1fr;
       }
     }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field-grid {
+      width: 100%;
+      grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+      align-items: start;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
   `
 })
-export class ColorPickerSizesSizesDemo {
+export class ColorPickerSizesDemo {
 }
 ```
 
@@ -791,7 +1009,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
     .field-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
       gap: 1.25rem;
     }
 
@@ -800,9 +1018,32 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
         grid-template-columns: 1fr;
       }
     }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field-grid {
+      width: 100%;
+      grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+      align-items: start;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
   `
 })
-export class ColorPickerAppearancesAppearancesDemo {
+export class ColorPickerAppearancesDemo {
 }
 ```
 
@@ -851,9 +1092,30 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 28rem);
+    }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
   `
 })
-export class ColorPickerClearClearButtonDemo {
+export class ColorPickerClearDemo {
 }
 ```
 
@@ -880,7 +1142,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
     .field-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
       gap: 1.25rem;
     }
 
@@ -889,9 +1151,32 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
         grid-template-columns: 1fr;
       }
     }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field-grid {
+      width: 100%;
+      grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+      align-items: start;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
   `
 })
-export class ColorPickerStatesDisabledAndReadOnlyDemo {
+export class ColorPickerStatesDemo {
 }
 ```
 
@@ -911,7 +1196,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   templateUrl: './color-picker-validation.demo.html',
   styleUrl: './color-picker-validation.demo.scss'
 })
-export class ColorPickerValidationValidationDemo {
+export class ColorPickerValidationDemo {
   protected readonly invalidColor = signal('');
   protected readonly touched = signal(false);
   protected readonly invalid = computed(
@@ -939,7 +1224,9 @@ export class ColorPickerValidationValidationDemo {
     class="validation-message"
     [class.error]="invalid()"
     aria-live="polite"
-    >{{ invalid() ? 'Select a color.' : 'Required.' }}</small>
+  >
+    {{ invalid() ? 'Select a color.' : 'Required.' }}
+  </small>
 </div>
 ```
 
@@ -972,6 +1259,27 @@ export class ColorPickerValidationValidationDemo {
   color: var(--aeris-danger);
 }
 
+.field {
+  width: min(100%, 28rem);
+}
+
+.field,
+.field-grid {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.field label,
+.field-grid label {
+  color: var(--aeris-text);
+  font-weight: 700;
+}
+
+.field small,
+.field-grid small {
+  color: var(--aeris-text-2);
+}
+
 .validation-message.error {
   color: var(--aeris-danger);
   font-weight: 700;
@@ -995,7 +1303,7 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   templateUrl: './color-picker-forms.demo.html',
   styleUrl: './color-picker-forms.demo.scss'
 })
-export class ColorPickerFormsReactiveAndTemplateDrivenFormsDemo {
+export class ColorPickerFormsDemo {
   protected readonly reactiveColor =
     new FormControl('#52685b');
 
@@ -1030,7 +1338,7 @@ export class ColorPickerFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -1064,6 +1372,33 @@ export class ColorPickerFormsReactiveAndTemplateDrivenFormsDemo {
   .field-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.field {
+  width: min(100%, 28rem);
+}
+
+.field,
+.field-grid {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.field-grid {
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  align-items: start;
+}
+
+.field label,
+.field-grid label {
+  color: var(--aeris-text);
+  font-weight: 700;
+}
+
+.field small,
+.field-grid small {
+  color: var(--aeris-text-2);
 }
 ```
 
@@ -1117,9 +1452,30 @@ import { AerisColorPicker, type AerisColorPickerChangeEvent } from '@aeris-ui/co
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 28rem);
+    }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
   `
 })
-export class ColorPickerEventsEventsDemo {
+export class ColorPickerEventsDemo {
   protected readonly lastChange = signal('No color change yet');
 
   protected recordChange(event: AerisColorPickerChangeEvent): void {

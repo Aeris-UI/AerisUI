@@ -205,7 +205,7 @@ import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideE
   templateUrl: './menubar-basic.demo.html',
   styleUrl: './menubar-basic.demo.scss'
 })
-export class MenubarBasicBasicDemo {
+export class MenubarBasicDemo {
   protected readonly icons: Readonly<Record<string, LucideIconInput>> = {
     Clipboard: LucideClipboard,
     Copy: LucideCopy,
@@ -307,6 +307,13 @@ export class MenubarBasicBasicDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .menubar-doc-item {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto auto;
@@ -342,6 +349,10 @@ export class MenubarBasicBasicDemo {
   stroke-linejoin: round;
   stroke-width: 2;
 }
+
+.menubar-doc-item__chevron[data-root=true][data-open=true] {
+  transform: rotate(180deg);
+}
 ```
 
 ### Appearance and active route
@@ -361,7 +372,7 @@ import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideE
   templateUrl: './menubar-appearance.demo.html',
   styleUrl: './menubar-appearance.demo.scss'
 })
-export class MenubarAppearanceAppearanceAndActiveRouteDemo {
+export class MenubarAppearanceDemo {
   protected readonly icons: Readonly<Record<string, LucideIconInput>> = {
     Clipboard: LucideClipboard,
     Copy: LucideCopy,
@@ -456,6 +467,13 @@ export class MenubarAppearanceAppearanceAndActiveRouteDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .menubar-doc-item {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto auto;
@@ -491,6 +509,39 @@ export class MenubarAppearanceAppearanceAndActiveRouteDemo {
   stroke-linejoin: round;
   stroke-width: 2;
 }
+
+.menubar-doc-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.menubar-doc-item svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.menubar-doc-item__label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menubar-doc-item__chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.menubar-doc-item__chevron[data-root=true][data-open=true] {
+  transform: rotate(180deg);
+}
 ```
 
 ### Submenus
@@ -510,7 +561,7 @@ import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideE
   templateUrl: './menubar-submenus.demo.html',
   styleUrl: './menubar-submenus.demo.scss'
 })
-export class MenubarSubmenusSubmenusDemo {
+export class MenubarSubmenusDemo {
   protected readonly icons: Readonly<Record<string, LucideIconInput>> = {
     Clipboard: LucideClipboard,
     Copy: LucideCopy,
@@ -593,6 +644,13 @@ export class MenubarSubmenusSubmenusDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .menubar-doc-item {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto auto;
@@ -628,6 +686,39 @@ export class MenubarSubmenusSubmenusDemo {
   stroke-linejoin: round;
   stroke-width: 2;
 }
+
+.menubar-doc-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.menubar-doc-item svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.menubar-doc-item__label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menubar-doc-item__chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.menubar-doc-item__chevron[data-root=true][data-open=true] {
+  transform: rotate(180deg);
+}
 ```
 
 ### Controlled and responsive
@@ -648,7 +739,7 @@ import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideE
   templateUrl: './menubar-controlled.demo.html',
   styleUrl: './menubar-controlled.demo.scss'
 })
-export class MenubarControlledControlledAndResponsiveDemo {
+export class MenubarControlledDemo {
   protected readonly icons: Readonly<Record<string, LucideIconInput>> = {
     Clipboard: LucideClipboard,
     Copy: LucideCopy,
@@ -759,17 +850,11 @@ export class MenubarControlledControlledAndResponsiveDemo {
 #### CSS
 
 ```css
-.menubar-actions,
-.menubar-controlled {
-  display: grid;
-  gap: 1rem;
-}
-
-.menubar-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 .menubar-doc-item {
@@ -807,6 +892,52 @@ export class MenubarControlledControlledAndResponsiveDemo {
   stroke-linejoin: round;
   stroke-width: 2;
 }
+
+.menubar-actions,
+.menubar-controlled {
+  display: grid;
+  gap: 1rem;
+}
+
+.menubar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.menubar-doc-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.menubar-doc-item svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.menubar-doc-item__label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menubar-doc-item__chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.menubar-doc-item__chevron[data-root=true][data-open=true] {
+  transform: rotate(180deg);
+}
 ```
 
 ### Command and links
@@ -826,7 +957,7 @@ import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideE
   templateUrl: './menubar-command.demo.html',
   styleUrl: './menubar-command.demo.scss'
 })
-export class MenubarCommandCommandAndLinksDemo {
+export class MenubarCommandDemo {
   protected readonly icons: Readonly<Record<string, LucideIconInput>> = {
     Clipboard: LucideClipboard,
     Copy: LucideCopy,
@@ -920,6 +1051,13 @@ export class MenubarCommandCommandAndLinksDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .menubar-doc-item {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto auto;
@@ -955,6 +1093,39 @@ export class MenubarCommandCommandAndLinksDemo {
   stroke-linejoin: round;
   stroke-width: 2;
 }
+
+.menubar-doc-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.menubar-doc-item svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.menubar-doc-item__label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menubar-doc-item__chevron {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.menubar-doc-item__chevron[data-root=true][data-open=true] {
+  transform: rotate(180deg);
+}
 ```
 
 ### Template
@@ -976,7 +1147,7 @@ import { LucideClipboard, LucideCopy, LucideDownload, LucideDynamicIcon, LucideE
   templateUrl: './menubar-template.demo.html',
   styleUrl: './menubar-template.demo.scss'
 })
-export class MenubarTemplateTemplateDemo {
+export class MenubarTemplateDemo {
   protected readonly icons: Readonly<Record<string, LucideIconInput>> = {
     Clipboard: LucideClipboard,
     Copy: LucideCopy,
@@ -1021,8 +1192,10 @@ export class MenubarTemplateTemplateDemo {
 <div>
   <aeris-menubar [model]="templateItems" ariaLabel="Template menubar">
     <ng-template aerisMenubarStart>
-      <span class="menubar-brand"
-        ><svg [lucideIcon]="icons['Package']" aria-hidden="true"></svg>Aeris</span>
+      <span class="menubar-brand">
+        <svg [lucideIcon]="icons['Package']" aria-hidden="true"></svg>
+        Aeris
+      </span>
     </ng-template>
     <ng-template
       aerisMenubarItem
@@ -1061,8 +1234,10 @@ export class MenubarTemplateTemplateDemo {
       </span>
     </ng-template>
     <ng-template aerisMenubarEnd>
-      <span class="menubar-user"
-        ><svg [lucideIcon]="icons['User']" aria-hidden="true"></svg>Admin</span>
+      <span class="menubar-user">
+        <svg [lucideIcon]="icons['User']" aria-hidden="true"></svg>
+        Admin
+      </span>
     </ng-template>
   </aeris-menubar>
 </div>
@@ -1071,6 +1246,13 @@ export class MenubarTemplateTemplateDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .menubar-doc-item {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto auto;
@@ -1129,56 +1311,6 @@ export class MenubarTemplateTemplateDemo {
 .menubar-user,
 small[aria-live] {
   color: var(--aeris-text-2);
-  font-size: 0.8125rem;
-}
-
-.menubar-doc-item {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
-  align-items: center;
-  gap: 0.625rem;
-  inline-size: 100%;
-  min-inline-size: 0;
-}
-
-.menubar-doc-item svg {
-  width: 1rem;
-  height: 1rem;
-}
-
-.menubar-doc-item__label {
-  min-inline-size: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.menubar-doc-item__badge {
-  max-inline-size: min(7rem, 36vw);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.menubar-doc-item__chevron {
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2;
-}
-
-.menubar-brand,
-.menubar-user {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding-inline: 0.5rem;
-  font-weight: 850;
-}
-
-.menubar-user {
-  color: var(--text-2);
   font-size: 0.8125rem;
 }
 ```

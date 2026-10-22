@@ -43,16 +43,13 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;aeris-navbar [breakpoint]="480" ariaLabel="Basic example navigation"&gt;
-    &lt;strong aerisNavbarBrand class="navbar-demo-brand"
-      &gt;&lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
-      &lt;span&gt;Workspace&lt;/span&gt;&lt;/strong&gt;
+    &lt;strong aerisNavbarBrand class="navbar-demo-brand"&gt;
+      &lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
+      &lt;span&gt;Workspace&lt;/span&gt;
+    &lt;/strong&gt;
     &lt;div aerisNavbarLinks&gt;
       &#64;for (label of ['Overview', 'Projects', 'Settings']; track label) &#123;
-        &lt;button
-          aerisNavbarItem
-          [active]="active() === label"
-          (click)="active.set(label)"
-        &gt;
+        &lt;button aerisNavbarItem [active]="active() === label" (click)="active.set(label)"&gt;
           &#123;&#123; label &#125;&#125;
         &lt;/button&gt;
       &#125;
@@ -134,9 +131,10 @@
     [style.inline-size]="compact() ? 'min(22rem, 100%)' : '100%'"
   &gt;
     &lt;aeris-navbar [breakpoint]="560" ariaLabel="Responsive example navigation"&gt;
-      &lt;strong aerisNavbarBrand class="navbar-demo-brand"
-        &gt;&lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
-        &lt;span&gt;Workspace&lt;/span&gt;&lt;/strong&gt;
+      &lt;strong aerisNavbarBrand class="navbar-demo-brand"&gt;
+        &lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
+        &lt;span&gt;Workspace&lt;/span&gt;
+      &lt;/strong&gt;
       &lt;div aerisNavbarLinks&gt;
         &#64;for (label of ['Overview', 'Projects', 'Settings']; track label) &#123;
           &lt;button
@@ -295,8 +293,9 @@
   &lt;div class="navbar-preview-controls"&gt;
     &lt;button aerisButton (click)="navigationExpanded.set(true)"&gt;Expand&lt;/button&gt;
     &lt;button aerisButton variant="outline" (click)="navigationExpanded.set(false)"&gt;
-      Collapse&lt;/button&gt;
-      &lt;span role="status"&gt;&#123;&#123; navigationExpanded() ? 'Expanded' : 'Collapsed' &#125;&#125;&lt;/span&gt;
+      Collapse
+    &lt;/button&gt;
+    &lt;span role="status"&gt;&#123;&#123; navigationExpanded() ? 'Expanded' : 'Collapsed' &#125;&#125;&lt;/span&gt;
   &lt;/div&gt;
   &lt;aeris-navbar
     mode="mobile"
@@ -304,9 +303,10 @@
     [closeOnOutsideClick]="false"
     ariaLabel="Controlled example navigation"
   &gt;
-    &lt;strong aerisNavbarBrand class="navbar-demo-brand"
-      &gt;&lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
-      &lt;span&gt;Workspace&lt;/span&gt;&lt;/strong&gt;
+    &lt;strong aerisNavbarBrand class="navbar-demo-brand"&gt;
+      &lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
+      &lt;span&gt;Workspace&lt;/span&gt;
+    &lt;/strong&gt;
     &lt;div aerisNavbarLinks&gt;
       &#64;for (label of ['Overview', 'Projects']; track label) &#123;
         &lt;button
@@ -381,9 +381,10 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;aeris-navbar [breakpoint]="480" ariaLabel="Disclosure example navigation"&gt;
-    &lt;strong aerisNavbarBrand class="navbar-demo-brand"
-      &gt;&lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
-      &lt;span&gt;Workspace&lt;/span&gt;&lt;/strong&gt;
+    &lt;strong aerisNavbarBrand class="navbar-demo-brand"&gt;
+      &lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
+      &lt;span&gt;Workspace&lt;/span&gt;
+    &lt;/strong&gt;
     &lt;div aerisNavbarLinks&gt;
       &#64;for (label of ['Overview', 'Projects']; track label) &#123;
         &lt;button
@@ -469,9 +470,10 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;aeris-navbar #navbar mode="mobile" ariaLabel="Custom toggle example navigation"&gt;
-    &lt;strong aerisNavbarBrand class="navbar-demo-brand"
-      &gt;&lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
-      &lt;span&gt;Workspace&lt;/span&gt;&lt;/strong&gt;
+    &lt;strong aerisNavbarBrand class="navbar-demo-brand"&gt;
+      &lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
+      &lt;span&gt;Workspace&lt;/span&gt;
+    &lt;/strong&gt;
     &lt;div aerisNavbarLinks&gt;
       &#64;for (label of ['Overview', 'Projects']; track label) &#123;
         &lt;button
@@ -484,9 +486,8 @@
       &#125;
     &lt;/div&gt;
     &lt;div aerisNavbarActions&gt;
-      &lt;button aerisButton variant="ghost" class="navbar-secondary-action"&gt;
-        Sign in&lt;/button&gt;
-        &lt;button aerisButton&gt;Get started&lt;/button&gt;
+      &lt;button aerisButton variant="ghost" class="navbar-secondary-action"&gt;Sign in&lt;/button&gt;
+      &lt;button aerisButton&gt;Get started&lt;/button&gt;
     &lt;/div&gt;
     &lt;button aerisNavbarToggle&gt;
       &#64;if (navbar.expanded()) &#123;
@@ -530,7 +531,8 @@
       [breakpoint]="480"
       [variant]="variant"
       [ariaLabel]="variant + ' example navigation'"
-      &gt;&lt;strong aerisNavbarBrand&gt;&#123;&#123; variant &#125;&#125;&lt;/strong&gt;
+    &gt;
+      &lt;strong aerisNavbarBrand&gt;&#123;&#123; variant &#125;&#125;&lt;/strong&gt;
       &lt;div aerisNavbarLinks&gt;
         &#64;for (label of ['Overview', 'Projects']; track label) &#123;
           &lt;button
@@ -541,7 +543,8 @@
             &#123;&#123; label &#125;&#125;
           &lt;/button&gt;
         &#125;
-      &lt;/div&gt;&lt;/aeris-navbar&gt;
+      &lt;/div&gt;
+    &lt;/aeris-navbar&gt;
   &#125;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -580,10 +583,11 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="navbar-scroll-region"&gt;
-    &lt;aeris-navbar sticky ariaLabel="Sticky example navigation"
-      &gt;&lt;strong aerisNavbarBrand class="navbar-demo-brand"
-        &gt;&lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
-        &lt;span&gt;Workspace&lt;/span&gt;&lt;/strong&gt;
+    &lt;aeris-navbar sticky ariaLabel="Sticky example navigation"&gt;
+      &lt;strong aerisNavbarBrand class="navbar-demo-brand"&gt;
+        &lt;span class="navbar-demo-mark" aria-hidden="true"&gt;W&lt;/span&gt;
+        &lt;span&gt;Workspace&lt;/span&gt;
+      &lt;/strong&gt;
       &lt;div aerisNavbarLinks&gt;
         &#64;for (label of ['Overview', 'Projects']; track label) &#123;
           &lt;button
@@ -594,7 +598,8 @@
             &#123;&#123; label &#125;&#125;
           &lt;/button&gt;
         &#125;
-      &lt;/div&gt;&lt;/aeris-navbar&gt;
+      &lt;/div&gt;
+    &lt;/aeris-navbar&gt;
     &lt;div class="navbar-scroll-content"&gt;
       &#64;for (section of [1, 2, 3, 4, 5, 6, 7, 8]; track section) &#123;
         &lt;p&gt;

@@ -1,7 +1,65 @@
 import { buildAngularDemoSources } from './demo-code';
 import { DOC_EXAMPLE_CODE } from './generated-example-code';
+import { DOC_EXAMPLE_STYLES } from './generated-example-styles';
 
 describe('Angular demo code imports', () => {
+  it('uses consumer tokens, including fallback expressions, instead of docs aliases', () => {
+    const sources = buildAngularDemoSources({
+      anchor: 'portable-colors',
+      title: 'Colors',
+      template: '<div class="sample">Sample</div>',
+      cssCode:
+        '.sample { color: var(--primary-text); background: var(--primary-soft, #eee); border-color: var(--aeris-border); }',
+    });
+    const code = sources.map((source) => source.code).join('\n');
+    expect(code).toContain('var(--aeris-primary-text)');
+    expect(code).toContain('var(--aeris-primary-soft, #eee)');
+    expect(code).toContain('var(--aeris-border)');
+    expect(code).not.toContain('var(--primary');
+  });
+
+  it('preserves consumer-owned media, navigation and intentional failure demos', () => {
+    const sources = buildAngularDemoSources({
+      anchor: 'portable-media',
+      title: 'Media',
+      template:
+        '<img src="/puppies/puppy1.jpg" alt="Puppy" /><img src="/missing-profile-photo.jpg" alt="Fallback" /><a href="/home">Home</a>',
+      cssCode: '.sample { background-image: url(/abstract.jpg); }',
+      classCode:
+        'readonly image = `/puppies/puppy${1}.jpg`; readonly ownAsset = "/assets/avatar.png";',
+    });
+    const code = sources.map((source) => source.code).join('\n');
+    expect(code).toContain('/puppies/puppy1.jpg');
+    expect(code).toContain('/puppies/puppy${1}.jpg');
+    expect(code).toContain('/abstract.jpg');
+    expect(code).toContain('/missing-profile-photo.jpg');
+    expect(code).toContain('/assets/avatar.png');
+    expect(code).toContain('href="/home"');
+  });
+
+  it('includes live shared-layout overrides and all custom carousel styling', () => {
+    expect(DOC_EXAMPLE_STYLES['select-basic']).toContain('32rem');
+    expect(DOC_EXAMPLE_STYLES['color-picker-basic']).toContain('28rem');
+    expect(DOC_EXAMPLE_STYLES['carousel-basic']).toContain('.destination-card::before');
+    expect(DOC_EXAMPLE_STYLES['carousel-basic']).toContain('.destination-card strong');
+  });
+
+  it('keeps projected icon geometry and wrapping present in copied examples', () => {
+    const sources = buildAngularDemoSources({
+      anchor: 'button-basic',
+      title: 'Basic',
+      template:
+        '<div class="aeris-example-row"><button aerisButton><svg [lucideIcon]="icons.Check"></svg>Save</button></div>',
+    });
+    const code = sources.map((source) => source.code).join('\n');
+    expect(code).toContain('export class ButtonBasicDemo');
+    expect(code).not.toContain('BasicBasic');
+    expect(code).toContain('flex-wrap: wrap');
+    expect(code).toContain('align-items: center');
+    expect(code).toContain('width: var(--aeris-icon-size, 1rem)');
+    expect(code).toContain('svg:where([lucideIcon])');
+  });
+
   it('imports only the native Select directive for native consumer examples', () => {
     const sources = buildAngularDemoSources({
       anchor: 'select-native-example',

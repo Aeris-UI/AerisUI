@@ -429,7 +429,7 @@ export class TemplateCompareDemo {}
 
 .compare-template-layer li::before {
   margin-inline-end: 0.45rem;
-  content: '—';
+  content: "—";
 }
 ```
 
@@ -496,8 +496,8 @@ export class CompareStatesDemo {}
 
 @media (max-width: 40rem) {
   .compare-state-grid {
-    grid-template-columns: 1fr;
-  }
+      grid-template-columns: 1fr;
+    }
 }
 ```
 

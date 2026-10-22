@@ -108,7 +108,7 @@ export class ConfirmDialogPage {
   place-items: center;
   border-radius: 999px;
   background: color-mix(in srgb, var(--warning) 18%, transparent);
-  color: var(--warning-text);
+  color: var(--aeris-warning-text);
   font-weight: 900;
 }
 

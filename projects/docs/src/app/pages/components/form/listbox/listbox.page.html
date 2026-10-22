@@ -31,11 +31,7 @@
                 <p>Selected: {{ single() || 'None' }}</p>
               </div>
               <pre code><code ngNonBindable>&lt;div class="listbox-demo"&gt;
-  &lt;aeris-listbox
-    ariaLabel="Single selection"
-    [options]="options"
-    [(value)]="single"
-  /&gt;
+  &lt;aeris-listbox ariaLabel="Single selection" [options]="options" [(value)]="single" /&gt;
   &lt;p&gt;Selected: &#123;&#123; single() || 'None' &#125;&#125;&lt;/p&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -98,11 +94,12 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="listbox-demo"&gt;
   &lt;aeris-listbox ariaLabel="Templated selection" [options]="groupedOptions"&gt;
-    &lt;ng-template aerisListboxGroup let-group
-      &gt;&lt;span&gt;&#123;&#123; group &#125;&#125; team&lt;/span&gt;&lt;/ng-template&gt;
+    &lt;ng-template aerisListboxGroup let-group&gt;
+      &lt;span&gt;&#123;&#123; group &#125;&#125; team&lt;/span&gt;
+    &lt;/ng-template&gt;
     &lt;ng-template aerisListboxOption let-option let-selected="selected"&gt;
-      &lt;span class="listbox-option"
-        &gt;&lt;svg [lucideIcon]="paletteIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+      &lt;span class="listbox-option"&gt;
+        &lt;svg [lucideIcon]="paletteIcon" aria-hidden="true"&gt;&lt;/svg&gt;
         &lt;span&gt;&#123;&#123; option.label &#125;&#125;&lt;/span&gt;
         &#64;if (selected) &#123;
           &lt;small&gt;Selected&lt;/small&gt;
@@ -167,11 +164,9 @@
   &lt;button aerisButton variant="outline" (click)="loading.set(!loading())"&gt;
     Toggle loading
   &lt;/button&gt;
-  &lt;aeris-listbox
-    ariaLabel="Loading selection"
-    [options]="options"
-    [loading]="loading()"
-    &gt;&lt;ng-template aerisListboxLoading&gt;Fetching options…&lt;/ng-template&gt;&lt;/aeris-listbox&gt;
+  &lt;aeris-listbox ariaLabel="Loading selection" [options]="options" [loading]="loading()"&gt;
+    &lt;ng-template aerisListboxLoading&gt;Fetching options…&lt;/ng-template&gt;
+  &lt;/aeris-listbox&gt;
   &lt;aeris-listbox
     ariaLabel="Disabled selection"
     [options]="options"
@@ -213,9 +208,7 @@
     [(value)]="controlled"
     (changed)="recordChange($event)"
   /&gt;
-  &lt;button aerisButton variant="ghost" (click)="controlledList.focus()"&gt;
-    Focus list
-  &lt;/button&gt;
+  &lt;button aerisButton variant="ghost" (click)="controlledList.focus()"&gt;Focus list&lt;/button&gt;
   &lt;p aria-live="polite"&gt;Last user selection: &#123;&#123; lastChange() &#125;&#125;&lt;/p&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -270,8 +263,7 @@
   /&gt;
   &lt;p&gt;Selected: &#123;&#123; selectionData().choice || 'None' &#125;&#125;&lt;/p&gt;
   &#64;if (showError()) &#123;
-    &lt;aeris-message id="listbox-error" severity="danger"
-      &gt;Choose an option.&lt;/aeris-message&gt;
+    &lt;aeris-message id="listbox-error" severity="danger"&gt;Choose an option.&lt;/aeris-message&gt;
   &#125;
   &lt;button aerisButton variant="outline" (click)="fields.choice().markAsTouched()"&gt;
     Validate

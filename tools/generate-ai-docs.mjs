@@ -290,9 +290,7 @@ function extractExamples(nodes, values, buildSources) {
     );
     const classCode = resolveAttribute(demo, 'tsCode', values);
     const explicitCss = resolveAttribute(demo, 'cssCode', values);
-    const cssCode = [DOC_EXAMPLE_STYLES[id], explicitCss]
-      .filter((value) => typeof value === 'string' && value.trim())
-      .join('\n\n');
+    const cssCode = DOC_EXAMPLE_STYLES[id] ?? explicitCss;
     const sources = buildSources({
       anchor: id,
       title,

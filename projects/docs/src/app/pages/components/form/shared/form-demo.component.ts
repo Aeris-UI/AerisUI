@@ -56,7 +56,7 @@ export class FormDemoComponent {
       title: this.title(),
       template: this.htmlCode() || this.code()?.text() || '',
       classCode: [DOC_EXAMPLE_CODE[this.anchor()], this.tsCode()].filter(Boolean).join('\n\n'),
-      cssCode: [DOC_EXAMPLE_STYLES[this.anchor()], this.cssCode()].filter(Boolean).join('\n\n'),
+      cssCode: DOC_EXAMPLE_STYLES[this.anchor()] ?? this.cssCode(),
     }),
   );
 }

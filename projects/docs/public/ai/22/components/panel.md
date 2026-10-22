@@ -139,7 +139,7 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
   templateUrl: './panel-basic.demo.html',
   styleUrl: './panel-basic.demo.scss'
 })
-export class PanelBasicBasicDemo {
+export class PanelBasicDemo {
 }
 ```
 
@@ -185,10 +185,15 @@ export class PanelBasicBasicDemo {
   gap: 1rem;
 }
 
+.summary-row dt,
+.summary-row dd {
+  margin: 0;
+}
+
 .summary-total {
   margin-block-start: 0.75rem;
   padding-block-start: 0.75rem;
-  border-block-start: 1px solid var(--border);
+  border-block-start: 1px solid var(--aeris-border);
   font-weight: 800;
 }
 ```
@@ -209,7 +214,7 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
   templateUrl: './panel-toggleable.demo.html',
   styleUrl: './panel-toggleable.demo.scss'
 })
-export class PanelToggleableToggleableDemo {
+export class PanelToggleableDemo {
 }
 ```
 
@@ -251,10 +256,15 @@ export class PanelToggleableToggleableDemo {
   gap: 1rem;
 }
 
+.summary-row dt,
+.summary-row dd {
+  margin: 0;
+}
+
 .summary-total {
   margin-block-start: 0.75rem;
   padding-block-start: 0.75rem;
-  border-block-start: 1px solid var(--border);
+  border-block-start: 1px solid var(--aeris-border);
   font-weight: 800;
 }
 ```
@@ -276,7 +286,7 @@ import { AerisPanelModule, type AerisPanelToggleEvent } from '@aeris-ui/core/pan
   templateUrl: './panel-controlled.demo.html',
   styleUrl: './panel-controlled.demo.scss'
 })
-export class PanelControlledControlledDemo {
+export class PanelControlledDemo {
   protected controlledCollapsed = true;
   protected readonly toggleEvents: string[] = [];
 
@@ -315,13 +325,7 @@ export class PanelControlledControlledDemo {
     >
       Close
     </button>
-    <button
-      aerisButton
-      type="button"
-      size="sm"
-      variant="ghost"
-      (click)="togglePanel()"
-    >
+    <button aerisButton type="button" size="sm" variant="ghost" (click)="togglePanel()">
       Toggle
     </button>
   </div>
@@ -331,9 +335,7 @@ export class PanelControlledControlledDemo {
     [(collapsed)]="controlledCollapsed"
     (toggled)="recordToggle($event)"
   >
-    <p>
-      Review accessibility notes, run the test suite, and publish migration guidance.
-    </p>
+    <p>Review accessibility notes, run the test suite, and publish migration guidance.</p>
   </aeris-panel>
   <p class="panel-event-log">
     State: {{ controlledCollapsed ? 'Closed' : 'Open' }} · Last event:
@@ -354,7 +356,7 @@ export class PanelControlledControlledDemo {
 
 .panel-event-log {
   margin: 0.75rem 0 0;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font-size: 0.8125rem;
 }
 ```
@@ -373,31 +375,21 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
 @Component({
   selector: 'app-panel-actions-demo',
   imports: [AerisButton, AerisPanelModule],
-  templateUrl: './panel-actions.demo.html'
-})
-export class PanelActionsHeaderActionsDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <aeris-panel header="Team activity">
-    <div aerisPanelHeaderActions>
-      <button
-        aerisButton
-        type="button"
-        size="sm"
-        variant="solid"
-        severity="secondary"
-      >
-        Refresh
-      </button>
+  template: `
+    <div>
+      <aeris-panel header="Team activity">
+        <div aerisPanelHeaderActions>
+          <button aerisButton type="button" size="sm" variant="solid" severity="secondary">
+            Refresh
+          </button>
+        </div>
+        <p>Seven updates were added since the last review.</p>
+      </aeris-panel>
     </div>
-    <p>Seven updates were added since the last review.</p>
-  </aeris-panel>
-</div>
+  `
+})
+export class PanelActionsDemo {
+}
 ```
 
 ### Indicator
@@ -448,12 +440,12 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
       transition: transform 160ms ease;
     }
 
-    .panel-plus-icon[data-collapsed="false"]::after {
+    .panel-plus-icon[data-collapsed=false]::after {
       transform: translate(-50%, -50%) rotate(0deg);
     }
   `
 })
-export class PanelIndicatorIndicatorDemo {
+export class PanelIndicatorDemo {
 }
 ```
 
@@ -474,7 +466,7 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
   templateUrl: './panel-template.demo.html',
   styleUrl: './panel-template.demo.scss'
 })
-export class PanelTemplateTemplateDemo {
+export class PanelTemplateDemo {
 }
 ```
 
@@ -493,18 +485,11 @@ export class PanelTemplateTemplateDemo {
       </span>
     </ng-template>
     <p>
-      Amy is reviewing accessibility findings and preparing handoff notes for the
-      release.
+      Amy is reviewing accessibility findings and preparing handoff notes for the release.
     </p>
     <div aerisPanelFooter>
       <button aerisButton type="button" size="sm">View profile</button>
-      <button
-        aerisButton
-        type="button"
-        size="sm"
-        variant="solid"
-        severity="secondary"
-      >
+      <button aerisButton type="button" size="sm" variant="solid" severity="secondary">
         Message
       </button>
     </div>
@@ -527,7 +512,7 @@ export class PanelTemplateTemplateDemo {
   width: 2.25rem;
   height: 2.25rem;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--aeris-primary) 18%, var(--surface));
+  background: color-mix(in srgb, var(--aeris-primary) 18%, var(--aeris-surface));
   color: var(--aeris-primary-text);
   font-weight: 800;
 }
@@ -538,7 +523,7 @@ export class PanelTemplateTemplateDemo {
 }
 
 .profile-meta span {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font-size: 0.8125rem;
   font-weight: 600;
 }
@@ -557,35 +542,47 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
 @Component({
   selector: 'app-panel-variants-demo',
   imports: [AerisPanelModule],
-  template: `
-    <div>
-      <div class="panel-grid">
-        <aeris-panel header="Outlined" variant="outlined" size="sm"
-          ><p>Quiet bordered surface.</p></aeris-panel>
-        <aeris-panel header="Elevated" variant="elevated"
-          ><p>Raised container for prominence.</p></aeris-panel>
-        <aeris-panel header="Filled" variant="filled"
-          ><p>Soft background grouping.</p></aeris-panel>
-        <aeris-panel header="Plain" variant="plain" size="lg"
-          ><p>Header and content without an outer card.</p></aeris-panel>
-      </div>
-    </div>
-  `,
-  styles: `
-    .panel-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-    }
-
-    @media (max-width: 42rem) {
-      .panel-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  `
+  templateUrl: './panel-variants.demo.html',
+  styleUrl: './panel-variants.demo.scss'
 })
-export class PanelVariantsVariantsDemo {
+export class PanelVariantsDemo {
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <div class="panel-grid">
+    <aeris-panel header="Outlined" variant="outlined" size="sm">
+      <p>Quiet bordered surface.</p>
+    </aeris-panel>
+    <aeris-panel header="Elevated" variant="elevated">
+      <p>Raised container for prominence.</p>
+    </aeris-panel>
+    <aeris-panel header="Filled" variant="filled">
+      <p>Soft background grouping.</p>
+    </aeris-panel>
+    <aeris-panel header="Plain" variant="plain" size="lg">
+      <p>Header and content without an outer card.</p>
+    </aeris-panel>
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 42rem) {
+  .panel-grid {
+      grid-template-columns: 1fr;
+    }
 }
 ```
 

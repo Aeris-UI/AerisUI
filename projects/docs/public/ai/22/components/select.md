@@ -239,9 +239,13 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 32rem);
+    }
   `
 })
-export class SelectBasicBasicDemo {
+export class SelectBasicDemo {
   protected readonly role = signal<string | null>('engineer');
 
   protected readonly roles: readonly AerisSelectOption[] = [
@@ -304,9 +308,13 @@ import { AerisSelect, type AerisSelectChangeEvent, type AerisSelectOption } from
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 32rem);
+    }
   `
 })
-export class SelectModelSignalModelAndEventsDemo {
+export class SelectModelDemo {
   protected readonly role = signal<string | null>('engineer');
 
   protected readonly lastChange = signal('No interaction');
@@ -340,7 +348,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
   templateUrl: './select-checkmark.demo.html',
   styleUrl: './select-checkmark.demo.scss'
 })
-export class SelectCheckmarkSelectionMarkDemo {
+export class SelectCheckmarkDemo {
   protected readonly roles: readonly AerisSelectOption[] = [
       { label: 'Product designer', value: 'designer' },
       { label: 'Software engineer', value: 'engineer' },
@@ -382,7 +390,7 @@ export class SelectCheckmarkSelectionMarkDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -416,6 +424,10 @@ export class SelectCheckmarkSelectionMarkDemo {
   .field-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.field {
+  width: min(100%, 32rem);
 }
 ```
 
@@ -472,9 +484,13 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 32rem);
+    }
   `
 })
-export class SelectEditableEditableValueDemo {
+export class SelectEditableDemo {
   protected readonly editableRole = signal<string | null>('Custom specialist');
 
   protected readonly roles: readonly AerisSelectOption[] = [
@@ -538,9 +554,13 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 32rem);
+    }
   `
 })
-export class SelectFilterFilteringDemo {
+export class SelectFilterDemo {
   protected readonly role = signal<string | null>('engineer');
 
   protected readonly roles: readonly AerisSelectOption[] = [
@@ -606,9 +626,13 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 32rem);
+    }
   `
 })
-export class SelectFilterOptionsFilterOptionsDemo {
+export class SelectFilterOptionsDemo {
   protected readonly roles: readonly AerisSelectOption[] = [
       { label: 'Product designer', value: 'designer' },
       { label: 'Software engineer', value: 'engineer' },
@@ -669,9 +693,13 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 32rem);
+    }
   `
 })
-export class SelectGroupsGroupedOptionsDemo {
+export class SelectGroupsDemo {
   protected readonly country =
     signal<string | null>(null);
 
@@ -734,9 +762,13 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 32rem);
+    }
   `
 })
-export class SelectDescriptionsRichOptionDescriptionsDemo {
+export class SelectDescriptionsDemo {
   protected readonly richRoles:
     readonly AerisSelectOption[] = [
       {
@@ -764,7 +796,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
   templateUrl: './select-templates.demo.html',
   styleUrl: './select-templates.demo.scss'
 })
-export class SelectTemplatesOptionAndSelectedValueTemplatesDemo {
+export class SelectTemplatesDemo {
   protected readonly team =
     signal<string | null>('design');
 
@@ -827,26 +859,48 @@ export class SelectTemplatesOptionAndSelectedValueTemplatesDemo {
   color: var(--aeris-danger);
 }
 
-.team-mark {
-  width: 0.625rem;
-  height: 0.625rem;
-  border-radius: 50%;
-  background: var(--primary);
-}
-
-.team-mark[data-team='platform'] {
-  background: #52685b;
-}
-
-.team-mark[data-team='a11y'] {
-  background: #343b37;
+.field {
+  width: min(100%, 32rem);
 }
 
 .selected-team,
 .team-option {
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 0.625rem;
+}
+
+.team-option > span:last-child {
+  min-width: 0;
+  display: grid;
+  gap: 0.125rem;
+}
+
+.team-option strong {
+  color: var(--aeris-text);
+  font-size: 0.8125rem;
+}
+
+.team-option small {
+  color: var(--aeris-text-2);
+  font-size: 0.75rem;
+}
+
+.team-mark {
+  width: 0.625rem;
+  height: 0.625rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--aeris-primary);
+}
+
+.team-mark[data-team=platform] {
+  background: #52685b;
+}
+
+.team-mark[data-team=a11y] {
+  background: #343b37;
 }
 ```
 
@@ -868,10 +922,12 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
       <label for="panel-content">Country</label>
       <aeris-select inputId="panel-content" [options]="countries" filter fluid>
         <ng-template aerisSelectHeader><strong>Available regions</strong></ng-template>
-        <ng-template aerisSelectGroup let-group
-          ><span>{{ group }}</span></ng-template>
-        <ng-template aerisSelectFooter
-          ><small>Use search to narrow the list.</small></ng-template>
+        <ng-template aerisSelectGroup let-group>
+          <span>{{ group }}</span>
+        </ng-template>
+        <ng-template aerisSelectFooter>
+          <small>Use search to narrow the list.</small>
+        </ng-template>
         <ng-template aerisSelectEmpty>No countries are configured.</ng-template>
         <ng-template aerisSelectEmptyFilter>No countries match this search.</ng-template>
       </aeris-select>
@@ -903,9 +959,13 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 32rem);
+    }
   `
 })
-export class SelectPanelContentPanelContentAndStateTemplatesDemo {
+export class SelectPanelContentDemo {
   protected readonly countries: readonly AerisSelectOption[] = [
       { label: 'Austria', value: 'at', group: 'Europe' },
       { label: 'Germany', value: 'de', group: 'Europe' },
@@ -936,7 +996,7 @@ import { AerisSelect, type AerisSelectLazyLoadEvent, type AerisSelectOption } fr
   templateUrl: './select-virtual-scroll.demo.html',
   styleUrl: './select-virtual-scroll.demo.scss'
 })
-export class SelectVirtualScrollVirtualScrollingAndLazyRangesDemo {
+export class SelectVirtualScrollDemo {
   protected readonly virtualRange = signal('No range requested');
 
   protected readonly virtualRole =
@@ -1005,6 +1065,10 @@ export class SelectVirtualScrollVirtualScrollingAndLazyRangesDemo {
 .field small.error {
   color: var(--aeris-danger);
 }
+
+.field {
+  width: min(100%, 32rem);
+}
 ```
 
 ### Clear button
@@ -1059,9 +1123,13 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 32rem);
+    }
   `
 })
-export class SelectClearableClearButtonDemo {
+export class SelectClearableDemo {
   protected readonly clearableRole = signal<string | null>('designer');
 
   protected readonly roles: readonly AerisSelectOption[] = [
@@ -1089,7 +1157,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
   templateUrl: './select-sizes.demo.html',
   styleUrl: './select-sizes.demo.scss'
 })
-export class SelectSizesSizesDemo {
+export class SelectSizesDemo {
   protected readonly roles: readonly AerisSelectOption[] = [
       { label: 'Product designer', value: 'designer' },
       { label: 'Software engineer', value: 'engineer' },
@@ -1103,34 +1171,27 @@ export class SelectSizesSizesDemo {
 
 ```html
 <div class="select-size-grid">
-  <label
-    ><span>Extra small</span>
+  <label>
+    <span>Extra small</span>
     <aeris-select
       ariaLabel="Extra small role"
       [options]="roles"
       value="designer"
       size="xs"
-  /></label>
-  <label
-    ><span>Small</span>
-    <aeris-select
-      ariaLabel="Small role"
-      [options]="roles"
-      value="designer"
-      size="sm"
-  /></label>
-  <label
-    ><span>Medium</span>
-    <aeris-select ariaLabel="Medium role" [options]="roles" value="designer"
-  /></label>
-  <label
-    ><span>Large</span>
-    <aeris-select
-      ariaLabel="Large role"
-      [options]="roles"
-      value="designer"
-      size="lg"
-  /></label>
+    />
+  </label>
+  <label>
+    <span>Small</span>
+    <aeris-select ariaLabel="Small role" [options]="roles" value="designer" size="sm" />
+  </label>
+  <label>
+    <span>Medium</span>
+    <aeris-select ariaLabel="Medium role" [options]="roles" value="designer" />
+  </label>
+  <label>
+    <span>Large</span>
+    <aeris-select ariaLabel="Large role" [options]="roles" value="designer" size="lg" />
+  </label>
 </div>
 ```
 
@@ -1178,7 +1239,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
   templateUrl: './select-states.demo.html',
   styleUrl: './select-states.demo.scss'
 })
-export class SelectStatesAppearancesAndStatesDemo {
+export class SelectStatesDemo {
   protected readonly roles: readonly AerisSelectOption[] = [
       { label: 'Product designer', value: 'designer' },
       { label: 'Software engineer', value: 'engineer' },
@@ -1201,12 +1262,8 @@ export class SelectStatesAppearancesAndStatesDemo {
 <div class="field-grid select-state-grid">
   <div class="field">
     <label for="select-outline">Outlined</label>
-    <aeris-select
-      inputId="select-outline"
-      [options]="roles"
-      value="designer"
-      fluid
-    /><small class="state-message" aria-hidden="true">&nbsp;</small>
+    <aeris-select inputId="select-outline" [options]="roles" value="designer" fluid />
+    <small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
     <label for="select-filled">Filled</label>
@@ -1216,7 +1273,8 @@ export class SelectStatesAppearancesAndStatesDemo {
       value="engineer"
       appearance="filled"
       fluid
-    /><small class="state-message" aria-hidden="true">&nbsp;</small>
+    />
+    <small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
     <label for="select-invalid">Required</label>
@@ -1243,7 +1301,8 @@ export class SelectStatesAppearancesAndStatesDemo {
       value="manager"
       disabled
       fluid
-    /><small class="state-message" aria-hidden="true">&nbsp;</small>
+    />
+    <small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
 </div>
 ```
@@ -1254,7 +1313,7 @@ export class SelectStatesAppearancesAndStatesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -1290,8 +1349,8 @@ export class SelectStatesAppearancesAndStatesDemo {
   }
 }
 
-.field small.error {
-  color: var(--aeris-danger);
+.field {
+  width: min(100%, 32rem);
 }
 
 .select-state-grid {
@@ -1319,7 +1378,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
   templateUrl: './select-feedback.demo.html',
   styleUrl: './select-feedback.demo.scss'
 })
-export class SelectFeedbackLoadingAndEmptyStatesDemo {
+export class SelectFeedbackDemo {
   protected readonly roles: readonly AerisSelectOption[] = [
       { label: 'Product designer', value: 'designer' },
       { label: 'Software engineer', value: 'engineer' },
@@ -1355,7 +1414,7 @@ export class SelectFeedbackLoadingAndEmptyStatesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -1389,6 +1448,10 @@ export class SelectFeedbackLoadingAndEmptyStatesDemo {
   .field-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.field {
+  width: min(100%, 32rem);
 }
 ```
 
@@ -1443,9 +1506,13 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .field {
+      width: min(100%, 32rem);
+    }
   `
 })
-export class SelectNativeFormHTMLFormSubmissionDemo {
+export class SelectNativeFormDemo {
   protected readonly roles: readonly AerisSelectOption[] = [
       { label: 'Product designer', value: 'designer' },
       { label: 'Software engineer', value: 'engineer' },
@@ -1472,7 +1539,7 @@ import { AerisSelect, type AerisSelectOption } from '@aeris-ui/core/select';
   templateUrl: './select-angular-forms.demo.html',
   styleUrl: './select-angular-forms.demo.scss'
 })
-export class SelectAngularFormsReactiveAndTemplateDrivenFormsDemo {
+export class SelectAngularFormsDemo {
   protected readonly roles: readonly AerisSelectOption[] = [
       { label: 'Product designer', value: 'designer' },
       { label: 'Software engineer', value: 'engineer' },
@@ -1521,7 +1588,7 @@ export class SelectAngularFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -1555,6 +1622,10 @@ export class SelectAngularFormsReactiveAndTemplateDrivenFormsDemo {
   .field-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.field {
+  width: min(100%, 32rem);
 }
 ```
 
@@ -1614,12 +1685,16 @@ import { AerisNativeSelect } from '@aeris-ui/core/select/native';
       color: var(--aeris-danger);
     }
 
+    .field {
+      width: min(100%, 32rem);
+    }
+
     .native-select-field {
       max-inline-size: 22rem;
     }
   `
 })
-export class SelectNativeNativeSelectDemo {
+export class SelectNativeDemo {
 }
 ```
 
@@ -1639,7 +1714,7 @@ import { AerisNativeSelect } from '@aeris-ui/core/select/native';
   templateUrl: './select-native-sizes.demo.html',
   styleUrl: './select-native-sizes.demo.scss'
 })
-export class SelectNativeSizesNativeSizingAndAppearanceDemo {
+export class SelectNativeSizesDemo {
 }
 ```
 
@@ -1697,7 +1772,7 @@ export class SelectNativeSizesNativeSizingAndAppearanceDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -1732,6 +1807,10 @@ export class SelectNativeSizesNativeSizingAndAppearanceDemo {
     grid-template-columns: 1fr;
   }
 }
+
+.field {
+  width: min(100%, 32rem);
+}
 ```
 
 ### Native multiple selection
@@ -1751,7 +1830,7 @@ import { AerisNativeSelect } from '@aeris-ui/core/select/native';
   templateUrl: './select-native-multiple.demo.html',
   styleUrl: './select-native-multiple.demo.scss'
 })
-export class SelectNativeMultipleNativeMultipleSelectionDemo {
+export class SelectNativeMultipleDemo {
   protected readonly nativeMultiple = new FormControl(['design'], { nonNullable: true });
 }
 ```
@@ -1775,9 +1854,9 @@ export class SelectNativeMultipleNativeMultipleSelectionDemo {
     <option value="operations">Operations</option>
     <option value="support">Support</option>
   </select>
-  <small id="native-multiple-help"
-    >Use your platform's multiple-selection controls. Selected:
-    {{ nativeMultiple.value }}</small>
+  <small id="native-multiple-help">
+    Use your platform's multiple-selection controls. Selected: {{ nativeMultiple.value }}
+  </small>
 </div>
 ```
 
@@ -1810,6 +1889,10 @@ export class SelectNativeMultipleNativeMultipleSelectionDemo {
   color: var(--aeris-danger);
 }
 
+.field {
+  width: min(100%, 32rem);
+}
+
 .native-select-field {
   max-inline-size: 22rem;
 }
@@ -1833,7 +1916,7 @@ import { FormField, form, required, submit } from '@angular/forms/signals';
   templateUrl: './select-native-forms.demo.html',
   styleUrl: './select-native-forms.demo.scss'
 })
-export class SelectNativeFormsNativeSignalFormsDemo {
+export class SelectNativeFormsDemo {
   protected readonly nativeData = signal({ region: '' });
 
   protected readonly nativeFields = form(this.nativeData, (path) => required(path.region));
@@ -1906,6 +1989,10 @@ export class SelectNativeFormsNativeSignalFormsDemo {
 
 .field small.error {
   color: var(--aeris-danger);
+}
+
+.field {
+  width: min(100%, 32rem);
 }
 
 .native-select-field {

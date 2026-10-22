@@ -88,9 +88,10 @@
     editable
     clearable
     [(value)]="typedDate"
-  /&gt;&lt;small
-    &gt;Type the segments, use Up/Down to adjust them, or press Alt+Down for the
-    calendar.&lt;/small&gt;
+  /&gt;
+  &lt;small&gt;
+    Type the segments, use Up/Down to adjust them, or press Alt+Down for the calendar.
+  &lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -560,9 +561,9 @@
     class="validation-message"
     [class.error]="validationInvalid()"
     aria-live="polite"
-    &gt;&#123;&#123;
-      validationInvalid() ? 'Choose a milestone date.' : 'A date is required.'
-    &#125;&#125;&lt;/small&gt;
+  &gt;
+    &#123;&#123; validationInvalid() ? 'Choose a milestone date.' : 'A date is required.' &#125;&#125;
+  &lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 

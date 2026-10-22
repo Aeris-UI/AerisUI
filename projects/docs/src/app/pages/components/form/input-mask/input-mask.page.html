@@ -47,8 +47,7 @@
     [(value)]="phone"
     fluid
   /&gt;
-  &lt;small class="mask-result" aria-live="polite"
-    &gt;Value: &#123;&#123; phone() || 'Empty' &#125;&#125;&lt;/small&gt;
+  &lt;small class="mask-result" aria-live="polite"&gt;Value: &#123;&#123; phone() || 'Empty' &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -82,20 +81,27 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-stack"&gt;
   &lt;div class="mask-token-list" aria-label="InputMask token reference"&gt;
-    &lt;div&gt;&lt;code&gt;9&lt;/code&gt;&lt;span&gt;Unicode digit&lt;/span&gt;&lt;/div&gt;
-    &lt;div&gt;&lt;code&gt;a&lt;/code&gt;&lt;span&gt;Unicode letter&lt;/span&gt;&lt;/div&gt;
-    &lt;div&gt;&lt;code&gt;*&lt;/code&gt;&lt;span&gt;Letter or digit&lt;/span&gt;&lt;/div&gt;
-    &lt;div&gt;&lt;code&gt;\&lt;/code&gt;&lt;span&gt;Escape next token&lt;/span&gt;&lt;/div&gt;
+    &lt;div&gt;
+      &lt;code&gt;9&lt;/code&gt;
+      &lt;span&gt;Unicode digit&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;code&gt;a&lt;/code&gt;
+      &lt;span&gt;Unicode letter&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;code&gt;*&lt;/code&gt;
+      &lt;span&gt;Letter or digit&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;code&gt;\&lt;/code&gt;
+      &lt;span&gt;Escape next token&lt;/span&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
   &lt;div class="field-grid"&gt;
     &lt;div class="field"&gt;
       &lt;label for="mask-date"&gt;Date&lt;/label&gt;
-      &lt;aeris-input-mask
-        inputId="mask-date"
-        mask="99/99/9999"
-        inputMode="numeric"
-        fluid
-      /&gt;
+      &lt;aeris-input-mask inputId="mask-date" mask="99/99/9999" inputMode="numeric" fluid /&gt;
     &lt;/div&gt;
     &lt;div class="field"&gt;
       &lt;label for="mask-license"&gt;License code&lt;/label&gt;
@@ -183,8 +189,9 @@
     [(value)]="rawPhone"
     fluid
   /&gt;
-  &lt;small class="mask-result" aria-live="polite"
-    &gt;Raw value: &#123;&#123; rawPhone() || 'Empty' &#125;&#125;&lt;/small&gt;
+  &lt;small class="mask-result" aria-live="polite"&gt;
+    Raw value: &#123;&#123; rawPhone() || 'Empty' &#125;&#125;
+  &lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -214,8 +221,7 @@
     (completed)="completedValue.set($event)"
     fluid
   /&gt;
-  &lt;small class="mask-result" aria-live="polite"
-    &gt;Completed: &#123;&#123; completedValue() &#125;&#125;&lt;/small&gt;
+  &lt;small class="mask-result" aria-live="polite"&gt;Completed: &#123;&#123; completedValue() &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -246,8 +252,7 @@
     ariaDescribedBy="mask-auto-clear-help"
     fluid
   /&gt;
-  &lt;small id="mask-auto-clear-help"
-    &gt;Enter all six digits before leaving the field.&lt;/small&gt;
+  &lt;small id="mask-auto-clear-help"&gt;Enter all six digits before leaving the field.&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -278,8 +283,7 @@
     [(value)]="serial"
     fluid
   /&gt;
-  &lt;small class="mask-result" aria-live="polite"
-    &gt;Value: &#123;&#123; serial() || 'Empty' &#125;&#125;&lt;/small&gt;
+  &lt;small class="mask-result" aria-live="polite"&gt;Value: &#123;&#123; serial() || 'Empty' &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -319,34 +323,37 @@
                 /></label>
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-row"&gt;
-  &lt;label class="size-sample"
-    &gt;&lt;span&gt;Extra small&lt;/span&gt;
+  &lt;label class="size-sample"&gt;
+    &lt;span&gt;Extra small&lt;/span&gt;
     &lt;aeris-input-mask
       ariaLabel="Extra small code"
       mask="999-999"
       size="xs"
       [value]="'123456'"
-  /&gt;&lt;/label&gt;
-  &lt;label class="size-sample"
-    &gt;&lt;span&gt;Small&lt;/span&gt;
+    /&gt;
+  &lt;/label&gt;
+  &lt;label class="size-sample"&gt;
+    &lt;span&gt;Small&lt;/span&gt;
     &lt;aeris-input-mask
       ariaLabel="Small code"
       mask="999-999"
       size="sm"
       [value]="'123456'"
-  /&gt;&lt;/label&gt;
-  &lt;label class="size-sample"
-    &gt;&lt;span&gt;Medium&lt;/span&gt;
-    &lt;aeris-input-mask ariaLabel="Medium code" mask="999-999" [value]="'123456'"
-  /&gt;&lt;/label&gt;
-  &lt;label class="size-sample"
-    &gt;&lt;span&gt;Large&lt;/span&gt;
+    /&gt;
+  &lt;/label&gt;
+  &lt;label class="size-sample"&gt;
+    &lt;span&gt;Medium&lt;/span&gt;
+    &lt;aeris-input-mask ariaLabel="Medium code" mask="999-999" [value]="'123456'" /&gt;
+  &lt;/label&gt;
+  &lt;label class="size-sample"&gt;
+    &lt;span&gt;Large&lt;/span&gt;
     &lt;aeris-input-mask
       ariaLabel="Large code"
       mask="999-999"
       size="lg"
       [value]="'123456'"
-  /&gt;&lt;/label&gt;
+    /&gt;
+  &lt;/label&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -418,7 +425,8 @@
       invalid
       ariaDescribedBy="mask-error"
       fluid
-    /&gt;&lt;small id="mask-error" class="error"&gt;Enter the complete code.&lt;/small&gt;
+    /&gt;
+    &lt;small id="mask-error" class="error"&gt;Enter the complete code.&lt;/small&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
     &lt;label for="mask-readonly"&gt;Read-only&lt;/label&gt;

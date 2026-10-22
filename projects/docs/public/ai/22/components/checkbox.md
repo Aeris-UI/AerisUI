@@ -128,7 +128,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
     </div>
   `
 })
-export class CheckboxBasicBasicDemo {
+export class CheckboxBasicDemo {
 }
 ```
 
@@ -170,9 +170,13 @@ import { AerisCheckbox, type AerisCheckboxChangeEvent } from '@aeris-ui/core/che
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
     }
+
+    .checkbox-stack > small.error {
+      color: var(--aeris-danger);
+    }
   `
 })
-export class CheckboxModelSignalModelDemo {
+export class CheckboxModelDemo {
   protected readonly lastChange = signal('No interaction');
 
   protected recordChange(event: AerisCheckboxChangeEvent): void {
@@ -227,9 +231,13 @@ interface Interest {
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
     }
+
+    .checkbox-stack > small.error {
+      color: var(--aeris-danger);
+    }
   `
 })
-export class CheckboxIndeterminateIndeterminateDemo {
+export class CheckboxIndeterminateDemo {
   protected readonly selectedInterests = signal<readonly string[]>(['accessibility']);
 
   protected readonly interests: readonly Interest[] = [
@@ -278,7 +286,7 @@ interface Interest {
   templateUrl: './checkbox-group.demo.html',
   styleUrl: './checkbox-group.demo.scss'
 })
-export class CheckboxGroupSelectionGroupDemo {
+export class CheckboxGroupDemo {
   protected readonly interests: readonly Interest[] = [
       { value: 'angular', label: 'Angular', description: 'Framework releases and patterns' },
       { value: 'accessibility', label: 'Accessibility', description: 'Inclusive interface guidance' },
@@ -364,7 +372,7 @@ import { LucideBell, LucideDynamicIcon } from '@lucide/angular';
   templateUrl: './checkbox-cards.demo.html',
   styleUrl: './checkbox-cards.demo.scss'
 })
-export class CheckboxCardsSelectableCardsDemo {
+export class CheckboxCardsDemo {
   protected readonly bellIcon = LucideBell;
 
   protected readonly cardUpdates = signal(true);
@@ -407,20 +415,63 @@ export class CheckboxCardsSelectableCardsDemo {
       [checked]="true"
     />
   </fieldset>
-  <small id="card-report-help">{{
-    cardsSubmitted() && !cardReports()
-      ? 'Select Weekly report to continue.'
-      : 'Weekly report is required for this demonstration.'
-  }}</small>
-  <button aerisButton type="button" (click)="cardsSubmitted.set(true)">
-    Save preferences
-  </button>
+  <small
+    id="card-report-help"
+    aria-live="polite"
+    [class.error]="cardsSubmitted() && !cardReports()"
+  >
+    {{
+      cardsSubmitted() && !cardReports()
+        ? 'Select Weekly report to continue.'
+        : cardsSubmitted()
+          ? 'Selection is valid.'
+          : 'Weekly report is required for this demonstration.'
+    }}
+  </small>
+  <div class="field-row">
+    <button aerisButton type="button" (click)="cardsSubmitted.set(true)">
+      Validate selection
+    </button>
+    <button
+      aerisButton
+      variant="ghost"
+      type="button"
+      (click)="cardUpdates.set(true); cardReports.set(false); cardsSubmitted.set(false)"
+    >
+      Reset
+    </button>
+  </div>
 </div>
 ```
 
 #### CSS
 
 ```css
+.field-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
+@media (max-width: 42rem) {
+  .field-row {
+    align-items: stretch;
+  }
+
+  .field-row > input {
+    width: 100%;
+  }
+}
+
 .checkbox-stack {
   width: 100%;
   display: grid;
@@ -441,6 +492,10 @@ export class CheckboxCardsSelectableCardsDemo {
   color: var(--aeris-text);
   font-size: 0.9375rem;
   font-weight: 650;
+}
+
+.checkbox-stack > small.error {
+  color: var(--aeris-danger);
 }
 ```
 
@@ -478,10 +533,14 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       .field-row {
         align-items: stretch;
       }
+
+      .field-row > input {
+        width: 100%;
+      }
     }
   `
 })
-export class CheckboxSizesSizesDemo {
+export class CheckboxSizesDemo {
 }
 ```
 
@@ -501,8 +560,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
   template: `
     <div class="field-row checkbox-label-position">
       <aeris-checkbox [checked]="true">Label at end</aeris-checkbox>
-      <aeris-checkbox [checked]="true" labelPosition="start"
-        >Label at start</aeris-checkbox>
+      <aeris-checkbox [checked]="true" labelPosition="start">Label at start</aeris-checkbox>
     </div>
   `,
   styles: `
@@ -518,6 +576,10 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       .field-row {
         align-items: stretch;
       }
+
+      .field-row > input {
+        width: 100%;
+      }
     }
 
     .checkbox-label-position {
@@ -525,7 +587,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
     }
   `
 })
-export class CheckboxLabelPositionLabelPositionDemo {
+export class CheckboxLabelPositionDemo {
 }
 ```
 
@@ -568,7 +630,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
     }
   `
 })
-export class CheckboxRichLabelRichLabelDemo {
+export class CheckboxRichLabelDemo {
   protected readonly termsAccepted = signal(false);
 }
 ```
@@ -586,35 +648,44 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
 @Component({
   selector: 'app-checkbox-states-demo',
   imports: [AerisCheckbox],
-  template: `
-    <div class="checkbox-stack">
-      <aeris-checkbox
-        inputId="required-terms"
-        required
-        invalid
-        ariaDescribedBy="required-terms-error"
-      >
-        Accept terms
-      </aeris-checkbox>
-      <small id="required-terms-error" class="error"
-        >You must accept the terms to continue.</small>
-      <aeris-checkbox disabled>Unavailable option</aeris-checkbox>
-      <aeris-checkbox [checked]="true" disabled>Selected and unavailable</aeris-checkbox>
-    </div>
-  `,
-  styles: `
-    .field small.error {
-      color: var(--aeris-danger);
-    }
-
-    .checkbox-stack {
-      width: 100%;
-      display: grid;
-      gap: 0.875rem;
-    }
-  `
+  templateUrl: './checkbox-states.demo.html',
+  styleUrl: './checkbox-states.demo.scss'
 })
-export class CheckboxStatesRequiredInvalidAndDisabledDemo {
+export class CheckboxStatesDemo {
+}
+```
+
+#### HTML
+
+```html
+<div class="checkbox-stack">
+  <aeris-checkbox
+    inputId="required-terms"
+    required
+    invalid
+    ariaDescribedBy="required-terms-error"
+  >
+    Accept terms
+  </aeris-checkbox>
+  <small id="required-terms-error" class="error">
+    You must accept the terms to continue.
+  </small>
+  <aeris-checkbox disabled>Unavailable option</aeris-checkbox>
+  <aeris-checkbox [checked]="true" disabled>Selected and unavailable</aeris-checkbox>
+</div>
+```
+
+#### CSS
+
+```css
+.checkbox-stack {
+  width: 100%;
+  display: grid;
+  gap: 0.875rem;
+}
+
+.checkbox-stack > small.error {
+  color: var(--aeris-danger);
 }
 ```
 
@@ -636,7 +707,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       <aeris-checkbox name="permissions" value="reports" [checked]="true">
         View reports
       </aeris-checkbox>
-      <aeris-checkbox name="permissions" value="exports"> Export data </aeris-checkbox>
+      <aeris-checkbox name="permissions" value="exports">Export data</aeris-checkbox>
     </div>
   `,
   styles: `
@@ -645,9 +716,13 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
       display: grid;
       gap: 0.875rem;
     }
+
+    .checkbox-stack > small.error {
+      color: var(--aeris-danger);
+    }
   `
 })
-export class CheckboxNativeFormNativeFormValuesDemo {
+export class CheckboxNativeFormDemo {
 }
 ```
 
@@ -685,7 +760,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
     .field-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
       gap: 1.25rem;
     }
 
@@ -722,7 +797,7 @@ import { AerisCheckbox } from '@aeris-ui/core/checkbox';
     }
   `
 })
-export class CheckboxAngularFormsReactiveAndTemplateDrivenFormsDemo {
+export class CheckboxAngularFormsDemo {
   protected readonly reactiveChecked =
     new FormControl(false);
 

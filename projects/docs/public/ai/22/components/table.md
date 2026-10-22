@@ -337,7 +337,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
     </div>
   `
 })
-export class TableBasicBasicDemo {
+export class TableBasicDemo {
   protected readonly compactColumns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '42%' },
       { field: 'team', header: 'Team', width: '34%' },
@@ -381,7 +381,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
     </div>
   `
 })
-export class TableDynamicDynamicColumnsDemo {
+export class TableDynamicDemo {
   protected readonly compactColumns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '42%' },
       { field: 'team', header: 'Team', width: '34%' },
@@ -420,7 +420,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
     </div>
   `
 })
-export class TableSortSortingDemo {
+export class TableSortDemo {
   protected readonly columns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '22%' },
       { field: 'role', header: 'Role', sortable: true, width: '26%' },
@@ -504,7 +504,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
     </div>
   `
 })
-export class TableFilterGlobalFilteringDemo {
+export class TableFilterDemo {
   protected readonly compactColumns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '42%' },
       { field: 'team', header: 'Team', width: '34%' },
@@ -595,7 +595,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
     </div>
   `
 })
-export class TableColumnFilterColumnFilteringDemo {
+export class TableColumnFilterDemo {
   protected readonly columns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '22%' },
       { field: 'role', header: 'Role', sortable: true, width: '26%' },
@@ -691,7 +691,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
     </div>
   `
 })
-export class TablePaginationPaginationDemo {
+export class TablePaginationDemo {
   protected readonly compactColumns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '42%' },
       { field: 'team', header: 'Team', width: '34%' },
@@ -776,7 +776,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
   templateUrl: './table-selection.demo.html',
   styleUrl: './table-selection.demo.scss'
 })
-export class TableSelectionSelectionDemo {
+export class TableSelectionDemo {
   protected readonly singleSelectedMember = signal<readonly string[]>(['2']);
 
   protected readonly rowSelectedMembers = signal<readonly string[]>([]);
@@ -927,7 +927,7 @@ const SELECTION_MEMBERS: readonly AerisTableData[] = [
   templateUrl: './table-selection-workflow.demo.html',
   styleUrl: './table-selection-workflow.demo.scss'
 })
-export class TableSelectionWorkflowSelectionWorkflowDemo {
+export class TableSelectionWorkflowDemo {
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly filter = signal('');
@@ -1096,8 +1096,9 @@ export class TableSelectionWorkflowSelectionWorkflowDemo {
 ```html
 <div class="selection-workflow">
   <aeris-toolbar variant="plain" role="group" ariaLabel="Member bulk actions">
-    <span aerisToolbarStart aria-live="polite"
-      >{{ workflowSelected().length }} selected across all pages</span>
+    <span aerisToolbarStart aria-live="polite">
+      {{ workflowSelected().length }} selected across all pages
+    </span>
     <div aerisToolbarEnd>
       <button
         aerisButton
@@ -1213,7 +1214,7 @@ import { AerisTableContextMenuModule, type AerisTableColumn, type AerisTableCont
   imports: [AerisTableContextMenuModule],
   templateUrl: './table-context-menu.demo.html'
 })
-export class TableContextMenuContextMenuDemo {
+export class TableContextMenuDemo {
   protected readonly contextMenuStatus = signal('Right-click a row to open member actions.');
 
   protected readonly compactColumns: readonly AerisTableColumn[] = [
@@ -1334,7 +1335,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
   templateUrl: './table-appearance.demo.html',
   styleUrl: './table-appearance.demo.scss'
 })
-export class TableAppearanceStripedRowsSizesAndGridlinesDemo {
+export class TableAppearanceDemo {
   protected readonly compactColumns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '42%' },
       { field: 'team', header: 'Team', width: '34%' },
@@ -1453,7 +1454,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
     </div>
   `
 })
-export class TableResizingColumnControlsDemo {
+export class TableResizingDemo {
   protected readonly adjustableColumns =
     signal<readonly AerisTableColumn[]>([
       { field: 'name', header: 'Name', sortable: true, width: '42%' },
@@ -1486,7 +1487,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData, type Aeri
   templateUrl: './table-row-reordering.demo.html',
   styleUrl: './table-row-reordering.demo.scss'
 })
-export class TableRowReorderingRowReorderingDemo {
+export class TableRowReorderingDemo {
   protected readonly reorderMembers = signal<readonly AerisTableData[]>([
     { id: '1', name: 'Maya Chen', team: 'Design' },
     { id: '2', name: 'Noah Williams', team: 'Engineering' },
@@ -1570,13 +1571,14 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
         [(expandedKeys)]="expandedMembers"
       >
         <ng-template aerisTableExpansion let-row>
-          <strong>{{ row['name'] }}</strong> - {{ row['notes'] }}
+          <strong>{{ row['name'] }}</strong>
+          - {{ row['notes'] }}
         </ng-template>
       </aeris-table>
     </div>
   `
 })
-export class TableExpansionRowExpansionDemo {
+export class TableExpansionDemo {
   protected readonly compactColumns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '42%' },
       { field: 'team', header: 'Team', width: '34%' },
@@ -1666,7 +1668,7 @@ import { AerisTableModule, type AerisTableCellEditEvent, type AerisTableColumn, 
     </div>
   `
 })
-export class TableEditingInCellEditingDemo {
+export class TableEditingDemo {
   protected readonly compactColumns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '42%' },
       { field: 'team', header: 'Team', width: '34%' },
@@ -1709,7 +1711,7 @@ import { AerisTableModule, type AerisTableCellEditEvent, type AerisTableCellEdit
   templateUrl: './table-editing-permissions.demo.html',
   styleUrl: './table-editing-permissions.demo.scss'
 })
-export class TableEditingPermissionsEditingPermissionsDemo {
+export class TableEditingPermissionsDemo {
   protected readonly permissionDefault = signal(true);
 
   protected readonly permissionColumns: readonly AerisTableColumn[] = [
@@ -1792,7 +1794,7 @@ import { AerisTableModule, type AerisTableCellEditEvent, type AerisTableColumn, 
   templateUrl: './table-custom-editors.demo.html',
   styleUrl: './table-custom-editors.demo.scss'
 })
-export class TableCustomEditorsCustomEditorsDemo {
+export class TableCustomEditorsDemo {
   protected readonly isDate = (value: unknown): value is Date => value instanceof Date;
 
   protected readonly customEditorColumns: readonly AerisTableColumn[] = [
@@ -1850,8 +1852,7 @@ export class TableCustomEditorsCustomEditorsDemo {
               [ariaLabel]="editor.ariaLabel"
               [value]="typeof draft === 'number' ? draft : null"
               (valueChange)="
-                editor.value.set($event);
-                editor.valid.set($event !== null && $event >= 0)
+                editor.value.set($event); editor.valid.set($event !== null && $event >= 0)
               "
               [invalid]="typeof draft !== 'number' || draft < 0"
               fluid
@@ -1926,7 +1927,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
   templateUrl: './table-sticky-headers.demo.html',
   styleUrl: './table-sticky-headers.demo.scss'
 })
-export class TableStickyHeadersStickyHeadersDemo {
+export class TableStickyHeadersDemo {
   protected readonly pinHeaders = signal(true);
 
   protected readonly pinningRows = signal<readonly AerisTableData[]>(
@@ -2017,7 +2018,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
     }
   `
 })
-export class TablePinnedColumnsPinnedColumnsDemo {
+export class TablePinnedColumnsDemo {
   protected readonly pinningRows = signal<readonly AerisTableData[]>(
       Array.from({ length: 24 }, (_, index) => ({
         id: `pin-${index + 1}`,
@@ -2054,7 +2055,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData, type Aeri
   templateUrl: './table-pinned-rows.demo.html',
   styleUrl: './table-pinned-rows.demo.scss'
 })
-export class TablePinnedRowsPinnedRowsDemo {
+export class TablePinnedRowsDemo {
   protected readonly defaultPinRows: AerisTablePinnedRows = { top: ['pin-3'], bottom: ['pin-18'] };
 
   protected readonly pinRows = signal<AerisTablePinnedRows>(this.defaultPinRows);
@@ -2085,9 +2086,7 @@ export class TablePinnedRowsPinnedRowsDemo {
     aerisButton
     variant="outline"
     [attr.aria-pressed]="pinRows().top.length > 0"
-    (click)="
-      pinRows.set(pinRows().top.length ? { top: [], bottom: [] } : defaultPinRows)
-    "
+    (click)="pinRows.set(pinRows().top.length ? { top: [], bottom: [] } : defaultPinRows)"
   >
     {{ pinRows().top.length ? 'Unpin rows' : 'Pin rows' }}
   </button>
@@ -2130,7 +2129,7 @@ import { AerisTableModule, type AerisTableCellEditEvent, type AerisTableColumn, 
   templateUrl: './table-combined-pinning.demo.html',
   styleUrl: './table-combined-pinning.demo.scss'
 })
-export class TableCombinedPinningCombinedPinningDemo {
+export class TableCombinedPinningDemo {
   protected readonly defaultPinRows: AerisTablePinnedRows = { top: ['pin-3'], bottom: ['pin-18'] };
 
   protected readonly pinningRows = signal<readonly AerisTableData[]>(
@@ -2216,7 +2215,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
     </div>
   `
 })
-export class TableScrollingScrollingDemo {
+export class TableScrollingDemo {
   protected readonly columns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '22%' },
       { field: 'role', header: 'Role', sortable: true, width: '26%' },
@@ -2303,7 +2302,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
   templateUrl: './table-templates.demo.html',
   styleUrl: './table-templates.demo.scss'
 })
-export class TableTemplatesCellTemplatesDemo {
+export class TableTemplatesDemo {
   protected readonly compactColumns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '42%' },
       { field: 'team', header: 'Team', width: '34%' },
@@ -2423,7 +2422,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
   templateUrl: './table-responsive.demo.html',
   styleUrl: './table-responsive.demo.scss'
 })
-export class TableResponsiveResponsiveLayoutsDemo {
+export class TableResponsiveDemo {
   protected readonly columns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '22%' },
       { field: 'role', header: 'Role', sortable: true, width: '26%' },
@@ -2559,7 +2558,7 @@ import { AerisTableModule, type AerisTable, type AerisTableColumn, type AerisTab
     }
   `
 })
-export class TableCsvCSVExportDemo {
+export class TableCsvDemo {
   protected readonly compactColumns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '42%' },
       { field: 'team', header: 'Team', width: '34%' },
@@ -2664,7 +2663,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData } from '@a
     }
   `
 })
-export class TableStatesLoadingAndEmptyStatesDemo {
+export class TableStatesDemo {
   protected readonly compactColumns: readonly AerisTableColumn[] = [
       { field: 'name', header: 'Name', sortable: true, width: '42%' },
       { field: 'team', header: 'Team', width: '34%' },
@@ -2750,7 +2749,7 @@ import { AerisTableModule, type AerisTableColumn, type AerisTableData, type Aeri
     </div>
   `
 })
-export class TableEventsEventsDemo {
+export class TableEventsDemo {
   protected readonly selectedMembers = signal<readonly string[]>(['1']);
 
   protected readonly eventText = signal('No table event yet');

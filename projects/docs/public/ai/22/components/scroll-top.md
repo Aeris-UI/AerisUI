@@ -129,7 +129,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
     }
   `
 })
-export class ScrollTopBasicBasicDemo {
+export class ScrollTopBasicDemo {
 }
 ```
 
@@ -149,7 +149,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
   templateUrl: './scroll-top-positions.demo.html',
   styleUrl: './scroll-top-positions.demo.scss'
 })
-export class ScrollTopPositionsPositionsDemo {
+export class ScrollTopPositionsDemo {
 }
 ```
 
@@ -163,7 +163,8 @@ export class ScrollTopPositionsPositionsDemo {
       strategy="absolute"
       position="bottom-right"
       ariaLabel="Bottom right scroll top"
-    /><span>Bottom right</span>
+    />
+    <span>Bottom right</span>
   </div>
   <div>
     <aeris-scroll-top
@@ -171,7 +172,8 @@ export class ScrollTopPositionsPositionsDemo {
       strategy="absolute"
       position="bottom-left"
       ariaLabel="Bottom left scroll top"
-    /><span>Bottom left</span>
+    />
+    <span>Bottom left</span>
   </div>
   <div>
     <aeris-scroll-top
@@ -179,7 +181,8 @@ export class ScrollTopPositionsPositionsDemo {
       strategy="absolute"
       position="top-right"
       ariaLabel="Top right scroll top"
-    /><span>Top right</span>
+    />
+    <span>Top right</span>
   </div>
   <div>
     <aeris-scroll-top
@@ -187,7 +190,8 @@ export class ScrollTopPositionsPositionsDemo {
       strategy="absolute"
       position="top-left"
       ariaLabel="Top left scroll top"
-    /><span>Top left</span>
+    />
+    <span>Top left</span>
   </div>
 </div>
 ```
@@ -249,7 +253,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
   templateUrl: './scroll-top-sizes.demo.html',
   styleUrl: './scroll-top-sizes.demo.scss'
 })
-export class ScrollTopSizesSizesDemo {
+export class ScrollTopSizesDemo {
 }
 ```
 
@@ -257,26 +261,28 @@ export class ScrollTopSizesSizesDemo {
 
 ```html
 <div class="scroll-top-size-row">
-  <span
-    ><aeris-scroll-top
+  <span>
+    <aeris-scroll-top
       alwaysVisible
       strategy="absolute"
       size="sm"
       ariaLabel="Small scroll top"
-    />Small</span>
-  <span
-    ><aeris-scroll-top
-      alwaysVisible
-      strategy="absolute"
-      ariaLabel="Medium scroll top"
-    />Medium</span>
-  <span
-    ><aeris-scroll-top
+    />
+    Small
+  </span>
+  <span>
+    <aeris-scroll-top alwaysVisible strategy="absolute" ariaLabel="Medium scroll top" />
+    Medium
+  </span>
+  <span>
+    <aeris-scroll-top
       alwaysVisible
       strategy="absolute"
       size="lg"
       ariaLabel="Large scroll top"
-    />Large</span>
+    />
+    Large
+  </span>
 </div>
 ```
 
@@ -397,7 +403,7 @@ import { AerisScrollTop } from '@aeris-ui/core/scroll-top';
     }
   `
 })
-export class ScrollTopEventsEventsDemo {
+export class ScrollTopEventsDemo {
   protected readonly visibilityLog = signal(
     'Visibility has not changed in this demo yet.',
   );

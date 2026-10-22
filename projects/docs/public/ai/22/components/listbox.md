@@ -136,11 +136,7 @@ import { AerisListbox, type AerisListboxOption, type AerisListboxValue } from '@
   imports: [AerisListbox],
   template: `
     <div class="listbox-demo">
-      <aeris-listbox
-        ariaLabel="Single selection"
-        [options]="options"
-        [(value)]="single"
-      />
+      <aeris-listbox ariaLabel="Single selection" [options]="options" [(value)]="single" />
       <p>Selected: {{ single() || 'None' }}</p>
     </div>
   `,
@@ -164,7 +160,7 @@ import { AerisListbox, type AerisListboxOption, type AerisListboxValue } from '@
     }
   `
 })
-export class ListboxBasicSingleSelectionDemo {
+export class ListboxBasicDemo {
   protected readonly options: readonly AerisListboxOption[] = [
       { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
       { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },
@@ -220,7 +216,7 @@ import { AerisListbox, type AerisListboxOption, type AerisListboxValue } from '@
     }
   `
 })
-export class ListboxMultipleMultipleSelectionDemo {
+export class ListboxMultipleDemo {
   protected readonly options: readonly AerisListboxOption[] = [
       { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
       { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },
@@ -270,7 +266,7 @@ import { AerisListbox, type AerisListboxOption } from '@aeris-ui/core/listbox';
     }
   `
 })
-export class ListboxGroupsGroupsDemo {
+export class ListboxGroupsDemo {
   protected readonly groupedOptions: readonly AerisListboxOption[] = [
       { label: 'Design', value: 'design', group: 'Product' },
       { label: 'Engineering', value: 'engineering', group: 'Product' },
@@ -297,7 +293,7 @@ import { LucideDynamicIcon, LucidePalette } from '@lucide/angular';
   templateUrl: './listbox-templates.demo.html',
   styleUrl: './listbox-templates.demo.scss'
 })
-export class ListboxTemplatesTemplatesDemo {
+export class ListboxTemplatesDemo {
   protected readonly groupedOptions: readonly AerisListboxOption[] = [
       { label: 'Design', value: 'design', group: 'Product' },
       { label: 'Engineering', value: 'engineering', group: 'Product' },
@@ -314,11 +310,12 @@ export class ListboxTemplatesTemplatesDemo {
 ```html
 <div class="listbox-demo">
   <aeris-listbox ariaLabel="Templated selection" [options]="groupedOptions">
-    <ng-template aerisListboxGroup let-group
-      ><span>{{ group }} team</span></ng-template>
+    <ng-template aerisListboxGroup let-group>
+      <span>{{ group }} team</span>
+    </ng-template>
     <ng-template aerisListboxOption let-option let-selected="selected">
-      <span class="listbox-option"
-        ><svg [lucideIcon]="paletteIcon" aria-hidden="true"></svg>
+      <span class="listbox-option">
+        <svg [lucideIcon]="paletteIcon" aria-hidden="true"></svg>
         <span>{{ option.label }}</span>
         @if (selected) {
           <small>Selected</small>
@@ -332,6 +329,13 @@ export class ListboxTemplatesTemplatesDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .listbox-demo {
   display: grid;
   gap: 1rem;
@@ -414,7 +418,7 @@ import { AerisListbox, type AerisListboxOption } from '@aeris-ui/core/listbox';
     }
   `
 })
-export class ListboxFilterFilteringDemo {
+export class ListboxFilterDemo {
   protected readonly groupedOptions: readonly AerisListboxOption[] = [
       { label: 'Design', value: 'design', group: 'Product' },
       { label: 'Engineering', value: 'engineering', group: 'Product' },
@@ -441,7 +445,7 @@ import { AerisListbox, type AerisListboxOption } from '@aeris-ui/core/listbox';
   templateUrl: './listbox-states.demo.html',
   styleUrl: './listbox-states.demo.scss'
 })
-export class ListboxStatesStatesDemo {
+export class ListboxStatesDemo {
   protected readonly options: readonly AerisListboxOption[] = [
       { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
       { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },
@@ -460,11 +464,9 @@ export class ListboxStatesStatesDemo {
   <button aerisButton variant="outline" (click)="loading.set(!loading())">
     Toggle loading
   </button>
-  <aeris-listbox
-    ariaLabel="Loading selection"
-    [options]="options"
-    [loading]="loading()"
-    ><ng-template aerisListboxLoading>Fetching options…</ng-template></aeris-listbox>
+  <aeris-listbox ariaLabel="Loading selection" [options]="options" [loading]="loading()">
+    <ng-template aerisListboxLoading>Fetching options…</ng-template>
+  </aeris-listbox>
   <aeris-listbox
     ariaLabel="Disabled selection"
     [options]="options"
@@ -511,10 +513,43 @@ import { AerisListbox, type AerisListboxChangeEvent, type AerisListboxOption, ty
 @Component({
   selector: 'app-listbox-controlled-demo',
   imports: [AerisButton, AerisListbox],
-  templateUrl: './listbox-controlled.demo.html',
-  styleUrl: './listbox-controlled.demo.scss'
+  template: `
+    <div class="listbox-demo">
+      <button aerisButton variant="outline" (click)="controlled.set('research')">
+        Select Research
+      </button>
+      <aeris-listbox
+        #controlledList
+        ariaLabel="Controlled selection"
+        [options]="options"
+        [(value)]="controlled"
+        (changed)="recordChange($event)"
+      />
+      <button aerisButton variant="ghost" (click)="controlledList.focus()">Focus list</button>
+      <p aria-live="polite">Last user selection: {{ lastChange() }}</p>
+    </div>
+  `,
+  styles: `
+    .listbox-demo {
+      display: grid;
+      gap: 1rem;
+      inline-size: 100%;
+      max-inline-size: 24rem;
+      min-inline-size: 0;
+    }
+
+    .listbox-demo p {
+      margin: 0;
+      color: var(--aeris-text-2);
+      overflow-wrap: anywhere;
+    }
+
+    .listbox-demo > button {
+      justify-self: start;
+    }
+  `
 })
-export class ListboxControlledControlledSelectionDemo {
+export class ListboxControlledDemo {
   protected readonly options: readonly AerisListboxOption[] = [
       { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
       { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },
@@ -529,49 +564,6 @@ export class ListboxControlledControlledSelectionDemo {
   protected recordChange(event: AerisListboxChangeEvent): void {
       this.lastChange.set(event.options.map((option) => option.label).join(', ') || 'None');
     }
-}
-```
-
-#### HTML
-
-```html
-<div class="listbox-demo">
-  <button aerisButton variant="outline" (click)="controlled.set('research')">
-    Select Research
-  </button>
-  <aeris-listbox
-    #controlledList
-    ariaLabel="Controlled selection"
-    [options]="options"
-    [(value)]="controlled"
-    (changed)="recordChange($event)"
-  />
-  <button aerisButton variant="ghost" (click)="controlledList.focus()">
-    Focus list
-  </button>
-  <p aria-live="polite">Last user selection: {{ lastChange() }}</p>
-</div>
-```
-
-#### CSS
-
-```css
-.listbox-demo {
-  display: grid;
-  gap: 1rem;
-  inline-size: 100%;
-  max-inline-size: 24rem;
-  min-inline-size: 0;
-}
-
-.listbox-demo p {
-  margin: 0;
-  color: var(--aeris-text-2);
-  overflow-wrap: anywhere;
-}
-
-.listbox-demo > button {
-  justify-self: start;
 }
 ```
 
@@ -617,7 +609,7 @@ import { AerisListbox, type AerisListboxOption } from '@aeris-ui/core/listbox';
     }
   `
 })
-export class ListboxLongScrollingDemo {
+export class ListboxLongDemo {
   protected readonly longOptions: readonly AerisListboxOption[] = Array.from(
       { length: 60 },
       (_, index) => ({ value: `option-${index + 1}`, label: `Option ${index + 1}` }),
@@ -644,7 +636,7 @@ import { FormField, form, required } from '@angular/forms/signals';
   templateUrl: './listbox-signal-forms.demo.html',
   styleUrl: './listbox-signal-forms.demo.scss'
 })
-export class ListboxSignalFormsSignalFormsDemo {
+export class ListboxSignalFormsDemo {
   protected readonly options: readonly AerisListboxOption[] = [
       { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
       { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },
@@ -674,8 +666,7 @@ export class ListboxSignalFormsSignalFormsDemo {
   />
   <p>Selected: {{ selectionData().choice || 'None' }}</p>
   @if (showError()) {
-    <aeris-message id="listbox-error" severity="danger"
-      >Choose an option.</aeris-message>
+    <aeris-message id="listbox-error" severity="danger">Choose an option.</aeris-message>
   }
   <button aerisButton variant="outline" (click)="fields.choice().markAsTouched()">
     Validate
@@ -752,7 +743,7 @@ import { AerisListbox, type AerisListboxOption, type AerisListboxValue } from '@
     }
   `
 })
-export class ListboxReactiveReactiveFormsDemo {
+export class ListboxReactiveDemo {
   protected readonly options: readonly AerisListboxOption[] = [
       { label: 'Design', value: 'design', description: 'Interfaces and experiences' },
       { label: 'Engineering', value: 'engineering', description: 'Products and platforms' },

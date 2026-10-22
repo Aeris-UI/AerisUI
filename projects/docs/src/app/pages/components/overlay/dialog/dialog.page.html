@@ -80,35 +80,34 @@ Shared component planning and release notes.</textarea>
                 <p class="dialog-status" aria-live="polite">{{ lastEvent() }}</p>
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
-                &lt;button aerisButton type="button" (click)="controlledOpen.set(true)"&gt;
-                  Edit workspace
-                &lt;/button&gt;
-                &lt;aeris-dialog
-                  header="Edit workspace"
-                  [(visible)]="controlledOpen"
-                  (opened)="recordDialogEvent($event)"
-                  (closed)="recordDialogEvent($event)"
-                &gt;
-                  &lt;form class="dialog-form"&gt;
-                    &lt;label&gt;
-                      Workspace name
-                      &lt;input aerisInputText type="text" value="Design System" /&gt;
-                    &lt;/label&gt;
-                    &lt;label&gt;
-                      Notes
-                      &lt;textarea aerisTextarea&gt;
-Shared component planning and release notes.&lt;/textarea&gt;
-                    &lt;/label&gt;
-                  &lt;/form&gt;
-                  &lt;ng-template aerisDialogFooter let-close="close"&gt;
-                    &lt;div class="dialog-actions"&gt;
-                      &lt;button aerisButton type="button" (click)="close($event)"&gt;Cancel&lt;/button&gt;
-                      &lt;button aerisButton type="button" (click)="close($event)"&gt;Save&lt;/button&gt;
-                    &lt;/div&gt;
-                  &lt;/ng-template&gt;
-                &lt;/aeris-dialog&gt;
-                &lt;p class="dialog-status" aria-live="polite"&gt;&#123;&#123; lastEvent() &#125;&#125;&lt;/p&gt;
-              &lt;/div&gt;</code></pre>
+  &lt;button aerisButton type="button" (click)="controlledOpen.set(true)"&gt;
+    Edit workspace
+  &lt;/button&gt;
+  &lt;aeris-dialog
+    header="Edit workspace"
+    [(visible)]="controlledOpen"
+    (opened)="recordDialogEvent($event)"
+    (closed)="recordDialogEvent($event)"
+  &gt;
+    &lt;form class="dialog-form"&gt;
+      &lt;label&gt;
+        Workspace name
+        &lt;input aerisInputText type="text" value="Design System" /&gt;
+      &lt;/label&gt;
+      &lt;label&gt;
+        Notes
+        &lt;textarea aerisTextarea&gt;Shared component planning and release notes.&lt;/textarea&gt;
+      &lt;/label&gt;
+    &lt;/form&gt;
+    &lt;ng-template aerisDialogFooter let-close="close"&gt;
+      &lt;div class="dialog-actions"&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Cancel&lt;/button&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Save&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-dialog&gt;
+  &lt;p class="dialog-status" aria-live="polite"&gt;&#123;&#123; lastEvent() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
             </app-form-demo>
 
             <app-form-demo
@@ -347,8 +346,8 @@ Shared component planning and release notes.&lt;/textarea&gt;
     [(visible)]="responsiveOpen"
   &gt;
     &lt;p&gt;
-      The dialog uses the custom desktop width until the built-in narrow viewport
-      query applies the mobile width.
+      The dialog uses the custom desktop width until the built-in narrow viewport query
+      applies the mobile width.
     &lt;/p&gt;
   &lt;/aeris-dialog&gt;
 &lt;/div&gt;</code></pre>
@@ -441,48 +440,48 @@ Shared component planning and release notes.&lt;/textarea&gt;
       documentation, and test coverage.
     &lt;/p&gt;
     &lt;p&gt;
-      Button, table, tree, and dialog examples now use complete Angular component code
-      so copied examples can run without hidden context.
+      Button, table, tree, and dialog examples now use complete Angular component code so
+      copied examples can run without hidden context.
     &lt;/p&gt;
     &lt;p&gt;
       Dialog keeps the header and footer visible while body content scrolls inside the
       constrained panel.
     &lt;/p&gt;
     &lt;p&gt;
-      Keyboard checks cover Escape dismissal, focus trapping, close-button semantics,
-      and focus restoration after the dialog closes.
+      Keyboard checks cover Escape dismissal, focus trapping, close-button semantics, and
+      focus restoration after the dialog closes.
     &lt;/p&gt;
     &lt;p&gt;
-      Accessibility updates clarify when visible labels are generated automatically
-      and when ariaLabel or ariaLabelledBy should be provided.
+      Accessibility updates clarify when visible labels are generated automatically and
+      when ariaLabel or ariaLabelledBy should be provided.
     &lt;/p&gt;
     &lt;p&gt;
-      Theme updates keep overlay, surface, border, focus, and text colors aligned
-      across every palette in light and dark mode.
+      Theme updates keep overlay, surface, border, focus, and text colors aligned across
+      every palette in light and dark mode.
     &lt;/p&gt;
     &lt;p&gt;
-      Responsive behavior uses viewport-safe maximums by default and supports a
-      dedicated mobileWidth value for narrow layouts.
+      Responsive behavior uses viewport-safe maximums by default and supports a dedicated
+      mobileWidth value for narrow layouts.
     &lt;/p&gt;
     &lt;p&gt;
-      Consumers can opt out of the visual backdrop while retaining modal semantics,
-      focus management, and scroll blocking.
+      Consumers can opt out of the visual backdrop while retaining modal semantics, focus
+      management, and scroll blocking.
     &lt;/p&gt;
     &lt;p&gt;
-      Headless composition is available for custom surfaces that still need the
-      built-in dialog role and focus behavior.
+      Headless composition is available for custom surfaces that still need the built-in
+      dialog role and focus behavior.
     &lt;/p&gt;
     &lt;p&gt;
       Long release notes, review checklists, and legal notices should set maxHeight so
       important actions remain reachable.
     &lt;/p&gt;
     &lt;p&gt;
-      The scrollable region is the dialog body. Footer actions remain fixed at the
-      bottom of the dialog panel.
+      The scrollable region is the dialog body. Footer actions remain fixed at the bottom
+      of the dialog panel.
     &lt;/p&gt;
     &lt;p&gt;
-      This final paragraph confirms the body is long enough to require scrolling in
-      the live example.
+      This final paragraph confirms the body is long enough to require scrolling in the
+      live example.
     &lt;/p&gt;
     &lt;ng-template aerisDialogFooter let-close="close"&gt;
       &lt;div class="dialog-actions"&gt;
@@ -537,8 +536,8 @@ Shared component planning and release notes.&lt;/textarea&gt;
     [(visible)]="confirmOpen"
   &gt;
     &lt;p&gt;
-      This action moves the workspace out of active navigation. You can restore it
-      later from settings.
+      This action moves the workspace out of active navigation. You can restore it later
+      from settings.
     &lt;/p&gt;
     &lt;ng-template aerisDialogFooter let-close="close"&gt;
       &lt;div class="dialog-actions"&gt;
@@ -584,11 +583,7 @@ Shared component planning and release notes.&lt;/textarea&gt;
   &lt;button aerisButton type="button" (click)="headlessOpen.set(true)"&gt;
     Open headless dialog
   &lt;/button&gt;
-  &lt;aeris-dialog
-    ariaLabel="Custom notification"
-    width="24rem"
-    [(visible)]="headlessOpen"
-  &gt;
+  &lt;aeris-dialog ariaLabel="Custom notification" width="24rem" [(visible)]="headlessOpen"&gt;
     &lt;ng-template aerisDialogHeadless let-close="close"&gt;
       &lt;div class="headless-dialog"&gt;
         &lt;h3&gt;Custom notification&lt;/h3&gt;

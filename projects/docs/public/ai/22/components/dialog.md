@@ -186,7 +186,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
     </div>
   `
 })
-export class DialogBasicBasicDemo {
+export class DialogBasicDemo {
   protected readonly basicOpen = signal(false);
 }
 ```
@@ -210,7 +210,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   templateUrl: './dialog-controlled.demo.html',
   styleUrl: './dialog-controlled.demo.scss'
 })
-export class DialogControlledControlledStateDemo {
+export class DialogControlledDemo {
   protected readonly controlledOpen = signal(false);
   protected readonly lastEvent = signal('Dialog is closed.');
 
@@ -228,35 +228,34 @@ export class DialogControlledControlledStateDemo {
 
 ```html
 <div>
-                <button aerisButton type="button" (click)="controlledOpen.set(true)">
-                  Edit workspace
-                </button>
-                <aeris-dialog
-                  header="Edit workspace"
-                  [(visible)]="controlledOpen"
-                  (opened)="recordDialogEvent($event)"
-                  (closed)="recordDialogEvent($event)"
-                >
-                  <form class="dialog-form">
-                    <label>
-                      Workspace name
-                      <input aerisInputText type="text" value="Design System" />
-                    </label>
-                    <label>
-                      Notes
-                      <textarea aerisTextarea>
-Shared component planning and release notes.</textarea>
-                    </label>
-                  </form>
-                  <ng-template aerisDialogFooter let-close="close">
-                    <div class="dialog-actions">
-                      <button aerisButton type="button" (click)="close($event)">Cancel</button>
-                      <button aerisButton type="button" (click)="close($event)">Save</button>
-                    </div>
-                  </ng-template>
-                </aeris-dialog>
-                <p class="dialog-status" aria-live="polite">{{ lastEvent() }}</p>
-              </div>
+  <button aerisButton type="button" (click)="controlledOpen.set(true)">
+    Edit workspace
+  </button>
+  <aeris-dialog
+    header="Edit workspace"
+    [(visible)]="controlledOpen"
+    (opened)="recordDialogEvent($event)"
+    (closed)="recordDialogEvent($event)"
+  >
+    <form class="dialog-form">
+      <label>
+        Workspace name
+        <input aerisInputText type="text" value="Design System" />
+      </label>
+      <label>
+        Notes
+        <textarea aerisTextarea>Shared component planning and release notes.</textarea>
+      </label>
+    </form>
+    <ng-template aerisDialogFooter let-close="close">
+      <div class="dialog-actions">
+        <button aerisButton type="button" (click)="close($event)">Cancel</button>
+        <button aerisButton type="button" (click)="close($event)">Save</button>
+      </div>
+    </ng-template>
+  </aeris-dialog>
+  <p class="dialog-status" aria-live="polite">{{ lastEvent() }}</p>
+</div>
 ```
 
 #### CSS
@@ -314,57 +313,6 @@ Shared component planning and release notes.</textarea>
       flex-direction: column;
     }
 }
-
-.dialog-form {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.dialog-form label {
-  display: grid;
-  gap: 0.35rem;
-  color: var(--text);
-  font-weight: 700;
-}
-
-.dialog-form input,
-.dialog-form textarea {
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: var(--aeris-radius-sm);
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-}
-
-.dialog-form input {
-  min-height: 2.375rem;
-  padding: 0 0.75rem;
-}
-
-.dialog-form textarea {
-  min-height: 5rem;
-  padding: 0.625rem 0.75rem;
-  resize: vertical;
-}
-
-.dialog-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-.dialog-status {
-  margin-top: 0.875rem;
-  color: var(--text-3);
-  font-size: 0.8125rem;
-}
 ```
 
 ### Dismissal and backdrop
@@ -384,7 +332,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
   templateUrl: './dialog-dismissal.demo.html',
   styleUrl: './dialog-dismissal.demo.scss'
 })
-export class DialogDismissalDismissalAndBackdropDemo {
+export class DialogDismissalDemo {
   protected readonly dismissalOpen = signal(false);
   protected readonly noBackdropOpen = signal(false);
   protected readonly noBackdropBlurOpen = signal(false);
@@ -444,8 +392,22 @@ export class DialogDismissalDismissalAndBackdropDemo {
 
 .dialog-status {
   margin-top: 0.875rem;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.dialog-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (max-width: 42rem) {
+  .dialog-controls,
+    .dialog-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
 }
 ```
 
@@ -466,7 +428,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
   templateUrl: './dialog-templates.demo.html',
   styleUrl: './dialog-templates.demo.scss'
 })
-export class DialogTemplatesTemplatesDemo {
+export class DialogTemplatesDemo {
   protected readonly templateOpen = signal(false);
 }
 ```
@@ -552,62 +514,6 @@ export class DialogTemplatesTemplatesDemo {
       flex-direction: column;
     }
 }
-
-.dialog-title-stack {
-  display: grid;
-  gap: 0.15rem;
-}
-
-.dialog-title-stack small {
-  color: var(--text-3);
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.dialog-close-icon {
-  position: relative;
-  width: var(--aeris-icon-size, 1rem);
-  height: var(--aeris-icon-size, 1rem);
-  display: inline-block;
-}
-
-.dialog-close-icon::before,
-.dialog-close-icon::after {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 1.5px;
-  border-radius: 999px;
-  background: currentColor;
-  content: '';
-}
-
-.dialog-close-icon::before {
-  transform: rotate(45deg);
-}
-
-.dialog-close-icon::after {
-  transform: rotate(-45deg);
-}
-
-.dialog-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-.dialog-status {
-  margin-top: 0.875rem;
-  color: var(--text-3);
-  font-size: 0.8125rem;
-}
 ```
 
 ### Positions
@@ -655,12 +561,26 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
 
     .dialog-status {
       margin-top: 0.875rem;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
+    }
+
+    .dialog-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 42rem) {
+      .dialog-controls,
+        .dialog-actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
     }
   `
 })
-export class DialogPositionsPositionsDemo {
+export class DialogPositionsDemo {
   protected readonly positionOpen = signal(false);
   protected readonly currentPosition = signal<'center' | 'top-right' | 'bottom'>('center');
 
@@ -687,7 +607,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
   imports: [AerisButton, AerisDialogModule],
   templateUrl: './dialog-sizing.demo.html'
 })
-export class DialogSizingCustomWidthDemo {
+export class DialogSizingDemo {
   protected readonly sizingOpen = signal(false);
 }
 ```
@@ -729,7 +649,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
   imports: [AerisButton, AerisDialogModule],
   templateUrl: './dialog-responsive.demo.html'
 })
-export class DialogResponsiveResponsiveWidthDemo {
+export class DialogResponsiveDemo {
   protected readonly responsiveOpen = signal(false);
 }
 ```
@@ -749,8 +669,8 @@ export class DialogResponsiveResponsiveWidthDemo {
     [(visible)]="responsiveOpen"
   >
     <p>
-      The dialog uses the custom desktop width until the built-in narrow viewport
-      query applies the mobile width.
+      The dialog uses the custom desktop width until the built-in narrow viewport query
+      applies the mobile width.
     </p>
   </aeris-dialog>
 </div>
@@ -773,7 +693,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
   templateUrl: './dialog-long-content.demo.html',
   styleUrl: './dialog-long-content.demo.scss'
 })
-export class DialogLongContentLongContentDemo {
+export class DialogLongContentDemo {
   protected readonly longContentOpen = signal(false);
 }
 ```
@@ -796,48 +716,48 @@ export class DialogLongContentLongContentDemo {
       documentation, and test coverage.
     </p>
     <p>
-      Button, table, tree, and dialog examples now use complete Angular component code
-      so copied examples can run without hidden context.
+      Button, table, tree, and dialog examples now use complete Angular component code so
+      copied examples can run without hidden context.
     </p>
     <p>
       Dialog keeps the header and footer visible while body content scrolls inside the
       constrained panel.
     </p>
     <p>
-      Keyboard checks cover Escape dismissal, focus trapping, close-button semantics,
-      and focus restoration after the dialog closes.
+      Keyboard checks cover Escape dismissal, focus trapping, close-button semantics, and
+      focus restoration after the dialog closes.
     </p>
     <p>
-      Accessibility updates clarify when visible labels are generated automatically
-      and when ariaLabel or ariaLabelledBy should be provided.
+      Accessibility updates clarify when visible labels are generated automatically and
+      when ariaLabel or ariaLabelledBy should be provided.
     </p>
     <p>
-      Theme updates keep overlay, surface, border, focus, and text colors aligned
-      across every palette in light and dark mode.
+      Theme updates keep overlay, surface, border, focus, and text colors aligned across
+      every palette in light and dark mode.
     </p>
     <p>
-      Responsive behavior uses viewport-safe maximums by default and supports a
-      dedicated mobileWidth value for narrow layouts.
+      Responsive behavior uses viewport-safe maximums by default and supports a dedicated
+      mobileWidth value for narrow layouts.
     </p>
     <p>
-      Consumers can opt out of the visual backdrop while retaining modal semantics,
-      focus management, and scroll blocking.
+      Consumers can opt out of the visual backdrop while retaining modal semantics, focus
+      management, and scroll blocking.
     </p>
     <p>
-      Headless composition is available for custom surfaces that still need the
-      built-in dialog role and focus behavior.
+      Headless composition is available for custom surfaces that still need the built-in
+      dialog role and focus behavior.
     </p>
     <p>
       Long release notes, review checklists, and legal notices should set maxHeight so
       important actions remain reachable.
     </p>
     <p>
-      The scrollable region is the dialog body. Footer actions remain fixed at the
-      bottom of the dialog panel.
+      The scrollable region is the dialog body. Footer actions remain fixed at the bottom
+      of the dialog panel.
     </p>
     <p>
-      This final paragraph confirms the body is long enough to require scrolling in
-      the live example.
+      This final paragraph confirms the body is long enough to require scrolling in the
+      live example.
     </p>
     <ng-template aerisDialogFooter let-close="close">
       <div class="dialog-actions">
@@ -865,8 +785,22 @@ export class DialogLongContentLongContentDemo {
 
 .dialog-status {
   margin-top: 0.875rem;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+@media (max-width: 42rem) {
+  .dialog-controls,
+    .dialog-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
 }
 ```
 
@@ -887,7 +821,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
   templateUrl: './dialog-confirmation.demo.html',
   styleUrl: './dialog-confirmation.demo.scss'
 })
-export class DialogConfirmationConfirmationDemo {
+export class DialogConfirmationDemo {
   protected readonly confirmOpen = signal(false);
 }
 ```
@@ -907,8 +841,8 @@ export class DialogConfirmationConfirmationDemo {
     [(visible)]="confirmOpen"
   >
     <p>
-      This action moves the workspace out of active navigation. You can restore it
-      later from settings.
+      This action moves the workspace out of active navigation. You can restore it later
+      from settings.
     </p>
     <ng-template aerisDialogFooter let-close="close">
       <div class="dialog-actions">
@@ -939,8 +873,22 @@ export class DialogConfirmationConfirmationDemo {
 
 .dialog-status {
   margin-top: 0.875rem;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+@media (max-width: 42rem) {
+  .dialog-controls,
+    .dialog-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
 }
 ```
 
@@ -961,7 +909,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
   templateUrl: './dialog-headless.demo.html',
   styleUrl: './dialog-headless.demo.scss'
 })
-export class DialogHeadlessHeadlessDemo {
+export class DialogHeadlessDemo {
   protected readonly headlessOpen = signal(false);
 }
 ```
@@ -973,11 +921,7 @@ export class DialogHeadlessHeadlessDemo {
   <button aerisButton type="button" (click)="headlessOpen.set(true)">
     Open headless dialog
   </button>
-  <aeris-dialog
-    ariaLabel="Custom notification"
-    width="24rem"
-    [(visible)]="headlessOpen"
-  >
+  <aeris-dialog ariaLabel="Custom notification" width="24rem" [(visible)]="headlessOpen">
     <ng-template aerisDialogHeadless let-close="close">
       <div class="headless-dialog">
         <h3>Custom notification</h3>
@@ -998,10 +942,8 @@ export class DialogHeadlessHeadlessDemo {
 .headless-dialog {
   padding: 1.25rem;
   border-radius: var(--aeris-dialog-radius, var(--aeris-radius-lg));
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--primary) 14%, transparent), transparent 55%),
-    var(--surface);
-  color: var(--text);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--aeris-primary) 14%, transparent), transparent 55%), var(--aeris-surface);
+  color: var(--aeris-text);
 }
 
 .headless-dialog h3 {
@@ -1011,7 +953,7 @@ export class DialogHeadlessHeadlessDemo {
 
 .headless-dialog p {
   margin: 0.5rem 0 1rem;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
 }
 ```
 
@@ -1031,7 +973,7 @@ import { AerisDialogModule } from '@aeris-ui/core/dialog';
   imports: [AerisButton, AerisDialogModule],
   templateUrl: './dialog-utilities.demo.html'
 })
-export class DialogUtilitiesMaximizeDragAndResizeDemo {
+export class DialogUtilitiesDemo {
   protected readonly utilityOpen = signal(false);
   protected readonly maximized = signal(false);
 }

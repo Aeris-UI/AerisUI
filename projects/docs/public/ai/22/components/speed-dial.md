@@ -142,7 +142,7 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
   templateUrl: './speed-dial-linear.demo.html',
   styleUrl: './speed-dial-linear.demo.scss'
 })
-export class SpeedDialLinearLinearDemo {
+export class SpeedDialLinearDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
 
@@ -222,6 +222,15 @@ export class SpeedDialLinearLinearDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -230,6 +239,21 @@ export class SpeedDialLinearLinearDemo {
     flex-wrap: wrap;
   }
 }
+
+.speed-dial-stage {
+  position: relative;
+  min-height: 31rem;
+}
+
+.top { position: absolute; top: 1.75rem; left: 50%; transform: translateX(-50%); }
+.right { position: absolute; top: 50%; right: 1.75rem; transform: translateY(-50%); }
+.bottom { position: absolute; bottom: 1.75rem; left: 50%; transform: translateX(-50%); }
+.left { position: absolute; top: 50%; left: 1.75rem; transform: translateY(-50%); }
+
+.top-left { position: absolute; top: 1.75rem; left: 1.75rem; }
+.top-right { position: absolute; top: 1.75rem; right: 1.75rem; }
+.bottom-right { position: absolute; right: 1.75rem; bottom: 1.75rem; }
+.bottom-left { position: absolute; bottom: 1.75rem; left: 1.75rem; }
 
 .placement-stage {
   position: relative;
@@ -308,21 +332,6 @@ export class SpeedDialLinearLinearDemo {
       left: 1rem;
     }
 }
-
-.speed-dial-stage {
-  position: relative;
-  min-height: 31rem;
-}
-
-.top { position: absolute; top: 1.75rem; left: 50%; transform: translateX(-50%); }
-.right { position: absolute; top: 50%; right: 1.75rem; transform: translateY(-50%); }
-.bottom { position: absolute; bottom: 1.75rem; left: 50%; transform: translateX(-50%); }
-.left { position: absolute; top: 50%; left: 1.75rem; transform: translateY(-50%); }
-
-.top-left { position: absolute; top: 1.75rem; left: 1.75rem; }
-.top-right { position: absolute; top: 1.75rem; right: 1.75rem; }
-.bottom-right { position: absolute; right: 1.75rem; bottom: 1.75rem; }
-.bottom-left { position: absolute; bottom: 1.75rem; left: 1.75rem; }
 ```
 
 ### Semi-circle
@@ -342,7 +351,7 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
   templateUrl: './speed-dial-semi-circle.demo.html',
   styleUrl: './speed-dial-semi-circle.demo.scss'
 })
-export class SpeedDialSemiCircleSemiCircleDemo {
+export class SpeedDialSemiCircleDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
 
@@ -431,6 +440,15 @@ export class SpeedDialSemiCircleSemiCircleDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -439,6 +457,21 @@ export class SpeedDialSemiCircleSemiCircleDemo {
     flex-wrap: wrap;
   }
 }
+
+.speed-dial-stage {
+  position: relative;
+  min-height: 31rem;
+}
+
+.top { position: absolute; top: 1.75rem; left: 50%; transform: translateX(-50%); }
+.right { position: absolute; top: 50%; right: 1.75rem; transform: translateY(-50%); }
+.bottom { position: absolute; bottom: 1.75rem; left: 50%; transform: translateX(-50%); }
+.left { position: absolute; top: 50%; left: 1.75rem; transform: translateY(-50%); }
+
+.top-left { position: absolute; top: 1.75rem; left: 1.75rem; }
+.top-right { position: absolute; top: 1.75rem; right: 1.75rem; }
+.bottom-right { position: absolute; right: 1.75rem; bottom: 1.75rem; }
+.bottom-left { position: absolute; bottom: 1.75rem; left: 1.75rem; }
 
 .placement-stage {
   position: relative;
@@ -517,21 +550,6 @@ export class SpeedDialSemiCircleSemiCircleDemo {
       left: 1rem;
     }
 }
-
-.speed-dial-stage {
-  position: relative;
-  min-height: 31rem;
-}
-
-.top { position: absolute; top: 1.75rem; left: 50%; transform: translateX(-50%); }
-.right { position: absolute; top: 50%; right: 1.75rem; transform: translateY(-50%); }
-.bottom { position: absolute; bottom: 1.75rem; left: 50%; transform: translateX(-50%); }
-.left { position: absolute; top: 50%; left: 1.75rem; transform: translateY(-50%); }
-
-.top-left { position: absolute; top: 1.75rem; left: 1.75rem; }
-.top-right { position: absolute; top: 1.75rem; right: 1.75rem; }
-.bottom-right { position: absolute; right: 1.75rem; bottom: 1.75rem; }
-.bottom-left { position: absolute; bottom: 1.75rem; left: 1.75rem; }
 ```
 
 ### Quarter-circle
@@ -551,7 +569,7 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
   templateUrl: './speed-dial-quarter-circle.demo.html',
   styleUrl: './speed-dial-quarter-circle.demo.scss'
 })
-export class SpeedDialQuarterCircleQuarterCircleDemo {
+export class SpeedDialQuarterCircleDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
 
@@ -640,6 +658,15 @@ export class SpeedDialQuarterCircleQuarterCircleDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -648,6 +675,21 @@ export class SpeedDialQuarterCircleQuarterCircleDemo {
     flex-wrap: wrap;
   }
 }
+
+.speed-dial-stage {
+  position: relative;
+  min-height: 31rem;
+}
+
+.top { position: absolute; top: 1.75rem; left: 50%; transform: translateX(-50%); }
+.right { position: absolute; top: 50%; right: 1.75rem; transform: translateY(-50%); }
+.bottom { position: absolute; bottom: 1.75rem; left: 50%; transform: translateX(-50%); }
+.left { position: absolute; top: 50%; left: 1.75rem; transform: translateY(-50%); }
+
+.top-left { position: absolute; top: 1.75rem; left: 1.75rem; }
+.top-right { position: absolute; top: 1.75rem; right: 1.75rem; }
+.bottom-right { position: absolute; right: 1.75rem; bottom: 1.75rem; }
+.bottom-left { position: absolute; bottom: 1.75rem; left: 1.75rem; }
 
 .placement-stage {
   position: relative;
@@ -722,21 +764,6 @@ export class SpeedDialQuarterCircleQuarterCircleDemo {
       left: 1rem;
     }
 }
-
-.speed-dial-stage {
-  position: relative;
-  min-height: 31rem;
-}
-
-.top { position: absolute; top: 1.75rem; left: 50%; transform: translateX(-50%); }
-.right { position: absolute; top: 50%; right: 1.75rem; transform: translateY(-50%); }
-.bottom { position: absolute; bottom: 1.75rem; left: 50%; transform: translateX(-50%); }
-.left { position: absolute; top: 50%; left: 1.75rem; transform: translateY(-50%); }
-
-.top-left { position: absolute; top: 1.75rem; left: 1.75rem; }
-.top-right { position: absolute; top: 1.75rem; right: 1.75rem; }
-.bottom-right { position: absolute; right: 1.75rem; bottom: 1.75rem; }
-.bottom-left { position: absolute; bottom: 1.75rem; left: 1.75rem; }
 ```
 
 ### Circle
@@ -756,7 +783,7 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
   templateUrl: './speed-dial-circle.demo.html',
   styleUrl: './speed-dial-circle.demo.scss'
 })
-export class SpeedDialCircleCircleDemo {
+export class SpeedDialCircleDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
 
@@ -816,6 +843,15 @@ export class SpeedDialCircleCircleDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -879,7 +915,7 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
   templateUrl: './speed-dial-controlled.demo.html',
   styleUrl: './speed-dial-controlled.demo.scss'
 })
-export class SpeedDialControlledControlledVisibilityDemo {
+export class SpeedDialControlledDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
 
@@ -949,6 +985,15 @@ export class SpeedDialControlledControlledVisibilityDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -1015,7 +1060,7 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
   templateUrl: './speed-dial-mask.demo.html',
   styleUrl: './speed-dial-mask.demo.scss'
 })
-export class SpeedDialMaskMaskDemo {
+export class SpeedDialMaskDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
 
@@ -1076,6 +1121,15 @@ export class SpeedDialMaskMaskDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -1134,7 +1188,7 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
   templateUrl: './speed-dial-states.demo.html',
   styleUrl: './speed-dial-states.demo.scss'
 })
-export class SpeedDialStatesStatesAndLinksDemo {
+export class SpeedDialStatesDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
 
@@ -1197,6 +1251,15 @@ export class SpeedDialStatesStatesAndLinksDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -1255,7 +1318,7 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
   templateUrl: './speed-dial-templates.demo.html',
   styleUrl: './speed-dial-templates.demo.scss'
 })
-export class SpeedDialTemplatesTemplatesDemo {
+export class SpeedDialTemplatesDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
 
@@ -1298,8 +1361,9 @@ export class SpeedDialTemplatesTemplatesDemo {
 </ng-template>
 
 <div class="dial-stage aeris-example-row">
-  <ng-template #icon let-open="open"
-    ><span aria-hidden="true">{{ open ? 'X' : '...' }}</span></ng-template>
+  <ng-template #icon let-open="open">
+    <span aria-hidden="true">{{ open ? 'X' : '...' }}</span>
+  </ng-template>
   <aeris-speed-dial
     ariaLabel="Templated actions"
     [model]="actions"
@@ -1318,6 +1382,15 @@ export class SpeedDialTemplatesTemplatesDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -1376,7 +1449,7 @@ import { LucideCopy, LucideDynamicIcon, LucideEdit, LucidePlus, LucideSave, Luci
   templateUrl: './speed-dial-animation.demo.html',
   styleUrl: './speed-dial-animation.demo.scss'
 })
-export class SpeedDialAnimationAnimationDemo {
+export class SpeedDialAnimationDemo {
 
   protected readonly icons = { Copy: LucideCopy, Edit: LucideEdit, Plus: LucidePlus, Save: LucideSave, Trash2: LucideTrash2, Upload: LucideUpload };
 
@@ -1437,6 +1510,15 @@ export class SpeedDialAnimationAnimationDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {

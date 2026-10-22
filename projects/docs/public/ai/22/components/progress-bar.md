@@ -138,7 +138,7 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
     </div>
   `
 })
-export class ProgressBarBasicBasicDemo {
+export class ProgressBarBasicDemo {
 }
 ```
 
@@ -159,7 +159,7 @@ import { AerisProgressBarModule, type AerisProgressBarStep } from '@aeris-ui/cor
   templateUrl: './progress-bar-processing.demo.html',
   styleUrl: './progress-bar-processing.demo.scss'
 })
-export class ProgressBarProcessingFileProcessingDemo {
+export class ProgressBarProcessingDemo {
   protected readonly processedFiles = signal(0);
   protected readonly processingStarted = signal(false);
   protected readonly processingStatus = computed(() => !this.processingStarted()
@@ -186,9 +186,7 @@ export class ProgressBarProcessingFileProcessingDemo {
 <div>
   <div class="progress-stack" [attr.aria-busy]="processedFiles() < 8">
     <strong id="processing-title">Prepare and process files</strong>
-    <p id="processing-help">
-      Keep this page open until all eight files are processed.
-    </p>
+    <p id="processing-help">Keep this page open until all eight files are processed.</p>
     <aeris-progress-bar
       [mode]="processingStarted() ? 'determinate' : 'indeterminate'"
       [value]="processedFiles()"
@@ -222,8 +220,18 @@ export class ProgressBarProcessingFileProcessingDemo {
 #### CSS
 
 ```css
-.progress-stack { display: grid; gap: 1rem; }
-.progress-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.875rem; }
+.progress-stack,
+.progress-template-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.progress-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.875rem;
+}
 ```
 
 ### Dynamic
@@ -262,7 +270,7 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
     }
   `
 })
-export class ProgressBarDynamicDynamicDemo {
+export class ProgressBarDynamicDemo {
   protected readonly uploadValue = signal(35);
   protected readonly uploadStatus = computed(() => `${this.uploadValue()}% uploaded`);
 
@@ -289,50 +297,27 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
 @Component({
   selector: 'app-progress-bar-severity-demo',
   imports: [AerisProgressBarModule],
-  templateUrl: './progress-bar-severity.demo.html',
-  styleUrl: './progress-bar-severity.demo.scss'
+  template: `
+    <div>
+      <div class="progress-stack">
+        <aeris-progress-bar [value]="25" severity="primary" ariaLabel="Primary progress" />
+        <aeris-progress-bar [value]="35" severity="info" ariaLabel="Info progress" />
+        <aeris-progress-bar [value]="50" severity="success" ariaLabel="Success progress" />
+        <aeris-progress-bar [value]="65" severity="warning" ariaLabel="Warning progress" />
+        <aeris-progress-bar [value]="80" severity="danger" ariaLabel="Danger progress" />
+        <aeris-progress-bar [value]="95" severity="contrast" ariaLabel="Contrast progress" />
+      </div>
+    </div>
+  `,
+  styles: `
+    .progress-stack,
+    .progress-template-stack {
+      display: grid;
+      gap: 1rem;
+    }
+  `
 })
-export class ProgressBarSeveritySeverityDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <div class="progress-stack">
-    <aeris-progress-bar
-      [value]="25"
-      severity="primary"
-      ariaLabel="Primary progress"
-    />
-    <aeris-progress-bar [value]="35" severity="info" ariaLabel="Info progress" />
-    <aeris-progress-bar
-      [value]="50"
-      severity="success"
-      ariaLabel="Success progress"
-    />
-    <aeris-progress-bar
-      [value]="65"
-      severity="warning"
-      ariaLabel="Warning progress"
-    />
-    <aeris-progress-bar [value]="80" severity="danger" ariaLabel="Danger progress" />
-    <aeris-progress-bar
-      [value]="95"
-      severity="contrast"
-      ariaLabel="Contrast progress"
-    />
-  </div>
-</div>
-```
-
-#### CSS
-
-```css
-.progress-stack {
-  display: grid;
-  gap: 1rem;
+export class ProgressBarSeverityDemo {
 }
 ```
 
@@ -352,7 +337,7 @@ import { AerisProgressBarModule, type AerisProgressBarValueContext } from '@aeri
   templateUrl: './progress-bar-template.demo.html',
   styleUrl: './progress-bar-template.demo.scss'
 })
-export class ProgressBarTemplateTemplateDemo {
+export class ProgressBarTemplateDemo {
   protected readonly fileSizeFormatter = (context: AerisProgressBarValueContext): string => {
     const total = 5000;
     const current = Math.round((context.percent / 100) * total);
@@ -395,6 +380,7 @@ export class ProgressBarTemplateTemplateDemo {
 #### CSS
 
 ```css
+.progress-stack,
 .progress-template-stack {
   display: grid;
   gap: 1rem;
@@ -406,7 +392,7 @@ export class ProgressBarTemplateTemplateDemo {
   justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 0.35rem;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font-size: 0.8125rem;
   font-weight: 700;
 }
@@ -431,7 +417,7 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
     </div>
   `
 })
-export class ProgressBarIndeterminateIndeterminateDemo {
+export class ProgressBarIndeterminateDemo {
 }
 ```
 
@@ -472,7 +458,7 @@ import { AerisProgressBarModule, type AerisProgressBarStep } from '@aeris-ui/cor
     }
   `
 })
-export class ProgressBarStepsStepsDemo {
+export class ProgressBarStepsDemo {
   protected readonly orderStep = signal(1);
   protected readonly orderProgress = computed(() => this.orderStep() * 50);
   protected readonly steps: readonly AerisProgressBarStep[] = [
@@ -507,7 +493,7 @@ import { AerisProgressBarModule } from '@aeris-ui/core/progress-bar';
   templateUrl: './progress-bar-options.demo.html',
   styleUrl: './progress-bar-options.demo.scss'
 })
-export class ProgressBarOptionsOptionsDemo {
+export class ProgressBarOptionsDemo {
 }
 ```
 
@@ -536,7 +522,8 @@ export class ProgressBarOptionsOptionsDemo {
 #### CSS
 
 ```css
-.progress-stack {
+.progress-stack,
+.progress-template-stack {
   display: grid;
   gap: 1rem;
 }

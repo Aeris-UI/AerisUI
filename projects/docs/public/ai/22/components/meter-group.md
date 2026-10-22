@@ -143,7 +143,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     </div>
   `
 })
-export class MeterGroupBasicBasicDemo {
+export class MeterGroupBasicDemo {
   protected readonly basicItems: readonly AerisMeterGroupItem[] = [
     { label: 'Space used', value: 45, tone: 'primary' },
   ];
@@ -167,7 +167,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem, type AerisMeterGroupIt
   templateUrl: './meter-group-capacity.demo.html',
   styleUrl: './meter-group-capacity.demo.scss'
 })
-export class MeterGroupCapacityCapacityDemo {
+export class MeterGroupCapacityDemo {
   protected readonly includeCache = signal(true);
   protected readonly capacityItems = computed<readonly AerisMeterGroupItem[]>(() => [
     { label: 'Projects', value: 48, tone: 'primary' },
@@ -213,7 +213,10 @@ export class MeterGroupCapacityCapacityDemo {
 #### CSS
 
 ```css
-.meter-stack { display: grid; gap: 1.25rem; }
+.meter-stack {
+  display: grid;
+  gap: 1.25rem;
+}
 ```
 
 ### Multiple
@@ -235,7 +238,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     </div>
   `
 })
-export class MeterGroupMultipleMultipleDemo {
+export class MeterGroupMultipleDemo {
   protected readonly storageItems: readonly AerisMeterGroupItem[] = [
     { label: 'Applications', value: 14, tone: 'primary' },
     { label: 'Messages', value: 12, tone: 'info' },
@@ -269,7 +272,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     </div>
   `
 })
-export class MeterGroupColorsColorsDemo {
+export class MeterGroupColorsDemo {
   protected readonly colorItems: readonly AerisMeterGroupItem[] = [
     { label: 'Violet', value: 12, color: '#8b5cf6' },
     { label: 'Emerald', value: 14, color: '#10b981' },
@@ -297,7 +300,7 @@ import { LucideAppWindow, LucideDynamicIcon, LucideImage, LucideMessageCircle, L
   templateUrl: './meter-group-icons.demo.html',
   styleUrl: './meter-group-icons.demo.scss'
 })
-export class MeterGroupIconsIconsDemo {
+export class MeterGroupIconsDemo {
   protected readonly icons = {
       AppWindow: LucideAppWindow,
       Image: LucideImage,
@@ -351,6 +354,13 @@ export class MeterGroupIconsIconsDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .meter-icon-label {
   display: inline-flex;
   align-items: center;
@@ -379,7 +389,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
   templateUrl: './meter-group-labels.demo.html',
   styleUrl: './meter-group-labels.demo.scss'
 })
-export class MeterGroupLabelsLegendLayoutsDemo {
+export class MeterGroupLabelsDemo {
   protected readonly storageItems: readonly AerisMeterGroupItem[] = [
     { label: 'Applications', value: 14, tone: 'primary' },
     { label: 'Messages', value: 12, tone: 'info' },
@@ -447,7 +457,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     </div>
   `
 })
-export class MeterGroupVerticalVerticalDemo {
+export class MeterGroupVerticalDemo {
   protected readonly storageItems: readonly AerisMeterGroupItem[] = [
     { label: 'Applications', value: 14, tone: 'primary' },
     { label: 'Messages', value: 12, tone: 'info' },
@@ -486,7 +496,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     </div>
   `
 })
-export class MeterGroupRangeRangeDemo {
+export class MeterGroupRangeDemo {
   protected readonly rangeItems: readonly AerisMeterGroupItem[] = [
     { label: 'Projects', value: 32, tone: 'primary' },
     { label: 'Assets', value: 18, tone: 'info' },
@@ -530,7 +540,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     }
   `
 })
-export class MeterGroupOptionsSizesAndCornersDemo {
+export class MeterGroupOptionsDemo {
   protected readonly storageItems: readonly AerisMeterGroupItem[] = [
     { label: 'Applications', value: 14, tone: 'primary' },
     { label: 'Messages', value: 12, tone: 'info' },
@@ -561,7 +571,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem, type AerisMeterGroupIt
   templateUrl: './meter-group-templates.demo.html',
   styleUrl: './meter-group-templates.demo.scss'
 })
-export class MeterGroupTemplatesTemplatesDemo {
+export class MeterGroupTemplatesDemo {
   protected readonly templateItems: readonly AerisMeterGroupItem[] = [
     { label: 'Projects', value: 25, tone: 'primary' },
     { label: 'Messages', value: 15, tone: 'info' },
@@ -636,11 +646,7 @@ export class MeterGroupTemplatesTemplatesDemo {
 .meter-segment-pattern {
   width: 100%;
   height: 100%;
-  background: repeating-linear-gradient(
-    135deg,
-    transparent 0 4px,
-    rgb(255 255 255 / 18%) 4px 7px
-  );
+  background: repeating-linear-gradient(135deg, transparent 0 4px, rgba(255, 255, 255, 0.18) 4px 7px);
 }
 ```
 
@@ -685,7 +691,7 @@ import { AerisMeterGroupModule, type AerisMeterGroupItem } from '@aeris-ui/core/
     }
   `
 })
-export class MeterGroupTokensTokenCustomizationDemo {
+export class MeterGroupTokensDemo {
   protected readonly storageItems: readonly AerisMeterGroupItem[] = [
     { label: 'Applications', value: 14, tone: 'primary' },
     { label: 'Messages', value: 12, tone: 'info' },

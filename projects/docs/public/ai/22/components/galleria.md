@@ -257,7 +257,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/gal
     </div>
   `
 })
-export class GalleriaBasicBasicDemo {
+export class GalleriaBasicDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -293,7 +293,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage, type AerisGalleriaThumbna
   templateUrl: './galleria-positions.demo.html',
   styleUrl: './galleria-positions.demo.scss'
 })
-export class GalleriaPositionsThumbnailPositionsDemo {
+export class GalleriaPositionsDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -385,8 +385,16 @@ export class GalleriaPositionsThumbnailPositionsDemo {
 }
 
 .galleria-demo-status {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font-size: 0.875rem;
+}
+
+.galleria-demo-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+  margin-bottom: 1rem;
 }
 ```
 
@@ -414,7 +422,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage, type AerisGalleriaRespons
     </div>
   `
 })
-export class GalleriaResponsiveResponsiveDemo {
+export class GalleriaResponsiveDemo {
   protected readonly thumbnailPosition = signal<AerisGalleriaThumbnailPosition>('bottom');
 
 
@@ -466,22 +474,20 @@ import { AerisGalleriaModule, type AerisGalleriaDownloadEvent, type AerisGalleri
         (downloadRequested)="handleDownload($event)"
         ariaLabel="Puppy gallery with image tools"
       />
-      <span class="galleria-toolbar-status" aria-live="polite">{{
-        toolbarStatus()
-      }}</span>
+      <span class="galleria-toolbar-status" aria-live="polite">{{ toolbarStatus() }}</span>
     </div>
   `,
   styles: `
     .galleria-toolbar-status {
       display: block;
       margin-top: 0.75rem;
-      color: var(--text-2);
+      color: var(--aeris-text-2);
       font-size: 0.875rem;
       text-align: center;
     }
   `
 })
-export class GalleriaToolbarImageToolbarDemo {
+export class GalleriaToolbarDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -539,7 +545,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/gal
     </div>
   `
 })
-export class GalleriaGridGridDemo {
+export class GalleriaGridDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -584,7 +590,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/gal
     </div>
   `
 })
-export class GalleriaSingleSingleDemo {
+export class GalleriaSingleDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -630,7 +636,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/gal
     </div>
   `
 })
-export class GalleriaHoverNavigationHoverNavigationDemo {
+export class GalleriaHoverNavigationDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -666,7 +672,7 @@ import { AerisGalleria, AerisGalleriaModule, type AerisGalleriaImage, type Aeris
   templateUrl: './galleria-controlled.demo.html',
   styleUrl: './galleria-controlled.demo.scss'
 })
-export class GalleriaControlledControlledDemo {
+export class GalleriaControlledDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -714,9 +720,7 @@ export class GalleriaControlledControlledDemo {
       First item
     </button>
     <button aerisButton type="button" (click)="showNext()">Next</button>
-    <span class="galleria-demo-status" aria-live="polite">{{
-      controlledStatus()
-    }}</span>
+    <span class="galleria-demo-status" aria-live="polite">{{ controlledStatus() }}</span>
   </div>
   <aeris-galleria
     #controlledGallery
@@ -740,7 +744,7 @@ export class GalleriaControlledControlledDemo {
 }
 
 .galleria-demo-status {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font-size: 0.875rem;
 }
 ```
@@ -769,7 +773,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/gal
     </div>
   `
 })
-export class GalleriaAutoplayCircularAutoplayDemo {
+export class GalleriaAutoplayDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -804,7 +808,7 @@ import { AerisGalleriaModule, type AerisGalleriaImage } from '@aeris-ui/core/gal
   templateUrl: './galleria-templates.demo.html',
   styleUrl: './galleria-templates.demo.scss'
 })
-export class GalleriaTemplatesCustomMediaTemplatesDemo {
+export class GalleriaTemplatesDemo {
   protected readonly puppyNames: readonly string[] = [
     'Milo', 'Luna', 'Biscuit', 'Poppy', 'Nova', 'Archie', 'Coco', 'Teddy', 'Maple', 'Finn',
     'Daisy', 'Winston', 'Olive', 'Louie', 'Ruby', 'Murphy', 'Hazel', 'Otis', 'Rosie', 'Leo',
@@ -834,9 +838,9 @@ export class GalleriaTemplatesCustomMediaTemplatesDemo {
       </figure>
     </ng-template>
     <ng-template aerisGalleriaThumbnail let-photo>
-      <span class="galleria-custom-thumbnail"
-        ><img [src]="$any(photo).thumbnailSrc" [alt]="$any(photo).alt"
-      /></span>
+      <span class="galleria-custom-thumbnail">
+        <img [src]="$any(photo).thumbnailSrc" [alt]="$any(photo).alt" />
+      </span>
     </ng-template>
     <ng-template aerisGalleriaCaption let-photo let-index="index">
       <div class="galleria-custom-caption">
@@ -880,7 +884,7 @@ export class GalleriaTemplatesCustomMediaTemplatesDemo {
 }
 
 .galleria-custom-caption span {
-  color: rgb(255 255 255 / 76%);
+  color: rgba(255, 255, 255, 0.76);
   font-size: 0.875rem;
 }
 ```

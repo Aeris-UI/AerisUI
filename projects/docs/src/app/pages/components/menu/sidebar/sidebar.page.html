@@ -224,9 +224,8 @@
                 </div>
                 <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="sidebar-tools"&gt;
-    &lt;button aerisButton [aerisSidebarToggle]="compactSidebar"&gt;
-      Toggle navigation&lt;/button&gt;
-      &lt;span&gt;Collapsed: &#123;&#123; collapsed() &#125;&#125;&lt;/span&gt;
+    &lt;button aerisButton [aerisSidebarToggle]="compactSidebar"&gt;Toggle navigation&lt;/button&gt;
+    &lt;span&gt;Collapsed: &#123;&#123; collapsed() &#125;&#125;&lt;/span&gt;
   &lt;/div&gt;
   &lt;div class="sidebar-frame"&gt;
     &lt;aeris-sidebar
@@ -251,9 +250,7 @@
     &lt;/aeris-sidebar&gt;
     &lt;div class="sidebar-main"&gt;
       &lt;strong&gt;Controlled collapse&lt;/strong&gt;
-      &lt;p&gt;
-        The same model drives both the external toggle and built-in collapse button.
-      &lt;/p&gt;
+      &lt;p&gt;The same model drives both the external toggle and built-in collapse button.&lt;/p&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -319,10 +316,11 @@
         &gt;
           &lt;svg aerisSidebarIcon [lucideIcon]="folderIcon"&gt;&lt;/svg&gt;
         &lt;/button&gt;
-        &lt;aeris-sidebar-group label="Archived projects"
-          &gt;&lt;button aerisSidebarItem label="Previous work"&gt;
-            &lt;svg aerisSidebarIcon [lucideIcon]="folderIcon"&gt;&lt;/svg&gt;&lt;/button&gt;
-            &lt;/aeris-sidebar-group&gt;
+        &lt;aeris-sidebar-group label="Archived projects"&gt;
+          &lt;button aerisSidebarItem label="Previous work"&gt;
+            &lt;svg aerisSidebarIcon [lucideIcon]="folderIcon"&gt;&lt;/svg&gt;
+          &lt;/button&gt;
+        &lt;/aeris-sidebar-group&gt;
       &lt;/aeris-sidebar-group&gt;
       &lt;aeris-sidebar-group label="More destinations" [collapsible]="false"&gt;
         &#64;for (index of [1, 2, 3, 4, 5, 6, 7, 8]; track index) &#123;
@@ -425,24 +423,25 @@
     &lt;header class="sidebar-workspace__header"&gt;
       &#64;if (responsiveSidebar.mobile()) &#123;
         &lt;button aerisButton variant="outline" [aerisSidebarToggle]="responsiveSidebar"&gt;
-          &lt;svg [lucideIcon]="menuIcon" aria-hidden="true"&gt;&lt;/svg&gt;Navigation
+          &lt;svg [lucideIcon]="menuIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+          Navigation
         &lt;/button&gt;
       &#125;
-      &lt;span role="status"&gt;&#123;&#123;
-        responsiveSidebar.mobile() ? 'Drawer navigation' : 'Persistent navigation'
-      &#125;&#125;&lt;/span&gt;
+      &lt;span role="status"&gt;
+        &#123;&#123; responsiveSidebar.mobile() ? 'Drawer navigation' : 'Persistent navigation' &#125;&#125;
+      &lt;/span&gt;
     &lt;/header&gt;
     &lt;main class="sidebar-main"&gt;
       &lt;h4&gt;&#123;&#123; responsiveActive() &#125;&#125;&lt;/h4&gt;
       &#64;if (responsiveSidebar.mobile()) &#123;
         &lt;p&gt;
-          Navigation opens over this content. Select a destination or close the drawer to return
-          here.
+          Navigation opens over this content. Select a destination or close the drawer to
+          return here.
         &lt;/p&gt;
       &#125; &#64;else &#123;
         &lt;p&gt;
-          Navigation stays visible beside this content. Select a destination, or use the arrow to
-          collapse it to icons.
+          Navigation stays visible beside this content. Select a destination, or use the
+          arrow to collapse it to icons.
         &lt;/p&gt;
       &#125;
     &lt;/main&gt;
@@ -482,7 +481,8 @@
                 </div>
                 <pre code><code ngNonBindable>&lt;div&gt;
   &lt;button aerisButton [aerisSidebarToggle]="mobileSidebar"&gt;
-    &lt;svg [lucideIcon]="menuIcon" aria-hidden="true"&gt;&lt;/svg&gt;Open navigation
+    &lt;svg [lucideIcon]="menuIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+    Open navigation
   &lt;/button&gt;
   &lt;aeris-sidebar
     #mobileSidebar

@@ -66,12 +66,7 @@
       Show severities
     &lt;/button&gt;
   &lt;/div&gt;
-  &lt;aeris-toast
-    group="severity"
-    position="top-left"
-    mode="expanded"
-    [visibleCount]="8"
-  /&gt;
+  &lt;aeris-toast group="severity" position="top-left" mode="expanded" [visibleCount]="8" /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -119,11 +114,7 @@
       Clear sticky group
     &lt;/button&gt;
   &lt;/div&gt;
-  &lt;aeris-toast
-    group="sticky"
-    position="bottom-right"
-    (closed)="recordClosed($event)"
-  /&gt;
+  &lt;aeris-toast group="sticky" position="bottom-right" (closed)="recordClosed($event)" /&gt;
   &lt;p aria-live="polite"&gt;&#123;&#123; lastClosed() &#125;&#125;&lt;/p&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -277,11 +268,7 @@
       Show swipeable toast
     &lt;/button&gt;
   &lt;/div&gt;
-  &lt;aeris-toast
-    group="swipe"
-    [swipeDirection]="['down', 'right']"
-    [swipeThreshold]="40"
-  /&gt;
+  &lt;aeris-toast group="swipe" [swipeDirection]="['down', 'right']" [swipeThreshold]="40" /&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -315,13 +302,9 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="toast-example-actions"&gt;
     &lt;button aerisButton type="button" (click)="showAt('top-left')"&gt;Top left&lt;/button&gt;
-    &lt;button aerisButton type="button" (click)="showAt('top-center')"&gt;
-      Top center
-    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="showAt('top-center')"&gt;Top center&lt;/button&gt;
     &lt;button aerisButton type="button" (click)="showAt('top-right')"&gt;Top right&lt;/button&gt;
-    &lt;button aerisButton type="button" (click)="showAt('bottom-left')"&gt;
-      Bottom left
-    &lt;/button&gt;
+    &lt;button aerisButton type="button" (click)="showAt('bottom-left')"&gt;Bottom left&lt;/button&gt;
     &lt;button aerisButton type="button" (click)="showAt('bottom-center')"&gt;
       Bottom center
     &lt;/button&gt;
@@ -629,7 +612,8 @@
             the primary visible toast.
           </li>
           <li>
-            Auto-dismiss timers pause while the region is hovered, focused, or expanded by touch when
+            Auto-dismiss timers pause while the region is hovered, focused, or expanded by touch
+            when
             <code>pauseOnHover</code> is enabled.
           </li>
           <li>

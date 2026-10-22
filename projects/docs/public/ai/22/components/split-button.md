@@ -143,7 +143,7 @@ import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, 
   templateUrl: './split-basic.demo.html',
   styleUrl: './split-basic.demo.scss'
 })
-export class SplitBasicBasicDemo {
+export class SplitBasicDemo {
 
   protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 
@@ -208,8 +208,9 @@ export class SplitBasicBasicDemo {
     [itemTemplate]="itemIcon"
     (clicked)="save()"
   />
-  <span class="split-result" role="status" aria-live="polite"
-    >Last action: {{ lastAction() }}</span>
+  <span class="split-result" role="status" aria-live="polite">
+    Last action: {{ lastAction() }}
+  </span>
 </div>
 ```
 
@@ -220,6 +221,15 @@ export class SplitBasicBasicDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -286,7 +296,7 @@ import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, 
   templateUrl: './split-severity.demo.html',
   styleUrl: './split-severity.demo.scss'
 })
-export class SplitSeveritySeverityDemo {
+export class SplitSeverityDemo {
 
   protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 
@@ -390,12 +400,21 @@ export class SplitSeveritySeverityDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .wrap {
   display: flex;
   gap: 0.5625rem;
   flex-wrap: wrap;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -450,7 +469,7 @@ import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, 
   templateUrl: './split-variants.demo.html',
   styleUrl: './split-variants.demo.scss'
 })
-export class SplitVariantsVariantsDemo {
+export class SplitVariantsDemo {
 
   protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 
@@ -546,12 +565,21 @@ export class SplitVariantsVariantsDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .wrap {
   display: flex;
   gap: 0.5625rem;
   flex-wrap: wrap;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -606,7 +634,7 @@ import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, 
   templateUrl: './split-sizes.demo.html',
   styleUrl: './split-sizes.demo.scss'
 })
-export class SplitSizesSizesDemo {
+export class SplitSizesDemo {
 
   protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 
@@ -702,12 +730,21 @@ export class SplitSizesSizesDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .wrap {
   display: flex;
   gap: 0.5625rem;
   flex-wrap: wrap;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -762,7 +799,7 @@ import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, 
   templateUrl: './split-shape.demo.html',
   styleUrl: './split-shape.demo.scss'
 })
-export class SplitShapeRaisedRoundedAndFluidDemo {
+export class SplitShapeDemo {
 
   protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 
@@ -854,12 +891,21 @@ export class SplitShapeRaisedRoundedAndFluidDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .wrap {
   display: flex;
   gap: 0.5625rem;
   flex-wrap: wrap;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -919,7 +965,7 @@ import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, 
   templateUrl: './split-states.demo.html',
   styleUrl: './split-states.demo.scss'
 })
-export class SplitStatesLoadingAndDisabledDemo {
+export class SplitStatesDemo {
 
   protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 
@@ -1010,6 +1056,15 @@ export class SplitStatesLoadingAndDisabledDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -1064,7 +1119,7 @@ import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, 
   templateUrl: './split-controlled.demo.html',
   styleUrl: './split-controlled.demo.scss'
 })
-export class SplitControlledControlledPopupDemo {
+export class SplitControlledDemo {
 
   protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 
@@ -1147,6 +1202,15 @@ export class SplitControlledControlledPopupDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -1207,7 +1271,7 @@ import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, 
   templateUrl: './split-menu-items.demo.html',
   styleUrl: './split-menu-items.demo.scss'
 })
-export class SplitMenuItemsMenuItemStatesDemo {
+export class SplitMenuItemsDemo {
 
   protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 
@@ -1284,6 +1348,15 @@ export class SplitMenuItemsMenuItemStatesDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -1338,7 +1411,7 @@ import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, 
   templateUrl: './split-props.demo.html',
   styleUrl: './split-props.demo.scss'
 })
-export class SplitPropsButtonPropertiesDemo {
+export class SplitPropsDemo {
 
   protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Save: LucideSave, Trash2: LucideTrash2 };
 
@@ -1418,6 +1491,15 @@ export class SplitPropsButtonPropertiesDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -1472,7 +1554,7 @@ import { LucideCode, LucideCopy, LucideDownload, LucideDynamicIcon, LucideEdit, 
   templateUrl: './split-templates.demo.html',
   styleUrl: './split-templates.demo.scss'
 })
-export class SplitTemplatesTemplatesDemo {
+export class SplitTemplatesDemo {
 
   protected readonly icons = { Copy: LucideCopy, Download: LucideDownload, Edit: LucideEdit, Github: LucideCode, Menu: LucideMenu, Save: LucideSave, Trash2: LucideTrash2 };
 
@@ -1550,6 +1632,15 @@ export class SplitTemplatesTemplatesDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {

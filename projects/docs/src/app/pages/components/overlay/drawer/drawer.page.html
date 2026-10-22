@@ -41,8 +41,8 @@
   &lt;button aerisButton type="button" (click)="basicOpen.set(true)"&gt;Open drawer&lt;/button&gt;
   &lt;aeris-drawer header="Navigation" [(visible)]="basicOpen"&gt;
     &lt;p&gt;
-      Use a drawer for navigation, filters, settings, and supporting workflows that
-      should stay attached to a viewport edge.
+      Use a drawer for navigation, filters, settings, and supporting workflows that should
+      stay attached to a viewport edge.
     &lt;/p&gt;
   &lt;/aeris-drawer&gt;
 &lt;/div&gt;</code></pre>
@@ -86,35 +86,34 @@ Shared component planning and release notes.</textarea>
                 <p class="drawer-status" aria-live="polite">{{ lastEvent() }}</p>
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
-                &lt;button aerisButton type="button" (click)="controlledOpen.set(true)"&gt;
-                  Edit settings
-                &lt;/button&gt;
-                &lt;aeris-drawer
-                  header="Workspace settings"
-                  [(visible)]="controlledOpen"
-                  (opened)="recordDrawerEvent($event)"
-                  (closed)="recordDrawerEvent($event)"
-                &gt;
-                  &lt;form class="drawer-form"&gt;
-                    &lt;label&gt;
-                      Workspace name
-                      &lt;input aerisInputText type="text" value="Design System" /&gt;
-                    &lt;/label&gt;
-                    &lt;label&gt;
-                      Notes
-                      &lt;textarea aerisTextarea&gt;
-Shared component planning and release notes.&lt;/textarea&gt;
-                    &lt;/label&gt;
-                  &lt;/form&gt;
-                  &lt;ng-template aerisDrawerFooter let-close="close"&gt;
-                    &lt;div class="drawer-actions"&gt;
-                      &lt;button aerisButton type="button" (click)="close($event)"&gt;Cancel&lt;/button&gt;
-                      &lt;button aerisButton type="button" (click)="close($event)"&gt;Save&lt;/button&gt;
-                    &lt;/div&gt;
-                  &lt;/ng-template&gt;
-                &lt;/aeris-drawer&gt;
-                &lt;p class="drawer-status" aria-live="polite"&gt;&#123;&#123; lastEvent() &#125;&#125;&lt;/p&gt;
-              &lt;/div&gt;</code></pre>
+  &lt;button aerisButton type="button" (click)="controlledOpen.set(true)"&gt;
+    Edit settings
+  &lt;/button&gt;
+  &lt;aeris-drawer
+    header="Workspace settings"
+    [(visible)]="controlledOpen"
+    (opened)="recordDrawerEvent($event)"
+    (closed)="recordDrawerEvent($event)"
+  &gt;
+    &lt;form class="drawer-form"&gt;
+      &lt;label&gt;
+        Workspace name
+        &lt;input aerisInputText type="text" value="Design System" /&gt;
+      &lt;/label&gt;
+      &lt;label&gt;
+        Notes
+        &lt;textarea aerisTextarea&gt;Shared component planning and release notes.&lt;/textarea&gt;
+      &lt;/label&gt;
+    &lt;/form&gt;
+    &lt;ng-template aerisDrawerFooter let-close="close"&gt;
+      &lt;div class="drawer-actions"&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Cancel&lt;/button&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Save&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
+  &lt;/aeris-drawer&gt;
+  &lt;p class="drawer-status" aria-live="polite"&gt;&#123;&#123; lastEvent() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
             </app-form-demo>
 
             <app-form-demo
@@ -328,7 +327,10 @@ Shared component planning and release notes.&lt;/textarea&gt;
     swipeHandle
   &gt;
     &lt;div class="drawer-form"&gt;
-      &lt;label&gt;Project name &lt;input aerisInputText value="Workspace refresh" /&gt;&lt;/label&gt;
+      &lt;label&gt;
+        Project name
+        &lt;input aerisInputText value="Workspace refresh" /&gt;
+      &lt;/label&gt;
       &#64;for (note of snapNotes; track note) &#123;
         &lt;p&gt;&#123;&#123; note &#125;&#125;&lt;/p&gt;
       &#125;
@@ -398,46 +400,42 @@ Form controls keep their normal interaction.</textarea>
                 </aeris-drawer>
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
-                &lt;div class="drawer-controls"&gt;
-                  &#64;for (edge of swipePositions; track edge) &#123;
-                    &lt;button
-                      aerisButton
-                      variant="outline"
-                      type="button"
-                      (click)="openSwipeDrawer(edge)"
-                    &gt;
-                      &#123;&#123; edge &#125;&#125; drawer
-                    &lt;/button&gt;
-                  &#125;
-                &lt;/div&gt;
-                &lt;p class="drawer-status" role="status"&gt;&#123;&#123; swipeStatus() &#125;&#125;&lt;/p&gt;
-                &lt;aeris-drawer
-                  header="Swipe to close"
-                  [(visible)]="swipeOpen"
-                  [position]="swipePosition()"
-                  height="28rem"
-                  swipeToClose
-                  (closed)="recordSwipeClose($event)"
-                &gt;
-                  &lt;p&gt;
-                    Swipe this content toward the screen edge to close. Scrollable content must be
-                    at its dismissal boundary first. The close button is always available.
-                  &lt;/p&gt;
-                  &lt;div class="drawer-form"&gt;
-                    &lt;label
-                      &gt;&lt;span&gt;Project name&lt;/span&gt;&lt;input aerisInputText value="Summer launch"
-                    /&gt;&lt;/label&gt;
-                    &lt;label
-                      &gt;&lt;span&gt;Notes&lt;/span&gt;
-                      &lt;textarea aerisTextarea rows="3"&gt;
+  &lt;div class="drawer-controls"&gt;
+    &#64;for (edge of swipePositions; track edge) &#123;
+      &lt;button aerisButton variant="outline" type="button" (click)="openSwipeDrawer(edge)"&gt;
+        &#123;&#123; edge &#125;&#125; drawer
+      &lt;/button&gt;
+    &#125;
+  &lt;/div&gt;
+  &lt;p class="drawer-status" role="status"&gt;&#123;&#123; swipeStatus() &#125;&#125;&lt;/p&gt;
+  &lt;aeris-drawer
+    header="Swipe to close"
+    [(visible)]="swipeOpen"
+    [position]="swipePosition()"
+    height="28rem"
+    swipeToClose
+    (closed)="recordSwipeClose($event)"
+  &gt;
+    &lt;p&gt;
+      Swipe this content toward the screen edge to close. Scrollable content must be at
+      its dismissal boundary first. The close button is always available.
+    &lt;/p&gt;
+    &lt;div class="drawer-form"&gt;
+      &lt;label&gt;
+        &lt;span&gt;Project name&lt;/span&gt;
+        &lt;input aerisInputText value="Summer launch" /&gt;
+      &lt;/label&gt;
+      &lt;label&gt;
+        &lt;span&gt;Notes&lt;/span&gt;
+        &lt;textarea aerisTextarea rows="3"&gt;
 Form controls keep their normal interaction.&lt;/textarea&gt;
-                    &lt;/label&gt;
-                  &lt;/div&gt;
-                  &#64;for (item of swipeItems; track item) &#123;
-                    &lt;p&gt;&#123;&#123; item &#125;&#125;&lt;/p&gt;
-                  &#125;
-                &lt;/aeris-drawer&gt;
-              &lt;/div&gt;</code></pre>
+      &lt;/label&gt;
+    &lt;/div&gt;
+    &#64;for (item of swipeItems; track item) &#123;
+      &lt;p&gt;&#123;&#123; item &#125;&#125;&lt;/p&gt;
+    &#125;
+  &lt;/aeris-drawer&gt;
+&lt;/div&gt;</code></pre>
             </app-form-demo>
 
             <app-form-demo
@@ -478,8 +476,8 @@ Form controls keep their normal interaction.&lt;/textarea&gt;
     [(visible)]="responsiveOpen"
   &gt;
     &lt;p&gt;
-      The drawer uses a desktop width until the built-in narrow viewport query applies
-      the full-screen mobile layout.
+      The drawer uses a desktop width until the built-in narrow viewport query applies the
+      full-screen mobile layout.
     &lt;/p&gt;
   &lt;/aeris-drawer&gt;
 &lt;/div&gt;</code></pre>
@@ -584,15 +582,14 @@ Form controls keep their normal interaction.&lt;/textarea&gt;
       &lt;section class="drawer-card"&gt;
         &lt;strong&gt;Opened full screen&lt;/strong&gt;
         &lt;p&gt;
-          This drawer starts in full-screen layout without requiring a maximize
-          action.
+          This drawer starts in full-screen layout without requiring a maximize action.
         &lt;/p&gt;
       &lt;/section&gt;
       &lt;section class="drawer-card"&gt;
         &lt;strong&gt;Use case&lt;/strong&gt;
         &lt;p&gt;
-          Full-screen drawers work well for detailed mobile workflows, large forms,
-          and focused review tasks.
+          Full-screen drawers work well for detailed mobile workflows, large forms, and
+          focused review tasks.
         &lt;/p&gt;
       &lt;/section&gt;
     &lt;/div&gt;
@@ -644,9 +641,7 @@ Form controls keep their normal interaction.&lt;/textarea&gt;
     &lt;/div&gt;
     &lt;ng-template aerisDrawerFooter let-close="close"&gt;
       &lt;div class="drawer-actions"&gt;
-        &lt;button aerisButton type="button" (click)="close($event)"&gt;
-          Apply filters
-        &lt;/button&gt;
+        &lt;button aerisButton type="button" (click)="close($event)"&gt;Apply filters&lt;/button&gt;
       &lt;/div&gt;
     &lt;/ng-template&gt;
   &lt;/aeris-drawer&gt;

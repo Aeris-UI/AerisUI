@@ -70,12 +70,8 @@
     ariaLabel="Single selection"
     [(value)]="single"
   &gt;
-    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="day"&gt;
-      Day
-    &lt;/button&gt;
-    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="week"&gt;
-      Week
-    &lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="day"&gt;Day&lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="week"&gt;Week&lt;/button&gt;
     &lt;button aerisButton aerisButtonGroupItem variant="outline" value="month"&gt;
       Month
     &lt;/button&gt;
@@ -112,9 +108,7 @@
     ariaLabel="Multiple selection"
     [(value)]="multiple"
   &gt;
-    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="bold"&gt;
-      Bold
-    &lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="bold"&gt;Bold&lt;/button&gt;
     &lt;button aerisButton aerisButtonGroupItem variant="outline" value="italic"&gt;
       Italic
     &lt;/button&gt;
@@ -156,9 +150,7 @@
     &lt;button aerisButton aerisButtonGroupItem variant="outline" value="start"&gt;
       Start
     &lt;/button&gt;
-    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="end"&gt;
-      End
-    &lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="end"&gt;End&lt;/button&gt;
   &lt;/aeris-button-group&gt;
   &lt;output&gt;Selected: &#123;&#123; optional() ?? 'None' &#125;&#125;&lt;/output&gt;
 &lt;/div&gt;</code></pre>
@@ -207,11 +199,7 @@
     &lt;button aerisButton variant="outline" (click)="controlled.set('four')"&gt;
       Select fourth
     &lt;/button&gt;
-    &lt;button
-      aerisButton
-      variant="outline"
-      (click)="groupDisabled.set(!groupDisabled())"
-    &gt;
+    &lt;button aerisButton variant="outline" (click)="groupDisabled.set(!groupDisabled())"&gt;
       Toggle disabled
     &lt;/button&gt;
   &lt;/div&gt;
@@ -222,9 +210,7 @@
     [(value)]="controlled"
     [disabled]="groupDisabled()"
   &gt;
-    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="one"&gt;
-      First
-    &lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="one"&gt;First&lt;/button&gt;
     &lt;button aerisButton aerisButtonGroupItem variant="outline" value="two" disabled&gt;
       Second (disabled)
     &lt;/button&gt;
@@ -277,23 +263,16 @@
     [formField]="selectionForm.choice"
     [ariaDescribedBy]="selectionError() ? 'group-selection-error' : ''"
   &gt;
-    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="one"&gt;
-      One
-    &lt;/button&gt;
-    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="two"&gt;
-      Two
-    &lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="one"&gt;One&lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="two"&gt;Two&lt;/button&gt;
   &lt;/aeris-button-group&gt;
-  &lt;button
-    aerisButton
-    variant="outline"
-    (click)="selectionForm.choice().markAsTouched()"
-  &gt;
+  &lt;button aerisButton variant="outline" (click)="selectionForm.choice().markAsTouched()"&gt;
     Mark touched
   &lt;/button&gt;
   &#64;if (selectionError()) &#123;
-    &lt;aeris-message id="group-selection-error" severity="danger"
-      &gt;Choose one option.&lt;/aeris-message&gt;
+    &lt;aeris-message id="group-selection-error" severity="danger"&gt;
+      Choose one option.
+    &lt;/aeris-message&gt;
   &#125;
   &lt;output&gt;Selected: &#123;&#123; selectionData().choice ?? 'None' &#125;&#125;&lt;/output&gt;
 &lt;/div&gt;</code></pre>
@@ -323,12 +302,8 @@
     ariaLabel="Reactive selection"
     [formControl]="selectionControl"
   &gt;
-    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="one"&gt;
-      One
-    &lt;/button&gt;
-    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="two"&gt;
-      Two
-    &lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="one"&gt;One&lt;/button&gt;
+    &lt;button aerisButton aerisButtonGroupItem variant="outline" value="two"&gt;Two&lt;/button&gt;
   &lt;/aeris-button-group&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -523,9 +498,7 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
   &lt;aeris-button-group ariaLabel="Synchronization actions"&gt;
-    &lt;button aerisButton variant="solid" severity="primary" loading disabled&gt;
-      Sync
-    &lt;/button&gt;
+    &lt;button aerisButton variant="solid" severity="primary" loading disabled&gt;Sync&lt;/button&gt;
     &lt;button aerisButton variant="solid" severity="primary"&gt;Retry&lt;/button&gt;
     &lt;button aerisButton variant="solid" severity="primary" disabled&gt;Cancel&lt;/button&gt;
   &lt;/aeris-button-group&gt;
@@ -561,7 +534,9 @@
       href="https://github.com"
       target="_blank"
       rel="noopener noreferrer"
-      &gt;Open GitHub&lt;/a&gt;
+    &gt;
+      Open GitHub
+    &lt;/a&gt;
   &lt;/aeris-button-group&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>

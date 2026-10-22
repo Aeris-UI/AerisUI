@@ -142,7 +142,7 @@ import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
     }
   `
 })
-export class KeyFilterBasicBasicDemo {
+export class KeyFilterBasicDemo {
 }
 ```
 
@@ -163,7 +163,7 @@ import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
   templateUrl: './key-filter-presets.demo.html',
   styleUrl: './key-filter-presets.demo.scss'
 })
-export class KeyFilterPresetsPresetsDemo {
+export class KeyFilterPresetsDemo {
 }
 ```
 
@@ -220,7 +220,7 @@ export class KeyFilterPresetsPresetsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -274,7 +274,7 @@ import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
   templateUrl: './key-filter-decimals.demo.html',
   styleUrl: './key-filter-decimals.demo.scss'
 })
-export class KeyFilterDecimalsNumbersDemo {
+export class KeyFilterDecimalsDemo {
 }
 ```
 
@@ -313,7 +313,7 @@ export class KeyFilterDecimalsNumbersDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -404,7 +404,7 @@ import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
     }
   `
 })
-export class KeyFilterCustomCustomPatternDemo {
+export class KeyFilterCustomDemo {
   protected readonly uppercasePattern = /^[A-Z]*$/;
 }
 ```
@@ -468,7 +468,7 @@ import { AerisKeyFilter, type AerisKeyFilterRejectEvent } from '@aeris-ui/core/k
     }
   `
 })
-export class KeyFilterValidateOnlyValidateOnlyDemo {
+export class KeyFilterValidateOnlyDemo {
   protected readonly rejectedValue = signal('No rejected input yet.');
 
   protected validateOnlyValue = '';
@@ -534,7 +534,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
     }
   `
 })
-export class KeyFilterTextareaTextareaDemo {
+export class KeyFilterTextareaDemo {
 }
 ```
 
@@ -556,7 +556,7 @@ import { AerisKeyFilter } from '@aeris-ui/core/key-filter';
   templateUrl: './key-filter-forms.demo.html',
   styleUrl: './key-filter-forms.demo.scss'
 })
-export class KeyFilterFormsReactiveAndTemplateDrivenFormsDemo {
+export class KeyFilterFormsDemo {
   protected readonly reactiveCode = new FormControl('');
   protected templateCode = '';
 }
@@ -598,7 +598,7 @@ export class KeyFilterFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 

@@ -135,7 +135,7 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
     </div>
   `
 })
-export class BadgeBasicBasicDemo {
+export class BadgeBasicDemo {
 }
 ```
 
@@ -175,7 +175,7 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
     }
   `
 })
-export class BadgeSeveritySeverityDemo {
+export class BadgeSeverityDemo {
 }
 ```
 
@@ -213,7 +213,7 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
     }
   `
 })
-export class BadgeSizesSizesAndShapesDemo {
+export class BadgeSizesDemo {
 }
 ```
 
@@ -230,35 +230,47 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
 @Component({
   selector: 'app-badge-dot-demo',
   imports: [AerisBadgeModule],
-  template: `
-    <div>
-      <div class="badge-status-grid">
-        <span class="badge-status-item"
-          ><aeris-badge dot severity="success" role="status" ariaLabel="Online" />
-          Online</span>
-        <span class="badge-status-item"
-          ><aeris-badge dot severity="warning" role="status" ariaLabel="Away" />
-          Away</span>
-        <span class="badge-status-item"
-          ><aeris-badge dot severity="danger" role="status" ariaLabel="Offline" />
-          Offline</span>
-      </div>
-    </div>
-  `,
-  styles: `
-    .badge-status-grid {
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    .badge-status-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-  `
+  templateUrl: './badge-dot.demo.html',
+  styleUrl: './badge-dot.demo.scss'
 })
-export class BadgeDotDotDemo {
+export class BadgeDotDemo {
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <div class="badge-status-grid">
+    <span class="badge-status-item">
+      <aeris-badge dot severity="success" role="status" ariaLabel="Online" />
+      Online
+    </span>
+    <span class="badge-status-item">
+      <aeris-badge dot severity="warning" role="status" ariaLabel="Away" />
+      Away
+    </span>
+    <span class="badge-status-item">
+      <aeris-badge dot severity="danger" role="status" ariaLabel="Offline" />
+      Offline
+    </span>
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+.badge-status-grid,
+.badge-dynamic-demo {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.badge-status-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 ```
 
@@ -279,7 +291,7 @@ import { AerisButton } from '@aeris-ui/core/button';
   templateUrl: './badge-dynamic.demo.html',
   styleUrl: './badge-dynamic.demo.scss'
 })
-export class BadgeDynamicDynamicValueDemo {
+export class BadgeDynamicDemo {
   protected readonly unreadCount = signal(128);
   protected readonly unreadLabel = computed(
     () => `Inbox, ${this.unreadCount()} unread messages`,
@@ -326,6 +338,7 @@ export class BadgeDynamicDynamicValueDemo {
 #### CSS
 
 ```css
+.badge-status-grid,
 .badge-dynamic-demo {
   display: grid;
   gap: 0.75rem;
@@ -356,7 +369,7 @@ import { AerisButton } from '@aeris-ui/core/button';
   templateUrl: './badge-overlay.demo.html',
   styleUrl: './badge-overlay.demo.scss'
 })
-export class BadgeOverlayOverlayDemo {
+export class BadgeOverlayDemo {
   protected readonly unreadCount = signal(128);
   protected readonly unreadLabel = computed(
     () => `Inbox, ${this.unreadCount()} unread messages`,
@@ -370,19 +383,12 @@ export class BadgeOverlayOverlayDemo {
 <div>
   <div class="badge-overlay-row">
     <aeris-badge-overlay [value]="unreadCount()" [max]="99">
-      <button aerisButton type="button" [attr.aria-label]="unreadLabel()">
-        Inbox
-      </button>
+      <button aerisButton type="button" [attr.aria-label]="unreadLabel()">Inbox</button>
     </aeris-badge-overlay>
     <aeris-badge-overlay dot severity="success" position="bottom-right">
       <aeris-avatar label="JD" ariaLabel="Jordan is online" />
     </aeris-badge-overlay>
-    <aeris-badge-overlay
-      value="Beta"
-      severity="info"
-      variant="soft"
-      position="top-left"
-    >
+    <aeris-badge-overlay value="Beta" severity="info" variant="soft" position="top-left">
       <button aerisButton variant="solid" severity="secondary" type="button">
         Preview
       </button>
@@ -434,7 +440,7 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
     }
   `
 })
-export class BadgeCustomTokenCustomizationDemo {
+export class BadgeCustomDemo {
 }
 ```
 

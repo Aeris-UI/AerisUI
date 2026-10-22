@@ -140,7 +140,7 @@ import { LucideDynamicIcon, LucideFolder, LucideHouse, LucideMenu, LucideSetting
   templateUrl: './sidebar-basic.demo.html',
   styleUrl: './sidebar-basic.demo.scss'
 })
-export class SidebarBasicBasicNavigationDemo {
+export class SidebarBasicDemo {
   protected readonly houseIcon = LucideHouse;
 
   protected readonly folderIcon = LucideFolder;
@@ -205,6 +205,13 @@ export class SidebarBasicBasicNavigationDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .sidebar-frame {
   display: flex;
   min-inline-size: 0;
@@ -250,7 +257,7 @@ import { LucideDynamicIcon, LucideFolder, LucideHouse, LucideMenu, LucideSetting
   templateUrl: './sidebar-collapsed.demo.html',
   styleUrl: './sidebar-collapsed.demo.scss'
 })
-export class SidebarCollapsedIconOnlyNavigationDemo {
+export class SidebarCollapsedDemo {
   protected readonly houseIcon = LucideHouse;
 
   protected readonly folderIcon = LucideFolder;
@@ -266,9 +273,8 @@ export class SidebarCollapsedIconOnlyNavigationDemo {
 ```html
 <div>
   <div class="sidebar-tools">
-    <button aerisButton [aerisSidebarToggle]="compactSidebar">
-      Toggle navigation</button>
-      <span>Collapsed: {{ collapsed() }}</span>
+    <button aerisButton [aerisSidebarToggle]="compactSidebar">Toggle navigation</button>
+    <span>Collapsed: {{ collapsed() }}</span>
   </div>
   <div class="sidebar-frame">
     <aeris-sidebar
@@ -293,9 +299,7 @@ export class SidebarCollapsedIconOnlyNavigationDemo {
     </aeris-sidebar>
     <div class="sidebar-main">
       <strong>Controlled collapse</strong>
-      <p>
-        The same model drives both the external toggle and built-in collapse button.
-      </p>
+      <p>The same model drives both the external toggle and built-in collapse button.</p>
     </div>
   </div>
 </div>
@@ -304,6 +308,13 @@ export class SidebarCollapsedIconOnlyNavigationDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .sidebar-frame {
   display: flex;
   min-inline-size: 0;
@@ -356,7 +367,7 @@ import { LucideDynamicIcon, LucideFolder, LucideHouse, LucideMenu, LucideSetting
   templateUrl: './sidebar-groups.demo.html',
   styleUrl: './sidebar-groups.demo.scss'
 })
-export class SidebarGroupsGroupsAndLongLabelsDemo {
+export class SidebarGroupsDemo {
   protected readonly folderIcon = LucideFolder;
 
   protected readonly settingsIcon = LucideSettings;
@@ -384,10 +395,11 @@ export class SidebarGroupsGroupsAndLongLabelsDemo {
         >
           <svg aerisSidebarIcon [lucideIcon]="folderIcon"></svg>
         </button>
-        <aeris-sidebar-group label="Archived projects"
-          ><button aerisSidebarItem label="Previous work">
-            <svg aerisSidebarIcon [lucideIcon]="folderIcon"></svg></button>
-            </aeris-sidebar-group>
+        <aeris-sidebar-group label="Archived projects">
+          <button aerisSidebarItem label="Previous work">
+            <svg aerisSidebarIcon [lucideIcon]="folderIcon"></svg>
+          </button>
+        </aeris-sidebar-group>
       </aeris-sidebar-group>
       <aeris-sidebar-group label="More destinations" [collapsible]="false">
         @for (index of [1, 2, 3, 4, 5, 6, 7, 8]; track index) {
@@ -413,6 +425,13 @@ export class SidebarGroupsGroupsAndLongLabelsDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .sidebar-frame {
   display: flex;
   min-inline-size: 0;
@@ -458,7 +477,7 @@ import { LucideDynamicIcon, LucideFolder, LucideHouse, LucideMenu, LucideSetting
   templateUrl: './sidebar-responsive.demo.html',
   styleUrl: './sidebar-responsive.demo.scss'
 })
-export class SidebarResponsiveResponsiveNavigationDemo {
+export class SidebarResponsiveDemo {
   protected readonly houseIcon = LucideHouse;
 
   protected readonly folderIcon = LucideFolder;
@@ -513,24 +532,25 @@ export class SidebarResponsiveResponsiveNavigationDemo {
     <header class="sidebar-workspace__header">
       @if (responsiveSidebar.mobile()) {
         <button aerisButton variant="outline" [aerisSidebarToggle]="responsiveSidebar">
-          <svg [lucideIcon]="menuIcon" aria-hidden="true"></svg>Navigation
+          <svg [lucideIcon]="menuIcon" aria-hidden="true"></svg>
+          Navigation
         </button>
       }
-      <span role="status">{{
-        responsiveSidebar.mobile() ? 'Drawer navigation' : 'Persistent navigation'
-      }}</span>
+      <span role="status">
+        {{ responsiveSidebar.mobile() ? 'Drawer navigation' : 'Persistent navigation' }}
+      </span>
     </header>
     <main class="sidebar-main">
       <h4>{{ responsiveActive() }}</h4>
       @if (responsiveSidebar.mobile()) {
         <p>
-          Navigation opens over this content. Select a destination or close the drawer to return
-          here.
+          Navigation opens over this content. Select a destination or close the drawer to
+          return here.
         </p>
       } @else {
         <p>
-          Navigation stays visible beside this content. Select a destination, or use the arrow to
-          collapse it to icons.
+          Navigation stays visible beside this content. Select a destination, or use the
+          arrow to collapse it to icons.
         </p>
       }
     </main>
@@ -541,6 +561,13 @@ export class SidebarResponsiveResponsiveNavigationDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .sidebar-main {
   color: var(--aeris-text);
   flex: 1;
@@ -606,7 +633,7 @@ import { LucideDynamicIcon, LucideFolder, LucideHouse, LucideMenu, LucideSetting
   templateUrl: './sidebar-mobile.demo.html',
   styleUrl: './sidebar-mobile.demo.scss'
 })
-export class SidebarMobileMobileDrawerDemo {
+export class SidebarMobileDemo {
   protected readonly houseIcon = LucideHouse;
 
   protected readonly folderIcon = LucideFolder;
@@ -624,7 +651,8 @@ export class SidebarMobileMobileDrawerDemo {
 ```html
 <div>
   <button aerisButton [aerisSidebarToggle]="mobileSidebar">
-    <svg [lucideIcon]="menuIcon" aria-hidden="true"></svg>Open navigation
+    <svg [lucideIcon]="menuIcon" aria-hidden="true"></svg>
+    Open navigation
   </button>
   <aeris-sidebar
     #mobileSidebar
@@ -653,6 +681,13 @@ export class SidebarMobileMobileDrawerDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .sidebar-brand {
   padding-inline: 0.75rem;
 }

@@ -123,6 +123,8 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -133,7 +135,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
     }
   `
 })
-export class GroupBasicBasicDemo {
+export class GroupBasicDemo {
 }
 ```
 
@@ -151,57 +153,47 @@ import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/but
 @Component({
   selector: 'app-group-single-demo',
   imports: [AerisButton, AerisButtonGroup],
-  templateUrl: './group-single.demo.html',
-  styleUrl: './group-single.demo.scss'
+  template: `
+    <div class="stack aeris-example-row">
+      <aeris-button-group
+        selectionMode="single"
+        ariaLabel="Single selection"
+        [(value)]="single"
+      >
+        <button aerisButton aerisButtonGroupItem variant="outline" value="day">Day</button>
+        <button aerisButton aerisButtonGroupItem variant="outline" value="week">Week</button>
+        <button aerisButton aerisButtonGroupItem variant="outline" value="month">
+          Month
+        </button>
+      </aeris-button-group>
+      <output>Selected: {{ single() }}</output>
+    </div>
+  `,
+  styles: `
+    .aeris-example-row {
+      display: flex;
+      gap: 0.5625rem;
+      min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .stack {
+      width: 100%;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    @media (max-width: 42rem) {
+      .aeris-example-row {
+        max-width: 100%;
+        flex-wrap: wrap;
+      }
+    }
+  `
 })
-export class GroupSingleSingleSelectionDemo {
+export class GroupSingleDemo {
   protected readonly single = signal<AerisButtonGroupValue>('day');
-}
-```
-
-#### HTML
-
-```html
-<div class="stack aeris-example-row">
-  <aeris-button-group
-    selectionMode="single"
-    ariaLabel="Single selection"
-    [(value)]="single"
-  >
-    <button aerisButton aerisButtonGroupItem variant="outline" value="day">
-      Day
-    </button>
-    <button aerisButton aerisButtonGroupItem variant="outline" value="week">
-      Week
-    </button>
-    <button aerisButton aerisButtonGroupItem variant="outline" value="month">
-      Month
-    </button>
-  </aeris-button-group>
-  <output>Selected: {{ single() }}</output>
-</div>
-```
-
-#### CSS
-
-```css
-.aeris-example-row {
-  display: flex;
-  gap: 0.5625rem;
-  min-width: 0;
-}
-
-.stack {
-  width: 100%;
-  display: grid;
-  gap: 0.75rem;
-}
-
-@media (max-width: 42rem) {
-  .aeris-example-row {
-    max-width: 100%;
-    flex-wrap: wrap;
-  }
 }
 ```
 
@@ -222,7 +214,7 @@ import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/but
   templateUrl: './group-multiple.demo.html',
   styleUrl: './group-multiple.demo.scss'
 })
-export class GroupMultipleMultipleSelectionDemo {
+export class GroupMultipleDemo {
   protected readonly multiple = signal<AerisButtonGroupValue>(['bold']);
 }
 ```
@@ -236,9 +228,7 @@ export class GroupMultipleMultipleSelectionDemo {
     ariaLabel="Multiple selection"
     [(value)]="multiple"
   >
-    <button aerisButton aerisButtonGroupItem variant="outline" value="bold">
-      Bold
-    </button>
+    <button aerisButton aerisButtonGroupItem variant="outline" value="bold">Bold</button>
     <button aerisButton aerisButtonGroupItem variant="outline" value="italic">
       Italic
     </button>
@@ -257,6 +247,8 @@ export class GroupMultipleMultipleSelectionDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .stack {
@@ -287,55 +279,47 @@ import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/but
 @Component({
   selector: 'app-group-optional-demo',
   imports: [AerisButton, AerisButtonGroup],
-  templateUrl: './group-optional.demo.html',
-  styleUrl: './group-optional.demo.scss'
+  template: `
+    <div class="stack aeris-example-row">
+      <aeris-button-group
+        selectionMode="single"
+        allowEmpty
+        ariaLabel="Optional selection"
+        [(value)]="optional"
+      >
+        <button aerisButton aerisButtonGroupItem variant="outline" value="start">
+          Start
+        </button>
+        <button aerisButton aerisButtonGroupItem variant="outline" value="end">End</button>
+      </aeris-button-group>
+      <output>Selected: {{ optional() ?? 'None' }}</output>
+    </div>
+  `,
+  styles: `
+    .aeris-example-row {
+      display: flex;
+      gap: 0.5625rem;
+      min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .stack {
+      width: 100%;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    @media (max-width: 42rem) {
+      .aeris-example-row {
+        max-width: 100%;
+        flex-wrap: wrap;
+      }
+    }
+  `
 })
-export class GroupOptionalEmptySelectionDemo {
+export class GroupOptionalDemo {
   protected readonly optional = signal<AerisButtonGroupValue>(null);
-}
-```
-
-#### HTML
-
-```html
-<div class="stack aeris-example-row">
-  <aeris-button-group
-    selectionMode="single"
-    allowEmpty
-    ariaLabel="Optional selection"
-    [(value)]="optional"
-  >
-    <button aerisButton aerisButtonGroupItem variant="outline" value="start">
-      Start
-    </button>
-    <button aerisButton aerisButtonGroupItem variant="outline" value="end">
-      End
-    </button>
-  </aeris-button-group>
-  <output>Selected: {{ optional() ?? 'None' }}</output>
-</div>
-```
-
-#### CSS
-
-```css
-.aeris-example-row {
-  display: flex;
-  gap: 0.5625rem;
-  min-width: 0;
-}
-
-.stack {
-  width: 100%;
-  display: grid;
-  gap: 0.75rem;
-}
-
-@media (max-width: 42rem) {
-  .aeris-example-row {
-    max-width: 100%;
-    flex-wrap: wrap;
-  }
 }
 ```
 
@@ -356,7 +340,7 @@ import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/but
   templateUrl: './group-controlled.demo.html',
   styleUrl: './group-controlled.demo.scss'
 })
-export class GroupControlledControlledSelectionDemo {
+export class GroupControlledDemo {
   protected readonly controlled = signal<AerisButtonGroupValue>('one');
 
   protected readonly groupDisabled = signal(false);
@@ -371,11 +355,7 @@ export class GroupControlledControlledSelectionDemo {
     <button aerisButton variant="outline" (click)="controlled.set('four')">
       Select fourth
     </button>
-    <button
-      aerisButton
-      variant="outline"
-      (click)="groupDisabled.set(!groupDisabled())"
-    >
+    <button aerisButton variant="outline" (click)="groupDisabled.set(!groupDisabled())">
       Toggle disabled
     </button>
   </div>
@@ -386,9 +366,7 @@ export class GroupControlledControlledSelectionDemo {
     [(value)]="controlled"
     [disabled]="groupDisabled()"
   >
-    <button aerisButton aerisButtonGroupItem variant="outline" value="one">
-      First
-    </button>
+    <button aerisButton aerisButtonGroupItem variant="outline" value="one">First</button>
     <button aerisButton aerisButtonGroupItem variant="outline" value="two" disabled>
       Second (disabled)
     </button>
@@ -409,6 +387,8 @@ export class GroupControlledControlledSelectionDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .wrap {
@@ -450,7 +430,7 @@ import { FormField, form, required } from '@angular/forms/signals';
   templateUrl: './group-signal-forms.demo.html',
   styleUrl: './group-signal-forms.demo.scss'
 })
-export class GroupSignalFormsSignalFormsDemo {
+export class GroupSignalFormsDemo {
   protected readonly selectionData = signal<{ choice: AerisButtonGroupValue }>({ choice: null });
 
   protected readonly selectionForm = form(this.selectionData, (schema) => required(schema.choice));
@@ -471,23 +451,16 @@ export class GroupSignalFormsSignalFormsDemo {
     [formField]="selectionForm.choice"
     [ariaDescribedBy]="selectionError() ? 'group-selection-error' : ''"
   >
-    <button aerisButton aerisButtonGroupItem variant="outline" value="one">
-      One
-    </button>
-    <button aerisButton aerisButtonGroupItem variant="outline" value="two">
-      Two
-    </button>
+    <button aerisButton aerisButtonGroupItem variant="outline" value="one">One</button>
+    <button aerisButton aerisButtonGroupItem variant="outline" value="two">Two</button>
   </aeris-button-group>
-  <button
-    aerisButton
-    variant="outline"
-    (click)="selectionForm.choice().markAsTouched()"
-  >
+  <button aerisButton variant="outline" (click)="selectionForm.choice().markAsTouched()">
     Mark touched
   </button>
   @if (selectionError()) {
-    <aeris-message id="group-selection-error" severity="danger"
-      >Choose one option.</aeris-message>
+    <aeris-message id="group-selection-error" severity="danger">
+      Choose one option.
+    </aeris-message>
   }
   <output>Selected: {{ selectionData().choice ?? 'None' }}</output>
 </div>
@@ -500,6 +473,8 @@ export class GroupSignalFormsSignalFormsDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .stack {
@@ -538,12 +513,8 @@ import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/but
         ariaLabel="Reactive selection"
         [formControl]="selectionControl"
       >
-        <button aerisButton aerisButtonGroupItem variant="outline" value="one">
-          One
-        </button>
-        <button aerisButton aerisButtonGroupItem variant="outline" value="two">
-          Two
-        </button>
+        <button aerisButton aerisButtonGroupItem variant="outline" value="one">One</button>
+        <button aerisButton aerisButtonGroupItem variant="outline" value="two">Two</button>
       </aeris-button-group>
     </div>
   `,
@@ -552,6 +523,8 @@ import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/but
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -562,7 +535,7 @@ import { AerisButtonGroup, type AerisButtonGroupValue } from '@aeris-ui/core/but
     }
   `
 })
-export class GroupReactiveFormsReactiveFormsDemo {
+export class GroupReactiveFormsDemo {
   protected readonly selectionControl = new FormControl<AerisButtonGroupValue>(['one']);
 }
 ```
@@ -595,6 +568,8 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -605,7 +580,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
     }
   `
 })
-export class GroupWrapperWrapperButtonsDemo {
+export class GroupWrapperDemo {
 }
 ```
 
@@ -637,6 +612,8 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -647,7 +624,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
     }
   `
 })
-export class GroupMixedMixedTreatmentsDemo {
+export class GroupMixedDemo {
 }
 ```
 
@@ -669,7 +646,7 @@ import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideDynamicIcon
   templateUrl: './group-icons.demo.html',
   styleUrl: './group-icons.demo.scss'
 })
-export class GroupIconsIconsDemo {
+export class GroupIconsDemo {
   protected readonly icons = {
       AlignLeft: LucideAlignLeft,
       AlignCenter: LucideAlignCenter,
@@ -721,6 +698,15 @@ export class GroupIconsIconsDemo {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
 }
 
 @media (max-width: 42rem) {
@@ -759,6 +745,8 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -769,7 +757,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
     }
   `
 })
-export class GroupVerticalVerticalDemo {
+export class GroupVerticalDemo {
 }
 ```
 
@@ -801,6 +789,8 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .stack {
@@ -817,7 +807,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
     }
   `
 })
-export class GroupFluidFluidDemo {
+export class GroupFluidDemo {
 }
 ```
 
@@ -849,6 +839,8 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .stack {
@@ -865,7 +857,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
     }
   `
 })
-export class GroupResponsiveResponsiveStackingDemo {
+export class GroupResponsiveDemo {
 }
 ```
 
@@ -886,9 +878,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
   template: `
     <div class="aeris-example-row">
       <aeris-button-group ariaLabel="Synchronization actions">
-        <button aerisButton variant="solid" severity="primary" loading disabled>
-          Sync
-        </button>
+        <button aerisButton variant="solid" severity="primary" loading disabled>Sync</button>
         <button aerisButton variant="solid" severity="primary">Retry</button>
         <button aerisButton variant="solid" severity="primary" disabled>Cancel</button>
       </aeris-button-group>
@@ -899,6 +889,8 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -909,7 +901,7 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
     }
   `
 })
-export class GroupStatesDisabledAndLoadingStatesDemo {
+export class GroupStatesDemo {
 }
 ```
 
@@ -927,37 +919,49 @@ import { AerisButtonGroup } from '@aeris-ui/core/button-group';
 @Component({
   selector: 'app-group-links-demo',
   imports: [AerisButton, AerisButtonGroup],
-  template: `
-    <div class="aeris-example-row">
-      <aeris-button-group ariaLabel="Documentation actions">
-        <button aerisButton variant="solid" severity="primary">Copy link</button>
-        <a
-          aerisButton
-          variant="solid"
-          severity="primary"
-          href="https://github.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          >Open GitHub</a>
-      </aeris-button-group>
-    </div>
-  `,
-  styles: `
-    .aeris-example-row {
-      display: flex;
-      gap: 0.5625rem;
-      min-width: 0;
-    }
-
-    @media (max-width: 42rem) {
-      .aeris-example-row {
-        max-width: 100%;
-        flex-wrap: wrap;
-      }
-    }
-  `
+  templateUrl: './group-links.demo.html',
+  styleUrl: './group-links.demo.scss'
 })
-export class GroupLinksButtonsAndLinksDemo {
+export class GroupLinksDemo {
+}
+```
+
+#### HTML
+
+```html
+<div class="aeris-example-row">
+  <aeris-button-group ariaLabel="Documentation actions">
+    <button aerisButton variant="solid" severity="primary">Copy link</button>
+    <a
+      aerisButton
+      variant="solid"
+      severity="primary"
+      href="https://github.com"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Open GitHub
+    </a>
+  </aeris-button-group>
+</div>
+```
+
+#### CSS
+
+```css
+.aeris-example-row {
+  display: flex;
+  gap: 0.5625rem;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@media (max-width: 42rem) {
+  .aeris-example-row {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
 }
 ```
 

@@ -237,7 +237,7 @@ import { AerisDatePicker, type AerisDatePickerChangeEvent, type AerisDatePickerV
     }
   `
 })
-export class DatePickerBasicBasicDemo {
+export class DatePickerBasicDemo {
   protected readonly lastChange = signal('No selection change yet');
 
   protected readonly basicDate =
@@ -280,9 +280,10 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
         editable
         clearable
         [(value)]="typedDate"
-      /><small
-        >Type the segments, use Up/Down to adjust them, or press Alt+Down for the
-        calendar.</small>
+      />
+      <small>
+        Type the segments, use Up/Down to adjust them, or press Alt+Down for the calendar.
+      </small>
     </div>
   `,
   styles: `
@@ -313,7 +314,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
     }
   `
 })
-export class DatePickerEditableTypedEntryDemo {
+export class DatePickerEditableDemo {
   protected readonly typedDate = signal<AerisDatePickerValue>(new Date(2026, 5, 11));
 }
 ```
@@ -336,7 +337,7 @@ import { FormField, form, required, submit } from '@angular/forms/signals';
   templateUrl: './date-picker-signal-forms.demo.html',
   styleUrl: './date-picker-signal-forms.demo.scss'
 })
-export class DatePickerSignalFormsSignalFormsDemo {
+export class DatePickerSignalFormsDemo {
   protected readonly profile = signal<{ birthday: Date | null }>({ birthday: null });
   protected readonly profileForm = form(this.profile, (path) => required(path.birthday));
   protected readonly savedDate = signal('Not saved yet');
@@ -419,7 +420,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
   templateUrl: './date-picker-collision.demo.html',
   styleUrl: './date-picker-collision.demo.scss'
 })
-export class DatePickerCollisionConstrainedViewportDemo {
+export class DatePickerCollisionDemo {
   protected readonly overlayViewportMargin = {
     top: 16,
     right: 16,
@@ -506,7 +507,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
   templateUrl: './date-picker-time.demo.html',
   styleUrl: './date-picker-time.demo.scss'
 })
-export class DatePickerTimeDateAndTimeDemo {
+export class DatePickerTimeDemo {
   protected readonly meetingDate =
     signal<AerisDatePickerValue>(
       new Date(2026, 5, 18, 14, 30),
@@ -555,7 +556,7 @@ export class DatePickerTimeDateAndTimeDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -608,7 +609,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
   templateUrl: './date-picker-selection.demo.html',
   styleUrl: './date-picker-selection.demo.scss'
 })
-export class DatePickerSelectionSelectionModesDemo {
+export class DatePickerSelectionDemo {
   protected readonly range =
     signal<AerisDatePickerValue>({
       start: new Date(2026, 5, 8),
@@ -656,7 +657,7 @@ export class DatePickerSelectionSelectionModesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -709,7 +710,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
   templateUrl: './date-picker-constraints.demo.html',
   styleUrl: './date-picker-constraints.demo.scss'
 })
-export class DatePickerConstraintsConstraintsAndDisabledDatesDemo {
+export class DatePickerConstraintsDemo {
   protected readonly constrainedDate = signal<AerisDatePickerValue>(null);
 
   protected readonly minDate =
@@ -815,7 +816,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
     }
   `
 })
-export class DatePickerMultipleMonthsMultipleMonthsAndWeekNumbersDemo {
+export class DatePickerMultipleMonthsDemo {
   protected readonly range = signal<AerisDatePickerValue>({
       start: new Date(2026, 5, 8),
       end: new Date(2026, 5, 12),
@@ -839,7 +840,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
   templateUrl: './date-picker-views.demo.html',
   styleUrl: './date-picker-views.demo.scss'
 })
-export class DatePickerViewsMonthAndYearViewsDemo {
+export class DatePickerViewsDemo {
 }
 ```
 
@@ -874,7 +875,7 @@ export class DatePickerViewsMonthAndYearViewsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -941,7 +942,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
     }
   `
 })
-export class DatePickerInlineInlineCalendarDemo {
+export class DatePickerInlineDemo {
   protected readonly basicDate = signal<AerisDatePickerValue>(new Date(2026, 5, 18));
 }
 ```
@@ -962,7 +963,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
   templateUrl: './date-picker-localization.demo.html',
   styleUrl: './date-picker-localization.demo.scss'
 })
-export class DatePickerLocalizationLocalizationDemo {
+export class DatePickerLocalizationDemo {
   protected readonly basicDate = signal<AerisDatePickerValue>(new Date(2026, 5, 18));
 }
 ```
@@ -1001,7 +1002,7 @@ export class DatePickerLocalizationLocalizationDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -1072,10 +1073,20 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
       .field-row {
         align-items: stretch;
       }
+
+      .field-row > input {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 42rem) {
+      .field-row aeris-date-picker {
+          width: 100%;
+        }
     }
   `
 })
-export class DatePickerSizesSizesDemo {
+export class DatePickerSizesDemo {
 }
 ```
 
@@ -1108,7 +1119,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
     .field-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
       gap: 1.25rem;
     }
 
@@ -1119,7 +1130,7 @@ import { AerisDatePicker } from '@aeris-ui/core/date-picker';
     }
   `
 })
-export class DatePickerStatesAppearancesAndStatesDemo {
+export class DatePickerStatesDemo {
 }
 ```
 
@@ -1139,7 +1150,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
   templateUrl: './date-picker-validation.demo.html',
   styleUrl: './date-picker-validation.demo.scss'
 })
-export class DatePickerValidationValidationDemo {
+export class DatePickerValidationDemo {
   protected readonly validationDate =
     signal<AerisDatePickerValue>(null);
   protected readonly validationTouched = signal(false);
@@ -1170,9 +1181,9 @@ export class DatePickerValidationValidationDemo {
     class="validation-message"
     [class.error]="validationInvalid()"
     aria-live="polite"
-    >{{
-      validationInvalid() ? 'Choose a milestone date.' : 'A date is required.'
-    }}</small>
+  >
+    {{ validationInvalid() ? 'Choose a milestone date.' : 'A date is required.' }}
+  </small>
 </div>
 ```
 
@@ -1227,7 +1238,7 @@ import { AerisDatePicker, type AerisDatePickerValue } from '@aeris-ui/core/date-
   templateUrl: './date-picker-forms.demo.html',
   styleUrl: './date-picker-forms.demo.scss'
 })
-export class DatePickerFormsReactiveAndTemplateDrivenFormsDemo {
+export class DatePickerFormsDemo {
   protected readonly reactiveDate =
     new FormControl<AerisDatePickerValue>(
       new Date(2026, 6, 3),
@@ -1265,7 +1276,7 @@ export class DatePickerFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 

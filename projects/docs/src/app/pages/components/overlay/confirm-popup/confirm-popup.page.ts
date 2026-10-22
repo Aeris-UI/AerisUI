@@ -112,7 +112,7 @@ export class ConfirmPopupPage {
   place-items: center;
   border-radius: 999px;
   background: color-mix(in srgb, var(--warning) 18%, transparent);
-  color: var(--warning-text);
+  color: var(--aeris-warning-text);
 }
 
 .custom-popup-icon::before {

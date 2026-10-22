@@ -234,7 +234,8 @@
     &lt;aeris-input-otp ariaLabel="Small code" value="1234" size="sm" /&gt;
   &lt;/div&gt;
   &lt;div&gt;
-    &lt;span&gt;Medium&lt;/span&gt;&lt;aeris-input-otp ariaLabel="Medium code" value="1234" /&gt;
+    &lt;span&gt;Medium&lt;/span&gt;
+    &lt;aeris-input-otp ariaLabel="Medium code" value="1234" /&gt;
   &lt;/div&gt;
   &lt;div&gt;
     &lt;span&gt;Large&lt;/span&gt;
@@ -279,7 +280,8 @@
     &lt;aeris-input-otp ariaLabel="Read-only code" value="1234" readonly /&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
-    &lt;span&gt;Fluid&lt;/span&gt;&lt;aeris-input-otp ariaLabel="Fluid code" value="1234" fluid /&gt;
+    &lt;span&gt;Fluid&lt;/span&gt;
+    &lt;aeris-input-otp ariaLabel="Fluid code" value="1234" fluid /&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -321,11 +323,11 @@
     (touch)="touched.set(true)"
   /&gt;
   &#64;if (codeInvalid()) &#123;
-    &lt;small id="invalid-otp-message" class="error state-message"
-      &gt;Enter all four digits.&lt;/small&gt;
+    &lt;small id="invalid-otp-message" class="error state-message"&gt;
+      Enter all four digits.
+    &lt;/small&gt;
   &#125; &#64;else &#123;
-    &lt;small id="invalid-otp-message" class="state-message"
-      &gt;Four digits required.&lt;/small&gt;
+    &lt;small id="invalid-otp-message" class="state-message"&gt;Four digits required.&lt;/small&gt;
   &#125;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -381,10 +383,7 @@
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;div class="field"&gt;
     &lt;span id="reactive-otp-label"&gt;Reactive Forms&lt;/span&gt;
-    &lt;aeris-input-otp
-      ariaLabelledBy="reactive-otp-label"
-      [formControl]="reactiveCode"
-    /&gt;
+    &lt;aeris-input-otp ariaLabelledBy="reactive-otp-label" [formControl]="reactiveCode" /&gt;
     &lt;small&gt;Value: &#123;&#123; reactiveCode.value || 'Empty' &#125;&#125;&lt;/small&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;

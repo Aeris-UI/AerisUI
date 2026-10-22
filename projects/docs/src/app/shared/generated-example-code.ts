@@ -91,7 +91,6 @@ export const DOC_EXAMPLE_CODE: Readonly<Record<string, string>> = {
   "group-reactive-forms": "protected readonly selectionControl = new FormControl<AerisButtonGroupValue>(['one']);",
   "group-signal-forms": "protected readonly selectionData = signal<{ choice: AerisButtonGroupValue }>({ choice: null });\n\nprotected readonly selectionForm = form(this.selectionData, (schema) => required(schema.choice));\n\nprotected readonly selectionError = computed(\n    () => this.selectionForm.choice().touched() && this.selectionForm.choice().invalid(),\n  );",
   "group-single": "protected readonly single = signal<AerisButtonGroupValue>('day');",
-  "input-affixes": "protected clearSearch(input: HTMLInputElement): void {\n    input.value = '';\n    input.focus();\n  }",
   "input-clearable": "protected readonly search = signal('Aeris components');",
   "input-group-prefix-suffix": "protected readonly price = signal('129');",
   "input-group-selection": "protected readonly selectedVisibility = signal('public');\n\nprotected readonly includeArchived = signal(false);",

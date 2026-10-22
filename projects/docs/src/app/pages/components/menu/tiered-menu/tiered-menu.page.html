@@ -176,12 +176,7 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="tiered-menu-template-preview"&gt;
   &lt;aeris-tiered-menu [model]="templateItems" ariaLabel="Template tiered menu"&gt;
-    &lt;ng-template
-      aerisTieredMenuItem
-      let-item
-      let-hasSubmenu="hasSubmenu"
-      let-open="open"
-    &gt;
+    &lt;ng-template aerisTieredMenuItem let-item let-hasSubmenu="hasSubmenu" let-open="open"&gt;
       &lt;span class="tiered-menu-item" [attr.data-open]="open || null"&gt;
         &#64;if (item.icon) &#123;
           &lt;svg [lucideIcon]="menuIcons[item.icon]" aria-hidden="true"&gt;&lt;/svg&gt;
@@ -310,9 +305,7 @@
       &lt;/span&gt;
     &lt;/ng-template&gt;
   &lt;/aeris-tiered-menu&gt;
-  &lt;small class="tiered-menu-status" aria-live="polite"&gt;&#123;&#123;
-    navigationMessage()
-  &#125;&#125;&lt;/small&gt;
+  &lt;small class="tiered-menu-status" aria-live="polite"&gt;&#123;&#123; navigationMessage() &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
           </div>

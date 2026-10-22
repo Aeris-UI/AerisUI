@@ -144,22 +144,25 @@
       &gt;
         &lt;div class="story-dashboard"&gt;
           &lt;div class="story-metric"&gt;
-            &lt;strong&gt;84%&lt;/strong&gt;&lt;span&gt;Accessibility coverage&lt;/span&gt;
+            &lt;strong&gt;84%&lt;/strong&gt;
+            &lt;span&gt;Accessibility coverage&lt;/span&gt;
           &lt;/div&gt;
-          &lt;div class="story-metric"&gt;&lt;strong&gt;32&lt;/strong&gt;&lt;span&gt;Patterns&lt;/span&gt;&lt;/div&gt;
-          &lt;div class="story-metric"&gt;&lt;strong&gt;6&lt;/strong&gt;&lt;span&gt;Palettes&lt;/span&gt;&lt;/div&gt;
+          &lt;div class="story-metric"&gt;
+            &lt;strong&gt;32&lt;/strong&gt;
+            &lt;span&gt;Patterns&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class="story-metric"&gt;
+            &lt;strong&gt;6&lt;/strong&gt;
+            &lt;span&gt;Palettes&lt;/span&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/section&gt;
 
     &lt;section class="story-stat-grid" aria-label="Animation qualities"&gt;
-      &lt;article
-        class="story-stat"
-        aerisAnimateOnScroll="scale"
-        [once]="false"
-        [delay]="0"
-      &gt;
-        &lt;strong&gt;Fast&lt;/strong&gt;&lt;span&gt;Observer driven&lt;/span&gt;
+      &lt;article class="story-stat" aerisAnimateOnScroll="scale" [once]="false" [delay]="0"&gt;
+        &lt;strong&gt;Fast&lt;/strong&gt;
+        &lt;span&gt;Observer driven&lt;/span&gt;
       &lt;/article&gt;
       &lt;article
         class="story-stat"
@@ -167,7 +170,8 @@
         [once]="false"
         [delay]="100"
       &gt;
-        &lt;strong&gt;Calm&lt;/strong&gt;&lt;span&gt;Purposeful easing&lt;/span&gt;
+        &lt;strong&gt;Calm&lt;/strong&gt;
+        &lt;span&gt;Purposeful easing&lt;/span&gt;
       &lt;/article&gt;
       &lt;article
         class="story-stat"
@@ -175,7 +179,8 @@
         [once]="false"
         [delay]="200"
       &gt;
-        &lt;strong&gt;Inclusive&lt;/strong&gt;&lt;span&gt;Motion aware&lt;/span&gt;
+        &lt;strong&gt;Inclusive&lt;/strong&gt;
+        &lt;span&gt;Motion aware&lt;/span&gt;
       &lt;/article&gt;
     &lt;/section&gt;
 
@@ -187,9 +192,7 @@
     &gt;
       &lt;span&gt;Ready to replay&lt;/span&gt;
       &lt;h4&gt;Scroll back to the beginning.&lt;/h4&gt;
-      &lt;p&gt;
-        Each section returns to its initial state after it leaves the visible area.
-      &lt;/p&gt;
+      &lt;p&gt;Each section returns to its initial state after it leaves the visible area.&lt;/p&gt;
     &lt;/footer&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -222,9 +225,7 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="effect-grid"&gt;
-    &lt;article class="effect-card" aerisAnimateOnScroll="fade" [once]="false"&gt;
-      Fade
-    &lt;/article&gt;
+    &lt;article class="effect-card" aerisAnimateOnScroll="fade" [once]="false"&gt;Fade&lt;/article&gt;
     &lt;article class="effect-card" aerisAnimateOnScroll="fade-down" [once]="false"&gt;
       Fade down
     &lt;/article&gt;
@@ -272,11 +273,7 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="replay-demo"&gt;
-    &lt;div
-      class="replay-viewport"
-      tabindex="0"
-      aria-label="Scrollable animation example"
-    &gt;
+    &lt;div class="replay-viewport" tabindex="0" aria-label="Scrollable animation example"&gt;
       &lt;div class="replay-spacer"&gt;Scroll down&lt;/div&gt;
       &lt;article
         class="replay-card"
@@ -316,13 +313,16 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="stagger-grid"&gt;
     &lt;article aerisAnimateOnScroll [once]="false" [duration]="600"&gt;
-      &lt;strong&gt;Discover&lt;/strong&gt;&lt;span&gt;0 ms delay&lt;/span&gt;
+      &lt;strong&gt;Discover&lt;/strong&gt;
+      &lt;span&gt;0 ms delay&lt;/span&gt;
     &lt;/article&gt;
     &lt;article aerisAnimateOnScroll [once]="false" [duration]="600" [delay]="120"&gt;
-      &lt;strong&gt;Compose&lt;/strong&gt;&lt;span&gt;120 ms delay&lt;/span&gt;
+      &lt;strong&gt;Compose&lt;/strong&gt;
+      &lt;span&gt;120 ms delay&lt;/span&gt;
     &lt;/article&gt;
     &lt;article aerisAnimateOnScroll [once]="false" [duration]="600" [delay]="240"&gt;
-      &lt;strong&gt;Ship&lt;/strong&gt;&lt;span&gt;240 ms delay&lt;/span&gt;
+      &lt;strong&gt;Ship&lt;/strong&gt;
+      &lt;span&gt;240 ms delay&lt;/span&gt;
     &lt;/article&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>

@@ -154,7 +154,7 @@ interface Product {
     }
   `
 })
-export class OrderListBasicBasicDemo {
+export class OrderListBasicDemo {
   protected readonly basicProducts = signal<readonly Product[]>(this.createProducts());
 
   protected readonly selectedBasic = signal<readonly string[]>(['keyboard']);
@@ -221,7 +221,7 @@ interface Product {
     }
   `
 })
-export class OrderListSelectionMultipleSelectionDemo {
+export class OrderListSelectionDemo {
   protected readonly templateProducts = signal<readonly Product[]>(this.createProducts());
 
   protected readonly selectedTemplate = signal<readonly string[]>(['monitor', 'keyboard']);
@@ -274,11 +274,11 @@ import { AerisOrderListModule } from '@aeris-ui/core/order-list';
     }
 
     .product-row small {
-      color: var(--text-3);
+      color: var(--aeris-text-3);
     }
   `
 })
-export class OrderListTemplateItemTemplateDemo {
+export class OrderListTemplateDemo {
 }
 ```
 
@@ -329,7 +329,7 @@ interface Product {
     }
   `
 })
-export class OrderListScrollingScrollingDemo {
+export class OrderListScrollingDemo {
   protected readonly manyProducts = signal<readonly Product[]>(this.createManyProducts());
 
   protected readonly selectedMany = signal<readonly string[]>(['item-6']);
@@ -395,7 +395,7 @@ interface Product {
     }
   `
 })
-export class OrderListStatesStatesDemo {
+export class OrderListStatesDemo {
   protected readonly basicProducts = signal<readonly Product[]>(this.createProducts());
 
   private createProducts(): readonly Product[] {
@@ -459,7 +459,7 @@ interface Product {
     }
   `
 })
-export class OrderListEventsEventsDemo {
+export class OrderListEventsDemo {
   protected readonly basicProducts = signal<readonly Product[]>(this.createProducts());
 
   protected readonly selectedBasic = signal<readonly string[]>(['keyboard']);

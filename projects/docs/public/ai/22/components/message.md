@@ -146,7 +146,7 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
     </div>
   `
 })
-export class MessageBasicBasicDemo {
+export class MessageBasicDemo {
 }
 ```
 
@@ -182,7 +182,7 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
     }
   `
 })
-export class MessageSeveritySeverityDemo {
+export class MessageSeverityDemo {
 }
 ```
 
@@ -215,7 +215,7 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
     }
   `
 })
-export class MessageVariantsVariantsDemo {
+export class MessageVariantsDemo {
 }
 ```
 
@@ -250,7 +250,7 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
     }
   `
 })
-export class MessageSizesSizesDemo {
+export class MessageSizesDemo {
 }
 ```
 
@@ -270,7 +270,7 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
   templateUrl: './message-icons.demo.html',
   styleUrl: './message-icons.demo.scss'
 })
-export class MessageIconsIconsDemo {
+export class MessageIconsDemo {
 }
 ```
 
@@ -302,28 +302,6 @@ export class MessageIconsIconsDemo {
 #### CSS
 
 ```css
-.message-stack {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.message-custom-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  display: inline-grid;
-  place-items: center;
-}
-
-.message-custom-icon svg {
-  width: 1rem;
-  height: 1rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
 .message-stack {
   display: grid;
   gap: 0.75rem;
@@ -384,20 +362,9 @@ import { AerisMessageModule, type AerisMessageCloseEvent } from '@aeris-ui/core/
       color: var(--aeris-text-2);
       font-size: 0.875rem;
     }
-
-    .message-stack {
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    .message-status {
-      margin: 0;
-      color: var(--text-2);
-      font-size: 0.875rem;
-    }
   `
 })
-export class MessageClosableClosableDemo {
+export class MessageClosableDemo {
   protected readonly closeStatus = signal('Message is visible.');
 
   protected recordClose(event: AerisMessageCloseEvent): void {
@@ -423,7 +390,7 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
   templateUrl: './message-life.demo.html',
   styleUrl: './message-life.demo.scss'
 })
-export class MessageLifeLifeDemo {
+export class MessageLifeDemo {
   protected readonly timedVisible = signal(false);
 
   protected showTimedMessage(): void {
@@ -465,17 +432,6 @@ export class MessageLifeLifeDemo {
   display: grid;
   gap: 0.75rem;
 }
-
-.message-life-demo {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.message-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
 ```
 
 ### Dynamic
@@ -501,7 +457,7 @@ interface DemoMessage {
   templateUrl: './message-dynamic.demo.html',
   styleUrl: './message-dynamic.demo.scss'
 })
-export class MessageDynamicDynamicDemo {
+export class MessageDynamicDemo {
   private nextMessageId = 0;
   protected readonly dynamicMessages = signal<readonly DemoMessage[]>([]);
 
@@ -530,9 +486,7 @@ export class MessageDynamicDynamicDemo {
   <div class="message-stack">
     <div class="message-actions">
       <button aerisButton type="button" (click)="addMessages()">Add messages</button>
-      <button aerisButton type="button" (click)="clearMessages()">
-        Clear messages
-      </button>
+      <button aerisButton type="button" (click)="clearMessages()">Clear messages</button>
     </div>
     @for (message of dynamicMessages(); track message.id) {
       <aeris-message
@@ -549,17 +503,6 @@ export class MessageDynamicDynamicDemo {
 #### CSS
 
 ```css
-.message-stack {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.message-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
-
 .message-stack {
   display: grid;
   gap: 0.75rem;
@@ -590,7 +533,7 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
   templateUrl: './message-forms.demo.html',
   styleUrl: './message-forms.demo.scss'
 })
-export class MessageFormsFormsDemo {
+export class MessageFormsDemo {
   protected readonly usernameTouched = signal(false);
   protected readonly phoneTouched = signal(false);
   protected readonly username = signal('');
@@ -684,40 +627,6 @@ export class MessageFormsFormsDemo {
 .message-form input:focus {
   border-color: var(--aeris-focus);
   outline: 3px solid color-mix(in srgb, var(--aeris-focus) 24%, transparent);
-}
-
-.message-form {
-  width: min(100%, 34rem);
-  display: grid;
-  gap: 0.9rem;
-}
-
-.message-form label {
-  display: grid;
-  gap: 0.35rem;
-  color: var(--text-2);
-  font-size: 0.8125rem;
-  font-weight: 700;
-}
-
-.message-form input {
-  min-height: 2.5rem;
-  padding: 0 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: var(--aeris-radius-sm);
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-}
-
-.message-form input:focus {
-  border-color: var(--focus);
-  outline: 3px solid color-mix(in srgb, var(--focus) 24%, transparent);
-}
-
-.message-stack {
-  display: grid;
-  gap: 0.75rem;
 }
 ```
 

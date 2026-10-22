@@ -3,7 +3,7 @@
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -47,47 +47,6 @@
   color: var(--aeris-danger);
 }
 
-.input-affix {
-  min-height: var(--aeris-control-height, 2.625rem);
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  padding-inline: 0.75rem;
-  border: 1px solid var(--aeris-border, #deddd7);
-  border-radius: var(--aeris-radius-sm, 0.4375rem);
-  background: var(--aeris-surface, #fff);
-  color: var(--aeris-text-2, #555555);
-  transition:
-    border-color 150ms,
-    box-shadow 150ms;
-}
-
-.input-affix:focus-within {
-  border-color: var(--aeris-focus, #536437);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aeris-focus, #536437) 18%, transparent);
-}
-
-.input-affix input {
-  min-width: 0;
-  width: 100%;
-  min-height: calc(var(--aeris-control-height, 2.625rem) - 2px);
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
-.input-affix input:focus {
-  box-shadow: none;
-}
-
-.input-affix svg {
-  width: 1rem;
-  height: 1rem;
-  flex: 0 0 auto;
-}
-
 .size-sample {
   display: grid;
   gap: 0.4rem;
@@ -96,12 +55,6 @@
 .size-sample span {
   color: var(--aeris-text-2);
   font-size: 0.75rem;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .input-affix {
-    transition: none;
-  }
 }
 
 @media (max-width: 42rem) {

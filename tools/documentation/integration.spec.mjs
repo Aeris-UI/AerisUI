@@ -56,6 +56,34 @@ const pages = new Map(
     .map((path) => [basename(path, '.page.html'), path]),
 );
 const components = new Map(document.components.map((component) => [component.slug, component]));
+
+test('every component example ships complete code without docs-shell color dependencies', () => {
+  const ids = new Set();
+  for (const component of document.components) {
+    for (const example of component.examples) {
+      assert.ok(example.title.trim(), `${component.slug}: example title`);
+      assert.ok(example.description.trim(), `${example.id}: feature description`);
+      assert.ok(!ids.has(example.id), `${example.id}: unique example ID`);
+      ids.add(example.id);
+      const typeScript = example.sources.find((source) => source.language === 'TypeScript');
+      assert.match(typeScript?.code ?? '', /@Component\s*\(/, `${example.id}: complete component`);
+      assert.match(typeScript?.code ?? '', /export class \w+/, `${example.id}: exported component`);
+      for (const source of example.sources) {
+        assert.doesNotMatch(
+          source.code,
+          /var\(--(?:primary(?:-hover|-text|-soft)?|accent|warm|danger|success|warning(?:-text)?|page|surface(?:-[23])?|text(?:-[23])?|border|focus|radius-(?:sm|md|lg)|control-height)(?=[,\s)])/,
+          `${example.id}: use public Aeris tokens, not docs aliases`,
+        );
+        assert.doesNotMatch(
+          source.code,
+          /(?:DOC_ICONS|DOC_EXAMPLE_STYLES|DOC_EXAMPLE_CODE)\b/,
+          `${example.id}: no private documentation helpers`,
+        );
+      }
+    }
+  }
+  assert.ok(ids.size >= 769, 'all component examples remain covered');
+});
 const extendedFamilies = [
   'button',
   'button-group',

@@ -96,7 +96,7 @@ interface Product {
   templateUrl: './filter-service-basic.demo.html',
   styleUrl: './filter-service-basic.demo.scss'
 })
-export class FilterServiceBasicCollectionFilteringDemo {
+export class FilterServiceBasicDemo {
   protected readonly basicResults = computed(() =>
       this.filterService.filter(this.products, {
         query: this.query(),
@@ -202,6 +202,61 @@ export class FilterServiceBasicCollectionFilteringDemo {
     gap: 0.25rem;
   }
 }
+
+.filter-demo {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.filter-demo > label {
+  font-weight: 650;
+}
+
+.filter-summary {
+  margin: 0.5rem 0 0 0;
+  color: var(--aeris-text-muted);
+}
+
+.filter-demo p {
+  margin: 0;
+  color: var(--aeris-text-muted);
+}
+
+app-form-demo .filter-results {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.filter-results li {
+  min-width: 0;
+}
+
+.filter-result-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.filter-result-row > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.filter-results span {
+  color: var(--aeris-text-muted);
+}
+
+@media (max-width: 42rem) {
+  .filter-result-row {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+}
 ```
 
 ### Match modes
@@ -252,9 +307,45 @@ import { AerisFilterService, type AerisFilterMode } from '@aeris-ui/core/filter-
     .filter-results li {
       min-width: 0;
     }
+
+    .filter-demo {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .filter-demo > label {
+      font-weight: 650;
+    }
+
+    .filter-demo p {
+      margin: 0;
+      color: var(--aeris-text-muted);
+    }
+
+    app-form-demo .filter-results {
+      display: grid;
+      gap: 0.5rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .filter-results li {
+      min-width: 0;
+    }
+
+    .filter-results span {
+      color: var(--aeris-text-muted);
+    }
+
+    .filter-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.625rem;
+    }
   `
 })
-export class FilterServiceModesMatchModesDemo {
+export class FilterServiceModesDemo {
   protected readonly query = signal('light');
 
 
@@ -296,7 +387,7 @@ import { AerisInputNumber } from '@aeris-ui/core/input-number';
   templateUrl: './filter-service-comparisons.demo.html',
   styleUrl: './filter-service-comparisons.demo.scss'
 })
-export class FilterServiceComparisonsNumbersAndDatesDemo {
+export class FilterServiceComparisonsDemo {
   protected readonly query = signal('light');
 
 
@@ -399,6 +490,11 @@ export class FilterServiceComparisonsNumbersAndDatesDemo {
 #### CSS
 
 ```css
+.filter-summary {
+  margin: 0.5rem 0 0 0;
+  color: var(--aeris-text-muted);
+}
+
 .comparison-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -416,24 +512,18 @@ export class FilterServiceComparisonsNumbersAndDatesDemo {
   font-weight: 650;
 }
 
-.filter-summary {
-  margin: 0;
-  color: var(--aeris-text-muted);
-}
-
 .comparison-grid ul {
   display: grid;
   gap: 0.375rem;
   margin: 0;
-  margin-block-end: 0;
   padding: 0;
   list-style: none;
 }
 
 @media (max-width: 42rem) {
   .comparison-grid {
-    grid-template-columns: 1fr;
-  }
+      grid-template-columns: 1fr;
+    }
 }
 ```
 
@@ -454,11 +544,6 @@ import { AerisFilterService, type AerisFilterFieldOperator } from '@aeris-ui/cor
     {{ fieldQuery() }}
   `,
   styles: `
-    .filter-summary {
-      margin: 0.5rem 0 0 0;
-      color: var(--aeris-text-muted);
-    }
-
     .filter-demo {
       display: grid;
       gap: 0.75rem;
@@ -509,9 +594,70 @@ import { AerisFilterService, type AerisFilterFieldOperator } from '@aeris-ui/cor
         gap: 0.25rem;
       }
     }
+
+    .filter-demo {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .filter-demo > label {
+      font-weight: 650;
+    }
+
+    .filter-summary {
+      margin: 0.5rem 0 0 0;
+      color: var(--aeris-text-muted);
+    }
+
+    .filter-demo p {
+      margin: 0;
+      color: var(--aeris-text-muted);
+    }
+
+    app-form-demo .filter-results {
+      display: grid;
+      gap: 0.5rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .filter-results li {
+      min-width: 0;
+    }
+
+    .filter-result-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .filter-result-row > * {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .filter-results span {
+      color: var(--aeris-text-muted);
+    }
+
+    .filter-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.625rem;
+    }
+
+    @media (max-width: 42rem) {
+      .filter-result-row {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+    }
   `
 })
-export class FilterServiceFieldsFieldsAndOperatorsDemo {
+export class FilterServiceFieldsDemo {
   protected readonly query = signal('light');
 
 
@@ -553,7 +699,7 @@ import { AerisMessageModule } from '@aeris-ui/core/message';
   templateUrl: './filter-service-custom.demo.html',
   styleUrl: './filter-service-custom.demo.scss'
 })
-export class FilterServiceCustomCustomConstraintDemo {
+export class FilterServiceCustomDemo {
   protected readonly customCode = signal('UI-314');
 
   protected readonly customCodes = ['AE-103', 'AE-208', 'UI-314', 'UI-420'] as const;
@@ -628,6 +774,11 @@ export class FilterServiceCustomCustomConstraintDemo {
   font-weight: 650;
 }
 
+.filter-demo p {
+  margin: 0;
+  color: var(--aeris-text-muted);
+}
+
 .filter-actions {
   display: flex;
   flex-wrap: wrap;
@@ -665,7 +816,7 @@ interface Product {
   templateUrl: './filter-service-table.demo.html',
   styleUrl: './filter-service-table.demo.scss'
 })
-export class FilterServiceTableTableIntegrationDemo {
+export class FilterServiceTableDemo {
   protected readonly tableQuery = signal('');
 
   protected readonly tableRows = computed(() =>
@@ -735,6 +886,11 @@ export class FilterServiceTableTableIntegrationDemo {
 
 .filter-demo > label {
   font-weight: 650;
+}
+
+.filter-demo p {
+  margin: 0;
+  color: var(--aeris-text-muted);
 }
 ```
 

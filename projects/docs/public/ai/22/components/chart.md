@@ -192,7 +192,7 @@ import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@
     </div>
   `
 })
-export class ChartBasicBarChartDemo {
+export class ChartBasicDemo {
   protected readonly salesData: AerisChartData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [
@@ -238,7 +238,7 @@ import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@
     </div>
   `
 })
-export class ChartLineLineChartDemo {
+export class ChartLineDemo {
   protected readonly trendData: AerisChartData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [{ label: 'Active projects', data: [18, 24, 22, 31, 29, 37, 42], tension: 0.35, fill: true }],
@@ -273,7 +273,7 @@ import { AerisChartModule, createAerisChartAreaFill, type AerisChartData, type A
   templateUrl: './chart-area.demo.html',
   styleUrl: './chart-area.demo.scss'
 })
-export class ChartAreaFadingAreaFillDemo {
+export class ChartAreaDemo {
   protected readonly areaEnabled = signal(true);
 
   protected readonly areaData: AerisChartData<'line'> = {
@@ -369,9 +369,24 @@ import { AerisChartModule, createAerisChartAreaFill, createAerisChartComparisonG
 @Component({
   selector: 'app-chart-comparison-demo',
   imports: [AerisChartModule],
-  templateUrl: './chart-comparison.demo.html'
+  template: `
+    <div>
+      <aeris-chart
+        type="line"
+        [data]="comparisonData"
+        [options]="comparisonOptions"
+        [plugins]="comparisonPlugins"
+        height="22rem"
+        ariaLabel="Monthly subscriptions and renewals"
+        ariaDescription="June has 420 new subscriptions and 320 renewals. Both series increase overall from January to June."
+      />
+      <p>
+        June: 420 new subscriptions and 320 renewals. The series are overlaid, not stacked.
+      </p>
+    </div>
+  `
 })
-export class ChartComparisonCompareMultipleSeriesDemo {
+export class ChartComparisonDemo {
   protected readonly comparisonData: AerisChartData<'line'> = {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
       datasets: [
@@ -446,26 +461,6 @@ export class ChartComparisonCompareMultipleSeriesDemo {
 }
 ```
 
-#### HTML
-
-```html
-<div>
-  <aeris-chart
-    type="line"
-    [data]="comparisonData"
-    [options]="comparisonOptions"
-    [plugins]="comparisonPlugins"
-    height="22rem"
-    ariaLabel="Monthly subscriptions and renewals"
-    ariaDescription="June has 420 new subscriptions and 320 renewals. Both series increase overall from January to June."
-  />
-  <p>
-    June: 420 new subscriptions and 320 renewals. The series are overlaid, not
-    stacked.
-  </p>
-</div>
-```
-
 ### Radial charts and gauges
 
 Slim progress fills have subtly rounded ends and become seamless when complete. Doughnut options support rings, semicircular gauges and spaced concentric series without another dependency. For a single accessible progress indicator rather than a data visualization, use ProgressSpinner.
@@ -482,7 +477,7 @@ import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@
   templateUrl: './chart-radial.demo.html',
   styleUrl: './chart-radial.demo.scss'
 })
-export class ChartRadialRadialChartsAndGaugesDemo {
+export class ChartRadialDemo {
   protected readonly ringData: AerisChartData<'doughnut'> = {
       labels: ['Completed', 'Remaining'],
       datasets: [
@@ -575,7 +570,10 @@ export class ChartRadialRadialChartsAndGaugesDemo {
           height="14rem"
           ariaLabel="Release readiness: 76 percent complete"
         />
-        <span class="chart-ring-value" aria-hidden="true">76<span>%</span></span>
+        <span class="chart-ring-value" aria-hidden="true">
+          76
+          <span>%</span>
+        </span>
       </div>
       <p>76 of 100 release checks completed.</p>
     </section>
@@ -588,7 +586,10 @@ export class ChartRadialRadialChartsAndGaugesDemo {
         height="14rem"
         ariaLabel="Capacity used: 76 percent"
       />
-      <p><strong>76%</strong> used · 24% available</p>
+      <p>
+        <strong>76%</strong>
+        used · 24% available
+      </p>
     </section>
     <section aria-label="Concentric goal rings">
       <h4>Quarterly goals</h4>
@@ -709,7 +710,7 @@ import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@
   templateUrl: './chart-circular.demo.html',
   styleUrl: './chart-circular.demo.scss'
 })
-export class ChartCircularCircularChartsDemo {
+export class ChartCircularDemo {
   protected readonly shareData: AerisChartData = {
     labels: ['Product', 'Engineering', 'Operations', 'Growth'],
     datasets: [{ label: 'Team allocation', data: [36, 29, 18, 17] }],
@@ -761,8 +762,6 @@ export class ChartCircularCircularChartsDemo {
       grid-template-columns: 1fr;
     }
 }
-
-.chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; } @media (max-width: 44rem) { .chart-grid { grid-template-columns: 1fr; } }
 ```
 
 ### More chart types
@@ -781,7 +780,7 @@ import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@
   templateUrl: './chart-types.demo.html',
   styleUrl: './chart-types.demo.scss'
 })
-export class ChartTypesMoreChartTypesDemo {
+export class ChartTypesDemo {
   protected readonly radarData: AerisChartData = {
     labels: ['Speed', 'Quality', 'Coverage', 'Reliability', 'Clarity'],
     datasets: [{ label: 'Current', data: [82, 74, 67, 91, 78] }, { label: 'Goal', data: [88, 86, 80, 90, 84] }],
@@ -873,8 +872,6 @@ export class ChartTypesMoreChartTypesDemo {
       grid-template-columns: 1fr;
     }
 }
-
-.chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; } @media (max-width: 44rem) { .chart-grid { grid-template-columns: 1fr; } }
 ```
 
 ### Dynamic data
@@ -911,11 +908,9 @@ import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@
       gap: 0.5rem;
       margin-top: 0.875rem;
     }
-
-    .chart-actions { display: flex; gap: 0.5rem; margin-top: 0.875rem; }
   `
 })
-export class ChartDynamicDynamicDataDemo {
+export class ChartDynamicDemo {
   protected readonly dynamicData = signal<AerisChartData>({
     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
     datasets: [{ label: 'Completed tasks', data: [18, 27, 22, 34], borderRadius: 7 }],
@@ -970,7 +965,7 @@ import { type Plugin } from 'chart.js';
     </div>
   `
 })
-export class ChartPluginPluginDemo {
+export class ChartPluginDemo {
   protected readonly shareData: AerisChartData = {
     labels: ['Product', 'Engineering', 'Operations', 'Growth'],
     datasets: [{ label: 'Team allocation', data: [36, 29, 18, 17] }],
@@ -1027,7 +1022,7 @@ import { AerisChartModule } from '@aeris-ui/core/chart';
     </div>
   `
 })
-export class ChartEmptyEmptyStateDemo {
+export class ChartEmptyDemo {
 }
 ```
 
@@ -1048,7 +1043,7 @@ import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@
   templateUrl: './chart-compact.demo.html',
   styleUrl: './chart-compact.demo.scss'
 })
-export class ChartCompactCompactKPIAndSparklineDemo {
+export class ChartCompactDemo {
   protected readonly compactData: AerisChartData = {
       labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       datasets: [
@@ -1143,7 +1138,7 @@ import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@
     </div>
   `
 })
-export class ChartMixedMixedSeriesAndFormattingDemo {
+export class ChartMixedDemo {
   protected readonly revenueFormat = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -1203,13 +1198,13 @@ import { AerisChartModule, type AerisChartData, type AerisChartOptions } from '@
         ariaDescription="Weekly totals are 28, 38, 42 and 52 tasks. In week four, Design completed 14, Development 26 and Testing 12."
       />
       <p>
-        Weekly totals: 28, 38, 42 and 52 tasks. Every discipline completed more tasks in
-        week four than in week one.
+        Weekly totals: 28, 38, 42 and 52 tasks. Every discipline completed more tasks in week
+        four than in week one.
       </p>
     </div>
   `
 })
-export class ChartStackedStackedValuesDemo {
+export class ChartStackedDemo {
   protected readonly stackedData: AerisChartData = {
       labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
       datasets: [
@@ -1252,7 +1247,7 @@ import { AerisSkeletonModule } from '@aeris-ui/core/skeleton';
   templateUrl: './chart-loading.demo.html',
   styleUrl: './chart-loading.demo.scss'
 })
-export class ChartLoadingLoadingCompositionDemo {
+export class ChartLoadingDemo {
   protected readonly loadingReport = signal(true);
 
   protected readonly trendData: AerisChartData = {

@@ -116,15 +116,18 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="badge-status-grid"&gt;
-    &lt;span class="badge-status-item"
-      &gt;&lt;aeris-badge dot severity="success" role="status" ariaLabel="Online" /&gt;
-      Online&lt;/span&gt;
-    &lt;span class="badge-status-item"
-      &gt;&lt;aeris-badge dot severity="warning" role="status" ariaLabel="Away" /&gt;
-      Away&lt;/span&gt;
-    &lt;span class="badge-status-item"
-      &gt;&lt;aeris-badge dot severity="danger" role="status" ariaLabel="Offline" /&gt;
-      Offline&lt;/span&gt;
+    &lt;span class="badge-status-item"&gt;
+      &lt;aeris-badge dot severity="success" role="status" ariaLabel="Online" /&gt;
+      Online
+    &lt;/span&gt;
+    &lt;span class="badge-status-item"&gt;
+      &lt;aeris-badge dot severity="warning" role="status" ariaLabel="Away" /&gt;
+      Away
+    &lt;/span&gt;
+    &lt;span class="badge-status-item"&gt;
+      &lt;aeris-badge dot severity="danger" role="status" ariaLabel="Offline" /&gt;
+      Offline
+    &lt;/span&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -216,19 +219,12 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="badge-overlay-row"&gt;
     &lt;aeris-badge-overlay [value]="unreadCount()" [max]="99"&gt;
-      &lt;button aerisButton type="button" [attr.aria-label]="unreadLabel()"&gt;
-        Inbox
-      &lt;/button&gt;
+      &lt;button aerisButton type="button" [attr.aria-label]="unreadLabel()"&gt;Inbox&lt;/button&gt;
     &lt;/aeris-badge-overlay&gt;
     &lt;aeris-badge-overlay dot severity="success" position="bottom-right"&gt;
       &lt;aeris-avatar label="JD" ariaLabel="Jordan is online" /&gt;
     &lt;/aeris-badge-overlay&gt;
-    &lt;aeris-badge-overlay
-      value="Beta"
-      severity="info"
-      variant="soft"
-      position="top-left"
-    &gt;
+    &lt;aeris-badge-overlay value="Beta" severity="info" variant="soft" position="top-left"&gt;
       &lt;button aerisButton variant="solid" severity="secondary" type="button"&gt;
         Preview
       &lt;/button&gt;

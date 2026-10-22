@@ -104,7 +104,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
     }
   `
 })
-export class PaginatorBasicBasicDemo {
+export class PaginatorBasicDemo {
 }
 ```
 
@@ -141,7 +141,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
     }
   `
 })
-export class PaginatorRowsRowsPerPageDemo {
+export class PaginatorRowsDemo {
 }
 ```
 
@@ -187,7 +187,7 @@ import { AerisPaginator, type AerisPaginatorPageEvent } from '@aeris-ui/core/pag
     }
   `
 })
-export class PaginatorControlledControlledStateDemo {
+export class PaginatorControlledDemo {
   protected readonly first = signal(0);
   protected readonly rows = signal(10);
   protected readonly eventText = signal('No page change yet');
@@ -232,7 +232,7 @@ import { AerisPaginator } from '@aeris-ui/core/paginator';
     }
   `
 })
-export class PaginatorLinksPageLinkCountDemo {
+export class PaginatorLinksDemo {
 }
 ```
 

@@ -140,7 +140,7 @@ interface Person {
     }
   `
 })
-export class OrganizationChartBasicBasicDemo {
+export class OrganizationChartBasicDemo {
   protected readonly chart: readonly AerisOrganizationChartNode<Person>[] = [
     {
       key: 'ceo',
@@ -204,7 +204,7 @@ interface Person {
     }
   `
 })
-export class OrganizationChartSelectionSelectionDemo {
+export class OrganizationChartSelectionDemo {
   protected readonly chart = this.createChart();
 
   protected readonly selectedSingle = signal<readonly string[]>(['product']);
@@ -335,7 +335,7 @@ interface Person {
     }
   `
 })
-export class OrganizationChartMultipleMultipleSelectionDemo {
+export class OrganizationChartMultipleDemo {
   protected readonly chart = this.createChart();
 
   protected readonly selectedMultiple = signal<readonly string[]>(['design', 'platform']);
@@ -466,7 +466,7 @@ interface Person {
     }
   `
 })
-export class OrganizationChartCollapsibleCollapsibleDemo {
+export class OrganizationChartCollapsibleDemo {
   protected readonly chart = this.createChart();
 
   protected readonly collapsed = signal<readonly string[]>(['ops']);
@@ -577,7 +577,7 @@ import { AerisOrganizationChartModule } from '@aeris-ui/core/organization-chart'
   templateUrl: './organization-chart-template.demo.html',
   styleUrl: './organization-chart-template.demo.scss'
 })
-export class OrganizationChartTemplateTemplateDemo {
+export class OrganizationChartTemplateDemo {
 }
 ```
 
@@ -619,8 +619,8 @@ export class OrganizationChartTemplateTemplateDemo {
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: var(--primary-soft);
-  color: var(--primary-text);
+  background: var(--aeris-primary-soft);
+  color: var(--aeris-primary-text);
   font-size: 0.75rem;
   font-weight: 800;
 }
@@ -671,7 +671,7 @@ interface Person {
     }
   `
 })
-export class OrganizationChartScrollingScrollingDemo {
+export class OrganizationChartScrollingDemo {
   protected readonly wideChart = this.createWideChart();
 
   private person(name: string, role: string, team: string, tone: Person['tone']): Person {

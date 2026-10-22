@@ -151,7 +151,7 @@ interface ApiRow {
     </div>
   `
 })
-export class MegaMenuBasicBasicDemo {
+export class MegaMenuBasicDemo {
   protected readonly tokens: readonly ApiRow[] = [
       {
         name: '--aeris-mega-menu-background',
@@ -266,7 +266,7 @@ interface ApiRow {
     </div>
   `
 })
-export class MegaMenuVerticalVerticalDemo {
+export class MegaMenuVerticalDemo {
   protected readonly tokens: readonly ApiRow[] = [
       {
         name: '--aeris-mega-menu-background',
@@ -396,11 +396,11 @@ interface ApiRow {
     }
 
     .mega-menu-template-item small {
-      color: var(--text-2);
+      color: var(--aeris-text-2);
     }
   `
 })
-export class MegaMenuTemplateTemplateDemo {
+export class MegaMenuTemplateDemo {
   protected readonly tokens: readonly ApiRow[] = [
       {
         name: '--aeris-mega-menu-background',
@@ -509,7 +509,7 @@ import { AerisMegaMenuModule, type AerisMegaMenuItem, type AerisMegaMenuItemEven
     </div>
   `
 })
-export class MegaMenuCommandCommandAndLinksDemo {
+export class MegaMenuCommandDemo {
   protected readonly lastAction = signal('No menu action yet');
 
   protected readonly commandMenu: readonly AerisMegaMenuItem[] = [

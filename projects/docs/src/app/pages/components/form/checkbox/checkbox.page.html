@@ -169,14 +169,33 @@
                     [checked]="true"
                   />
                 </fieldset>
-                <small id="card-report-help">{{
-                  cardsSubmitted() && !cardReports()
-                    ? 'Select Weekly report to continue.'
-                    : 'Weekly report is required for this demonstration.'
-                }}</small>
-                <button aerisButton type="button" (click)="cardsSubmitted.set(true)">
-                  Save preferences
-                </button>
+                <small
+                  id="card-report-help"
+                  aria-live="polite"
+                  [class.error]="cardsSubmitted() && !cardReports()"
+                  >{{
+                    cardsSubmitted() && !cardReports()
+                      ? 'Select Weekly report to continue.'
+                      : cardsSubmitted()
+                        ? 'Selection is valid.'
+                        : 'Weekly report is required for this demonstration.'
+                  }}</small
+                >
+                <div class="field-row">
+                  <button aerisButton type="button" (click)="cardsSubmitted.set(true)">
+                    Validate selection
+                  </button>
+                  <button
+                    aerisButton
+                    variant="ghost"
+                    type="button"
+                    (click)="
+                      cardUpdates.set(true); cardReports.set(false); cardsSubmitted.set(false)
+                    "
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
               <pre code><code ngNonBindable>&lt;div class="checkbox-stack"&gt;
   &lt;ng-template #updatesIcon&gt;&lt;svg [lucideIcon]="bellIcon"&gt;&lt;/svg&gt;&lt;/ng-template&gt;
@@ -207,14 +226,32 @@
       [checked]="true"
     /&gt;
   &lt;/fieldset&gt;
-  &lt;small id="card-report-help"&gt;&#123;&#123;
-    cardsSubmitted() &amp;&amp; !cardReports()
-      ? 'Select Weekly report to continue.'
-      : 'Weekly report is required for this demonstration.'
-  &#125;&#125;&lt;/small&gt;
-  &lt;button aerisButton type="button" (click)="cardsSubmitted.set(true)"&gt;
-    Save preferences
-  &lt;/button&gt;
+  &lt;small
+    id="card-report-help"
+    aria-live="polite"
+    [class.error]="cardsSubmitted() &amp;&amp; !cardReports()"
+  &gt;
+    &#123;&#123;
+      cardsSubmitted() &amp;&amp; !cardReports()
+        ? 'Select Weekly report to continue.'
+        : cardsSubmitted()
+          ? 'Selection is valid.'
+          : 'Weekly report is required for this demonstration.'
+    &#125;&#125;
+  &lt;/small&gt;
+  &lt;div class="field-row"&gt;
+    &lt;button aerisButton type="button" (click)="cardsSubmitted.set(true)"&gt;
+      Validate selection
+    &lt;/button&gt;
+    &lt;button
+      aerisButton
+      variant="ghost"
+      type="button"
+      (click)="cardUpdates.set(true); cardReports.set(false); cardsSubmitted.set(false)"
+    &gt;
+      Reset
+    &lt;/button&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -250,8 +287,7 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-row checkbox-label-position"&gt;
   &lt;aeris-checkbox [checked]="true"&gt;Label at end&lt;/aeris-checkbox&gt;
-  &lt;aeris-checkbox [checked]="true" labelPosition="start"
-    &gt;Label at start&lt;/aeris-checkbox&gt;
+  &lt;aeris-checkbox [checked]="true" labelPosition="start"&gt;Label at start&lt;/aeris-checkbox&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -307,8 +343,9 @@
   &gt;
     Accept terms
   &lt;/aeris-checkbox&gt;
-  &lt;small id="required-terms-error" class="error"
-    &gt;You must accept the terms to continue.&lt;/small&gt;
+  &lt;small id="required-terms-error" class="error"&gt;
+    You must accept the terms to continue.
+  &lt;/small&gt;
   &lt;aeris-checkbox disabled&gt;Unavailable option&lt;/aeris-checkbox&gt;
   &lt;aeris-checkbox [checked]="true" disabled&gt;Selected and unavailable&lt;/aeris-checkbox&gt;
 &lt;/div&gt;</code></pre>
@@ -329,7 +366,7 @@
   &lt;aeris-checkbox name="permissions" value="reports" [checked]="true"&gt;
     View reports
   &lt;/aeris-checkbox&gt;
-  &lt;aeris-checkbox name="permissions" value="exports"&gt; Export data &lt;/aeris-checkbox&gt;
+  &lt;aeris-checkbox name="permissions" value="exports"&gt;Export data&lt;/aeris-checkbox&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 

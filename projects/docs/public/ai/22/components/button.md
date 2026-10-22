@@ -168,6 +168,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -178,7 +180,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureBasicBasicDemo {
+export class FeatureBasicDemo {
 }
 ```
 
@@ -210,6 +212,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -220,7 +224,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureToggleToggleStateDemo {
+export class FeatureToggleDemo {
   protected readonly toggled = signal(false);
 }
 ```
@@ -257,6 +261,8 @@ import { FormField, form } from '@angular/forms/signals';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -267,7 +273,7 @@ import { FormField, form } from '@angular/forms/signals';
     }
   `
 })
-export class FeatureToggleFormsToggleFormsDemo {
+export class FeatureToggleFormsDemo {
   protected readonly toggleData = signal({ enabled: false });
 
   protected readonly toggleForm = form(this.toggleData);
@@ -290,12 +296,7 @@ import { AerisButtonForms } from '@aeris-ui/core/button/forms';
   imports: [AerisButtonForms, ReactiveFormsModule],
   template: `
     <div class="aeris-example-row">
-      <button
-        aerisButton
-        aerisButtonToggle
-        variant="outline"
-        [formControl]="toggleControl"
-      >
+      <button aerisButton aerisButtonToggle variant="outline" [formControl]="toggleControl">
         Enabled
       </button>
     </div>
@@ -305,6 +306,8 @@ import { AerisButtonForms } from '@aeris-ui/core/button/forms';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -315,7 +318,7 @@ import { AerisButtonForms } from '@aeris-ui/core/button/forms';
     }
   `
 })
-export class FeatureToggleReactiveReactiveToggleDemo {
+export class FeatureToggleReactiveDemo {
   protected readonly toggleControl = new FormControl(false, { nonNullable: true });
 }
 ```
@@ -335,9 +338,8 @@ import { AerisButton } from '@aeris-ui/core/button';
   imports: [AerisButton],
   template: `
     <div class="aeris-example-row">
-      <aeris-button label="Create project" (clicked)="createProject($event)" /><span
-        class="result"
-        >Clicked {{ clickCount() }} times</span>
+      <aeris-button label="Create project" (clicked)="createProject($event)" />
+      <span class="result">Clicked {{ clickCount() }} times</span>
     </div>
   `,
   styles: `
@@ -345,6 +347,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -361,7 +365,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureWrapperWrapperComponentDemo {
+export class FeatureWrapperDemo {
   protected readonly clickCount = signal(0);
 
   protected createProject(event: MouseEvent): void {
@@ -399,6 +403,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -415,7 +421,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureVariantsVariantsDemo {
+export class FeatureVariantsDemo {
 }
 ```
 
@@ -444,6 +450,8 @@ import { AerisButton, type AerisButtonSeverity } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -460,7 +468,7 @@ import { AerisButton, type AerisButtonSeverity } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureSeveritySeverityDemo {
+export class FeatureSeverityDemo {
   protected readonly severities: readonly AerisButtonSeverity[] = [
     'primary',
     'secondary',
@@ -489,7 +497,8 @@ import { AerisButton } from '@aeris-ui/core/button';
   template: `
     <div class="wrap align aeris-example-row">
       <button aerisButton size="xs">Extra small</button>
-      <button aerisButton size="sm">Small</button><button aerisButton>Medium</button>
+      <button aerisButton size="sm">Small</button>
+      <button aerisButton>Medium</button>
       <button aerisButton size="lg">Large</button>
     </div>
   `,
@@ -498,6 +507,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -518,7 +529,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureSizesSizesDemo {
+export class FeatureSizesDemo {
 }
 ```
 
@@ -538,9 +549,13 @@ import { LucideChevronRight, LucideDynamicIcon, LucidePlus } from '@lucide/angul
   imports: [AerisButton, LucideDynamicIcon],
   template: `
     <div class="wrap align aeris-example-row">
-      <button aerisButton><svg [lucideIcon]="icons.Plus"></svg>Add item</button>
+      <button aerisButton>
+        <svg [lucideIcon]="icons.Plus"></svg>
+        Add item
+      </button>
       <button aerisButton iconPosition="right">
-        Continue<svg [lucideIcon]="icons.ChevronRight"></svg>
+        Continue
+        <svg [lucideIcon]="icons.ChevronRight"></svg>
       </button>
       <button aerisButton iconOnly aria-label="Add item">
         <svg [lucideIcon]="icons.Plus"></svg>
@@ -552,6 +567,8 @@ import { LucideChevronRight, LucideDynamicIcon, LucidePlus } from '@lucide/angul
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -564,6 +581,13 @@ import { LucideChevronRight, LucideDynamicIcon, LucidePlus } from '@lucide/angul
       align-items: center;
     }
 
+    svg:where([lucideIcon]) {
+      width: var(--aeris-icon-size, 1rem);
+      height: var(--aeris-icon-size, 1rem);
+      flex-shrink: 0;
+      stroke-width: 2;
+    }
+
     @media (max-width: 42rem) {
       .aeris-example-row {
         max-width: 100%;
@@ -572,7 +596,7 @@ import { LucideChevronRight, LucideDynamicIcon, LucidePlus } from '@lucide/angul
     }
   `
 })
-export class FeatureIconsIconsAndPositionsDemo {
+export class FeatureIconsDemo {
 
   protected readonly icons = { ChevronRight: LucideChevronRight, Plus: LucidePlus };
 }
@@ -601,8 +625,9 @@ import { AerisButton } from '@aeris-ui/core/button';
         [disabled]="loading()"
         (click)="toggleLoading()"
       >
-        Save asynchronously</button>
-        <aeris-button label="Processing" loading />
+        Save asynchronously
+      </button>
+      <aeris-button label="Processing" loading />
     </div>
   `,
   styles: `
@@ -610,6 +635,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -626,7 +653,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureLoadingLoadingDemo {
+export class FeatureLoadingDemo {
   protected readonly loading = signal(false);
 
   protected toggleLoading(): void {
@@ -664,6 +691,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -686,7 +715,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureShapeRaisedRoundedAndFluidDemo {
+export class FeatureShapeDemo {
 }
 ```
 
@@ -705,7 +734,8 @@ import { AerisButton } from '@aeris-ui/core/button';
   imports: [AerisButton],
   template: `
     <div class="wrap aeris-example-row">
-      <aeris-button label="Messages" badge="8" /><aeris-button
+      <aeris-button label="Messages" badge="8" />
+      <aeris-button
         label="Tasks"
         badge="3"
         badgeSeverity="success"
@@ -719,6 +749,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     .wrap {
@@ -735,7 +767,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureBadgeBadgeDemo {
+export class FeatureBadgeDemo {
 }
 ```
 
@@ -754,8 +786,9 @@ import { AerisButton } from '@aeris-ui/core/button';
   imports: [AerisButton],
   template: `
     <div class="aeris-example-row">
-      <ng-template #rocket let-loading="loading"
-        ><span aria-hidden="true">{{ loading ? '…' : '↑' }}</span></ng-template>
+      <ng-template #rocket let-loading="loading">
+        <span aria-hidden="true">{{ loading ? '…' : '↑' }}</span>
+      </ng-template>
       <aeris-button label="Deploy" [iconTemplate]="rocket" iconPosition="right" />
     </div>
   `,
@@ -764,6 +797,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -774,7 +809,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureTemplatesCustomTemplatesDemo {
+export class FeatureTemplatesDemo {
   protected readonly loading = signal(false);
 }
 ```
@@ -800,7 +835,9 @@ import { AerisButton } from '@aeris-ui/core/button';
         href="https://github.com"
         target="_blank"
         rel="noopener noreferrer"
-        >Open GitHub</a>
+      >
+        Open GitHub
+      </a>
     </div>
   `,
   styles: `
@@ -808,6 +845,8 @@ import { AerisButton } from '@aeris-ui/core/button';
       display: flex;
       gap: 0.5625rem;
       min-width: 0;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
     @media (max-width: 42rem) {
@@ -818,7 +857,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     }
   `
 })
-export class FeatureLinksNativeLinksDemo {
+export class FeatureLinksDemo {
 }
 ```
 

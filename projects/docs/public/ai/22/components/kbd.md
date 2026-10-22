@@ -80,7 +80,11 @@ import { AerisKbdModule } from '@aeris-ui/core/kbd';
   template: `
     <div>
       <p class="kbd-sentence">
-        Confirm with <kbd aerisKbd>Enter</kbd> or dismiss with <kbd aerisKbd>Escape</kbd>.
+        Confirm with
+        <kbd aerisKbd>Enter</kbd>
+        or dismiss with
+        <kbd aerisKbd>Escape</kbd>
+        .
       </p>
     </div>
   `,
@@ -91,7 +95,7 @@ import { AerisKbdModule } from '@aeris-ui/core/kbd';
     }
   `
 })
-export class KbdBasicSingleKeysDemo {
+export class KbdBasicDemo {
 }
 ```
 
@@ -111,7 +115,8 @@ import { AerisKbdModule } from '@aeris-ui/core/kbd';
   template: `
     <div>
       <div class="kbd-row">
-        <kbd aerisKbd size="sm">Tab</kbd><kbd aerisKbd>Backspace</kbd>
+        <kbd aerisKbd size="sm">Tab</kbd>
+        <kbd aerisKbd>Backspace</kbd>
         <kbd aerisKbd size="lg">Page Down</kbd>
       </div>
     </div>
@@ -127,7 +132,7 @@ import { AerisKbdModule } from '@aeris-ui/core/kbd';
     }
   `
 })
-export class KbdSizesSizesDemo {
+export class KbdSizesDemo {
 }
 ```
 
@@ -148,8 +153,9 @@ import { AerisKbdModule } from '@aeris-ui/core/kbd';
     <div>
       <div class="kbd-row">
         <kbd aerisKbd [keys]="['command']"><span aerisKbdContent>K</span></kbd>
-        <kbd aerisKbd variant="ghost" [keys]="['command']"
-          ><span aerisKbdContent>K</span></kbd>
+        <kbd aerisKbd variant="ghost" [keys]="['command']">
+          <span aerisKbdContent>K</span>
+        </kbd>
       </div>
     </div>
   `,
@@ -164,7 +170,7 @@ import { AerisKbdModule } from '@aeris-ui/core/kbd';
     }
   `
 })
-export class KbdVariantsVariantsDemo {
+export class KbdVariantsDemo {
 }
 ```
 
@@ -184,7 +190,7 @@ import { AerisKbdModule } from '@aeris-ui/core/kbd';
   templateUrl: './kbd-combinations.demo.html',
   styleUrl: './kbd-combinations.demo.scss'
 })
-export class KbdCombinationsKeyCombinationsDemo {
+export class KbdCombinationsDemo {
 }
 ```
 
@@ -207,7 +213,11 @@ export class KbdCombinationsKeyCombinationsDemo {
     </p>
     <p>
       Separate keycaps
-      <kbd class="kbd-shortcut"><kbd aerisKbd>Ctrl</kbd> + <kbd aerisKbd>K</kbd></kbd>
+      <kbd class="kbd-shortcut">
+        <kbd aerisKbd>Ctrl</kbd>
+        +
+        <kbd aerisKbd>K</kbd>
+      </kbd>
     </p>
   </div>
 </div>
@@ -216,14 +226,6 @@ export class KbdCombinationsKeyCombinationsDemo {
 #### CSS
 
 ```css
-.doc-section kbd:not(.aeris-kbd):not(.kbd-shortcut) {
-  padding: 0.15rem 0.4rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: 0.3rem;
-  background: var(--aeris-surface-2);
-  font: 0.8125rem ui-monospace, SFMono-Regular, Consolas, monospace;
-}
-
 .kbd-row,
 .kbd-shortcut {
   display: inline-flex;
@@ -271,7 +273,7 @@ import { AerisKbdModule } from '@aeris-ui/core/kbd';
   templateUrl: './kbd-standard-keys.demo.html',
   styleUrl: './kbd-standard-keys.demo.scss'
 })
-export class KbdStandardKeysStandardKeysDemo {
+export class KbdStandardKeysDemo {
 }
 ```
 
@@ -281,19 +283,22 @@ export class KbdStandardKeysStandardKeysDemo {
 <div>
   <div class="kbd-combinations">
     <p>
-      Navigation <kbd aerisKbd [keys]="['arrowUp']"></kbd>
+      Navigation
+      <kbd aerisKbd [keys]="['arrowUp']"></kbd>
       <kbd aerisKbd [keys]="['arrowDown']"></kbd>
       <kbd aerisKbd [keys]="['arrowLeft']"></kbd>
       <kbd aerisKbd [keys]="['arrowRight']"></kbd>
     </p>
     <p>
-      Page navigation <kbd aerisKbd [keys]="['pageUp']"></kbd>
+      Page navigation
+      <kbd aerisKbd [keys]="['pageUp']"></kbd>
       <kbd aerisKbd [keys]="['pageDown']"></kbd>
       <kbd aerisKbd [keys]="['home']"></kbd>
       <kbd aerisKbd [keys]="['end']"></kbd>
     </p>
     <p>
-      Special keys <kbd aerisKbd [keys]="['enter']"></kbd>
+      Special keys
+      <kbd aerisKbd [keys]="['enter']"></kbd>
       <kbd aerisKbd [keys]="['escape']"></kbd>
       <kbd aerisKbd [keys]="['tab']"></kbd>
       <kbd aerisKbd [keys]="['space']"></kbd>
@@ -301,9 +306,10 @@ export class KbdStandardKeysStandardKeysDemo {
     </p>
     <p>
       Press
-      <kbd aerisKbd variant="ghost"
-        ><span aerisKbdKey="shift"></span><span aerisKbdKey="tab"></span>
-        </kbd>
+      <kbd aerisKbd variant="ghost">
+        <span aerisKbdKey="shift"></span>
+        <span aerisKbdKey="tab"></span>
+      </kbd>
       to move to the previous field.
     </p>
   </div>
@@ -341,47 +347,66 @@ import { LucideArrowUp, LucideCommand, LucideDynamicIcon } from '@lucide/angular
 @Component({
   selector: 'app-kbd-icons-demo',
   imports: [AerisKbdModule, LucideDynamicIcon],
-  template: `
-    <div>
-      <div class="kbd-row">
-        <kbd aerisKbd
-          ><svg [lucideIcon]="commandIcon" aria-hidden="true"></svg>
-          <span class="kbd-readable">Command</span></kbd>
-        <kbd aerisKbd
-          ><svg [lucideIcon]="shiftIcon" aria-hidden="true"></svg>
-          <span class="kbd-readable">Shift</span></kbd>
-        <kbd aerisKbd
-          ><span aria-hidden="true">⌥</span><span class="kbd-readable">Option</span></kbd>
-      </div>
-    </div>
-  `,
-  styles: `
-    .kbd-row,
-    .kbd-shortcut {
-      display: inline-flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.625rem;
-      max-inline-size: 100%;
-    }
-
-    .kbd-readable {
-      position: absolute;
-      inline-size: 1px;
-      block-size: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
-      border: 0;
-    }
-  `
+  templateUrl: './kbd-icons.demo.html',
+  styleUrl: './kbd-icons.demo.scss'
 })
-export class KbdIconsSymbolsAndIconsDemo {
+export class KbdIconsDemo {
   protected readonly commandIcon = LucideCommand;
 
   protected readonly shiftIcon = LucideArrowUp;
+}
+```
+
+#### HTML
+
+```html
+<div>
+  <div class="kbd-row">
+    <kbd aerisKbd>
+      <svg [lucideIcon]="commandIcon" aria-hidden="true"></svg>
+      <span class="kbd-readable">Command</span>
+    </kbd>
+    <kbd aerisKbd>
+      <svg [lucideIcon]="shiftIcon" aria-hidden="true"></svg>
+      <span class="kbd-readable">Shift</span>
+    </kbd>
+    <kbd aerisKbd>
+      <span aria-hidden="true">⌥</span>
+      <span class="kbd-readable">Option</span>
+    </kbd>
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
+.kbd-row,
+.kbd-shortcut {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+  max-inline-size: 100%;
+}
+
+.kbd-readable {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 ```
 
@@ -401,7 +426,8 @@ import { AerisKbdModule } from '@aeris-ui/core/kbd';
   template: `
     <div>
       <div class="kbd-row kbd-custom">
-        <kbd aerisKbd>Space</kbd><kbd aerisKbd>Arrow Right</kbd>
+        <kbd aerisKbd>Space</kbd>
+        <kbd aerisKbd>Arrow Right</kbd>
       </div>
     </div>
   `,
@@ -422,7 +448,7 @@ import { AerisKbdModule } from '@aeris-ui/core/kbd';
     }
   `
 })
-export class KbdTokensExampleTokenCustomizationDemo {
+export class KbdTokensExampleDemo {
 }
 ```
 

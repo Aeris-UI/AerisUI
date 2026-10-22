@@ -110,7 +110,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './form-field-basic.demo.html',
   styleUrl: './form-field-basic.demo.scss'
 })
-export class FormFieldBasicNativeControlDemo {
+export class FormFieldBasicDemo {
   protected readonly email = signal('alex@example.com');
 }
 ```
@@ -165,7 +165,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   templateUrl: './form-field-profile.demo.html',
   styleUrl: './form-field-profile.demo.scss'
 })
-export class FormFieldProfileResponsiveProfileFormDemo {
+export class FormFieldProfileDemo {
   protected readonly profileName = signal('Alex Morgan');
   protected readonly birthDate = signal<AerisDatePickerValue>(new Date(1994, 6, 12));
   protected readonly height = signal<number | null>(178);
@@ -257,25 +257,29 @@ export class FormFieldProfileResponsiveProfileFormDemo {
 #### CSS
 
 ```css
-.profile-form {
+.profile-form,
+.validation-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
   align-items: stretch;
 }
 
-.profile-form__wide {
-  grid-column: 1 / -1;
+.profile-form__wide,
+.validation-actions {
+  grid-column: 1/-1;
 }
 
 @media (max-width: 42rem) {
-  .profile-form {
-    grid-template-columns: 1fr;
-  }
+  .profile-form,
+    .validation-grid {
+      grid-template-columns: 1fr;
+    }
 
-  .profile-form__wide {
-    grid-column: auto;
-  }
+  .profile-form__wide,
+    .validation-actions {
+      grid-column: auto;
+    }
 }
 ```
 
@@ -298,7 +302,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './form-field-validation.demo.html',
   styleUrl: './form-field-validation.demo.scss'
 })
-export class FormFieldValidationValidationAndAlignmentDemo {
+export class FormFieldValidationDemo {
   protected validateEmail(): void {
       this.validationTouched.set(true);
     }
@@ -322,12 +326,7 @@ export class FormFieldValidationValidationAndAlignmentDemo {
 
 ```html
 <div class="validation-grid">
-  <aeris-form-field
-    required
-    fluid
-    reserveMessageSpace
-    [invalid]="validationInvalid()"
-  >
+  <aeris-form-field required fluid reserveMessageSpace [invalid]="validationInvalid()">
     <label aerisFormLabel>Work email</label>
     <input
       aerisInputText
@@ -368,6 +367,7 @@ export class FormFieldValidationValidationAndAlignmentDemo {
 #### CSS
 
 ```css
+.profile-form,
 .validation-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -375,21 +375,27 @@ export class FormFieldValidationValidationAndAlignmentDemo {
   align-items: stretch;
 }
 
+.profile-form__wide,
 .validation-actions {
-  grid-column: 1 / -1;
+  grid-column: 1/-1;
+}
+
+.validation-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
 }
 
 @media (max-width: 42rem) {
-  .validation-grid {
-    grid-template-columns: 1fr;
-  }
+  .profile-form,
+    .validation-grid {
+      grid-template-columns: 1fr;
+    }
 
-  .validation-actions {
-    grid-column: auto;
-  }
+  .profile-form__wide,
+    .validation-actions {
+      grid-column: auto;
+    }
 }
 ```
 
@@ -411,7 +417,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
   templateUrl: './form-field-states.demo.html',
   styleUrl: './form-field-states.demo.scss'
 })
-export class FormFieldStatesRequiredOptionalAndDisabledDemo {
+export class FormFieldStatesDemo {
   protected readonly notifications = signal(true);
 }
 ```

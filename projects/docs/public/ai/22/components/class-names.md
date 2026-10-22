@@ -87,7 +87,7 @@ import { AerisClassNamesModule } from '@aeris-ui/core/class-names';
     }
   `
 })
-export class ClassNamesStringStringDemo {
+export class ClassNamesStringDemo {
 }
 ```
 
@@ -137,7 +137,7 @@ import { AerisClassNamesModule } from '@aeris-ui/core/class-names';
     }
   `
 })
-export class ClassNamesArrayArrayDemo {
+export class ClassNamesArrayDemo {
 }
 ```
 
@@ -158,7 +158,7 @@ import { AerisClassNamesModule, type AerisClassNamesValue } from '@aeris-ui/core
   templateUrl: './class-names-conditional.demo.html',
   styleUrl: './class-names-conditional.demo.scss'
 })
-export class ClassNamesConditionalConditionalMapDemo {
+export class ClassNamesConditionalDemo {
   protected readonly selected = signal(false);
   protected readonly busy = signal(false);
   protected readonly emphasized = signal(true);
@@ -190,21 +190,18 @@ export class ClassNamesConditionalConditionalMapDemo {
   <div class="class-names-demo">
     <div class="class-names-actions">
       <button aerisButton type="button" (click)="toggleSelected()">
-        Toggle selected</button>
-        <button
+        Toggle selected
+      </button>
+      <button
         aerisButton
         type="button"
         variant="solid"
         severity="secondary"
         (click)="toggleBusy()"
       >
-        Toggle busy</button>
-        <button
-        aerisButton
-        type="button"
-        variant="outline"
-        (click)="toggleEmphasized()"
-      >
+        Toggle busy
+      </button>
+      <button aerisButton type="button" variant="outline" (click)="toggleEmphasized()">
         Toggle emphasis
       </button>
     </div>
@@ -254,6 +251,33 @@ export class ClassNamesConditionalConditionalMapDemo {
 
 .state-card--emphasized {
   box-shadow: inset 0 0 0 1px var(--aeris-border);
+}
+
+.class-names-demo {
+  display: grid;
+  gap: 1rem;
+}
+
+.class-names-actions,
+.framework-example {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.state-card {
+  padding: 1.25rem;
+  border: 1px solid var(--aeris-border);
+  border-radius: var(--aeris-radius-lg);
+  background: var(--aeris-surface);
+  transition: border-color 160ms ease, background 160ms ease, opacity 160ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .state-card,
+    .composed-card--interactive {
+      transition: none;
+    }
 }
 ```
 
@@ -306,7 +330,7 @@ import { AerisClassNamesModule, type AerisClassNamesValue } from '@aeris-ui/core
     }
   `
 })
-export class ClassNamesNestedNestedCompositionDemo {
+export class ClassNamesNestedDemo {
   protected readonly composedClasses: AerisClassNamesValue = [
     'composed-card composed-card--surface',
     ['composed-card--spacious', ['composed-card--interactive']],
@@ -334,9 +358,10 @@ import { AerisClassNamesModule } from '@aeris-ui/core/class-names';
   template: `
     <div>
       <div class="framework-example">
-        <span [aerisClassNames]="['utility-surface', { 'utility-accent': true }]"
-          >Application utility classes</span>
-          <span class="utility-surface">Static classes remain untouched</span>
+        <span [aerisClassNames]="['utility-surface', { 'utility-accent': true }]">
+          Application utility classes
+        </span>
+        <span class="utility-surface">Static classes remain untouched</span>
       </div>
     </div>
   `,
@@ -357,9 +382,26 @@ import { AerisClassNamesModule } from '@aeris-ui/core/class-names';
       color: var(--aeris-primary-text);
       border: 1px solid var(--aeris-primary);
     }
+
+    .class-names-actions,
+    .framework-example {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.625rem;
+    }
+
+    .framework-example {
+      gap: 0.75rem;
+    }
+
+    .utility-surface {
+      padding: 0.75rem 1rem;
+      border-radius: var(--aeris-radius-lg);
+      background: var(--aeris-surface-2);
+    }
   `
 })
-export class ClassNamesFrameworksCSSFrameworkClassesDemo {
+export class ClassNamesFrameworksDemo {
 }
 ```
 

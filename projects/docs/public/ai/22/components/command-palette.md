@@ -175,7 +175,7 @@ import { AerisCommandPalette, type AerisCommandPaletteCommand, type AerisCommand
     }
   `
 })
-export class CommandPaletteBasicBasicDemo {
+export class CommandPaletteBasicDemo {
   protected readonly commands: readonly AerisCommandPaletteCommand[] = [
       {
         id: 'documents',
@@ -254,7 +254,7 @@ import { AerisCommandPalette, type AerisCommandPaletteCommand, type AerisCommand
     }
   `
 })
-export class CommandPaletteInlineInlineAndGroupsDemo {
+export class CommandPaletteInlineDemo {
   protected readonly commands: readonly AerisCommandPaletteCommand[] = [
       {
         id: 'documents',
@@ -304,7 +304,7 @@ import { AerisCommandPalette, type AerisCommandPaletteCommand, type AerisCommand
   templateUrl: './command-palette-controlled.demo.html',
   styleUrl: './command-palette-controlled.demo.scss'
 })
-export class CommandPaletteControlledControlledStateAndMethodsDemo {
+export class CommandPaletteControlledDemo {
   protected readonly commands: readonly AerisCommandPaletteCommand[] = [
       {
         id: 'documents',
@@ -366,16 +366,12 @@ export class CommandPaletteControlledControlledStateAndMethodsDemo {
     [backdropBlur]="false"
     (executed)="recordExecution($event)"
   >
-    <ng-template aerisCommandPaletteFooter
-      ><div class="command-actions">
+    <ng-template aerisCommandPaletteFooter>
+      <div class="command-actions">
+        <button aerisButton variant="ghost" size="sm" (click)="controlledPalette.focus()">
+          Focus search
+        </button>
         <button
-          aerisButton
-          variant="ghost"
-          size="sm"
-          (click)="controlledPalette.focus()"
-        >
-          Focus search</button>
-          <button
           aerisButton
           variant="outline"
           size="sm"
@@ -383,7 +379,8 @@ export class CommandPaletteControlledControlledStateAndMethodsDemo {
         >
           Close
         </button>
-      </div></ng-template>
+      </div>
+    </ng-template>
   </aeris-command-palette>
   <p>Query: {{ controlledQuery() }}. Last command: {{ lastExecuted() }}</p>
 </div>
@@ -434,7 +431,7 @@ import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
   templateUrl: './command-palette-templates.demo.html',
   styleUrl: './command-palette-templates.demo.scss'
 })
-export class CommandPaletteTemplatesTemplatesAndIconsDemo {
+export class CommandPaletteTemplatesDemo {
   protected readonly commands: readonly AerisCommandPaletteCommand[] = [
       {
         id: 'documents',
@@ -473,14 +470,15 @@ export class CommandPaletteTemplatesTemplatesAndIconsDemo {
     [commands]="commands"
   >
     <ng-template aerisCommandPaletteGroup let-group>{{ group }} commands</ng-template>
-    <ng-template aerisCommandPaletteItem let-command let-active="active"
-      ><span class="command-item"
-        ><svg [lucideIcon]="searchIcon" aria-hidden="true"></svg>
+    <ng-template aerisCommandPaletteItem let-command let-active="active">
+      <span class="command-item">
+        <svg [lucideIcon]="searchIcon" aria-hidden="true"></svg>
         <span>{{ command.label }}</span>
         @if (active) {
           <small>Enter</small>
         }
-      </span></ng-template>
+      </span>
+    </ng-template>
   </aeris-command-palette>
 </div>
 ```
@@ -488,6 +486,13 @@ export class CommandPaletteTemplatesTemplatesAndIconsDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .command-demo {
   display: grid;
   gap: 1rem;
@@ -569,7 +574,7 @@ import { AerisCommandPalette, type AerisCommandPaletteCommand } from '@aeris-ui/
     }
   `
 })
-export class CommandPaletteExternalExternalFilteringDemo {
+export class CommandPaletteExternalDemo {
   protected readonly commands: readonly AerisCommandPaletteCommand[] = [
       {
         id: 'documents',
@@ -621,7 +626,7 @@ import { AerisCommandPalette, type AerisCommandPaletteCommand } from '@aeris-ui/
   templateUrl: './command-palette-states.demo.html',
   styleUrl: './command-palette-states.demo.scss'
 })
-export class CommandPaletteStatesLoadingAndEmptyDemo {
+export class CommandPaletteStatesDemo {
   protected readonly commands: readonly AerisCommandPaletteCommand[] = [
       {
         id: 'documents',
@@ -663,17 +668,17 @@ export class CommandPaletteStatesLoadingAndEmptyDemo {
     [commands]="commands"
     [loading]="loading()"
     loadingMessage="Fetching commands"
-    ><ng-template aerisCommandPaletteLoading
-      >Fetching commands…</ng-template>
-      </aeris-command-palette>
+  >
+    <ng-template aerisCommandPaletteLoading>Fetching commands…</ng-template>
+  </aeris-command-palette>
   <aeris-command-palette
     inline
     searchAriaLabel="Empty commands"
     [commands]="[]"
     emptyMessage="No commands available"
-    ><ng-template aerisCommandPaletteEmpty
-      >No commands available.</ng-template>
-      </aeris-command-palette>
+  >
+    <ng-template aerisCommandPaletteEmpty>No commands available.</ng-template>
+  </aeris-command-palette>
 </div>
 ```
 
@@ -716,8 +721,9 @@ import { AerisCommandPalette, type AerisCommandPaletteCommand, type AerisCommand
   template: `
     <div class="command-demo">
       <button aerisButton variant="outline" (click)="shortcutOpen.set(true)">
-        Open shortcut palette</button>
-        <aeris-command-palette
+        Open shortcut palette
+      </button>
+      <aeris-command-palette
         title="Shortcut commands"
         [(open)]="shortcutOpen"
         [commands]="commands"
@@ -745,7 +751,7 @@ import { AerisCommandPalette, type AerisCommandPaletteCommand, type AerisCommand
     }
   `
 })
-export class CommandPaletteShortcutLauncherShortcutDemo {
+export class CommandPaletteShortcutDemo {
   protected readonly commands: readonly AerisCommandPaletteCommand[] = [
       {
         id: 'documents',

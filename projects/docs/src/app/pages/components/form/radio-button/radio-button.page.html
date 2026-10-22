@@ -46,12 +46,15 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;fieldset class="radio-group"&gt;
     &lt;legend&gt;Workspace visibility&lt;/legend&gt;
-    &lt;aeris-radio-button name="visibility" value="private" [(selected)]="visibility"
-      &gt;Private&lt;/aeris-radio-button&gt;
-    &lt;aeris-radio-button name="visibility" value="team" [(selected)]="visibility"
-      &gt;Team members&lt;/aeris-radio-button&gt;
-    &lt;aeris-radio-button name="visibility" value="public" [(selected)]="visibility"
-      &gt;Public&lt;/aeris-radio-button&gt;
+    &lt;aeris-radio-button name="visibility" value="private" [(selected)]="visibility"&gt;
+      Private
+    &lt;/aeris-radio-button&gt;
+    &lt;aeris-radio-button name="visibility" value="team" [(selected)]="visibility"&gt;
+      Team members
+    &lt;/aeris-radio-button&gt;
+    &lt;aeris-radio-button name="visibility" value="public" [(selected)]="visibility"&gt;
+      Public
+    &lt;/aeris-radio-button&gt;
   &lt;/fieldset&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -99,19 +102,25 @@
       value="email"
       [(selected)]="notificationChannel"
       (changed)="recordChange($event)"
-      &gt;Email&lt;/aeris-radio-button&gt;
+    &gt;
+      Email
+    &lt;/aeris-radio-button&gt;
     &lt;aeris-radio-button
       name="channel"
       value="push"
       [(selected)]="notificationChannel"
       (changed)="recordChange($event)"
-      &gt;Push notification&lt;/aeris-radio-button&gt;
+    &gt;
+      Push notification
+    &lt;/aeris-radio-button&gt;
     &lt;aeris-radio-button
       name="channel"
       value="none"
       [(selected)]="notificationChannel"
       (changed)="recordChange($event)"
-      &gt;None&lt;/aeris-radio-button&gt;
+    &gt;
+      None
+    &lt;/aeris-radio-button&gt;
   &lt;/fieldset&gt;
   &lt;span class="radio-result" aria-live="polite"&gt;
     Value: &#123;&#123; notificationChannel() &#125;&#125;. &#123;&#123; lastChange() &#125;&#125;.
@@ -243,11 +252,13 @@
       [(selected)]="delivery"
     /&gt;
   &lt;/fieldset&gt;
-  &lt;small id="delivery-help"&gt;&#123;&#123;
-    deliverySubmitted() &amp;&amp; !delivery()
-      ? 'Choose a delivery method to continue.'
-      : 'Select one delivery method.'
-  &#125;&#125;&lt;/small&gt;
+  &lt;small id="delivery-help"&gt;
+    &#123;&#123;
+      deliverySubmitted() &amp;&amp; !delivery()
+        ? 'Choose a delivery method to continue.'
+        : 'Select one delivery method.'
+    &#125;&#125;
+  &lt;/small&gt;
   &lt;button aerisButton type="button" (click)="deliverySubmitted.set(true)"&gt;
     Continue
   &lt;/button&gt;
@@ -274,14 +285,16 @@
                 >
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-row"&gt;
-  &lt;aeris-radio-button name="size-xs" value="xs" selected="xs" size="xs"
-    &gt;Extra small&lt;/aeris-radio-button&gt;
-  &lt;aeris-radio-button name="size-sm" value="sm" selected="sm" size="sm"
-    &gt;Small&lt;/aeris-radio-button&gt;
-  &lt;aeris-radio-button name="size-md" value="md" selected="md"
-    &gt;Medium&lt;/aeris-radio-button&gt;
-  &lt;aeris-radio-button name="size-lg" value="lg" selected="lg" size="lg"
-    &gt;Large&lt;/aeris-radio-button&gt;
+  &lt;aeris-radio-button name="size-xs" value="xs" selected="xs" size="xs"&gt;
+    Extra small
+  &lt;/aeris-radio-button&gt;
+  &lt;aeris-radio-button name="size-sm" value="sm" selected="sm" size="sm"&gt;
+    Small
+  &lt;/aeris-radio-button&gt;
+  &lt;aeris-radio-button name="size-md" value="md" selected="md"&gt;Medium&lt;/aeris-radio-button&gt;
+  &lt;aeris-radio-button name="size-lg" value="lg" selected="lg" size="lg"&gt;
+    Large
+  &lt;/aeris-radio-button&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -303,14 +316,17 @@
                 >
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-row"&gt;
-  &lt;aeris-radio-button name="label-end" value="end" selected="end"
-    &gt;Label at end&lt;/aeris-radio-button&gt;
+  &lt;aeris-radio-button name="label-end" value="end" selected="end"&gt;
+    Label at end
+  &lt;/aeris-radio-button&gt;
   &lt;aeris-radio-button
     name="label-start"
     value="start"
     selected="start"
     labelPosition="start"
-    &gt;Label at start&lt;/aeris-radio-button&gt;
+  &gt;
+    Label at start
+  &lt;/aeris-radio-button&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -371,7 +387,9 @@
       required
       [invalid]="!deliverySpeed()"
       [ariaDescribedBy]="deliverySpeed() ? '' : 'delivery-error'"
-      &gt;Standard&lt;/aeris-radio-button&gt;
+    &gt;
+      Standard
+    &lt;/aeris-radio-button&gt;
     &lt;aeris-radio-button
       name="delivery-speed"
       value="express"
@@ -379,19 +397,24 @@
       required
       [invalid]="!deliverySpeed()"
       [ariaDescribedBy]="deliverySpeed() ? '' : 'delivery-error'"
-      &gt;Express&lt;/aeris-radio-button&gt;
+    &gt;
+      Express
+    &lt;/aeris-radio-button&gt;
   &lt;/fieldset&gt;
   &#64;if (!deliverySpeed()) &#123;
     &lt;small id="delivery-error" class="error"&gt;Choose a delivery speed.&lt;/small&gt;
   &#125;
-  &lt;aeris-radio-button name="disabled-demo" value="disabled" disabled
-    &gt;Unavailable option&lt;/aeris-radio-button&gt;
+  &lt;aeris-radio-button name="disabled-demo" value="disabled" disabled&gt;
+    Unavailable option
+  &lt;/aeris-radio-button&gt;
   &lt;aeris-radio-button
     name="disabled-selected"
     value="selected"
     selected="selected"
     disabled
-    &gt;Selected and unavailable&lt;/aeris-radio-button&gt;
+  &gt;
+    Selected and unavailable
+  &lt;/aeris-radio-button&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -414,10 +437,12 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;form class="radio-group"&gt;
     &lt;strong&gt;Billing cycle&lt;/strong&gt;
-    &lt;aeris-radio-button name="billing" value="monthly" selected="monthly"
-      &gt;Monthly&lt;/aeris-radio-button&gt;
-    &lt;aeris-radio-button name="billing" value="annual" selected="monthly"
-      &gt;Annual&lt;/aeris-radio-button&gt;
+    &lt;aeris-radio-button name="billing" value="monthly" selected="monthly"&gt;
+      Monthly
+    &lt;/aeris-radio-button&gt;
+    &lt;aeris-radio-button name="billing" value="annual" selected="monthly"&gt;
+      Annual
+    &lt;/aeris-radio-button&gt;
   &lt;/form&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -459,24 +484,22 @@
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;fieldset class="radio-group"&gt;
     &lt;legend&gt;Reactive Forms&lt;/legend&gt;
-    &lt;aeris-radio-button
-      name="reactive-plan"
-      value="starter"
-      [formControl]="reactivePlan"
-      &gt;Starter&lt;/aeris-radio-button&gt;
-    &lt;aeris-radio-button name="reactive-plan" value="team" [formControl]="reactivePlan"
-      &gt;Team&lt;/aeris-radio-button&gt;
+    &lt;aeris-radio-button name="reactive-plan" value="starter" [formControl]="reactivePlan"&gt;
+      Starter
+    &lt;/aeris-radio-button&gt;
+    &lt;aeris-radio-button name="reactive-plan" value="team" [formControl]="reactivePlan"&gt;
+      Team
+    &lt;/aeris-radio-button&gt;
     &lt;small&gt;Value: &#123;&#123; reactivePlan.value &#125;&#125;&lt;/small&gt;
   &lt;/fieldset&gt;
   &lt;fieldset class="radio-group"&gt;
     &lt;legend&gt;Template-driven forms&lt;/legend&gt;
-    &lt;aeris-radio-button
-      name="template-plan"
-      value="starter"
-      [(ngModel)]="templatePlan"
-      &gt;Starter&lt;/aeris-radio-button&gt;
-    &lt;aeris-radio-button name="template-plan" value="team" [(ngModel)]="templatePlan"
-      &gt;Team&lt;/aeris-radio-button&gt;
+    &lt;aeris-radio-button name="template-plan" value="starter" [(ngModel)]="templatePlan"&gt;
+      Starter
+    &lt;/aeris-radio-button&gt;
+    &lt;aeris-radio-button name="template-plan" value="team" [(ngModel)]="templatePlan"&gt;
+      Team
+    &lt;/aeris-radio-button&gt;
     &lt;small&gt;Value: &#123;&#123; templatePlan &#125;&#125;&lt;/small&gt;
   &lt;/fieldset&gt;
 &lt;/div&gt;</code></pre>

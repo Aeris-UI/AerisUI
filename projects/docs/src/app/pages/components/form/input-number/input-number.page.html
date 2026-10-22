@@ -39,8 +39,9 @@
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;label for="quantity"&gt;Quantity&lt;/label&gt;
   &lt;aeris-input-number inputId="quantity" [(value)]="quantity" /&gt;
-  &lt;small class="number-result" aria-live="polite"
-    &gt;Value: &#123;&#123; quantity() ?? 'Empty' &#125;&#125;&lt;/small&gt;
+  &lt;small class="number-result" aria-live="polite"&gt;
+    Value: &#123;&#123; quantity() ?? 'Empty' &#125;&#125;
+  &lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -194,39 +195,19 @@
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;div class="field"&gt;
     &lt;label for="locale-en"&gt;English, United States&lt;/label&gt;
-    &lt;aeris-input-number
-      inputId="locale-en"
-      locale="en-US"
-      [value]="9876543.21"
-      fluid
-    /&gt;
+    &lt;aeris-input-number inputId="locale-en" locale="en-US" [value]="9876543.21" fluid /&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
     &lt;label for="locale-de"&gt;German, Germany&lt;/label&gt;
-    &lt;aeris-input-number
-      inputId="locale-de"
-      locale="de-DE"
-      [value]="9876543.21"
-      fluid
-    /&gt;
+    &lt;aeris-input-number inputId="locale-de" locale="de-DE" [value]="9876543.21" fluid /&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
     &lt;label for="locale-fr"&gt;French, France&lt;/label&gt;
-    &lt;aeris-input-number
-      inputId="locale-fr"
-      locale="fr-FR"
-      [value]="9876543.21"
-      fluid
-    /&gt;
+    &lt;aeris-input-number inputId="locale-fr" locale="fr-FR" [value]="9876543.21" fluid /&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
     &lt;label for="locale-sr"&gt;Serbian, Serbia&lt;/label&gt;
-    &lt;aeris-input-number
-      inputId="locale-sr"
-      locale="sr-RS"
-      [value]="9876543.21"
-      fluid
-    /&gt;
+    &lt;aeris-input-number inputId="locale-sr" locale="sr-RS" [value]="9876543.21" fluid /&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -426,21 +407,22 @@
                 /></label>
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-row"&gt;
-  &lt;label class="size-sample"
-    &gt;&lt;span&gt;Extra small&lt;/span&gt;
-    &lt;aeris-input-number ariaLabel="Extra small number" size="xs" [value]="12"
-  /&gt;&lt;/label&gt;
-  &lt;label class="size-sample"
-    &gt;&lt;span&gt;Small&lt;/span&gt;
-    &lt;aeris-input-number ariaLabel="Small number" size="sm" [value]="12"
-  /&gt;&lt;/label&gt;
-  &lt;label class="size-sample"
-    &gt;&lt;span&gt;Medium&lt;/span&gt;&lt;aeris-input-number ariaLabel="Medium number" [value]="12"
-  /&gt;&lt;/label&gt;
-  &lt;label class="size-sample"
-    &gt;&lt;span&gt;Large&lt;/span&gt;
-    &lt;aeris-input-number ariaLabel="Large number" size="lg" [value]="12"
-  /&gt;&lt;/label&gt;
+  &lt;label class="size-sample"&gt;
+    &lt;span&gt;Extra small&lt;/span&gt;
+    &lt;aeris-input-number ariaLabel="Extra small number" size="xs" [value]="12" /&gt;
+  &lt;/label&gt;
+  &lt;label class="size-sample"&gt;
+    &lt;span&gt;Small&lt;/span&gt;
+    &lt;aeris-input-number ariaLabel="Small number" size="sm" [value]="12" /&gt;
+  &lt;/label&gt;
+  &lt;label class="size-sample"&gt;
+    &lt;span&gt;Medium&lt;/span&gt;
+    &lt;aeris-input-number ariaLabel="Medium number" [value]="12" /&gt;
+  &lt;/label&gt;
+  &lt;label class="size-sample"&gt;
+    &lt;span&gt;Large&lt;/span&gt;
+    &lt;aeris-input-number ariaLabel="Large number" size="lg" [value]="12" /&gt;
+  &lt;/label&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -487,12 +469,7 @@
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;div class="field"&gt;
     &lt;label for="number-filled"&gt;Filled&lt;/label&gt;
-    &lt;aeris-input-number
-      inputId="number-filled"
-      appearance="filled"
-      [value]="42"
-      fluid
-    /&gt;
+    &lt;aeris-input-number inputId="number-filled" appearance="filled" [value]="42" fluid /&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
     &lt;label for="number-invalid"&gt;Invalid&lt;/label&gt;
@@ -502,7 +479,8 @@
       invalid
       ariaDescribedBy="number-error"
       fluid
-    /&gt;&lt;small id="number-error" class="error"&gt;Value must be 100 or less.&lt;/small&gt;
+    /&gt;
+    &lt;small id="number-error" class="error"&gt;Value must be 100 or less.&lt;/small&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
     &lt;label for="number-readonly"&gt;Read-only&lt;/label&gt;
@@ -580,8 +558,7 @@
     buttonLayout="horizontal"
     [buttonTabIndex]="0"
   /&gt;
-  &lt;small aria-live="polite"
-    &gt;Current value: &#123;&#123; numberModel().amount ?? 'Empty' &#125;&#125;&lt;/small&gt;
+  &lt;small aria-live="polite"&gt;Current value: &#123;&#123; numberModel().amount ?? 'Empty' &#125;&#125;&lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -615,11 +592,7 @@
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;div class="field"&gt;
     &lt;label for="reactive-number"&gt;Reactive Forms&lt;/label&gt;
-    &lt;aeris-input-number
-      inputId="reactive-number"
-      [formControl]="reactiveNumber"
-      fluid
-    /&gt;
+    &lt;aeris-input-number inputId="reactive-number" [formControl]="reactiveNumber" fluid /&gt;
     &lt;small&gt;Value: &#123;&#123; reactiveNumber.value ?? 'Empty' &#125;&#125;&lt;/small&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;

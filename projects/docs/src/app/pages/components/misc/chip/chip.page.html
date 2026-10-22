@@ -441,12 +441,7 @@
       &lt;button aerisButton variant="outline" (click)="singleGroup.focus()"&gt;
         Focus group
       &lt;/button&gt;
-      &lt;button
-        aerisButton
-        variant="outline"
-        type="button"
-        (click)="groupSingle.set(null)"
-      &gt;
+      &lt;button aerisButton variant="outline" type="button" (click)="groupSingle.set(null)"&gt;
         Clear selection
       &lt;/button&gt;
     &lt;/div&gt;
@@ -487,12 +482,7 @@
       [(value)]="groupMultiple"
     /&gt;
     &lt;p&gt;Selected: &#123;&#123; groupMultipleLabel() &#125;&#125;&lt;/p&gt;
-    &lt;button
-      aerisButton
-      variant="outline"
-      type="button"
-      (click)="groupMultiple.set([])"
-    &gt;
+    &lt;button aerisButton variant="outline" type="button" (click)="groupMultiple.set([])"&gt;
       Clear selection
     &lt;/button&gt;
   &lt;/div&gt;
@@ -549,24 +539,12 @@
     /&gt;
     &lt;p role="status"&gt;&#123;&#123; groupStatus() &#125;&#125;&lt;/p&gt;
     &lt;div class="chip-row"&gt;
-      &lt;button
-        aerisButton
-        variant="outline"
-        type="button"
-        (click)="toggleGroupRemoval()"
-      &gt;
+      &lt;button aerisButton variant="outline" type="button" (click)="toggleGroupRemoval()"&gt;
         &#123;&#123;
-          groupRemovalAllowed()
-            ? 'Disallow protected removal'
-            : 'Allow protected removal'
+          groupRemovalAllowed() ? 'Disallow protected removal' : 'Allow protected removal'
         &#125;&#125;
       &lt;/button&gt;
-      &lt;button
-        aerisButton
-        variant="outline"
-        type="button"
-        (click)="resetGroupRemoval()"
-      &gt;
+      &lt;button aerisButton variant="outline" type="button" (click)="resetGroupRemoval()"&gt;
         Reset chips
       &lt;/button&gt;
     &lt;/div&gt;
@@ -619,11 +597,13 @@
       (changed)="groupValidated.set(false)"
     /&gt;
     &#64;if (groupError()) &#123;
-      &lt;aeris-message id="chip-group-error" severity="danger"
-        &gt;Choose at least one item.&lt;/aeris-message&gt;
+      &lt;aeris-message id="chip-group-error" severity="danger"&gt;
+        Choose at least one item.
+      &lt;/aeris-message&gt;
     &#125; &#64;else if (groupValidationSuccess()) &#123;
-      &lt;aeris-message id="chip-group-success" severity="success"
-        &gt;Selection is valid.&lt;/aeris-message&gt;
+      &lt;aeris-message id="chip-group-success" severity="success"&gt;
+        Selection is valid.
+      &lt;/aeris-message&gt;
     &#125;
     &lt;div class="chip-row"&gt;
       &lt;button aerisButton variant="outline" type="button" (click)="validateGroup()"&gt;
@@ -681,12 +661,7 @@
     /&gt;
     &lt;p&gt;Selected: &#123;&#123; groupControl.value || 'None' &#125;&#125;&lt;/p&gt;
     &lt;div class="chip-row"&gt;
-      &lt;button
-        aerisButton
-        variant="outline"
-        type="button"
-        (click)="toggleGroupControl()"
-      &gt;
+      &lt;button aerisButton variant="outline" type="button" (click)="toggleGroupControl()"&gt;
         &#123;&#123; groupControl.disabled ? 'Enable group' : 'Disable group' &#125;&#125;
       &lt;/button&gt;
       &lt;button

@@ -81,7 +81,7 @@ import { AerisButton } from '@aeris-ui/core/button';
   templateUrl: './block-ui-element.demo.html',
   styleUrl: './block-ui-element.demo.scss'
 })
-export class BlockUiElementElementDemo {
+export class BlockUiElementDemo {
   protected readonly elementBlocked = signal(false);
 }
 ```
@@ -91,9 +91,7 @@ export class BlockUiElementElementDemo {
 ```html
 <div>
   <div class="block-ui-actions">
-    <button aerisButton type="button" (click)="elementBlocked.set(true)">
-      Block
-    </button>
+    <button aerisButton type="button" (click)="elementBlocked.set(true)">Block</button>
     <button
       aerisButton
       variant="solid"
@@ -143,6 +141,13 @@ export class BlockUiElementElementDemo {
   color: var(--aeris-text-2);
   line-height: 1.65;
 }
+
+@media (max-width: 30rem) {
+  .block-ui-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+}
 ```
 
 ### Full screen
@@ -166,7 +171,7 @@ import { AerisButton } from '@aeris-ui/core/button';
     </div>
   `
 })
-export class BlockUiScreenFullScreenDemo {
+export class BlockUiScreenDemo {
   private readonly destroyRef = inject(DestroyRef);
   private screenTimer: ReturnType<typeof setTimeout> | undefined;
   protected readonly screenBlocked = signal(false);

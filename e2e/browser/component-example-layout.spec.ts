@@ -1,6 +1,80 @@
 import { expect, test } from './fixtures';
 import AxeBuilder from '@axe-core/playwright';
 
+test.use({ baseURL: 'http://127.0.0.1:4301' });
+
+test('custom icon examples retain their own sizing above the shared defaults', async ({ page }) => {
+  await page.goto('/components/rating');
+  const icon = page.locator('.preview .rating-template-icon').first();
+  await expect(icon).toBeVisible();
+  const geometry = await icon.evaluate((element) => ({
+    width: element.getBoundingClientRect().width,
+    fontSize: Number.parseFloat(getComputedStyle(element).fontSize),
+  }));
+  expect(geometry.fontSize).toBeGreaterThan(16);
+  expect(Math.abs(geometry.width - geometry.fontSize)).toBeLessThan(1);
+});
+
+test('InputText icon composition uses the real clearable field and preserves focus', async ({
+  page,
+}) => {
+  await page.goto('/components/input-text');
+  const example = page.locator('#input-affixes');
+  const field = example.getByRole('searchbox', { name: 'Search projects', exact: true });
+  await expect(example.locator('aeris-icon-field')).toBeVisible();
+  await field.fill('Design');
+  await example.getByRole('button', { name: 'Clear search', exact: true }).click();
+  await expect(field).toHaveValue('');
+  await expect(field).toBeFocused();
+  const icons = example.locator('.preview svg[lucideIcon]');
+  for (const icon of await icons.all()) {
+    await expect(icon).toHaveCSS('width', '16px');
+    await expect(icon).toHaveCSS('height', '16px');
+  }
+  expect((await new AxeBuilder({ page }).include('#input-affixes').analyze()).violations).toEqual(
+    [],
+  );
+});
+
+test('choice-card validation shows both outcomes and resets the example', async ({ page }) => {
+  await page.goto('/components/checkbox');
+  const example = page.locator('#checkbox-cards');
+  const feedback = example.locator('#card-report-help');
+  await expect(feedback).toContainText('required for this demonstration');
+  await example.getByRole('button', { name: 'Validate selection', exact: true }).click();
+  await expect(feedback).toHaveText('Select Weekly report to continue.');
+  await expect(feedback).toHaveClass('error');
+  await example.getByText('Weekly report', { exact: true }).click();
+  await expect(feedback).toHaveText('Selection is valid.');
+  await expect(feedback).not.toHaveClass('error');
+  await example.getByRole('button', { name: 'Reset', exact: true }).click();
+  await expect(feedback).toContainText('required for this demonstration');
+  await expect(
+    example.getByRole('checkbox', { name: 'Weekly report', exact: true }),
+  ).not.toBeChecked();
+  await expect(example.locator('[aria-invalid="true"]')).toHaveCount(0);
+  expect((await new AxeBuilder({ page }).include('#checkbox-cards').analyze()).violations).toEqual(
+    [],
+  );
+});
+
+test('paired field demos wrap to their available width rather than the whole viewport', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('/components/input-number');
+  const grid = page.locator('#number-decimals .field-grid');
+  await grid.evaluate((element) => {
+    element.style.width = '280px';
+  });
+  const first = await grid.locator('.field').first().boundingBox();
+  const second = await grid.locator('.field').nth(1).boundingBox();
+  expect(first).not.toBeNull();
+  expect(second).not.toBeNull();
+  expect(Math.abs((first?.x ?? 0) - (second?.x ?? 0))).toBeLessThan(1);
+  expect(second?.y ?? 0).toBeGreaterThan((first?.y ?? 0) + (first?.height ?? 0));
+});
+
 test('example code disclosure preserves the live preview and focus', async ({ page }) => {
   await page.goto('/components/button');
   const example = page.locator('app-button-demo').first();

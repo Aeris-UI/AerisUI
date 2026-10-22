@@ -110,7 +110,7 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
     </div>
   `
 })
-export class ProgressSpinnerIndeterminateIndeterminateDemo {
+export class ProgressSpinnerIndeterminateDemo {
 }
 ```
 
@@ -133,7 +133,7 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
     </div>
   `
 })
-export class ProgressSpinnerDeterminateDeterminateDemo {
+export class ProgressSpinnerDeterminateDemo {
 }
 ```
 
@@ -154,7 +154,7 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
   templateUrl: './progress-spinner-dynamic.demo.html',
   styleUrl: './progress-spinner-dynamic.demo.scss'
 })
-export class ProgressSpinnerDynamicDynamicDemo {
+export class ProgressSpinnerDynamicDemo {
   protected readonly progress = signal(35);
 
   protected decreaseProgress(): void {
@@ -247,7 +247,7 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
     }
   `
 })
-export class ProgressSpinnerSizesSizesDemo {
+export class ProgressSpinnerSizesDemo {
 }
 ```
 
@@ -285,7 +285,7 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
     }
   `
 })
-export class ProgressSpinnerTonesTonesDemo {
+export class ProgressSpinnerTonesDemo {
 }
 ```
 
@@ -317,18 +317,14 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
     .brand-spinner {
       --aeris-progress-spinner-size: 6rem;
       --aeris-progress-spinner-indicator: var(--aeris-info);
-      --aeris-progress-spinner-track: color-mix(
-        in srgb,
-        var(--aeris-info) 18%,
-        transparent
-      );
+      --aeris-progress-spinner-track: color-mix(in srgb, var(--aeris-info) 18%, transparent);
       --aeris-progress-spinner-value-color: var(--aeris-info);
       --aeris-progress-spinner-value-font-size: 0.875rem;
       --aeris-progress-spinner-duration: 800ms;
     }
   `
 })
-export class ProgressSpinnerCustomCustomizationDemo {
+export class ProgressSpinnerCustomDemo {
 }
 ```
 
@@ -348,7 +344,7 @@ import { AerisProgressSpinnerModule, type AerisProgressSpinnerValueContext } fro
   templateUrl: './progress-spinner-template.demo.html',
   styleUrl: './progress-spinner-template.demo.scss'
 })
-export class ProgressSpinnerTemplateValueTemplateDemo {
+export class ProgressSpinnerTemplateDemo {
   protected readonly progress = signal(35);
 
 
@@ -426,17 +422,13 @@ import { AerisProgressSpinnerModule } from '@aeris-ui/core/progress-spinner';
     .token-spinner {
       --aeris-progress-spinner-size: 5.5rem;
       --aeris-progress-spinner-indicator: var(--aeris-success);
-      --aeris-progress-spinner-track: color-mix(
-        in srgb,
-        var(--aeris-success) 22%,
-        transparent
-      );
+      --aeris-progress-spinner-track: color-mix(in srgb, var(--aeris-success) 22%, transparent);
       --aeris-progress-spinner-value-color: var(--aeris-success);
       --aeris-progress-spinner-value-font-size: 0.875rem;
     }
   `
 })
-export class ProgressSpinnerTokensTokenCustomizationDemo {
+export class ProgressSpinnerTokensDemo {
 }
 ```
 

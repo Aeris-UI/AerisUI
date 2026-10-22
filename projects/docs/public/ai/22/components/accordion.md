@@ -162,7 +162,7 @@ import { AerisAccordionModule } from '@aeris-ui/core/accordion';
     </div>
   `
 })
-export class AccordionBasicBasicDemo {
+export class AccordionBasicDemo {
 }
 ```
 
@@ -183,7 +183,7 @@ import { AerisButton } from '@aeris-ui/core/button';
   templateUrl: './accordion-controlled.demo.html',
   styleUrl: './accordion-controlled.demo.scss'
 })
-export class AccordionControlledControlledStateAndEventsDemo {
+export class AccordionControlledDemo {
   protected readonly activeSections = signal<AerisAccordionValue>(['profile']);
   protected readonly controlledValues = ['profile', 'security', 'billing'] as const;
   protected readonly lastChange = signal('Profile is open.');
@@ -226,9 +226,7 @@ export class AccordionControlledControlledStateAndEventsDemo {
 ```html
 <div>
   <div class="accordion-controls" aria-label="Accordion controls">
-    <button aerisButton type="button" (click)="expandAllSections()">
-      Expand all
-    </button>
+    <button aerisButton type="button" (click)="expandAllSections()">Expand all</button>
     <button aerisButton type="button" (click)="closeAllSections()">Close all</button>
     <button aerisButton type="button" (click)="toggleControlledSection('profile')">
       Profile
@@ -263,17 +261,17 @@ export class AccordionControlledControlledStateAndEventsDemo {
 #### CSS
 
 ```css
+.status-line {
+  margin-top: 0.875rem;
+  color: var(--aeris-text-3);
+  font-size: 0.8125rem;
+}
+
 .accordion-controls {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 1rem;
-}
-
-.status-line {
-  margin-top: 0.875rem;
-  color: var(--text-3);
-  font-size: 0.8125rem;
 }
 ```
 
@@ -306,7 +304,7 @@ import { AerisAccordionModule, type AerisAccordionValue } from '@aeris-ui/core/a
     </div>
   `
 })
-export class AccordionMultipleMultiplePanelsDemo {
+export class AccordionMultipleDemo {
   protected readonly multiSections = signal<AerisAccordionValue>([
     'security',
     'billing',
@@ -343,7 +341,7 @@ import { AerisAccordionModule } from '@aeris-ui/core/accordion';
     </div>
   `
 })
-export class AccordionDisabledDisabledPanelDemo {
+export class AccordionDisabledDemo {
 }
 ```
 
@@ -373,7 +371,7 @@ import { AerisAccordionModule } from '@aeris-ui/core/accordion';
     </div>
   `
 })
-export class AccordionNonCollapsibleNonCollapsibleDemo {
+export class AccordionNonCollapsibleDemo {
 }
 ```
 
@@ -393,7 +391,7 @@ import { AerisAccordionModule } from '@aeris-ui/core/accordion';
   templateUrl: './accordion-headers.demo.html',
   styleUrl: './accordion-headers.demo.scss'
 })
-export class AccordionHeadersHeaderTemplatesDemo {
+export class AccordionHeadersDemo {
 }
 ```
 
@@ -430,7 +428,7 @@ export class AccordionHeadersHeaderTemplatesDemo {
 }
 
 .accordion-meta-header small {
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -452,7 +450,7 @@ import { AerisAccordionModule } from '@aeris-ui/core/accordion';
   templateUrl: './accordion-icons.demo.html',
   styleUrl: './accordion-icons.demo.scss'
 })
-export class AccordionIconsCustomToggleIconDemo {
+export class AccordionIconsDemo {
 }
 ```
 
@@ -485,7 +483,7 @@ export class AccordionIconsCustomToggleIconDemo {
   height: var(--aeris-icon-size, 1rem);
   display: inline-grid;
   place-items: center;
-  color: var(--primary-text);
+  color: var(--aeris-primary-text);
   font-size: var(--aeris-icon-size, 1rem);
   font-weight: 800;
   line-height: 1;
@@ -517,7 +515,7 @@ import { AerisAccordionModule } from '@aeris-ui/core/accordion';
     </div>
   `
 })
-export class AccordionDynamicDynamicPanelsDemo {
+export class AccordionDynamicDemo {
   protected readonly dynamicPanels = [
     { value: 'planning', header: 'Planning', body: 'Roadmap, estimates, and ownership.' },
     { value: 'build', header: 'Build', body: 'Implementation notes and review status.' },
@@ -542,7 +540,7 @@ import { AerisAccordionModule } from '@aeris-ui/core/accordion';
   templateUrl: './accordion-variants.demo.html',
   styleUrl: './accordion-variants.demo.scss'
 })
-export class AccordionVariantsVariantsDemo {
+export class AccordionVariantsDemo {
 }
 ```
 
@@ -603,7 +601,7 @@ import { AerisAccordionModule } from '@aeris-ui/core/accordion';
   templateUrl: './accordion-sizes.demo.html',
   styleUrl: './accordion-sizes.demo.scss'
 })
-export class AccordionSizesSizesAndIconPositionDemo {
+export class AccordionSizesDemo {
 }
 ```
 

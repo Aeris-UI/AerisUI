@@ -62,9 +62,10 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
       <div class="focus-trap-flow">
         <button aerisButton type="button" variant="outline">Before trapped region</button>
         <section class="focus-trap-card" aerisFocusTrap aria-label="Profile preferences">
-          <label for="focus-trap-name"
-            >Display name<input id="focus-trap-name" aerisInputText autocomplete="name"
-          /></label>
+          <label for="focus-trap-name">
+            Display name
+            <input id="focus-trap-name" aerisInputText autocomplete="name" />
+          </label>
           <aeris-checkbox>Send product updates</aeris-checkbox>
           <button aerisButton type="button">Save preferences</button>
         </section>
@@ -117,51 +118,9 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
           width: 100%;
         }
     }
-
-    .focus-trap-flow {
-      display: grid;
-      gap: 0.875rem;
-    }
-
-    .focus-trap-flow > button {
-      justify-self: start;
-    }
-
-    .focus-trap-card {
-      display: grid;
-      gap: 0.875rem;
-      width: min(100%, 32rem);
-      padding: 1rem;
-      border: 1px solid var(--aeris-border);
-      border-radius: var(--aeris-radius-lg);
-      background: var(--aeris-surface-2);
-    }
-
-    .focus-trap-card:focus-within {
-      border-color: var(--aeris-primary);
-      box-shadow: 0 0 0 1px var(--aeris-primary-soft);
-    }
-
-    .focus-trap-card label {
-      display: grid;
-      gap: 0.5rem;
-    }
-
-    @media (max-width: 30rem) {
-      .focus-trap-card {
-        padding: 0.875rem;
-      }
-    }
-
-
-    @media (max-width: 30rem) {
-      .focus-trap-flow > button {
-        width: 100%;
-      }
-    }
   `
 })
-export class FocusTrapBasicBasicDemo {
+export class FocusTrapBasicDemo {
 }
 ```
 
@@ -183,7 +142,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './focus-trap-controlled.demo.html',
   styleUrl: './focus-trap-controlled.demo.scss'
 })
-export class FocusTrapControlledControlledDemo {
+export class FocusTrapControlledDemo {
   protected readonly trapEnabled = signal(true);
 
   protected toggleTrap(): void {
@@ -211,13 +170,15 @@ export class FocusTrapControlledControlledDemo {
       [aerisFocusTrap]="trapEnabled()"
       aria-label="Controlled sign-in region"
     >
-      <label for="controlled-trap-email"
-        >Email address<input
+      <label for="controlled-trap-email">
+        Email address
+        <input
           id="controlled-trap-email"
           aerisInputText
           type="email"
           autocomplete="email"
-      /></label>
+        />
+      </label>
       <button aerisButton type="button">Continue</button>
     </section>
     <p class="controlled-trap-status" aria-live="polite">
@@ -284,52 +245,6 @@ export class FocusTrapControlledControlledDemo {
       width: 100%;
     }
 }
-
-.controlled-trap-demo {
-  display: grid;
-  gap: 1rem;
-}
-
-.controlled-trap-demo > button {
-  justify-self: start;
-}
-
-.focus-trap-card {
-  display: grid;
-  gap: 0.875rem;
-  width: min(100%, 32rem);
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--aeris-surface-2);
-}
-
-.focus-trap-card:focus-within {
-  border-color: var(--aeris-primary);
-  box-shadow: 0 0 0 1px var(--aeris-primary-soft);
-}
-
-.focus-trap-card label {
-  display: grid;
-  gap: 0.5rem;
-}
-
-@media (max-width: 30rem) {
-  .focus-trap-card {
-    padding: 0.875rem;
-  }
-}
-
-.controlled-trap-status {
-  margin: 0;
-  color: var(--aeris-text-2);
-}
-
-@media (max-width: 30rem) {
-  .controlled-trap-demo > button {
-    width: 100%;
-  }
-}
 ```
 
 ### Dynamic content
@@ -350,7 +265,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './focus-trap-dynamic.demo.html',
   styleUrl: './focus-trap-dynamic.demo.scss'
 })
-export class FocusTrapDynamicDynamicContentDemo {
+export class FocusTrapDynamicDemo {
   protected readonly secondaryFieldVisible = signal(false);
 
   protected toggleSecondaryField(): void {
@@ -364,16 +279,15 @@ export class FocusTrapDynamicDynamicContentDemo {
 ```html
 <div>
   <section class="focus-trap-card" aerisFocusTrap aria-label="Team member form">
-    <label for="dynamic-trap-name"
-      >Name<input id="dynamic-trap-name" aerisInputText autocomplete="name"
-    /></label>
+    <label for="dynamic-trap-name">
+      Name
+      <input id="dynamic-trap-name" aerisInputText autocomplete="name" />
+    </label>
     @if (secondaryFieldVisible()) {
-      <label for="dynamic-trap-role"
-        >Role<input
-          id="dynamic-trap-role"
-          aerisInputText
-          autocomplete="organization-title"
-      /></label>
+      <label for="dynamic-trap-role">
+        Role
+        <input id="dynamic-trap-role" aerisInputText autocomplete="organization-title" />
+      </label>
     }
     <div class="dynamic-trap-actions">
       <button
@@ -433,44 +347,6 @@ export class FocusTrapDynamicDynamicContentDemo {
       width: 100%;
     }
 }
-
-.focus-trap-card {
-  display: grid;
-  gap: 0.875rem;
-  width: min(100%, 32rem);
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--aeris-surface-2);
-}
-
-.focus-trap-card:focus-within {
-  border-color: var(--aeris-primary);
-  box-shadow: 0 0 0 1px var(--aeris-primary-soft);
-}
-
-.focus-trap-card label {
-  display: grid;
-  gap: 0.5rem;
-}
-
-@media (max-width: 30rem) {
-  .focus-trap-card {
-    padding: 0.875rem;
-  }
-}
-
-.dynamic-trap-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.625rem;
-}
-
-@media (max-width: 30rem) {
-  .dynamic-trap-actions > button {
-    width: 100%;
-  }
-}
 ```
 
 ### Focus methods
@@ -491,7 +367,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './focus-trap-methods.demo.html',
   styleUrl: './focus-trap-methods.demo.scss'
 })
-export class FocusTrapMethodsFocusMethodsDemo {
+export class FocusTrapMethodsDemo {
 }
 ```
 
@@ -524,9 +400,10 @@ export class FocusTrapMethodsFocusMethodsDemo {
       aerisFocusTrap
       aria-label="Method demonstration"
     >
-      <label for="method-trap-project"
-        >Project name<input id="method-trap-project" aerisInputText
-      /></label>
+      <label for="method-trap-project">
+        Project name
+        <input id="method-trap-project" aerisInputText />
+      </label>
       <button aerisButton type="button">Create project</button>
     </section>
   </div>
@@ -586,49 +463,6 @@ export class FocusTrapMethodsFocusMethodsDemo {
     .focus-method-actions > button {
       width: 100%;
     }
-}
-
-.focus-method-demo {
-  display: grid;
-  gap: 1rem;
-}
-
-.focus-trap-card {
-  display: grid;
-  gap: 0.875rem;
-  width: min(100%, 32rem);
-  padding: 1rem;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-lg);
-  background: var(--aeris-surface-2);
-}
-
-.focus-trap-card:focus-within {
-  border-color: var(--aeris-primary);
-  box-shadow: 0 0 0 1px var(--aeris-primary-soft);
-}
-
-.focus-trap-card label {
-  display: grid;
-  gap: 0.5rem;
-}
-
-@media (max-width: 30rem) {
-  .focus-trap-card {
-    padding: 0.875rem;
-  }
-}
-
-.focus-method-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.625rem;
-}
-
-@media (max-width: 30rem) {
-  .focus-method-actions > button {
-    width: 100%;
-  }
 }
 ```
 

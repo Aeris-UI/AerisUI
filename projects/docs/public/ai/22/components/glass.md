@@ -86,7 +86,7 @@ import { AerisGlassModule } from '@aeris-ui/core/glass';
       place-items: center;
       padding: 2rem;
       border-radius: var(--aeris-radius-xl);
-      background: url('/abstract.jpg') center / cover no-repeat;
+      background: url("/abstract.jpg") center/cover no-repeat;
     }
 
     .glass-surface {
@@ -96,9 +96,25 @@ import { AerisGlassModule } from '@aeris-ui/core/glass';
       border-radius: var(--aeris-radius-lg);
       box-shadow: var(--aeris-shadow-sm);
     }
+
+    .glass-surface h4,
+    .glass-surface p {
+      margin: 0;
+    }
+
+    .glass-surface p {
+      margin-top: 0.5rem;
+      color: var(--aeris-text-2);
+    }
+
+    @media (max-width: 44rem) {
+      .glass-stage {
+          padding: 1rem;
+        }
+    }
   `
 })
-export class GlassBasicBasicDemo {
+export class GlassBasicDemo {
 }
 ```
 
@@ -118,7 +134,7 @@ import { AerisGlassModule } from '@aeris-ui/core/glass';
   templateUrl: './glass-strength.demo.html',
   styleUrl: './glass-strength.demo.scss'
 })
-export class GlassStrengthBlurStrengthDemo {
+export class GlassStrengthDemo {
 }
 ```
 
@@ -177,6 +193,40 @@ export class GlassStrengthBlurStrengthDemo {
     grid-template-columns: 1fr;
   }
 }
+
+.glass-strength-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: var(--aeris-radius-xl);
+  background: url("/abstract.jpg") center/cover no-repeat;
+}
+
+.glass-strength-grid section {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--aeris-border) 70%, transparent);
+  border-radius: var(--aeris-radius-lg);
+}
+
+.glass-strength-grid h4,
+.glass-strength-grid p {
+  margin: 0;
+}
+
+.glass-strength-grid p {
+  margin-top: 0.375rem;
+  color: var(--aeris-text-2);
+}
+
+@media (max-width: 44rem) {
+  .glass-strength-grid,
+    .glass-component-stage {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+    }
+}
 ```
 
 ### Aeris surfaces
@@ -199,7 +249,7 @@ import { AerisPanelModule } from '@aeris-ui/core/panel';
   templateUrl: './glass-components.demo.html',
   styleUrl: './glass-components.demo.scss'
 })
-export class GlassComponentsAerisSurfacesDemo {
+export class GlassComponentsDemo {
   protected readonly menuItems: readonly AerisMenuItem[] = [
     { label: 'Overview' },
     { label: 'Activity' },
@@ -245,7 +295,7 @@ export class GlassComponentsAerisSurfacesDemo {
   gap: 1rem;
   padding: 2rem;
   border-radius: var(--aeris-radius-xl);
-  background: url('/abstract.jpg') center / cover no-repeat;
+  background: url("/abstract.jpg") center/cover no-repeat;
 }
 
 .glass-component-stage aeris-accordion,
@@ -254,10 +304,11 @@ export class GlassComponentsAerisSurfacesDemo {
 }
 
 @media (max-width: 44rem) {
-  .glass-component-stage {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-  }
+  .glass-strength-grid,
+    .glass-component-stage {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+    }
 }
 ```
 
@@ -279,7 +330,7 @@ import { AerisGlassModule } from '@aeris-ui/core/glass';
   templateUrl: './glass-controlled.demo.html',
   styleUrl: './glass-controlled.demo.scss'
 })
-export class GlassControlledControlledDemo {
+export class GlassControlledDemo {
   protected readonly glassEnabled = signal(true);
 }
 ```
@@ -301,9 +352,7 @@ export class GlassControlledControlledDemo {
     </button>
     <aeris-card [aerisGlass]="glassEnabled()">
       <h4 aerisCardTitle>Controlled surface</h4>
-      <p aria-live="polite">
-        Glass is {{ glassEnabled() ? 'enabled' : 'disabled' }}.
-      </p>
+      <p aria-live="polite">Glass is {{ glassEnabled() ? 'enabled' : 'disabled' }}.</p>
     </aeris-card>
   </div>
 </div>
@@ -317,7 +366,7 @@ export class GlassControlledControlledDemo {
   gap: 1rem;
   padding: 1.5rem;
   border-radius: var(--aeris-radius-xl);
-  background: url('/abstract.jpg') center / cover no-repeat;
+  background: url("/abstract.jpg") center/cover no-repeat;
 }
 
 .glass-controlled-stage aeris-card {

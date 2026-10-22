@@ -175,14 +175,14 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
       <button aerisButton type="button" (click)="basicOpen.set(true)">Open drawer</button>
       <aeris-drawer header="Navigation" [(visible)]="basicOpen">
         <p>
-          Use a drawer for navigation, filters, settings, and supporting workflows that
-          should stay attached to a viewport edge.
+          Use a drawer for navigation, filters, settings, and supporting workflows that should
+          stay attached to a viewport edge.
         </p>
       </aeris-drawer>
     </div>
   `
 })
-export class DrawerBasicBasicDemo {
+export class DrawerBasicDemo {
   protected readonly basicOpen = signal(false);
 }
 ```
@@ -206,7 +206,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   templateUrl: './drawer-controlled.demo.html',
   styleUrl: './drawer-controlled.demo.scss'
 })
-export class DrawerControlledControlledStateDemo {
+export class DrawerControlledDemo {
   protected readonly controlledOpen = signal(false);
   protected readonly lastEvent = signal('Drawer is closed.');
 
@@ -224,35 +224,34 @@ export class DrawerControlledControlledStateDemo {
 
 ```html
 <div>
-                <button aerisButton type="button" (click)="controlledOpen.set(true)">
-                  Edit settings
-                </button>
-                <aeris-drawer
-                  header="Workspace settings"
-                  [(visible)]="controlledOpen"
-                  (opened)="recordDrawerEvent($event)"
-                  (closed)="recordDrawerEvent($event)"
-                >
-                  <form class="drawer-form">
-                    <label>
-                      Workspace name
-                      <input aerisInputText type="text" value="Design System" />
-                    </label>
-                    <label>
-                      Notes
-                      <textarea aerisTextarea>
-Shared component planning and release notes.</textarea>
-                    </label>
-                  </form>
-                  <ng-template aerisDrawerFooter let-close="close">
-                    <div class="drawer-actions">
-                      <button aerisButton type="button" (click)="close($event)">Cancel</button>
-                      <button aerisButton type="button" (click)="close($event)">Save</button>
-                    </div>
-                  </ng-template>
-                </aeris-drawer>
-                <p class="drawer-status" aria-live="polite">{{ lastEvent() }}</p>
-              </div>
+  <button aerisButton type="button" (click)="controlledOpen.set(true)">
+    Edit settings
+  </button>
+  <aeris-drawer
+    header="Workspace settings"
+    [(visible)]="controlledOpen"
+    (opened)="recordDrawerEvent($event)"
+    (closed)="recordDrawerEvent($event)"
+  >
+    <form class="drawer-form">
+      <label>
+        Workspace name
+        <input aerisInputText type="text" value="Design System" />
+      </label>
+      <label>
+        Notes
+        <textarea aerisTextarea>Shared component planning and release notes.</textarea>
+      </label>
+    </form>
+    <ng-template aerisDrawerFooter let-close="close">
+      <div class="drawer-actions">
+        <button aerisButton type="button" (click)="close($event)">Cancel</button>
+        <button aerisButton type="button" (click)="close($event)">Save</button>
+      </div>
+    </ng-template>
+  </aeris-drawer>
+  <p class="drawer-status" aria-live="polite">{{ lastEvent() }}</p>
+</div>
 ```
 
 #### CSS
@@ -308,57 +307,6 @@ Shared component planning and release notes.</textarea>
   padding: 0.625rem 0.75rem;
   resize: vertical;
 }
-
-.drawer-form {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.drawer-form label {
-  display: grid;
-  gap: 0.35rem;
-  color: var(--text);
-  font-weight: 700;
-}
-
-.drawer-form input,
-.drawer-form textarea {
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: var(--aeris-radius-sm);
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-}
-
-.drawer-form input {
-  min-height: 2.375rem;
-  padding: 0 0.75rem;
-}
-
-.drawer-form textarea {
-  min-height: 5rem;
-  padding: 0.625rem 0.75rem;
-  resize: vertical;
-}
-
-.drawer-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.drawer-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-.drawer-status {
-  margin-top: 0.875rem;
-  color: var(--text-3);
-  font-size: 0.8125rem;
-}
 ```
 
 ### Positions
@@ -378,7 +326,7 @@ import { AerisDrawerModule, type AerisDrawerPosition } from '@aeris-ui/core/draw
   templateUrl: './drawer-positions.demo.html',
   styleUrl: './drawer-positions.demo.scss'
 })
-export class DrawerPositionsPositionsDemo {
+export class DrawerPositionsDemo {
   protected readonly positionOpen = signal(false);
   protected readonly currentPosition = signal<AerisDrawerPosition>('right');
 
@@ -426,8 +374,15 @@ export class DrawerPositionsPositionsDemo {
 
 .drawer-status {
   margin-top: 0.875rem;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.drawer-controls,
+.drawer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 ```
 
@@ -448,7 +403,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
   templateUrl: './drawer-dismissal.demo.html',
   styleUrl: './drawer-dismissal.demo.scss'
 })
-export class DrawerDismissalDismissalAndBackdropDemo {
+export class DrawerDismissalDemo {
   protected readonly dismissibleOpen = signal(false);
   protected readonly noBackdropOpen = signal(false);
   protected readonly noBackdropBlurOpen = signal(false);
@@ -507,8 +462,15 @@ export class DrawerDismissalDismissalAndBackdropDemo {
 
 .drawer-status {
   margin-top: 0.875rem;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.drawer-controls,
+.drawer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 ```
 
@@ -529,7 +491,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
   templateUrl: './drawer-templates.demo.html',
   styleUrl: './drawer-templates.demo.scss'
 })
-export class DrawerTemplatesTemplatesDemo {
+export class DrawerTemplatesDemo {
   protected readonly templateOpen = signal(false);
 }
 ```
@@ -612,62 +574,6 @@ export class DrawerTemplatesTemplatesDemo {
 .drawer-close-icon::after {
   transform: rotate(-45deg);
 }
-
-.drawer-title-stack {
-  display: grid;
-  gap: 0.15rem;
-}
-
-.drawer-title-stack small {
-  color: var(--text-3);
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.drawer-close-icon {
-  position: relative;
-  width: var(--aeris-icon-size, 1rem);
-  height: var(--aeris-icon-size, 1rem);
-  display: inline-block;
-}
-
-.drawer-close-icon::before,
-.drawer-close-icon::after {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 1.5px;
-  border-radius: 999px;
-  background: currentColor;
-  content: '';
-}
-
-.drawer-close-icon::before {
-  transform: rotate(45deg);
-}
-
-.drawer-close-icon::after {
-  transform: rotate(-45deg);
-}
-
-.drawer-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.drawer-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-.drawer-status {
-  margin-top: 0.875rem;
-  color: var(--text-3);
-  font-size: 0.8125rem;
-}
 ```
 
 ### Snap points
@@ -688,7 +594,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './drawer-snap.demo.html',
   styleUrl: './drawer-snap.demo.scss'
 })
-export class DrawerSnapSnapPointsDemo {
+export class DrawerSnapDemo {
   protected readonly snapOpen = signal(false);
 
   protected readonly snapPoint = signal<AerisDrawerSnapPoint | null>(0.6);
@@ -721,7 +627,10 @@ export class DrawerSnapSnapPointsDemo {
     swipeHandle
   >
     <div class="drawer-form">
-      <label>Project name <input aerisInputText value="Workspace refresh" /></label>
+      <label>
+        Project name
+        <input aerisInputText value="Workspace refresh" />
+      </label>
       @for (note of snapNotes; track note) {
         <p>{{ note }}</p>
       }
@@ -808,7 +717,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   templateUrl: './drawer-swipe.demo.html',
   styleUrl: './drawer-swipe.demo.scss'
 })
-export class DrawerSwipeSwipeDismissalDemo {
+export class DrawerSwipeDemo {
   protected readonly swipeOpen = signal(false);
 
   protected readonly swipePosition = signal<AerisDrawerPosition>('bottom');
@@ -846,46 +755,42 @@ export class DrawerSwipeSwipeDismissalDemo {
 
 ```html
 <div>
-                <div class="drawer-controls">
-                  @for (edge of swipePositions; track edge) {
-                    <button
-                      aerisButton
-                      variant="outline"
-                      type="button"
-                      (click)="openSwipeDrawer(edge)"
-                    >
-                      {{ edge }} drawer
-                    </button>
-                  }
-                </div>
-                <p class="drawer-status" role="status">{{ swipeStatus() }}</p>
-                <aeris-drawer
-                  header="Swipe to close"
-                  [(visible)]="swipeOpen"
-                  [position]="swipePosition()"
-                  height="28rem"
-                  swipeToClose
-                  (closed)="recordSwipeClose($event)"
-                >
-                  <p>
-                    Swipe this content toward the screen edge to close. Scrollable content must be
-                    at its dismissal boundary first. The close button is always available.
-                  </p>
-                  <div class="drawer-form">
-                    <label
-                      ><span>Project name</span><input aerisInputText value="Summer launch"
-                    /></label>
-                    <label
-                      ><span>Notes</span>
-                      <textarea aerisTextarea rows="3">
+  <div class="drawer-controls">
+    @for (edge of swipePositions; track edge) {
+      <button aerisButton variant="outline" type="button" (click)="openSwipeDrawer(edge)">
+        {{ edge }} drawer
+      </button>
+    }
+  </div>
+  <p class="drawer-status" role="status">{{ swipeStatus() }}</p>
+  <aeris-drawer
+    header="Swipe to close"
+    [(visible)]="swipeOpen"
+    [position]="swipePosition()"
+    height="28rem"
+    swipeToClose
+    (closed)="recordSwipeClose($event)"
+  >
+    <p>
+      Swipe this content toward the screen edge to close. Scrollable content must be at
+      its dismissal boundary first. The close button is always available.
+    </p>
+    <div class="drawer-form">
+      <label>
+        <span>Project name</span>
+        <input aerisInputText value="Summer launch" />
+      </label>
+      <label>
+        <span>Notes</span>
+        <textarea aerisTextarea rows="3">
 Form controls keep their normal interaction.</textarea>
-                    </label>
-                  </div>
-                  @for (item of swipeItems; track item) {
-                    <p>{{ item }}</p>
-                  }
-                </aeris-drawer>
-              </div>
+      </label>
+    </div>
+    @for (item of swipeItems; track item) {
+      <p>{{ item }}</p>
+    }
+  </aeris-drawer>
+</div>
 ```
 
 #### CSS
@@ -956,7 +861,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
   templateUrl: './drawer-responsive.demo.html',
   styleUrl: './drawer-responsive.demo.scss'
 })
-export class DrawerResponsiveResponsiveSizingDemo {
+export class DrawerResponsiveDemo {
   protected readonly responsiveOpen = signal(false);
 }
 ```
@@ -977,8 +882,8 @@ export class DrawerResponsiveResponsiveSizingDemo {
     [(visible)]="responsiveOpen"
   >
     <p>
-      The drawer uses a desktop width until the built-in narrow viewport query applies
-      the full-screen mobile layout.
+      The drawer uses a desktop width until the built-in narrow viewport query applies the
+      full-screen mobile layout.
     </p>
   </aeris-drawer>
 </div>
@@ -1015,7 +920,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
   templateUrl: './drawer-fullscreen.demo.html',
   styleUrl: './drawer-fullscreen.demo.scss'
 })
-export class DrawerFullscreenFullScreenDemo {
+export class DrawerFullscreenDemo {
   protected readonly maximizableOpen = signal(false);
   protected readonly fullscreenOpen = signal(false);
   protected readonly drawerMaximized = signal(false);
@@ -1064,15 +969,14 @@ export class DrawerFullscreenFullScreenDemo {
       <section class="drawer-card">
         <strong>Opened full screen</strong>
         <p>
-          This drawer starts in full-screen layout without requiring a maximize
-          action.
+          This drawer starts in full-screen layout without requiring a maximize action.
         </p>
       </section>
       <section class="drawer-card">
         <strong>Use case</strong>
         <p>
-          Full-screen drawers work well for detailed mobile workflows, large forms,
-          and focused review tasks.
+          Full-screen drawers work well for detailed mobile workflows, large forms, and
+          focused review tasks.
         </p>
       </section>
     </div>
@@ -1110,40 +1014,6 @@ export class DrawerFullscreenFullScreenDemo {
 .drawer-card p {
   margin: 0.25rem 0 0;
 }
-
-.drawer-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.drawer-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-.drawer-status {
-  margin-top: 0.875rem;
-  color: var(--text-3);
-  font-size: 0.8125rem;
-}
-
-.drawer-stack {
-  display: grid;
-  gap: 0.875rem;
-}
-
-.drawer-card {
-  padding: 0.875rem;
-  border: 1px solid var(--border);
-  border-radius: var(--aeris-radius-md);
-  background: var(--surface-2);
-}
-
-.drawer-card p {
-  margin: 0.25rem 0 0;
-}
 ```
 
 ### Long content
@@ -1163,7 +1033,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
   templateUrl: './drawer-long-content.demo.html',
   styleUrl: './drawer-long-content.demo.scss'
 })
-export class DrawerLongContentLongContentDemo {
+export class DrawerLongContentDemo {
   protected readonly longContentOpen = signal(false);
   protected readonly filterGroups = [
     'Status',
@@ -1204,9 +1074,7 @@ export class DrawerLongContentLongContentDemo {
     </div>
     <ng-template aerisDrawerFooter let-close="close">
       <div class="drawer-actions">
-        <button aerisButton type="button" (click)="close($event)">
-          Apply filters
-        </button>
+        <button aerisButton type="button" (click)="close($event)">Apply filters</button>
       </div>
     </ng-template>
   </aeris-drawer>
@@ -1247,40 +1115,6 @@ export class DrawerLongContentLongContentDemo {
 .drawer-card p {
   margin: 0.25rem 0 0;
 }
-
-.drawer-stack {
-  display: grid;
-  gap: 0.875rem;
-}
-
-.drawer-card {
-  padding: 0.875rem;
-  border: 1px solid var(--border);
-  border-radius: var(--aeris-radius-md);
-  background: var(--surface-2);
-}
-
-.drawer-card p {
-  margin: 0.25rem 0 0;
-}
-
-.drawer-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.drawer-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-.drawer-status {
-  margin-top: 0.875rem;
-  color: var(--text-3);
-  font-size: 0.8125rem;
-}
 ```
 
 ### Headless
@@ -1320,10 +1154,8 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
       align-content: center;
       gap: 1rem;
       padding: 1.25rem;
-      background:
-        linear-gradient(135deg, color-mix(in srgb, var(--primary) 14%, transparent), transparent 55%),
-        var(--surface);
-      color: var(--text);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--aeris-primary) 14%, transparent), transparent 55%), var(--aeris-surface);
+      color: var(--aeris-text);
     }
 
     .headless-drawer h3,
@@ -1332,7 +1164,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
     }
 
     .headless-drawer p {
-      color: var(--text-2);
+      color: var(--aeris-text-2);
     }
 
     .headless-drawer .aeris-button {
@@ -1340,7 +1172,7 @@ import { AerisDrawerModule } from '@aeris-ui/core/drawer';
     }
   `
 })
-export class DrawerHeadlessHeadlessDemo {
+export class DrawerHeadlessDemo {
   protected readonly headlessOpen = signal(false);
 }
 ```

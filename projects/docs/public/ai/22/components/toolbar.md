@@ -129,7 +129,7 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
     }
   `
 })
-export class ToolbarBasicBasicDemo {
+export class ToolbarBasicDemo {
 }
 ```
 
@@ -150,7 +150,7 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
   templateUrl: './toolbar-sections.demo.html',
   styleUrl: './toolbar-sections.demo.scss'
 })
-export class ToolbarSectionsSectionsDemo {
+export class ToolbarSectionsDemo {
 }
 ```
 
@@ -169,13 +169,7 @@ export class ToolbarSectionsSectionsDemo {
       <span class="toolbar-status">Review mode</span>
     </div>
     <div aerisToolbarEnd>
-      <button
-        aerisButton
-        type="button"
-        size="sm"
-        variant="solid"
-        severity="secondary"
-      >
+      <button aerisButton type="button" size="sm" variant="solid" severity="secondary">
         Preview
       </button>
       <button aerisButton type="button" size="sm">Publish</button>
@@ -194,12 +188,12 @@ export class ToolbarSectionsSectionsDemo {
 }
 
 .toolbar-title strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .toolbar-title span,
 .toolbar-status {
-  color: var(--text-2);
+  color: var(--aeris-text-2);
   font-size: 0.8125rem;
 }
 
@@ -226,7 +220,7 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
   templateUrl: './toolbar-groups.demo.html',
   styleUrl: './toolbar-groups.demo.scss'
 })
-export class ToolbarGroupsGroupsDemo {
+export class ToolbarGroupsDemo {
 }
 ```
 
@@ -237,31 +231,13 @@ export class ToolbarGroupsGroupsDemo {
   <aeris-toolbar ariaLabel="Formatting toolbar">
     <div aerisToolbarStart>
       <div aerisToolbarGroup aria-label="Text style">
-        <button
-          aerisButton
-          type="button"
-          size="sm"
-          variant="solid"
-          severity="secondary"
-        >
+        <button aerisButton type="button" size="sm" variant="solid" severity="secondary">
           Bold
         </button>
-        <button
-          aerisButton
-          type="button"
-          size="sm"
-          variant="solid"
-          severity="secondary"
-        >
+        <button aerisButton type="button" size="sm" variant="solid" severity="secondary">
           Italic
         </button>
-        <button
-          aerisButton
-          type="button"
-          size="sm"
-          variant="solid"
-          severity="secondary"
-        >
+        <button aerisButton type="button" size="sm" variant="solid" severity="secondary">
           Link
         </button>
       </div>
@@ -284,10 +260,10 @@ export class ToolbarGroupsGroupsDemo {
 .toolbar-search {
   min-width: 12rem;
   padding: 0.625rem 0.75rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-sm);
-  background: var(--surface);
-  color: var(--text);
+  background: var(--aeris-surface);
+  color: var(--aeris-text);
   font: inherit;
   font-size: 0.875rem;
 }
@@ -315,7 +291,7 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
   templateUrl: './toolbar-wrapping.demo.html',
   styleUrl: './toolbar-wrapping.demo.scss'
 })
-export class ToolbarWrappingWrappingDemo {
+export class ToolbarWrappingDemo {
 }
 ```
 
@@ -388,7 +364,7 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
   templateUrl: './toolbar-vertical.demo.html',
   styleUrl: './toolbar-vertical.demo.scss'
 })
-export class ToolbarVerticalVerticalDemo {
+export class ToolbarVerticalDemo {
 }
 ```
 
@@ -399,22 +375,10 @@ export class ToolbarVerticalVerticalDemo {
   <div class="vertical-toolbar-demo">
     <aeris-toolbar orientation="vertical" [fluid]="false" ariaLabel="Canvas tools">
       <div aerisToolbarStart>
-        <button
-          aerisButton
-          type="button"
-          size="sm"
-          variant="solid"
-          severity="secondary"
-        >
+        <button aerisButton type="button" size="sm" variant="solid" severity="secondary">
           Select
         </button>
-        <button
-          aerisButton
-          type="button"
-          size="sm"
-          variant="solid"
-          severity="secondary"
-        >
+        <button aerisButton type="button" size="sm" variant="solid" severity="secondary">
           Move
         </button>
         <button aerisButton type="button" size="sm">Export</button>
@@ -440,19 +404,25 @@ export class ToolbarVerticalVerticalDemo {
 .vertical-preview {
   min-width: 0;
   padding: 1rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-lg);
-  background: var(--surface);
+  background: var(--aeris-surface);
 }
 
 .vertical-preview h4 {
   margin: 0 0 0.375rem;
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .vertical-preview p {
   margin: 0;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
+}
+
+@media (max-width: 42rem) {
+  .vertical-toolbar-demo {
+      flex-direction: column;
+    }
 }
 ```
 
@@ -473,7 +443,7 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
   templateUrl: './toolbar-variants.demo.html',
   styleUrl: './toolbar-variants.demo.scss'
 })
-export class ToolbarVariantsVariantsDemo {
+export class ToolbarVariantsDemo {
 }
 ```
 
@@ -517,8 +487,8 @@ export class ToolbarVariantsVariantsDemo {
 
 @media (max-width: 42rem) {
   .toolbar-grid {
-    grid-template-columns: 1fr;
-  }
+      grid-template-columns: 1fr;
+    }
 }
 ```
 
@@ -536,48 +506,34 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 @Component({
   selector: 'app-toolbar-custom-demo',
   imports: [AerisButton, AerisToolbarModule],
-  templateUrl: './toolbar-custom.demo.html',
-  styleUrl: './toolbar-custom.demo.scss'
+  template: `
+    <div>
+      <aeris-toolbar class="brand-toolbar" ariaLabel="Custom toolbar">
+        <div aerisToolbarStart>
+          <button aerisButton type="button" size="sm" variant="solid" severity="secondary">
+            Archive
+          </button>
+        </div>
+        <div aerisToolbarEnd>
+          <button aerisButton type="button" size="sm">Share</button>
+        </div>
+      </aeris-toolbar>
+    </div>
+  `,
+  styles: `
+    .brand-toolbar {
+      --aeris-toolbar-background: color-mix(in srgb, var(--aeris-primary) 10%, var(--aeris-surface));
+      --aeris-toolbar-border-width: 2px;
+      --aeris-toolbar-border: color-mix(in srgb, var(--aeris-primary) 72%, var(--aeris-border));
+      --aeris-toolbar-radius: 1.5rem;
+      --aeris-toolbar-gap: 1rem;
+      --aeris-toolbar-section-gap: 0.75rem;
+      --aeris-toolbar-padding-block: 1rem;
+      --aeris-toolbar-padding-inline: 1.125rem;
+    }
+  `
 })
-export class ToolbarCustomTokenCustomizationDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <aeris-toolbar class="brand-toolbar" ariaLabel="Custom toolbar">
-    <div aerisToolbarStart>
-      <button
-        aerisButton
-        type="button"
-        size="sm"
-        variant="solid"
-        severity="secondary"
-      >
-        Archive
-      </button>
-    </div>
-    <div aerisToolbarEnd>
-      <button aerisButton type="button" size="sm">Share</button>
-    </div>
-  </aeris-toolbar>
-</div>
-```
-
-#### CSS
-
-```css
-.brand-toolbar {
-  --aeris-toolbar-background: color-mix(in srgb, var(--aeris-primary) 10%, var(--surface));
-  --aeris-toolbar-border-width: 2px;
-  --aeris-toolbar-border: color-mix(in srgb, var(--aeris-primary) 72%, var(--border));
-  --aeris-toolbar-radius: 1.5rem;
-  --aeris-toolbar-gap: 1rem;
-  --aeris-toolbar-section-gap: 0.75rem;
-  --aeris-toolbar-padding-block: 1rem;
-  --aeris-toolbar-padding-inline: 1.125rem;
+export class ToolbarCustomDemo {
 }
 ```
 

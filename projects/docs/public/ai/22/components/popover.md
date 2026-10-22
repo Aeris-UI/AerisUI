@@ -148,7 +148,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
   templateUrl: './popover-basic.demo.html',
   styleUrl: './popover-basic.demo.scss'
 })
-export class PopoverBasicBasicDemo {
+export class PopoverBasicDemo {
 }
 ```
 
@@ -196,19 +196,35 @@ export class PopoverBasicBasicDemo {
 }
 
 .popover-card strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .popover-card p {
   margin: 0;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
 }
 
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.popover-card,
+.headless-popover {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.popover-card strong,
+.headless-popover strong {
+  color: var(--aeris-text);
+}
+
+.popover-card p,
+.headless-popover p {
+  color: var(--aeris-text-2);
 }
 ```
 
@@ -228,7 +244,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
   imports: [AerisButton, AerisPopoverModule],
   templateUrl: './popover-hover.demo.html'
 })
-export class PopoverHoverHoverAndFocusDemo {
+export class PopoverHoverDemo {
   protected readonly hoverTarget = viewChild<unknown, ElementRef<HTMLButtonElement>>(
       'hoverButton',
       {
@@ -275,7 +291,7 @@ import { AerisPopoverModule, type AerisPopoverVisibilityChangeEvent } from '@aer
   templateUrl: './popover-controlled.demo.html',
   styleUrl: './popover-controlled.demo.scss'
 })
-export class PopoverControlledControlledDemo {
+export class PopoverControlledDemo {
   protected readonly controlledOpen = signal(false);
   protected readonly controlledTarget = signal<EventTarget | null>(null);
   protected readonly lastEvent = signal('Popover is closed.');
@@ -338,18 +354,41 @@ export class PopoverControlledControlledDemo {
 }
 
 .popover-card strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .popover-card p {
   margin: 0;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
 }
 
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
+  font-size: 0.8125rem;
+}
+
+.popover-card,
+.headless-popover {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.popover-card strong,
+.headless-popover strong {
+  color: var(--aeris-text);
+}
+
+.popover-card p,
+.headless-popover p {
+  color: var(--aeris-text-2);
+}
+
+.demo-status {
+  width: 100%;
+  margin: 0.875rem 0 0;
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
 }
 ```
@@ -371,7 +410,7 @@ import { AerisPopoverModule, type AerisPopover, type AerisPopoverPlacement } fro
   templateUrl: './popover-placement.demo.html',
   styleUrl: './popover-placement.demo.scss'
 })
-export class PopoverPlacementPlacementDemo {
+export class PopoverPlacementDemo {
   protected readonly activePlacement = signal<AerisPopoverPlacement>('auto');
 
   protected openPlacement(
@@ -457,19 +496,48 @@ export class PopoverPlacementPlacementDemo {
 }
 
 .popover-card strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .popover-card p {
   margin: 0;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
 }
 
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.placement-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.5rem;
+  max-width: 34rem;
+}
+
+.popover-card,
+.headless-popover {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.popover-card strong,
+.headless-popover strong {
+  color: var(--aeris-text);
+}
+
+.popover-card p,
+.headless-popover p {
+  color: var(--aeris-text-2);
+}
+
+@media (max-width: 42rem) {
+  .placement-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 ```
 
@@ -490,7 +558,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
   templateUrl: './popover-templates.demo.html',
   styleUrl: './popover-templates.demo.scss'
 })
-export class PopoverTemplatesTemplatesDemo {
+export class PopoverTemplatesDemo {
   protected readonly selectedFlight = signal('Aeris 482');
 }
 ```
@@ -504,9 +572,10 @@ export class PopoverTemplatesTemplatesDemo {
   </button>
   <aeris-popover #templatePopover closable>
     <ng-template aerisPopoverHeader>
-      <span class="popover-header"
-        ><span class="popover-dot" aria-hidden="true"></span>
-        {{ selectedFlight() }}</span>
+      <span class="popover-header">
+        <span class="popover-dot" aria-hidden="true"></span>
+        {{ selectedFlight() }}
+      </span>
     </ng-template>
     <ng-template aerisPopoverCloseIcon>
       <span aria-hidden="true">Ã—</span>
@@ -553,7 +622,7 @@ export class PopoverTemplatesTemplatesDemo {
   width: 0.55rem;
   height: 0.55rem;
   border-radius: 999px;
-  background: var(--success);
+  background: var(--aeris-success);
 }
 
 .popover-footer {
@@ -594,19 +663,25 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
     </div>
   `,
   styles: `
+    .popover-card,
     .headless-popover {
       display: grid;
-      gap: 0.75rem;
-      min-width: 16rem;
+      gap: 0.5rem;
     }
 
+    .popover-card strong,
     .headless-popover strong {
-      color: var(--text);
+      color: var(--aeris-text);
     }
 
+    .popover-card p,
     .headless-popover p {
-      margin: 0;
-      color: var(--text-2);
+      color: var(--aeris-text-2);
+    }
+
+    .headless-popover {
+      min-width: 16rem;
+      gap: 0.75rem;
     }
 
     .headless-popover .aeris-button {
@@ -614,7 +689,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
     }
   `
 })
-export class PopoverHeadlessHeadlessDemo {
+export class PopoverHeadlessDemo {
 }
 ```
 
@@ -635,7 +710,7 @@ import { AerisPopoverModule } from '@aeris-ui/core/popover';
   templateUrl: './popover-options.demo.html',
   styleUrl: './popover-options.demo.scss'
 })
-export class PopoverOptionsOptionsDemo {
+export class PopoverOptionsDemo {
 }
 ```
 
@@ -684,19 +759,35 @@ export class PopoverOptionsOptionsDemo {
 }
 
 .popover-card strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .popover-card p {
   margin: 0;
-  color: var(--text-2);
+  color: var(--aeris-text-2);
 }
 
 .demo-status {
   width: 100%;
   margin: 0.875rem 0 0;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.popover-card,
+.headless-popover {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.popover-card strong,
+.headless-popover strong {
+  color: var(--aeris-text);
+}
+
+.popover-card p,
+.headless-popover p {
+  color: var(--aeris-text-2);
 }
 ```
 

@@ -168,7 +168,7 @@ import { AerisStepperModule } from '@aeris-ui/core/stepper';
     </div>
   `
 })
-export class StepperBasicBasicDemo {
+export class StepperBasicDemo {
   protected readonly basicStep = signal('account');
 }
 ```
@@ -196,7 +196,7 @@ import { AerisStepperModule } from '@aeris-ui/core/stepper';
     </div>
   `
 })
-export class StepperStepsOnlyStepsOnlyDemo {
+export class StepperStepsOnlyDemo {
   protected readonly stepsOnlyStep = signal('build');
 }
 ```
@@ -218,7 +218,7 @@ import { AerisStepperModule, type AerisStepperChangeEvent } from '@aeris-ui/core
   templateUrl: './stepper-controlled.demo.html',
   styleUrl: './stepper-controlled.demo.scss'
 })
-export class StepperControlledControlledStateDemo {
+export class StepperControlledDemo {
   protected readonly controlledStep = signal('profile');
   protected readonly eventText = signal('Profile is active.');
 
@@ -251,9 +251,7 @@ export class StepperControlledControlledStateDemo {
     <button aerisButton type="button" (click)="controlledStep.set('profile')">
       Profile
     </button>
-    <button aerisButton type="button" (click)="controlledStep.set('team')">
-      Team
-    </button>
+    <button aerisButton type="button" (click)="controlledStep.set('team')">Team</button>
     <button aerisButton type="button" (click)="controlledStep.set('finish')">
       Finish
     </button>
@@ -274,8 +272,15 @@ export class StepperControlledControlledStateDemo {
 
 .stepper-status {
   margin-top: 0.75rem;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+@media (max-width: 40rem) {
+  .stepper-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
 }
 ```
 
@@ -296,7 +301,7 @@ import { AerisStepperModule } from '@aeris-ui/core/stepper';
   templateUrl: './stepper-linear.demo.html',
   styleUrl: './stepper-linear.demo.scss'
 })
-export class StepperLinearLinearFlowDemo {
+export class StepperLinearDemo {
   protected readonly linearStep = signal('details');
 }
 ```
@@ -320,9 +325,7 @@ export class StepperLinearLinearFlowDemo {
     <button aerisButton type="button" (click)="linearStepper.previous($event)">
       Previous
     </button>
-    <button aerisButton type="button" (click)="linearStepper.next($event)">
-      Next
-    </button>
+    <button aerisButton type="button" (click)="linearStepper.next($event)">Next</button>
   </div>
 </div>
 ```
@@ -339,8 +342,22 @@ export class StepperLinearLinearFlowDemo {
 
 .stepper-status {
   margin-top: 0.75rem;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
+}
+
+.stepper-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 40rem) {
+  .stepper-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
 }
 ```
 
@@ -360,7 +377,7 @@ import { AerisStepperModule } from '@aeris-ui/core/stepper';
   templateUrl: './stepper-vertical.demo.html',
   styleUrl: './stepper-vertical.demo.scss'
 })
-export class StepperVerticalVerticalDemo {
+export class StepperVerticalDemo {
   protected readonly verticalStep = signal('draft');
 }
 ```
@@ -412,7 +429,7 @@ import { AerisStepperModule } from '@aeris-ui/core/stepper';
   templateUrl: './stepper-templates.demo.html',
   styleUrl: './stepper-templates.demo.scss'
 })
-export class StepperTemplatesTemplatesDemo {
+export class StepperTemplatesDemo {
   protected readonly templateStep = signal('plan');
 }
 ```
@@ -453,11 +470,11 @@ export class StepperTemplatesTemplatesDemo {
 }
 
 .custom-step-header strong {
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .custom-step-header small {
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.75rem;
 }
 
@@ -498,7 +515,7 @@ import { AerisStepperModule } from '@aeris-ui/core/stepper';
     </div>
   `
 })
-export class StepperValidationValidationStateDemo {
+export class StepperValidationDemo {
   protected readonly validationStep = signal('shipping');
 }
 ```
@@ -532,7 +549,7 @@ import { AerisStepperModule } from '@aeris-ui/core/stepper';
     </div>
   `
 })
-export class StepperDisabledDisabledStateDemo {
+export class StepperDisabledDemo {
   protected readonly disabledStep = signal('details');
 }
 ```
@@ -553,7 +570,7 @@ import { AerisStepperModule } from '@aeris-ui/core/stepper';
   templateUrl: './stepper-custom.demo.html',
   styleUrl: './stepper-custom.demo.scss'
 })
-export class StepperCustomTokenCustomizationDemo {
+export class StepperCustomDemo {
   protected readonly customStep = signal('scope');
 }
 ```

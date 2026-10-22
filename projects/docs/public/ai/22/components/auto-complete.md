@@ -201,7 +201,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
     }
   `
 })
-export class AutocompleteBasicBasicDemo {
+export class AutocompleteBasicDemo {
   protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
     { label: 'Angular', value: 'Angular' },
     { label: 'Astro', value: 'Astro' },
@@ -267,7 +267,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
     }
   `
 })
-export class AutocompleteSignalSignalValueDemo {
+export class AutocompleteSignalDemo {
   protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
       { label: 'Angular', value: 'Angular' },
       { label: 'Astro', value: 'Astro' },
@@ -335,7 +335,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
     }
   `
 })
-export class AutocompleteDropdownDropdownTriggerDemo {
+export class AutocompleteDropdownDemo {
   protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
       { label: 'Angular', value: 'Angular' },
       { label: 'Astro', value: 'Astro' },
@@ -403,7 +403,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
     }
   `
 })
-export class AutocompleteForceForceSelectionDemo {
+export class AutocompleteForceDemo {
   protected readonly forcedValue = signal('');
 
   protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
@@ -471,7 +471,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
     }
   `
 })
-export class AutocompleteGroupsGroupedSuggestionsDemo {
+export class AutocompleteGroupsDemo {
   protected readonly skills: readonly AerisAutoCompleteOption[] = [
     { label: 'Angular', value: 'Angular', group: 'Frontend' },
     { label: 'TypeScript', value: 'TypeScript', group: 'Frontend' },
@@ -534,7 +534,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
     }
   `
 })
-export class AutocompleteDescriptionOptionDescriptionsDemo {
+export class AutocompleteDescriptionDemo {
   protected readonly describedOptions: readonly AerisAutoCompleteOption[] = [
     { label: 'Angular', value: 'Angular', description: 'Application framework' },
     { label: 'TypeScript', value: 'TypeScript', description: 'Typed JavaScript' },
@@ -560,7 +560,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
   templateUrl: './autocomplete-templates.demo.html',
   styleUrl: './autocomplete-templates.demo.scss'
 })
-export class AutocompleteTemplatesTemplatesDemo {
+export class AutocompleteTemplatesDemo {
   protected readonly skillValue = signal('');
 
   protected readonly skills: readonly AerisAutoCompleteOption[] = [
@@ -586,9 +586,7 @@ export class AutocompleteTemplatesTemplatesDemo {
     completeOnFocus
     fluid
   >
-    <ng-template aerisAutoCompleteGroup let-group="group">
-      {{ group }} skills
-    </ng-template>
+    <ng-template aerisAutoCompleteGroup let-group="group">{{ group }} skills</ng-template>
     <ng-template aerisAutoCompleteOption let-option>
       <span class="option-template">
         <aeris-avatar
@@ -712,7 +710,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
     }
   `
 })
-export class AutocompleteClearClearButtonDemo {
+export class AutocompleteClearDemo {
   protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
       { label: 'Angular', value: 'Angular' },
       { label: 'Astro', value: 'Astro' },
@@ -740,7 +738,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
   templateUrl: './autocomplete-states.demo.html',
   styleUrl: './autocomplete-states.demo.scss'
 })
-export class AutocompleteStatesAppearancesAndStatesDemo {
+export class AutocompleteStatesDemo {
   protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
       { label: 'Angular', value: 'Angular' },
       { label: 'Astro', value: 'Astro' },
@@ -785,11 +783,7 @@ export class AutocompleteStatesAppearancesAndStatesDemo {
       (blurred)="touched.set(true)"
       fluid
     />
-    <small
-      id="autocomplete-invalid-message"
-      [class.error]="invalid()"
-      aria-live="polite"
-    >
+    <small id="autocomplete-invalid-message" [class.error]="invalid()" aria-live="polite">
       {{ invalid() ? 'Choose a framework.' : 'Required.' }}
     </small>
   </div>
@@ -822,7 +816,7 @@ export class AutocompleteStatesAppearancesAndStatesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -875,7 +869,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
   templateUrl: './autocomplete-sizes.demo.html',
   styleUrl: './autocomplete-sizes.demo.scss'
 })
-export class AutocompleteSizesSizesDemo {
+export class AutocompleteSizesDemo {
   protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
       { label: 'Angular', value: 'Angular' },
       { label: 'Astro', value: 'Astro' },
@@ -945,7 +939,7 @@ import { AerisAutoComplete, type AerisAutoCompleteOption } from '@aeris-ui/core/
   templateUrl: './autocomplete-forms.demo.html',
   styleUrl: './autocomplete-forms.demo.scss'
 })
-export class AutocompleteFormsReactiveAndTemplateDrivenFormsDemo {
+export class AutocompleteFormsDemo {
   protected readonly skills: readonly AerisAutoCompleteOption[] = [
       { label: 'Angular', value: 'Angular', group: 'Frontend' },
       { label: 'TypeScript', value: 'TypeScript', group: 'Frontend' },
@@ -995,7 +989,7 @@ export class AutocompleteFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -1088,7 +1082,7 @@ import { AerisAutoComplete, type AerisAutoCompleteCompleteEvent, type AerisAutoC
     }
   `
 })
-export class AutocompleteEventsEventsDemo {
+export class AutocompleteEventsDemo {
   protected readonly frameworks: readonly AerisAutoCompleteOption[] = [
       { label: 'Angular', value: 'Angular' },
       { label: 'Astro', value: 'Astro' },

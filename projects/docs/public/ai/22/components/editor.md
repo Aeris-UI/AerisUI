@@ -233,12 +233,16 @@ import { AerisEditor } from '@aeris-ui/core/editor';
       color: var(--aeris-danger);
     }
 
+    .field {
+      width: min(100%, 44rem);
+    }
+
     .editor-field {
       align-items: stretch;
     }
   `
 })
-export class EditorBasicBasicDemo {
+export class EditorBasicDemo {
   protected readonly content = signal(
     '<p>Write clear product notes with Aeris.</p>',
   );
@@ -296,12 +300,16 @@ import { AerisEditor } from '@aeris-ui/core/editor';
       color: var(--aeris-danger);
     }
 
+    .field {
+      width: min(100%, 44rem);
+    }
+
     .editor-field {
       align-items: stretch;
     }
   `
 })
-export class EditorToolbarToolbarFormatsDemo {
+export class EditorToolbarDemo {
 }
 ```
 
@@ -357,6 +365,10 @@ import { AERIS_EDITOR_ALL_FORMATS, AerisEditor } from '@aeris-ui/core/editor';
       color: var(--aeris-danger);
     }
 
+    .field {
+      width: min(100%, 44rem);
+    }
+
     .editor-field {
       align-items: stretch;
     }
@@ -366,7 +378,7 @@ import { AERIS_EDITOR_ALL_FORMATS, AerisEditor } from '@aeris-ui/core/editor';
     }
   `
 })
-export class EditorComprehensiveCompleteToolbarDemo {
+export class EditorComprehensiveDemo {
   protected readonly allFormats = AERIS_EDITOR_ALL_FORMATS;
   protected readonly comprehensiveContent = signal(
     '<h1>Quarterly product brief</h1><p><strong>Use the complete toolbar</strong> to structure, emphasize, align, transform, and organize this document.</p><blockquote>Every visible action is backed by Lexical state and HTML serialization.</blockquote><ul><li>Shape the narrative</li><li>Review the checklist</li><li>Publish the update</li></ul>',
@@ -427,12 +439,16 @@ import { $getRoot } from 'lexical';
       color: var(--aeris-danger);
     }
 
+    .field {
+      width: min(100%, 44rem);
+    }
+
     .editor-field {
       align-items: stretch;
     }
   `
 })
-export class EditorExtensionsLexicalExtensionsDemo {
+export class EditorExtensionsDemo {
   protected readonly extensionContent = signal(
     '<p>This example reads the immutable Lexical editor state through an Aeris extension.</p>',
   );
@@ -506,12 +522,16 @@ import { AerisEditor, type AerisEditorFormat } from '@aeris-ui/core/editor';
       color: var(--aeris-danger);
     }
 
+    .field {
+      width: min(100%, 44rem);
+    }
+
     .editor-field {
       align-items: stretch;
     }
   `
 })
-export class EditorCustomToolbarCustomToolbarDemo {
+export class EditorCustomToolbarDemo {
   protected readonly compactContent = signal('<p>Only inline formatting is available here.</p>');
 
 
@@ -541,7 +561,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
   templateUrl: './editor-states.demo.html',
   styleUrl: './editor-states.demo.scss'
 })
-export class EditorStatesAppearancesAndStatesDemo {
+export class EditorStatesDemo {
 }
 ```
 
@@ -598,7 +618,7 @@ export class EditorStatesAppearancesAndStatesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -634,6 +654,10 @@ export class EditorStatesAppearancesAndStatesDemo {
   }
 }
 
+.field {
+  width: min(100%, 44rem);
+}
+
 .editor-state-grid {
   align-items: start;
 }
@@ -655,7 +679,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
   templateUrl: './editor-validation.demo.html',
   styleUrl: './editor-validation.demo.scss'
 })
-export class EditorValidationValidationDemo {
+export class EditorValidationDemo {
   protected readonly validationContent = signal('');
   protected readonly validationTouched = signal(false);
   protected readonly validationInvalid = computed(
@@ -681,11 +705,13 @@ export class EditorValidationValidationDemo {
     fluid
   />
   @if (validationInvalid()) {
-    <small id="validated-editor-message" class="error state-message"
-      >Article body is required.</small>
+    <small id="validated-editor-message" class="error state-message">
+      Article body is required.
+    </small>
   } @else {
-    <small id="validated-editor-message" class="state-message"
-      >Use clear headings and concise paragraphs.</small>
+    <small id="validated-editor-message" class="state-message">
+      Use clear headings and concise paragraphs.
+    </small>
   }
 </div>
 ```
@@ -719,8 +745,8 @@ export class EditorValidationValidationDemo {
   color: var(--aeris-danger);
 }
 
-.field small.error {
-  color: var(--aeris-danger);
+.field {
+  width: min(100%, 44rem);
 }
 
 .editor-field {
@@ -749,7 +775,7 @@ import { AerisEditor } from '@aeris-ui/core/editor';
   templateUrl: './editor-forms.demo.html',
   styleUrl: './editor-forms.demo.scss'
 })
-export class EditorFormsReactiveAndTemplateDrivenFormsDemo {
+export class EditorFormsDemo {
   protected readonly content = signal('<p>Write clear product notes with Aeris.</p>');
 
   protected readonly reactiveContent =
@@ -791,7 +817,7 @@ export class EditorFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -825,6 +851,10 @@ export class EditorFormsReactiveAndTemplateDrivenFormsDemo {
   .field-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.field {
+  width: min(100%, 44rem);
 }
 
 .editor-state-grid {

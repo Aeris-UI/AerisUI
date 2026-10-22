@@ -65,7 +65,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   templateUrl: './fluid-basic.demo.html',
   styleUrl: './fluid-basic.demo.scss'
 })
-export class FluidBasicBasicDemo {
+export class FluidBasicDemo {
 }
 ```
 
@@ -107,7 +107,8 @@ export class FluidBasicBasicDemo {
   gap: 0.375rem;
 }
 
-.fluid-field label {
+.fluid-field label,
+.fluid-grid label {
   font-weight: 650;
 }
 ```
@@ -130,7 +131,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './fluid-comparison.demo.html',
   styleUrl: './fluid-comparison.demo.scss'
 })
-export class FluidComparisonComparisonDemo {
+export class FluidComparisonDemo {
 }
 ```
 
@@ -159,11 +160,7 @@ export class FluidComparisonComparisonDemo {
     <aeris-fluid>
       <section class="fluid-example" aria-labelledby="container-title">
         <h4 id="container-title">Fluid wrapper</h4>
-        <input
-          aerisInputText
-          aria-label="Fluid wrapper field"
-          placeholder="Project"
-        />
+        <input aerisInputText aria-label="Fluid wrapper field" placeholder="Project" />
         <button aerisButton type="button">Save</button>
       </section>
     </aeris-fluid>
@@ -213,7 +210,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './fluid-controlled.demo.html',
   styleUrl: './fluid-controlled.demo.scss'
 })
-export class FluidControlledControlledDemo {
+export class FluidControlledDemo {
   protected readonly fluidEnabled = signal(true);
 
   protected toggleFluid(): void {
@@ -286,7 +283,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './fluid-responsive.demo.html',
   styleUrl: './fluid-responsive.demo.scss'
 })
-export class FluidResponsiveResponsiveLayoutDemo {
+export class FluidResponsiveDemo {
 }
 ```
 
@@ -315,6 +312,11 @@ export class FluidResponsiveResponsiveLayoutDemo {
 #### CSS
 
 ```css
+.fluid-field label,
+.fluid-grid label {
+  font-weight: 650;
+}
+
 .fluid-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
@@ -325,7 +327,6 @@ export class FluidResponsiveResponsiveLayoutDemo {
   min-width: 0;
   display: grid;
   gap: 0.375rem;
-  font-weight: 650;
 }
 
 .fluid-grid__action {

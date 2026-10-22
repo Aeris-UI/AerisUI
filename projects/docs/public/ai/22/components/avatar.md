@@ -138,6 +138,13 @@ import { LucideDynamicIcon, LucideUserRound } from '@lucide/angular';
     </div>
   `,
   styles: `
+    svg:where([lucideIcon]) {
+      width: var(--aeris-icon-size, 1rem);
+      height: var(--aeris-icon-size, 1rem);
+      flex-shrink: 0;
+      stroke-width: 2;
+    }
+
     .avatar-row {
       display: flex;
       flex-wrap: wrap;
@@ -146,7 +153,7 @@ import { LucideDynamicIcon, LucideUserRound } from '@lucide/angular';
     }
   `
 })
-export class AvatarBasicBasicDemo {
+export class AvatarBasicDemo {
   protected readonly icons = { UserRound: LucideUserRound };
 }
 ```
@@ -167,7 +174,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
   templateUrl: './avatar-images.demo.html',
   styleUrl: './avatar-images.demo.scss'
 })
-export class AvatarImagesImagesDemo {
+export class AvatarImagesDemo {
 }
 ```
 
@@ -221,44 +228,31 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
 @Component({
   selector: 'app-avatar-sizes-demo',
   imports: [AerisAvatarModule],
-  templateUrl: './avatar-sizes.demo.html',
-  styleUrl: './avatar-sizes.demo.scss'
+  template: `
+    <div>
+      <div class="avatar-row">
+        <aeris-avatar label="SM" ariaLabel="Small avatar" size="sm" />
+        <aeris-avatar label="MD" ariaLabel="Medium avatar" />
+        <aeris-avatar label="LG" ariaLabel="Large rounded avatar" size="lg" shape="rounded" />
+        <aeris-avatar
+          label="XL"
+          ariaLabel="Extra-large square avatar"
+          size="xl"
+          shape="square"
+        />
+      </div>
+    </div>
+  `,
+  styles: `
+    .avatar-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+    }
+  `
 })
-export class AvatarSizesSizesAndShapesDemo {
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <div class="avatar-row">
-    <aeris-avatar label="SM" ariaLabel="Small avatar" size="sm" />
-    <aeris-avatar label="MD" ariaLabel="Medium avatar" />
-    <aeris-avatar
-      label="LG"
-      ariaLabel="Large rounded avatar"
-      size="lg"
-      shape="rounded"
-    />
-    <aeris-avatar
-      label="XL"
-      ariaLabel="Extra-large square avatar"
-      size="xl"
-      shape="square"
-    />
-  </div>
-</div>
-```
-
-#### CSS
-
-```css
-.avatar-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem;
+export class AvatarSizesDemo {
 }
 ```
 
@@ -296,7 +290,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
     }
   `
 })
-export class AvatarTonesTonesDemo {
+export class AvatarTonesDemo {
 }
 ```
 
@@ -339,7 +333,7 @@ import { AerisBadgeModule } from '@aeris-ui/core/badge';
     }
   `
 })
-export class AvatarBadgeBadgeDemo {
+export class AvatarBadgeDemo {
 }
 ```
 
@@ -363,16 +357,12 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
         <aeris-avatar imageSrc="/puppies/puppy6.jpg" imageAlt="Luna" />
         <aeris-avatar imageSrc="/puppies/puppy7.jpg" imageAlt="Archie" />
         <aeris-avatar imageSrc="/puppies/puppy8.jpg" imageAlt="Daisy" />
-        <aeris-avatar
-          label="+4"
-          ariaLabel="Four more design team members"
-          tone="neutral"
-        />
+        <aeris-avatar label="+4" ariaLabel="Four more design team members" tone="neutral" />
       </aeris-avatar-group>
     </div>
   `
 })
-export class AvatarGroupGroupDemo {
+export class AvatarGroupDemo {
 }
 ```
 
@@ -412,10 +402,18 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
 
     .avatar-fallback-demo p {
       margin: 0;
+      color: var(--aeris-text-2);
+    }
+
+    @media (max-width: 30rem) {
+      .avatar-fallback-demo {
+          align-items: flex-start;
+          flex-direction: column;
+        }
     }
   `
 })
-export class AvatarFallbackImageFallbackDemo {
+export class AvatarFallbackDemo {
   protected readonly imageStatus = signal(
     'Waiting for the image.',
   );
@@ -458,7 +456,7 @@ import { AerisAvatarModule } from '@aeris-ui/core/avatar';
     }
   `
 })
-export class AvatarCustomTokenCustomizationDemo {
+export class AvatarCustomDemo {
 }
 ```
 

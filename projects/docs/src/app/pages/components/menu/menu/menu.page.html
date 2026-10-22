@@ -169,9 +169,7 @@
                 </aeris-menu>
               </div>
               <pre code><code ngNonBindable>&lt;div class="menu-actions"&gt;
-  &lt;button aerisButton type="button" (click)="popupMenu.toggle($event)"&gt;
-    Open menu
-  &lt;/button&gt;
+  &lt;button aerisButton type="button" (click)="popupMenu.toggle($event)"&gt;Open menu&lt;/button&gt;
   &lt;aeris-menu #popupMenu popup [model]="popupItems" ariaLabel="Popup actions"&gt;
     &lt;ng-template
       aerisMenuItem

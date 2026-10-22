@@ -119,7 +119,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
     </div>
   `
 })
-export class ToggleSwitchBasicBasicDemo {
+export class ToggleSwitchBasicDemo {
 }
 ```
 
@@ -163,7 +163,7 @@ import { AerisToggleSwitch, type AerisToggleSwitchChangeEvent } from '@aeris-ui/
     }
   `
 })
-export class ToggleSwitchModelSignalModelDemo {
+export class ToggleSwitchModelDemo {
   protected readonly notifications = signal(true);
   protected readonly lastChange = signal('No interaction');
 
@@ -211,10 +211,14 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
       .field-row {
         align-items: stretch;
       }
+
+      .field-row > input {
+        width: 100%;
+      }
     }
   `
 })
-export class ToggleSwitchSizesSizesDemo {
+export class ToggleSwitchSizesDemo {
 }
 ```
 
@@ -234,8 +238,9 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
   template: `
     <div class="field-row">
       <aeris-toggle-switch [checked]="true">Label at end</aeris-toggle-switch>
-      <aeris-toggle-switch [checked]="true" labelPosition="start"
-        >Label at start</aeris-toggle-switch>
+      <aeris-toggle-switch [checked]="true" labelPosition="start">
+        Label at start
+      </aeris-toggle-switch>
     </div>
   `,
   styles: `
@@ -251,10 +256,14 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
       .field-row {
         align-items: stretch;
       }
+
+      .field-row > input {
+        width: 100%;
+      }
     }
   `
 })
-export class ToggleSwitchLabelPositionLabelPositionDemo {
+export class ToggleSwitchLabelPositionDemo {
 }
 ```
 
@@ -297,7 +306,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
     }
   `
 })
-export class ToggleSwitchRichLabelRichLabelDemo {
+export class ToggleSwitchRichLabelDemo {
 }
 ```
 
@@ -319,8 +328,9 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
       <aeris-toggle-switch>Unchecked</aeris-toggle-switch>
       <aeris-toggle-switch [checked]="true">Checked</aeris-toggle-switch>
       <aeris-toggle-switch disabled>Disabled</aeris-toggle-switch>
-      <aeris-toggle-switch [checked]="true" disabled
-        >Checked and disabled</aeris-toggle-switch>
+      <aeris-toggle-switch [checked]="true" disabled>
+        Checked and disabled
+      </aeris-toggle-switch>
     </div>
   `,
   styles: `
@@ -331,7 +341,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
     }
   `
 })
-export class ToggleSwitchStatesCheckedAndDisabledStatesDemo {
+export class ToggleSwitchStatesDemo {
 }
 ```
 
@@ -351,7 +361,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
   templateUrl: './toggle-switch-validation.demo.html',
   styleUrl: './toggle-switch-validation.demo.scss'
 })
-export class ToggleSwitchValidationValidationDemo {
+export class ToggleSwitchValidationDemo {
   protected readonly consent = signal(false);
   protected readonly consentTouched = signal(false);
   protected readonly consentInvalid = computed(
@@ -379,11 +389,11 @@ export class ToggleSwitchValidationValidationDemo {
     class="validation-message"
     [class.error]="consentInvalid()"
     aria-live="polite"
-    >{{
-      consentInvalid()
-        ? 'Enable this setting to continue.'
-        : 'This setting is required.'
-    }}</small>
+  >
+    {{
+      consentInvalid() ? 'Enable this setting to continue.' : 'This setting is required.'
+    }}
+  </small>
 </div>
 ```
 
@@ -422,7 +432,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
     </div>
   `
 })
-export class ToggleSwitchNativeFormNativeFormValuesDemo {
+export class ToggleSwitchNativeFormDemo {
 }
 ```
 
@@ -443,7 +453,7 @@ import { AerisToggleSwitch } from '@aeris-ui/core/toggle-switch';
   templateUrl: './toggle-switch-angular-forms.demo.html',
   styleUrl: './toggle-switch-angular-forms.demo.scss'
 })
-export class ToggleSwitchAngularFormsReactiveAndTemplateDrivenFormsDemo {
+export class ToggleSwitchAngularFormsDemo {
   protected readonly reactiveEnabled =
     new FormControl(false);
 
@@ -478,7 +488,7 @@ export class ToggleSwitchAngularFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 

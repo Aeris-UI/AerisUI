@@ -27,6 +27,10 @@
   font-size: 0.8125rem;
 }
 
+.checkbox-stack > small.error {
+  color: var(--aeris-danger);
+}
+
 .checkbox-rich-label {
   display: inline-grid;
   gap: 0.15rem;

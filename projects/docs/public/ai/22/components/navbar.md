@@ -132,7 +132,7 @@ import { AerisNavbarModule } from '@aeris-ui/core/navbar';
   templateUrl: './navbar-basic.demo.html',
   styleUrl: './navbar-basic.demo.scss'
 })
-export class NavbarBasicNavigationDemo {
+export class NavbarBasicDemo {
   protected readonly active = signal('Overview');
 }
 ```
@@ -142,16 +142,13 @@ export class NavbarBasicNavigationDemo {
 ```html
 <div>
   <aeris-navbar [breakpoint]="480" ariaLabel="Basic example navigation">
-    <strong aerisNavbarBrand class="navbar-demo-brand"
-      ><span class="navbar-demo-mark" aria-hidden="true">W</span>
-      <span>Workspace</span></strong>
+    <strong aerisNavbarBrand class="navbar-demo-brand">
+      <span class="navbar-demo-mark" aria-hidden="true">W</span>
+      <span>Workspace</span>
+    </strong>
     <div aerisNavbarLinks>
       @for (label of ['Overview', 'Projects', 'Settings']; track label) {
-        <button
-          aerisNavbarItem
-          [active]="active() === label"
-          (click)="active.set(label)"
-        >
+        <button aerisNavbarItem [active]="active() === label" (click)="active.set(label)">
           {{ label }}
         </button>
       }
@@ -217,7 +214,7 @@ interface ApiRow {
   templateUrl: './navbar-responsive.demo.html',
   styleUrl: './navbar-responsive.demo.scss'
 })
-export class NavbarResponsiveResponsiveExpansionDemo {
+export class NavbarResponsiveDemo {
   protected readonly active = signal('Overview');
 
   protected readonly selections = signal<Record<string, string>>({
@@ -357,9 +354,10 @@ export class NavbarResponsiveResponsiveExpansionDemo {
     [style.inline-size]="compact() ? 'min(22rem, 100%)' : '100%'"
   >
     <aeris-navbar [breakpoint]="560" ariaLabel="Responsive example navigation">
-      <strong aerisNavbarBrand class="navbar-demo-brand"
-        ><span class="navbar-demo-mark" aria-hidden="true">W</span>
-        <span>Workspace</span></strong>
+      <strong aerisNavbarBrand class="navbar-demo-brand">
+        <span class="navbar-demo-mark" aria-hidden="true">W</span>
+        <span>Workspace</span>
+      </strong>
       <div aerisNavbarLinks>
         @for (label of ['Overview', 'Projects', 'Settings']; track label) {
           <button
@@ -449,7 +447,7 @@ interface ApiRow {
   templateUrl: './navbar-content-fit.demo.html',
   styleUrl: './navbar-content-fit.demo.scss'
 })
-export class NavbarContentFitAutomaticContentFitDemo {
+export class NavbarContentFitDemo {
   protected readonly active = signal('Overview');
 
   protected readonly selections = signal<Record<string, string>>({
@@ -657,7 +655,7 @@ interface ApiRow {
   templateUrl: './navbar-controlled.demo.html',
   styleUrl: './navbar-controlled.demo.scss'
 })
-export class NavbarControlledControlledExpansionDemo {
+export class NavbarControlledDemo {
   protected readonly active = signal('Overview');
 
   protected readonly selections = signal<Record<string, string>>({
@@ -777,8 +775,9 @@ export class NavbarControlledControlledExpansionDemo {
   <div class="navbar-preview-controls">
     <button aerisButton (click)="navigationExpanded.set(true)">Expand</button>
     <button aerisButton variant="outline" (click)="navigationExpanded.set(false)">
-      Collapse</button>
-      <span role="status">{{ navigationExpanded() ? 'Expanded' : 'Collapsed' }}</span>
+      Collapse
+    </button>
+    <span role="status">{{ navigationExpanded() ? 'Expanded' : 'Collapsed' }}</span>
   </div>
   <aeris-navbar
     mode="mobile"
@@ -786,9 +785,10 @@ export class NavbarControlledControlledExpansionDemo {
     [closeOnOutsideClick]="false"
     ariaLabel="Controlled example navigation"
   >
-    <strong aerisNavbarBrand class="navbar-demo-brand"
-      ><span class="navbar-demo-mark" aria-hidden="true">W</span>
-      <span>Workspace</span></strong>
+    <strong aerisNavbarBrand class="navbar-demo-brand">
+      <span class="navbar-demo-mark" aria-hidden="true">W</span>
+      <span>Workspace</span>
+    </strong>
     <div aerisNavbarLinks>
       @for (label of ['Overview', 'Projects']; track label) {
         <button
@@ -869,7 +869,7 @@ interface ApiRow {
   templateUrl: './navbar-disclosures.demo.html',
   styleUrl: './navbar-disclosures.demo.scss'
 })
-export class NavbarDisclosuresDisclosuresDemo {
+export class NavbarDisclosuresDemo {
   protected readonly active = signal('Overview');
 
   protected readonly selections = signal<Record<string, string>>({
@@ -987,9 +987,10 @@ export class NavbarDisclosuresDisclosuresDemo {
 ```html
 <div>
   <aeris-navbar [breakpoint]="480" ariaLabel="Disclosure example navigation">
-    <strong aerisNavbarBrand class="navbar-demo-brand"
-      ><span class="navbar-demo-mark" aria-hidden="true">W</span>
-      <span>Workspace</span></strong>
+    <strong aerisNavbarBrand class="navbar-demo-brand">
+      <span class="navbar-demo-mark" aria-hidden="true">W</span>
+      <span>Workspace</span>
+    </strong>
     <div aerisNavbarLinks>
       @for (label of ['Overview', 'Projects']; track label) {
         <button
@@ -1096,7 +1097,7 @@ interface ApiRow {
   templateUrl: './navbar-custom.demo.html',
   styleUrl: './navbar-custom.demo.scss'
 })
-export class NavbarCustomBrandAndActionsDemo {
+export class NavbarCustomDemo {
   protected readonly active = signal('Overview');
 
   protected readonly selections = signal<Record<string, string>>({
@@ -1216,9 +1217,10 @@ export class NavbarCustomBrandAndActionsDemo {
 ```html
 <div>
   <aeris-navbar #navbar mode="mobile" ariaLabel="Custom toggle example navigation">
-    <strong aerisNavbarBrand class="navbar-demo-brand"
-      ><span class="navbar-demo-mark" aria-hidden="true">W</span>
-      <span>Workspace</span></strong>
+    <strong aerisNavbarBrand class="navbar-demo-brand">
+      <span class="navbar-demo-mark" aria-hidden="true">W</span>
+      <span>Workspace</span>
+    </strong>
     <div aerisNavbarLinks>
       @for (label of ['Overview', 'Projects']; track label) {
         <button
@@ -1231,9 +1233,8 @@ export class NavbarCustomBrandAndActionsDemo {
       }
     </div>
     <div aerisNavbarActions>
-      <button aerisButton variant="ghost" class="navbar-secondary-action">
-        Sign in</button>
-        <button aerisButton>Get started</button>
+      <button aerisButton variant="ghost" class="navbar-secondary-action">Sign in</button>
+      <button aerisButton>Get started</button>
     </div>
     <button aerisNavbarToggle>
       @if (navbar.expanded()) {
@@ -1249,6 +1250,13 @@ export class NavbarCustomBrandAndActionsDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .navbar-demo-brand {
   display: inline-flex;
   align-items: center;
@@ -1308,7 +1316,7 @@ interface ApiRow {
   templateUrl: './navbar-variants.demo.html',
   styleUrl: './navbar-variants.demo.scss'
 })
-export class NavbarVariantsVariantsDemo {
+export class NavbarVariantsDemo {
   protected readonly active = signal('Overview');
 
   protected readonly selections = signal<Record<string, string>>({
@@ -1430,7 +1438,8 @@ export class NavbarVariantsVariantsDemo {
       [breakpoint]="480"
       [variant]="variant"
       [ariaLabel]="variant + ' example navigation'"
-      ><strong aerisNavbarBrand>{{ variant }}</strong>
+    >
+      <strong aerisNavbarBrand>{{ variant }}</strong>
       <div aerisNavbarLinks>
         @for (label of ['Overview', 'Projects']; track label) {
           <button
@@ -1441,7 +1450,8 @@ export class NavbarVariantsVariantsDemo {
             {{ label }}
           </button>
         }
-      </div></aeris-navbar>
+      </div>
+    </aeris-navbar>
   }
 </div>
 ```
@@ -1478,7 +1488,7 @@ interface ApiRow {
   templateUrl: './navbar-sticky.demo.html',
   styleUrl: './navbar-sticky.demo.scss'
 })
-export class NavbarStickyStickyPositioningDemo {
+export class NavbarStickyDemo {
   protected readonly active = signal('Overview');
 
   protected readonly selections = signal<Record<string, string>>({
@@ -1594,10 +1604,11 @@ export class NavbarStickyStickyPositioningDemo {
 ```html
 <div>
   <div class="navbar-scroll-region">
-    <aeris-navbar sticky ariaLabel="Sticky example navigation"
-      ><strong aerisNavbarBrand class="navbar-demo-brand"
-        ><span class="navbar-demo-mark" aria-hidden="true">W</span>
-        <span>Workspace</span></strong>
+    <aeris-navbar sticky ariaLabel="Sticky example navigation">
+      <strong aerisNavbarBrand class="navbar-demo-brand">
+        <span class="navbar-demo-mark" aria-hidden="true">W</span>
+        <span>Workspace</span>
+      </strong>
       <div aerisNavbarLinks>
         @for (label of ['Overview', 'Projects']; track label) {
           <button
@@ -1608,7 +1619,8 @@ export class NavbarStickyStickyPositioningDemo {
             {{ label }}
           </button>
         }
-      </div></aeris-navbar>
+      </div>
+    </aeris-navbar>
     <div class="navbar-scroll-content">
       @for (section of [1, 2, 3, 4, 5, 6, 7, 8]; track section) {
         <p>

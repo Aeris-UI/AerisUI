@@ -215,7 +215,7 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
     }
   `
 })
-export class ChipBasicBasicDemo {
+export class ChipBasicDemo {
 }
 ```
 
@@ -249,6 +249,13 @@ import { LucideCamera, LucideCode2, LucideDynamicIcon, LucidePalette, LucideXCir
     </div>
   `,
   styles: `
+    svg:where([lucideIcon]) {
+      width: var(--aeris-icon-size, 1rem);
+      height: var(--aeris-icon-size, 1rem);
+      flex-shrink: 0;
+      stroke-width: 2;
+    }
+
     .chip-row {
       display: flex;
       flex-wrap: wrap;
@@ -257,7 +264,7 @@ import { LucideCamera, LucideCode2, LucideDynamicIcon, LucidePalette, LucideXCir
     }
   `
 })
-export class ChipIconsIconsDemo {
+export class ChipIconsDemo {
   protected readonly icons = {
       Camera: LucideCamera,
       Code2: LucideCode2,
@@ -303,7 +310,7 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
     }
   `
 })
-export class ChipImagesImagesDemo {
+export class ChipImagesDemo {
 }
 ```
 
@@ -340,7 +347,7 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
     }
   `
 })
-export class ChipStylesSizesAndStylesDemo {
+export class ChipStylesDemo {
 }
 ```
 
@@ -361,7 +368,7 @@ import { AerisChipModule, type AerisChipRemoveEvent } from '@aeris-ui/core/chip'
   templateUrl: './chip-removable.demo.html',
   styleUrl: './chip-removable.demo.scss'
 })
-export class ChipRemovableRemovableDemo {
+export class ChipRemovableDemo {
   private readonly restoreElement = viewChild('restoreButton', {
       read: ElementRef<HTMLButtonElement>,
     });
@@ -440,7 +447,7 @@ import { AerisChipModule, type AerisChipRemovingEvent } from '@aeris-ui/core/chi
   templateUrl: './chip-cancel-removal.demo.html',
   styleUrl: './chip-cancel-removal.demo.scss'
 })
-export class ChipCancelRemovalCancellableRemovalDemo {
+export class ChipCancelRemovalDemo {
   protected readonly protectedVisible = signal(true);
 
   protected readonly removalAllowed = signal(false);
@@ -523,7 +530,7 @@ import { AerisChipModule } from '@aeris-ui/core/chip';
   templateUrl: './chip-controlled-removal.demo.html',
   styleUrl: './chip-controlled-removal.demo.scss'
 })
-export class ChipControlledRemovalParentManagedRemovalDemo {
+export class ChipControlledRemovalDemo {
   private readonly restoreControlledElement = viewChild('restoreControlledButton', {
       read: ElementRef<HTMLButtonElement>,
     });
@@ -624,7 +631,7 @@ import { LucideCamera, LucideCode2, LucideDynamicIcon, LucidePalette, LucideXCir
   templateUrl: './chip-content.demo.html',
   styleUrl: './chip-content.demo.scss'
 })
-export class ChipContentCustomContentDemo {
+export class ChipContentDemo {
   protected readonly icons = {
       Camera: LucideCamera,
       Code2: LucideCode2,
@@ -659,6 +666,13 @@ export class ChipContentCustomContentDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .chip-plan {
   display: inline-flex;
   align-items: center;
@@ -704,6 +718,13 @@ import { LucideCamera, LucideCode2, LucideDynamicIcon, LucidePalette, LucideXCir
     </div>
   `,
   styles: `
+    svg:where([lucideIcon]) {
+      width: var(--aeris-icon-size, 1rem);
+      height: var(--aeris-icon-size, 1rem);
+      flex-shrink: 0;
+      stroke-width: 2;
+    }
+
     .brand-chip {
       --aeris-chip-height: 2.75rem;
       --aeris-chip-padding-inline: 1rem;
@@ -716,7 +737,7 @@ import { LucideCamera, LucideCode2, LucideDynamicIcon, LucidePalette, LucideXCir
     }
   `
 })
-export class ChipCustomTokenCustomizationDemo {
+export class ChipCustomDemo {
   protected readonly icons = {
       Camera: LucideCamera,
       Code2: LucideCode2,
@@ -743,7 +764,7 @@ import { AerisChipModule, type AerisChipGroupItem, type AerisChipGroupValue } fr
   templateUrl: './chip-group-single.demo.html',
   styleUrl: './chip-group-single.demo.scss'
 })
-export class ChipGroupSingleSingleSelectionDemo {
+export class ChipGroupSingleDemo {
   protected readonly groupOptions: readonly AerisChipGroupItem[] = [
       { id: 'first', label: 'First' },
       { id: 'second', label: 'Second', disabled: true },
@@ -775,12 +796,7 @@ export class ChipGroupSingleSingleSelectionDemo {
       <button aerisButton variant="outline" (click)="singleGroup.focus()">
         Focus group
       </button>
-      <button
-        aerisButton
-        variant="outline"
-        type="button"
-        (click)="groupSingle.set(null)"
-      >
+      <button aerisButton variant="outline" type="button" (click)="groupSingle.set(null)">
         Clear selection
       </button>
     </div>
@@ -824,10 +840,36 @@ import { AerisChipModule, type AerisChipGroupItem, type AerisChipGroupValue } fr
 @Component({
   selector: 'app-chip-group-multiple-demo',
   imports: [AerisButton, AerisChipModule],
-  templateUrl: './chip-group-multiple.demo.html',
-  styleUrl: './chip-group-multiple.demo.scss'
+  template: `
+    <div>
+      <div class="chip-removable-demo">
+        <aeris-chip-group
+          ariaLabel="Multiple choices"
+          selectionMode="multiple"
+          [items]="groupOptions"
+          [(value)]="groupMultiple"
+        />
+        <p>Selected: {{ groupMultipleLabel() }}</p>
+        <button aerisButton variant="outline" type="button" (click)="groupMultiple.set([])">
+          Clear selection
+        </button>
+      </div>
+    </div>
+  `,
+  styles: `
+    .chip-removable-demo {
+      display: grid;
+      justify-items: start;
+      gap: 0.875rem;
+    }
+
+    .chip-removable-demo p {
+      margin: 0;
+      color: var(--aeris-text-2);
+    }
+  `
 })
-export class ChipGroupMultipleMultipleSelectionDemo {
+export class ChipGroupMultipleDemo {
   protected readonly groupOptions: readonly AerisChipGroupItem[] = [
       { id: 'first', label: 'First' },
       { id: 'second', label: 'Second', disabled: true },
@@ -841,45 +883,6 @@ export class ChipGroupMultipleMultipleSelectionDemo {
       const value = this.groupMultiple();
       return Array.isArray(value) && value.length ? value.join(', ') : 'None';
     });
-}
-```
-
-#### HTML
-
-```html
-<div>
-  <div class="chip-removable-demo">
-    <aeris-chip-group
-      ariaLabel="Multiple choices"
-      selectionMode="multiple"
-      [items]="groupOptions"
-      [(value)]="groupMultiple"
-    />
-    <p>Selected: {{ groupMultipleLabel() }}</p>
-    <button
-      aerisButton
-      variant="outline"
-      type="button"
-      (click)="groupMultiple.set([])"
-    >
-      Clear selection
-    </button>
-  </div>
-</div>
-```
-
-#### CSS
-
-```css
-.chip-removable-demo {
-  display: grid;
-  justify-items: start;
-  gap: 0.875rem;
-}
-
-.chip-removable-demo p {
-  margin: 0;
-  color: var(--aeris-text-2);
 }
 ```
 
@@ -900,7 +903,7 @@ import { AerisChipModule, type AerisChipGroupItem, type AerisChipGroupRemovingEv
   templateUrl: './chip-group-removal.demo.html',
   styleUrl: './chip-group-removal.demo.scss'
 })
-export class ChipGroupRemovalGroupedRemovalAndCancellationDemo {
+export class ChipGroupRemovalDemo {
   protected readonly initialGroupItems: readonly AerisChipGroupItem[] = [
       { id: 'first', label: 'First' },
       { id: 'protected', label: 'Protected' },
@@ -949,24 +952,12 @@ export class ChipGroupRemovalGroupedRemovalAndCancellationDemo {
     />
     <p role="status">{{ groupStatus() }}</p>
     <div class="chip-row">
-      <button
-        aerisButton
-        variant="outline"
-        type="button"
-        (click)="toggleGroupRemoval()"
-      >
+      <button aerisButton variant="outline" type="button" (click)="toggleGroupRemoval()">
         {{
-          groupRemovalAllowed()
-            ? 'Disallow protected removal'
-            : 'Allow protected removal'
+          groupRemovalAllowed() ? 'Disallow protected removal' : 'Allow protected removal'
         }}
       </button>
-      <button
-        aerisButton
-        variant="outline"
-        type="button"
-        (click)="resetGroupRemoval()"
-      >
+      <button aerisButton variant="outline" type="button" (click)="resetGroupRemoval()">
         Reset chips
       </button>
     </div>
@@ -1015,7 +1006,7 @@ import { FormField, form, validate } from '@angular/forms/signals';
   templateUrl: './chip-group-forms.demo.html',
   styleUrl: './chip-group-forms.demo.scss'
 })
-export class ChipGroupFormsSignalFormsDemo {
+export class ChipGroupFormsDemo {
   protected readonly groupOptions: readonly AerisChipGroupItem[] = [
       { id: 'first', label: 'First' },
       { id: 'second', label: 'Second', disabled: true },
@@ -1078,11 +1069,13 @@ export class ChipGroupFormsSignalFormsDemo {
       (changed)="groupValidated.set(false)"
     />
     @if (groupError()) {
-      <aeris-message id="chip-group-error" severity="danger"
-        >Choose at least one item.</aeris-message>
+      <aeris-message id="chip-group-error" severity="danger">
+        Choose at least one item.
+      </aeris-message>
     } @else if (groupValidationSuccess()) {
-      <aeris-message id="chip-group-success" severity="success"
-        >Selection is valid.</aeris-message>
+      <aeris-message id="chip-group-success" severity="success">
+        Selection is valid.
+      </aeris-message>
     }
     <div class="chip-row">
       <button aerisButton variant="outline" type="button" (click)="validateGroup()">
@@ -1136,7 +1129,7 @@ import { AerisChipModule, type AerisChipGroupItem, type AerisChipGroupValue } fr
   templateUrl: './chip-group-reactive.demo.html',
   styleUrl: './chip-group-reactive.demo.scss'
 })
-export class ChipGroupReactiveReactiveFormsDemo {
+export class ChipGroupReactiveDemo {
   protected readonly groupOptions: readonly AerisChipGroupItem[] = [
       { id: 'first', label: 'First' },
       { id: 'second', label: 'Second', disabled: true },
@@ -1166,12 +1159,7 @@ export class ChipGroupReactiveReactiveFormsDemo {
     />
     <p>Selected: {{ groupControl.value || 'None' }}</p>
     <div class="chip-row">
-      <button
-        aerisButton
-        variant="outline"
-        type="button"
-        (click)="toggleGroupControl()"
-      >
+      <button aerisButton variant="outline" type="button" (click)="toggleGroupControl()">
         {{ groupControl.disabled ? 'Enable group' : 'Disable group' }}
       </button>
       <button

@@ -173,13 +173,7 @@
     &gt;
       Close
     &lt;/button&gt;
-    &lt;button
-      aerisButton
-      type="button"
-      size="sm"
-      variant="ghost"
-      (click)="togglePanel()"
-    &gt;
+    &lt;button aerisButton type="button" size="sm" variant="ghost" (click)="togglePanel()"&gt;
       Toggle
     &lt;/button&gt;
   &lt;/div&gt;
@@ -189,9 +183,7 @@
     [(collapsed)]="controlledCollapsed"
     (toggled)="recordToggle($event)"
   &gt;
-    &lt;p&gt;
-      Review accessibility notes, run the test suite, and publish migration guidance.
-    &lt;/p&gt;
+    &lt;p&gt;Review accessibility notes, run the test suite, and publish migration guidance.&lt;/p&gt;
   &lt;/aeris-panel&gt;
   &lt;p class="panel-event-log"&gt;
     State: &#123;&#123; controlledCollapsed ? 'Closed' : 'Open' &#125;&#125; · Last event:
@@ -224,13 +216,7 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;aeris-panel header="Team activity"&gt;
     &lt;div aerisPanelHeaderActions&gt;
-      &lt;button
-        aerisButton
-        type="button"
-        size="sm"
-        variant="solid"
-        severity="secondary"
-      &gt;
+      &lt;button aerisButton type="button" size="sm" variant="solid" severity="secondary"&gt;
         Refresh
       &lt;/button&gt;
     &lt;/div&gt;
@@ -310,18 +296,11 @@
       &lt;/span&gt;
     &lt;/ng-template&gt;
     &lt;p&gt;
-      Amy is reviewing accessibility findings and preparing handoff notes for the
-      release.
+      Amy is reviewing accessibility findings and preparing handoff notes for the release.
     &lt;/p&gt;
     &lt;div aerisPanelFooter&gt;
       &lt;button aerisButton type="button" size="sm"&gt;View profile&lt;/button&gt;
-      &lt;button
-        aerisButton
-        type="button"
-        size="sm"
-        variant="solid"
-        severity="secondary"
-      &gt;
+      &lt;button aerisButton type="button" size="sm" variant="solid" severity="secondary"&gt;
         Message
       &lt;/button&gt;
     &lt;/div&gt;
@@ -353,14 +332,18 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="panel-grid"&gt;
-    &lt;aeris-panel header="Outlined" variant="outlined" size="sm"
-      &gt;&lt;p&gt;Quiet bordered surface.&lt;/p&gt;&lt;/aeris-panel&gt;
-    &lt;aeris-panel header="Elevated" variant="elevated"
-      &gt;&lt;p&gt;Raised container for prominence.&lt;/p&gt;&lt;/aeris-panel&gt;
-    &lt;aeris-panel header="Filled" variant="filled"
-      &gt;&lt;p&gt;Soft background grouping.&lt;/p&gt;&lt;/aeris-panel&gt;
-    &lt;aeris-panel header="Plain" variant="plain" size="lg"
-      &gt;&lt;p&gt;Header and content without an outer card.&lt;/p&gt;&lt;/aeris-panel&gt;
+    &lt;aeris-panel header="Outlined" variant="outlined" size="sm"&gt;
+      &lt;p&gt;Quiet bordered surface.&lt;/p&gt;
+    &lt;/aeris-panel&gt;
+    &lt;aeris-panel header="Elevated" variant="elevated"&gt;
+      &lt;p&gt;Raised container for prominence.&lt;/p&gt;
+    &lt;/aeris-panel&gt;
+    &lt;aeris-panel header="Filled" variant="filled"&gt;
+      &lt;p&gt;Soft background grouping.&lt;/p&gt;
+    &lt;/aeris-panel&gt;
+    &lt;aeris-panel header="Plain" variant="plain" size="lg"&gt;
+      &lt;p&gt;Header and content without an outer card.&lt;/p&gt;
+    &lt;/aeris-panel&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>

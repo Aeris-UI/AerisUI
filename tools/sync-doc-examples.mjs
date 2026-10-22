@@ -4,6 +4,7 @@ import { dirname, extname, join, relative, resolve } from 'node:path';
 import { HtmlParser } from '@angular/compiler';
 import * as sass from 'sass';
 import ts from 'typescript';
+import { format } from 'prettier';
 
 import { readPageExampleContext } from './doc-example-context.mjs';
 
@@ -13,6 +14,7 @@ const GENERATED_CODE = 'projects/docs/src/app/shared/generated-example-code.ts';
 const SHARED_LAYOUT_CLASSES = new Set([
   'aeris-example-row',
   'align',
+  'error',
   'field',
   'field-grid',
   'field-row',
@@ -35,7 +37,7 @@ const generatedCode = {};
 
 for (const path of files) {
   const source = await readFile(path, 'utf8');
-  const pageStyles = await compilePageStyles(path);
+  const { css: pageStyles, localLayoutClasses } = await compilePageStyles(path);
   const cssProperties = await readCssProperties(path);
   const pageContext = await readPageExampleContext(path.replace(/\.html$/, '.ts'));
   // Block syntax remains plain text here so copied object literals and control-flow
@@ -90,8 +92,16 @@ for (const path of files) {
     const previewMarkup = normalizeCode(
       normalizePreviewSource(previewSource, demo.name === 'app-button-demo'),
     );
-    const expected = normalizeExampleMarkup(
-      includeReferencedTemplates(previewMarkup, namedTemplates),
+    const expected = normalizeCode(
+      await format(
+        normalizeExampleMarkup(includeReferencedTemplates(previewMarkup, namedTemplates)),
+        {
+          parser: 'angular',
+          printWidth: 90,
+          singleQuote: true,
+          htmlWhitespaceSensitivity: 'ignore',
+        },
+      ),
     );
     const anchor = attributeValue(demo, 'id') ?? 'unknown';
     const explicitCode = pageContext.resolveString(attributeValue(demo, '[tsCode]') ?? '');
@@ -99,7 +109,9 @@ for (const path of files) {
       /@Component\s*\(/.test(explicitCode) && /\bexport\s+class\s+/.test(explicitCode);
     const missingCode = isCompleteComponent ? '' : pageContext.missingCode(expected, explicitCode);
     if (missingCode) generatedCode[anchor] = missingCode;
-    const customClasses = classNames(expected).filter((name) => !SHARED_LAYOUT_CLASSES.has(name));
+    const customClasses = classNames(expected).filter(
+      (name) => !SHARED_LAYOUT_CLASSES.has(name) || localLayoutClasses.has(name),
+    );
     if (customClasses.length) {
       const cssExpression =
         attributeValue(demo, '[cssCode]') ?? attributeValue(demo, 'cssCode') ?? '';
@@ -107,7 +119,14 @@ for (const path of files) {
       const uncoveredClasses = customClasses.filter(
         (name) => !new RegExp(`\\.${escapeRegExp(name)}(?![a-zA-Z0-9_-])`).test(explicitCss),
       );
-      const css = extractMatchingCss(pageStyles, uncoveredClasses);
+      // A class appearing in an explicit snippet does not mean that snippet includes
+      // every live rule (descendants, states and responsive rules included).
+      const liveCss = extractMatchingCss(pageStyles, customClasses);
+      const liveHeaders = cssRuleHeaders(liveCss);
+      const hasAdditionalRules = [...cssRuleHeaders(explicitCss)].some(
+        (header) => !liveHeaders.has(header),
+      );
+      const css = [hasAdditionalRules ? explicitCss : '', liveCss].filter(Boolean).join('\n\n');
       if (css) generatedStyles[anchor] = css;
       const unresolvedClasses = uncoveredClasses.filter(
         (name) => !new RegExp(`\\.${escapeRegExp(name)}(?![a-zA-Z0-9_-])`).test(css),
@@ -345,9 +364,26 @@ async function compilePageStyles(htmlPath) {
     if (configuredStyle) stylePath = resolve(dirname(htmlPath), configuredStyle);
   }
   try {
-    return sass.compile(stylePath, { style: 'expanded', quietDeps: true }).css;
+    const source = await readFile(stylePath, 'utf8');
+    const localLayoutClasses = new Set(
+      [...SHARED_LAYOUT_CLASSES].filter((name) =>
+        new RegExp(`\\.${escapeRegExp(name)}(?![a-zA-Z0-9_-])`).test(source),
+      ),
+    );
+    // Shared layout rules are emitted by demo-code.ts. Recover page-specific
+    // overrides without copying the same base field rules into every example twice.
+    // Retain full Sass context when a page starts using mixins, variables or functions.
+    const localSource = source.replace(/^\s*@use\s+[^;]+;\s*/gm, '');
+    const hasSassReferences = /\$|@(?:include|extend)|\b[\w-]+\.[\w-]+\(/.test(localSource);
+    return {
+      css: hasSassReferences
+        ? sass.compile(stylePath, { style: 'expanded', quietDeps: true }).css
+        : sass.compileString(localSource, { style: 'expanded', quietDeps: true }).css,
+      localLayoutClasses,
+    };
   } catch (error) {
-    if (String(error).includes('no such file or directory')) return '';
+    if (String(error).includes('no such file or directory'))
+      return { css: '', localLayoutClasses: new Set() };
     throw error;
   }
 }
@@ -390,6 +426,35 @@ async function readCssProperties(htmlPath) {
 function extractMatchingCss(source, classes) {
   const patterns = classes.map((name) => new RegExp(`\\.${escapeRegExp(name)}(?![a-zA-Z0-9_-])`));
   return normalizePublicCss(selectCssRules(source, patterns));
+}
+
+function normalizeCssForComparison(source) {
+  return normalizePublicCss(source).replace(/\s+/g, ' ');
+}
+
+function cssRuleHeaders(source, context = '') {
+  const headers = new Set();
+  let cursor = 0;
+  while (cursor < source.length) {
+    const opening = source.indexOf('{', cursor);
+    if (opening < 0) break;
+    const start =
+      Math.max(source.lastIndexOf('}', opening - 1), source.lastIndexOf(';', opening - 1)) + 1;
+    const header = source.slice(start, opening).trim();
+    const closing = matchingBrace(source, opening);
+    if (closing < 0) break;
+    const key = context + normalizeCssForComparison(header);
+    if (/^@(?:media|supports|container)\b/.test(header)) {
+      for (const child of cssRuleHeaders(source.slice(opening + 1, closing), `${key}/`))
+        headers.add(child);
+    } else {
+      for (const selector of normalizeCssForComparison(header).split(',')) {
+        headers.add(context + selector.trim().replace(/\[([\w-]+)=["']([\w-]+)["']\]/g, '[$1=$2]'));
+      }
+    }
+    cursor = closing + 1;
+  }
+  return headers;
 }
 
 function selectCssRules(source, patterns) {
@@ -446,8 +511,16 @@ function normalizePublicCss(source) {
     '--focus': '--aeris-focus',
     '--page': '--aeris-page',
     '--primary': '--aeris-primary',
+    '--primary-hover': '--aeris-primary-hover',
+    '--primary-soft': '--aeris-primary-soft',
     '--primary-text': '--aeris-primary-text',
+    '--accent': '--aeris-secondary',
+    '--warm': '--aeris-accent',
+    '--radius-sm': '--aeris-radius-sm',
     '--radius-md': '--aeris-radius-md',
+    '--radius-lg': '--aeris-radius-lg',
+    '--control-height': '--aeris-control-height',
+    '--shadow-sm': '--aeris-shadow-sm',
     '--success': '--aeris-success',
     '--surface': '--aeris-surface',
     '--surface-2': '--aeris-surface-2',

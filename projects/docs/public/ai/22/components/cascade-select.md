@@ -149,8 +149,9 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
         ariaDescribedBy="cascade-basic-help"
         fluid
       />
-      <small id="cascade-basic-help"
-        >Open the panel, then move across the location hierarchy.</small>
+      <small id="cascade-basic-help">
+        Open the panel, then move across the location hierarchy.
+      </small>
     </div>
   `,
   styles: `
@@ -185,7 +186,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
     }
   `
 })
-export class CascadeBasicBasicDemo {
+export class CascadeBasicDemo {
   protected readonly locations: readonly AerisCascadeSelectOption[] = [
     {
       label: 'Europe',
@@ -263,7 +264,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
     }
   `
 })
-export class CascadeSignalSignalValueDemo {
+export class CascadeSignalDemo {
   protected readonly locations: readonly AerisCascadeSelectOption[] = [
       {
         label: 'Europe',
@@ -373,7 +374,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
     }
   `
 })
-export class CascadeBranchesBranchSelectionDemo {
+export class CascadeBranchesDemo {
   protected readonly branchValue = signal<string | null>(null);
 
   protected readonly locations: readonly AerisCascadeSelectOption[] = [
@@ -441,7 +442,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
   templateUrl: './cascade-templates.demo.html',
   styleUrl: './cascade-templates.demo.scss'
 })
-export class CascadeTemplatesTemplatesDemo {
+export class CascadeTemplatesDemo {
   protected readonly locations: readonly AerisCascadeSelectOption[] = [
     {
       label: 'Europe',
@@ -472,9 +473,9 @@ export class CascadeTemplatesTemplatesDemo {
         <span class="cascade-option__mark" aria-hidden="true">{{ level + 1 }}</span>
         <span class="cascade-option__copy">
           <strong>{{ option.label }}</strong>
-          <small>{{
-            option.children?.length ? 'Open next level' : 'Select this value'
-          }}</small>
+          <small>
+            {{ option.children?.length ? 'Open next level' : 'Select this value' }}
+          </small>
         </span>
       </span>
     </ng-template>
@@ -529,7 +530,7 @@ export class CascadeTemplatesTemplatesDemo {
   place-items: center;
   flex: 0 0 auto;
   border-radius: 0.5rem;
-  background: var(--primary-soft);
+  background: var(--aeris-primary-soft);
   color: var(--aeris-primary-text);
   font-size: 0.6875rem;
   font-weight: 800;
@@ -607,7 +608,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
     }
   `
 })
-export class CascadeClearClearButtonDemo {
+export class CascadeClearDemo {
   protected readonly locations: readonly AerisCascadeSelectOption[] = [
       {
         label: 'Europe',
@@ -673,7 +674,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
   templateUrl: './cascade-states.demo.html',
   styleUrl: './cascade-states.demo.scss'
 })
-export class CascadeStatesAppearancesAndStatesDemo {
+export class CascadeStatesDemo {
   protected readonly locations: readonly AerisCascadeSelectOption[] = [
       {
         label: 'Europe',
@@ -777,7 +778,7 @@ export class CascadeStatesAppearancesAndStatesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -851,7 +852,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
     }
   `
 })
-export class CascadeSizesSizesDemo {
+export class CascadeSizesDemo {
   protected readonly locations: readonly AerisCascadeSelectOption[] = [
       {
         label: 'Europe',
@@ -918,7 +919,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectOption } from '@aeris-ui/cor
   templateUrl: './cascade-forms.demo.html',
   styleUrl: './cascade-forms.demo.scss'
 })
-export class CascadeFormsReactiveAndTemplateDrivenFormsDemo {
+export class CascadeFormsDemo {
   protected readonly locations: readonly AerisCascadeSelectOption[] = [
       {
         label: 'Europe',
@@ -1007,7 +1008,7 @@ export class CascadeFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -1106,7 +1107,7 @@ import { AerisCascadeSelect, type AerisCascadeSelectChangeEvent, type AerisCasca
     }
   `
 })
-export class CascadeEventsEventsDemo {
+export class CascadeEventsDemo {
   protected readonly locations: readonly AerisCascadeSelectOption[] = [
       {
         label: 'Europe',

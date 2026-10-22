@@ -32,7 +32,11 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;p class="kbd-sentence"&gt;
-    Confirm with &lt;kbd aerisKbd&gt;Enter&lt;/kbd&gt; or dismiss with &lt;kbd aerisKbd&gt;Escape&lt;/kbd&gt;.
+    Confirm with
+    &lt;kbd aerisKbd&gt;Enter&lt;/kbd&gt;
+    or dismiss with
+    &lt;kbd aerisKbd&gt;Escape&lt;/kbd&gt;
+    .
   &lt;/p&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -49,7 +53,8 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="kbd-row"&gt;
-    &lt;kbd aerisKbd size="sm"&gt;Tab&lt;/kbd&gt;&lt;kbd aerisKbd&gt;Backspace&lt;/kbd&gt;
+    &lt;kbd aerisKbd size="sm"&gt;Tab&lt;/kbd&gt;
+    &lt;kbd aerisKbd&gt;Backspace&lt;/kbd&gt;
     &lt;kbd aerisKbd size="lg"&gt;Page Down&lt;/kbd&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -70,8 +75,9 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="kbd-row"&gt;
     &lt;kbd aerisKbd [keys]="['command']"&gt;&lt;span aerisKbdContent&gt;K&lt;/span&gt;&lt;/kbd&gt;
-    &lt;kbd aerisKbd variant="ghost" [keys]="['command']"
-      &gt;&lt;span aerisKbdContent&gt;K&lt;/span&gt;&lt;/kbd&gt;
+    &lt;kbd aerisKbd variant="ghost" [keys]="['command']"&gt;
+      &lt;span aerisKbdContent&gt;K&lt;/span&gt;
+    &lt;/kbd&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -116,7 +122,11 @@
     &lt;/p&gt;
     &lt;p&gt;
       Separate keycaps
-      &lt;kbd class="kbd-shortcut"&gt;&lt;kbd aerisKbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd aerisKbd&gt;K&lt;/kbd&gt;&lt;/kbd&gt;
+      &lt;kbd class="kbd-shortcut"&gt;
+        &lt;kbd aerisKbd&gt;Ctrl&lt;/kbd&gt;
+        +
+        &lt;kbd aerisKbd&gt;K&lt;/kbd&gt;
+      &lt;/kbd&gt;
     &lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -159,19 +169,22 @@
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="kbd-combinations"&gt;
     &lt;p&gt;
-      Navigation &lt;kbd aerisKbd [keys]="['arrowUp']"&gt;&lt;/kbd&gt;
+      Navigation
+      &lt;kbd aerisKbd [keys]="['arrowUp']"&gt;&lt;/kbd&gt;
       &lt;kbd aerisKbd [keys]="['arrowDown']"&gt;&lt;/kbd&gt;
       &lt;kbd aerisKbd [keys]="['arrowLeft']"&gt;&lt;/kbd&gt;
       &lt;kbd aerisKbd [keys]="['arrowRight']"&gt;&lt;/kbd&gt;
     &lt;/p&gt;
     &lt;p&gt;
-      Page navigation &lt;kbd aerisKbd [keys]="['pageUp']"&gt;&lt;/kbd&gt;
+      Page navigation
+      &lt;kbd aerisKbd [keys]="['pageUp']"&gt;&lt;/kbd&gt;
       &lt;kbd aerisKbd [keys]="['pageDown']"&gt;&lt;/kbd&gt;
       &lt;kbd aerisKbd [keys]="['home']"&gt;&lt;/kbd&gt;
       &lt;kbd aerisKbd [keys]="['end']"&gt;&lt;/kbd&gt;
     &lt;/p&gt;
     &lt;p&gt;
-      Special keys &lt;kbd aerisKbd [keys]="['enter']"&gt;&lt;/kbd&gt;
+      Special keys
+      &lt;kbd aerisKbd [keys]="['enter']"&gt;&lt;/kbd&gt;
       &lt;kbd aerisKbd [keys]="['escape']"&gt;&lt;/kbd&gt;
       &lt;kbd aerisKbd [keys]="['tab']"&gt;&lt;/kbd&gt;
       &lt;kbd aerisKbd [keys]="['space']"&gt;&lt;/kbd&gt;
@@ -179,9 +192,10 @@
     &lt;/p&gt;
     &lt;p&gt;
       Press
-      &lt;kbd aerisKbd variant="ghost"
-        &gt;&lt;span aerisKbdKey="shift"&gt;&lt;/span&gt;&lt;span aerisKbdKey="tab"&gt;&lt;/span&gt;
-        &lt;/kbd&gt;
+      &lt;kbd aerisKbd variant="ghost"&gt;
+        &lt;span aerisKbdKey="shift"&gt;&lt;/span&gt;
+        &lt;span aerisKbdKey="tab"&gt;&lt;/span&gt;
+      &lt;/kbd&gt;
       to move to the previous field.
     &lt;/p&gt;
   &lt;/div&gt;
@@ -209,14 +223,18 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="kbd-row"&gt;
-    &lt;kbd aerisKbd
-      &gt;&lt;svg [lucideIcon]="commandIcon" aria-hidden="true"&gt;&lt;/svg&gt;
-      &lt;span class="kbd-readable"&gt;Command&lt;/span&gt;&lt;/kbd&gt;
-    &lt;kbd aerisKbd
-      &gt;&lt;svg [lucideIcon]="shiftIcon" aria-hidden="true"&gt;&lt;/svg&gt;
-      &lt;span class="kbd-readable"&gt;Shift&lt;/span&gt;&lt;/kbd&gt;
-    &lt;kbd aerisKbd
-      &gt;&lt;span aria-hidden="true"&gt;⌥&lt;/span&gt;&lt;span class="kbd-readable"&gt;Option&lt;/span&gt;&lt;/kbd&gt;
+    &lt;kbd aerisKbd&gt;
+      &lt;svg [lucideIcon]="commandIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+      &lt;span class="kbd-readable"&gt;Command&lt;/span&gt;
+    &lt;/kbd&gt;
+    &lt;kbd aerisKbd&gt;
+      &lt;svg [lucideIcon]="shiftIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+      &lt;span class="kbd-readable"&gt;Shift&lt;/span&gt;
+    &lt;/kbd&gt;
+    &lt;kbd aerisKbd&gt;
+      &lt;span aria-hidden="true"&gt;⌥&lt;/span&gt;
+      &lt;span class="kbd-readable"&gt;Option&lt;/span&gt;
+    &lt;/kbd&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -232,7 +250,8 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="kbd-row kbd-custom"&gt;
-    &lt;kbd aerisKbd&gt;Space&lt;/kbd&gt;&lt;kbd aerisKbd&gt;Arrow Right&lt;/kbd&gt;
+    &lt;kbd aerisKbd&gt;Space&lt;/kbd&gt;
+    &lt;kbd aerisKbd&gt;Arrow Right&lt;/kbd&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>

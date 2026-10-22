@@ -188,16 +188,16 @@ import { AerisContextMenuModule, type AerisContextMenuItem } from '@aeris-ui/cor
       gap: 0.75rem;
       place-items: center;
       min-height: 9rem;
-      border: 1px dashed var(--border);
+      border: 1px dashed var(--aeris-border);
       border-radius: 1rem;
       background: color-mix(in srgb, var(--aeris-primary) 8%, transparent);
-      color: var(--text-2);
+      color: var(--aeris-text-2);
       font-weight: 700;
       text-align: center;
     }
   `
 })
-export class ContextMenuBasicBasicDemo {
+export class ContextMenuBasicDemo {
   protected readonly basicItems: readonly AerisContextMenuItem[] = [
     { label: 'Open' },
     { label: 'Rename' },
@@ -238,16 +238,16 @@ import { AerisContextMenuModule, type AerisContextMenuItem } from '@aeris-ui/cor
       gap: 0.75rem;
       place-items: center;
       min-height: 9rem;
-      border: 1px dashed var(--border);
+      border: 1px dashed var(--aeris-border);
       border-radius: 1rem;
       background: color-mix(in srgb, var(--aeris-primary) 8%, transparent);
-      color: var(--text-2);
+      color: var(--aeris-text-2);
       font-weight: 700;
       text-align: center;
     }
   `
 })
-export class ContextMenuSubmenusSubmenusDemo {
+export class ContextMenuSubmenusDemo {
   protected readonly submenuItems: readonly AerisContextMenuItem[] = [
     {
       label: 'New',
@@ -313,16 +313,16 @@ interface ApiRow {
       gap: 0.75rem;
       place-items: center;
       min-height: 9rem;
-      border: 1px dashed var(--border);
+      border: 1px dashed var(--aeris-border);
       border-radius: 1rem;
       background: color-mix(in srgb, var(--aeris-primary) 8%, transparent);
-      color: var(--text-2);
+      color: var(--aeris-text-2);
       font-weight: 700;
       text-align: center;
     }
   `
 })
-export class ContextMenuGlobalGlobalDemo {
+export class ContextMenuGlobalDemo {
   protected readonly tokens: readonly ApiRow[] = [
       {
         name: '--aeris-context-menu-z-index',
@@ -463,7 +463,7 @@ import { AerisContextMenuModule, type AerisContextMenuItem } from '@aeris-ui/cor
   templateUrl: './context-menu-template.demo.html',
   styleUrl: './context-menu-template.demo.scss'
 })
-export class ContextMenuTemplateTemplateDemo {
+export class ContextMenuTemplateDemo {
   protected readonly templateItems: readonly AerisContextMenuItem[] = [
     { label: 'Aeris Button', badge: 'New' },
     { label: 'Aeris ContextMenu', badge: 'New' },
@@ -528,28 +528,6 @@ export class ContextMenuTemplateTemplateDemo {
   gap: 0.75rem;
   width: 100%;
 }
-
-.context-menu-custom-item {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-}
-
-
-.context-menu-target {
-  display: grid;
-  gap: 0.75rem;
-  place-items: center;
-  min-height: 9rem;
-  border: 1px dashed var(--border);
-  border-radius: 1rem;
-  background: color-mix(in srgb, var(--aeris-primary) 8%, transparent);
-  color: var(--text-2);
-  font-weight: 700;
-  text-align: center;
-}
 ```
 
 ### Command
@@ -575,9 +553,7 @@ import { AerisContextMenuModule, type AerisContextMenuItem, type AerisContextMen
         [model]="commandItems"
         ariaLabel="Editor actions"
       />
-      <p class="context-menu-status" aria-live="polite">
-        Last action: {{ selectedAction }}
-      </p>
+      <p class="context-menu-status" aria-live="polite">Last action: {{ selectedAction }}</p>
     </div>
   `,
   styles: `
@@ -599,28 +575,9 @@ import { AerisContextMenuModule, type AerisContextMenuItem, type AerisContextMen
       color: var(--aeris-text-2);
       font-size: 0.8125rem;
     }
-
-    .context-menu-target {
-      display: grid;
-      gap: 0.75rem;
-      place-items: center;
-      min-height: 9rem;
-      border: 1px dashed var(--border);
-      border-radius: 1rem;
-      background: color-mix(in srgb, var(--aeris-primary) 8%, transparent);
-      color: var(--text-2);
-      font-weight: 700;
-      text-align: center;
-    }
-
-    .context-menu-status {
-      margin: 0.75rem 0 0;
-      color: var(--text-2);
-      font-size: 0.8125rem;
-    }
   `
 })
-export class ContextMenuCommandCommandDemo {
+export class ContextMenuCommandDemo {
   protected selectedAction = 'None';
 
   protected readonly commandItems: readonly AerisContextMenuItem[] = [
@@ -652,14 +609,12 @@ import { AerisContextMenu, AerisContextMenuModule, type AerisContextMenuItem } f
   imports: [AerisButton, AerisContextMenuModule],
   template: `
     <div>
-      <button aerisButton type="button" (click)="openManualMenu($event)">
-        Open menu
-      </button>
+      <button aerisButton type="button" (click)="openManualMenu($event)">Open menu</button>
       <aeris-context-menu #manualMenu [model]="manualItems" ariaLabel="Manual actions" />
     </div>
   `
 })
-export class ContextMenuProgrammaticProgrammaticDemo {
+export class ContextMenuProgrammaticDemo {
   protected readonly manualMenu = viewChild<AerisContextMenu>('manualMenu');
 
   protected readonly manualItems: readonly AerisContextMenuItem[] = [

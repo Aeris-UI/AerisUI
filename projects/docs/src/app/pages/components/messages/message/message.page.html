@@ -251,9 +251,7 @@
   &lt;div class="message-stack"&gt;
     &lt;div class="message-actions"&gt;
       &lt;button aerisButton type="button" (click)="addMessages()"&gt;Add messages&lt;/button&gt;
-      &lt;button aerisButton type="button" (click)="clearMessages()"&gt;
-        Clear messages
-      &lt;/button&gt;
+      &lt;button aerisButton type="button" (click)="clearMessages()"&gt;Clear messages&lt;/button&gt;
     &lt;/div&gt;
     &#64;for (message of dynamicMessages(); track message.id) &#123;
       &lt;aeris-message

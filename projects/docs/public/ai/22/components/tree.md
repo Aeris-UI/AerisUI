@@ -212,7 +212,7 @@ interface FileDetails {
     }
   `
 })
-export class TreeBasicBasicDemo {
+export class TreeBasicDemo {
   protected readonly files: readonly AerisTreeNode<FileDetails>[] = [
     {
       key: 'workspace',
@@ -262,9 +262,7 @@ interface FileDetails {
     <div class="tree-demo tree-demo--stack">
       <div class="tree-controls" aria-label="Tree expansion controls">
         <button aerisButton type="button" (click)="expandControlled()">Expand all</button>
-        <button aerisButton type="button" (click)="collapseControlled()">
-          Collapse all
-        </button>
+        <button aerisButton type="button" (click)="collapseControlled()">Collapse all</button>
       </div>
       <aeris-tree
         ariaLabel="Controlled project files"
@@ -297,7 +295,7 @@ interface FileDetails {
     }
   `
 })
-export class TreeControlledControlledExpansionDemo {
+export class TreeControlledDemo {
   private createFiles(): readonly AerisTreeNode<FileDetails>[] {
       return [
         {
@@ -425,7 +423,7 @@ interface FileDetails {
     }
   `
 })
-export class TreeSingleSelectionSingleSelectionDemo {
+export class TreeSingleSelectionDemo {
   private createFiles(): readonly AerisTreeNode<FileDetails>[] {
       return [
         {
@@ -548,7 +546,7 @@ interface FileDetails {
     }
   `
 })
-export class TreeMultipleSelectionMultipleSelectionDemo {
+export class TreeMultipleSelectionDemo {
   private createFiles(): readonly AerisTreeNode<FileDetails>[] {
       return [
         {
@@ -662,7 +660,7 @@ interface FileDetails {
     }
   `
 })
-export class TreeCheckboxSelectionCheckboxSelectionDemo {
+export class TreeCheckboxSelectionDemo {
   private createFiles(): readonly AerisTreeNode<FileDetails>[] {
       return [
         {
@@ -783,7 +781,7 @@ interface FileDetails {
     }
   `
 })
-export class TreeFilteringFilteringDemo {
+export class TreeFilteringDemo {
   protected readonly eventText = signal('No tree event yet.');
 
   private createFiles(): readonly AerisTreeNode<FileDetails>[] {
@@ -903,7 +901,7 @@ interface FileDetails {
     }
   `
 })
-export class TreeLazyLazyLoadingDemo {
+export class TreeLazyDemo {
   protected readonly lazyNodes = signal<readonly AerisTreeNode<FileDetails>[]>([
     {
       key: 'remote',
@@ -996,7 +994,7 @@ interface FileDetails {
     }
   `
 })
-export class TreeDragDropDragAndDropDemo {
+export class TreeDragDropDemo {
   private createFiles(): readonly AerisTreeNode<FileDetails>[] {
       return [
         {
@@ -1101,7 +1099,7 @@ interface FileDetails {
   templateUrl: './tree-template.demo.html',
   styleUrl: './tree-template.demo.scss'
 })
-export class TreeTemplateNodeTemplateDemo {
+export class TreeTemplateDemo {
   protected readonly files = this.createFiles();
   protected readonly basicExpanded = signal<readonly string[]>(['workspace', 'source']);
 }
@@ -1131,6 +1129,13 @@ export class TreeTemplateNodeTemplateDemo {
 #### CSS
 
 ```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
 .file-node {
   min-width: 0;
   display: flex;
@@ -1142,7 +1147,7 @@ export class TreeTemplateNodeTemplateDemo {
   width: 1rem;
   height: 1rem;
   flex: 0 0 auto;
-  color: var(--primary-text);
+  color: var(--aeris-primary-text);
 }
 
 .file-node strong,
@@ -1151,13 +1156,13 @@ export class TreeTemplateNodeTemplateDemo {
 }
 
 .file-node small {
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.6875rem;
 }
 
 .file-node__type {
   margin-left: auto;
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.6875rem;
 }
 ```
@@ -1185,7 +1190,7 @@ interface FileDetails {
   templateUrl: './tree-states.demo.html',
   styleUrl: './tree-states.demo.scss'
 })
-export class TreeStatesStatesDemo {
+export class TreeStatesDemo {
   protected readonly files = this.createFiles();
 
   private createFiles(): readonly AerisTreeNode<FileDetails>[] {
@@ -1357,7 +1362,7 @@ interface FileDetails {
     }
   `
 })
-export class TreeEventsEventsDemo {
+export class TreeEventsDemo {
   private createFiles(): readonly AerisTreeNode<FileDetails>[] {
       return [
         {

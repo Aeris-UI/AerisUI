@@ -363,7 +363,7 @@ type FileRecord = AerisTreeTableData & {
     }
   `
 })
-export class TreeTableBasicBasicDemo {
+export class TreeTableBasicDemo {
   protected readonly basicExpanded = signal<readonly string[]>(['workspace', 'source']);
 
 
@@ -461,7 +461,7 @@ type FileRecord = AerisTreeTableData & {
     }
   `
 })
-export class TreeTableControlledControlledExpansionDemo {
+export class TreeTableControlledDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, pinned: 'start', width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
@@ -544,7 +544,7 @@ type FileRecord = AerisTreeTableData & {
     }
   `
 })
-export class TreeTableSortingSingleAndMultipleSortingDemo {
+export class TreeTableSortingDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, pinned: 'start', width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
@@ -627,7 +627,7 @@ type FileRecord = AerisTreeTableData & {
     }
   `
 })
-export class TreeTableFilteringGlobalAndColumnFilteringDemo {
+export class TreeTableFilteringDemo {
   protected readonly eventText = signal('No TreeTable event yet.');
 
 
@@ -717,7 +717,7 @@ type FileRecord = AerisTreeTableData & {
     }
   `
 })
-export class TreeTableSingleSelectionSingleSelectionDemo {
+export class TreeTableSingleSelectionDemo {
   protected readonly eventText = signal('No TreeTable event yet.');
 
 
@@ -799,7 +799,7 @@ type FileRecord = AerisTreeTableData & {
     }
   `
 })
-export class TreeTableMultipleSelectionMultipleSelectionDemo {
+export class TreeTableMultipleSelectionDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, pinned: 'start', width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
@@ -874,7 +874,7 @@ type FileRecord = AerisTreeTableData & {
     }
   `
 })
-export class TreeTableCheckboxSelectionCheckboxSelectionDemo {
+export class TreeTableCheckboxSelectionDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, pinned: 'start', width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
@@ -987,7 +987,7 @@ type FileRecord = AerisTreeTableData & {
   templateUrl: './tree-table-selection-workflow.demo.html',
   styleUrl: './tree-table-selection-workflow.demo.scss'
 })
-export class TreeTableSelectionWorkflowSelectionWorkflowDemo {
+export class TreeTableSelectionWorkflowDemo {
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly files = this.createFiles();
@@ -1182,8 +1182,9 @@ export class TreeTableSelectionWorkflowSelectionWorkflowDemo {
 ```html
 <div class="selection-workflow">
   <aeris-toolbar variant="plain" role="group" ariaLabel="File bulk actions">
-    <span aerisToolbarStart aria-live="polite"
-      >{{ workflowSelection().length }} files selected across all root pages</span>
+    <span aerisToolbarStart aria-live="polite">
+      {{ workflowSelection().length }} files selected across all root pages
+    </span>
     <div aerisToolbarEnd>
       <button
         aerisButton
@@ -1331,7 +1332,7 @@ type FileRecord = AerisTreeTableData & {
     }
   `
 })
-export class TreeTablePaginationPaginationDemo {
+export class TreeTablePaginationDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, pinned: 'start', width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
@@ -1434,7 +1435,7 @@ type FileRecord = AerisTreeTableData & {
     }
   `
 })
-export class TreeTableEditingCellEditingDemo {
+export class TreeTableEditingDemo {
   protected readonly editingColumns: readonly AerisTreeTableColumn[] = FILE_COLUMNS.map(
       (column) => ({
         ...column,
@@ -1498,7 +1499,7 @@ import { AerisTreeTableModule, type AerisTreeTableCellEditable, type AerisTreeTa
   templateUrl: './tree-table-editing-permissions.demo.html',
   styleUrl: './tree-table-editing-permissions.demo.scss'
 })
-export class TreeTableEditingPermissionsEditingPermissionsDemo {
+export class TreeTableEditingPermissionsDemo {
   protected readonly permissionDefault = signal(true);
 
   protected readonly permissionColumns: readonly AerisTreeTableColumn[] = [
@@ -1575,7 +1576,7 @@ import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNod
   templateUrl: './tree-table-custom-editors.demo.html',
   styleUrl: './tree-table-custom-editors.demo.scss'
 })
-export class TreeTableCustomEditorsCustomEditorsDemo {
+export class TreeTableCustomEditorsDemo {
   protected readonly isDate = (value: unknown): value is Date => value instanceof Date;
 
   protected readonly customEditorColumns: readonly AerisTreeTableColumn[] = [
@@ -1636,8 +1637,7 @@ export class TreeTableCustomEditorsCustomEditorsDemo {
               [ariaLabel]="editor.ariaLabel"
               [value]="typeof draft === 'number' ? draft : null"
               (valueChange)="
-                editor.value.set($event);
-                editor.valid.set($event !== null && $event >= 0)
+                editor.value.set($event); editor.valid.set($event !== null && $event >= 0)
               "
               [invalid]="typeof draft !== 'number' || draft < 0"
               fluid
@@ -1741,7 +1741,7 @@ type FileRecord = AerisTreeTableData & {
   templateUrl: './tree-table-columns.demo.html',
   styleUrl: './tree-table-columns.demo.scss'
 })
-export class TreeTableColumnsColumnResizingAndReorderingDemo {
+export class TreeTableColumnsDemo {
   protected readonly eventText = signal('No TreeTable event yet.');
 
 
@@ -1840,7 +1840,7 @@ import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNod
   templateUrl: './tree-table-sticky-headers.demo.html',
   styleUrl: './tree-table-sticky-headers.demo.scss'
 })
-export class TreeTableStickyHeadersStickyHeadersDemo {
+export class TreeTableStickyHeadersDemo {
   protected readonly pinHeaders = signal(true);
 
   protected readonly pinningNodes = signal<readonly AerisTreeTableNode[]>(
@@ -1958,7 +1958,7 @@ import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNod
     }
   `
 })
-export class TreeTablePinnedColumnsPinnedColumnsDemo {
+export class TreeTablePinnedColumnsDemo {
   protected readonly pinningNodes = signal<readonly AerisTreeTableNode[]>(
       Array.from({ length: 24 }, (_, index) => ({
         key: `pin-${index + 1}`,
@@ -2023,7 +2023,7 @@ import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNod
   templateUrl: './tree-table-pinned-rows.demo.html',
   styleUrl: './tree-table-pinned-rows.demo.scss'
 })
-export class TreeTablePinnedRowsPinnedRowsDemo {
+export class TreeTablePinnedRowsDemo {
   protected readonly defaultPinRows: AerisTablePinnedRows = { top: ['pin-3'], bottom: ['pin-18'] };
 
   protected readonly pinRows = signal<AerisTablePinnedRows>(this.defaultPinRows);
@@ -2082,9 +2082,7 @@ export class TreeTablePinnedRowsPinnedRowsDemo {
     aerisButton
     variant="outline"
     [attr.aria-pressed]="pinRows().top.length > 0"
-    (click)="
-      pinRows.set(pinRows().top.length ? { top: [], bottom: [] } : defaultPinRows)
-    "
+    (click)="pinRows.set(pinRows().top.length ? { top: [], bottom: [] } : defaultPinRows)"
   >
     {{ pinRows().top.length ? 'Unpin rows' : 'Pin rows' }}
   </button>
@@ -2130,7 +2128,7 @@ import { AerisTreeTableModule, type AerisTreeTableColumn, type AerisTreeTableNod
   templateUrl: './tree-table-combined-pinning.demo.html',
   styleUrl: './tree-table-combined-pinning.demo.scss'
 })
-export class TreeTableCombinedPinningCombinedPinningDemo {
+export class TreeTableCombinedPinningDemo {
   protected readonly defaultPinRows: AerisTablePinnedRows = { top: ['pin-3'], bottom: ['pin-18'] };
 
   protected readonly pinningNodes = signal<readonly AerisTreeTableNode[]>(
@@ -2238,7 +2236,7 @@ type FileRecord = AerisTreeTableData & {
   templateUrl: './tree-table-scrolling.demo.html',
   styleUrl: './tree-table-scrolling.demo.scss'
 })
-export class TreeTableScrollingScrollingFrozenColumnsAndResponsiveStackingDemo {
+export class TreeTableScrollingDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, pinned: 'start', width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
@@ -2350,7 +2348,7 @@ type FileRecord = AerisTreeTableData & {
   templateUrl: './tree-table-lazy.demo.html',
   styleUrl: './tree-table-lazy.demo.scss'
 })
-export class TreeTableLazyLazyLoadingDemo {
+export class TreeTableLazyDemo {
   protected readonly lazyExpanded = signal<readonly string[]>([]);
 
   protected readonly lazyFirst = signal(0);
@@ -2487,7 +2485,7 @@ type FileRecord = AerisTreeTableData & {
   templateUrl: './tree-table-templates.demo.html',
   styleUrl: './tree-table-templates.demo.scss'
 })
-export class TreeTableTemplatesHeaderAndCellTemplatesDemo {
+export class TreeTableTemplatesDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, pinned: 'start', width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
@@ -2548,7 +2546,7 @@ export class TreeTableTemplatesHeaderAndCellTemplatesDemo {
 #### CSS
 
 ```css
-.column-heading[data-sorted] { color: var(--primary-text); }
+.column-heading[data-sorted] { color: var(--aeris-primary-text); }
 ```
 
 ### States
@@ -2576,7 +2574,7 @@ type FileRecord = AerisTreeTableData & {
   templateUrl: './tree-table-states.demo.html',
   styleUrl: './tree-table-states.demo.scss'
 })
-export class TreeTableStatesStatesDemo {
+export class TreeTableStatesDemo {
   protected readonly columns: readonly AerisTreeTableColumn[] = [
     { field: 'name', header: 'Name', sortable: true, filterable: true, pinned: 'start', width: '15rem' },
     { field: 'size', header: 'Size (KB)', sortable: true, filterable: true, align: 'end', width: '8rem' },
@@ -2621,11 +2619,7 @@ export class TreeTableStatesStatesDemo {
   </section>
   <section>
     <h3>Empty</h3>
-    <aeris-tree-table
-      ariaLabel="Empty project files"
-      [value]="[]"
-      [columns]="columns"
-    />
+    <aeris-tree-table ariaLabel="Empty project files" [value]="[]" [columns]="columns" />
   </section>
 </div>
 ```

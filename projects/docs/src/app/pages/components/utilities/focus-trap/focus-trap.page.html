@@ -42,9 +42,10 @@
   &lt;div class="focus-trap-flow"&gt;
     &lt;button aerisButton type="button" variant="outline"&gt;Before trapped region&lt;/button&gt;
     &lt;section class="focus-trap-card" aerisFocusTrap aria-label="Profile preferences"&gt;
-      &lt;label for="focus-trap-name"
-        &gt;Display name&lt;input id="focus-trap-name" aerisInputText autocomplete="name"
-      /&gt;&lt;/label&gt;
+      &lt;label for="focus-trap-name"&gt;
+        Display name
+        &lt;input id="focus-trap-name" aerisInputText autocomplete="name" /&gt;
+      &lt;/label&gt;
       &lt;aeris-checkbox&gt;Send product updates&lt;/aeris-checkbox&gt;
       &lt;button aerisButton type="button"&gt;Save preferences&lt;/button&gt;
     &lt;/section&gt;
@@ -106,13 +107,15 @@
       [aerisFocusTrap]="trapEnabled()"
       aria-label="Controlled sign-in region"
     &gt;
-      &lt;label for="controlled-trap-email"
-        &gt;Email address&lt;input
+      &lt;label for="controlled-trap-email"&gt;
+        Email address
+        &lt;input
           id="controlled-trap-email"
           aerisInputText
           type="email"
           autocomplete="email"
-      /&gt;&lt;/label&gt;
+        /&gt;
+      &lt;/label&gt;
       &lt;button aerisButton type="button"&gt;Continue&lt;/button&gt;
     &lt;/section&gt;
     &lt;p class="controlled-trap-status" aria-live="polite"&gt;
@@ -158,16 +161,15 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;section class="focus-trap-card" aerisFocusTrap aria-label="Team member form"&gt;
-    &lt;label for="dynamic-trap-name"
-      &gt;Name&lt;input id="dynamic-trap-name" aerisInputText autocomplete="name"
-    /&gt;&lt;/label&gt;
+    &lt;label for="dynamic-trap-name"&gt;
+      Name
+      &lt;input id="dynamic-trap-name" aerisInputText autocomplete="name" /&gt;
+    &lt;/label&gt;
     &#64;if (secondaryFieldVisible()) &#123;
-      &lt;label for="dynamic-trap-role"
-        &gt;Role&lt;input
-          id="dynamic-trap-role"
-          aerisInputText
-          autocomplete="organization-title"
-      /&gt;&lt;/label&gt;
+      &lt;label for="dynamic-trap-role"&gt;
+        Role
+        &lt;input id="dynamic-trap-role" aerisInputText autocomplete="organization-title" /&gt;
+      &lt;/label&gt;
     &#125;
     &lt;div class="dynamic-trap-actions"&gt;
       &lt;button
@@ -250,9 +252,10 @@
       aerisFocusTrap
       aria-label="Method demonstration"
     &gt;
-      &lt;label for="method-trap-project"
-        &gt;Project name&lt;input id="method-trap-project" aerisInputText
-      /&gt;&lt;/label&gt;
+      &lt;label for="method-trap-project"&gt;
+        Project name
+        &lt;input id="method-trap-project" aerisInputText /&gt;
+      &lt;/label&gt;
       &lt;button aerisButton type="button"&gt;Create project&lt;/button&gt;
     &lt;/section&gt;
   &lt;/div&gt;

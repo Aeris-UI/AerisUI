@@ -150,7 +150,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class InputBasicBasicDemo {
+export class InputBasicDemo {
 }
 ```
 
@@ -202,7 +202,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class InputComponentComponentValueDemo {
+export class InputComponentDemo {
   protected readonly componentText = signal('');
 }
 ```
@@ -223,7 +223,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './input-types.demo.html',
   styleUrl: './input-types.demo.scss'
 })
-export class InputTypesInputTypesDemo {
+export class InputTypesDemo {
 }
 ```
 
@@ -233,12 +233,7 @@ export class InputTypesInputTypesDemo {
 <div class="field-grid">
   <div class="field">
     <label for="input-text-type">Text</label>
-    <input
-      id="input-text-type"
-      aerisInputText
-      type="text"
-      placeholder="Project name"
-    />
+    <input id="input-text-type" aerisInputText type="text" placeholder="Project name" />
   </div>
   <div class="field">
     <label for="input-email-type">Email</label>
@@ -276,7 +271,7 @@ export class InputTypesInputTypesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -329,7 +324,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './input-sizes.demo.html',
   styleUrl: './input-sizes.demo.scss'
 })
-export class InputSizesSizesDemo {
+export class InputSizesDemo {
 }
 ```
 
@@ -382,8 +377,11 @@ export class InputSizesSizesDemo {
     align-items: stretch;
   }
 
-  .size-sample,
   .field-row > input {
+    width: 100%;
+  }
+
+  .size-sample {
     width: 100%;
   }
 }
@@ -405,7 +403,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './input-appearances.demo.html',
   styleUrl: './input-appearances.demo.scss'
 })
-export class InputAppearancesAppearancesDemo {
+export class InputAppearancesDemo {
 }
 ```
 
@@ -436,7 +434,7 @@ export class InputAppearancesAppearancesDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -502,7 +500,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     .field-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
       gap: 1.25rem;
     }
 
@@ -539,7 +537,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class InputStatesDisabledAndReadOnlyDemo {
+export class InputStatesDemo {
 }
 ```
 
@@ -559,7 +557,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './input-validation.demo.html',
   styleUrl: './input-validation.demo.scss'
 })
-export class InputValidationValidationDemo {
+export class InputValidationDemo {
   protected updateEmail(event: Event): void {
       this.email.set((event.target as HTMLInputElement).value);
     }
@@ -628,10 +626,6 @@ export class InputValidationValidationDemo {
 .field small.error {
   color: var(--aeris-danger);
 }
-
-.field small.error {
-  color: var(--aeris-danger);
-}
 ```
 
 ### Fluid layout
@@ -681,115 +675,79 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class InputFluidFluidLayoutDemo {
+export class InputFluidDemo {
 }
 ```
 
-### Icons and affixes
+### Icon composition
 
-Compose decorative icons and actions around the native input. Focus-within keeps the group visually unified.
+Use IconField for the shared shell and InputText's built-in clear action. No custom field styling is needed.
 
 #### TS
 
 ```ts
-import { Component, input } from '@angular/core';
-import { AerisButton } from '@aeris-ui/core/button';
+import { Component } from '@angular/core';
+import { AerisIconField } from '@aeris-ui/core/icon-field';
 import { AerisInputText } from '@aeris-ui/core/input-text';
-import { LucideDynamicIcon, LucideSearch, LucideX } from '@lucide/angular';
+import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
 
 @Component({
   selector: 'app-input-affixes-demo',
-  imports: [AerisButton, AerisInputText, LucideDynamicIcon],
-  templateUrl: './input-affixes.demo.html',
-  styleUrl: './input-affixes.demo.scss'
-})
-export class InputAffixesIconsAndAffixesDemo {
-
-  protected readonly icons = { Search: LucideSearch, X: LucideX };
-
-  protected clearSearch(input: HTMLInputElement): void {
-      input.value = '';
-      input.focus();
+  imports: [AerisIconField, AerisInputText, LucideDynamicIcon],
+  template: `
+    <div class="field">
+      <label for="project-search">Search projects</label>
+      <aeris-icon-field fluid>
+        <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+        <aeris-input-text
+          inputId="project-search"
+          type="search"
+          placeholder="Search by name"
+          clearable
+          clearButtonAriaLabel="Clear search"
+          fluid
+        />
+      </aeris-icon-field>
+    </div>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
     }
-}
-```
 
-#### HTML
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
 
-```html
-<div class="field">
-  <label for="project-search">Search projects</label>
-  <span class="input-affix">
-    <svg [lucideIcon]="icons.Search"></svg>
-    <input
-      #searchInput
-      id="project-search"
-      aerisInputText
-      type="search"
-      placeholder="Search by name"
-    />
-    <button
-      aerisButton
-      variant="ghost"
-      size="sm"
-      iconOnly
-      type="button"
-      aria-label="Clear search"
-      (click)="clearSearch(searchInput)"
-    >
-      <svg [lucideIcon]="icons.X"></svg>
-    </button>
-  </span>
-</div>
-```
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
 
-#### CSS
+    .field small.error {
+      color: var(--aeris-danger);
+    }
 
-```css
-.field {
-  min-width: 0;
-  display: grid;
-  align-content: start;
-  grid-auto-rows: max-content;
-  gap: 0.45rem;
-}
+    svg:where([lucideIcon]) {
+      width: var(--aeris-icon-size, 1rem);
+      height: var(--aeris-icon-size, 1rem);
+      flex-shrink: 0;
+      stroke-width: 2;
+    }
+  `
+})
+export class InputAffixesDemo {
 
-.field > label,
-.field > span:first-child {
-  color: var(--aeris-text);
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.field small {
-  color: var(--aeris-text-2);
-  font-size: 0.8125rem;
-  line-height: 1.5;
-}
-
-.field small.error {
-  color: var(--aeris-danger);
-}
-
-.input-affix {
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--aeris-border);
-  border-radius: var(--aeris-radius-sm);
-}
-
-.input-affix:focus-within {
-  border-color: var(--aeris-focus);
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--aeris-focus) 18%, transparent);
-}
-
-.input-affix input {
-  width: 100%;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
+  protected readonly icons = { Search: LucideSearch };
 }
 ```
 
@@ -847,7 +805,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class InputSignalsSignalStateDemo {
+export class InputSignalsDemo {
   protected readonly name = signal('');
 
   protected updateName(event: Event): void {
@@ -912,7 +870,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class InputClearableClearButtonDemo {
+export class InputClearableDemo {
   protected readonly search = signal('Aeris components');
 }
 ```
@@ -973,7 +931,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
     }
   `
 })
-export class InputSearchSearchFormDemo {
+export class InputSearchDemo {
   protected readonly searchQuery = signal('');
 
   protected readonly submittedSearch = signal('No search submitted');
@@ -1004,7 +962,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './input-angular-forms.demo.html',
   styleUrl: './input-angular-forms.demo.scss'
 })
-export class InputAngularFormsReactiveAndTemplateDrivenFormsDemo {
+export class InputAngularFormsDemo {
   protected readonly reactiveText =
     new FormControl('Reactive value');
 
@@ -1040,7 +998,7 @@ export class InputAngularFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 

@@ -326,11 +326,44 @@ export function buildAngularDemoSources(options: DemoCodeOptions): readonly Code
   const code = buildAngularDemoCode(options);
   if (!code.ts.trim()) return [];
 
-  return [
+  const sources: CodeSource[] = [
     { language: 'TypeScript', label: 'TS', code: code.ts },
     ...(code.html ? [{ language: 'HTML' as const, label: 'HTML' as const, code: code.html }] : []),
     ...(code.css ? [{ language: 'CSS' as const, label: 'CSS' as const, code: code.css }] : []),
   ];
+  return sources.map((source) => ({ ...source, code: portableExampleSource(source.code) }));
+}
+
+// Consumer examples use public tokens, not variables defined only by the docs shell.
+function portableExampleSource(source: string): string {
+  const aliases: Readonly<Record<string, string>> = {
+    '--primary': '--aeris-primary',
+    '--primary-hover': '--aeris-primary-hover',
+    '--primary-text': '--aeris-primary-text',
+    '--primary-soft': '--aeris-primary-soft',
+    '--accent': '--aeris-secondary',
+    '--warm': '--aeris-accent',
+    '--danger': '--aeris-danger',
+    '--success': '--aeris-success',
+    '--warning': '--aeris-warning',
+    '--page': '--aeris-page',
+    '--surface': '--aeris-surface',
+    '--surface-2': '--aeris-surface-2',
+    '--surface-3': '--aeris-surface-3',
+    '--text': '--aeris-text',
+    '--text-2': '--aeris-text-2',
+    '--text-3': '--aeris-text-3',
+    '--border': '--aeris-border',
+    '--focus': '--aeris-focus',
+    '--shadow-sm': '--aeris-shadow-sm',
+    '--radius-sm': '--aeris-radius-sm',
+    '--radius-md': '--aeris-radius-md',
+    '--radius-lg': '--aeris-radius-lg',
+    '--control-height': '--aeris-control-height',
+  };
+  return source.replace(/var\((--[\w-]+)(?=[,\s)])/g, (match, token: string) =>
+    aliases[token] ? `var(${aliases[token]}` : match,
+  );
 }
 
 function buildAngularDemoCode(options: DemoCodeOptions): BuiltDemoCode {
@@ -609,6 +642,8 @@ function sharedLayoutCss(template: string): string {
   display: flex;
   gap: 0.5625rem;
   min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
 }`);
     mediaRules.push(`.aeris-example-row {
     max-width: 100%;
@@ -638,7 +673,7 @@ function sharedLayoutCss(template: string): string {
     rules.push(`.field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }`);
     mediaRules.push(`.field-grid {
@@ -662,6 +697,10 @@ function sharedLayoutCss(template: string): string {
 }`);
     mediaRules.push(`.field-row {
     align-items: stretch;
+  }
+
+  .field-row > input {
+    width: 100%;
   }`);
   }
   if (hasClass(template, 'field')) {
@@ -701,10 +740,18 @@ function sharedLayoutCss(template: string): string {
   color: var(--aeris-text-2);
   font-size: 0.75rem;
 }`);
-    mediaRules.push(`.size-sample,
-  .field-row > input {
+    mediaRules.push(`.size-sample {
     width: 100%;
   }`);
+  }
+
+  if (/\blucideIcon\b/.test(template)) {
+    rules.push(`svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}`);
   }
 
   if (mediaRules.length) {
@@ -853,7 +900,7 @@ function declarationBlockComplete(
 }
 
 function componentClassName(anchor: string, title: string): string {
-  const raw = `${anchor}-${title}-demo`;
+  const raw = `${anchor.trim() || title}-demo`;
   const name = raw
     .replace(/^[^a-zA-Z]+/, '')
     .replace(/[^a-zA-Z0-9]+([a-zA-Z0-9])/g, (_match: string, char: string) => char.toUpperCase())

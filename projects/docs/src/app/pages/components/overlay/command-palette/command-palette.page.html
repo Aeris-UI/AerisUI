@@ -136,16 +136,12 @@
     [backdropBlur]="false"
     (executed)="recordExecution($event)"
   &gt;
-    &lt;ng-template aerisCommandPaletteFooter
-      &gt;&lt;div class="command-actions"&gt;
+    &lt;ng-template aerisCommandPaletteFooter&gt;
+      &lt;div class="command-actions"&gt;
+        &lt;button aerisButton variant="ghost" size="sm" (click)="controlledPalette.focus()"&gt;
+          Focus search
+        &lt;/button&gt;
         &lt;button
-          aerisButton
-          variant="ghost"
-          size="sm"
-          (click)="controlledPalette.focus()"
-        &gt;
-          Focus search&lt;/button&gt;
-          &lt;button
           aerisButton
           variant="outline"
           size="sm"
@@ -153,7 +149,8 @@
         &gt;
           Close
         &lt;/button&gt;
-      &lt;/div&gt;&lt;/ng-template&gt;
+      &lt;/div&gt;
+    &lt;/ng-template&gt;
   &lt;/aeris-command-palette&gt;
   &lt;p&gt;Query: &#123;&#123; controlledQuery() &#125;&#125;. Last command: &#123;&#123; lastExecuted() &#125;&#125;&lt;/p&gt;
 &lt;/div&gt;</code></pre>
@@ -188,14 +185,15 @@
     [commands]="commands"
   &gt;
     &lt;ng-template aerisCommandPaletteGroup let-group&gt;&#123;&#123; group &#125;&#125; commands&lt;/ng-template&gt;
-    &lt;ng-template aerisCommandPaletteItem let-command let-active="active"
-      &gt;&lt;span class="command-item"
-        &gt;&lt;svg [lucideIcon]="searchIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+    &lt;ng-template aerisCommandPaletteItem let-command let-active="active"&gt;
+      &lt;span class="command-item"&gt;
+        &lt;svg [lucideIcon]="searchIcon" aria-hidden="true"&gt;&lt;/svg&gt;
         &lt;span&gt;&#123;&#123; command.label &#125;&#125;&lt;/span&gt;
         &#64;if (active) &#123;
           &lt;small&gt;Enter&lt;/small&gt;
         &#125;
-      &lt;/span&gt;&lt;/ng-template&gt;
+      &lt;/span&gt;
+    &lt;/ng-template&gt;
   &lt;/aeris-command-palette&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
@@ -262,17 +260,17 @@
     [commands]="commands"
     [loading]="loading()"
     loadingMessage="Fetching commands"
-    &gt;&lt;ng-template aerisCommandPaletteLoading
-      &gt;Fetching commands…&lt;/ng-template&gt;
-      &lt;/aeris-command-palette&gt;
+  &gt;
+    &lt;ng-template aerisCommandPaletteLoading&gt;Fetching commands…&lt;/ng-template&gt;
+  &lt;/aeris-command-palette&gt;
   &lt;aeris-command-palette
     inline
     searchAriaLabel="Empty commands"
     [commands]="[]"
     emptyMessage="No commands available"
-    &gt;&lt;ng-template aerisCommandPaletteEmpty
-      &gt;No commands available.&lt;/ng-template&gt;
-      &lt;/aeris-command-palette&gt;
+  &gt;
+    &lt;ng-template aerisCommandPaletteEmpty&gt;No commands available.&lt;/ng-template&gt;
+  &lt;/aeris-command-palette&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
             <app-form-demo
@@ -292,8 +290,9 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="command-demo"&gt;
   &lt;button aerisButton variant="outline" (click)="shortcutOpen.set(true)"&gt;
-    Open shortcut palette&lt;/button&gt;
-    &lt;aeris-command-palette
+    Open shortcut palette
+  &lt;/button&gt;
+  &lt;aeris-command-palette
     title="Shortcut commands"
     [(open)]="shortcutOpen"
     [commands]="commands"

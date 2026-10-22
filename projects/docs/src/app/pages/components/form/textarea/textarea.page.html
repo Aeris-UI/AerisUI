@@ -168,12 +168,22 @@
                 <label>Large<textarea aerisTextarea size="lg" rows="3" fluid></textarea></label>
               </div>
               <pre code><code ngNonBindable>&lt;div class="textarea-size-grid"&gt;
-  &lt;label
-    &gt;Extra small&lt;textarea aerisTextarea size="xs" rows="2" fluid&gt;&lt;/textarea&gt;
+  &lt;label&gt;
+    Extra small
+    &lt;textarea aerisTextarea size="xs" rows="2" fluid&gt;&lt;/textarea&gt;
   &lt;/label&gt;
-  &lt;label&gt;Small&lt;textarea aerisTextarea size="sm" rows="2" fluid&gt;&lt;/textarea&gt;&lt;/label&gt;
-  &lt;label&gt;Medium&lt;textarea aerisTextarea size="md" rows="3" fluid&gt;&lt;/textarea&gt;&lt;/label&gt;
-  &lt;label&gt;Large&lt;textarea aerisTextarea size="lg" rows="3" fluid&gt;&lt;/textarea&gt;&lt;/label&gt;
+  &lt;label&gt;
+    Small
+    &lt;textarea aerisTextarea size="sm" rows="2" fluid&gt;&lt;/textarea&gt;
+  &lt;/label&gt;
+  &lt;label&gt;
+    Medium
+    &lt;textarea aerisTextarea size="md" rows="3" fluid&gt;&lt;/textarea&gt;
+  &lt;/label&gt;
+  &lt;label&gt;
+    Large
+    &lt;textarea aerisTextarea size="lg" rows="3" fluid&gt;&lt;/textarea&gt;
+  &lt;/label&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 
@@ -200,12 +210,7 @@
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;div class="field"&gt;
     &lt;label for="textarea-outline"&gt;Outline&lt;/label&gt;
-    &lt;textarea
-      id="textarea-outline"
-      aerisTextarea
-      appearance="outline"
-      fluid
-    &gt;&lt;/textarea&gt;
+    &lt;textarea id="textarea-outline" aerisTextarea appearance="outline" fluid&gt;&lt;/textarea&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
     &lt;label for="textarea-filled"&gt;Filled&lt;/label&gt;
@@ -295,17 +300,17 @@ Approved content</textarea>
                 </div>
               </div>
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
-                &lt;div class="field"&gt;
-                  &lt;label for="textarea-disabled"&gt;Disabled&lt;/label&gt;
-                  &lt;textarea id="textarea-disabled" aerisTextarea fluid disabled&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="textarea-disabled"&gt;Disabled&lt;/label&gt;
+    &lt;textarea id="textarea-disabled" aerisTextarea fluid disabled&gt;
 Unavailable content&lt;/textarea&gt;
-                &lt;/div&gt;
-                &lt;div class="field"&gt;
-                  &lt;label for="textarea-readonly"&gt;Read-only&lt;/label&gt;
-                  &lt;textarea id="textarea-readonly" aerisTextarea fluid readonly&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label for="textarea-readonly"&gt;Read-only&lt;/label&gt;
+    &lt;textarea id="textarea-readonly" aerisTextarea fluid readonly&gt;
 Approved content&lt;/textarea&gt;
-                &lt;/div&gt;
-              &lt;/div&gt;</code></pre>
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
             </app-form-demo>
 
             <app-form-demo
@@ -355,9 +360,9 @@ Approved content&lt;/textarea&gt;
     class="validation-message"
     [class.error]="feedbackInvalid()"
     aria-live="polite"
-    &gt;&#123;&#123;
-      feedbackInvalid() ? 'Enter at least 10 characters.' : 'Minimum 10 characters.'
-    &#125;&#125;&lt;/small&gt;
+  &gt;
+    &#123;&#123; feedbackInvalid() ? 'Enter at least 10 characters.' : 'Minimum 10 characters.' &#125;&#125;
+  &lt;/small&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 

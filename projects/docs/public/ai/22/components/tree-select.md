@@ -169,8 +169,7 @@ import { AerisTreeSelect, type AerisTreeNode, type AerisTreeSelectChangeEvent } 
         fluid
         (changed)="recordChange($event)"
       />
-      <small aria-live="polite"
-        >{{ lastChange() }}. Value: {{ workspace() || 'None' }}</small>
+      <small aria-live="polite">{{ lastChange() }}. Value: {{ workspace() || 'None' }}</small>
     </div>
   `,
   styles: `
@@ -199,9 +198,25 @@ import { AerisTreeSelect, type AerisTreeNode, type AerisTreeSelectChangeEvent } 
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .tree-size-grid label,
+    .tree-state-grid .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      gap: 0.5rem;
+    }
+
+    .tree-size-grid label > span,
+    .tree-state-grid .field > span,
+    .tree-state-grid .field > label {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 650;
+    }
   `
 })
-export class TreeSelectBasicBasicDemo {
+export class TreeSelectBasicDemo {
   protected readonly lastChange = signal('No selection yet.');
 
   protected recordChange(event: AerisTreeSelectChangeEvent): void {
@@ -296,9 +311,25 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .tree-size-grid label,
+    .tree-state-grid .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      gap: 0.5rem;
+    }
+
+    .tree-size-grid label > span,
+    .tree-state-grid .field > span,
+    .tree-state-grid .field > label {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 650;
+    }
   `
 })
-export class TreeSelectCheckboxCheckboxSelectionDemo {
+export class TreeSelectCheckboxDemo {
   protected readonly workspace = signal<string | null>('product');
 
   protected readonly nodes: readonly AerisTreeNode[] = [
@@ -404,9 +435,25 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
     .field small.error {
       color: var(--aeris-danger);
     }
+
+    .tree-size-grid label,
+    .tree-state-grid .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      gap: 0.5rem;
+    }
+
+    .tree-size-grid label > span,
+    .tree-state-grid .field > span,
+    .tree-state-grid .field > label {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 650;
+    }
   `
 })
-export class TreeSelectFilterFilteringDemo {
+export class TreeSelectFilterDemo {
   protected readonly workspace = signal<string | null>('product');
 
   protected readonly filteredValue = signal<string | null>(null);
@@ -474,7 +521,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
   templateUrl: './tree-select-templates.demo.html',
   styleUrl: './tree-select-templates.demo.scss'
 })
-export class TreeSelectTemplatesTemplatesDemo {
+export class TreeSelectTemplatesDemo {
   protected readonly templateValue = signal<string | null>('workspace-web');
 
   protected readonly workspace =
@@ -531,10 +578,10 @@ export class TreeSelectTemplatesTemplatesDemo {
         {{ nodes[0]?.label }}
       </span>
     </ng-template>
-    <ng-template aerisTreeSelectHeader
-      ><strong>Choose destination</strong></ng-template>
-    <ng-template aerisTreeSelectFooter
-      ><small>Disabled nodes remain visible but unavailable.</small></ng-template>
+    <ng-template aerisTreeSelectHeader><strong>Choose destination</strong></ng-template>
+    <ng-template aerisTreeSelectFooter>
+      <small>Disabled nodes remain visible but unavailable.</small>
+    </ng-template>
   </aeris-tree-select>
 </div>
 ```
@@ -568,14 +615,24 @@ export class TreeSelectTemplatesTemplatesDemo {
   color: var(--aeris-danger);
 }
 
-.tree-node-template,
-.tree-value-template {
-  display: inline-flex;
-  align-items: center;
+.tree-size-grid label,
+.tree-state-grid .field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
   gap: 0.5rem;
 }
 
-.tree-node-template {
+.tree-size-grid label > span,
+.tree-state-grid .field > span,
+.tree-state-grid .field > label {
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.tree-node-template,
+.tree-value-template {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -585,7 +642,7 @@ export class TreeSelectTemplatesTemplatesDemo {
   width: 0.625rem;
   height: 0.625rem;
   border-radius: 999px;
-  background: var(--primary);
+  background: var(--aeris-primary);
 }
 ```
 
@@ -606,7 +663,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
   templateUrl: './tree-select-sizes.demo.html',
   styleUrl: './tree-select-sizes.demo.scss'
 })
-export class TreeSelectSizesSizesDemo {
+export class TreeSelectSizesDemo {
   protected readonly workspace = signal<string | null>('product');
 
   protected readonly nodes: readonly AerisTreeNode[] = [
@@ -659,37 +716,41 @@ export class TreeSelectSizesSizesDemo {
 
 ```html
 <div class="tree-size-grid">
-  <label
-    ><span>Extra small</span>
+  <label>
+    <span>Extra small</span>
     <aeris-tree-select
       ariaLabel="Extra small tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
       size="xs"
-  /></label>
-  <label
-    ><span>Small</span>
+    />
+  </label>
+  <label>
+    <span>Small</span>
     <aeris-tree-select
       ariaLabel="Small tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
       size="sm"
-  /></label>
-  <label
-    ><span>Medium</span>
+    />
+  </label>
+  <label>
+    <span>Medium</span>
     <aeris-tree-select
       ariaLabel="Medium tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
-  /></label>
-  <label
-    ><span>Large</span>
+    />
+  </label>
+  <label>
+    <span>Large</span>
     <aeris-tree-select
       ariaLabel="Large tree select"
       [nodes]="nodes"
       [value]="'workspace-design'"
       size="lg"
-  /></label>
+    />
+  </label>
 </div>
 ```
 
@@ -745,7 +806,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
   templateUrl: './tree-select-states.demo.html',
   styleUrl: './tree-select-states.demo.scss'
 })
-export class TreeSelectStatesAppearancesAndStatesDemo {
+export class TreeSelectStatesDemo {
   protected readonly workspace = signal<string | null>('product');
 
   protected readonly invalidValue = signal<string | null>(null);
@@ -808,7 +869,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
       [value]="'workspace-design'"
       appearance="filled"
       fluid
-    /><small class="state-message" aria-hidden="true">&nbsp;</small>
+    />
+    <small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
     <label for="tree-invalid">Required</label>
@@ -835,7 +897,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
       [value]="'workspace-design'"
       disabled
       fluid
-    /><small class="state-message" aria-hidden="true">&nbsp;</small>
+    />
+    <small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
   <div class="field">
     <span>Empty</span>
@@ -844,7 +907,8 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
       [nodes]="[]"
       emptyMessage="No destinations yet"
       fluid
-    /><small class="state-message" aria-hidden="true">&nbsp;</small>
+    />
+    <small class="state-message" aria-hidden="true">&nbsp;</small>
   </div>
 </div>
 ```
@@ -872,10 +936,6 @@ export class TreeSelectStatesAppearancesAndStatesDemo {
   color: var(--aeris-text-2);
   font-size: 0.8125rem;
   line-height: 1.5;
-}
-
-.field small.error {
-  color: var(--aeris-danger);
 }
 
 .field small.error {
@@ -936,7 +996,7 @@ import { AerisTreeSelect, type AerisTreeNode } from '@aeris-ui/core/tree-select'
   templateUrl: './tree-select-forms.demo.html',
   styleUrl: './tree-select-forms.demo.scss'
 })
-export class TreeSelectFormsReactiveAndTemplateDrivenFormsDemo {
+export class TreeSelectFormsDemo {
   protected readonly workspace = signal<string | null>('product');
 
   protected readonly nodes: readonly AerisTreeNode[] = [

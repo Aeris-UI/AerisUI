@@ -224,12 +224,12 @@ class AuditDialogContent {
 
     .dynamic-dialog-status {
       margin-top: 0.875rem;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class DynamicDialogBasicBasicDemo {
+export class DynamicDialogBasicDemo {
   private readonly dialogService = inject(AerisDynamicDialogService);
 
   protected openAuditDialog(): void {
@@ -322,12 +322,12 @@ class ReleaseDialogContent {
 
     .dynamic-dialog-status {
       margin-top: 0.875rem;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class DynamicDialogDataDataAndInputsDemo {
+export class DynamicDialogDataDemo {
   private readonly dialogService = inject(AerisDynamicDialogService);
 
   protected openReleaseDialog(): void {
@@ -429,12 +429,18 @@ class ReleaseDialogContent {
 
     .dynamic-dialog-status {
       margin-top: 0.875rem;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
+      font-size: 0.8125rem;
+    }
+
+    .dynamic-dialog-status {
+      margin-top: 0.875rem;
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class DynamicDialogResultCloseResultDemo {
+export class DynamicDialogResultDemo {
   private readonly dialogService = inject(AerisDynamicDialogService);
 
   protected openReleaseDialog(): void {
@@ -537,12 +543,12 @@ class AuditDialogContent {
 
     .dynamic-dialog-status {
       margin-top: 0.875rem;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class DynamicDialogOptionsDialogOptionsDemo {
+export class DynamicDialogOptionsDemo {
   private readonly dialogService = inject(AerisDynamicDialogService);
 
   protected openUtilityDialog(): void {
@@ -608,9 +614,7 @@ class ManageDialogContent {
   template: `
     <div>
       <div class="dynamic-dialog-controls">
-        <button aerisButton type="button" (click)="openTwoDialogs()">
-          Open two dialogs
-        </button>
+        <button aerisButton type="button" (click)="openTwoDialogs()">Open two dialogs</button>
       </div>
     </div>
   `,
@@ -623,12 +627,25 @@ class ManageDialogContent {
 
     .dynamic-dialog-status {
       margin-top: 0.875rem;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
+    }
+
+    .dynamic-dialog-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 42rem) {
+      .dynamic-dialog-controls {
+          align-items: stretch;
+          flex-direction: column;
+        }
     }
   `
 })
-export class DynamicDialogManageManageReferencesDemo {
+export class DynamicDialogManageDemo {
   private readonly dialogService = inject(AerisDynamicDialogService);
 
   protected openTwoDialogs(): void {

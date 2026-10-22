@@ -118,12 +118,7 @@
               <pre code><code ngNonBindable>&lt;div class="field-grid"&gt;
   &lt;div class="field"&gt;
     &lt;label for="input-text-type"&gt;Text&lt;/label&gt;
-    &lt;input
-      id="input-text-type"
-      aerisInputText
-      type="text"
-      placeholder="Project name"
-    /&gt;
+    &lt;input id="input-text-type" aerisInputText type="text" placeholder="Project name" /&gt;
   &lt;/div&gt;
   &lt;div class="field"&gt;
     &lt;label for="input-email-type"&gt;Email&lt;/label&gt;
@@ -331,57 +326,36 @@
 
             <app-form-demo
               id="input-affixes"
-              title="Icons and affixes"
-              description="Compose decorative icons and actions around the native input. Focus-within keeps the group visually unified."
-              [cssCode]="affixCssCode"
+              title="Icon composition"
+              description="Use IconField for the shared shell and InputText's built-in clear action. No custom field styling is needed."
             >
               <div preview class="field">
                 <label for="project-search">Search projects</label>
-                <span class="input-affix">
-                  <svg [lucideIcon]="icons.Search"></svg>
-                  <input
-                    #searchInput
-                    id="project-search"
-                    aerisInputText
+                <aeris-icon-field fluid>
+                  <svg aerisIcon [lucideIcon]="icons.Search"></svg>
+                  <aeris-input-text
+                    inputId="project-search"
                     type="search"
                     placeholder="Search by name"
+                    clearable
+                    clearButtonAriaLabel="Clear search"
+                    fluid
                   />
-                  <button
-                    aerisButton
-                    variant="ghost"
-                    size="sm"
-                    iconOnly
-                    type="button"
-                    aria-label="Clear search"
-                    (click)="clearSearch(searchInput)"
-                  >
-                    <svg [lucideIcon]="icons.X"></svg>
-                  </button>
-                </span>
+                </aeris-icon-field>
               </div>
               <pre code><code ngNonBindable>&lt;div class="field"&gt;
   &lt;label for="project-search"&gt;Search projects&lt;/label&gt;
-  &lt;span class="input-affix"&gt;
-    &lt;svg [lucideIcon]="icons.Search"&gt;&lt;/svg&gt;
-    &lt;input
-      #searchInput
-      id="project-search"
-      aerisInputText
+  &lt;aeris-icon-field fluid&gt;
+    &lt;svg aerisIcon [lucideIcon]="icons.Search"&gt;&lt;/svg&gt;
+    &lt;aeris-input-text
+      inputId="project-search"
       type="search"
       placeholder="Search by name"
+      clearable
+      clearButtonAriaLabel="Clear search"
+      fluid
     /&gt;
-    &lt;button
-      aerisButton
-      variant="ghost"
-      size="sm"
-      iconOnly
-      type="button"
-      aria-label="Clear search"
-      (click)="clearSearch(searchInput)"
-    &gt;
-      &lt;svg [lucideIcon]="icons.X"&gt;&lt;/svg&gt;
-    &lt;/button&gt;
-  &lt;/span&gt;
+  &lt;/aeris-icon-field&gt;
 &lt;/div&gt;</code></pre>
             </app-form-demo>
 

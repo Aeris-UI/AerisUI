@@ -142,7 +142,7 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
   templateUrl: './inplace-basic.demo.html',
   styleUrl: './inplace-basic.demo.scss'
 })
-export class InplaceBasicBasicDemo {
+export class InplaceBasicDemo {
 }
 ```
 
@@ -200,6 +200,13 @@ export class InplaceBasicBasicDemo {
   margin: 0;
   overflow-wrap: anywhere;
 }
+
+@media (max-width: 36rem) {
+  .inplace-details,
+    .inplace-photo {
+      grid-template-columns: 1fr;
+    }
+}
 ```
 
 ### Controlled
@@ -219,7 +226,7 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
   templateUrl: './inplace-controlled.demo.html',
   styleUrl: './inplace-controlled.demo.scss'
 })
-export class InplaceControlledControlledDemo {
+export class InplaceControlledDemo {
   protected readonly controlledActive = signal(false);
 
   protected activateControlled(): void {
@@ -242,9 +249,7 @@ export class InplaceControlledControlledDemo {
 <div>
   <div class="inplace-controlled">
     <div class="inplace-actions">
-      <button aerisButton type="button" (click)="activateControlled()">
-        Activate
-      </button>
+      <button aerisButton type="button" (click)="activateControlled()">Activate</button>
       <button
         aerisButton
         variant="solid"
@@ -254,19 +259,13 @@ export class InplaceControlledControlledDemo {
       >
         Deactivate
       </button>
-      <button
-        aerisButton
-        variant="outline"
-        type="button"
-        (click)="toggleControlled()"
-      >
+      <button aerisButton variant="outline" type="button" (click)="toggleControlled()">
         Toggle
       </button>
     </div>
     <aeris-inplace label="Show release notes" [(active)]="controlledActive">
       <p class="inplace-note">
-        Version 1.0 adds accessible components, responsive layouts, and theme
-        controls.
+        Version 1.0 adds accessible components, responsive layouts, and theme controls.
       </p>
     </aeris-inplace>
     <p class="inplace-note" aria-live="polite">
@@ -279,18 +278,23 @@ export class InplaceControlledControlledDemo {
 #### CSS
 
 ```css
-.inplace-controlled {
+.inplace-controlled,
+.inplace-editor,
+.inplace-activity {
   display: grid;
   gap: 1rem;
 }
 
-.inplace-actions {
+.inplace-actions,
+.inplace-editor__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.625rem;
 }
 
-.inplace-note {
+.inplace-note,
+.inplace-status,
+.inplace-activity p {
   margin: 0;
   color: var(--aeris-text-2);
 }
@@ -314,7 +318,7 @@ import { AerisInputText } from '@aeris-ui/core/input-text';
   templateUrl: './inplace-input.demo.html',
   styleUrl: './inplace-input.demo.scss'
 })
-export class InplaceInputInlineEditingDemo {
+export class InplaceInputDemo {
   protected readonly savedName = signal('Maya Chen');
   protected readonly draftName = signal('Maya Chen');
   protected readonly editStatus = signal('Profile name is Maya Chen.');
@@ -345,8 +349,10 @@ export class InplaceInputInlineEditingDemo {
 <div>
   <aeris-inplace ariaLabel="Edit profile name">
     <ng-template aerisInplaceDisplay>
-      <span
-        >Name: <strong>{{ savedName() }}</strong></span>
+      <span>
+        Name:
+        <strong>{{ savedName() }}</strong>
+      </span>
     </ng-template>
     <ng-template aerisInplaceContent let-close="close">
       <div class="inplace-editor">
@@ -379,20 +385,33 @@ export class InplaceInputInlineEditingDemo {
 #### CSS
 
 ```css
-.inplace-editor {
+.inplace-controlled,
+.inplace-editor,
+.inplace-activity {
   display: grid;
-  gap: 0.875rem;
+  gap: 1rem;
 }
 
+.inplace-actions,
 .inplace-editor__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.625rem;
 }
 
-.inplace-status {
-  margin: 0.75rem 0 0;
+.inplace-note,
+.inplace-status,
+.inplace-activity p {
+  margin: 0;
   color: var(--aeris-text-2);
+}
+
+.inplace-editor {
+  gap: 0.875rem;
+}
+
+.inplace-status {
+  margin-top: 0.75rem;
 }
 ```
 
@@ -413,7 +432,7 @@ import { NgOptimizedImage } from '@angular/common';
   templateUrl: './inplace-media.demo.html',
   styleUrl: './inplace-media.demo.scss'
 })
-export class InplaceMediaArbitraryContentDemo {
+export class InplaceMediaDemo {
 }
 ```
 
@@ -490,9 +509,10 @@ export class InplaceMediaArbitraryContentDemo {
 }
 
 @media (max-width: 36rem) {
-  .inplace-photo {
-    grid-template-columns: 1fr;
-  }
+  .inplace-details,
+    .inplace-photo {
+      grid-template-columns: 1fr;
+    }
 }
 ```
 
@@ -512,7 +532,7 @@ import { AerisInplaceModule, type AerisInplaceStateEvent } from '@aeris-ui/core/
   templateUrl: './inplace-lazy.demo.html',
   styleUrl: './inplace-lazy.demo.scss'
 })
-export class InplaceLazyLazyContentDemo {
+export class InplaceLazyDemo {
   protected readonly lazyLoaded = signal(false);
   protected readonly lazyActivations = signal(0);
 
@@ -529,11 +549,7 @@ export class InplaceLazyLazyContentDemo {
 
 ```html
 <div>
-  <aeris-inplace
-    label="View recent activity"
-    closable
-    (activated)="loadActivity($event)"
-  >
+  <aeris-inplace label="View recent activity" closable (activated)="loadActivity($event)">
     <ng-template aerisInplaceContent>
       <div class="inplace-activity">
         @if (lazyLoaded()) {
@@ -553,8 +569,21 @@ export class InplaceLazyLazyContentDemo {
 #### CSS
 
 ```css
+.inplace-controlled,
+.inplace-editor,
 .inplace-activity {
   display: grid;
+  gap: 1rem;
+}
+
+.inplace-note,
+.inplace-status,
+.inplace-activity p {
+  margin: 0;
+  color: var(--aeris-text-2);
+}
+
+.inplace-activity {
   gap: 0.75rem;
 }
 
@@ -563,11 +592,6 @@ export class InplaceLazyLazyContentDemo {
   gap: 0.5rem;
   margin: 0;
   padding-inline-start: 1.25rem;
-}
-
-.inplace-activity p {
-  margin: 0;
-  color: var(--aeris-text-2);
 }
 ```
 
@@ -603,23 +627,15 @@ import { AerisInplaceModule } from '@aeris-ui/core/inplace';
 
     .custom-inplace {
       --aeris-inplace-radius: 1rem;
-      --aeris-inplace-display-hover: color-mix(
-        in srgb,
-        var(--aeris-primary) 14%,
-        var(--aeris-surface)
-      );
-      --aeris-inplace-content-border: color-mix(
-        in srgb,
-        var(--aeris-primary) 48%,
-        var(--aeris-border)
-      );
+      --aeris-inplace-display-hover: color-mix(in srgb, var(--aeris-primary) 14%, var(--aeris-surface));
+      --aeris-inplace-content-border: color-mix(in srgb, var(--aeris-primary) 48%, var(--aeris-border));
       --aeris-inplace-content-padding: 1.5rem;
       --aeris-inplace-content-shadow: 0 1rem 2.5rem
         color-mix(in srgb, var(--aeris-primary) 18%, transparent);
     }
   `
 })
-export class InplaceTokensTokenCustomizationDemo {
+export class InplaceTokensDemo {
 }
 ```
 

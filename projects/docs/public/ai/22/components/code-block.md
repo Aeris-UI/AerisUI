@@ -128,7 +128,7 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     <div><aeris-code-block [code]="exampleCode" language="typescript" /></div>
   `
 })
-export class CodeBlockBasicBasicDemo {
+export class CodeBlockBasicDemo {
   protected readonly exampleCode = `export interface Greeting {
     readonly message: string;
   }
@@ -156,7 +156,7 @@ import { AerisCodeBlockModule, type AerisCodeSource } from '@aeris-ui/core/code-
     <div><aeris-code-block [sources]="sourceFiles" /></div>
   `
 })
-export class CodeBlockSourcesSourceTabsDemo {
+export class CodeBlockSourcesDemo {
   protected readonly sourceFiles: readonly AerisCodeSource[] = [
       { label: 'greeting.html', language: 'html', code: '<h1>{{ greeting }}</h1>' },
       {
@@ -193,7 +193,7 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     </div>
   `
 })
-export class CodeBlockLinesLineNumbersAndFocusedLinesDemo {
+export class CodeBlockLinesDemo {
   protected readonly exampleCode = `export interface Greeting {
     readonly message: string;
   }
@@ -223,7 +223,7 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     </div>
   `
 })
-export class CodeBlockWrapWrappingDemo {
+export class CodeBlockWrapDemo {
   protected readonly longCode = Array.from(
       { length: 28 },
       (_, index) =>
@@ -251,7 +251,7 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     </div>
   `
 })
-export class CodeBlockScrollScrollingDemo {
+export class CodeBlockScrollDemo {
   protected readonly longCode = Array.from(
       { length: 28 },
       (_, index) =>
@@ -295,7 +295,7 @@ import { AerisCodeBlockModule, type AerisCodeCopyEvent } from '@aeris-ui/core/co
     }
   `
 })
-export class CodeBlockCopyCopyEventsAndLabelsDemo {
+export class CodeBlockCopyDemo {
   protected readonly exampleCode = `export interface Greeting {
     readonly message: string;
   }
@@ -340,7 +340,7 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     </div>
   `
 })
-export class CodeBlockPlainPlainTextDemo {
+export class CodeBlockPlainDemo {
 }
 ```
 
@@ -376,7 +376,7 @@ import { AerisCodeBlockModule } from '@aeris-ui/core/code-block';
     }
   `
 })
-export class CodeBlockCustomTokenCustomizationDemo {
+export class CodeBlockCustomDemo {
   protected readonly exampleCode = `export interface Greeting {
     readonly message: string;
   }

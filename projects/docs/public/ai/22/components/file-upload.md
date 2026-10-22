@@ -197,12 +197,12 @@ import { AerisFileUploadModule, type AerisFileUploadSelectEvent } from '@aeris-u
   styles: `
     .demo-status {
       margin: 0.875rem 0 0;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class FileUploadBasicBasicDemo {
+export class FileUploadBasicDemo {
   protected readonly selectedSummary = signal('No selection yet.');
 
   protected recordSelection(event: AerisFileUploadSelectEvent): void {
@@ -240,12 +240,12 @@ import { AerisFileUploadModule } from '@aeris-ui/core/file-upload';
   styles: `
     .demo-status {
       margin: 0.875rem 0 0;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class FileUploadAutoAutoDemo {
+export class FileUploadAutoDemo {
 }
 ```
 
@@ -274,7 +274,7 @@ import { AerisFileUploadModule } from '@aeris-ui/core/file-upload';
     </div>
   `
 })
-export class FileUploadAdvancedAdvancedDemo {
+export class FileUploadAdvancedDemo {
 }
 ```
 
@@ -307,12 +307,12 @@ import { AerisFileUploadModule, type AerisFileUploadRejectedFile } from '@aeris-
   styles: `
     .demo-status {
       margin: 0.875rem 0 0;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class FileUploadValidationValidationDemo {
+export class FileUploadValidationDemo {
   protected readonly validationSummary = signal('No validation errors.');
 
   protected recordValidation(rejections: readonly AerisFileUploadRejectedFile[]): void {
@@ -354,12 +354,12 @@ import { AerisFileUploadModule, type AerisFileUploadEvent } from '@aeris-ui/core
   styles: `
     .demo-status {
       margin: 0.875rem 0 0;
-      color: var(--text-3);
+      color: var(--aeris-text-3);
       font-size: 0.8125rem;
     }
   `
 })
-export class FileUploadCustomCustomUploadDemo {
+export class FileUploadCustomDemo {
   protected readonly uploadSummary = signal('Waiting for upload.');
 
   protected uploadFiles(event: AerisFileUploadEvent): void {
@@ -406,7 +406,7 @@ import { AerisFileUploadModule } from '@aeris-ui/core/file-upload';
     </div>
   `
 })
-export class FileUploadPreviewImagePreviewDemo {
+export class FileUploadPreviewDemo {
 }
 ```
 
@@ -427,7 +427,7 @@ import { AerisFileUploadModule } from '@aeris-ui/core/file-upload';
   templateUrl: './file-upload-template.demo.html',
   styleUrl: './file-upload-template.demo.scss'
 })
-export class FileUploadTemplateTemplatesDemo {
+export class FileUploadTemplateDemo {
 }
 ```
 
@@ -476,31 +476,38 @@ export class FileUploadTemplateTemplatesDemo {
   font-size: 0.8125rem;
 }
 
+.upload-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .upload-file {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
   padding: 0.75rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--aeris-border);
   border-radius: var(--aeris-radius-md);
-  background: var(--surface);
+  background: var(--aeris-surface);
 }
 
 .upload-file strong {
   display: block;
-  color: var(--text);
+  color: var(--aeris-text);
 }
 
 .upload-file span {
-  color: var(--text-3);
+  color: var(--aeris-text-3);
   font-size: 0.8125rem;
 }
 
-.upload-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+@media (max-width: 42rem) {
+  .upload-file {
+      align-items: stretch;
+      flex-direction: column;
+    }
 }
 ```
 

@@ -101,12 +101,7 @@
                 </button>
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
-  &lt;button
-    aerisButton
-    aerisButtonToggle
-    variant="outline"
-    [formControl]="toggleControl"
-  &gt;
+  &lt;button aerisButton aerisButtonToggle variant="outline" [formControl]="toggleControl"&gt;
     Enabled
   &lt;/button&gt;
 &lt;/div&gt;</code></pre>
@@ -124,9 +119,8 @@
                 >
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
-  &lt;aeris-button label="Create project" (clicked)="createProject($event)" /&gt;&lt;span
-    class="result"
-    &gt;Clicked &#123;&#123; clickCount() &#125;&#125; times&lt;/span&gt;
+  &lt;aeris-button label="Create project" (clicked)="createProject($event)" /&gt;
+  &lt;span class="result"&gt;Clicked &#123;&#123; clickCount() &#125;&#125; times&lt;/span&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
 
@@ -183,7 +177,8 @@
               </div>
               <pre code><code ngNonBindable>&lt;div class="wrap align aeris-example-row"&gt;
   &lt;button aerisButton size="xs"&gt;Extra small&lt;/button&gt;
-  &lt;button aerisButton size="sm"&gt;Small&lt;/button&gt;&lt;button aerisButton&gt;Medium&lt;/button&gt;
+  &lt;button aerisButton size="sm"&gt;Small&lt;/button&gt;
+  &lt;button aerisButton&gt;Medium&lt;/button&gt;
   &lt;button aerisButton size="lg"&gt;Large&lt;/button&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -203,9 +198,13 @@
                 </button>
               </div>
               <pre code><code ngNonBindable>&lt;div class="wrap align aeris-example-row"&gt;
-  &lt;button aerisButton&gt;&lt;svg [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;Add item&lt;/button&gt;
+  &lt;button aerisButton&gt;
+    &lt;svg [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;
+    Add item
+  &lt;/button&gt;
   &lt;button aerisButton iconPosition="right"&gt;
-    Continue&lt;svg [lucideIcon]="icons.ChevronRight"&gt;&lt;/svg&gt;
+    Continue
+    &lt;svg [lucideIcon]="icons.ChevronRight"&gt;&lt;/svg&gt;
   &lt;/button&gt;
   &lt;button aerisButton iconOnly aria-label="Add item"&gt;
     &lt;svg [lucideIcon]="icons.Plus"&gt;&lt;/svg&gt;
@@ -240,8 +239,9 @@
     [disabled]="loading()"
     (click)="toggleLoading()"
   &gt;
-    Save asynchronously&lt;/button&gt;
-    &lt;aeris-button label="Processing" loading /&gt;
+    Save asynchronously
+  &lt;/button&gt;
+  &lt;aeris-button label="Processing" loading /&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
 
@@ -283,7 +283,8 @@
                 />
               </div>
               <pre code><code ngNonBindable>&lt;div class="wrap aeris-example-row"&gt;
-  &lt;aeris-button label="Messages" badge="8" /&gt;&lt;aeris-button
+  &lt;aeris-button label="Messages" badge="8" /&gt;
+  &lt;aeris-button
     label="Tasks"
     badge="3"
     badgeSeverity="success"
@@ -305,8 +306,9 @@
                 <aeris-button label="Deploy" [iconTemplate]="rocket" iconPosition="right" />
               </div>
               <pre code><code ngNonBindable>&lt;div class="aeris-example-row"&gt;
-  &lt;ng-template #rocket let-loading="loading"
-    &gt;&lt;span aria-hidden="true"&gt;&#123;&#123; loading ? '…' : '↑' &#125;&#125;&lt;/span&gt;&lt;/ng-template&gt;
+  &lt;ng-template #rocket let-loading="loading"&gt;
+    &lt;span aria-hidden="true"&gt;&#123;&#123; loading ? '…' : '↑' &#125;&#125;&lt;/span&gt;
+  &lt;/ng-template&gt;
   &lt;aeris-button label="Deploy" [iconTemplate]="rocket" iconPosition="right" /&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
@@ -333,7 +335,9 @@
     href="https://github.com"
     target="_blank"
     rel="noopener noreferrer"
-    &gt;Open GitHub&lt;/a&gt;
+  &gt;
+    Open GitHub
+  &lt;/a&gt;
 &lt;/div&gt;</code></pre>
             </app-button-demo>
           </div>

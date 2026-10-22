@@ -223,7 +223,7 @@ interface Product {
     }
   `
 })
-export class PickListBasicBasicTransferAndReorderingDemo {
+export class PickListBasicDemo {
   protected readonly basicSource = signal<readonly Product[]>([
     { id: 'monitor', label: 'Monitor', category: 'Hardware', status: 'Ready' },
     { id: 'keyboard', label: 'Keyboard', category: 'Hardware', status: 'Ready' },
@@ -284,7 +284,7 @@ interface Product {
     }
   `
 })
-export class PickListFilteringFilteringDemo {
+export class PickListFilteringDemo {
 }
 ```
 
@@ -331,7 +331,7 @@ interface Product {
     }
   `
 })
-export class PickListDragDropDragAndDropDemo {
+export class PickListDragDropDemo {
 }
 ```
 
@@ -351,7 +351,7 @@ import { AerisPickListModule } from '@aeris-ui/core/pick-list';
   templateUrl: './pick-list-template.demo.html',
   styleUrl: './pick-list-template.demo.scss'
 })
-export class PickListTemplateItemTemplateDemo {
+export class PickListTemplateDemo {
 }
 ```
 
@@ -439,7 +439,7 @@ interface Product {
     }
   `
 })
-export class PickListLimitTargetLimitDemo {
+export class PickListLimitDemo {
 }
 ```
 
@@ -490,7 +490,7 @@ interface Product {
     }
   `
 })
-export class PickListScrollingScrollingDemo {
+export class PickListScrollingDemo {
   protected readonly manySource = signal<readonly Product[]>(
     Array.from({ length: 24 }, (_, index) => ({
       id: `product-${index + 1}`,
@@ -526,7 +526,7 @@ interface Product {
   templateUrl: './pick-list-states.demo.html',
   styleUrl: './pick-list-states.demo.scss'
 })
-export class PickListStatesStatesDemo {
+export class PickListStatesDemo {
   protected readonly basicSource = signal<readonly Product[]>([
     { id: 'monitor', label: 'Monitor', category: 'Hardware', status: 'Ready' },
     { id: 'keyboard', label: 'Keyboard', category: 'Hardware', status: 'Ready' },
@@ -624,7 +624,7 @@ interface Product {
     }
   `
 })
-export class PickListEventsEventsDemo {
+export class PickListEventsDemo {
 }
 ```
 

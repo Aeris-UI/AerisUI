@@ -191,7 +191,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
     }
   `
 })
-export class TextareaBasicBasicDemo {
+export class TextareaBasicDemo {
 }
 ```
 
@@ -243,7 +243,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
     }
   `
 })
-export class TextareaSignalSignalValueDemo {
+export class TextareaSignalDemo {
   protected readonly notes = signal(
     'Aeris keeps multiline content comfortable to read and edit.',
   );
@@ -302,7 +302,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
     }
   `
 })
-export class TextareaAutoResizeAutoResizeDemo {
+export class TextareaAutoResizeDemo {
 }
 ```
 
@@ -359,7 +359,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
     }
   `
 })
-export class TextareaAutoResizeBoundsAutoResizeBoundsDemo {
+export class TextareaAutoResizeBoundsDemo {
 }
 ```
 
@@ -416,7 +416,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
     }
   `
 })
-export class TextareaCounterCharacterCounterDemo {
+export class TextareaCounterDemo {
   protected readonly summary = signal('A concise project summary.');
 }
 ```
@@ -434,41 +434,59 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 @Component({
   selector: 'app-textarea-sizes-demo',
   imports: [AerisTextarea],
-  template: `
-    <div class="textarea-size-grid">
-      <label
-        >Extra small<textarea aerisTextarea size="xs" rows="2" fluid></textarea>
-      </label>
-      <label>Small<textarea aerisTextarea size="sm" rows="2" fluid></textarea></label>
-      <label>Medium<textarea aerisTextarea size="md" rows="3" fluid></textarea></label>
-      <label>Large<textarea aerisTextarea size="lg" rows="3" fluid></textarea></label>
-    </div>
-  `,
-  styles: `
-    .textarea-size-grid {
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-      align-items: start;
-    }
-
-    .textarea-size-grid label {
-      display: grid;
-      gap: 0.4rem;
-      color: var(--aeris-text);
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
-
-    @media (max-width: 42rem) {
-      .textarea-size-grid {
-          grid-template-columns: 1fr;
-        }
-    }
-  `
+  templateUrl: './textarea-sizes.demo.html',
+  styleUrl: './textarea-sizes.demo.scss'
 })
-export class TextareaSizesSizesDemo {
+export class TextareaSizesDemo {
+}
+```
+
+#### HTML
+
+```html
+<div class="textarea-size-grid">
+  <label>
+    Extra small
+    <textarea aerisTextarea size="xs" rows="2" fluid></textarea>
+  </label>
+  <label>
+    Small
+    <textarea aerisTextarea size="sm" rows="2" fluid></textarea>
+  </label>
+  <label>
+    Medium
+    <textarea aerisTextarea size="md" rows="3" fluid></textarea>
+  </label>
+  <label>
+    Large
+    <textarea aerisTextarea size="lg" rows="3" fluid></textarea>
+  </label>
+</div>
+```
+
+#### CSS
+
+```css
+.textarea-size-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.textarea-size-grid label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+@media (max-width: 42rem) {
+  .textarea-size-grid {
+      grid-template-columns: 1fr;
+    }
 }
 ```
 
@@ -485,73 +503,60 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
 @Component({
   selector: 'app-textarea-appearances-demo',
   imports: [AerisTextarea],
-  templateUrl: './textarea-appearances.demo.html',
-  styleUrl: './textarea-appearances.demo.scss'
+  template: `
+    <div class="field-grid">
+      <div class="field">
+        <label for="textarea-outline">Outline</label>
+        <textarea id="textarea-outline" aerisTextarea appearance="outline" fluid></textarea>
+      </div>
+      <div class="field">
+        <label for="textarea-filled">Filled</label>
+        <textarea id="textarea-filled" aerisTextarea appearance="filled" fluid></textarea>
+      </div>
+    </div>
+  `,
+  styles: `
+    .field-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+      gap: 1.25rem;
+    }
+
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+
+    @media (max-width: 42rem) {
+      .field-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  `
 })
-export class TextareaAppearancesAppearancesDemo {
-}
-```
-
-#### HTML
-
-```html
-<div class="field-grid">
-  <div class="field">
-    <label for="textarea-outline">Outline</label>
-    <textarea
-      id="textarea-outline"
-      aerisTextarea
-      appearance="outline"
-      fluid
-    ></textarea>
-  </div>
-  <div class="field">
-    <label for="textarea-filled">Filled</label>
-    <textarea id="textarea-filled" aerisTextarea appearance="filled" fluid></textarea>
-  </div>
-</div>
-```
-
-#### CSS
-
-```css
-.field-grid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.25rem;
-}
-
-.field {
-  min-width: 0;
-  display: grid;
-  align-content: start;
-  grid-auto-rows: max-content;
-  gap: 0.45rem;
-}
-
-.field > label,
-.field > span:first-child {
-  color: var(--aeris-text);
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.field small {
-  color: var(--aeris-text-2);
-  font-size: 0.8125rem;
-  line-height: 1.5;
-}
-
-.field small.error {
-  color: var(--aeris-danger);
-}
-
-@media (max-width: 42rem) {
-  .field-grid {
-    grid-template-columns: 1fr;
-  }
+export class TextareaAppearancesDemo {
 }
 ```
 
@@ -571,7 +576,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   templateUrl: './textarea-resize.demo.html',
   styleUrl: './textarea-resize.demo.scss'
 })
-export class TextareaResizeResizeDirectionsDemo {
+export class TextareaResizeDemo {
 }
 ```
 
@@ -614,7 +619,7 @@ export class TextareaResizeResizeDirectionsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
@@ -666,23 +671,23 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   imports: [AerisTextarea],
   template: `
     <div class="field-grid">
-                    <div class="field">
-                      <label for="textarea-disabled">Disabled</label>
-                      <textarea id="textarea-disabled" aerisTextarea fluid disabled>
+      <div class="field">
+        <label for="textarea-disabled">Disabled</label>
+        <textarea id="textarea-disabled" aerisTextarea fluid disabled>
     Unavailable content</textarea>
-                    </div>
-                    <div class="field">
-                      <label for="textarea-readonly">Read-only</label>
-                      <textarea id="textarea-readonly" aerisTextarea fluid readonly>
+      </div>
+      <div class="field">
+        <label for="textarea-readonly">Read-only</label>
+        <textarea id="textarea-readonly" aerisTextarea fluid readonly>
     Approved content</textarea>
-                    </div>
-                  </div>
+      </div>
+    </div>
   `,
   styles: `
     .field-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
       gap: 1.25rem;
     }
 
@@ -719,7 +724,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
     }
   `
 })
-export class TextareaStatesDisabledAndReadOnlyDemo {
+export class TextareaStatesDemo {
 }
 ```
 
@@ -739,7 +744,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   templateUrl: './textarea-validation.demo.html',
   styleUrl: './textarea-validation.demo.scss'
 })
-export class TextareaValidationValidationDemo {
+export class TextareaValidationDemo {
   protected updateFeedback(event: Event): void {
       this.feedback.set((event.target as HTMLTextAreaElement).value);
     }
@@ -775,9 +780,9 @@ export class TextareaValidationValidationDemo {
     class="validation-message"
     [class.error]="feedbackInvalid()"
     aria-live="polite"
-    >{{
-      feedbackInvalid() ? 'Enter at least 10 characters.' : 'Minimum 10 characters.'
-    }}</small>
+  >
+    {{ feedbackInvalid() ? 'Enter at least 10 characters.' : 'Minimum 10 characters.' }}
+  </small>
 </div>
 ```
 
@@ -862,7 +867,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
     }
   `
 })
-export class TextareaFluidFluidLayoutDemo {
+export class TextareaFluidDemo {
 }
 ```
 
@@ -918,7 +923,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
     }
   `
 })
-export class TextareaClearClearButtonDemo {
+export class TextareaClearDemo {
 }
 ```
 
@@ -939,7 +944,7 @@ import { AerisTextarea } from '@aeris-ui/core/textarea';
   templateUrl: './textarea-angular-forms.demo.html',
   styleUrl: './textarea-angular-forms.demo.scss'
 })
-export class TextareaAngularFormsReactiveAndTemplateDrivenFormsDemo {
+export class TextareaAngularFormsDemo {
   protected readonly reactiveText =
     new FormControl('Reactive form value');
 
@@ -980,7 +985,7 @@ export class TextareaAngularFormsReactiveAndTemplateDrivenFormsDemo {
 .field-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
   gap: 1.25rem;
 }
 
