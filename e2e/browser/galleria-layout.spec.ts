@@ -1,5 +1,10 @@
 import { expect, test } from './fixtures';
 
+// These full documentation pages contain many image galleries. Running them
+// concurrently exhausts Linux WebKit rendering capacity before native clicks
+// finish; keep this media suite sequential without relaxing action checks.
+test.describe.configure({ mode: 'default' });
+
 test('carousel touch gestures preserve taps, page scrolling, and the active pointer', async ({
   page,
 }) => {
