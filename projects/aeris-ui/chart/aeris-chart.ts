@@ -302,6 +302,7 @@ export class AerisChart<TType extends ChartType = ChartType> {
     const plugins = source.plugins;
     const legend = plugins?.legend;
     const tooltip = plugins?.tooltip;
+    const filler = plugins?.filler;
     const defaultScales: Record<string, object> = {};
     const radialScales = new Set<string>();
     for (const dataset of data.datasets) {
@@ -349,6 +350,10 @@ export class AerisChart<TType extends ChartType = ChartType> {
           ? false
           : {
               ...plugins,
+              filler:
+                (filler as unknown) === false
+                  ? false
+                  : { drawTime: 'beforeDatasetsDraw', ...filler },
               legend:
                 (legend as unknown) === false
                   ? false
@@ -436,7 +441,6 @@ export class AerisChart<TType extends ChartType = ChartType> {
   }
 
   private valueText(value: unknown): string {
-    if (typeof value === 'number' || typeof value === 'string') return String(value);
     if (value && typeof value === 'object') {
       const point = value as Record<string, unknown>;
       const x = point['x'];

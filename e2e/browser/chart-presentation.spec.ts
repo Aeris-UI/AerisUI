@@ -3,6 +3,38 @@ import { expect, test } from './fixtures';
 
 const chartPage = 'http://127.0.0.1:4301/components/chart';
 
+test('overlapping area fills leave the other series stroke untinted', async ({ page }) => {
+  await page.goto(chartPage);
+  const chart = page.locator('#chart-comparison [preview] aeris-chart');
+  await chart.scrollIntoViewIfNeeded();
+  const canvas = chart.locator('canvas');
+  // Renewals stays below subscriptions, inside its blue area. Count full orange stroke pixels
+  // in the upper plot, away from the legend, rather than relying on a screenshot baseline.
+  await expect
+    .poll(() =>
+      canvas.evaluate((element: HTMLCanvasElement) => {
+        const context = element.getContext('2d');
+        if (!context) return 0;
+        const width = element.width;
+        const height = Math.floor(element.height * 0.6);
+        if (!width || !height) return 0;
+        const pixels = context.getImageData(0, 0, width, height).data;
+        let orange = 0;
+        for (let index = 0; index < pixels.length; index += 4) {
+          if (
+            Math.abs(pixels[index] - 217) <= 1 &&
+            Math.abs(pixels[index + 1] - 119) <= 1 &&
+            Math.abs(pixels[index + 2] - 6) <= 1 &&
+            pixels[index + 3] === 255
+          )
+            orange++;
+        }
+        return orange;
+      }),
+    )
+    .toBeGreaterThan(20);
+});
+
 test('chart recipes render real canvas data, compact geometry and associated text alternatives', async ({
   page,
 }) => {

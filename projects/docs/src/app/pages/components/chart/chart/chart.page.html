@@ -33,6 +33,14 @@
           Higher resolution uses more canvas memory and rendering work; choose it based on your
           chart size, update frequency and target devices.
         </p>
+        <p>
+          Area fills are drawn before all dataset strokes and points by default, including when
+          filled and unfilled lines are mixed. Override this through
+          <code>options.plugins.filler.drawTime</code> when needed. For overlapping series, use
+          subtle transparent fills; with many series, prefer unfilled lines or fill only the main
+          series. Stacking and filling between datasets remain explicit Chart.js choices: use
+          stacked areas for parts of a total, and fill between two lines to emphasize their gap.
+        </p>
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <app-form-demo

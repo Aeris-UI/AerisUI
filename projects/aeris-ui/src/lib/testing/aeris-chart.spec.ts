@@ -131,6 +131,7 @@ describe('AerisChart', () => {
     expect(renderedCharts[0]?.options.scales?.['y']?.grid?.color).toBe('#aaaaaa');
     expect(renderedCharts[0]?.options.plugins?.tooltip?.footerColor).toBe('#111111');
     expect(renderedCharts[0]?.options.plugins?.legend?.rtl).toBe(true);
+    expect(renderedCharts[0]?.options.plugins?.filler?.drawTime).toBe('beforeDatasetsDraw');
     fixture.componentInstance.type.set('radar');
     await fixture.whenStable();
     expect(renderedCharts.at(-1)?.options.scales?.['r']).toMatchObject({
@@ -172,14 +173,53 @@ describe('AerisChart', () => {
     expect(chart?.options.animation).toEqual({ duration: 750 });
   });
 
+  it('draws all fills behind dataset strokes without changing data, stacking or dataset order', async () => {
+    const fixture = TestBed.createComponent(ChartHost);
+    fixture.componentInstance.type.set('line');
+    const data: AerisChartData = {
+      labels: ['Jan', 'Feb'],
+      datasets: [
+        { label: 'Filled', data: [12, 18], fill: true, order: 2 },
+        { label: 'Unfilled', data: [6, 9], fill: false, order: 1 },
+        { label: 'Gap', data: [8, 10], fill: '-1', order: 3 },
+      ],
+    };
+    const options: AerisChartOptions = {
+      plugins: { filler: { propagate: false } },
+      scales: { y: { stacked: true } },
+    };
+    fixture.componentInstance.data.set(data);
+    fixture.componentInstance.options.set(options);
+    await fixture.whenStable();
+    const chart = renderedCharts[0];
+    expect(chart?.options.plugins?.filler).toEqual({
+      drawTime: 'beforeDatasetsDraw',
+      propagate: false,
+    });
+    expect(chart?.data.datasets).toEqual(data.datasets);
+    expect(chart?.options.scales?.['y']).toMatchObject({ stacked: true });
+    expect(options.plugins?.filler).toEqual({ propagate: false });
+  });
+
+  it.each(['beforeDraw', 'beforeDatasetDraw', 'beforeDatasetsDraw'] as const)(
+    'preserves an explicit filler draw time of %s',
+    async (drawTime) => {
+      const fixture = TestBed.createComponent(ChartHost);
+      fixture.componentInstance.options.set({ plugins: { filler: { drawTime } } });
+      await fixture.whenStable();
+      expect(renderedCharts[0]?.options.plugins?.filler?.drawTime).toBe(drawTime);
+    },
+  );
+
   it('preserves runtime Chart.js plugin disable flags', async () => {
     const fixture = TestBed.createComponent(ChartHost);
     fixture.componentInstance.options.set({
-      plugins: { legend: false, tooltip: false },
+      plugins: { legend: false, tooltip: false, filler: false },
     } as unknown as AerisChartOptions);
     await fixture.whenStable();
     expect(renderedCharts[0]?.options.plugins?.legend).toBe(false);
     expect(renderedCharts[0]?.options.plugins?.tooltip).toBe(false);
+    expect(renderedCharts[0]?.options.plugins?.filler).toBe(false);
     fixture.componentInstance.options.set({ plugins: false } as unknown as AerisChartOptions);
     await fixture.whenStable();
     expect(renderedCharts[0]?.options.plugins).toBe(false);

@@ -95,7 +95,7 @@ export class ChartPage {
         data: [180, 240, 220, 340, 310, 420],
         borderColor: '#2563eb',
         pointBackgroundColor: '#2563eb',
-        backgroundColor: createAerisChartAreaFill('#2563eb', 0.18),
+        backgroundColor: createAerisChartAreaFill('#2563eb', 0.12),
         fill: true,
         tension: 0.3,
         pointRadius: 0,
@@ -107,7 +107,7 @@ export class ChartPage {
         data: [120, 160, 190, 210, 270, 320],
         borderColor: '#d97706',
         pointBackgroundColor: '#d97706',
-        backgroundColor: createAerisChartAreaFill('#d97706', 0.14),
+        backgroundColor: createAerisChartAreaFill('#d97706', 0.1),
         fill: true,
         tension: 0.3,
         pointRadius: 0,
@@ -710,7 +710,7 @@ interface AerisChartComparisonGuideOptions {
       type: 'AerisChartOptions | null',
       defaultValue: 'null',
       description:
-        'Chart.js options, callbacks and external tooltips override Aeris defaults. Default animation duration is 220ms; system reduced motion always disables animation. Theme changes update the existing renderer.',
+        'Chart.js options, callbacks and external tooltips override Aeris defaults. Area fills default to plugins.filler.drawTime: beforeDatasetsDraw so dataset strokes stay above fills; explicit filler settings and plugin disable flags are preserved. Default animation duration is 220ms; system reduced motion always disables animation. Theme changes update the existing renderer.',
     },
     {
       name: 'plugins',
