@@ -57,6 +57,55 @@ const pages = new Map(
 );
 const components = new Map(document.components.map((component) => [component.slug, component]));
 
+test('component feature quick links follow their rendered sections and cover every example', async () => {
+  const issues = [];
+  let checked = 0;
+  for (const [slug, path] of pages) {
+    const html = await read(path);
+    const targetIds = [...html.matchAll(/<[a-z][\w-]*\b[^>]*\bid="([^"]+)"/g)].map(
+      (match) => match[1],
+    );
+    const source = ts.createSourceFile(
+      path.replace(/html$/, 'ts'),
+      await read(path.replace(/html$/, 'ts')),
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    function visit(node) {
+      if (ts.isPropertyDeclaration(node) && node.name.getText(source) === 'featureLinks') {
+        checked++;
+        assert.ok(
+          node.initializer && ts.isArrayLiteralExpression(node.initializer),
+          `${slug}: literal feature links`,
+        );
+        const ids = node.initializer.elements.map((item) => {
+          assert.ok(ts.isObjectLiteralExpression(item), `${slug}: literal quick link`);
+          const id = item.properties.find(
+            (property) =>
+              ts.isPropertyAssignment(property) && property.name.getText(source) === 'id',
+          );
+          assert.ok(id && ts.isStringLiteral(id.initializer), `${slug}: literal target ID`);
+          return id.initializer.text;
+        });
+        const expected = [...ids].sort((a, b) => targetIds.indexOf(a) - targetIds.indexOf(b));
+        if (ids.some((id) => !targetIds.includes(id)))
+          issues.push(`${slug}.${node.name.getText(source)}: missing target`);
+        if (new Set(ids).size !== ids.length)
+          issues.push(`${slug}.${node.name.getText(source)}: duplicate targets`);
+        if (JSON.stringify(ids) !== JSON.stringify(expected))
+          issues.push(`${slug}.${node.name.getText(source)}: expected ${expected.join(', ')}`);
+        for (const example of components.get(slug)?.examples ?? []) {
+          if (!ids.includes(example.id)) issues.push(`${slug}: missing example link ${example.id}`);
+        }
+      }
+      ts.forEachChild(node, visit);
+    }
+    visit(source);
+  }
+  assert.equal(checked, components.size, 'every component page is checked');
+  assert.deepEqual(issues, []);
+});
+
 test('every component example ships complete code without docs-shell color dependencies', () => {
   const ids = new Set();
   for (const component of document.components) {

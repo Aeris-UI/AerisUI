@@ -3,6 +3,73 @@ import { expect, test } from './fixtures';
 
 test.use({ baseURL: 'http://127.0.0.1:4301' });
 
+test('quick links and Sidebar keep wrapped labels inset under every corner preset', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('/components/button');
+  const navigation = page.getByRole('navigation', { name: 'Documentation', exact: true });
+  const sidebarLink = navigation.locator('a[aria-current="page"]');
+  await expect(sidebarLink).toHaveAccessibleName('Button');
+  const tocLink = page.locator('app-page-toc:visible a').first();
+
+  for (const preset of ['soft', 'rounded', 'pill']) {
+    const appearance = page.getByRole('button', { name: /^Customize appearance\./ });
+    await appearance.click();
+    await page
+      .getByRole('group', { name: 'Documentation corner style' })
+      .getByRole('button', { name: new RegExp(`^${preset}\\b`, 'i') })
+      .click();
+    await appearance.click();
+    await expect(page.locator('html')).toHaveAttribute('data-aeris-radius', preset);
+    const item = sidebarLink.locator('.aeris-sidebar__item-content');
+    for (const link of [tocLink, item]) {
+      const padding = await link.evaluate((element) => {
+        const style = getComputedStyle(element);
+        return [parseFloat(style.paddingInlineStart), parseFloat(style.paddingInlineEnd)];
+      });
+      expect(padding.every((value) => value >= (preset === 'pill' ? 15 : 8))).toBe(true);
+    }
+  }
+
+  // Exercise two-line labels without depending on the current section names.
+  await sidebarLink.evaluate((element) => {
+    element.style.inlineSize = '160px';
+    const label = element.querySelector('.aeris-sidebar__label');
+    if (!label) throw new Error('Expected Sidebar label.');
+    label.textContent = 'Component navigation and keyboard behavior';
+  });
+  await tocLink.evaluate((element) => {
+    element.style.inlineSize = '160px';
+    element.textContent = 'Component navigation and keyboard behavior';
+  });
+  for (const direction of ['ltr', 'rtl']) {
+    await page.locator('html').evaluate((element, direction) => {
+      element.setAttribute('dir', direction);
+    }, direction);
+    for (const label of [sidebarLink.locator('.aeris-sidebar__label'), tocLink]) {
+      const geometry = await label.evaluate((element) => {
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        const lines = Array.from(range.getClientRects());
+        const item = element.closest('.aeris-sidebar__item') ?? element;
+        const bounds = item.getBoundingClientRect();
+        return {
+          lines: lines.length,
+          inset: Math.min(
+            ...lines.map((line) => Math.min(line.left - bounds.left, bounds.right - line.right)),
+          ),
+          height: bounds.height,
+          textHeight: range.getBoundingClientRect().height,
+        };
+      });
+      expect(geometry.lines).toBeGreaterThan(1);
+      expect(geometry.inset).toBeGreaterThanOrEqual(14);
+      expect(geometry.height - geometry.textHeight).toBeGreaterThanOrEqual(10);
+    }
+  }
+});
+
 // Bound repeated touch scrolling per case without skipping any section or raising timeouts.
 for (const { route, parts } of [
   { route: '/components/table', parts: 4 },
