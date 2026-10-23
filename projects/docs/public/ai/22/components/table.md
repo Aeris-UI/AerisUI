@@ -1095,7 +1095,7 @@ export class TableSelectionWorkflowDemo {
 
 ```html
 <div class="selection-workflow">
-  <aeris-toolbar variant="plain" role="group" ariaLabel="Member bulk actions">
+  <aeris-toolbar fluid wrap variant="plain" role="group" ariaLabel="Member bulk actions">
     <span aerisToolbarStart aria-live="polite">
       {{ workflowSelected().length }} selected across all pages
     </span>

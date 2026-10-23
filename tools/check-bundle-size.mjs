@@ -4,8 +4,8 @@ import { gzipSync } from 'node:zlib';
 
 const bundleDirectory = resolve('dist/aeris-ui/fesm2022');
 const budgets = {
-  // Optional entry points, palette presentation and the shared table editor lifecycle.
-  total: { raw: 4_315_672, gzip: 718_000 },
+  // Includes dedicated Toolbar controls, selection groups and keyboard navigation.
+  total: { raw: 4_343_350, gzip: 718_000 },
   largestEntryPoint: { raw: 195_000, gzip: 30_000 },
   entryPoints: {
     // Shared icons and pure date operations consumed by DatePicker and its internal segmented input.

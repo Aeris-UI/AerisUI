@@ -179,7 +179,7 @@ const descriptions: Readonly<Record<string, string>> = {
   'tree-table':
     'Hierarchical tabular data with expansion, filtering, custom editors, pagination, lazy loading, and branch and column pinning.',
   toolbar:
-    'Responsive action surface for grouping controls, status, and navigation with accessible toolbar semantics.',
+    'Dedicated actions, toggles, selection groups, and menu triggers with attached and vertical layouts.',
   message:
     'Inline feedback with severity, variants, templates, closable state, and live-region semantics.',
   'meter-group':

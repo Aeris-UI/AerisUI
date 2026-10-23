@@ -7,7 +7,6 @@ import {
   inject,
   DOCUMENT,
 } from '@angular/core';
-import { AerisButton } from '@aeris-ui/core/button';
 import { AerisCardModule } from '@aeris-ui/core/card';
 import { AerisDividerModule } from '@aeris-ui/core/divider';
 import { AerisPanelModule } from '@aeris-ui/core/panel';
@@ -16,12 +15,12 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
 import { AerisStepperModule } from '@aeris-ui/core/stepper';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
+import { LucideDynamicIcon, LucideBold, LucideItalic, LucideUnderline } from '@lucide/angular';
 
 @Component({
   selector: 'app-catalog-panel-preview',
   host: { '[attr.data-kind]': 'kind()' },
   imports: [
-    AerisButton,
     AerisCardModule,
     AerisDividerModule,
     AerisPanelModule,
@@ -30,6 +29,7 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
     AerisStepperModule,
     AerisTabsModule,
     AerisToolbarModule,
+    LucideDynamicIcon,
   ],
   styleUrl: './catalog-scene.scss',
   template: `
@@ -80,17 +80,26 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
         >
       }
       @case ('toolbar') {
-        <aeris-toolbar size="sm"
-          ><div aerisToolbarStart><strong>Workspace</strong></div>
-          <div aerisToolbarEnd>
-            <button aerisButton size="xs" variant="outline">Share</button>
-          </div></aeris-toolbar
-        >
+        <aeris-toolbar attached ariaLabel="Text formatting">
+          <button aerisToolbarItem iconOnly aria-label="Bold" [pressed]="active()">
+            <svg [lucideIcon]="boldIcon"></svg>
+          </button>
+          <button aerisToolbarItem iconOnly aria-label="Italic" [pressed]="false">
+            <svg [lucideIcon]="italicIcon"></svg>
+          </button>
+          <span aerisToolbarSeparator></span>
+          <button aerisToolbarItem iconOnly aria-label="Underline" [pressed]="false">
+            <svg [lucideIcon]="underlineIcon"></svg>
+          </button>
+        </aeris-toolbar>
       }
     }
   `,
 })
 export class CatalogPanelPreviewComponent {
+  protected readonly boldIcon = LucideBold;
+  protected readonly italicIcon = LucideItalic;
+  protected readonly underlineIcon = LucideUnderline;
   readonly kind = input.required<string>();
   readonly active = input(false);
   private readonly scrollPanel = viewChild(AerisScrollPanel);

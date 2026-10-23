@@ -21651,7 +21651,7 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div class=\"selection-workflow\">\n  <aeris-toolbar variant=\"plain\" role=\"group\" ariaLabel=\"Member bulk actions\">\n    <span aerisToolbarStart aria-live=\"polite\">\n      {{ workflowSelected().length }} selected across all pages\n    </span>\n    <div aerisToolbarEnd>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"ghost\"\n        [disabled]=\"!workflowSelected().length || workflowBusy()\"\n        (click)=\"clearWorkflowSelection(workflowFocusTarget()?.nativeElement)\"\n      >\n        Clear selection\n      </button>\n      <button\n        aerisButton\n        type=\"button\"\n        severity=\"danger\"\n        [disabled]=\"!workflowSelected().length || workflowBusy()\"\n        [loading]=\"workflowBusy()\"\n        (click)=\"removeWorkflowMembers(workflowFocusTarget()?.nativeElement)\"\n      >\n        Remove selected members\n      </button>\n      <button\n        #workflowColumnsButton\n        aerisButton\n        type=\"button\"\n        variant=\"outline\"\n        (click)=\"workflowMenu.toggle($event)\"\n      >\n        Columns\n      </button>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"ghost\"\n        [disabled]=\"workflowBusy()\"\n        (click)=\"restoreWorkflowMembers()\"\n      >\n        Restore members\n      </button>\n    </div>\n  </aeris-toolbar>\n  <aeris-menu\n    #workflowMenu\n    popup\n    [model]=\"workflowColumnItems()\"\n    ariaLabel=\"Member columns\"\n  />\n  <aeris-table\n    caption=\"Member selection workspace\"\n    rowKeyField=\"id\"\n    [data]=\"workflowMembers()\"\n    [columns]=\"workflowColumns()\"\n    (columnsChange)=\"orderWorkflowColumns($event)\"\n    [(selectedKeys)]=\"workflowSelected\"\n    [(filterValue)]=\"workflowQuery\"\n    [(first)]=\"workflowFirst\"\n    [(sort)]=\"workflowSort\"\n    [(columnFilters)]=\"workflowFilters\"\n    selectionMode=\"multiple\"\n    paginator\n    [rows]=\"2\"\n    globalFilter\n    columnFilter\n    reorderableColumns\n    filterLabel=\"Find members\"\n    filterPlaceholder=\"Search visible columns\"\n    [loading]=\"workflowBusy()\"\n    loadingMessage=\"Removing members\"\n    emptyMessage=\"No matching members. Clear filters or restore the example data.\"\n  />\n  <p class=\"workflow-note\" role=\"status\">{{ workflowStatus() }}</p>\n</div>"
+              "code": "<div class=\"selection-workflow\">\n  <aeris-toolbar fluid wrap variant=\"plain\" role=\"group\" ariaLabel=\"Member bulk actions\">\n    <span aerisToolbarStart aria-live=\"polite\">\n      {{ workflowSelected().length }} selected across all pages\n    </span>\n    <div aerisToolbarEnd>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"ghost\"\n        [disabled]=\"!workflowSelected().length || workflowBusy()\"\n        (click)=\"clearWorkflowSelection(workflowFocusTarget()?.nativeElement)\"\n      >\n        Clear selection\n      </button>\n      <button\n        aerisButton\n        type=\"button\"\n        severity=\"danger\"\n        [disabled]=\"!workflowSelected().length || workflowBusy()\"\n        [loading]=\"workflowBusy()\"\n        (click)=\"removeWorkflowMembers(workflowFocusTarget()?.nativeElement)\"\n      >\n        Remove selected members\n      </button>\n      <button\n        #workflowColumnsButton\n        aerisButton\n        type=\"button\"\n        variant=\"outline\"\n        (click)=\"workflowMenu.toggle($event)\"\n      >\n        Columns\n      </button>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"ghost\"\n        [disabled]=\"workflowBusy()\"\n        (click)=\"restoreWorkflowMembers()\"\n      >\n        Restore members\n      </button>\n    </div>\n  </aeris-toolbar>\n  <aeris-menu\n    #workflowMenu\n    popup\n    [model]=\"workflowColumnItems()\"\n    ariaLabel=\"Member columns\"\n  />\n  <aeris-table\n    caption=\"Member selection workspace\"\n    rowKeyField=\"id\"\n    [data]=\"workflowMembers()\"\n    [columns]=\"workflowColumns()\"\n    (columnsChange)=\"orderWorkflowColumns($event)\"\n    [(selectedKeys)]=\"workflowSelected\"\n    [(filterValue)]=\"workflowQuery\"\n    [(first)]=\"workflowFirst\"\n    [(sort)]=\"workflowSort\"\n    [(columnFilters)]=\"workflowFilters\"\n    selectionMode=\"multiple\"\n    paginator\n    [rows]=\"2\"\n    globalFilter\n    columnFilter\n    reorderableColumns\n    filterLabel=\"Find members\"\n    filterPlaceholder=\"Search visible columns\"\n    [loading]=\"workflowBusy()\"\n    loadingMessage=\"Removing members\"\n    emptyMessage=\"No matching members. Clear filters or restore the example data.\"\n  />\n  <p class=\"workflow-note\" role=\"status\">{{ workflowStatus() }}</p>\n</div>"
             },
             {
               "language": "CSS",
@@ -23660,7 +23660,7 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div class=\"selection-workflow\">\n  <aeris-toolbar variant=\"plain\" role=\"group\" ariaLabel=\"File bulk actions\">\n    <span aerisToolbarStart aria-live=\"polite\">\n      {{ workflowSelection().length }} files selected across all root pages\n    </span>\n    <div aerisToolbarEnd>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"ghost\"\n        [disabled]=\"!workflowSelection().length || workflowBusy()\"\n        (click)=\"clearWorkflowSelection(workflowFocusTarget()?.nativeElement)\"\n      >\n        Clear selection\n      </button>\n      <button\n        aerisButton\n        type=\"button\"\n        severity=\"danger\"\n        [disabled]=\"!workflowSelection().length || workflowBusy()\"\n        [loading]=\"workflowBusy()\"\n        (click)=\"removeWorkflowFiles(workflowFocusTarget()?.nativeElement)\"\n      >\n        Remove selected files\n      </button>\n      <button\n        #workflowColumnsButton\n        aerisButton\n        type=\"button\"\n        variant=\"outline\"\n        (click)=\"workflowMenu.toggle($event)\"\n      >\n        Columns\n      </button>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"ghost\"\n        [disabled]=\"workflowBusy()\"\n        (click)=\"restoreWorkflowFiles()\"\n      >\n        Restore files\n      </button>\n    </div>\n  </aeris-toolbar>\n  <aeris-menu\n    #workflowMenu\n    popup\n    [model]=\"workflowColumnItems()\"\n    ariaLabel=\"File columns\"\n  />\n  <aeris-tree-table\n    ariaLabel=\"File selection workspace\"\n    [value]=\"workflowFiles()\"\n    [columns]=\"workflowColumns()\"\n    (columnsChange)=\"orderWorkflowColumns($event)\"\n    [(selectionKeys)]=\"workflowSelection\"\n    [(globalFilterValue)]=\"workflowQuery\"\n    [(expandedKeys)]=\"workflowExpanded\"\n    [(first)]=\"workflowFirst\"\n    [(sorts)]=\"workflowSorts\"\n    [(columnFilters)]=\"workflowFilters\"\n    selectionMode=\"checkbox\"\n    [propagateSelection]=\"false\"\n    paginator\n    [rows]=\"1\"\n    globalFilter\n    columnFilter\n    reorderableColumns\n    globalFilterLabel=\"Find files\"\n    globalFilterPlaceholder=\"Search visible columns\"\n    [loading]=\"workflowBusy()\"\n    loadingMessage=\"Removing files\"\n    emptyMessage=\"No files remain. Restore the example data.\"\n    emptyFilterMessage=\"No matching files. Clear the search and column filters.\"\n  />\n  <p class=\"workflow-note\" role=\"status\">{{ workflowStatus() }}</p>\n</div>"
+              "code": "<div class=\"selection-workflow\">\n  <aeris-toolbar fluid wrap variant=\"plain\" role=\"group\" ariaLabel=\"File bulk actions\">\n    <span aerisToolbarStart aria-live=\"polite\">\n      {{ workflowSelection().length }} files selected across all root pages\n    </span>\n    <div aerisToolbarEnd>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"ghost\"\n        [disabled]=\"!workflowSelection().length || workflowBusy()\"\n        (click)=\"clearWorkflowSelection(workflowFocusTarget()?.nativeElement)\"\n      >\n        Clear selection\n      </button>\n      <button\n        aerisButton\n        type=\"button\"\n        severity=\"danger\"\n        [disabled]=\"!workflowSelection().length || workflowBusy()\"\n        [loading]=\"workflowBusy()\"\n        (click)=\"removeWorkflowFiles(workflowFocusTarget()?.nativeElement)\"\n      >\n        Remove selected files\n      </button>\n      <button\n        #workflowColumnsButton\n        aerisButton\n        type=\"button\"\n        variant=\"outline\"\n        (click)=\"workflowMenu.toggle($event)\"\n      >\n        Columns\n      </button>\n      <button\n        aerisButton\n        type=\"button\"\n        variant=\"ghost\"\n        [disabled]=\"workflowBusy()\"\n        (click)=\"restoreWorkflowFiles()\"\n      >\n        Restore files\n      </button>\n    </div>\n  </aeris-toolbar>\n  <aeris-menu\n    #workflowMenu\n    popup\n    [model]=\"workflowColumnItems()\"\n    ariaLabel=\"File columns\"\n  />\n  <aeris-tree-table\n    ariaLabel=\"File selection workspace\"\n    [value]=\"workflowFiles()\"\n    [columns]=\"workflowColumns()\"\n    (columnsChange)=\"orderWorkflowColumns($event)\"\n    [(selectionKeys)]=\"workflowSelection\"\n    [(globalFilterValue)]=\"workflowQuery\"\n    [(expandedKeys)]=\"workflowExpanded\"\n    [(first)]=\"workflowFirst\"\n    [(sorts)]=\"workflowSorts\"\n    [(columnFilters)]=\"workflowFilters\"\n    selectionMode=\"checkbox\"\n    [propagateSelection]=\"false\"\n    paginator\n    [rows]=\"1\"\n    globalFilter\n    columnFilter\n    reorderableColumns\n    globalFilterLabel=\"Find files\"\n    globalFilterPlaceholder=\"Search visible columns\"\n    [loading]=\"workflowBusy()\"\n    loadingMessage=\"Removing files\"\n    emptyMessage=\"No files remain. Restore the example data.\"\n    emptyFilterMessage=\"No matching files. Clear the search and column filters.\"\n  />\n  <p class=\"workflow-note\" role=\"status\">{{ workflowStatus() }}</p>\n</div>"
             },
             {
               "language": "CSS",
@@ -27626,7 +27626,7 @@
       "name": "Toolbar",
       "slug": "toolbar",
       "category": "Panel",
-      "description": "Responsive action surface for grouping controls, status, and navigation with accessible toolbar semantics.",
+      "description": "Dedicated actions, toggles, selection groups, and menu triggers with attached and vertical layouts.",
       "entryPoint": "@aeris-ui/core/toolbar",
       "documentationUrl": "https://aeris-ui.dev/components/toolbar",
       "imports": [
@@ -27642,73 +27642,193 @@
               "name": "id",
               "type": "string",
               "defaultValue": "''",
-              "description": "Optional ID for the toolbar host."
+              "description": "Optional host ID."
             },
             {
               "name": "variant",
-              "type": "AerisToolbarVariant",
-              "defaultValue": "'outlined'",
-              "description": "Outlined, filled, elevated, or plain surface treatment."
+              "type": "'plain' | 'outlined' | 'filled' | 'elevated'",
+              "defaultValue": "'plain'",
+              "description": "Surface treatment. Plain is transparent unless attached is enabled."
+            },
+            {
+              "name": "attached",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Places controls on a unified, subtly bordered surface."
             },
             {
               "name": "size",
-              "type": "AerisToolbarSize",
+              "type": "'sm' | 'md' | 'lg'",
               "defaultValue": "'md'",
-              "description": "Controls toolbar padding and spacing density. Options: 'sm', 'md', 'lg'."
+              "description": "Sets the dedicated control height, padding, and spacing."
             },
             {
               "name": "orientation",
-              "type": "AerisToolbarOrientation",
+              "type": "'horizontal' | 'vertical'",
               "defaultValue": "'horizontal'",
-              "description": "Sets horizontal or vertical layout and toolbar orientation semantics."
+              "description": "Layout and keyboard navigation axis. Separators automatically use the perpendicular orientation."
             },
             {
               "name": "align",
-              "type": "AerisToolbarAlign",
+              "type": "'start' | 'center' | 'end' | 'stretch'",
               "defaultValue": "'center'",
-              "description": "Aligns sections across the cross axis. Options: 'start', 'center', 'end', 'stretch'."
+              "description": "Cross-axis alignment of projected content."
             },
             {
               "name": "wrap",
               "type": "boolean",
-              "defaultValue": "true",
-              "description": "Allows horizontal toolbars to wrap when space is limited."
+              "defaultValue": "false",
+              "description": "Wraps controls instead of scrolling. Non-wrapping content shows directional overflow fades."
             },
             {
               "name": "fluid",
               "type": "boolean",
-              "defaultValue": "true",
-              "description": "Makes the toolbar fill the available inline size."
+              "defaultValue": "false",
+              "description": "Fills the available inline size; otherwise fits its content, bounded by its container."
             },
             {
               "name": "disabled",
               "type": "boolean",
               "defaultValue": "false",
-              "description": "Marks the toolbar disabled and makes projected controls inert."
+              "description": "Disables dedicated controls and makes the entire subtree inert."
             },
             {
               "name": "role",
-              "type": "AerisToolbarRole",
+              "type": "'toolbar' | 'group' | null",
               "defaultValue": "'toolbar'",
-              "description": "Semantic role for the host. Use group or null when toolbar semantics are not appropriate."
+              "description": "Toolbar enables coordinated navigation. Group or null preserves normal tab stops."
             },
             {
               "name": "ariaLabel",
               "type": "string",
               "defaultValue": "''",
-              "description": "Accessible name for the toolbar host."
+              "description": "Accessible name; required when no visible label is referenced."
             },
             {
               "name": "ariaLabelledBy",
               "type": "string",
               "defaultValue": "''",
-              "description": "ID of visible text that labels the toolbar."
+              "description": "ID of a visible label."
             },
             {
               "name": "ariaDescribedBy",
               "type": "string",
               "defaultValue": "''",
-              "description": "ID of text that describes the toolbar."
+              "description": "ID of supplementary instructions."
+            }
+          ]
+        },
+        {
+          "name": "Item Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Disables this native button; toolbar and group disabled states are also respected."
+            },
+            {
+              "name": "iconOnly",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Square geometry for an icon-only control. Supply an aria-label."
+            },
+            {
+              "name": "pressed",
+              "type": "boolean | null",
+              "defaultValue": "null",
+              "description": "Two-way model. Null is an action; false or true opts into an independent toggle. Selection groups own their item states instead."
+            },
+            {
+              "name": "pressedChange",
+              "type": "boolean | null",
+              "defaultValue": "—",
+              "description": "Model output emitted when the independent toggle changes."
+            },
+            {
+              "name": "value",
+              "type": "string | null",
+              "defaultValue": "null",
+              "description": "Unique key within a selection group; not needed for standalone actions or toggles."
+            },
+            {
+              "name": "menu",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Exposes menu-trigger semantics. ArrowDown opens horizontal triggers through their native click handler."
+            },
+            {
+              "name": "expanded",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Controlled menu visibility. Synchronize it with the menu opened and closed events."
+            },
+            {
+              "name": "ariaControls",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "ID of the controlled menu, when applicable."
+            },
+            {
+              "name": "focus(options?)",
+              "type": "(options?: FocusOptions) => void",
+              "defaultValue": "—",
+              "description": "Focuses this item without activating it."
+            }
+          ]
+        },
+        {
+          "name": "Group Inputs",
+          "kind": "input",
+          "entries": [
+            {
+              "name": "selectionMode",
+              "type": "'none' | 'single' | 'multiple'",
+              "defaultValue": "'none'",
+              "description": "None groups actions; single selects one keyed item; multiple toggles keyed items independently. Arrow navigation does not change selection."
+            },
+            {
+              "name": "value",
+              "type": "AerisToolbarValue",
+              "defaultValue": "null",
+              "description": "Two-way selection model: string or null for single, readonly string[] for multiple."
+            },
+            {
+              "name": "valueChange",
+              "type": "AerisToolbarValue",
+              "defaultValue": "—",
+              "description": "Model output emitted when group selection changes."
+            },
+            {
+              "name": "allowEmpty",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Allows the selected item in a single-selection group to be toggled off. Multiple selection always permits an empty array."
+            },
+            {
+              "name": "attached",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Joins group controls with a common outline and stationary internal separators."
+            },
+            {
+              "name": "disabled",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Disables the group controls while leaving other groups available."
+            },
+            {
+              "name": "ariaLabel",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "Accessible group name."
+            },
+            {
+              "name": "ariaLabelledBy",
+              "type": "string",
+              "defaultValue": "''",
+              "description": "ID of a visible group label."
             }
           ]
         },
@@ -27717,46 +27837,58 @@
           "kind": "template",
           "entries": [
             {
-              "name": "aerisToolbarStart",
-              "type": "attribute directive",
-              "defaultValue": "-",
-              "description": "Start-aligned section for primary navigation or leading actions."
-            },
-            {
-              "name": "aerisToolbarCenter",
-              "type": "attribute directive",
-              "defaultValue": "-",
-              "description": "Centered section for status, segmented actions, or title content."
-            },
-            {
-              "name": "aerisToolbarEnd",
-              "type": "attribute directive",
-              "defaultValue": "-",
-              "description": "End-aligned section for final or secondary actions."
+              "name": "aerisToolbarItem",
+              "type": "button directive",
+              "defaultValue": "—",
+              "description": "Dedicated toolbar action, toggle, selection item, or menu trigger. Does not require aerisButton."
             },
             {
               "name": "aerisToolbarGroup",
               "type": "attribute directive",
-              "defaultValue": "-",
-              "description": "Inline group for related controls inside a section."
+              "defaultValue": "—",
+              "description": "Semantic group with optional selection and attached styling."
+            },
+            {
+              "name": "aerisToolbarSeparator",
+              "type": "attribute directive",
+              "defaultValue": "—",
+              "description": "Non-focusable separator; its orientation follows the toolbar."
+            },
+            {
+              "name": "aerisToolbarStart",
+              "type": "attribute directive",
+              "defaultValue": "—",
+              "description": "Leading content section."
+            },
+            {
+              "name": "aerisToolbarCenter",
+              "type": "attribute directive",
+              "defaultValue": "—",
+              "description": "Middle content section."
+            },
+            {
+              "name": "aerisToolbarEnd",
+              "type": "attribute directive",
+              "defaultValue": "—",
+              "description": "Trailing content section."
             },
             {
               "name": "aerisToolbarSpacer",
               "type": "attribute directive",
-              "defaultValue": "-",
-              "description": "Flexible spacer for custom projected layouts."
-            }
-          ]
-        },
-        {
-          "name": "Content Rows",
-          "kind": "template",
-          "entries": [
+              "defaultValue": "—",
+              "description": "Flexible space between controls or groups."
+            },
             {
               "name": "default content",
               "type": "content projection",
-              "defaultValue": "-",
-              "description": "Unslotted content rendered after the named toolbar sections."
+              "defaultValue": "—",
+              "description": "Controls and custom content; projected inputs retain native editing and normal tab stops."
+            },
+            {
+              "name": "focus(options?)",
+              "type": "(options?: FocusOptions) => void",
+              "defaultValue": "—",
+              "description": "Toolbar method: focuses the last available item, or the first enabled item initially."
             }
           ]
         }
@@ -27764,272 +27896,480 @@
       "referenceTables": [],
       "interfaces": [
         {
-          "name": "Interfaces",
-          "code": "type AerisToolbarVariant = 'outlined' | 'filled' | 'elevated' | 'plain';\ntype AerisToolbarSize = 'sm' | 'md' | 'lg';\ntype AerisToolbarOrientation = 'horizontal' | 'vertical';\ntype AerisToolbarRole = 'toolbar' | 'group' | null;\ntype AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';"
+          "name": "Interface",
+          "code": "type AerisToolbarVariant = 'plain' | 'outlined' | 'filled' | 'elevated';\ntype AerisToolbarSize = 'sm' | 'md' | 'lg';\ntype AerisToolbarOrientation = 'horizontal' | 'vertical';\ntype AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';\ntype AerisToolbarRole = 'toolbar' | 'group' | null;\ntype AerisToolbarSelectionMode = 'none' | 'single' | 'multiple';\ntype AerisToolbarValue = string | readonly string[] | null;"
         }
       ],
       "designTokens": [
         {
           "name": "--aeris-toolbar-font-size",
-          "type": "length",
+          "type": "CSS value",
           "defaultValue": "--aeris-body-font-size",
-          "description": "Text size inside the toolbar; projected controls retain their own sizing."
+          "description": "Toolbar and dedicated-control text size."
         },
         {
           "name": "--aeris-toolbar-background",
-          "type": "color",
+          "type": "CSS value",
           "defaultValue": "--aeris-surface",
-          "description": "Toolbar surface color."
+          "description": "Attached, outlined and elevated surface; also the overflow fade color."
         },
         {
           "name": "--aeris-toolbar-color",
-          "type": "color",
+          "type": "CSS value",
           "defaultValue": "--aeris-text",
-          "description": "Toolbar text color."
+          "description": "Text and icon color."
         },
         {
           "name": "--aeris-toolbar-border",
-          "type": "color",
+          "type": "CSS value",
           "defaultValue": "--aeris-border",
-          "description": "Toolbar border color."
+          "description": "Surface and attached group outlines."
         },
         {
           "name": "--aeris-toolbar-border-width",
-          "type": "length",
+          "type": "CSS value",
           "defaultValue": "1px",
-          "description": "Toolbar border width."
+          "description": "Surface border width."
         },
         {
           "name": "--aeris-toolbar-radius",
-          "type": "length",
-          "defaultValue": "--aeris-radius-lg",
-          "description": "Toolbar corner radius."
+          "type": "CSS value",
+          "defaultValue": "--aeris-radius-control",
+          "description": "Surface corner radius."
         },
         {
           "name": "--aeris-toolbar-shadow",
-          "type": "shadow",
+          "type": "CSS value",
           "defaultValue": "none",
-          "description": "Toolbar shadow."
+          "description": "Optional toolbar shadow."
         },
         {
           "name": "--aeris-toolbar-filled-background",
-          "type": "color",
-          "defaultValue": "surface mix",
+          "type": "CSS value",
+          "defaultValue": "--aeris-surface-2",
           "description": "Filled variant surface."
         },
         {
           "name": "--aeris-toolbar-elevated-shadow",
-          "type": "shadow",
-          "defaultValue": "soft elevation",
+          "type": "CSS value",
+          "defaultValue": "--aeris-shadow-md",
           "description": "Elevated variant shadow."
         },
         {
           "name": "--aeris-toolbar-padding-block",
-          "type": "length",
+          "type": "CSS value",
           "defaultValue": "--aeris-overlay-padding",
           "description": "Default block padding."
         },
         {
           "name": "--aeris-toolbar-padding-inline",
-          "type": "length",
+          "type": "CSS value",
           "defaultValue": "--aeris-overlay-padding",
           "description": "Default inline padding."
         },
         {
           "name": "--aeris-toolbar-gap",
-          "type": "length",
-          "defaultValue": "--aeris-density-gap",
-          "description": "Gap between toolbar sections."
+          "type": "CSS value",
+          "defaultValue": "0.625rem",
+          "description": "Space between groups or standalone controls."
         },
         {
           "name": "--aeris-toolbar-section-gap",
-          "type": "length",
-          "defaultValue": "--aeris-density-gap",
-          "description": "Gap between controls inside sections and groups."
+          "type": "CSS value",
+          "defaultValue": "0.25rem",
+          "description": "Space within groups and sections."
+        },
+        {
+          "name": "--aeris-toolbar-item-size",
+          "type": "CSS value",
+          "defaultValue": "--aeris-control-height-sm",
+          "description": "Dedicated item size; sm subtracts 0.25rem, lg uses --aeris-control-height. Coarse pointers keep a 44px minimum."
+        },
+        {
+          "name": "--aeris-toolbar-item-gap",
+          "type": "CSS value",
+          "defaultValue": "0.5rem",
+          "description": "Space between an item icon and its label."
+        },
+        {
+          "name": "--aeris-toolbar-item-padding",
+          "type": "CSS value",
+          "defaultValue": "0.625rem",
+          "description": "Item inline padding."
+        },
+        {
+          "name": "--aeris-toolbar-item-radius",
+          "type": "CSS value",
+          "defaultValue": "--aeris-radius-control",
+          "description": "Item corner radius."
+        },
+        {
+          "name": "--aeris-toolbar-icon-size",
+          "type": "CSS value",
+          "defaultValue": "--aeris-icon-size",
+          "description": "Projected SVG icon dimensions."
+        },
+        {
+          "name": "--aeris-toolbar-item-hover-background",
+          "type": "CSS value",
+          "defaultValue": "7% text mix",
+          "description": "Fine-pointer hover background."
+        },
+        {
+          "name": "--aeris-toolbar-item-pressed-background",
+          "type": "CSS value",
+          "defaultValue": "--aeris-surface-3",
+          "description": "Pressed, selected and expanded item background."
+        },
+        {
+          "name": "--aeris-toolbar-item-pressed-color",
+          "type": "CSS value",
+          "defaultValue": "--aeris-text",
+          "description": "Pressed, selected and expanded item foreground."
+        },
+        {
+          "name": "--aeris-toolbar-separator-color",
+          "type": "CSS value",
+          "defaultValue": "--aeris-border",
+          "description": "Separator color."
         },
         {
           "name": "--aeris-toolbar-min-height",
-          "type": "length",
-          "defaultValue": "--aeris-control-height",
-          "description": "Minimum content row height."
+          "type": "CSS value",
+          "defaultValue": "auto",
+          "description": "Minimum content-row height."
+        },
+        {
+          "name": "--aeris-toolbar-max-height",
+          "type": "CSS value",
+          "defaultValue": "none",
+          "description": "Maximum viewport height, useful for scrollable vertical palettes."
         },
         {
           "name": "--aeris-toolbar-spacer-min-size",
-          "type": "length",
+          "type": "CSS value",
           "defaultValue": "1rem",
-          "description": "Minimum size for flexible spacers."
+          "description": "Minimum flexible-spacer size."
         },
         {
           "name": "--aeris-toolbar-disabled-opacity",
-          "type": "number",
+          "type": "CSS value",
           "defaultValue": "0.62",
-          "description": "Opacity when disabled."
+          "description": "Disabled toolbar opacity."
+        },
+        {
+          "name": "--aeris-toolbar-padding-block-sm",
+          "type": "CSS value",
+          "defaultValue": "0.25rem",
+          "description": "sm block padding."
+        },
+        {
+          "name": "--aeris-toolbar-padding-inline-sm",
+          "type": "CSS value",
+          "defaultValue": "0.25rem",
+          "description": "sm inline padding."
+        },
+        {
+          "name": "--aeris-toolbar-gap-sm",
+          "type": "CSS value",
+          "defaultValue": "0.5rem",
+          "description": "sm inter-group gap."
+        },
+        {
+          "name": "--aeris-toolbar-section-gap-sm",
+          "type": "CSS value",
+          "defaultValue": "0.125rem",
+          "description": "sm intra-group gap."
+        },
+        {
+          "name": "--aeris-toolbar-padding-block-lg",
+          "type": "CSS value",
+          "defaultValue": "0.5rem",
+          "description": "lg block padding."
+        },
+        {
+          "name": "--aeris-toolbar-padding-inline-lg",
+          "type": "CSS value",
+          "defaultValue": "0.5rem",
+          "description": "lg inline padding."
+        },
+        {
+          "name": "--aeris-toolbar-gap-lg",
+          "type": "CSS value",
+          "defaultValue": "0.75rem",
+          "description": "lg inter-group gap."
+        },
+        {
+          "name": "--aeris-toolbar-section-gap-lg",
+          "type": "CSS value",
+          "defaultValue": "0.375rem",
+          "description": "lg intra-group gap."
         }
       ],
       "examples": [
         {
           "id": "toolbar-basic",
-          "title": "Basic",
-          "description": "Group primary and secondary actions in a semantic toolbar.",
+          "title": "Actions",
+          "description": "Toolbar actions use their own compact controls, not Aeris Button.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\n\n@Component({\n  selector: 'app-toolbar-basic-demo',\n  imports: [AerisButton, AerisToolbarModule],\n  template: `\n    <div>\n      <aeris-toolbar ariaLabel=\"Editor actions\">\n        <div aerisToolbarStart>\n          <div class=\"toolbar-actions\">\n            <button aerisButton type=\"button\" variant=\"solid\" severity=\"secondary\">\n              Cancel\n            </button>\n            <button aerisButton type=\"button\">Save</button>\n          </div>\n        </div>\n      </aeris-toolbar>\n    </div>\n  `,\n  styles: `\n    .toolbar-actions {\n      display: inline-flex;\n      flex-wrap: wrap;\n      gap: 0.5rem;\n    }\n  `\n})\nexport class ToolbarBasicDemo {\n}\n"
-            }
-          ]
-        },
-        {
-          "id": "toolbar-sections",
-          "title": "Sections",
-          "description": "Use start, center, and end sections for balanced toolbar layouts.",
-          "sources": [
-            {
-              "language": "TypeScript",
-              "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\n\n@Component({\n  selector: 'app-toolbar-sections-demo',\n  imports: [AerisButton, AerisToolbarModule],\n  templateUrl: './toolbar-sections.demo.html',\n  styleUrl: './toolbar-sections.demo.scss'\n})\nexport class ToolbarSectionsDemo {\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-basic-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-basic.demo.html',\n  styleUrl: './toolbar-basic.demo.scss'\n})\nexport class ToolbarBasicDemo {\n  protected readonly minusIcon = LucideMinus;\n\n  protected readonly plusIcon = LucidePlus;\n\n  protected readonly resetIcon = LucideRotateCcw;\n\n  protected readonly zoom = signal(100);\n\n  protected zoomOut(): void {\n      this.zoom.update((value) => Math.max(50, value - 10));\n    }\n\n  protected zoomIn(): void {\n      this.zoom.update((value) => Math.min(150, value + 10));\n    }\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <aeris-toolbar ariaLabel=\"Project toolbar\">\n    <div aerisToolbarStart>\n      <div class=\"toolbar-title\">\n        <strong>Website refresh</strong>\n        <span>Draft saved 2 minutes ago</span>\n      </div>\n    </div>\n    <div aerisToolbarCenter>\n      <span class=\"toolbar-status\">Review mode</span>\n    </div>\n    <div aerisToolbarEnd>\n      <button aerisButton type=\"button\" size=\"sm\" variant=\"solid\" severity=\"secondary\">\n        Preview\n      </button>\n      <button aerisButton type=\"button\" size=\"sm\">Publish</button>\n    </div>\n  </aeris-toolbar>\n</div>"
+              "code": "<div>\n  <div class=\"toolbar-stack\">\n    <aeris-toolbar attached ariaLabel=\"Zoom controls\">\n      <button\n        aerisToolbarItem\n        iconOnly\n        aria-label=\"Zoom out\"\n        [disabled]=\"zoom() <= 50\"\n        (click)=\"zoomOut()\"\n      >\n        <svg [lucideIcon]=\"minusIcon\" aria-hidden=\"true\"></svg>\n      </button>\n      <output class=\"toolbar-reading\" aria-live=\"polite\">{{ zoom() }}%</output>\n      <button\n        aerisToolbarItem\n        iconOnly\n        aria-label=\"Zoom in\"\n        [disabled]=\"zoom() >= 150\"\n        (click)=\"zoomIn()\"\n      >\n        <svg [lucideIcon]=\"plusIcon\" aria-hidden=\"true\"></svg>\n      </button>\n      <span aerisToolbarSeparator></span>\n      <button aerisToolbarItem iconOnly aria-label=\"Reset zoom\" (click)=\"zoom.set(100)\">\n        <svg [lucideIcon]=\"resetIcon\" aria-hidden=\"true\"></svg>\n      </button>\n    </aeris-toolbar>\n    <p class=\"toolbar-note\">Zoom range: 50–150%.</p>\n  </div>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".toolbar-title {\n  display: grid;\n  gap: 0.125rem;\n  min-width: 0;\n}\n\n.toolbar-title strong {\n  color: var(--aeris-text);\n}\n\n.toolbar-title span,\n.toolbar-status {\n  color: var(--aeris-text-2);\n  font-size: 0.8125rem;\n}\n\n.toolbar-status {\n  white-space: nowrap;\n}"
+              "code": "svg:where([lucideIcon]) {\n  width: var(--aeris-icon-size, 1rem);\n  height: var(--aeris-icon-size, 1rem);\n  flex-shrink: 0;\n  stroke-width: 2;\n}\n\n.toolbar-stack {\n  display: grid;\n  justify-items: start;\n  gap: 1rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.toolbar-note {\n  margin: 0;\n  color: var(--aeris-text-muted);\n  font-size: var(--aeris-body-font-size);\n}\n\n.toolbar-reading {\n  min-inline-size: 3.5rem;\n  text-align: center;\n  font-variant-numeric: tabular-nums;\n}"
+            }
+          ]
+        },
+        {
+          "id": "toolbar-toggles",
+          "title": "Independent toggles",
+          "description": "Bind pressed to enable an independent toggle.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-toggles-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-toggles.demo.html',\n  styleUrl: './toolbar-toggles.demo.scss'\n})\nexport class ToolbarTogglesDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly underlineIcon = LucideUnderline;\n\n  protected readonly bold = signal(false);\n\n  protected readonly italic = signal(false);\n\n  protected readonly underline = signal(false);\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"toolbar-stack\">\n    <aeris-toolbar ariaLabel=\"Text formatting\">\n      <button aerisToolbarItem iconOnly aria-label=\"Bold\" [(pressed)]=\"bold\">\n        <svg [lucideIcon]=\"boldIcon\" aria-hidden=\"true\"></svg>\n      </button>\n      <button aerisToolbarItem iconOnly aria-label=\"Italic\" [(pressed)]=\"italic\">\n        <svg [lucideIcon]=\"italicIcon\" aria-hidden=\"true\"></svg>\n      </button>\n      <button aerisToolbarItem iconOnly aria-label=\"Underline\" [(pressed)]=\"underline\">\n        <svg [lucideIcon]=\"underlineIcon\" aria-hidden=\"true\"></svg>\n      </button>\n    </aeris-toolbar>\n    <p\n      class=\"toolbar-preview\"\n      [style.font-weight]=\"bold() ? 700 : 400\"\n      [style.font-style]=\"italic() ? 'italic' : 'normal'\"\n      [style.text-decoration]=\"underline() ? 'underline' : 'none'\"\n    >\n      A little room for a better idea.\n    </p>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": "svg:where([lucideIcon]) {\n  width: var(--aeris-icon-size, 1rem);\n  height: var(--aeris-icon-size, 1rem);\n  flex-shrink: 0;\n  stroke-width: 2;\n}\n\n.toolbar-stack {\n  display: grid;\n  justify-items: start;\n  gap: 1rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.toolbar-preview {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 1.25rem;\n  inline-size: 100%;\n  border-radius: var(--aeris-radius-surface);\n  background: var(--aeris-surface-2);\n  line-height: 1.7;\n}\n\n.toolbar-vertical-demo .toolbar-preview {\n  display: grid;\n  place-items: center;\n  min-inline-size: 0;\n}"
             }
           ]
         },
         {
           "id": "toolbar-groups",
-          "title": "Groups",
-          "description": "Group related controls and use spacers for custom projected layouts.",
+          "title": "Groups and selection",
+          "description": "Single selection keeps one value; multiple selection maintains an array. Arrows move focus without selecting.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\n\n@Component({\n  selector: 'app-toolbar-groups-demo',\n  imports: [AerisButton, AerisInputText, AerisToolbarModule],\n  templateUrl: './toolbar-groups.demo.html',\n  styleUrl: './toolbar-groups.demo.scss'\n})\nexport class ToolbarGroupsDemo {\n}\n"
+              "code": "import { Component, computed, signal } from '@angular/core';\nimport { AerisToolbarModule, type AerisToolbarValue } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-groups-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-groups.demo.html',\n  styleUrl: './toolbar-groups.demo.scss'\n})\nexport class ToolbarGroupsDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly underlineIcon = LucideUnderline;\n\n  protected readonly leftIcon = LucideAlignLeft;\n\n  protected readonly centerIcon = LucideAlignCenter;\n\n  protected readonly rightIcon = LucideAlignRight;\n\n  protected readonly bold = signal(false);\n\n  protected readonly alignment = signal<AerisToolbarValue>('start');\n\n  protected readonly alignmentStyle = computed(() => String(this.alignment() ?? 'start'));\n\n  protected readonly formats = signal<AerisToolbarValue>(['bold']);\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <aeris-toolbar ariaLabel=\"Formatting toolbar\">\n    <div aerisToolbarStart>\n      <div aerisToolbarGroup aria-label=\"Text style\">\n        <button aerisButton type=\"button\" size=\"sm\" variant=\"solid\" severity=\"secondary\">\n          Bold\n        </button>\n        <button aerisButton type=\"button\" size=\"sm\" variant=\"solid\" severity=\"secondary\">\n          Italic\n        </button>\n        <button aerisButton type=\"button\" size=\"sm\" variant=\"solid\" severity=\"secondary\">\n          Link\n        </button>\n      </div>\n      <span aerisToolbarSpacer></span>\n      <input\n        aerisInputText\n        class=\"toolbar-search\"\n        type=\"search\"\n        aria-label=\"Search document\"\n        placeholder=\"Search document\"\n      />\n    </div>\n  </aeris-toolbar>\n</div>"
+              "code": "<div>\n  <div class=\"toolbar-stack\">\n    <aeris-toolbar ariaLabel=\"Paragraph controls\">\n      <div\n        aerisToolbarGroup\n        selectionMode=\"single\"\n        [(value)]=\"alignment\"\n        ariaLabel=\"Alignment\"\n        attached\n      >\n        <button aerisToolbarItem iconOnly aria-label=\"Align start\" value=\"start\">\n          <svg [lucideIcon]=\"leftIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Align center\" value=\"center\">\n          <svg [lucideIcon]=\"centerIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Align end\" value=\"end\">\n          <svg [lucideIcon]=\"rightIcon\" aria-hidden=\"true\"></svg>\n        </button>\n      </div>\n      <span aerisToolbarSeparator></span>\n      <div\n        aerisToolbarGroup\n        selectionMode=\"multiple\"\n        [(value)]=\"formats\"\n        ariaLabel=\"Formats\"\n      >\n        <button aerisToolbarItem iconOnly aria-label=\"Bold\" value=\"bold\">\n          <svg [lucideIcon]=\"boldIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Italic\" value=\"italic\">\n          <svg [lucideIcon]=\"italicIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Underline\" value=\"underline\">\n          <svg [lucideIcon]=\"underlineIcon\" aria-hidden=\"true\"></svg>\n        </button>\n      </div>\n    </aeris-toolbar>\n    <p class=\"toolbar-preview\" [style.text-align]=\"alignmentStyle()\">\n      Alignment: {{ alignment() }}. Formats: {{ formats() }}.\n    </p>\n  </div>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".toolbar-search {\n  min-width: 12rem;\n  padding: 0.625rem 0.75rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-sm);\n  background: var(--aeris-surface);\n  color: var(--aeris-text);\n  font: inherit;\n  font-size: 0.875rem;\n}\n\n.toolbar-search:focus-visible {\n  outline: 3px solid color-mix(in srgb, var(--aeris-focus) 38%, transparent);\n  outline-offset: 2px;\n}"
+              "code": "svg:where([lucideIcon]) {\n  width: var(--aeris-icon-size, 1rem);\n  height: var(--aeris-icon-size, 1rem);\n  flex-shrink: 0;\n  stroke-width: 2;\n}\n\n.toolbar-stack {\n  display: grid;\n  justify-items: start;\n  gap: 1rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.toolbar-preview {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 1.25rem;\n  inline-size: 100%;\n  border-radius: var(--aeris-radius-surface);\n  background: var(--aeris-surface-2);\n  line-height: 1.7;\n}\n\n.toolbar-vertical-demo .toolbar-preview {\n  display: grid;\n  place-items: center;\n  min-inline-size: 0;\n}"
             }
           ]
         },
         {
-          "id": "toolbar-wrapping",
-          "title": "Wrapping",
-          "description": "Allow wrapping for responsive layouts or disable it when horizontal scrolling is preferred.",
+          "id": "toolbar-attached",
+          "title": "Attached surface",
+          "description": "Attach the toolbar to give its controls a unified surface. Groups can also be attached independently.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\n\n@Component({\n  selector: 'app-toolbar-wrapping-demo',\n  imports: [AerisButton, AerisToolbarModule],\n  templateUrl: './toolbar-wrapping.demo.html',\n  styleUrl: './toolbar-wrapping.demo.scss'\n})\nexport class ToolbarWrappingDemo {\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-attached-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-attached.demo.html',\n  styleUrl: './toolbar-attached.demo.scss'\n})\nexport class ToolbarAttachedDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly underlineIcon = LucideUnderline;\n\n  protected readonly attachedBold = signal(true);\n\n  protected readonly attachedItalic = signal(false);\n\n  protected readonly attachedUnderline = signal(false);\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <aeris-toolbar ariaLabel=\"Wrapping toolbar\" [wrap]=\"false\">\n    <div aerisToolbarStart>\n      <button\n        class=\"toolbar-wide-item\"\n        aerisButton\n        type=\"button\"\n        size=\"sm\"\n        variant=\"solid\"\n        severity=\"secondary\"\n      >\n        Dashboard\n      </button>\n      <button\n        class=\"toolbar-wide-item\"\n        aerisButton\n        type=\"button\"\n        size=\"sm\"\n        variant=\"solid\"\n        severity=\"secondary\"\n      >\n        Reports\n      </button>\n      <button\n        class=\"toolbar-wide-item\"\n        aerisButton\n        type=\"button\"\n        size=\"sm\"\n        variant=\"solid\"\n        severity=\"secondary\"\n      >\n        Automation\n      </button>\n      <button class=\"toolbar-wide-item\" aerisButton type=\"button\" size=\"sm\">\n        Create task\n      </button>\n    </div>\n  </aeris-toolbar>\n</div>"
+              "code": "<div>\n  <div class=\"toolbar-stack\">\n    <aeris-toolbar attached ariaLabel=\"Attached formatting\">\n      <button aerisToolbarItem iconOnly aria-label=\"Bold\" [(pressed)]=\"attachedBold\">\n        <svg [lucideIcon]=\"boldIcon\" aria-hidden=\"true\"></svg>\n      </button>\n      <button aerisToolbarItem iconOnly aria-label=\"Italic\" [(pressed)]=\"attachedItalic\">\n        <svg [lucideIcon]=\"italicIcon\" aria-hidden=\"true\"></svg>\n      </button>\n      <button\n        aerisToolbarItem\n        iconOnly\n        aria-label=\"Underline\"\n        [(pressed)]=\"attachedUnderline\"\n      >\n        <svg [lucideIcon]=\"underlineIcon\" aria-hidden=\"true\"></svg>\n      </button>\n    </aeris-toolbar>\n    <p\n      class=\"toolbar-preview\"\n      [style.font-weight]=\"attachedBold() ? 700 : 400\"\n      [style.font-style]=\"attachedItalic() ? 'italic' : 'normal'\"\n      [style.text-decoration]=\"attachedUnderline() ? 'underline' : 'none'\"\n    >\n      Everything in its place.\n    </p>\n  </div>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".toolbar-wide-item {\n  min-width: 10rem;\n}"
+              "code": "svg:where([lucideIcon]) {\n  width: var(--aeris-icon-size, 1rem);\n  height: var(--aeris-icon-size, 1rem);\n  flex-shrink: 0;\n  stroke-width: 2;\n}\n\n.toolbar-stack {\n  display: grid;\n  justify-items: start;\n  gap: 1rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.toolbar-preview {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 1.25rem;\n  inline-size: 100%;\n  border-radius: var(--aeris-radius-surface);\n  background: var(--aeris-surface-2);\n  line-height: 1.7;\n}\n\n.toolbar-vertical-demo .toolbar-preview {\n  display: grid;\n  place-items: center;\n  min-inline-size: 0;\n}"
             }
           ]
         },
         {
           "id": "toolbar-vertical",
           "title": "Vertical",
-          "description": "Set vertical orientation when actions should stack beside content.",
+          "description": "Up and Down navigate vertical controls. Separators automatically follow the layout.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\n\n@Component({\n  selector: 'app-toolbar-vertical-demo',\n  imports: [AerisButton, AerisToolbarModule],\n  templateUrl: './toolbar-vertical.demo.html',\n  styleUrl: './toolbar-vertical.demo.scss'\n})\nexport class ToolbarVerticalDemo {\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule, type AerisToolbarValue } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-vertical-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-vertical.demo.html',\n  styleUrl: './toolbar-vertical.demo.scss'\n})\nexport class ToolbarVerticalDemo {\n  protected readonly pointerIcon = LucideMousePointer;\n\n  protected readonly pencilIcon = LucidePencil;\n\n  protected readonly eraserIcon = LucideEraser;\n\n  protected readonly resetIcon = LucideRotateCcw;\n\n  protected readonly tool = signal<AerisToolbarValue>('select');\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <div class=\"vertical-toolbar-demo\">\n    <aeris-toolbar orientation=\"vertical\" [fluid]=\"false\" ariaLabel=\"Canvas tools\">\n      <div aerisToolbarStart>\n        <button aerisButton type=\"button\" size=\"sm\" variant=\"solid\" severity=\"secondary\">\n          Select\n        </button>\n        <button aerisButton type=\"button\" size=\"sm\" variant=\"solid\" severity=\"secondary\">\n          Move\n        </button>\n        <button aerisButton type=\"button\" size=\"sm\">Export</button>\n      </div>\n    </aeris-toolbar>\n    <div class=\"vertical-preview\">\n      <h4>Canvas</h4>\n      <p>Vertical toolbars keep compact action sets close to the working surface.</p>\n    </div>\n  </div>\n</div>"
+              "code": "<div>\n  <div class=\"toolbar-vertical-demo\">\n    <aeris-toolbar attached orientation=\"vertical\" ariaLabel=\"Drawing tools\">\n      <div aerisToolbarGroup selectionMode=\"single\" [(value)]=\"tool\" ariaLabel=\"Tool\">\n        <button aerisToolbarItem iconOnly aria-label=\"Select\" value=\"select\">\n          <svg [lucideIcon]=\"pointerIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Draw\" value=\"draw\">\n          <svg [lucideIcon]=\"pencilIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Erase\" value=\"erase\">\n          <svg [lucideIcon]=\"eraserIcon\" aria-hidden=\"true\"></svg>\n        </button>\n      </div>\n      <span aerisToolbarSeparator></span>\n      <button\n        aerisToolbarItem\n        iconOnly\n        aria-label=\"Reset tool\"\n        (click)=\"tool.set('select')\"\n      >\n        <svg [lucideIcon]=\"resetIcon\" aria-hidden=\"true\"></svg>\n      </button>\n    </aeris-toolbar>\n    <p class=\"toolbar-preview\" aria-live=\"polite\">Selected tool: {{ tool() }}.</p>\n  </div>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".vertical-toolbar-demo {\n  display: flex;\n  align-items: flex-start;\n  gap: 1rem;\n}\n\n.vertical-preview {\n  min-width: 0;\n  padding: 1rem;\n  border: 1px solid var(--aeris-border);\n  border-radius: var(--aeris-radius-lg);\n  background: var(--aeris-surface);\n}\n\n.vertical-preview h4 {\n  margin: 0 0 0.375rem;\n  color: var(--aeris-text);\n}\n\n.vertical-preview p {\n  margin: 0;\n  color: var(--aeris-text-2);\n}\n\n@media (max-width: 42rem) {\n  .vertical-toolbar-demo {\n      flex-direction: column;\n    }\n}"
+              "code": "svg:where([lucideIcon]) {\n  width: var(--aeris-icon-size, 1rem);\n  height: var(--aeris-icon-size, 1rem);\n  flex-shrink: 0;\n  stroke-width: 2;\n}\n\n.toolbar-preview {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 1.25rem;\n  inline-size: 100%;\n  border-radius: var(--aeris-radius-surface);\n  background: var(--aeris-surface-2);\n  line-height: 1.7;\n}\n\n.toolbar-vertical-demo {\n  display: flex;\n  align-items: stretch;\n  gap: 1.25rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.toolbar-vertical-demo .toolbar-preview {\n  display: grid;\n  place-items: center;\n  min-inline-size: 0;\n}"
             }
           ]
         },
         {
-          "id": "toolbar-variants",
-          "title": "Variants",
-          "description": "Match surrounding surfaces with outlined, filled, elevated, or plain toolbars.",
+          "id": "toolbar-menu",
+          "title": "Menu trigger",
+          "description": "Synchronize expanded with the menu events. Append floating content to body when its toolbar scrolls.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\n\n@Component({\n  selector: 'app-toolbar-variants-demo',\n  imports: [AerisButton, AerisToolbarModule],\n  templateUrl: './toolbar-variants.demo.html',\n  styleUrl: './toolbar-variants.demo.scss'\n})\nexport class ToolbarVariantsDemo {\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-menu-demo',\n  imports: [AerisMenuModule, AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-menu.demo.html',\n  styleUrl: './toolbar-menu.demo.scss'\n})\nexport class ToolbarMenuDemo {\n  protected readonly chevronIcon = LucideChevronDown;\n\n  protected readonly downloadIcon = LucideDownload;\n\n  protected readonly shareIcon = LucideShare2;\n\n  protected readonly lastAction = signal('Choose an action.');\n\n  protected readonly menuOpen = signal(false);\n\n  protected readonly menuItems: readonly AerisMenuItem[] = [\n      {\n        id: 'pdf',\n        label: 'PDF document',\n        command: () => this.lastAction.set('PDF export selected.'),\n      },\n      {\n        id: 'csv',\n        label: 'CSV spreadsheet',\n        command: () => this.lastAction.set('CSV export selected.'),\n      },\n    ];\n}\n"
             },
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <div class=\"toolbar-grid\">\n    <aeris-toolbar ariaLabel=\"Outlined toolbar\">\n      <div aerisToolbarStart>\n        <button aerisButton type=\"button\" size=\"sm\">Outlined</button>\n      </div>\n    </aeris-toolbar>\n    <aeris-toolbar variant=\"filled\" ariaLabel=\"Filled toolbar\">\n      <div aerisToolbarStart>\n        <button aerisButton type=\"button\" size=\"sm\">Filled</button>\n      </div>\n    </aeris-toolbar>\n    <aeris-toolbar variant=\"elevated\" ariaLabel=\"Elevated toolbar\">\n      <div aerisToolbarStart>\n        <button aerisButton type=\"button\" size=\"sm\">Elevated</button>\n      </div>\n    </aeris-toolbar>\n    <aeris-toolbar variant=\"plain\" size=\"lg\" ariaLabel=\"Plain toolbar\">\n      <div aerisToolbarStart>\n        <button aerisButton type=\"button\" size=\"sm\">Plain</button>\n      </div>\n    </aeris-toolbar>\n  </div>\n</div>"
+              "code": "<div>\n  <div class=\"toolbar-stack\">\n    <aeris-toolbar attached ariaLabel=\"Document actions\">\n      <button\n        aerisToolbarItem\n        menu\n        [expanded]=\"menuOpen()\"\n        [ariaControls]=\"actionMenu.id()\"\n        (click)=\"actionMenu.toggle($event)\"\n      >\n        <svg [lucideIcon]=\"downloadIcon\" aria-hidden=\"true\"></svg>\n        Export\n        <svg [lucideIcon]=\"chevronIcon\" aria-hidden=\"true\"></svg>\n      </button>\n      <button aerisToolbarItem (click)=\"lastAction.set('Share link copied.')\">\n        <svg [lucideIcon]=\"shareIcon\" aria-hidden=\"true\"></svg>\n        Share\n      </button>\n    </aeris-toolbar>\n    <aeris-menu\n      #actionMenu\n      popup\n      appendTo=\"body\"\n      [model]=\"menuItems\"\n      ariaLabel=\"Export format\"\n      (opened)=\"menuOpen.set(true)\"\n      (closed)=\"menuOpen.set(false)\"\n    />\n    <p class=\"toolbar-note\" aria-live=\"polite\">{{ lastAction() }}</p>\n  </div>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".toolbar-grid {\n  display: grid;\n  grid-template-columns: repeat(2, minmax(0, 1fr));\n  gap: 1rem;\n}\n\n@media (max-width: 42rem) {\n  .toolbar-grid {\n      grid-template-columns: 1fr;\n    }\n}"
+              "code": "svg:where([lucideIcon]) {\n  width: var(--aeris-icon-size, 1rem);\n  height: var(--aeris-icon-size, 1rem);\n  flex-shrink: 0;\n  stroke-width: 2;\n}\n\n.toolbar-stack {\n  display: grid;\n  justify-items: start;\n  gap: 1rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.toolbar-note {\n  margin: 0;\n  color: var(--aeris-text-muted);\n  font-size: var(--aeris-body-font-size);\n}"
+            }
+          ]
+        },
+        {
+          "id": "toolbar-mixed",
+          "title": "Custom content",
+          "description": "Projected inputs retain their own tab stops and text-editing keys.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, computed, signal } from '@angular/core';\nimport { AerisInputText } from '@aeris-ui/core/input-text';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\n\n@Component({\n  selector: 'app-toolbar-mixed-demo',\n  imports: [AerisInputText, AerisToolbarModule],\n  templateUrl: './toolbar-mixed.demo.html',\n  styleUrl: './toolbar-mixed.demo.scss'\n})\nexport class ToolbarMixedDemo {\n  protected readonly query = signal('');\n\n  protected readonly commands = ['Open', 'Save', 'Share'];\n\n  protected readonly filteredCommands = computed(() =>\n      this.commands.filter((command) => command.toLowerCase().includes(this.query().toLowerCase())),\n    );\n\n  protected setQuery(event: Event): void {\n      if (event.target instanceof HTMLInputElement) this.query.set(event.target.value);\n    }\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"toolbar-stack\">\n    <aeris-toolbar attached ariaLabel=\"Command tools\">\n      <button aerisToolbarItem (click)=\"query.set('')\">Reset</button>\n      <span aerisToolbarSeparator></span>\n      <input\n        aerisInputText\n        size=\"sm\"\n        class=\"toolbar-search\"\n        aria-label=\"Find commands\"\n        placeholder=\"Find commands\"\n        [value]=\"query()\"\n        (input)=\"setQuery($event)\"\n      />\n    </aeris-toolbar>\n    <p class=\"toolbar-note\" aria-live=\"polite\">\n      Matches: {{ filteredCommands().join(', ') || 'No commands found' }}.\n    </p>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".toolbar-stack {\n  display: grid;\n  justify-items: start;\n  gap: 1rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.toolbar-note {\n  margin: 0;\n  color: var(--aeris-text-muted);\n  font-size: var(--aeris-body-font-size);\n}\n\n.toolbar-search {\n  inline-size: 11rem;\n  min-inline-size: 0;\n}"
+            }
+          ]
+        },
+        {
+          "id": "toolbar-wrapping",
+          "title": "Overflow and wrapping",
+          "description": "Drag to scroll with a mouse, or swipe on touch screens. Activating a clipped item reveals it with a glimpse of the next item. Enable wrap to display actions on multiple lines.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\n\n@Component({\n  selector: 'app-toolbar-wrapping-demo',\n  imports: [AerisToolbarModule],\n  templateUrl: './toolbar-wrapping.demo.html',\n  styleUrl: './toolbar-wrapping.demo.scss'\n})\nexport class ToolbarWrappingDemo {\n  protected readonly overflowActions = [\n      'Select',\n      'Pan',\n      'Draw',\n      'Text',\n      'Shapes',\n      'Arrange',\n      'Export',\n    ];\n\n  protected readonly overflowAction = signal('Select');\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"toolbar-stack toolbar-constrained\">\n    <p class=\"toolbar-note\">Drag to scroll</p>\n    <aeris-toolbar attached fluid ariaLabel=\"Scrollable actions\">\n      @for (action of overflowActions; track action) {\n        <button aerisToolbarItem (click)=\"overflowAction.set(action)\">\n          {{ action }}\n        </button>\n      }\n    </aeris-toolbar>\n    <aeris-toolbar attached fluid wrap ariaLabel=\"Wrapping actions\">\n      @for (action of overflowActions; track action) {\n        <button aerisToolbarItem (click)=\"overflowAction.set(action)\">\n          {{ action }}\n        </button>\n      }\n    </aeris-toolbar>\n    <p class=\"toolbar-note\" aria-live=\"polite\">Selected: {{ overflowAction() }}.</p>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": ".toolbar-stack {\n  display: grid;\n  justify-items: start;\n  gap: 1rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.toolbar-note {\n  margin: 0;\n  color: var(--aeris-text-muted);\n  font-size: var(--aeris-body-font-size);\n}\n\n.toolbar-constrained {\n  max-inline-size: 25rem;\n}"
+            }
+          ]
+        },
+        {
+          "id": "toolbar-sections",
+          "title": "Full-width layout",
+          "description": "Sections and spacers distribute application actions. The group role keeps normal tab stops.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-sections-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-sections.demo.html',\n  styleUrl: './toolbar-sections.demo.scss'\n})\nexport class ToolbarSectionsDemo {\n  protected readonly shareIcon = LucideShare2;\n\n  protected readonly sectionAction = signal('Choose an action.');\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"toolbar-stack\">\n    <aeris-toolbar fluid variant=\"filled\" role=\"group\" wrap ariaLabel=\"File actions\">\n      <div aerisToolbarStart>\n        <strong class=\"toolbar-caption\">Untitled document</strong>\n      </div>\n      <span aerisToolbarSpacer></span>\n      <div aerisToolbarEnd>\n        <button aerisToolbarItem (click)=\"sectionAction.set('Changes saved.')\">\n          Save\n        </button>\n        <button aerisToolbarItem (click)=\"sectionAction.set('Share link copied.')\">\n          <svg [lucideIcon]=\"shareIcon\" aria-hidden=\"true\"></svg>\n          Share\n        </button>\n      </div>\n    </aeris-toolbar>\n    <p class=\"toolbar-note\" aria-live=\"polite\">{{ sectionAction() }}</p>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": "svg:where([lucideIcon]) {\n  width: var(--aeris-icon-size, 1rem);\n  height: var(--aeris-icon-size, 1rem);\n  flex-shrink: 0;\n  stroke-width: 2;\n}\n\n.toolbar-stack {\n  display: grid;\n  justify-items: start;\n  gap: 1rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.toolbar-note {\n  margin: 0;\n  color: var(--aeris-text-muted);\n  font-size: var(--aeris-body-font-size);\n}\n\n.toolbar-caption {\n  padding-inline: var(--aeris-toolbar-item-padding, 0.625rem);\n}"
+            }
+          ]
+        },
+        {
+          "id": "toolbar-states",
+          "title": "Sizes and disabled state",
+          "description": "Disable a toolbar, group, or individual item. Coarse pointers keep a 44px minimum target.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToolbarModule, type AerisToolbarSize } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-states-demo',\n  imports: [AerisButton, AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-states.demo.html',\n  styleUrl: './toolbar-states.demo.scss'\n})\nexport class ToolbarStatesDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly bold = signal(false);\n\n  protected readonly italic = signal(false);\n\n  protected readonly toolsDisabled = signal(false);\n\n  protected readonly sizes: readonly AerisToolbarSize[] = ['sm', 'md', 'lg'];\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div>\n  <div class=\"toolbar-stack\">\n    @for (size of sizes; track size) {\n      <aeris-toolbar attached [size]=\"size\" [ariaLabel]=\"'Formatting ' + size\">\n        <button aerisToolbarItem iconOnly aria-label=\"Bold\" [(pressed)]=\"bold\">\n          <svg [lucideIcon]=\"boldIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Italic\" [(pressed)]=\"italic\">\n          <svg [lucideIcon]=\"italicIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <span aerisToolbarSeparator></span>\n        <button aerisToolbarItem disabled>Unavailable</button>\n      </aeris-toolbar>\n    }\n    <button aerisButton variant=\"outline\" (click)=\"toolsDisabled.set(!toolsDisabled())\">\n      {{ toolsDisabled() ? 'Enable toolbar' : 'Disable toolbar' }}\n    </button>\n    <aeris-toolbar\n      attached\n      [disabled]=\"toolsDisabled()\"\n      ariaLabel=\"Disableable formatting\"\n    >\n      <button aerisToolbarItem iconOnly aria-label=\"Bold\" [(pressed)]=\"bold\">\n        <svg [lucideIcon]=\"boldIcon\" aria-hidden=\"true\"></svg>\n      </button>\n      <button aerisToolbarItem iconOnly aria-label=\"Italic\" [(pressed)]=\"italic\">\n        <svg [lucideIcon]=\"italicIcon\" aria-hidden=\"true\"></svg>\n      </button>\n    </aeris-toolbar>\n  </div>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": "svg:where([lucideIcon]) {\n  width: var(--aeris-icon-size, 1rem);\n  height: var(--aeris-icon-size, 1rem);\n  flex-shrink: 0;\n  stroke-width: 2;\n}\n\n.toolbar-stack {\n  display: grid;\n  justify-items: start;\n  gap: 1rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}"
             }
           ]
         },
         {
           "id": "toolbar-custom",
           "title": "Token customization",
-          "description": "Use component tokens to tune surface, border, radius, padding, and gaps.",
+          "description": "Override the surface and selected-state tokens without changing behavior.",
           "sources": [
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\n\n@Component({\n  selector: 'app-toolbar-custom-demo',\n  imports: [AerisButton, AerisToolbarModule],\n  template: `\n    <div>\n      <aeris-toolbar class=\"brand-toolbar\" ariaLabel=\"Custom toolbar\">\n        <div aerisToolbarStart>\n          <button aerisButton type=\"button\" size=\"sm\" variant=\"solid\" severity=\"secondary\">\n            Archive\n          </button>\n        </div>\n        <div aerisToolbarEnd>\n          <button aerisButton type=\"button\" size=\"sm\">Share</button>\n        </div>\n      </aeris-toolbar>\n    </div>\n  `,\n  styles: `\n    .brand-toolbar {\n      --aeris-toolbar-background: color-mix(in srgb, var(--aeris-primary) 10%, var(--aeris-surface));\n      --aeris-toolbar-border-width: 2px;\n      --aeris-toolbar-border: color-mix(in srgb, var(--aeris-primary) 72%, var(--aeris-border));\n      --aeris-toolbar-radius: 1.5rem;\n      --aeris-toolbar-gap: 1rem;\n      --aeris-toolbar-section-gap: 0.75rem;\n      --aeris-toolbar-padding-block: 1rem;\n      --aeris-toolbar-padding-inline: 1.125rem;\n    }\n  `\n})\nexport class ToolbarCustomDemo {\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-custom-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  template: `\n    <div>\n      <aeris-toolbar class=\"brand-toolbar\" attached ariaLabel=\"Customized tools\">\n        <button aerisToolbarItem iconOnly aria-label=\"Bold\" [(pressed)]=\"bold\">\n          <svg [lucideIcon]=\"boldIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Italic\" [(pressed)]=\"italic\">\n          <svg [lucideIcon]=\"italicIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Underline\" [(pressed)]=\"underline\">\n          <svg [lucideIcon]=\"underlineIcon\" aria-hidden=\"true\"></svg>\n        </button>\n      </aeris-toolbar>\n    </div>\n  `,\n  styles: `\n    svg:where([lucideIcon]) {\n      width: var(--aeris-icon-size, 1rem);\n      height: var(--aeris-icon-size, 1rem);\n      flex-shrink: 0;\n      stroke-width: 2;\n    }\n    \n    .brand-toolbar {\n      --aeris-toolbar-background: var(--aeris-primary-soft);\n      --aeris-toolbar-item-pressed-background: var(--aeris-primary);\n      --aeris-toolbar-item-pressed-color: var(--aeris-primary-contrast);\n      --aeris-toolbar-padding-block: 0.625rem;\n      --aeris-toolbar-padding-inline: 0.625rem;\n    }\n  `\n})\nexport class ToolbarCustomDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly underlineIcon = LucideUnderline;\n\n  protected readonly bold = signal(false);\n\n  protected readonly italic = signal(false);\n\n  protected readonly underline = signal(false);\n}\n"
             }
           ]
         }
       ],
       "accessibility": {
         "guidance": [
-          "The host uses role=\"toolbar\" by default and sets aria-orientation from the orientation input.",
-          "Use ariaLabel or ariaLabelledBy when the toolbar needs a clear accessible name.",
-          "Use role=\"group\" or [role]=\"null\" when the surface is only visual grouping.",
-          "Projected controls keep their own native semantics, names, states, validation, and focus behavior.",
-          "The disabled state marks the toolbar with aria-disabled and applies inert to the projected subtree."
+          "Supply ariaLabel or ariaLabelledBy. Dedicated items are native buttons. Icon-only items need an accessible name. Toggle and selection items expose aria-pressed; menu triggers expose aria-haspopup and controlled aria-expanded.",
+          "Dedicated items share a roving tab stop. Disabled items are skipped. Groups can have accessible names. Projected inputs and other widgets keep their own tab stops and editing behavior. Use role=\"group\" or a null role when coordinated navigation is not appropriate. Disabling a toolbar makes its subtree inert.",
+          "Menu focus is handled by the menu component. Bind expanded to its opened and closed events. Transitions respect reduced motion; touch targets are at least 44px on coarse pointers."
         ],
         "keyboard": [
           {
-            "keys": "Tab",
-            "behavior": "Projected interactive controls"
+            "keys": "Tab / Shift + Tab",
+            "behavior": "Enters or leaves the remembered toolbar item. Projected inputs retain their own tab stops."
           },
           {
-            "keys": "Shift + Tab",
-            "behavior": "Projected interactive controls"
+            "keys": "Left / Right",
+            "behavior": "Moves between horizontal items, wrapping at either end. Direction follows RTL."
           },
           {
-            "keys": "Enter",
-            "behavior": "Projected buttons or links"
+            "keys": "Up / Down",
+            "behavior": "Moves between vertical items. Down opens a closed horizontal menu trigger."
           },
           {
-            "keys": "Space",
-            "behavior": "Projected buttons and checkbox-like controls"
+            "keys": "Home / End",
+            "behavior": "Focuses the first or last enabled item."
           },
           {
-            "keys": "Arrow keys",
-            "behavior": "Projected controls"
+            "keys": "Enter / Space",
+            "behavior": "Activates the focused native button. Selection changes only on activation."
+          },
+          {
+            "keys": "Input editing keys",
+            "behavior": "Remain native; projected inputs are not intercepted."
           }
         ]
       }

@@ -1181,7 +1181,7 @@ export class TreeTableSelectionWorkflowDemo {
 
 ```html
 <div class="selection-workflow">
-  <aeris-toolbar variant="plain" role="group" ariaLabel="File bulk actions">
+  <aeris-toolbar fluid wrap variant="plain" role="group" ariaLabel="File bulk actions">
     <span aerisToolbarStart aria-live="polite">
       {{ workflowSelection().length }} files selected across all root pages
     </span>

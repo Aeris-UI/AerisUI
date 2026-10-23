@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+// The fixed documentation header owns its floating appearance panel.
+.docs-header > .aeris-toolbar__viewport {
+  overflow: visible;
+}
+.docs-header > .aeris-toolbar__viewport > .aeris-toolbar__content {
+  inline-size: 100%;
+}
+
 :root {
   --palette-1: var(--aeris-palette-surface);
   --palette-2: var(--aeris-palette-primary);

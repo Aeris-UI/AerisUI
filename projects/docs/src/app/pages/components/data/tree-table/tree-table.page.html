@@ -238,7 +238,7 @@
               description="Select files across root pages and collapsed branches, then remove them together. A column menu controls visible fields without introducing another selection store."
             >
               <div preview class="selection-workflow">
-                <aeris-toolbar variant="plain" role="group" ariaLabel="File bulk actions">
+                <aeris-toolbar fluid wrap variant="plain" role="group" ariaLabel="File bulk actions">
                   <span aerisToolbarStart aria-live="polite"
                     >{{ workflowSelection().length }} files selected across all root pages</span
                   >
@@ -316,7 +316,7 @@
                 <p class="workflow-note" role="status">{{ workflowStatus() }}</p>
               </div>
               <pre code><code ngNonBindable>&lt;div class="selection-workflow"&gt;
-  &lt;aeris-toolbar variant="plain" role="group" ariaLabel="File bulk actions"&gt;
+  &lt;aeris-toolbar fluid wrap variant="plain" role="group" ariaLabel="File bulk actions"&gt;
     &lt;span aerisToolbarStart aria-live="polite"&gt;
       &#123;&#123; workflowSelection().length &#125;&#125; files selected across all root pages
     &lt;/span&gt;

@@ -47,7 +47,9 @@ for (const [route, selector, paddingRole] of [
     }
     if (route === 'toolbar') {
       await target.evaluate((element) =>
-        element.parentElement?.style.setProperty('--aeris-toolbar-padding-inline', '23px'),
+        element
+          .closest('aeris-toolbar')
+          ?.style.setProperty('--aeris-toolbar-padding-inline', '23px'),
       );
       await expect(target).toHaveCSS('padding-left', '23px');
       await expect(target).toHaveCSS('padding-right', '23px');

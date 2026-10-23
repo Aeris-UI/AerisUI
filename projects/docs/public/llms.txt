@@ -93,7 +93,7 @@ Prefer the component Markdown files for focused implementation context, `llms-fu
 - [Splitter](https://aeris-ui.dev/ai/22/components/splitter.md): Resizable panel layout with horizontal and vertical orientation, controlled sizes, constraints, and keyboard support.
 - [Stepper](https://aeris-ui.dev/ai/22/components/stepper.md): Multi-step workflow navigation with controlled state, linear progression, templates, and keyboard support.
 - [Tabs](https://aeris-ui.dev/ai/22/components/tabs.md): Accessible automatic and manual tab navigation with responsive layouts and custom headers.
-- [Toolbar](https://aeris-ui.dev/ai/22/components/toolbar.md): Responsive action surface for grouping controls, status, and navigation with accessible toolbar semantics.
+- [Toolbar](https://aeris-ui.dev/ai/22/components/toolbar.md): Dedicated actions, toggles, selection groups, and menu triggers with attached and vertical layouts.
 
 ## Overlay components
 

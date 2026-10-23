@@ -240,7 +240,7 @@
               description="Keep one selectedKeys model for counts and bulk actions across pages and filters. Use the column menu to hide or restore fields, or reorder visible headers with their keyboard controls."
             >
               <div preview class="selection-workflow">
-                <aeris-toolbar variant="plain" role="group" ariaLabel="Member bulk actions">
+                <aeris-toolbar fluid wrap variant="plain" role="group" ariaLabel="Member bulk actions">
                   <span aerisToolbarStart aria-live="polite"
                     >{{ workflowSelected().length }} selected across all pages</span
                   >
@@ -316,7 +316,7 @@
                 <p class="workflow-note" role="status">{{ workflowStatus() }}</p>
               </div>
               <pre code><code ngNonBindable>&lt;div class="selection-workflow"&gt;
-  &lt;aeris-toolbar variant="plain" role="group" ariaLabel="Member bulk actions"&gt;
+  &lt;aeris-toolbar fluid wrap variant="plain" role="group" ariaLabel="Member bulk actions"&gt;
     &lt;span aerisToolbarStart aria-live="polite"&gt;
       &#123;&#123; workflowSelected().length &#125;&#125; selected across all pages
     &lt;/span&gt;

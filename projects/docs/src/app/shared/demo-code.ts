@@ -222,7 +222,7 @@ const AERIS_IMPORTS: readonly AerisImportRule[] = [
     'AerisToolbarModule',
     'toolbar',
     /<aeris-toolbar\b/,
-    /\saerisToolbar(?:Start|Center|End|Group|Spacer)\b/,
+    /\saerisToolbar(?:Start|Center|End|Group|Spacer|Item|Separator)\b/,
   ),
   rule('AerisTooltipModule', 'tooltip', /[\s[]aerisTooltip\b/),
   rule('AerisToastModule', 'toast', /<aeris-toast\b/, /\saerisToast(?:Content|Icon)\b/),

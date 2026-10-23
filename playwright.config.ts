@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 const fixtureUrl = 'http://127.0.0.1:4300';
 const builtApps = process.env['AERIS_E2E_BUILT_APPS'] === 'true';
 const docsLayoutTests = [
+  '**/toolbar.spec.ts',
   '**/table-pinning.spec.ts',
   '**/cell-editors.spec.ts',
   '**/native-controls.spec.ts',
@@ -102,6 +103,7 @@ export default defineConfig({
       name: 'docs-quality-firefox',
       use: { ...devices['Desktop Firefox'], baseURL: 'http://127.0.0.1:4301' },
       testMatch: [
+        '**/toolbar.spec.ts',
         '**/component-example-layout.spec.ts',
         '**/table-pinning.spec.ts',
         '**/cell-editors.spec.ts',
@@ -137,6 +139,7 @@ export default defineConfig({
       name: 'mobile-chromium',
       use: { ...devices['Pixel 7'] },
       testMatch: [
+        '**/toolbar.spec.ts',
         '**/component-example-layout.spec.ts',
         '**/table-pinning.spec.ts',
         '**/cell-editors.spec.ts',
@@ -177,6 +180,7 @@ export default defineConfig({
       name: 'mobile-webkit',
       use: { ...devices['iPhone 15'] },
       testMatch: [
+        '**/toolbar.spec.ts',
         '**/component-example-layout.spec.ts',
         '**/table-pinning.spec.ts',
         '**/cell-editors.spec.ts',
