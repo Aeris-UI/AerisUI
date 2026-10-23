@@ -139,16 +139,20 @@ let compareId = 0;
       }
 
       <span class="aeris-compare__divider" aria-hidden="true"></span>
-      <span class="aeris-compare__handle" aria-hidden="true">
-        @if (handleTemplate(); as template) {
-          <ng-container
-            [ngTemplateOutlet]="template.template"
-            [ngTemplateOutletContext]="handleContext()"
-          />
-        } @else {
-          <span class="aeris-compare__handle-icon"></span>
-        }
-      </span>
+      @if (showHandle()) {
+        <span
+          class="aeris-compare__handle"
+          [attr.data-custom]="handleTemplate() ? '' : null"
+          aria-hidden="true"
+        >
+          @if (handleTemplate(); as template) {
+            <ng-container
+              [ngTemplateOutlet]="template.template"
+              [ngTemplateOutletContext]="handleContext()"
+            />
+          }
+        </span>
+      }
 
       <input
         #rangeInput
@@ -212,6 +216,7 @@ export class AerisCompare implements ControlValueAccessor {
   readonly beforeLabel = input('Before');
   readonly afterLabel = input('After');
   readonly showLabels = input(false, { transform: booleanAttribute });
+  readonly showHandle = input(true, { transform: booleanAttribute });
   readonly objectFit = input<AerisCompareObjectFit>('cover');
   readonly aspectRatio = input('16 / 9');
   readonly loading = input<'eager' | 'lazy'>('lazy');

@@ -115,15 +115,15 @@
             <app-form-demo
               id="splitter-divider"
               title="Divider"
-              description="Use handle-only separators for minimal layouts or full divider lines when stronger separation is needed."
+              description="The thin divider is always visible. Hide its grip without losing pointer or keyboard resizing."
               [cssCode]="variantCssCode + '\n\n' + paneCssCode"
             >
               <div preview>
                 <div class="splitter-grid">
-                  <aeris-splitter height="10rem" ariaLabel="Handle-only splitter">
+                  <aeris-splitter height="10rem" ariaLabel="Splitter with handle">
                     <aeris-splitter-panel
                       ><div class="splitter-pane">
-                        <strong>Handle only</strong><span>Default minimal divider.</span>
+                        <strong>Line and handle</strong><span>Default centered grip.</span>
                       </div></aeris-splitter-panel
                     >
                     <aeris-splitter-panel
@@ -132,10 +132,10 @@
                       </div></aeris-splitter-panel
                     >
                   </aeris-splitter>
-                  <aeris-splitter height="10rem" divider="line" ariaLabel="Line splitter">
+                  <aeris-splitter height="10rem" [showHandle]="false" ariaLabel="Line splitter">
                     <aeris-splitter-panel
                       ><div class="splitter-pane">
-                        <strong>Full line</strong><span>Divider line with centered handle.</span>
+                        <strong>Line only</strong><span>Resize anywhere along the divider.</span>
                       </div></aeris-splitter-panel
                     >
                     <aeris-splitter-panel
@@ -148,11 +148,11 @@
               </div>
               <pre code><code ngNonBindable>&lt;div&gt;
   &lt;div class="splitter-grid"&gt;
-    &lt;aeris-splitter height="10rem" ariaLabel="Handle-only splitter"&gt;
+    &lt;aeris-splitter height="10rem" ariaLabel="Splitter with handle"&gt;
       &lt;aeris-splitter-panel&gt;
         &lt;div class="splitter-pane"&gt;
-          &lt;strong&gt;Handle only&lt;/strong&gt;
-          &lt;span&gt;Default minimal divider.&lt;/span&gt;
+          &lt;strong&gt;Line and handle&lt;/strong&gt;
+          &lt;span&gt;Default centered grip.&lt;/span&gt;
         &lt;/div&gt;
       &lt;/aeris-splitter-panel&gt;
       &lt;aeris-splitter-panel&gt;
@@ -162,11 +162,11 @@
         &lt;/div&gt;
       &lt;/aeris-splitter-panel&gt;
     &lt;/aeris-splitter&gt;
-    &lt;aeris-splitter height="10rem" divider="line" ariaLabel="Line splitter"&gt;
+    &lt;aeris-splitter height="10rem" [showHandle]="false" ariaLabel="Line splitter"&gt;
       &lt;aeris-splitter-panel&gt;
         &lt;div class="splitter-pane"&gt;
-          &lt;strong&gt;Full line&lt;/strong&gt;
-          &lt;span&gt;Divider line with centered handle.&lt;/span&gt;
+          &lt;strong&gt;Line only&lt;/strong&gt;
+          &lt;span&gt;Resize anywhere along the divider.&lt;/span&gt;
         &lt;/div&gt;
       &lt;/aeris-splitter-panel&gt;
       &lt;aeris-splitter-panel&gt;
@@ -557,7 +557,6 @@
                 <aeris-splitter
                   class="brand-splitter"
                   height="14rem"
-                  divider="line"
                   ariaLabel="Custom themed splitter"
                 >
                   <aeris-splitter-panel ariaLabel="Primary panel" [size]="38">
@@ -578,7 +577,6 @@
   &lt;aeris-splitter
     class="brand-splitter"
     height="14rem"
-    divider="line"
     ariaLabel="Custom themed splitter"
   &gt;
     &lt;aeris-splitter-panel ariaLabel="Primary panel" [size]="38"&gt;

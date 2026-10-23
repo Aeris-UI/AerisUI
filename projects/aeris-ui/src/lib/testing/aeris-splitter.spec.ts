@@ -68,7 +68,7 @@ class DisabledSplitterHost {}
 @Component({
   imports: [AerisSplitterModule],
   template: `
-    <aeris-splitter #splitter divider="line">
+    <aeris-splitter #splitter [showHandle]="false">
       <aeris-splitter-panel>Can collapse</aeris-splitter-panel>
       <aeris-splitter-panel>Remaining panel</aeris-splitter-panel>
     </aeris-splitter>
@@ -96,9 +96,7 @@ class MultiHandleSplitterHost {
   imports: [AerisSplitterModule],
   template: `
     <aeris-splitter ariaLabel="Nested workspace">
-      <aeris-splitter-panel>
-        Left
-      </aeris-splitter-panel>
+      <aeris-splitter-panel> Left </aeris-splitter-panel>
       <aeris-splitter-panel>
         <aeris-splitter orientation="vertical" ariaLabel="Nested detail">
           <aeris-splitter-panel>Top</aeris-splitter-panel>
@@ -117,11 +115,13 @@ describe('AerisSplitter', () => {
 
     const host = fixture.nativeElement.querySelector('aeris-splitter') as HTMLElement;
     const root = fixture.nativeElement.querySelector('.aeris-splitter__root') as HTMLElement;
-    const panels = fixture.nativeElement.querySelectorAll('.aeris-splitter__panel') as NodeListOf<HTMLElement>;
+    const panels = fixture.nativeElement.querySelectorAll(
+      '.aeris-splitter__panel',
+    ) as NodeListOf<HTMLElement>;
     const gutter = fixture.nativeElement.querySelector('.aeris-splitter__gutter') as HTMLElement;
 
     expect(host.getAttribute('data-orientation')).toBe('horizontal');
-    expect(host.getAttribute('data-divider')).toBe('handle');
+    expect(host.getAttribute('data-show-handle')).toBe('true');
     expect(root.getAttribute('role')).toBe('group');
     expect(root.getAttribute('aria-label')).toBe('Workspace layout');
     expect(root.style.blockSize).toBe('20rem');
@@ -131,7 +131,9 @@ describe('AerisSplitter', () => {
     expect(panels[0]?.style.flexBasis).toBe('0%');
     expect(panels[1]?.style.flexGrow).toBe('75');
     expect(panels[1]?.style.flexBasis).toBe('0%');
-    expect(panels[0]?.querySelector('.aeris-splitter__panel-content')?.textContent).toContain('Navigation');
+    expect(panels[0]?.querySelector('.aeris-splitter__panel-content')?.textContent).toContain(
+      'Navigation',
+    );
     expect(gutter.getAttribute('role')).toBe('separator');
     expect(gutter.getAttribute('aria-orientation')).toBe('horizontal');
     expect(gutter.getAttribute('aria-valuenow')).toBe('25');
@@ -146,7 +148,9 @@ describe('AerisSplitter', () => {
     gutter.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
     fixture.detectChanges();
 
-    const panels = fixture.nativeElement.querySelectorAll('.aeris-splitter__panel') as NodeListOf<HTMLElement>;
+    const panels = fixture.nativeElement.querySelectorAll(
+      '.aeris-splitter__panel',
+    ) as NodeListOf<HTMLElement>;
     expect(host.events.length).toBe(1);
     expect(host.events[0]?.sizes).toEqual([50, 50]);
     expect(host.events[0]?.index).toBe(0);
@@ -173,7 +177,9 @@ describe('AerisSplitter', () => {
     expect(fixture.componentInstance.startEvents.length).toBe(1);
     expect(fixture.componentInstance.events.at(-1)?.sizes).toEqual([50, 50]);
     expect(fixture.componentInstance.endEvents.length).toBe(1);
-    expect(fixture.nativeElement.querySelector('aeris-splitter').getAttribute('data-dragging')).toBeNull();
+    expect(
+      fixture.nativeElement.querySelector('aeris-splitter').getAttribute('data-dragging'),
+    ).toBeNull();
   });
 
   it('marks handles disabled when the splitter is disabled', () => {
@@ -212,20 +218,23 @@ describe('AerisSplitter', () => {
     expect(focused).toBe(true);
   });
 
-  it('supports full collapse by default and line divider mode', () => {
+  it('supports full collapse and keyboard resizing without a visible grip', () => {
     const fixture = TestBed.createComponent(CollapsibleSplitterHost);
     fixture.detectChanges();
 
     const host = fixture.nativeElement.querySelector('aeris-splitter') as HTMLElement;
     const gutter = fixture.nativeElement.querySelector('.aeris-splitter__gutter') as HTMLElement;
 
-    expect(host.getAttribute('data-divider')).toBe('line');
+    expect(host.getAttribute('data-show-handle')).toBe('false');
+    expect(host.querySelector('.aeris-splitter__handle')).toBeNull();
     expect(gutter.getAttribute('aria-valuemin')).toBe('0');
 
     fixture.componentInstance.splitter().setSizes([0, 100]);
     fixture.detectChanges();
 
-    const panels = fixture.nativeElement.querySelectorAll('.aeris-splitter__panel') as NodeListOf<HTMLElement>;
+    const panels = fixture.nativeElement.querySelectorAll(
+      '.aeris-splitter__panel',
+    ) as NodeListOf<HTMLElement>;
     expect(panels[0]?.style.flexGrow).toBe('0');
     expect(panels[1]?.style.flexGrow).toBe('100');
     expect(panels[0]?.querySelector('.aeris-splitter__panel-content')).not.toBeNull();
@@ -239,7 +248,9 @@ describe('AerisSplitter', () => {
     fixture.componentInstance.splitter().setSizes([100, 0, 0]);
     fixture.detectChanges();
 
-    const gutters = fixture.nativeElement.querySelectorAll('.aeris-splitter__gutter') as NodeListOf<HTMLElement>;
+    const gutters = fixture.nativeElement.querySelectorAll(
+      '.aeris-splitter__gutter',
+    ) as NodeListOf<HTMLElement>;
     expect(gutters.length).toBe(2);
     expect(gutters[0]?.style.zIndex).toBe('2');
     expect(gutters[1]?.style.zIndex).toBe('1');
@@ -255,8 +266,12 @@ describe('AerisSplitter', () => {
     const fixture = TestBed.createComponent(NestedSplitterHost);
     fixture.detectChanges();
 
-    const splitters = fixture.nativeElement.querySelectorAll('aeris-splitter') as NodeListOf<HTMLElement>;
-    const roots = fixture.nativeElement.querySelectorAll('.aeris-splitter__root') as NodeListOf<HTMLElement>;
+    const splitters = fixture.nativeElement.querySelectorAll(
+      'aeris-splitter',
+    ) as NodeListOf<HTMLElement>;
+    const roots = fixture.nativeElement.querySelectorAll(
+      '.aeris-splitter__root',
+    ) as NodeListOf<HTMLElement>;
     const outerPanels = Array.from(roots[0]?.children ?? []).filter((child) =>
       child.classList.contains('aeris-splitter__panel'),
     );

@@ -153,6 +153,7 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
     <aeris-compare
       class="compare-vertical"
       orientation="vertical"
+      [showHandle]="false"
       aspectRatio="4 / 5"
       beforeSrc="/car-bw.jpg"
       afterSrc="/car.jpg"
@@ -430,6 +431,13 @@ export class CompareFormsDemo {
       description: 'After label and empty-state text.',
     },
     {
+      name: 'showHandle',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Shows the centered grip or custom handle template. The thin line and native slider remain available when false.',
+    },
+    {
       name: 'showLabels',
       type: 'boolean',
       defaultValue: 'false',
@@ -637,43 +645,55 @@ export class CompareFormsDemo {
     {
       name: '--aeris-compare-divider-size',
       type: '<length>',
-      defaultValue: '2px',
+      defaultValue: '1px',
       description: 'Divider thickness.',
     },
     {
       name: '--aeris-compare-divider-color',
       type: '<color>',
-      defaultValue: '#fff',
+      defaultValue: 'var(--aeris-border)',
       description: 'Divider color.',
     },
     {
       name: '--aeris-compare-divider-shadow',
       type: '<shadow>',
-      defaultValue: 'Soft dark shadow',
+      defaultValue: 'none',
       description: 'Divider shadow.',
     },
     {
       name: '--aeris-compare-handle-size',
       type: '<length>',
-      defaultValue: '2.25rem',
-      description: 'Handle width and height.',
+      defaultValue: 'unset',
+      description: 'Optional square size override; custom templates default to 2.25rem.',
+    },
+    {
+      name: '--aeris-compare-handle-thickness',
+      type: '<length>',
+      defaultValue: '0.1875rem',
+      description: 'Default grip thickness, matching Splitter.',
+    },
+    {
+      name: '--aeris-compare-handle-length',
+      type: '<length>',
+      defaultValue: '2rem',
+      description: 'Default grip length, matching Splitter.',
     },
     {
       name: '--aeris-compare-mobile-handle-size',
       type: '<length>',
       defaultValue: '2rem',
-      description: 'Handle size below 32rem.',
+      description: 'Custom template handle size below 32rem.',
     },
     {
       name: '--aeris-compare-handle-border-width',
       type: '<length>',
-      defaultValue: '2px',
+      defaultValue: '0px',
       description: 'Handle border width.',
     },
     {
       name: '--aeris-compare-handle-border',
       type: '<color>',
-      defaultValue: '#fff',
+      defaultValue: 'var(--aeris-border)',
       description: 'Handle border color.',
     },
     {
@@ -685,7 +705,7 @@ export class CompareFormsDemo {
     {
       name: '--aeris-compare-handle-background',
       type: '<color>',
-      defaultValue: 'Translucent dark',
+      defaultValue: '28% text color',
       description: 'Handle background.',
     },
     {
@@ -697,7 +717,7 @@ export class CompareFormsDemo {
     {
       name: '--aeris-compare-handle-shadow',
       type: '<shadow>',
-      defaultValue: 'Soft dark shadow',
+      defaultValue: 'none',
       description: 'Handle shadow.',
     },
     {

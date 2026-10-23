@@ -63,6 +63,21 @@ class FormCompareHost {
 }
 
 describe('AerisCompare', () => {
+  it('can hide the grip without removing the divider or keyboard control', () => {
+    const fixture = TestBed.createComponent(AerisCompare);
+    fixture.componentRef.setInput('showHandle', false);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.aeris-compare__handle')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.aeris-compare__divider')).not.toBeNull();
+    const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+    const initial = Number(input.value);
+    input.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }),
+    );
+    fixture.detectChanges();
+    expect(Number(input.value)).toBeGreaterThan(initial);
+  });
+
   it('renders library-owned images, labels, and native slider semantics', () => {
     const fixture = TestBed.createComponent(CompareHost);
     fixture.detectChanges();

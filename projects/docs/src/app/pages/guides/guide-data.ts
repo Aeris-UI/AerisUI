@@ -2261,7 +2261,6 @@ export class DateField {
             ['--aeris-icon-restore', 'Dialog and Drawer restore action'],
             ['--aeris-icon-menu', 'Menubar mobile navigation toggle'],
             ['--aeris-icon-file', 'FileUpload file placeholder'],
-            ['--aeris-icon-compare', 'Compare handle direction indicator'],
             ['--aeris-icon-loader', 'Animated loading glyphs'],
             ['--aeris-icon-sort', 'Unsorted Table and TreeTable column'],
             ['--aeris-icon-sort-asc', 'Ascending Table and TreeTable column'],

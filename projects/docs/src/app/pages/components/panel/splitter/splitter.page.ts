@@ -147,7 +147,7 @@ export class SplitterPage {
   --aeris-splitter-gutter-size: 1rem;
   --aeris-splitter-gutter-hover-background: color-mix(in srgb, var(--aeris-primary) 22%, transparent);
   --aeris-splitter-divider-color: color-mix(in srgb, var(--aeris-primary) 46%, transparent);
-  --aeris-splitter-divider-thickness: 2px;
+  --aeris-splitter-divider-thickness: 1px;
   --aeris-splitter-handle-color: color-mix(in srgb, var(--aeris-primary) 48%, transparent);
   --aeris-splitter-handle-hover-color: var(--aeris-primary-text);
   --aeris-splitter-handle-length: 3rem;
@@ -176,7 +176,6 @@ protected recordResize(event: AerisSplitterResizeEvent): void {
   protected readonly interfacesCode = `type AerisSplitterOrientation = 'horizontal' | 'vertical';
 type AerisSplitterVariant = 'outlined' | 'filled' | 'plain';
 type AerisSplitterSize = 'sm' | 'md' | 'lg';
-type AerisSplitterDivider = 'handle' | 'line';
 
 interface AerisSplitterResizeEvent {
   readonly originalEvent: Event | null;
@@ -207,11 +206,11 @@ interface AerisSplitterResizeEvent {
       description: "Controls panel padding and gutter density. Options: 'sm', 'md', 'lg'.",
     },
     {
-      name: 'divider',
-      type: 'AerisSplitterDivider',
-      defaultValue: "'handle'",
+      name: 'showHandle',
+      type: 'boolean',
+      defaultValue: 'true',
       description:
-        "Displays handle-only separators or full divider lines with handles. Options: 'handle', 'line'.",
+        'Shows the centered grip. The divider line and keyboard-accessible drag area remain available when false.',
     },
     {
       name: 'disabled',
