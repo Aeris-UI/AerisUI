@@ -29,6 +29,11 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
+| `floating` | `boolean` | `false` | Floats on a surfaced, elevated background instead of participating in document flow. Non-modal: no backdrop, focus trap, or automatic focus on opening. |
+| `visible` | `boolean` | `true` | Controls visibility. Hidden toolbars are inert and excluded from accessibility navigation immediately; floating toolbars animate their entrance and exit. Keep the toolbar mounted while changing this input to allow the exit animation. |
+| `position` | `'top' &#124; 'bottom'` | `'bottom'` | Centered floating placement. Options: top, bottom. Has no effect on inline toolbars. |
+| `floatingScope` | `'viewport' &#124; 'container'` | `'viewport'` | Viewport mounts the toolbar under document.body to avoid ancestor clipping and transforms and follows the visual viewport. Container uses absolute positioning inside the nearest positioned ancestor; use aerisToolbarContainer on that region. Options: viewport, container. |
+| `restoreFocusTo` | `HTMLElement &#124; null` | `null` | Optional focus destination when the toolbar hides while focus is inside it. Otherwise restores the element focused when it appeared. Does not move focus if the user has already focused another control. The target must be connected, focusable, and not hidden or inert. |
 | `id` | `string` | `''` | Optional host ID. |
 | `variant` | `'plain' &#124; 'outlined' &#124; 'filled' &#124; 'elevated'` | `'plain'` | Surface treatment. Plain is transparent unless attached is enabled. |
 | `attached` | `boolean` | `false` | Places controls on a unified, subtly bordered surface. |
@@ -77,6 +82,8 @@ import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
 | `aerisToolbarItem` | `button directive` | `—` | Dedicated toolbar action, toggle, selection item, or menu trigger. Does not require aerisButton. |
 | `aerisToolbarGroup` | `attribute directive` | `—` | Semantic group with optional selection and attached styling. |
 | `aerisToolbarSeparator` | `attribute directive` | `—` | Non-focusable separator; its orientation follows the toolbar. |
+| `aerisToolbarContainer` | `attribute directive` | `—` | Establishes a positioned, isolated region for container-scoped floating toolbars. Place scrollable content inside this region to keep the toolbar anchored to its visible frame. |
+| `aerisToolbarLabel` | `attribute directive` | `—` | Visually hides action text below 40rem while keeping the accessible button name. Use alongside a decorative icon; never apply to an iconless action. |
 | `aerisToolbarStart` | `attribute directive` | `—` | Leading content section. |
 | `aerisToolbarCenter` | `attribute directive` | `—` | Middle content section. |
 | `aerisToolbarEnd` | `attribute directive` | `—` | Trailing content section. |
@@ -96,18 +103,24 @@ type AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';
 type AerisToolbarRole = 'toolbar' | 'group' | null;
 type AerisToolbarSelectionMode = 'none' | 'single' | 'multiple';
 type AerisToolbarValue = string | readonly string[] | null;
+type AerisToolbarPosition = 'top' | 'bottom';
+type AerisToolbarFloatingScope = 'viewport' | 'container';
 ```
 
 ## Design tokens
 
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
+| `--aeris-toolbar-floating-offset` | `CSS length` | `1rem` | Distance from the selected edge and minimum inline clearance. Viewport placement also respects safe-area insets. Increase to accommodate fixed headers or bottom navigation. |
+| `--aeris-toolbar-floating-radius` | `CSS value` | `--aeris-radius-control` | Floating surface corner radius. Wrapping surfaces derive their radius from item corners, size, padding and border width. |
+| `--aeris-toolbar-floating-shadow` | `CSS value` | `--aeris-shadow-md` | Floating surface elevation. |
+| `--aeris-toolbar-floating-z-index` | `CSS value` | `1000` | Container stacking order. Viewport mounting uses the shared Aeris overlay stacking order. |
 | `--aeris-toolbar-font-size` | `CSS value` | `--aeris-body-font-size` | Toolbar and dedicated-control text size. |
 | `--aeris-toolbar-background` | `CSS value` | `--aeris-surface` | Attached, outlined and elevated surface; also the overflow fade color. |
 | `--aeris-toolbar-color` | `CSS value` | `--aeris-text` | Text and icon color. |
 | `--aeris-toolbar-border` | `CSS value` | `--aeris-border` | Surface and attached group outlines. |
 | `--aeris-toolbar-border-width` | `CSS value` | `1px` | Surface border width. |
-| `--aeris-toolbar-radius` | `CSS value` | `--aeris-radius-control` | Surface corner radius. |
+| `--aeris-toolbar-radius` | `CSS value` | `--aeris-radius-control` | Surface corner radius. When wrap is enabled, the default is the rendered item radius plus the surrounding padding and border width, keeping nested corners aligned. |
 | `--aeris-toolbar-shadow` | `CSS value` | `none` | Optional toolbar shadow. |
 | `--aeris-toolbar-filled-background` | `CSS value` | `--aeris-surface-2` | Filled variant surface. |
 | `--aeris-toolbar-elevated-shadow` | `CSS value` | `--aeris-shadow-md` | Elevated variant shadow. |
@@ -148,7 +161,7 @@ Toolbar actions use their own compact controls, not Aeris Button.
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
-import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-toolbar-basic-demo',
@@ -250,7 +263,7 @@ Bind pressed to enable an independent toggle.
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
-import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-toolbar-toggles-demo',
@@ -345,7 +358,7 @@ Single selection keeps one value; multiple selection maintains an array. Arrows 
 ```ts
 import { Component, computed, signal } from '@angular/core';
 import { AerisToolbarModule, type AerisToolbarValue } from '@aeris-ui/core/toolbar';
-import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-toolbar-groups-demo',
@@ -468,7 +481,7 @@ Attach the toolbar to give its controls a unified surface. Groups can also be at
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
-import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-toolbar-attached-demo',
@@ -568,7 +581,7 @@ Up and Down navigate vertical controls. Separators automatically follow the layo
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisToolbarModule, type AerisToolbarValue } from '@aeris-ui/core/toolbar';
-import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-toolbar-vertical-demo',
@@ -666,7 +679,7 @@ Synchronize expanded with the menu events. Append floating content to body when 
 import { Component, signal } from '@angular/core';
 import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
-import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-toolbar-menu-demo',
@@ -919,6 +932,268 @@ export class ToolbarWrappingDemo {
 }
 ```
 
+### Floating actions
+
+Selection belongs to your application. Select table rows to reveal their toolbar inside this container. The bar does not steal focus or prevent further selection. Action labels become visually hidden on narrow screens but remain accessible.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisTableModule, type AerisTableColumn } from '@aeris-ui/core/table';
+import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';
+
+@Component({
+  selector: 'app-toolbar-floating-demo',
+  imports: [AerisButton, AerisTableModule, AerisToolbarModule, LucideDynamicIcon],
+  templateUrl: './toolbar-floating.demo.html',
+  styleUrl: './toolbar-floating.demo.scss'
+})
+export class ToolbarFloatingDemo {
+  protected readonly archiveIcon = LucideArchive;
+
+  protected readonly closeIcon = LucideX;
+
+  protected readonly floatingFiles = signal([
+      { id: 'report', name: 'Quarterly report.pdf', type: 'PDF' },
+      { id: 'notes', name: 'Meeting notes.txt', type: 'Text' },
+      { id: 'photo', name: 'Team photo.jpg', type: 'Image' },
+    ]);
+
+  protected readonly floatingColumns: readonly AerisTableColumn[] = [
+      { field: 'name', header: 'File' },
+      { field: 'type', header: 'Type', width: '6rem' },
+    ];
+
+  protected readonly floatingSelection = signal<readonly string[]>([]);
+
+  protected readonly floatingMessage = signal('Select files to reveal their actions.');
+
+  protected exportSelection(): void {
+      this.floatingMessage.set(`Export requested for ${this.floatingSelection().length} files.`);
+    }
+
+  protected archiveSelection(): void {
+      const keys = new Set(this.floatingSelection());
+      this.floatingFiles.update((files) => files.filter((file) => !keys.has(file.id)));
+      this.floatingMessage.set(`Archived ${keys.size} ${keys.size === 1 ? 'file' : 'files'}.`);
+      this.floatingSelection.set([]);
+    }
+
+  protected resetFloatingFiles(): void {
+      this.floatingFiles.set([
+        { id: 'report', name: 'Quarterly report.pdf', type: 'PDF' },
+        { id: 'notes', name: 'Meeting notes.txt', type: 'Text' },
+        { id: 'photo', name: 'Team photo.jpg', type: 'Image' },
+      ]);
+      this.floatingSelection.set([]);
+      this.floatingMessage.set('Select files to reveal their actions.');
+    }
+
+  protected readonly downloadIcon = LucideDownload;
+}
+```
+
+#### HTML
+
+```html
+<div class="toolbar-stack">
+  <div aerisToolbarContainer class="toolbar-selection-region">
+    <div #fileRegion tabindex="-1" role="group" aria-label="Files and selection">
+      <aeris-table
+        caption="Files"
+        [data]="floatingFiles()"
+        [columns]="floatingColumns"
+        selectionMode="multiple"
+        [(selectedKeys)]="floatingSelection"
+      />
+    </div>
+    <aeris-toolbar
+      floating
+      floatingScope="container"
+      [visible]="floatingSelection().length > 0"
+      [restoreFocusTo]="fileRegion"
+      ariaLabel="Selected file actions"
+    >
+      <span class="toolbar-caption">{{ floatingSelection().length }} selected</span>
+      <span aerisToolbarSeparator></span>
+      <button aerisToolbarItem (click)="exportSelection()">
+        <svg [lucideIcon]="downloadIcon" aria-hidden="true"></svg>
+        <span aerisToolbarLabel>Export</span>
+      </button>
+      <button aerisToolbarItem (click)="archiveSelection()">
+        <svg [lucideIcon]="archiveIcon" aria-hidden="true"></svg>
+        <span aerisToolbarLabel>Archive</span>
+      </button>
+      <span aerisToolbarSeparator></span>
+      <button
+        aerisToolbarItem
+        iconOnly
+        aria-label="Clear selection"
+        (click)="floatingSelection.set([])"
+      >
+        <svg [lucideIcon]="closeIcon" aria-hidden="true"></svg>
+      </button>
+    </aeris-toolbar>
+  </div>
+  <p class="toolbar-note" aria-live="polite">{{ floatingMessage() }}</p>
+  <button aerisButton variant="outline" (click)="resetFloatingFiles()">
+    Reset files
+  </button>
+</div>
+```
+
+#### CSS
+
+```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
+.toolbar-selection-region {
+  inline-size: 100%;
+  padding-block-end: 5.5rem;
+}
+
+.toolbar-selection-region > [tabindex="-1"]:focus-visible {
+  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus-ring-color);
+  outline-offset: 0.25rem;
+}
+
+.toolbar-stack {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.toolbar-note {
+  margin: 0;
+  color: var(--aeris-text-muted);
+  font-size: var(--aeris-body-font-size);
+}
+
+.toolbar-caption {
+  padding-inline: var(--aeris-toolbar-item-padding, 0.625rem);
+}
+```
+
+### Viewport positioning
+
+Choose the top or bottom of the screen. The floating toolbar stays anchored while scrolling and follows the usable viewport on mobile. The offset token reserves space for fixed navigation. Close it to return focus to the button that opened it.
+
+#### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisButton } from '@aeris-ui/core/button';
+import { AerisToolbarModule, type AerisToolbarPosition } from '@aeris-ui/core/toolbar';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';
+
+@Component({
+  selector: 'app-toolbar-viewport-demo',
+  imports: [AerisButton, AerisToolbarModule, LucideDynamicIcon],
+  templateUrl: './toolbar-viewport.demo.html',
+  styleUrl: './toolbar-viewport.demo.scss'
+})
+export class ToolbarViewportDemo {
+  protected readonly closeIcon = LucideX;
+
+  protected readonly viewportToolbarVisible = signal(false);
+
+  protected readonly viewportToolbarPosition = signal<AerisToolbarPosition>('bottom');
+
+  protected readonly viewportToolbarTrigger = signal<HTMLElement | null>(null);
+
+  protected readonly viewportMessage = signal('The toolbar does not block or dim the page.');
+
+  protected showViewportToolbar(position: AerisToolbarPosition, event: MouseEvent): void {
+      this.viewportToolbarPosition.set(position);
+      this.viewportToolbarTrigger.set(
+        event.currentTarget instanceof HTMLElement ? event.currentTarget : null,
+      );
+      this.viewportToolbarVisible.set(true);
+    }
+
+  protected readonly shareIcon = LucideShare2;
+}
+```
+
+#### HTML
+
+```html
+<div class="toolbar-stack">
+  <div class="toolbar-launchers">
+    <button aerisButton variant="outline" (click)="showViewportToolbar('top', $event)">
+      Show at top
+    </button>
+    <button aerisButton variant="outline" (click)="showViewportToolbar('bottom', $event)">
+      Show at bottom
+    </button>
+  </div>
+  <aeris-toolbar
+    floating
+    [visible]="viewportToolbarVisible()"
+    [position]="viewportToolbarPosition()"
+    [restoreFocusTo]="viewportToolbarTrigger()"
+    style="--aeris-toolbar-floating-offset: 5rem"
+    ariaLabel="Viewport actions"
+  >
+    <button aerisToolbarItem (click)="viewportMessage.set('Share action selected.')">
+      <svg [lucideIcon]="shareIcon" aria-hidden="true"></svg>
+      <span aerisToolbarLabel>Share</span>
+    </button>
+    <span aerisToolbarSeparator></span>
+    <button
+      aerisToolbarItem
+      iconOnly
+      aria-label="Close toolbar"
+      (click)="viewportToolbarVisible.set(false)"
+    >
+      <svg [lucideIcon]="closeIcon" aria-hidden="true"></svg>
+    </button>
+  </aeris-toolbar>
+  <p class="toolbar-note" aria-live="polite">{{ viewportMessage() }}</p>
+</div>
+```
+
+#### CSS
+
+```css
+svg:where([lucideIcon]) {
+  width: var(--aeris-icon-size, 1rem);
+  height: var(--aeris-icon-size, 1rem);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
+.toolbar-launchers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.toolbar-stack {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.toolbar-note {
+  margin: 0;
+  color: var(--aeris-text-muted);
+  font-size: var(--aeris-body-font-size);
+}
+```
+
 ### Full-width layout
 
 Sections and spacers distribute application actions. The group role keeps normal tab stops.
@@ -928,7 +1203,7 @@ Sections and spacers distribute application actions. The group role keeps normal
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
-import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-toolbar-sections-demo',
@@ -1007,7 +1282,7 @@ Disable a toolbar, group, or individual item. Coarse pointers keep a 44px minimu
 import { Component, signal } from '@angular/core';
 import { AerisButton } from '@aeris-ui/core/button';
 import { AerisToolbarModule, type AerisToolbarSize } from '@aeris-ui/core/toolbar';
-import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-toolbar-states-demo',
@@ -1094,7 +1369,7 @@ Override the surface and selected-state tokens without changing behavior.
 ```ts
 import { Component, signal } from '@angular/core';
 import { AerisToolbarModule } from '@aeris-ui/core/toolbar';
-import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';
+import { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-toolbar-custom-demo',
@@ -1148,6 +1423,7 @@ export class ToolbarCustomDemo {
 
 ## Accessibility
 
+- Floating toolbars are non-modal. Opening one does not move focus, create a backdrop, trap focus, or lock page scrolling. Hidden toolbars become inert and leave the accessibility tree immediately, even while the exit animation finishes. When hiding a focused toolbar, supply restoreFocusTo for a stable destination such as the selection region; otherwise Aeris uses the element focused when the bar appeared. Closing a toolbar does not itself clear application selection. Escape does not dismiss the toolbar; provide an explicit close or clear action. Use aerisToolbarLabel only on text accompanied by a decorative icon so compact actions retain their names.
 - Supply ariaLabel or ariaLabelledBy. Dedicated items are native buttons. Icon-only items need an accessible name. Toggle and selection items expose aria-pressed; menu triggers expose aria-haspopup and controlled aria-expanded.
 - Dedicated items share a roving tab stop. Disabled items are skipped. Groups can have accessible names. Projected inputs and other widgets keep their own tab stops and editing behavior. Use role="group" or a null role when coordinated navigation is not appropriate. Disabling a toolbar makes its subtree inert.
 - Menu focus is handled by the menu component. Bind expanded to its opened and closed events. Transitions respect reduced motion; touch targets are at least 44px on coarse pointers.

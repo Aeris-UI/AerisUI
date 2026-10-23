@@ -1,12 +1,137 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { AERIS_OVERLAY_APPEND_TO } from '@aeris-ui/core';
 
 import {
+  AerisToolbar,
   AerisToolbarModule,
   type AerisToolbarValue,
   type AerisToolbarOrientation,
   type AerisToolbarRole,
+  type AerisToolbarFloatingScope,
+  type AerisToolbarPosition,
 } from '../../../toolbar/aeris-toolbar';
+
+@Component({
+  imports: [AerisToolbarModule],
+  template: `
+    <button #trigger (click)="visible.set(true)">Show actions</button>
+    <div aerisToolbarContainer>
+      <div #region tabindex="-1">Selection region</div>
+      <aeris-toolbar
+        floating
+        [visible]="visible()"
+        [floatingScope]="scope()"
+        [position]="position()"
+        [restoreFocusTo]="region"
+        ariaLabel="Selection actions"
+      >
+        <span>2 selected</span>
+        <button aerisToolbarItem (click)="visible.set(false)">
+          <span aerisToolbarLabel>Close</span>
+        </button>
+        <input aria-label="Action input" value="Keep this value" />
+      </aeris-toolbar>
+    </div>
+    <button>Outside action</button>
+  `,
+})
+class FloatingToolbarHost {
+  readonly visible = signal(false);
+  readonly scope = signal<AerisToolbarFloatingScope>('container');
+  readonly position = signal<AerisToolbarPosition>('bottom');
+}
+
+describe('AerisToolbar floating presentation', () => {
+  it('mounts viewport actions under body, restores the original container and cleans up without following a global append target', async () => {
+    TestBed.configureTestingModule({
+      providers: [{ provide: AERIS_OVERLAY_APPEND_TO, useValue: 'body' }],
+    });
+    const fixture = TestBed.createComponent(FloatingToolbarHost);
+    await fixture.whenStable();
+    const root = fixture.nativeElement as HTMLElement;
+    const container = root.querySelector('[aerisToolbarContainer]') as HTMLElement;
+    const toolbar = root.querySelector('aeris-toolbar') as HTMLElement;
+    expect(toolbar.parentElement).toBe(container);
+    fixture.componentInstance.scope.set('viewport');
+    fixture.componentInstance.visible.set(true);
+    await fixture.whenStable();
+    expect(toolbar.parentElement).toBe(document.body);
+    expect(toolbar.getAttribute('data-aeris-append-to')).toBe('body');
+    fixture.componentInstance.scope.set('container');
+    await fixture.whenStable();
+    expect(toolbar.parentElement).toBe(container);
+    expect(toolbar.hasAttribute('data-aeris-append-to')).toBe(false);
+    fixture.componentInstance.scope.set('viewport');
+    await fixture.whenStable();
+    fixture.destroy();
+    await Promise.resolve();
+    expect(toolbar.isConnected).toBe(false);
+  });
+  it('defaults to inline, visible, bottom and viewport without changing the toolbar role', async () => {
+    const fixture = TestBed.createComponent(AerisToolbar);
+    await fixture.whenStable();
+    expect(fixture.componentInstance.floating()).toBe(false);
+    expect(fixture.componentInstance.visible()).toBe(true);
+    expect(fixture.componentInstance.position()).toBe('bottom');
+    expect(fixture.componentInstance.floatingScope()).toBe('viewport');
+    expect((fixture.nativeElement as HTMLElement).getAttribute('role')).toBe('toolbar');
+    fixture.componentRef.setInput('visible', false);
+    await fixture.whenStable();
+    expect((fixture.nativeElement as HTMLElement).getAttribute('aria-hidden')).toBe('true');
+    expect((fixture.nativeElement as HTMLElement).hasAttribute('inert')).toBe(true);
+  });
+
+  it('opens without moving focus, keeps projected controls mounted and restores an explicit target on hiding', async () => {
+    const fixture = TestBed.createComponent(FloatingToolbarHost);
+    await fixture.whenStable();
+    const root = fixture.nativeElement as HTMLElement;
+    const trigger = root.querySelector('button') as HTMLButtonElement;
+    const toolbar = root.querySelector('aeris-toolbar') as HTMLElement;
+    const close = toolbar.querySelector('button') as HTMLButtonElement;
+    const input = toolbar.querySelector('input') as HTMLInputElement;
+    expect(toolbar.getAttribute('aria-hidden')).toBe('true');
+    trigger.focus();
+    trigger.click();
+    await fixture.whenStable();
+    expect(document.activeElement).toBe(trigger);
+    expect(toolbar.hasAttribute('inert')).toBe(false);
+    expect(toolbar.dataset['floatingScope']).toBe('container');
+    close.focus();
+    close.click();
+    await fixture.whenStable();
+    expect(document.activeElement).toBe(root.querySelector('[tabindex="-1"]'));
+    expect(toolbar.getAttribute('aria-hidden')).toBe('true');
+    expect(toolbar.hasAttribute('inert')).toBe(true);
+    fixture.componentInstance.visible.set(true);
+    await fixture.whenStable();
+    expect(toolbar.querySelector('input')).toBe(input);
+    expect(input.value).toBe('Keep this value');
+  });
+
+  it('does not steal focus from outside controls, and supports scope and position changes', async () => {
+    const fixture = TestBed.createComponent(FloatingToolbarHost);
+    fixture.componentInstance.visible.set(true);
+    await fixture.whenStable();
+    const root = fixture.nativeElement as HTMLElement;
+    const toolbar = root.querySelector('aeris-toolbar') as HTMLElement;
+    const action = toolbar.querySelector('button') as HTMLButtonElement;
+    const outside = root.querySelector('div + button') as HTMLButtonElement;
+    action.focus();
+    outside.focus();
+    fixture.componentInstance.visible.set(false);
+    await fixture.whenStable();
+    expect(document.activeElement).toBe(outside);
+    fixture.componentInstance.scope.set('viewport');
+    fixture.componentInstance.position.set('top');
+    fixture.componentInstance.visible.set(true);
+    await fixture.whenStable();
+    expect(toolbar.dataset['floatingScope']).toBe('viewport');
+    expect(toolbar.dataset['position']).toBe('top');
+    expect(root.querySelector('.aeris-toolbar-container')).not.toBeNull();
+    expect(toolbar.querySelector('.aeris-toolbar__label')?.textContent).toBe('Close');
+  });
+});
 
 @Component({
   imports: [AerisToolbarModule],

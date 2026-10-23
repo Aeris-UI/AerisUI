@@ -3,10 +3,12 @@ import { AerisButton } from '@aeris-ui/core/button';
 import { AerisInputText } from '@aeris-ui/core/input-text';
 import { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';
 import { AerisTabsModule } from '@aeris-ui/core/tabs';
+import { AerisTableModule, type AerisTableColumn } from '@aeris-ui/core/table';
 import {
   AerisToolbarModule,
   type AerisToolbarValue,
   type AerisToolbarSize,
+  type AerisToolbarPosition,
 } from '@aeris-ui/core/toolbar';
 import {
   LucideDynamicIcon,
@@ -25,6 +27,8 @@ import {
   LucideChevronDown,
   LucideDownload,
   LucideShare2,
+  LucideArchive,
+  LucideX,
 } from '@lucide/angular';
 import { CodeBlockComponent } from '../../../../shared/code-block.component';
 import { ComponentPageHeaderComponent } from '../../../../shared/documentation/component-page-header/component-page-header.component';
@@ -49,6 +53,7 @@ interface ApiRow {
     AerisInputText,
     AerisMenuModule,
     AerisTabsModule,
+    AerisTableModule,
     AerisToolbarModule,
     LucideDynamicIcon,
     CodeBlockComponent,
@@ -61,6 +66,48 @@ interface ApiRow {
   styleUrl: './toolbar.page.scss',
 })
 export class ToolbarPage {
+  protected readonly archiveIcon = LucideArchive;
+  protected readonly closeIcon = LucideX;
+  protected readonly floatingFiles = signal([
+    { id: 'report', name: 'Quarterly report.pdf', type: 'PDF' },
+    { id: 'notes', name: 'Meeting notes.txt', type: 'Text' },
+    { id: 'photo', name: 'Team photo.jpg', type: 'Image' },
+  ]);
+  protected readonly floatingColumns: readonly AerisTableColumn[] = [
+    { field: 'name', header: 'File' },
+    { field: 'type', header: 'Type', width: '6rem' },
+  ];
+  protected readonly floatingSelection = signal<readonly string[]>([]);
+  protected readonly floatingMessage = signal('Select files to reveal their actions.');
+  protected exportSelection(): void {
+    this.floatingMessage.set(`Export requested for ${this.floatingSelection().length} files.`);
+  }
+  protected archiveSelection(): void {
+    const keys = new Set(this.floatingSelection());
+    this.floatingFiles.update((files) => files.filter((file) => !keys.has(file.id)));
+    this.floatingMessage.set(`Archived ${keys.size} ${keys.size === 1 ? 'file' : 'files'}.`);
+    this.floatingSelection.set([]);
+  }
+  protected resetFloatingFiles(): void {
+    this.floatingFiles.set([
+      { id: 'report', name: 'Quarterly report.pdf', type: 'PDF' },
+      { id: 'notes', name: 'Meeting notes.txt', type: 'Text' },
+      { id: 'photo', name: 'Team photo.jpg', type: 'Image' },
+    ]);
+    this.floatingSelection.set([]);
+    this.floatingMessage.set('Select files to reveal their actions.');
+  }
+  protected readonly viewportToolbarVisible = signal(false);
+  protected readonly viewportToolbarPosition = signal<AerisToolbarPosition>('bottom');
+  protected readonly viewportToolbarTrigger = signal<HTMLElement | null>(null);
+  protected readonly viewportMessage = signal('The toolbar does not block or dim the page.');
+  protected showViewportToolbar(position: AerisToolbarPosition, event: MouseEvent): void {
+    this.viewportToolbarPosition.set(position);
+    this.viewportToolbarTrigger.set(
+      event.currentTarget instanceof HTMLElement ? event.currentTarget : null,
+    );
+    this.viewportToolbarVisible.set(true);
+  }
   protected readonly importCode = "import { AerisToolbarModule } from '@aeris-ui/core/toolbar';";
   protected readonly boldIcon = LucideBold;
   protected readonly italicIcon = LucideItalic;
@@ -139,6 +186,8 @@ export class ToolbarPage {
     { id: 'toolbar-menu', label: 'Menu trigger' },
     { id: 'toolbar-mixed', label: 'Custom content' },
     { id: 'toolbar-wrapping', label: 'Overflow and wrapping' },
+    { id: 'toolbar-floating', label: 'Floating actions' },
+    { id: 'toolbar-viewport', label: 'Viewport positioning' },
     { id: 'toolbar-sections', label: 'Full-width layout' },
     { id: 'toolbar-states', label: 'Sizes and disabled state' },
     { id: 'toolbar-custom', label: 'Tokens' },
@@ -169,8 +218,45 @@ type AerisToolbarOrientation = 'horizontal' | 'vertical';
 type AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';
 type AerisToolbarRole = 'toolbar' | 'group' | null;
 type AerisToolbarSelectionMode = 'none' | 'single' | 'multiple';
-type AerisToolbarValue = string | readonly string[] | null;`;
+type AerisToolbarValue = string | readonly string[] | null;
+type AerisToolbarPosition = 'top' | 'bottom';
+type AerisToolbarFloatingScope = 'viewport' | 'container';`;
   protected readonly inputs: readonly ApiRow[] = [
+    {
+      name: 'floating',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Floats on a surfaced, elevated background instead of participating in document flow. Non-modal: no backdrop, focus trap, or automatic focus on opening.',
+    },
+    {
+      name: 'visible',
+      type: 'boolean',
+      defaultValue: 'true',
+      description:
+        'Controls visibility. Hidden toolbars are inert and excluded from accessibility navigation immediately; floating toolbars animate their entrance and exit. Keep the toolbar mounted while changing this input to allow the exit animation.',
+    },
+    {
+      name: 'position',
+      type: "'top' | 'bottom'",
+      defaultValue: "'bottom'",
+      description:
+        'Centered floating placement. Options: top, bottom. Has no effect on inline toolbars.',
+    },
+    {
+      name: 'floatingScope',
+      type: "'viewport' | 'container'",
+      defaultValue: "'viewport'",
+      description:
+        'Viewport mounts the toolbar under document.body to avoid ancestor clipping and transforms and follows the visual viewport. Container uses absolute positioning inside the nearest positioned ancestor; use aerisToolbarContainer on that region. Options: viewport, container.',
+    },
+    {
+      name: 'restoreFocusTo',
+      type: 'HTMLElement | null',
+      defaultValue: 'null',
+      description:
+        'Optional focus destination when the toolbar hides while focus is inside it. Otherwise restores the element focused when it appeared. Does not move focus if the user has already focused another control. The target must be connected, focusable, and not hidden or inert.',
+    },
     {
       name: 'id',
       type: 'string',
@@ -389,6 +475,20 @@ type AerisToolbarValue = string | readonly string[] | null;`;
       description: 'Non-focusable separator; its orientation follows the toolbar.',
     },
     {
+      name: 'aerisToolbarContainer',
+      type: 'attribute directive',
+      defaultValue: '—',
+      description:
+        'Establishes a positioned, isolated region for container-scoped floating toolbars. Place scrollable content inside this region to keep the toolbar anchored to its visible frame.',
+    },
+    {
+      name: 'aerisToolbarLabel',
+      type: 'attribute directive',
+      defaultValue: '—',
+      description:
+        'Visually hides action text below 40rem while keeping the accessible button name. Use alongside a decorative icon; never apply to an iconless action.',
+    },
+    {
       name: 'aerisToolbarStart',
       type: 'attribute directive',
       defaultValue: '—',
@@ -429,6 +529,33 @@ type AerisToolbarValue = string | readonly string[] | null;`;
   ];
   protected readonly tokens: readonly ApiRow[] = [
     {
+      name: '--aeris-toolbar-floating-offset',
+      type: 'CSS length',
+      defaultValue: '1rem',
+      description:
+        'Distance from the selected edge and minimum inline clearance. Viewport placement also respects safe-area insets. Increase to accommodate fixed headers or bottom navigation.',
+    },
+    {
+      name: '--aeris-toolbar-floating-radius',
+      type: 'CSS value',
+      defaultValue: '--aeris-radius-control',
+      description:
+        'Floating surface corner radius. Wrapping surfaces derive their radius from item corners, size, padding and border width.',
+    },
+    {
+      name: '--aeris-toolbar-floating-shadow',
+      type: 'CSS value',
+      defaultValue: '--aeris-shadow-md',
+      description: 'Floating surface elevation.',
+    },
+    {
+      name: '--aeris-toolbar-floating-z-index',
+      type: 'CSS value',
+      defaultValue: '1000',
+      description:
+        'Container stacking order. Viewport mounting uses the shared Aeris overlay stacking order.',
+    },
+    {
       name: '--aeris-toolbar-font-size',
       type: 'CSS value',
       defaultValue: '--aeris-body-font-size',
@@ -462,7 +589,8 @@ type AerisToolbarValue = string | readonly string[] | null;`;
       name: '--aeris-toolbar-radius',
       type: 'CSS value',
       defaultValue: '--aeris-radius-control',
-      description: 'Surface corner radius.',
+      description:
+        'Surface corner radius. When wrap is enabled, the default is the rendered item radius plus the surrounding padding and border width, keeping nested corners aligned.',
     },
     {
       name: '--aeris-toolbar-shadow',

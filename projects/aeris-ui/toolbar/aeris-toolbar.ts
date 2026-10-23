@@ -16,7 +16,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { aerisInternalCreateFrameScheduler } from '@aeris-ui/core';
+import { aerisInternalCreateFrameScheduler, ɵAerisAppendTo } from '@aeris-ui/core';
 
 export type AerisToolbarVariant = 'outlined' | 'filled' | 'elevated' | 'plain';
 export type AerisToolbarSize = 'sm' | 'md' | 'lg';
@@ -25,6 +25,16 @@ export type AerisToolbarRole = 'toolbar' | 'group' | null;
 export type AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';
 export type AerisToolbarSelectionMode = 'none' | 'single' | 'multiple';
 export type AerisToolbarValue = string | readonly string[] | null;
+export type AerisToolbarPosition = 'top' | 'bottom';
+export type AerisToolbarFloatingScope = 'viewport' | 'container';
+
+/** Establishes the containing block for a container-scoped floating toolbar. */
+@Directive({ selector: '[aerisToolbarContainer]', host: { class: 'aeris-toolbar-container' } })
+export class AerisToolbarContainer {}
+
+/** Keeps action text accessible when visually collapsed on narrow screens. */
+@Directive({ selector: '[aerisToolbarLabel]', host: { class: 'aeris-toolbar__label' } })
+export class AerisToolbarLabel {}
 
 @Directive({
   selector: '[aerisToolbarStart]',
@@ -117,6 +127,7 @@ export class AerisToolbarSpacer {}
 
 @Component({
   selector: 'aeris-toolbar',
+  hostDirectives: [ɵAerisAppendTo],
   template: `
     <div
       #viewport
@@ -148,7 +159,12 @@ export class AerisToolbarSpacer {}
     '[attr.aria-describedby]': 'ariaDescribedBy() || null',
     '[attr.aria-orientation]': 'role() === "toolbar" ? orientation() : null',
     '[attr.aria-disabled]': 'disabled() || null',
-    '[attr.inert]': 'disabled() ? "" : null',
+    '[attr.inert]': 'disabled() || !visible() ? "" : null',
+    '[attr.aria-hidden]': '!visible() ? "true" : null',
+    '[attr.data-visible]': 'visible()',
+    '[attr.data-floating]': 'floating() || null',
+    '[attr.data-floating-scope]': 'floatingScope()',
+    '[attr.data-position]': 'position()',
     '[attr.data-variant]': 'variant()',
     '[attr.data-size]': 'size()',
     '[attr.data-orientation]': 'orientation()',
@@ -159,6 +175,8 @@ export class AerisToolbarSpacer {}
     '[attr.data-attached]': 'attached() || null',
     '[attr.data-scroll-start]': 'canScrollStart() || null',
     '[attr.data-scroll-end]': 'canScrollEnd() || null',
+    '(focusin)': 'rememberFocus()',
+    '(focusout)': 'trackFocusExit($event)',
   },
 })
 export class AerisToolbar {
@@ -175,7 +193,16 @@ export class AerisToolbar {
   readonly ariaLabel = input('');
   readonly ariaLabelledBy = input('');
   readonly ariaDescribedBy = input('');
+  readonly floating = input(false, { transform: booleanAttribute });
+  readonly visible = input(true, { transform: booleanAttribute });
+  readonly position = input<AerisToolbarPosition>('bottom');
+  readonly floatingScope = input<AerisToolbarFloatingScope>('viewport');
+  readonly restoreFocusTo = input<HTMLElement | null>(null);
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly portal = inject(ɵAerisAppendTo);
+  private previouslyVisible = false;
+  private focusWithin = false;
+  private returnFocusTarget: HTMLElement | null = null;
   private readonly viewport = viewChild<ElementRef<HTMLElement>>('viewport');
   private readonly content = viewChild<ElementRef<HTMLElement>>('content');
   private readonly items = contentChildren(AerisToolbarItem, { descendants: true });
@@ -203,6 +230,12 @@ export class AerisToolbar {
   private suppressClick = false;
 
   constructor() {
+    this.portal.setTarget('self');
+    afterRenderEffect(() =>
+      this.portal.setTarget(
+        this.floating() && this.floatingScope() === 'viewport' ? 'body' : 'self',
+      ),
+    );
     const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
       const viewport = this.viewport()?.nativeElement;
@@ -233,7 +266,41 @@ export class AerisToolbar {
       this.items();
       this.scheduleOverflow();
     });
+    afterRenderEffect(() => {
+      const visible = this.visible();
+      const host = this.element.nativeElement;
+      const document = host.ownerDocument;
+      if (visible === this.previouslyVisible) return;
+      this.previouslyVisible = visible;
+      if (visible) {
+        const active = document.activeElement;
+        this.returnFocusTarget =
+          active instanceof HTMLElement && !host.contains(active) ? active : null;
+        this.scheduleOverflow();
+      } else if (
+        this.focusWithin &&
+        (host.contains(document.activeElement) || document.activeElement === document.body)
+      ) {
+        const target = this.restoreFocusTo() ?? this.returnFocusTarget;
+        if (target?.isConnected && !target.closest('[hidden], [inert]'))
+          target.focus({ preventScroll: true });
+        this.focusWithin = false;
+      }
+    });
     destroyRef.onDestroy(() => this.overflowFrame.cancel());
+  }
+
+  protected rememberFocus(): void {
+    this.focusWithin = true;
+  }
+
+  protected trackFocusExit(event: FocusEvent): void {
+    if (
+      event.relatedTarget instanceof Node &&
+      !this.element.nativeElement.contains(event.relatedTarget)
+    ) {
+      this.focusWithin = false;
+    }
   }
 
   protected scheduleOverflow(): void {
@@ -330,6 +397,7 @@ export class AerisToolbar {
 
   /** Focus the last available toolbar item, or the first enabled item on first entry. */
   focus(options?: FocusOptions): void {
+    if (!this.visible() || this.disabled()) return;
     this.tabStop()?.focus(options);
   }
 
@@ -485,6 +553,8 @@ export class AerisToolbarItem {
 
 export const AerisToolbarModule = [
   AerisToolbar,
+  AerisToolbarContainer,
+  AerisToolbarLabel,
   AerisToolbarStart,
   AerisToolbarCenter,
   AerisToolbarEnd,

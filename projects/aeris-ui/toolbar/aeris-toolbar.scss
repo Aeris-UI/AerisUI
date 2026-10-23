@@ -4,7 +4,11 @@
   --_gap: var(--aeris-toolbar-gap, 0.625rem);
   --_section-gap: var(--aeris-toolbar-section-gap, 0.25rem);
   --_item-size: var(--aeris-toolbar-item-size, var(--aeris-control-height-sm, 2.25rem));
+  // Include the item line box, block padding and border when compact controls grow naturally.
+  --_item-min-size: max(var(--_item-size), var(--_touch-target, 0px), calc(1.25em + 0.75rem + 2px));
   --_surface: var(--aeris-toolbar-background, var(--aeris-surface, #fff));
+  --_shape-radius: var(--aeris-radius-control, 0.5rem);
+  --_radius: var(--aeris-toolbar-radius, var(--_shape-radius));
   position: relative;
   display: inline-flex;
   box-sizing: border-box;
@@ -12,7 +16,7 @@
   max-inline-size: 100%;
   inline-size: fit-content;
   border: var(--aeris-toolbar-border-width, 1px) solid transparent;
-  border-radius: var(--aeris-toolbar-radius, var(--aeris-radius-control, 0.5rem));
+  border-radius: var(--_radius);
   background: transparent;
   color: var(--aeris-toolbar-color, var(--aeris-text, #111));
   font-size: var(--aeris-toolbar-font-size, var(--aeris-body-font-size, 0.875rem));
@@ -20,6 +24,116 @@
 }
 .aeris-toolbar[data-fluid='true'] {
   inline-size: 100%;
+}
+.aeris-toolbar[data-wrap='true'] {
+  // Concentric nested corners: the rendered item radius plus its surface inset.
+  --_shape-radius: calc(
+    min(
+        var(--aeris-toolbar-item-radius, var(--aeris-radius-control, 0.5rem)),
+        var(--_item-min-size) / 2
+      ) +
+      min(var(--_padding-block), var(--_padding-inline)) + var(--aeris-toolbar-border-width, 1px)
+  );
+}
+
+.aeris-toolbar-container {
+  position: relative;
+  isolation: isolate;
+  min-inline-size: 0;
+}
+
+.aeris-toolbar[data-visible='false'] {
+  display: none;
+}
+
+.aeris-toolbar[data-floating] {
+  --_radius: var(--aeris-toolbar-floating-radius, var(--_shape-radius));
+  --_floating-offset: var(--aeris-toolbar-floating-offset, 1rem);
+  --_floating-entry: 0.5rem;
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  left: calc(var(--_aeris-viewport-left, 0px) + var(--_aeris-viewport-width, 100vw) / 2);
+  bottom: calc(
+    var(--_aeris-viewport-bottom, 0px) + var(--_floating-offset) + env(safe-area-inset-bottom, 0px)
+  );
+  max-inline-size: max(
+    0px,
+    calc(
+      var(--_aeris-viewport-width, 100vw) - 2 *
+        (
+          var(--_floating-offset) +
+            max(env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px))
+        )
+    )
+  );
+  max-block-size: max(
+    0px,
+    calc(
+      var(--_aeris-viewport-height, 100dvh) - 2 *
+        var(--_floating-offset) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+    )
+  );
+  border-color: var(--aeris-toolbar-border, var(--aeris-border));
+  background: var(--_surface);
+  box-shadow: var(--aeris-toolbar-floating-shadow, var(--aeris-shadow-md));
+  z-index: var(--aeris-toolbar-floating-z-index, 1000);
+  transform: translateX(-50%);
+  opacity: 1;
+  translate: 0;
+  transition:
+    opacity var(--aeris-motion-duration-normal, 180ms) ease,
+    translate var(--aeris-motion-duration-normal, 180ms) var(--aeris-motion-ease-out, ease-out),
+    display var(--aeris-motion-duration-normal, 180ms) allow-discrete;
+}
+
+.aeris-toolbar[data-floating][data-position='top'] {
+  --_floating-entry: -0.5rem;
+  top: calc(
+    var(--_aeris-viewport-top, 0px) + var(--_floating-offset) + env(safe-area-inset-top, 0px)
+  );
+  bottom: auto;
+}
+
+.aeris-toolbar[data-floating] > .aeris-toolbar__viewport {
+  min-block-size: 0;
+  max-block-size: inherit;
+}
+
+.aeris-toolbar[data-floating][data-floating-scope='container'] {
+  position: absolute;
+  left: 50%;
+  bottom: var(--_floating-offset);
+  max-inline-size: max(0px, calc(100% - 2 * var(--_floating-offset)));
+  max-block-size: max(0px, calc(100% - 2 * var(--_floating-offset)));
+  transition:
+    opacity var(--aeris-motion-duration-normal, 180ms) ease,
+    translate var(--aeris-motion-duration-normal, 180ms) var(--aeris-motion-ease-out, ease-out),
+    visibility 0s;
+}
+
+.aeris-toolbar[data-floating][data-floating-scope='container'][data-position='top'] {
+  top: var(--_floating-offset);
+  bottom: auto;
+}
+
+.aeris-toolbar[data-floating][data-visible='false'] {
+  opacity: 0;
+  translate: 0 var(--_floating-entry);
+  pointer-events: none;
+}
+
+.aeris-toolbar[data-floating][data-floating-scope='container'][data-visible='false'] {
+  display: inline-flex;
+  visibility: hidden;
+  transition-delay: 0s, 0s, var(--aeris-motion-duration-normal, 180ms);
+}
+
+@starting-style {
+  .aeris-toolbar[data-floating] {
+    opacity: 0;
+    translate: 0 var(--_floating-entry);
+  }
 }
 .aeris-toolbar[data-attached],
 .aeris-toolbar[data-variant='outlined'],
@@ -132,8 +246,8 @@
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  min-block-size: var(--_item-size);
-  min-inline-size: var(--_item-size);
+  min-block-size: var(--_item-min-size);
+  min-inline-size: var(--_item-min-size);
   gap: var(--aeris-toolbar-item-gap, 0.5rem);
   margin: 0;
   padding: 0.375rem var(--aeris-toolbar-item-padding, 0.625rem);
@@ -242,15 +356,7 @@
   inset: 0;
   pointer-events: none;
   opacity: 0;
-  border-radius: max(
-    0px,
-    calc(
-      var(--aeris-toolbar-radius, var(--aeris-radius-control, 0.5rem)) - var(
-          --aeris-toolbar-border-width,
-          1px
-        )
-    )
-  );
+  border-radius: max(0px, calc(var(--_radius) - var(--aeris-toolbar-border-width, 1px)));
   background: linear-gradient(
     var(--_fade-direction),
     var(--_surface),
@@ -281,13 +387,27 @@
   --_fade-direction: to top;
 }
 @media (pointer: coarse) {
-  .aeris-toolbar__item {
-    min-block-size: 2.75rem;
-    min-inline-size: 2.75rem;
+  .aeris-toolbar {
+    --_touch-target: 2.75rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .aeris-toolbar__item {
+  .aeris-toolbar__item,
+  .aeris-toolbar[data-floating] {
     transition: none;
+  }
+}
+
+@media (max-width: 40rem) {
+  .aeris-toolbar__label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }

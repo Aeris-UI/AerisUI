@@ -27774,6 +27774,36 @@
           "kind": "input",
           "entries": [
             {
+              "name": "floating",
+              "type": "boolean",
+              "defaultValue": "false",
+              "description": "Floats on a surfaced, elevated background instead of participating in document flow. Non-modal: no backdrop, focus trap, or automatic focus on opening."
+            },
+            {
+              "name": "visible",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Controls visibility. Hidden toolbars are inert and excluded from accessibility navigation immediately; floating toolbars animate their entrance and exit. Keep the toolbar mounted while changing this input to allow the exit animation."
+            },
+            {
+              "name": "position",
+              "type": "'top' | 'bottom'",
+              "defaultValue": "'bottom'",
+              "description": "Centered floating placement. Options: top, bottom. Has no effect on inline toolbars."
+            },
+            {
+              "name": "floatingScope",
+              "type": "'viewport' | 'container'",
+              "defaultValue": "'viewport'",
+              "description": "Viewport mounts the toolbar under document.body to avoid ancestor clipping and transforms and follows the visual viewport. Container uses absolute positioning inside the nearest positioned ancestor; use aerisToolbarContainer on that region. Options: viewport, container."
+            },
+            {
+              "name": "restoreFocusTo",
+              "type": "HTMLElement | null",
+              "defaultValue": "null",
+              "description": "Optional focus destination when the toolbar hides while focus is inside it. Otherwise restores the element focused when it appeared. Does not move focus if the user has already focused another control. The target must be connected, focusable, and not hidden or inert."
+            },
+            {
               "name": "id",
               "type": "string",
               "defaultValue": "''",
@@ -27990,6 +28020,18 @@
               "description": "Non-focusable separator; its orientation follows the toolbar."
             },
             {
+              "name": "aerisToolbarContainer",
+              "type": "attribute directive",
+              "defaultValue": "—",
+              "description": "Establishes a positioned, isolated region for container-scoped floating toolbars. Place scrollable content inside this region to keep the toolbar anchored to its visible frame."
+            },
+            {
+              "name": "aerisToolbarLabel",
+              "type": "attribute directive",
+              "defaultValue": "—",
+              "description": "Visually hides action text below 40rem while keeping the accessible button name. Use alongside a decorative icon; never apply to an iconless action."
+            },
+            {
               "name": "aerisToolbarStart",
               "type": "attribute directive",
               "defaultValue": "—",
@@ -28032,10 +28074,34 @@
       "interfaces": [
         {
           "name": "Interface",
-          "code": "type AerisToolbarVariant = 'plain' | 'outlined' | 'filled' | 'elevated';\ntype AerisToolbarSize = 'sm' | 'md' | 'lg';\ntype AerisToolbarOrientation = 'horizontal' | 'vertical';\ntype AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';\ntype AerisToolbarRole = 'toolbar' | 'group' | null;\ntype AerisToolbarSelectionMode = 'none' | 'single' | 'multiple';\ntype AerisToolbarValue = string | readonly string[] | null;"
+          "code": "type AerisToolbarVariant = 'plain' | 'outlined' | 'filled' | 'elevated';\ntype AerisToolbarSize = 'sm' | 'md' | 'lg';\ntype AerisToolbarOrientation = 'horizontal' | 'vertical';\ntype AerisToolbarAlign = 'start' | 'center' | 'end' | 'stretch';\ntype AerisToolbarRole = 'toolbar' | 'group' | null;\ntype AerisToolbarSelectionMode = 'none' | 'single' | 'multiple';\ntype AerisToolbarValue = string | readonly string[] | null;\ntype AerisToolbarPosition = 'top' | 'bottom';\ntype AerisToolbarFloatingScope = 'viewport' | 'container';"
         }
       ],
       "designTokens": [
+        {
+          "name": "--aeris-toolbar-floating-offset",
+          "type": "CSS length",
+          "defaultValue": "1rem",
+          "description": "Distance from the selected edge and minimum inline clearance. Viewport placement also respects safe-area insets. Increase to accommodate fixed headers or bottom navigation."
+        },
+        {
+          "name": "--aeris-toolbar-floating-radius",
+          "type": "CSS value",
+          "defaultValue": "--aeris-radius-control",
+          "description": "Floating surface corner radius. Wrapping surfaces derive their radius from item corners, size, padding and border width."
+        },
+        {
+          "name": "--aeris-toolbar-floating-shadow",
+          "type": "CSS value",
+          "defaultValue": "--aeris-shadow-md",
+          "description": "Floating surface elevation."
+        },
+        {
+          "name": "--aeris-toolbar-floating-z-index",
+          "type": "CSS value",
+          "defaultValue": "1000",
+          "description": "Container stacking order. Viewport mounting uses the shared Aeris overlay stacking order."
+        },
         {
           "name": "--aeris-toolbar-font-size",
           "type": "CSS value",
@@ -28070,7 +28136,7 @@
           "name": "--aeris-toolbar-radius",
           "type": "CSS value",
           "defaultValue": "--aeris-radius-control",
-          "description": "Surface corner radius."
+          "description": "Surface corner radius. When wrap is enabled, the default is the rendered item radius plus the surrounding padding and border width, keeping nested corners aligned."
         },
         {
           "name": "--aeris-toolbar-shadow",
@@ -28250,7 +28316,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-basic-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-basic.demo.html',\n  styleUrl: './toolbar-basic.demo.scss'\n})\nexport class ToolbarBasicDemo {\n  protected readonly minusIcon = LucideMinus;\n\n  protected readonly plusIcon = LucidePlus;\n\n  protected readonly resetIcon = LucideRotateCcw;\n\n  protected readonly zoom = signal(100);\n\n  protected zoomOut(): void {\n      this.zoom.update((value) => Math.max(50, value - 10));\n    }\n\n  protected zoomIn(): void {\n      this.zoom.update((value) => Math.min(150, value + 10));\n    }\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-basic-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-basic.demo.html',\n  styleUrl: './toolbar-basic.demo.scss'\n})\nexport class ToolbarBasicDemo {\n  protected readonly minusIcon = LucideMinus;\n\n  protected readonly plusIcon = LucidePlus;\n\n  protected readonly resetIcon = LucideRotateCcw;\n\n  protected readonly zoom = signal(100);\n\n  protected zoomOut(): void {\n      this.zoom.update((value) => Math.max(50, value - 10));\n    }\n\n  protected zoomIn(): void {\n      this.zoom.update((value) => Math.min(150, value + 10));\n    }\n}\n"
             },
             {
               "language": "HTML",
@@ -28272,7 +28338,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-toggles-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-toggles.demo.html',\n  styleUrl: './toolbar-toggles.demo.scss'\n})\nexport class ToolbarTogglesDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly underlineIcon = LucideUnderline;\n\n  protected readonly bold = signal(false);\n\n  protected readonly italic = signal(false);\n\n  protected readonly underline = signal(false);\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-toggles-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-toggles.demo.html',\n  styleUrl: './toolbar-toggles.demo.scss'\n})\nexport class ToolbarTogglesDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly underlineIcon = LucideUnderline;\n\n  protected readonly bold = signal(false);\n\n  protected readonly italic = signal(false);\n\n  protected readonly underline = signal(false);\n}\n"
             },
             {
               "language": "HTML",
@@ -28294,7 +28360,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, computed, signal } from '@angular/core';\nimport { AerisToolbarModule, type AerisToolbarValue } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-groups-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-groups.demo.html',\n  styleUrl: './toolbar-groups.demo.scss'\n})\nexport class ToolbarGroupsDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly underlineIcon = LucideUnderline;\n\n  protected readonly leftIcon = LucideAlignLeft;\n\n  protected readonly centerIcon = LucideAlignCenter;\n\n  protected readonly rightIcon = LucideAlignRight;\n\n  protected readonly bold = signal(false);\n\n  protected readonly alignment = signal<AerisToolbarValue>('start');\n\n  protected readonly alignmentStyle = computed(() => String(this.alignment() ?? 'start'));\n\n  protected readonly formats = signal<AerisToolbarValue>(['bold']);\n}\n"
+              "code": "import { Component, computed, signal } from '@angular/core';\nimport { AerisToolbarModule, type AerisToolbarValue } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-groups-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-groups.demo.html',\n  styleUrl: './toolbar-groups.demo.scss'\n})\nexport class ToolbarGroupsDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly underlineIcon = LucideUnderline;\n\n  protected readonly leftIcon = LucideAlignLeft;\n\n  protected readonly centerIcon = LucideAlignCenter;\n\n  protected readonly rightIcon = LucideAlignRight;\n\n  protected readonly bold = signal(false);\n\n  protected readonly alignment = signal<AerisToolbarValue>('start');\n\n  protected readonly alignmentStyle = computed(() => String(this.alignment() ?? 'start'));\n\n  protected readonly formats = signal<AerisToolbarValue>(['bold']);\n}\n"
             },
             {
               "language": "HTML",
@@ -28316,7 +28382,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-attached-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-attached.demo.html',\n  styleUrl: './toolbar-attached.demo.scss'\n})\nexport class ToolbarAttachedDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly underlineIcon = LucideUnderline;\n\n  protected readonly attachedBold = signal(true);\n\n  protected readonly attachedItalic = signal(false);\n\n  protected readonly attachedUnderline = signal(false);\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-attached-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-attached.demo.html',\n  styleUrl: './toolbar-attached.demo.scss'\n})\nexport class ToolbarAttachedDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly underlineIcon = LucideUnderline;\n\n  protected readonly attachedBold = signal(true);\n\n  protected readonly attachedItalic = signal(false);\n\n  protected readonly attachedUnderline = signal(false);\n}\n"
             },
             {
               "language": "HTML",
@@ -28338,7 +28404,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule, type AerisToolbarValue } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-vertical-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-vertical.demo.html',\n  styleUrl: './toolbar-vertical.demo.scss'\n})\nexport class ToolbarVerticalDemo {\n  protected readonly pointerIcon = LucideMousePointer;\n\n  protected readonly pencilIcon = LucidePencil;\n\n  protected readonly eraserIcon = LucideEraser;\n\n  protected readonly resetIcon = LucideRotateCcw;\n\n  protected readonly tool = signal<AerisToolbarValue>('select');\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule, type AerisToolbarValue } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-vertical-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-vertical.demo.html',\n  styleUrl: './toolbar-vertical.demo.scss'\n})\nexport class ToolbarVerticalDemo {\n  protected readonly pointerIcon = LucideMousePointer;\n\n  protected readonly pencilIcon = LucidePencil;\n\n  protected readonly eraserIcon = LucideEraser;\n\n  protected readonly resetIcon = LucideRotateCcw;\n\n  protected readonly tool = signal<AerisToolbarValue>('select');\n}\n"
             },
             {
               "language": "HTML",
@@ -28360,7 +28426,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-menu-demo',\n  imports: [AerisMenuModule, AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-menu.demo.html',\n  styleUrl: './toolbar-menu.demo.scss'\n})\nexport class ToolbarMenuDemo {\n  protected readonly chevronIcon = LucideChevronDown;\n\n  protected readonly downloadIcon = LucideDownload;\n\n  protected readonly shareIcon = LucideShare2;\n\n  protected readonly lastAction = signal('Choose an action.');\n\n  protected readonly menuOpen = signal(false);\n\n  protected readonly menuItems: readonly AerisMenuItem[] = [\n      {\n        id: 'pdf',\n        label: 'PDF document',\n        command: () => this.lastAction.set('PDF export selected.'),\n      },\n      {\n        id: 'csv',\n        label: 'CSV spreadsheet',\n        command: () => this.lastAction.set('CSV export selected.'),\n      },\n    ];\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisMenuModule, type AerisMenuItem } from '@aeris-ui/core/menu';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-menu-demo',\n  imports: [AerisMenuModule, AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-menu.demo.html',\n  styleUrl: './toolbar-menu.demo.scss'\n})\nexport class ToolbarMenuDemo {\n  protected readonly chevronIcon = LucideChevronDown;\n\n  protected readonly downloadIcon = LucideDownload;\n\n  protected readonly shareIcon = LucideShare2;\n\n  protected readonly lastAction = signal('Choose an action.');\n\n  protected readonly menuOpen = signal(false);\n\n  protected readonly menuItems: readonly AerisMenuItem[] = [\n      {\n        id: 'pdf',\n        label: 'PDF document',\n        command: () => this.lastAction.set('PDF export selected.'),\n      },\n      {\n        id: 'csv',\n        label: 'CSV spreadsheet',\n        command: () => this.lastAction.set('CSV export selected.'),\n      },\n    ];\n}\n"
             },
             {
               "language": "HTML",
@@ -28419,6 +28485,50 @@
           ]
         },
         {
+          "id": "toolbar-floating",
+          "title": "Floating actions",
+          "description": "Selection belongs to your application. Select table rows to reveal their toolbar inside this container. The bar does not steal focus or prevent further selection. Action labels become visually hidden on narrow screens but remain accessible.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisTableModule, type AerisTableColumn } from '@aeris-ui/core/table';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-floating-demo',\n  imports: [AerisButton, AerisTableModule, AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-floating.demo.html',\n  styleUrl: './toolbar-floating.demo.scss'\n})\nexport class ToolbarFloatingDemo {\n  protected readonly archiveIcon = LucideArchive;\n\n  protected readonly closeIcon = LucideX;\n\n  protected readonly floatingFiles = signal([\n      { id: 'report', name: 'Quarterly report.pdf', type: 'PDF' },\n      { id: 'notes', name: 'Meeting notes.txt', type: 'Text' },\n      { id: 'photo', name: 'Team photo.jpg', type: 'Image' },\n    ]);\n\n  protected readonly floatingColumns: readonly AerisTableColumn[] = [\n      { field: 'name', header: 'File' },\n      { field: 'type', header: 'Type', width: '6rem' },\n    ];\n\n  protected readonly floatingSelection = signal<readonly string[]>([]);\n\n  protected readonly floatingMessage = signal('Select files to reveal their actions.');\n\n  protected exportSelection(): void {\n      this.floatingMessage.set(`Export requested for ${this.floatingSelection().length} files.`);\n    }\n\n  protected archiveSelection(): void {\n      const keys = new Set(this.floatingSelection());\n      this.floatingFiles.update((files) => files.filter((file) => !keys.has(file.id)));\n      this.floatingMessage.set(`Archived ${keys.size} ${keys.size === 1 ? 'file' : 'files'}.`);\n      this.floatingSelection.set([]);\n    }\n\n  protected resetFloatingFiles(): void {\n      this.floatingFiles.set([\n        { id: 'report', name: 'Quarterly report.pdf', type: 'PDF' },\n        { id: 'notes', name: 'Meeting notes.txt', type: 'Text' },\n        { id: 'photo', name: 'Team photo.jpg', type: 'Image' },\n      ]);\n      this.floatingSelection.set([]);\n      this.floatingMessage.set('Select files to reveal their actions.');\n    }\n\n  protected readonly downloadIcon = LucideDownload;\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"toolbar-stack\">\n  <div aerisToolbarContainer class=\"toolbar-selection-region\">\n    <div #fileRegion tabindex=\"-1\" role=\"group\" aria-label=\"Files and selection\">\n      <aeris-table\n        caption=\"Files\"\n        [data]=\"floatingFiles()\"\n        [columns]=\"floatingColumns\"\n        selectionMode=\"multiple\"\n        [(selectedKeys)]=\"floatingSelection\"\n      />\n    </div>\n    <aeris-toolbar\n      floating\n      floatingScope=\"container\"\n      [visible]=\"floatingSelection().length > 0\"\n      [restoreFocusTo]=\"fileRegion\"\n      ariaLabel=\"Selected file actions\"\n    >\n      <span class=\"toolbar-caption\">{{ floatingSelection().length }} selected</span>\n      <span aerisToolbarSeparator></span>\n      <button aerisToolbarItem (click)=\"exportSelection()\">\n        <svg [lucideIcon]=\"downloadIcon\" aria-hidden=\"true\"></svg>\n        <span aerisToolbarLabel>Export</span>\n      </button>\n      <button aerisToolbarItem (click)=\"archiveSelection()\">\n        <svg [lucideIcon]=\"archiveIcon\" aria-hidden=\"true\"></svg>\n        <span aerisToolbarLabel>Archive</span>\n      </button>\n      <span aerisToolbarSeparator></span>\n      <button\n        aerisToolbarItem\n        iconOnly\n        aria-label=\"Clear selection\"\n        (click)=\"floatingSelection.set([])\"\n      >\n        <svg [lucideIcon]=\"closeIcon\" aria-hidden=\"true\"></svg>\n      </button>\n    </aeris-toolbar>\n  </div>\n  <p class=\"toolbar-note\" aria-live=\"polite\">{{ floatingMessage() }}</p>\n  <button aerisButton variant=\"outline\" (click)=\"resetFloatingFiles()\">\n    Reset files\n  </button>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": "svg:where([lucideIcon]) {\n  width: var(--aeris-icon-size, 1rem);\n  height: var(--aeris-icon-size, 1rem);\n  flex-shrink: 0;\n  stroke-width: 2;\n}\n\n.toolbar-selection-region {\n  inline-size: 100%;\n  padding-block-end: 5.5rem;\n}\n\n.toolbar-selection-region > [tabindex=\"-1\"]:focus-visible {\n  outline: var(--aeris-focus-ring-width, 3px) solid var(--aeris-focus-ring-color);\n  outline-offset: 0.25rem;\n}\n\n.toolbar-stack {\n  display: grid;\n  justify-items: start;\n  gap: 1rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.toolbar-note {\n  margin: 0;\n  color: var(--aeris-text-muted);\n  font-size: var(--aeris-body-font-size);\n}\n\n.toolbar-caption {\n  padding-inline: var(--aeris-toolbar-item-padding, 0.625rem);\n}"
+            }
+          ]
+        },
+        {
+          "id": "toolbar-viewport",
+          "title": "Viewport positioning",
+          "description": "Choose the top or bottom of the screen. The floating toolbar stays anchored while scrolling and follows the usable viewport on mobile. The offset token reserves space for fixed navigation. Close it to return focus to the button that opened it.",
+          "sources": [
+            {
+              "language": "TypeScript",
+              "label": "TS",
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToolbarModule, type AerisToolbarPosition } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-viewport-demo',\n  imports: [AerisButton, AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-viewport.demo.html',\n  styleUrl: './toolbar-viewport.demo.scss'\n})\nexport class ToolbarViewportDemo {\n  protected readonly closeIcon = LucideX;\n\n  protected readonly viewportToolbarVisible = signal(false);\n\n  protected readonly viewportToolbarPosition = signal<AerisToolbarPosition>('bottom');\n\n  protected readonly viewportToolbarTrigger = signal<HTMLElement | null>(null);\n\n  protected readonly viewportMessage = signal('The toolbar does not block or dim the page.');\n\n  protected showViewportToolbar(position: AerisToolbarPosition, event: MouseEvent): void {\n      this.viewportToolbarPosition.set(position);\n      this.viewportToolbarTrigger.set(\n        event.currentTarget instanceof HTMLElement ? event.currentTarget : null,\n      );\n      this.viewportToolbarVisible.set(true);\n    }\n\n  protected readonly shareIcon = LucideShare2;\n}\n"
+            },
+            {
+              "language": "HTML",
+              "label": "HTML",
+              "code": "<div class=\"toolbar-stack\">\n  <div class=\"toolbar-launchers\">\n    <button aerisButton variant=\"outline\" (click)=\"showViewportToolbar('top', $event)\">\n      Show at top\n    </button>\n    <button aerisButton variant=\"outline\" (click)=\"showViewportToolbar('bottom', $event)\">\n      Show at bottom\n    </button>\n  </div>\n  <aeris-toolbar\n    floating\n    [visible]=\"viewportToolbarVisible()\"\n    [position]=\"viewportToolbarPosition()\"\n    [restoreFocusTo]=\"viewportToolbarTrigger()\"\n    style=\"--aeris-toolbar-floating-offset: 5rem\"\n    ariaLabel=\"Viewport actions\"\n  >\n    <button aerisToolbarItem (click)=\"viewportMessage.set('Share action selected.')\">\n      <svg [lucideIcon]=\"shareIcon\" aria-hidden=\"true\"></svg>\n      <span aerisToolbarLabel>Share</span>\n    </button>\n    <span aerisToolbarSeparator></span>\n    <button\n      aerisToolbarItem\n      iconOnly\n      aria-label=\"Close toolbar\"\n      (click)=\"viewportToolbarVisible.set(false)\"\n    >\n      <svg [lucideIcon]=\"closeIcon\" aria-hidden=\"true\"></svg>\n    </button>\n  </aeris-toolbar>\n  <p class=\"toolbar-note\" aria-live=\"polite\">{{ viewportMessage() }}</p>\n</div>"
+            },
+            {
+              "language": "CSS",
+              "label": "CSS",
+              "code": "svg:where([lucideIcon]) {\n  width: var(--aeris-icon-size, 1rem);\n  height: var(--aeris-icon-size, 1rem);\n  flex-shrink: 0;\n  stroke-width: 2;\n}\n\n.toolbar-launchers {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n\n.toolbar-stack {\n  display: grid;\n  justify-items: start;\n  gap: 1rem;\n  inline-size: 100%;\n  min-inline-size: 0;\n}\n\n.toolbar-note {\n  margin: 0;\n  color: var(--aeris-text-muted);\n  font-size: var(--aeris-body-font-size);\n}"
+            }
+          ]
+        },
+        {
           "id": "toolbar-sections",
           "title": "Full-width layout",
           "description": "Sections and spacers distribute application actions. The group role keeps normal tab stops.",
@@ -28426,7 +28536,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-sections-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-sections.demo.html',\n  styleUrl: './toolbar-sections.demo.scss'\n})\nexport class ToolbarSectionsDemo {\n  protected readonly shareIcon = LucideShare2;\n\n  protected readonly sectionAction = signal('Choose an action.');\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-sections-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-sections.demo.html',\n  styleUrl: './toolbar-sections.demo.scss'\n})\nexport class ToolbarSectionsDemo {\n  protected readonly shareIcon = LucideShare2;\n\n  protected readonly sectionAction = signal('Choose an action.');\n}\n"
             },
             {
               "language": "HTML",
@@ -28448,7 +28558,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToolbarModule, type AerisToolbarSize } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-states-demo',\n  imports: [AerisButton, AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-states.demo.html',\n  styleUrl: './toolbar-states.demo.scss'\n})\nexport class ToolbarStatesDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly bold = signal(false);\n\n  protected readonly italic = signal(false);\n\n  protected readonly toolsDisabled = signal(false);\n\n  protected readonly sizes: readonly AerisToolbarSize[] = ['sm', 'md', 'lg'];\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisButton } from '@aeris-ui/core/button';\nimport { AerisToolbarModule, type AerisToolbarSize } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-states-demo',\n  imports: [AerisButton, AerisToolbarModule, LucideDynamicIcon],\n  templateUrl: './toolbar-states.demo.html',\n  styleUrl: './toolbar-states.demo.scss'\n})\nexport class ToolbarStatesDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly bold = signal(false);\n\n  protected readonly italic = signal(false);\n\n  protected readonly toolsDisabled = signal(false);\n\n  protected readonly sizes: readonly AerisToolbarSize[] = ['sm', 'md', 'lg'];\n}\n"
             },
             {
               "language": "HTML",
@@ -28470,13 +28580,14 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-custom-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  template: `\n    <div>\n      <aeris-toolbar class=\"brand-toolbar\" attached ariaLabel=\"Customized tools\">\n        <button aerisToolbarItem iconOnly aria-label=\"Bold\" [(pressed)]=\"bold\">\n          <svg [lucideIcon]=\"boldIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Italic\" [(pressed)]=\"italic\">\n          <svg [lucideIcon]=\"italicIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Underline\" [(pressed)]=\"underline\">\n          <svg [lucideIcon]=\"underlineIcon\" aria-hidden=\"true\"></svg>\n        </button>\n      </aeris-toolbar>\n    </div>\n  `,\n  styles: `\n    svg:where([lucideIcon]) {\n      width: var(--aeris-icon-size, 1rem);\n      height: var(--aeris-icon-size, 1rem);\n      flex-shrink: 0;\n      stroke-width: 2;\n    }\n    \n    .brand-toolbar {\n      --aeris-toolbar-background: var(--aeris-primary-soft);\n      --aeris-toolbar-item-pressed-background: var(--aeris-primary);\n      --aeris-toolbar-item-pressed-color: var(--aeris-primary-contrast);\n      --aeris-toolbar-padding-block: 0.625rem;\n      --aeris-toolbar-padding-inline: 0.625rem;\n    }\n  `\n})\nexport class ToolbarCustomDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly underlineIcon = LucideUnderline;\n\n  protected readonly bold = signal(false);\n\n  protected readonly italic = signal(false);\n\n  protected readonly underline = signal(false);\n}\n"
+              "code": "import { Component, signal } from '@angular/core';\nimport { AerisToolbarModule } from '@aeris-ui/core/toolbar';\nimport { LucideAlignCenter, LucideAlignLeft, LucideAlignRight, LucideArchive, LucideBold, LucideChevronDown, LucideDownload, LucideDynamicIcon, LucideEraser, LucideItalic, LucideMinus, LucideMousePointer, LucidePencil, LucidePlus, LucideRotateCcw, LucideShare2, LucideUnderline, LucideX } from '@lucide/angular';\n\n@Component({\n  selector: 'app-toolbar-custom-demo',\n  imports: [AerisToolbarModule, LucideDynamicIcon],\n  template: `\n    <div>\n      <aeris-toolbar class=\"brand-toolbar\" attached ariaLabel=\"Customized tools\">\n        <button aerisToolbarItem iconOnly aria-label=\"Bold\" [(pressed)]=\"bold\">\n          <svg [lucideIcon]=\"boldIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Italic\" [(pressed)]=\"italic\">\n          <svg [lucideIcon]=\"italicIcon\" aria-hidden=\"true\"></svg>\n        </button>\n        <button aerisToolbarItem iconOnly aria-label=\"Underline\" [(pressed)]=\"underline\">\n          <svg [lucideIcon]=\"underlineIcon\" aria-hidden=\"true\"></svg>\n        </button>\n      </aeris-toolbar>\n    </div>\n  `,\n  styles: `\n    svg:where([lucideIcon]) {\n      width: var(--aeris-icon-size, 1rem);\n      height: var(--aeris-icon-size, 1rem);\n      flex-shrink: 0;\n      stroke-width: 2;\n    }\n    \n    .brand-toolbar {\n      --aeris-toolbar-background: var(--aeris-primary-soft);\n      --aeris-toolbar-item-pressed-background: var(--aeris-primary);\n      --aeris-toolbar-item-pressed-color: var(--aeris-primary-contrast);\n      --aeris-toolbar-padding-block: 0.625rem;\n      --aeris-toolbar-padding-inline: 0.625rem;\n    }\n  `\n})\nexport class ToolbarCustomDemo {\n  protected readonly boldIcon = LucideBold;\n\n  protected readonly italicIcon = LucideItalic;\n\n  protected readonly underlineIcon = LucideUnderline;\n\n  protected readonly bold = signal(false);\n\n  protected readonly italic = signal(false);\n\n  protected readonly underline = signal(false);\n}\n"
             }
           ]
         }
       ],
       "accessibility": {
         "guidance": [
+          "Floating toolbars are non-modal. Opening one does not move focus, create a backdrop, trap focus, or lock page scrolling. Hidden toolbars become inert and leave the accessibility tree immediately, even while the exit animation finishes. When hiding a focused toolbar, supply restoreFocusTo for a stable destination such as the selection region; otherwise Aeris uses the element focused when the bar appeared. Closing a toolbar does not itself clear application selection. Escape does not dismiss the toolbar; provide an explicit close or clear action. Use aerisToolbarLabel only on text accompanied by a decorative icon so compact actions retain their names.",
           "Supply ariaLabel or ariaLabelledBy. Dedicated items are native buttons. Icon-only items need an accessible name. Toggle and selection items expose aria-pressed; menu triggers expose aria-haspopup and controlled aria-expanded.",
           "Dedicated items share a roving tab stop. Disabled items are skipped. Groups can have accessible names. Projected inputs and other widgets keep their own tab stops and editing behavior. Use role=\"group\" or a null role when coordinated navigation is not appropriate. Disabling a toolbar makes its subtree inert.",
           "Menu focus is handled by the menu component. Bind expanded to its opened and closed events. Transitions respect reduced motion; touch targets are at least 44px on coarse pointers."

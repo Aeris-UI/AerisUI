@@ -3,6 +3,237 @@ import { expect, test } from './fixtures';
 
 test.use({ baseURL: 'http://127.0.0.1:4301' });
 
+test('inline and floating Toolbar surfaces follow every corner preset', async ({ page }) => {
+  await page.goto('/components/toolbar');
+  const inline = page.getByRole('toolbar', { name: 'Zoom controls', exact: true });
+  const wrapping = page.locator('#toolbar-wrapping aeris-toolbar[data-wrap="true"]');
+  const expectConcentricCorners = async (): Promise<void> => {
+    await expect
+      .poll(() =>
+        wrapping.evaluate((element) => {
+          const item = element.querySelector<HTMLElement>('.aeris-toolbar__item');
+          const content = element.querySelector<HTMLElement>('.aeris-toolbar__content');
+          if (!item || !content) throw new Error('Expected Toolbar item and content.');
+          const bounds = item.getBoundingClientRect();
+          const itemRadius = Math.min(
+            parseFloat(getComputedStyle(item).borderTopLeftRadius),
+            bounds.height / 2,
+            bounds.width / 2,
+          );
+          const padding = getComputedStyle(content);
+          const surface = getComputedStyle(element);
+          const inset = Math.min(
+            parseFloat(padding.paddingBlockStart),
+            parseFloat(padding.paddingInlineStart),
+          );
+          return (
+            parseFloat(surface.borderTopLeftRadius) -
+            itemRadius -
+            inset -
+            parseFloat(surface.borderTopWidth)
+          );
+        }),
+      )
+      .toBeCloseTo(0, 4);
+  };
+  const example = page.locator('#toolbar-floating');
+  const checkbox = example.locator('tbody').getByRole('checkbox').first();
+  await checkbox.focus();
+  await checkbox.press('Space');
+  const container = example.locator('aeris-toolbar[aria-label="Selected file actions"]');
+  await page
+    .locator('#toolbar-viewport')
+    .getByRole('button', { name: 'Show at bottom', exact: true })
+    .click();
+  const viewport = page.locator('aeris-toolbar[aria-label="Viewport actions"]');
+  await expect(container).toBeVisible();
+  await expect(viewport).toBeVisible();
+
+  for (const preset of ['soft', 'rounded', 'pill']) {
+    const appearance = page.getByRole('button', { name: /^Customize appearance\./ });
+    await appearance.click();
+    await page
+      .getByRole('group', { name: 'Documentation corner style' })
+      .getByRole('button', { name: new RegExp(`^${preset}\\b`, 'i') })
+      .click();
+    await appearance.click();
+    await expect(page.locator('html')).toHaveAttribute('data-aeris-radius', preset);
+    for (const toolbar of [inline, container, viewport]) {
+      await expect(toolbar).toHaveCSS(
+        'border-top-left-radius',
+        preset === 'pill' ? '999px' : preset === 'soft' ? '4px' : '7px',
+      );
+    }
+    await expectConcentricCorners();
+  }
+
+  for (const density of ['Compact', 'Medium', 'Comfortable']) {
+    const appearance = page.getByRole('button', { name: /^Customize appearance\./ });
+    await appearance.click();
+    await page
+      .getByRole('group', { name: 'Documentation density' })
+      .getByRole('button', { name: new RegExp(`^${density}\\b`) })
+      .click();
+    await appearance.click();
+    await expect(page.locator('html')).toHaveAttribute('data-aeris-density', density.toLowerCase());
+    await expectConcentricCorners();
+  }
+  for (const size of ['28px', '36px', '48px']) {
+    await wrapping.evaluate(
+      (element, size) => element.style.setProperty('--aeris-toolbar-item-size', size),
+      size,
+    );
+    await expectConcentricCorners();
+  }
+  await wrapping.evaluate((element) => {
+    element.style.setProperty('--aeris-toolbar-item-radius', '10px');
+    element.style.setProperty('--aeris-toolbar-padding-inline', '8px');
+    element.style.setProperty('--aeris-toolbar-padding-block', '8px');
+    element.style.setProperty('--aeris-toolbar-border-width', '2px');
+  });
+  await expectConcentricCorners();
+
+  await viewport.evaluate((element) => {
+    element.style.setProperty('--aeris-toolbar-floating-radius', '12px');
+  });
+  await expect(viewport).toHaveCSS('border-top-left-radius', '12px');
+  await expect(container).toHaveCSS('border-top-left-radius', '999px');
+  await wrapping.evaluate((element) => element.style.setProperty('--aeris-toolbar-radius', '12px'));
+  await expect(wrapping).toHaveCSS('border-top-left-radius', '12px');
+});
+
+test('floating selection actions stay in their container, preserve table interaction and restore focus', async ({
+  page,
+  isMobile,
+}) => {
+  await page.goto('/components/toolbar');
+  const example = page.locator('#toolbar-floating');
+  const toolbar = example.locator('aeris-toolbar[aria-label="Selected file actions"]');
+  await expect(toolbar).toBeHidden();
+  const checkboxes = example.locator('tbody').getByRole('checkbox');
+  await checkboxes.nth(0).focus();
+  await checkboxes.nth(0).press('Space');
+  await expect(toolbar).toBeVisible();
+  await expect(checkboxes.nth(0)).toBeFocused();
+  await example.locator('tbody aeris-checkbox label').nth(1).click();
+  await expect(toolbar).toContainText('2 selected');
+  const bounds = await toolbar.boundingBox();
+  const container = await example.locator('[aerisToolbarContainer]').boundingBox();
+  if (!bounds || !container) throw new Error('Expected floating selection toolbar and container.');
+  expect(bounds.x).toBeGreaterThanOrEqual(container.x);
+  expect(bounds.x + bounds.width).toBeLessThanOrEqual(container.x + container.width + 1);
+  expect(bounds.y + bounds.height).toBeLessThan(container.y + container.height);
+  const exportAction = toolbar.getByRole('button', { name: 'Export', exact: true });
+  await expect(exportAction).toBeVisible();
+  if (isMobile) {
+    const hiddenLabel = await exportAction
+      .locator('[aerisToolbarLabel]')
+      .evaluate((element) => getComputedStyle(element).clipPath);
+    expect(hiddenLabel).toBe('inset(50%)');
+  }
+  await exportAction.click();
+  await expect(example.locator('p.toolbar-note[aria-live="polite"]')).toHaveText(
+    'Export requested for 2 files.',
+  );
+  await toolbar.getByRole('button', { name: 'Clear selection' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(toolbar).toHaveAttribute('inert', '');
+  await expect(toolbar).toHaveAttribute('aria-hidden', 'true');
+  await expect(example.getByRole('group', { name: 'Files and selection' })).toBeFocused();
+  await expect(toolbar).toBeHidden();
+  await checkboxes.nth(0).focus();
+  await checkboxes.nth(0).press('Space');
+  await toolbar.getByRole('button', { name: 'Archive', exact: true }).click();
+  await expect(example.locator('p.toolbar-note[aria-live="polite"]')).toHaveText(
+    'Archived 1 file.',
+  );
+  await expect(checkboxes).toHaveCount(2);
+  await example.getByRole('button', { name: 'Reset files' }).click();
+  await expect(checkboxes).toHaveCount(3);
+});
+
+test('viewport toolbars escape transformed ancestors, follow scrolling, and restore the opening trigger', async ({
+  page,
+}) => {
+  await page.goto('/components/toolbar');
+  const example = page.locator('#toolbar-viewport');
+  await example.locator('[preview]').evaluate((element) => {
+    element.style.transform = 'translateX(4px)';
+    element.style.overflow = 'hidden';
+  });
+  const top = example.getByRole('button', { name: 'Show at top', exact: true });
+  await top.focus();
+  await top.press('Enter');
+  const toolbar = page.locator('aeris-toolbar[aria-label="Viewport actions"]');
+  await expect(toolbar).toBeVisible();
+  await expect(toolbar).toHaveAttribute('data-aeris-append-to', 'body');
+  await expect(top).toBeFocused();
+  expect(await toolbar.evaluate((element) => element.parentElement === document.body)).toBe(true);
+  await expect.poll(async () => (await toolbar.boundingBox())?.y).toBeCloseTo(80, 0);
+  const before = await toolbar.boundingBox();
+  await page.evaluate(() => window.scrollBy(0, 160));
+  await expect.poll(async () => (await toolbar.boundingBox())?.y).toBeCloseTo(before?.y ?? 80, 0);
+  await toolbar.getByRole('button', { name: 'Close toolbar' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(toolbar).toBeHidden();
+  await expect(top).toBeFocused();
+
+  const bottom = example.getByRole('button', { name: 'Show at bottom', exact: true });
+  await bottom.click();
+  await expect(toolbar).toBeVisible();
+  await expect(toolbar).toHaveAttribute('data-position', 'bottom');
+  const box = await toolbar.boundingBox();
+  const viewport = page.viewportSize();
+  if (!box || !viewport) throw new Error('Expected viewport toolbar geometry.');
+  expect(Math.abs(viewport.height - box.y - box.height - 80)).toBeLessThan(2);
+  expect(box.x).toBeGreaterThanOrEqual(0);
+  expect(box.x + box.width).toBeLessThanOrEqual(viewport.width);
+  await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden');
+  const result = await new AxeBuilder({ page })
+    .include('aeris-toolbar[aria-label="Viewport actions"]')
+    .analyze();
+  expect(result.violations).toEqual([]);
+  await page.getByRole('button', { name: 'Search documentation', exact: true }).click();
+  const search = page.getByRole('dialog', { name: 'Search documentation', exact: true });
+  await expect(search).toBeVisible();
+  const overlayZIndex = await search.evaluate((element) =>
+    Number.parseInt(
+      getComputedStyle(element.closest('[data-aeris-append-to="body"]') ?? element).zIndex,
+      10,
+    ),
+  );
+  const toolbarZIndex = await toolbar.evaluate((element) =>
+    Number.parseInt(getComputedStyle(element).zIndex, 10),
+  );
+  expect(overlayZIndex).toBeGreaterThan(toolbarZIndex);
+  await page.keyboard.press('Escape');
+  await expect(search).toBeHidden();
+  await expect(toolbar).toBeVisible();
+  await toolbar.getByRole('button', { name: 'Close toolbar' }).click();
+});
+
+test('floating toolbars respect reduced motion and do not dismiss on Escape', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/components/toolbar');
+  await page
+    .locator('#toolbar-viewport')
+    .getByRole('button', { name: 'Show at bottom', exact: true })
+    .click();
+  const toolbar = page.locator('aeris-toolbar[aria-label="Viewport actions"]');
+  await expect(toolbar).toBeVisible();
+  const durations = await toolbar.evaluate((element) =>
+    getComputedStyle(element)
+      .transitionDuration.split(',')
+      .map((value) => Number.parseFloat(value)),
+  );
+  expect(durations.every((duration) => duration <= 0.001)).toBe(true);
+  await toolbar.getByRole('button', { name: 'Share', exact: true }).focus();
+  await page.keyboard.press('Escape');
+  await expect(toolbar).toBeVisible();
+  await toolbar.getByRole('button', { name: 'Close toolbar' }).click();
+  await expect(toolbar).toBeHidden();
+});
+
 test('Toolbar coordinates actions, toggles, group selection and keyboard focus', async ({
   page,
 }) => {
@@ -180,7 +411,7 @@ for (const direction of ['ltr', 'rtl']) {
     });
     const pageOffset = await page.evaluate(() => scrollY);
     await page.mouse.click(partial.x, partial.y);
-    await expect(page.locator('#toolbar-wrapping .toolbar-note')).toContainText(
+    await expect(page.locator('#toolbar-wrapping .toolbar-note[aria-live="polite"]')).toContainText(
       `Selected: ${partial.label}.`,
     );
     const reveal = await toolbar.evaluate((node, index) => {
@@ -204,7 +435,9 @@ for (const direction of ['ltr', 'rtl']) {
     const sign = direction === 'rtl' ? 1 : -1;
     const x = direction === 'rtl' ? frame.x + 45 : frame.x + frame.width - 45;
     const y = frame.y + frame.height / 2;
-    const status = await page.locator('#toolbar-wrapping .toolbar-note').textContent();
+    const status = await page
+      .locator('#toolbar-wrapping .toolbar-note[aria-live="polite"]')
+      .textContent();
     await page.mouse.move(x, y);
     await page.mouse.down();
     await page.mouse.move(x + sign * 85, y, { steps: 8 });
@@ -212,7 +445,9 @@ for (const direction of ['ltr', 'rtl']) {
     await page.mouse.up();
     await expect(viewport).not.toHaveAttribute('data-dragging');
     expect(Math.abs(await viewport.evaluate((node) => node.scrollLeft))).toBeGreaterThan(60);
-    await expect(page.locator('#toolbar-wrapping .toolbar-note')).toHaveText(status ?? '');
+    await expect(page.locator('#toolbar-wrapping .toolbar-note[aria-live="polite"]')).toHaveText(
+      status ?? '',
+    );
     await page.mouse.move(x, y);
     await page.mouse.down();
     await page.mouse.move(x + sign * 250, y, { steps: 10 });
@@ -223,9 +458,13 @@ for (const direction of ['ltr', 'rtl']) {
       0,
     );
     await page.mouse.up();
-    await expect(page.locator('#toolbar-wrapping .toolbar-note')).toHaveText(status ?? '');
+    await expect(page.locator('#toolbar-wrapping .toolbar-note[aria-live="polite"]')).toHaveText(
+      status ?? '',
+    );
     await toolbar.getByRole('button', { name: 'Pan', exact: true }).click();
-    await expect(page.locator('#toolbar-wrapping .toolbar-note')).toContainText('Selected: Pan.');
+    await expect(page.locator('#toolbar-wrapping .toolbar-note[aria-live="polite"]')).toContainText(
+      'Selected: Pan.',
+    );
   });
 }
 

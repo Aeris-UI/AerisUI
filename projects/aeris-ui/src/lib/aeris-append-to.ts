@@ -10,6 +10,7 @@ import {
   inject,
   input,
   output,
+  signal,
 } from '@angular/core';
 
 import {
@@ -62,6 +63,12 @@ export class ɵAerisAppendTo {
   private restoringToOrigin = false;
   private unconstrainedPanelWidth = 0;
   private unconstrainedPanelHeight = 0;
+  private readonly targetOverride = signal<AerisAppendTo>(undefined);
+
+  /** Internal host-directive integrations can choose a mount without exposing another consumer input. */
+  setTarget(target: AerisAppendTo): void {
+    this.targetOverride.set(target);
+  }
 
   readonly aerisInternalAppendTo = input<AerisAppendTo>();
   readonly aerisInternalAppendToDefault = input<AerisAppendTo>('self');
@@ -83,7 +90,10 @@ export class ɵAerisAppendTo {
         onCleanup(() => ɵunregisterAerisOverlay(this.document, this.element));
       }
       const target = aerisInternalResolveAppendTo(
-        this.aerisInternalAppendTo() ?? this.defaultAppendTo ?? this.aerisInternalAppendToDefault(),
+        this.targetOverride() ??
+          this.aerisInternalAppendTo() ??
+          this.defaultAppendTo ??
+          this.aerisInternalAppendToDefault(),
         this.document,
       );
       const anchor = this.aerisInternalAppendToAnchor();

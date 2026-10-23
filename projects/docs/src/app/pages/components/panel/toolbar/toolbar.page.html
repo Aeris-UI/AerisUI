@@ -501,6 +501,182 @@
 &lt;/div&gt;</code></pre>
             </app-form-demo>
             <app-form-demo
+              id="toolbar-floating"
+              title="Floating actions"
+              description="Selection belongs to your application. Select table rows to reveal their toolbar inside this container. The bar does not steal focus or prevent further selection. Action labels become visually hidden on narrow screens but remain accessible."
+            >
+              <div preview class="toolbar-stack">
+                <div aerisToolbarContainer class="toolbar-selection-region">
+                  <div #fileRegion tabindex="-1" role="group" aria-label="Files and selection">
+                    <aeris-table
+                      caption="Files"
+                      [data]="floatingFiles()"
+                      [columns]="floatingColumns"
+                      selectionMode="multiple"
+                      [(selectedKeys)]="floatingSelection"
+                    />
+                  </div>
+                  <aeris-toolbar
+                    floating
+                    floatingScope="container"
+                    [visible]="floatingSelection().length > 0"
+                    [restoreFocusTo]="fileRegion"
+                    ariaLabel="Selected file actions"
+                  >
+                    <span class="toolbar-caption">{{ floatingSelection().length }} selected</span>
+                    <span aerisToolbarSeparator></span>
+                    <button aerisToolbarItem (click)="exportSelection()">
+                      <svg [lucideIcon]="downloadIcon" aria-hidden="true"></svg>
+                      <span aerisToolbarLabel>Export</span>
+                    </button>
+                    <button aerisToolbarItem (click)="archiveSelection()">
+                      <svg [lucideIcon]="archiveIcon" aria-hidden="true"></svg>
+                      <span aerisToolbarLabel>Archive</span>
+                    </button>
+                    <span aerisToolbarSeparator></span>
+                    <button
+                      aerisToolbarItem
+                      iconOnly
+                      aria-label="Clear selection"
+                      (click)="floatingSelection.set([])"
+                    >
+                      <svg [lucideIcon]="closeIcon" aria-hidden="true"></svg>
+                    </button>
+                  </aeris-toolbar>
+                </div>
+                <p class="toolbar-note" aria-live="polite">{{ floatingMessage() }}</p>
+                <button aerisButton variant="outline" (click)="resetFloatingFiles()">
+                  Reset files
+                </button>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="toolbar-stack"&gt;
+  &lt;div aerisToolbarContainer class="toolbar-selection-region"&gt;
+    &lt;div #fileRegion tabindex="-1" role="group" aria-label="Files and selection"&gt;
+      &lt;aeris-table
+        caption="Files"
+        [data]="floatingFiles()"
+        [columns]="floatingColumns"
+        selectionMode="multiple"
+        [(selectedKeys)]="floatingSelection"
+      /&gt;
+    &lt;/div&gt;
+    &lt;aeris-toolbar
+      floating
+      floatingScope="container"
+      [visible]="floatingSelection().length &gt; 0"
+      [restoreFocusTo]="fileRegion"
+      ariaLabel="Selected file actions"
+    &gt;
+      &lt;span class="toolbar-caption"&gt;&#123;&#123; floatingSelection().length &#125;&#125; selected&lt;/span&gt;
+      &lt;span aerisToolbarSeparator&gt;&lt;/span&gt;
+      &lt;button aerisToolbarItem (click)="exportSelection()"&gt;
+        &lt;svg [lucideIcon]="downloadIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+        &lt;span aerisToolbarLabel&gt;Export&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;button aerisToolbarItem (click)="archiveSelection()"&gt;
+        &lt;svg [lucideIcon]="archiveIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+        &lt;span aerisToolbarLabel&gt;Archive&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;span aerisToolbarSeparator&gt;&lt;/span&gt;
+      &lt;button
+        aerisToolbarItem
+        iconOnly
+        aria-label="Clear selection"
+        (click)="floatingSelection.set([])"
+      &gt;
+        &lt;svg [lucideIcon]="closeIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+    &lt;/aeris-toolbar&gt;
+  &lt;/div&gt;
+  &lt;p class="toolbar-note" aria-live="polite"&gt;&#123;&#123; floatingMessage() &#125;&#125;&lt;/p&gt;
+  &lt;button aerisButton variant="outline" (click)="resetFloatingFiles()"&gt;
+    Reset files
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
+              id="toolbar-viewport"
+              title="Viewport positioning"
+              description="Choose the top or bottom of the screen. The floating toolbar stays anchored while scrolling and follows the usable viewport on mobile. The offset token reserves space for fixed navigation. Close it to return focus to the button that opened it."
+            >
+              <div preview class="toolbar-stack">
+                <div class="toolbar-launchers">
+                  <button
+                    aerisButton
+                    variant="outline"
+                    (click)="showViewportToolbar('top', $event)"
+                  >
+                    Show at top
+                  </button>
+                  <button
+                    aerisButton
+                    variant="outline"
+                    (click)="showViewportToolbar('bottom', $event)"
+                  >
+                    Show at bottom
+                  </button>
+                </div>
+                <aeris-toolbar
+                  floating
+                  [visible]="viewportToolbarVisible()"
+                  [position]="viewportToolbarPosition()"
+                  [restoreFocusTo]="viewportToolbarTrigger()"
+                  style="--aeris-toolbar-floating-offset: 5rem"
+                  ariaLabel="Viewport actions"
+                >
+                  <button aerisToolbarItem (click)="viewportMessage.set('Share action selected.')">
+                    <svg [lucideIcon]="shareIcon" aria-hidden="true"></svg>
+                    <span aerisToolbarLabel>Share</span>
+                  </button>
+                  <span aerisToolbarSeparator></span>
+                  <button
+                    aerisToolbarItem
+                    iconOnly
+                    aria-label="Close toolbar"
+                    (click)="viewportToolbarVisible.set(false)"
+                  >
+                    <svg [lucideIcon]="closeIcon" aria-hidden="true"></svg>
+                  </button>
+                </aeris-toolbar>
+                <p class="toolbar-note" aria-live="polite">{{ viewportMessage() }}</p>
+              </div>
+              <pre code><code ngNonBindable>&lt;div class="toolbar-stack"&gt;
+  &lt;div class="toolbar-launchers"&gt;
+    &lt;button aerisButton variant="outline" (click)="showViewportToolbar('top', $event)"&gt;
+      Show at top
+    &lt;/button&gt;
+    &lt;button aerisButton variant="outline" (click)="showViewportToolbar('bottom', $event)"&gt;
+      Show at bottom
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;aeris-toolbar
+    floating
+    [visible]="viewportToolbarVisible()"
+    [position]="viewportToolbarPosition()"
+    [restoreFocusTo]="viewportToolbarTrigger()"
+    style="--aeris-toolbar-floating-offset: 5rem"
+    ariaLabel="Viewport actions"
+  &gt;
+    &lt;button aerisToolbarItem (click)="viewportMessage.set('Share action selected.')"&gt;
+      &lt;svg [lucideIcon]="shareIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+      &lt;span aerisToolbarLabel&gt;Share&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;span aerisToolbarSeparator&gt;&lt;/span&gt;
+    &lt;button
+      aerisToolbarItem
+      iconOnly
+      aria-label="Close toolbar"
+      (click)="viewportToolbarVisible.set(false)"
+    &gt;
+      &lt;svg [lucideIcon]="closeIcon" aria-hidden="true"&gt;&lt;/svg&gt;
+    &lt;/button&gt;
+  &lt;/aeris-toolbar&gt;
+  &lt;p class="toolbar-note" aria-live="polite"&gt;&#123;&#123; viewportMessage() &#125;&#125;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </app-form-demo>
+
+            <app-form-demo
               id="toolbar-sections"
               title="Full-width layout"
               description="Sections and spacers distribute application actions. The group role keeps normal tab stops."
@@ -769,6 +945,17 @@
         <div class="doc-content-layout">
           <div class="doc-content-main">
             <section id="toolbar-a11y-semantics">
+              <p>
+                Floating toolbars are non-modal. Opening one does not move focus, create a backdrop,
+                trap focus, or lock page scrolling. Hidden toolbars become inert and leave the
+                accessibility tree immediately, even while the exit animation finishes. When hiding
+                a focused toolbar, supply <code>restoreFocusTo</code> for a stable destination such
+                as the selection region; otherwise Aeris uses the element focused when the bar
+                appeared. Closing a toolbar does not itself clear application selection. Escape does
+                not dismiss the toolbar; provide an explicit close or clear action. Use
+                <code>aerisToolbarLabel</code>
+                only on text accompanied by a decorative icon so compact actions retain their names.
+              </p>
               <h3>Semantics and focus</h3>
               <p>
                 Supply ariaLabel or ariaLabelledBy. Dedicated items are native buttons. Icon-only
