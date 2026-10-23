@@ -4,7 +4,7 @@
 @use '../src/styles/choice-card';
 
 :host {
-  display: inline-block;
+  display: inline-flex;
   max-width: 100%;
   vertical-align: middle;
 }
@@ -12,7 +12,7 @@
 .aeris-checkbox {
   --_control-size: 1.125rem;
   display: inline-flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.625rem;
   max-width: 100%;
   color: var(--aeris-text-2, #454545);
@@ -50,7 +50,7 @@
   display: grid;
   place-items: center;
   flex: 0 0 auto;
-  margin-top: 0.0625rem;
+  margin: 0;
   border: 1.5px solid var(--aeris-border, #efefef);
   border-radius: var(--aeris-checkbox-radius, 0.3125rem);
   background: var(--aeris-surface, #fff);
