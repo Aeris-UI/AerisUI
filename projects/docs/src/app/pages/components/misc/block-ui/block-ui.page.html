@@ -22,7 +22,7 @@
             <app-form-demo
               id="block-ui-element"
               title="Element"
-              description="Project an element into BlockUI and control the dark blocking layer with the blocked model."
+              description="Project an element into BlockUI and control the dark blocking layer with the blocked model. The overlay follows the rounded corners of a single wrapped surface, or an explicit radius on BlockUI."
               [tsCode]="elementTsCode"
               [cssCode]="demoCssCode"
             >
@@ -208,6 +208,11 @@
             <code role="cell">--aeris-block-ui-backdrop</code
             ><span role="cell">Dark blocking-layer color.</span
             ><code role="cell">rgb(14 17 12 / 52%)</code>
+          </div>
+          <div role="row">
+            <code role="cell">--aeris-block-ui-radius</code>
+            <span role="cell">Explicit target radius. Otherwise the overlay follows a single wrapped surface.</span>
+            <code role="cell">0; wrapped surface radius detected</code>
           </div>
           <div role="row">
             <code role="cell">--aeris-block-ui-backdrop-blur</code

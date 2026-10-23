@@ -10,6 +10,7 @@ import {
   model,
   signal,
   viewChild,
+  afterRenderEffect,
 } from '@angular/core';
 import {
   ɵlockAerisDocumentScroll,
@@ -37,6 +38,7 @@ import {
         [attr.data-fullscreen]="fullScreen() || null"
         [attr.data-backdrop-blur]="backdropBlur() || null"
         [style.--aeris-block-ui-backdrop-blur]="backdropBlurAmount() || null"
+        [style.border-radius]="fullScreen() ? null : targetRadius()"
       ></div>
     }
   `,
@@ -56,6 +58,7 @@ export class AerisBlockUI {
   private scrollLocked = false;
   private readonly previouslyFocused = signal<HTMLElement | null>(null);
   private previousBlocked = false;
+  protected readonly targetRadius = signal<string | null>(null);
 
   protected readonly blockedContent = viewChild<ElementRef<HTMLElement>>('blockedContent');
 
@@ -65,6 +68,21 @@ export class AerisBlockUI {
   readonly backdropBlurAmount = input('');
 
   constructor() {
+    afterRenderEffect({
+      read: () => {
+        if (!this.blocked() || this.fullScreen()) return;
+        const content = this.blockedContent()?.nativeElement;
+        const view = this.document.defaultView;
+        if (!content || !view) return;
+        const hostRadius = view.getComputedStyle(this.host.nativeElement).borderRadius;
+        const target = content.childElementCount === 1 ? content.firstElementChild : null;
+        this.targetRadius.set(
+          target && hostRadius === '0px'
+            ? view.getComputedStyle(target).borderRadius
+            : hostRadius || null,
+        );
+      },
+    });
     this.destroyRef.onDestroy(() => this.unlockScroll());
 
     effect(() => {

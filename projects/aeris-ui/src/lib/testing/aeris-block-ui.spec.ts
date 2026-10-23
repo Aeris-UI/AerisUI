@@ -7,11 +7,7 @@ import { AerisBlockUI, AerisBlockUIModule } from '../../../block-ui/aeris-block-
   imports: [AerisBlockUIModule],
   template: `
     <button class="outside" type="button">Outside</button>
-    <aeris-block-ui
-      [backdropBlur]="blur()"
-      backdropBlurAmount="0.875rem"
-      [(blocked)]="blocked"
-    >
+    <aeris-block-ui [backdropBlur]="blur()" backdropBlurAmount="0.875rem" [(blocked)]="blocked">
       <button class="inside" type="button">Inside</button>
     </aeris-block-ui>
   `,
@@ -38,6 +34,30 @@ afterEach(() => {
 });
 
 describe('AerisBlockUI', () => {
+  it('matches the radius of a single wrapped target and respects an explicit host radius', async () => {
+    const fixture = TestBed.createComponent(TargetBlockHost);
+    fixture.componentInstance.blocked.set(false);
+    await fixture.whenStable();
+    const host = fixture.nativeElement.querySelector('aeris-block-ui') as HTMLElement;
+    const target = host.querySelector('.inside') as HTMLElement;
+    // JSDOM does not resolve CSS-variable fallbacks in computed radii.
+    host.style.borderRadius = '0px';
+    target.style.borderRadius = '18px 6px';
+    fixture.componentInstance.blocked.set(true);
+    await fixture.whenStable();
+    expect((host.querySelector('.aeris-block-ui__overlay') as HTMLElement).style.borderRadius).toBe(
+      '18px 6px',
+    );
+    fixture.componentInstance.blocked.set(false);
+    await fixture.whenStable();
+    host.style.borderRadius = '12px';
+    fixture.componentInstance.blocked.set(true);
+    await fixture.whenStable();
+    expect((host.querySelector('.aeris-block-ui__overlay') as HTMLElement).style.borderRadius).toBe(
+      '12px',
+    );
+  });
+
   it('blocks projected content and exposes busy semantics', () => {
     const fixture = TestBed.createComponent(TargetBlockHost);
     fixture.detectChanges();
