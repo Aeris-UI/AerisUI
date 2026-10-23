@@ -148,12 +148,34 @@
   transform: translate(-50%, -50%) rotate(180deg);
 }
 
+.aeris-accordion__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, ease),
+    visibility 0s linear var(--aeris-motion-slow, 220ms);
+}
+
+.aeris-accordion__body[data-expanded] {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
 .aeris-accordion__panel {
   min-width: 0;
+  min-block-size: 0;
+  overflow: hidden;
   padding: var(--_panel-padding-block) var(--_panel-padding-inline);
+  transition: padding-block var(--aeris-motion-slow, 220ms) var(--aeris-ease-standard, ease);
   color: var(--aeris-accordion-panel-color, var(--aeris-text-2, #454545));
   font-size: var(--aeris-font-size-lg, 0.875rem);
   line-height: 1.6;
+}
+
+.aeris-accordion__body:not([data-expanded]) > .aeris-accordion__panel {
+  padding-block: 0;
 }
 
 .aeris-accordion__panel:focus-visible {
@@ -224,6 +246,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .aeris-accordion__body,
+  .aeris-accordion__panel,
   .aeris-accordion__default-icon::before {
     transition: none;
   }

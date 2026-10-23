@@ -91,6 +91,28 @@ class MethodsAccordionHost {
 class NestedAccordionHost {}
 
 describe('AerisAccordion', () => {
+  it('keeps collapsed content inert and hidden while retaining it for reversible transitions', async () => {
+    const fixture = TestBed.createComponent(BasicAccordionHost);
+    await fixture.whenStable();
+    const shell = fixture.nativeElement.querySelector(
+      '.aeris-accordion__body',
+    ) as HTMLElement;
+    const button = fixture.nativeElement.querySelector(
+      '.aeris-accordion__trigger',
+    ) as HTMLButtonElement;
+    expect(shell.hasAttribute('inert')).toBe(true);
+    expect(shell.getAttribute('aria-hidden')).toBe('true');
+    button.click();
+    fixture.detectChanges();
+    expect(shell.hasAttribute('inert')).toBe(false);
+    expect(shell.hasAttribute('data-expanded')).toBe(true);
+    button.click();
+    fixture.detectChanges();
+    expect(shell.hasAttribute('inert')).toBe(true);
+    expect(shell.getAttribute('aria-hidden')).toBe('true');
+    expect(shell.querySelector('[role="region"]')?.textContent).toContain('Overview content');
+  });
+
   it('renders accessible button and region relationships', async () => {
     const fixture = TestBed.createComponent(BasicAccordionHost);
     await fixture.whenStable();
@@ -159,15 +181,15 @@ describe('AerisAccordion', () => {
     ) as NodeListOf<HTMLButtonElement>;
 
     buttons.item(0).focus();
-    buttons.item(0).dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
-    );
+    buttons
+      .item(0)
+      .dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
     fixture.detectChanges();
     expect(document.activeElement).toBe(buttons.item(1));
 
-    buttons.item(1).dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
-    );
+    buttons
+      .item(1)
+      .dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
     fixture.detectChanges();
     expect(document.activeElement).toBe(buttons.item(0));
 
@@ -208,7 +230,9 @@ describe('AerisAccordion', () => {
 
     const outer = fixture.nativeElement.querySelector('[aria-label="Outer"]') as HTMLElement;
     const outerButtons = Array.from(
-      outer.querySelectorAll(':scope > .aeris-accordion__item > .aeris-accordion__heading > button'),
+      outer.querySelectorAll(
+        ':scope > .aeris-accordion__item > .aeris-accordion__heading > button',
+      ),
     ) as HTMLButtonElement[];
 
     expect(outerButtons.length).toBe(2);

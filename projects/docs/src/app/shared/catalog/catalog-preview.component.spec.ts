@@ -236,7 +236,11 @@ describe('CatalogPreviewComponent', () => {
 
     fixture.componentRef.setInput('active', false);
     fixture.detectChanges();
-    expect(element.querySelector('[role="region"]')).toBeNull();
+    const bodies = Array.from(element.querySelectorAll('.aeris-accordion__body'));
+    expect(bodies.length).toBeGreaterThan(0);
+    expect(bodies.every((body) => body.hasAttribute('inert'))).toBe(true);
+    expect(bodies.every((body) => body.getAttribute('aria-hidden') === 'true')).toBe(true);
+    expect(element.querySelector('[aria-expanded="true"]')).toBeNull();
   });
 
   it('replays editor text formatting with the real toolbar state without taking focus', async () => {
