@@ -32,7 +32,7 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
 | `orientation` | `AerisSplitterOrientation` | `'horizontal'` | Lays panels out left-to-right or top-to-bottom. Options: 'horizontal', 'vertical'. |
 | `variant` | `AerisSplitterVariant` | `'outlined'` | Applies outlined, filled, or plain surface treatment. |
 | `size` | `AerisSplitterSize` | `'md'` | Controls panel padding and gutter density. Options: 'sm', 'md', 'lg'. |
-| `divider` | `AerisSplitterDivider` | `'handle'` | Displays handle-only separators or full divider lines with handles. Options: 'handle', 'line'. |
+| `showHandle` | `boolean` | `true` | Shows the centered grip. The divider line and keyboard-accessible drag area remain available when false. |
 | `disabled` | `boolean` | `false` | Disables every resize handle. |
 | `fluid` | `boolean` | `true` | Sets the host inline size to 100%. |
 | `step` | `number` | `5` | Keyboard resize increment in percentage points. |
@@ -94,7 +94,6 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
 type AerisSplitterOrientation = 'horizontal' | 'vertical';
 type AerisSplitterVariant = 'outlined' | 'filled' | 'plain';
 type AerisSplitterSize = 'sm' | 'md' | 'lg';
-type AerisSplitterDivider = 'handle' | 'line';
 
 interface AerisSplitterResizeEvent {
   readonly originalEvent: Event | null;
@@ -263,7 +262,7 @@ export class SplitterVerticalDemo {
 
 ### Divider
 
-Use handle-only separators for minimal layouts or full divider lines when stronger separation is needed.
+The thin divider is always visible. Hide its grip without losing pointer or keyboard resizing.
 
 #### TS
 
@@ -286,11 +285,11 @@ export class SplitterDividerDemo {
 ```html
 <div>
   <div class="splitter-grid">
-    <aeris-splitter height="10rem" ariaLabel="Handle-only splitter">
+    <aeris-splitter height="10rem" ariaLabel="Splitter with handle">
       <aeris-splitter-panel>
         <div class="splitter-pane">
-          <strong>Handle only</strong>
-          <span>Default minimal divider.</span>
+          <strong>Line and handle</strong>
+          <span>Default centered grip.</span>
         </div>
       </aeris-splitter-panel>
       <aeris-splitter-panel>
@@ -300,11 +299,11 @@ export class SplitterDividerDemo {
         </div>
       </aeris-splitter-panel>
     </aeris-splitter>
-    <aeris-splitter height="10rem" divider="line" ariaLabel="Line splitter">
+    <aeris-splitter height="10rem" [showHandle]="false" ariaLabel="Line splitter">
       <aeris-splitter-panel>
         <div class="splitter-pane">
-          <strong>Full line</strong>
-          <span>Divider line with centered handle.</span>
+          <strong>Line only</strong>
+          <span>Resize anywhere along the divider.</span>
         </div>
       </aeris-splitter-panel>
       <aeris-splitter-panel>
@@ -807,7 +806,6 @@ export class SplitterTokensDemo {
   <aeris-splitter
     class="brand-splitter"
     height="14rem"
-    divider="line"
     ariaLabel="Custom themed splitter"
   >
     <aeris-splitter-panel ariaLabel="Primary panel" [size]="38">
@@ -849,9 +847,13 @@ export class SplitterTokensDemo {
   --aeris-splitter-border: color-mix(in srgb, var(--aeris-primary) 70%, var(--aeris-border));
   --aeris-splitter-radius: 1.5rem;
   --aeris-splitter-gutter-size: 1rem;
-  --aeris-splitter-gutter-hover-background: color-mix(in srgb, var(--aeris-primary) 22%, transparent);
+  --aeris-splitter-gutter-hover-background: color-mix(
+    in srgb,
+    var(--aeris-primary) 22%,
+    transparent
+  );
   --aeris-splitter-divider-color: color-mix(in srgb, var(--aeris-primary) 46%, transparent);
-  --aeris-splitter-divider-thickness: 2px;
+  --aeris-splitter-divider-thickness: 1px;
   --aeris-splitter-handle-color: color-mix(in srgb, var(--aeris-primary) 48%, transparent);
   --aeris-splitter-handle-hover-color: var(--aeris-primary-text);
   --aeris-splitter-handle-length: 3rem;

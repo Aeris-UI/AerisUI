@@ -2549,10 +2549,6 @@
                 "FileUpload file placeholder"
               ],
               [
-                "--aeris-icon-compare",
-                "Compare handle direction indicator"
-              ],
-              [
                 "--aeris-icon-loader",
                 "Animated loading glyphs"
               ],
@@ -24171,7 +24167,7 @@
               "name": "default panel content",
               "type": "content projection",
               "defaultValue": "-",
-              "description": "Panel body rendered when the panel is expanded."
+              "description": "Panel body retained for smooth expansion and collapse. Collapsed content is hidden and inert."
             }
           ]
         },
@@ -24467,7 +24463,7 @@
           "Disabled panels use native disabled buttons and are skipped by optional arrow-key navigation.",
           "Header templates render inside the button; do not place links, buttons, inputs, or other interactive controls inside custom headers.",
           "The disclosure icon is decorative and hidden from assistive technology.",
-          "Motion is limited to icon rotation and is disabled when reduced motion is requested."
+          "Panel expansion, collapse, and icon rotation respect reduced motion. Collapsed bodies remain hidden and inert, so their controls cannot receive keyboard focus."
         ],
         "keyboard": [
           {
@@ -26025,10 +26021,10 @@
               "description": "Controls panel padding and gutter density. Options: 'sm', 'md', 'lg'."
             },
             {
-              "name": "divider",
-              "type": "AerisSplitterDivider",
-              "defaultValue": "'handle'",
-              "description": "Displays handle-only separators or full divider lines with handles. Options: 'handle', 'line'."
+              "name": "showHandle",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Shows the centered grip. The divider line and keyboard-accessible drag area remain available when false."
             },
             {
               "name": "disabled",
@@ -26229,7 +26225,7 @@
       "interfaces": [
         {
           "name": "Interfaces",
-          "code": "type AerisSplitterOrientation = 'horizontal' | 'vertical';\ntype AerisSplitterVariant = 'outlined' | 'filled' | 'plain';\ntype AerisSplitterSize = 'sm' | 'md' | 'lg';\ntype AerisSplitterDivider = 'handle' | 'line';\n\ninterface AerisSplitterResizeEvent {\n  readonly originalEvent: Event | null;\n  readonly sizes: readonly number[];\n  readonly previousSizes: readonly number[];\n  readonly index: number;\n  readonly nextIndex: number;\n}"
+          "code": "type AerisSplitterOrientation = 'horizontal' | 'vertical';\ntype AerisSplitterVariant = 'outlined' | 'filled' | 'plain';\ntype AerisSplitterSize = 'sm' | 'md' | 'lg';\n\ninterface AerisSplitterResizeEvent {\n  readonly originalEvent: Event | null;\n  readonly sizes: readonly number[];\n  readonly previousSizes: readonly number[];\n  readonly index: number;\n  readonly nextIndex: number;\n}"
         }
       ],
       "designTokens": [
@@ -26402,7 +26398,7 @@
         {
           "id": "splitter-divider",
           "title": "Divider",
-          "description": "Use handle-only separators for minimal layouts or full divider lines when stronger separation is needed.",
+          "description": "The thin divider is always visible. Hide its grip without losing pointer or keyboard resizing.",
           "sources": [
             {
               "language": "TypeScript",
@@ -26412,7 +26408,7 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <div class=\"splitter-grid\">\n    <aeris-splitter height=\"10rem\" ariaLabel=\"Handle-only splitter\">\n      <aeris-splitter-panel>\n        <div class=\"splitter-pane\">\n          <strong>Handle only</strong>\n          <span>Default minimal divider.</span>\n        </div>\n      </aeris-splitter-panel>\n      <aeris-splitter-panel>\n        <div class=\"splitter-pane\">\n          <strong>Panel</strong>\n          <span>Resize from the handle.</span>\n        </div>\n      </aeris-splitter-panel>\n    </aeris-splitter>\n    <aeris-splitter height=\"10rem\" divider=\"line\" ariaLabel=\"Line splitter\">\n      <aeris-splitter-panel>\n        <div class=\"splitter-pane\">\n          <strong>Full line</strong>\n          <span>Divider line with centered handle.</span>\n        </div>\n      </aeris-splitter-panel>\n      <aeris-splitter-panel>\n        <div class=\"splitter-pane\">\n          <strong>Panel</strong>\n          <span>Useful for dense surfaces.</span>\n        </div>\n      </aeris-splitter-panel>\n    </aeris-splitter>\n  </div>\n</div>"
+              "code": "<div>\n  <div class=\"splitter-grid\">\n    <aeris-splitter height=\"10rem\" ariaLabel=\"Splitter with handle\">\n      <aeris-splitter-panel>\n        <div class=\"splitter-pane\">\n          <strong>Line and handle</strong>\n          <span>Default centered grip.</span>\n        </div>\n      </aeris-splitter-panel>\n      <aeris-splitter-panel>\n        <div class=\"splitter-pane\">\n          <strong>Panel</strong>\n          <span>Resize from the handle.</span>\n        </div>\n      </aeris-splitter-panel>\n    </aeris-splitter>\n    <aeris-splitter height=\"10rem\" [showHandle]=\"false\" ariaLabel=\"Line splitter\">\n      <aeris-splitter-panel>\n        <div class=\"splitter-pane\">\n          <strong>Line only</strong>\n          <span>Resize anywhere along the divider.</span>\n        </div>\n      </aeris-splitter-panel>\n      <aeris-splitter-panel>\n        <div class=\"splitter-pane\">\n          <strong>Panel</strong>\n          <span>Useful for dense surfaces.</span>\n        </div>\n      </aeris-splitter-panel>\n    </aeris-splitter>\n  </div>\n</div>"
             },
             {
               "language": "CSS",
@@ -26544,12 +26540,12 @@
             {
               "language": "HTML",
               "label": "HTML",
-              "code": "<div>\n  <aeris-splitter\n    class=\"brand-splitter\"\n    height=\"14rem\"\n    divider=\"line\"\n    ariaLabel=\"Custom themed splitter\"\n  >\n    <aeris-splitter-panel ariaLabel=\"Primary panel\" [size]=\"38\">\n      <div class=\"splitter-pane\">\n        <strong>Branded surface</strong>\n        <span>Custom border, radius, and handle.</span>\n      </div>\n    </aeris-splitter-panel>\n    <aeris-splitter-panel ariaLabel=\"Secondary panel\" [size]=\"62\">\n      <div class=\"splitter-pane\">\n        <strong>Resizable panel</strong>\n        <span>The tokens follow palette and theme changes.</span>\n      </div>\n    </aeris-splitter-panel>\n  </aeris-splitter>\n</div>"
+              "code": "<div>\n  <aeris-splitter\n    class=\"brand-splitter\"\n    height=\"14rem\"\n    ariaLabel=\"Custom themed splitter\"\n  >\n    <aeris-splitter-panel ariaLabel=\"Primary panel\" [size]=\"38\">\n      <div class=\"splitter-pane\">\n        <strong>Branded surface</strong>\n        <span>Custom border, radius, and handle.</span>\n      </div>\n    </aeris-splitter-panel>\n    <aeris-splitter-panel ariaLabel=\"Secondary panel\" [size]=\"62\">\n      <div class=\"splitter-pane\">\n        <strong>Resizable panel</strong>\n        <span>The tokens follow palette and theme changes.</span>\n      </div>\n    </aeris-splitter-panel>\n  </aeris-splitter>\n</div>"
             },
             {
               "language": "CSS",
               "label": "CSS",
-              "code": ".splitter-pane {\n  display: grid;\n  gap: 0.5rem;\n}\n\n.splitter-pane strong {\n  color: var(--aeris-text);\n}\n\n.splitter-pane span {\n  color: var(--aeris-text-2);\n  font-size: 0.875rem;\n}\n\n.brand-splitter {\n  --aeris-splitter-background: color-mix(in srgb, var(--aeris-primary) 9%, var(--aeris-surface));\n  --aeris-splitter-border-width: 2px;\n  --aeris-splitter-border: color-mix(in srgb, var(--aeris-primary) 70%, var(--aeris-border));\n  --aeris-splitter-radius: 1.5rem;\n  --aeris-splitter-gutter-size: 1rem;\n  --aeris-splitter-gutter-hover-background: color-mix(in srgb, var(--aeris-primary) 22%, transparent);\n  --aeris-splitter-divider-color: color-mix(in srgb, var(--aeris-primary) 46%, transparent);\n  --aeris-splitter-divider-thickness: 2px;\n  --aeris-splitter-handle-color: color-mix(in srgb, var(--aeris-primary) 48%, transparent);\n  --aeris-splitter-handle-hover-color: var(--aeris-primary-text);\n  --aeris-splitter-handle-length: 3rem;\n  --aeris-splitter-panel-padding: 1.25rem;\n}"
+              "code": ".splitter-pane {\n  display: grid;\n  gap: 0.5rem;\n}\n\n.splitter-pane strong {\n  color: var(--aeris-text);\n}\n\n.splitter-pane span {\n  color: var(--aeris-text-2);\n  font-size: 0.875rem;\n}\n\n.brand-splitter {\n  --aeris-splitter-background: color-mix(in srgb, var(--aeris-primary) 9%, var(--aeris-surface));\n  --aeris-splitter-border-width: 2px;\n  --aeris-splitter-border: color-mix(in srgb, var(--aeris-primary) 70%, var(--aeris-border));\n  --aeris-splitter-radius: 1.5rem;\n  --aeris-splitter-gutter-size: 1rem;\n  --aeris-splitter-gutter-hover-background: color-mix(\n    in srgb,\n    var(--aeris-primary) 22%,\n    transparent\n  );\n  --aeris-splitter-divider-color: color-mix(in srgb, var(--aeris-primary) 46%, transparent);\n  --aeris-splitter-divider-thickness: 1px;\n  --aeris-splitter-handle-color: color-mix(in srgb, var(--aeris-primary) 48%, transparent);\n  --aeris-splitter-handle-hover-color: var(--aeris-primary-text);\n  --aeris-splitter-handle-length: 3rem;\n  --aeris-splitter-panel-padding: 1.25rem;\n}"
             }
           ]
         }
@@ -39375,6 +39371,12 @@
               "description": "After label and empty-state text."
             },
             {
+              "name": "showHandle",
+              "type": "boolean",
+              "defaultValue": "true",
+              "description": "Shows the centered grip or custom handle template. The thin line and native slider remain available when false."
+            },
+            {
               "name": "showLabels",
               "type": "boolean",
               "defaultValue": "false",
@@ -39604,43 +39606,55 @@
         {
           "name": "--aeris-compare-divider-size",
           "type": "<length>",
-          "defaultValue": "2px",
+          "defaultValue": "1px",
           "description": "Divider thickness."
         },
         {
           "name": "--aeris-compare-divider-color",
           "type": "<color>",
-          "defaultValue": "#fff",
+          "defaultValue": "var(--aeris-border)",
           "description": "Divider color."
         },
         {
           "name": "--aeris-compare-divider-shadow",
           "type": "<shadow>",
-          "defaultValue": "Soft dark shadow",
+          "defaultValue": "none",
           "description": "Divider shadow."
         },
         {
           "name": "--aeris-compare-handle-size",
           "type": "<length>",
-          "defaultValue": "2.25rem",
-          "description": "Handle width and height."
+          "defaultValue": "unset",
+          "description": "Optional square size override; custom templates default to 2.25rem."
+        },
+        {
+          "name": "--aeris-compare-handle-thickness",
+          "type": "<length>",
+          "defaultValue": "0.1875rem",
+          "description": "Default grip thickness, matching Splitter."
+        },
+        {
+          "name": "--aeris-compare-handle-length",
+          "type": "<length>",
+          "defaultValue": "2rem",
+          "description": "Default grip length, matching Splitter."
         },
         {
           "name": "--aeris-compare-mobile-handle-size",
           "type": "<length>",
           "defaultValue": "2rem",
-          "description": "Handle size below 32rem."
+          "description": "Custom template handle size below 32rem."
         },
         {
           "name": "--aeris-compare-handle-border-width",
           "type": "<length>",
-          "defaultValue": "2px",
+          "defaultValue": "0px",
           "description": "Handle border width."
         },
         {
           "name": "--aeris-compare-handle-border",
           "type": "<color>",
-          "defaultValue": "#fff",
+          "defaultValue": "var(--aeris-border)",
           "description": "Handle border color."
         },
         {
@@ -39652,7 +39666,7 @@
         {
           "name": "--aeris-compare-handle-background",
           "type": "<color>",
-          "defaultValue": "Translucent dark",
+          "defaultValue": "28% text color",
           "description": "Handle background."
         },
         {
@@ -39664,7 +39678,7 @@
         {
           "name": "--aeris-compare-handle-shadow",
           "type": "<shadow>",
-          "defaultValue": "Soft dark shadow",
+          "defaultValue": "none",
           "description": "Handle shadow."
         },
         {
@@ -39779,7 +39793,7 @@
             {
               "language": "TypeScript",
               "label": "TS",
-              "code": "import { Component } from '@angular/core';\nimport { AerisCompareModule } from '@aeris-ui/core/compare';\n\n@Component({\n  selector: 'app-vertical-compare-demo',\n  imports: [AerisCompareModule],\n  template: `\n    <aeris-compare\n      class=\"compare-vertical\"\n      orientation=\"vertical\"\n      aspectRatio=\"4 / 5\"\n      beforeSrc=\"/car-bw.jpg\"\n      afterSrc=\"/car.jpg\"\n      beforeAlt=\"Car photographed in black and white\"\n      afterAlt=\"Car photographed in color\"\n      ariaLabel=\"Vertical car comparison\"\n    />\n  `,\n})\nexport class VerticalCompareDemo {}"
+              "code": "import { Component } from '@angular/core';\nimport { AerisCompareModule } from '@aeris-ui/core/compare';\n\n@Component({\n  selector: 'app-vertical-compare-demo',\n  imports: [AerisCompareModule],\n  template: `\n    <aeris-compare\n      class=\"compare-vertical\"\n      orientation=\"vertical\"\n      [showHandle]=\"false\"\n      aspectRatio=\"4 / 5\"\n      beforeSrc=\"/car-bw.jpg\"\n      afterSrc=\"/car.jpg\"\n      beforeAlt=\"Car photographed in black and white\"\n      afterAlt=\"Car photographed in color\"\n      ariaLabel=\"Vertical car comparison\"\n    />\n  `,\n})\nexport class VerticalCompareDemo {}"
             }
           ]
         },
@@ -41805,6 +41819,12 @@
           "description": "Dark blocking-layer color."
         },
         {
+          "name": "--aeris-block-ui-radius",
+          "type": "CSS custom property",
+          "defaultValue": "",
+          "description": "Explicit target radius. Otherwise the overlay follows a single wrapped surface."
+        },
+        {
           "name": "--aeris-block-ui-backdrop-blur",
           "type": "CSS custom property",
           "defaultValue": "",
@@ -41839,7 +41859,7 @@
         {
           "id": "block-ui-element",
           "title": "Element",
-          "description": "Project an element into BlockUI and control the dark blocking layer with the blocked model.",
+          "description": "Project an element into BlockUI and control the dark blocking layer with the blocked model. The overlay follows the rounded corners of a single wrapped surface, or an explicit radius on BlockUI.",
           "sources": [
             {
               "language": "TypeScript",

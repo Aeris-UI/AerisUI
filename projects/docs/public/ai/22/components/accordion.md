@@ -70,7 +70,7 @@ import { AerisAccordionModule } from '@aeris-ui/core/accordion';
 | --- | --- | --- | --- |
 | `aerisAccordionHeader` | `AerisAccordionHeaderContext` | `header input` | Custom header content rendered inside the native disclosure button. |
 | `aerisAccordionToggleIcon` | `AerisAccordionToggleIconContext` | `built-in chevron` | Custom decorative toggle icon for one panel or every panel when placed directly in the accordion. |
-| `default panel content` | `content projection` | `-` | Panel body rendered when the panel is expanded. |
+| `default panel content` | `content projection` | `-` | Panel body retained for smooth expansion and collapse. Collapsed content is hidden and inert. |
 
 ### Methods
 
@@ -645,7 +645,7 @@ export class AccordionSizesDemo {
 - Disabled panels use native disabled buttons and are skipped by optional arrow-key navigation.
 - Header templates render inside the button; do not place links, buttons, inputs, or other interactive controls inside custom headers.
 - The disclosure icon is decorative and hidden from assistive technology.
-- Motion is limited to icon rotation and is disabled when reduced motion is requested.
+- Panel expansion, collapse, and icon rotation respect reduced motion. Collapsed bodies remain hidden and inert, so their controls cannot receive keyboard focus.
 
 ### Keyboard support
 

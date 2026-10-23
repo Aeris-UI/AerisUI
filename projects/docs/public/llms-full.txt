@@ -1913,7 +1913,6 @@ Supply a URL to a monochrome SVG or a data URL. The mask uses the image alpha ch
 | --aeris-icon-restore | Dialog and Drawer restore action |
 | --aeris-icon-menu | Menubar mobile navigation toggle |
 | --aeris-icon-file | FileUpload file placeholder |
-| --aeris-icon-compare | Compare handle direction indicator |
 | --aeris-icon-loader | Animated loading glyphs |
 | --aeris-icon-sort | Unsorted Table and TreeTable column |
 | --aeris-icon-sort-asc | Ascending Table and TreeTable column |
@@ -42220,7 +42219,7 @@ import { AerisAccordionModule } from '@aeris-ui/core/accordion';
 | --- | --- | --- | --- |
 | `aerisAccordionHeader` | `AerisAccordionHeaderContext` | `header input` | Custom header content rendered inside the native disclosure button. |
 | `aerisAccordionToggleIcon` | `AerisAccordionToggleIconContext` | `built-in chevron` | Custom decorative toggle icon for one panel or every panel when placed directly in the accordion. |
-| `default panel content` | `content projection` | `-` | Panel body rendered when the panel is expanded. |
+| `default panel content` | `content projection` | `-` | Panel body retained for smooth expansion and collapse. Collapsed content is hidden and inert. |
 
 ##### Methods
 
@@ -42795,7 +42794,7 @@ export class AccordionSizesDemo {
 - Disabled panels use native disabled buttons and are skipped by optional arrow-key navigation.
 - Header templates render inside the button; do not place links, buttons, inputs, or other interactive controls inside custom headers.
 - The disclosure icon is decorative and hidden from assistive technology.
-- Motion is limited to icon rotation and is disabled when reduced motion is requested.
+- Panel expansion, collapse, and icon rotation respect reduced motion. Collapsed bodies remain hidden and inert, so their controls cannot receive keyboard focus.
 
 ##### Keyboard support
 
@@ -45179,7 +45178,7 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
 | `orientation` | `AerisSplitterOrientation` | `'horizontal'` | Lays panels out left-to-right or top-to-bottom. Options: 'horizontal', 'vertical'. |
 | `variant` | `AerisSplitterVariant` | `'outlined'` | Applies outlined, filled, or plain surface treatment. |
 | `size` | `AerisSplitterSize` | `'md'` | Controls panel padding and gutter density. Options: 'sm', 'md', 'lg'. |
-| `divider` | `AerisSplitterDivider` | `'handle'` | Displays handle-only separators or full divider lines with handles. Options: 'handle', 'line'. |
+| `showHandle` | `boolean` | `true` | Shows the centered grip. The divider line and keyboard-accessible drag area remain available when false. |
 | `disabled` | `boolean` | `false` | Disables every resize handle. |
 | `fluid` | `boolean` | `true` | Sets the host inline size to 100%. |
 | `step` | `number` | `5` | Keyboard resize increment in percentage points. |
@@ -45241,7 +45240,6 @@ import { AerisSplitterModule } from '@aeris-ui/core/splitter';
 type AerisSplitterOrientation = 'horizontal' | 'vertical';
 type AerisSplitterVariant = 'outlined' | 'filled' | 'plain';
 type AerisSplitterSize = 'sm' | 'md' | 'lg';
-type AerisSplitterDivider = 'handle' | 'line';
 
 interface AerisSplitterResizeEvent {
   readonly originalEvent: Event | null;
@@ -45410,7 +45408,7 @@ export class SplitterVerticalDemo {
 
 ##### Divider
 
-Use handle-only separators for minimal layouts or full divider lines when stronger separation is needed.
+The thin divider is always visible. Hide its grip without losing pointer or keyboard resizing.
 
 ###### TS
 
@@ -45433,11 +45431,11 @@ export class SplitterDividerDemo {
 ```html
 <div>
   <div class="splitter-grid">
-    <aeris-splitter height="10rem" ariaLabel="Handle-only splitter">
+    <aeris-splitter height="10rem" ariaLabel="Splitter with handle">
       <aeris-splitter-panel>
         <div class="splitter-pane">
-          <strong>Handle only</strong>
-          <span>Default minimal divider.</span>
+          <strong>Line and handle</strong>
+          <span>Default centered grip.</span>
         </div>
       </aeris-splitter-panel>
       <aeris-splitter-panel>
@@ -45447,11 +45445,11 @@ export class SplitterDividerDemo {
         </div>
       </aeris-splitter-panel>
     </aeris-splitter>
-    <aeris-splitter height="10rem" divider="line" ariaLabel="Line splitter">
+    <aeris-splitter height="10rem" [showHandle]="false" ariaLabel="Line splitter">
       <aeris-splitter-panel>
         <div class="splitter-pane">
-          <strong>Full line</strong>
-          <span>Divider line with centered handle.</span>
+          <strong>Line only</strong>
+          <span>Resize anywhere along the divider.</span>
         </div>
       </aeris-splitter-panel>
       <aeris-splitter-panel>
@@ -45954,7 +45952,6 @@ export class SplitterTokensDemo {
   <aeris-splitter
     class="brand-splitter"
     height="14rem"
-    divider="line"
     ariaLabel="Custom themed splitter"
   >
     <aeris-splitter-panel ariaLabel="Primary panel" [size]="38">
@@ -45996,9 +45993,13 @@ export class SplitterTokensDemo {
   --aeris-splitter-border: color-mix(in srgb, var(--aeris-primary) 70%, var(--aeris-border));
   --aeris-splitter-radius: 1.5rem;
   --aeris-splitter-gutter-size: 1rem;
-  --aeris-splitter-gutter-hover-background: color-mix(in srgb, var(--aeris-primary) 22%, transparent);
+  --aeris-splitter-gutter-hover-background: color-mix(
+    in srgb,
+    var(--aeris-primary) 22%,
+    transparent
+  );
   --aeris-splitter-divider-color: color-mix(in srgb, var(--aeris-primary) 46%, transparent);
-  --aeris-splitter-divider-thickness: 2px;
+  --aeris-splitter-divider-thickness: 1px;
   --aeris-splitter-handle-color: color-mix(in srgb, var(--aeris-primary) 48%, transparent);
   --aeris-splitter-handle-hover-color: var(--aeris-primary-text);
   --aeris-splitter-handle-length: 3rem;
@@ -66314,6 +66315,7 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
 | `afterAlt` | `string` | `''` | Alternative text for the after image. |
 | `beforeLabel` | `string` | `'Before'` | Before label and empty-state text. |
 | `afterLabel` | `string` | `'After'` | After label and empty-state text. |
+| `showHandle` | `boolean` | `true` | Shows the centered grip or custom handle template. The thin line and native slider remain available when false. |
 | `showLabels` | `boolean` | `false` | Displays compact before and after labels. |
 | `objectFit` | `AerisCompareObjectFit` | `'cover'` | Fit used by built-in images. Options: 'contain', 'cover', 'fill', 'none', 'scale-down'. |
 | `aspectRatio` | `string` | `'16 / 9'` | CSS aspect ratio of the comparison surface. |
@@ -66396,17 +66398,19 @@ export interface AerisCompareInputEvent {
 | `--aeris-compare-empty-background` | `&lt;color&gt;` | `var(--aeris-surface-2)` | After empty-layer background. |
 | `--aeris-compare-before-empty-background` | `&lt;color&gt;` | `Primary surface mix` | Before empty-layer background. |
 | `--aeris-compare-muted-color` | `&lt;color&gt;` | `var(--aeris-text-2)` | Empty-layer text color. |
-| `--aeris-compare-divider-size` | `&lt;length&gt;` | `2px` | Divider thickness. |
-| `--aeris-compare-divider-color` | `&lt;color&gt;` | `#fff` | Divider color. |
-| `--aeris-compare-divider-shadow` | `&lt;shadow&gt;` | `Soft dark shadow` | Divider shadow. |
-| `--aeris-compare-handle-size` | `&lt;length&gt;` | `2.25rem` | Handle width and height. |
-| `--aeris-compare-mobile-handle-size` | `&lt;length&gt;` | `2rem` | Handle size below 32rem. |
-| `--aeris-compare-handle-border-width` | `&lt;length&gt;` | `2px` | Handle border width. |
-| `--aeris-compare-handle-border` | `&lt;color&gt;` | `#fff` | Handle border color. |
+| `--aeris-compare-divider-size` | `&lt;length&gt;` | `1px` | Divider thickness. |
+| `--aeris-compare-divider-color` | `&lt;color&gt;` | `var(--aeris-border)` | Divider color. |
+| `--aeris-compare-divider-shadow` | `&lt;shadow&gt;` | `none` | Divider shadow. |
+| `--aeris-compare-handle-size` | `&lt;length&gt;` | `unset` | Optional square size override; custom templates default to 2.25rem. |
+| `--aeris-compare-handle-thickness` | `&lt;length&gt;` | `0.1875rem` | Default grip thickness, matching Splitter. |
+| `--aeris-compare-handle-length` | `&lt;length&gt;` | `2rem` | Default grip length, matching Splitter. |
+| `--aeris-compare-mobile-handle-size` | `&lt;length&gt;` | `2rem` | Custom template handle size below 32rem. |
+| `--aeris-compare-handle-border-width` | `&lt;length&gt;` | `0px` | Handle border width. |
+| `--aeris-compare-handle-border` | `&lt;color&gt;` | `var(--aeris-border)` | Handle border color. |
 | `--aeris-compare-handle-radius` | `&lt;length&gt;` | `999px` | Handle corner radius. |
-| `--aeris-compare-handle-background` | `&lt;color&gt;` | `Translucent dark` | Handle background. |
+| `--aeris-compare-handle-background` | `&lt;color&gt;` | `28% text color` | Handle background. |
 | `--aeris-compare-handle-color` | `&lt;color&gt;` | `#fff` | Handle icon color. |
-| `--aeris-compare-handle-shadow` | `&lt;shadow&gt;` | `Soft dark shadow` | Handle shadow. |
+| `--aeris-compare-handle-shadow` | `&lt;shadow&gt;` | `none` | Handle shadow. |
 | `--aeris-compare-handle-hover-background` | `&lt;color&gt;` | `var(--aeris-compare-handle-background)` | Hover handle background. |
 | `--aeris-compare-handle-focus-background` | `&lt;color&gt;` | `var(--aeris-compare-handle-background)` | Focus handle background. |
 | `--aeris-compare-label-inset` | `&lt;length&gt;` | `0.75rem` | Label inset from edges. |
@@ -66549,6 +66553,7 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
     <aeris-compare
       class="compare-vertical"
       orientation="vertical"
+      [showHandle]="false"
       aspectRatio="4 / 5"
       beforeSrc="/car-bw.jpg"
       afterSrc="/car.jpg"
@@ -68680,6 +68685,7 @@ import { AerisBlockUIModule } from '@aeris-ui/core/block-ui';
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-block-ui-backdrop` | `CSS custom property` | — | Dark blocking-layer color. |
+| `--aeris-block-ui-radius` | `CSS custom property` | — | Explicit target radius. Otherwise the overlay follows a single wrapped surface. |
 | `--aeris-block-ui-backdrop-blur` | `CSS custom property` | — | Blocking-layer blur radius. |
 | `--aeris-backdrop-blur` | `CSS custom property` | — | Shared backdrop blur radius. |
 | `--aeris-block-ui-z-index` | `CSS custom property` | — | Element overlay stacking level. |
@@ -68690,7 +68696,7 @@ import { AerisBlockUIModule } from '@aeris-ui/core/block-ui';
 
 ##### Element
 
-Project an element into BlockUI and control the dark blocking layer with the blocked model.
+Project an element into BlockUI and control the dark blocking layer with the blocked model. The overlay follows the rounded corners of a single wrapped surface, or an explicit radius on BlockUI.
 
 ###### TS
 

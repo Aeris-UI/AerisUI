@@ -42,6 +42,7 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
 | `afterAlt` | `string` | `''` | Alternative text for the after image. |
 | `beforeLabel` | `string` | `'Before'` | Before label and empty-state text. |
 | `afterLabel` | `string` | `'After'` | After label and empty-state text. |
+| `showHandle` | `boolean` | `true` | Shows the centered grip or custom handle template. The thin line and native slider remain available when false. |
 | `showLabels` | `boolean` | `false` | Displays compact before and after labels. |
 | `objectFit` | `AerisCompareObjectFit` | `'cover'` | Fit used by built-in images. Options: 'contain', 'cover', 'fill', 'none', 'scale-down'. |
 | `aspectRatio` | `string` | `'16 / 9'` | CSS aspect ratio of the comparison surface. |
@@ -124,17 +125,19 @@ export interface AerisCompareInputEvent {
 | `--aeris-compare-empty-background` | `&lt;color&gt;` | `var(--aeris-surface-2)` | After empty-layer background. |
 | `--aeris-compare-before-empty-background` | `&lt;color&gt;` | `Primary surface mix` | Before empty-layer background. |
 | `--aeris-compare-muted-color` | `&lt;color&gt;` | `var(--aeris-text-2)` | Empty-layer text color. |
-| `--aeris-compare-divider-size` | `&lt;length&gt;` | `2px` | Divider thickness. |
-| `--aeris-compare-divider-color` | `&lt;color&gt;` | `#fff` | Divider color. |
-| `--aeris-compare-divider-shadow` | `&lt;shadow&gt;` | `Soft dark shadow` | Divider shadow. |
-| `--aeris-compare-handle-size` | `&lt;length&gt;` | `2.25rem` | Handle width and height. |
-| `--aeris-compare-mobile-handle-size` | `&lt;length&gt;` | `2rem` | Handle size below 32rem. |
-| `--aeris-compare-handle-border-width` | `&lt;length&gt;` | `2px` | Handle border width. |
-| `--aeris-compare-handle-border` | `&lt;color&gt;` | `#fff` | Handle border color. |
+| `--aeris-compare-divider-size` | `&lt;length&gt;` | `1px` | Divider thickness. |
+| `--aeris-compare-divider-color` | `&lt;color&gt;` | `var(--aeris-border)` | Divider color. |
+| `--aeris-compare-divider-shadow` | `&lt;shadow&gt;` | `none` | Divider shadow. |
+| `--aeris-compare-handle-size` | `&lt;length&gt;` | `unset` | Optional square size override; custom templates default to 2.25rem. |
+| `--aeris-compare-handle-thickness` | `&lt;length&gt;` | `0.1875rem` | Default grip thickness, matching Splitter. |
+| `--aeris-compare-handle-length` | `&lt;length&gt;` | `2rem` | Default grip length, matching Splitter. |
+| `--aeris-compare-mobile-handle-size` | `&lt;length&gt;` | `2rem` | Custom template handle size below 32rem. |
+| `--aeris-compare-handle-border-width` | `&lt;length&gt;` | `0px` | Handle border width. |
+| `--aeris-compare-handle-border` | `&lt;color&gt;` | `var(--aeris-border)` | Handle border color. |
 | `--aeris-compare-handle-radius` | `&lt;length&gt;` | `999px` | Handle corner radius. |
-| `--aeris-compare-handle-background` | `&lt;color&gt;` | `Translucent dark` | Handle background. |
+| `--aeris-compare-handle-background` | `&lt;color&gt;` | `28% text color` | Handle background. |
 | `--aeris-compare-handle-color` | `&lt;color&gt;` | `#fff` | Handle icon color. |
-| `--aeris-compare-handle-shadow` | `&lt;shadow&gt;` | `Soft dark shadow` | Handle shadow. |
+| `--aeris-compare-handle-shadow` | `&lt;shadow&gt;` | `none` | Handle shadow. |
 | `--aeris-compare-handle-hover-background` | `&lt;color&gt;` | `var(--aeris-compare-handle-background)` | Hover handle background. |
 | `--aeris-compare-handle-focus-background` | `&lt;color&gt;` | `var(--aeris-compare-handle-background)` | Focus handle background. |
 | `--aeris-compare-label-inset` | `&lt;length&gt;` | `0.75rem` | Label inset from edges. |
@@ -277,6 +280,7 @@ import { AerisCompareModule } from '@aeris-ui/core/compare';
     <aeris-compare
       class="compare-vertical"
       orientation="vertical"
+      [showHandle]="false"
       aspectRatio="4 / 5"
       beforeSrc="/car-bw.jpg"
       afterSrc="/car.jpg"

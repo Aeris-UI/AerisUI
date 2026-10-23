@@ -56,6 +56,7 @@ import { AerisBlockUIModule } from '@aeris-ui/core/block-ui';
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-block-ui-backdrop` | `CSS custom property` | — | Dark blocking-layer color. |
+| `--aeris-block-ui-radius` | `CSS custom property` | — | Explicit target radius. Otherwise the overlay follows a single wrapped surface. |
 | `--aeris-block-ui-backdrop-blur` | `CSS custom property` | — | Blocking-layer blur radius. |
 | `--aeris-backdrop-blur` | `CSS custom property` | — | Shared backdrop blur radius. |
 | `--aeris-block-ui-z-index` | `CSS custom property` | — | Element overlay stacking level. |
@@ -66,7 +67,7 @@ import { AerisBlockUIModule } from '@aeris-ui/core/block-ui';
 
 ### Element
 
-Project an element into BlockUI and control the dark blocking layer with the blocked model.
+Project an element into BlockUI and control the dark blocking layer with the blocked model. The overlay follows the rounded corners of a single wrapped surface, or an explicit radius on BlockUI.
 
 #### TS
 
