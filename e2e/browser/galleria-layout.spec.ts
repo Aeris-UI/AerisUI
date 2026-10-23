@@ -1,10 +1,5 @@
 import { expect, test } from './fixtures';
 
-// These full documentation pages contain many image galleries. Running them
-// concurrently exhausts Linux WebKit rendering capacity before native clicks
-// finish; keep this media suite sequential without relaxing action checks.
-test.describe.configure({ mode: 'default' });
-
 test('carousel touch gestures preserve taps, page scrolling, and the active pointer', async ({
   page,
 }) => {
@@ -235,6 +230,9 @@ test('toolbar fades track hidden controls on either side, including RTL', async 
   const gallery = page.locator('#galleria-toolbar aeris-galleria');
   const frame = gallery.locator('.aeris-galleria__toolbar-frame');
   const toolbar = frame.getByRole('toolbar');
+  // Keep backdrop painting bounded without removing the visible glass effect.
+  await expect(gallery.locator('.aeris-galleria__stage')).toHaveCSS('filter', 'opacity(1)');
+  await expect(frame).not.toHaveCSS('backdrop-filter', 'none');
   for (const direction of ['ltr', 'rtl']) {
     await gallery.evaluate(
       (element, direction) => element.setAttribute('dir', direction),
