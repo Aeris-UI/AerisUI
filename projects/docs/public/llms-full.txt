@@ -5939,7 +5939,10 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `presentation` | `AerisColorPickerPresentation: 'picker' &#124; 'palette'` | `'picker'` | Picker renders the trigger and full popup editor; palette renders only the preset choices inline, with no trigger, text input or overlay. Both share value, format, opacity, events and forms support. Label the palette with ariaLabel or ariaLabelledBy. |
+| `presentation` | `AerisColorPickerPresentation: 'picker' &#124; 'palette' &#124; 'area' &#124; 'slider'` | `'picker'` | Options: 'picker', 'palette', 'area', 'slider'. Picker opens the full editor; palette shows preset choices; area shows the saturation/brightness plane; slider edits one color channel. Inline presentations have no trigger or overlay and share value, format, events and forms support. |
+| `channel` | `AerisColorPickerChannel` | `'hue'` | Channel edited by the slider presentation. Options: 'hue', 'saturation' (HSV), 'brightness' (HSV), 'lightness' (HSL), 'red', 'green', 'blue', 'alpha'. Alpha enables transparent values without requiring the alpha input. Other channels preserve the current opacity when alpha is enabled. |
+| `orientation` | `AerisColorPickerOrientation` | `'horizontal'` | Slider layout. Options: 'horizontal', 'vertical'. Values increase left to right horizontally and bottom to top vertically, including in RTL layouts. |
+| `showDots` | `boolean` | `false` | Shows a decorative precision grid on the area, inline or in the popup. The grid does not change color values. |
 | `alpha` | `boolean` | `false` | Enables opacity editing and transparent colors. HEX output uses #RRGGBBAA below full opacity; RGB and HSL use rgba() and hsla(). Opaque values keep their existing format. |
 | `opacityLabel` | `string` | `'Opacity'` | Visible label above the optional opacity slider. |
 | `alphaAriaLabel` | `string` | `'Opacity'` | Accessible name for the optional opacity slider, which reports its value as a percentage. |
@@ -5950,12 +5953,12 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 | `viewportMargin` | `number &#124; AerisOverlayCollisionPadding` | `8` | Keeps the panel inside the visual viewport. Per-edge values reserve fixed interface regions. |
 | `value` | `string (model)` | `'#2c694b'` | Current color value with two-way binding and Forms support. |
 | `format` | `AerisColorFormat (model)` | `'hex'` | Active output format. Users can change it from the panel when format selection is enabled. Options: 'hex', 'rgb', 'hsl'. |
-| `inputId` | `string` | `generated` | ID assigned to the visible color-picker trigger for label association. |
+| `inputId` | `string` | `generated` | ID assigned to the trigger, slider input, inline area, or palette group. Use ariaLabelledBy to label a non-native area or palette. |
 | `name` | `string` | `''` | Native form field name submitted through a hidden input. |
 | `formats` | `readonly AerisColorFormat[]` | `['hex', 'rgb', 'hsl']` | Formats offered by the panel format selector. Options: 'hex', 'rgb', 'hsl'. |
 | `placeholder` | `string` | `'Enter color'` | Placeholder for the optional text input. |
-| `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name for the visible trigger when no visible label is available. |
-| `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of visible elements that label the trigger. |
+| `ariaLabel` | `string &#124; undefined` | `undefined` | Accessible name for the trigger or inline control when no visible label is available. Sliders otherwise use their channel label. |
+| `ariaLabelledBy` | `string &#124; undefined` | `undefined` | IDs of visible elements that label the trigger or inline control. |
 | `ariaDescribedBy` | `string &#124; undefined` | `undefined` | IDs of help and validation messages. |
 | `triggerAriaLabel` | `string` | `'Choose color'` | Accessible name for the visible trigger button. |
 | `nativeAriaLabel` | `string` | `'Color picker'` | Deprecated compatibility alias used when panelAriaLabel is empty. |
@@ -6003,8 +6006,8 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `focus(options?)` | `void` | `-` | Moves focus to the trigger, or to the current enabled preset tab stop in palette presentation. |
-| `open()` | `void` | `-` | Opens the custom picker panel and focuses the color plane. Has no effect in palette presentation. |
+| `focus(options?)` | `void` | `-` | Moves focus to the trigger, inline area, channel slider, or current enabled preset in palette presentation. |
+| `open()` | `void` | `-` | Opens the custom picker panel and focuses the color plane. Has no effect in palette, area, or slider presentation. |
 | `close(restoreFocus?)` | `void` | `-` | Closes the panel and optionally restores trigger focus. |
 | `toggle()` | `void` | `-` | Toggles the custom picker panel. |
 | `clear()` | `void` | `-` | Clears the value and restores focus. |
@@ -6018,7 +6021,10 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
 type AerisColorPickerSize = 'xs' | 'sm' | 'md' | 'lg';
 type AerisColorPickerAppearance = 'outline' | 'filled';
 type AerisColorFormat = 'hex' | 'rgb' | 'hsl';
-type AerisColorPickerPresentation = 'picker' | 'palette';
+type AerisColorPickerPresentation = 'picker' | 'palette' | 'area' | 'slider';
+type AerisColorPickerChannel = 'hue' | 'saturation' | 'brightness' | 'lightness'
+  | 'red' | 'green' | 'blue' | 'alpha';
+type AerisColorPickerOrientation = 'horizontal' | 'vertical';
 
 interface AerisColorPickerPreset {
   readonly value: string;
@@ -6038,6 +6044,9 @@ interface AerisColorPickerChangeEvent {
 | Token | Type | Default | Description |
 | --- | --- | --- | --- |
 | `--aeris-color-picker-checker-light` | `CSS custom property` | — | Light transparency checker square. |
+| `--aeris-color-picker-inline-width` | `CSS custom property` | — | Preferred width of inline areas and sliders, clamped to the container. The fluid input fills the available width. |
+| `--aeris-color-picker-area-height` | `CSS custom property` | — | Height of the saturation and brightness area. |
+| `--aeris-color-picker-slider-length` | `CSS custom property` | — | Length of a vertical color slider. |
 | `--aeris-color-picker-checker-dark` | `CSS custom property` | — | Dark transparency checker square. |
 | `--aeris-color-picker-preset-size` | `CSS custom property` | — | Square preset size; also supports local overrides for inline palettes. |
 | `--aeris-color-picker-preset-gap` | `CSS custom property` | — | Spacing between wrapping preset choices. |
@@ -6133,6 +6142,489 @@ import { AerisColorPicker } from '@aeris-ui/core/color-picker';
   `
 })
 export class ColorPickerBasicDemo {
+}
+```
+
+##### Color area
+
+Adjust saturation horizontally and brightness vertically. A linked hue slider shares the same color; the optional dot grid helps locate positions. Use the arrow keys for precise adjustment.
+
+###### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisColorPicker } from '@aeris-ui/core/color-picker';
+
+@Component({
+  selector: 'app-color-picker-area-demo',
+  imports: [AerisColorPicker],
+  template: `
+    <div class="field">
+      <span id="area-label">Saturation and brightness</span>
+      <aeris-color-picker
+        presentation="area"
+        showDots
+        ariaLabelledBy="area-label"
+        [(value)]="areaColor"
+      />
+      <aeris-color-picker presentation="slider" channel="hue" [(value)]="areaColor" />
+      <small aria-live="polite">Selected: {{ areaColor() }}</small>
+    </div>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+
+    .field {
+      width: min(100%, 28rem);
+    }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
+  `
+})
+export class ColorPickerAreaDemo {
+  protected readonly areaColor = signal('#336699');
+}
+```
+
+##### Color sliders
+
+Each slider edits its own color independently. Hue, saturation and brightness use HSV; lightness uses HSL. To synchronize sliders, bind them to the same value, as in the RGB example below. Mixing HSV and HSL on a shared color can move other sliders because the channel values are related.
+
+###### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisColorPicker } from '@aeris-ui/core/color-picker';
+
+@Component({
+  selector: 'app-color-picker-channels-demo',
+  imports: [AerisColorPicker],
+  templateUrl: './color-picker-channels.demo.html',
+  styleUrl: './color-picker-channels.demo.scss'
+})
+export class ColorPickerChannelsDemo {
+  protected readonly hueColor = signal('#336699');
+
+  protected readonly saturationColor = signal('#336699');
+
+  protected readonly brightnessColor = signal('#336699');
+
+  protected readonly lightnessColor = signal('#336699');
+}
+```
+
+###### HTML
+
+```html
+<div class="field">
+  <aeris-color-picker presentation="slider" channel="hue" [(value)]="hueColor" />
+  <aeris-color-picker
+    presentation="slider"
+    channel="saturation"
+    [(value)]="saturationColor"
+  />
+  <aeris-color-picker
+    presentation="slider"
+    channel="brightness"
+    [(value)]="brightnessColor"
+  />
+  <aeris-color-picker
+    presentation="slider"
+    channel="lightness"
+    [(value)]="lightnessColor"
+  />
+</div>
+```
+
+###### CSS
+
+```css
+.field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  grid-auto-rows: max-content;
+  gap: 0.45rem;
+}
+
+.field > label,
+.field > span:first-child {
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.field small {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.field small.error {
+  color: var(--aeris-danger);
+}
+
+.field {
+  width: min(100%, 28rem);
+}
+
+.field,
+.field-grid {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.field label,
+.field-grid label {
+  color: var(--aeris-text);
+  font-weight: 700;
+}
+
+.field small,
+.field-grid small {
+  color: var(--aeris-text-2);
+}
+```
+
+##### RGB sliders
+
+Edit red, green and blue independently from 0 to 255. All sliders update the same value, formatted here as rgb().
+
+###### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisColorPicker } from '@aeris-ui/core/color-picker';
+
+@Component({
+  selector: 'app-color-picker-rgb-demo',
+  imports: [AerisColorPicker],
+  templateUrl: './color-picker-rgb.demo.html',
+  styleUrl: './color-picker-rgb.demo.scss'
+})
+export class ColorPickerRgbDemo {
+  protected readonly rgbColor = signal('#336699');
+}
+```
+
+###### HTML
+
+```html
+<div class="field">
+  <aeris-color-picker
+    presentation="slider"
+    channel="red"
+    format="rgb"
+    [(value)]="rgbColor"
+  />
+  <aeris-color-picker
+    presentation="slider"
+    channel="green"
+    format="rgb"
+    [(value)]="rgbColor"
+  />
+  <aeris-color-picker
+    presentation="slider"
+    channel="blue"
+    format="rgb"
+    [(value)]="rgbColor"
+  />
+  <small aria-live="polite">Selected: {{ rgbColor() }}</small>
+</div>
+```
+
+###### CSS
+
+```css
+.field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  grid-auto-rows: max-content;
+  gap: 0.45rem;
+}
+
+.field > label,
+.field > span:first-child {
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.field small {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.field small.error {
+  color: var(--aeris-danger);
+}
+
+.field {
+  width: min(100%, 28rem);
+}
+
+.field,
+.field-grid {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.field label,
+.field-grid label {
+  color: var(--aeris-text);
+  font-weight: 700;
+}
+
+.field small,
+.field-grid small {
+  color: var(--aeris-text-2);
+}
+```
+
+##### Opacity slider
+
+The alpha channel automatically accepts transparency. Its checkerboard track previews opacity from 0 to 100 percent. Enable alpha on linked non-alpha controls to preserve transparency.
+
+###### TS
+
+```ts
+import { Component, signal } from '@angular/core';
+import { AerisColorPicker } from '@aeris-ui/core/color-picker';
+
+@Component({
+  selector: 'app-color-picker-slider-opacity-demo',
+  imports: [AerisColorPicker],
+  template: `
+    <div class="field">
+      <aeris-color-picker
+        presentation="area"
+        alpha
+        ariaLabel="Transparent color saturation and brightness"
+        [(value)]="sliderOpacity"
+      />
+      <aeris-color-picker presentation="slider" channel="alpha" [(value)]="sliderOpacity" />
+      <small aria-live="polite">Selected: {{ sliderOpacity() }}</small>
+    </div>
+  `,
+  styles: `
+    .field {
+      min-width: 0;
+      display: grid;
+      align-content: start;
+      grid-auto-rows: max-content;
+      gap: 0.45rem;
+    }
+
+    .field > label,
+    .field > span:first-child {
+      color: var(--aeris-text);
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .field small {
+      color: var(--aeris-text-2);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+    }
+
+    .field small.error {
+      color: var(--aeris-danger);
+    }
+
+    .field {
+      width: min(100%, 28rem);
+    }
+
+    .field,
+    .field-grid {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .field label,
+    .field-grid label {
+      color: var(--aeris-text);
+      font-weight: 700;
+    }
+
+    .field small,
+    .field-grid small {
+      color: var(--aeris-text-2);
+    }
+  `
+})
+export class ColorPickerSliderOpacityDemo {
+  protected readonly sliderOpacity = signal('#33669980');
+}
+```
+
+##### Slider layout and states
+
+Vertical sliders increase from bottom to top. Read-only controls remain focusable without changing; disabled controls are skipped during keyboard navigation.
+
+###### TS
+
+```ts
+import { Component } from '@angular/core';
+import { AerisColorPicker } from '@aeris-ui/core/color-picker';
+
+@Component({
+  selector: 'app-color-picker-slider-states-demo',
+  imports: [AerisColorPicker],
+  templateUrl: './color-picker-slider-states.demo.html',
+  styleUrl: './color-picker-slider-states.demo.scss'
+})
+export class ColorPickerSliderStatesDemo {
+}
+```
+
+###### HTML
+
+```html
+<div class="field-grid">
+  <aeris-color-picker
+    presentation="slider"
+    orientation="vertical"
+    channel="hue"
+    value="#336699"
+  />
+  <div class="field">
+    <aeris-color-picker
+      presentation="slider"
+      channel="hue"
+      value="#336699"
+      readonly
+      ariaLabel="Read-only hue"
+    />
+    <aeris-color-picker
+      presentation="slider"
+      channel="hue"
+      value="#336699"
+      disabled
+      ariaLabel="Disabled hue"
+    />
+    <aeris-color-picker
+      presentation="area"
+      value="#336699"
+      disabled
+      ariaLabel="Disabled saturation and brightness"
+    />
+  </div>
+</div>
+```
+
+###### CSS
+
+```css
+.field-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1.25rem;
+}
+
+.field {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  grid-auto-rows: max-content;
+  gap: 0.45rem;
+}
+
+.field > label,
+.field > span:first-child {
+  color: var(--aeris-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.field small {
+  color: var(--aeris-text-2);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.field small.error {
+  color: var(--aeris-danger);
+}
+
+@media (max-width: 42rem) {
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  width: min(100%, 28rem);
+}
+
+.field,
+.field-grid {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.field-grid {
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  align-items: start;
+}
+
+.field label,
+.field-grid label {
+  color: var(--aeris-text);
+  font-weight: 700;
+}
+
+.field small,
+.field-grid small {
+  color: var(--aeris-text-2);
 }
 ```
 
@@ -7406,11 +7898,14 @@ export class ColorPickerEventsDemo {
 - Invalid state is visual and semantic through aria-invalid; pair it with text that explains the problem.
 - ColorPicker implements ControlValueAccessor for Reactive Forms and template-driven forms.
 - The panel remains within the viewport at narrow sizes, and its opening animation is removed when reduced motion is requested.
+- Inline areas and sliders use the same value model and Angular Forms integration as the popup. Label areas with ariaLabel or ariaLabelledBy. Sliders show a channel label by default; these naming inputs can override its accessible name. Read-only controls can receive focus but do not change; disabled controls cannot receive keyboard focus.
 
 ##### Keyboard support
 
 | Key | Function |
 | --- | --- |
+| `Slider arrows / Shift + arrows` | Increase or decrease the channel by 1 or 10 units. Left/Down decrease; Right/Up increase. |
+| `Slider Home / End / Page Up / Page Down` | Jump to the minimum or maximum, or adjust by 10 units. Pointer input updates value continuously; changed emits on release or a keyboard adjustment. |
 | `Tab / Shift + Tab` | Moves through the trigger, text input, plane, hue slider, format choices, and presets. Each preset group has one tab stop; disabled presets are skipped. |
 | `Arrow keys; Home / End (presets)` | Moves focus between enabled presets without changing the value. Left/Right follow text direction; Up/Down move to the previous/next preset. Home/End focus the first/last enabled preset. Enter or Space selects it. |
 | `Enter / Space` | Opens the panel from the trigger or activates the focused eyedropper, format, preset, clear, or close button. |

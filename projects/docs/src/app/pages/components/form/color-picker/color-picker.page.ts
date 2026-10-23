@@ -42,6 +42,13 @@ interface ApiRow {
 })
 export class ColorPickerPage {
   protected readonly brandColor = signal('#2c694b');
+  protected readonly areaColor = signal('#336699');
+  protected readonly hueColor = signal('#336699');
+  protected readonly saturationColor = signal('#336699');
+  protected readonly brightnessColor = signal('#336699');
+  protected readonly lightnessColor = signal('#336699');
+  protected readonly rgbColor = signal('#336699');
+  protected readonly sliderOpacity = signal('#33669980');
   protected readonly accentColor = signal('#a88245');
   protected readonly formatColor = signal('#2c694b');
   protected readonly selectedFormat = signal<AerisColorFormat>('hex');
@@ -75,6 +82,11 @@ export class ColorPickerPage {
 
   protected readonly featureLinks: readonly PageTocLink[] = [
     { id: 'color-picker-basic', label: 'Basic' },
+    { id: 'color-picker-area', label: 'Color area' },
+    { id: 'color-picker-channels', label: 'Color sliders' },
+    { id: 'color-picker-rgb', label: 'RGB sliders' },
+    { id: 'color-picker-slider-opacity', label: 'Opacity slider' },
+    { id: 'color-picker-slider-states', label: 'Slider layout and states' },
     { id: 'color-picker-signal', label: 'Signal value' },
     { id: 'color-picker-formats', label: 'Selectable formats' },
     { id: 'color-picker-opacity', label: 'Opacity' },
@@ -135,7 +147,10 @@ protected recordChange(event: AerisColorPickerChangeEvent): void {
   protected readonly interfacesCode = `type AerisColorPickerSize = 'xs' | 'sm' | 'md' | 'lg';
 type AerisColorPickerAppearance = 'outline' | 'filled';
 type AerisColorFormat = 'hex' | 'rgb' | 'hsl';
-type AerisColorPickerPresentation = 'picker' | 'palette';
+type AerisColorPickerPresentation = 'picker' | 'palette' | 'area' | 'slider';
+type AerisColorPickerChannel = 'hue' | 'saturation' | 'brightness' | 'lightness'
+  | 'red' | 'green' | 'blue' | 'alpha';
+type AerisColorPickerOrientation = 'horizontal' | 'vertical';
 
 interface AerisColorPickerPreset {
   readonly value: string;
@@ -152,10 +167,31 @@ interface AerisColorPickerChangeEvent {
   protected readonly inputs: readonly ApiRow[] = [
     {
       name: 'presentation',
-      type: "AerisColorPickerPresentation: 'picker' | 'palette'",
+      type: "AerisColorPickerPresentation: 'picker' | 'palette' | 'area' | 'slider'",
       defaultValue: "'picker'",
       description:
-        'Picker renders the trigger and full popup editor; palette renders only the preset choices inline, with no trigger, text input or overlay. Both share value, format, opacity, events and forms support. Label the palette with ariaLabel or ariaLabelledBy.',
+        "Options: 'picker', 'palette', 'area', 'slider'. Picker opens the full editor; palette shows preset choices; area shows the saturation/brightness plane; slider edits one color channel. Inline presentations have no trigger or overlay and share value, format, events and forms support.",
+    },
+    {
+      name: 'channel',
+      type: 'AerisColorPickerChannel',
+      defaultValue: "'hue'",
+      description:
+        "Channel edited by the slider presentation. Options: 'hue', 'saturation' (HSV), 'brightness' (HSV), 'lightness' (HSL), 'red', 'green', 'blue', 'alpha'. Alpha enables transparent values without requiring the alpha input. Other channels preserve the current opacity when alpha is enabled.",
+    },
+    {
+      name: 'orientation',
+      type: 'AerisColorPickerOrientation',
+      defaultValue: "'horizontal'",
+      description:
+        "Slider layout. Options: 'horizontal', 'vertical'. Values increase left to right horizontally and bottom to top vertically, including in RTL layouts.",
+    },
+    {
+      name: 'showDots',
+      type: 'boolean',
+      defaultValue: 'false',
+      description:
+        'Shows a decorative precision grid on the area, inline or in the popup. The grid does not change color values.',
     },
     {
       name: 'alpha',
@@ -229,7 +265,8 @@ interface AerisColorPickerChangeEvent {
       name: 'inputId',
       type: 'string',
       defaultValue: 'generated',
-      description: 'ID assigned to the visible color-picker trigger for label association.',
+      description:
+        'ID assigned to the trigger, slider input, inline area, or palette group. Use ariaLabelledBy to label a non-native area or palette.',
     },
     {
       name: 'name',
@@ -253,13 +290,14 @@ interface AerisColorPickerChangeEvent {
       name: 'ariaLabel',
       type: 'string | undefined',
       defaultValue: 'undefined',
-      description: 'Accessible name for the visible trigger when no visible label is available.',
+      description:
+        'Accessible name for the trigger or inline control when no visible label is available. Sliders otherwise use their channel label.',
     },
     {
       name: 'ariaLabelledBy',
       type: 'string | undefined',
       defaultValue: 'undefined',
-      description: 'IDs of visible elements that label the trigger.',
+      description: 'IDs of visible elements that label the trigger or inline control.',
     },
     {
       name: 'ariaDescribedBy',
@@ -501,14 +539,14 @@ interface AerisColorPickerChangeEvent {
       type: 'void',
       defaultValue: '-',
       description:
-        'Moves focus to the trigger, or to the current enabled preset tab stop in palette presentation.',
+        'Moves focus to the trigger, inline area, channel slider, or current enabled preset in palette presentation.',
     },
     {
       name: 'open()',
       type: 'void',
       defaultValue: '-',
       description:
-        'Opens the custom picker panel and focuses the color plane. Has no effect in palette presentation.',
+        'Opens the custom picker panel and focuses the color plane. Has no effect in palette, area, or slider presentation.',
     },
     {
       name: 'close(restoreFocus?)',

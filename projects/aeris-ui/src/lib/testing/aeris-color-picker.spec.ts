@@ -8,6 +8,7 @@ import {
   type AerisColorFormat,
   type AerisColorPickerChangeEvent,
   type AerisColorPickerPreset,
+  type AerisColorPickerPresentation,
 } from '../../../color-picker/aeris-color-picker';
 
 @Component({
@@ -37,10 +38,18 @@ class ColorPickerHost {
 
 @Component({
   imports: [AerisColorPicker, ReactiveFormsModule],
-  template: `<aeris-color-picker [formControl]="control" format="rgb" />`,
+  template: `<aeris-color-picker
+    [formControl]="control"
+    format="rgb"
+    [presentation]="presentation()"
+    [alpha]="alpha()"
+    channel="red"
+  />`,
 })
 class ColorPickerFormsHost {
   readonly control = new FormControl('#606c38');
+  readonly presentation = signal<AerisColorPickerPresentation>('picker');
+  readonly alpha = signal(false);
 }
 
 @Component({
@@ -107,6 +116,20 @@ class PaletteHost {
   />`,
 })
 class SignalPaletteHost {
+  readonly data = signal({ color: '' });
+  readonly fields = form(this.data, (path) => required(path.color));
+}
+
+@Component({
+  imports: [AerisColorPicker, FormField],
+  template: `<aeris-color-picker
+    [presentation]="presentation()"
+    ariaLabel="Required inline color"
+    [formField]="fields.color"
+  />`,
+})
+class SignalInlineColorHost {
+  readonly presentation = signal<AerisColorPickerPresentation>('area');
   readonly data = signal({ color: '' });
   readonly fields = form(this.data, (path) => required(path.color));
 }
@@ -857,6 +880,213 @@ describe('AerisColorPicker', () => {
     expect(getComputedStyle(swatch).borderTopWidth).toBe('0px');
     expect(getComputedStyle(swatch).boxShadow).not.toContain('inset');
   });
+});
+
+describe('ColorPicker inline area and slider presentations', () => {
+  it('retains lightness hue and saturation when returning from black or white', async () => {
+    const fixture = TestBed.createComponent(AerisColorPicker);
+    fixture.componentRef.setInput('presentation', 'slider');
+    fixture.componentRef.setInput('channel', 'lightness');
+    fixture.componentRef.setInput('value', '#ff0000');
+    await fixture.whenStable();
+    const input = fixture.nativeElement.querySelector('input[type="range"]') as HTMLInputElement;
+    for (const edge of ['Home', 'End']) {
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: edge }));
+      await fixture.whenStable();
+      input.value = '50';
+      input.dispatchEvent(new Event('input'));
+      await fixture.whenStable();
+      expect(fixture.componentInstance.value()).toBe('#ff0000');
+    }
+  });
+  it.each(['area', 'slider'] as const)(
+    'forwards %s value, validation and touched state through Signal Forms',
+    async (presentation) => {
+      const fixture = TestBed.createComponent(SignalInlineColorHost);
+      fixture.componentInstance.presentation.set(presentation);
+      await fixture.whenStable();
+      const control = fixture.nativeElement.querySelector(
+        '[role="slider"], input[type="range"]',
+      ) as HTMLElement;
+      const field = fixture.componentInstance.fields.color();
+      expect(field.invalid()).toBe(true);
+      expect(control.getAttribute('aria-invalid')).toBeNull();
+      field.markAsTouched();
+      await fixture.whenStable();
+      expect(control.getAttribute('aria-invalid')).toBe('true');
+      control.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+      await fixture.whenStable();
+      expect(fixture.componentInstance.data().color).toMatch(/^#[\da-f]{6}$/);
+      expect(field.valid()).toBe(true);
+      expect(control.getAttribute('aria-invalid')).toBeNull();
+    },
+  );
+  it('renders an accessible inline area with no popup and uses the existing two-axis keyboard behavior', async () => {
+    const fixture = TestBed.createComponent(AerisColorPicker);
+    fixture.componentRef.setInput('presentation', 'area');
+    fixture.componentRef.setInput('value', '#ff0000');
+    fixture.componentRef.setInput('showDots', true);
+    fixture.componentRef.setInput('ariaLabel', 'Accent area');
+    fixture.componentRef.setInput('ariaDescribedBy', 'area-help');
+    await fixture.whenStable();
+    const root = fixture.nativeElement as HTMLElement;
+    const plane = root.querySelector<HTMLElement>('[role="slider"]')!;
+    expect(root.querySelector('button, [role="dialog"], input[type="text"]')).toBeNull();
+    expect(plane.getAttribute('aria-label')).toBe('Accent area');
+    expect(plane.getAttribute('aria-describedby')).toBe('area-help');
+    expect(plane.dataset['dots']).toBe('true');
+    fixture.componentInstance.focus();
+    expect(document.activeElement).toBe(plane);
+    plane.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', shiftKey: true, bubbles: true }),
+    );
+    await fixture.whenStable();
+    expect(fixture.componentInstance.value()).toBe('#e60000');
+    expect(plane.getAttribute('aria-valuetext')).toContain('brightness 90%');
+    fixture.componentInstance.open();
+    await fixture.whenStable();
+    expect(root.querySelector('[role="dialog"]')).toBeNull();
+  });
+
+  it('updates the area with captured pointer input and commits on release', async () => {
+    const fixture = TestBed.createComponent(AerisColorPicker);
+    fixture.componentRef.setInput('presentation', 'area');
+    fixture.componentRef.setInput('value', '#ff0000');
+    await fixture.whenStable();
+    const plane = fixture.nativeElement.querySelector('[role="slider"]') as HTMLElement;
+    vi.spyOn(plane, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      top: 0,
+      width: 100,
+      height: 100,
+    } as DOMRect);
+    plane.setPointerCapture = vi.fn();
+    plane.hasPointerCapture = vi.fn(() => true);
+    plane.releasePointerCapture = vi.fn();
+    const changed = vi.fn();
+    fixture.componentInstance.changed.subscribe(changed);
+    plane.dispatchEvent(
+      new PointerEvent('pointerdown', { button: 0, pointerId: 1, clientX: 100, clientY: 50 }),
+    );
+    expect(fixture.componentInstance.value()).toBe('#800000');
+    expect(changed).not.toHaveBeenCalled();
+    plane.dispatchEvent(new PointerEvent('pointerup', { pointerId: 1, clientX: 100, clientY: 50 }));
+    expect(changed).toHaveBeenCalledOnce();
+    expect(plane.releasePointerCapture).toHaveBeenCalledWith(1);
+  });
+
+  it.each([
+    ['hue', 120, '#00ff00', 359],
+    ['saturation', 0, '#ffffff', 100],
+    ['brightness', 50, '#800000', 100],
+    ['lightness', 25, '#800000', 100],
+    ['red', 128, '#800000', 255],
+    ['green', 128, '#ff8000', 255],
+    ['blue', 128, '#ff0080', 255],
+    ['alpha', 50, '#ff000080', 100],
+  ] as const)(
+    'edits the %s channel and preserves the other channels',
+    async (channel, value, expected, max) => {
+      const fixture = TestBed.createComponent(AerisColorPicker);
+      fixture.componentRef.setInput('presentation', 'slider');
+      fixture.componentRef.setInput('channel', channel);
+      fixture.componentRef.setInput('value', '#ff0000');
+      await fixture.whenStable();
+      const input = fixture.nativeElement.querySelector('input[type="range"]') as HTMLInputElement;
+      expect(input.max).toBe(String(max));
+      expect(input.getAttribute('aria-label')).toBe(
+        channel === 'alpha' ? 'Opacity' : channel[0].toUpperCase() + channel.slice(1),
+      );
+      const changed = vi.fn();
+      fixture.componentInstance.changed.subscribe(changed);
+      input.value = String(value);
+      input.dispatchEvent(new Event('input'));
+      await fixture.whenStable();
+      expect(fixture.componentInstance.value()).toBe(expected);
+      expect(changed).not.toHaveBeenCalled();
+      input.dispatchEvent(new Event('change'));
+      expect(changed).toHaveBeenCalledOnce();
+    },
+  );
+
+  it('supports vertical layout, focus, keyboard bounds, shift and page steps in RTL', async () => {
+    const fixture = TestBed.createComponent(AerisColorPicker);
+    fixture.componentRef.setInput('presentation', 'slider');
+    fixture.componentRef.setInput('channel', 'red');
+    fixture.componentRef.setInput('orientation', 'vertical');
+    fixture.componentRef.setInput('value', '#000000');
+    fixture.componentRef.setInput('ariaLabel', 'Red channel');
+    await fixture.whenStable();
+    const root = fixture.nativeElement as HTMLElement;
+    root.dir = 'rtl';
+    const input = root.querySelector<HTMLInputElement>('input[type="range"]')!;
+    fixture.componentInstance.focus();
+    expect(document.activeElement).toBe(input);
+    expect(input.getAttribute('aria-orientation')).toBe('vertical');
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', shiftKey: true }));
+    await fixture.whenStable();
+    expect(input.value).toBe('10');
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'PageUp' }));
+    await fixture.whenStable();
+    expect(input.value).toBe('20');
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'End' }));
+    await fixture.whenStable();
+    expect(input.value).toBe('255');
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+    expect(fixture.componentInstance.value()).toBe('#ff0000');
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home' }));
+    expect(fixture.componentInstance.value()).toBe('#000000');
+  });
+
+  it.each(['area', 'slider'])(
+    'keeps %s read-only and disabled states inert and synchronizes validation',
+    async (presentation) => {
+      const fixture = TestBed.createComponent(AerisColorPicker);
+      fixture.componentRef.setInput('presentation', presentation);
+      fixture.componentRef.setInput('value', '#ff0000');
+      fixture.componentRef.setInput('readonly', true);
+      fixture.componentRef.setInput('invalid', true);
+      fixture.componentRef.setInput('touched', false);
+      await fixture.whenStable();
+      const root = fixture.nativeElement as HTMLElement;
+      const control = root.querySelector<HTMLElement>('[role="slider"], input[type="range"]')!;
+      control.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home' }));
+      control.dispatchEvent(new PointerEvent('pointerdown', { button: 0, cancelable: true }));
+      expect(fixture.componentInstance.value()).toBe('#ff0000');
+      expect(control.getAttribute('aria-readonly')).toBe('true');
+      expect(control.getAttribute('aria-invalid')).toBeNull();
+      fixture.componentRef.setInput('touched', true);
+      fixture.componentRef.setInput('disabled', true);
+      await fixture.whenStable();
+      expect(control.getAttribute('aria-invalid')).toBe('true');
+      if (control instanceof HTMLInputElement) expect(control.disabled).toBe(true);
+      else expect(control.tabIndex).toBe(-1);
+    },
+  );
+
+  it.each(['area', 'slider'] as const)(
+    'integrates %s with Reactive Forms and preserves opacity',
+    async (presentation) => {
+      const fixture = TestBed.createComponent(ColorPickerFormsHost);
+      fixture.componentInstance.presentation.set(presentation);
+      fixture.componentInstance.alpha.set(true);
+      fixture.componentInstance.control.setValue('#ff000080');
+      await fixture.whenStable();
+      const control = fixture.nativeElement.querySelector(
+        '[role="slider"], input[type="range"]',
+      ) as HTMLElement;
+      control.dispatchEvent(new KeyboardEvent('keydown', { key: 'Home' }));
+      await fixture.whenStable();
+      expect(fixture.componentInstance.control.value).toContain('0.50196078');
+      expect(fixture.componentInstance.control.dirty).toBe(true);
+      control.dispatchEvent(new FocusEvent('blur'));
+      control.dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
+      expect(fixture.componentInstance.control.touched).toBe(true);
+      fixture.componentInstance.control.disable();
+      await fixture.whenStable();
+      expect(fixture.nativeElement.querySelector('[data-disabled]')).not.toBeNull();
+    },
+  );
 });
 
 async function openPicker<T>(fixture: ComponentFixture<T>): Promise<void> {
